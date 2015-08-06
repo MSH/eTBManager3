@@ -1,14 +1,10 @@
 package org.msh.etbm.commons.transactionlog;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.msh.etbm.commons.transactionlog.mapping.EntityLogManager;
-import org.msh.etbm.commons.transactionlog.mapping.EntityLogMapping;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyMapping;
-import org.msh.etbm.entities.TransactionLog;
+import org.msh.etbm.db.entities.TransactionLog;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Contain information about the transaction to be saved in the transaction log report

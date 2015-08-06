@@ -1,12 +1,7 @@
 package org.msh.etbm.commons.transactionlog;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.msh.etbm.entities.TransactionLog;
-import org.msh.etbm.entities.UserLog;
-import org.msh.etbm.entities.UserRole;
-
-import javax.persistence.EntityManager;
-import java.util.Date;
+import org.msh.etbm.db.entities.TransactionLog;
 
 /**
  * Transaction log services for recording of actions in the system

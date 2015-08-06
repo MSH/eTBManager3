@@ -52,7 +52,7 @@ public class EntityLogMapping {
 
 	/**
 	 * Return list of properties to be logged (including nested properties of other objects)
-	 * @return
+	 * @return Map containing the property mapping object and its name
 	 */
 	public Map<PropertyMapping, String> getPropertyList() {
 		Map<PropertyMapping, String> map = new HashMap<PropertyMapping, String>();

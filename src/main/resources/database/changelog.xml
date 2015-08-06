@@ -79,7 +79,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="brandName" type="VARCHAR(80)"/>
-            <column name="container" type="INT"/>
             <column name="expiryDate" type="date">
                 <constraints nullable="false"/>
             </column>
@@ -93,10 +92,11 @@
             <column name="unitPrice" type="FLOAT(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="RECEIVINGITEM_ID" type="${id.type}"/>
+            <column name="WORKSPACE_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -499,23 +499,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="rmemoria" id="1433264274749-22">
-        <createTable tableName="healthsystem">
-            <column name="id" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="name" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="WORKSPACE_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="legacyId" type="VARCHAR(50)"/>
-            <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
-        </createTable>
-    </changeSet>
-
     <changeSet author="rmemoria" id="1433264274749-23">
         <createTable tableName="issue">
             <column name="id" type="${id.type}">
@@ -578,31 +561,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="rmemoria" id="1433264274749-26">
-        <createTable tableName="laboratory">
-            <column name="id" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="abbrevName" type="VARCHAR(20)"/>
-            <column name="name" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="WORKSPACE_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ADMINUNIT_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="legacyId" type="VARCHAR(50)"/>
-            <column name="HEALTHSYSTEM_ID" type="${id.type}"/>
-            <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
-            <column name="performMicroscopy" type="${boolean.type}"/>
-            <column name="performCulture" type="${boolean.type}"/>
-            <column name="performDst" type="${boolean.type}"/>
-            <column name="performXpert" type="${boolean.type}"/>
-        </createTable>
-    </changeSet>
 
     <changeSet author="rmemoria" id="1433264274749-27">
         <createTable tableName="medicalexamination">
@@ -662,6 +620,7 @@
         </createTable>
     </changeSet>
 
+    <!--
     <changeSet author="rmemoria" id="1433264274749-28">
         <createTable tableName="medicine">
             <column name="id" type="${id.type}">
@@ -684,6 +643,27 @@
             <column name="lastTransaction_ID" type="${id.type}"/>
             <column name="createTransaction_ID" type="${id.type}"/>
             <column name="displayorder" type="INT"/>
+        </createTable>
+    </changeSet>
+-->
+
+    <changeSet author="rmemoria" id="1433264274749-28">
+        <createTable tableName="product">
+            <column name="id" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(200)" />
+            <column name="abbrevName" type="VARCHAR(100)"/>
+            <column name="category" type="INT"/>
+            <column name="line" type="INT"/>
+            <column name="WORKSPACE_ID" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="legacyId" type="VARCHAR(100)"/>
+            <column name="lastTransaction_ID" type="${id.type}"/>
+            <column name="createTransaction_ID" type="${id.type}"/>
+            <column name="displayorder" type="INT"/>
+            <column name="discriminator" type="VARCHAR(100)" />
         </createTable>
     </changeSet>
 
@@ -752,7 +732,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="DISPENSING_ID" type="${id.type}"/>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="MOVEMENT_ID" type="${id.type}">
@@ -872,7 +852,7 @@
             <column name="totalPrice" type="FLOAT(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="SOURCE_ID" type="${id.type}">
@@ -990,7 +970,7 @@
             </column>
             <column name="MOVEMENT_IN_ID" type="${id.type}"/>
             <column name="MOVEMENT_OUT_ID" type="${id.type}"/>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="ORDER_ID" type="${id.type}">
@@ -1043,7 +1023,7 @@
             <column name="frequency" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="SOURCE_ID" type="${id.type}">
@@ -1207,7 +1187,7 @@
             <column name="totalPrice" type="FLOAT(12)">
                 <constraints nullable="false"/>
             </column>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="SOURCE_ID" type="${id.type}">
@@ -1310,7 +1290,7 @@
             <column name="systemURL" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="TBUNIT_ID" type="${id.type}"/>
+            <column name="UNIT_ID" type="${id.type}"/>
             <column name="USERPROFILE_ID" type="${id.type}"/>
             <column name="WORKSPACE_ID" type="${id.type}"/>
             <column name="adminMail" type="VARCHAR(100)"/>
@@ -1465,21 +1445,42 @@
 
 
     <changeSet author="rmemoria" id="1433264274749-63">
-        <createTable tableName="tbunit">
+        <createTable tableName="unit">
             <column name="id" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="address" type="VARCHAR(80)"/>
+            <column name="discriminator" type="VARCHAR(100)" />
+            <column name="name" type="VARCHAR(150)"/>
+            <column name="abbrevName" type="VARCHAR(30)"/>
+            <column name="active" type="${boolean.type}"/>
+            <column name="address" type="VARCHAR(100)"/>
+            <column name="addressCompl" type="VARCHAR(200)"/>
+            <column name="zipCode" type="VARCHAR(50)"/>
+            <column name="legacyId" type="VARCHAR(50)"/>
+            <column name="WORKSPACE_ID" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ADMINUNIT_ID" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shipAddress" type="VARCHAR(200)"/>
+            <column name="shipAddressCompl" type="VARCHAR(200)"/>
+            <column name="shipContactName" type="VARCHAR(200)"/>
+            <column name="shipContactPhone" type="VARCHAR(200)"/>
+            <column name="shipZipCode" type="VARCHAR(100)"/>
+            <column name="ship_adminunit_id" type="${id.type}"/>
+            <column name="phoneNumber" type="VARCHAR(100)"/>
+            <column name="lasttransaction_id" type="${id.type}"/>
+
+            <!-- unit part -->
+            <column name="dispensingFrequency" type="INT"/>
             <column name="batchControl" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="changeEstimatedQuantity" type="${boolean.type}">
+            <column name="mdrHealthUnit" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="dispensingFrequency" type="INT"/>
-            <column name="district" type="VARCHAR(50)"/>
-            <column name="legacyId" type="VARCHAR(50)"/>
-            <column name="mdrHealthUnit" type="${boolean.type}">
+            <column name="ntmHealthUnit" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="medicineStorage" type="${boolean.type}">
@@ -1488,7 +1489,6 @@
             <column name="medicineSupplier" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="VARCHAR(100)"/>
             <column name="numDaysOrder" type="INT"/>
             <column name="orderOverMinimum" type="${boolean.type}">
                 <constraints nullable="false"/>
@@ -1502,37 +1502,22 @@
             <column name="treatmentHealthUnit" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="WORKSPACE_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ADMINUNIT_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AUTHORIZERUNIT_ID" type="${id.type}"/>
-            <column name="FIRSTLINE_SUPPLIER_ID" type="${id.type}"/>
-            <column name="HEALTHSYSTEM_ID" type="${id.type}">
-                <constraints nullable="false"/>
-            </column>
             <column name="SECONDLINE_SUPPLIER_ID" type="${id.type}"/>
             <column name="notifHealthUnit" type="${boolean.type}"/>
-            <column name="active" type="${boolean.type}"/>
             <column name="medManStartDate" type="date"/>
             <column name="patientDispensing" type="${boolean.type}"/>
-            <column name="addressCont" type="VARCHAR(200)"/>
-            <column name="shipAddress" type="VARCHAR(200)"/>
-            <column name="shipAddressCont" type="VARCHAR(200)"/>
-            <column name="shipContactName" type="VARCHAR(200)"/>
-            <column name="shipContactPhone" type="VARCHAR(200)"/>
-            <column name="zipCode" type="VARCHAR(50)"/>
-            <column name="phoneNumber" type="VARCHAR(100)"/>
-            <column defaultValueNumeric="0" name="ntmHealthUnit" type="${boolean.type}">
+            <column name="AUTHORIZERUNIT_ID" type="${id.type}"/>
+            <column name="FIRSTLINE_SUPPLIER_ID" type="${id.type}"/>
+            <column name="limitDateMedicineMovement" type="date"/>
+            <column name="changeEstimatedQuantity" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createtransaction_id" type="${id.type}"/>
-            <column name="limitDateMedicineMovement" type="date"/>
-            <column name="shipZipCode" type="VARCHAR(100)"/>
-            <column name="ship_adminunit_id" type="${id.type}"/>
+
+            <!-- lab part -->
+            <column name="performMicroscopy" type="${boolean.type}"/>
+            <column name="performCulture" type="${boolean.type}"/>
+            <column name="performDst" type="${boolean.type}"/>
+            <column name="performXpert" type="${boolean.type}"/>
         </createTable>
     </changeSet>
 
@@ -1616,7 +1601,7 @@
             <column name="id" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="MEDICINE_ID" type="${id.type}">
+            <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="MOV_IN_ID" type="${id.type}"/>
@@ -1875,7 +1860,7 @@
             <column name="PROFILE_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="TBUNIT_ID" type="${id.type}">
+            <column name="UNIT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="USER_ID" type="${id.type}">
@@ -1884,7 +1869,6 @@
             <column name="WORKSPACE_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="HEALTHSYSTEM_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
             <column name="createTransaction_ID" type="${id.type}"/>
             <column name="laboratory_id" type="${id.type}"/>
@@ -2025,9 +2009,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-99">
         <addPrimaryKey columnNames="id" constraintName="PKFIELDVALUE" tableName="fieldvalue"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-100">
-        <addPrimaryKey columnNames="id" constraintName="PKHEALTHSYSTEM" tableName="healthsystem"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-101">
         <addPrimaryKey columnNames="id" constraintName="PKISSUE" tableName="issue"/>
@@ -2201,7 +2182,7 @@
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-158">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-159">
         <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="examdst" constraintName="FK145D010666A4104C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
@@ -2211,6 +2192,9 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-161">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="userlogin" constraintName="FK14F1AA7EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+    </changeSet>
+    <changeSet author="rmemoria" id="1433264274749-161.2">
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="batch" constraintName="FKBATCHWS" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-162">
         <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="userlogin" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
@@ -2287,11 +2271,8 @@
     <changeSet author="rmemoria" id="1433264274749-186">
         <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA6CEDEEA7C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-187">
-        <addForeignKeyConstraint baseColumnNames="HEALTHSYSTEM_ID" baseTableName="userworkspace" constraintName="FK3FB6152A21EFF75D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="healthsystem"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-188">
-        <addForeignKeyConstraint baseColumnNames="TBUNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-189">
         <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userworkspace" constraintName="FK3FB6152A7730850C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
@@ -2347,9 +2328,6 @@
     <changeSet author="rmemoria" id="1433264274749-206">
         <addForeignKeyConstraint baseColumnNames="UNIT_FROM_ID" baseTableName="medicineorder" constraintName="FK51C00554CBAE4EAA" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-207">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="healthsystem" constraintName="FK55C53F8BB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-208">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="agerange" constraintName="FK57C1879EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
@@ -2357,7 +2335,7 @@
         <addForeignKeyConstraint baseColumnNames="RECEIVINGITEM_ID" baseTableName="batch" constraintName="FK592D73A76AA9ADD" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinereceivingitem"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-210">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="batch" constraintName="FK592D73ABC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="batch" constraintName="FK592D73ABC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-211">
         <addForeignKeyConstraint baseColumnNames="BATCH_ID" baseTableName="batchmovement" constraintName="FK5E1EFDE93B281F77" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="batch"/>
@@ -2369,7 +2347,7 @@
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E71CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-214">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-215">
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7FB9ECED7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="regimen"/>
@@ -2405,7 +2383,7 @@
         <addForeignKeyConstraint baseColumnNames="DISPENSING_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BA967077" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinedispensing"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-226">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-227">
         <addForeignKeyConstraint baseColumnNames="PRESENTATION_ID" baseTableName="examxray" constraintName="FK7380D5517EA8371A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
@@ -2447,7 +2425,7 @@
         <addForeignKeyConstraint baseColumnNames="MOV_IN_ID" baseTableName="transferitem" constraintName="FK8046457EA6DF751C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-240">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="transferitem" constraintName="FK8046457EBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="transferitem" constraintName="FK8046457EBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-241">
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_ID" baseTableName="medicinereceivingitem" constraintName="FK806185F94E21F23D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
@@ -2459,7 +2437,7 @@
         <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="medicinecomponent" constraintName="FK80E3280396FA537" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-244">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicinecomponent" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicinecomponent" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-245">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prevtbtreatment" constraintName="FK824DD5B7A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2578,9 +2556,6 @@
     <changeSet author="rmemoria" id="1433264274749-283">
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="tbcase" constraintName="FKCB85A29EFB9ECED7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-284">
-        <addForeignKeyConstraint baseColumnNames="HEALTHSYSTEM_ID" baseTableName="tbunit" constraintName="FKCB8E00F221EFF75D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="healthsystem"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-285" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
@@ -2612,7 +2587,7 @@
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="stockposition" constraintName="FKCE181A3F71E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-292">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="stockposition" constraintName="FKCE181A3FBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="stockposition" constraintName="FKCE181A3FBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-293">
         <addForeignKeyConstraint baseColumnNames="ResistancePattern_id" baseTableName="substances_resistpattern" constraintName="FKCFDF2E2A489C06B7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>
@@ -2639,7 +2614,7 @@
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_OUT_ID" baseTableName="orderitem" constraintName="FKE8B2AB618F3F74CE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-301">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="orderitem" constraintName="FKE8B2AB61BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="orderitem" constraintName="FKE8B2AB61BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-302">
         <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="orderitem" constraintName="FKE8B2AB61EA7336F7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicineorder"/>
@@ -2666,7 +2641,7 @@
         <addForeignKeyConstraint baseColumnNames="USERPROFILE_ID" baseTableName="systemconfig" constraintName="FKF20356312D576F17" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="userprofile"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-308" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="TBUNIT_ID" baseTableName="systemconfig" constraintName="FKF20356316515C41D" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="systemconfig" constraintName="FKF20356316515C41D" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-309" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="systemconfig" constraintName="FKF2035631B3B1717" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="workspace"/>
@@ -2693,10 +2668,10 @@
         <addForeignKeyConstraint baseColumnNames="ADJUSTMENT_ID" baseTableName="movement" constraintName="FKMOVFIELD" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-317" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-317" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-318" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="movement" constraintName="FKMOVSOURCE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
@@ -2856,12 +2831,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-357" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="fieldvalue" constraintName="fk_fieldvalue_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-358">
-        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="healthsystem" constraintName="fk_healthsystem_transactionlog1" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-359">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="healthsystem" constraintName="fk_healthsystem_transactionlog2" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-360" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="laboratory" constraintName="fk_laboratory_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
