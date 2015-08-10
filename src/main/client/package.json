@@ -1,0 +1,33 @@
+{
+  "name": "etbm",
+  "version": "3.0.0",
+  "description": "e-TB Manager 3 UI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MSH",
+  "license": "ISC",
+  "devDependencies": {
+    "file-loader": "^0.8.4",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-open": "^1.0.0",
+    "gulp-util": "^3.0.6",
+    "gutil": "^1.6.4",
+    "jshint-stylish": "^2.0.1",
+    "jsx-loader": "^0.13.2",
+    "jsxhint": "^0.15.1",
+    "jsxhint-loader": "^0.2.0",
+    "react-hot-loader": "^1.2.8",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.2",
+    "style-loader": "^0.12.3",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.11.0",
+    "webpack-dev-server": "^1.10.1"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  }
+}
