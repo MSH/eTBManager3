@@ -19,9 +19,6 @@ import java.util.UUID;
 public class FieldValue extends WSObject implements Serializable {
 	private static final long serialVersionUID = -754148519681677704L;
 
-	@Id
-    private UUID id;
-
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW})
 	private String name;
 
@@ -57,20 +54,6 @@ public class FieldValue extends WSObject implements Serializable {
 			return false;
 		
 		return ((FieldValue)obj).getId().equals(getId());
-	}
-
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	/**
