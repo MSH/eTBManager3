@@ -818,7 +818,6 @@
             </column>
             <column name="defaultDoseUnit" type="INT"/>
             <column name="defaultFrequency" type="INT"/>
-            <column name="phase" type="INT"/>
             <column name="SOURCE_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
@@ -826,7 +825,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="REGIMEN_ID" type="${id.type}"/>
-            <column name="monthsTreatment" type="INT"/>
+            <column name="daysTreatment" type="INT"/>
         </createTable>
     </changeSet>
 
@@ -1068,8 +1067,6 @@
             <column name="id" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="monthsContinuousPhase" type="INT"/>
-            <column name="monthsIntensivePhase" type="INT"/>
             <column name="name" type="VARCHAR(100)"/>
             <column name="WORKSPACE_ID" type="${id.type}">
                 <constraints nullable="false"/>
@@ -1078,6 +1075,7 @@
             <column name="caseClassification" type="INT">
                 <constraints nullable="false"/>
             </column>
+            <column name="daysOfIntensivePhaseDuration" type="INT"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
             <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
@@ -1400,7 +1398,7 @@
             <column name="issueCounter" type="INT"/>
             <column name="version" type="INT"/>
             <column name="REGIMEN_ID" type="${id.type}"/>
-            <column name="iniContinuousPhase" type="date"/>
+            <column name="endIntensivePhase" type="date"/>
             <column name="REGIMEN_INI_ID" type="${id.type}"/>
             <column name="OWNER_UNIT_ID" type="${id.type}"/>
             <column name="LASTTRANSACTION_ID" type="${id.type}"/>

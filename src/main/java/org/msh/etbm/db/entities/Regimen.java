@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 import org.msh.etbm.db.enums.CaseClassification;
-import org.msh.etbm.db.enums.RegimenPhase;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,16 +24,12 @@ public class Regimen extends WSObject {
 	@OneToMany(cascade={CascadeType.ALL})
 	@JoinColumn(name="REGIMEN_ID")
 	private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
-	
-	@Transient
-	private List<MedicineRegimen> intensivePhaseMedicines = null;
-	@Transient
-	private List<MedicineRegimen> continuousPhaseMedicines = null;
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
 	private String legacyId;
 
+	private Integer daysOfIntensivePhaseDuration;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -56,36 +51,12 @@ public class Regimen extends WSObject {
 		return (name != null? name: super.toString());
 	}
 
-	
-	/**
-	 * Return the number of months of the intensive phase
-	 * @return
-	 */
-	public int getMonthsIntensivePhase() {
-		return getMonthsPhase(RegimenPhase.INTENSIVE);
-	}
-
-	
-	/**
-	 * Return the number of months of the continuous phase
-	 * @return
-	 */
-	public int getMonthsContinuousPhase() {
-		return getMonthsPhase(RegimenPhase.CONTINUOUS);
-	}
-	
-	
 	/**
 	 * Include a medicine regimen to the regimen and also update the intensive and continuous list
 	 * @param mr
 	 */
 	public void addMedicine(MedicineRegimen mr) {
 		getMedicines().add(mr);
-		if (intensivePhaseMedicines != null) {
-			if (mr.getPhase() == RegimenPhase.INTENSIVE)
-				 intensivePhaseMedicines.add(mr);
-			else continuousPhaseMedicines.add(mr);
-		}
 	}
 	
 	/**
@@ -94,134 +65,8 @@ public class Regimen extends WSObject {
 	 */
 	public void remMedicine(MedicineRegimen mr) {
 		getMedicines().remove(mr);
-		if (intensivePhaseMedicines != null) {
-			if (mr.getPhase() == RegimenPhase.INTENSIVE)
-				 intensivePhaseMedicines.remove(mr);
-			else continuousPhaseMedicines.remove(mr);
-		}
-	}
-	
-	
-	/**
-	 * get medicines used in the intensive phase
-	 * @return
-	 */
-	public List<MedicineRegimen> getIntensivePhaseMedicines() {
-		if (intensivePhaseMedicines == null)
-			createPhaseLists();
-		return intensivePhaseMedicines;
-	}
-	
-
-	/**
-	 * Check if medicines are the same as medicines in an specific phase
-	 * @param phase phase to check
-	 * @param meds medicines to compare if they are in the regimen (or are compatible)
-	 * @return true if medicines are the same as in the regimen phase, otherwise false
-	 */
-	public boolean compareMedicinesInPhase(RegimenPhase phase, List<Medicine> meds) {
-		List<MedicineRegimen> lst;
-		if (RegimenPhase.INTENSIVE.equals(phase))
-			 lst = getIntensivePhaseMedicines();
-		else lst = getContinuousPhaseMedicines();
-		
-		if (lst.size() != meds.size())
-			return false;
-		
-		for (MedicineRegimen mr: lst) {
-			if (!meds.contains(mr.getMedicine()))
-				return false;
-		}
-		
-		return true;
 	}
 
-
-	/**
-	 * get medicines used in the continuous phase
-	 * @return
-	 */
-	public List<MedicineRegimen> getContinuousPhaseMedicines() {
-		if (continuousPhaseMedicines == null)
-			createPhaseLists();
-		return continuousPhaseMedicines;		
-	}
-	
-	private void createPhaseLists() {
-		continuousPhaseMedicines = new ArrayList<MedicineRegimen>();
-		intensivePhaseMedicines = new ArrayList<MedicineRegimen>();
-		for (MedicineRegimen mr: getMedicines()) {
-			if (mr.getPhase() == RegimenPhase.INTENSIVE)
-				 intensivePhaseMedicines.add(mr);
-			else continuousPhaseMedicines.add(mr);
-		}
-	}
-	
-
-	/**
-	 * Create a list with different months of treatment for the medicines in a regimen phase
-	 * @param phase
-	 * @return
-	 */
-	public List<Integer> groupMonthsTreatment(RegimenPhase phase) {
-		List<Integer> months = new ArrayList<Integer>();
-		for (MedicineRegimen medreg: getMedicines()) {
-			if (medreg.getPhase() == phase) {
-				Integer num = medreg.getMonthsTreatment();
-				if ((num != null) && (!months.contains(num)))
-					months.add(num);
-			}
-			
-			Collections.sort(months, new Comparator<Integer>() {
-				public int compare(Integer o1, Integer o2) {
-					if (o1 < o2)
-						return -1;
-					else if (o1 > o2)
-						return 1;
-					return 0;
-				}
-			});
-		}
-		return months;
-	}
-
-
-	/**
-	 * Create a list of {@link MedicineRegimen} from an specific phase with a number of months of treatment
-	 * @param phase
-	 * @param months
-	 * @return
-	 */
-	public List<MedicineRegimen> groupMedicinesByMonthTreatment(RegimenPhase phase, int months) {
-		List<MedicineRegimen> lst = new ArrayList<MedicineRegimen>();
-		for (MedicineRegimen medreg: getMedicines()) {
-			if (medreg.getPhase() == phase) {
-				if ( medreg.getMonthsTreatment() >= months ) {
-					lst.add(medreg);
-				}
-			}
-		}
-		return lst;
-	}
-	
-	
-	/**
-	 * Return number of months of the phase
-	 * @param phase
-	 * @return
-	 */
-	public int getMonthsPhase(RegimenPhase phase) {
-		int num=0;
-		for (MedicineRegimen medreg: getMedicines()) {
-			if ((medreg.getMonthsTreatment() > num) && (medreg.getPhase().equals(phase))) {
-				if (medreg.getMonthsTreatment() > num)
-					num = medreg.getMonthsTreatment();
-			}
-		}
-		return num;
-	}
-
-	
 	/**
 	 * Check if medicine is part of the regimen
 	 * @param med
@@ -298,5 +143,13 @@ public class Regimen extends WSObject {
 	 */
 	public void setCaseClassification(CaseClassification caseClassification) {
 		this.caseClassification = caseClassification;
+	}
+
+	public Integer getIntensivePhaseDuration() {
+		return daysOfIntensivePhaseDuration;
+	}
+
+	public void setIntensivePhaseDuration(Integer daysOfIntensivePhaseDuration) {
+		this.daysOfIntensivePhaseDuration = daysOfIntensivePhaseDuration;
 	}
 }

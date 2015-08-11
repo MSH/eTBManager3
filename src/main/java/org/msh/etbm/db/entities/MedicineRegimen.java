@@ -1,7 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.enums.RegimenPhase;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -19,20 +17,22 @@ public class MedicineRegimen implements Serializable {
 	@JoinColumn(name="MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
+
+	@ManyToOne
+	@JoinColumn(name="REGIMEN_ID")
+	@NotNull
+	private Regimen regimen;
 	
 	private Integer defaultDoseUnit;
 	
 	private Integer defaultFrequency;
-	
-	private RegimenPhase phase;
-	
-	private Integer monthsTreatment;
+
+	private Integer daysTreatment;
 	
 	@ManyToOne
 	@JoinColumn(name="SOURCE_ID")
 	@NotNull
 	private Source defaultSource;
-
 
 	public Source getDefaultSource() {
 		return defaultSource;
@@ -40,14 +40,6 @@ public class MedicineRegimen implements Serializable {
 
 	public void setDefaultSource(Source defaultSource) {
 		this.defaultSource = defaultSource;
-	}
-
-	public RegimenPhase getPhase() {
-		return phase;
-	}
-
-	public void setPhase(RegimenPhase phase) {
-		this.phase = phase;
 	}
 
 	public Integer getId() {
@@ -86,14 +78,14 @@ public class MedicineRegimen implements Serializable {
 	 * @return the monthsTreatment
 	 */
 	public Integer getMonthsTreatment() {
-		return monthsTreatment;
+		return daysTreatment;
 	}
 
 	/**
-	 * @param monthsTreatment the monthsTreatment to set
+	 * @param daysTreatment the monthsTreatment to set
 	 */
-	public void setMonthsTreatment(Integer monthsTreatment) {
-		this.monthsTreatment = monthsTreatment;
+	public void setMonthsTreatment(Integer daysTreatment) {
+		this.daysTreatment = daysTreatment;
 	}
 
 }

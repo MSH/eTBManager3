@@ -10,7 +10,6 @@ import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -77,7 +76,7 @@ public class TbCase implements Transactional {
 	private Period treatmentPeriod = new Period();
 	
 	@Temporal(TemporalType.DATE)
-	private Date iniContinuousPhase;
+	private Date endIntensivePhase;
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="REGIMEN_ID")
@@ -593,23 +592,10 @@ public class TbCase implements Transactional {
 		if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty()))
 			return null;
 
-		if (iniContinuousPhase != null)
-			 return new Period(treatmentPeriod.getIniDate(), DateUtils.incDays( iniContinuousPhase, -1 ) );
+		if (endIntensivePhase != null)
+			 return new Period(treatmentPeriod.getIniDate(), endIntensivePhase);
 		else return new Period(treatmentPeriod);
 	}
-
-
-	/**
-	 * Return the treatment period of the continuous phase
-	 * @return
-	 */
-	public Period getContinuousPhasePeriod() {
-		if ((iniContinuousPhase == null) || (treatmentPeriod == null) || (treatmentPeriod.isEmpty()))
-			return null;
-
-		return new Period(iniContinuousPhase, treatmentPeriod.getEndDate());
-	}
-
 
 	/**
 	 * Returns patient age at the date of the notification
@@ -1208,18 +1194,18 @@ public class TbCase implements Transactional {
 
 
 	/**
-	 * @return the iniContinuousPhase
+	 * @return the endIntensivePhase
 	 */
-	public Date getIniContinuousPhase() {
-		return iniContinuousPhase;
+	public Date getEndIntensivePhase() {
+		return endIntensivePhase;
 	}
 
 
 	/**
-	 * @param iniContinuousPhase the iniContinuousPhase to set
+	 * @param endIntensivePhase the endIntensivePhase to set
 	 */
-	public void setIniContinuousPhase(Date iniContinuousPhase) {
-		this.iniContinuousPhase = iniContinuousPhase;
+	public void setEndIntensivePhase(Date endIntensivePhase) {
+		this.endIntensivePhase = endIntensivePhase;
 	}
 
 
