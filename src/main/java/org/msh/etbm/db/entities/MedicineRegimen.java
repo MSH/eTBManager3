@@ -18,11 +18,6 @@ public class MedicineRegimen implements Serializable {
 	@NotNull
 	private Medicine medicine;
 
-	@ManyToOne
-	@JoinColumn(name="REGIMEN_ID")
-	@NotNull
-	private Regimen regimen;
-	
 	private Integer defaultDoseUnit;
 	
 	private Integer defaultFrequency;
@@ -87,5 +82,4 @@ public class MedicineRegimen implements Serializable {
 	public void setMonthsTreatment(Integer daysTreatment) {
 		this.daysTreatment = daysTreatment;
 	}
-
 }
