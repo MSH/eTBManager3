@@ -110,3 +110,6 @@ node_modules
 # Automatic assets generation
 src/main/resources/static/
 
+# Created by the maven plugin frontend-maven-plugin
+node
+etc

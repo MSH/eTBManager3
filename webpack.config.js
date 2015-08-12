@@ -6,22 +6,23 @@
  */
 'use strict';
 var webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
+    config = require('./client-config');
 
 
 module.exports = {
 
     output: {
         filename: 'main.js',
-        path: path.join(__dirname, '../resources/static'),
-        publicPath: '/'
+        path: path.join(__dirname, config.dist, 'scripts'),
+        publicPath: '/scripts/'
     },
 
     cache: true,
     debug: true,
     devtool: false,
     entry: [
-        path.join(__dirname, 'scripts/main.js')
+        path.join(__dirname, config.client, '/scripts/main.js')
     ],
 
     stats: {

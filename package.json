@@ -9,6 +9,7 @@
   "author": "MSH",
   "license": "ISC",
   "devDependencies": {
+    "del": "^1.2.0",
     "file-loader": "^0.8.4",
     "gulp": "^3.9.0",
     "gulp-jshint": "^1.11.2",

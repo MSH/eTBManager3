@@ -65,7 +65,9 @@
                 <version>0.0.23</version>
 
                 <configuration>
-                    <workingDirectory>src/main/client</workingDirectory>
+                    <!-- <workingDirectory>src/main/client</workingDirectory> -->
+                    <nodeVersion>v0.12.7</nodeVersion>
+                    <npmVersion>2.11.3</npmVersion>
                 </configuration>
 
                 <executions>
