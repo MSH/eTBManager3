@@ -27,6 +27,15 @@ public class BatchMovement implements Serializable {
     @NotNull
     private Movement movement;
 
+    private boolean header;
+
+    public boolean isHeader() {
+        return header;
+    }
+
+    public void setHeader(boolean header) {
+        this.header = header;
+    }
 
     public int getAvailableQuantity() {
         return availableQuantity;

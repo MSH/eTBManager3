@@ -17,8 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="movement")
-public class Movement implements Serializable {
-	private static final long serialVersionUID = 3238105346061740436L;
+public class Movement {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
@@ -29,11 +28,6 @@ public class Movement implements Serializable {
 	@NotNull
 	private Date date;
 	
-	private int quantity;
-	private int oper;
-	
-	private float totalPrice;
-
 	private MovementType type;
 	
 	@ManyToOne
@@ -76,6 +70,15 @@ public class Movement implements Serializable {
      */
     private float totalPriceInventory;
 
+    private boolean header;
+
+    public boolean isHeader() {
+        return header;
+    }
+
+    public void setHeader(boolean header) {
+        this.header = header;
+    }
 
     public float getTotalPriceInventory() {
         return totalPriceInventory;
@@ -105,22 +108,6 @@ public class Movement implements Serializable {
 		this.adjustmentType = adjustmentType;
 	}
 	
-	/**
-	 * Returns the unit price of the transaction
-	 * @return float number representing the unit price
-	 */
-	public float getUnitPrice() {
-		return quantity != 0? totalPrice / quantity : 0;
-	}
-	
-	/**
-	 * Returns the signed quantity of medicine to be added to the stock position  
-	 * @return signed quantity of medicine for the transaction
-	 */
-	public int getQtdOperation() {
-		return oper * quantity;
-	}
-
 	/**
 	 * Returns the remark of the transaction
 	 * @return String containing the remarks of the transaction
@@ -184,22 +171,6 @@ public class Movement implements Serializable {
 	 */
 	public void setMedicine(Medicine medicine) {
 		this.medicine = medicine;
-	}
-
-	/**
-	 * Returns the quantity of medicine of the transaction
-	 * @return quantity of medicine
-	 */
-	public int getQuantity() {
-		return quantity;
-	}
-
-	/**
-	 * Changes the quantity of the transaction
-	 * @param quantity - the new quantity
-	 */
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 
 	/**
@@ -267,22 +238,6 @@ public class Movement implements Serializable {
 	}
 
 	/**
-	 * Returns the operation of the transaction
-	 * @return +1 if the transaction is including medicine into the stock, -1 if the transaction is removing medicine from the stock 
-	 */
-	public int getOper() {
-		return oper;
-	}
-
-	/**
-	 * Changes the operation of the transaction
-	 * @param oper - the operation of the transaction (+1 or -1)
-	 */
-	public void setOper(int oper) {
-		this.oper = oper;
-	}
-
-	/**
 	 * Returns the batches movements involved in this transaction
 	 * @return the list of instances of BachMovement class 
 	 */
@@ -298,20 +253,6 @@ public class Movement implements Serializable {
 		this.batches = batches;
 	}
 
-	/**
-	 * @return the totalPrice
-	 */
-	public float getTotalPrice() {
-		return totalPrice;
-	}
-
-	/**
-	 * @param totalPrice the totalPrice to set
-	 */
-	public void setTotalPrice(float totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-	
 	public boolean isAdjustment() {
 		if(this.type != null)
 			return type.equals(MovementType.ADJUSTMENT);

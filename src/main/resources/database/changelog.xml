@@ -133,9 +133,13 @@
                 <constraints nullable="false"/>
             </column>
             <column name="availableQuantity" type="INT"/>
+            <column name="header" type="${boolean.type}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
+    <!--
     <changeSet author="rmemoria" id="1433264274749-6">
         <createTable tableName="batchquantity">
             <column name="id" type="${id.type}">
@@ -155,6 +159,7 @@
             </column>
         </createTable>
     </changeSet>
+    -->
 
     <changeSet author="rmemoria" id="1433264274749-7">
         <createTable tableName="casecomment">
@@ -838,19 +843,10 @@
             <column name="mov_date" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="oper" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="quantity" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="recordDate" type="${datetime.type}">
                 <constraints nullable="false"/>
             </column>
             <column name="type" type="INT"/>
-            <column name="totalPrice" type="FLOAT(12)">
-                <constraints nullable="false"/>
-            </column>
             <column name="PRODUCT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
@@ -860,14 +856,15 @@
             <column name="UNIT_ID" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
-            <column name="stockQuantity" type="INT"/>
-            <column name="unitPrice" type="FLOAT(12)"/>
             <column name="ADJUSTMENT_ID" type="${id.type}"/>
             <column name="availableQuantity" type="INT">
                 <constraints nullable="false"/>
             </column>
             <column name="totalPriceInventory" type="FLOAT(12)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="header" type="${boolean.type}">
+                <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>
@@ -1174,6 +1171,7 @@
     </changeSet>
 
 
+    <!--
     <changeSet author="rmemoria" id="1433264274749-54">
         <createTable tableName="stockposition">
             <column name="id" type="${id.type}">
@@ -1201,6 +1199,7 @@
             <column name="stock_date" type="date"/>
         </createTable>
     </changeSet>
+    -->
 
 
     <changeSet author="rmemoria" id="1433264274749-55">
@@ -1960,9 +1959,11 @@
     <changeSet author="rmemoria" id="1433264274749-83">
         <addPrimaryKey columnNames="id" constraintName="PKBACHMOVEMENT" tableName="batchmovement"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-84">
         <addPrimaryKey columnNames="id" constraintName="PKBATCHQUANTITY" tableName="batchquantity"/>
     </changeSet>
+    -->
     <changeSet author="rmemoria" id="1433264274749-85">
         <addPrimaryKey columnNames="id" constraintName="PKCASECOMMENT" tableName="casecomment"/>
     </changeSet>
@@ -2095,9 +2096,6 @@
     <changeSet author="rmemoria" id="1433264274749-129">
         <addPrimaryKey columnNames="id" constraintName="PKSOURCE" tableName="source"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-130">
-        <addPrimaryKey columnNames="id" constraintName="PKSTOCKPOSITION" tableName="stockposition"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-131">
         <addPrimaryKey columnNames="id" constraintName="PKSUBSTANCE" tableName="substance"/>
     </changeSet>
@@ -2197,6 +2195,7 @@
     <changeSet author="rmemoria" id="1433264274749-162">
         <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="userlogin" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-163">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="batchquantity" constraintName="FK17B561C51CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
@@ -2206,6 +2205,7 @@
     <changeSet author="rmemoria" id="1433264274749-165">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="batchquantity" constraintName="FK17B561C571E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
     </changeSet>
+    -->
     <changeSet author="rmemoria" id="1433264274749-166">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="substance" constraintName="FK1F97C570B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
@@ -2577,15 +2577,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-289" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="tbunit" onDelete="CASCADE"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-290">
-        <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="stockposition" constraintName="FKCE181A3F1CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-291">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="stockposition" constraintName="FKCE181A3F71E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-292">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="stockposition" constraintName="FKCE181A3FBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-293">
         <addForeignKeyConstraint baseColumnNames="ResistancePattern_id" baseTableName="substances_resistpattern" constraintName="FKCFDF2E2A489C06B7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>
