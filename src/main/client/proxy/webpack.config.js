@@ -7,14 +7,17 @@
 'use strict';
 var webpack = require('webpack'),
     path = require('path'),
-    config = require('./client-config');
+    config = require('../config');
+
+
+var mainScript = path.join(__dirname, config.clientPath, config.mainScript);
 
 
 module.exports = {
 
     output: {
         filename: 'main.js',
-        path: path.join(__dirname, config.dist, 'scripts'),
+        path: path.join(__dirname, config.distPath, 'scripts'),
         publicPath: '/scripts/'
     },
 
@@ -22,7 +25,14 @@ module.exports = {
     debug: true,
     devtool: false,
     entry: [
-        path.join(__dirname, config.client, '/scripts/main.js')
+
+        // For hot style updates
+        'webpack/hot/dev-server',
+
+        // The script refreshing the browser on none hot updates
+        'webpack-dev-server/client?' + config.proxy.webpack.url,
+
+        mainScript
     ],
 
     stats: {

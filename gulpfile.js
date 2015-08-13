@@ -7,10 +7,13 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     gutil = require('gulp-util'),
     del = require('del'),
-    config = require('./client-config'),
-    fs = require('fs');
+    config = require('./src/main/client/config'),
+    nodemon = require('gulp-nodemon'),
+    open = require('gulp-open'),
+    path = require('path');
 
-
+// the client path
+var clientPath = path.join(__dirname, 'src/main/client');
 
 
 /**
@@ -25,6 +28,10 @@ gulp.task('build', function() {
     return runSequence('clean', 'client-jshint', ['client-copy', 'webpack-dev']);
 });
 
+
+gulp.task('run', function() {
+    return runSequence('client-jshint', 'proxy-server', 'open');
+});
 
 /**
  * Delete files from destination directory
@@ -42,7 +49,7 @@ gulp.task('client-copy', function() {
         'index.html',
         'favicon.ico'
         ], {cwd: config.client})
-    .pipe(gulp.dest(config.dist))
+    .pipe(gulp.dest(config.dist));
 });
 
 
@@ -59,7 +66,7 @@ gulp.task('client-jshint', function() {
 /**
  * Generate the final java-script code
  */
-gulp.task('webpack-dev', [], function(callback) {
+gulp.task('webpack-prod', [], function(callback) {
     var devCompiler = webpack(require('./webpack.config'));
 
     devCompiler.run(function(err, stats) {
@@ -70,5 +77,42 @@ gulp.task('webpack-dev', [], function(callback) {
             colors: true
         }));
         callback();
+    });
+});
+
+
+
+/**
+ * Open the browser after app has started
+ */
+gulp.task('open', function() {
+    var options = {
+        uri: 'http://localhost:3000/index.html'
+    };
+
+    return gulp.src(__filename)
+        .pipe(open(options));
+});
+
+
+// just to avoid that the callback is called twice
+var first = true;
+
+/**
+ * Run the application
+ */
+gulp.task('proxy-server', function(cb) {
+    console.log('PATH = ' + clientPath);
+    nodemon({
+        script: 'server.js',
+        cwd: path.join(clientPath, 'proxy'),
+        env: {'NODE_ENV': 'development'},
+//        tasks: ['server-lint'],
+    }).on('start', function() {
+        console.log('STARTED');
+        if (first) {
+            first = false;
+            cb();
+        }
     });
 });
