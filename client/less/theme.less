@@ -1,8 +1,14 @@
-/*
-* pikock http://www.pikock.com/ , autreplanete http://www.autreplanete.com/ 
-*  
-**/
+/**
+ * Import bootstrap from npm packages
+ */
+@import "bootstrap/less/bootstrap.less";
 
+@font-face {
+  font-family: 'OpenSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("//themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff") format('woff');
+}
 
 // Grays
 @gray-darker: #222222;
@@ -40,7 +46,7 @@
 
 
 // Typography
-@font-family-sans-serif: Open Sans;
+@font-family-sans-serif: OpenSans;
 @font-family-serif: PT Serif;
 @font-family-monospace: Monaco;
 @font-family-base: @font-family-sans-serif;
@@ -247,7 +253,7 @@
 
 
 // Sprites
-@icon-font-path: '../app/fonts/';
+@icon-font-path: '../fonts/';
 @icon-font-name: glyphicons-halflings-regular;
 
 

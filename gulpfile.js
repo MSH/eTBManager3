@@ -7,13 +7,16 @@ var gulp = require('gulp'),
     webpack = require('webpack'),
     gutil = require('gulp-util'),
     del = require('del'),
-    config = require('./src/main/client/config'),
+    config = require('./client/config'),
     nodemon = require('gulp-nodemon'),
     open = require('gulp-open'),
-    path = require('path');
+    path = require('path'),
+    less = require('gulp-less');
+
 
 // the client path
-var clientPath = path.join(__dirname, 'src/main/client');
+var clientPath = path.join(__dirname, 'client');
+var srcPath = path.join(__dirname, 'client/src');
 
 
 /**
@@ -30,7 +33,7 @@ gulp.task('build', function() {
 
 
 gulp.task('run', function() {
-    return runSequence('client-jshint', 'proxy-server', 'open');
+    return runSequence('client-jshint', ['dev-copy', 'less'], 'proxy-server', 'open');
 });
 
 /**
@@ -41,6 +44,13 @@ gulp.task('clean', function(cb) {
 });
 
 
+gulp.task('dev-copy', function() {
+    gulp.src([
+        'node_modules/bootstrap/dist/fonts/**/*'
+        ])
+    .pipe(gulp.dest( path.join(srcPath, 'fonts')));
+});
+
 /**
  * Copy static files that are not automatically processed
  */
@@ -48,7 +58,7 @@ gulp.task('client-copy', function() {
     gulp.src([
         'index.html',
         'favicon.ico'
-        ], {cwd: config.client})
+        ], {cwd: clientPath})
     .pipe(gulp.dest(config.dist));
 });
 
@@ -57,7 +67,7 @@ gulp.task('client-copy', function() {
  * Check JS quality of syntax in client code
  */
 gulp.task('client-jshint', function() {
-    return gulp.src(config.client + '/scripts/**/*.js')
+    return gulp.src(clientPath + 'src/scripts/**/*.js')
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -102,7 +112,6 @@ var first = true;
  * Run the application
  */
 gulp.task('proxy-server', function(cb) {
-    console.log('PATH = ' + clientPath);
     nodemon({
         script: 'server.js',
         cwd: path.join(clientPath, 'proxy'),
@@ -115,4 +124,16 @@ gulp.task('proxy-server', function(cb) {
             cb();
         }
     });
+});
+
+
+/**
+ * Generate css style files from less files
+ */
+gulp.task('less', function() {
+    return gulp.src( path.join(clientPath, 'less/theme.less'))
+        .pipe(less({
+            paths: [ path.join(__dirname, 'node_modules')]
+        }))
+        .pipe(gulp.dest( path.join(srcPath, 'styles')));
 });

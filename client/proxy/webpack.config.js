@@ -10,10 +10,10 @@ var webpack = require('webpack'),
     config = require('../config');
 
 
-var mainScript = path.join(__dirname, config.clientPath, config.mainScript);
-
 
 module.exports = {
+
+    context: path.join( __dirname, '..', config.clientSrc),
 
     output: {
         filename: 'main.js',
@@ -32,7 +32,7 @@ module.exports = {
         // The script refreshing the browser on none hot updates
         'webpack-dev-server/client?' + config.proxy.webpack.url,
 
-        mainScript
+        config.mainScript
     ],
 
     stats: {
@@ -48,15 +48,10 @@ module.exports = {
     //    }
     //},
     module: {
-        preLoaders: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'jsxhint'
-        }],
         loaders: [{
-            test: /\.js$/,
+            test: /\.jsx?$/,
             exclude: /node_modules/,
-            loader: 'react-hot!jsx-loader?harmony'
+            loader: 'babel'
         }, {
             test: /\.less/,
             loader: 'style-loader!css-loader!less-loader'
@@ -66,7 +61,11 @@ module.exports = {
         }, {
             test: /\.(png|jpg)$/,
             loader: 'url-loader?limit=8192'
-        }]
+        },
+        {
+            test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+            loader: 'url-loader?limit=100000' }
+        ]
     },
 
     plugins: [

@@ -11,14 +11,14 @@ module.exports = {
     /**
      * Folder where the client code is
      */
-    clientPath: '../assets',
+    clientSrc: './src',
 
     /**
      * Folder where client code will be generated
      */
-    distPath: '../dist/static',
+    distPath: '../src/main/java/resources/static',
 
-    mainScript: '../scripts/main.js',
+    mainScript: './scripts/main.js',
 
     /**
      * The proxy server to serve static content and forward dynamic content to another server
@@ -32,7 +32,7 @@ module.exports = {
         /**
          * static content
          */
-        static: '../assets',
+        static: './src',
 
         /**
          * This is the development server, that will provide dynamic content

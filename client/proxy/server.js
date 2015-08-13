@@ -2,6 +2,7 @@
 
 var express = require('express');
 var httpProxy = require('http-proxy'),
+    path = require('path'),
     config = require('../config');
 
 // We need to add a configuration to our proxy server,
@@ -11,9 +12,6 @@ var proxy = httpProxy.createProxyServer({
 });
 
 var app = express();
-
-
-app.use(express.static(config.proxy.static));
 
 
 // setup development proxy
@@ -32,6 +30,10 @@ app.all(config.proxy.webpack.path, function (req, res) {
         target: config.proxy.webpack.url
     });
 });
+
+// provide access to static files
+var staticFiles = path.join(__dirname, '..', config.proxy.static);
+app.use(express.static( staticFiles ));
 
 
 proxy.on('error', function(e) {
