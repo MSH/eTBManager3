@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/sys")
-public class SystemStatusAPI {
+public class SystemAPI {
 
     @Autowired
     SystemService systemService;
