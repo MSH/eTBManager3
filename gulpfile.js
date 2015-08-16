@@ -28,7 +28,7 @@ gulp.task('default', function() {
 
 
 gulp.task('build', function() {
-    return runSequence('clean', 'client-jshint', ['client-copy', 'webpack-dev']);
+    return runSequence('clean', 'client-jshint', ['client-copy', 'webpack-prod']);
 });
 
 
@@ -59,7 +59,7 @@ gulp.task('client-copy', function() {
         'index.html',
         'favicon.ico'
         ], {cwd: clientPath})
-    .pipe(gulp.dest(config.dist));
+    .pipe(gulp.dest(config.distPath));
 });
 
 
