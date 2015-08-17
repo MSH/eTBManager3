@@ -182,7 +182,7 @@ public class TxLogServices {
      */
 /*
     protected UserLog getUserLog() {
-        UserLogin userLogin =  (UserLogin) Component.getInstance("userLogin");
+        UserSession userLogin =  (UserSession) Component.getInstance("userLogin");
 
         if (userLogin == null)
             return null;

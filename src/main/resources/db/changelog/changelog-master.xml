@@ -48,7 +48,6 @@
             <column name="COUNTRYSTRUCTURE_ID" type="${id.type}"/>
             <column name="PARENT_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -61,12 +60,10 @@
             <column name="iniAge" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="name1" type="VARCHAR(100)"/>
-            <column name="name2" type="VARCHAR(100)"/>
+            <column name="name" type="VARCHAR(100)"/>
             <column name="WORKSPACE_ID" type="${id.type}"/>
             <column name="endAge" type="INT"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -261,7 +258,6 @@
             <column name="name" type="VARCHAR(100)"/>
             <column name="WORKSPACE_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -302,7 +298,6 @@
             <column name="DTYPE" type="VARCHAR(31)"/>
             <column name="IDENTIFICATION_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="request_id" type="${id.type}"/>
             <column name="status" type="INT"/>
         </createTable>
@@ -336,7 +331,6 @@
             <column name="mtbDetected" type="INT"/>
             <column name="datePlating" type="date"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="request_id" type="${id.type}"/>
             <column name="status" type="INT"/>
         </createTable>
@@ -377,7 +371,6 @@
             <column name="startedVCTdate" type="date"/>
             <column name="resultDate" type="date"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -402,7 +395,6 @@
             <column name="LAB_ADMINUNIT_ID" type="${id.type}"/>
             <column name="datePlating" type="date"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="request_id" type="${id.type}"/>
             <column name="status" type="INT"/>
             <column name="otherSampleType" type="VARCHAR(100)"/>
@@ -445,7 +437,6 @@
             <column name="rifResult" type="INT"/>
             <column name="method_ID" type="${id.type}"/>
             <column name="laboratory_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
             <column name="request_id" type="${id.type}"/>
             <column name="status" type="INT"/>
@@ -477,7 +468,6 @@
             </column>
             <column name="LOCALIZATION_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -499,7 +489,6 @@
             <column name="otherDescription" type="VARCHAR(100)"/>
             <column name="displayOrder" type="INT"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="enabled" type="${boolean.type}"/>
         </createTable>
     </changeSet>
@@ -619,7 +608,6 @@
             <column name="otherPatRefBySrc" type="VARCHAR(255)"/>
             <column name="dotPhoneNumber" type="VARCHAR(50)"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="DOTTYPE_ID" type="${id.type}"/>
             <column name="PATIENTREFTO_ID" type="${id.type}"/>
         </createTable>
@@ -666,7 +654,6 @@
             </column>
             <column name="legacyId" type="VARCHAR(100)"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="displayorder" type="INT"/>
             <column name="discriminator" type="VARCHAR(100)" />
         </createTable>
@@ -1003,7 +990,6 @@
             </column>
             <column name="fatherName" type="VARCHAR(100)"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1074,7 +1060,6 @@
             </column>
             <column name="daysOfIntensivePhaseDuration" type="INT"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1125,7 +1110,6 @@
             </column>
             <column name="PATTERN_NAME" type="VARCHAR(100)"/>
             <column name="WORKSPACE_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
             <column name="criteria" type="INT"/>
         </createTable>
@@ -1144,7 +1128,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="WORKSPACE_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
@@ -1166,7 +1149,6 @@
             </column>
             <column name="legacyId" type="VARCHAR(50)"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1222,7 +1204,6 @@
             </column>
             <column name="legacyId" type="VARCHAR(100)"/>
             <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createTransaction_id" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1267,7 +1248,6 @@
             <column name="legacyId" type="VARCHAR(50)"/>
             <column name="sendSystemMessages" type="${boolean.type}"/>
             <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createtransaction_id" type="${id.type}"/>
             <column name="ulaAccepted" type="${boolean.type}"/>
         </createTable>
     </changeSet>
@@ -1314,7 +1294,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createtransaction_id" type="${id.type}"/>
             <column name="active" type="${boolean.type}">
                 <constraints nullable="false"/>
             </column>
@@ -1401,7 +1380,6 @@
             <column name="REGIMEN_INI_ID" type="${id.type}"/>
             <column name="OWNER_UNIT_ID" type="${id.type}"/>
             <column name="LASTTRANSACTION_ID" type="${id.type}"/>
-            <column name="CREATETRANSACTION_ID" type="${id.type}"/>
             <column name="suspectRegistrationCode" type="VARCHAR(50)"/>
             <column name="suspectClassification" type="INT"/>
             <column name="secDrugsReceived" type="INT"/>
@@ -1436,7 +1414,6 @@
             <column name="comments" type="${text.type}"/>
             <column name="dateOfExamination" type="${datetime.type}"/>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1757,7 +1734,7 @@
 
 
     <changeSet author="rmemoria" id="1433264274749-71">
-        <createTable tableName="userlogin">
+        <createTable tableName="usersession">
             <column name="id" type="${id.type}">
                 <constraints nullable="false"/>
             </column>
@@ -1816,7 +1793,6 @@
             </column>
             <column name="legacyId" type="VARCHAR(50)"/>
             <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createtransaction_id" type="${id.type}"/>
         </createTable>
     </changeSet>
 
@@ -1867,7 +1843,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lastTransaction_ID" type="${id.type}"/>
-            <column name="createTransaction_ID" type="${id.type}"/>
             <column name="laboratory_id" type="${id.type}"/>
         </createTable>
     </changeSet>
@@ -1898,7 +1873,6 @@
             <column name="sendSystemMessages" type="${boolean.type}"/>
             <column name="monthsToAlertExpiredMedicines" type="INT"/>
             <column name="lasttransaction_id" type="${id.type}"/>
-            <column name="createtransaction_id" type="${id.type}"/>
             <column name="ulaActive" type="${boolean.type}"/>
             <column name="expiredMedicineAdjustmentType_ID" type="${id.type}"/>
             <column name="caseValidationTB" type="INT"/>
@@ -2019,13 +1993,13 @@
         <addPrimaryKey columnNames="id" constraintName="PKJOURNAL" tableName="journal"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-104">
-        <addPrimaryKey columnNames="id" constraintName="PKLABORATORY" tableName="laboratory"/>
+        <addPrimaryKey columnNames="id" constraintName="PKLABORATORY" tableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-105">
         <addPrimaryKey columnNames="id" constraintName="PKMEDICALCONSULTATION" tableName="medicalexamination"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-106">
-        <addPrimaryKey columnNames="id" constraintName="PKMEDICINE" tableName="medicine"/>
+        <addPrimaryKey columnNames="id" constraintName="PKproduct" tableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-107">
         <addPrimaryKey columnNames="id" constraintName="PKMEDICINECOMPONENT" tableName="medicinecomponent"/>
@@ -2114,9 +2088,11 @@
     <changeSet author="rmemoria" id="1433264274749-136">
         <addPrimaryKey columnNames="id" constraintName="PKTBCONTACT" tableName="tbcontact"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-137">
         <addPrimaryKey columnNames="id" constraintName="PKTBUNIT" tableName="tbunit"/>
     </changeSet>
+-->
     <changeSet author="rmemoria" id="1433264274749-138">
         <addPrimaryKey columnNames="id" constraintName="PKTRANSLOG" tableName="transactionlog"/>
     </changeSet>
@@ -2139,7 +2115,7 @@
         <addPrimaryKey columnNames="id" constraintName="PKUSERLOG" tableName="userlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-145">
-        <addPrimaryKey columnNames="id" constraintName="PKUSERLOGIN" tableName="userlogin"/>
+        <addPrimaryKey columnNames="id" constraintName="PKUSERLOGIN" tableName="usersession"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-146">
         <addPrimaryKey columnNames="id" constraintName="PKUSERPERM" tableName="userpermission"/>
@@ -2168,9 +2144,6 @@
     <changeSet author="rmemoria" id="1433264274749-154">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="resistancepattern" constraintName="FK12719137B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-155">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="resistancepattern" constraintName="FK12719137E0BC8241" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-156">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="prescribedmedicine" constraintName="FK142181D11CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
@@ -2178,22 +2151,22 @@
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-158">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="prescribedmedicine" constraintName="FK142181D1BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-159">
-        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="examdst" constraintName="FK145D010666A4104C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
+        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="examdst" constraintName="FK145D010666A4104C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-160">
         <addForeignKeyConstraint baseColumnNames="METHOD_ID" baseTableName="examdst" constraintName="FK145D01068861542" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-161">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="userlogin" constraintName="FK14F1AA7EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="usersession" constraintName="FK14F1AA7EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-161.2">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="batch" constraintName="FKBATCHWS" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-162">
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="userlogin" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="usersession" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
 <!--
     <changeSet author="rmemoria" id="1433264274749-163">
@@ -2233,9 +2206,6 @@
     <changeSet author="rmemoria" id="1433264274749-174">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="sequenceinfo" constraintName="FK302E13EFB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-175">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="sequenceinfo" constraintName="FK302E13EFE0BC8241" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-176">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="countrystructure" constraintName="FK31DFFE9DB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
@@ -2255,7 +2225,7 @@
         <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="administrativeunit" constraintName="FK3B6F13B2D19C2BC5" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-182">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA671E04A4B" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA671E04A4B" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-183">
         <addForeignKeyConstraint baseColumnNames="WORKSPACELOG_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA67EB849D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspacelog"/>
@@ -2270,7 +2240,7 @@
         <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA6CEDEEA7C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-188">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-189">
         <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userworkspace" constraintName="FK3FB6152A7730850C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
@@ -2297,13 +2267,13 @@
         <addForeignKeyConstraint baseColumnNames="DISPENSING_ID" baseTableName="batchdispensing" constraintName="FK4342D194BA967077" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinedispensing"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-197">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID_TO" baseTableName="transfer" constraintName="FK4C58B7EB19ADE639" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID_TO" baseTableName="transfer" constraintName="FK4C58B7EB19ADE639" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-198">
         <addForeignKeyConstraint baseColumnNames="USER_TO_ID" baseTableName="transfer" constraintName="FK4C58B7EB36816019" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-199">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID_FROM" baseTableName="transfer" constraintName="FK4C58B7EB5198C928" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID_FROM" baseTableName="transfer" constraintName="FK4C58B7EB5198C928" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-200">
         <addForeignKeyConstraint baseColumnNames="USER_FROM_ID" baseTableName="transfer" constraintName="FK4C58B7EBFAA5A18A" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
@@ -2315,16 +2285,16 @@
         <addForeignKeyConstraint baseColumnNames="RECEIVING_ID" baseTableName="movements_receiving" constraintName="FK50CB605D418CD1D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinereceiving"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-203">
-        <addForeignKeyConstraint baseColumnNames="UNIT_TO_ID" baseTableName="medicineorder" constraintName="FK51C005541A4DE779" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_TO_ID" baseTableName="medicineorder" constraintName="FK51C005541A4DE779" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-204">
         <addForeignKeyConstraint baseColumnNames="USER_CREATOR_ID" baseTableName="medicineorder" constraintName="FK51C0055464EE6730" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-205">
-        <addForeignKeyConstraint baseColumnNames="AUTHORIZER_UNIT_ID" baseTableName="medicineorder" constraintName="FK51C00554B8652DB5" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="AUTHORIZER_UNIT_ID" baseTableName="medicineorder" constraintName="FK51C00554B8652DB5" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-206">
-        <addForeignKeyConstraint baseColumnNames="UNIT_FROM_ID" baseTableName="medicineorder" constraintName="FK51C00554CBAE4EAA" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_FROM_ID" baseTableName="medicineorder" constraintName="FK51C00554CBAE4EAA" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-208">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="agerange" constraintName="FK57C1879EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
@@ -2333,7 +2303,7 @@
         <addForeignKeyConstraint baseColumnNames="RECEIVINGITEM_ID" baseTableName="batch" constraintName="FK592D73A76AA9ADD" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinereceivingitem"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-210">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="batch" constraintName="FK592D73ABC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="batch" constraintName="FK592D73ABC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-211">
         <addForeignKeyConstraint baseColumnNames="BATCH_ID" baseTableName="batchmovement" constraintName="FK5E1EFDE93B281F77" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="batch"/>
@@ -2345,7 +2315,7 @@
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E71CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-214">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-215">
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7FB9ECED7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="regimen"/>
@@ -2381,7 +2351,7 @@
         <addForeignKeyConstraint baseColumnNames="DISPENSING_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BA967077" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinedispensing"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-226">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicinedispensingitem" constraintName="FK6B7CA1A7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-227">
         <addForeignKeyConstraint baseColumnNames="PRESENTATION_ID" baseTableName="examxray" constraintName="FK7380D5517EA8371A" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
@@ -2393,7 +2363,7 @@
         <addForeignKeyConstraint baseColumnNames="LOCALIZATION_ID" baseTableName="examxray" constraintName="FK7380D551D089CB3B" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-230">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="medicinedispensing" constraintName="FK746D909471E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="medicinedispensing" constraintName="FK746D909471E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-231">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="userprofile" constraintName="FK7857D37E798D9E5B" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="transactionlog"/>
@@ -2401,9 +2371,7 @@
     <changeSet author="rmemoria" id="1433264274749-232">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="userprofile" constraintName="FK7857D37EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-233">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="userprofile" constraintName="FK7857D37EE0BC8241" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-234">
         <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="examdstresult" constraintName="FK786720E396FA537" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>
@@ -2423,7 +2391,7 @@
         <addForeignKeyConstraint baseColumnNames="MOV_IN_ID" baseTableName="transferitem" constraintName="FK8046457EA6DF751C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-240">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="transferitem" constraintName="FK8046457EBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="transferitem" constraintName="FK8046457EBC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-241">
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_ID" baseTableName="medicinereceivingitem" constraintName="FK806185F94E21F23D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
@@ -2435,7 +2403,7 @@
         <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="medicinecomponent" constraintName="FK80E3280396FA537" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-244">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="medicinecomponent" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicinecomponent" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-245">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prevtbtreatment" constraintName="FK824DD5B7A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2504,19 +2472,19 @@
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="examhiv" constraintName="FKB124F316A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-268">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="laboratory" constraintName="FKB9066FB3B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="unit" constraintName="FKB9066FB3B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-269">
-        <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="laboratory" constraintName="FKB9066FB3CEDEEA7C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
+        <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="unit" constraintName="FKB9066FB3CEDEEA7C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-270"  dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="exammicroscopy" constraintName="FKC6929FC366A4104C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
+        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="exammicroscopy" constraintName="FKC6929FC366A4104C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-271">
         <addForeignKeyConstraint baseColumnNames="METHOD_ID" baseTableName="exammicroscopy" constraintName="FKC6929FC38861542" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-272">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="medicine" constraintName="FKCA50563AB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="product" constraintName="FKCA50563AB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-273">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="source" constraintName="FKCA90681BB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
@@ -2528,13 +2496,13 @@
         <addForeignKeyConstraint baseColumnNames="CURR_ADMINUNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E3352AF69" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-276" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="OWNER_UNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E45C57184" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="OWNER_UNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E45C57184" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-277">
         <addForeignKeyConstraint baseColumnNames="EXTRAPULMONARY_ID" baseTableName="tbcase" constraintName="FKCB85A29E5FA64001" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-278" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="NOTIFICATION_UNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E7DB45EF7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="NOTIFICATION_UNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E7DB45EF7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-279" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="PATIENT_ID" baseTableName="tbcase" constraintName="FKCB85A29E8B5B7C57" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="patient"/>
@@ -2555,28 +2523,28 @@
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="tbcase" constraintName="FKCB85A29EFB9ECED7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-285" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-285" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" onDelete="CASCADE" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" onDelete="CASCADE" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-286" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="tbunit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tbunit" onDelete="SET NULL"/>
+        <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="unit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-286" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="tbunit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="tbunit" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="unit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit" onDelete="CASCADE"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-287">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="tbunit" constraintName="FKCB8E00F2B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="unit" constraintName="FKCB8E00F2B3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-288">
-        <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="tbunit" constraintName="FKCB8E00F2CEDEEA7C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
+        <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="unit" constraintName="FKCB8E00F2CEDEEA7C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-289" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="tbunit" onDelete="SET NULL"/>
+        <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-289" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="tbunit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="tbunit" onDelete="CASCADE"/>
+        <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="unit" onDelete="CASCADE"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-293">
         <addForeignKeyConstraint baseColumnNames="ResistancePattern_id" baseTableName="substances_resistpattern" constraintName="FKCFDF2E2A489C06B7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>
@@ -2603,13 +2571,13 @@
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_OUT_ID" baseTableName="orderitem" constraintName="FKE8B2AB618F3F74CE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-301">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="orderitem" constraintName="FKE8B2AB61BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="orderitem" constraintName="FKE8B2AB61BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-302">
         <addForeignKeyConstraint baseColumnNames="ORDER_ID" baseTableName="orderitem" constraintName="FKE8B2AB61EA7336F7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicineorder"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-303">
-        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="examculture" constraintName="FKEC4E0CAF43A836FD" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
+        <addForeignKeyConstraint baseColumnNames="LABORATORY_ID" baseTableName="examculture" constraintName="FKEC4E0CAF43A836FD" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-304">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="examculture" constraintName="FKEC4E0CAFA3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2630,7 +2598,7 @@
         <addForeignKeyConstraint baseColumnNames="USERPROFILE_ID" baseTableName="systemconfig" constraintName="FKF20356312D576F17" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="userprofile"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-308" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="systemconfig" constraintName="FKF20356316515C41D" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="systemconfig" constraintName="FKF20356316515C41D" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-309" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="systemconfig" constraintName="FKF2035631B3B1717" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="workspace"/>
@@ -2645,10 +2613,10 @@
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicinereceiving" constraintName="FKFE056DE61CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-313">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="medicinereceiving" constraintName="FKFE056DE671E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="medicinereceiving" constraintName="FKFE056DE671E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-314">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="treatmenthealthunit" constraintName="FKFE22905871E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="treatmenthealthunit" constraintName="FKFE22905871E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-315">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="treatmenthealthunit" constraintName="FKFE229058A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2657,10 +2625,10 @@
         <addForeignKeyConstraint baseColumnNames="ADJUSTMENT_ID" baseTableName="movement" constraintName="FKMOVFIELD" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-317" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-317" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="medicine"/>
+        <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="movement" constraintName="FKMOVMED" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-318" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="movement" constraintName="FKMOVSOURCE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
@@ -2669,10 +2637,10 @@
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="movement" constraintName="FKMOVSOURCE" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-319" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="movement" constraintName="FKMOVUNIT" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="movement" constraintName="FKMOVUNIT" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-319" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="movement" constraintName="FKMOVUNIT" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="movement" constraintName="FKMOVUNIT" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-320">
         <addForeignKeyConstraint baseColumnNames="SHIP_ADMINUNIT_ID" baseTableName="medicineorder" constraintName="FKORDERSHIPADM" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
@@ -2720,20 +2688,22 @@
         <addForeignKeyConstraint baseColumnNames="case_id" baseTableName="examrequest" constraintName="FK_reqcase" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-334" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="laboratory_id" baseTableName="examrequest" constraintName="FK_reqlab" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
+        <addForeignKeyConstraint baseColumnNames="laboratory_id" baseTableName="examrequest" constraintName="FK_reqlab" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-334" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="laboratory_id" baseTableName="examrequest" constraintName="FK_reqlab" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="laboratory"/>
+        <addForeignKeyConstraint baseColumnNames="laboratory_id" baseTableName="examrequest" constraintName="FK_reqlab" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-335" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="examrequest" constraintName="FK_requnit" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="examrequest" constraintName="FK_requnit" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-336" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="ship_adminunit_id" baseTableName="tbunit" constraintName="FK_unit_shipau" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="administrativeunit"/>
+        <addForeignKeyConstraint baseColumnNames="ship_adminunit_id" baseTableName="unit" constraintName="FK_unit_shipau" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-336" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="ship_adminunit_id" baseTableName="tbunit" constraintName="FK_unit_shipau" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
+        <addForeignKeyConstraint baseColumnNames="ship_adminunit_id" baseTableName="unit" constraintName="FK_unit_shipau" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
+    -->
     <changeSet author="rmemoria" id="1433264274749-337">
         <addForeignKeyConstraint baseColumnNames="id" baseTableName="workspaceview" constraintName="FK_workspaceview_WS" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
@@ -2746,182 +2716,84 @@
     <changeSet author="rmemoria" id="1433264274749-340">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="administrativeunit" constraintName="fk_administrativeunit_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-341">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="administrativeunit" constraintName="fk_administrativeunit_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-342">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="agerange" constraintName="fk_agerange_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-343">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="agerange" constraintName="fk_agerange_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-344" dbms="mysq">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="countrystructure" constraintName="fk_countrystructure_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-345" dbms="mysq">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="countrystructure" constraintName="fk_countrystructure_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-344" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="countrystructure" constraintName="fk_countrystructure_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-345" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="countrystructure" constraintName="fk_countrystructure_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-346">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examculture" constraintName="fk_examculture_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-347">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examculture" constraintName="fk_examculture_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-348">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examdst" constraintName="fk_examdst_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-349">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examdst" constraintName="fk_examdst_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-350">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examhiv" constraintName="fk_examhiv_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-351">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examhiv" constraintName="fk_examhiv_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-352" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="exammicroscopy" constraintName="fk_exammicroscopy_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-353" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="exammicroscopy" constraintName="fk_exammicroscopy_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-352" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="exammicroscopy" constraintName="fk_exammicroscopy_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-353" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="exammicroscopy" constraintName="fk_exammicroscopy_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-354" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examxray" constraintName="fk_examxray_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-355" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examxray" constraintName="fk_examxray_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-354" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examxray" constraintName="fk_examxray_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-355" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examxray" constraintName="fk_examxray_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-356" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="fieldvalue" constraintName="fk_fieldvalue_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-357" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="fieldvalue" constraintName="fk_fieldvalue_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-356" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="fieldvalue" constraintName="fk_fieldvalue_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-357" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="fieldvalue" constraintName="fk_fieldvalue_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-360" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="laboratory" constraintName="fk_laboratory_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-361" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="laboratory" constraintName="fk_laboratory_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
+        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="unit" constraintName="fk_unit_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-360" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="laboratory" constraintName="fk_laboratory_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-361" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="laboratory" constraintName="fk_laboratory_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
+        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="unit" constraintName="fk_unit_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-362" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="medicalexamination" constraintName="fk_medicalexamination_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-363" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="medicalexamination" constraintName="fk_medicalexamination_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-362" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="medicalexamination" constraintName="fk_medicalexamination_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-363" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="medicalexamination" constraintName="fk_medicalexamination_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-364">
-        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="medicine" constraintName="fk_medicine_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-365">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="medicine" constraintName="fk_medicine_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
+        <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="product" constraintName="fk_product_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-366">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="patient" constraintName="fk_patient_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-367">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="patient" constraintName="fk_patient_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-368">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="regimen" constraintName="fk_regimen_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-369">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="regimen" constraintName="fk_regimen_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-370">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="source" constraintName="fk_source_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-371">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="source" constraintName="fk_source_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-372">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="substance" constraintName="fk_substance_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-373">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_id" baseTableName="substance" constraintName="fk_substance_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-374" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="sys_user" constraintName="fk_sys_user_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-375" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="sys_user" constraintName="fk_sys_user_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-374" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="sys_user" constraintName="fk_sys_user_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-375" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="sys_user" constraintName="fk_sys_user_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-376">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="tag" constraintName="fk_tag_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-377">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="tag" constraintName="fk_tag_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-378" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="CREATETRANSACTION_ID" baseTableName="tbcase" constraintName="fk_tbcase_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-378" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="CREATETRANSACTION_ID" baseTableName="tbcase" constraintName="fk_tbcase_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-379" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="tbcontact" constraintName="fk_tbcontact_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-380" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="tbcontact" constraintName="fk_tbcontact_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-379" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="tbcontact" constraintName="fk_tbcontact_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-380" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="tbcontact" constraintName="fk_tbcontact_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-381" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="tbunit" constraintName="fk_tbunit_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-382" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="tbunit" constraintName="fk_tbunit_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-381" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="tbunit" constraintName="fk_tbunit_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-382" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="tbunit" constraintName="fk_tbunit_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-383">
         <addForeignKeyConstraint baseColumnNames="case_id" baseTableName="treatmentmonitoring" constraintName="fk_treatmonit_case" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2932,14 +2804,8 @@
     <changeSet author="rmemoria" id="1433264274749-385" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="workspace" constraintName="fk_workspace_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-386" dbms="mysql">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="workspace" constraintName="fk_workspace_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="SET NULL" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-385" dbms="derby">
         <addForeignKeyConstraint baseColumnNames="lasttransaction_id" baseTableName="workspace" constraintName="fk_workspace_transactionlog1" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-386" dbms="derby">
-        <addForeignKeyConstraint baseColumnNames="createtransaction_id" baseTableName="workspace" constraintName="fk_workspace_transactionlog2" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-387">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="casecomorbidity" constraintName="fkcasecom_lasttx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transactionlog"/>
@@ -2951,7 +2817,7 @@
         <addForeignKeyConstraint baseColumnNames="case_id" baseTableName="issue" constraintName="fkissue_case" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-390">
-        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="issue" constraintName="fkissue_unit" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="issue" constraintName="fkissue_unit" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-391">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="issue" constraintName="fkissue_user" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
@@ -2960,7 +2826,7 @@
         <addForeignKeyConstraint baseColumnNames="issue_id" baseTableName="issuefollowup" constraintName="fkissuefollowup_issue" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="issue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-393">
-        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="issuefollowup" constraintName="fkissuefollowup_unit" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
+        <addForeignKeyConstraint baseColumnNames="unit_id" baseTableName="issuefollowup" constraintName="fkissuefollowup_unit" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-394">
         <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="issuefollowup" constraintName="fkissuefollowup_user" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
@@ -2971,9 +2837,6 @@
     <changeSet author="rmemoria" id="1433264274749-396">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="treatmenthealthunit" constraintName="fktreathu_lasttx" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-397">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="userworkspace" constraintName="fkuserworkspace_createtx" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-398">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="userworkspace" constraintName="fkuserworkspace_lasttx" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="transactionlog"/>
     </changeSet>
@@ -2981,10 +2844,7 @@
         <addForeignKeyConstraint baseColumnNames="case_ID" baseTableName="examxpert" constraintName="genex_case_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-400">
-        <addForeignKeyConstraint baseColumnNames="laboratory_ID" baseTableName="examxpert" constraintName="genex_lab_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="laboratory"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-401">
-        <addForeignKeyConstraint baseColumnNames="createTransaction_ID" baseTableName="examxpert" constraintName="genex_transnew_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transactionlog"/>
+        <addForeignKeyConstraint baseColumnNames="laboratory_ID" baseTableName="examxpert" constraintName="genex_lab_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-402">
         <addForeignKeyConstraint baseColumnNames="lastTransaction_ID" baseTableName="examxpert" constraintName="genex_transupdt_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transactionlog"/>

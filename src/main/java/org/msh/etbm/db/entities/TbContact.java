@@ -12,8 +12,6 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
-@DiscriminatorValue("gen")
 @Table(name="tbcontact")
 public class TbContact implements Transactional {
 	private static final long serialVersionUID = -6862380284209711375L;

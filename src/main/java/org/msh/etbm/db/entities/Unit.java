@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by rmemoria on 29/6/15.
  */
+@Entity
 @Table(name = "unit")
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Hello from './component.jsx';
-import Request from 'superAgent';
+import Http from './commons/http';
 
 
 /**
@@ -43,9 +43,9 @@ var Main = React.createClass({
 // load the style sheet in use
 require('../styles/theme.css');
 
+
 // get system information
-Request
-	.get('/api/sys/info')
+Http.get('/api/sys/info')
 	.end(function(err, res) {
 		if (err) {
 			alert('Error: ' + err);

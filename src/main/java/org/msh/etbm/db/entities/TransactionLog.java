@@ -5,6 +5,7 @@ import org.msh.etbm.commons.transactionlog.RoleAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Register a transaction that happened in the system. A transaction is anything
@@ -21,7 +22,7 @@ public class TransactionLog {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="ROLE_ID")
@@ -132,14 +133,14 @@ public class TransactionLog {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

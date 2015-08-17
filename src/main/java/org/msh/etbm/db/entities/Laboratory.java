@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
+@DiscriminatorValue("lab")
 public class Laboratory extends Unit {
 
     private boolean performCulture;

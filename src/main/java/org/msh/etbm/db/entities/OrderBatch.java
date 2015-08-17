@@ -66,14 +66,7 @@ public class OrderBatch implements Serializable {
 		this.orderItem = orderItem;
 	}
 	
-	/**
-	 * Return received quantity of containers
-	 */
-	public int getNumContainersRec(){
-		int quantityContainer = batch.getQuantityContainer();
-		return (quantityContainer > 0)? (int) Math.ceil((double) receivedQuantity / (double) quantityContainer): 0;
-	}
-	
+
 	public void setNumContainersRec(int numContainersRec){
 		return;
 	}

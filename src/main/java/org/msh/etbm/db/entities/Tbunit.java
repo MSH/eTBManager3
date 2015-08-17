@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
+@DiscriminatorValue("unit")
 public class Tbunit extends Unit {
 
 	@ManyToOne(fetch= FetchType.LAZY)

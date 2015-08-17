@@ -19,10 +19,8 @@ import java.util.Date;
  */
 
 @Entity
-@Table(name="userlogin")
-public class UserLogin implements java.io.Serializable {
-    
-	private static final long serialVersionUID = -6513121479803870524L;
+@Table(name="usersession")
+public class UserSession {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)

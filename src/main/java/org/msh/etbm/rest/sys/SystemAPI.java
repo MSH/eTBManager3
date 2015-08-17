@@ -1,8 +1,10 @@
 package org.msh.etbm.rest.sys;
 
+import org.msh.etbm.rest.authentication.AuthConstants;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +25,10 @@ public class SystemAPI {
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
-    public SystemInformation getInformation() {
+    public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME) String authToken) {
+        if (authToken != null) {
+
+        }
         return systemService.getInformation();
     }
 }
