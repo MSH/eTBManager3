@@ -16,10 +16,7 @@ import org.msh.etbm.db.enums.UserState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 
 /**
@@ -27,25 +24,24 @@ import java.util.Locale;
  * @author Ricardo Memoria
  */
 @Entity
-@Table(name="sys_user")
-public class User implements java.io.Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name="user")
+public class User {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     
     @Column(length=30)
 	@NotNull
 	@PropertyLog(operations={Operation.NEW})
     private String login;
     
-    @Column(length=80, name="user_name")
+    @Column(length=80)
 	@NotNull
 	@PropertyLog(operations={Operation.NEW})
     private String name;
 
-    @Column(length=32, name="user_password")
+    @Column(length=32)
 	@NotNull
 	@PropertyLog(ignore=true)
     private String password;
@@ -84,7 +80,7 @@ public class User implements java.io.Serializable {
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 	
 
 	private boolean sendSystemMessages;
@@ -154,7 +150,7 @@ public class User implements java.io.Serializable {
      * Return the user ID
      * @return user ID
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -163,7 +159,7 @@ public class User implements java.io.Serializable {
      * Set the user id
      * @param id new user id
      */
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -297,25 +293,15 @@ public class User implements java.io.Serializable {
 		return registrationDate;
 	}
 
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
-
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
-
-
-
-	/**
+    /**
 	 * @return the sendSystemMessages
 	 */
 	public boolean isSendSystemMessages() {

@@ -28,7 +28,7 @@ public abstract class Unit extends WSObject implements EntityState {
 
     @Column(length=50)
     @PropertyLog(messageKey="global.legacyId")
-    private String legacyId;
+    private String customId;
 
     @PropertyLog(messageKey="EntityState.ACTIVE")
     private boolean active;
@@ -62,7 +62,7 @@ public abstract class Unit extends WSObject implements EntityState {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="address", column=@Column(name="shipAddress")),
-            @AttributeOverride(name="shipAddressCont", column=@Column(name="shipAddressCompl")),
+            @AttributeOverride(name="complement", column=@Column(name="shipAddressCompl")),
             @AttributeOverride(name="zipCode", column=@Column(name="shipZipCode")),
     })
     @AssociationOverrides({
@@ -87,12 +87,12 @@ public abstract class Unit extends WSObject implements EntityState {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getLegacyId() {
-        return legacyId;
+    public String getCustomId() {
+        return customId;
     }
 
-    public void setLegacyId(String legacyId) {
-        this.legacyId = legacyId;
+    public void setCustomId(String customId) {
+        this.customId = customId;
     }
 
     @Override

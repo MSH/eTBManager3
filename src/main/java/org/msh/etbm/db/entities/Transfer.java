@@ -8,16 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="transfer")
-public class Transfer implements Serializable {
-	private static final long serialVersionUID = 6722896746113875613L;
+public class Transfer  {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull
@@ -68,11 +68,11 @@ public class Transfer implements Serializable {
 		return (id != null? id.toString() : super.toString());
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

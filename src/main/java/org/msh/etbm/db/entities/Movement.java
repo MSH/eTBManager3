@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Stores information about a medicine transaction
@@ -21,7 +22,7 @@ public class Movement {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="mov_date")
@@ -31,9 +32,9 @@ public class Movement {
 	private MovementType type;
 	
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name="PRODUCT_ID")
 	@NotNull
-	private Medicine medicine;
+	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name="UNIT_ID")
@@ -144,7 +145,7 @@ public class Movement {
 	 * Returns the unique id of the transaction
 	 * @return Integer instance representing the id of the transaction
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
@@ -153,24 +154,8 @@ public class Movement {
 	 * Changes the id of the transaction
 	 * @param id to be changed
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	/**
-	 * Returns the medicine of the transaction
-	 * @return instance of the Medicine class
-	 */
-	public Medicine getMedicine() {
-		return medicine;
-	}
-
-	/**
-	 * Changes the medicine of the transaction
-	 * @param medicine - new medicine of the transaction 
-	 */
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
 	}
 
 	/**
@@ -267,4 +252,11 @@ public class Movement {
 			return false;
 	}
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

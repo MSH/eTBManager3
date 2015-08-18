@@ -2,6 +2,7 @@ package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name="errorlog")
@@ -9,7 +10,7 @@ public class ErrorLog {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date errorDate;
@@ -24,9 +25,9 @@ public class ErrorLog {
 	private String url;
 
 	@Column(length=100)
-	private String user;
+	private String userName;
 	
-	private Integer userId;
+	private UUID userId;
 	
 	@Lob
 	private String stackTrace;
@@ -40,14 +41,14 @@ public class ErrorLog {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -82,28 +83,28 @@ public class ErrorLog {
 	/**
 	 * @return the user
 	 */
-	public String getUser() {
-		return user;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(String user) {
-		this.user = user;
+	public void setUserName(String user) {
+		this.userName = userName;
 	}
 
 	/**
 	 * @return the userId
 	 */
-	public Integer getUserId() {
+	public UUID getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(Integer userId) {
+	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 

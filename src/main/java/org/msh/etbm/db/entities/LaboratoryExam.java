@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -24,7 +25,7 @@ public abstract class LaboratoryExam implements Transactional {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
 
 	@Temporal(TemporalType.DATE)
@@ -49,7 +50,7 @@ public abstract class LaboratoryExam implements Transactional {
     @JoinColumn(name="request_id")
     private ExamRequest request;
 
-	@Column(length=250)
+	@Lob
 	@PropertyLog(messageKey="global.comments")
 	private String comments;
 
@@ -200,14 +201,14 @@ public abstract class LaboratoryExam implements Transactional {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

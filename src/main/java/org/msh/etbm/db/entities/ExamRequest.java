@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Store information about an exam request registered in the laboratory
@@ -17,7 +18,7 @@ public class ExamRequest {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date requestDate;
@@ -52,11 +53,11 @@ public class ExamRequest {
     @OneToMany(mappedBy = "request")
     private List<ExamXpert> examsXpert = new ArrayList<ExamXpert>();
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

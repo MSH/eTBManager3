@@ -14,8 +14,7 @@ import java.io.Serializable;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name="examculture")
-public class ExamCulture extends LaboratoryExam implements Serializable {
-	private static final long serialVersionUID = 1470269499087718301L;
+public class ExamCulture extends LaboratoryExam {
 
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private CultureResult result;

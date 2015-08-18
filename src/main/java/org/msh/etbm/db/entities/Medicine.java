@@ -12,10 +12,6 @@ import java.util.List;
 @DiscriminatorValue("med")
 public class Medicine extends Product {
 
-	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
-
 	private MedicineCategory category;
 	
 	private MedicineLine line;
@@ -55,20 +51,6 @@ public class Medicine extends Product {
 
 	public void setLine(MedicineLine line) {
 		this.line = line;
-	}
-
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
-
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
 	}
 
 	public void setComponents(List<MedicineComponent> components) {

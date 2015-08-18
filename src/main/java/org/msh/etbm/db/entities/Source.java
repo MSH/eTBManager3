@@ -11,18 +11,18 @@ import java.util.UUID;
 
 @Entity
 @Table(name="source")
-public class Source extends WSObject implements Serializable {
-	private static final long serialVersionUID = -8115568635572935159L;
+public class Source extends WSObject  {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
+    @Column(length = 100)
 	private String name;
 
 	@PropertyLog(messageKey="form.abbrevName", operations={Operation.NEW, Operation.DELETE})
-	private String abbrevName;
+	private String shortName;
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId", operations={Operation.NEW, Operation.DELETE})
-	private String legacyId;
+	private String customId;
 
 	public String getName() {
 		return name;
@@ -32,31 +32,19 @@ public class Source extends WSObject implements Serializable {
 		this.name = name;
 	}
 
-	/**
-	 * @return the abbrevName
-	 */
-	public String getAbbrevName() {
-		return abbrevName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	/**
-	 * @param abbrevName the abbrevName to set
-	 */
-	public void setAbbrevName(String abbrevName) {
-		this.abbrevName = abbrevName;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 }

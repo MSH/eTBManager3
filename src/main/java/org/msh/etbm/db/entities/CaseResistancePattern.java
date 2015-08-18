@@ -2,6 +2,7 @@ package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Store the resistance patterns of a case from the DST and Xpert exam tests
@@ -15,7 +16,7 @@ public class CaseResistancePattern {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
 	/**
 	 * The TB case 
@@ -36,7 +37,7 @@ public class CaseResistancePattern {
 	 * true if it's a pattern presented in the diagnostic, or false if it's
 	 * a resistance pattern of the treatment
 	 */
-	private boolean diagnostic;
+	private boolean diagnosis;
 
 	/**
 	 * @return the tbcase
@@ -65,25 +66,25 @@ public class CaseResistancePattern {
 	/**
 	 * @return the diagnostic
 	 */
-	public boolean isDiagnostic() {
-		return diagnostic;
+	public boolean isDiagnosis() {
+		return diagnosis;
 	}
 	/**
-	 * @param diagnostic the diagnostic to set
+	 * @param diagnosis set the diagnosis
 	 */
-	public void setDiagnostic(boolean diagnostic) {
-		this.diagnostic = diagnostic;
+	public void setDiagnosis(boolean diagnosis) {
+		this.diagnosis = diagnosis;
 	}
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 }

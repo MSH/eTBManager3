@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
@@ -18,7 +19,7 @@ public class TbContact implements Transactional {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="CASE_ID")
@@ -84,14 +85,14 @@ public class TbContact implements Transactional {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

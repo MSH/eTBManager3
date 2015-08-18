@@ -8,17 +8,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="medicinereceiving")
-public class MedicineReceiving implements Serializable {
-	private static final long serialVersionUID = -4879291745573056893L;
+@Table(name="productreceiving")
+public class ProductReceiving {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="UNIT_ID")
@@ -37,7 +37,7 @@ public class MedicineReceiving implements Serializable {
 	@Lob
 	private String comments;
 	
-	private double totalPrice;
+	private float totalPrice;
 	
 	@ManyToMany
 	@JoinTable(name="movements_receiving",
@@ -48,12 +48,12 @@ public class MedicineReceiving implements Serializable {
 	
 	/**
 	 * Search for a movement by its medicine
-	 * @param med
+	 * @param prod the product to find the movement from
 	 * @return
 	 */
-	public Movement movementByMedicine(Medicine med) {
+	public Movement movementByProduct(Product prod) {
 		for (Movement mov: movements) {
-			if (mov.getMedicine().equals(med))
+			if (mov.getProduct().equals(prod))
 				return mov;
 		}
 		return null;
@@ -68,11 +68,11 @@ public class MedicineReceiving implements Serializable {
 	}
 
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -131,14 +131,14 @@ public class MedicineReceiving implements Serializable {
 	/**
 	 * @return the totalPrice
 	 */
-	public double getTotalPrice() {
+	public float getTotalPrice() {
 		return totalPrice;
 	}
 
 	/**
 	 * @param totalPrice the totalPrice to set
 	 */
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 

@@ -4,6 +4,7 @@ import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
 @Table(name="sequenceinfo")
@@ -11,7 +12,7 @@ public class SequenceInfo {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@Column(name="seq_name", length=50)
 	@NotNull
@@ -28,11 +29,11 @@ public class SequenceInfo {
 	@PropertyLog(ignore=true)
 	private Workspace workspace;
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

@@ -7,6 +7,7 @@ import org.msh.etbm.db.Transactional;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Base entity class where other classes inherit from to store case data
@@ -20,7 +21,7 @@ public class CaseData implements Transactional {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="EVENT_DATE")
@@ -80,11 +81,11 @@ public class CaseData implements Transactional {
 	}
 
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

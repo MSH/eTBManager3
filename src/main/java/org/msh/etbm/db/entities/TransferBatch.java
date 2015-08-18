@@ -3,15 +3,15 @@ package org.msh.etbm.db.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table(name="transferbatch")
-public class TransferBatch implements Serializable {
-	private static final long serialVersionUID = -3578501257933133181L;
+public class TransferBatch {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="BATCH_ID")
@@ -47,11 +47,11 @@ public class TransferBatch implements Serializable {
 		this.quantityReceived = quantityReceived;
 	}
 	
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

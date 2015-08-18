@@ -28,7 +28,7 @@ public class Tag extends WSObject implements Serializable {
 
 	public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
 
-	@Column(name="tag_name", length=100)
+	@Column(length=100)
 	@NotNull
 	@PropertyLog(messageKey="form.name")
 	private String name;

@@ -37,25 +37,15 @@ public class SystemConfig {
 	private UserProfile userProfile;
 	
 	@ManyToOne
-	@JoinColumn(name="TBUNIT_ID")
+	@JoinColumn(name="UNIT_ID")
 	private Tbunit tbunit;
 	
 	@Column(length=100)
 	private String adminMail;
 
-	// used to control system version number and database version number
-	private Integer buildVersion;
-	
-	private Integer buildNumber;
-
-    @Lob
-    private String otherLinks;
 
     @Column(length = 250)
     private String updateSite;
-
-    @Column(length = 250)
-    private String jbossPath;
 
     @ManyToOne
     @JoinColumn(name="PUBDS_WORKSPACE_ID")
@@ -173,40 +163,6 @@ public class SystemConfig {
 		this.adminMail = adminMail;
 	}
 
-/*
-	@Override
-	public String toString() {
-		return Messages.instance().get("admin.syssetup");
-	}
-*/
-
-	/**
-	 * @return the buildVersion
-	 */
-	public Integer getBuildVersion() {
-		return buildVersion;
-	}
-
-	/**
-	 * @param buildVersion the buildVersion to set
-	 */
-	public void setBuildVersion(Integer buildVersion) {
-		this.buildVersion = buildVersion;
-	}
-
-	/**
-	 * @return the buildNumber
-	 */
-	public Integer getBuildNumber() {
-		return buildNumber;
-	}
-
-	/**
-	 * @param buildNumber the buildNumber to set
-	 */
-	public void setBuildNumber(Integer buildNumber) {
-		this.buildNumber = buildNumber;
-	}
 
 	/**
 	 * @return the pageRootURL
@@ -222,13 +178,6 @@ public class SystemConfig {
 		this.pageRootURL = pageRootURL;
 	}
 
-    public String getOtherLinks() {
-        return otherLinks;
-    }
-
-    public void setOtherLinks(String otherLinks) {
-        this.otherLinks = otherLinks;
-    }
 
     public String getUpdateSite() {
         return updateSite;
@@ -236,14 +185,6 @@ public class SystemConfig {
 
     public void setUpdateSite(String updateSite) {
         this.updateSite = updateSite;
-    }
-
-    public String getJbossPath() {
-        return jbossPath;
-    }
-
-    public void setJbossPath(String jbossPath) {
-        this.jbossPath = jbossPath;
     }
 
     public Workspace getPubDashboardWorkspace() {

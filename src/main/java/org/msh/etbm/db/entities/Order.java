@@ -9,15 +9,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@Table(name="medicineorder")
-public class Order implements Serializable {
-	private static final long serialVersionUID = 2113860266433650022L;
+@Table(name="productorder")
+public class Order {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -63,7 +63,7 @@ public class Order implements Serializable {
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 	
 	@Column(length=200)
 	private String shipAddress;
@@ -121,11 +121,11 @@ public class Order implements Serializable {
 		this.shippingDate = shippingDate;
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -217,21 +217,15 @@ public class Order implements Serializable {
 		this.authorizer = authorizer;
 	}
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
-	/**
+    /**
 	 * @return the shipAddress
 	 */
 	public String getShipAddress() {

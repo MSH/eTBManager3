@@ -27,7 +27,7 @@ public class AdministrativeUnit extends WSObject {
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 	
 	// properties to help dealing with trees
 	private int unitsCount;
@@ -254,23 +254,17 @@ public class AdministrativeUnit extends WSObject {
 		this.units = units;
 	}
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @param legacyCode the legacyId to set
-	 */
-	public void setLegacyId(String legacyCode) {
-		this.legacyId = legacyCode;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+    /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
 	@Override
 	public String toString() {
 		return getFullDisplayName();

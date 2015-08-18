@@ -13,8 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="userprofile")
-public class UserProfile extends WSObject implements Serializable, Comparable<UserProfile> {
-	private static final long serialVersionUID = -1798192936426485144L;
+public class UserProfile extends WSObject implements Comparable<UserProfile> {
 
 	@Column(length=100)
 	@NotNull
@@ -26,7 +25,7 @@ public class UserProfile extends WSObject implements Serializable, Comparable<Us
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 
 
 	public UserPermission permissionByRole(UserRole role, CaseClassification classif) {
@@ -60,17 +59,11 @@ public class UserProfile extends WSObject implements Serializable, Comparable<Us
 		this.permissions = permissions;
 	}
 
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 }

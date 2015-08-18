@@ -17,14 +17,11 @@ import java.util.Date;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
-@DiscriminatorValue("gen")
 @Table(name="medicalexamination")
 public class MedicalExamination extends CaseData {
 
 	@PropertyLog(operations={Operation.NEW})
-	private Double weight;
+	private Float weight;
 	
 	@PropertyLog(operations={Operation.NEW})
 	private Float height;
@@ -150,11 +147,11 @@ public class MedicalExamination extends CaseData {
 		return (weight == null? 0: weight/(h*h)); 
 	}
 	
-	public Double getWeight() {
+	public Float getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Double weight) {
+	public void setWeight(Float weight) {
 		this.weight = weight;
 	}
 

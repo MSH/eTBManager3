@@ -5,13 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
 @Table(name="userlog")
 public class UserLog {
 
 	@Id
-	private Integer id;
+	private UUID id;
 
 	@Column(length=100)
 	@NotNull
@@ -20,14 +21,14 @@ public class UserLog {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

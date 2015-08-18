@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Store information about an issue created, optionally, to a TB case.
@@ -21,12 +22,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="issue")
-public class Issue implements Serializable {
-	private static final long serialVersionUID = 1925978885596090101L;
+public class Issue  {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="case_id")
@@ -61,14 +61,14 @@ public class Issue implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

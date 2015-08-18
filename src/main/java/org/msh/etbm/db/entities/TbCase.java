@@ -152,7 +152,7 @@ public class TbCase implements Transactional {
 	
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 	
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="NOTIFICATION_UNIT_ID")
@@ -419,7 +419,7 @@ public class TbCase implements Transactional {
 		// sort the periods
 		Collections.sort(prescribedMedicines, new Comparator<PrescribedMedicine>() {
 			public int compare(PrescribedMedicine pm1, PrescribedMedicine pm2) {
-				int val = pm1.getMedicine().getAbbrevName().compareTo(pm2.getMedicine().getAbbrevName());
+				int val = pm1.getProduct().getShortName().compareTo(pm2.getProduct().getShortName());
 
 				return (val != 0 ? val : pm1.getPeriod().getIniDate().compareTo(pm2.getPeriod().getEndDate()));
 			}
@@ -743,16 +743,6 @@ public class TbCase implements Transactional {
 
 	public void setOtherOutcome(String otherOutcome) {
 		this.otherOutcome = otherOutcome;
-	}
-
-
-	public String getLegacyId() {
-		return legacyId;
-	}
-
-
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
 	}
 
 
@@ -1434,5 +1424,29 @@ public class TbCase implements Transactional {
 
     public void setMovedSecondLineTreatment(boolean movedSecondLineTreatment) {
         this.movedSecondLineTreatment = movedSecondLineTreatment;
+    }
+
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
+
+    public LocalityType getLocalityType() {
+        return localityType;
+    }
+
+    public void setLocalityType(LocalityType localityType) {
+        this.localityType = localityType;
+    }
+
+    public LocalityType getCurrLocalityType() {
+        return currLocalityType;
+    }
+
+    public void setCurrLocalityType(LocalityType currLocalityType) {
+        this.currLocalityType = currLocalityType;
     }
 }

@@ -11,6 +11,7 @@ import org.msh.etbm.db.enums.TreatmentDayOption;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Store information about medicine in-take along the treatment
@@ -19,13 +20,12 @@ import java.io.Serializable;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="treatmentmonitoring")
 public class TreatmentMonitoring implements Transactional {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	
 	@ManyToOne
@@ -123,13 +123,13 @@ public class TreatmentMonitoring implements Transactional {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	/**

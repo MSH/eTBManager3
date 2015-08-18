@@ -5,16 +5,16 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
 @Table(name="transferitem")
-public class TransferItem implements Serializable {
-	private static final long serialVersionUID = 3635128407993014581L;
+public class TransferItem {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="TRANSFER_ID",nullable=false)
@@ -27,9 +27,9 @@ public class TransferItem implements Serializable {
 	private Source source;
 	
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID",nullable=false)
+	@JoinColumn(name="product_id",nullable=false)
 	@NotNull
-	private Medicine medicine;
+	private Product product;
 
 	@ManyToOne
 	@JoinColumn(name="MOV_OUT_ID")
@@ -116,11 +116,11 @@ public class TransferItem implements Serializable {
 		this.movementIn = movementIn;
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 
@@ -130,14 +130,6 @@ public class TransferItem implements Serializable {
 
 	public void setSource(Source source) {
 		this.source = source;
-	}
-
-	public Medicine getMedicine() {
-		return medicine;
-	}
-
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
 	}
 
 	public List<TransferBatch> getBatches() {
@@ -156,7 +148,15 @@ public class TransferItem implements Serializable {
 		this.transfer = transfer;
 	}
 
-	/**
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    /**
 	 * @return the data
 	 */
 	public Object getData() {

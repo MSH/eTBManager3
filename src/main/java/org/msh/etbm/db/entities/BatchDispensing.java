@@ -2,6 +2,7 @@ package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
 @Table(name = "batchdispensing")
@@ -9,7 +10,7 @@ public class BatchDispensing {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="DISPENSING_ID")
@@ -32,14 +33,14 @@ public class BatchDispensing {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

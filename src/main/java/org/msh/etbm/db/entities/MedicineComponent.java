@@ -71,7 +71,7 @@ public class MedicineComponent {
 	 */
 	@Override
 	public String toString() {
-		return ((substance != null) && (medicine != null)? substance.getAbbrevName() + " " + strength + medicine.toString(): super.toString());
+		return ((substance != null) && (medicine != null)? substance.getShortName() + " " + strength + medicine.toString(): super.toString());
 	}
 
 

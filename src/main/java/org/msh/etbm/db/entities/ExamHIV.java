@@ -14,12 +14,8 @@ import java.util.Date;
  * Records information about an HIV result during the treatment
  */
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
-@DiscriminatorValue("gen")
 @Table(name="examhiv")
-public class ExamHIV extends CaseData implements Serializable {
-	private static final long serialVersionUID = 2237957846637585494L;
+public class ExamHIV extends CaseData {
 
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private HIVResult result;
@@ -34,25 +30,7 @@ public class ExamHIV extends CaseData implements Serializable {
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private String laboratory;
 
-	//usrivast
-	//addition for kenya workspace
-	private Integer cd4Count;
-	
-	@Temporal(TemporalType.DATE)
-	private Date cd4StDate;
 
-	@Temporal(TemporalType.DATE)
-	private Date partnerResultDate;
-	
-	public boolean isPartnerPresent() {
-		return partnerResultDate != null;
-	}
-	
-	public void setPartnerPresent(boolean value) {
-		if (!value)
-			partnerResultDate = null;
-	}
-	
 	
 	public boolean isARTstarted() {
 		return startedARTdate != null;
@@ -103,28 +81,4 @@ public class ExamHIV extends CaseData implements Serializable {
 	public void setStartedCPTdate(Date startedCPTdate) {
 		this.startedCPTdate = startedCPTdate;
 	}
-	
-	public Integer getCd4Count() {
-		return cd4Count;
-	}
-
-	public void setCd4Count(Integer cd4Count) {
-		this.cd4Count = cd4Count;
-	}
-
-	public Date getCd4StDate() {
-		return cd4StDate;
-	}
-
-	public void setCd4StDate(Date cd4StDate) {
-		this.cd4StDate = cd4StDate;
-	}
-
-	public Date getPartnerResultDate() {
-		return partnerResultDate;
-	}
-
-	public void setPartnerResultDate(Date partnerResultDate) {
-		this.partnerResultDate = partnerResultDate;
-	}		
 }

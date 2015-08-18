@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class UserWorkspace extends WSObject {
 
 	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="TBUNIT_ID")
+	@JoinColumn(name="UNIT_ID")
 	@PropertyLog(operations={Operation.NEW})
 	private Tbunit tbunit;
 

@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name="patient")
 public class Patient extends WSObject  {
 
-	@Column(length=100, name="PATIENT_NAME")
+	@Column(length=100)
 	@NotNull
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private String name;
@@ -52,7 +52,7 @@ public class Patient extends WSObject  {
 	
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 	
 	@OneToMany(mappedBy="patient")
 	private List<TbCase> cases = new ArrayList<TbCase>();
@@ -174,15 +174,15 @@ public class Patient extends WSObject  {
 		return name;
 	}
 
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
-	/**
+    /**
 	 * @return the middleName
 	 */
 	public String getMiddleName() {

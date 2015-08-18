@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 
 import javax.persistence.*;
@@ -16,7 +17,11 @@ public class Product extends WSObject {
 
     private String name;
 
-    private String abbrevName;
+    private String shortName;
+
+    @Column(length=50)
+    @PropertyLog(messageKey="global.legacyId")
+    private String customId;
 
 
     @Override
@@ -32,11 +37,19 @@ public class Product extends WSObject {
         this.name = name;
     }
 
-    public String getAbbrevName() {
-        return abbrevName;
+    public String getShortName() {
+        return shortName;
     }
 
-    public void setAbbrevName(String abbrevName) {
-        this.abbrevName = abbrevName;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
     }
 }

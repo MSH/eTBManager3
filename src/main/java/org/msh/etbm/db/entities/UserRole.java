@@ -11,6 +11,8 @@ package org.msh.etbm.db.entities;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Store information about a system event
@@ -19,15 +21,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="userrole")
-public class UserRole implements java.io.Serializable, Comparable<UserRole> {
+public class UserRole implements Comparable<UserRole> {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
-    @Column(length=80, nullable=false, name="Role_Name")
+    @Column(length=80)
+    @NotNull
     private String name;
 
     @Column(length=50)
@@ -118,11 +119,11 @@ public class UserRole implements java.io.Serializable, Comparable<UserRole> {
 */
 
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

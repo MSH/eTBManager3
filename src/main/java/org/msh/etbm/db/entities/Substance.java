@@ -12,15 +12,14 @@ import java.util.UUID;
 
 @Entity
 @Table(name="substance")
-public class Substance extends WSObject implements Serializable {
-	private static final long serialVersionUID = -4338147429349562711L;
+public class Substance extends WSObject {
 
 	@NotNull
 	@PropertyLog(messageKey="form.name")
 	private String name;
 	
 	@PropertyLog(messageKey="form.abbrevName")
-	private String abbrevName;
+	private String shortName;
 	
 	private MedicineLine line;
 	
@@ -33,7 +32,7 @@ public class Substance extends WSObject implements Serializable {
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -44,14 +43,6 @@ public class Substance extends WSObject implements Serializable {
 			return false;
 		
 		return ((Substance)obj).getId().equals(getId());
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return getAbbrevName().toString();
 	}
 
 	public void setLine(MedicineLine line) {
@@ -118,31 +109,19 @@ public class Substance extends WSObject implements Serializable {
 		this.name = name;
 	}
 
-	/**
-	 * @return the abbrevName
-	 */
-	public String getAbbrevName() {
-		return abbrevName;
-	}
+    public String getShortName() {
+        return shortName;
+    }
 
-	/**
-	 * @param abbrevName the abbrevName to set
-	 */
-	public void setAbbrevName(String abbrevName) {
-		this.abbrevName = abbrevName;
-	}
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 }

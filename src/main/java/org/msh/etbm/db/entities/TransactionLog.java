@@ -41,7 +41,7 @@ public class TransactionLog {
 	@NotNull
 	private Date transactionDate;
 	
-	private Integer entityId;
+	private UUID entityId;
 	
 	@Column(length=100)
 	private String entityDescription;
@@ -189,14 +189,14 @@ public class TransactionLog {
 	/**
 	 * @return the entityId
 	 */
-	public Integer getEntityId() {
+	public UUID getEntityId() {
 		return entityId;
 	}
 
 	/**
 	 * @param entityId the entityId to set
 	 */
-	public void setEntityId(Integer entityId) {
+	public void setEntityId(UUID entityId) {
 		this.entityId = entityId;
 	}
 

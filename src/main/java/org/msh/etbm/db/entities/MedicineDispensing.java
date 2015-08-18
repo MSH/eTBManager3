@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -15,7 +16,7 @@ public class MedicineDispensing implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="UNIT_ID")
@@ -36,11 +37,11 @@ public class MedicineDispensing implements Serializable {
 
 		
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 	
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

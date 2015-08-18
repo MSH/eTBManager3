@@ -4,15 +4,15 @@ package org.msh.etbm.db.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table(name="orderbatch")
-public class OrderBatch implements Serializable {
-	private static final long serialVersionUID = 374938237338336760L;
+public class OrderBatch {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="ORDERITEM_ID")
@@ -45,10 +45,10 @@ public class OrderBatch implements Serializable {
 	public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 	public int getQuantity() {

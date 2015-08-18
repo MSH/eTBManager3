@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Store information about a medicine prescribed to a case
@@ -22,15 +23,15 @@ public class PrescribedMedicine implements Transactional {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	/**
 	 * Medicine prescribed
 	 */
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name="product_id")
 	@NotNull
-	private Medicine medicine;
+	private Product product;
 
 	/**
 	 * Period of administration of the medicine prescribed
@@ -148,7 +149,7 @@ public class PrescribedMedicine implements Transactional {
 
 		doseUnit = medReg.getDefaultDoseUnit();
 		frequency = medReg.getDefaultFrequency();
-		medicine = medReg.getMedicine();
+		product = medReg.getMedicine();
 		source = medReg.getDefaultSource();
 		period = p;
 	}
@@ -255,18 +256,18 @@ public class PrescribedMedicine implements Transactional {
 
 	@Override
 	public String toString() {
-		return ((medicine != null) && (period != null)? period.toString() + " - " + medicine.toString(): null);
-	}
-	
-	public Medicine getMedicine() {
-		return medicine;
+		return ((product != null) && (period != null)? period.toString() + " - " + product.toString(): null);
 	}
 
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
-	}
+    public Product getProduct() {
+        return product;
+    }
 
-	public int getDoseUnit() {
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public int getDoseUnit() {
 		return doseUnit;
 	}
 
@@ -291,11 +292,11 @@ public class PrescribedMedicine implements Transactional {
 	}
 
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

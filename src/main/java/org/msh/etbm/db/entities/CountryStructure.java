@@ -10,11 +10,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name="countrystructure")
-public class CountryStructure extends WSObject implements Serializable {
-	private static final long serialVersionUID = -9182467866935116572L;
+public class CountryStructure extends WSObject {
 
-	@Embedded
 	@PropertyLog(messageKey="form.name")
+    @Column(length = 100)
 	private String name;
 	
 	@Column(name="STRUCTURE_LEVEL")

@@ -20,9 +20,11 @@ public class FieldValue extends WSObject implements Serializable {
 	private static final long serialVersionUID = -754148519681677704L;
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW})
+    @Column(length = 100)
 	private String name;
 
 	@PropertyLog(messageKey="form.abbrevName", operations={Operation.NEW})
+    @Column(length = 30)
 	private String shortName;
 
 	@Column(length=20)

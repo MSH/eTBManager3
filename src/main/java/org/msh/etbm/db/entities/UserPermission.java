@@ -5,6 +5,7 @@ import org.msh.etbm.db.enums.CaseClassification;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table(name="userpermission")
@@ -13,7 +14,7 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="ROLE_ID")
@@ -60,11 +61,11 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 		this.grantPermission = grantPermission;
 	}
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

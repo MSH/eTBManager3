@@ -7,16 +7,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "ordercomment")
-public class OrderComment implements Serializable {
-
-	private static final long serialVersionUID = 1213428402269043260L;
+public class OrderComment {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	@ManyToOne
 	@JoinColumn(name="ORDER_ID")
@@ -40,14 +39,14 @@ public class OrderComment implements Serializable {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

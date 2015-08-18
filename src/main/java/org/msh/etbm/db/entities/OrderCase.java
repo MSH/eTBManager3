@@ -4,6 +4,7 @@ package org.msh.etbm.db.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 @Table(name="ordercase")
@@ -12,7 +13,7 @@ public class OrderCase implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="CASE_ID")
@@ -27,11 +28,11 @@ public class OrderCase implements Serializable {
 	private int estimatedQuantity;
 
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

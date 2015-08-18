@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Store data about the medicines ordered in an order
@@ -14,12 +15,11 @@ import java.util.List;
  */
 @Entity
 @Table(name="orderitem")
-public class OrderItem implements Serializable {
-	private static final long serialVersionUID = -7765596999719386981L;
+public class OrderItem  {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="ORDER_ID")
@@ -27,9 +27,9 @@ public class OrderItem implements Serializable {
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name="PRODUCT_ID")
 	@NotNull
-	private Medicine medicine;
+	private Product product;
 	
 	@ManyToOne
 	@JoinColumn(name="SOURCE_ID")
@@ -153,17 +153,11 @@ public class OrderItem implements Serializable {
 	public void setApprovedQuantity(Integer approvedQuantity) {
 		this.approvedQuantity = approvedQuantity;
 	}
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
-	}
-	public Medicine getMedicine() {
-		return medicine;
-	}
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
 	}
 	public int getRequestedQuantity() {
 		return requestedQuantity;
@@ -264,4 +258,12 @@ public class OrderItem implements Serializable {
 	public void setStockQuantity(Integer stockQuantity) {
 		this.stockQuantity = stockQuantity;
 	}
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 }

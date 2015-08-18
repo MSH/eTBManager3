@@ -6,6 +6,7 @@ package org.msh.etbm.db.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Store information about a follow up of an issue. A follow up contains
@@ -20,7 +21,7 @@ public class IssueFollowup {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Integer id;
+	private UUID id;
 	
 	@NotNull
 	@ManyToOne
@@ -48,14 +49,14 @@ public class IssueFollowup {
 	/**
 	 * @return the id
 	 */
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
 

@@ -12,6 +12,7 @@ package org.msh.etbm.db.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -24,7 +25,7 @@ public class UserSession {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
+    private UUID id;
     
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="USER_ID")
@@ -63,11 +64,11 @@ public class UserSession {
     }
 */
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

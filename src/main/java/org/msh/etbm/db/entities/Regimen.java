@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name="regimen")
 public class Regimen extends WSObject {
 
-	@Column(length=100, name="regimen_name")
+	@Column(length=100)
 	private String name;
 	
 	private CaseClassification caseClassification;
@@ -27,7 +27,7 @@ public class Regimen extends WSObject {
 
 	@Column(length=50)
 	@PropertyLog(messageKey="global.legacyId")
-	private String legacyId;
+	private String customId;
 
 	private Integer daysOfIntensivePhaseDuration;
 
@@ -112,25 +112,16 @@ public class Regimen extends WSObject {
 	public boolean isTbTreatment() {
 		return CaseClassification.TB.equals(caseClassification);
 	}
-	
 
-	/**
-	 * @return the legacyId
-	 */
-	public String getLegacyId() {
-		return legacyId;
-	}
+    public String getCustomId() {
+        return customId;
+    }
 
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
 
-	/**
-	 * @param legacyId the legacyId to set
-	 */
-	public void setLegacyId(String legacyId) {
-		this.legacyId = legacyId;
-	}
-
-
-	/**
+    /**
 	 * @return the caseClassification
 	 */
 	public CaseClassification getCaseClassification() {
