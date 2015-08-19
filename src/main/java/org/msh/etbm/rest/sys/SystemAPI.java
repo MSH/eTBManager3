@@ -25,7 +25,7 @@ public class SystemAPI {
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
-    public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME) String authToken) {
+    public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
         if (authToken != null) {
 
         }
