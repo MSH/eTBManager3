@@ -69,7 +69,7 @@ public class Movement {
     /**
      * The total price of the inventory
      */
-    private float totalPriceInventory;
+    private double totalPriceInventory;
 
     private boolean header;
 
@@ -81,11 +81,11 @@ public class Movement {
         this.header = header;
     }
 
-    public float getTotalPriceInventory() {
+    public double getTotalPriceInventory() {
         return totalPriceInventory;
     }
 
-    public void setTotalPriceInventory(float totalPriceInventory) {
+    public void setTotalPriceInventory(double totalPriceInventory) {
         this.totalPriceInventory = totalPriceInventory;
     }
 

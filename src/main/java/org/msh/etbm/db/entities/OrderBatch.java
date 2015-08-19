@@ -30,7 +30,7 @@ public class OrderBatch {
 	@Transient
 	public float getTotalPrice() {
 		float qtd = (receivedQuantity != null? receivedQuantity: quantity);
-		return (batch != null? batch.getUnitPrice() * qtd: 0);
+		return (batch != null? (float)batch.getUnitPrice() * qtd: 0);
 	}
 	
 	public Integer getReceivedQuantity() {

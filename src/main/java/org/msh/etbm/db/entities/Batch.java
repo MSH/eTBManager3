@@ -31,7 +31,8 @@ public class Batch extends WSObject {
 	private Medicine medicine;
 	
 	private int quantityReceived;
-	private float unitPrice;
+
+	private double unitPrice;
 	
 
 	/**
@@ -51,7 +52,7 @@ public class Batch extends WSObject {
 
 	/**
 	 * Copy data from another batch. 
-	 * @param b
+	 * @param
 	 */
 /*	public void copyFromBatch(Batch b) {
 		batchNumber = b.getBatchNumber();
@@ -103,7 +104,7 @@ public class Batch extends WSObject {
 		this.medicine = medicine;
 	}
 
-	public float getUnitPrice() {
+	public double getUnitPrice() {
 		return unitPrice;
 	}
 	
@@ -167,7 +168,7 @@ public class Batch extends WSObject {
 	/**
 	 * @param unitPrice the unitPrice to set
 	 */
-	public void setUnitPrice(float unitPrice) {
+	public void setUnitPrice(double unitPrice) {
 		this.unitPrice = unitPrice;
 	}
 

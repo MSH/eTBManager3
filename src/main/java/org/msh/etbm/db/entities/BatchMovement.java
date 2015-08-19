@@ -51,7 +51,7 @@ public class BatchMovement implements Serializable {
 	}
 	
 	public float getTotalPrice() {
-		return (getBatch( )!= null? quantity * batch.getUnitPrice(): 0);
+		return (getBatch( )!= null? quantity * (float)batch.getUnitPrice(): 0);
 	}
 	
 	public UUID getId() {

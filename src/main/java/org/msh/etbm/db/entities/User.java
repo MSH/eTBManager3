@@ -24,7 +24,7 @@ import java.util.*;
  * @author Ricardo Memoria
  */
 @Entity
-@Table(name="user")
+@Table(name="sys_user")
 public class User {
 
 	@Id

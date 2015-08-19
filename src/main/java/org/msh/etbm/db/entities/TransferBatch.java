@@ -28,15 +28,15 @@ public class TransferBatch {
 	private Integer quantityReceived;
 
 	public float getUnitPrice() {
-		return (getBatch() == null? 0: batch.getUnitPrice());
+		return (getBatch() == null? 0: (float)batch.getUnitPrice());
 	}
 	
 	public float getTotalPrice() {
-		return (getBatch() == null? 0: quantity * batch.getUnitPrice());
+		return (getBatch() == null? 0: quantity * (float)batch.getUnitPrice());
 	}
 	
 	public float getTotalPriceReceived() {
-		return (getBatch() == null? 0: quantityReceived * batch.getUnitPrice());
+		return (getBatch() == null? 0: quantityReceived * (float)batch.getUnitPrice());
 	}
 	
 	public Integer getQuantityReceived() {

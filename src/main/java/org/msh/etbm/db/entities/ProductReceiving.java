@@ -37,7 +37,7 @@ public class ProductReceiving {
 	@Lob
 	private String comments;
 	
-	private float totalPrice;
+	private double totalPrice;
 	
 	@ManyToMany
 	@JoinTable(name="movements_receiving",
@@ -131,14 +131,14 @@ public class ProductReceiving {
 	/**
 	 * @return the totalPrice
 	 */
-	public float getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
 	/**
 	 * @param totalPrice the totalPrice to set
 	 */
-	public void setTotalPrice(float totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 

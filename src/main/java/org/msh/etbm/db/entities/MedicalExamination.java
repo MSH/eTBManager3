@@ -21,16 +21,16 @@ import java.util.Date;
 public class MedicalExamination extends CaseData {
 
 	@PropertyLog(operations={Operation.NEW})
-	private Float weight;
+	private Double weight;
 	
 	@PropertyLog(operations={Operation.NEW})
-	private Float height;
+	private Double height;
 	
-	private Float heartRate;
-	private Float bloodPressureMin;
-	private Float bloodPressureMax;
-	private Float respRateRest;
-	private Float temperature;
+	private Double heartRate;
+	private Double bloodPressureMin;
+	private Double bloodPressureMax;
+	private Double respRateRest;
+	private Double temperature;
 
 	private MedAppointmentType appointmentType;
 
@@ -143,23 +143,23 @@ public class MedicalExamination extends CaseData {
 	public double getBMI() {
 		if ((height == null) || (height == 0))
 			return 0;
-		float h = height / 100;
+		double h = height / 100;
 		return (weight == null? 0: weight/(h*h)); 
 	}
 	
-	public Float getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Float weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
-	public Float getHeight() {
+	public Double getHeight() {
 		return height;
 	}
 
-	public void setHeight(Float height) {
+	public void setHeight(Double height) {
 		this.height = height;
 	}
 
@@ -197,70 +197,70 @@ public class MedicalExamination extends CaseData {
 	/**
 	 * @return the heartRate
 	 */
-	public Float getHeartRate() {
+	public Double getHeartRate() {
 		return heartRate;
 	}
 
 	/**
 	 * @param heartRate the heartRate to set
 	 */
-	public void setHeartRate(Float heartRate) {
+	public void setHeartRate(Double heartRate) {
 		this.heartRate = heartRate;
 	}
 
 	/**
 	 * @return the temperature
 	 */
-	public Float getTemperature() {
+	public Double getTemperature() {
 		return temperature;
 	}
 
 	/**
 	 * @param temperature the temperature to set
 	 */
-	public void setTemperature(Float temperature) {
+	public void setTemperature(Double temperature) {
 		this.temperature = temperature;
 	}
 
 	/**
 	 * @return the bloodPressureMin
 	 */
-	public Float getBloodPressureMin() {
+	public Double getBloodPressureMin() {
 		return bloodPressureMin;
 	}
 
 	/**
 	 * @param bloodPressureMin the bloodPressureMin to set
 	 */
-	public void setBloodPressureMin(Float bloodPressureMin) {
+	public void setBloodPressureMin(Double bloodPressureMin) {
 		this.bloodPressureMin = bloodPressureMin;
 	}
 
 	/**
 	 * @return the bloodPressureMax
 	 */
-	public Float getBloodPressureMax() {
+	public Double getBloodPressureMax() {
 		return bloodPressureMax;
 	}
 
 	/**
 	 * @param bloodPressureMax the bloodPressureMax to set
 	 */
-	public void setBloodPressureMax(Float bloodPressureMax) {
+	public void setBloodPressureMax(Double bloodPressureMax) {
 		this.bloodPressureMax = bloodPressureMax;
 	}
 
 	/**
 	 * @return the respRateRest
 	 */
-	public Float getRespRateRest() {
+	public Double getRespRateRest() {
 		return respRateRest;
 	}
 
 	/**
 	 * @param respRateRest the respRateRest to set
 	 */
-	public void setRespRateRest(Float respRateRest) {
+	public void setRespRateRest(Double respRateRest) {
 		this.respRateRest = respRateRest;
 	}
 
