@@ -16,6 +16,11 @@ public class Application {
      * @param args
      */
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        // evaluate command line arguments
+//        String[] newargs = CommandLineArgs.evaluate(args);
+
+        String[] test = {"--spring.datasource.url=jdbc:hsqldb:file:etbmanager;default_schema=true"};
+        // run app
+        SpringApplication.run(Application.class, test);
     }
 }

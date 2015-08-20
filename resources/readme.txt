@@ -1,0 +1,1 @@
+* persistence.xml - THis file is not intended to be used in the application, just an easy way of expose a data source to IntelliJ IDE

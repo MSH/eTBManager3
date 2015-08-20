@@ -1,6 +1,8 @@
 package org.msh.etbm.rest.sys;
 
+import org.msh.etbm.db.entities.UserSession;
 import org.msh.etbm.rest.authentication.AuthConstants;
+import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,28 @@ public class SystemAPI {
     @Autowired
     SystemService systemService;
 
+    @Autowired
+    AuthenticationService authenticationService;
+
     /**
      * Return information about the system
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
     public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
-        if (authToken != null) {
+        SystemInformation inf = systemService.getInformation();
 
+        // check if system is ready
+        if (inf.getState() == SystemInformation.SystemState.READY) {
+            // check if authentication is required
+            boolean authRequired = authToken == null ||
+                    authenticationService.getSessionByToken(authToken) == null;
+
+            if (authRequired) {
+                inf.setState(SystemInformation.SystemState.AUTH_REQUIRED);
+            }
         }
-        return systemService.getInformation();
+
+        return inf;
     }
 }

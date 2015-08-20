@@ -27,7 +27,7 @@ public class AuthenticationService {
         }
 
         List<UserSession> lst = entityManager
-                .createQuery("select id from UserLogin where sessionId = :id")
+                .createQuery("from UserSession where sessionId = :id")
                 .setParameter("id", authToken)
                 .setMaxResults(1)
                 .getResultList();

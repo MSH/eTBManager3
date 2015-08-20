@@ -9,13 +9,19 @@ public class SystemInformation {
      */
     public enum SystemState {
         NEW,        // is a new instance of the system and requires a initialization
-        READY;      // the system is ready to be used
+        READY,      // the system is ready to be used
+        AUTH_REQUIRED // authentication is required
     }
 
     /**
      * Store the state of the system
      */
     private SystemState state;
+
+    /**
+     * The web context path
+     */
+    private String contextPath;
 
 
     public SystemState getState() {
