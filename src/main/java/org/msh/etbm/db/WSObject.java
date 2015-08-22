@@ -1,13 +1,11 @@
 package org.msh.etbm.db;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
 import org.msh.etbm.db.entities.TransactionLog;
 import org.msh.etbm.db.entities.Workspace;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
 
 

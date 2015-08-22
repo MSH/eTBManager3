@@ -3,7 +3,10 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 

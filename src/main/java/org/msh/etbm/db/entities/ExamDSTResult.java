@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.db.enums.DstResult;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.UUID;
 
 @Entity

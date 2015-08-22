@@ -5,7 +5,6 @@ import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 

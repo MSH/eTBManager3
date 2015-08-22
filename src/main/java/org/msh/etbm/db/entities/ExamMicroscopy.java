@@ -6,8 +6,8 @@ import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.SampleType;
 import org.msh.etbm.db.enums.VisualAppearance;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="exammicroscopy")

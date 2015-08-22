@@ -10,7 +10,6 @@ import org.msh.etbm.db.enums.TreatmentDayOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.UUID;
 
 /**

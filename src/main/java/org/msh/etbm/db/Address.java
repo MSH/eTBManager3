@@ -2,7 +2,6 @@ package org.msh.etbm.db;
 
 
 import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.db.enums.LocalityType;
 
 import javax.persistence.*;
 

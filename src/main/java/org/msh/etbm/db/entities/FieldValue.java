@@ -5,9 +5,10 @@ import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 import org.msh.etbm.db.enums.TbField;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Stores data about a field value from TB forms

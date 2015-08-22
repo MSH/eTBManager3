@@ -4,10 +4,10 @@ import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 import org.msh.etbm.db.enums.MedicineLine;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.UUID;
 
 
 @Entity

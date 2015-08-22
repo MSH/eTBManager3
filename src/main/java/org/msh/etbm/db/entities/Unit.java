@@ -7,7 +7,6 @@ import org.msh.etbm.db.EntityState;
 import org.msh.etbm.db.WSObject;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by rmemoria on 29/6/15.

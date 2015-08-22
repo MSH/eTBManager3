@@ -1,10 +1,12 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.enums.MedicineCategory;
 import org.msh.etbm.db.enums.MedicineLine;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 

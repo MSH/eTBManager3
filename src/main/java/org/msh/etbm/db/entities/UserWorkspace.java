@@ -7,7 +7,6 @@ import org.msh.etbm.db.enums.UserView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 @Entity
 @Table(name="userworkspace")

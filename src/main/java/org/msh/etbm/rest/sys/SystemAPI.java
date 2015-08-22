@@ -1,6 +1,5 @@
 package org.msh.etbm.rest.sys;
 
-import org.msh.etbm.db.entities.UserSession;
 import org.msh.etbm.rest.authentication.AuthConstants;
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInformation;

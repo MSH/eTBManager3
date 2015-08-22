@@ -5,7 +5,6 @@ import org.msh.etbm.db.WSObject;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Determine a resistance pattern for DST and Xpert test results

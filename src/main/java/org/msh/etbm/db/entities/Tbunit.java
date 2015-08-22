@@ -1,16 +1,9 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.EntityState;
-import org.msh.etbm.db.WSObject;
 import org.msh.etbm.db.enums.DispensingFrequency;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("unit")

@@ -3,9 +3,9 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 @Entity
