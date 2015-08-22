@@ -1,6 +1,6 @@
 package org.msh.etbm;
 
-import org.msh.etbm.db.entities.UserSession;
+import org.msh.etbm.db.entities.UserLogin;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-public class RequestData {
+public class UserSession {
 
     /**
      * Store information about the user and its session
      */
-    private UserSession userSession;
+    private UserLogin userLogin;
 
     /**
      * The selected language
@@ -22,12 +22,12 @@ public class RequestData {
     private String language;
 
 
-    public UserSession getUserSession() {
-        return userSession;
+    public UserLogin getUserLogin() {
+        return userLogin;
     }
 
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
+    public void setUserLogin(UserLogin userLogin) {
+        this.userLogin = userLogin;
     }
 
     public String getLanguage() {

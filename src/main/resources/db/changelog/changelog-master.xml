@@ -1689,7 +1689,7 @@
 
 
     <changeSet author="rmemoria" id="1433264274749-71">
-        <createTable tableName="usersession">
+        <createTable tableName="userlogin">
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -2069,7 +2069,7 @@
         <addPrimaryKey columnNames="id" constraintName="PKUSERLOG" tableName="userlog"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-145">
-        <addPrimaryKey columnNames="id" constraintName="PKUSERLOGIN" tableName="usersession"/>
+        <addPrimaryKey columnNames="id" constraintName="PKUSERLOGIN" tableName="userlogin"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-146">
         <addPrimaryKey columnNames="id" constraintName="PKUSERPERM" tableName="userpermission"/>
@@ -2114,13 +2114,13 @@
         <addForeignKeyConstraint baseColumnNames="METHOD_ID" baseTableName="examdst" constraintName="FK145D01068861542" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-161">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="usersession" constraintName="FK14F1AA7EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="userlogin" constraintName="FK14F1AA7EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-161.2">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="batch" constraintName="FKBATCHWS" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-162">
-        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="usersession" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="userlogin" constraintName="FK14F1AA7EBA5DB63D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
 <!--
     <changeSet author="rmemoria" id="1433264274749-163">

@@ -1,7 +1,7 @@
 package org.msh.etbm.services.authentication;
 
-import org.msh.etbm.RequestData;
-import org.msh.etbm.db.entities.UserSession;
+import org.msh.etbm.UserSession;
+import org.msh.etbm.db.entities.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * Expose services to authenticate users in the system
+ *
  * Created by rmemoria on 16/8/15.
  */
 @Service
@@ -28,13 +30,13 @@ public class AuthenticationService {
      * @param authToken
      * @return
      */
-    public UserSession getSessionByToken(String authToken) {
+    public UserLogin getSessionByToken(String authToken) {
         if (authToken == null || authToken.isEmpty()) {
             return null;
         }
 
-        List<UserSession> lst = entityManager
-                .createQuery("from UserSession where sessionId = :id")
+        List<UserLogin> lst = entityManager
+                .createQuery("from UserLogin where sessionId = :id")
                 .setParameter("id", authToken)
                 .setMaxResults(1)
                 .getResultList();
@@ -49,14 +51,14 @@ public class AuthenticationService {
      * @return true if user was authenticated
      */
     public boolean authenticateByToken(String token) {
-        UserSession userSession = getSessionByToken(token);
-        if (userSession == null) {
+        UserLogin userLogin = getSessionByToken(token);
+        if (userLogin == null) {
             return false;
         }
 
         // set user information to be available in the system
-        RequestData req = applicationContext.getBean(RequestData.class);
-        req.setUserSession(userSession);
+        UserSession req = applicationContext.getBean(UserSession.class);
+        req.setUserLogin(userLogin);
         return true;
     }
 
@@ -66,9 +68,9 @@ public class AuthenticationService {
      * @param username the user name
      * @param password the user password
      * @param workspaceId the workspace to log into
-     * @return true if the user was authenticated
+     * @return authentication token, to be reused in future requests, if the user was successfully authenticated
      */
-    public boolean authenticate(String username, String password, UUID workspaceId) {
-        return false;
+    public String authenticate(String username, String password, UUID workspaceId) {
+        return null;
     }
 }

@@ -20,8 +20,8 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name="usersession")
-public class UserSession {
+@Table(name="userlogin")
+public class UserLogin {
 
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
