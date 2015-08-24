@@ -1,39 +1,56 @@
 'use strict';
 
 import React from 'react';
-import Hello from './component.jsx';
-import Http from './commons/http';
+import Http from './core/http';
+import RouterView from './core/RouterView.jsx';
+import Router from './core/router';
+
+/**
+ * Modules that are part of the system
+ */
+import InitMod from './init/index';
+import PubMod from './pub/index';
+import AppMod from './app/index';
 
 
 /**
-* This is the temporary main page
+* Main component entry point
 *
 **/
-var Main = React.createClass({
-	routeListener: function(data, done) {
-		var path = data.path;
+class Main extends React.Component {
+	/**
+	 * Open the public module
+	 */
+	openPublic (data, done) {
+		PubMod.init(data.path, done);
+	}
 
-		var view;
-		if (path === '/app') {
-			AppModule.init(path, done);
-		}
-		else {
-			PubModule.init(path, done);
-		}
-	},
+	/**
+	 * Open the initialization module
+	 */
+	openInit (data, done) {
+		InitMod.init(data.path, done);
+	}
 
+	/**
+	 * Open the application home page
+	 */
+	openApp(data, done) {
+		AppMod.init(data.path, done);
+	}
 
-	render: function() {
+	render() {
 		var routers = [
-			{path: '/pub', handler: this.routeListener},
-			{path: '/app', handler: this.routeListener}
+			{path: '/pub', handler: this.openPublic},
+			{path: '/init', handler: this.openInit},
+			{path: '/app', handler: this.openApp}
 		];
 
 		return (
 			<RouterView routes={routers} />
 		);
 	}
-});
+}
 
 
 /**
@@ -42,6 +59,7 @@ var Main = React.createClass({
 
 // load the style sheet in use
 require('../styles/theme.css');
+require('../styles/app.css');
 
 
 // get system information
@@ -62,14 +80,28 @@ Http.get('/api/sys/info')
  * @return {[type]}        [description]
  */
 function run(info) {
-	console.log(info);
+	var path;
+	switch (info.state) {
+		case 'NEW': path = '/init/welcome';
+			break;
+		case 'AUTH_REQUIRED': path = '/pub/login';
+			break;
+		case 'READY': path = '/app/index';
+			break;
+	}
+
 	var main = React.createElement(Main);
 
 	// the element in the document to be replaced by the code
 	var content = document.getElementById('content');
 	React.render(main, content);
 
-	router.listen();
-	console.log(router.getHash());
-	router.check(router.getHash());
+	Router.listen();
+	if (Router.getHash() === path) {
+		Router.check(path);
+	}
+	else {
+		Router.navigate(path);
+	}
+//	console.log(Router.getHash());
 }

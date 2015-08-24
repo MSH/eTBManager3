@@ -45,12 +45,14 @@ var check = function(path) {
                 currpath = path.substring(route.path.length);
             }
         }
+
         // there is a match ?
         if(match) {
             data.route = route;
             Router.current = route;
             Router.currpath = currpath;
-            route.handler.apply({}, [data, eventCallback]);
+            route.handler(data, eventCallback);
+//            route.handler.apply({}, [data, eventCallback]);
             return this;
         }
     }
@@ -67,9 +69,12 @@ var get = function(path) {
     }
 };
 
-var add = function (path, handler) {
+var add = function (path, handler, thisBind) {
     var r = prepare(path);
     r.handler = handler;
+    if (thisBind) {
+        r.handler = handler.bind(thisBind);
+    }
     r.add = add;
     r.remove = remove;
     r.check = check;
