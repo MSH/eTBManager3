@@ -16,7 +16,7 @@ module.exports = {
     /**
      * Folder where client code will be generated
      */
-    distPath: '../src/main/java/resources/static',
+    distPath: '../src/main/resources/static',
 
     mainScript: './scripts/main.js',
 

@@ -17,6 +17,7 @@ var gulp = require('gulp'),
 // the client path
 var clientPath = path.join(__dirname, 'client');
 var srcPath = path.join(__dirname, 'client/src');
+var distPath = path.join(__dirname, 'client', config.distPath);
 
 
 /**
@@ -40,7 +41,7 @@ gulp.task('run', function() {
  * Delete files from destination directory
  */
 gulp.task('clean', function(cb) {
-    del(config.dist + '/**/*', cb);
+    del( path.join(distPath, '/**/*'), cb);
 });
 
 
@@ -55,11 +56,20 @@ gulp.task('dev-copy', function() {
  * Copy static files that are not automatically processed
  */
 gulp.task('client-copy', function() {
+    console.log(srcPath);
+    console.log('TO -> ' + distPath);
     gulp.src([
         'index.html',
-        'favicon.ico'
-        ], {cwd: clientPath})
-    .pipe(gulp.dest(config.distPath));
+        'favicon.ico',
+        'images/**/*',
+        'fonts/**/*'
+        ], {cwd: srcPath})
+    .pipe(gulp.dest( function(file) {
+            var fname = path.relative(srcPath, path.dirname(file.path));
+            fname = path.join(distPath, fname);
+            console.log(fname);
+            return fname;
+        }));
 });
 
 
@@ -81,9 +91,9 @@ gulp.task('webpack-prod', [], function(callback) {
 
     devCompiler.run(function(err, stats) {
         if(err) {
-            throw new gutil.PluginError('webpack:build-dev', err);
+            throw new gutil.PluginError('webpack:build-prod', err);
         }
-        gutil.log('[webpack:build-dev]', stats.toString({
+        gutil.log('[webpack:build-prod]', stats.toString({
             colors: true
         }));
         callback();

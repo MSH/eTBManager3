@@ -9,15 +9,19 @@ var webpack = require('webpack'),
     path = require('path'),
     config = require('./client/config');
 
+var contextPath = path.join( __dirname, 'client', config.clientSrc),
+    outPath = path.join(__dirname, 'client', config.distPath, 'scripts');
 
+console.log('SOURCE = ' + contextPath);
+console.log('OUTPUT = ' + outPath);
 
 module.exports = {
 
-    context: path.join( __dirname, 'client', config.clientSrc),
+    context: contextPath,
 
     output: {
         filename: 'main.js',
-        path: path.join(__dirname, config.distPath, 'scripts'),
+        path: outPath,
         publicPath: '/scripts/'
     },
 
@@ -28,18 +32,13 @@ module.exports = {
         config.mainScript
     ],
 
+
     stats: {
         colors: true,
         reasons: true
     },
 
-    //resolve: {
-    //    extensions: ['', '.js'],
-    //    alias: {
-    //        'styles': '../../../src/styles',
-    //        'components': '../../../src/scripts/components/'
-    //    }
-    //},
+
     module: {
         loaders: [{
             test: /\.jsx?$/,
@@ -62,8 +61,8 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new webpack.optimize.UglifyJsPlugin()
     ]
 
 };

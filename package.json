@@ -21,6 +21,7 @@
     "gulp-open": "^1.0.0",
     "gulp-util": "^3.0.6",
     "gutil": "^1.6.4",
+    "i18n-webpack-plugin": "^0.2.7",
     "jshint-stylish": "^2.0.1",
     "jsx-loader": "^0.13.2",
     "jsxhint": "^0.15.1",

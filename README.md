@@ -83,6 +83,12 @@ In order to run e-TB Manager, just run it as any other java application:
 
     java -jar etbmanager-xxx.jar
 
+You must provide a configuration file etbmanager.properties, as described in the previous section.
+
+When initialization finishes, open the URL below:
+
+    http://localhost:8080/index.html
+
 
 ## Supported databases
 
