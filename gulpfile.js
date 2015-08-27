@@ -11,7 +11,8 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     open = require('gulp-open'),
     path = require('path'),
-    less = require('gulp-less');
+    less = require('gulp-less'),
+    uglify = require('gulp-uglify');
 
 
 // the client path
@@ -29,12 +30,12 @@ gulp.task('default', function() {
 
 
 gulp.task('build', function() {
-    return runSequence('clean', 'client-jshint', ['client-copy', 'webpack-prod']);
+    return runSequence('clean', 'client-jshint', ['entry-point', 'client-copy', 'less'], 'webpack-prod');
 });
 
 
 gulp.task('run', function() {
-    return runSequence('client-jshint', ['dev-copy', 'less'], 'proxy-server', 'open');
+    return runSequence('client-jshint', ['entry-point', 'dev-copy', 'less'], 'proxy-server', 'open');
 });
 
 /**
@@ -59,7 +60,6 @@ gulp.task('client-copy', function() {
     console.log(srcPath);
     console.log('TO -> ' + distPath);
     gulp.src([
-        'index.html',
         'favicon.ico',
         'images/**/*',
         'fonts/**/*'
@@ -147,3 +147,13 @@ gulp.task('less', function() {
         }))
         .pipe(gulp.dest( path.join(srcPath, 'styles')));
 });
+
+
+/**
+ * Copy the unglified version of the entrypoint.js file to the server resources dir
+ */
+gulp.task('entry-point', function() {
+    return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('src/main/resources/templates'));
+})
