@@ -1,6 +1,6 @@
 package org.msh.etbm.rest;
 
-import org.msh.etbm.rest.authentication.AuthenticatorInterceptor;
+import org.msh.etbm.web.api.authentication.AuthenticatorInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

@@ -1,4 +1,4 @@
-package org.msh.etbm.rest.authentication;
+package org.msh.etbm.web.api.authentication;
 
 /**
  * Created by rmemoria on 16/8/15.

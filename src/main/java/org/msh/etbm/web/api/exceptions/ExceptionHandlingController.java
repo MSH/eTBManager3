@@ -1,4 +1,4 @@
-package org.msh.etbm.rest.exceptions;
+package org.msh.etbm.web.api.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

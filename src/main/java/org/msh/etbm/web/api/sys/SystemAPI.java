@@ -1,6 +1,6 @@
-package org.msh.etbm.rest.sys;
+package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.rest.authentication.AuthConstants;
+import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemService;

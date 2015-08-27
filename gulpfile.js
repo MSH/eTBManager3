@@ -65,9 +65,9 @@ gulp.task('client-copy', function() {
         'fonts/**/*'
         ], {cwd: srcPath})
     .pipe(gulp.dest( function(file) {
+            // this script preserve the relative path in src list when copied to dest
             var fname = path.relative(srcPath, path.dirname(file.path));
             fname = path.join(distPath, fname);
-            console.log(fname);
             return fname;
         }));
 });

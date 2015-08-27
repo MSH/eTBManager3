@@ -1,4 +1,4 @@
-package org.msh.etbm.rest.authentication;
+package org.msh.etbm.web.api.authentication;
 
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

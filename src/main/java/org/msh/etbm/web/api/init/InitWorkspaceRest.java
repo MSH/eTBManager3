@@ -1,4 +1,4 @@
-package org.msh.etbm.rest.init;
+package org.msh.etbm.web.api.init;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
