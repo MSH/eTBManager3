@@ -29,14 +29,32 @@ gulp.task('default', function() {
 });
 
 
+/**
+ * Build the client side for production mode
+ */
 gulp.task('build', function() {
-    return runSequence('clean', 'client-jshint', ['entry-point', 'client-copy', 'less'], 'webpack-prod');
+    return runSequence(
+        'clean',
+        'client-jshint',
+        ['client-msgs', 'bootstrap-fonts', 'entry-point', 'client-copy', 'less'],
+        'webpack-prod');
 });
 
 
+/**
+ * Prepare the client side for development and run the proxy server
+ */
 gulp.task('run', function() {
-    return runSequence('client-jshint', ['entry-point', 'dev-copy', 'less'], 'proxy-server', 'open');
+    return runSequence(
+        'clean',
+        'client-jshint',
+        ['client-msgs', 'entry-point', 'bootstrap-fonts', 'less'],
+        'watches',
+        'proxy-server',
+        'open'
+        );
 });
+
 
 /**
  * Delete files from destination directory
@@ -46,12 +64,16 @@ gulp.task('clean', function(cb) {
 });
 
 
-gulp.task('dev-copy', function() {
+/**
+ * Copy the files necessary for
+ **/
+gulp.task('bootstrap-fonts', function() {
     gulp.src([
         'node_modules/bootstrap/dist/fonts/**/*'
         ])
     .pipe(gulp.dest( path.join(srcPath, 'fonts')));
 });
+
 
 /**
  * Copy static files that are not automatically processed
@@ -65,7 +87,7 @@ gulp.task('client-copy', function() {
         'fonts/**/*'
         ], {cwd: srcPath})
     .pipe(gulp.dest( function(file) {
-            // this script preserve the relative path in src list when copied to dest
+            // this script keep the relative path in src list when copied to dest
             var fname = path.relative(srcPath, path.dirname(file.path));
             fname = path.join(distPath, fname);
             return fname;
@@ -156,4 +178,45 @@ gulp.task('entry-point', function() {
     return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
         .pipe(uglify())
         .pipe(gulp.dest('src/main/resources/templates'));
-})
+});
+
+
+
+/**
+ * Generate message files from the message files in server side
+ */
+gulp.task('client-msgs', function(cb) {
+    var spawn = require('child_process').spawn;
+
+    var dir = path.join(clientPath, 'messages');
+
+    // node program to run
+    var proc = spawn('node',
+        [ path.join(dir, 'convert')],
+        {
+            cmd: dir
+        }
+    );
+
+    proc.stdout.on('data', function (data) {
+        console.log('[client-messages]: ' + data);
+    });
+
+    proc.stderr.on('data', function (data) {
+        console.log('[client-messages]: ' + data);
+    });
+
+    proc.stdout.on('close', function(code) {
+        cb(code);
+    })
+});
+
+
+gulp.task('watches', function() {
+    gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
+    gulp.watch( path.join(clientPath, 'src/entrypoint.js') , ['entry-point']);
+    gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
+    gulp.watch( 'src/main/resources/messages*.properties', ['client-msgs', 'proxy-server']);
+    gulp.watch( path.join(clientPath, 'gulpfile.js') , ['run']);
+
+});

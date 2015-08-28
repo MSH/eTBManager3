@@ -8,23 +8,22 @@
 var webpack = require('webpack'),
     path = require('path'),
     config = require('../config'),
-    I18nPlugin = require("i18n-webpack-plugin");
+    I18nPlugin = require('i18n-webpack-plugin');
 
-/**
- * Available languages during development
- */
-var langs = {
-    'en': null,
-    'pt_BR': require('../messages_pt_BR.json')
-}
+
 
 /**
  * Return an array of configurations
  */
-module.exports = Object.keys(langs).map( function(lang) {
+module.exports = config.languages.dev.map( function(lang) {
+
+    // get list of messages for the given language
+    var messages;
+    if (lang !== config.defaultLanguage) {
+        messages = require('../messages/messages_' + lang + '.json');
+    }
 
     return {
-
         name: lang,
 
         context: path.join(__dirname, '..', config.clientSrc),
@@ -46,7 +45,7 @@ module.exports = Object.keys(langs).map( function(lang) {
             // The script refreshing the browser on none hot updates
             'webpack-dev-server/client?' + config.proxy.webpack.url,
 
-            config.mainScript
+            path.join(__dirname, '..', config.clientSrc, 'scripts', config.mainScript)
         ],
 
         stats: {
@@ -79,7 +78,7 @@ module.exports = Object.keys(langs).map( function(lang) {
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoErrorsPlugin(),
-            new I18nPlugin(langs[lang])
+            new I18nPlugin(messages)
         ]
     }
 });

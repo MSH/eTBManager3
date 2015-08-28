@@ -18,7 +18,17 @@ module.exports = {
      */
     distPath: '../src/main/resources/static',
 
-    mainScript: './scripts/main.js',
+    /**
+     * Languages used in the client side
+     */
+    languages: {
+        dev:  ['en', 'pt-br'],  // just two languages in dev, to speed-up refreshes
+        prod: ['en', 'pt-br', 'uk', 'ru']
+    },
+
+    defaultLanguage: 'en',
+
+    mainScript: 'main.js',
 
     /**
      * The proxy server to serve static content and forward dynamic content to another server

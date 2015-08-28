@@ -1,3 +1,16 @@
+/**
+ * This script is the first script executed by the web browser when the application is loaded.
+ *
+ * The content of this file is minified, uglified and copied to the server side (src/main/resources/templates)
+ * during build process by gulp.
+ *
+ * The script is dynamically included in the index.ftl (freemarker template file) during execution
+ *
+ * @author Ricardo Memoria
+ * august 2015
+ *
+ */
+
 (function() {
     /**
      * Information exposed to the main page, necessary to start the client side

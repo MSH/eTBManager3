@@ -1,3 +1,6 @@
+/**
+ * Application entry-point
+ */
 'use strict';
 
 import React from 'react';

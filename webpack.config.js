@@ -7,62 +7,71 @@
 'use strict';
 var webpack = require('webpack'),
     path = require('path'),
-    config = require('./client/config');
+    config = require('./client/config'),
+    I18nPlugin = require('i18n-webpack-plugin');
 
 var contextPath = path.join( __dirname, 'client', config.clientSrc),
-    outPath = path.join(__dirname, 'client', config.distPath, 'scripts');
-
-console.log('SOURCE = ' + contextPath);
-console.log('OUTPUT = ' + outPath);
-
-module.exports = {
-
-    context: contextPath,
-
-    output: {
-        filename: 'main.js',
-        path: outPath,
-        publicPath: '/scripts/'
-    },
-
-    cache: true,
-    debug: true,
-    devtool: false,
-    entry: [
-        config.mainScript
-    ],
+    outPath = path.join(__dirname, 'client', config.distPath);
 
 
-    stats: {
-        colors: true,
-        reasons: true
-    },
+module.exports = config.languages.prod.map( function(lang) {
 
+    // get list of messages for the given language
+    var messages;
+    if (lang !== config.defaultLanguage) {
+        messages = require('./client/messages/messages_' + lang + '.json');
+    }
 
-    module: {
-        loaders: [{
-            test: /\.jsx?$/,
-            exclude: /node_modules/,
-            loader: 'babel'
-        }, {
-            test: /\.less/,
-            loader: 'style-loader!css-loader!less-loader'
-        }, {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-        }, {
-            test: /\.(png|jpg)$/,
-            loader: 'url-loader?limit=8192'
+    // return the configuration to be used in production mode
+    return {
+        context: contextPath,
+
+        output: {
+            filename: 'main.js',
+            path: path.join( outPath, 'scripts', lang),
+            publicPath: '/scripts/' + lang + '/'
         },
-        {
-            test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-            loader: 'url-loader?limit=100000' }
+
+        cache: true,
+        debug: true,
+        devtool: false,
+        entry: [
+            path.join(contextPath, 'scripts', config.mainScript)
+        ],
+
+
+        stats: {
+            colors: true,
+            reasons: true
+        },
+
+
+        module: {
+            loaders: [{
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                loader: 'babel'
+            }, {
+                test: /\.less/,
+                loader: 'style-loader!css-loader!less-loader'
+            }, {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            }, {
+                test: /\.(png|jpg)$/,
+                loader: 'url-loader?limit=8192'
+            },
+                {
+                    test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                    loader: 'url-loader?limit=100000'
+                }
+            ]
+        },
+
+        plugins: [
+            new webpack.NoErrorsPlugin(),
+            new webpack.optimize.UglifyJsPlugin(),
+            new I18nPlugin(langs[lang])
         ]
-    },
-
-    plugins: [
-        new webpack.NoErrorsPlugin(),
-        new webpack.optimize.UglifyJsPlugin()
-    ]
-
-};
+    }
+});
