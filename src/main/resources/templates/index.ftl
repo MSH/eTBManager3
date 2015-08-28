@@ -552,6 +552,5 @@
         <i></i>
     </div>
 </div>
-<script type="text/javascript" src="scripts/pt_BR/main.js"></script>
 </body>
 </html>

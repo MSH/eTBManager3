@@ -10,6 +10,7 @@ var webpack = require('webpack'),
     config = require('./client/config'),
     I18nPlugin = require('i18n-webpack-plugin');
 
+
 var contextPath = path.join( __dirname, 'client', config.clientSrc),
     outPath = path.join(__dirname, 'client', config.distPath);
 
@@ -71,7 +72,7 @@ module.exports = config.languages.prod.map( function(lang) {
         plugins: [
             new webpack.NoErrorsPlugin(),
             new webpack.optimize.UglifyJsPlugin(),
-            new I18nPlugin(langs[lang])
+            new I18nPlugin(messages)
         ]
     }
 });

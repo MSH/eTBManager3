@@ -22,8 +22,8 @@ module.exports = {
      * Languages used in the client side
      */
     languages: {
-        dev:  ['en', 'pt-br'],  // just two languages in dev, to speed-up refreshes
-        prod: ['en', 'pt-br', 'uk', 'ru']
+        dev:  ['en', 'pt_BR'],  // just two languages in dev, to speed-up refreshes
+        prod: ['en', 'pt_BR', 'uk', 'ru']
     },
 
     defaultLanguage: 'en',

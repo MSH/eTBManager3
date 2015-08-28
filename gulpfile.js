@@ -48,7 +48,7 @@ gulp.task('run', function() {
     return runSequence(
         'clean',
         'client-jshint',
-        ['client-msgs', 'entry-point', 'bootstrap-fonts', 'less'],
+        ['client-msgs', 'entry-point-dev', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',
         'open'
@@ -129,7 +129,7 @@ gulp.task('webpack-prod', [], function(callback) {
  */
 gulp.task('open', function() {
     var options = {
-        uri: 'http://localhost:3000/index.html'
+        uri: 'http://localhost:' + config.proxy.port
     };
 
     return gulp.src(__filename)
@@ -181,6 +181,14 @@ gulp.task('entry-point', function() {
 });
 
 
+/**
+ * During development, just copy the java script entry point without unglifying it
+ */
+gulp.task('entry-point-dev', function() {
+    return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
+        .pipe(gulp.dest('src/main/resources/templates'));
+});
+
 
 /**
  * Generate message files from the message files in server side
@@ -212,11 +220,13 @@ gulp.task('client-msgs', function(cb) {
 });
 
 
+/**
+ * Files to watch during development time
+ **/
 gulp.task('watches', function() {
     gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
     gulp.watch( path.join(clientPath, 'src/entrypoint.js') , ['entry-point']);
     gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
     gulp.watch( 'src/main/resources/messages*.properties', ['client-msgs', 'proxy-server']);
-    gulp.watch( path.join(clientPath, 'gulpfile.js') , ['run']);
-
+    gulp.watch( 'gulpfile.js', ['run']);
 });

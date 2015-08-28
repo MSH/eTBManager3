@@ -1,1 +1,83 @@
-!function(){var a={languages:"${languages}",contextPath:"${path}",defaultLanguage:"${defaultLanguage}"};window.appcfg=a;var t,e="; "+document.cookie,n=e.split("; lang=");2==n.length&&(t=n.pop().split(";").shift());var t=t||navigator.language;document.write(t);var i;if(a.languages.indexOf(t)>0&&(i=t),!i){if(t.indexOf("-")>0){var g=t.split("=").shift();a.languages.indexOf(g)>=0&&(i=g)}i||(i=a.defaultLanguage)}i||document.write("<h1>NO LANGUAGE FOUND!</h1>");var u=document.createElement("script");u.type="application/javascript",u.src=a.contextPath+"/scripts/"+i+"/main.js",document.body.appendChild(u)}();
+/**
+ * This script is the first script executed by the web browser when the application is loaded.
+ *
+ * The content of this file is minified, uglified and copied to the server side (src/main/resources/templates)
+ * during build process by gulp.
+ *
+ * The script is dynamically included in the index.ftl (freemarker template file) during execution
+ *
+ * @author Ricardo Memoria
+ * august 2015
+ *
+ */
+
+(function() {
+    /**
+     * Information exposed to the main page, necessary to start the client side
+     */
+    var data = {
+        languages: '${languages}',
+        contextPath: '${path}',
+        defaultLanguage: '${defaultLanguage}'
+    };
+    window.appcfg = data;
+
+
+    // the navigator language
+    var navlang;
+
+    // try to get language stored in the document cookie
+    var s = '; ' + document.cookie;
+    var vals = s.split('; lang=');
+    if (vals.length == 2) {
+        navlang = vals.pop().split(';').shift();
+    }
+
+    var navlang = navlang || navigator.language;
+
+    if (navlang.indexOf('-') > 0) {
+        var v = navlang.split('-');
+        navlang = v[0] + '_' + v[1].toUpperCase();
+    }
+
+    // the system language
+    var lang;
+
+    /**
+     * Check if navigator language matches one of the available languages
+     */
+    if (data.languages.indexOf(navlang) > 0) {
+        lang = navlang;
+    }
+
+
+    // language in the browser or cookie doensn't match the available languages?
+    if (!lang) {
+        // check if language is in the format language-country
+        if (navlang.indexOf('-') > 0) {
+            var mainlang = navlang.split('=').shift();
+            if (data.languages.indexOf(mainlang) >= 0) {
+                lang = mainlang;
+            }
+        }
+
+        if (!lang) {
+            lang = data.defaultLanguage;
+        }
+    }
+
+    /**
+     * No language matched: RAISE AN ERROR (it should never happen)
+     */
+    if (!lang) {
+        document.write('<h1>NO LANGUAGE FOUND!</h1>');
+    }
+
+    /**
+     * Load the main script based on the selected language
+     */
+    var jsElem = document.createElement("script");
+    jsElem.type = "application/javascript";
+    jsElem.src = data.contextPath + "/scripts/" + lang + "/main.js";
+    document.body.appendChild(jsElem);
+})();

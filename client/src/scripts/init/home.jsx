@@ -27,7 +27,7 @@ export default class Home extends React.Component {
 			    <Nav right>
 			      <NavItem eventKey={4} href='#'>{__('Language')}</NavItem>
 			      <DropdownButton eventKey={3} title={__('User')}>
-			        <MenuItem eventKey='1'>{__('Profile')}...</MenuItem>
+			        <MenuItem eventKey='1'>{__('User profile')}...</MenuItem>
 			        <MenuItem eventKey='2'>{__('Change password')}...</MenuItem>
 			        <MenuItem eventKey='3'>{__('Change workspace')}...</MenuItem>
 			        <MenuItem divider />
