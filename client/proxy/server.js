@@ -3,7 +3,9 @@
 var express = require('express');
 var httpProxy = require('http-proxy'),
     path = require('path'),
-    config = require('../config');
+    config = require('../config'),
+    _ = require('underscore');
+
 
 // We need to add a configuration to our proxy server,
 // as we are now proxying outside localhost
@@ -13,11 +15,17 @@ var proxy = httpProxy.createProxyServer({
 
 var app = express();
 
+var lst = config.proxy.dev.path;
+if (!_.isArray(lst)) {
+    lst = [lst];
+}
 
 // setup development proxy
-app.all(config.proxy.dev.path, function (req, res) {
-    proxy.web(req, res, {
-        target: config.proxy.dev.url
+lst.forEach(function(url) {
+    app.all(url, function (req, res) {
+        proxy.web(req, res, {
+            target: config.proxy.dev.url
+        });
     });
 });
 

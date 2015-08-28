@@ -49,7 +49,10 @@ module.exports = {
          */
         dev: {
             url: 'http://localhost:8080',
-            path: '/api/*'
+            path: [
+                '/',
+                '/api/*'
+            ]
         },
 
         /**
