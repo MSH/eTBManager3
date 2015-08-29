@@ -1,9 +1,9 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemService;
+import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;

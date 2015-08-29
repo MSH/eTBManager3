@@ -50,11 +50,6 @@
         -moz-animation: cssload-spin3 2.63s ease-in-out infinite;
     }
 
-
-
-
-
-
     @keyframes cssload-spin {
         0% {
             top: -33px;

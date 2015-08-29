@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.web.api.exceptions.UnauthorizedException;
 import org.msh.etbm.services.authentication.AuthenticationService;
+import org.msh.etbm.web.api.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

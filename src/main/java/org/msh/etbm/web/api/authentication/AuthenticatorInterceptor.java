@@ -3,7 +3,7 @@ package org.msh.etbm.web.api.authentication;
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  *
  * Created by ricardo on 03/12/14.
  */
-@Controller
+@Component
 public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
 
     @Autowired
