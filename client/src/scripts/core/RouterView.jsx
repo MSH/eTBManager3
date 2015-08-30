@@ -3,7 +3,6 @@
 import React from 'react';
 import Router from './router';
 
-import Test from '../component.jsx';
 
 
 // the parent component that last rendered
@@ -90,7 +89,6 @@ export default class RouterView extends React.Component {
 			var Content = this.state.content;
 			return (
 				<Content></Content>
-//				<Content router={this.router} ref={this.state.content} params={this.state.params}></Content>
 				);
 		}
 		else {

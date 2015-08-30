@@ -26,6 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Autowired
     AuthenticatorInterceptor authenticatorInterceptor;
 
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // add interceptor to authenticate the user
@@ -38,6 +39,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
         super.addInterceptors(registry);
     }
+
 
     /**
      * Language support

@@ -2,10 +2,14 @@
 	padding:8px;
 }
 .navbar-brand img {
-	max-width: 34px;
+	max-width: 160px;
 	float: left;
 }
 .navbar-brand label {
 	padding-top: 6px;
 	padding-left:4px;
+}
+
+.app-content {
+    margin-top:50px;
 }

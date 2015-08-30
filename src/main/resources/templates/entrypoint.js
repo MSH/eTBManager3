@@ -35,6 +35,7 @@
 
     var navlang = navlang || navigator.language;
 
+    // convert language to the java format (xx-xx to xx_XX)
     if (navlang.indexOf('-') > 0) {
         var v = navlang.split('-');
         navlang = v[0] + '_' + v[1].toUpperCase();
