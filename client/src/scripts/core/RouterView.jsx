@@ -43,7 +43,7 @@ export default class RouterView extends React.Component {
 	}
 
 	removeRoutes() {
-		console.log('removing routes from ' + this.path);
+//		console.log('removing routes from ' + this.path);
 		var lst = this.props.routes;
 		for (var i = 0; i < lst.length; i++) {
 			var r = lst[i];
@@ -60,7 +60,6 @@ export default class RouterView extends React.Component {
 			if (route.handler) {
 				var self = this;
 				route.handler({path: route.path, params: data.params}, function(view) {
-					console.log('state set');
 					self.setState({content: view, params: data.params});
 					done();
 				});
@@ -75,11 +74,11 @@ export default class RouterView extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log('mounting...');
+//		console.log('mounting...');
 	}
 
 	componentWillUnmount() {
-		console.log('unmounting...');
+//		console.log('unmounting...');
 		this.removeRoutes();
 	}
 

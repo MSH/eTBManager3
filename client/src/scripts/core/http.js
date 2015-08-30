@@ -47,7 +47,10 @@ function errorHandler(req) {
 	var cb = req.callback;
 
 	req.callback = function(err, res) {
-		console.log('Response done');
+        if (err) {
+            alert(err);
+            return;
+        }
 		cb.call(req, err, res);
 	};
 

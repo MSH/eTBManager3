@@ -70,6 +70,7 @@ function registerLogout(store) {
     store.emitChange();
 }
 
+
 /**
  * Called when the current workspace was changed
  * @param store The session store in use
