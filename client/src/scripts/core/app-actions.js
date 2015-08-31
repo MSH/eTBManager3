@@ -13,7 +13,7 @@ export default {
     /**
      * Return information about the system instance
      */
-    getInfo: function() {
+    requestServerStatus: function() {
         // get system information
         Http.get('/api/sys/info')
             .end(function(err, res) {

@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Implementation-Title: eTB Manager version 3.0.0
+Implementation-Version: 3.0.0
+group-id: org.msh
+Archiver-Version: Plexus Archiver
+Built-By: rmemoria
+artifact-version: 3.0.0
+Implementation-Vendor-Id: org.msh
+Spring-Boot-Version: 1.2.3.RELEASE
+Implementation-Vendor: Management Science for Health
+Main-Class: org.springframework.boot.loader.JarLauncher
+artifact-id: etbmanager
+Implementation-Build: 11
+Start-Class: org.msh.etbm.Application
+Build-Time: 2015-08-31T01:53:19Z
+Created-By: Apache Maven 3.2.5
+Build-Jdk: 1.8.0_45
+

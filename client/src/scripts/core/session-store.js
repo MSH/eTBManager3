@@ -12,7 +12,7 @@ import Const from './app-constants';
  *
  * This is just the class definition. Object is stored in the app file
  */
-export default class SessionStore extends EventEmitter {
+class SessionStore extends EventEmitter {
     constructor() {
         super();
         this.loggedIn = false;
@@ -24,6 +24,10 @@ export default class SessionStore extends EventEmitter {
         this.emit('change');
     }
 }
+
+var sessionStore = new SessionStore;
+export default sessionStore;
+
 
 /**
  * Register the session store in the main dispatch to receive information

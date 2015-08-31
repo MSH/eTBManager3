@@ -1,8 +1,8 @@
 package org.msh.etbm.web.api.sys;
 
 import org.msh.etbm.services.authentication.AuthenticationService;
+import org.msh.etbm.services.sys.SystemInfoService;
 import org.msh.etbm.services.sys.SystemInformation;
-import org.msh.etbm.services.sys.SystemService;
 import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SystemAPI {
 
     @Autowired
-    SystemService systemService;
+    SystemInfoService systemInfoService;
 
     @Autowired
     AuthenticationService authenticationService;
@@ -30,7 +30,7 @@ public class SystemAPI {
      */
     @RequestMapping("/info")
     public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
-        SystemInformation inf = systemService.getInformation();
+        SystemInformation inf = systemInfoService.getInformation();
 
         // check if system is ready
         if (inf.getState() == SystemInformation.SystemState.READY) {
