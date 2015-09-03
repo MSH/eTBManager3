@@ -358,24 +358,6 @@
     "messageKey" : "admin.syssetup"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000065",
-    "changeable" : true,
-    "code" : "051800",
-    "name" : "HEALTHSYS",
-    "internalUse" : false,
-    "byCaseClassification" : false,
-    "messageKey" : "admin.healthsys"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000100",
-    "changeable" : false,
-    "code" : "010400",
-    "name" : "CASE_VIEW",
-    "internalUse" : false,
-    "byCaseClassification" : true,
-    "messageKey" : "userrole.CASE_VIEW"
-  },
-  {
     "id" : "00000000-0000-0000-0000-000000000101",
     "changeable" : false,
     "code" : "010407",
@@ -843,7 +825,7 @@
     "changeable" : true,
     "code" : "010403",
     "name" : "EXAM_XPERT",
-    "internalUse" : false,
+    "internalUse" : true,
     "byCaseClassification" : false,
     "messageKey" : "cases.examxpert"
   },

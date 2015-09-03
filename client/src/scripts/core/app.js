@@ -32,7 +32,6 @@ class App {
     /**
      * Run the application. Must be called just once to start the application
      */
-
     run(elemId) {
         // link to app configuration
         this.config = window.appcfg;
@@ -61,8 +60,9 @@ class App {
 /**
  * Called by the getState action once the application initializes. Get information about the server status
  * @param app the instance of the application
- * @param info the information sent from the server */
- function handleSysInfo(app, info) {
+ * @param info the information sent from the server
+ **/
+function handleSysInfo(app, info) {
 	// store the state of the system
 	app.state = info.state;
 

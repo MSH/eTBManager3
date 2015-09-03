@@ -1,14 +1,18 @@
 package org.msh.etbm.services.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.uuid.Generators;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.TreatMonitoringInput;
+import org.msh.etbm.services.init.impl.AdminUnitTemplate;
 import org.msh.etbm.services.init.impl.NewWorkspaceTemplate;
 import org.msh.etbm.services.users.UserUtils;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +21,8 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +32,15 @@ import java.util.UUID;
  * Created by rmemoria on 1/9/15.
  */
 @Service
+@Scope("prototype")
 public class RegisterWorkspaceService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    private NewWorkspaceTemplate template;
+    private List<AdministrativeUnit> adminUnits;
+    private Workspace workspace;
 
     /**
      * Register a new workspace during the initialization process
@@ -44,18 +55,13 @@ public class RegisterWorkspaceService {
             throw new InitializationException("Cannot initialize. Workspace was already registered");
         }
 
-        NewWorkspaceTemplate template = loadTemplate();
+        template = loadTemplate();
 
-        // set the parameters send from the client side
-        template.getWorkspace().setName(form.getWorkspaceName());
-        template.getWorkspace().setDescription(form.getWorkspaceDescription());
-        template.getUser().setEmail(form.getAdminEmail());
+        Workspace ws = createWorkspace(form);
 
-        Workspace ws = createWorkspace(form, template);
+        entityManager.flush();
 
-        return new UUID(12345, 67890);
-//        User user = createAdminUser(form.getAdminPassword(), form.getAdminEmail());
-//        Workspace ws = createWorkspace(form.getWorkspaceName(), form.getWorkspaceDescription());
+        return ws.getId();
     }
 
 
@@ -78,61 +84,119 @@ public class RegisterWorkspaceService {
 
     /**
      * Create the account of the administrator user called admin using the given password
-     * @param pwd the administrator password
      * @return The administrator user object
      */
-    private User createAdminUser(String pwd, String email) {
-        User user = new User();
+    private User createAdminUser(RegisterWorkspaceForm form) {
+        User user = template.getUser();
 
-        user.setName("Administrator");
-        user.setComments("The administrator of the system");
-        user.setLogin("admin");
-        user.setPassword(UserUtils.hashPassword(pwd));
-        user.setEmail(email);
+        user.setPassword(UserUtils.hashPassword(form.getAdminPassword()));
+        user.setEmail(form.getAdminEmail());
         user.setRegistrationDate(new Date());
-        user.setSendSystemMessages(true);
-        user.setUlaAccepted(false);
 
         entityManager.persist(user);
 
         return user;
     }
 
+
     /**
      * Create the workspace based on the form data and the template data
      * @param form fields to set in the new workspace
-     * @param template Template containing default workspace data
      * @return the instance of the workspace
      */
-    private Workspace createWorkspace(RegisterWorkspaceForm form, NewWorkspaceTemplate template) {
+    private Workspace createWorkspace(RegisterWorkspaceForm form) {
         Workspace ws = template.getWorkspace();
 
-        List<UserRole> roles =  entityManager.createQuery("from UserRole").getResultList();
-        for (UserRole role: roles) {
-            System.out.println(role.getName());
-        }
-
+        UUID id = Generators.timeBasedGenerator().generate();
+        ws.setId(id);
         ws.setName(form.getWorkspaceName());
         ws.setDescription(form.getWorkspaceDescription());
 
         entityManager.persist(ws);
 
-        createAdminUnits(template);
+        createAdminUnits();
+        createUnits();
 
         return ws;
     }
 
+
     /**
      * Create the administrative units used in the new workspace
-     * @param template
      */
-    private void createAdminUnits(NewWorkspaceTemplate template) {
+    private void createAdminUnits() {
         for (CountryStructure cs: template.getCountryStructures()) {
+            cs.setId(Generators.timeBasedGenerator().generate());
+            cs.setWorkspace(template.getWorkspace());
             entityManager.persist(cs);
         }
 
-        for (AdministrativeUnit au: template.getRegions()) {
+        DecimalFormat format = new DecimalFormat("000");
+        int rootCount = 1;
+
+        adminUnits = new ArrayList<>();
+
+        // create all administrative units
+        for (AdminUnitTemplate it: template.getAdminUnits()) {
+            AdministrativeUnit au = new AdministrativeUnit();
+            au.setName(it.getName());
+
+            // get country structure
+            for (CountryStructure cs: template.getCountryStructures()) {
+                if (cs.getName().equals(it.getCountryStructure())) {
+                    au.setCountryStructure(cs);
+                    break;
+                }
+            }
+
+            if (au.getCountryStructure() == null) {
+                throw new RuntimeException("No country structure defined for admin unit " + it.getName());
+            }
+
+            // get parent
+            if (it.getParent() != null) {
+                AdministrativeUnit p = findAdminUnit(it.getParent());
+                if (p == null) {
+                    throw new RuntimeException("Error creating administrative unit " + it.getName() + ". Invalid parent " + it.getParent());
+                }
+
+                au.setParent(p);
+                p.setUnitsCount(p.getUnitsCount() + 1);
+                p.getUnits().add(au);
+                au.setCode( p.getCode() + format.format(p.getUnitsCount() + 1));
+            }
+            else {
+                au.setCode( format.format(rootCount));
+                rootCount++;
+            }
+
+            au.setId(Generators.timeBasedGenerator().generate());
+            au.setWorkspace(template.getWorkspace());
+
             entityManager.persist(au);
+            adminUnits.add(au);
         }
+    }
+
+    /**
+     * Search for the administrative unit by its name
+     * @param name the name of the administrative unit
+     * @return Administrative unit object that matches the given name, or null
+     */
+    private AdministrativeUnit findAdminUnit(String name) {
+        for (AdministrativeUnit item: adminUnits) {
+            if (item.getName().equals(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Create the units from a template file
+     */
+    private void createUnits() {
+
     }
 }

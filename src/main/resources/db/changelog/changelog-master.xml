@@ -1832,9 +1832,6 @@
             <column name="allowDiagAfterTreatment" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="oldid" type="INT">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 
@@ -2745,11 +2742,6 @@
     <changeSet author="rmemoria" id="1433264274749-406">
         <createIndex indexName="fk_adminunit_code" tableName="administrativeunit" unique="false">
             <column name="code"/>
-        </createIndex>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-407">
-        <createIndex indexName="idxWorkspaceoldid" tableName="workspace" unique="false">
-            <column name="oldid"/>
         </createIndex>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-408">

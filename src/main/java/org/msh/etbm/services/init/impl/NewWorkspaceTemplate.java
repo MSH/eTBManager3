@@ -11,10 +11,9 @@ public class NewWorkspaceTemplate {
     private Workspace workspace;
     private User user;
     private CountryStructure[] countryStructures;
-    private AdministrativeUnit[] regions;
-    private AdministrativeUnit[] cities;
-    private Tbunit healthUnit;
-    private UserProfile[] profiles;
+    private AdminUnitTemplate[] adminUnits;
+    private TbunitTempl[] tbunits;
+    private UserProfileInfo[] profiles;
 
     public Workspace getWorkspace() {
         return workspace;
@@ -40,35 +39,27 @@ public class NewWorkspaceTemplate {
         this.countryStructures = countryStructures;
     }
 
-    public AdministrativeUnit[] getRegions() {
-        return regions;
-    }
-
-    public void setRegions(AdministrativeUnit[] regions) {
-        this.regions = regions;
-    }
-
-    public AdministrativeUnit[] getCities() {
-        return cities;
-    }
-
-    public void setCities(AdministrativeUnit[] cities) {
-        this.cities = cities;
-    }
-
-    public Tbunit getHealthUnit() {
-        return healthUnit;
-    }
-
-    public void setHealthUnit(Tbunit healthUnit) {
-        this.healthUnit = healthUnit;
-    }
-
-    public UserProfile[] getProfiles() {
+    public UserProfileInfo[] getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(UserProfile[] profiles) {
+    public void setProfiles(UserProfileInfo[] profiles) {
         this.profiles = profiles;
+    }
+
+    public AdminUnitTemplate[] getAdminUnits() {
+        return adminUnits;
+    }
+
+    public void setAdminUnits(AdminUnitTemplate[] adminUnits) {
+        this.adminUnits = adminUnits;
+    }
+
+    public TbunitTempl[] getTbunits() {
+        return tbunits;
+    }
+
+    public void setTbunits(TbunitTempl[] tbunits) {
+        this.tbunits = tbunits;
     }
 }
