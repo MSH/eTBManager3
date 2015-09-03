@@ -20,7 +20,6 @@ import java.util.UUID;
 public class IssueFollowup {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	@NotNull

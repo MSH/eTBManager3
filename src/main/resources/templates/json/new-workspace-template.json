@@ -1,0 +1,77 @@
+{
+  "workspace": {
+    "name": "Workspace name",
+    "description": "Workspace description",
+    "weekFreq1": 2,
+    "weekFreq2": 18,
+    "weekFreq3": 30,
+    "weekFreq4": 42,
+    "weekFreq5": 62,
+    "weekFreq6": 126,
+    "weekFreq7": 127,
+    "patientNameComposition": "SURNAME_FIRSTNAME",
+    "caseValidationTB": "ENABLED",
+    "caseValidationDRTB": "ENABLED",
+    "caseValidationNTM": "ENABLED",
+    "ulaActive": true,
+    "suspectCaseNumber": "USER_DEFINED",
+    "confirmedCaseNumber": "USER_DEFINED",
+    "patientAddrRequiredLevels": 1,
+    "sendSystemMessages": true,
+    "monthsToAlertExpiredMedicines": 1,
+    "minStockOnHand": 1,
+    "maxStockOnHand": 6,
+    "treatMonitoringInput": "SIMPLE",
+    "allowDiagAfterTreatment": true,
+    "allowRegAfterDiagnosis": true
+  },
+  "user": {
+    "login": "ADMIN",
+    "name": "Administrator",
+    "state": "PASSWD_EXPIRED",
+    "comments": "System Administrator",
+    "sendSystemMessages": true,
+    "ulaAccepted": false
+  },
+  "countryStructures": [
+    {
+      "name": "Region",
+      "level": 1
+    },
+    {
+      "name": "City",
+      "level": 2
+    }
+  ],
+  "regions": [
+    {
+      "name": "Region 1",
+      "code": "001"
+    }
+  ],
+  "cities": [
+    {
+      "name": "City 1",
+      "code": "001001"
+    }
+  ],
+  "healthUnit": {
+    "name": "Working unit",
+    "active": true,
+    "mdrHealthUnit": true,
+    "tbHealthUnit": true,
+    "ntmHealthUnit": true,
+    "notifHealthUnit": true,
+    "treatmentHealthUnit": true,
+    "medicineStorage": true,
+    "receivingFromSource": true,
+    "medicineSupplier": true,
+    "patientDispensing": true,
+    "numDaysOrder": 90
+  },
+  "profiles": [
+    {
+      "name": "Administrator"
+    }
+  ]
+}

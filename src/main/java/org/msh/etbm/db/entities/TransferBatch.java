@@ -9,7 +9,6 @@ import java.util.UUID;
 public class TransferBatch {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

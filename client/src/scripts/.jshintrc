@@ -21,7 +21,6 @@
   "white": true,
   "newcap": false,
   "globals": {
-    "React": true
   }
 }
 

@@ -15,7 +15,6 @@ import java.util.UUID;
 public class CaseResistancePattern {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
 	/**

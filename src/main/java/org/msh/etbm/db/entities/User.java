@@ -28,7 +28,6 @@ import java.util.*;
 public class User {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
     
     @Column(length=30)

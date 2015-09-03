@@ -20,7 +20,6 @@ import java.util.UUID;
 public class Movement {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@Temporal(TemporalType.DATE)

@@ -23,7 +23,6 @@ import java.util.UUID;
 public class TreatmentMonitoring implements Transactional {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	

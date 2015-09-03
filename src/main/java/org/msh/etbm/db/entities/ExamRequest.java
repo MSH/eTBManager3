@@ -17,7 +17,6 @@ import java.util.UUID;
 public class ExamRequest {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
     @Temporal(TemporalType.TIMESTAMP)

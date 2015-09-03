@@ -24,7 +24,7 @@ public class Workspace implements Serializable, Transactional {
 	@PropertyLog(ignore=true)
 	private List<UserWorkspace> users = new ArrayList<UserWorkspace>();
 
-	@Column(length=150)
+	@Column(length=250)
 	private String description;
 
 	@Column(length=10)

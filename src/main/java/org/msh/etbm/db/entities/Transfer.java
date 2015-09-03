@@ -15,7 +15,6 @@ import java.util.UUID;
 public class Transfer  {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@Temporal(TemporalType.DATE)

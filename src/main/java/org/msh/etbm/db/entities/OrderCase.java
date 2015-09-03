@@ -12,7 +12,6 @@ public class OrderCase implements Serializable {
 	private static final long serialVersionUID = 2544354553754037596L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

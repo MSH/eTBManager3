@@ -15,7 +15,6 @@ public class MedicineDispensing implements Serializable {
 	private static final long serialVersionUID = 808211986483933780L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	@ManyToOne(fetch= FetchType.LAZY)

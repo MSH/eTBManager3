@@ -11,7 +11,6 @@ import java.util.UUID;
 public class SequenceInfo {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@Column(name="seq_name", length=50)

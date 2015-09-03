@@ -21,7 +21,6 @@ import java.util.UUID;
 public class PrescribedMedicine implements Transactional {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	/**

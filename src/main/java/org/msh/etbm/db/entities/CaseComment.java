@@ -18,7 +18,6 @@ public class CaseComment implements Serializable {
 	private static final long serialVersionUID = 4605350882229307203L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	@ManyToOne(fetch= FetchType.LAZY)

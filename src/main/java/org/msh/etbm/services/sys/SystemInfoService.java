@@ -33,6 +33,7 @@ public class SystemInfoService {
      */
     private JarManifest jarManifest;
 
+
     /**
      * Return information about the system
      * @return

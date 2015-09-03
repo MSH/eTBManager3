@@ -15,7 +15,6 @@ import java.util.UUID;
 public class MedicineComponent {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

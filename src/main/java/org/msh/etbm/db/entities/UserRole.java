@@ -10,7 +10,10 @@
 package org.msh.etbm.db.entities;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -24,7 +27,6 @@ import java.util.UUID;
 public class UserRole implements Comparable<UserRole> {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
     @Column(length=80)

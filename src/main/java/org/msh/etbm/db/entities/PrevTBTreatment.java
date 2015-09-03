@@ -17,7 +17,6 @@ public class PrevTBTreatment implements Serializable {
 	private static final long serialVersionUID = -4070705919226815216L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

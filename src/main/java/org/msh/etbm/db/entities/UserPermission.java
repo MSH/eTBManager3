@@ -13,7 +13,6 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 	private static final long serialVersionUID = 7565244271956307412L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
 	@ManyToOne
@@ -28,8 +27,7 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 
 	private boolean canExecute;
 	private boolean canChange;
-	private boolean grantPermission;
-	
+
 	/**
 	 * Case classification that this permission shall be applied
 	 */
@@ -53,14 +51,6 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 */
 
 	
-	public boolean isGrantPermission() {
-		return grantPermission;
-	}
-
-	public void setGrantPermission(boolean grantPermission) {
-		this.grantPermission = grantPermission;
-	}
-
 	public UUID getId() {
 		return id;
 	}

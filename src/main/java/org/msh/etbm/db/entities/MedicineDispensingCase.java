@@ -9,7 +9,6 @@ import java.util.UUID;
 public class MedicineDispensingCase {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

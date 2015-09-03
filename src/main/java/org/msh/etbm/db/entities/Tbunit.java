@@ -1,7 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.enums.DispensingFrequency;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -21,27 +19,17 @@ public class Tbunit extends Unit {
     @JoinColumn(name="AUTHORIZERUNIT_ID")
     private Tbunit authorizerUnit;
 
-	// ready to be removed from the system
-    private boolean batchControl;
-    
     private boolean treatmentHealthUnit;
     private boolean medicineStorage;
-    private boolean changeEstimatedQuantity;
     private boolean receivingFromSource;
     private boolean medicineSupplier;
-    private DispensingFrequency dispensingFrequency;
-    
+
     private boolean tbHealthUnit;
     private boolean mdrHealthUnit;
     private boolean notifHealthUnit;
     private boolean patientDispensing;
     private boolean ntmHealthUnit;
 
-    /**
-	 * Check if the medicine should be included in the order if it doesn't reach the minimun quantity
-	 */
-	private boolean orderOverMinimum;
-    
     private Integer numDaysOrder;
 
     /**
@@ -91,22 +79,6 @@ public class Tbunit extends Unit {
 		this.receivingFromSource = receivingFromSource;
 	}
 
-	public boolean isBatchControl() {
-		return batchControl;
-	}
-
-	public void setBatchControl(boolean batchControl) {
-		this.batchControl = batchControl;
-	}
-
-	public boolean isChangeEstimatedQuantity() {
-		return changeEstimatedQuantity;
-	}
-
-	public void setChangeEstimatedQuantity(boolean changeEstimatedQuantity) {
-		this.changeEstimatedQuantity = changeEstimatedQuantity;
-	}
-
 	public boolean isTreatmentHealthUnit() {
 		return treatmentHealthUnit;
 	}
@@ -153,22 +125,6 @@ public class Tbunit extends Unit {
 
 	public void setAuthorizerUnit(Tbunit authorizerUnit) {
 		this.authorizerUnit = authorizerUnit;
-	}
-
-	public DispensingFrequency getDispensingFrequency() {
-		return dispensingFrequency;
-	}
-
-	public void setDispensingFrequency(DispensingFrequency dispensingFrequency) {
-		this.dispensingFrequency = dispensingFrequency;
-	}
-
-	public boolean isOrderOverMinimum() {
-		return orderOverMinimum;
-	}
-
-	public void setOrderOverMinimum(boolean orderOverMinimum) {
-		this.orderOverMinimum = orderOverMinimum;
 	}
 
 	/**

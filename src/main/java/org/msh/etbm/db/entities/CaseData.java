@@ -20,7 +20,6 @@ import java.util.UUID;
 public class CaseData implements Transactional {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
 	@Temporal(TemporalType.DATE)

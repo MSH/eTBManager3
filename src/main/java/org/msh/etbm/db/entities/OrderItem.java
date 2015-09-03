@@ -17,7 +17,6 @@ import java.util.UUID;
 public class OrderItem  {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	@ManyToOne(cascade={CascadeType.ALL})

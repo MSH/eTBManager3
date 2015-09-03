@@ -17,7 +17,6 @@ public class TbContact implements Transactional {
 	private static final long serialVersionUID = -6862380284209711375L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 	
 	@ManyToOne

@@ -11,7 +11,6 @@ public class MedicineRegimen implements Serializable {
 	private static final long serialVersionUID = 442884632590945592L;
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
 	private UUID id;
 
 	@ManyToOne

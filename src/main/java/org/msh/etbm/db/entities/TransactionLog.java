@@ -21,7 +21,6 @@ import java.util.UUID;
 public class TransactionLog {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
 	@ManyToOne(fetch= FetchType.LAZY)

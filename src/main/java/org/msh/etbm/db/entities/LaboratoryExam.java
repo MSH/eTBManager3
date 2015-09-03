@@ -23,7 +23,6 @@ public abstract class LaboratoryExam implements Transactional {
     public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE };
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
     private UUID id;
 
 
