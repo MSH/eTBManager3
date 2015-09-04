@@ -121,6 +121,9 @@ public abstract class Unit extends WSObject implements EntityState {
     }
 
     public Address getAddress() {
+        if (address == null) {
+            address = new Address();
+        }
         return address;
     }
 
@@ -129,6 +132,9 @@ public abstract class Unit extends WSObject implements EntityState {
     }
 
     public Address getShipAddress() {
+        if (shipAddress == null) {
+            shipAddress = new Address();
+        }
         return shipAddress;
     }
 

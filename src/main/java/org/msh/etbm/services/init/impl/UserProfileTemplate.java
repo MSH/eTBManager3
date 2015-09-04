@@ -5,7 +5,7 @@ package org.msh.etbm.services.init.impl;
  *
  * Created by rmemoria on 3/9/15.
  */
-public class UserProfileInfo {
+public class UserProfileTemplate {
     private String name;
     private String[] roles;
     private boolean allRoles;

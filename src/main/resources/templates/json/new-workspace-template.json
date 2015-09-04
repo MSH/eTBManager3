@@ -25,13 +25,21 @@
     "allowDiagAfterTreatment": true,
     "allowRegAfterDiagnosis": true
   },
-  "user": {
-    "login": "ADMIN",
-    "name": "Administrator",
-    "state": "PASSWD_EXPIRED",
-    "comments": "System Administrator",
-    "sendSystemMessages": true,
-    "ulaAccepted": false
+  "userWorkspace": {
+    "user": {
+      "login": "ADMIN",
+      "name": "Administrator",
+      "state": "PASSWD_EXPIRED",
+      "comments": "System Administrator",
+      "sendSystemMessages": true,
+      "ulaAccepted": false
+    },
+    "unitName": "Working unit",
+    "profiles": [
+      "Administrator"
+    ],
+    "userView": "COUNTRY",
+    "playOtherUnits": true
   },
   "countryStructures": [
     {
@@ -56,6 +64,7 @@
   ],
   "tbunits": [{
     "name": "Working unit",
+    "adminUnitName": "City 1",
     "active": true,
     "mdrHealthUnit": true,
     "tbHealthUnit": true,
@@ -107,6 +116,7 @@
       "name": "Manager",
       "roles": [
         "CASEMAN",
+        "+CASE_VIEW",
         "+CASE_DATA",
         "+CASE_TREAT",
         "+CASE_INTAKEMED",
@@ -180,7 +190,6 @@
         "+SUBSTANCES",
         "+WEEKFREQ",
         "+FIELDS",
-        "+HEALTHSYS",
         "+AGERANGES",
         "+TAGS",
         "IMPORT",
@@ -195,6 +204,7 @@
       "name": "Doctor, nurse, health facility worker",
       "roles": [
         "CASEMAN",
+        "+CASE_VIEW",
         "+CASE_DATA",
         "+CASE_TREAT",
         "+CASE_INTAKEMED",

@@ -48,11 +48,6 @@ public class UserRole implements Comparable<UserRole> {
      * Indicate if the role is used internally by the system or is available to be assigned in a profile
      */
     private boolean internalUse;
-    
-    /**
-     * Indicate if role is assigned to profile by case classification
-     */
-    private boolean byCaseClassification;
 
     
     /**
@@ -175,20 +170,6 @@ public class UserRole implements Comparable<UserRole> {
 	 */
 	public boolean isInternalUse() {
 		return internalUse;
-	}
-
-	/**
-	 * @return the byClassification
-	 */
-	public boolean isByCaseClassification() {
-		return byCaseClassification;
-	}
-
-	/**
-	 * @param byClassification the byClassification to set
-	 */
-	public void setByCaseClassification(boolean byCaseClassification) {
-		this.byCaseClassification = byCaseClassification;
 	}
 
 

@@ -1,18 +1,13 @@
 package org.msh.etbm.services.init;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.uuid.Generators;
+import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.Mapper;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.db.enums.CaseValidationOption;
-import org.msh.etbm.db.enums.DisplayCaseNumber;
-import org.msh.etbm.db.enums.NameComposition;
-import org.msh.etbm.db.enums.TreatMonitoringInput;
-import org.msh.etbm.services.init.impl.AdminUnitTemplate;
-import org.msh.etbm.services.init.impl.NewWorkspaceTemplate;
+import org.msh.etbm.services.init.impl.*;
 import org.msh.etbm.services.users.UserUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,9 +32,12 @@ public class RegisterWorkspaceService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    Mapper mapper;
+
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
-    private Workspace workspace;
+    private List<UserRole> roles;
 
     /**
      * Register a new workspace during the initialization process
@@ -48,16 +45,18 @@ public class RegisterWorkspaceService {
      */
     @Transactional
     public UUID register(@Valid @NotNull RegisterWorkspaceForm form) {
-        Number count = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
+//        Number count = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
+//
+//        // if there is a workspace registered, so it cannot be initialized again by registering the workspace
+//        if (count.intValue() > 0) {
+//            throw new InitializationException("Cannot initialize. Workspace was already registered");
+//        }
 
-        // if there is a workspace registered, so it cannot be initialized again by registering the workspace
-        if (count.intValue() > 0) {
-            throw new InitializationException("Cannot initialize. Workspace was already registered");
-        }
-
-        template = loadTemplate();
+        template = JsonParser.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
 
         Workspace ws = createWorkspace(form);
+
+        createAdminUser(form);
 
         entityManager.flush();
 
@@ -69,33 +68,75 @@ public class RegisterWorkspaceService {
      * Load the object templates to create the workspace
      * @return template objects
      */
-    private NewWorkspaceTemplate loadTemplate() {
-        ClassPathResource res = new ClassPathResource("/templates/json/new-workspace-template.json");
-        try {
-            InputStream in = res.getInputStream();
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(in, NewWorkspaceTemplate.class);
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    private NewWorkspaceTemplate loadTemplate() {
+//        ClassPathResource res = new ClassPathResource("/templates/json/new-workspace-template.json");
+//        try {
+//            InputStream in = res.getInputStream();
+//            ObjectMapper mapper = new ObjectMapper();
+//            return mapper.readValue(in, NewWorkspaceTemplate.class);
+//        }
+//        catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 
     /**
      * Create the account of the administrator user called admin using the given password
      * @return The administrator user object
      */
-    private User createAdminUser(RegisterWorkspaceForm form) {
-        User user = template.getUser();
+    private UserWorkspace createAdminUser(RegisterWorkspaceForm form) {
+        UserWorkspaceTemplate templ = template.getUser();
 
+        User user = templ.getUser();
+        user.setId(Generators.timeBasedGenerator().generate());
         user.setPassword(UserUtils.hashPassword(form.getAdminPassword()));
         user.setEmail(form.getAdminEmail());
         user.setRegistrationDate(new Date());
 
         entityManager.persist(user);
 
-        return user;
+        // get TB unit
+        Tbunit unit = (Tbunit) entityManager.createQuery("from Tbunit where name = :name and workspace.id=:id")
+                .setParameter("name", templ.getUnitName())
+                .setParameter("id", template.getWorkspace().getId())
+                .getSingleResult();
+
+        UserWorkspace uw = new UserWorkspace();
+        uw.setId(Generators.timeBasedGenerator().generate());
+        uw.setUser(user);
+        uw.setUnit(unit);
+        uw.setWorkspace(template.getWorkspace());
+        uw.setView(templ.getUserView());
+
+        // get administrative unit
+        if (templ.getAdminUnitName() != null) {
+            AdministrativeUnit au = (AdministrativeUnit) entityManager
+                    .createQuery("from AdministrativeUnit where name = :name and workspace.id=:id")
+                    .setParameter("name", templ.getAdminUnitName())
+                    .setParameter("id", template.getWorkspace().getId())
+                    .getSingleResult();
+            uw.setAdminUnit(au);
+        }
+
+        // get user profiles
+        if (templ.getProfiles() != null) {
+            for (String pname: templ.getProfiles()) {
+                UserProfile profile = (UserProfile) entityManager
+                        .createQuery("from UserProfile where name = :name and workspace.id=:id")
+                        .setParameter("name", pname)
+                        .setParameter("id", template.getWorkspace().getId())
+                        .getSingleResult();
+                uw.getProfiles().add(profile);
+            }
+        }
+
+        // save
+        entityManager.persist(user);
+        entityManager.persist(uw);
+        entityManager.flush();
+
+        return uw;
     }
 
 
@@ -116,6 +157,7 @@ public class RegisterWorkspaceService {
 
         createAdminUnits();
         createUnits();
+        createProfiles();
 
         return ws;
     }
@@ -178,6 +220,7 @@ public class RegisterWorkspaceService {
         }
     }
 
+
     /**
      * Search for the administrative unit by its name
      * @param name the name of the administrative unit
@@ -197,6 +240,93 @@ public class RegisterWorkspaceService {
      * Create the units from a template file
      */
     private void createUnits() {
+        for (TbunitTemplate t: template.getTbunits()) {
+            Tbunit unit = mapper.map(t, Tbunit.class);
+            unit.getAddress().setAdminUnit(findAdminUnit(t.getAdminUnitName()));
 
+            if (unit.getAddress().getAdminUnit() == null) {
+                throw new RuntimeException("Administrative unit " + t.getAdminUnitName() + " not found for unit " + t.getName());
+            }
+
+            unit.setId(Generators.timeBasedGenerator().generate());
+            unit.setWorkspace(template.getWorkspace());
+
+            entityManager.persist(unit);
+            entityManager.flush();
+        }
+    }
+
+    /**
+     * Create the user profiles
+     */
+    private void createProfiles() {
+        // load all roles
+        roles = entityManager.createQuery("from UserRole").getResultList();
+
+        for (UserProfileTemplate t: template.getProfiles()) {
+            UserProfile u = new UserProfile();
+            u.setName(t.getName());
+            u.setWorkspace(template.getWorkspace());
+            u.setId(Generators.timeBasedGenerator().generate());
+
+            if (t.isAllRoles()) {
+                // include all roles
+                for (UserRole role: roles) {
+                    String roleName = role.getName();
+                    if (role.isChangeable()) {
+                        roleName = "+" + roleName;
+                    }
+                    createPermission(u, roleName);
+                }
+            }
+            else {
+                // include selected roles
+                if (t.getRoles() != null) {
+                    for (String roleName: t.getRoles()) {
+                        createPermission(u, roleName);
+                    }
+                }
+            }
+
+            entityManager.persist(u);
+            entityManager.flush();
+        }
+    }
+
+    /**
+     * Create the permissions of the user profile
+     * @param profile
+     * @param roleName
+     */
+    private void createPermission(UserProfile profile, String roleName) {
+        // create new permission
+        UserPermission perm = new UserPermission();
+
+        boolean canChange = roleName.startsWith("+");
+        if (canChange) {
+            roleName = roleName.substring(1);
+        }
+
+        // search for role
+        for (UserRole r: roles) {
+            if (r.getName().equals(roleName)) {
+                perm.setUserRole(r);
+                break;
+            }
+        }
+
+        // user role not found ?
+        if (perm.getUserRole() == null) {
+            throw new RuntimeException("User role not defined: " + roleName + " profile: " + profile.getName());
+        }
+
+        if (perm.getUserRole().isChangeable()) {
+            perm.setCanChange(canChange);
+        }
+        perm.setCanExecute(true);
+        perm.setUserProfile(profile);
+        perm.setId(Generators.timeBasedGenerator().generate());
+
+        profile.getPermissions().add(perm);
     }
 }

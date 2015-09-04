@@ -7,6 +7,8 @@ import org.msh.etbm.db.enums.UserView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="userworkspace")
@@ -15,12 +17,7 @@ public class UserWorkspace extends WSObject {
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="UNIT_ID")
 	@PropertyLog(operations={Operation.NEW})
-	private Tbunit tbunit;
-
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="LABORATORY_ID")
-    @PropertyLog(operations={Operation.NEW})
-    private Laboratory laboratory;
+	private Unit unit;
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="USER_ID")
@@ -28,12 +25,15 @@ public class UserWorkspace extends WSObject {
 	@PropertyLog(ignore=true)
 	private User user;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PROFILE_ID")
-	@NotNull
-	@PropertyLog(operations={Operation.NEW})
-	private UserProfile profile;
-	
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="userworkspace_profiles",
+            joinColumns={@JoinColumn(name="USERWORKSPACE_ID")},
+            inverseJoinColumns={@JoinColumn(name="USERPROFILE_ID")})
+    @PropertyLog(operations={Operation.NEW})
+	private List<UserProfile> profiles = new ArrayList<>();
+
+
 	@Column(name="USER_VIEW")
 	@NotNull
 	@PropertyLog(operations={Operation.NEW})
@@ -77,28 +77,12 @@ public class UserWorkspace extends WSObject {
 	}
 */
 
-	public Tbunit getTbunit() {
-		return tbunit;
-	}
-
-	public void setTbunit(Tbunit tbunit) {
-		this.tbunit = tbunit;
-	}
-
 	public User getUser() {
 		return user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	public UserProfile getProfile() {
-		return profile;
-	}
-
-	public void setProfile(UserProfile profile) {
-		this.profile = profile;
 	}
 
 	public UserView getView() {
@@ -131,12 +115,19 @@ public class UserWorkspace extends WSObject {
 		return adminUnit;
 	}
 
-
-    public Laboratory getLaboratory() {
-        return laboratory;
+    public Unit getUnit() {
+        return unit;
     }
 
-    public void setLaboratory(Laboratory laboratory) {
-        this.laboratory = laboratory;
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public List<UserProfile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<UserProfile> profiles) {
+        this.profiles = profiles;
     }
 }

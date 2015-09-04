@@ -28,11 +28,6 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 	private boolean canExecute;
 	private boolean canChange;
 
-	/**
-	 * Case classification that this permission shall be applied
-	 */
-	private CaseClassification caseClassification;
-
 
 /*
 	@Override
@@ -93,20 +88,6 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 	 */
 	public void setCanChange(boolean canChange) {
 		this.canChange = canChange;
-	}
-
-	/**
-	 * @return the caseClassification
-	 */
-	public CaseClassification getCaseClassification() {
-		return caseClassification;
-	}
-
-	/**
-	 * @param caseClassification the caseClassification to set
-	 */
-	public void setCaseClassification(CaseClassification caseClassification) {
-		this.caseClassification = caseClassification;
 	}
 
 

@@ -26,11 +26,10 @@ public class UserProfile extends WSObject implements Comparable<UserProfile> {
 	private String customId;
 
 
-	public UserPermission permissionByRole(UserRole role, CaseClassification classif) {
+	public UserPermission permissionByRole(UserRole role) {
 		for (UserPermission up: getPermissions()) {
 			if (up.getUserRole().equals(role)) {
-				if ((classif == null) || ((classif != null) && (classif == up.getCaseClassification())))
-					return up;
+                return up;
 			}
 		}
 		return null;

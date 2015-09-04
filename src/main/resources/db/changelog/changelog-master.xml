@@ -1184,7 +1184,6 @@
             <column name="email" type="VARCHAR(80)">
                 <constraints nullable="false"/>
             </column>
-            <column name="language" type="VARCHAR(6)"/>
             <column name="login" type="VARCHAR(30)">
                 <constraints nullable="false"/>
             </column>
@@ -1200,7 +1199,7 @@
             <column name="ADMINUNIT_ID" type="${type.id}"/>
             <column name="DEFAULTWORKSPACE_ID" type="${type.id}"/>
             <column name="PARENTUSER_ID" type="${type.id}"/>
-            <column name="customId" type="VARCHAR(50)"/>
+            <column name="customId" type="${type.customId}"/>
             <column name="sendSystemMessages" type="${type.boolean}"/>
             <column name="lasttransaction_id" type="${type.id}"/>
             <column name="ulaAccepted" type="${type.boolean}"/>
@@ -1710,16 +1709,12 @@
             <column name="canExecute" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="grantPermission" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
             <column name="PROFILE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="ROLE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="caseClassification" type="INT"/>
         </createTable>
     </changeSet>
 
@@ -1741,6 +1736,18 @@
     </changeSet>
 
 
+    <changeSet author="rmemoria" id="1433264274749-73.2">
+        <createTable tableName="userworkspace_profiles">
+            <column name="userworkspace_id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="userprofile_id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
     <changeSet author="rmemoria" id="1433264274749-74">
         <createTable tableName="userrole">
             <column name="id" type="${type.id}">
@@ -1756,7 +1763,6 @@
             <column defaultValueNumeric="0" name="internalUse" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="byCaseClassification" type="${type.boolean}"/>
             <column name="messageKey" type="VARCHAR(100)"/>
         </createTable>
     </changeSet>
@@ -1774,9 +1780,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="ADMINUNIT_ID" type="${type.id}"/>
-            <column name="PROFILE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
             <column name="UNIT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -1787,7 +1790,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lastTransaction_ID" type="${type.id}"/>
-            <column name="laboratory_id" type="${type.id}"/>
         </createTable>
     </changeSet>
 
@@ -2182,9 +2184,6 @@
     <changeSet author="rmemoria" id="1433264274749-188">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-189">
-        <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userworkspace" constraintName="FK3FB6152A7730850C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-190">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="userworkspace" constraintName="FK3FB6152AB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
@@ -2405,6 +2404,17 @@
     <changeSet author="rmemoria" id="1433264274749-264">
         <addForeignKeyConstraint baseColumnNames="DISPENSING_ID" baseTableName="movements_dispensing" constraintName="FKAA427C75BA967077" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinedispensing"/>
     </changeSet>
+
+    <changeSet author="rmemoria" id="1433264274749-264.2">
+        <addForeignKeyConstraint baseColumnNames="userworkspace_id" baseTableName="userworkspace_profiles" constraintName="FKUWP_USERWORKSPACE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userworkspace"/>
+    </changeSet>
+    <changeSet author="rmemoria" id="1433264274749-264.3">
+        <addForeignKeyConstraint baseColumnNames="userprofile_id" baseTableName="userworkspace_profiles" constraintName="FKUWP_USERPROFILE" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
+    </changeSet>
+    <changeSet id="rmemoria" author="1433264274749-264.4">
+        <addPrimaryKey tableName="userworkspace_profiles" columnNames="userworkspace_id,userprofile_id" />
+    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-265">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="examdst" constraintName="FKB124E546A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>

@@ -5,7 +5,6 @@
     "code" : "050000",
     "name" : "ADMIN",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin"
   },
   {
@@ -14,7 +13,6 @@
     "code" : "050800",
     "name" : "USERS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.users"
   },
   {
@@ -23,7 +21,6 @@
     "code" : "050200",
     "name" : "ADMINUNITS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.adminunits"
   },
   {
@@ -32,7 +29,6 @@
     "code" : "050400",
     "name" : "SOURCES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.sources"
   },
   {
@@ -41,7 +37,6 @@
     "code" : "050500",
     "name" : "TBUNITS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.tbunits"
   },
   {
@@ -50,7 +45,6 @@
     "code" : "050600",
     "name" : "MEDICINES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.medicines"
   },
   {
@@ -59,7 +53,6 @@
     "code" : "030000",
     "name" : "MEDMAN",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "medicines"
   },
   {
@@ -68,7 +61,6 @@
     "code" : "040000",
     "name" : "MANAGEMENT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag"
   },
   {
@@ -77,7 +69,6 @@
     "code" : "030200",
     "name" : "RECEIV",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.receiving"
   },
   {
@@ -86,7 +77,6 @@
     "code" : "030402",
     "name" : "VAL_ORDER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders.autorize"
   },
   {
@@ -95,7 +85,6 @@
     "code" : "030403",
     "name" : "SEND_ORDER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders.shipment"
   },
   {
@@ -104,7 +93,6 @@
     "code" : "030404",
     "name" : "RECEIV_ORDER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders.receive"
   },
   {
@@ -113,7 +101,6 @@
     "code" : "030500",
     "name" : "DISP_PAC",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.dispensing"
   },
   {
@@ -122,7 +109,6 @@
     "code" : "030400",
     "name" : "ORDERS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders"
   },
   {
@@ -131,7 +117,6 @@
     "code" : "055100",
     "name" : "ONLINE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.websessions"
   },
   {
@@ -140,7 +125,6 @@
     "code" : "030405",
     "name" : "ORDER_CANC",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders.cancel"
   },
   {
@@ -149,7 +133,6 @@
     "code" : "031002",
     "name" : "MOVS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.movs"
   },
   {
@@ -158,7 +141,6 @@
     "code" : "030702",
     "name" : "TRANSF_REC",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.transfer.receive"
   },
   {
@@ -167,7 +149,6 @@
     "code" : "040100",
     "name" : "REP1",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel1"
   },
   {
@@ -176,7 +157,6 @@
     "code" : "031003",
     "name" : "REP_ESTPOS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel2"
   },
   {
@@ -185,7 +165,6 @@
     "code" : "031004",
     "name" : "REP_STOCKEVOL",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel3"
   },
   {
@@ -194,7 +173,6 @@
     "code" : "040400",
     "name" : "REP4",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel4"
   },
   {
@@ -203,7 +181,6 @@
     "code" : "031005",
     "name" : "REP_COSTPAT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel5"
   },
   {
@@ -212,7 +189,6 @@
     "code" : "030100",
     "name" : "STOCKPOS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.movs.newadjust"
   },
   {
@@ -221,7 +197,6 @@
     "code" : "051000",
     "name" : "PROFILES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.profiles"
   },
   {
@@ -230,7 +205,6 @@
     "code" : "050800",
     "name" : "REGIMENS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.regimens"
   },
   {
@@ -239,7 +213,6 @@
     "code" : "050900",
     "name" : "WORKSPACES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.workspaces"
   },
   {
@@ -248,7 +221,6 @@
     "code" : "030700",
     "name" : "TRANSFER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.transfer"
   },
   {
@@ -257,7 +229,6 @@
     "code" : "010000",
     "name" : "CASEMAN",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases"
   },
   {
@@ -266,7 +237,6 @@
     "code" : "051100",
     "name" : "LABS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.labs"
   },
   {
@@ -275,7 +245,6 @@
     "code" : "051300",
     "name" : "SUBSTANCES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.substances"
   },
   {
@@ -284,7 +253,6 @@
     "code" : "051400",
     "name" : "WEEKFREQ",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.weeklyfreq"
   },
   {
@@ -292,8 +260,7 @@
     "changeable" : true,
     "code" : "030800",
     "name" : "UNITSETUP",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   },
   {
     "id" : "00000000-0000-0000-0000-000000000058",
@@ -301,7 +268,6 @@
     "code" : "051700",
     "name" : "FIELDS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.fields"
   },
   {
@@ -310,7 +276,6 @@
     "code" : "040600",
     "name" : "EXPORT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.export"
   },
   {
@@ -319,7 +284,6 @@
     "code" : "040700",
     "name" : "FORECAST",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.forecast.med"
   },
   {
@@ -327,8 +291,7 @@
     "changeable" : false,
     "code" : "055000",
     "name" : "SETUPWS",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   },
   {
     "id" : "00000000-0000-0000-0000-000000000062",
@@ -336,7 +299,6 @@
     "code" : "055100",
     "name" : "ADMREP",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.reports"
   },
   {
@@ -345,7 +307,6 @@
     "code" : "055101",
     "name" : "USERSESREP",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.reports.usersession"
   },
   {
@@ -354,8 +315,15 @@
     "code" : "055200",
     "name" : "SYSSETUP",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.syssetup"
+  },
+  {
+    "id" : "00000000-0000-0000-0000-000000000100",
+    "changeable" : false,
+    "code" : "010400",
+    "name" : "CASE_VIEW",
+    "internalUse" : false,
+    "messageKey" : "userole.CASE_VIEW"
   },
   {
     "id" : "00000000-0000-0000-0000-000000000101",
@@ -363,7 +331,6 @@
     "code" : "010407",
     "name" : "CASE_VALIDATE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.validate"
   },
   {
@@ -372,7 +339,6 @@
     "code" : "010409",
     "name" : "CASE_TRANSFER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.move"
   },
   {
@@ -381,7 +347,6 @@
     "code" : "010410",
     "name" : "CASE_CLOSE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.close"
   },
   {
@@ -390,7 +355,6 @@
     "code" : "010411",
     "name" : "CASE_REOPEN",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.reopen"
   },
   {
@@ -399,7 +363,6 @@
     "code" : "010403",
     "name" : "CASE_EXAMS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.exams"
   },
   {
@@ -408,7 +371,6 @@
     "code" : "010402",
     "name" : "CASE_TREAT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.treatment"
   },
   {
@@ -417,7 +379,6 @@
     "code" : "051900",
     "name" : "AGERANGES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.ageranges"
   },
   {
@@ -425,16 +386,14 @@
     "changeable" : false,
     "code" : "055102",
     "name" : "LOGREP",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   },
   {
     "id" : "00000000-0000-0000-0000-000000000119",
     "changeable" : false,
     "code" : "050901",
     "name" : "WSADDREMUSER",
-    "internalUse" : true,
-    "byCaseClassification" : false
+    "internalUse" : true
   },
   {
     "id" : "00000000-0000-0000-0000-000000000120",
@@ -442,7 +401,6 @@
     "code" : "050201",
     "name" : "ADMSTR",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.auorg"
   },
   {
@@ -451,7 +409,6 @@
     "code" : "011001",
     "name" : "EXAM_CULTURE",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examculture"
   },
   {
@@ -460,7 +417,6 @@
     "code" : "011002",
     "name" : "EXAM_MICROSC",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.exammicroscopy"
   },
   {
@@ -469,7 +425,6 @@
     "code" : "011003",
     "name" : "EXAM_DST",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examdst"
   },
   {
@@ -478,7 +433,6 @@
     "code" : "011006",
     "name" : "EXAM_HIV",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examhiv"
   },
   {
@@ -487,7 +441,6 @@
     "code" : "011005",
     "name" : "EXAM_XRAY",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examxray"
   },
   {
@@ -496,7 +449,6 @@
     "code" : "050902",
     "name" : "WSCOPY",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "admin.workspaces.copy"
   },
   {
@@ -505,7 +457,6 @@
     "code" : "054000",
     "name" : "IMPORT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.import"
   },
   {
@@ -514,7 +465,6 @@
     "code" : "030900",
     "name" : "MED_INIT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.start"
   },
   {
@@ -523,7 +473,6 @@
     "code" : "010401",
     "name" : "CASE_DATA",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.case"
   },
   {
@@ -532,7 +481,6 @@
     "code" : "010403",
     "name" : "CASE_INTAKEMED",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_INTAKEMED"
   },
   {
@@ -541,7 +489,6 @@
     "code" : "010406",
     "name" : "CASE_DRUGOGRAM",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.report1"
   },
   {
@@ -550,7 +497,6 @@
     "code" : "010408",
     "name" : "CASE_DEL_VAL",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_DEL_VAL"
   },
   {
@@ -559,7 +505,6 @@
     "code" : "030401",
     "name" : "NEW_ORDER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.orders.new"
   },
   {
@@ -568,7 +513,6 @@
     "code" : "030701",
     "name" : "NEW_TRANSFER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.transfer.new"
   },
   {
@@ -577,7 +521,6 @@
     "code" : "010405",
     "name" : "CASE_ADDINFO",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.otherinfo"
   },
   {
@@ -586,7 +529,6 @@
     "code" : "010412",
     "name" : "CASE_PERSONALVIEW",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_PERSONAL_VIEW"
   },
   {
@@ -594,8 +536,7 @@
     "changeable" : false,
     "code" : "031000",
     "name" : "MED_REPORTS",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   },
   {
     "id" : "00000000-0000-0000-0000-000000000151",
@@ -603,7 +544,6 @@
     "code" : "040500",
     "name" : "INDICATORS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.case.reports"
   },
   {
@@ -612,7 +552,6 @@
     "code" : "011007",
     "name" : "COMORBIDITIES",
     "internalUse" : true,
-    "byCaseClassification" : true,
     "messageKey" : "cases.comorbidities"
   },
   {
@@ -621,7 +560,6 @@
     "code" : "011008",
     "name" : "TBCONTACT",
     "internalUse" : true,
-    "byCaseClassification" : true,
     "messageKey" : "cases.contacts"
   },
   {
@@ -630,7 +568,6 @@
     "code" : "011009",
     "name" : "ADV_EFFECTS",
     "internalUse" : true,
-    "byCaseClassification" : true,
     "messageKey" : "cases.sideeffects"
   },
   {
@@ -639,7 +576,6 @@
     "code" : "030901",
     "name" : "MED_INIT_REM",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.start.remove"
   },
   {
@@ -648,7 +584,6 @@
     "code" : "030702",
     "name" : "TRANSF_CANCEL",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "meds.transfer.cancel"
   },
   {
@@ -657,7 +592,6 @@
     "code" : "011010",
     "name" : "EXAM_BIOPSY",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.exambiopsy"
   },
   {
@@ -666,7 +600,6 @@
     "code" : "011011",
     "name" : "EXAM_SKIN",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examskintest"
   },
   {
@@ -675,7 +608,6 @@
     "code" : "010413",
     "name" : "CASE_COMMENTS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_COMMENTS"
   },
   {
@@ -684,7 +616,6 @@
     "code" : "010414",
     "name" : "REM_COMMENTS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.REM_COMMENTS"
   },
   {
@@ -693,7 +624,6 @@
     "code" : "052000",
     "name" : "TAGS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "admin.tags"
   },
   {
@@ -702,7 +632,6 @@
     "code" : "010415",
     "name" : "CASE_TAG",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_TAG"
   },
   {
@@ -711,7 +640,6 @@
     "code" : "010500",
     "name" : "CASE_CHANGENUMBER",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CASE_CHANGENUMBER"
   },
   {
@@ -719,16 +647,14 @@
     "changeable" : false,
     "code" : "055103",
     "name" : "ERRORLOGREP",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   },
   {
     "id" : "00000000-0000-0000-0000-000000000168",
     "changeable" : false,
     "code" : "060100",
     "name" : "TASK",
-    "internalUse" : true,
-    "byCaseClassification" : false
+    "internalUse" : true
   },
   {
     "id" : "00000000-0000-0000-0000-000000000170",
@@ -736,7 +662,6 @@
     "code" : "010100",
     "name" : "NEWSUSP",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.NEWSUSP"
   },
   {
@@ -745,7 +670,6 @@
     "code" : "010200",
     "name" : "NEWCASE",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.NEWCASE"
   },
   {
@@ -754,7 +678,6 @@
     "code" : "011013",
     "name" : "EXAM_BIOMOL",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.EXAM_BIOMOL"
   },
   {
@@ -763,7 +686,6 @@
     "code" : "050800",
     "name" : "NEWPWD",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "admin.users.newpasswd"
   },
   {
@@ -772,7 +694,6 @@
     "code" : "010409",
     "name" : "CASE_TRANSFERIN",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.move.regtransferin"
   },
   {
@@ -781,7 +702,6 @@
     "code" : "010409",
     "name" : "CASE_TRANSFEROUT",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.move"
   },
   {
@@ -790,7 +710,6 @@
     "code" : "010409",
     "name" : "CASE_TRANSFERCANCEL",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.move.cancel"
   },
   {
@@ -799,7 +718,6 @@
     "code" : "010402",
     "name" : "CASE_STARTTREAT",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.details.starttreatment"
   },
   {
@@ -808,7 +726,6 @@
     "code" : "010402",
     "name" : "TREATMENT_UNDO",
     "internalUse" : true,
-    "byCaseClassification" : true,
     "messageKey" : "cases.treat.undo"
   },
   {
@@ -817,7 +734,6 @@
     "code" : "011014",
     "name" : "CASE_MED_EXAM",
     "internalUse" : true,
-    "byCaseClassification" : true,
     "messageKey" : "MedicalExamination"
   },
   {
@@ -826,7 +742,6 @@
     "code" : "010403",
     "name" : "EXAM_XPERT",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.examxpert"
   },
   {
@@ -835,7 +750,6 @@
     "code" : "041000",
     "name" : "DATA_ANALYSIS",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.reportgen"
   },
   {
@@ -844,7 +758,6 @@
     "code" : "041100",
     "name" : "REP_QUARTERLY",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "manag.rel7"
   },
   {
@@ -853,7 +766,6 @@
     "code" : "031006",
     "name" : "QUARTERLY_EDIT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "Quarter.editQuartelyReport"
   },
   {
@@ -862,7 +774,6 @@
     "code" : "041000",
     "name" : "SUSPECT_FOLLOWUP",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "cases.suspect.followup"
   },
   {
@@ -871,7 +782,6 @@
     "code" : "011100",
     "name" : "ISSUES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.issues"
   },
   {
@@ -880,7 +790,6 @@
     "code" : "011101",
     "name" : "NEW_ISSUE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "cases.issues.new"
   },
   {
@@ -889,7 +798,6 @@
     "code" : "011103",
     "name" : "ANSWER_ISSUE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.ANSWER_ISSUE"
   },
   {
@@ -898,7 +806,6 @@
     "code" : "011104",
     "name" : "CLOSEDEL_ISSUE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.CLOSEDEL_ISSUE"
   },
   {
@@ -907,7 +814,6 @@
     "code" : "031007",
     "name" : "MED_MOV_EDIT_OUT_PERIOD",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.movs.editoutofperiod"
   },
   {
@@ -916,7 +822,6 @@
     "code" : "031008",
     "name" : "AUTO_TASK",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "autotask"
   },
   {
@@ -925,7 +830,6 @@
     "code" : "030200",
     "name" : "STOCK_ADJUST_NEW_BATCH",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "meds.mov.newadjust.newbatch"
   },
   {
@@ -934,7 +838,6 @@
     "code" : "050501",
     "name" : "UNIT_USERSTRANS",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "admin.tbunits.userstrans"
   },
   {
@@ -943,7 +846,6 @@
     "code" : "050502",
     "name" : "UNIT_CASESTRANS",
     "internalUse" : true,
-    "byCaseClassification" : false,
     "messageKey" : "admin.tbunits.casestrans"
   },
   {
@@ -952,7 +854,6 @@
     "code" : "030200",
     "name" : "VIEW_MEDICINE_PRICES",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.VIEW_MEDICINE_PRICES"
   },
   {
@@ -961,7 +862,6 @@
     "code" : "020000",
     "name" : "LAB_MODULE",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "labs"
   },
   {
@@ -970,7 +870,6 @@
     "code" : "020100",
     "name" : "LAB_NEWREQUEST",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "labs.newreq"
   },
   {
@@ -979,7 +878,6 @@
     "code" : "020200",
     "name" : "LAB_POSTRESULT",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.LAB_POSTRESULT"
   },
   {
@@ -988,7 +886,6 @@
     "code" : "020300",
     "name" : "LAB_EDTREQ",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.LAB_EDTREQ"
   },
   {
@@ -997,7 +894,6 @@
     "code" : "020400",
     "name" : "LAB_REMREQ",
     "internalUse" : false,
-    "byCaseClassification" : false,
     "messageKey" : "userrole.LAB_REMREQ"
   },
   {
@@ -1005,7 +901,6 @@
     "changeable" : false,
     "code" : "055300",
     "name" : "CHECKUPDATE",
-    "internalUse" : false,
-    "byCaseClassification" : false
+    "internalUse" : false
   }
 ]

@@ -3,17 +3,17 @@ package org.msh.etbm.services.init.impl;
 import org.msh.etbm.db.entities.*;
 
 /**
- * Template class that will be filled by the json file located in the resources
+ * Template class that will be filled by the json file located in the resources folder
  *
  * Created by rmemoria on 2/9/15.
  */
 public class NewWorkspaceTemplate {
     private Workspace workspace;
-    private User user;
+    private UserWorkspaceTemplate userWorkspace;
     private CountryStructure[] countryStructures;
     private AdminUnitTemplate[] adminUnits;
-    private TbunitTempl[] tbunits;
-    private UserProfileInfo[] profiles;
+    private TbunitTemplate[] tbunits;
+    private UserProfileTemplate[] profiles;
 
     public Workspace getWorkspace() {
         return workspace;
@@ -23,12 +23,12 @@ public class NewWorkspaceTemplate {
         this.workspace = workspace;
     }
 
-    public User getUser() {
-        return user;
+    public UserWorkspaceTemplate getUser() {
+        return userWorkspace;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserWorkspace(UserWorkspaceTemplate user) {
+        this.userWorkspace = user;
     }
 
     public CountryStructure[] getCountryStructures() {
@@ -39,11 +39,11 @@ public class NewWorkspaceTemplate {
         this.countryStructures = countryStructures;
     }
 
-    public UserProfileInfo[] getProfiles() {
+    public UserProfileTemplate[] getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(UserProfileInfo[] profiles) {
+    public void setProfiles(UserProfileTemplate[] profiles) {
         this.profiles = profiles;
     }
 
@@ -55,11 +55,11 @@ public class NewWorkspaceTemplate {
         this.adminUnits = adminUnits;
     }
 
-    public TbunitTempl[] getTbunits() {
+    public TbunitTemplate[] getTbunits() {
         return tbunits;
     }
 
-    public void setTbunits(TbunitTempl[] tbunits) {
+    public void setTbunits(TbunitTemplate[] tbunits) {
         this.tbunits = tbunits;
     }
 }

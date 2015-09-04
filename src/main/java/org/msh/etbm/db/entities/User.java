@@ -58,9 +58,6 @@ public class User {
 	@PropertyLog(operations={Operation.NEW}, logEntityFields=true)
     private UserWorkspace defaultWorkspace;
     
-    @Column(length=6)
-    private String language;
-    
     @Column(length=50)
     private String timeZone;
 
@@ -77,7 +74,7 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date registrationDate;
 
-	@Column(length=50)
+	@Column(length=30)
 	@PropertyLog(messageKey="global.legacyId")
 	private String customId;
 	
@@ -123,22 +120,6 @@ public class User {
 		return null;
 	}
 
-	/**
-	 * Return the user selected language
-	 * @return language in the format accepted by the {@link Locale} class
-	 */
-	public String getLanguage() {
-		return language;
-	}
-
-	
-	/**
-	 * Set the user language
-	 * @param defaultLanguage the new language of the user 
-	 */
-	public void setLanguage(String defaultLanguage) {
-		this.language = defaultLanguage;
-	}
 
 	@Override
 	public String toString() {
