@@ -1,6 +1,7 @@
 /**
  * Created by rmemoria on 29/8/15.
  */
+'use strict';
 
 import {EventEmitter} from 'events';
 import App from './app';
@@ -25,7 +26,8 @@ class SessionStore extends EventEmitter {
     }
 }
 
-var sessionStore = new SessionStore;
+var sessionStore = new SessionStore();
+
 export default sessionStore;
 
 
@@ -35,6 +37,7 @@ export default sessionStore;
  * @param store the instance of SessionStore
  */
 function registerDispatcher(store) {
+    console.log(App);
     store.dispatchToken = App.dispatcher.register(function(action) {
         if (action.type === Const.LOGIN) {
             registerLogin(store, action.data);

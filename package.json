@@ -28,6 +28,7 @@
     "jsxhint": "^0.15.1",
     "node-properties-parser": "0.0.2",
     "react-hot-loader": "^1.2.8",
+    "redux": "^2.0.0",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.2",
     "style-loader": "^0.12.3",

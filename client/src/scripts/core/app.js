@@ -76,6 +76,7 @@ function handleSysInfo(app, info) {
 		    break;
 	}
 
+    window.alert(info.state);
 	Router.listen();
 	if (Router.getHash() === path) {
 		Router.check(path);

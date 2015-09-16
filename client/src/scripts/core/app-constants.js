@@ -6,4 +6,4 @@ export default {
     SYS_INFO: 'sys_info',
     LOGIN: 'login',
     LOGOUT: 'logout'
-}
+};

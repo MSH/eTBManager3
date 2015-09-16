@@ -105,17 +105,22 @@ public class SystemInfoService {
      * @return instance of Manifest class
      */
     private Manifest getManifest() {
-        String path = this.getClass().getProtectionDomain().getCodeSource().getLocation().toString() + JarFile.MANIFEST_NAME;
+        // get the full name of the application manifest file name
+        String appManifestFileName = this.getClass().getProtectionDomain().getCodeSource().getLocation().toString() + JarFile.MANIFEST_NAME;
 
         Enumeration resEnum;
         try {
+            // get a list of all manifest files found in the jars loaded by the app
             resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
             while (resEnum.hasMoreElements()) {
                 try {
                     URL url = (URL)resEnum.nextElement();
-                    if (url.toString().equals(path)) {
+                    // is the app manifest file?
+                    if (url.toString().equals(appManifestFileName)) {
+                        // open the manifest
                         InputStream is = url.openStream();
                         if (is != null) {
+                            // read the manifest and return it to the application
                             Manifest manifest = new Manifest(is);
                             return manifest;
                         }

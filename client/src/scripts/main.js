@@ -9,8 +9,6 @@ import App from './core/app';
 require('../styles/theme.css');
 require('../styles/app.css');
 
-
-
 /**
  * Run the main application
  */

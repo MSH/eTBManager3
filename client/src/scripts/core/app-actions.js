@@ -1,7 +1,7 @@
 /**
  * Created by rmemoria on 29/8/15.
  */
-
+'use strict';
 
 import Http from './http.js';
 import Const from './app-constants.js';
@@ -22,7 +22,7 @@ export default {
                 App.dispatch({
                     type: Const.SYS_INFO,
                     data: info
-                })
+                });
             });
     }
-}
+};

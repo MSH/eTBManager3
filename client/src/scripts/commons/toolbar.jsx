@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { Navbar, Nav, NavItem, CollapsibleNav, DropdownButton, MenuItem } from 'react-bootstrap';
-import App from '../core/app.js';
-
+import SessionStore from '../core/session-store.js';
 
 /**
  * The home page of the initialization module
@@ -18,11 +17,12 @@ export default class Toolbar extends React.Component {
 
     componentDidMount() {
         console.log('ONCHANGE = ' + this._onChange);
-        App.sessionStore.on('change', this._onChange);
+        console.log(SessionStore);
+        SessionStore.on('change', this._onChange);
     }
 
     componentDidUmount() {
-        App.sessionStore.removeListener('change', this._onChange);
+        SessionStore.removeListener('change', this._onChange);
     }
 
     _onChange(data) {
