@@ -1,8 +1,6 @@
 
 import React from 'react';
-import RouterView from '../core/RouterView.jsx';
-import Toolbar from './toolbar.jsx';
-import WaitIcon from './wait-icon.jsx';
+import RouteView from '../components/RouteView.jsx';
 
 
 /**
@@ -11,6 +9,8 @@ import WaitIcon from './wait-icon.jsx';
 import InitMod from '../init/index';
 import PubMod from '../pub/index';
 import SysMod from '../sys/index';
+
+import Hello from '../init/hello.jsx';
 
 
 /**
@@ -41,19 +41,15 @@ export default class RootContent extends React.Component {
 
     render() {
         var routers = [
-            {path: '/pub', handler: this.openPublic},
-            {path: '/init', handler: this.openInit},
-            {path: '/app', handler: this.openApp}
+            {path: '/pub', viewResolver: this.openPublic},
+            {path: '/init', viewResolver: this.openInit},
+            {path: '/app', viewResolver: this.openApp},
+            {path: '/hello', view: Hello}
         ];
 
         return (
-            <div>
-                <Toolbar>
-                </Toolbar>
-                <div className='app-content'>
-                    <RouterView routes={routers} />
-                    <WaitIcon />
-                </div>
+            <div className='app-content'>
+                <RouteView key={1} id={'root'} routes={routers} />
             </div>
         );
     }

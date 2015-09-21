@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Navbar, Nav, NavItem, CollapsibleNav, DropdownButton, MenuItem } from 'react-bootstrap';
-import SessionStore from '../core/session-store.js';
 
 /**
  * The home page of the initialization module
@@ -11,25 +10,15 @@ export default class Toolbar extends React.Component {
 
     constructor() {
         super();
-        this.state = {loggedIn: false, counter: 0};
     }
 
 
     componentDidMount() {
-        console.log('ONCHANGE = ' + this._onChange);
-        console.log(SessionStore);
-        SessionStore.on('change', this._onChange);
     }
 
     componentDidUmount() {
-        SessionStore.removeListener('change', this._onChange);
     }
 
-    _onChange(data) {
-        console.log('On change called');
-        console.log(data);
-        this.setState({loggedIn: data.loggedIn});
-    }
 
     render() {
         var Logo = (
@@ -38,10 +27,7 @@ export default class Toolbar extends React.Component {
             </a>
         )
 
-        this.state.counter++;
-        console.log('counter = ' + this.state.counter);
-        console.log(this.state);
-        var loggedin = this.state.loggedId;
+        var loggedin = this.props.session !== undefined;
 
         var items;
 
@@ -70,7 +56,7 @@ export default class Toolbar extends React.Component {
         else {
             items = (
                 <Nav navbar right>
-                    <NavItem>Must login first</NavItem>
+                    <NavItem>First time</NavItem>
                 </Nav>
             );
         }
