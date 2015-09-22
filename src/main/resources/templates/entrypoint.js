@@ -18,22 +18,45 @@
     var data = {
         languages: '${languages}',
         contextPath: '${path}',
-        defaultLanguage: '${defaultLanguage}'
+        defaultLanguage: '${defaultLanguage}',
+        /**
+         * Global function to get a cookie value
+         * @param cname the name of the cookie
+         */
+        getCookie: function(cname) {
+            var name = cname + '=';
+            var vals = document.cookie.split('; ' + name);
+            if (vals.length === 2) {
+                return vals.pop().split(';').shift();
+            }
+            return;
+        },
+        /**
+         * Set a cookie value
+         * @param name is the name of the cookie
+         * @param value is the value of the cookie
+         * @param days is the expire date of the cookie in days
+         */
+        setCookie: function(name, value, days) {
+            var s = name + '=' + value;
+            if (days) {
+                var d = new Date();
+                d.setTime( d.getTime() + (days*24*60*60*1000) );
+                s += "; expires="+d.toUTCString();
+            }
+            document.cookie = s;
+        }
     };
-    window.appcfg = data;
+    window.app = data;
+
+    var setCookie = data.setCookie,
+        getCookie = data.getCookie,
+        LANG_KEY = "lang";
 
 
     // the navigator language
-    var navlang;
-
     // try to get language stored in the document cookie
-    var s = '; ' + document.cookie;
-    var vals = s.split('; lang=');
-    if (vals.length == 2) {
-        navlang = vals.pop().split(';').shift();
-    }
-
-    var navlang = navlang || navigator.language;
+    var navlang = getCookie(LANG_KEY) || navigator.language;
 
     // convert language to the java format (xx-xx to xx_XX)
     if (navlang.indexOf('-') > 0) {
@@ -73,6 +96,11 @@
     if (!lang) {
         document.write('<h1>NO LANGUAGE FOUND!</h1>');
     }
+
+    /**
+     * Set the default language in the document cookie
+     */
+    setCookie(LANG_KEY, lang);
 
     /**
      * Load the main script based on the selected language
