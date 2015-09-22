@@ -56,7 +56,6 @@ export default class Toolbar extends React.Component {
         else {
             items = (
                 <Nav navbar right>
-                    <NavItem>First time</NavItem>
                 </Nav>
             );
         }

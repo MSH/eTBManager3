@@ -7,7 +7,8 @@
   font-family: 'OpenSans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url("//themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff") format('woff');
+//  src: local('Open Sans'), local('OpenSans'), url("//themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff") format('woff');
+  src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
 }
 
 
@@ -29,7 +30,7 @@
 
 // Scaffolding
 @body-bg: #fff;
-@text-color: @gray-dark;
+@text-color: @gray;
 @link-color: @brand-primary;
 @link-hover-color: darken(@link-color, 15%);
 @padding-base-vertical: 6px;
@@ -51,7 +52,7 @@
 @font-family-serif: PT Serif;
 @font-family-monospace: Monaco;
 @font-family-base: @font-family-sans-serif;
-@font-size-base: 13px;
+@font-size-base: 14px;
 @font-size-large: ceil(@font-size-base * 1.20);
 @font-size-small: ceil(@font-size-base * 0.85);
 @font-size-h1: floor((@font-size-base * 2.4));
@@ -136,13 +137,13 @@
 // Navbar
 @navbar-height: 50px;
 @navbar-margin-bottom: @line-height-computed;
-@navbar-default-color: #e8f0e4;
-@navbar-default-bg: #1e4f16;
+@navbar-default-color: #f0f0f0;
+@navbar-default-bg: #303e3c;
 @navbar-default-border: darken(@navbar-default-bg, 1%);
 @navbar-border-radius: 0px;
 @navbar-padding-horizontal: floor(@grid-gutter-width / 2);
 @navbar-padding-vertical: ((@navbar-height - @line-height-computed) / 2);
-@navbar-default-link-color: #e9f0e9;
+@navbar-default-link-color: #303030;
 @navbar-default-link-hover-color: #bbc4bc;
 @navbar-default-link-hover-bg: transparent;
 @navbar-default-link-active-color: #ffffff;

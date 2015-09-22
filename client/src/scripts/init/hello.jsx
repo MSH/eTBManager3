@@ -1,5 +1,5 @@
 import React from 'react';
-import RouteView from '../components/RouteView.jsx';
+import { RouteView } from '../components/router.jsx';
 
 import Hello2 from './hello2.jsx';
 

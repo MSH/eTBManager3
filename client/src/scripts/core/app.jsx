@@ -10,7 +10,7 @@ import RootContent from '../components/root-content.jsx';
 class App extends Component {
 
   render() {
-  	let st = this.props;
+  	let st = this.props.state;
   	let fetching = st && st.fetching;
 
     return (
@@ -23,7 +23,7 @@ class App extends Component {
             }
 
             {!fetching &&
-                <RootContent>
+                <RootContent dispatch={this.props.dispatch} appState={this.props.state}>
                 </RootContent>
             }
 
@@ -35,7 +35,7 @@ class App extends Component {
 
 
 function mapStateToProps(appState) {
-	return appState? appState: {};
+	return {state: appState};
 }
 
 export default connect(mapStateToProps)(App);

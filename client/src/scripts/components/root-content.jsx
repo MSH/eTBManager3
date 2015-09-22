@@ -1,6 +1,6 @@
 
 import React from 'react';
-import RouteView from '../components/RouteView.jsx';
+import { RouteView } from '../components/router.jsx';
 
 
 /**
@@ -9,8 +9,6 @@ import RouteView from '../components/RouteView.jsx';
 import InitMod from '../init/index';
 import PubMod from '../pub/index';
 import SysMod from '../sys/index';
-
-import Hello from '../init/hello.jsx';
 
 
 /**
@@ -43,13 +41,17 @@ export default class RootContent extends React.Component {
         var routers = [
             {path: '/pub', viewResolver: this.openPublic},
             {path: '/init', viewResolver: this.openInit},
-            {path: '/app', viewResolver: this.openApp},
-            {path: '/hello', view: Hello}
+            {path: '/app', viewResolver: this.openApp}
         ];
+
+        let viewProps = {
+            store: this.props.store,
+            appState: this.props.appState
+        };
 
         return (
             <div className='app-content'>
-                <RouteView key={1} id={'root'} routes={routers} />
+                <RouteView key={1} viewProps={viewProps} routes={routers} />
             </div>
         );
     }

@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import { RouteView } from '../components/router.jsx';
+import Welcome from './welcome.jsx';
 
 
 /**
@@ -9,8 +11,20 @@ import React from 'react';
 export default class Home extends React.Component {
 
 	render() {
+		let routes = [
+			{ path: '/welcome', view: Welcome }
+		];
+
+		let viewProps = {
+			dispatch: this.props.dispatch,
+			appState: this.props.appState
+		};
+
 		return (
-            <h1>Initial page</h1>
+			<div>
+	            <RouteView routes={routes} viewProps={viewProps}>
+	            </RouteView>
+			</div>
 			);
 	}
 }

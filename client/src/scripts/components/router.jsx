@@ -9,7 +9,7 @@ let currPath;
 let errorPath;
 
 
-export default class RouteView extends React.Component {
+export class RouteView extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -102,7 +102,7 @@ export default class RouteView extends React.Component {
 				res.view = view;
 				comp.setState(res);
 			};
-			res.view = route.vireResolver(path, done);
+			res.view = route.viewResolver(path, done);
 		}
 		return res;
 	}
@@ -155,14 +155,21 @@ export default class RouteView extends React.Component {
 
 		// create custom element
 		if (View) {
-			console.log(this.state);
+			// properties to be passed to the view are set ?
+			let viewProps = {};
+			if (this.props.viewProps) {
+				viewProps = this.props.viewProps;
+			}
+
+			// params were set ?
+			if (params) {
+				viewProps.params = {params};
+			}
+
 			// update the current path for the next calls
 			currPath = currPath.replace(route.pathExp, '');
 			return (
-				<div>
-					{currPath}
-				<View params={params}></View>
-				</div>
+				<View {...viewProps} ></View>
 			);
 		}
 		else {
@@ -276,3 +283,5 @@ class Navigator {
 }
 
 let navigator = new Navigator();
+
+export { navigator };
