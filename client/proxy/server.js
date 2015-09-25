@@ -6,6 +6,11 @@ var httpProxy = require('http-proxy'),
     config = require('../config'),
     _ = require('underscore');
 
+/**
+ * Request delay for development purposes
+ * @type {number} delay in milliseconds
+ */
+var requestDelay = 800;
 
 // We need to add a configuration to our proxy server,
 // as we are now proxying outside localhost
@@ -23,9 +28,11 @@ if (!_.isArray(lst)) {
 // setup development proxy
 lst.forEach(function(url) {
     app.all(url, function (req, res) {
-        proxy.web(req, res, {
-            target: config.proxy.dev.url
-        });
+        setTimeout(function() {
+            proxy.web(req, res, {
+                target: config.proxy.dev.url
+            });
+        }, requestDelay);
     });
 });
 

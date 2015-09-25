@@ -132,8 +132,8 @@ gulp.task('open', function() {
         uri: 'http://localhost:' + config.proxy.port
     };
 
-    return gulp.src(__filename)
-        .pipe(open(options));
+//    return gulp.src(__filename)
+//        .pipe(open(options));
 });
 
 

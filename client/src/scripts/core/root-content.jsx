@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { RouteView } from '../components/router.jsx';
+import PageNotFound from './page-not-found.jsx';
 
 
 /**
@@ -20,28 +21,29 @@ export default class RootContent extends React.Component {
      * Open the public module
      */
     openPublic (data, done) {
-        PubMod.init(data.path, done);
+        PubMod.init(data, done);
     }
 
     /**
      * Open the initialization module
      */
     openInit (data, done) {
-        InitMod.init(data.path, done);
+        InitMod.init(data, done);
     }
 
     /**
      * Open the application home page
      */
     openApp(data, done) {
-        SysMod.init(data.path, done);
+        SysMod.init(data, done);
     }
 
     render() {
         var routers = [
             {path: '/pub', viewResolver: this.openPublic},
             {path: '/init', viewResolver: this.openInit},
-            {path: '/app', viewResolver: this.openApp}
+            {path: '/app', viewResolver: this.openApp},
+            {path: '/pagenotfound', view: PageNotFound}
         ];
 
         let viewProps = {
@@ -51,7 +53,7 @@ export default class RootContent extends React.Component {
 
         return (
             <div className='app-content'>
-                <RouteView key={1} viewProps={viewProps} routes={routers} />
+                <RouteView key={1} viewProps={viewProps} routes={routers} errorPath="/pagenotfound" />
             </div>
         );
     }

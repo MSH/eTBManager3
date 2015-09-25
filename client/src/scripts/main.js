@@ -20,6 +20,8 @@ import { appReducer } from './core/reducers';
 require('../styles/theme.css');
 require('../styles/app.css');
 
+// load font awesome
+require("font-awesome-webpack");
 
 /**
  * Create application store

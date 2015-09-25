@@ -48,23 +48,32 @@ module.exports = config.languages.prod.map( function(lang) {
 
 
         module: {
-            loaders: [{
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel'
-            }, {
-                test: /\.less/,
-                loader: 'style-loader!css-loader!less-loader'
-            }, {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            }, {
-                test: /\.(png|jpg)$/,
-                loader: 'url-loader?limit=8192'
-            },
+            loaders: [
                 {
-                    test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                    test: /\.jsx?$/,
+                    exclude: /node_modules/,
+                    loader: 'babel'
+                }, {
+                    test: /\.less/,
+                    loader: 'style-loader!css-loader!less-loader'
+                }, {
+                    test: /\.css$/,
+                    loader: 'style-loader!css-loader'
+                }, {
+                    test: /\.(png|jpg)$/,
+                    loader: 'url-loader?limit=8192'
+                },
+                {
+                    test: /(?!fontawesome)\.(png|woff|woff2|eot|ttf|svg)$/,
                     loader: 'url-loader?limit=100000'
+                },
+                {   // font awesome fonts
+                    test: /(?=.*fontawesome).*(?=.*\.woff(2))?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                    loader: 'url-loader?limit=10000&minetype=application/font-woff'
+                },
+                {   // font awesome fonts
+                    test: /(?=.*fontawesome).*\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+                    loader: 'file-loader'
                 }
             ]
         },

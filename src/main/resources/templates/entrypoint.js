@@ -45,6 +45,12 @@
                 s += "; expires="+d.toUTCString();
             }
             document.cookie = s;
+        },
+        getLang: function() {
+            return window.app.getCookie(LANG_KEY);
+        },
+        setLang: function(value) {
+            window.app.setCookie(LANG_KEY, value);
         }
     };
     window.app = data;

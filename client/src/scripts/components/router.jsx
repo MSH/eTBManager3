@@ -51,12 +51,11 @@ export class RouteView extends React.Component {
 	 */
 	onHashChange(path) {
 		// resolve the view by the path
+        currPath = path;
 		let res = this.resolveView(path);
 		if (!res) {
 			return;
 		}
-
-		currPath = path;
 
 		if (res.view) {
 			this.setState(res);
@@ -73,10 +72,19 @@ export class RouteView extends React.Component {
 		if (!path) {
 			path = this.props.defaultPath;
 		}
+
+        // if nothing was defined, just return null
+        if (!path) {
+            return null;
+        }
+
 		// search for route according to the given path
 		let route = this.findRoute(path);
 		// route was found ?
 		if (!route) {
+            if (!errorPath) {
+                errorPath = this.props.errorPath;
+            }
 			if (errorPath) {
 				navigator.goto(errorPath);
 			}
@@ -242,7 +250,7 @@ class Navigator {
         var self = this;
         var current;
         var fn = function() {
-            var hash = self.getHash();
+            var hash = self.hash();
             if(current !== hash && self.observer) {
                 current = hash;
                 self.observer.onHashChange(current);
@@ -260,7 +268,7 @@ class Navigator {
 	 * Return the current hash
 	 * @return {[type]} [description]
 	 */
-	getHash() {
+	hash() {
 		let s = location.hash;
 		return s[0] === '#'? s.substring(1): s;
 	}

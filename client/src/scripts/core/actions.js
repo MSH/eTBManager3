@@ -16,13 +16,11 @@ export function runApp() {
 			fetching: true
 		});
 
-		setTimeout( () => {
-		    // get system information
-		    Http.get('/api/sys/info')
-		        .end(
-		        	(err, res) => onReceiveStatus(dispatch, res.body)
-		       	);
-		}, 1000);
+        // get system information
+        Http.get('/api/sys/info')
+            .end(
+            (err, res) => onReceiveStatus(dispatch, res.body)
+        );
 
 	};
 }
@@ -34,12 +32,27 @@ export function runApp() {
  * @param  {[type]} res      The response from the server
  */
 function onReceiveStatus(dispatch, res) {
-	if (res.state === 'NEW') {
-		navigator.goto('/init/welcome');
-	}
+    switch (res.state) {
+        // if it is a new instance, go to the initialization module
+        case 'NEW': gotoModule('/init', '/welcome');
+            break;
+        // if ready, go to the home page
+        case 'READY': gotoModule('/sys', '/home');
+            break;
+        // default module is the login page
+        default:
+            gotoModule('/pub', '/login');
+    }
 
 	dispatch({
 		type: APP_RUN,
 		data: res
 	});
+}
+
+function gotoModule(modpath, pagepath) {
+    var hash = navigator.hash();
+    if (hash.indexOf(modpath) !== 0) {
+        navigator.goto(hash + pagepath);
+    }
 }

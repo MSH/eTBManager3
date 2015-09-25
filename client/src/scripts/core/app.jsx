@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Toolbar from './toolbar.jsx';
 import WaitIcon from '../components/wait-icon.jsx';
-import RootContent from '../components/root-content.jsx';
+import RootContent from './root-content.jsx';
 
 
 class App extends Component {

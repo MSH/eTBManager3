@@ -37,6 +37,8 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.5",
+    "font-awesome": "^4.4.0",
+    "font-awesome-webpack": "0.0.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.24.5",
     "react-redux": "^2.1.2",

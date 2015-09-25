@@ -1,7 +1,6 @@
 'use strict';
 
 import Request from 'superagent';
-import Cookies from './cookies';
 
 
 export default {
@@ -22,9 +21,10 @@ export default {
 	 * @param  {String} url The remote address
 	 * @return {Request}    Request object
 	 */
-	post: function(url) {
+	post: function(url, data) {
 		return Request
 			.post(url)
+            .send(data)
 			.set('Content-type', 'application/json')
 			.use(auth)
 			.use(errorHandler);
@@ -34,7 +34,7 @@ export default {
 
 function auth(req) {
 	// authentication token is available ?
-	var authToken = Cookies.get('autok');
+	var authToken = window.app.getCookie('autok');
 	if (authToken) {
 		req.set('X-Auth-Token', authToken);
 	}

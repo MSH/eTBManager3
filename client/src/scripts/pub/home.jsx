@@ -2,22 +2,19 @@
 
 import React from 'react';
 import { RouteView } from '../components/router.jsx';
-import Welcome from './welcome.jsx';
-import InitOptions from './initoptions.jsx';
-import NewWorkspace from './newworkspace.jsx';
 
 
 /**
- * The home page of the initialization module
+ * The page controller of the public module
  */
 export default class Home extends React.Component {
 
 	render() {
-		let routes = [
-			{ path: '/welcome', view: Welcome },
-            { path: '/initoptions', view: InitOptions},
-            { path: '/newworkspace', view: NewWorkspace }
-		];
+		//let routes = [
+		//	{ path: '/login', view: Welcome },
+         //   { path: '/forgotpwd', view: InitOptions},
+         //   { path: '/userreg', view: NewWorkspace }
+		//];
 
 		let viewProps = {
 			dispatch: this.props.dispatch,

@@ -68,7 +68,7 @@ public class SystemInfoService {
                     break;
                 default: loc = new Locale(opts[0]);
             }
-            lst.add(new Item<String>(lang, loc.getDisplayName()));
+            lst.add(new Item<String>(lang, loc.getDisplayName(loc)));
         }
         return lst;
     }
