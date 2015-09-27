@@ -10,12 +10,12 @@ import RootContent from './root-content.jsx';
 class App extends Component {
 
   render() {
-  	let st = this.props.state;
-  	let fetching = st && st.fetching;
+  	let appState = this.props.state;
+  	let fetching = appState && appState.fetching;
 
     return (
         <div>
-        	<Toolbar></Toolbar>
+        	<Toolbar appState={appState}></Toolbar>
             <div className='app-content'>
 
             {fetching &&
@@ -23,7 +23,7 @@ class App extends Component {
             }
 
             {!fetching &&
-                <RootContent dispatch={this.props.dispatch} appState={this.props.state}>
+                <RootContent dispatch={this.props.dispatch} appState={appState}>
                 </RootContent>
             }
 

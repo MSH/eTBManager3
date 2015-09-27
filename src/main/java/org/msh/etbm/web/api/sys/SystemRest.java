@@ -3,6 +3,7 @@ package org.msh.etbm.web.api.sys;
 import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInfoService;
 import org.msh.etbm.services.sys.SystemInformation;
+import org.msh.etbm.services.sys.SystemState;
 import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/sys")
-public class SystemAPI {
+public class SystemRest {
 
     @Autowired
     SystemInfoService systemInfoService;
@@ -33,13 +34,13 @@ public class SystemAPI {
         SystemInformation inf = systemInfoService.getInformation();
 
         // check if system is ready
-        if (inf.getState() == SystemInformation.SystemState.READY) {
+        if (inf.getState() == SystemState.READY) {
             // check if authentication is required
             boolean authRequired = authToken == null ||
                     authenticationService.getSessionByToken(authToken) == null;
 
             if (authRequired) {
-                inf.setState(SystemInformation.SystemState.AUTH_REQUIRED);
+                inf.setState(SystemState.AUTH_REQUIRED);
             }
         }
 

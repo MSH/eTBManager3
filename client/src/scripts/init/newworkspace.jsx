@@ -1,9 +1,10 @@
 import React from 'react';
 import { Grid, Row, Col, Input, Button, Fade, PageHeader } from 'react-bootstrap';
-import { registerWs } from './actions';
+import { postSuccess } from './actions';
 import { navigator } from '../components/router.jsx';
 import Title from '../components/title.jsx';
 import { validateForm } from '../commons/validator.jsx';
+import Http from '../commons/http.js';
 
 /**
  * Form validation model
@@ -63,11 +64,21 @@ export default class NewWorkspace extends React.Component {
         };
 
         let comp = this;
-        setTimeout(() => {
-            comp.setState({fetching: false});
-        }, 3000);
-//        navigator.goto('/init/success');
-//        this.props.dispatch(registerWs(data));
+        console.log(this.props);
+
+        Http.post('/api/init/workspace', data)
+            .end((err, res) => {
+                comp.setState({fetching: false});
+                console.log(err);
+                console.log(res);
+                if (!err) {
+                    comp.props.dispatch(postSuccess(v.wsname + ' successfully created'));
+                }
+            })
+        //setTimeout(() => {
+        //    comp.setState({fetching: false});
+        //    comp.props.dispatch(postSuccess(v.wsname + ' successfully created'));
+        //}, 2000);
     }
 
 
@@ -77,51 +88,67 @@ export default class NewWorkspace extends React.Component {
     render() {
         let langs = this.props.appState.app.languages;
         let lg = window.app.getLang();
-        var err = this.state.errors || {};
+        let err = this.state.errors || {};
+        let fetching = this.state.fetching;
 
         return (
             <Fade in transitionAppear>
             <Grid>
-                <Row>
-                    <Col md={6} mdOffset={3}>
-                        <Title text='Create a new workspace'></Title>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={3} mdOffset={3}>
-                        <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname?'error':undefined}>
-                        </Input>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={3} mdOffset={3}>
-                        <Input type="text" label="Administrator user name:" value="Admin" disabled>
-                        </Input>
-                    </Col>
-                    <Col md={3}>
-                        <Input type="text" ref="email" label="Administrator e-mail address:" help={err.email} bsStyle={err.email?'error':undefined}>
-                        </Input>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={3} mdOffset={3}>
-                        <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd?'error':undefined}>
-                        </Input>
-                    </Col>
-                    <Col md={3}>
-                        <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2}  bsStyle={err.pwd2?'error':undefined}>
-                        </Input>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6} mdOffset={3}>
-                        <div className="pull-right">
-                            <Button bsStyle="primary" disabled={this.state.fetching} pullRight bsSize='large' onClick={this.contClick}>{__('Create')}
-                            </Button>
-                        </div>
-                    </Col>
-                </Row>
-            </Grid>
+                <Col md={8} mdOffset={2} lg={8} lgOffset={2} sm={12}>
+                    <Row>
+                        <Col sm={12}>
+                            <Title text='Create a new workspace'></Title>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={6}>
+                            <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname?'error':undefined}>
+                            </Input>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <div className='bs-callout bs-callout-warning'>
+                                <h4>Administrator</h4>
+                                <p>The administrator account is a special user with access to all data and functionalities inside e-TB Manager.
+                                    It is recommended that you use this account with caution.
+                                </p>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={6}>
+                            <Input type="text" label="Administrator user name:" value="Admin" disabled>
+                            </Input>
+                        </Col>
+                        <Col sm={6}>
+                            <Input type="text" ref="email" label="Administrator e-mail:" help={err.email} bsStyle={err.email?'error':undefined}>
+                            </Input>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={6}>
+                            <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd?'error':undefined}>
+                            </Input>
+                        </Col>
+                        <Col sm={6}>
+                            <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2}  bsStyle={err.pwd2?'error':undefined}>
+                            </Input>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <div className="pull-right">
+                                <Button bsStyle="primary" disabled={fetching}
+                                        pullRight bsSize='large' onClick={this.contClick}>
+                                    {fetching && <i className='fa fa-circle-o-notch fa-spin fa-fw'></i>}
+                                    {__('Create')}
+                                </Button>
+                            </div>
+                        </Col>
+                    </Row>
+                </Col>
+           </Grid>
                 </Fade>
         );
     }

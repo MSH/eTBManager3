@@ -4,6 +4,8 @@ import org.msh.etbm.commons.Item;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -27,6 +29,8 @@ public class SystemInfoService {
     @Value("${app.languages}")
     private String[] languages;
 
+    @PersistenceContext
+    EntityManager entityManager;
 
     /**
      * Store information about the manifest.md file
@@ -41,13 +45,27 @@ public class SystemInfoService {
     public SystemInformation getInformation() {
         SystemInformation inf = new SystemInformation();
 
-        inf.setState(SystemInformation.SystemState.NEW);
+        inf.setState(getState());
 
         inf.setLanguages(getLanguages());
 
         inf.setSystem(getJarManifest());
 
         return inf;
+    }
+
+
+    /**
+     * Return the state of the system
+     * @return SystemState instance
+     */
+    protected SystemState getState() {
+        Number num = (Number)entityManager.createQuery("select count(*) from Workspace").getSingleResult();
+        if (num.intValue() == 0) {
+            return SystemState.NEW;
+        }
+
+        return SystemState.AUTH_REQUIRED;
     }
 
 

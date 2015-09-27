@@ -287,7 +287,7 @@
 @grid-float-breakpoint: @screen-tablet;
 @navbar-collapse-max-height: 340px;
 @navbar-inverse-color: @gray-light;
-@navbar-inverse-bg: #222;
+@navbar-inverse-bg: #303e3c;
 @navbar-inverse-border: darken(@navbar-inverse-bg, 10%);
 @navbar-inverse-link-color: @gray-light;
 @navbar-inverse-link-hover-color: #fff;
@@ -412,4 +412,129 @@
 @container-sm: @container-tablet;
 @container-md: @container-desktop;
 @container-lg: @container-large-desktop;
-   
+
+
+// app variables
+@header-search-bg: #abc1b3;
+
+
+.placeholder(@color) {
+  ::-webkit-input-placeholder {color: @color}
+  ::-moz-placeholder {color: @color}
+  :-ms-input-placeholder {color: @color}
+}
+
+
+
+.bs-callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  h4 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  p:last-child {
+    margin-bottom: 0
+  }
+  code {
+    border-radius: 3px
+  }
+  p {
+    color: #707070;
+  }
+}
+
+
+.bs-callout+.bs-callout {
+  margin-top: -5px
+}
+
+.bs-callout-danger {
+  border-left-color: #ce4844;
+  h4 {
+    color: #ce4844
+  }
+}
+
+
+.bs-callout-warning {
+  border-left-color: @brand-warning;
+  h4 {
+    color: darken( @brand-warning, 10%);
+  }
+}
+
+
+.bs-callout-info {
+  border-left-color: #009e0c;
+  h4 {
+    color: #0e8618
+  }
+}
+
+
+.header-search {
+  padding:2px;
+  background-color: @header-search-bg;
+  border-radius: 4px;
+  color: #606060;
+  height:28px;
+
+  input {
+    border:none;
+    width:auto;
+    background-color: @header-search-bg;
+    color: #000;
+    float:left;
+
+    .placeholder(@navbar-inverse-bg);
+  }
+  input:focus {
+    box-shadow: none;
+    outline:0;
+  }
+  button {
+    float:right;
+    background-color: @header-search-bg;
+    border:none;
+  }
+}
+
+
+
+.header-ws {
+  max-width: 100px;
+
+  .ws-text {
+    font-size: 0.9em;
+  }
+
+  .fa-inverse {
+    color:#f0f0f0;
+  }
+}
+
+.header {
+  box-shadow: #a0a0a0 0px 4px 6px;
+
+  // small padding for nav items
+  .hsmall a {
+    padding-top: 12px;
+    padding-bottom:4px;
+  }
+}
+
+.dropdown {
+  .fa-inverse {
+    color: #f0f0f0;
+  }
+}
+.dropdown:hover, .dropdown.open {
+    .fa-inverse {
+      color: @navbar-inverse-link-color;
+    }
+}

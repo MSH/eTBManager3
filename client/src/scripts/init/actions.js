@@ -2,13 +2,14 @@
 import Http from '../commons/http';
 import { navigator } from '../components/router.jsx';
 
-export function registerWs(data) {
+export const INIT_SUCCESS = 'init_success';
 
-    return function(dispatch) {
-        dispatch({
-            type: 'INIT_WS',
-            posting: true
-        });
+export function postSuccess(msg) {
 
+    navigator.goto('/init/success');
+
+    return {
+        type: INIT_SUCCESS,
+        message: msg
     }
 }

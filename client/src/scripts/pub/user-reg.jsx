@@ -1,34 +1,35 @@
 import React from 'react';
-import { Grid, Row, Col, Input, Button, Fade, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Grid, Row, Col, Input, Button, Fade } from 'react-bootstrap';
 import { navigator } from '../components/router.jsx';
 import Title from '../components/title.jsx';
 
 
-export default class Success extends React.Component {
+/**
+ * Wellcome page - First page displayed under e-TB Manager first time execution
+ */
+export default class Welcome extends React.Component {
     constructor(props) {
         super(props);
-        this.contClick = this.contClick.bind(this);
     }
 
     /**
      * Called when user clicks on the continue button
      */
-    contClick() {
-        navigator.goto('/init/newworkspace');
+    loginClick() {
+        navigator.goto('/init/initoptions');
     }
-
 
     /**
      * Render the component
      */
     render() {
-        let msg = this.props.appState.message;
-
         return (
             <Fade in transitionAppear>
                 <Grid>
                     <Row>
-                        {msg}
+                        <Col md={6} mdOffset={3}>
+                            <Title text='User registration'></Title>
+                        </Col>
                     </Row>
                 </Grid>
             </Fade>

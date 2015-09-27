@@ -53,6 +53,6 @@ function onReceiveStatus(dispatch, res) {
 function gotoModule(modpath, pagepath) {
     var hash = navigator.hash();
     if (hash.indexOf(modpath) !== 0) {
-        navigator.goto(hash + pagepath);
+        navigator.goto(modpath + pagepath);
     }
 }

@@ -21,7 +21,8 @@ export function appReducer(state, action) {
 	}
 }
 
-export function addReducer(type, func) {
+
+export function registerReducer(type, func) {
 	if (reducers[type]) {
 		throw new Error('type ' + type + ' already registered as a reducer');
 	}

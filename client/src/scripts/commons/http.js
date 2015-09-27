@@ -25,7 +25,7 @@ export default {
 		return Request
 			.post(url)
             .send(data)
-			.set('Content-type', 'application/json')
+		//	.set('Content-type', 'application/json')
 			.use(auth)
 			.use(errorHandler);
 	}

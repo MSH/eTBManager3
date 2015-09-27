@@ -3,6 +3,11 @@
 import React from 'react';
 import { RouteView } from '../components/router.jsx';
 
+/** Pages of the public module */
+import Login from './login.jsx';
+import UserReg from './user-reg.jsx';
+import ForgotPwd from './forgot-pwd.jsx';
+
 
 /**
  * The page controller of the public module
@@ -10,11 +15,11 @@ import { RouteView } from '../components/router.jsx';
 export default class Home extends React.Component {
 
 	render() {
-		//let routes = [
-		//	{ path: '/login', view: Welcome },
-         //   { path: '/forgotpwd', view: InitOptions},
-         //   { path: '/userreg', view: NewWorkspace }
-		//];
+		let routes = [
+			{ path: '/login', view: Login },
+            { path: '/forgotpwd', view: ForgotPwd},
+            { path: '/userreg', view: UserReg }
+		];
 
 		let viewProps = {
 			dispatch: this.props.dispatch,

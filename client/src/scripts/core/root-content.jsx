@@ -47,7 +47,7 @@ export default class RootContent extends React.Component {
         ];
 
         let viewProps = {
-            store: this.props.store,
+            dispatch: this.props.dispatch,
             appState: this.props.appState
         };
 

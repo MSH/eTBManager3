@@ -8,8 +8,10 @@
  */
 exports.init = function(path, done) {
 
-	require.ensure('./home.jsx', function(require) {
-		var Home = require('./home.jsx');
+	require.ensure(['./home.jsx', './reducers'], function(require) {
+		let Home = require('./home.jsx');
+        let reducers = require('./reducers');
+        reducers.init();
 		done(Home);
 	});
 };
