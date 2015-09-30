@@ -19,7 +19,6 @@ function reducInitSuccess(state, action) {
     for (let k in state) {
         obj[k] = state[k];
     }
-//    let st = Object.assign(state, {message: action.message});
-    console.log(obj);
+
     return obj;
 }

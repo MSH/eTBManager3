@@ -29,7 +29,7 @@
 
 
 // Scaffolding
-@body-bg: #fff;
+@body-bg: #e8e8e8;
 @text-color: @gray;
 @link-color: @brand-primary;
 @link-hover-color: darken(@link-color, 15%);
@@ -425,6 +425,11 @@
 }
 
 
+.app-content {
+  background-color: #f8f8f8;
+  min-height: 500px;
+  padding-bottom:40px;
+}
 
 .bs-callout {
   padding: 20px;
@@ -505,7 +510,9 @@
 }
 
 
-
+/**
+* Decorate the workspace label in the page header
+**/
 .header-ws {
   max-width: 100px;
 
@@ -530,11 +537,68 @@
 
 .dropdown {
   .fa-inverse {
-    color: #f0f0f0;
+    color: #f8f8f8;
   }
 }
 .dropdown:hover, .dropdown.open {
     .fa-inverse {
       color: @navbar-inverse-link-color;
     }
+}
+
+.footer {
+ // border-top:1px solid #d0d0d0;
+//  background-color: #e0e0e0;
+  background-color: @body-bg;
+  border-top:1px solid @btn-default-border;
+  padding: 30px;
+  min-height: 150px;
+  img {
+    margin-bottom: 40px;
+  }
+}
+
+.card {
+  background-color:white;
+  margin-top:20px;
+  border:1px solid #e8e8e8;
+  border-radius: 2px;
+
+  /** Style of the title */
+  .card-title {
+    padding:6px 20px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .card-content {
+    padding:20px;
+    border-bottom:1px solid @btn-default-border;
+  }
+
+  .page-header {
+    margin-top:4px;
+    h1 {
+      margin-top:8px;
+      margin-bottom:4px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  }
+}
+
+
+@media screen and (min-width:550px) {
+  .central-container-sm {
+    margin: 30px auto 20px;
+    max-width:300px;
+  }
+  .central-container-md {
+    margin: 30px auto 20px;
+    max-width:450px;
+  }
+  .central-container-lg {
+    margin: 30px auto 20px;
+    max-width:700px;
+  }
 }

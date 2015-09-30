@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- *
+ * Store information about the user session
  * @author Ricardo
  */
 
@@ -37,6 +37,9 @@ public class UserLogin {
     
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date logoutDate;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastAccess;
     
     @Column(length=200)
     private String Application;
@@ -48,14 +51,8 @@ public class UserLogin {
     @JoinColumn(name="WORKSPACE_ID")
 	@NotNull
     private Workspace workspace;
-    
-    @Column(length=32)
-    private String sessionId;
 
 
-    public Workspace getDefaultWorkspace() {
-    	return (user != null? getUser().getDefaultWorkspace().getWorkspace(): null);
-    }
 
 /*
     public String getDisplayLocale() {
@@ -111,7 +108,15 @@ public class UserLogin {
         this.IpAddress = IpAddress;
     }
 
-	/**
+    public Date getLastAccess() {
+        return lastAccess;
+    }
+
+    public void setLastAccess(Date lastAccess) {
+        this.lastAccess = lastAccess;
+    }
+
+    /**
 	 * @param workspace the workspace to set
 	 */
 	public void setWorkspace(Workspace workspace) {
@@ -127,17 +132,4 @@ public class UserLogin {
 		return workspace;
 	}
 
-	/**
-	 * @return the sessionId
-	 */
-	public String getSessionId() {
-		return sessionId;
-	}
-
-	/**
-	 * @param sessionId the sessionId to set
-	 */
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
 }

@@ -16,7 +16,10 @@ import org.msh.etbm.db.enums.UserState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -77,11 +80,21 @@ public class User {
 	@Column(length=30)
 	@PropertyLog(messageKey="global.legacyId")
 	private String customId;
-	
 
+    /**
+     * If true, user will receive system messages to his e-mail address
+     */
 	private boolean sendSystemMessages;
 
+    /**
+     * Indicate if the ULA was accepted or not
+     */
 	private boolean ulaAccepted;
+
+    /**
+     * The request token used by the user to change its password when using the forgot password process
+     */
+    private String pwdChangeRequest;
 	
 	/**
 	 * Check if password has expired
@@ -303,5 +316,12 @@ public class User {
 	public void setUlaAccepted(boolean ulaAccepted) {
 		this.ulaAccepted = ulaAccepted;
 	}
-	
+
+    public String getPwdChangeRequest() {
+        return pwdChangeRequest;
+    }
+
+    public void setPwdChangeRequest(String pwdChangeRequest) {
+        this.pwdChangeRequest = pwdChangeRequest;
+    }
 }

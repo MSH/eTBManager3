@@ -1,7 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.enums.CaseClassification;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

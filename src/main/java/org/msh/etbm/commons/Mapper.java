@@ -1,7 +1,6 @@
 package org.msh.etbm.commons;
 
 import org.dozer.DozerBeanMapper;
-import org.dozer.loader.api.TypeMappingOptions;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

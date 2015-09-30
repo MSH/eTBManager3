@@ -1,19 +1,12 @@
 package org.msh.etbm.services.db;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msh.etbm.commons.JsonParser;
-import org.msh.etbm.db.entities.UserRole;
-import org.msh.etbm.services.init.impl.NewWorkspaceTemplate;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * Called when application starts up in order to initialize data in the database, like

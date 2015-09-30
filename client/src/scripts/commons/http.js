@@ -9,11 +9,16 @@ export default {
 	 * @param  {String} url The remote address
 	 * @return {Request}    Request object
 	 */
-	get: function(url) {
-		return Request
+	get: function(url, callback) {
+		let res = Request
 			.get(url)
 			.use(auth)
 			.use(errorHandler);
+
+        if (callback) {
+            res.end(callback);
+        }
+        return res;
 	},
 
 	/**
@@ -21,13 +26,18 @@ export default {
 	 * @param  {String} url The remote address
 	 * @return {Request}    Request object
 	 */
-	post: function(url, data) {
-		return Request
+	post: function(url, data, callback) {
+		let res = Request
 			.post(url)
             .send(data)
 		//	.set('Content-type', 'application/json')
 			.use(auth)
 			.use(errorHandler);
+
+        if (callback) {
+            res.end(callback);
+        }
+        return res;
 	}
 };
 
@@ -47,11 +57,11 @@ function errorHandler(req) {
 	var cb = req.callback;
 
 	req.callback = function(err, res) {
+        cb.call(req, err, res);
+
         if (err) {
             alert(err);
-            return;
         }
-		cb.call(req, err, res);
 	};
 
 	return req;

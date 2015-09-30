@@ -99,6 +99,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- Used primarily as a cache in server side, but contains much more utilities -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
     </dependencies>
 
 

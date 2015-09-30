@@ -28,7 +28,6 @@ export default class Toolbar extends React.Component {
         )
 
         var loggedin = this.props.session !== undefined;
-        console.log(this.props);
 
         var items;
 
@@ -37,7 +36,7 @@ export default class Toolbar extends React.Component {
             let search = (
                 <div className='header-search'>
                     <input type='search' placeholder='Search...'/>
-                    <button><i className='fa fa-remove'></i></button> 
+                    <button><i className='fa fa-remove'></i></button>
                 </div>
             );
             let workspace = (
@@ -59,29 +58,29 @@ export default class Toolbar extends React.Component {
             );
 
             items = (
-            <CollapsibleNav eventKey={100}>
-                <Nav navbar>
-                    <NavItem eventKey={1} href='#'>{__('Home')}</NavItem>
-                    <NavItem eventKey={1} href='#'>{__('Reports')}</NavItem>
-                    <NavItem eventKey={2} href='#'>{__('Administration')}</NavItem>
-                </Nav>
-                <Nav navbar right>
-                    <NavItem className='hsmall'>
-                        {search}
-                    </NavItem>
-                    <DropdownButton eventKey={3} title={workspace} pullRight className='hsmall'>
-                        <MenuItem eventKey='1'>Message 1</MenuItem>
-                        <MenuItem eventKey='2'>Message 2</MenuItem>
-                        <MenuItem eventKey='4'>Message 3</MenuItem>
-                    </DropdownButton>
-                    <DropdownButton eventKey={3} title={user} pullRight className='hsmall'>
-                        <MenuItem eventKey='1'>{__('User profile')}...</MenuItem>
-                        <MenuItem eventKey='2'>{__('Change password')}...</MenuItem>
-                        <MenuItem divider />
-                        <MenuItem eventKey='4'>{__('Logout')}</MenuItem>
-                    </DropdownButton>
-                </Nav>
-            </CollapsibleNav>
+                <CollapsibleNav eventKey={100}>
+                    <Nav navbar>
+                        <NavItem eventKey={1} href='#'>{__('Home')}</NavItem>
+                        <NavItem eventKey={1} href='#'>{__('Reports')}</NavItem>
+                        <NavItem eventKey={2} href='#'>{__('Administration')}</NavItem>
+                    </Nav>
+                    <Nav navbar right>
+                        <NavItem className='hsmall'>
+                            {search}
+                        </NavItem>
+                        <DropdownButton eventKey={3} title={workspace} pullRight className='hsmall'>
+                            <MenuItem eventKey='1'>Message 1</MenuItem>
+                            <MenuItem eventKey='2'>Message 2</MenuItem>
+                            <MenuItem eventKey='4'>Message 3</MenuItem>
+                        </DropdownButton>
+                        <DropdownButton eventKey={3} title={user} pullRight className='hsmall'>
+                            <MenuItem eventKey='1'>{__('User profile')}...</MenuItem>
+                            <MenuItem eventKey='2'>{__('Change password')}...</MenuItem>
+                            <MenuItem divider />
+                            <MenuItem eventKey='4'>{__('Logout')}</MenuItem>
+                        </DropdownButton>
+                    </Nav>
+                </CollapsibleNav>
             );
         }
         else {

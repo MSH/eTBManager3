@@ -1203,6 +1203,7 @@
             <column name="sendSystemMessages" type="${type.boolean}"/>
             <column name="lasttransaction_id" type="${type.id}"/>
             <column name="ulaAccepted" type="${type.boolean}"/>
+            <column name="pwdChangeRequest" type="varchar(100)" />
         </createTable>
     </changeSet>
 
@@ -1687,6 +1688,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="logoutDate" type="${type.datetime}"/>
+            <column name="lastAccess" type="${type.datetime}"/>
             <column name="USER_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>

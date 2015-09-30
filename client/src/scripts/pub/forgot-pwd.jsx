@@ -7,7 +7,7 @@ import Title from '../components/title.jsx';
 /**
  * Wellcome page - First page displayed under e-TB Manager first time execution
  */
-export default class Welcome extends React.Component {
+export default class ForgotPwd extends React.Component {
     constructor(props) {
         super(props);
     }

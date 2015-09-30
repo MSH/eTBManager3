@@ -4,7 +4,9 @@ import { postSuccess } from './actions';
 import { navigator } from '../components/router.jsx';
 import Title from '../components/title.jsx';
 import { validateForm } from '../commons/validator.jsx';
+import Card from '../components/card.jsx';
 import Http from '../commons/http.js';
+import AsyncButton from '../components/async-button.jsx';
 
 /**
  * Form validation model
@@ -64,21 +66,14 @@ export default class NewWorkspace extends React.Component {
         };
 
         let comp = this;
-        console.log(this.props);
 
         Http.post('/api/init/workspace', data)
             .end((err, res) => {
                 comp.setState({fetching: false});
-                console.log(err);
-                console.log(res);
                 if (!err) {
                     comp.props.dispatch(postSuccess(v.wsname + ' successfully created'));
                 }
-            })
-        //setTimeout(() => {
-        //    comp.setState({fetching: false});
-        //    comp.props.dispatch(postSuccess(v.wsname + ' successfully created'));
-        //}, 2000);
+            });
     }
 
 
@@ -93,63 +88,60 @@ export default class NewWorkspace extends React.Component {
 
         return (
             <Fade in transitionAppear>
-            <Grid>
-                <Col md={8} mdOffset={2} lg={8} lgOffset={2} sm={12}>
-                    <Row>
-                        <Col sm={12}>
-                            <Title text='Create a new workspace'></Title>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={6}>
-                            <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname?'error':undefined}>
-                            </Input>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <div className='bs-callout bs-callout-warning'>
-                                <h4>Administrator</h4>
-                                <p>The administrator account is a special user with access to all data and functionalities inside e-TB Manager.
-                                    It is recommended that you use this account with caution.
-                                </p>
+                <Grid fluid>
+                    <Col sm={8} smOffset={2} lg={8} lgOffset={2} >
+                        <Card title='Create a new workspace'>
+                            <div>
+                                <Row>
+                                    <Col sm={6}>
+                                        <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname?'error':undefined}>
+                                        </Input>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12}>
+                                        <div className='bs-callout bs-callout-warning'>
+                                            <h4>Administrator</h4>
+                                            <p>The administrator account is a special user with access to all data and functionalities inside e-TB Manager.
+                                                It is recommended that you use this account with caution.
+                                            </p>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <Input type="text" label="Administrator user name:" value="Admin" disabled>
+                                        </Input>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <Input type="text" ref="email" label="Administrator e-mail:" help={err.email} bsStyle={err.email?'error':undefined}>
+                                        </Input>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd?'error':undefined}>
+                                        </Input>
+                                    </Col>
+                                    <Col sm={6}>
+                                        <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2}  bsStyle={err.pwd2?'error':undefined}>
+                                        </Input>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={12}>
+                                        <div className="pull-right">
+                                            <AsyncButton fetching={fetching} pullRight bsSize='large' onClick={this.contClick}>
+                                                {__('Create')}
+                                            </AsyncButton>
+                                        </div>
+                                    </Col>
+                                </Row>
                             </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={6}>
-                            <Input type="text" label="Administrator user name:" value="Admin" disabled>
-                            </Input>
-                        </Col>
-                        <Col sm={6}>
-                            <Input type="text" ref="email" label="Administrator e-mail:" help={err.email} bsStyle={err.email?'error':undefined}>
-                            </Input>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={6}>
-                            <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd?'error':undefined}>
-                            </Input>
-                        </Col>
-                        <Col sm={6}>
-                            <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2}  bsStyle={err.pwd2?'error':undefined}>
-                            </Input>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <div className="pull-right">
-                                <Button bsStyle="primary" disabled={fetching}
-                                        pullRight bsSize='large' onClick={this.contClick}>
-                                    {fetching && <i className='fa fa-circle-o-notch fa-spin fa-fw'></i>}
-                                    {__('Create')}
-                                </Button>
-                            </div>
-                        </Col>
-                    </Row>
-                </Col>
-           </Grid>
-                </Fade>
+                        </Card>
+                    </Col>
+                </Grid>
+            </Fade>
         );
     }
 }

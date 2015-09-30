@@ -1,14 +1,16 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.services.authentication.AuthenticationService;
 import org.msh.etbm.services.sys.SystemInfoService;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemState;
+import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * REST API to handle system requests
@@ -23,7 +25,8 @@ public class SystemRest {
     SystemInfoService systemInfoService;
 
     @Autowired
-    AuthenticationService authenticationService;
+    UserSessionService userSessionService;
+
 
     /**
      * Return information about the system
@@ -35,9 +38,10 @@ public class SystemRest {
 
         // check if system is ready
         if (inf.getState() == SystemState.READY) {
+
             // check if authentication is required
             boolean authRequired = authToken == null ||
-                    authenticationService.getSessionByToken(authToken) == null;
+                    userSessionService.getSessionByAuthToken(UUID.fromString(authToken)) == null;
 
             if (authRequired) {
                 inf.setState(SystemState.AUTH_REQUIRED);

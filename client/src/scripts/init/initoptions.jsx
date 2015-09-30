@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Row, Col, Input, Button, Fade, OverlayTrigger, Popover } from 'react-bootstrap';
 import { navigator } from '../components/router.jsx';
 import Title from '../components/title.jsx';
+import Card from '../components/card.jsx';
 
 
 export default class InitOptions extends React.Component {
@@ -28,38 +29,35 @@ export default class InitOptions extends React.Component {
         return (
             <Fade in transitionAppear>
                 <Grid>
-                    <Row>
-                        <Col md={6} mdOffset={3}>
-                            <Title text={__('e-TB Manager initialization')}></Title>
+                    <Col sm={6} smOffset={3}>
+                    <Card title={__('e-TB Manager initialization')}>
+                        <div>
+                                    <OverlayTrigger trigger="hover" placement="bottom"
+                                                    overlay={<Popover>It will start a fresh new instance of e-TB Manager from scratch</Popover>}>
+                                        <Input type="radio" name="sel" label={__('Start e-TB Manager with a new workspace')}>
+                                        </Input>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger trigger="hover" placement="bottom"
+                                                    overlay={<Popover>This instance will be in sync with another e-TB Manager</Popover>}>
+                                        <Input type="radio" name="sel" label={__('I already have an e-TB Manager account')}>
+                                        </Input>
+                                    </OverlayTrigger>
+                                    <OverlayTrigger trigger="hover" placement="bottom"
+                                                    overlay={<Popover>Data will be imported from a previous version of e-TB Manager just this first time</Popover>}>
+                                        <Input type="radio" name="sel" label={__('Import database from previous e-TB Manager version')}>
+                                        </Input>
+                                    </OverlayTrigger>
+                            <Row>
+                                <Col sm={12}>
+                                    <div className="pull-right">
+                                        <Button bsStyle="primary" pullRight bsSize='large' onClick={this.contClick}>{__('Continue')}
+                                        </Button>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </div>
+                    </Card>
                         </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6} mdOffset={3}>
-                            <OverlayTrigger trigger="hover" placement="bottom"
-                                            overlay={<Popover>It will start a fresh new instance of e-TB Manager from scratch</Popover>}>
-                                <Input type="radio" name="sel" label={__('Start e-TB Manager with a new workspace')}>
-                                </Input>
-                            </OverlayTrigger>
-                            <OverlayTrigger trigger="hover" placement="bottom"
-                                            overlay={<Popover>This instance will be in sync with another e-TB Manager</Popover>}>
-                                <Input type="radio" name="sel" label={__('I already have an e-TB Manager account')}>
-                                </Input>
-                            </OverlayTrigger>
-                            <OverlayTrigger trigger="hover" placement="bottom"
-                                            overlay={<Popover>Data will be imported from a previous version of e-TB Manager just this first time</Popover>}>
-                                <Input type="radio" name="sel" label={__('Import database from previous e-TB Manager version')}>
-                                </Input>
-                            </OverlayTrigger>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={6} mdOffset={3}>
-                            <div className="pull-right">
-                                <Button bsStyle="primary" pullRight bsSize='large' onClick={this.contClick}>{__('Continue')}
-                                </Button>
-                            </div>
-                        </Col>
-                    </Row>
                 </Grid>
             </Fade>
         );

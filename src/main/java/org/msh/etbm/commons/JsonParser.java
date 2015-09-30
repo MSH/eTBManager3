@@ -1,7 +1,6 @@
 package org.msh.etbm.commons;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msh.etbm.services.init.impl.NewWorkspaceTemplate;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;

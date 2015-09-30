@@ -52,9 +52,7 @@ export default class RootContent extends React.Component {
         };
 
         return (
-            <div className='app-content'>
-                <RouteView key={1} viewProps={viewProps} routes={routers} errorPath="/pagenotfound" />
-            </div>
+            <RouteView key={1} viewProps={viewProps} routes={routers} errorPath="/pagenotfound" />
         );
     }
 }

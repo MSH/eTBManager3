@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.exceptions;
+package org.msh.etbm.services.authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

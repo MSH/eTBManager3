@@ -1,6 +1,7 @@
 package org.msh.etbm.services.init.impl;
 
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.CountryStructure;
+import org.msh.etbm.db.entities.Workspace;
 
 /**
  * Template class that will be filled by the json file located in the resources folder

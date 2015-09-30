@@ -2,7 +2,6 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WSObject;
-import org.msh.etbm.db.enums.CaseClassification;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

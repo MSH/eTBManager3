@@ -13,4 +13,8 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authenticated {
+    /**
+     * Optionally a list of permissions may be informed to restrict user access
+     */
+    String[] permissions = {};
 }
