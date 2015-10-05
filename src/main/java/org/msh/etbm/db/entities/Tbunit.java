@@ -214,4 +214,9 @@ public class Tbunit extends Unit {
 	public void setLimitDateMedicineMovement(Date limitDateMedicineMovement) {
 		this.limitDateMedicineMovement = limitDateMedicineMovement;
 	}
+
+    @Override
+    public String getTypeName() {
+        return "tbunit";
+    }
 }

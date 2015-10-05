@@ -50,7 +50,7 @@ export default class Welcome extends React.Component {
                             <Input type="select" ref="langs" size={8} multiple autoFocus
                                    bsSize="large" value={[lg]} onChange={this.langChange}>
                                 { langs.map((lang) =>
-                                        <option key={lang.id} value={lang.id}>{lang.text}</option>
+                                        <option key={lang.id} value={lang.id}>{lang.name}</option>
                                 )
                                 }
                             </Input>

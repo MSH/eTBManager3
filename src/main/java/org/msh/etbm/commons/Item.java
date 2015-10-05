@@ -7,7 +7,7 @@ package org.msh.etbm.commons;
  */
 public class Item<E> {
     private E id;
-    private String text;
+    private String name;
 
     /**
      * Default constructor
@@ -18,19 +18,19 @@ public class Item<E> {
 
     /**
      * Constructor passing ID and text
-     * @param id
-     * @param text
+     * @param id the id of the item
+     * @param name the display name
      */
-    public Item(E id, String text) {
+    public Item(E id, String name) {
         this.id = id;
-        this.text = text;
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +
-                ", text='" + text + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 
@@ -42,11 +42,11 @@ public class Item<E> {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setName(String name) {
+        this.name = name;
     }
 }

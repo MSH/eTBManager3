@@ -70,6 +70,8 @@ public abstract class Unit extends WSObject implements EntityState {
     @PropertyLog(messageKey="Address.shipAddr", operations={Operation.NEW})
     private Address shipAddress;
 
+    public abstract String getTypeName();
+
     public String getName() {
         return name;
     }

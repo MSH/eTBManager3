@@ -13,7 +13,6 @@
     "caseValidationTB": "ENABLED",
     "caseValidationDRTB": "ENABLED",
     "caseValidationNTM": "ENABLED",
-    "ulaActive": true,
     "suspectCaseNumber": "USER_DEFINED",
     "confirmedCaseNumber": "USER_DEFINED",
     "patientAddrRequiredLevels": 1,

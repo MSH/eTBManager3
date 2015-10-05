@@ -20,6 +20,8 @@ public class SystemInformation {
 
     private JarManifest system;
 
+    private boolean ulaActive;
+
 
     public SystemState getState() {
         return state;
@@ -43,5 +45,13 @@ public class SystemInformation {
 
     public void setSystem(JarManifest system) {
         this.system = system;
+    }
+
+    public boolean isUlaActive() {
+        return ulaActive;
+    }
+
+    public void setUlaActive(boolean ulaActive) {
+        this.ulaActive = ulaActive;
     }
 }

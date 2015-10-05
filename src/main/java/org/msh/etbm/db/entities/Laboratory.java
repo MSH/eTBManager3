@@ -43,4 +43,9 @@ public class Laboratory extends Unit {
     public void setPerformXpert(boolean performXpert) {
         this.performXpert = performXpert;
     }
+
+    @Override
+    public String getTypeName() {
+        return "lab";
+    }
 }

@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/auth")
-public class AuthenticatorRest {
+public class AuthenticatorREST {
 
     @Autowired
     LoginService loginService;

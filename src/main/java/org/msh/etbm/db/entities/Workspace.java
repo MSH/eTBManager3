@@ -71,11 +71,6 @@ public class Workspace implements Serializable, Transactional {
 	private CaseValidationOption caseValidationNTM;
 
 	/**
-	 * If true, the ULA will be displayed once to the user to be accepted
-	 */
-	private boolean ulaActive;
-	
-	/**
 	 * Setup the case number to be displayed for the suspect cases
 	 */
 	private DisplayCaseNumber suspectCaseNumber;
@@ -433,14 +428,6 @@ public class Workspace implements Serializable, Transactional {
 	@Override
 	public void setLastTransaction(TransactionLog transactionLog) {
 		this.lastTransaction = transactionLog;
-	}
-
-	public boolean isUlaActive() {
-		return ulaActive;
-	}
-
-	public void setUlaActive(boolean ulaActive) {
-		this.ulaActive = ulaActive;
 	}
 
 	/**

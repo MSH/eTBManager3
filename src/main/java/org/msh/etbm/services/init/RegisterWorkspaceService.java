@@ -1,8 +1,8 @@
 package org.msh.etbm.services.init;
 
 import com.fasterxml.uuid.Generators;
+import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
-import org.msh.etbm.commons.Mapper;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.init.impl.*;
 import org.msh.etbm.services.users.UserUtils;
@@ -33,7 +33,7 @@ public class RegisterWorkspaceService {
     EntityManager entityManager;
 
     @Autowired
-    Mapper mapper;
+    DozerBeanMapper mapper;
 
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
@@ -64,22 +64,6 @@ public class RegisterWorkspaceService {
     }
 
 
-    /**
-     * Load the object templates to create the workspace
-     * @return template objects
-     */
-//    private NewWorkspaceTemplate loadTemplate() {
-//        ClassPathResource res = new ClassPathResource("/templates/json/new-workspace-template.json");
-//        try {
-//            InputStream in = res.getInputStream();
-//            ObjectMapper mapper = new ObjectMapper();
-//            return mapper.readValue(in, NewWorkspaceTemplate.class);
-//        }
-//        catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
 
     /**
      * Create the account of the administrator user called admin using the given password
@@ -108,6 +92,7 @@ public class RegisterWorkspaceService {
         uw.setUnit(unit);
         uw.setWorkspace(template.getWorkspace());
         uw.setView(templ.getUserView());
+        uw.setAdministrator(true);
 
         // get administrative unit
         if (templ.getAdminUnitName() != null) {

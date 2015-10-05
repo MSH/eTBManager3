@@ -24,6 +24,11 @@ public class UserWorkspace extends WSObject {
 	@NotNull
 	@PropertyLog(ignore=true)
 	private User user;
+
+    /**
+     * If true, user is granted all permissions in the system
+     */
+    private boolean administrator;
 	
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -129,5 +134,13 @@ public class UserWorkspace extends WSObject {
 
     public void setProfiles(List<UserProfile> profiles) {
         this.profiles = profiles;
+    }
+
+    public boolean isAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(boolean administrator) {
+        this.administrator = administrator;
     }
 }

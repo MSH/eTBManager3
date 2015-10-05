@@ -1,11 +1,11 @@
-package org.msh.etbm.web.api.usersession;
+package org.msh.etbm.services.usersession;
 
 import java.util.UUID;
 
 /**
- * Created by rmemoria on 30/9/15.
+ * Created by rmemoria on 5/10/15.
  */
-public class UserInfo {
+public class UserDTO {
     private UUID id;
     private String name;
 

@@ -51,6 +51,11 @@ public class SystemConfig {
     @JoinColumn(name="PUBDS_WORKSPACE_ID")
     private Workspace pubDashboardWorkspace;
 
+    /**
+     * If true, the ULA will be displayed once to the user to be accepted
+     */
+    private boolean ulaActive;
+
 	/**
 	 * @return the id
 	 */
@@ -193,5 +198,13 @@ public class SystemConfig {
 
     public void setPubDashboardWorkspace(Workspace pubDashboardWorkspace) {
         this.pubDashboardWorkspace = pubDashboardWorkspace;
+    }
+
+    public boolean isUlaActive() {
+        return ulaActive;
+    }
+
+    public void setUlaActive(boolean ulaActive) {
+        this.ulaActive = ulaActive;
     }
 }

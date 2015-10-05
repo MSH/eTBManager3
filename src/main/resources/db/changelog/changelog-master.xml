@@ -1230,6 +1230,7 @@
             <column name="otherlinks" type="${type.text}"/>
             <column name="updateSite" type="VARCHAR(250)"/>
             <column name="pubds_workspace_id" type="${type.id}"/>
+            <column name="ulaActive" type="${type.boolean}"/>
         </createTable>
     </changeSet>
 
@@ -1792,6 +1793,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lastTransaction_ID" type="${type.id}"/>
+            <column name="administrator" type="${type.boolean}"/>
         </createTable>
     </changeSet>
 
@@ -1821,7 +1823,6 @@
             <column name="sendSystemMessages" type="${type.boolean}"/>
             <column name="monthsToAlertExpiredMedicines" type="INT"/>
             <column name="lasttransaction_id" type="${type.id}"/>
-            <column name="ulaActive" type="${type.boolean}"/>
             <column name="expiredMedicineAdjustmentType_ID" type="${type.id}"/>
             <column name="caseValidationTB" type="INT"/>
             <column name="caseValidationDRTB" type="INT"/>

@@ -1,12 +1,18 @@
 package org.msh.etbm.web.api.usersession;
 
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.db.entities.UserWorkspace;
+import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
+import org.msh.etbm.services.usersession.UserWorkspaceDTO;
 import org.msh.etbm.web.api.authentication.AuthConstants;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
@@ -18,25 +24,22 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("api/sys")
-public class UserSessionRest {
+public class UserSessionREST {
+
+//    @Autowired
+//    UserSessionService userSessionService;
+
 
     @Autowired
-    UserSessionService userSessionService;
+    WebApplicationContext context;
 
     @Authenticated
     @RequestMapping(value = "/session", method = RequestMethod.POST)
-    public UserSessionRequest getUserSession(HttpServletRequest request) {
-        // get the authentication token stored in the request
-        UUID authToken = (UUID)request.getAttribute(AuthConstants.AUTH_TOKEN);
+    public UserWorkspaceDTO getUserSession(HttpServletRequest request) {
 
-        if (authToken == null) {
-            throw new IllegalArgumentException("Authorization token not found in the request");
-        }
+        UserSession userSession = context.getBean(UserSession.class);
+        UserWorkspaceDTO uw = context.getBean(UserWorkspaceDTO.class);
 
-        userSessionService.getSessionByAuthToken(authToken);
-
-        UserSessionRequest req = new UserSessionRequest();
-
-        return req;
+        return uw;
     }
 }

@@ -91,7 +91,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         }
 
         // set the token and user session as an attribute of the request to be used further in the code
-        request.setAttribute(AuthConstants.AUTH_TOKEN, authToken);
+        request.setAttribute(UserSessionService.SESSION_ID, authToken);
         request.setAttribute(UserSessionService.SESSION_KEY, session);
 
         return session;
