@@ -1,15 +1,20 @@
 package org.msh.etbm;
 
+import org.msh.etbm.db.entities.ErrorLog;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -18,10 +23,14 @@ import java.util.UUID;
  * Created by rmemoria on 9/5/15.
  */
 @RestController
+@RequestMapping("/test")
 public class TestRest {
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    WorkspaceRepository workspaceRepository;
 
     @Resource
     private MessageSource messageSource;
@@ -34,6 +43,13 @@ public class TestRest {
     @RequestMapping("/workspaces")
     public List<Workspace> getWorkspaces() {
         return entityManager.createQuery("from Workspace").getResultList();
+    }
+
+    @RequestMapping("/workspace")
+    public List<Workspace> getWorkspace(@RequestParam("name") String name) {
+        List<Workspace> lst = workspaceRepository.findByName(name);
+        System.out.println(lst.get(0));
+        return lst;
     }
 
     @RequestMapping("/message")
@@ -51,5 +67,23 @@ public class TestRest {
     @RequestMapping("/setuuid")
     public void setUUID(@RequestParam("id") UUID id) {
         System.out.println(id);
+    }
+
+    @RequestMapping("/uuidtest")
+    @Transactional
+    public void generateAutoUUIDTest() {
+        entityManager.createQuery("delete from ErrorLog").executeUpdate();
+        for (int i = 1; i <= 10; i++) {
+            ErrorLog log = new ErrorLog();
+            log.setErrorDate(new Date());
+            log.setExceptionClass("Test " + i);
+            log.setExceptionMessage("Test " + i);
+            log.setRequest("Test " + i);
+            log.setUserName("Test " + i);
+            log.setWorkspace("Test " + i);
+
+            entityManager.persist(log);
+            entityManager.flush();
+        }
     }
 }

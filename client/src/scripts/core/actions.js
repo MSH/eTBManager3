@@ -17,7 +17,7 @@ export function runApp() {
 		});
 
         // get system information
-        Http.get('/api/sys/info')
+        Http.post('/api/sys/info')
             .end(
             (err, res) => onReceiveStatus(dispatch, res.body)
         );

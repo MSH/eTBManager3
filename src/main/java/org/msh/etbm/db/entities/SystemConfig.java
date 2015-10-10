@@ -1,5 +1,7 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -13,17 +15,17 @@ import javax.validation.constraints.NotNull;
 public class SystemConfig {
 
 	@Id
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private Integer id;
 
 	@Column(length=100)
-	@NotNull
 	private String systemURL;
 	
 	@Column(length=200)
 	private String pageRootURL;
 
 	@Column(length=100)
-	@NotNull
 	private String systemMail;
 	
 	private boolean allowRegPage;

@@ -42,7 +42,7 @@ export default class RootContent extends React.Component {
         var routers = [
             {path: '/pub', viewResolver: this.openPublic},
             {path: '/init', viewResolver: this.openInit},
-            {path: '/app', viewResolver: this.openApp},
+            {path: '/sys', viewResolver: this.openApp},
             {path: '/pagenotfound', view: PageNotFound}
         ];
 

@@ -1,5 +1,9 @@
-package org.msh.etbm.services.usersession;
+package org.msh.etbm.db.dto;
 
+import org.msh.etbm.db.dto.AdministrativeUnitDTO;
+import org.msh.etbm.db.dto.UnitDTO;
+import org.msh.etbm.db.dto.UserDTO;
+import org.msh.etbm.db.dto.WorkspaceDTO;
 import org.msh.etbm.db.enums.UserView;
 
 import java.util.List;

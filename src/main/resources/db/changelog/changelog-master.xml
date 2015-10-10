@@ -1217,10 +1217,8 @@
                 <constraints nullable="false"/>
             </column>
             <column name="systemMail" type="VARCHAR(100)">
-                <constraints nullable="false"/>
             </column>
             <column name="systemURL" type="VARCHAR(100)">
-                <constraints nullable="false"/>
             </column>
             <column name="UNIT_ID" type="${type.id}"/>
             <column name="USERPROFILE_ID" type="${type.id}"/>

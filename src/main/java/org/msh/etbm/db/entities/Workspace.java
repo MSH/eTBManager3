@@ -1,10 +1,14 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.annotations.*;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.Transactional;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +19,8 @@ import java.util.UUID;
 public class Workspace implements Serializable, Transactional {
 
 	@Id
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 
 	@PropertyLog(messageKey="form.name")

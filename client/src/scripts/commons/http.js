@@ -44,7 +44,7 @@ export default {
 
 function auth(req) {
 	// authentication token is available ?
-	var authToken = window.app.getCookie('autok');
+	var authToken = window.app.getAuthToken();
 	if (authToken) {
 		req.set('X-Auth-Token', authToken);
 	}

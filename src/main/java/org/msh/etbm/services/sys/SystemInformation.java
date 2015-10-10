@@ -20,7 +20,15 @@ public class SystemInformation {
 
     private JarManifest system;
 
+    /**
+     * If true, user must agree to user license agreement
+     */
     private boolean ulaActive;
+
+    /**
+     * If true, user can register himself in the system
+     */
+    private boolean allowRegPage;
 
 
     public SystemState getState() {
@@ -53,5 +61,13 @@ public class SystemInformation {
 
     public void setUlaActive(boolean ulaActive) {
         this.ulaActive = ulaActive;
+    }
+
+    public boolean isAllowRegPage() {
+        return allowRegPage;
+    }
+
+    public void setAllowRegPage(boolean allowRegPage) {
+        this.allowRegPage = allowRegPage;
     }
 }

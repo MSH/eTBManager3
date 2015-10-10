@@ -1,6 +1,8 @@
 package org.msh.etbm.services.sys;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.db.dto.SystemConfigDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,9 @@ public class SystemInfoService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    SystemConfigDTO systemConfig;
+
     /**
      * Store information about the manifest.md file
      */
@@ -51,6 +56,9 @@ public class SystemInfoService {
 
         inf.setSystem(getJarManifest());
 
+        inf.setUlaActive(systemConfig.isUlaActive());
+        inf.setAllowRegPage(systemConfig.isAllowRegPage());
+
         return inf;
     }
 
@@ -65,7 +73,7 @@ public class SystemInfoService {
             return SystemState.NEW;
         }
 
-        return SystemState.AUTH_REQUIRED;
+        return SystemState.READY;
     }
 
 

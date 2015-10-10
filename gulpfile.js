@@ -225,7 +225,7 @@ gulp.task('client-msgs', function(cb) {
  **/
 gulp.task('watches', function() {
     gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
-    gulp.watch( path.join(clientPath, 'src/entrypoint.js') , ['entry-point']);
+    gulp.watch( path.join(clientPath, 'src/entrypoint.js') , ['entry-point-dev']);
     gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
     gulp.watch( 'src/main/resources/messages*.properties', ['client-msgs', 'proxy-server']);
     gulp.watch( 'gulpfile.js', ['run']);

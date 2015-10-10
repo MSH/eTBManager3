@@ -51,13 +51,24 @@
         },
         setLang: function(value) {
             window.app.setCookie(LANG_KEY, value);
+        },
+        /**
+         * Get authentication token to be sent to the client
+         * @returns {*}
+         */
+        getAuthToken: function() {
+            return window.app.getCookie(AUTHTOKEN_KEY);
+        },
+        setAuthToken: function(value) {
+            window.app.setCookie(AUTHTOKEN_KEY, value);
         }
     };
     window.app = data;
 
     var setCookie = data.setCookie,
         getCookie = data.getCookie,
-        LANG_KEY = "lang";
+        LANG_KEY = 'lang',
+        AUTHTOKEN_KEY = 'autk';
 
 
     // the navigator language

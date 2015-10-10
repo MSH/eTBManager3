@@ -3,8 +3,10 @@ package org.msh.etbm.services.init;
 import com.fasterxml.uuid.Generators;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.db.dto.SystemConfigDTO;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.init.impl.*;
+import org.msh.etbm.services.sys.ConfigurationService;
 import org.msh.etbm.services.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -35,6 +37,9 @@ public class RegisterWorkspaceService {
     @Autowired
     DozerBeanMapper mapper;
 
+    @Autowired
+    ConfigurationService configurationService;
+
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
     private List<UserRole> roles;
@@ -45,18 +50,22 @@ public class RegisterWorkspaceService {
      */
     @Transactional
     public UUID register(@Valid @NotNull RegisterWorkspaceForm form) {
-//        Number count = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
-//
-//        // if there is a workspace registered, so it cannot be initialized again by registering the workspace
-//        if (count.intValue() > 0) {
-//            throw new InitializationException("Cannot initialize. Workspace was already registered");
-//        }
+        // check if workspace is alread initialized
+        Number count = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
 
+        // if there is a workspace registered, so it cannot be initialized again by registering the workspace
+        if (count.intValue() > 0) {
+            throw new InitializationException("Cannot initialize. Workspace was already registered");
+        }
+
+        // read the template data
         template = JsonParser.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
 
         Workspace ws = createWorkspace(form);
 
         createAdminUser(form);
+
+        updateConfiguration(form);
 
         entityManager.flush();
 
@@ -313,5 +322,13 @@ public class RegisterWorkspaceService {
         perm.setId(Generators.timeBasedGenerator().generate());
 
         profile.getPermissions().add(perm);
+    }
+
+
+    protected void updateConfiguration(RegisterWorkspaceForm form) {
+        SystemConfigDTO cfg = configurationService.systemConfig();
+        cfg.setAdminMail(form.getAdminEmail());
+
+        configurationService.updateConfiguration();
     }
 }

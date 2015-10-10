@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.transactionlog.Operation;
@@ -25,6 +26,8 @@ import java.util.*;
 public class TbCase implements Transactional {
 
 	@Id
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 	
 	@Version

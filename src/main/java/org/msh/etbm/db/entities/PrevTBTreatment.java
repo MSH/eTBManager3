@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
 import javax.persistence.*;
@@ -17,6 +18,8 @@ public class PrevTBTreatment implements Serializable {
 	private static final long serialVersionUID = -4070705919226815216L;
 
 	@Id
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 
 	@ManyToOne

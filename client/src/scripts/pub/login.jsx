@@ -29,6 +29,11 @@ export default class Login extends React.Component {
         this.loginClick = this.loginClick.bind(this);
     }
 
+
+    forgotPwdClick() {
+        navigator.goto('/pub/forgotpwd');
+    }
+
     /**
      * Called when user clicks on the continue button
      */
@@ -51,9 +56,8 @@ export default class Login extends React.Component {
             }
 
             let authToken = res.body.authToken;
-            console.log('authToken = ' + authToken);
-            //window.app.setCookie('autk', authToken);
-            window.alert('Successfully connected: ' + authToken);
+            window.app.setCookie('autk', authToken);
+            navigator.goto('/sys/home');
         });
     }
 
@@ -65,6 +69,9 @@ export default class Login extends React.Component {
         let err = st && st.errors || {};
         let fetching = st && st.fetching;
 
+        let iconUser = (<i className='fa fa-user fa-fw'></i>);
+        let iconPwd = (<i className='fa fa-key fa-fw'></i>);
+
         return (
             <Fade in transitionAppear>
                 <div className='container central-container-md'>
@@ -72,12 +79,16 @@ export default class Login extends React.Component {
                         <div>
                             <Row>
                                 <Col sm={12}>
-                                    <Input type='text' ref='user' placeholder='User name' autoFocus help={err.user} bsStyle={err.user?'error':undefined}/>
+                                    <Input type='text' ref='user' placeholder='User name' autoFocus
+                                           addonBefore={iconUser}
+                                           help={err.user} bsStyle={err.user?'error':undefined}/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <Input type='password' ref='pwd' placeholder='Password' help={err.pwd} bsStyle={err.pwd?'error':undefined}/>
+                                    <Input type='password' ref='pwd' placeholder='Password'
+                                           addonBefore={iconPwd}
+                                           help={err.pwd} bsStyle={err.pwd?'error':undefined}/>
                                 </Col>
                             </Row>
                             <Row>
@@ -97,14 +108,13 @@ export default class Login extends React.Component {
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <h4>Forgot your password?</h4>
-                                    <a>Click here</a>
+                                    <Button bsStyle='link' onClick={this.forgotPwdClick}>Forgot your password?</Button>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <h4>Don't you have an user name?</h4>
-                                    <a>Click here</a>
+                                    <p className='mtop-2x'>Don't you have an user name?</p>
+                                    <Button bsStyle="default" block>Create an account</Button>
                                 </Col>
                             </Row>
                         </div>

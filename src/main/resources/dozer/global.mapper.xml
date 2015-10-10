@@ -4,10 +4,32 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-    <configuration>
-        <copy-by-references>
-            <copy-by-reference>java.util.UUID</copy-by-reference>
-        </copy-by-references>
-    </configuration>
+    <!-- Mapping of basic administrative unit data -->
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
+        <class-b>org.msh.etbm.db.dto.AdministrativeUnitDTO</class-b>
+
+        <field>
+            <a>countryStructure.name</a>
+            <b>csName</b>
+        </field>
+    </mapping>
+
+
+    <!-- Mapping of basic Unit data -->
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.Unit</class-a>
+        <class-b>org.msh.etbm.db.dto.UnitDTO</class-b>
+
+        <field>
+            <a>address.adminUnit</a>
+            <b>adminUnit</b>
+        </field>
+
+        <field>
+            <a>typeName</a>
+            <b>type</b>
+        </field>
+    </mapping>
 
 </mappings>

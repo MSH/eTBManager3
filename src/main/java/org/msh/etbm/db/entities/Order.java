@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.enums.OrderStatus;
 
@@ -15,6 +16,8 @@ import java.util.UUID;
 public class Order {
 
 	@Id
+    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 
 	@Temporal(TemporalType.TIMESTAMP)

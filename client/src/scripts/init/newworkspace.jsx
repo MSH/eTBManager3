@@ -71,7 +71,7 @@ export default class NewWorkspace extends React.Component {
             .end((err, res) => {
                 comp.setState({fetching: false});
                 if (!err) {
-                    comp.props.dispatch(postSuccess(v.wsname + ' successfully created'));
+                    comp.props.dispatch(postSuccess(v.wsname));
                 }
             });
     }

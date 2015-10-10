@@ -1,4 +1,6 @@
-package org.msh.etbm.services.usersession;
+package org.msh.etbm.db.dto;
+
+import org.msh.etbm.db.dto.AdministrativeUnitDTO;
 
 import java.util.UUID;
 

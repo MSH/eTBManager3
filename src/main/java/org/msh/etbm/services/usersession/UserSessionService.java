@@ -1,6 +1,7 @@
 package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.db.dto.UserWorkspaceDTO;
 import org.msh.etbm.db.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -43,6 +44,10 @@ public class UserSessionService {
     @Transactional
     public UserSession getSessionByAuthToken(UUID authToken) {
         UserLogin login = entityManager.find(UserLogin.class, authToken);
+        if (login == null) {
+            return null;
+        }
+
         UserSession session = new UserSession();
 
         // recover the information of the user in the workspace
@@ -141,9 +146,7 @@ public class UserSessionService {
         UserWorkspace uw = entityManager.find(UserWorkspace.class, userSession.getUserWorkspaceId());
 
         UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
-        res.getUnit().setAdminUnit( mapper.map(uw.getUnit().getAddress().getAdminUnit(), AdministrativeUnitDTO.class));
 
-        res.getUnit().setType(uw.getUnit().getTypeName());
         res.setPermissions(userSession.getPermissions());
         return res;
     }

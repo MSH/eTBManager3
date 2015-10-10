@@ -1,21 +1,15 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.services.usersession.UserSession;
-import org.msh.etbm.services.usersession.UserSessionService;
-import org.msh.etbm.services.usersession.UserWorkspaceDTO;
-import org.msh.etbm.web.api.authentication.AuthConstants;
+import org.msh.etbm.db.dto.UserWorkspaceDTO;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
 
 /**
  * Rest API that returns information about the user session, like user name, workspace, permissions, etc.
