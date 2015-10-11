@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  * Information necessary to register a new workspace in the initialization of the system
  * Created by rmemoria on 1/9/15.
  */
-public class RegisterWorkspaceForm {
+public class RegisterWorkspaceRequest {
 
     /**
      * The workspace name to be displayed on the screen

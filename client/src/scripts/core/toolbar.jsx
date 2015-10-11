@@ -27,7 +27,7 @@ export default class Toolbar extends React.Component {
             </a>
         )
 
-        var loggedin = true; //this.props.session !== undefined;
+        var loggedin = this.props.session !== undefined;
 
         var items;
 

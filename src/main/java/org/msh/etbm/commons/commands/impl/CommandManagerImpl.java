@@ -1,22 +1,17 @@
 package org.msh.etbm.commons.commands.impl;
 
-import com.fasterxml.uuid.Generators;
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.JsonParser;
-import org.msh.etbm.commons.commands.*;
-import org.msh.etbm.commons.commands.history.CommandHistory;
-import org.msh.etbm.commons.commands.history.User;
-import org.msh.etbm.commons.commands.history.Workspace;
+import org.msh.etbm.commons.commands.Command;
+import org.msh.etbm.commons.commands.CommandManager;
+import org.msh.etbm.commons.commands.CommandPreparation;
+import org.msh.etbm.commons.commands.CommandsFactory;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Implementation of the command service interface. Singleton object to expose

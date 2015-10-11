@@ -1,10 +1,11 @@
 package org.msh.etbm.services.init;
 
-import com.fasterxml.uuid.Generators;
+import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.db.dto.SystemConfigDTO;
 import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.repositories.*;
 import org.msh.etbm.services.init.impl.*;
 import org.msh.etbm.services.sys.ConfigurationService;
 import org.msh.etbm.services.users.UserUtils;
@@ -13,8 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
@@ -31,14 +30,36 @@ import java.util.UUID;
 @Scope("prototype")
 public class RegisterWorkspaceService {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Autowired
     DozerBeanMapper mapper;
 
     @Autowired
     ConfigurationService configurationService;
+
+    @Autowired
+    WorkspaceRepository workspaceRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UnitRepository unitRepository;
+
+    @Autowired
+    AdminUnitRepository adminUnitRepository;
+
+    @Autowired
+    UserProfileRepository userProfileRepository;
+
+    @Autowired
+    UserWorkspaceRepository userWorkspaceRepository;
+
+    @Autowired
+    CountryStructureRepository countryStructureRepository;
+
+    @Autowired
+    UserRoleRepositories userRoleRepositories;
+
 
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
@@ -49,9 +70,9 @@ public class RegisterWorkspaceService {
      * @param form contains information about the workspace to be registered
      */
     @Transactional
-    public UUID register(@Valid @NotNull RegisterWorkspaceForm form) {
+    public UUID register(@Valid @NotNull RegisterWorkspaceRequest form) {
         // check if workspace is alread initialized
-        Number count = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
+        Long count = workspaceRepository.count();
 
         // if there is a workspace registered, so it cannot be initialized again by registering the workspace
         if (count.intValue() > 0) {
@@ -67,8 +88,6 @@ public class RegisterWorkspaceService {
 
         updateConfiguration(form);
 
-        entityManager.flush();
-
         return ws.getId();
     }
 
@@ -78,25 +97,24 @@ public class RegisterWorkspaceService {
      * Create the account of the administrator user called admin using the given password
      * @return The administrator user object
      */
-    private UserWorkspace createAdminUser(RegisterWorkspaceForm form) {
+    private UserWorkspace createAdminUser(RegisterWorkspaceRequest form) {
         UserWorkspaceTemplate templ = template.getUser();
 
         User user = templ.getUser();
-        user.setId(Generators.timeBasedGenerator().generate());
         user.setPassword(UserUtils.hashPassword(form.getAdminPassword()));
         user.setEmail(form.getAdminEmail());
         user.setRegistrationDate(new Date());
 
-        entityManager.persist(user);
+        userRepository.save(user);
 
         // get TB unit
-        Tbunit unit = (Tbunit) entityManager.createQuery("from Tbunit where name = :name and workspace.id=:id")
-                .setParameter("name", templ.getUnitName())
-                .setParameter("id", template.getWorkspace().getId())
-                .getSingleResult();
+        List<Unit> units = unitRepository.findByNameAndWorkspaceId(templ.getUnitName(), template.getWorkspace().getId());
+        if (units.size() == 0) {
+            throw new RuntimeException("No unit found with name " + templ.getUnitName());
+        }
+        Unit unit = units.get(0);
 
         UserWorkspace uw = new UserWorkspace();
-        uw.setId(Generators.timeBasedGenerator().generate());
         uw.setUser(user);
         uw.setUnit(unit);
         uw.setWorkspace(template.getWorkspace());
@@ -105,30 +123,22 @@ public class RegisterWorkspaceService {
 
         // get administrative unit
         if (templ.getAdminUnitName() != null) {
-            AdministrativeUnit au = (AdministrativeUnit) entityManager
-                    .createQuery("from AdministrativeUnit where name = :name and workspace.id=:id")
-                    .setParameter("name", templ.getAdminUnitName())
-                    .setParameter("id", template.getWorkspace().getId())
-                    .getSingleResult();
+            List<AdministrativeUnit> admunits = adminUnitRepository
+                    .findByNameAndWorkspaceId(templ.getAdminUnitName(), template.getWorkspace().getId());
+            AdministrativeUnit au = adminUnits.get(0);
             uw.setAdminUnit(au);
         }
 
         // get user profiles
         if (templ.getProfiles() != null) {
             for (String pname: templ.getProfiles()) {
-                UserProfile profile = (UserProfile) entityManager
-                        .createQuery("from UserProfile where name = :name and workspace.id=:id")
-                        .setParameter("name", pname)
-                        .setParameter("id", template.getWorkspace().getId())
-                        .getSingleResult();
+                List<UserProfile> profs = userProfileRepository.findByNameAndWorkspaceId(pname, template.getWorkspace().getId());
+                UserProfile profile = profs.get(0);
                 uw.getProfiles().add(profile);
             }
         }
 
-        // save
-        entityManager.persist(user);
-        entityManager.persist(uw);
-        entityManager.flush();
+        userWorkspaceRepository.save(uw);
 
         return uw;
     }
@@ -139,15 +149,13 @@ public class RegisterWorkspaceService {
      * @param form fields to set in the new workspace
      * @return the instance of the workspace
      */
-    private Workspace createWorkspace(RegisterWorkspaceForm form) {
+    private Workspace createWorkspace(RegisterWorkspaceRequest form) {
         Workspace ws = template.getWorkspace();
 
-        UUID id = Generators.timeBasedGenerator().generate();
-        ws.setId(id);
         ws.setName(form.getWorkspaceName());
         ws.setDescription(form.getWorkspaceDescription());
 
-        entityManager.persist(ws);
+        workspaceRepository.save(ws);
 
         createAdminUnits();
         createUnits();
@@ -162,9 +170,8 @@ public class RegisterWorkspaceService {
      */
     private void createAdminUnits() {
         for (CountryStructure cs: template.getCountryStructures()) {
-            cs.setId(Generators.timeBasedGenerator().generate());
             cs.setWorkspace(template.getWorkspace());
-            entityManager.persist(cs);
+            countryStructureRepository.save(cs);
         }
 
         DecimalFormat format = new DecimalFormat("000");
@@ -206,10 +213,9 @@ public class RegisterWorkspaceService {
                 rootCount++;
             }
 
-            au.setId(Generators.timeBasedGenerator().generate());
             au.setWorkspace(template.getWorkspace());
 
-            entityManager.persist(au);
+            adminUnitRepository.save(au);
             adminUnits.add(au);
         }
     }
@@ -242,11 +248,9 @@ public class RegisterWorkspaceService {
                 throw new RuntimeException("Administrative unit " + t.getAdminUnitName() + " not found for unit " + t.getName());
             }
 
-            unit.setId(Generators.timeBasedGenerator().generate());
             unit.setWorkspace(template.getWorkspace());
 
-            entityManager.persist(unit);
-            entityManager.flush();
+            unitRepository.save(unit);
         }
     }
 
@@ -255,13 +259,12 @@ public class RegisterWorkspaceService {
      */
     private void createProfiles() {
         // load all roles
-        roles = entityManager.createQuery("from UserRole").getResultList();
+        roles = Lists.newArrayList(userRoleRepositories.findAll());
 
         for (UserProfileTemplate t: template.getProfiles()) {
             UserProfile u = new UserProfile();
             u.setName(t.getName());
             u.setWorkspace(template.getWorkspace());
-            u.setId(Generators.timeBasedGenerator().generate());
 
             if (t.isAllRoles()) {
                 // include all roles
@@ -282,8 +285,7 @@ public class RegisterWorkspaceService {
                 }
             }
 
-            entityManager.persist(u);
-            entityManager.flush();
+            userProfileRepository.save(u);
         }
     }
 
@@ -319,13 +321,12 @@ public class RegisterWorkspaceService {
         }
         perm.setCanExecute(true);
         perm.setUserProfile(profile);
-        perm.setId(Generators.timeBasedGenerator().generate());
 
         profile.getPermissions().add(perm);
     }
 
 
-    protected void updateConfiguration(RegisterWorkspaceForm form) {
+    protected void updateConfiguration(RegisterWorkspaceRequest form) {
         SystemConfigDTO cfg = configurationService.systemConfig();
         cfg.setAdminMail(form.getAdminEmail());
 

@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.init;
 
-import org.msh.etbm.services.init.RegisterWorkspaceForm;
+import org.msh.etbm.services.init.RegisterWorkspaceRequest;
 import org.msh.etbm.services.init.RegisterWorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +22,7 @@ public class RegisterWorkspaceRest {
     RegisterWorkspaceService registerWorkspaceService;
 
     @RequestMapping(value = "/workspace", method = RequestMethod.POST)
-    public UUID registerWorkspace(@Valid @RequestBody RegisterWorkspaceForm frm) {
+    public UUID registerWorkspace(@Valid @RequestBody RegisterWorkspaceRequest frm) {
         return registerWorkspaceService.register(frm);
     }
 }

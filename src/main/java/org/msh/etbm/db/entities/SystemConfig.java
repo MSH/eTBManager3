@@ -1,9 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Store e-TB Manager configuration information. Id is always = 1
@@ -15,8 +12,6 @@ import javax.validation.constraints.NotNull;
 public class SystemConfig {
 
 	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private Integer id;
 
 	@Column(length=100)

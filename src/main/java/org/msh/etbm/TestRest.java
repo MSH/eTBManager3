@@ -1,6 +1,5 @@
 package org.msh.etbm;
 
-import org.msh.etbm.db.entities.ErrorLog;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -69,21 +67,10 @@ public class TestRest {
         System.out.println(id);
     }
 
-    @RequestMapping("/uuidtest")
+    @RequestMapping("/countws")
     @Transactional
-    public void generateAutoUUIDTest() {
-        entityManager.createQuery("delete from ErrorLog").executeUpdate();
-        for (int i = 1; i <= 10; i++) {
-            ErrorLog log = new ErrorLog();
-            log.setErrorDate(new Date());
-            log.setExceptionClass("Test " + i);
-            log.setExceptionMessage("Test " + i);
-            log.setRequest("Test " + i);
-            log.setUserName("Test " + i);
-            log.setWorkspace("Test " + i);
-
-            entityManager.persist(log);
-            entityManager.flush();
-        }
+    public Long countWorkspaces() {
+        Long res = workspaceRepository.count();
+        return res;
     }
 }

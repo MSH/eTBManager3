@@ -1,14 +1,11 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.Transactional;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
