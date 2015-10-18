@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.CaseClassification;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="regimen")
-public class Regimen extends WSObject {
+public class Regimen extends WorkspaceData {
 
 	@Column(length=100)
 	private String name;

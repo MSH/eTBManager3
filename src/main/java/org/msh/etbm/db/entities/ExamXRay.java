@@ -18,7 +18,7 @@ import javax.persistence.*;
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 @Table(name="examxray")
-public class ExamXRay extends CaseData {
+public class ExamXRay extends CaseEvent {
 
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private XRayResult result;

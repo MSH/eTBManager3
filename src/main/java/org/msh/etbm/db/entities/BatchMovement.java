@@ -1,21 +1,17 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.Synchronizable;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.UUID;
+
 
 @Entity
 @Table(name = "batchmovement")
-public class BatchMovement implements Serializable {
-	private static final long serialVersionUID = -2778240504031969875L;
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class BatchMovement extends Synchronizable {
 
 	@ManyToOne
 	@JoinColumn(name="BATCH_ID")
@@ -57,13 +53,6 @@ public class BatchMovement implements Serializable {
 		return (getBatch( )!= null? quantity * (float)batch.getUnitPrice(): 0);
 	}
 	
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public Batch getBatch() {
 		return batch;

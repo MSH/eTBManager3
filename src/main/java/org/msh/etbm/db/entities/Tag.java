@@ -1,14 +1,13 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * Store information about a tag. A tag may be assigned to cases. This
@@ -26,8 +25,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="tag")
-public class Tag extends WSObject implements Serializable {
-	private static final long serialVersionUID = 7625442925460611740L;
+public class Tag extends WorkspaceData {
 
 	public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
 

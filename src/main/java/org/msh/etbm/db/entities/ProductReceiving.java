@@ -1,25 +1,18 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="productreceiving")
-public class ProductReceiving {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class ProductReceiving extends Synchronizable {
 
 	@ManyToOne
 	@JoinColumn(name="UNIT_ID")
@@ -68,14 +61,6 @@ public class ProductReceiving {
 		return (source != null? source.toString() + " - " + DateUtils.formatDate(receivingDate, "dd-MMM-yyyy"): super.toString());
 	}
 
-	
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public Date getReceivingDate() {
 		return receivingDate;

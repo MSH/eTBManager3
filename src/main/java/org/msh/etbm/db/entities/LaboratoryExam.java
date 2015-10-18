@@ -1,16 +1,14 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.ExamStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.util.Date;
-import java.util.UUID;
 
 
 /**
@@ -19,14 +17,9 @@ import java.util.UUID;
  *
  */
 @MappedSuperclass
-public abstract class LaboratoryExam implements Transactional {
+public abstract class LaboratoryExam extends CaseData {
 
     public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE };
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-    private UUID id;
 
 
 	@Temporal(TemporalType.DATE)
@@ -40,13 +33,6 @@ public abstract class LaboratoryExam implements Transactional {
 	private String sampleNumber;
 
 
-/*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @PropertyLog(logEntityFields = true)
-    @JoinColumn(name="sample_id")
-    private PatientSample sample;
-*/
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="request_id")
     private ExamRequest request;
@@ -54,12 +40,6 @@ public abstract class LaboratoryExam implements Transactional {
 	@Lob
 	@PropertyLog(messageKey="global.comments")
 	private String comments;
-
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="CASE_ID")
-	@PropertyLog(ignore=true)
-	@NotNull
-	private TbCase tbcase;
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="LABORATORY_ID")
@@ -76,13 +56,6 @@ public abstract class LaboratoryExam implements Transactional {
 	@PropertyLog(messageKey="cases.exams.method", operations={Operation.NEW})
 	private FieldValue method;
 	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
 
 	@Transient
 	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
@@ -153,7 +126,7 @@ public abstract class LaboratoryExam implements Transactional {
 		if (getTbcase() == null)
 			return null;
 
-		return tbcase.getMonthTreatment(dt);
+		return getTbcase().getMonthTreatment(dt);
 	}
 	
 	/**
@@ -199,19 +172,6 @@ public abstract class LaboratoryExam implements Transactional {
         this.sampleNumber = spnumber;
     }
 
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the comments
@@ -294,14 +254,6 @@ public abstract class LaboratoryExam implements Transactional {
 	}
 */
 
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
-
 /*
 	pub Date getDateCollected() {
 		return dateCollected;
@@ -323,18 +275,6 @@ public abstract class LaboratoryExam implements Transactional {
 	/* (non-Javadoc)
 	 * @see org.msh.tb.entities.Transactional#getLastTransaction()
 	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#setLastTransaction(org.msh.tb.entities.TransactionLog)
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog transactionLog) {
-		this.lastTransaction = transactionLog;
-	}
 
     public ExamStatus getStatus() {
         return status;

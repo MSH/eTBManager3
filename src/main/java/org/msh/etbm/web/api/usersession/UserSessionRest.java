@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.db.dto.UserWorkspaceDTO;
+import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("api/sys")
-public class UserSessionREST {
+public class UserSessionRest {
 
 //    @Autowired
 //    UserSessionService userSessionService;

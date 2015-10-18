@@ -1,13 +1,10 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.YesNoType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * Holds information about a side effect of a TB case
@@ -15,29 +12,15 @@ import java.util.UUID;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
-@DiscriminatorValue("gen")
 @Table(name="casesideeffect")
-public class CaseSideEffect implements Transactional {
-
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class CaseSideEffect extends CaseData {
 
 	@Embedded
 	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "SIDEEFFECT_ID")) })
 	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")) })
 	@NotNull
 	private FieldValueComponent sideEffect;
-	
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
-	
+
 	private String medicines;
 	
 	@Column(name="SE_MONTH")
@@ -56,14 +39,7 @@ public class CaseSideEffect implements Transactional {
 	@Lob
 	private String comment;
 		
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
-	
+
 	/**
 	 * @return the comments
 	 */
@@ -90,20 +66,6 @@ public class CaseSideEffect implements Transactional {
 	 */
 	public void setResolved(YesNoType resolved) {
 		this.resolved = resolved;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	/**
@@ -151,20 +113,6 @@ public class CaseSideEffect implements Transactional {
 	}
 
 	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
-
-	/**
 	 * @return the substance
 	 */
 	public Substance getSubstance() {
@@ -192,19 +140,4 @@ public class CaseSideEffect implements Transactional {
 		this.substance2 = substance2;
 	}
 
-	/**
-	 * @return the lastTransaction
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/**
-	 * @param lastTransaction the lastTransaction to set
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog lastTransaction) {
-		this.lastTransaction = lastTransaction;
-	}
 }

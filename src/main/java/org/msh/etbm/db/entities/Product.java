@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
 
@@ -13,8 +13,9 @@ import javax.persistence.*;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
-public class Product extends WSObject {
+public class Product extends WorkspaceData {
 
+    @Column(length = 250)
     private String name;
 
     private String shortName;

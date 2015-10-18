@@ -3,12 +3,11 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Store information about a follow up of an issue. A follow up contains
@@ -19,13 +18,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="issuefollowup")
-public class IssueFollowup {
+public class IssueFollowup extends Synchronizable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="issue_id")
@@ -49,19 +43,6 @@ public class IssueFollowup {
 	@NotNull
 	private Tbunit unit;
 
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the text

@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.Gender;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="patient")
-public class Patient extends WSObject  {
+public class Patient extends WorkspaceData {
 
 	@Column(length=100)
 	@NotNull
@@ -42,7 +42,7 @@ public class Patient extends WSObject  {
 	@Temporal(TemporalType.DATE)
 	@PropertyLog(operations={Operation.NEW})
 	private Date birthDate;
-	
+
 	private Integer recordNumber;
 
 	@NotNull
@@ -59,24 +59,6 @@ public class Patient extends WSObject  {
 	@Column(length=100)
 	private String fatherName;
 	
-	@Transient
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	private Integer clientId;
-	
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
 
 
 /*

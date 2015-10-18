@@ -1,32 +1,20 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="prevtbtreatment")
-public class PrevTBTreatment implements Serializable {
-	private static final long serialVersionUID = -4070705919226815216L;
+public class PrevTBTreatment extends CaseData {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
 
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
-	
 	@Column(name="TREATMENT_MONTH")
 	private Integer month;
 	
@@ -49,14 +37,6 @@ public class PrevTBTreatment implements Serializable {
 	private List<Substance> substances = new ArrayList<Substance>();
 
 
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public Integer getMonth() {
 		return month;
@@ -88,14 +68,6 @@ public class PrevTBTreatment implements Serializable {
 
 	public void setSubstances(List<Substance> substances) {
 		this.substances = substances;
-	}
-
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
 	}
 
 	/**

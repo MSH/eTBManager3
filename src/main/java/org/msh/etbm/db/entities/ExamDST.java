@@ -7,14 +7,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="examdst")
-public class ExamDST extends LaboratoryExam implements Serializable {
-	private static final long serialVersionUID = -1911463378908689952L;
+public class ExamDST extends LaboratoryExam {
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="exam")
 	private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();

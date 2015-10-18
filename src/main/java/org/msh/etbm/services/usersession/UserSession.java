@@ -1,5 +1,10 @@
 package org.msh.etbm.services.usersession;
 
+import org.msh.etbm.db.dto.UserWorkspaceDTO;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +13,8 @@ import java.util.UUID;
  *
  * Created by rmemoria on 30/9/15.
  */
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserSession {
 
     /**
@@ -15,20 +22,6 @@ public class UserSession {
      */
     private UUID userLoginId;
 
-    /**
-     * ID of the user workspace table
-     */
-    private UUID userWorkspaceId;
-
-    /**
-     * Workspace of the current session
-     */
-    private UUID workspaceId;
-
-    /**
-     * Id of the current user
-     */
-    private UUID userId;
 
     /**
      * List of permissions that user is granted to
@@ -36,9 +29,18 @@ public class UserSession {
     private List<String> permissions;
 
     /**
-     * If true, user is a system administrator
+     * Object containing information about the user and its workspace
      */
-    private boolean administrator;
+    private UserWorkspaceDTO userWorkspace;
+
+
+    /**
+     * Check if the user was properly authenticated
+     * @return true if the user is authenticated
+     */
+    public boolean isAuthenticated() {
+        return userWorkspace != null;
+    }
 
     /**
      * Return true if the given permission is granted to the user
@@ -46,7 +48,10 @@ public class UserSession {
      * @return true if permission is granted
      */
     public boolean isPermissionGranted(String perm) {
-        return administrator?
+        if (userWorkspace == null) {
+            return false;
+        }
+        return userWorkspace.isAdministrator()?
                 true:
                 permissions != null && permissions.contains(perm);
     }
@@ -67,35 +72,11 @@ public class UserSession {
         this.userLoginId = userLoginId;
     }
 
-    public UUID getUserWorkspaceId() {
-        return userWorkspaceId;
+    public UserWorkspaceDTO getUserWorkspace() {
+        return userWorkspace;
     }
 
-    public void setUserWorkspaceId(UUID userWorkspaceId) {
-        this.userWorkspaceId = userWorkspaceId;
-    }
-
-    public UUID getWorkspaceId() {
-        return workspaceId;
-    }
-
-    public void setWorkspaceId(UUID workspaceId) {
-        this.workspaceId = workspaceId;
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public boolean isAdministrator() {
-        return administrator;
-    }
-
-    public void setAdministrator(boolean administrator) {
-        this.administrator = administrator;
+    public void setUserWorkspace(UserWorkspaceDTO userWorkspace) {
+        this.userWorkspace = userWorkspace;
     }
 }

@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.MedicineLine;
 
 import javax.persistence.Column;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="substance")
-public class Substance extends WSObject {
+public class Substance extends WorkspaceData {
 
 	@NotNull
 	@PropertyLog(messageKey="form.name")

@@ -1,6 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,9 +10,8 @@ import java.util.UUID;
 public class ErrorLog {
 
     @Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date errorDate;
@@ -44,14 +42,14 @@ public class ErrorLog {
 	/**
 	 * @return the id
 	 */
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

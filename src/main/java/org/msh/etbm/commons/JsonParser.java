@@ -1,5 +1,6 @@
 package org.msh.etbm.commons;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 
@@ -28,5 +29,21 @@ public class JsonParser {
             throw new RuntimeException(e);
         }
 
+    }
+
+
+    /**
+     * Convert an object to JSON string representation
+     * @param obj object to serialize
+     * @return JSON in string format
+     */
+    public static String objectToJSONString(Object obj) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

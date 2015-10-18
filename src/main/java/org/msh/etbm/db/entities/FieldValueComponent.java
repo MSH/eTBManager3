@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+
 import javax.persistence.*;
 
 @Embeddable

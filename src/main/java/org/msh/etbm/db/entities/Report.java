@@ -3,7 +3,7 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,14 +17,14 @@ import java.util.Date;
  */
 @Entity
 @Table(name="report")
-public class Report extends WSObject {
+public class Report extends WorkspaceData {
 
 	/**
 	 * The title of the report, displayed to the user
 	 */
 	@Column(length=200)
 	@NotNull
-	private String title;
+    private String title;
 	
 	/**
 	 * If true, the report will also be available to other users

@@ -3,14 +3,13 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.CaseData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Store information about an issue created, optionally, to a TB case.
@@ -23,16 +22,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="issue")
-public class Issue  {
+public class Issue extends CaseData {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="case_id")
-	private TbCase tbcase;
 
 	private boolean closed;
 
@@ -60,33 +51,6 @@ public class Issue  {
 	@NotNull
 	private Tbunit unit;
 
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
 
 	/**
 	 * @return the closed

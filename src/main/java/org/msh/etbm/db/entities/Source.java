@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="source")
-public class Source extends WSObject  {
+public class Source extends WorkspaceData {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
     @Column(length = 100)

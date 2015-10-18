@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="medicalexamination")
-public class MedicalExamination extends CaseData {
+public class MedicalExamination extends CaseEvent {
 
 	@PropertyLog(operations={Operation.NEW})
 	private Double weight;

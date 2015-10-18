@@ -1,20 +1,15 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Entity
 @Table(name="sequenceinfo")
-public class SequenceInfo {
+public class SequenceInfo extends Synchronizable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
 
 	@Column(name="seq_name", length=50)
 	@NotNull
@@ -30,14 +25,6 @@ public class SequenceInfo {
 	@NotNull
 	@PropertyLog(ignore=true)
 	private Workspace workspace;
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public int getNumber() {
 		return number;

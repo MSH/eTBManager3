@@ -1,12 +1,11 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.Address;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
@@ -23,13 +22,8 @@ import java.util.*;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="tbcase")
-public class TbCase implements Transactional {
+public class TbCase extends WorkspaceData {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
 	@Version
 	@PropertyLog(ignore=true)
 	private Integer version;
@@ -39,6 +33,7 @@ public class TbCase implements Transactional {
 	// specific suspect information
 	@Column(length=50)
 	private String suspectRegistrationCode;
+
 	@PropertyLog(messageKey="CaseClassification")
 	private CaseClassification suspectClassification;
 	
@@ -52,7 +47,6 @@ public class TbCase implements Transactional {
 	@JoinColumn(name="PATIENT_ID")
 	@NotNull
 	@PropertyLog(logEntityFields=true)
-//	@InnerValidation
 	private Patient patient;
 	
 	private Integer age;
@@ -293,15 +287,7 @@ public class TbCase implements Transactional {
 			inverseJoinColumns={@JoinColumn(name="TAG_ID")})
 	private List<Tag> tags = new ArrayList<Tag>();
 
-	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
-	
+
 	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
@@ -629,14 +615,6 @@ public class TbCase implements Transactional {
 
 	public void setCaseNumber(Integer caseNumber) {
 		this.caseNumber = caseNumber;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	public Patient getPatient() {
@@ -1305,22 +1283,6 @@ public class TbCase implements Transactional {
 		}
 		
 		return "";
-	}
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#getLastTransaction()
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#setLastTransaction(org.msh.tb.entities.TransactionLog)
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog transactionLog) {
-		this.lastTransaction = transactionLog;
 	}
 
 

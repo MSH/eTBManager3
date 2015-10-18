@@ -1,24 +1,16 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name="workspace")
-public class Workspace implements Serializable, Transactional {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class Workspace extends Synchronizable {
 
 	@PropertyLog(messageKey="form.name")
 	private String name;
@@ -134,11 +126,6 @@ public class Workspace implements Serializable, Transactional {
 	@JoinColumn(name="expiredMedicineAdjustmentType_ID")
 	@PropertyLog(messageKey="Workspace.ExpiredMedAdjustType")
 	private FieldValue expiredMedicineAdjustmentType;
-
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
 
 
 
@@ -274,14 +261,6 @@ public class Workspace implements Serializable, Transactional {
 */
 
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
 
 	/**
 	 * @return the name
@@ -416,22 +395,6 @@ public class Workspace implements Serializable, Transactional {
 		this.monthsToAlertExpiredMedicines = monthsToAlertExpiredMedicines;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#getLastTransaction()
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#setLastTransaction(org.msh.tb.entities.TransactionLog)
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog transactionLog) {
-		this.lastTransaction = transactionLog;
-	}
 
 	/**
 	 * @return the expiredMedicineAdjustmentType

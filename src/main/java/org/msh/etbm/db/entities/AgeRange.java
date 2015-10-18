@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "agerange")
-public class AgeRange extends WSObject {
+public class AgeRange extends WorkspaceData {
 	private static final long serialVersionUID = -9151429225415780966L;
 
 	@PropertyLog(messageKey="form.name")

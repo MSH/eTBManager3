@@ -8,13 +8,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * @author Ricardo Mem�ria
+ * @author Ricardo Memória
  *
  * Records information about an HIV result during the treatment
  */
 @Entity
 @Table(name="examhiv")
-public class ExamHIV extends CaseData {
+public class ExamHIV extends CaseEvent {
 
 	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
 	private HIVResult result;

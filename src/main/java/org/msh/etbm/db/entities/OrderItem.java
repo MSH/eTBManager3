@@ -1,13 +1,12 @@
 package org.msh.etbm.db.entities;
 
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Store data about the medicines ordered in an order
@@ -16,13 +15,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="orderitem")
-public class OrderItem  {
+public class OrderItem extends Synchronizable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="ORDER_ID")
 	@NotNull
@@ -155,12 +149,7 @@ public class OrderItem  {
 	public void setApprovedQuantity(Integer approvedQuantity) {
 		this.approvedQuantity = approvedQuantity;
 	}
-	public UUID getId() {
-		return id;
-	}
-	public void setId(UUID id) {
-		this.id = id;
-	}
+
 	public int getRequestedQuantity() {
 		return requestedQuantity;
 	}

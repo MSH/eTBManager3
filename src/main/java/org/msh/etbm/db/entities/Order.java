@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.OrderStatus;
 
 import javax.persistence.*;
@@ -9,16 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name="productorder")
-public class Order {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class Order extends WorkspaceData {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull
@@ -98,14 +92,7 @@ public class Order {
 		return tot;
 	}
 
-	@Override
-	public String toString() {
-		if (id != null)
-			 return id.toString();
-		else return super.toString();
-	}
 
-	
 	public boolean isHasShipAddress() {
 		return (!checkEmpty(shipAddress)) || (!checkEmpty(shipZipCode));
 	}
@@ -120,14 +107,6 @@ public class Order {
 
 	public void setShippingDate(Date shippingDate) {
 		this.shippingDate = shippingDate;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	public Date getOrderDate() {

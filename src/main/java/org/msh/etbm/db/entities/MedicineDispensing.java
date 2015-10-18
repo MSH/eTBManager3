@@ -1,26 +1,18 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 @Entity
 @Table(name="medicinedispensing")
-public class MedicineDispensing implements Serializable {
-	private static final long serialVersionUID = 808211986483933780L;
+public class MedicineDispensing extends Synchronizable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="UNIT_ID")
 	private Tbunit tbunit;
@@ -39,15 +31,6 @@ public class MedicineDispensing implements Serializable {
 	private List<MedicineDispensingCase> patients = new ArrayList<MedicineDispensingCase>();
 
 		
-
-	public UUID getId() {
-		return id;
-	}
-	
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
 
 	/**
 	 * @return the tbunit

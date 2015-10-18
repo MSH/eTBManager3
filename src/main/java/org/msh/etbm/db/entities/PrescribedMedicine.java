@@ -1,16 +1,13 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Store information about a medicine prescribed to a case
@@ -19,12 +16,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="prescribedmedicine")
-public class PrescribedMedicine implements Transactional {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+public class PrescribedMedicine extends CaseData {
 
 	/**
 	 * Medicine prescribed
@@ -64,43 +56,6 @@ public class PrescribedMedicine implements Transactional {
 	@Lob
 	private String comments;
 	
-	/**
-	 * Case related to the medicine prescribed
-	 */
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
-
-	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
-	
-	
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	@Transient
-	private Integer clientId;
-	
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
-
 
 	/**
 	 * Check if has any comment to the prescribed medicine
@@ -187,10 +142,10 @@ public class PrescribedMedicine implements Transactional {
 	 * @return month of treatment, from 0 (=January) to 11 (=December)
 	 */
 	public Integer getIniMonth() {
-		if ((period == null) || (period.isEmpty()) || (tbcase == null))
+		if ((period == null) || (period.isEmpty()) || (getTbcase() == null))
 			return null;
 		
-		return tbcase.getMonthTreatment(period.getIniDate()) - 1;
+		return getTbcase().getMonthTreatment(period.getIniDate()) - 1;
 	}
 	
 	
@@ -208,6 +163,7 @@ public class PrescribedMedicine implements Transactional {
 	 * @param month
 	 */
 	public void setIniMonth(Integer month) {
+        TbCase tbcase = getTbcase();
 		if (period.isEmpty()) {
 			if (tbcase != null)
 				period = new Period(tbcase.getTreatmentPeriod());
@@ -226,6 +182,8 @@ public class PrescribedMedicine implements Transactional {
 	 * @param months
 	 */
 	public void setMonths(Integer months) {
+        TbCase tbcase = getTbcase();
+
 		if (period == null)
 			return;
 		if (period.getIniDate() == null) {
@@ -292,23 +250,6 @@ public class PrescribedMedicine implements Transactional {
 		this.source = source;
 	}
 
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
-
 	public String getComments() {
 		return comments;
 	}
@@ -325,22 +266,6 @@ public class PrescribedMedicine implements Transactional {
 
 	public void setPeriod(Period period) {
 		this.period = period;
-	}
-
-	/**
-	 * @return the lastTransaction
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/**
-	 * @param lastTransaction the lastTransaction to set
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog lastTransaction) {
-		this.lastTransaction = lastTransaction;
 	}
 
 }

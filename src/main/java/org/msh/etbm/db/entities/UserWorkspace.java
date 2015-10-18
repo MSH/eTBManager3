@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.UserView;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name="userworkspace")
-public class UserWorkspace extends WSObject {
+public class UserWorkspace extends WorkspaceData {
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="UNIT_ID")

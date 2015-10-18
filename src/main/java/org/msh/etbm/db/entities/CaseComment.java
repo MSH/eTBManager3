@@ -1,12 +1,11 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.enums.CaseView;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 
 /**
@@ -16,18 +15,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "casecomment")
-public class CaseComment implements Serializable {
-	private static final long serialVersionUID = 4605350882229307203L;
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
+public class CaseComment extends CaseData {
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="USER_ID")
@@ -43,39 +31,9 @@ public class CaseComment implements Serializable {
 	@NotNull
 	private String comment;
 
-/*
 	@NotNull
 	private CaseView view;
-*/
 
-
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
 
 	/**
 	 * @return the user
@@ -122,20 +80,18 @@ public class CaseComment implements Serializable {
 	/**
 	 * @return the view
 	 */
-/*
-	public CaseView getView() {
+    public CaseView getView() {
 		return view;
 	}
-*/
+
 
 	/**
 	 * @param view the view to set
 	 */
-/*
-	public void setView(CaseView view) {
+    public void setView(CaseView view) {
 		this.view = view;
 	}
-*/
+
 
 
 }

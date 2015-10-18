@@ -6,13 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+/**
+ * Responsible for keeping information about a user related to the command history even if the user is
+ * deleted from the system
+ */
 @Entity
 @Table(name="userlog")
 public class UserLog {
 
 	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 
 	@Column(length=100)

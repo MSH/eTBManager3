@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 
 import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "batch")
-public class Batch extends WSObject {
+public class Batch extends WorkspaceData {
 
 	@NotNull
 	@Temporal(TemporalType.DATE)

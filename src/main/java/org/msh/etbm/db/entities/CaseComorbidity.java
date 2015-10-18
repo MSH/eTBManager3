@@ -1,26 +1,12 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Entity
 @Table(name = "casecomorbidity")
-public class CaseComorbidity implements Transactional {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
+public class CaseComorbidity extends CaseData {
 
 	@Embedded
 	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "COMORB_ID")) })
@@ -33,47 +19,6 @@ public class CaseComorbidity implements Transactional {
 	@Column(length=200)
 	private String comment;
 	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
-	
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	@Transient
-	private Integer clientId;
-	
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
-
-
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the comment
@@ -89,19 +34,6 @@ public class CaseComorbidity implements Transactional {
 		this.comment = comment;
 	}
 
-	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
 
 	/**
 	 * @return the comorbidity
@@ -131,20 +63,4 @@ public class CaseComorbidity implements Transactional {
 		this.duration = duration;
 	}
 
-
-	/**
-	 * @return the lastTransaction
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/**
-	 * @param lastTransaction the lastTransaction to set
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog lastTransaction) {
-		this.lastTransaction = lastTransaction;
-	}
 }

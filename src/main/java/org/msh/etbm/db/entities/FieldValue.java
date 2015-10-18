@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.TbField;
 
 import javax.persistence.Column;
@@ -17,8 +17,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name="fieldvalue")
-public class FieldValue extends WSObject implements Serializable {
-	private static final long serialVersionUID = -754148519681677704L;
+public class FieldValue extends WorkspaceData {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW})
     @Column(length = 100)

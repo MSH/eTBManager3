@@ -4,14 +4,11 @@
 package org.msh.etbm.db.entities;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.TreatmentDayOption;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * Store information about medicine in-take along the treatment
@@ -21,18 +18,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="treatmentmonitoring")
-public class TreatmentMonitoring implements Transactional {
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
+public class TreatmentMonitoring extends CaseData {
 	
 	@Column(name="MONTH_TREAT")
 	private int month;
@@ -72,13 +58,6 @@ public class TreatmentMonitoring implements Transactional {
 	private TreatmentDayOption day30 = TreatmentDayOption.NOT_TAKEN;
 	private TreatmentDayOption day31 = TreatmentDayOption.NOT_TAKEN;
 	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
 
 	/**
 	 * Return the number of dispensing days for the given month
@@ -121,30 +100,6 @@ public class TreatmentMonitoring implements Transactional {
 		}
 	}
 
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
-	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
 	/**
 	 * @return the month
 	 */
@@ -726,20 +681,6 @@ public class TreatmentMonitoring implements Transactional {
 	 */
 	public TreatmentDayOption getDay31() {
 		return day31;
-	}
-
-	/**
-	 * @return the lastTransaction
-	 */
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/**
-	 * @param lastTransaction the lastTransaction to set
-	 */
-	public void setLastTransaction(TransactionLog lastTransaction) {
-		this.lastTransaction = lastTransaction;
 	}
 
 }

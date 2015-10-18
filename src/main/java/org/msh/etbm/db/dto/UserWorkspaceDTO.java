@@ -17,7 +17,6 @@ public class UserWorkspaceDTO {
     private boolean administrator;
     private boolean playOtherUnits;
     private UserView view;
-    private List<String> permissions;
 
     public UUID getId() {
         return id;
@@ -57,14 +56,6 @@ public class UserWorkspaceDTO {
 
     public void setPlayOtherUnits(boolean playOtherUnits) {
         this.playOtherUnits = playOtherUnits;
-    }
-
-    public List<String> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<String> permissions) {
-        this.permissions = permissions;
     }
 
     public UnitDTO getUnit() {

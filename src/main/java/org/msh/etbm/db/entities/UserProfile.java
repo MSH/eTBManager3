@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name="userprofile")
-public class UserProfile extends WSObject implements Comparable<UserProfile> {
+public class UserProfile extends WorkspaceData implements Comparable<UserProfile> {
 
 	@Column(length=100)
 	@NotNull

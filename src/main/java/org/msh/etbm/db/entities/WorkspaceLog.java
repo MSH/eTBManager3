@@ -6,13 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+/**
+ * Responsible to keep information about a workspace related to the command history that will not
+ * disappear if the workspace is deleted
+ */
 @Entity
 @Table(name="workspacelog")
 public class WorkspaceLog {
 
 	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
 	private UUID id;
 
     @Column(length = 100)

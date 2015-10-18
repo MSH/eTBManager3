@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="countrystructure")
-public class CountryStructure extends WSObject {
+public class CountryStructure extends WorkspaceData {
 
 	@PropertyLog(messageKey="form.name")
     @Column(length = 100)

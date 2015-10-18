@@ -4,7 +4,7 @@ import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.EntityState;
-import org.msh.etbm.db.WSObject;
+import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
-public abstract class Unit extends WSObject implements EntityState {
+public abstract class Unit extends WorkspaceData implements EntityState {
 
     @PropertyLog(messageKey="form.name", operations={Operation.NEW})
     private String name;

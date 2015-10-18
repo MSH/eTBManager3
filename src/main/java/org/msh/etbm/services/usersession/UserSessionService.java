@@ -36,6 +36,10 @@ public class UserSessionService {
     @Autowired
     ApplicationContext applicationContext;
 
+    @Autowired
+    DozerBeanMapper mapper;
+
+
     /**
      * Return the user session information by its authentication token
      * @param authToken the authentication token
@@ -48,7 +52,7 @@ public class UserSessionService {
             return null;
         }
 
-        UserSession session = new UserSession();
+        UserSession session = applicationContext.getBean(UserSession.class);
 
         // recover the information of the user in the workspace
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());
@@ -57,16 +61,15 @@ public class UserSessionService {
             throw new IllegalArgumentException("User workspace not found");
         }
 
-        session.setAdministrator(uw.isAdministrator());
-        session.setUserWorkspaceId(uw.getId());
-        session.setWorkspaceId(uw.getWorkspace().getId());
-        session.setUserId(uw.getUser().getId());
         session.setUserLoginId(login.getId());
 
         if (!uw.isAdministrator()) {
             List<String> perms = createPermissionList(uw);
             session.setPermissions(perms);
         }
+
+        UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
+        session.setUserWorkspace(res);
 
         return session;
     }
@@ -117,37 +120,37 @@ public class UserSessionService {
         return lst.get(0);
     }
 
-
-    /**
-     * Return the current user session information of the given request
-     * @param request the current HTTP request
-     * @return the information about the user
-     */
-    @Bean
-    @Scope("prototype")
-    public UserSession userSession(HttpServletRequest request) {
-        return (UserSession) request.getAttribute(SESSION_KEY);
-    }
-
-    /**
-     * Return the UserWorkspace object based on the given user session. This function is a kind of factory
-     * for the current user workspace
-     * @param userSession information about the user session
-     * @return instance of UserWorkspace
-     */
-    @Bean
-    @Scope("request")
-    @Transactional
-    public UserWorkspaceDTO userWorkspace(UserSession userSession, DozerBeanMapper mapper) {
-        if (userSession == null) {
-            return null;
-        }
-
-        UserWorkspace uw = entityManager.find(UserWorkspace.class, userSession.getUserWorkspaceId());
-
-        UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
-
-        res.setPermissions(userSession.getPermissions());
-        return res;
-    }
+//
+//    /**
+//     * Return the current user session information of the given request
+//     * @param request the current HTTP request
+//     * @return the information about the user
+//     */
+//    @Bean
+//    @Scope("prototype")
+//    public UserSession userSession(HttpServletRequest request) {
+//        return (UserSession) request.getAttribute(SESSION_KEY);
+//    }
+//
+//    /**
+//     * Return the UserWorkspace object based on the given user session. This function is a kind of factory
+//     * for the current user workspace
+//     * @param userSession information about the user session
+//     * @return instance of UserWorkspace
+//     */
+//    @Bean
+//    @Scope("request")
+//    @Transactional
+//    public UserWorkspaceDTO userWorkspace(UserSession userSession, DozerBeanMapper mapper) {
+//        if (userSession == null) {
+//            return null;
+//        }
+//
+//        UserWorkspace uw = entityManager.find(UserWorkspace.class, userSession.getUserWorkspaceId());
+//
+//        UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
+//
+//        res.setPermissions(userSession.getPermissions());
+//        return res;
+//    }
 }

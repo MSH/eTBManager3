@@ -1,9 +1,11 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.db.Synchronizable;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 
 /**
@@ -14,12 +16,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="medicinecomponent")
-public class MedicineComponent {
+public class MedicineComponent extends Synchronizable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
 
 	@ManyToOne
 	@JoinColumn(name="SUBSTANCE_ID")
@@ -40,13 +38,6 @@ public class MedicineComponent {
 		this.medicine = medicine;
 	}
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 	public Substance getSubstance() {
 		return substance;
@@ -75,35 +66,4 @@ public class MedicineComponent {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof MedicineComponent))
-			return false;
-		MedicineComponent other = (MedicineComponent) obj;
-		if (id == null) {
-			if (other.getId() != null)
-				return false;
-		} else if (!id.equals(other.getId()))
-			return false;
-		return true;
-	}
-		
 }

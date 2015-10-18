@@ -1,31 +1,17 @@
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.commons.transactionlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
-import org.msh.etbm.db.Transactional;
+import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.Gender;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="tbcontact")
-public class TbContact implements Transactional {
-	private static final long serialVersionUID = -6862380284209711375L;
-
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
-	
-	@ManyToOne
-	@JoinColumn(name="CASE_ID")
-	@NotNull
-	private TbCase tbcase;
+public class TbContact extends CaseData {
 
 	@PropertyLog(operations={Operation.ALL})
 	private String name;
@@ -54,15 +40,7 @@ public class TbContact implements Transactional {
 	@PropertyLog(messageKey="global.comments")
 	private String comments;
 	
-	
-	/**
-	 * Point to the transaction log that contains information about the last time this entity was changed (updated or created)
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="lastTransaction_ID")
-	@PropertyLog(ignore=true)
-	private TransactionLog lastTransaction;
-	
+
 	
 	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
 	// map an XML node to a property in the model
@@ -81,20 +59,6 @@ public class TbContact implements Transactional {
 	 */
 	public void setClientId(Integer clientId) {
 		this.clientId = clientId;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	/**
@@ -182,20 +146,6 @@ public class TbContact implements Transactional {
 	}
 
 	/**
-	 * @return the tbcase
-	 */
-	public TbCase getTbcase() {
-		return tbcase;
-	}
-
-	/**
-	 * @param tbcase the tbcase to set
-	 */
-	public void setTbcase(TbCase tbcase) {
-		this.tbcase = tbcase;
-	}
-
-	/**
 	 * @return the comments
 	 */
 	public String getComments() {
@@ -223,19 +173,4 @@ public class TbContact implements Transactional {
 		this.dateOfExamination = dateOfExamination;
 }
 
-	/**
-	 * @return the lastTransaction
-	 */
-	@Override
-	public TransactionLog getLastTransaction() {
-		return lastTransaction;
-	}
-
-	/**
-	 * @param lastTransaction the lastTransaction to set
-	 */
-	@Override
-	public void setLastTransaction(TransactionLog lastTransaction) {
-		this.lastTransaction = lastTransaction;
-	}
 }
