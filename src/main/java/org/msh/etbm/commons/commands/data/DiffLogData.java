@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.commands.data;
 
-import org.msh.etbm.commons.forms.DiffValue;
+import org.msh.etbm.commons.entities.DiffValue;
 
 import java.util.HashMap;
 import java.util.Map;

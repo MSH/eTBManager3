@@ -42,6 +42,7 @@ public class CommandInterceptor {
      */
     @Around("execution(public * *(..)) && @annotation(org.msh.etbm.commons.commands.CommandLog)")
     public Object aroundRun(ProceedingJoinPoint pjp) throws Throwable {
+        // try to get the command log annotation from the method
         MethodSignature signature = (MethodSignature)pjp.getSignature();
         Method method = signature.getMethod();
         if (method.getDeclaringClass().isInterface()) {

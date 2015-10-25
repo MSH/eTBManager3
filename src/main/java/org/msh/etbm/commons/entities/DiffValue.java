@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.forms;
+package org.msh.etbm.commons.entities;
 
 /**
  * Store previous and new value and check if they are different

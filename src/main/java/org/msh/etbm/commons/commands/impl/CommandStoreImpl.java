@@ -35,9 +35,11 @@ public class CommandStoreImpl implements CommandStoreService {
         cmd.setExecDate(new Date());
         cmd.setEntityName(in.getEntityName());
 
+        // get the user and workspace involved in the command
         cmd.setUser(getUserLog(in));
         cmd.setWorkspace(getWorkspaceLog(in));
 
+        // get the unit involved in the command
         if (in.getUnit() != null) {
             Unit unit = entityManager.find(Unit.class, in.getUnit().getId());
             cmd.setUnit(unit);
@@ -48,6 +50,7 @@ public class CommandStoreImpl implements CommandStoreService {
         cmd.setParentId(in.getParentId());
         cmd.setAction(in.getAction());
 
+        // parse the data to json format
         if (in.getData() != null) {
             String json = JsonParser.objectToJSONString(in.getData().getDataToSerialize());
             DataType dttype = in.getData().getType();

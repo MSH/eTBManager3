@@ -27,4 +27,5 @@ public @interface CommandLog {
      * @return
      */
     Class<? extends CommandLogHandler> handler();
+
 }
