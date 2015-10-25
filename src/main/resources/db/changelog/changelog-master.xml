@@ -560,49 +560,15 @@
                 <constraints nullable="false"/>
             </column>
             <column name="appointmentType" type="INT"/>
-            <column name="bloodPressureMax" type="${type.float}"/>
-            <column name="bloodPressureMin" type="${type.float}"/>
-            <column name="heartRate" type="${type.float}"/>
-            <column name="heartRateRest" type="${type.float}"/>
             <column name="height" type="${type.float}"/>
-            <column name="reasonNotUsingPrescMedicines" type="VARCHAR(100)"/>
+            <column name="reasonNotUsingPrescMedicines" type="VARCHAR(200)"/>
             <column name="responsible" type="VARCHAR(100)"/>
-            <column name="temperature" type="${type.float}"/>
+            <column name="positionResponsible" type="VARCHAR(100)"/>
             <column name="usingPrescMedicines" type="INT"/>
             <column name="weight" type="${type.float}"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="respRateRest" type="${type.float}"/>
-            <column name="positionResponsible" type="VARCHAR(100)"/>
-            <column name="clinicalEvolution" type="INT"/>
-            <column name="supervisedTreatment" type="INT"/>
-            <column name="supervisionUnitName" type="VARCHAR(100)"/>
-            <column name="surgicalProcedure" type="INT"/>
-            <column name="surgicalProcedureDesc" type="VARCHAR(100)"/>
-            <column name="dotDurinIntPhase" type="INT"/>
-            <column name="nutrtnSupport" type="INT"/>
-            <column name="patientRefBy" type="INT"/>
-            <column name="patientRefTo" type="INT"/>
-            <column name="REF_BY_DATE" type="date"/>
-            <column name="REF_TO_DATE" type="date"/>
-            <column name="referredByUnitName" type="VARCHAR(100)"/>
-            <column name="referredToUnitName" type="VARCHAR(100)"/>
-            <column name="dotProvName" type="VARCHAR(100)"/>
-            <column name="nextAppointment" type="date"/>
-            <column name="dotContOptions" type="INT"/>
-            <column name="dotIntOptions" type="INT"/>
-            <column name="dotContProvName" type="VARCHAR(100)"/>
-            <column name="Qualification" type="INT"/>
-            <column name="otherQualifiedProfessional" type="VARCHAR(100)"/>
-            <column name="patientReferred" type="INT"/>
-            <column name="dotType" type="INT"/>
-            <column name="SIDE_EFFECT" type="${type.id}"/>
-            <column name="dotDurinContPhase" type="INT"/>
-            <column name="otherPatRefBySrc" type="VARCHAR(255)"/>
-            <column name="dotPhoneNumber" type="VARCHAR(50)"/>
-            <column name="DOTTYPE_ID" type="${type.id}"/>
-            <column name="PATIENTREFTO_ID" type="${type.id}"/>
         </createTable>
     </changeSet>
 
@@ -1414,30 +1380,6 @@
     </changeSet>
 
 
-    <changeSet author="rmemoria" id="1433264274749-64">
-        <createTable tableName="transactionlog">
-            <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="action" type="INT"/>
-            <column name="entityDescription" type="VARCHAR(100)"/>
-            <column name="entityId" type="${type.id}"/>
-            <column name="transactionDate" type="${type.datetime}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ROLE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="USERLOG_ID" type="${type.id}"/>
-            <column name="WORKSPACELOG_ID" type="${type.id}"/>
-            <column name="comments" type="${type.text}"/>
-            <column name="titleSuffix" type="VARCHAR(200)"/>
-            <column name="ADMINUNIT_ID" type="${type.id}"/>
-            <column name="UNIT_ID" type="${type.id}"/>
-            <column name="entityClass" type="VARCHAR(100)"/>
-        </createTable>
-    </changeSet>
-
 
     <changeSet author="rmemoria" id="1433264274749-65">
         <createTable tableName="transfer">
@@ -1686,7 +1628,7 @@
             <column name="PROFILE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_ID" type="${type.id}">
+            <column name="ROLE_ID" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1723,8 +1665,8 @@
 
     <changeSet author="rmemoria" id="1433264274749-74">
         <createTable tableName="userrole">
-            <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="changeable" type="${type.boolean}">
                 <constraints nullable="false"/>
@@ -2032,9 +1974,6 @@
         <addPrimaryKey columnNames="id" constraintName="PKTBUNIT" tableName="tbunit"/>
     </changeSet>
 -->
-    <changeSet author="rmemoria" id="1433264274749-138">
-        <addPrimaryKey columnNames="id" constraintName="PKTRANSLOG" tableName="transactionlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-139">
         <addPrimaryKey columnNames="id" constraintName="PKTRANSFER" tableName="transfer"/>
     </changeSet>
@@ -2061,9 +2000,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-147">
         <addPrimaryKey columnNames="id" constraintName="PKUSERPROFILE" tableName="userprofile"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-148">
-        <addPrimaryKey columnNames="id" constraintName="PKUSERROLE" tableName="userrole"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-149">
         <addPrimaryKey columnNames="id" constraintName="PKUSERWORKSPACE" tableName="userworkspace"/>
@@ -2156,21 +2092,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-181">
         <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="administrativeunit" constraintName="FK3B6F13B2D19C2BC5" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-182">
-        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA671E04A4B" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-183">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACELOG_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA67EB849D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspacelog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-184">
-        <addForeignKeyConstraint baseColumnNames="USERLOG_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA6B5E1CBB7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userlog"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-185">
-        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA6B93F8B48" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userrole"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-186">
-        <addForeignKeyConstraint baseColumnNames="ADMINUNIT_ID" baseTableName="transactionlog" constraintName="FK3C3C7BA6CEDEEA7C" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-188">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace" constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="unit"/>
@@ -2349,9 +2270,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-249">
         <addForeignKeyConstraint baseColumnNames="LAB_ADMINUNIT_ID" baseTableName="exammicroscopy" constraintName="FK8B79F783FE125FEE" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="administrativeunit"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-250">
-        <addForeignKeyConstraint baseColumnNames="SIDE_EFFECT" baseTableName="medicalexamination" constraintName="FK919DA4C0677ECC33" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fieldvalue"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-251">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="medicalexamination" constraintName="FK919DA4C0A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
@@ -2641,12 +2559,6 @@
             <column name="ADMINUNIT_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-405">
-        <createIndex indexName="IDX_WS_EntityClass" tableName="transactionlog" unique="false">
-            <column name="WORKSPACELOG_ID"/>
-            <column name="entityClass"/>
-        </createIndex>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-406">
         <createIndex indexName="fk_adminunit_code" tableName="administrativeunit" unique="false">
             <column name="code"/>
@@ -2669,11 +2581,5 @@
                                  referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
 
-
-    <changeSet author="rmemoria" id="1433264274749-408">
-        <createIndex indexName="idx_entityid" tableName="transactionlog" unique="false">
-            <column name="entityId"/>
-        </createIndex>
-    </changeSet>
 
 </databaseChangeLog>

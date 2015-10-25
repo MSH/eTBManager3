@@ -1,5 +1,6 @@
 package org.msh.etbm;
 
+import org.msh.etbm.db.entities.Product;
 import org.msh.etbm.db.entities.UserProfile;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
@@ -73,4 +74,5 @@ public class TestRest {
         Long res = workspaceRepository.count();
         return res;
     }
+
 }

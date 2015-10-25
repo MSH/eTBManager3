@@ -16,5 +16,5 @@ public @interface Authenticated {
     /**
      * Optionally a list of permissions may be informed to restrict user access
      */
-    String[] permissions = {};
+    String[] permissions() default {};
 }

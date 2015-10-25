@@ -1,906 +1,647 @@
 [
   {
-    "id" : "00000000-0000-0000-0000-000000000001",
-    "changeable" : false,
-    "code" : "050000",
-    "name" : "ADMIN",
-    "internalUse" : false,
-    "messageKey" : "admin"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000002",
-    "changeable" : true,
-    "code" : "050800",
-    "name" : "USERS",
-    "internalUse" : false,
-    "messageKey" : "admin.users"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000003",
-    "changeable" : true,
-    "code" : "050200",
-    "name" : "ADMINUNITS",
-    "internalUse" : false,
-    "messageKey" : "admin.adminunits"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000005",
-    "changeable" : true,
-    "code" : "050400",
-    "name" : "SOURCES",
-    "internalUse" : false,
-    "messageKey" : "admin.sources"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000006",
-    "changeable" : true,
-    "code" : "050500",
-    "name" : "TBUNITS",
-    "internalUse" : false,
-    "messageKey" : "admin.tbunits"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000007",
-    "changeable" : true,
-    "code" : "050600",
-    "name" : "MEDICINES",
-    "internalUse" : false,
-    "messageKey" : "admin.medicines"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000009",
-    "changeable" : false,
-    "code" : "030000",
-    "name" : "MEDMAN",
-    "internalUse" : false,
-    "messageKey" : "medicines"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000010",
-    "changeable" : false,
-    "code" : "040000",
-    "name" : "MANAGEMENT",
-    "internalUse" : false,
-    "messageKey" : "manag"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000011",
-    "changeable" : true,
-    "code" : "030200",
-    "name" : "RECEIV",
-    "internalUse" : false,
-    "messageKey" : "meds.receiving"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000013",
-    "changeable" : false,
-    "code" : "030402",
-    "name" : "VAL_ORDER",
-    "internalUse" : false,
-    "messageKey" : "meds.orders.autorize"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000014",
-    "changeable" : false,
-    "code" : "030403",
-    "name" : "SEND_ORDER",
-    "internalUse" : false,
-    "messageKey" : "meds.orders.shipment"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000015",
-    "changeable" : false,
-    "code" : "030404",
-    "name" : "RECEIV_ORDER",
-    "internalUse" : false,
-    "messageKey" : "meds.orders.receive"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000016",
-    "changeable" : true,
-    "code" : "030500",
-    "name" : "DISP_PAC",
-    "internalUse" : false,
-    "messageKey" : "meds.dispensing"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000018",
-    "changeable" : false,
-    "code" : "030400",
-    "name" : "ORDERS",
-    "internalUse" : false,
-    "messageKey" : "meds.orders"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000019",
-    "changeable" : false,
-    "code" : "055100",
-    "name" : "ONLINE",
-    "internalUse" : false,
-    "messageKey" : "admin.websessions"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000025",
-    "changeable" : false,
-    "code" : "030405",
-    "name" : "ORDER_CANC",
-    "internalUse" : false,
-    "messageKey" : "meds.orders.cancel"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000027",
-    "changeable" : false,
-    "code" : "031002",
-    "name" : "MOVS",
-    "internalUse" : false,
-    "messageKey" : "meds.movs"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000028",
-    "changeable" : false,
-    "code" : "030702",
-    "name" : "TRANSF_REC",
-    "internalUse" : false,
-    "messageKey" : "meds.transfer.receive"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000030",
-    "changeable" : false,
-    "code" : "040100",
-    "name" : "REP1",
-    "internalUse" : false,
-    "messageKey" : "manag.rel1"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000031",
-    "changeable" : false,
-    "code" : "031003",
-    "name" : "REP_ESTPOS",
-    "internalUse" : false,
-    "messageKey" : "manag.rel2"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000032",
-    "changeable" : false,
-    "code" : "031004",
-    "name" : "REP_STOCKEVOL",
-    "internalUse" : false,
-    "messageKey" : "manag.rel3"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000034",
-    "changeable" : false,
-    "code" : "040400",
-    "name" : "REP4",
-    "internalUse" : false,
-    "messageKey" : "manag.rel4"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000035",
-    "changeable" : false,
-    "code" : "031005",
-    "name" : "REP_COSTPAT",
-    "internalUse" : false,
-    "messageKey" : "manag.rel5"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000037",
-    "changeable" : false,
-    "code" : "030100",
-    "name" : "STOCKPOS",
-    "internalUse" : false,
-    "messageKey" : "meds.movs.newadjust"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000039",
-    "changeable" : true,
-    "code" : "051000",
-    "name" : "PROFILES",
-    "internalUse" : false,
-    "messageKey" : "admin.profiles"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000040",
-    "changeable" : true,
-    "code" : "050800",
-    "name" : "REGIMENS",
-    "internalUse" : false,
-    "messageKey" : "admin.regimens"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000041",
-    "changeable" : true,
-    "code" : "050900",
-    "name" : "WORKSPACES",
-    "internalUse" : false,
-    "messageKey" : "admin.workspaces"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000046",
-    "changeable" : false,
-    "code" : "030700",
-    "name" : "TRANSFER",
-    "internalUse" : false,
-    "messageKey" : "meds.transfer"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000049",
+    "id" : 49,
     "changeable" : false,
     "code" : "010000",
-    "name" : "CASEMAN",
-    "internalUse" : false,
-    "messageKey" : "cases"
+    "name" : "CASEMAN"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000050",
-    "changeable" : true,
-    "code" : "051100",
-    "name" : "LABS",
-    "internalUse" : false,
-    "messageKey" : "admin.labs"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000052",
-    "changeable" : true,
-    "code" : "051300",
-    "name" : "SUBSTANCES",
-    "internalUse" : false,
-    "messageKey" : "admin.substances"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000053",
-    "changeable" : true,
-    "code" : "051400",
-    "name" : "WEEKFREQ",
-    "internalUse" : false,
-    "messageKey" : "admin.weeklyfreq"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000054",
-    "changeable" : true,
-    "code" : "030800",
-    "name" : "UNITSETUP",
-    "internalUse" : false
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000058",
-    "changeable" : true,
-    "code" : "051700",
-    "name" : "FIELDS",
-    "internalUse" : false,
-    "messageKey" : "admin.fields"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000059",
-    "changeable" : false,
-    "code" : "040600",
-    "name" : "EXPORT",
-    "internalUse" : false,
-    "messageKey" : "manag.export"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000060",
-    "changeable" : false,
-    "code" : "040700",
-    "name" : "FORECAST",
-    "internalUse" : false,
-    "messageKey" : "manag.forecast.med"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000061",
-    "changeable" : false,
-    "code" : "055000",
-    "name" : "SETUPWS",
-    "internalUse" : false
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000062",
-    "changeable" : false,
-    "code" : "055100",
-    "name" : "ADMREP",
-    "internalUse" : false,
-    "messageKey" : "admin.reports"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000063",
-    "changeable" : false,
-    "code" : "055101",
-    "name" : "USERSESREP",
-    "internalUse" : false,
-    "messageKey" : "admin.reports.usersession"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000064",
-    "changeable" : true,
-    "code" : "055200",
-    "name" : "SYSSETUP",
-    "internalUse" : false,
-    "messageKey" : "admin.syssetup"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000100",
-    "changeable" : false,
-    "code" : "010400",
-    "name" : "CASE_VIEW",
-    "internalUse" : false,
-    "messageKey" : "userole.CASE_VIEW"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000101",
-    "changeable" : false,
-    "code" : "010407",
-    "name" : "CASE_VALIDATE",
-    "internalUse" : false,
-    "messageKey" : "cases.validate"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000102",
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFER",
-    "internalUse" : false,
-    "messageKey" : "cases.move"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000103",
-    "changeable" : false,
-    "code" : "010410",
-    "name" : "CASE_CLOSE",
-    "internalUse" : false,
-    "messageKey" : "cases.close"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000104",
-    "changeable" : false,
-    "code" : "010411",
-    "name" : "CASE_REOPEN",
-    "internalUse" : false,
-    "messageKey" : "cases.reopen"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000105",
-    "changeable" : true,
-    "code" : "010403",
-    "name" : "CASE_EXAMS",
-    "internalUse" : false,
-    "messageKey" : "cases.details.exams"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000106",
-    "changeable" : true,
-    "code" : "010402",
-    "name" : "CASE_TREAT",
-    "internalUse" : false,
-    "messageKey" : "cases.details.treatment"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000117",
-    "changeable" : true,
-    "code" : "051900",
-    "name" : "AGERANGES",
-    "internalUse" : false,
-    "messageKey" : "admin.ageranges"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000118",
-    "changeable" : false,
-    "code" : "055102",
-    "name" : "LOGREP",
-    "internalUse" : false
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000119",
-    "changeable" : false,
-    "code" : "050901",
-    "name" : "WSADDREMUSER",
-    "internalUse" : true
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000120",
-    "changeable" : true,
-    "code" : "050201",
-    "name" : "ADMSTR",
-    "internalUse" : false,
-    "messageKey" : "admin.auorg"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000130",
-    "changeable" : true,
-    "code" : "011001",
-    "name" : "EXAM_CULTURE",
-    "internalUse" : true,
-    "messageKey" : "cases.examculture"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000131",
-    "changeable" : true,
-    "code" : "011002",
-    "name" : "EXAM_MICROSC",
-    "internalUse" : true,
-    "messageKey" : "cases.exammicroscopy"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000132",
-    "changeable" : true,
-    "code" : "011003",
-    "name" : "EXAM_DST",
-    "internalUse" : true,
-    "messageKey" : "cases.examdst"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000133",
-    "changeable" : true,
-    "code" : "011006",
-    "name" : "EXAM_HIV",
-    "internalUse" : true,
-    "messageKey" : "cases.examhiv"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000134",
-    "changeable" : true,
-    "code" : "011005",
-    "name" : "EXAM_XRAY",
-    "internalUse" : true,
-    "messageKey" : "cases.examxray"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000135",
-    "changeable" : false,
-    "code" : "050902",
-    "name" : "WSCOPY",
-    "internalUse" : true,
-    "messageKey" : "admin.workspaces.copy"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000136",
-    "changeable" : false,
-    "code" : "054000",
-    "name" : "IMPORT",
-    "internalUse" : false,
-    "messageKey" : "admin.import"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000138",
-    "changeable" : false,
-    "code" : "030900",
-    "name" : "MED_INIT",
-    "internalUse" : false,
-    "messageKey" : "meds.start"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000140",
-    "changeable" : true,
-    "code" : "010401",
-    "name" : "CASE_DATA",
-    "internalUse" : false,
-    "messageKey" : "cases.details.case"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000141",
-    "changeable" : true,
-    "code" : "010403",
-    "name" : "CASE_INTAKEMED",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_INTAKEMED"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000142",
-    "changeable" : false,
-    "code" : "010406",
-    "name" : "CASE_DRUGOGRAM",
-    "internalUse" : false,
-    "messageKey" : "cases.details.report1"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000143",
-    "changeable" : false,
-    "code" : "010408",
-    "name" : "CASE_DEL_VAL",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_DEL_VAL"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000144",
-    "changeable" : false,
-    "code" : "030401",
-    "name" : "NEW_ORDER",
-    "internalUse" : false,
-    "messageKey" : "meds.orders.new"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000145",
-    "changeable" : false,
-    "code" : "030701",
-    "name" : "NEW_TRANSFER",
-    "internalUse" : false,
-    "messageKey" : "meds.transfer.new"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000146",
-    "changeable" : true,
-    "code" : "010405",
-    "name" : "CASE_ADDINFO",
-    "internalUse" : false,
-    "messageKey" : "cases.details.otherinfo"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000147",
-    "changeable" : false,
-    "code" : "010412",
-    "name" : "CASE_PERSONALVIEW",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_PERSONAL_VIEW"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000150",
-    "changeable" : false,
-    "code" : "031000",
-    "name" : "MED_REPORTS",
-    "internalUse" : false
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000151",
-    "changeable" : false,
-    "code" : "040500",
-    "name" : "INDICATORS",
-    "internalUse" : false,
-    "messageKey" : "manag.case.reports"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000152",
-    "changeable" : false,
-    "code" : "011007",
-    "name" : "COMORBIDITIES",
-    "internalUse" : true,
-    "messageKey" : "cases.comorbidities"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000153",
-    "changeable" : false,
-    "code" : "011008",
-    "name" : "TBCONTACT",
-    "internalUse" : true,
-    "messageKey" : "cases.contacts"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000154",
-    "changeable" : false,
-    "code" : "011009",
-    "name" : "ADV_EFFECTS",
-    "internalUse" : true,
-    "messageKey" : "cases.sideeffects"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000155",
-    "changeable" : false,
-    "code" : "030901",
-    "name" : "MED_INIT_REM",
-    "internalUse" : false,
-    "messageKey" : "meds.start.remove"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000156",
-    "changeable" : false,
-    "code" : "030702",
-    "name" : "TRANSF_CANCEL",
-    "internalUse" : true,
-    "messageKey" : "meds.transfer.cancel"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000157",
-    "changeable" : true,
-    "code" : "011010",
-    "name" : "EXAM_BIOPSY",
-    "internalUse" : true,
-    "messageKey" : "cases.exambiopsy"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000158",
-    "changeable" : true,
-    "code" : "011011",
-    "name" : "EXAM_SKIN",
-    "internalUse" : true,
-    "messageKey" : "cases.examskintest"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000159",
-    "changeable" : false,
-    "code" : "010413",
-    "name" : "CASE_COMMENTS",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_COMMENTS"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000160",
-    "changeable" : false,
-    "code" : "010414",
-    "name" : "REM_COMMENTS",
-    "internalUse" : false,
-    "messageKey" : "userrole.REM_COMMENTS"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000162",
-    "changeable" : true,
-    "code" : "052000",
-    "name" : "TAGS",
-    "internalUse" : false,
-    "messageKey" : "admin.tags"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000165",
-    "changeable" : false,
-    "code" : "010415",
-    "name" : "CASE_TAG",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_TAG"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000166",
-    "changeable" : false,
-    "code" : "010500",
-    "name" : "CASE_CHANGENUMBER",
-    "internalUse" : false,
-    "messageKey" : "userrole.CASE_CHANGENUMBER"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000167",
-    "changeable" : false,
-    "code" : "055103",
-    "name" : "ERRORLOGREP",
-    "internalUse" : false
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000168",
-    "changeable" : false,
-    "code" : "060100",
-    "name" : "TASK",
-    "internalUse" : true
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000170",
+    "id" : 170,
     "changeable" : false,
     "code" : "010100",
-    "name" : "NEWSUSP",
-    "internalUse" : true,
-    "messageKey" : "userrole.NEWSUSP"
+    "name" : "NEWSUSP"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000171",
+    "id" : 171,
     "changeable" : false,
     "code" : "010200",
-    "name" : "NEWCASE",
-    "internalUse" : true,
-    "messageKey" : "userrole.NEWCASE"
+    "name" : "NEWCASE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000172",
+    "id" : 100,
     "changeable" : false,
-    "code" : "011013",
-    "name" : "EXAM_BIOMOL",
-    "internalUse" : true,
-    "messageKey" : "userrole.EXAM_BIOMOL"
+    "code" : "010400",
+    "name" : "CASE_VIEW"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000180",
-    "changeable" : false,
-    "code" : "050800",
-    "name" : "NEWPWD",
-    "internalUse" : true,
-    "messageKey" : "admin.users.newpasswd"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000181",
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFERIN",
-    "internalUse" : true,
-    "messageKey" : "cases.move.regtransferin"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000182",
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFEROUT",
-    "internalUse" : true,
-    "messageKey" : "cases.move"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000183",
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFERCANCEL",
-    "internalUse" : true,
-    "messageKey" : "cases.move.cancel"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000184",
-    "changeable" : false,
-    "code" : "010402",
-    "name" : "CASE_STARTTREAT",
-    "internalUse" : true,
-    "messageKey" : "cases.details.starttreatment"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000190",
-    "changeable" : false,
-    "code" : "010402",
-    "name" : "TREATMENT_UNDO",
-    "internalUse" : true,
-    "messageKey" : "cases.treat.undo"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000195",
+    "id" : 140,
     "changeable" : true,
-    "code" : "011014",
-    "name" : "CASE_MED_EXAM",
-    "internalUse" : true,
-    "messageKey" : "MedicalExamination"
+    "code" : "010401",
+    "name" : "CASE_DATA"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000200",
+    "id" : 106,
+    "changeable" : true,
+    "code" : "010402",
+    "name" : "CASE_TREAT"
+  },
+  {
+    "id" : 184,
+    "changeable" : false,
+    "code" : "010402",
+    "name" : "CASE_STARTTREAT"
+  },
+  {
+    "id" : 190,
+    "changeable" : false,
+    "code" : "010402",
+    "name" : "TREATMENT_UNDO"
+  },
+  {
+    "id" : 105,
     "changeable" : true,
     "code" : "010403",
-    "name" : "EXAM_XPERT",
-    "internalUse" : true,
-    "messageKey" : "cases.examxpert"
+    "name" : "CASE_EXAMS"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000201",
+    "id" : 141,
+    "changeable" : true,
+    "code" : "010403",
+    "name" : "CASE_INTAKEMED"
+  },
+  {
+    "id" : 200,
+    "changeable" : true,
+    "code" : "010403",
+    "name" : "EXAM_XPERT"
+  },
+  {
+    "id" : 146,
+    "changeable" : true,
+    "code" : "010405",
+    "name" : "CASE_ADDINFO"
+  },
+  {
+    "id" : 142,
     "changeable" : false,
-    "code" : "041000",
-    "name" : "DATA_ANALYSIS",
-    "internalUse" : false,
-    "messageKey" : "manag.reportgen"
+    "code" : "010406",
+    "name" : "CASE_DRUGOGRAM"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000202",
+    "id" : 101,
     "changeable" : false,
-    "code" : "041100",
-    "name" : "REP_QUARTERLY",
-    "internalUse" : false,
-    "messageKey" : "manag.rel7"
+    "code" : "010407",
+    "name" : "CASE_VALIDATE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000203",
+    "id" : 143,
     "changeable" : false,
-    "code" : "031006",
-    "name" : "QUARTERLY_EDIT",
-    "internalUse" : false,
-    "messageKey" : "Quarter.editQuartelyReport"
+    "code" : "010408",
+    "name" : "CASE_DEL_VAL"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000204",
+    "id" : 102,
     "changeable" : false,
-    "code" : "041000",
-    "name" : "SUSPECT_FOLLOWUP",
-    "internalUse" : true,
-    "messageKey" : "cases.suspect.followup"
+    "code" : "010409",
+    "name" : "CASE_TRANSFER"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000205",
+    "id" : 181,
+    "changeable" : false,
+    "code" : "010409",
+    "name" : "CASE_TRANSFERIN"
+  },
+  {
+    "id" : 182,
+    "changeable" : false,
+    "code" : "010409",
+    "name" : "CASE_TRANSFEROUT"
+  },
+  {
+    "id" : 183,
+    "changeable" : false,
+    "code" : "010409",
+    "name" : "CASE_TRANSFERCANCEL"
+  },
+  {
+    "id" : 103,
+    "changeable" : false,
+    "code" : "010410",
+    "name" : "CASE_CLOSE"
+  },
+  {
+    "id" : 104,
+    "changeable" : false,
+    "code" : "010411",
+    "name" : "CASE_REOPEN"
+  },
+  {
+    "id" : 147,
+    "changeable" : false,
+    "code" : "010412",
+    "name" : "CASE_PERSONALVIEW"
+  },
+  {
+    "id" : 159,
+    "changeable" : false,
+    "code" : "010413",
+    "name" : "CASE_COMMENTS"
+  },
+  {
+    "id" : 160,
+    "changeable" : false,
+    "code" : "010414",
+    "name" : "REM_COMMENTS"
+  },
+  {
+    "id" : 165,
+    "changeable" : false,
+    "code" : "010415",
+    "name" : "CASE_TAG"
+  },
+  {
+    "id" : 166,
+    "changeable" : false,
+    "code" : "010500",
+    "name" : "CASE_CHANGENUMBER"
+  },
+  {
+    "id" : 130,
+    "changeable" : true,
+    "code" : "011001",
+    "name" : "EXAM_CULTURE"
+  },
+  {
+    "id" : 131,
+    "changeable" : true,
+    "code" : "011002",
+    "name" : "EXAM_MICROSC"
+  },
+  {
+    "id" : 132,
+    "changeable" : true,
+    "code" : "011003",
+    "name" : "EXAM_DST"
+  },
+  {
+    "id" : 134,
+    "changeable" : true,
+    "code" : "011005",
+    "name" : "EXAM_XRAY"
+  },
+  {
+    "id" : 133,
+    "changeable" : true,
+    "code" : "011006",
+    "name" : "EXAM_HIV"
+  },
+  {
+    "id" : 152,
+    "changeable" : false,
+    "code" : "011007",
+    "name" : "COMORBIDITIES"
+  },
+  {
+    "id" : 153,
+    "changeable" : false,
+    "code" : "011008",
+    "name" : "TBCONTACT"
+  },
+  {
+    "id" : 154,
+    "changeable" : false,
+    "code" : "011009",
+    "name" : "ADV_EFFECTS"
+  },
+  {
+    "id" : 157,
+    "changeable" : true,
+    "code" : "011010",
+    "name" : "EXAM_BIOPSY"
+  },
+  {
+    "id" : 158,
+    "changeable" : true,
+    "code" : "011011",
+    "name" : "EXAM_SKIN"
+  },
+  {
+    "id" : 172,
+    "changeable" : false,
+    "code" : "011013",
+    "name" : "EXAM_BIOMOL"
+  },
+  {
+    "id" : 195,
+    "changeable" : true,
+    "code" : "011014",
+    "name" : "CASE_MED_EXAM"
+  },
+  {
+    "id" : 205,
     "changeable" : false,
     "code" : "011100",
-    "name" : "ISSUES",
-    "internalUse" : false,
-    "messageKey" : "cases.issues"
+    "name" : "ISSUES"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000206",
+    "id" : 206,
     "changeable" : false,
     "code" : "011101",
-    "name" : "NEW_ISSUE",
-    "internalUse" : false,
-    "messageKey" : "cases.issues.new"
+    "name" : "NEW_ISSUE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000207",
+    "id" : 207,
     "changeable" : false,
     "code" : "011103",
-    "name" : "ANSWER_ISSUE",
-    "internalUse" : false,
-    "messageKey" : "userrole.ANSWER_ISSUE"
+    "name" : "ANSWER_ISSUE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000208",
+    "id" : 208,
     "changeable" : false,
     "code" : "011104",
-    "name" : "CLOSEDEL_ISSUE",
-    "internalUse" : false,
-    "messageKey" : "userrole.CLOSEDEL_ISSUE"
+    "name" : "CLOSEDEL_ISSUE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000209",
-    "changeable" : false,
-    "code" : "031007",
-    "name" : "MED_MOV_EDIT_OUT_PERIOD",
-    "internalUse" : false,
-    "messageKey" : "meds.movs.editoutofperiod"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000210",
-    "changeable" : false,
-    "code" : "031008",
-    "name" : "AUTO_TASK",
-    "internalUse" : false,
-    "messageKey" : "autotask"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000211",
-    "changeable" : false,
-    "code" : "030200",
-    "name" : "STOCK_ADJUST_NEW_BATCH",
-    "internalUse" : false,
-    "messageKey" : "meds.mov.newadjust.newbatch"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000215",
-    "changeable" : false,
-    "code" : "050501",
-    "name" : "UNIT_USERSTRANS",
-    "internalUse" : true,
-    "messageKey" : "admin.tbunits.userstrans"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000216",
-    "changeable" : false,
-    "code" : "050502",
-    "name" : "UNIT_CASESTRANS",
-    "internalUse" : true,
-    "messageKey" : "admin.tbunits.casestrans"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000217",
-    "changeable" : false,
-    "code" : "030200",
-    "name" : "VIEW_MEDICINE_PRICES",
-    "internalUse" : false,
-    "messageKey" : "userrole.VIEW_MEDICINE_PRICES"
-  },
-  {
-    "id" : "00000000-0000-0000-0000-000000000220",
+    "id" : 220,
     "changeable" : false,
     "code" : "020000",
-    "name" : "LAB_MODULE",
-    "internalUse" : false,
-    "messageKey" : "labs"
+    "name" : "LAB_MODULE"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000221",
+    "id" : 221,
     "changeable" : false,
     "code" : "020100",
-    "name" : "LAB_NEWREQUEST",
-    "internalUse" : false,
-    "messageKey" : "labs.newreq"
+    "name" : "LAB_NEWREQUEST"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000222",
+    "id" : 222,
     "changeable" : false,
     "code" : "020200",
-    "name" : "LAB_POSTRESULT",
-    "internalUse" : false,
-    "messageKey" : "userrole.LAB_POSTRESULT"
+    "name" : "LAB_POSTRESULT"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000223",
+    "id" : 223,
     "changeable" : false,
     "code" : "020300",
-    "name" : "LAB_EDTREQ",
-    "internalUse" : false,
-    "messageKey" : "userrole.LAB_EDTREQ"
+    "name" : "LAB_EDTREQ"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000224",
+    "id" : 224,
     "changeable" : false,
     "code" : "020400",
-    "name" : "LAB_REMREQ",
-    "internalUse" : false,
-    "messageKey" : "userrole.LAB_REMREQ"
+    "name" : "LAB_REMREQ"
   },
   {
-    "id" : "00000000-0000-0000-0000-000000000230",
+    "id" : 9,
+    "changeable" : false,
+    "code" : "030000",
+    "name" : "MEDMAN"
+  },
+  {
+    "id" : 37,
+    "changeable" : false,
+    "code" : "030100",
+    "name" : "STOCKPOS"
+  },
+  {
+    "id" : 11,
+    "changeable" : true,
+    "code" : "030200",
+    "name" : "RECEIV"
+  },
+  {
+    "id" : 211,
+    "changeable" : false,
+    "code" : "030200",
+    "name" : "STOCK_ADJUST_NEW_BATCH"
+  },
+  {
+    "id" : 217,
+    "changeable" : false,
+    "code" : "030200",
+    "name" : "VIEW_MEDICINE_PRICES"
+  },
+  {
+    "id" : 18,
+    "changeable" : false,
+    "code" : "030400",
+    "name" : "ORDERS"
+  },
+  {
+    "id" : 144,
+    "changeable" : false,
+    "code" : "030401",
+    "name" : "NEW_ORDER"
+  },
+  {
+    "id" : 13,
+    "changeable" : false,
+    "code" : "030402",
+    "name" : "VAL_ORDER"
+  },
+  {
+    "id" : 14,
+    "changeable" : false,
+    "code" : "030403",
+    "name" : "SEND_ORDER"
+  },
+  {
+    "id" : 15,
+    "changeable" : false,
+    "code" : "030404",
+    "name" : "RECEIV_ORDER"
+  },
+  {
+    "id" : 25,
+    "changeable" : false,
+    "code" : "030405",
+    "name" : "ORDER_CANC"
+  },
+  {
+    "id" : 16,
+    "changeable" : true,
+    "code" : "030500",
+    "name" : "DISP_PAC"
+  },
+  {
+    "id" : 46,
+    "changeable" : false,
+    "code" : "030700",
+    "name" : "TRANSFER"
+  },
+  {
+    "id" : 145,
+    "changeable" : false,
+    "code" : "030701",
+    "name" : "NEW_TRANSFER"
+  },
+  {
+    "id" : 28,
+    "changeable" : false,
+    "code" : "030702",
+    "name" : "TRANSF_REC"
+  },
+  {
+    "id" : 156,
+    "changeable" : false,
+    "code" : "030702",
+    "name" : "TRANSF_CANCEL"
+  },
+  {
+    "id" : 54,
+    "changeable" : true,
+    "code" : "030800",
+    "name" : "UNITSETUP"
+  },
+  {
+    "id" : 138,
+    "changeable" : false,
+    "code" : "030900",
+    "name" : "MED_INIT"
+  },
+  {
+    "id" : 155,
+    "changeable" : false,
+    "code" : "030901",
+    "name" : "MED_INIT_REM"
+  },
+  {
+    "id" : 150,
+    "changeable" : false,
+    "code" : "031000",
+    "name" : "MED_REPORTS"
+  },
+  {
+    "id" : 27,
+    "changeable" : false,
+    "code" : "031002",
+    "name" : "MOVS"
+  },
+  {
+    "id" : 31,
+    "changeable" : false,
+    "code" : "031003",
+    "name" : "REP_ESTPOS"
+  },
+  {
+    "id" : 32,
+    "changeable" : false,
+    "code" : "031004",
+    "name" : "REP_STOCKEVOL"
+  },
+  {
+    "id" : 35,
+    "changeable" : false,
+    "code" : "031005",
+    "name" : "REP_COSTPAT"
+  },
+  {
+    "id" : 203,
+    "changeable" : false,
+    "code" : "031006",
+    "name" : "QUARTERLY_EDIT"
+  },
+  {
+    "id" : 209,
+    "changeable" : false,
+    "code" : "031007",
+    "name" : "MED_MOV_EDIT_OUT_PERIOD"
+  },
+  {
+    "id" : 210,
+    "changeable" : false,
+    "code" : "031008",
+    "name" : "AUTO_TASK"
+  },
+  {
+    "id" : 10,
+    "changeable" : false,
+    "code" : "040000",
+    "name" : "MANAGEMENT"
+  },
+  {
+    "id" : 30,
+    "changeable" : false,
+    "code" : "040100",
+    "name" : "REP1"
+  },
+  {
+    "id" : 34,
+    "changeable" : false,
+    "code" : "040400",
+    "name" : "REP4"
+  },
+  {
+    "id" : 151,
+    "changeable" : false,
+    "code" : "040500",
+    "name" : "INDICATORS"
+  },
+  {
+    "id" : 59,
+    "changeable" : false,
+    "code" : "040600",
+    "name" : "EXPORT"
+  },
+  {
+    "id" : 60,
+    "changeable" : false,
+    "code" : "040700",
+    "name" : "FORECAST"
+  },
+  {
+    "id" : 201,
+    "changeable" : false,
+    "code" : "041000",
+    "name" : "DATA_ANALYSIS"
+  },
+  {
+    "id" : 204,
+    "changeable" : false,
+    "code" : "041000",
+    "name" : "SUSPECT_FOLLOWUP"
+  },
+  {
+    "id" : 202,
+    "changeable" : false,
+    "code" : "041100",
+    "name" : "REP_QUARTERLY"
+  },
+
+
+
+  {
+    "id" : 1,
+    "changeable" : false,
+    "code" : "050000",
+    "name" : "ADMIN"
+  },
+  {
+    "id" : 3,
+    "changeable" : true,
+    "code" : "050200",
+    "name" : "ADMINUNITS"
+  },
+  {
+    "id" : 5,
+    "changeable" : true,
+    "code" : "050400",
+    "name" : "SOURCES"
+  },
+  {
+    "id" : 6,
+    "changeable" : true,
+    "code" : "050500",
+    "name" : "UNITS"
+  },
+  {
+    "id" : 7,
+    "changeable" : true,
+    "code" : "050600",
+    "name" : "MEDICINES"
+  },
+  {
+    "id" : 2,
+    "changeable" : true,
+    "code" : "050800",
+    "name" : "USERS"
+  },
+  {
+    "id" : 40,
+    "changeable" : true,
+    "code" : "050800",
+    "name" : "REGIMENS"
+  },
+  {
+    "id" : 41,
+    "changeable" : true,
+    "code" : "050900",
+    "name" : "WORKSPACES"
+  },
+  {
+    "id" : 39,
+    "changeable" : true,
+    "code" : "051000",
+    "name" : "PROFILES"
+  },
+  {
+    "id" : 52,
+    "changeable" : true,
+    "code" : "051300",
+    "name" : "SUBSTANCES"
+  },
+  {
+    "id" : 53,
+    "changeable" : true,
+    "code" : "051400",
+    "name" : "WEEKFREQ"
+  },
+  {
+    "id" : 58,
+    "changeable" : true,
+    "code" : "051700",
+    "name" : "FIELDS"
+  },
+  {
+    "id" : 65,
+    "changeable" : true,
+    "code" : "051800",
+    "name" : "HEALTHSYS"
+  },
+  {
+    "id" : 117,
+    "changeable" : true,
+    "code" : "051900",
+    "name" : "AGERANGES"
+  },
+  {
+    "id" : 162,
+    "changeable" : true,
+    "code" : "052000",
+    "name" : "TAGS"
+  },
+  {
+    "id" : 61,
+    "changeable" : false,
+    "code" : "055000",
+    "name" : "SETUPWS"
+  },
+  {
+    "id" : 19,
+    "changeable" : false,
+    "code" : "055100",
+    "name" : "ONLINE"
+  },
+  {
+    "id" : 62,
+    "changeable" : false,
+    "code" : "055100",
+    "name" : "ADMREP"
+  },
+  {
+    "id" : 63,
+    "changeable" : false,
+    "code" : "055101",
+    "name" : "USERSESSIONS"
+  },
+  {
+    "id" : 118,
+    "changeable" : false,
+    "code" : "055102",
+    "name" : "CMDHISTORY"
+  },
+  {
+    "id" : 167,
+    "changeable" : false,
+    "code" : "055103",
+    "name" : "ERRORLOGREP"
+  },
+  {
+    "id" : 64,
+    "changeable" : true,
+    "code" : "055200",
+    "name" : "SYSSETUP"
+  },
+  {
+    "id" : 230,
     "changeable" : false,
     "code" : "055300",
-    "name" : "CHECKUPDATE",
-    "internalUse" : false
+    "name" : "CHECKUPDATE"
+  },
+  {
+    "id" : 1000,
+    "changeable" : false,
+    "code" : "055300",
+    "name" : "CMDSTATISTICS"
   }
 ]

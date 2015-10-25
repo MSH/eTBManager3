@@ -17,8 +17,8 @@ import java.util.UUID;
  * @author Ricardo Memoria
  *
  */
-@Entity
-@Table(name="transactionlog")
+//@Entity
+//@Table(name="transactionlog")
 public class TransactionLog {
 
 	@Id

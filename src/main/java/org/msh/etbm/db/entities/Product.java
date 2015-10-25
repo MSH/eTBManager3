@@ -1,9 +1,14 @@
 package org.msh.etbm.db.entities;
 
+import org.hibernate.EntityMode;
+import org.hibernate.annotations.Tuplizer;
+import org.hibernate.tuple.component.DynamicMapComponentTuplizer;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by rmemoria on 29/6/15.

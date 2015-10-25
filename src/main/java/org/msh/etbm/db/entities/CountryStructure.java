@@ -6,18 +6,20 @@ import org.msh.etbm.db.WorkspaceData;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 
 @Entity
 @Table(name="countrystructure")
 public class CountryStructure extends WorkspaceData {
 
-	@PropertyLog(messageKey="form.name")
     @Column(length = 100)
 	private String name;
 	
 	@Column(name="STRUCTURE_LEVEL")
-	@PropertyLog(messageKey="global.level")
+    @Max(5)
+    @Min(1)
 	private int level;
 
 

@@ -10,24 +10,21 @@
 package org.msh.etbm.db.entities;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
- * Store information about a system event
+ * Store information about a user role
  * @author Ricardo Memoria
  */
 
 @Entity
 @Table(name="userrole")
-public class UserRole implements Comparable<UserRole> {
+public class UserRole {
 
 	@Id
-    private UUID id;
+    private Integer id;
 
     @Column(length=80)
     @NotNull
@@ -36,18 +33,10 @@ public class UserRole implements Comparable<UserRole> {
     @Column(length=50)
     private String code;
     
-    @Column(length=100)
-    private String messageKey;
-
     /**
      * Indicate if this role contains operations of read-write, like, for instance, insert-update-delete commands
      */
     private boolean changeable;
-    
-    /**
-     * Indicate if the role is used internally by the system or is available to be assigned in a profile
-     */
-    private boolean internalUse;
 
     
     /**
@@ -116,11 +105,11 @@ public class UserRole implements Comparable<UserRole> {
 */
 
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -158,33 +147,4 @@ public class UserRole implements Comparable<UserRole> {
 		this.changeable = changeable;
 	}
 
-	/**
-	 * @param internalUse the internalUse to set
-	 */
-	public void setInternalUse(boolean internalUse) {
-		this.internalUse = internalUse;
-	}
-
-	/**
-	 * @return the internalUse
-	 */
-	public boolean isInternalUse() {
-		return internalUse;
-	}
-
-
-	/**
-	 * @return the messageKey
-	 */
-	public String getMessageKey() {
-		return messageKey;
-	}
-
-
-	/**
-	 * @param messageKey the messageKey to set
-	 */
-	public void setMessageKey(String messageKey) {
-		this.messageKey = messageKey;
-	}
 }

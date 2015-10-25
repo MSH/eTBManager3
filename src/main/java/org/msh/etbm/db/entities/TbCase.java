@@ -1246,44 +1246,44 @@ public class TbCase extends WorkspaceData {
 	/**
 	 * @return the evolution of the case
 	 */
-	public String getCaseEvolution() {
-		MedicalExamination lastExam = null;
-		
-		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
-			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
-			
-			if(lastExam != null){
-				ClinicalEvolution eval = lastExam.getClinicalEvolution(); // for some old cases may be null AK 26/05/2012
-					if (eval != null)
-						return lastExam.getClinicalEvolution().getKey();
-			}
-			
-		}	
-			
-		return "";
-	}
+//	public String getCaseEvolution() {
+//		MedicalExamination lastExam = null;
+//
+//		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
+//			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
+//
+//			if(lastExam != null){
+//				ClinicalEvolution eval = lastExam.getClinicalEvolution(); // for some old cases may be null AK 26/05/2012
+//					if (eval != null)
+//						return lastExam.getClinicalEvolution().getKey();
+//			}
+//
+//		}
+//
+//		return "";
+//	}
 	
 	/**
 	 * @return the name of the sepervision unit
 	 */
-	public String getSupervisionUnitName() {
-		
-		MedicalExamination lastExam = null;
-		
-		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
-			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
-		}
-		
-		if(lastExam != null
-				&& lastExam.getSupervisedTreatment() != null
-				&& lastExam.getSupervisedTreatment().equals(YesNoType.YES)
-				&& lastExam.getSupervisionUnitName() != null){
-			
-			return lastExam.getSupervisionUnitName();
-		}
-		
-		return "";
-	}
+//	public String getSupervisionUnitName() {
+//
+//		MedicalExamination lastExam = null;
+//
+//		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
+//			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
+//		}
+//
+//		if(lastExam != null
+//				&& lastExam.getSupervisedTreatment() != null
+//				&& lastExam.getSupervisedTreatment().equals(YesNoType.YES)
+//				&& lastExam.getSupervisionUnitName() != null){
+//
+//			return lastExam.getSupervisionUnitName();
+//		}
+//
+//		return "";
+//	}
 
 
 	/**

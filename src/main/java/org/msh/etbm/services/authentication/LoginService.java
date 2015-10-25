@@ -94,8 +94,6 @@ public class LoginService {
     private UserLogin registerUserSession(UserWorkspace uw, String ipAddress, String application) {
         // register new user session
         UserLogin login = new UserLogin();
-        UUID sessionId = Generators.timeBasedGenerator().generate();
-        login.setId(sessionId);
         login.setWorkspace(uw.getWorkspace());
         login.setLoginDate(new Date());
         login.setIpAddress(ipAddress);
