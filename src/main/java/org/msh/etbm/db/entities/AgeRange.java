@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Entity;
@@ -70,5 +70,10 @@ public class AgeRange extends WorkspaceData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

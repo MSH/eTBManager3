@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.EntityState;
 import org.msh.etbm.db.WorkspaceData;
@@ -26,7 +26,7 @@ public abstract class Unit extends WorkspaceData implements EntityState {
     private String phoneNumber;
 
     @Column(length=50)
-    @PropertyLog(messageKey="global.legacyId")
+    @PropertyLog(messageKey="form.customId")
     private String customId;
 
     @PropertyLog(messageKey="EntityState.ACTIVE")
@@ -69,6 +69,12 @@ public abstract class Unit extends WorkspaceData implements EntityState {
     })
     @PropertyLog(messageKey="Address.shipAddr", operations={Operation.NEW})
     private Address shipAddress;
+
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 
     public abstract String getTypeName();
 

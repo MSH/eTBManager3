@@ -1,6 +1,7 @@
 package org.msh.etbm.db;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.entities.Workspace;
 
 import javax.persistence.FetchType;
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 @MappedSuperclass
-public class WorkspaceData extends Synchronizable {
+public abstract class WorkspaceData extends Synchronizable  implements Displayable {
 
     /**
 	 * The workspace of this entity
@@ -46,5 +47,4 @@ public class WorkspaceData extends Synchronizable {
 	public void setWorkspace(Workspace workspace) {
 		this.workspace = workspace;
 	}
-
 }

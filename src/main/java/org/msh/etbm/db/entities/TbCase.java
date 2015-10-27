@@ -2,8 +2,8 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.*;
@@ -46,7 +46,7 @@ public class TbCase extends WorkspaceData {
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="PATIENT_ID")
 	@NotNull
-	@PropertyLog(logEntityFields=true)
+	@PropertyLog(operations = {Operation.ALL})
 	private Patient patient;
 	
 	private Integer age;
@@ -69,7 +69,7 @@ public class TbCase extends WorkspaceData {
 		@AttributeOverride(name="iniDate", column=@Column(name="iniTreatmentDate")),
 		@AttributeOverride(name="endDate", column=@Column(name="endTreatmentDate"))
 	})
-	@PropertyLog(logEntityFields=true)
+	@PropertyLog(operations = {Operation.ALL})
 	private Period treatmentPeriod = new Period();
 	
 	@Temporal(TemporalType.DATE)
@@ -148,7 +148,7 @@ public class TbCase extends WorkspaceData {
 	private String otherOutcome;
 	
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 	
 	@ManyToOne(fetch= FetchType.LAZY)
@@ -1413,5 +1413,10 @@ public class TbCase extends WorkspaceData {
 
     public void setCurrLocalityType(LocalityType currLocalityType) {
         this.currLocalityType = currLocalityType;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return "(" + classification + ") " + patient.getDisplayString();
     }
 }

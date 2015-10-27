@@ -1,7 +1,8 @@
 package org.msh.etbm.commons.transactionlog.mapping;
 
 import org.hibernate.Hibernate;
-import org.msh.etbm.commons.transactionlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.transactionlog.PropertyValue;
 
 import java.lang.reflect.Field;
@@ -157,16 +158,16 @@ public class EntityLogManager {
 		entMap.getProperties().add(pm);
 
 		if (propertyLog != null) {
-			if (propertyLog.logEntityFields()) {
-				try {
-					Class propType = field.getType();
-					EntityLogMapping map = createEntityMapping(propType);
-					pm.setEntityProperty(map);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new RuntimeException(e);
-				}
-			}
+//			if (propertyLog.logEntityFields()) {
+//				try {
+//					Class propType = field.getType();
+//					EntityLogMapping map = createEntityMapping(propType);
+//					pm.setEntityProperty(map);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					throw new RuntimeException(e);
+//				}
+//			}
 			pm.setMessageKey(propertyLog.messageKey());
 			pm.setOperations(propertyLog.operations());
 		}

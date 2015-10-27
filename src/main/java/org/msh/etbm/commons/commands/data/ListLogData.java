@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.commands.data;
 
+import org.msh.etbm.commons.entities.ObjectValues;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,5 +38,12 @@ public class ListLogData implements CommandData {
     @Override
     public Object getDataToSerialize() {
         return values;
+    }
+
+    public ListLogData put(ObjectValues vals) {
+        for (String prop: vals.getValues().keySet()) {
+            put(prop, vals.getValues().get(prop));
+        }
+        return this;
     }
 }

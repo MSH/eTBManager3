@@ -1,6 +1,8 @@
 package org.msh.etbm;
 
+import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.entities.impl.DozerEntityConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +10,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -35,13 +39,18 @@ public class Application {
      * @return instance of DozerBeanMapper
      */
     @Bean
-    public DozerBeanMapper mapper() {
+    public DozerBeanMapper mapper(DozerEntityConverter entityConverter) {
         DozerBeanMapper m = new DozerBeanMapper();
 
         List<String> lst = new ArrayList<>();
         lst.add("dozer/config.mapper.xml");
         lst.add("dozer/global.mapper.xml");
+        lst.add("dozer/adminunit.mapper.xml");
         m.setMappingFiles(lst);
+
+        Map<String, CustomConverter> convs = new HashMap<>();
+        convs.put("entity-id", entityConverter);
+        m.setCustomConvertersWithId(convs);
 
         return m;
     }

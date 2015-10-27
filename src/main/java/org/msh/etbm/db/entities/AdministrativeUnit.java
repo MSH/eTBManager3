@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ public class AdministrativeUnit extends WorkspaceData {
 	private List<AdministrativeUnit> units = new ArrayList<AdministrativeUnit>();
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 	
 	// properties to help dealing with trees
@@ -128,11 +128,7 @@ public class AdministrativeUnit extends WorkspaceData {
 	 */
 	public boolean isSameOrChildCode(String code) {
 		return isSameOrChildCode(this.code, code);
-/*		int len = this.code.length();
-		if (len > code.length())
-			return false;
-		return (this.code.equals(code.substring(0, this.code.length())));
-*/	}
+	}
 	
 	
 	/**
@@ -334,4 +330,9 @@ public class AdministrativeUnit extends WorkspaceData {
 
 		return s.length()/3;
 	}
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

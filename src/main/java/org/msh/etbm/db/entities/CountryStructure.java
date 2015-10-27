@@ -1,6 +1,8 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
@@ -15,11 +17,13 @@ import javax.validation.constraints.Min;
 public class CountryStructure extends WorkspaceData {
 
     @Column(length = 100)
+    @PropertyLog(messageKey = "form.name")
 	private String name;
 	
 	@Column(name="STRUCTURE_LEVEL")
     @Max(5)
     @Min(1)
+    @PropertyLog(messageKey = "form.level", operations = {Operation.ALL})
 	private int level;
 
 
@@ -45,4 +49,15 @@ public class CountryStructure extends WorkspaceData {
 		return level;
 	}
 
+    @Override
+    public String toString() {
+        return super.toString() +
+                "name='" + name + '\'' +
+                ", level=" + level;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

@@ -90,19 +90,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="manufacturer" type="VARCHAR(100)"/>
-            <column name="quantityContainer" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="quantityReceived" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="unitPrice" type="${type.float}">
                 <constraints nullable="false"/>
             </column>
             <column name="PRODUCT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="RECEIVINGITEM_ID" type="${type.id}"/>
             <column name="WORKSPACE_ID" type="${type.id}"/>
             <column name="MEDICINE_ID" type="${type.id}"/>
         </createTable>
@@ -2152,9 +2145,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-208">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="agerange" constraintName="FK57C1879EB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-209">
-        <addForeignKeyConstraint baseColumnNames="RECEIVINGITEM_ID" baseTableName="batch" constraintName="FK592D73A76AA9ADD" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="medicinereceivingitem"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-210">
         <addForeignKeyConstraint baseColumnNames="PRODUCT_ID" baseTableName="batch" constraintName="FK592D73ABC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>

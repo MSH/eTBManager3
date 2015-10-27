@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.UserView;
 
@@ -142,5 +142,10 @@ public class UserWorkspace extends WorkspaceData {
 
     public void setAdministrator(boolean administrator) {
         this.administrator = administrator;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return user.getDisplayString() + " - " + getWorkspace().getDisplayString();
     }
 }

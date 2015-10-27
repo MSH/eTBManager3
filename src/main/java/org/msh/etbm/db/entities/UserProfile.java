@@ -1,6 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="userprofile")
-public class UserProfile extends WorkspaceData implements Comparable<UserProfile> {
+public class UserProfile extends WorkspaceData implements Displayable {
 
 	@Column(length=100)
 	@NotNull
@@ -21,7 +22,7 @@ public class UserProfile extends WorkspaceData implements Comparable<UserProfile
     private List<UserPermission> permissions = new ArrayList<UserPermission>();
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 
 
@@ -61,5 +62,10 @@ public class UserProfile extends WorkspaceData implements Comparable<UserProfile
 
     public void setCustomId(String customId) {
         this.customId = customId;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

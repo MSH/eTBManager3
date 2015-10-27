@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.admunits;
 
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureRequest;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
@@ -28,12 +29,13 @@ public class CountryStructureREST {
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
     @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
     public CountryStructureData get(@PathVariable UUID id) {
-        return service.get(id);
+        return service.findOne(id, CountryStructureData.class);
     }
 
     @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)
     public UUID create(@Valid @NotNull @RequestBody CountryStructureRequest req) {
-        return service.create(req);
+        ServiceResult res = service.create(req);
+        return res.getId();
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.POST)
@@ -48,10 +50,10 @@ public class CountryStructureREST {
         return id;
     }
 
-    @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)
-    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
-    public List<CountryStructureData> query() {
-        return service.query();
-    }
+//    @RequestMapping(value = "/countrystructures", method = RequestMethod.POST)
+//    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
+//    public List<CountryStructureData> query() {
+//        return service.query();
+//    }
 
 }

@@ -9,6 +9,7 @@ import org.msh.etbm.db.dto.UnitDTO;
 import org.msh.etbm.db.dto.UserDTO;
 import org.msh.etbm.db.dto.WorkspaceDTO;
 
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
@@ -16,6 +17,11 @@ import java.util.UUID;
  * Created by rmemoria on 17/10/15.
  */
 public class CommandHistoryInput {
+    /**
+     * The method source that generated the command
+     */
+    private Method method;
+
     /**
      * The type of the command to be stored
      */
@@ -52,13 +58,26 @@ public class CommandHistoryInput {
 
     private UnitDTO unit;
 
+    /**
+     * If true, command log registration is canceled
+      */
+    private boolean canceled;
+
+
+    /**
+     * Cancel the log registration. This operation is called by the log handler, if, for some specific
+     * reason, the log should not be recorded (for example, nothing was done)
+     */
+    public void cancelLog() {
+        canceled = true;
+    }
 
     /**
      * Initialize the detail log to store a list of key, previous value and new value
      * @return
      */
     public DiffLogData beginDiffLog() {
-        checkDataClass(ListLogData.class);
+        checkDataClass(DiffLogData.class);
         return (DiffLogData)data;
     }
 
@@ -99,6 +118,14 @@ public class CommandHistoryInput {
                 throw new CommandException(e);
             }
         }
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method source) {
+        this.method = source;
     }
 
     public UUID getEntityId() {
@@ -171,5 +198,9 @@ public class CommandHistoryInput {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isCanceled() {
+        return canceled;
     }
 }

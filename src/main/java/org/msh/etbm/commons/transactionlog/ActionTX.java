@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.transactionlog;
 
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.transactionlog.mapping.PropertyMapping;
 import org.msh.etbm.db.entities.TransactionLog;
 

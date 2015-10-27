@@ -20,7 +20,7 @@ public class AdminUnitLogHandler implements CommandLogHandler {
     public static final String DELETE = "admunit.delete";
 
     @Override
-    public CommandHistoryInput prepareLog(CommandHistoryInput in, Object request, Object response) {
+    public void prepareLog(CommandHistoryInput in, Object request, Object response) {
         if (in.getType().endsWith("create")) {
             in.setAction(CommandAction.CREATE);
             in.setEntityId((UUID)response);
@@ -40,7 +40,5 @@ public class AdminUnitLogHandler implements CommandLogHandler {
             in.setEntityId(data.getId());
             in.setEntityName(data.getName());
         }
-
-        return in;
     }
 }

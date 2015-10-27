@@ -28,7 +28,7 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
     DozerBeanMapper mapper;
 
     @Override
-    public CommandHistoryInput prepareLog(CommandHistoryInput in, RegisterWorkspaceRequest request, UUID response) {
+    public void prepareLog(CommandHistoryInput in, RegisterWorkspaceRequest request, UUID response) {
         in.setAction(CommandAction.EXEC);
         in.setEntityName(request.getWorkspaceName());
         in.setEntityId(response);
@@ -42,7 +42,5 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
 
         in.beginListLog()
                 .add("Workspace.adminEmail", request.getAdminEmail());
-
-        return in;
     }
 }

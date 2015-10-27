@@ -1,14 +1,13 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.TbField;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 
 /**
  * Stores data about a field value from TB forms
@@ -23,7 +22,7 @@ public class FieldValue extends WorkspaceData {
     @Column(length = 100)
 	private String name;
 
-	@PropertyLog(messageKey="form.abbrevName", operations={Operation.NEW})
+	@PropertyLog(messageKey= "form.shortName", operations={Operation.NEW})
     @Column(length = 30)
 	private String shortName;
 
@@ -163,4 +162,9 @@ public class FieldValue extends WorkspaceData {
 	public void setDisplayOrder(Integer displayOrder) {
 		this.displayOrder = displayOrder;
 	}
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

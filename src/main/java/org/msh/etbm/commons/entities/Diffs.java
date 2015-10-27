@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * Created by rmemoria on 25/10/15.
  */
-public class ObjectDiffValues {
+public class Diffs {
 
     /**
      * Store the previous and new value of object properties

@@ -20,7 +20,11 @@ public class CountryStructureLogHandler implements CommandLogHandler {
     public static final String ENTITY_PREFIX = "countryStructure";
 
     @Override
-    public CommandHistoryInput prepareLog(CommandHistoryInput in, Object request, Object response) {
+    public void prepareLog(CommandHistoryInput in, Object request, Object response) {
+        if (response == null) {
+            in.cancelLog();
+            return;
+        }
 
         if (in.getType().equals("create")) {
             in.setAction(CommandAction.CREATE);
@@ -43,7 +47,5 @@ public class CountryStructureLogHandler implements CommandLogHandler {
         }
 
         in.setType( ENTITY_PREFIX + "." + in.getType());
-
-        return in;
     }
 }

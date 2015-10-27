@@ -13,6 +13,7 @@ import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
 
@@ -45,10 +46,14 @@ public class CommandInterceptor {
         // try to get the command log annotation from the method
         MethodSignature signature = (MethodSignature)pjp.getSignature();
         Method method = signature.getMethod();
+        Method metAnnot;
         if (method.getDeclaringClass().isInterface()) {
-            method = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+            metAnnot = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
         }
-        CommandLog cmdLog = method.getAnnotation(CommandLog.class);
+        else {
+            metAnnot = method;
+        }
+        CommandLog cmdLog = metAnnot.getAnnotation(CommandLog.class);
 
         if (cmdLog == null) {
             throw new CommandException("Annotation for command log not found in method " + method.toString());
@@ -56,7 +61,7 @@ public class CommandInterceptor {
 
         Object res = pjp.proceed();
 
-        storeCommand(cmdLog, pjp.getArgs(), res);
+        storeCommand(method, cmdLog, pjp.getArgs(), res);
 
         return res;
     }
@@ -67,28 +72,34 @@ public class CommandInterceptor {
      * @param args
      * @param result
      */
-    protected void storeCommand(CommandLog cmdlog, Object[] args, Object result) {
+    protected void storeCommand(Method method, CommandLog cmdlog, Object[] args, Object result) {
         String type = cmdlog.type();
         Class handlerClass = cmdlog.handler();
 
+        // prepare command information to be filled by the handler
         CommandHistoryInput in = new CommandHistoryInput();
         in.setType(type);
+        in.setMethod(method);
 
+        // include information about the authenticated user
         if (userSession.isAuthenticated()) {
             in.setWorkspace(userSession.getUserWorkspace().getWorkspace());
             in.setUser(userSession.getUserWorkspace().getUser());
         }
 
+        // call handler of the log
         if (handlerClass != null) {
             CommandLogHandler handler = (CommandLogHandler) applicationContext.getBean(handlerClass);
             Object p = args.length == 1? args[0]: args;
-            in = handler.prepareLog(in, p, result);
+            handler.prepareLog(in, p, result);
         }
 
-        if (in == null) {
-            throw new CommandException("No information to generte the log was found");
+        // log operation was canceled?
+        if (in.isCanceled()) {
+            return;
         }
 
+        // store the log
         commandStoreService.store(in);
     }
 }

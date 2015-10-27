@@ -27,11 +27,14 @@ public class Batch extends WorkspaceData {
 	@JoinColumn(name="MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
-	
-	private int quantityReceived;
 
 	private double unitPrice;
-	
+
+    @Override
+    public String getDisplayString() {
+        return batchNumber +
+                (manufacturer != null && !manufacturer.isEmpty()? " - " + manufacturer: "");
+    }
 
 	/**
 	 * Check if batch is 
@@ -122,19 +125,6 @@ public class Batch extends WorkspaceData {
 		this.manufacturer = manufacturer;
 	}
 
-	public double getTotalPrice() {
-		double tot = (double)(unitPrice*(double)quantityReceived);
-		return tot;
-	}
-
-	public void setTotalPrice(double totalPrice) {
-		if (quantityReceived != 0)
-			unitPrice = (float)(totalPrice / quantityReceived);
-		else
-		if (unitPrice != 0)
-			quantityReceived = Math.round((float) (totalPrice / unitPrice));
-	}
-
 	/**
 	 * @return the expiryDate
 	 */
@@ -147,20 +137,6 @@ public class Batch extends WorkspaceData {
 	 */
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
-	}
-
-	/**
-	 * @param quantityReceived the quantityReceived to set
-	 */
-	public void setQuantityReceived(int quantityReceived) {
-		this.quantityReceived = quantityReceived;
-	}
-
-	/**
-	 * @return the quantityReceived
-	 */
-	public int getQuantityReceived() {
-		return quantityReceived;
 	}
 
 	/**

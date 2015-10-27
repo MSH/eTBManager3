@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.Gender;
 
@@ -50,7 +50,7 @@ public class Patient extends WorkspaceData {
 	private Gender gender;
 	
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 	
 	@OneToMany(mappedBy="patient")
@@ -213,4 +213,10 @@ public class Patient extends WorkspaceData {
 		this.fatherName = fatherName;
 	}
 
+    @Override
+    public String getDisplayString() {
+        return name +
+                (middleName != null && !middleName.isEmpty()? " " + middleName + " ": "") +
+                (lastName != null && !lastName.isEmpty()? " " + lastName + " ": "");
+    }
 }

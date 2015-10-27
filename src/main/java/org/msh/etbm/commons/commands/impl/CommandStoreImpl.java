@@ -52,7 +52,8 @@ public class CommandStoreImpl implements CommandStoreService {
 
         // parse the data to json format
         if (in.getData() != null) {
-            String json = JsonParser.objectToJSONString(in.getData().getDataToSerialize());
+            Object data = in.getData().getDataToSerialize();
+            String json = JsonParser.objectToJSONString(data);
             DataType dttype = in.getData().getType();
             cmd.setData(json);
             cmd.setDataType(dttype);

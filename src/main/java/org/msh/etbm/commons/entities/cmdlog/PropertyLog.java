@@ -1,6 +1,4 @@
-package org.msh.etbm.commons.transactionlog.mapping;
-
-import org.msh.etbm.commons.transactionlog.Operation;
+package org.msh.etbm.commons.entities.cmdlog;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -33,16 +31,8 @@ public @interface PropertyLog {
 	String messageKey() default "";
 
 	/**
-	 * If field is another entity, it indicates if log values of the entity will also be logged (true) or
-	 * the value of the entity as a string (using toString) will be used for logging (false). Default value is false
+	 * Indicate the operations that the field will be logged
 	 * @return
 	 */
-	boolean logEntityFields() default false;
-
-	/**
-	 * Indicate the operations where the field will be logged. Default is the edit operation, i.e, 
-	 * this field will be logged just when the operation is for editing 
-	 * @return
-	 */
-	Operation[] operations() default {};
+	Operation[] operations() default { Operation.EDIT };
 }

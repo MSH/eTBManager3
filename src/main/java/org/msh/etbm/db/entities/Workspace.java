@@ -1,6 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.enums.*;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="workspace")
-public class Workspace extends Synchronizable {
+public class Workspace extends Synchronizable implements Displayable {
 
 	@PropertyLog(messageKey="form.name")
 	private String name;
@@ -594,4 +595,9 @@ public class Workspace extends Synchronizable {
 	public void setWeekFreq7(Integer weekFreq7) {
 		this.weekFreq7 = weekFreq7;
 	}
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

@@ -11,8 +11,9 @@ package org.msh.etbm.db.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.UserState;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ import java.util.UUID;
  */
 @Entity
 @Table(name="sys_user")
-public class User {
+public class User implements Displayable {
 
 	@Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
@@ -61,7 +62,7 @@ public class User {
 	
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name="DEFAULTWORKSPACE_ID")
-	@PropertyLog(operations={Operation.NEW}, logEntityFields=true)
+	@PropertyLog(operations={Operation.NEW})
     private UserWorkspace defaultWorkspace;
     
     @Column(length=50)
@@ -81,7 +82,7 @@ public class User {
 	private Date registrationDate;
 
 	@Column(length=30)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="global.customId")
 	private String customId;
 
     /**
@@ -326,5 +327,10 @@ public class User {
 
     public void setPwdChangeRequest(String pwdChangeRequest) {
         this.pwdChangeRequest = pwdChangeRequest;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

@@ -1,23 +1,38 @@
 package org.msh.etbm.services.admin.admunits;
 
-import javax.validation.Valid;
+import org.msh.etbm.commons.entities.EntityService;
+import org.msh.etbm.db.entities.CountryStructure;
+import org.msh.etbm.db.repositories.CountryStructureRepository;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
+
 
 /**
  * Interface of a service to handle CRUD operations in a country structure
  * Created by rmemoria on 24/10/15.
  */
-public interface CountryStructureService {
+@Service
+public class CountryStructureService extends EntityService<CountryStructure, CountryStructureRepository> {
+    @Override
+    protected boolean isUniqueEntity(CountryStructure cs) {
+        CountryStructureRepository rep = getCrudRepository();
+        List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),
+                getWorkspaceId(),
+                cs.getLevel());
 
-    UUID create(@Valid CountryStructureRequest req);
+        UUID id = cs.getId();
 
-    UUID update(UUID id, @Valid CountryStructureRequest req);
+        if (id == null && lst.size() > 0) {
+            return false;
+        }
 
-    CountryStructureData delete(UUID id);
-
-    CountryStructureData get(UUID id);
-
-    List<CountryStructureData> query();
-
+        for (CountryStructure aux: lst) {
+            if (!aux.getId().equals(id)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

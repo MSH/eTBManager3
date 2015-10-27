@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.OrderStatus;
 
@@ -57,7 +57,7 @@ public class Order extends WorkspaceData {
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 	
 	@Column(length=200)
@@ -304,4 +304,8 @@ public class Order extends WorkspaceData {
 	}
 
 
+    @Override
+    public String getDisplayString() {
+        return orderDate + " - " + unitFrom.getDisplayString();
+    }
 }

@@ -6,5 +6,5 @@ package org.msh.etbm.commons.commands;
  * Created by rmemoria on 17/10/15.
  */
 public interface CommandLogHandler<E, R> {
-    CommandHistoryInput prepareLog(CommandHistoryInput in, E request, R response);
+    void prepareLog(CommandHistoryInput in, E request, R response);
 }

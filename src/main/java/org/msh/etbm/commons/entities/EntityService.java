@@ -1,7 +1,11 @@
 package org.msh.etbm.commons.entities;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.forms.FormValues;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
+import org.msh.etbm.commons.entities.impl.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.entities.Workspace;
@@ -19,6 +23,8 @@ import java.lang.reflect.Type;
 import java.util.UUID;
 
 /**
+ * Abstract class to provide a complete CRUD solution for entity services.
+ *
  * Created by rmemoria on 17/10/15.
  */
 public abstract class EntityService<E extends Synchronizable, R extends CrudRepository> {
@@ -60,19 +66,30 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @return the primary key generated for the entity
      */
     @Transactional
-    public UUID createEntity(@Valid @NotNull Object req) {
+    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
+    public ServiceResult create(@Valid @NotNull Object req) {
         E entity = createEntityInstance();
 
         mapper.map(req, entity);
-        checkWorkspace(entity);
-        checkUnique(entity);
 
-        CrudRepository rep = getCrudRepository();
+        // generate the result object to be sent to the client
+        ServiceResult res = createResult(entity);
 
-        beforeSave(entity);
-        rep.save(entity);
+        // prepare entity to be saved
+        ValidationErrors msgs = res.getValidationErrors();
+        prepareToSave(entity, msgs);
 
-        return null;
+        // any error during preparation ?
+        if (msgs.getErrorsCount() > 0) {
+            return res;
+        }
+
+        // save the entity
+        saveEntity(entity);
+
+        res.setLogValues(createValuesToLog(entity, Operation.NEW));
+
+        return res;
     }
 
 
@@ -83,7 +100,8 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @return
      */
     @Transactional
-    public ObjectDiffValues updateEntity(UUID id, Object req) {
+    @CommandLog(type = EntityCmdLogHandler.UPDATE, handler = EntityCmdLogHandler.class)
+    public ServiceResult update(UUID id, Object req) {
         R rep = getCrudRepository();
 
         E entity = (E)getCrudRepository().findOne(id);
@@ -92,42 +110,149 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             throw new IllegalArgumentException("entity not found");
         }
 
-        checkWorkspace(entity);
-        checkUnique(entity);
+        // get initial state
+        ObjectValues prevVals = createValuesToLog(entity, Operation.EDIT);
+
+        // set the values to the entity
+        mapper.map(req, entity);
 
         // create diff list
-        E ent2 = createEntityInstance();
-        mapper.map(req, entity);
-        ObjectDiffValues vals = objectUtils.compareOldAndNew(entity, ent2);
+        ObjectValues newVals = createValuesToLog(entity, Operation.EDIT);
+        Diffs diffs = createDiffs(prevVals, newVals);
 
-        // set the new values to the entity
-        mapper.map(req, ent2);
+        // is there anything to save?
+        if (diffs.getValues().size() == 0) {
+            return null;
+        }
+
+        // create result object
+        ServiceResult res = new ServiceResult();
+
+        // validate new values
+        prepareToSave(entity, res.getValidationErrors());
+
+        if (res.getValidationErrors().getErrorsCount() > 0) {
+            return res;
+        }
 
         // save the entity
-        rep.save(ent2);
+        saveEntity(entity);
 
-        return vals;
+        // generate the result
+        res.setLogDiffs(diffs);
+
+        return res;
     }
 
     @Transactional
-    public ObjectValues removeEntity(UUID id) {
+    @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
+    public ServiceResult delete(UUID id) {
         R rep = getCrudRepository();
         E entity = (E)rep.findOne(id);
         if (entity == null) {
             throw new IllegalArgumentException("Entity not found");
         }
-        rep.delete(entity);
 
-        return null;
+        // create result to be sent back to the client
+        ServiceResult res = createResult(entity);
+        ValidationErrors msgs = res.getValidationErrors();
+
+        // prepare entity to be deleted
+        prepareToDelete(entity, msgs);
+
+        if (msgs.getErrorsCount() > 0) {
+            return res;
+        }
+
+        // delete the entity
+        deleteEntity(entity);
+
+        // generate the values to log
+        res.setLogValues(createValuesToLog(entity, Operation.DELETE));
+
+        return res;
     }
 
+
+    /**
+     * Prepare entity for saving, checking its workspace and if the entity is unique
+     * @param entity
+     * @param msgs the list of possible validation errors along the preparation
+     */
+    protected void prepareToSave(E entity, ValidationErrors msgs) {
+        checkWorkspace(entity);
+        checkUnique(entity);
+    }
+
+    /**
+     * Make any preparation before deleting the entity
+     * @param entity the entity to be deleted
+     * @param msgs the list of possible validation errors along the preparation
+     */
+    protected void prepareToDelete(E entity, ValidationErrors msgs) {
+        checkWorkspace(entity);
+    }
+
+    /**
+     * Search for an entity by its ID
+     * @param id
+     * @param resultClass
+     * @param <K>
+     * @return
+     */
+    public <K> K findOne(UUID id, Class<K> resultClass) {
+        E ent = (E)getCrudRepository().findOne(id);
+        if (ent == null) {
+            return null;
+        }
+
+        return mapper.map(ent, resultClass);
+    }
+
+    /**
+     * Create the list of values to be logged
+     * @param entity
+     * @param oper
+     * @return
+     */
+    protected ObjectValues createValuesToLog(E entity, Operation oper) {
+        return PropertyLogUtils.generateLog(entity, getEntityClass(), oper);
+    }
+
+    /**
+     * Create the difference between two set of object values
+     * @param prevVals
+     * @param newVals
+     * @return
+     */
+    protected Diffs createDiffs(ObjectValues prevVals, ObjectValues newVals) {
+        return objectUtils.compareOldAndNew(prevVals, newVals);
+    }
+
+    /**
+     * Create the result to be returned by the method call
+     * @param entity
+     * @return
+     */
+    protected ServiceResult createResult(E entity) {
+        ServiceResult res = new ServiceResult();
+        res.setId(entity.getId());
+        res.setEntityClass(getEntityClass());
+        if (entity instanceof Displayable) {
+            res.setEntityName(((Displayable)entity).getDisplayString());
+        }
+        else {
+            res.setEntityName(entity.toString());
+        }
+        return res;
+    }
 
     /**
      * Simple method to intercept the moment before saving the entity
      * @param entity
      */
-    protected void beforeSave(E entity) {
-        // do nothing
+    protected void saveEntity(E entity) {
+        getCrudRepository().save(entity);
     }
 
 
@@ -135,8 +260,8 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * Simple method to intercept the moment before deleting the entity
      * @param entity
      */
-    protected void beforeDelete(E entity) {
-        // do nothing
+    protected void deleteEntity(E entity) {
+        getCrudRepository().delete(entity);
     }
 
 
@@ -152,7 +277,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         }
 
         WorkspaceData wsdata = (WorkspaceData)entity;
-        UUID wsid = userSession.getUserWorkspace().getWorkspace().getId();
+        UUID wsid = getWorkspaceId();
 
         if (wsdata.getWorkspace() != null) {
             if (!wsdata.getWorkspace().getId().equals(wsid)) {
@@ -163,6 +288,14 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             Workspace ws = workspaceRepository.findOne(wsid);
             wsdata.setWorkspace(ws);
         }
+    }
+
+    /**
+     * Return the ID of the workspace in use by the current user
+     * @return
+     */
+    protected UUID getWorkspaceId() {
+        return userSession.getUserWorkspace().getWorkspace().getId();
     }
 
     /**
@@ -183,15 +316,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     protected boolean isUniqueEntity(E entity) {
         return true;
-    }
-
-    /**
-     * Validate the values of the entity
-     * @param values
-     * @return
-     */
-    public boolean validate(FormValues values) {
-        return false;
     }
 
 
@@ -235,15 +359,9 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     protected Class<E> getEntityClass() {
         if (entityClass == null) {
-            Type type = getClass().getGenericSuperclass();
-            if (type instanceof ParameterizedType) {
-                ParameterizedType paramType = (ParameterizedType) type;
-                if (paramType.getActualTypeArguments().length > 0) {
-                    entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
-                }
-                else {
-                    throw new RuntimeException("Could not get entity class");
-                }
+            entityClass = ObjectUtils.getGenericType(getClass(), 0);
+            if (entityClass == null) {
+                throw new RuntimeException("Could not get entity class");
             }
         }
         return entityClass;
@@ -265,4 +383,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             throw new RuntimeException(e);
         }
     }
+
+
 }

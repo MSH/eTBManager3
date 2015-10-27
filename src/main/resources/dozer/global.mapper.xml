@@ -4,17 +4,6 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-    <!-- Mapping of basic administrative unit data -->
-    <mapping>
-        <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
-        <class-b>org.msh.etbm.db.dto.AdministrativeUnitDTO</class-b>
-
-        <field>
-            <a>countryStructure.name</a>
-            <b>csName</b>
-        </field>
-    </mapping>
-
 
     <!-- Mapping of basic Unit data -->
     <mapping>
@@ -31,5 +20,6 @@
             <b>type</b>
         </field>
     </mapping>
+
 
 </mappings>

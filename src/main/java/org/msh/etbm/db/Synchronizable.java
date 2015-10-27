@@ -1,6 +1,7 @@
 package org.msh.etbm.db;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class Synchronizable {
     @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @PropertyLog(ignore = true)
     private UUID id;
 
 
@@ -51,4 +53,8 @@ public class Synchronizable {
         return objId.equals(getId());
     }
 
+    @Override
+    public String toString() {
+        return "id=" + id;
+    }
 }

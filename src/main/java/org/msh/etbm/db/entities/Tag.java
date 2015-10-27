@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Table(name="tag")
 public class Tag extends WorkspaceData {
 
-	public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
+    public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
 
 	@Column(length=100)
 	@NotNull
@@ -137,12 +137,17 @@ public class Tag extends WorkspaceData {
 		this.dailyUpdate = dailyUpdate;
 	}
 
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "name='" + name + '\'' +
+                ", active=" + active +
+                ", consistencyCheck=" + consistencyCheck +
+                '}';
+    }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return name;
-	}
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

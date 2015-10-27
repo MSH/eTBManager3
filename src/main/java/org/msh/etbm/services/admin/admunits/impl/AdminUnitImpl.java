@@ -25,8 +25,8 @@ import java.util.UUID;
  * Set of services to handle basic CRUD operations in administrative unit
  * Created by rmemoria on 21/10/15.
  */
-@Service
-public class AdminUnitImpl implements AdminUnitService {
+//@Service
+public class AdminUnitImpl {
 
     @PersistenceContext
     EntityManager entityManager;

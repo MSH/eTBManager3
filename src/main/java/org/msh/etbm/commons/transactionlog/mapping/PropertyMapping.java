@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.transactionlog.mapping;
 
-import org.msh.etbm.commons.transactionlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 
 import java.util.Arrays;
 

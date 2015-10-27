@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.Operation;
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.Column;
@@ -17,11 +17,11 @@ public class Source extends WorkspaceData {
     @Column(length = 100)
 	private String name;
 
-	@PropertyLog(messageKey="form.abbrevName", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey= "form.shortName", operations={Operation.NEW, Operation.DELETE})
 	private String shortName;
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey="form.customId", operations={Operation.NEW, Operation.DELETE})
 	private String customId;
 
 	public String getName() {
@@ -46,5 +46,10 @@ public class Source extends WorkspaceData {
 
     public void setCustomId(String customId) {
         this.customId = customId;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

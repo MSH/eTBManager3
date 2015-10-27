@@ -138,4 +138,9 @@ public class Report extends WorkspaceData {
 	public void setData(String data) {
 		this.data = data;
 	}
+
+    @Override
+    public String getDisplayString() {
+        return title;
+    }
 }

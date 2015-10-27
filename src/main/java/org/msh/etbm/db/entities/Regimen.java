@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.CaseClassification;
 
@@ -23,7 +23,7 @@ public class Regimen extends WorkspaceData {
 	private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 
 	private Integer daysOfIntensivePhaseDuration;
@@ -140,4 +140,9 @@ public class Regimen extends WorkspaceData {
 	public void setIntensivePhaseDuration(Integer daysOfIntensivePhaseDuration) {
 		this.daysOfIntensivePhaseDuration = daysOfIntensivePhaseDuration;
 	}
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
 }

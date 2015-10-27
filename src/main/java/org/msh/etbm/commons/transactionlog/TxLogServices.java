@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.transactionlog;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.db.entities.TransactionLog;
 
 /**

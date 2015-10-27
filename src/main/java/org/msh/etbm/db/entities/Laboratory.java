@@ -48,4 +48,5 @@ public class Laboratory extends Unit {
     public String getTypeName() {
         return "lab";
     }
+
 }

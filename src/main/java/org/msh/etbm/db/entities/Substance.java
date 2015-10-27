@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.transactionlog.mapping.PropertyLog;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.enums.MedicineLine;
 
@@ -18,7 +18,7 @@ public class Substance extends WorkspaceData {
 	@PropertyLog(messageKey="form.name")
 	private String name;
 	
-	@PropertyLog(messageKey="form.abbrevName")
+	@PropertyLog(messageKey= "form.shortName")
 	private String shortName;
 	
 	private MedicineLine line;
@@ -31,7 +31,7 @@ public class Substance extends WorkspaceData {
 	private Integer prevTreatmentOrder;
 
 	@Column(length=50)
-	@PropertyLog(messageKey="global.legacyId")
+	@PropertyLog(messageKey="form.customId")
 	private String customId;
 
 	@Override
@@ -123,5 +123,10 @@ public class Substance extends WorkspaceData {
 
     public void setCustomId(String customId) {
         this.customId = customId;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

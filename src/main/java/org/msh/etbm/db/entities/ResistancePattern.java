@@ -16,7 +16,7 @@ import java.util.List;
 @Table(name="resistancepattern")
 public class ResistancePattern extends WorkspaceData {
 
-	/**
+    /**
 	 * Criteria to compound the resistance pattern. It may be an exact match or
 	 * the match may be part of the pattern in the case
 	 * 
@@ -33,7 +33,12 @@ public class ResistancePattern extends WorkspaceData {
 	@ManyToMany
 	@JoinTable(name="substances_resistpattern")
 	private List<Substance> substances = new ArrayList<Substance>();
-	
+
+    @Override
+    public String getDisplayString() {
+        return name;
+    }
+
 	/**
 	 * The criteria to compound the pattern
 	 */

@@ -1,9 +1,9 @@
 package org.msh.etbm;
 
-import org.msh.etbm.db.entities.Product;
-import org.msh.etbm.db.entities.UserProfile;
-import org.msh.etbm.db.entities.Workspace;
+import org.dozer.DozerBeanMapper;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
+import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -31,7 +31,10 @@ public class TestRest {
     WorkspaceRepository workspaceRepository;
 
     @Resource
-    private MessageSource messageSource;
+    MessageSource messageSource;
+
+    @Resource
+    DozerBeanMapper mapper;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -75,4 +78,19 @@ public class TestRest {
         return res;
     }
 
+    @RequestMapping("/custom")
+    public AdminUnitRequest test() {
+        CountryStructure cs = (CountryStructure)entityManager
+                .createQuery("from CountryStructure")
+                .setMaxResults(1)
+                .getSingleResult();
+
+        AdminUnitRequest req = new AdminUnitRequest();
+        req.setCsId(cs.getId());
+        req.setName("Rio de Janeiro");
+
+        AdministrativeUnit au = mapper.map(req, AdministrativeUnit.class);
+        System.out.println(au.getCountryStructure().getName());
+        return req;
+    }
 }
