@@ -1,17 +1,14 @@
 package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.EntityService;
+import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,8 +27,11 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
     }
 
     @Override
-    protected void prepareToSave(AdministrativeUnit entity) {
-        super.prepareToSave(entity);
+    protected void prepareToSave(AdministrativeUnit entity, MessageList errors) {
+        super.prepareToSave(entity, errors);
+        if (errors.size() > 0) {
+            return;
+        }
 
         validateParent(entity);
 

@@ -8,12 +8,10 @@ import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.db.entities.CommandHistory;
 import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Method;
 

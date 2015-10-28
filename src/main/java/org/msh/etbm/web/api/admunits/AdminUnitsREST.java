@@ -2,7 +2,6 @@ package org.msh.etbm.web.api.admunits;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitData;
-import org.msh.etbm.services.admin.admunits.AdminUnitQuery;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 /**

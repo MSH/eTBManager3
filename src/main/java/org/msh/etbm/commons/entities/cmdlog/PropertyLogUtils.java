@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.ObjectValues;
 
 import java.lang.reflect.Field;

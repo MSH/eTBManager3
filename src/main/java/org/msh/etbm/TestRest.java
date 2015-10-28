@@ -1,7 +1,9 @@
 package org.msh.etbm;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.AdministrativeUnit;
+import org.msh.etbm.db.entities.CountryStructure;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 9/5/15.
@@ -57,7 +61,7 @@ public class TestRest {
     @RequestMapping("/message")
     public String getMessage() {
         Locale locale = LocaleContextHolder.getLocale();
-        String s = messageSource.getMessage("Patient", null, locale);
+        String s = messageSource.getMessage("NotNull", null, locale);
         return s + "  ";
     }
 

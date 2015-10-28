@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.init;
 
-import org.msh.etbm.services.init.RegisterWorkspaceService;
 import org.msh.etbm.services.init.RegisterWorkspaceRequest;
+import org.msh.etbm.services.init.RegisterWorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

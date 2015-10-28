@@ -1,11 +1,14 @@
 package org.msh.etbm.commons.entities;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
 import org.msh.etbm.commons.entities.impl.ObjectUtils;
+import org.msh.etbm.commons.messages.MessageKeyResolver;
+import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.db.entities.Workspace;
@@ -44,6 +47,9 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     @Autowired
     ObjectUtils objectUtils;
 
+    @Autowired
+    MessageKeyResolver messageKeyResolver;
+
     /**
      * The crud repository reference
      */
@@ -76,11 +82,11 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         ServiceResult res = createResult(entity);
 
         // prepare entity to be saved
-        ValidationErrors msgs = res.getValidationErrors();
+        MessageList msgs = res.getValidationErrors();
         prepareToSave(entity, msgs);
 
         // any error during preparation ?
-        if (msgs.getErrorsCount() > 0) {
+        if (msgs.size() > 0) {
             return res;
         }
 
@@ -131,7 +137,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         // validate new values
         prepareToSave(entity, res.getValidationErrors());
 
-        if (res.getValidationErrors().getErrorsCount() > 0) {
+        if (res.getValidationErrors().size() > 0) {
             return res;
         }
 
@@ -155,12 +161,12 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // create result to be sent back to the client
         ServiceResult res = createResult(entity);
-        ValidationErrors msgs = res.getValidationErrors();
+        MessageList msgs = res.getValidationErrors();
 
         // prepare entity to be deleted
         prepareToDelete(entity, msgs);
 
-        if (msgs.getErrorsCount() > 0) {
+        if (msgs.size() > 0) {
             return res;
         }
 
@@ -179,7 +185,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity
      * @param msgs the list of possible validation errors along the preparation
      */
-    protected void prepareToSave(E entity, ValidationErrors msgs) {
+    protected void prepareToSave(E entity, MessageList msgs) {
         checkWorkspace(entity);
         checkUnique(entity);
     }
@@ -189,7 +195,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity the entity to be deleted
      * @param msgs the list of possible validation errors along the preparation
      */
-    protected void prepareToDelete(E entity, ValidationErrors msgs) {
+    protected void prepareToDelete(E entity, MessageList msgs) {
         checkWorkspace(entity);
     }
 
@@ -244,6 +250,10 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         else {
             res.setEntityName(entity.toString());
         }
+
+        MessageList lst = messageKeyResolver.createMessageList();
+        res.setValidationErrors(lst);
+
         return res;
     }
 

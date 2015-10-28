@@ -2,9 +2,12 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.MedAppointmentType;
+import org.msh.etbm.db.enums.YesNoType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**

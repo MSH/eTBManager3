@@ -8,10 +8,8 @@ import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.admunits.AdminUnitData;
 import org.msh.etbm.services.admin.admunits.AdminUnitQuery;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
-import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;

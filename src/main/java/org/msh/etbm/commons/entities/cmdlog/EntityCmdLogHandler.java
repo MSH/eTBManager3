@@ -3,13 +3,8 @@ package org.msh.etbm.commons.entities.cmdlog;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
-import org.msh.etbm.commons.entities.*;
-import org.msh.etbm.commons.transactionlog.RoleAction;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Method;
-import java.util.UUID;
 
 /**
  * Generic command log handler to support CUD operations

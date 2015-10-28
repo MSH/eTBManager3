@@ -2,7 +2,6 @@ package org.msh.etbm.db.dto;
 
 import org.msh.etbm.db.enums.UserView;
 
-import java.util.List;
 import java.util.UUID;
 
 /**

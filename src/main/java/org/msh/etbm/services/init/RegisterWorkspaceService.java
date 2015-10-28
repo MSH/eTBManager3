@@ -1,7 +1,5 @@
 package org.msh.etbm.services.init;
 
-import org.msh.etbm.commons.commands.CommandLog;
-
 import java.util.UUID;
 
 /**

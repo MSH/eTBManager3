@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.entities;
 
+import org.msh.etbm.commons.messages.MessageList;
+
 import java.util.UUID;
 
 /**
@@ -12,7 +14,7 @@ public class ServiceResult {
     private Class entityClass;
     private Diffs logDiffs;
     private ObjectValues logValues;
-    private ValidationErrors validationErrors = new ValidationErrors();
+    private MessageList validationErrors;
 
     public UUID getId() {
         return id;
@@ -54,7 +56,11 @@ public class ServiceResult {
         this.logValues = logValues;
     }
 
-    public ValidationErrors getValidationErrors() {
+    public MessageList getValidationErrors() {
         return validationErrors;
+    }
+
+    public void setValidationErrors(MessageList validationErrors) {
+        this.validationErrors = validationErrors;
     }
 }

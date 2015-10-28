@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.entities;
+package org.msh.etbm.commons;
 
 /**
  * Interface that every object must implement in order to expose a method

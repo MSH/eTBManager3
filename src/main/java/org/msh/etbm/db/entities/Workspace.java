@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.Displayable;
+import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.enums.*;

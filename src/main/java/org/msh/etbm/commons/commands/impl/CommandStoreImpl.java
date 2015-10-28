@@ -6,15 +6,16 @@ import org.msh.etbm.commons.commands.CommandStoreService;
 import org.msh.etbm.commons.commands.data.DataType;
 import org.msh.etbm.db.dto.UserDTO;
 import org.msh.etbm.db.dto.WorkspaceDTO;
-import org.msh.etbm.db.entities.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.msh.etbm.db.entities.CommandHistory;
+import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.db.entities.UserLog;
+import org.msh.etbm.db.entities.WorkspaceLog;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Implementation of the CommandStoreService, to store command execution in the database

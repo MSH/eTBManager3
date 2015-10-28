@@ -1,6 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.Displayable;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;

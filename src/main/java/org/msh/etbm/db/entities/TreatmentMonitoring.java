@@ -7,7 +7,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.msh.etbm.db.CaseData;
 import org.msh.etbm.db.enums.TreatmentDayOption;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Store information about medicine in-take along the treatment
