@@ -3,10 +3,8 @@ package org.msh.etbm.web.api;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.messages.Message;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Standard result structure for API requests. Not a rule, but used by many API functions to indicate the
@@ -45,10 +43,10 @@ public class StandardResult {
         }
     }
 
-    public StandardResult(Object res, List<Message> errors) {
+    public StandardResult(Object res, List<Message> errors, boolean success) {
         this.result = res;
         this.errors = errors;
-        success = errors == null || errors.size() == 0;
+        this.success = success;
     }
 
     public boolean isSuccess() {

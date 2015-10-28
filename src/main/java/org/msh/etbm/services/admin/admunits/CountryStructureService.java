@@ -1,13 +1,18 @@
 package org.msh.etbm.services.admin.admunits;
 
+import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
+import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.repositories.CountryStructureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +26,10 @@ import java.util.UUID;
 public class CountryStructureService extends EntityService<CountryStructure, CountryStructureRepository> {
 
     @Autowired
-    MessageSource messageSource;
+    QueryBuilderFactory queryBuilderFactory;
+
+    @Autowired
+    DozerBeanMapper mapper;
 
     @Override
     protected void prepareToSave(CountryStructure entity, MessageList msgs) throws EntityValidationException {
@@ -37,6 +45,11 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
         }
     }
 
+    /**
+     * Check if the given entity is unique in the database
+     * @param cs
+     * @return
+     */
     protected boolean isUniqueEntity(CountryStructure cs) {
         CountryStructureRepository rep = getCrudRepository();
         List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),
@@ -55,5 +68,20 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
             }
         }
         return true;
+    }
+
+
+    /**
+     * Query the database based on the given query criterias
+     * @param q the query criteria
+     * @return instance of {@link QueryResult}
+     */
+    @Transactional
+    public QueryResult<CountryStructureData> query(EntityQuery q) {
+        QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
+
+        QueryResult<CountryStructureData> res = qry.createQueryResult(CountryStructureData.class);
+
+        return res;
     }
 }

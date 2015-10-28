@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by rmemoria on 22/8/15.
@@ -43,7 +41,7 @@ public class ExceptionHandlingController {
             errors.add(new Message(fld.getField(), fld.getDefaultMessage(), null));
         }
 
-        StandardResult res = new StandardResult(null, errors);
+        StandardResult res = new StandardResult(null, errors, false);
         return res;
     }
 }

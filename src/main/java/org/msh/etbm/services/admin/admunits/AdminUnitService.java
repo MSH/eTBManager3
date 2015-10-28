@@ -8,11 +8,9 @@ import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeUtils;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.List;
 import java.util.UUID;
 
 /**

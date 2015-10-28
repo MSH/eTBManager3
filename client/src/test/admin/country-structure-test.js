@@ -53,6 +53,17 @@ describe('country-structure', function() {
 			});
 	});
 
+	it('# get (error)', function() {
+		return agent.get('/api/tbl/countrystructure/00000000-0000-0000-00000011')
+			.then( function(res) {
+				var data = res.body;
+				assert(data.id);
+				assert(data.name);
+				assert.equal(data.name, name);
+				assert(data.level, 1);
+			});
+	});
+
 
 	it('# delete', function() {
 		return agent.post('/api/tbl/countrystructure/del/' + csId)
