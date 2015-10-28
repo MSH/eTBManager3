@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationTargetException;
@@ -134,12 +135,17 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             throw new RuntimeException(e);
         }
 
-        // query the database
-        Number count = (Number) entityManager
+        Query qry = entityManager
                 .createQuery(hql)
                 .setParameter("wsid", getWorkspaceId())
-                .setParameter(field, val)
-                .getSingleResult();
+                .setParameter(field, val);
+
+        if (entity.getId() != null) {
+            qry.setParameter("id", entity.getId());
+        }
+
+        // query the database
+        Number count = (Number)qry.getSingleResult();
 
         return count.intValue() == 0;
     }

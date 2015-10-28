@@ -46,27 +46,27 @@ describe('country-structure', function() {
 		return agent.get('/api/tbl/countrystructure/' + csId)
 			.then( function(res) {
 				var data = res.body;
-				assert(data.id);
-				assert(data.name);
-				assert.equal(data.name, name);
-				assert(data.level, 1);
+				assert(data.success);
+				var obj = data.result;
+				assert(obj.id);
+				assert(obj.name);
+				assert.equal(obj.name, name);
+				assert(obj.level, 1);
 			});
 	});
 
 	it('# get (error)', function() {
-		return agent.get('/api/tbl/countrystructure/00000000-0000-0000-00000011')
+		return agent.get('/api/tbl/countrystructure/c0a80168-50b0-13c7-8150-b0578d970105')
 			.then( function(res) {
 				var data = res.body;
-				assert(data.id);
-				assert(data.name);
-				assert.equal(data.name, name);
-				assert(data.level, 1);
+				assert(data);
+				assert.equal(data.success, false);
 			});
 	});
 
 
 	it('# delete', function() {
-		return agent.post('/api/tbl/countrystructure/del/' + csId)
+		return agent.delete('/api/tbl/countrystructure/' + csId)
 			.then( function(res) {
 				var data = res.body;
 				assert(data);

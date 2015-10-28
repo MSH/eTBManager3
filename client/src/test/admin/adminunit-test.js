@@ -74,13 +74,13 @@ describe('admin-unit', function() {
 
 
 	it('# delete', function() {
-		return agent.post('/api/tbl/adminunit/del/' + auId)
+		return agent.delete('/api/tbl/adminunit/' + auId)
 			.then( function(res) {
 				var data = res.body;
 				assert(data);
 				assert(data.success);
 				// clean up of country structure
-				return agent.post('/api/tbl/countrystructure/del/' + csId);
+				return agent.delete('/api/tbl/countrystructure/' + csId);
 			});
 	});
 });

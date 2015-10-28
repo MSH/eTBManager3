@@ -43,7 +43,7 @@ public class AdminUnitsREST {
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/adminunit/del/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         ServiceResult res = adminUnitService.delete(id);
         return new StandardResult(res);

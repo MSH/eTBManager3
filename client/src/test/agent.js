@@ -88,6 +88,29 @@ function StandardAgent(url) {
         });
     };
 
+    this.delete = function(basepath) {
+        var req = this.agent
+            .delete(basepath)
+            .expect(200)
+            .expect('Content-Type', /json/);
+
+        // include authentication token
+        if (this.authToken) {
+        	req.set('X-Auth-Token', this.authToken);
+        }
+
+        return new Promise( function (resolve, reject) {
+        	req.end(function (err, res) {
+        		if (err) {
+        			reject(err);
+        		}
+        		else {
+        			resolve(res);
+        		}
+        	});
+        });
+    };
+
     return this;
 }
 
