@@ -81,9 +81,14 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         // generate the result object to be sent to the client
         ServiceResult res = createResult(entity);
 
-        // prepare entity to be saved
         MessageList msgs = res.getValidationErrors();
-        prepareToSave(entity, msgs);
+
+        try {
+            // prepare entity to be saved
+            prepareToSave(entity, msgs);
+        } catch (EntityValidationException e) {
+            msgs.add(e.getField(), e.getMessage());
+        }
 
         // any error during preparation ?
         if (msgs.size() > 0) {
@@ -92,6 +97,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // save the entity
         saveEntity(entity);
+        res.setId( entity.getId() );
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
@@ -132,10 +138,16 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         }
 
         // create result object
-        ServiceResult res = new ServiceResult();
+        ServiceResult res = createResult(entity);
+        MessageList msgs = res.getValidationErrors();
 
-        // validate new values
-        prepareToSave(entity, res.getValidationErrors());
+        try {
+            // validate new values
+            prepareToSave(entity, msgs);
+        }
+        catch (EntityValidationException e) {
+            msgs.add(e.getField(), e.getMessage());
+        }
 
         if (res.getValidationErrors().size() > 0) {
             return res;
@@ -163,8 +175,12 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         ServiceResult res = createResult(entity);
         MessageList msgs = res.getValidationErrors();
 
-        // prepare entity to be deleted
-        prepareToDelete(entity, msgs);
+        try {
+            // prepare entity to be deleted
+            prepareToDelete(entity, msgs);
+        } catch (EntityValidationException e) {
+            msgs.add(e.getField(), e.getMessage());
+        }
 
         if (msgs.size() > 0) {
             return res;
@@ -185,9 +201,8 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity
      * @param msgs the list of possible validation errors along the preparation
      */
-    protected void prepareToSave(E entity, MessageList msgs) {
+    protected void prepareToSave(E entity, MessageList msgs) throws EntityValidationException {
         checkWorkspace(entity);
-        checkUnique(entity);
     }
 
     /**
@@ -195,7 +210,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity the entity to be deleted
      * @param msgs the list of possible validation errors along the preparation
      */
-    protected void prepareToDelete(E entity, MessageList msgs) {
+    protected void prepareToDelete(E entity, MessageList msgs) throws EntityValidationException {
         checkWorkspace(entity);
     }
 
@@ -306,26 +321,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     protected UUID getWorkspaceId() {
         return userSession.getUserWorkspace().getWorkspace().getId();
-    }
-
-    /**
-     * Check if the entity is unique. The test is done by calling the method isUniqueEntity. If its return is false,
-     * so there is already an entity like that recorded, than an exception is thrown and saving is interrupted
-     * @param entity the entity object to be checked (new or existing)
-     */
-    protected void checkUnique(E entity) {
-        if (!isUniqueEntity(entity)) {
-            throw new IllegalArgumentException("There is already an entity recorded with this information");
-        }
-    }
-
-    /**
-     * Check if the entity is unique
-     * @param entity the entity object to be evaluated
-     * @return true if the entity is unique in the database, otherwise, there is another entity and this one is duplicated
-     */
-    protected boolean isUniqueEntity(E entity) {
-        return true;
     }
 
 

@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.exceptions;
 
+import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,9 +37,10 @@ public class ExceptionHandlingController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Object methodValidationError(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
+        List<Message> errors = new ArrayList<>();
+
         for (FieldError fld: e.getBindingResult().getFieldErrors()) {
-            errors.put(fld.getField(), fld.getDefaultMessage());
+            errors.add(new Message(fld.getField(), fld.getDefaultMessage(), null));
         }
 
         StandardResult res = new StandardResult(null, errors);

@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.EntityService;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.repositories.CountryStructureRepository;
@@ -23,7 +24,7 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
     MessageSource messageSource;
 
     @Override
-    protected void prepareToSave(CountryStructure entity, MessageList msgs) {
+    protected void prepareToSave(CountryStructure entity, MessageList msgs) throws EntityValidationException {
         super.prepareToSave(entity, msgs);
 
         // there are error messages ?
@@ -36,7 +37,6 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
         }
     }
 
-    @Override
     protected boolean isUniqueEntity(CountryStructure cs) {
         CountryStructureRepository rep = getCrudRepository();
         List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),

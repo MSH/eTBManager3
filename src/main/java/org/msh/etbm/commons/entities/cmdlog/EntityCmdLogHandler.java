@@ -19,17 +19,23 @@ public class EntityCmdLogHandler implements CommandLogHandler {
 
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, Object response) {
+        // any response ?
         if (response == null) {
             in.cancelLog();
             return;
         }
 
-        String cmd = in.getType();
+        // there were validation errors ?
         ServiceResult result = (ServiceResult)response;
+        if (result.getValidationErrors().size() > 0) {
+            in.cancelLog();
+            return;
+        }
 
         Class clazz = result.getEntityClass();
         String name = clazz.getSimpleName().toLowerCase();
 
+        String cmd = in.getType();
         in.setType(name + "." + in.getType());
         in.setEntityId(result.getId());
         in.setEntityName(result.getEntityName());

@@ -1,7 +1,11 @@
 package org.msh.etbm.web.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.messages.Message;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,14 +30,22 @@ public class StandardResult {
      * The list of error messages, in case validation fails
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, String> errors;
+    private List<Message> errors;
 
 
     public StandardResult() {
         super();
     }
 
-    public StandardResult(Object res, Map<String, String> errors) {
+    public StandardResult(ServiceResult res) {
+        this.success = res.getValidationErrors().size() == 0;
+        this.result = res.getId();
+        if (!this.success) {
+            this.errors = res.getValidationErrors().getMessages();
+        }
+    }
+
+    public StandardResult(Object res, List<Message> errors) {
         this.result = res;
         this.errors = errors;
         success = errors == null || errors.size() == 0;
@@ -55,11 +67,11 @@ public class StandardResult {
         this.result = result;
     }
 
-    public Map<String, String> getErrors() {
+    public List<Message> getErrors() {
         return errors;
     }
 
-    public void setErrors(Map<String, String> errors) {
+    public void setErrors(List<Message> errors) {
         this.errors = errors;
     }
 }

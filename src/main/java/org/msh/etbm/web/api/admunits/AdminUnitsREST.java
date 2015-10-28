@@ -4,6 +4,7 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitData;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
+import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,21 +32,21 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
-    public UUID create(@Valid @NotNull @RequestBody AdminUnitRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitRequest req) {
         ServiceResult res = adminUnitService.create(req);
-        return res.getId();
+        return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.POST)
-    public UUID update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitRequest req) {
-        adminUnitService.update(id, req);
-        return id;
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitRequest req) {
+        ServiceResult res = adminUnitService.update(id, req);
+        return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/del/{id}", method = RequestMethod.POST)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        adminUnitService.delete(id);
-        return id;
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        ServiceResult res = adminUnitService.delete(id);
+        return new StandardResult(res);
     }
 
 //    @RequestMapping(value = "/adminunits", method = RequestMethod.POST)

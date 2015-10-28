@@ -1,14 +1,18 @@
 package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.EntityService;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -22,12 +26,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
     EntityManager entityManager;
 
     @Override
-    protected boolean isUniqueEntity(AdministrativeUnit entity) {
-        return super.isUniqueEntity(entity);
-    }
-
-    @Override
-    protected void prepareToSave(AdministrativeUnit entity, MessageList errors) {
+    protected void prepareToSave(AdministrativeUnit entity, MessageList errors) throws EntityValidationException {
         super.prepareToSave(entity, errors);
         if (errors.size() > 0) {
             return;
@@ -38,8 +37,39 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
         AdministrativeUnit parent = entity.getParent();
 
         checkCode(entity);
+
+        if (!isUnique(entity)) {
+            errors.addNotUnique("name");
+        }
     }
 
+    /**
+     * Check if administrative unit is unique
+     * @param au
+     * @return
+     */
+    protected boolean isUnique(AdministrativeUnit au) {
+        String hql = "select count(*) from AdministrativeUnit " +
+                "where workspace.id = :wsid " +
+                "and upper(name) = :name " +
+                "and countryStructure.level = :level";
+
+        if (au.getId() != null) {
+            hql += " and id <> :id";
+        }
+
+        Query qry = entityManager.createQuery(hql)
+                .setParameter("wsid", getWorkspaceId())
+                .setParameter("name", au.getName().toUpperCase())
+                .setParameter("level", au.getCountryStructure().getLevel());
+
+        if (au.getId() != null) {
+            qry.setParameter("id", au.getId());
+        }
+
+        Number count = (Number)qry.getSingleResult();
+        return count.intValue() == 0;
+    }
 
     /**
      * Update number of units under parent units
@@ -141,16 +171,16 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
      * Validate the administrative unit parent
      * @param au instance of AdministrativeUnit to be saved
      */
-    protected void validateParent(AdministrativeUnit au) {
+    protected void validateParent(AdministrativeUnit au) throws EntityValidationException{
         AdministrativeUnit parent = au.getParent();
 
         if (parent == null && au.getCountryStructure().getLevel() > 1) {
-            throw new IllegalArgumentException("parentId must be informed for the given country structure level");
+            throw new EntityValidationException("parentId", "parentId must be informed for the given country structure level");
         }
 
         // check if parent is in the same level of country structure
         if (parent != null && au.getCountryStructure().getLevel() != parent.getLevel() + 1) {
-            throw new IllegalArgumentException("Country structure is not compactible with parent");
+            throw new EntityValidationException("csId", "Country structure is not compactible with parent");
         }
     }
 
