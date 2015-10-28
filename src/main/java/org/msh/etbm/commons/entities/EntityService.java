@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.entities;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
@@ -19,8 +20,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.UUID;
@@ -49,6 +53,9 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
     @Autowired
     MessageKeyResolver messageKeyResolver;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     /**
      * The crud repository reference
@@ -102,6 +109,39 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
         return res;
+    }
+
+
+    /**
+     * Check if the given entity is unique by searching by the given field
+     * @param entity
+     * @param field
+     * @return true if the entity is unique
+     */
+    protected boolean checkUnique(E entity, String field) {
+        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid " +
+                "and " + field + " = :" + field;
+        if (entity.getId() != null) {
+            hql += " and id <> :id";
+        }
+
+        // get the field value in the given object
+        Object val;
+        try {
+            val = PropertyUtils.getProperty(entity, field);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        // query the database
+        Number count = (Number) entityManager
+                .createQuery(hql)
+                .setParameter("wsid", getWorkspaceId())
+                .setParameter(field, val)
+                .getSingleResult();
+
+        return count.intValue() == 0;
     }
 
 

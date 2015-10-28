@@ -4,6 +4,7 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.EntityQuery;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
+import org.msh.etbm.services.admin.admunits.CountryStructureQuery;
 import org.msh.etbm.services.admin.admunits.CountryStructureRequest;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.msh.etbm.web.api.StandardResult;
@@ -29,7 +30,7 @@ public class CountryStructureREST {
 
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
-    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
+    @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
         CountryStructureData data = service.findOne(id, CountryStructureData.class);
         return new StandardResult(data, null, data != null);
@@ -54,8 +55,8 @@ public class CountryStructureREST {
     }
 
     @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)
-    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
-    public QueryResult query(@Valid @RequestBody EntityQuery query) {
+    @Authenticated()
+    public QueryResult query(@Valid @RequestBody CountryStructureQuery query) {
         return service.query(query);
     }
 

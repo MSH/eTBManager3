@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.entities.query;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 /**
@@ -16,17 +18,19 @@ public class EntityQuery {
     /**
      * Number of records per page. If page number is defined and recordsPerPage is null, the default value is 50
      */
+    @JsonProperty("rpp")
     private Integer recordsPerPage;
-
-    /**
-     * Key search to find entities with partial names
-     */
-    private String key;
 
     /**
      * Criteria to order list
      */
     private String orderBy;
+
+    /**
+     * Specify if order by will be descending
+     */
+    @JsonProperty("descending")
+    private boolean orderByDescending;
 
     /**
      * Optionally, the ID can be informed. This way, just one entity is returned
@@ -49,14 +53,6 @@ public class EntityQuery {
         this.recordsPerPage = recordsPerPage;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
     public String getOrderBy() {
         return orderBy;
     }
@@ -71,5 +67,13 @@ public class EntityQuery {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public boolean isOrderByDescending() {
+        return orderByDescending;
+    }
+
+    public void setOrderByDescending(boolean orderByDescending) {
+        this.orderByDescending = orderByDescending;
     }
 }

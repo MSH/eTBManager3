@@ -40,7 +40,7 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
             return;
         }
 
-        if (!isUniqueEntity(entity)) {
+        if (!checkUnique(entity, "name")) {
             msgs.addNotUnique("name");
         }
     }
@@ -50,25 +50,25 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
      * @param cs
      * @return
      */
-    protected boolean isUniqueEntity(CountryStructure cs) {
-        CountryStructureRepository rep = getCrudRepository();
-        List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),
-                getWorkspaceId(),
-                cs.getLevel());
-
-        UUID id = cs.getId();
-
-        if (id == null && lst.size() > 0) {
-            return false;
-        }
-
-        for (CountryStructure aux: lst) {
-            if (!aux.getId().equals(id)) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    protected boolean isUniqueEntity(CountryStructure cs) {
+//        CountryStructureRepository rep = getCrudRepository();
+//        List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),
+//                getWorkspaceId(),
+//                cs.getLevel());
+//
+//        UUID id = cs.getId();
+//
+//        if (id == null && lst.size() > 0) {
+//            return false;
+//        }
+//
+//        for (CountryStructure aux: lst) {
+//            if (!aux.getId().equals(id)) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
 
     /**
@@ -77,8 +77,26 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
      * @return instance of {@link QueryResult}
      */
     @Transactional
-    public QueryResult<CountryStructureData> query(EntityQuery q) {
+    public QueryResult<CountryStructureData> query(CountryStructureQuery q) {
         QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
+
+        qry.addOrderByMap("name", "name", true);
+        qry.addOrderByMap("level", "level, name", false);
+        qry.addOrderByMap("level desc", "level desc, name desc", false);
+
+        qry.initialize(q);
+
+        // filter by the level
+        if (q.getLevel() != null) {
+            qry.addRestriction("level = :level");
+            qry.setParameter("level", q.getLevel());
+        }
+
+        // filter by the name
+        if (q.getName() != null) {
+            qry.addRestriction("name = :name");
+            qry.setParameter("name", q.getName());
+        }
 
         QueryResult<CountryStructureData> res = qry.createQueryResult(CountryStructureData.class);
 
