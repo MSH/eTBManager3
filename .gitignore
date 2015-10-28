@@ -114,3 +114,6 @@ src/main/resources/static/
 node
 etc
 src/main/client/dist
+
+# Created by OSX
+.DS_Store
