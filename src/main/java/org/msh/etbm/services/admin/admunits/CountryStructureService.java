@@ -1,9 +1,7 @@
 package org.msh.etbm.services.admin.admunits;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.query.EntityQuery;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -13,9 +11,6 @@ import org.msh.etbm.db.repositories.CountryStructureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -28,8 +23,6 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    @Autowired
-    DozerBeanMapper mapper;
 
     @Override
     protected void prepareToSave(CountryStructure entity, MessageList msgs) throws EntityValidationException {
@@ -45,30 +38,6 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
         }
     }
 
-    /**
-     * Check if the given entity is unique in the database
-     * @param cs
-     * @return
-     */
-//    protected boolean isUniqueEntity(CountryStructure cs) {
-//        CountryStructureRepository rep = getCrudRepository();
-//        List<CountryStructure> lst = rep.findByNameAndWorkspaceIdAndLevel(cs.getName(),
-//                getWorkspaceId(),
-//                cs.getLevel());
-//
-//        UUID id = cs.getId();
-//
-//        if (id == null && lst.size() > 0) {
-//            return false;
-//        }
-//
-//        for (CountryStructure aux: lst) {
-//            if (!aux.getId().equals(id)) {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 
 
     /**

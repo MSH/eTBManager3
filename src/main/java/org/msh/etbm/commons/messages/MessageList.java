@@ -52,7 +52,8 @@ public class MessageList {
      * @param group the message group
      */
     public void add(String field, String message, String group) {
-        messages.add(new Message(field, message, group));
+        String msg = resolver.evaluateExpression(message);
+        messages.add(new Message(field, msg, group));
     }
 
     /**
