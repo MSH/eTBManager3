@@ -1,32 +1,41 @@
 package org.msh.etbm.services.admin.admunits;
 
+import org.msh.etbm.commons.entities.query.EntityQuery;
+
 import java.util.UUID;
 
 /**
+ * Query arguments to search for administrative units
+ *
  * Created by rmemoria on 21/10/15.
  */
-public class AdminUnitQuery {
-    private Integer page;
-    private String orderBy;
+public class AdminUnitQuery extends EntityQuery {
+    /**
+     * The partial name to search by administrative units
+     */
+    private String key;
+
+    /**
+     * The name of the administrative unit
+     */
     private String name;
+
+    /**
+     * The parent unit ID of the units to search for
+     */
     private UUID parentId;
 
+    /**
+     * If true and parentId is null, include just the root admin units
+     */
+    private boolean rootUnits;
 
-    public Integer getPage() {
-        return page;
-    }
+    /**
+     * If true, include children units
+     */
+    private boolean includeChildren;
 
-    public void setPage(Integer page) {
-        this.page = page;
-    }
 
-    public String getOrderBy() {
-        return orderBy;
-    }
-
-    public void setOrderBy(String orderBy) {
-        this.orderBy = orderBy;
-    }
 
     public String getName() {
         return name;
@@ -42,5 +51,29 @@ public class AdminUnitQuery {
 
     public void setParentId(UUID parentId) {
         this.parentId = parentId;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public boolean isRootUnits() {
+        return rootUnits;
+    }
+
+    public void setRootUnits(boolean rootUnits) {
+        this.rootUnits = rootUnits;
+    }
+
+    public boolean isIncludeChildren() {
+        return includeChildren;
+    }
+
+    public void setIncludeChildren(boolean includeChildren) {
+        this.includeChildren = includeChildren;
     }
 }

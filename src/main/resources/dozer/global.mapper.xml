@@ -21,5 +21,16 @@
         </field>
     </mapping>
 
+    <!-- address mapping -->
+    <mapping>
+        <class-a>org.msh.etbm.db.Address</class-a>
+        <class-b>org.msh.etbm.services.admin.AddressRequest</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>adminUnit</a>
+            <b>adminUnitId</b>
+        </field>
+    </mapping>
+
 
 </mappings>

@@ -1,22 +1,17 @@
-package org.msh.etbm.db.entities;
-
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+package org.msh.etbm.services.admin.units;
 
 /**
- * Store information about a laboratory. Laboratory plays roles in exams and inventory management
+ * Request data about a laboratory
+ *
+ * Created by rmemoria on 28/10/15.
  */
-@Entity
-@DiscriminatorValue("lab")
-public class Laboratory extends Unit {
+public class LaboratoryRequest extends UnitRequest {
 
-    /**
-     * True if laboratory perform the following tests
-     */
     private boolean performCulture;
     private boolean performMicroscopy;
     private boolean performDst;
     private boolean performXpert;
+
 
     public boolean isPerformCulture() {
         return performCulture;
@@ -49,10 +44,4 @@ public class Laboratory extends Unit {
     public void setPerformXpert(boolean performXpert) {
         this.performXpert = performXpert;
     }
-
-    @Override
-    public String getTypeName() {
-        return "lab";
-    }
-
 }

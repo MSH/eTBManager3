@@ -207,6 +207,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     }
 
     @Override
+    public void addLikeRestriction(String field, String value) {
+        if (value != null && !value.isEmpty()) {
+            addRestriction(field + " like :" + field);
+            setParameter(field, '%' + value + '%');
+        }
+    }
+
+    @Override
     public void addOrderByMap(String key, String field, boolean defaultOrder) {
         orderByMap.put(key, field);
         if (defaultOrder) {

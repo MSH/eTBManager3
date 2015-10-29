@@ -1331,38 +1331,27 @@
             <column name="shipContactPhone" type="VARCHAR(200)"/>
             <column name="shipZipCode" type="VARCHAR(100)"/>
             <column name="ship_adminunit_id" type="${type.id}"/>
-            <column name="phoneNumber" type="VARCHAR(100)"/>
 
             <!-- unit part -->
-            <column name="mdrHealthUnit" type="${type.boolean}">
+            <column name="tbUnit" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="ntmHealthUnit" type="${type.boolean}">
+            <column name="mdrUnit" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="medicineStorage" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="medicineSupplier" type="${type.boolean}">
+            <column name="ntmUnit" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
             <column name="numDaysOrder" type="INT"/>
-            <column name="receivingFromSource" type="${type.boolean}">
+            <column name="receiveFromManufacturer" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="tbHealthUnit" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="treatmentHealthUnit" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SECONDLINE_SUPPLIER_ID" type="${type.id}"/>
-            <column name="notifHealthUnit" type="${type.boolean}"/>
-            <column name="medManStartDate" type="date"/>
+            <column name="notificationUnit" type="${type.boolean}"/>
             <column name="patientDispensing" type="${type.boolean}"/>
             <column name="AUTHORIZERUNIT_ID" type="${type.id}"/>
-            <column name="FIRSTLINE_SUPPLIER_ID" type="${type.id}"/>
-            <column name="limitDateMedicineMovement" type="date"/>
+            <column name="SUPPLIER_ID" type="${type.id}"/>
+            <column name="inventoryCloseDate" type="date"/>
+            <column name="inventoryStartDate" type="date"/>
 
             <!-- lab part -->
             <column name="performMicroscopy" type="${type.boolean}"/>
@@ -2371,15 +2360,12 @@
     <changeSet author="rmemoria" id="1433264274749-283">
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="tbcase" constraintName="FKCB85A29EFB9ECED7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-285">
-        <addForeignKeyConstraint baseColumnNames="SECONDLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F28C2681AC" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-286" >
         <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="unit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
     </changeSet>
 
     <changeSet author="rmemoria" id="1433264274749-289" >
-        <addForeignKeyConstraint baseColumnNames="FIRSTLINE_SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
+        <addForeignKeyConstraint baseColumnNames="SUPPLIER_ID" baseTableName="unit" constraintName="FKCB8E00F2E2EE17E8" deferrable="false" initiallyDeferred="false"  referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-293">
         <addForeignKeyConstraint baseColumnNames="ResistancePattern_id" baseTableName="substances_resistpattern" constraintName="FKCFDF2E2A489C06B7" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>

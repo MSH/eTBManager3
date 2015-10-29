@@ -2,10 +2,15 @@ package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
+import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
+import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -22,6 +27,65 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    QueryBuilderFactory queryBuilderFactory;
+
+    /**
+     * Query the administrative units
+     * @param q the query parameters
+     * @return the result list
+     */
+    public QueryResult<AdminUnitData> findMany(AdminUnitQuery q) {
+        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class);
+
+        qry.addOrderByMap("name", "name", true);
+
+        qry.initialize(q);
+
+        // filter by the key
+        qry.addLikeRestriction("name", q.getKey());
+
+        // filter by the name
+        if (q.getName() != null) {
+            qry.addRestriction("name = :name");
+            qry.setParameter("name", q.getName());
+        }
+
+        // criteria for selection based on parent
+        // parent was defined ?
+        if (q.getParentId() != null) {
+            // include all child administrative units?
+            if (q.isIncludeChildren()) {
+                // get parent because it needs the code
+                AdministrativeUnit parent = getCrudRepository().findOne(q.getParentId());
+                if (parent == null) {
+                    throw new IllegalArgumentException("Invalid parent id");
+                }
+                // get all sub units using the parent code
+                qry.addRestriction("code like :code");
+                qry.setParameter("code", parent.getCode() + "%");
+                // but exclude the own parent
+                qry.addRestriction("id <> :parentid");
+                qry.setParameter("parentid", q.getParentId());
+            }
+            else {
+                qry.addRestriction("parent.id = :pid");
+                qry.setParameter("pid", q.getParentId());
+            }
+        }
+        else {
+            if (q.isRootUnits()) {
+                qry.addRestriction("parent.id is null");
+            }
+        }
+
+
+        QueryResult<AdminUnitData> res = qry.createQueryResult(AdminUnitData.class);
+
+        return res;
+    }
+
 
     @Override
     protected void prepareToSave(AdministrativeUnit entity, MessageList errors) throws EntityValidationException {

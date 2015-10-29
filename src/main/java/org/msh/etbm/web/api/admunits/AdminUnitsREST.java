@@ -1,7 +1,9 @@
 package org.msh.etbm.web.api.admunits;
 
 import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.AdminUnitQuery;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.web.api.StandardResult;
@@ -49,9 +51,9 @@ public class AdminUnitsREST {
         return new StandardResult(res);
     }
 
-//    @RequestMapping(value = "/adminunits", method = RequestMethod.POST)
-//    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
-//    public List<AdminUnitData> query(@Valid @RequestBody @NotNull AdminUnitQuery query) {
-//        return adminUnitService.query(query);
-//    }
+    @RequestMapping(value = "/adminunits", method = RequestMethod.POST)
+    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
+    public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQuery query) {
+        return adminUnitService.findMany(query);
+    }
 }

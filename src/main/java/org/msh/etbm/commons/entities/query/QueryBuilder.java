@@ -21,6 +21,13 @@ public interface QueryBuilder<E> {
     void addRestriction(String restiction);
 
     /**
+     * Add a like restriction only if value is a string different of null
+     * @param field
+     * @param value
+     */
+    void addLikeRestriction(String field, String value);
+
+    /**
      * Add an orderBy map, which will map a key (informed by the consumer) and it(s) field(s) to
      * be used in the order by instruction
      * @param key the key to reference the order by fields

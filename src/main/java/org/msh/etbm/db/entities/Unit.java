@@ -7,6 +7,7 @@ import org.msh.etbm.db.EntityState;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by rmemoria on 29/6/15.
@@ -18,12 +19,11 @@ import javax.persistence.*;
 @DiscriminatorValue("gen")
 public abstract class Unit extends WorkspaceData implements EntityState {
 
+    /**
+     * The name of the unit
+     */
     @PropertyLog(messageKey="form.name", operations={Operation.NEW})
     private String name;
-
-    @Column(length=100)
-    @PropertyLog(messageKey="global.phoneNumber")
-    private String phoneNumber;
 
     @Column(length=50)
     @PropertyLog(messageKey="form.customId")
@@ -44,7 +44,9 @@ public abstract class Unit extends WorkspaceData implements EntityState {
     @Column(length=200)
     private String shipContactPhone;
 
-
+    /**
+     * Unit address
+     */
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="address", column=@Column(name="ADDRESS")),
@@ -57,7 +59,9 @@ public abstract class Unit extends WorkspaceData implements EntityState {
     @PropertyLog(messageKey="Address", operations={Operation.NEW})
     private Address address;
 
-
+    /**
+     * Shipping address to receive commodities supplies
+     */
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name="address", column=@Column(name="shipAddress")),
@@ -69,6 +73,50 @@ public abstract class Unit extends WorkspaceData implements EntityState {
     })
     @PropertyLog(messageKey="Address.shipAddr", operations={Operation.NEW})
     private Address shipAddress;
+
+
+    /** INFORMATION ABOUT INVENTORY MANAGEMENT */
+
+
+    /**
+     * Indicate the unit that will supply medicines
+     */
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="SUPPLIER_ID")
+    private Tbunit supplier;
+
+    /**
+     * The authorizer for orders
+     */
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name="AUTHORIZERUNIT_ID")
+    private Tbunit authorizer;
+
+    /**
+     * Indicate if the unit can register commodities received from manufacturer
+     */
+    private boolean receiveFromManufacturer;
+
+    /**
+     * Date when this TB unit started the medicine management
+     */
+    @Temporal(TemporalType.DATE)
+    private Date inventoryStartDate;
+
+    /**
+     * Limit date to create movements for this unit. The movement has to equals or after this date.
+     */
+    @Temporal(TemporalType.DATE)
+    private Date inventoryCloseDate;
+
+
+    /**
+     * Check if medicine management was already started for this TB Unit
+     * @return
+     */
+    public boolean isMedicineManagementStarted() {
+        return inventoryStartDate != null;
+    }
 
 
     @Override
@@ -84,14 +132,6 @@ public abstract class Unit extends WorkspaceData implements EntityState {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 
     public String getCustomId() {
@@ -148,5 +188,45 @@ public abstract class Unit extends WorkspaceData implements EntityState {
 
     public void setShipAddress(Address shipAddress) {
         this.shipAddress = shipAddress;
+    }
+
+    public Tbunit getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Tbunit supplier) {
+        this.supplier = supplier;
+    }
+
+    public Tbunit getAuthorizer() {
+        return authorizer;
+    }
+
+    public void setAuthorizer(Tbunit authorizer) {
+        this.authorizer = authorizer;
+    }
+
+    public boolean isReceiveFromManufacturer() {
+        return receiveFromManufacturer;
+    }
+
+    public void setReceiveFromManufacturer(boolean receiveFromManufacturer) {
+        this.receiveFromManufacturer = receiveFromManufacturer;
+    }
+
+    public Date getInventoryStartDate() {
+        return inventoryStartDate;
+    }
+
+    public void setInventoryStartDate(Date inventoryStartDate) {
+        this.inventoryStartDate = inventoryStartDate;
+    }
+
+    public Date getInventoryCloseDate() {
+        return inventoryCloseDate;
+    }
+
+    public void setInventoryCloseDate(Date inventoryCloseDate) {
+        this.inventoryCloseDate = inventoryCloseDate;
     }
 }
