@@ -31,18 +31,18 @@ public class ExceptionHandlingController {
         // nothing to do
     }
 
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(value = HttpStatus.OK)
-    @ResponseBody
-    public Object handleIllegalArgument(IllegalArgumentException e) {
-        StandardResult res = new StandardResult();
-        List<Message> errors = new ArrayList<>();
-        errors.add(new Message(null, e.getMessage(), null));
-
-        res.setErrors(errors);
-        return res;
-    }
+//
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    @ResponseStatus(value = HttpStatus.OK)
+//    @ResponseBody
+//    public Object handleIllegalArgument(IllegalArgumentException e) {
+//        StandardResult res = new StandardResult();
+//        List<Message> errors = new ArrayList<>();
+//        errors.add(new Message(null, e.getMessage(), null));
+//
+//        res.setErrors(errors);
+//        return res;
+//    }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

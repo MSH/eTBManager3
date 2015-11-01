@@ -10,6 +10,12 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
+ * Abstract class that defines generic properties of an unit in the system.
+ * Actually, there are two types of units in the system - laboratories and TB units.
+ *
+ * Laboratories are responsible for performing test exams, while TB units participate directly
+ * or indirectly in TB management (pharmacy, health unit, NTP, etc)
+ *
  * Created by rmemoria on 29/6/15.
  */
 @Entity

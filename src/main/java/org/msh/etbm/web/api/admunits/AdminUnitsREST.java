@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
+ * REST API to handle administrative unit CRUD operations
+ *
  * Created by rmemoria on 21/10/15.
  */
 @RestController
@@ -29,8 +31,9 @@ public class AdminUnitsREST {
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
     @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
-    public AdminUnitData get(@PathVariable UUID id) {
-        return adminUnitService.findOne(id, AdminUnitData.class);
+    public StandardResult get(@PathVariable UUID id) {
+        AdminUnitData data = adminUnitService.findOne(id, AdminUnitData.class);
+        return new StandardResult(data, null, data != null);
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
@@ -51,7 +54,7 @@ public class AdminUnitsREST {
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/adminunits", method = RequestMethod.POST)
+    @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST)
     @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
     public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQuery query) {
         return adminUnitService.findMany(query);

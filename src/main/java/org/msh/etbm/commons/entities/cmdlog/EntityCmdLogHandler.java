@@ -27,7 +27,7 @@ public class EntityCmdLogHandler implements CommandLogHandler {
 
         // there were validation errors ?
         ServiceResult result = (ServiceResult)response;
-        if (result.getValidationErrors().size() > 0) {
+        if (result.getValidationErrors().size() > 0 || result.getLogDiffs() == null || result.getLogValues() == null) {
             in.cancelLog();
             return;
         }

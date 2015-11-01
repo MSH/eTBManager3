@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
 /**
  * TB units are health facilities that handle patients, store commodities (medicines)

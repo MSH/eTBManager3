@@ -26,7 +26,7 @@ public class UnitsQueryREST {
      * @param profile identifies the kind of information to be returned by the query
      * @return
      */
-    @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/unit/query/{id}", method = RequestMethod.GET)
     public QueryResult queryUnits(@Valid @RequestBody UnitQuery qry, @RequestParam("p") String profile) {
         System.out.println("UNITS PROFILE = " + profile);
         return unitQueryService.queryUnits(qry);

@@ -12,15 +12,18 @@ public class CodeUtils {
      * @return
      */
     static public String incCode(String code) {
-        if (code.length() > 3)
-            throw new RuntimeException("incCode cannot generate value bigger than 3 digits");
         // transform code to int
         int value = codeToInt(code);
 
         // inc value
         value++;
 
-        return intToCode(value);
+        String newCode = intToCode(value);
+
+        if (newCode.length() > 3)
+            throw new RuntimeException("incCode cannot generate value bigger than 3 digits");
+
+        return newCode;
     }
 
     static public int codeToInt(String code) {

@@ -82,7 +82,7 @@ public class ObjectUtils {
      * @param val2
      * @return
      */
-    public boolean isEqualValues(Object val1, Object val2) {
+    public static boolean isEqualValues(Object val1, Object val2) {
         if (val1 == val2) {
             return true;
         }

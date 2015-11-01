@@ -2,6 +2,7 @@ package org.msh.etbm.commons.entities.query;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,9 +34,21 @@ public class EntityQuery {
     private boolean orderByDescending;
 
     /**
+     * Indicate the data to be returned based on the name in profile (entity specific)
+     */
+    private String profile;
+
+    /**
      * Optionally, the ID can be informed. This way, just one entity is returned
      */
     private UUID id;
+
+
+    /**
+     * List of IDs, when you want to load specific units
+     */
+    private List<UUID> ids;
+
 
     public Integer getPage() {
         return page;
@@ -76,4 +89,21 @@ public class EntityQuery {
     public void setOrderByDescending(boolean orderByDescending) {
         this.orderByDescending = orderByDescending;
     }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public List<UUID> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<UUID> ids) {
+        this.ids = ids;
+    }
+
 }

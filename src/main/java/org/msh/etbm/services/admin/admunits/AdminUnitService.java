@@ -2,14 +2,14 @@ package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.impl.ObjectUtils;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
-import org.msh.etbm.services.admin.admunits.impl.CodeUtils;
+import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +25,16 @@ import java.util.UUID;
 @Service
 public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUnitRepository> {
 
+    private static final String QUERY_PROFILE_CODE = "code";
+
     @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
+
+    @Autowired
+    CodeGeneratorService codeGeneratorService;
 
     /**
      * Query the administrative units
@@ -60,7 +65,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
                 // get parent because it needs the code
                 AdministrativeUnit parent = getCrudRepository().findOne(q.getParentId());
                 if (parent == null) {
-                    throw new IllegalArgumentException("Invalid parent id");
+                    throw new EntityValidationException("Invalid parent id");
                 }
                 // get all sub units using the parent code
                 qry.addRestriction("code like :code");
@@ -80,10 +85,54 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             }
         }
 
+        Class dataClass = AdminUnitData.class;
+        if (QUERY_PROFILE_CODE.equals(q.getProfile())) {
+            dataClass = AdminUnitExData.class;
+        }
 
-        QueryResult<AdminUnitData> res = qry.createQueryResult(AdminUnitData.class);
+        QueryResult<AdminUnitData> res = qry.createQueryResult(dataClass);
 
         return res;
+    }
+
+    /**
+     * This method is override because calling 'generateNewMethod' from prepareToSave, an entityManager.flush()
+     * is called internally
+     * @param request
+     * @param entity
+     */
+    @Override
+    protected void mapRequest(Object request, AdministrativeUnit entity) {
+        AdminUnitRequest req = (AdminUnitRequest)request;
+
+        // check if parent has changed
+        UUID pid =  entity.getParent() != null? entity.getParent().getId(): null;
+        boolean parentChanged = entity.getId() == null || !ObjectUtils.isEqualValues(req.getParentId(), pid);
+
+        if (entity.getId() != null) {
+            System.out.println(" --> Parent  = " + req.getParentId());
+            System.out.println(" --> AU code = " + entity.getCode());
+        }
+
+        String newCode = null;
+        if (parentChanged) {
+            newCode = codeGeneratorService.generateNewCode(req.getParentId());
+            System.out.println("New code = " + newCode);
+        }
+
+        // call standard map
+        super.mapRequest(request, entity);
+
+        // new code was changed ?
+        if (newCode != null) {
+            // must update the children ?
+            if (entity.getId() != null) {
+                String oldCode = entity.getCode();
+                System.out.println("   ***  TRANSFER CODE " + oldCode + " -> " + newCode);
+                updateChildCodes(entity.getId(), oldCode, newCode);
+            }
+            entity.setCode(newCode);
+        }
     }
 
 
@@ -94,11 +143,16 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             return;
         }
 
+        if (entity.getCountryStructure() == null) {
+            errors.addRequired("csId");
+            return;
+        }
+
         validateParent(entity);
 
-        AdministrativeUnit parent = entity.getParent();
+//        AdministrativeUnit parent = entity.getParent();
 
-        checkCode(entity);
+//        checkCode(entity);
 
         if (!isUnique(entity)) {
             errors.addNotUnique("name");
@@ -159,7 +213,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
      * @param newCode the new code of the administrative unit
      */
     protected void updateChildCodes(UUID id, String oldCode, String newCode) {
-        int ini = newCode.length();
+        int ini = newCode.length() + 1;
         entityManager.createQuery("update AdministrativeUnit " +
                 "set code = concat(:newcode, substring(code, :ini, 16)) " +
                 "where code like :oldcode and id <> :id")
@@ -175,59 +229,32 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
      * Check if the parent unit is being changed
      * @param au the administrative unit to be saved
      */
-    public void checkCode(AdministrativeUnit au) {
-        AdministrativeUnit parent = au.getParent();
+//    public void checkCode(AdministrativeUnit au) {
+//        AdministrativeUnit parent = au.getParent();
+//
+//        if (au.getId() != null) {
+//            System.out.println(" --> PARENT code = "+ (parent != null? parent.getCode(): "") + ", ID = " + (parent != null? parent.getId(): null));
+//            System.out.println(" --> AU code = " + au.getCode());
+//        }
+//
+//        // check if code must be generated
+//        if (au.getCode() == null || au.getCode().isEmpty() ||
+//                (parent != null && !parent.isSameOrChildCode(au.getCode())))
+//        {
+//            System.out.println("Calling new code");
+//            String code = codeGeneratorService.generateNewCode(parent != null? parent.getId(): null);
+//            System.out.println("New code = " + code);
+//
+//            // must update child records ?
+//            if (au.getId() != null) {
+//                String oldCode = au.getCode();
+//                System.out.println("   ***  TRANSFER CODE " + oldCode + " -> " + code);
+//                updateChildCodes(au.getId(), oldCode, code);
+//            }
+//            au.setCode(code);
+//        }
+//    }
 
-        // check if code must be generated
-        if (au.getCode() == null || au.getCode().isEmpty() ||
-                (parent != null && !au.isSameOrChildCode(parent.getCode())))
-        {
-            String code = generateNewCode(parent);
-            // must update child records ?
-            if (au.getId() == null) {
-                String oldCode = au.getCode();
-                updateChildCodes(au.getId(), oldCode, code);
-            }
-            au.setCode(code);
-        }
-    }
-
-    /**
-     * Generate a new code
-     * @param parent
-     * @return
-     */
-    protected String generateNewCode(AdministrativeUnit parent) {
-        String cond;
-        if (parent == null)
-            cond = "where aux.parent is null";
-        else cond = "where aux.parent.id = " + parent.getId();
-
-        String code = (String)entityManager
-                .createQuery("select max(aux.code) from AdministrativeUnit aux " + cond)
-                .getSingleResult();
-
-        if (code != null) {
-            if (code.length() > 3) {
-                int len = code.length();
-                code = code.substring(len-3, len);
-            }
-            code = CodeUtils.incCode(code);
-            if (code.length() > 3) {
-                throw new IllegalArgumentException("Maximum code length reached");
-            }
-
-            if (parent != null)
-                code = parent.getCode() + code;
-        }
-        else {
-            if (parent == null)
-                code = "001";
-            else code = parent.getCode() + "001";
-        }
-
-        return code;
-    }
 
     /**
      * Validate the administrative unit parent
@@ -242,6 +269,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
         // check if parent is in the same level of country structure
         if (parent != null && au.getCountryStructure().getLevel() != parent.getLevel() + 1) {
+            System.out.println("ADMIN UNIT -> " + au.getName());
+            System.out.println("COUNTRY STRUCTURE -> " + au.getCountryStructure());
+            System.out.println("PARENT -> " + parent.getName() + ", level = " + parent.getLevel());
             throw new EntityValidationException("csId", "Country structure is not compactible with parent");
         }
     }

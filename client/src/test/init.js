@@ -1,7 +1,7 @@
 'use strict';
 
 
-var agent = require('./agent'),
+var agent = require('./common/agent'),
     assert = require('assert');
 
 

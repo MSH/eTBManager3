@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
@@ -60,6 +62,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
     @Autowired
     UserRoleRepositories userRoleRepositories;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
 
     private NewWorkspaceTemplate template;
@@ -108,6 +113,13 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         user.setRegistrationDate(new Date());
 
         userRepository.save(user);
+
+        // create user log
+        UserLog ulog = new UserLog();
+        ulog.setId(user.getId());
+        ulog.setName(user.getName());
+        entityManager.persist(ulog);
+        entityManager.flush();
 
         // get TB unit
         List<Unit> units = unitRepository.findByNameAndWorkspaceId(templ.getUnitName(), template.getWorkspace().getId());
@@ -158,6 +170,12 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         ws.setDescription(form.getWorkspaceDescription());
 
         workspaceRepository.save(ws);
+
+        WorkspaceLog wslog = new WorkspaceLog();
+        wslog.setId(ws.getId());
+        wslog.setName(ws.getName());
+        entityManager.persist(wslog);
+        entityManager.flush();
 
         createAdminUnits();
         createUnits();

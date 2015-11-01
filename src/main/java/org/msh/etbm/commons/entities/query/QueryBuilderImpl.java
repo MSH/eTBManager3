@@ -2,16 +2,12 @@ package org.msh.etbm.commons.entities.query;
 
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.services.usersession.UserSession;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of the query builder interface
@@ -266,9 +262,26 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.orderByKey = qry.getOrderBy();
         this.orderByDescending = qry.isOrderByDescending();
 
+        // an ID was set in the search query ?
         if (qry.getId() != null) {
             addRestriction("id = :id");
             setParameter("id", qry.getId());
+        }
+
+        // IDs were set ?
+        if (qry.getIds() != null) {
+            String s = "";
+            int count = 1;
+            for (UUID id: qry.getIds()) {
+                if (!s.isEmpty()) {
+                    s += ",";
+                }
+                String key = "id" + Integer.toString(count);
+                s += ":" + key;
+                setParameter(key, id);
+                count++;
+            }
+            addRestriction("id in (" + s + ")");
         }
     }
 

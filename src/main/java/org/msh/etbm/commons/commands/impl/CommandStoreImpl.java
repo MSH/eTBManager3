@@ -77,12 +77,6 @@ public class CommandStoreImpl implements CommandStoreService {
 
         WorkspaceLog wslog = entityManager.find(WorkspaceLog.class, ws.getId());
 
-        if (wslog == null) {
-            wslog = new WorkspaceLog();
-            wslog.setId(ws.getId());
-            wslog.setName(ws.getName());
-            entityManager.persist(wslog);
-        }
         return wslog;
     }
 
@@ -98,15 +92,6 @@ public class CommandStoreImpl implements CommandStoreService {
         }
 
         UserLog userLog = entityManager.find(UserLog.class, user.getId());
-
-        // if the user log doesn't exist, create a new one
-        if (userLog == null) {
-            // save new user log information
-            userLog = new UserLog();
-            userLog.setId(user.getId());
-            userLog.setName(user.getName());
-            entityManager.persist(userLog);
-        }
 
         return userLog;
     }

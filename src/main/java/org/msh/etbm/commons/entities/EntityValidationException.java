@@ -6,9 +6,13 @@ package org.msh.etbm.commons.entities;
  *
  * Created by rmemoria on 28/10/15.
  */
-public class EntityValidationException extends Exception {
+public class EntityValidationException extends RuntimeException {
     private String field;
     private String group;
+
+    public EntityValidationException(String message) {
+        super(message);
+    }
 
     public EntityValidationException(String field, String message) {
         super(message);

@@ -1,7 +1,6 @@
 package org.msh.etbm.web.api.admunits;
 
 import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.entities.query.EntityQuery;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQuery;

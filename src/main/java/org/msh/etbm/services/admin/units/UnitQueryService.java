@@ -7,8 +7,6 @@ import org.msh.etbm.db.entities.Unit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.PersistenceContext;
-
 /**
  * Service to query units in the database based on a given list of query criterias
  *
@@ -20,7 +18,6 @@ public class UnitQueryService {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    @PersistenceContext
     public QueryResult<Unit> queryUnits(UnitQuery qry) {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(Unit.class);
 

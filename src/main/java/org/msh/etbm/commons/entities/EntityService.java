@@ -25,7 +25,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.UUID;
@@ -82,9 +81,9 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
     public ServiceResult create(@Valid @NotNull Object req) {
-        E entity = createEntityInstance();
+        E entity = createEntityInstance(req);
 
-        mapper.map(req, entity);
+        mapRequest(req, entity);
 
         // generate the result object to be sent to the client
         ServiceResult res = createResult(entity);
@@ -114,44 +113,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
 
     /**
-     * Check if the given entity is unique by searching by the given field
-     * @param entity
-     * @param field
-     * @return true if the entity is unique
-     */
-    protected boolean checkUnique(E entity, String field) {
-        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid " +
-                "and " + field + " = :" + field;
-        if (entity.getId() != null) {
-            hql += " and id <> :id";
-        }
-
-        // get the field value in the given object
-        Object val;
-        try {
-            val = PropertyUtils.getProperty(entity, field);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        Query qry = entityManager
-                .createQuery(hql)
-                .setParameter("wsid", getWorkspaceId())
-                .setParameter(field, val);
-
-        if (entity.getId() != null) {
-            qry.setParameter("id", entity.getId());
-        }
-
-        // query the database
-        Number count = (Number)qry.getSingleResult();
-
-        return count.intValue() == 0;
-    }
-
-
-    /**
      * Update the values of the entity
      * @param id
      * @param req the object request with information about fields to be updated
@@ -172,7 +133,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         ObjectValues prevVals = createValuesToLog(entity, Operation.EDIT);
 
         // set the values to the entity
-        mapper.map(req, entity);
+        mapRequest(req, entity);
 
         // create diff list
         ObjectValues newVals = createValuesToLog(entity, Operation.EDIT);
@@ -180,7 +141,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // is there anything to save?
         if (diffs.getValues().size() == 0) {
-            return null;
+            return createResult(entity);
         }
 
         // create result object
@@ -243,6 +204,44 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
 
     /**
+     * Check if the given entity is unique by searching by the given field
+     * @param entity
+     * @param field
+     * @return true if the entity is unique
+     */
+    protected boolean checkUnique(E entity, String field) {
+        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid " +
+                "and " + field + " = :" + field;
+        if (entity.getId() != null) {
+            hql += " and id <> :id";
+        }
+
+        // get the field value in the given object
+        Object val;
+        try {
+            val = PropertyUtils.getProperty(entity, field);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        Query qry = entityManager
+                .createQuery(hql)
+                .setParameter("wsid", getWorkspaceId())
+                .setParameter(field, val);
+
+        if (entity.getId() != null) {
+            qry.setParameter("id", entity.getId());
+        }
+
+        // query the database
+        Number count = (Number)qry.getSingleResult();
+
+        return count.intValue() == 0;
+    }
+
+
+    /**
      * Prepare entity for saving, checking its workspace and if the entity is unique
      * @param entity
      * @param msgs the list of possible validation errors along the preparation
@@ -258,6 +257,15 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     protected void prepareToDelete(E entity, MessageList msgs) throws EntityValidationException {
         checkWorkspace(entity);
+    }
+
+    /**
+     * Set the values of the request to the entity
+     * @param request
+     * @param entity
+     */
+    protected void mapRequest(Object request, E entity) {
+        mapper.map(request, entity);
     }
 
     /**
@@ -296,6 +304,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         return objectUtils.compareOldAndNew(prevVals, newVals);
     }
 
+
     /**
      * Create the result to be returned by the method call
      * @param entity
@@ -312,10 +321,28 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             res.setEntityName(entity.toString());
         }
 
-        MessageList lst = messageKeyResolver.createMessageList();
+        MessageList lst = createMessageList();
         res.setValidationErrors(lst);
 
         return res;
+    }
+
+
+    /**
+     * Create the list of messages for validation error messages
+     * @return instance of MessageList object
+     */
+    protected MessageList createMessageList() {
+        return messageKeyResolver.createMessageList();
+    }
+
+    /**
+     * Raise exception of a required field not present
+     * @param field the name of the field
+     */
+    protected void raiseRequiredFieldException(String field) {
+        String s = messageKeyResolver.evaluateExpression("{" + MessageList.MSGKEY_REQUIRED + "}");
+        throw new EntityValidationException(field, s);
     }
 
     /**
@@ -420,9 +447,10 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
     /**
      * Create a new instance of the entity class
+     * @param req the object used as request for this service
      * @return
      */
-    protected E createEntityInstance() {
+    protected E createEntityInstance(Object req) {
         Class<E> clazz = getEntityClass();
         try {
             return clazz.newInstance();

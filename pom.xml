@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.msh</groupId>
     <artifactId>etbmanager</artifactId>
     <version>3.0.0</version>
+    <packaging>jar</packaging>
 
     <organization>
         <name>Management Science for Health</name>
@@ -21,9 +20,14 @@
         <version>1.2.6.RELEASE</version>
     </parent>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <mainClass>org.msh.etbm.Application</mainClass>
+    </properties>
+
     <scm>
-        <connection>scm:git:https://rmemoria@bitbucket.org/etbmanager/etbm3.git</connection>
-        <url>https://rmemoria@bitbucket.org/etbmanager/etbm3.git</url>
+        <connection>scm:git:https://bitbucket.org/etbmanager/etbm3.git</connection>
+        <url>https://bitbucket.org/etbmanager/etbm3.git</url>
     </scm>
 
     <ciManagement>
@@ -106,7 +110,6 @@
             <artifactId>guava</artifactId>
             <version>18.0</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -115,26 +118,47 @@
         </dependency>
     </dependencies>
 
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
-
-
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.2.7.RELEASE</version>
                 <executions>
                     <execution>
-                      <goals>
+                        <goals>
                         <goal>repackage</goal>
-                      </goals>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
 
+            <!-- Copy the etbmanager.properties for execution of app for testing -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>resources</directory>
+                                    <filtering>true</filtering>
+                                    <include>etbmanager.properties</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- Generates a unique build number for the build -->
             <plugin>
@@ -159,7 +183,6 @@
                 </configuration>
             </plugin>
 
-
             <!-- Information to be included in the manifest of the jar file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -168,6 +191,8 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                            <addClasspath>true</addClasspath>
                         </manifest>
                         <manifestEntries>
                             <Build-Time>${maven.build.timestamp}</Build-Time>
@@ -182,52 +207,30 @@
                 </configuration>
             </plugin>
 
-            <!-- Install node and npm and run gulp -->
+            <!-- run e-TB Manager from the maven using mvn exec:exec -->
             <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.23</version>
-
-                <configuration>
-                    <!-- <workingDirectory>src/main/client</workingDirectory> -->
-                    <nodeVersion>v0.12.7</nodeVersion>
-                    <npmVersion>2.11.3</npmVersion>
-                </configuration>
-
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
                 <executions>
                     <execution>
-                        <id>Install node and npm</id>
+                        <id>default-cli</id>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>exec</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>gulp build</id>
-                        <goals>
-                            <goal>gulp</goal>
-                        </goals>
-                        <!-- optional: the default phase is "generate-resources" -->
-                        <phase>generate-resources</phase>
-
-                        <configuration>
-                            <!-- optional: if not specified, it will run gulp's default
-                            task (and you can remove this whole <configuration> section.) -->
-                            <arguments>build</arguments>
+                            <executable>java</executable>
+                            <workingDirectory>target</workingDirectory>
+                            <arguments>
+                                <argument>-jar</argument>
+                                <argument>${basedir}/target/${project.artifactId}-${project.version}.jar</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
-
             </plugin>
+
+
         </plugins>
     </build>
 
@@ -238,10 +241,13 @@
             <url>https://repo.spring.io/libs-release</url>
         </repository>
     </repositories>
+
+
     <pluginRepositories>
         <pluginRepository>
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
         </pluginRepository>
     </pluginRepositories>
+
 </project>

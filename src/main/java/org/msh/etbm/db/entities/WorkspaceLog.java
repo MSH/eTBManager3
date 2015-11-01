@@ -22,7 +22,15 @@ public class WorkspaceLog {
     @NotNull
 	private String name;
 
-	/**
+    @Override
+    public String toString() {
+        return "WorkspaceLog{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    /**
 	 * @return the id
 	 */
 	public UUID getId() {
