@@ -10,6 +10,7 @@ import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
+import org.msh.etbm.services.admin.units.data.UnitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,9 @@ import java.util.UUID;
 @Service
 public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUnitRepository> {
 
-    private static final String QUERY_PROFILE_CODE = "code";
+    private static final String QUERY_PROFILE_ITEM = "item";
+    private static final String QUERY_PROFILE_DEFAULT = "default";
+    private static final String QUERY_PROFILE_EXT = "ext";
 
     @PersistenceContext
     EntityManager entityManager;
@@ -44,7 +47,15 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
     public QueryResult<AdminUnitData> findMany(AdminUnitQuery q) {
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class);
 
-        qry.addOrderByMap("name", "name", true);
+        // add profiles
+        qry.addDefaultProfile(QUERY_PROFILE_DEFAULT, UnitData.class);
+        qry.addProfile(QUERY_PROFILE_EXT, AdminUnitExData.class);
+        qry.addProfile(QUERY_PROFILE_ITEM, AdminUnitItemData.class);
+
+        // add order by
+        qry.addDefaultOrderByMap("name", "name");
+        qry.addOrderByMap("code", "code");
+        qry.addOrderByMap("parent", "parent.id");
 
         qry.initialize(q);
 
@@ -85,12 +96,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             }
         }
 
-        Class dataClass = AdminUnitData.class;
-        if (QUERY_PROFILE_CODE.equals(q.getProfile())) {
-            dataClass = AdminUnitExData.class;
-        }
-
-        QueryResult<AdminUnitData> res = qry.createQueryResult(dataClass);
+        QueryResult<AdminUnitData> res = qry.createQueryResult();
 
         return res;
     }
@@ -109,15 +115,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
         UUID pid =  entity.getParent() != null? entity.getParent().getId(): null;
         boolean parentChanged = entity.getId() == null || !ObjectUtils.isEqualValues(req.getParentId(), pid);
 
-        if (entity.getId() != null) {
-            System.out.println(" --> Parent  = " + req.getParentId());
-            System.out.println(" --> AU code = " + entity.getCode());
-        }
-
         String newCode = null;
         if (parentChanged) {
             newCode = codeGeneratorService.generateNewCode(req.getParentId());
-            System.out.println("New code = " + newCode);
         }
 
         // call standard map
@@ -128,7 +128,6 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             // must update the children ?
             if (entity.getId() != null) {
                 String oldCode = entity.getCode();
-                System.out.println("   ***  TRANSFER CODE " + oldCode + " -> " + newCode);
                 updateChildCodes(entity.getId(), oldCode, newCode);
             }
             entity.setCode(newCode);

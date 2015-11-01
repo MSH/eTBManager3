@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.admunits;
+package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;

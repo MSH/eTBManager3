@@ -47,6 +47,21 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     private String orderByKey;
 
     /**
+     * List of available profiles
+     */
+    private Map<String, Class> profiles = new HashMap<>();
+
+    /**
+     * The default profile
+     */
+    private String defaultProfile;
+
+    /**
+     * The selected profile
+     */
+    private String profile;
+
+    /**
      * The default ordering, if no one is defined
      */
     private String defaultOrderByKey;
@@ -211,11 +226,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     }
 
     @Override
-    public void addOrderByMap(String key, String field, boolean defaultOrder) {
+    public void addOrderByMap(String key, String field) {
         orderByMap.put(key, field);
-        if (defaultOrder) {
-            defaultOrderByKey = key;
-        }
+    }
+
+    @Override
+    public void addDefaultOrderByMap(String key, String field) {
+        addOrderByMap(key, field);
+        defaultOrderByKey = key;
     }
 
     @Override
@@ -243,16 +261,43 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     @Override
     public QueryResult createQueryResult(Class destClass) {
+        // check if destination class is set
+        if (destClass == null) {
+            destClass = profiles.get(defaultProfile);
+            if (destClass == null) {
+                throw new RuntimeException("No default profile set for class " + entityClass.getSimpleName());
+            }
+        }
+
         QueryResult res = new QueryResult();
 
         res.setCount(getCount());
         List<E> lst = getResultList();
         //List lst2 = new ArrayList<>();
 
-        List lst2 = Lists.transform(lst, item -> mapper.map(item, destClass));
+        final Class dataClass = destClass;
+        List lst2 = Lists.transform(lst, item -> mapper.map(item, dataClass));
 
         res.setList(lst2);
         return res;
+    }
+
+    @Override
+    public QueryResult createQueryResult() {
+        Class dataClass = profile != null? profiles.get(profile): null;
+
+        return createQueryResult(dataClass);
+    }
+
+    @Override
+    public void addProfile(String profname, Class dataClass) {
+        profiles.put(profname, dataClass);
+    }
+
+    @Override
+    public void addDefaultProfile(String profname, Class dataClass) {
+        profiles.put(profname, dataClass);
+        defaultProfile = profname;
     }
 
     @Override
@@ -283,6 +328,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             }
             addRestriction("id in (" + s + ")");
         }
+
+        setProfile(qry.getProfile());
     }
 
     public EntityManager getEntityManager() {
@@ -333,5 +380,15 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void setOrderByKey(String orderByKey) {
         this.orderByKey = orderByKey;
+    }
+
+    @Override
+    public String getProfile() {
+        return profile;
+    }
+
+    @Override
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

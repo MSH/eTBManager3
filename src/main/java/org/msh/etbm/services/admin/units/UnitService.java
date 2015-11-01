@@ -9,6 +9,7 @@ import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.repositories.UnitRepository;
+import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,8 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
     public QueryResult<Unit> findMany(UnitQuery qry) {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(Unit.class);
 
-        builder.addOrderByMap("name", "name", true);
+        builder.addDefaultOrderByMap("name", "name");
+        builder.addDefaultOrderByMap("adminUnit", "adminUnit.name");
 
         builder.addLikeRestriction("name", qry.getKey());
 
@@ -38,7 +40,7 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
             builder.setParameter("name", qry.getName());
         }
 
-        return builder.createQueryResult(UnitData.class);
+        return builder.createQueryResult(UnitItemData.class);
     }
 
     @Override

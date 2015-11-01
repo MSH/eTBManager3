@@ -32,9 +32,16 @@ public interface QueryBuilder<E> {
      * be used in the order by instruction
      * @param key the key to reference the order by fields
      * @param field the fields to be used in the order by operation
-     * @param defaultOrder if true, this order will be set as the default if no order is set
      */
-    void addOrderByMap(String key, String field, boolean defaultOrder);
+    void addOrderByMap(String key, String field);
+
+    /**
+     * Add an orderBy map as the default, if none is specified
+     * be used in the order by instruction
+     * @param key the key to reference the order by fields
+     * @param field the fields to be used in the order by operation
+     */
+    void addDefaultOrderByMap(String key, String field);
 
     /**
      * Get the order by key to use
@@ -80,9 +87,42 @@ public interface QueryBuilder<E> {
     QueryResult createQueryResult(Class destClass);
 
     /**
+     * Query database by using the selected profile as the data class
+     * @return
+     */
+    QueryResult createQueryResult();
+
+    /**
+     * Assign a data class by its profile name. When using initialize, the profile is automatically assigned
+     * and issuing createQueryResult with no data class, the profile class is automatically assigned
+     * @param profname the
+     * @param dataClass
+     */
+    void addProfile(String profname, Class dataClass);
+
+    /**
+     * Add a default profile, when no profile is assigned
+     * @param profname
+     * @param dataClass
+     */
+    void addDefaultProfile(String profname, Class dataClass);
+
+    /**
      * Initialize the query builder with the parameters in the entityQuery object
      * @param qry the query
      */
     void initialize(EntityQuery qry);
+
+    /**
+     * Select the profile to be used
+     * @param profile
+     */
+    void setProfile(String profile);
+
+    /**
+     * Get the profile in use
+     * @return
+     */
+    String getProfile();
 
 }

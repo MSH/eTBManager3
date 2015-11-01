@@ -49,9 +49,9 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
     public QueryResult<CountryStructureData> query(CountryStructureQuery q) {
         QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
 
-        qry.addOrderByMap("name", "name", true);
-        qry.addOrderByMap("level", "level, name", false);
-        qry.addOrderByMap("level desc", "level desc, name desc", false);
+        qry.addDefaultOrderByMap("name", "name");
+        qry.addOrderByMap("level", "level, name");
+        qry.addOrderByMap("level desc", "level desc, name desc");
 
         qry.initialize(q);
 

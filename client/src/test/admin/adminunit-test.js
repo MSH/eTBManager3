@@ -166,7 +166,7 @@ describe('admin-unit', function() {
 	var crudCs = crud('countrystructure');
 	var crudAdminUnit = crud('adminunit');
 
-	this.timeout(50000);
+	this.timeout(5000);
 
 	/**
 	 * Create the country structures used along the test
@@ -222,7 +222,7 @@ describe('admin-unit', function() {
  			.then(function() {
  				var req = {
  					ids: ids,
- 					profile: 'code'
+ 					profile: 'ext'
  				};
  				return crudAdminUnit.findMany(req);
  			})
@@ -323,7 +323,7 @@ describe('admin-unit', function() {
 				assert.equal(res.parentId, newparent.id);
 				assert.equal(res.parentName, newparent.name);
 
-				return crudAdminUnit.findMany({ids: ids, profile: 'code'});
+				return crudAdminUnit.findMany({ids: ids, profile: 'ext'});
 			})
 			.then(function(res) {
 				// check if codes are correctly adjusted
@@ -334,7 +334,7 @@ describe('admin-unit', function() {
 
 
 	it('# query roots', function() {
-		return crudAdminUnit.findMany({rootUnits: true, profile: 'code' })
+		return crudAdminUnit.findMany({rootUnits: true, profile: 'ext' })
 			.then(function(res) {
 				assert(res.count >= 2);
 				assert(res.list);
@@ -389,7 +389,7 @@ describe('admin-unit', function() {
 		// query all children of ROOT-2
 		var pid = items[1].data.id;
 
-		return crudAdminUnit.findMany({parentId: pid, includeChildren: true, profile: 'code'})
+		return crudAdminUnit.findMany({parentId: pid, includeChildren: true, profile: 'ext'})
 			.then(function(res) {
 				// including 2 cities and 2 localities
 				assert.equal(res.count, 4);
@@ -401,7 +401,7 @@ describe('admin-unit', function() {
 		// Get children of City-1
 		var au = items[0].children[0].data;
 
-		return crudAdminUnit.findMany({parentId: au.id, profile: 'code'})
+		return crudAdminUnit.findMany({parentId: au.id, profile: 'ext'})
 			.then(function(res) {
 				// return 2 localities
 				assert.equal(res.count, res.list.length);
