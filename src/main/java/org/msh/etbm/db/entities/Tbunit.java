@@ -1,5 +1,7 @@
 package org.msh.etbm.db.entities;
 
+import org.msh.etbm.services.admin.units.UnitType;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -66,8 +68,8 @@ public class Tbunit extends Unit {
 	}
 
     @Override
-    public String getTypeName() {
-        return "tbunit";
+    public UnitType getType() {
+        return UnitType.TBUNIT;
     }
 
     public boolean isTbUnit() {

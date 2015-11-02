@@ -12,6 +12,7 @@ import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserSession;

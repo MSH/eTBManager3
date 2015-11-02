@@ -2,22 +2,22 @@
 
 var crud = require('../common/crud'),
 	assert = require('assert'),
-	uuid = require('node-uuid'),
+	shortid = require('shortid'),
 	Promise = require('bluebird');
 
 
 // list of country structures used in the test
 var cslist = [
 	{
-		name: 'Region ' + uuid.v1(),
+		name: 'Region ' + shortid.generate(),
 		level: 1
 	},
 	{
-		name: 'City ' + uuid.v1(),
+		name: 'City ' + shortid.generate(),
 		level: 2
 	},
 	{
-		name: 'Locality ' + uuid.v1(),
+		name: 'Locality ' + shortid.generate(),
 		level: 3
 	}
 ];
@@ -179,7 +179,7 @@ describe('admin-unit', function() {
 				lst.forEach(function(item) {
 					// set the country structure ID of the admin unit
 					item.data.csId = cslist[level].id;
-					item.data.name = item.data.name + ' ' + uuid.v1();
+					item.data.name = item.data.name + ' ' + shortid.generate();
 					if (item.children) {
 						updateCsid(item.children, level + 1);
 					}

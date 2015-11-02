@@ -6,7 +6,6 @@ import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.services.admin.units.TypedUnit;
 import org.msh.etbm.services.admin.units.UnitType;
-import org.msh.etbm.services.admin.units.data.UnitItemData;
 
 /**
  * Dozer bean factory to create instances of Units based on the data type and vice versa.

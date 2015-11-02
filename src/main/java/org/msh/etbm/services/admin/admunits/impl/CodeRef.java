@@ -71,7 +71,6 @@ public class CodeRef {
             code = val;
         }
 
-        System.out.println(" # NEW CODE = " + code);
         return code;
     }
 

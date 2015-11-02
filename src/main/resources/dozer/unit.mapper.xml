@@ -14,30 +14,12 @@
             <a>address.adminUnit</a>
             <b>adminUnit</b>
         </field>
-
-        <field>
-            <a>typeName</a>
-            <b>type</b>
-        </field>
     </mapping>
 
     <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
         <class-a>org.msh.etbm.db.entities.Unit</class-a>
-        <class-b>org.msh.etbm.services.admin.units.UnitRequest</class-b>
+        <class-b>org.msh.etbm.services.admin.units.TypedUnit</class-b>
     </mapping>
 
-    <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
-        <class-a>org.msh.etbm.db.entities.Unit</class-a>
-        <class-b>org.msh.etbm.services.admin.units.data.UnitData</class-b>
-    </mapping>
 
-    <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
-        <class-a>org.msh.etbm.db.entities.Unit</class-a>
-        <class-b>org.msh.etbm.services.admin.units.data.UnitDetailedData</class-b>
-    </mapping>
-
-    <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
-        <class-a>org.msh.etbm.db.entities.Unit</class-a>
-        <class-b>org.msh.etbm.services.admin.units.data.UnitItemData</class-b>
-    </mapping>
 </mappings>

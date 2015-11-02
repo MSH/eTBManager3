@@ -1,5 +1,7 @@
 package org.msh.etbm.db.entities;
 
+import org.msh.etbm.services.admin.units.UnitType;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -51,8 +53,8 @@ public class Laboratory extends Unit {
     }
 
     @Override
-    public String getTypeName() {
-        return "lab";
+    public UnitType getType() {
+        return UnitType.LAB;
     }
 
 }

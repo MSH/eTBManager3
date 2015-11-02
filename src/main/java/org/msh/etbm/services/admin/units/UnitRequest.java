@@ -2,7 +2,7 @@ package org.msh.etbm.services.admin.units;
 
 import org.msh.etbm.services.admin.AddressRequest;
 
-import java.util.Date;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -10,15 +10,19 @@ import java.util.UUID;
  *
  * Created by rmemoria on 28/10/15.
  */
-public abstract class UnitRequest {
+public class UnitRequest implements TypedUnit {
 
     /**
      * The type indicates the kind of object to create
      */
+    @NotNull
     private UnitType type;
 
+    @NotNull
     private String name;
+
     private String customId;
+
     private boolean active;
 
     private String shipContactName;
@@ -27,6 +31,7 @@ public abstract class UnitRequest {
     /**
      * Address
      */
+    @NotNull
     private AddressRequest address;
 
     /**
@@ -39,10 +44,6 @@ public abstract class UnitRequest {
     private UUID authorizerId;
 
     private boolean receiveFromManufacturer;
-
-    private Date inventoryStartDate;
-
-    private Date inventoryCloseDate;
 
     /** LABORATORY EXCLUSIVE **/
     private boolean performCulture;
@@ -145,22 +146,6 @@ public abstract class UnitRequest {
 
     public void setReceiveFromManufacturer(boolean receiveFromManufacturer) {
         this.receiveFromManufacturer = receiveFromManufacturer;
-    }
-
-    public Date getInventoryStartDate() {
-        return inventoryStartDate;
-    }
-
-    public void setInventoryStartDate(Date inventoryStartDate) {
-        this.inventoryStartDate = inventoryStartDate;
-    }
-
-    public Date getInventoryCloseDate() {
-        return inventoryCloseDate;
-    }
-
-    public void setInventoryCloseDate(Date inventoryCloseDate) {
-        this.inventoryCloseDate = inventoryCloseDate;
     }
 
     public boolean isPerformCulture() {

@@ -1,11 +1,12 @@
 package org.msh.etbm;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.db.entities.CountryStructure;
-import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
+import org.msh.etbm.services.admin.units.UnitRequest;
+import org.msh.etbm.services.admin.units.UnitType;
+import org.msh.etbm.services.admin.units.data.UnitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -65,36 +66,16 @@ public class TestRest {
         return s + "  ";
     }
 
-    @RequestMapping("/getuuid")
-    public UUID getUUID() {
-        return UUID.randomUUID();
-    }
 
-    @RequestMapping("/setuuid")
-    public void setUUID(@RequestParam("id") UUID id) {
-        System.out.println(id);
-    }
+    @RequestMapping("/mappintest")
+    public String mappingTest() {
+        Laboratory lab = new Laboratory();
+        UnitData data = mapper.map(lab, UnitData.class);
+        System.out.println(data);
 
-    @RequestMapping("/countws")
-    @Transactional
-    public Long countWorkspaces() {
-        Long res = workspaceRepository.count();
-        return res;
-    }
-
-    @RequestMapping("/custom")
-    public AdminUnitRequest test() {
-        CountryStructure cs = (CountryStructure)entityManager
-                .createQuery("from CountryStructure")
-                .setMaxResults(1)
-                .getSingleResult();
-
-        AdminUnitRequest req = new AdminUnitRequest();
-        req.setCsId(cs.getId());
-        req.setName("Rio de Janeiro");
-
-        AdministrativeUnit au = mapper.map(req, AdministrativeUnit.class);
-        System.out.println(au.getCountryStructure().getName());
-        return req;
+        UnitRequest req = new UnitRequest();
+        req.setType(UnitType.LAB);
+        Unit unit = mapper.map(req, Unit.class);
+        return unit.getClass().getName();
     }
 }

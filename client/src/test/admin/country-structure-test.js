@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert'),
-	uuid = require('node-uuid'),
+	shortid = require('shortid'),
 	Promise = require('bluebird'),
 	crud = require('../common/crud')('countrystructure');
 
@@ -10,15 +10,15 @@ describe('country-structure', function() {
 
 	var model = [
 		{
-			name: 'Region ' + uuid.v1(),
+			name: 'Region ' + shortid.generate(),
 			level: 1
 		},
 		{
-			name: 'City ' + uuid.v1(),
+			name: 'City ' + shortid.generate(),
 			level: 2
 		},
 		{
-			name: 'Municipality ' + uuid.v1(),
+			name: 'Municipality ' + shortid.generate(),
 			level: 3
 		}
 	];

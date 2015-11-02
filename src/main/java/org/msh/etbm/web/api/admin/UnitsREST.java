@@ -2,6 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.msh.etbm.services.admin.units.UnitQuery;
 import org.msh.etbm.services.admin.units.UnitRequest;
@@ -44,7 +45,7 @@ public class UnitsREST {
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.GET)
     @Authenticated
     public StandardResult get(@PathVariable UUID id) {
-        UnitItemData data = unitService.findOne(id, UnitItemData.class);
+        UnitDetailedData data = unitService.findOne(id, UnitDetailedData.class);
         return new StandardResult(data, null, data != null);
     }
 

@@ -1,5 +1,7 @@
 package org.msh.etbm.db.dto;
 
+import org.msh.etbm.services.admin.units.UnitType;
+
 import java.util.UUID;
 
 /**
@@ -8,7 +10,7 @@ import java.util.UUID;
 public class UnitDTO {
     private UUID id;
     private String name;
-    private String type;
+    private UnitType type;
     private AdministrativeUnitDTO adminUnit;
 
     public UUID getId() {
@@ -27,11 +29,11 @@ public class UnitDTO {
         this.name = name;
     }
 
-    public String getType() {
+    public UnitType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(UnitType type) {
         this.type = type;
     }
 

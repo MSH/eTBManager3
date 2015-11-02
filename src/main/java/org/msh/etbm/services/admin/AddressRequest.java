@@ -1,5 +1,8 @@
 package org.msh.etbm.services.admin;
 
+import javax.validation.constraints.NotNull;
+import java.util.UUID;
+
 /**
  * Request with information about the address, to be mapped back to {@link org.msh.etbm.db.Address}
  *
@@ -10,7 +13,8 @@ public class AddressRequest {
     private String address;
     private String complement;
     private String zipCode;
-    private String adminUnitId;
+    @NotNull
+    private UUID adminUnitId;
 
 
     public String getAddress() {
@@ -37,11 +41,11 @@ public class AddressRequest {
         this.zipCode = zipCode;
     }
 
-    public String getAdminUnitId() {
+    public UUID getAdminUnitId() {
         return adminUnitId;
     }
 
-    public void setAdminUnitId(String adminUnitId) {
+    public void setAdminUnitId(UUID adminUnitId) {
         this.adminUnitId = adminUnitId;
     }
 }

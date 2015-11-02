@@ -58,7 +58,6 @@ public class CodeGeneratorService {
             if (ref.getCode() == null) {
                 // if no, load the code from the database
                 String code = retrieveLastCode(parentId);
-                System.out.println(" # CODE GEN : MAX CODE = " + code + " with parent = " + parentId);
 
                 // if there is no code, i.e, it is the first child of the parent
                 // calculate a new code to be used in the calculation
