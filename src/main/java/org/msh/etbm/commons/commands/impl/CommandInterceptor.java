@@ -60,8 +60,8 @@ public class CommandInterceptor {
 
     /**
      * Execute a command and log its execution in the command history
-     * @param pjp
-     * @return
+     * @param pjp information about method being invoked
+     * @return the return of method invocation
      * @throws Throwable
      */
     protected Object executeAndLog(ProceedingJoinPoint pjp) throws Throwable {
@@ -90,9 +90,9 @@ public class CommandInterceptor {
 
     /**
      * Store the command in the command history
-     * @param cmdlog
-     * @param args
-     * @param result
+     * @param cmdlog the annotation found in the method about the command
+     * @param args the arguments of the method call
+     * @param result the return object of the method call
      */
     protected void storeCommand(Method method, CommandLog cmdlog, Object[] args, Object result) {
         String type = cmdlog.type();
