@@ -8,12 +8,16 @@ import org.msh.etbm.services.usersession.UserSession;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Implementation of the query builder interface
  * Created by rmemoria on 28/10/15.
  */
 public class QueryBuilderImpl<E> implements QueryBuilder<E> {
+
+    private static final Pattern PARAM_PATTERN =Pattern.compile("\\:([_a-zA-Z]+)");
 
     /**
      * Default number of entities per page
@@ -215,6 +219,42 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         }
 
         restrictions.add(restriction);
+    }
+
+    @Override
+    public void addRestriction(String restriction, Object... args) {
+        Matcher matcher = PARAM_PATTERN.matcher(restriction);
+
+        // parse the restriction
+        List<String> params = new ArrayList<>();
+        while (matcher.find()) {
+            String p = matcher.group();
+            params.add(p);
+        }
+
+        // check if number of arguments is less than number of parameters
+        if (args.length < params.size()) {
+            throw new RuntimeException("Number of arguments is less than number of defined parameters");
+        }
+
+        // check if any param value is null
+        for (int i = 0; i < params.size(); i++) {
+            Object val = args[i];
+            // null values or empty strings are discharged
+            if (val == null || (val instanceof String && (!((String) val).isEmpty()))) {
+                return;
+            }
+        }
+
+        // add the restriction
+        addRestriction(restriction);
+
+        // set the parameter values
+        for (int i = 0; i < params.size(); i++) {
+            String param = params.get(i);
+            Object value = args[i];
+            setParameter(param, value);
+        }
     }
 
     @Override

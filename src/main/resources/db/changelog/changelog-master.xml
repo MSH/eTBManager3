@@ -1333,15 +1333,9 @@
             <column name="ship_adminunit_id" type="${type.id}"/>
 
             <!-- unit part -->
-            <column name="tbUnit" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="mdrUnit" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="ntmUnit" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
+            <column name="tbFacility" type="${type.boolean}" />
+            <column name="mdrFacility" type="${type.boolean}" />
+            <column name="ntmFacility" type="${type.boolean}" />
             <column name="numDaysOrder" type="INT"/>
             <column name="receiveFromManufacturer" type="${type.boolean}">
                 <constraints nullable="false"/>

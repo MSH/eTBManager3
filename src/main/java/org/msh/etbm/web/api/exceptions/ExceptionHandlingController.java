@@ -26,7 +26,7 @@ public class ExceptionHandlingController {
      * @param req
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Information not found")
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public void entityNotFound(HttpServletRequest req) {
         // nothing to do
     }

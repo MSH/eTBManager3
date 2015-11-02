@@ -52,9 +52,9 @@ public class UnitRequest implements TypedUnit {
     private boolean performXpert;
 
     /** TB UNIT EXCLUSIVE **/
-    private boolean tbUnit;
-    private boolean mdrUnit;
-    private boolean ntmUnit;
+    private boolean tbFacility;
+    private boolean mdrFacility;
+    private boolean ntmFacility;
     private boolean notificationUnit;
     private boolean patientDispensing;
     private Integer numDaysOrder;
@@ -180,28 +180,28 @@ public class UnitRequest implements TypedUnit {
         this.performXpert = performXpert;
     }
 
-    public boolean isTbUnit() {
-        return tbUnit;
+    public boolean isTbFacility() {
+        return tbFacility;
     }
 
-    public void setTbUnit(boolean tbUnit) {
-        this.tbUnit = tbUnit;
+    public void setTbFacility(boolean tbFacility) {
+        this.tbFacility = tbFacility;
     }
 
-    public boolean isMdrUnit() {
-        return mdrUnit;
+    public boolean isMdrFacility() {
+        return mdrFacility;
     }
 
-    public void setMdrUnit(boolean mdrUnit) {
-        this.mdrUnit = mdrUnit;
+    public void setMdrFacility(boolean mdrFacility) {
+        this.mdrFacility = mdrFacility;
     }
 
-    public boolean isNtmUnit() {
-        return ntmUnit;
+    public boolean isNtmFacility() {
+        return ntmFacility;
     }
 
-    public void setNtmUnit(boolean ntmUnit) {
-        this.ntmUnit = ntmUnit;
+    public void setNtmFacility(boolean ntmFacility) {
+        this.ntmFacility = ntmFacility;
     }
 
     public boolean isNotificationUnit() {

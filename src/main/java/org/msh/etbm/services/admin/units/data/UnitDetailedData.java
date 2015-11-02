@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.services.admin.AddressData;
 
 /**
+ * Detailed data to be returned by the Unit service about an unit
  * Created by rmemoria on 1/11/15.
  */
 public class UnitDetailedData extends UnitItemData {
@@ -35,11 +36,11 @@ public class UnitDetailedData extends UnitItemData {
     
     /** TB unit part */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean tbUnit;
+    private Boolean tbFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean mdrUnit;
+    private Boolean mdrFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean ntmUnit;
+    private Boolean ntmFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean notificationUnit;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -151,28 +152,28 @@ public class UnitDetailedData extends UnitItemData {
         this.performXpert = performXpert;
     }
 
-    public Boolean getTbUnit() {
-        return tbUnit;
+    public Boolean getTbFacility() {
+        return tbFacility;
     }
 
-    public void setTbUnit(Boolean tbUnit) {
-        this.tbUnit = tbUnit;
+    public void setTbFacility(Boolean tbFacility) {
+        this.tbFacility = tbFacility;
     }
 
-    public Boolean getMdrUnit() {
-        return mdrUnit;
+    public Boolean getMdrFacility() {
+        return mdrFacility;
     }
 
-    public void setMdrUnit(Boolean mdrUnit) {
-        this.mdrUnit = mdrUnit;
+    public void setMdrFacility(Boolean mdrFacility) {
+        this.mdrFacility = mdrFacility;
     }
 
-    public Boolean getNtmUnit() {
-        return ntmUnit;
+    public Boolean getNtmFacility() {
+        return ntmFacility;
     }
 
-    public void setNtmUnit(Boolean ntmUnit) {
-        this.ntmUnit = ntmUnit;
+    public void setNtmFacility(Boolean ntmFacility) {
+        this.ntmFacility = ntmFacility;
     }
 
     public Boolean getNotificationUnit() {

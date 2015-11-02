@@ -8,22 +8,32 @@ import java.util.List;
  */
 public interface QueryBuilder<E> {
     /**
-     * Set a parameter to be included in the query
-     * @param paramName
-     * @param value
+     * Set a query defined parameter. A parameter is defined in a restriction, for example
+     * @param paramName the name of the parameter
+     * @param value the value of the parameter
      */
     void setParameter(String paramName, Object value);
 
     /**
      * Add a restriction to the query
-     * @param restiction
+     * @param restiction an HQL restriction to be included in the WHERE clause
      */
     void addRestriction(String restiction);
 
     /**
-     * Add a like restriction only if value is a string different of null
-     * @param field
-     * @param value
+     * Add a restriction with its parameter values. The parameters are automatically
+     * parsed from the restriction and added to the list of parameters. If any parameter
+     * is null, the restriction is not added
+     * @param restriction the HQL restriction to be included in the query
+     * @param args the parameter values
+     */
+    void addRestriction(String restriction, Object... args);
+
+    /**
+     * Add a like HQL restriction only if value is a string different of null. The instruction is the same as
+     * add a restriction as 'field like :value%'
+     * @param field the field name
+     * @param value the string value of the like search
      */
     void addLikeRestriction(String field, String value);
 
@@ -45,7 +55,7 @@ public interface QueryBuilder<E> {
 
     /**
      * Get the order by key to use
-     * @return
+     * @return the order by key
      */
     String getOrderByKey();
 
@@ -68,14 +78,15 @@ public interface QueryBuilder<E> {
     boolean isOrderByDescending();
 
     /**
-     * Return the number of entities found
-     * @return
+     * Return the number of entities found based on the query restrictions. A count(*) HQL is issued
+     * when this method is called
+     * @return the number of entities found in the query
      */
     long getCount();
 
     /**
-     * Return the result list of the query
-     * @return
+     * Return the result list of the query. The query is executed and the list is a simple return of the query
+     * @return the list of entities
      */
     List<E> getResultList();
 
@@ -88,22 +99,22 @@ public interface QueryBuilder<E> {
 
     /**
      * Query database by using the selected profile as the data class
-     * @return
+     * @return the result of the query
      */
     QueryResult createQueryResult();
 
     /**
      * Assign a data class by its profile name. When using initialize, the profile is automatically assigned
      * and issuing createQueryResult with no data class, the profile class is automatically assigned
-     * @param profname the
-     * @param dataClass
+     * @param profname the profile name to be passed in the query filters
+     * @param dataClass the data class to be used when the profile key is selected
      */
     void addProfile(String profname, Class dataClass);
 
     /**
      * Add a default profile, when no profile is assigned
-     * @param profname
-     * @param dataClass
+     * @param profname the profile name
+     * @param dataClass the data class assigned to the profile
      */
     void addDefaultProfile(String profname, Class dataClass);
 
@@ -115,13 +126,13 @@ public interface QueryBuilder<E> {
 
     /**
      * Select the profile to be used
-     * @param profile
+     * @param profile the selected profile key to be used in the query
      */
     void setProfile(String profile);
 
     /**
      * Get the profile in use
-     * @return
+     * @return the name of the profile key
      */
     String getProfile();
 

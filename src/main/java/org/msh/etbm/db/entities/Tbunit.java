@@ -16,9 +16,9 @@ public class Tbunit extends Unit {
     /**
      * TB cases handled by the health unit (susceptible TB, DR-TB and NTM)
      */
-    private boolean tbUnit;
-    private boolean mdrUnit;
-    private boolean ntmUnit;
+    private boolean tbFacility;
+    private boolean mdrFacility;
+    private boolean ntmFacility;
 
     /**
      * Indicate if this is a notification health unit
@@ -72,28 +72,28 @@ public class Tbunit extends Unit {
         return UnitType.TBUNIT;
     }
 
-    public boolean isTbUnit() {
-        return tbUnit;
+    public boolean isTbFacility() {
+        return tbFacility;
     }
 
-    public void setTbUnit(boolean tbUnit) {
-        this.tbUnit = tbUnit;
+    public void setTbFacility(boolean tbFacility) {
+        this.tbFacility = tbFacility;
     }
 
-    public boolean isMdrUnit() {
-        return mdrUnit;
+    public boolean isMdrFacility() {
+        return mdrFacility;
     }
 
-    public void setMdrUnit(boolean mdrUnit) {
-        this.mdrUnit = mdrUnit;
+    public void setMdrFacility(boolean mdrFacility) {
+        this.mdrFacility = mdrFacility;
     }
 
-    public boolean isNtmUnit() {
-        return ntmUnit;
+    public boolean isNtmFacility() {
+        return ntmFacility;
     }
 
-    public void setNtmUnit(boolean ntmUnit) {
-        this.ntmUnit = ntmUnit;
+    public void setNtmFacility(boolean ntmFacility) {
+        this.ntmFacility = ntmFacility;
     }
 
     public boolean isNotificationUnit() {

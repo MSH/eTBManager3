@@ -1,34 +1,42 @@
 'use strict';
 
 var assert = require('assert'),
-	shortid = require('shortid'),
-	Promise = require('bluebird'),
+	u = require('../common/uniquename'),
 	crud = require('../common/crud')('countrystructure');
+
 
 
 describe('country-structure', function() {
 
-	var model = [
+	var model = exports.model = [
 		{
-			name: 'Region ' + shortid.generate(),
+			name: u('Region'),
 			level: 1
 		},
 		{
-			name: 'City ' + shortid.generate(),
+			name: u('City'),
 			level: 2
 		},
 		{
-			name: 'Municipality ' + shortid.generate(),
+			name: u('Municipality'),
 			level: 3
 		}
 	];
+
+	var cs = {
+		name: u('Test'),
+		level: 3
+	};
 
 
 	/**
 	 * Create the country structures
 	 */
 	it('# create', function() {
-		return crud.create(model);
+		return crud.create(model)
+			.then(function() {
+				return crud.create(cs);
+			});
 	});
 
 
@@ -37,8 +45,7 @@ describe('country-structure', function() {
 	 */
 	it('# update', function() {
 		// get Municipality
-		var cs = model[2],
-			data = {
+		var data = {
 				name: cs.name + ' v2',
 				level: 2
 			};
@@ -54,24 +61,25 @@ describe('country-structure', function() {
 		});
 	});
 
+
 	/**
 	 * Try to update a country structure with an invalid level
 	 */
 	it('# invalid level', function() {
 		// get Municipality
-		var cs = model[2],
-			data = {
+		var data = {
 				name: cs.name + ' v3',
 				level: 6
 			};
 
-		return crud.update(cs.id, data, {skipValidation:true })
+		return crud.update(cs.id, data, {skipValidation: true })
 		.then(function(res) {
 			assert(res.errors);
 			assert.equal(res.errors.length, 1);
 			assert.equal(res.errors[0].field, 'level');
 		});
 	});
+
 
 	/**
 	 * Search for itens
@@ -83,16 +91,19 @@ describe('country-structure', function() {
 		});
 	});
 
+
 	/**
 	 * Delete country structure
 	 */
 	it('# delete', function() {
-		// create a list of promisses
-		var lst = model.map(function(item) {
-			return crud.delete(item.id);
-		});
-
-		return Promise.all(lst);
+		return crud.delete(cs.id, { testDeleted: true });
 	});
 
 });
+
+/**
+ * Delete all country structure, and consequently, delete in cascade all test data
+ */
+exports.cleanup = function() {
+	return crud.delete(exports.model);
+};

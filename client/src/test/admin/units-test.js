@@ -1,86 +1,118 @@
 'use strict';
 
 var assert = require('assert'),
-	shortid = require('shortid'),
-	crud = require('../common/crud');
+	u = require('../common/uniquename'),
+	crud = require('../common/crud')('unit'),
+	clone = require('clone');
 
 
-function u(name) {
-	return name + ' ' + shortid.generate();
-}
 
 describe('units', function() {
 //	this.timeout(500000);
 
-	var cs = [
-		{ name: u('Region'), level: 1},
-		{ name: u('City'), level: 2}
-	];
+	// the unit being tested
+	var unit;
 
-	var aus = [
-		{ name: u('Virginia')},
-		{ name: u('Arlington')}
-	];
-
-	var model = [
-		{
-			type: 'TBUNIT',
-			name: 'Unit ' + shortid.generate(),
-			active: true,
-			receiveFrommanufacturer: true,
-			tbUnit: true,
-			mdrUnit: true,
-			ntmUnit: false,
-			notificationUnit: true,
-			patientDispensing: false,
-			numDaysOrder: 90,
-			address: {
-				address: 'Street test',
-				zipCode: '6001-023'
-			}
-		}
-	];
-
-	var crudUnit = crud('unit'),
-		crudCs = crud('countrystructure'),
-		crudAu = crud('adminunit');
+	var	admunits;
 
 
-
+	/**
+	 * Create the model
+	 */
 	it('# create', function() {
-		// create the country structures
-		return crudCs.create(cs)
+		admunits = require('./adminunit-test').model;
+
+		var model = exports.model = [
+			// PHARMACY. The other units will be created automatically
+			{
+				type: 'TBUNIT',
+				name: u('Pharmacy'),
+				active: true,
+				receiveFrommanufacturer: true,
+				tbFacility: false,
+				mdrFacility: false,
+				ntmFacility: false,
+				notificationUnit: false,
+				patientDispensing: false,
+				numDaysOrder: 90,
+				address: {
+					address: 'Street test',
+					zipCode: '6001-023',
+					adminUnitId: admunits[0].data.id
+				}
+			}
+		];
+
+		// create laboratories
+		for (var i = 1; i <= 10; i++) {
+			var lab = {
+				type: 'LAB',
+				name: u('Laboratory 1'),
+				active: true,
+				receiveFrommanufacturer: true,
+				performCulture: true,
+				performDst: false,
+				performXpert: true,
+				performMicroscopy: true,
+				address: {
+					address: 'Street test',
+					zipCode: '6001-023',
+					adminUnitId: admunits[0].children[i - 1].data.id
+					}
+			};
+			model.push(lab);
+		}
+
+		// creating model
+		return crud.create(model)
 			.then(function(res) {
-				assert.equal(res.length, 2);
-				aus[0].csId = res[0];
-				aus[1].csId = res[1];
-
-				// create the parent admin unit
-				return crudAu.create(aus[0]);
-			})
-			.then(function (res) {
+				// create other units that receive medicines from the pharmacy
 				assert(res);
-				aus[1].parentId = res;
 
-				// create the child admin unit
-				return crudAu.create(aus[1]);
-			})
-			.then(function (res) {
-				var auid = res;
+				// create health facilities
+				exports.healthUnits = [];
+				var proms = [];
+				for (var i = 1; i <= 10; i++) {
+					var data = {
+						type: 'TBUNIT',
+						name: u('Pharmacy'),
+						active: true,
+						receiveFrommanufacturer: true,
+						tbFacility: false,
+						mdrFacility: false,
+						ntmFacility: false,
+						notificationUnit: false,
+						patientDispensing: false,
+						numDaysOrder: 90,
+						address: {
+							address: 'Street test',
+							zipCode: '6001-023',
+							adminUnitId: admunits[0].children[i].data.id
+						},
+						supplierId: model[0].id    // set the supplier as being the pharmacy
+					};
 
-				model[0].address.adminUnitId = auid;
-				// create the units
-				return crudUnit.create(model);
+					model.push(data);
+					exports.healthUnits.push(data);
+					proms.push(crud.create(data));
+				}
+
+				return Promise.all(proms);
 			})
-			.then(function(res) {
-				assert(res);
-				assert.equal(res, model[0].id);
+			.then(function() {
+				// create unit for testing
+				unit = clone(model[0]);
+				unit.name = u('Pharmacy test');
+				return crud.create(unit);
+			})
+			.then(function() {
+				assert(unit.id);
 			});
 	});
 
 
-	it('# find one', function() {
-		return crudUnit.findOne(model[0].id)
+	it('# find one TB unit', function() {
+		return crud.findOne(unit.id)
 			.then(function(res) {
 				assert(res.id);
 				assert(res.name);
@@ -88,21 +120,31 @@ describe('units', function() {
 				assert(res.address.adminUnitId);
 				assert(res.address.adminUnitName);
 				// specific properties of the TB unit
-				assert.equal('tbUnit' in res, true);
-				assert.equal('mdrUnit' in res, true);
-				assert.equal('ntmUnit' in res, true);
+				assert.equal('tbFacility' in res, true);
+				assert.equal('mdrFacility' in res, true);
+				assert.equal('ntmFacility' in res, true);
 				// laboratory porperties that doesn't belong to obj
 				assert.equal('performCulture' in res, false);
 				assert.equal('performDst' in res, false);
 				assert.equal('performXpert' in res, false);
 				assert.equal('performMicroscopy' in res, false);
+
+				assert.equal(res.name, unit.name);
+				assert.equal(res.id, unit.id);
+				assert.equal(res.address.adminUnitId, unit.address.adminUnitId);
 			});
 	});
 
 	/**
 	 * Delete all information created
 	 */
-	it('# clean up', function() {
-		return crudCs.delete(cs);
+	it('# delete', function() {
+		if (unit) {
+			return crud.delete(unit.id);
+		}
 	});
+
+	// it('# find many', function() {
+	// 	return crud.findManu({})
+	// })
 });

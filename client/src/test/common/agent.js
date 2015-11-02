@@ -34,11 +34,11 @@ function StandardAgent(url) {
      * @param  {[type]}   basepath  the base path of the request over the server
      * @param  {Function} callback 	function called when it's finished
      */
-    this.get = function(basepath) {
+    this.get = function(basepath, opt) {
         var req = this.agent
-            .get(basepath)
-            .expect(200)
-            .expect('Content-Type', /json/);
+            .get(basepath);
+
+        addExpect(req, opt);
 
         // include authentication token
         if (this.authToken) {
@@ -65,12 +65,13 @@ function StandardAgent(url) {
      * @param  {Function} callback [description]
      * @return {string}            The request object
      */
-    this.post = function(basepath, data) {
+    this.post = function(basepath, data, opt) {
         var req = this.agent
             .post(basepath)
             .send(data)
-            .expect(200)
             .expect('Content-Type', /json/);
+
+        addExpect(req, opt);
 
         // include authentication token
         if (this.authToken) {
@@ -89,11 +90,12 @@ function StandardAgent(url) {
         });
     };
 
-    this.delete = function(basepath) {
+    this.delete = function(basepath, opt) {
         var req = this.agent
             .delete(basepath)
-            .expect(200)
             .expect('Content-Type', /json/);
+
+        addExpect(req, opt);
 
         // include authentication token
         if (this.authToken) {
@@ -115,3 +117,12 @@ function StandardAgent(url) {
     return this;
 }
 
+
+function addExpect(req, opt) {
+    var expect = (opt && opt.expect) || 200;
+    req.expect(expect);
+
+    if (expect === 200) {
+        req.expect('Content-Type', /json/);
+    }
+}

@@ -16,18 +16,30 @@ public class UnitQuery extends EntityQuery {
     private String key;
 
     private UUID adminUnitId;
+    /**
+     * If true and adminiUnitId is not null, it will also include all direct and indirect child units
+     */
+    private boolean adminUnitChildren;
 
     /** used when filtering TB units **/
-    private boolean tbUnit;
-    private boolean mdrUnit;
-    private boolean ntmUnit;
-    private boolean notificationUnit;
+    private Boolean tbFacility;
+    private Boolean mdrFacility;
+    private Boolean ntmFacility;
+    private Boolean notificationUnit;
 
     /** used when filtering laboratories **/
-    private boolean performCulture;
-    private boolean performMicroscopy;
-    private boolean performDst;
-    private boolean performXpert;
+    private Boolean performCulture;
+    private Boolean performMicroscopy;
+    private Boolean performDst;
+    private Boolean performXpert;
+
+    public UnitType getType() {
+        return type;
+    }
+
+    public void setType(UnitType type) {
+        this.type = type;
+    }
 
     public String getName() {
         return name;
@@ -45,14 +57,6 @@ public class UnitQuery extends EntityQuery {
         this.key = key;
     }
 
-    public UnitType getType() {
-        return type;
-    }
-
-    public void setType(UnitType type) {
-        this.type = type;
-    }
-
     public UUID getAdminUnitId() {
         return adminUnitId;
     }
@@ -61,67 +65,75 @@ public class UnitQuery extends EntityQuery {
         this.adminUnitId = adminUnitId;
     }
 
-    public boolean isTbUnit() {
-        return tbUnit;
+    public Boolean getTbFacility() {
+        return tbFacility;
     }
 
-    public void setTbUnit(boolean tbUnit) {
-        this.tbUnit = tbUnit;
+    public void setTbFacility(Boolean tbFacility) {
+        this.tbFacility = tbFacility;
     }
 
-    public boolean isMdrUnit() {
-        return mdrUnit;
+    public Boolean getMdrFacility() {
+        return mdrFacility;
     }
 
-    public void setMdrUnit(boolean mdrUnit) {
-        this.mdrUnit = mdrUnit;
+    public void setMdrFacility(Boolean mdrFacility) {
+        this.mdrFacility = mdrFacility;
     }
 
-    public boolean isNtmUnit() {
-        return ntmUnit;
+    public Boolean getNtmFacility() {
+        return ntmFacility;
     }
 
-    public void setNtmUnit(boolean ntmUnit) {
-        this.ntmUnit = ntmUnit;
+    public void setNtmFacility(Boolean ntmFacility) {
+        this.ntmFacility = ntmFacility;
     }
 
-    public boolean isNotificationUnit() {
+    public Boolean getNotificationUnit() {
         return notificationUnit;
     }
 
-    public void setNotificationUnit(boolean notificationUnit) {
+    public void setNotificationUnit(Boolean notificationUnit) {
         this.notificationUnit = notificationUnit;
     }
 
-    public boolean isPerformCulture() {
+    public Boolean getPerformCulture() {
         return performCulture;
     }
 
-    public void setPerformCulture(boolean performCulture) {
+    public void setPerformCulture(Boolean performCulture) {
         this.performCulture = performCulture;
     }
 
-    public boolean isPerformMicroscopy() {
+    public Boolean getPerformMicroscopy() {
         return performMicroscopy;
     }
 
-    public void setPerformMicroscopy(boolean performMicroscopy) {
+    public void setPerformMicroscopy(Boolean performMicroscopy) {
         this.performMicroscopy = performMicroscopy;
     }
 
-    public boolean isPerformDst() {
+    public Boolean getPerformDst() {
         return performDst;
     }
 
-    public void setPerformDst(boolean performDst) {
+    public void setPerformDst(Boolean performDst) {
         this.performDst = performDst;
     }
 
-    public boolean isPerformXpert() {
+    public Boolean getPerformXpert() {
         return performXpert;
     }
 
-    public void setPerformXpert(boolean performXpert) {
+    public void setPerformXpert(Boolean performXpert) {
         this.performXpert = performXpert;
+    }
+
+    public boolean isAdminUnitChildren() {
+        return adminUnitChildren;
+    }
+
+    public void setAdminUnitChildren(boolean adminUnitChildren) {
+        this.adminUnitChildren = adminUnitChildren;
     }
 }

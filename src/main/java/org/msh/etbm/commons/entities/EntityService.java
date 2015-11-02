@@ -22,6 +22,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.Valid;
@@ -112,6 +113,13 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         return res;
     }
 
+    /**
+     * Raise entity not found exception passing the ID of the entity
+     * @param id
+     */
+    protected void raiseEntityNotFoundException(UUID id) {
+        throw new  EntityNotFoundException("Entity not found " + getEntityClass().getSimpleName() + " with ID = " + id);
+    }
 
     /**
      * Update the values of the entity
@@ -127,7 +135,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         E entity = (E)getCrudRepository().findOne(id);
 
         if (entity == null) {
-            throw new IllegalArgumentException("entity not found");
+            raiseEntityNotFoundException(id);
         }
 
         // get initial state
@@ -176,7 +184,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         R rep = getCrudRepository();
         E entity = (E)rep.findOne(id);
         if (entity == null) {
-            throw new IllegalArgumentException("Entity not found");
+            raiseEntityNotFoundException(id);
         }
 
         // create result to be sent back to the client
@@ -279,7 +287,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     public <K> K findOne(UUID id, Class<K> resultClass) {
         E ent = (E)getCrudRepository().findOne(id);
         if (ent == null) {
-            return null;
+            raiseEntityNotFoundException(id);
         }
 
         return mapper.map(ent, resultClass);

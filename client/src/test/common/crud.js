@@ -29,7 +29,7 @@ function CRUD(tbl) {
 			return Promise.all(lst);
 		}
 		else {
-			return agent.post('/api/tbl/' + tbl, req)
+			return agent.post('/api/tbl/' + tbl, req, prepareAgentOptions(opt))
 				.then(function(res) {
 					var data = res.body;
 					assert(data);
@@ -55,10 +55,14 @@ function CRUD(tbl) {
 	 * @param  {[type]} id [description]
 	 * @return {[type]}    [description]
 	 */
-	this.findOne = function(id) {
-		return agent.get('/api/tbl/' + tbl + '/' + id)
+	this.findOne = function(id, opt) {
+		return agent.get('/api/tbl/' + tbl + '/' + id, prepareAgentOptions(opt))
 			.then(function(res) {
 				var data = res.body;
+				if (opt && opt.expectNotFound) {
+					return;
+				}
+
 				assert(data);
 				assert(data.success);
 				assert(data.result);
@@ -97,11 +101,12 @@ function CRUD(tbl) {
 	 * @param  {[type]} id [description]
 	 * @return {[type]}    [description]
 	 */
-	this.delete = function(id) {
+	this.delete = function(id, opt) {
+		var self = this;
 		if (_.isArray(id)) {
 			var crud = this;
 			var lst = id.map(function(item) {
-				return crud.delete(item);
+				return crud.delete(item.id);
 			});
 			return Promise.all(lst);
 		}
@@ -109,12 +114,23 @@ function CRUD(tbl) {
 			if (_.isObject(id)) {
 				id = id.id;
 			}
-			return agent.delete('/api/tbl/' + tbl + '/' + id)
+
+			return agent.delete('/api/tbl/' + tbl + '/' + id, prepareAgentOptions(opt))
 				.then(function(res) {
 					var data = res.body;
+
+					if (opt && opt.skipValidation) {
+						return data;
+					}
 					assert(data);
 					assert(data.success);
 					assert(data.result);
+
+					// check if entity was really deleted?
+					if (opt && opt.testDeleted) {
+						return self.findOne(id, {expectNotFound: true});
+					}
+					return data.result;
 				});
 		}
 	};
@@ -134,4 +150,16 @@ function CRUD(tbl) {
 				return data;
 			});
 	};
+}
+
+function prepareAgentOptions(opt) {
+	if (!opt) {
+		return;
+	}
+
+	var res = {};
+	if (opt.expectNotFound) {
+		res.expect = 404;
+	}
+	return res;
 }
