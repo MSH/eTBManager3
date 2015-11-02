@@ -129,8 +129,7 @@ export class RouteView extends React.Component {
 			for (var i = 0; i < route.params.length; i++) {
 				// get the param name
 				var pname = route.params[i];
-				var pvalue = res[i + 1];
-				params[pname] = pvalue;
+				params[pname] = res[i + 1];
 			}
 			return params;
 		}
@@ -209,14 +208,13 @@ function createRouteTable(lst) {
 			}
 
 			// create route object
-			var route = {
-				pathExp: new RegExp(p),
-				path: r.path,
-				view: r.view,
-				params: params,
-				viewResolver: r.viewResolver
-			};
-			routes[r.path] = route;
+			routes[r.path] = {
+                pathExp: new RegExp(p),
+                path: r.path,
+                view: r.view,
+                params: params,
+                viewResolver: r.viewResolver
+            };
 		});
 	}
 

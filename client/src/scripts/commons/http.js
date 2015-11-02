@@ -7,6 +7,7 @@ export default {
 	/**
 	 * Create a request GET to the given URL
 	 * @param  {String} url The remote address
+     * @param  {function} callback called when server answers
 	 * @return {Request}    Request object
 	 */
 	get: function(url, callback) {

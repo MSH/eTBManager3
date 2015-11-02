@@ -33,6 +33,11 @@ public class UserSession {
      */
     private UserWorkspaceDTO userWorkspace;
 
+    /**
+     * If true, the current request is being executed under a declared command
+     */
+    private boolean commandExecuting;
+
 
     /**
      * Check if the user was properly authenticated
@@ -41,6 +46,7 @@ public class UserSession {
     public boolean isAuthenticated() {
         return userWorkspace != null;
     }
+
 
     /**
      * Return true if the given permission is granted to the user
@@ -78,5 +84,13 @@ public class UserSession {
 
     public void setUserWorkspace(UserWorkspaceDTO userWorkspace) {
         this.userWorkspace = userWorkspace;
+    }
+
+    public boolean isCommandExecuting() {
+        return commandExecuting;
+    }
+
+    public void setCommandExecuting(boolean commandExecuting) {
+        this.commandExecuting = commandExecuting;
     }
 }

@@ -20,7 +20,7 @@ var config = {
 
     // folder where messages_.json files will be created
     dest: path.join(__dirname, './')
-}
+};
 
 
 // get the list of all files that start with 'messages_'
@@ -89,7 +89,7 @@ var msgs;
                             reject(err);
                         }
                         else {
-                            console.log('* Generated ' + fdest)
+                            console.log('* Generated ' + fdest);
                             resolve();
                         }
                     });

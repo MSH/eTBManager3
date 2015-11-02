@@ -33,7 +33,7 @@ let form = {
             }
         }
     }
-}
+};
 
 
 export default class NewWorkspace extends React.Component {

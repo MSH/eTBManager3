@@ -18,7 +18,7 @@ let formModel = {
     pwd: {
         required: true
     }
-}
+};
 
 /**
  * Wellcome page - First page displayed under e-TB Manager first time execution

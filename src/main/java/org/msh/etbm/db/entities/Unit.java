@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.EntityState;
 import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.services.admin.units.UnitType;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -130,7 +131,7 @@ public abstract class Unit extends WorkspaceData implements EntityState {
         return name;
     }
 
-    public abstract String getTypeName();
+    public abstract UnitType getType();
 
     public String getName() {
         return name;

@@ -29,7 +29,6 @@
             if (vals.length === 2) {
                 return vals.pop().split(';').shift();
             }
-            return;
         },
         /**
          * Set a cookie value

@@ -40,7 +40,31 @@ public class CommandInterceptor {
      * @throws Throwable
      */
     @Around("execution(public * *(..)) && @annotation(org.msh.etbm.commons.commands.CommandLog)")
-    public Object aroundRun(ProceedingJoinPoint pjp) throws Throwable {
+    public Object aroundCommand(ProceedingJoinPoint pjp) throws Throwable {
+        //  check if the current request is already under execution of a nested command call
+        // command nesting is not supported, so if there is already a command being executed, just skip command log
+        // and execute method
+        if (userSession.isCommandExecuting()) {
+            return pjp.proceed();
+        }
+
+        // execute the command and avoid other commands of being logged in a single request
+        userSession.setCommandExecuting(true);
+        try {
+            return executeAndLog(pjp);
+        }
+        finally {
+            userSession.setCommandExecuting(false);
+        }
+    }
+
+    /**
+     * Execute a command and log its execution in the command history
+     * @param pjp
+     * @return
+     * @throws Throwable
+     */
+    protected Object executeAndLog(ProceedingJoinPoint pjp) throws Throwable {
         // try to get the command log annotation from the method
         MethodSignature signature = (MethodSignature)pjp.getSignature();
         Method method = signature.getMethod();

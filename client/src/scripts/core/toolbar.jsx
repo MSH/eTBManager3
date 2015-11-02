@@ -25,7 +25,7 @@ export default class Toolbar extends React.Component {
             <a>
                 <img src={'images/logo2.png'}></img>
             </a>
-        )
+        );
 
         var loggedin = this.props.session !== undefined;
 
