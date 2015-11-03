@@ -17,8 +17,8 @@ function CRUD(tbl) {
 
 	/**
 	 * Create a new entity
-	 * @param  {[type]} req [description]
-	 * @return {[type]}     [description]
+	 * @param  {object} req the request to create the entity
+	 * @return {object}     options on how to behave
 	 */
 	this.create = function(req, opt) {
 		if (_.isArray(req)) {
@@ -145,6 +145,10 @@ function CRUD(tbl) {
 			.then(function(res) {
 				var data = res.body;
 				assert(data);
+				if  (data.errors) {
+					console.log(data.errors);
+				}
+				assert(!data.errors);
 				assert(data.list);
 				assert(data.count);
 				return data;

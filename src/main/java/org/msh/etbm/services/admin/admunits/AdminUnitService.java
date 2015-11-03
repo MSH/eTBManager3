@@ -10,7 +10,6 @@ import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
-import org.msh.etbm.services.admin.units.data.UnitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +27,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
     private static final String QUERY_PROFILE_ITEM = "item";
     private static final String QUERY_PROFILE_DEFAULT = "default";
-    private static final String QUERY_PROFILE_EXT = "ext";
+    private static final String QUERY_PROFILE_DETAILED = "detailed";
 
     @PersistenceContext
     EntityManager entityManager;
@@ -56,7 +55,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
         // add profiles
         qry.addDefaultProfile(QUERY_PROFILE_DEFAULT, AdminUnitData.class);
-        qry.addProfile(QUERY_PROFILE_EXT, AdminUnitExData.class);
+        qry.addProfile(QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
         qry.addProfile(QUERY_PROFILE_ITEM, AdminUnitItemData.class);
 
         // add order by
@@ -98,16 +97,14 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             }
         }
 
-        QueryResult<AdminUnitData> res = qry.createQueryResult();
-
-        return res;
+        return qry.createQueryResult();
     }
 
     /**
      * This method is override because calling 'generateNewMethod' from prepareToSave, an entityManager.flush()
      * is called internally
-     * @param request
-     * @param entity
+     * @param request the request object, argument in the create or update method
+     * @param entity the entity to be filled with values in the request
      */
     @Override
     protected void mapRequest(Object request, AdministrativeUnit entity) {
@@ -162,8 +159,8 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
     /**
      * Check if administrative unit is unique
-     * @param au
-     * @return
+     * @param au the administrative unit to check if is unique
+     * @return true if there is no other administrative unit with the same name in the branch
      */
     protected boolean isUnique(AdministrativeUnit au) {
         String hql = "select count(*) from AdministrativeUnit " +

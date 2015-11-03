@@ -102,7 +102,7 @@ describe('admin-unit', function() {
  			.then(function() {
  				var req = {
  					ids: ids,
- 					profile: 'ext'
+ 					profile: 'detailed'
  				};
  				return crudAdminUnit.findMany(req);
  			})
@@ -214,7 +214,7 @@ describe('admin-unit', function() {
 				assert.equal(res.parentId, newparent.id);
 				assert.equal(res.parentName, newparent.name);
 
-				return crudAdminUnit.findMany({ids: ids, profile: 'ext'});
+				return crudAdminUnit.findMany({ids: ids, profile: 'detailed'});
 			})
 			.then(function(res) {
 				// check if codes are correctly adjusted
@@ -234,7 +234,7 @@ describe('admin-unit', function() {
 			})
 			.then(function() {
 				// return all items again
-				return crudAdminUnit.findMany({ids: ids, profile: 'ext'});
+				return crudAdminUnit.findMany({ids: ids, profile: 'detailed'});
 			})
 			.then(function(res) {
 				// check if codes are correctly adjusted
@@ -249,7 +249,7 @@ describe('admin-unit', function() {
 
 
 	it('# query roots', function() {
-		return crudAdminUnit.findMany({rootUnits: true, profile: 'ext' })
+		return crudAdminUnit.findMany({rootUnits: true, profile: 'detailed' })
 			.then(function(res) {
 				assert(res.count >= 3);
 				assert(res.list);
@@ -304,7 +304,7 @@ describe('admin-unit', function() {
 		// query all children of ROOT-2
 		var pid = model[1].data.id;
 
-		return crudAdminUnit.findMany({parentId: pid, includeChildren: true, profile: 'ext'})
+		return crudAdminUnit.findMany({parentId: pid, includeChildren: true, profile: 'detailed'})
 			.then(function(res) {
 				// including 12 cities and 2 municipalities for each city found
 				assert.equal(res.count, 12 * 3);
@@ -342,6 +342,62 @@ describe('admin-unit', function() {
 			assert.equal(res.count, 12);
 			assert.equal(res.list.length, 2);
 
+		});
+	});
+
+	/**
+	 * Execute tests to check if profile data are received accordingly
+	 */
+	it('# profiles', function() {
+		var qry = {
+			profile: 'item',
+			page: 0,
+			rpp: 5
+		};
+
+		return crudAdminUnit.findMany(qry)
+		.then(function(res) {
+			assert.equal(res.list.length, 5);
+			res.list.forEach(function(item) {
+				assert.equal(Object.keys(item).length, 2);
+				assert(item.id);
+				assert(item.name);
+			});
+
+			qry.profile = 'default';
+			return crudAdminUnit.findMany(qry);
+		})
+		.then(function(res) {
+			assert.equal(res.list.length, 5);
+			res.list.forEach(function(item) {
+				assert.equal(Object.keys(item).length, 6);
+				assert(item.id);
+				assert(item.name);
+				assert('parentId' in item);
+				assert('parentName' in item);
+				assert(item.csId);
+				assert(item.csName);
+			});
+
+			// test detailed profile
+			qry.profile = 'detailed';
+			qry.rpp = 2;
+			return crudAdminUnit.findMany(qry);
+		})
+		.then(function(res) {
+			assert.equal(res.list.length, 2);
+			res.list.forEach(function(item) {
+				assert.equal(Object.keys(item).length, 9);
+				assert(item.id);
+				assert(item.name);
+				assert('parentId' in item);
+				assert('parentName' in item);
+				assert(item.csId);
+				assert(item.csName);
+				assert('unitsCount' in item);
+				assert(item.code);
+				assert('customId' in item);
+			});
 		});
 	});
 });

@@ -2,6 +2,7 @@ package org.msh.etbm.commons.entities.query;
 
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.services.usersession.UserSession;
 
@@ -222,7 +223,6 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      * @return
      */
     protected Query createQuery(String hql) {
-        System.out.println(hql);
         Query qry = entityManager.createQuery(hql);
 
         // has parameters ?
@@ -368,6 +368,10 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public QueryResult createQueryResult() {
         Class dataClass = profile != null? profiles.get(profile): null;
+
+        if (profile != null && dataClass == null) {
+            throw new EntityValidationException("profile", "Invalid profile");
+        }
 
         return createQueryResult(dataClass);
     }
