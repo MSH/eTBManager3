@@ -7,6 +7,13 @@ import java.util.List;
  * Created by rmemoria on 28/10/15.
  */
 public interface QueryBuilder<E> {
+
+    /**
+     * Select the join HQL instruction to be added after the HQL FROM clause
+     * @param hql HQL join instruction
+     */
+    void setHqlJoin(String hql);
+
     /**
      * Set a query defined parameter. A parameter is defined in a restriction, for example
      * @param paramName the name of the parameter

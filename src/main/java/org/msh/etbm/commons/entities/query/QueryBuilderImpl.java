@@ -35,6 +35,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     private Map<String, Object> parameters;
 
     /**
+     * The HQL join to be added after the FROM clause when selecting entities
+     */
+    private String hqlJoin;
+
+    /**
      * List of restrictions to be applied in the query
      */
     private List<String> restrictions;
@@ -85,23 +90,40 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      */
     private Integer recordsPerPage;
 
+    /**
+     * The path used in the from clause
+     */
+    private String entityPath;
+
+
     private EntityManager entityManager;
 
     private UserSession userSession;
 
     private DozerBeanMapper mapper;
 
-    public QueryBuilderImpl(Class entityClass) {
+    /**
+     * Default constructor
+     * @param entityClass the entity class to be handled
+     * @param entityPath the path used in the FROM clause (optional, but required in join operation)
+     */
+    public QueryBuilderImpl(Class entityClass, String entityPath) {
         this.entityClass = entityClass;
+        this.entityPath = entityPath;
     }
 
     /**
-     * Create HQL instruction to return number of entities from query
-     * @return
+     * Create HQL instruction to count number of entities from query
+     * @return HQL instruction to count number of entities
      */
     public String createHQLCount() {
         StringBuilder s = new StringBuilder("select count(*) ");
-        s.append("from " + entityClass.getSimpleName());
+        s.append("from ");
+        s.append(entityClass.getSimpleName());
+
+        if (entityPath != null) {
+            s.append(" " + entityPath);
+        }
         s.append('\n');
 
         addHQLRestrictions(s);
@@ -111,11 +133,20 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Create HQL instruction to query entities
-     * @return
+     * @return HQL instruction
      */
     public String createHQL() {
         StringBuilder s = new StringBuilder("from " + entityClass.getSimpleName());
+        if (entityPath != null) {
+            s.append(' ');
+            s.append(entityPath);
+        }
         s.append('\n');
+
+        if (hqlJoin != null) {
+            s.append(hqlJoin);
+            s.append('\n');
+        }
 
         addHQLRestrictions(s);
 
@@ -162,7 +193,12 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     protected void addHQLRestrictions(StringBuilder hql) {
         boolean bWhere = false;
         if (WorkspaceData.class.isAssignableFrom(entityClass) && userSession.getUserWorkspace() != null) {
-            hql.append("where workspace.id = :wsid\n");
+            hql.append("where ");
+            if (entityPath != null) {
+                hql.append(entityPath);
+                hql.append('.');
+            }
+            hql.append("workspace.id = :wsid\n");
             setParameter("wsid", userSession.getUserWorkspace().getWorkspace().getId());
             bWhere = true;
         }
@@ -186,6 +222,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      * @return
      */
     protected Query createQuery(String hql) {
+        System.out.println(hql);
         Query qry = entityManager.createQuery(hql);
 
         // has parameters ?
@@ -197,6 +234,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         }
 
         return qry;
+    }
+
+    @Override
+    public void setHqlJoin(String hql) {
+        this.hqlJoin = hql;
     }
 
     /**
@@ -229,7 +271,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         List<String> params = new ArrayList<>();
         while (matcher.find()) {
             String p = matcher.group();
-            params.add(p);
+            params.add(p.substring(1));
         }
 
         // check if number of arguments is less than number of parameters
@@ -241,7 +283,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         for (int i = 0; i < params.size(); i++) {
             Object val = args[i];
             // null values or empty strings are discharged
-            if (val == null || (val instanceof String && (!((String) val).isEmpty()))) {
+            if (val == null || (val instanceof String && ((String) val).isEmpty())) {
                 return;
             }
         }
@@ -260,8 +302,9 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void addLikeRestriction(String field, String value) {
         if (value != null && !value.isEmpty()) {
-            addRestriction(field + " like :" + field);
-            setParameter(field, '%' + value + '%');
+            String p = field.replace(".", "");
+            addRestriction(field + " like :" + p);
+            setParameter(p, '%' + value + '%');
         }
     }
 
@@ -430,5 +473,13 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void setProfile(String profile) {
         this.profile = profile;
+    }
+
+    public String getEntityPath() {
+        return entityPath;
+    }
+
+    public void setEntityPath(String entityPath) {
+        this.entityPath = entityPath;
     }
 }

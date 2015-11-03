@@ -19,7 +19,7 @@ public class UnitQuery extends EntityQuery {
     /**
      * If true and adminiUnitId is not null, it will also include all direct and indirect child units
      */
-    private boolean adminUnitChildren;
+    private boolean includeSubunits;
 
     /** used when filtering TB units **/
     private Boolean tbFacility;
@@ -129,11 +129,11 @@ public class UnitQuery extends EntityQuery {
         this.performXpert = performXpert;
     }
 
-    public boolean isAdminUnitChildren() {
-        return adminUnitChildren;
+    public boolean isIncludeSubunits() {
+        return includeSubunits;
     }
 
-    public void setAdminUnitChildren(boolean adminUnitChildren) {
-        this.adminUnitChildren = adminUnitChildren;
+    public void setIncludeSubunits(boolean includeSubunits) {
+        this.includeSubunits = includeSubunits;
     }
 }

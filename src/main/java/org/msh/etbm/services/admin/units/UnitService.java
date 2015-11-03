@@ -12,6 +12,8 @@ import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.db.repositories.UnitRepository;
 import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
+import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    @PersistenceContext
+    @Autowired
     AdminUnitRepository adminUnitRepository;
 
     /**
@@ -39,6 +41,7 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
      * @return list of units
      */
     public QueryResult<UnitItemData> findMany(UnitQuery qry) {
+        // determine the class to be used in the query
         Class clazz;
         if (qry.getType() != null) {
             clazz = qry.getType() == UnitType.TBUNIT? Tbunit.class : Laboratory.class;
@@ -46,29 +49,36 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
         else {
             clazz = Unit.class;
         }
-        QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz);
+        QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
 
-        builder.addDefaultOrderByMap("name", "name");
-        builder.addDefaultOrderByMap("adminUnit", "adminUnit.name");
+        // add the available profiles
+        builder.addProfile("item", UnitItemData.class);
+        builder.addDefaultProfile("default", UnitData.class);
+        builder.addProfile("detailed", UnitDetailedData.class);
 
-        builder.addLikeRestriction("name", qry.getKey());
+        // add the order by keys
+        builder.addDefaultOrderByMap("name", "a.name");
+        builder.addOrderByMap("adminUnit", "a.adminUnit.name");
 
-        builder.addRestriction("name = :name", qry.getName());
+        // add the restrictions
+        builder.addLikeRestriction("a.name", qry.getKey());
+
+        builder.addRestriction("a.name = :name", qry.getName());
 
         // restrictions administrative unit
         if (qry.getAdminUnitId() != null) {
             // include children?
-            if (qry.isAdminUnitChildren()) {
+            if (qry.isIncludeSubunits()) {
                 AdministrativeUnit au = adminUnitRepository.findOne(qry.getAdminUnitId());
                 if (au == null || !au.getWorkspace().getId().equals(getWorkspaceId())) {
                     throw new EntityValidationException("adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
-                builder.addRestriction("adminUnit.code like :code", au.getCode() + "%");
+                builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
             }
             else {
                 // search for units directly registered in this administrative unit
-                builder.addRestriction("address.adminUnit.id = :auid", qry.getAdminUnitId());
+                builder.addRestriction("a.address.adminUnit.id = :auid", qry.getAdminUnitId());
             }
         }
 
@@ -86,6 +96,7 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
 
         return builder.createQueryResult(UnitItemData.class);
     }
+
 
     @Override
     protected Unit createEntityInstance(Object req) {

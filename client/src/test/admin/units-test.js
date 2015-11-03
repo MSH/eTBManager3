@@ -8,7 +8,7 @@ var assert = require('assert'),
 
 
 describe('units', function() {
-//	this.timeout(500000);
+	this.timeout(500000);
 
 	// the unit being tested
 	var unit;
@@ -50,9 +50,9 @@ describe('units', function() {
 				name: u('Laboratory 1'),
 				active: true,
 				receiveFrommanufacturer: true,
-				performCulture: true,
-				performDst: false,
-				performXpert: true,
+				performCulture: i <= 8,
+				performDst: i <=3,
+				performXpert: i >= 3,
 				performMicroscopy: true,
 				address: {
 					address: 'Street test',
@@ -78,11 +78,11 @@ describe('units', function() {
 						name: u('Pharmacy'),
 						active: true,
 						receiveFrommanufacturer: true,
-						tbFacility: false,
-						mdrFacility: false,
-						ntmFacility: false,
-						notificationUnit: false,
-						patientDispensing: false,
+						tbFacility: i <= 7,
+						mdrFacility: i >=7,
+						ntmFacility: i <= 2,
+						notificationUnit: i <= 5,
+						patientDispensing: i >= 5,
 						numDaysOrder: 90,
 						address: {
 							address: 'Street test',
@@ -135,6 +135,7 @@ describe('units', function() {
 			});
 	});
 
+
 	/**
 	 * Delete all information created
 	 */
@@ -142,6 +143,19 @@ describe('units', function() {
 		if (unit) {
 			return crud.delete(unit.id);
 		}
+	});
+
+	it('# query all from admin unit', function() {
+		var qry = {
+			adminUnitId: admunits[0].data.id,
+			includeSubunits: true
+		};
+
+		return crud.findMany(qry)
+		.then(function(res) {
+			// 1 Pharmacy + 10 health facilities + 10 laboratories
+			assert.equal(res.count, 21);
+		});
 	});
 
 	// it('# find many', function() {

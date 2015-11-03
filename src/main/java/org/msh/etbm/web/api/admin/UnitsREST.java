@@ -32,12 +32,11 @@ public class UnitsREST {
     /**
      * Query units (labs or TB units) based on the request query
      * @param qry search criterias to query the database
-     * @param profile identifies the kind of information to be returned by the query
-     * @return
+     * @return lisat of units
      */
-    @RequestMapping(value = "/unit/query/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/unit/query", method = RequestMethod.POST)
     @Authenticated
-    public QueryResult queryUnits(@Valid @RequestBody UnitQuery qry, @RequestParam("p") String profile) {
+    public QueryResult queryUnits(@Valid @RequestBody UnitQuery qry) {
         return unitService.findMany(qry);
     }
 

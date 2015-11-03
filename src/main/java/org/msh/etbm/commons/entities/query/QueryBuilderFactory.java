@@ -30,11 +30,27 @@ public class QueryBuilderFactory {
      * @return instance of the {@link QueryBuilder}
      */
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass) {
-        QueryBuilderImpl builder = new QueryBuilderImpl(entityClass);
+        QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, null);
         builder.setEntityManager(entityManager);
         builder.setUserSession(userSession);
         builder.setMapper(mapper);
 
         return builder;
     }
+
+
+    /**
+     * Create a query builder
+     * @param entityClass the entity class to be queried
+     * @return instance of the {@link QueryBuilder}
+     */
+    public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass, String path) {
+        QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, path);
+        builder.setEntityManager(entityManager);
+        builder.setUserSession(userSession);
+        builder.setMapper(mapper);
+
+        return builder;
+    }
+
 }

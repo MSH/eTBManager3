@@ -66,7 +66,7 @@ var model;
 describe('admin-unit', function() {
 
 
-	this.timeout(5000);
+	this.timeout(50000);
 
 
 	/**

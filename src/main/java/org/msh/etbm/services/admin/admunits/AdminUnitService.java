@@ -45,28 +45,32 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
      * @return the result list
      */
     public QueryResult<AdminUnitData> findMany(AdminUnitQuery q) {
-        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class);
+        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class, "a");
+
+        if (!QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
+            qry.setHqlJoin("join fetch a.countryStructure cs left join fetch a.parent p");
+        }
+        else {
+            qry.setHqlJoin("join fetch a.countryStructure cs");
+        }
 
         // add profiles
-        qry.addDefaultProfile(QUERY_PROFILE_DEFAULT, UnitData.class);
+        qry.addDefaultProfile(QUERY_PROFILE_DEFAULT, AdminUnitData.class);
         qry.addProfile(QUERY_PROFILE_EXT, AdminUnitExData.class);
         qry.addProfile(QUERY_PROFILE_ITEM, AdminUnitItemData.class);
 
         // add order by
-        qry.addDefaultOrderByMap("name", "name");
-        qry.addOrderByMap("code", "code");
-        qry.addOrderByMap("parent", "parent.id");
+        qry.addDefaultOrderByMap("name", "a.name");
+        qry.addOrderByMap("code", "a.code");
+        qry.addOrderByMap("parent", "a.parent.id");
 
         qry.initialize(q);
 
         // filter by the key
-        qry.addLikeRestriction("name", q.getKey());
+        qry.addLikeRestriction("a.name", q.getKey());
 
         // filter by the name
-        if (q.getName() != null) {
-            qry.addRestriction("name = :name");
-            qry.setParameter("name", q.getName());
-        }
+        qry.addRestriction("a.name = :name", q.getName());
 
         // criteria for selection based on parent
         // parent was defined ?
@@ -79,20 +83,18 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
                     throw new EntityValidationException("Invalid parent id");
                 }
                 // get all sub units using the parent code
-                qry.addRestriction("code like :code");
-                qry.setParameter("code", parent.getCode() + "%");
+                qry.addRestriction("a.code like :code", parent.getCode() + "%");
+
                 // but exclude the own parent
-                qry.addRestriction("id <> :parentid");
-                qry.setParameter("parentid", q.getParentId());
+                qry.addRestriction("a.id <> :parentid", q.getParentId());
             }
             else {
-                qry.addRestriction("parent.id = :pid");
-                qry.setParameter("pid", q.getParentId());
+                qry.addRestriction("a.parent.id = :pid", q.getParentId());
             }
         }
         else {
             if (q.isRootUnits()) {
-                qry.addRestriction("parent.id is null");
+                qry.addRestriction("a.parent.id is null");
             }
         }
 
