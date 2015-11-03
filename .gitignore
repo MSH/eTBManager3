@@ -117,3 +117,9 @@ src/main/client/dist
 
 # Created by OSX
 .DS_Store
+
+
+# Created by Ubuntu
+maven*.deb
+maven*.deb.1
+
