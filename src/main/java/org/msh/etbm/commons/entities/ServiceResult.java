@@ -14,7 +14,6 @@ public class ServiceResult {
     private Class entityClass;
     private Diffs logDiffs;
     private ObjectValues logValues;
-    private MessageList validationErrors;
 
     public UUID getId() {
         return id;
@@ -54,13 +53,5 @@ public class ServiceResult {
 
     public void setLogValues(ObjectValues logValues) {
         this.logValues = logValues;
-    }
-
-    public MessageList getValidationErrors() {
-        return validationErrors;
-    }
-
-    public void setValidationErrors(MessageList validationErrors) {
-        this.validationErrors = validationErrors;
     }
 }

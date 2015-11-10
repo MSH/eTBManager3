@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.admunits;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.impl.ObjectUtils;
@@ -12,6 +13,7 @@ import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -135,14 +137,14 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 
 
     @Override
-    protected void prepareToSave(AdministrativeUnit entity, MessageList errors) throws EntityValidationException {
+    protected void prepareToSave(AdministrativeUnit entity, BindingResult errors) throws EntityValidationException {
         super.prepareToSave(entity, errors);
-        if (errors.size() > 0) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (entity.getCountryStructure() == null) {
-            errors.addRequired("csId");
+            errors.rejectValue("csId", ErrorMessages.REQUIRED);
             return;
         }
 
@@ -153,7 +155,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
 //        checkCode(entity);
 
         if (!isUnique(entity)) {
-            errors.addNotUnique("name");
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
     }
 

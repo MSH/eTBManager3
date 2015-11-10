@@ -12,11 +12,11 @@ public interface TypedUnit {
      * Return the unit type (laboratory or Tbunit)
      * @return
      */
-    UnitType getType();
+    UnitType getUnitType();
 
     /**
      * Set the type of unit
      * @param type
      */
-    void setType(UnitType type);
+    void setUnitType(UnitType type);
 }

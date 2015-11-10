@@ -15,6 +15,8 @@ describe('units', function() {
 
 	var	admunits;
 
+	var model;
+
 
 	/**
 	 * Create the model
@@ -22,7 +24,7 @@ describe('units', function() {
 	it('# create', function() {
 		admunits = require('./adminunit-test').model;
 
-		var model = exports.model = [
+		model = exports.model = [
 			// PHARMACY. The other units will be created automatically
 			{
 				type: 'TBUNIT',
@@ -158,7 +160,76 @@ describe('units', function() {
 		});
 	});
 
-	// it('# find many', function() {
-	// 	return crud.findManu({})
-	// })
+
+	/**
+	 * Check different profile data
+	 */
+	it('# profiles', function() {
+		var qry = {
+			profile: 'item',
+			rpp: 2,
+			page: 0
+		};
+
+		return crud.findMany(qry)
+		.then(function(res) {
+			assert.equal(res.list.length, 2);
+			res.list.forEach(function(item) {
+				assert.equal(Object.keys(item).length, 3);
+				assert(item.type);
+				assert(item.id);
+				assert(item.name);
+			});
+
+			qry.profile = 'default';
+			return crud.findMany(qry);
+		})
+		.then(function(res) {
+			// check default return
+			assert.equal(res.list.length, 2);
+			res.list.forEach(function(item) {
+				assert.equal(Object.keys(item).length, 6);
+				assert(item.type);
+				assert(item.id);
+				assert(item.name);
+				assert('adminUnitId' in item);
+				assert('adminUnitName' in item);
+			});
+
+			qry.profile = 'detailed';
+			qry.type = 'LAB';
+			return crud.findMany(qry);
+		})
+		.then(function(res) {
+			// check default return
+			assert.equal(res.list.length, 2);
+			res.list.forEach(function(item) {
+				assert(item.type);
+				assert(item.id);
+				assert(item.name);
+				assert('customId' in item);
+				assert('active' in item);
+				assert(item.address);
+				assert(item.address.adminUnitId);
+				assert(item.address.adminUnitName);
+				assert(item.shipAddress);
+				assert('receiveFromManufacturer' in item);
+				assert('performCulture' in item);
+				assert('performMicroscopy' in item);
+				assert('performDst' in item);
+				assert('performXpert' in item);
+			});
+		});
+	});
+
+	 // disable units
+	 it('# Test disabled', function() {
+	 	 var unit = model[1];
+
+	 	 return crud.update(unit.id, { name: unit.name + ' v1'})
+         .then(res => {
+                 assert(res.id);
+                 assert.equal(res.id, unit.id)
+             });
+	 });
 });

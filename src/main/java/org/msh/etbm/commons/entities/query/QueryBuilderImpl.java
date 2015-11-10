@@ -96,6 +96,10 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      */
     private String entityPath;
 
+    /**
+     * If true, just count operation will be performed
+     */
+    private boolean countOnly;
 
     private EntityManager entityManager;
 
@@ -355,13 +359,18 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         QueryResult res = new QueryResult();
 
         res.setCount(getCount());
-        List<E> lst = getResultList();
-        //List lst2 = new ArrayList<>();
 
-        final Class dataClass = destClass;
-        List lst2 = Lists.transform(lst, item -> mapper.map(item, dataClass));
+        // check if just counting is to be performed, or list too
+        if (!this.countOnly) {
+            // execute the query
+            List<E> lst = getResultList();
 
-        res.setList(lst2);
+            final Class dataClass = destClass;
+            List lst2 = Lists.transform(lst, item -> mapper.map(item, dataClass));
+
+            res.setList(lst2);
+        }
+
         return res;
     }
 
@@ -393,6 +402,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.recordsPerPage = qry.getRecordsPerPage();
         this.orderByKey = qry.getOrderBy();
         this.orderByDescending = qry.isOrderByDescending();
+        this.countOnly = qry.isCountOnly();
 
         // an ID was set in the search query ?
         if (qry.getId() != null) {

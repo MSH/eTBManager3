@@ -1,26 +1,23 @@
-package org.msh.etbm;
+package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.db.Address;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
-import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
 import org.msh.etbm.services.admin.units.UnitRequest;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.*;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 9/5/15.
@@ -38,8 +35,11 @@ public class TestRest {
     @Resource
     MessageSource messageSource;
 
-    @Resource
+    @Autowired
     DozerBeanMapper mapper;
+
+    @Autowired
+    Validator validator;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -74,8 +74,51 @@ public class TestRest {
         System.out.println(data);
 
         UnitRequest req = new UnitRequest();
-        req.setType(UnitType.LAB);
+        req.setUnitType(UnitType.LAB);
         Unit unit = mapper.map(req, Unit.class);
         return unit.getClass().getName();
+    }
+
+    @RequestMapping(value = "/map", method = RequestMethod.POST)
+    public StandardResult mapTest(@RequestBody Map<String, Object> map) {
+        for (String key: map.keySet()) {
+            Object val = map.get(key);
+            System.out.println(key + " = " + val);
+        }
+        return new StandardResult("ok", null, true);
+    }
+
+    @RequestMapping("/optionaltest")
+    public StandardResult optionalTest(@RequestBody DataRequest data, BindingResult bindingResult) {
+        System.out.println("ERRORS = " + bindingResult.hasErrors());
+
+        // recover the entity
+        DataEntity ent = new DataEntity();
+        ent.setName("Karla");
+        ent.setAge(33);
+        Address addr = new Address();
+        addr.setAddress("R. Tonelero");
+        addr.setComplement("Copacabana");
+        ent.setAddress(addr);
+
+        // map it to a new request
+        DataRequest req2 = mapper.map(ent, DataRequest.class);
+
+        // copy request data to req 2
+        mapper.map(data, req2);
+
+        // validate request 2 containing all merged data
+        validator.validate(req2, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            for (FieldError err: bindingResult.getFieldErrors()) {
+                System.out.println(err);
+            }
+            return new StandardResult(false, null, false);
+        }
+
+
+        mapper.map(data, ent);
+        return new StandardResult(ent, null, true);
     }
 }

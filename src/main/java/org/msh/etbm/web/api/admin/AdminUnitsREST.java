@@ -10,6 +10,7 @@ import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -37,19 +38,19 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitRequest req)  throws BindException {
         ServiceResult res = adminUnitService.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitRequest req) {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitRequest req) throws BindException {
         ServiceResult res = adminUnitService.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
         ServiceResult res = adminUnitService.delete(id);
         return new StandardResult(res);
     }

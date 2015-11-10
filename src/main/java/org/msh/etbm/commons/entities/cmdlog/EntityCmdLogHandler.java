@@ -25,9 +25,11 @@ public class EntityCmdLogHandler implements CommandLogHandler {
             return;
         }
 
+        String cmd = in.getType();
+
         // there were validation errors ?
         ServiceResult result = (ServiceResult)response;
-        if (result.getValidationErrors().size() > 0 || result.getLogDiffs() == null || result.getLogValues() == null) {
+        if (!DELETE.equals(cmd) && (result.getLogDiffs() == null || result.getLogValues() == null) ){
             in.cancelLog();
             return;
         }
@@ -35,7 +37,6 @@ public class EntityCmdLogHandler implements CommandLogHandler {
         Class clazz = result.getEntityClass();
         String name = clazz.getSimpleName().toLowerCase();
 
-        String cmd = in.getType();
         in.setType(name + "." + in.getType());
         in.setEntityId(result.getId());
         in.setEntityName(result.getEntityName());

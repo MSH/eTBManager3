@@ -36,11 +36,8 @@ public class StandardResult {
     }
 
     public StandardResult(ServiceResult res) {
-        this.success = res.getValidationErrors().size() == 0;
+        this.success = true;
         this.result = res.getId();
-        if (!this.success) {
-            this.errors = res.getValidationErrors().getMessages();
-        }
     }
 
     public StandardResult(Object res, List<Message> errors, boolean success) {

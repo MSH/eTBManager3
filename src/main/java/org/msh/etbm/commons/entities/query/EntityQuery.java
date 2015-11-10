@@ -50,6 +50,11 @@ public class EntityQuery {
     private List<UUID> ids;
 
 
+    /**
+     * if true, just the counting will be performed, and no list will be returned
+     */
+    private boolean countOnly;
+
     public Integer getPage() {
         return page;
     }
@@ -106,4 +111,11 @@ public class EntityQuery {
         this.ids = ids;
     }
 
+    public boolean isCountOnly() {
+        return countOnly;
+    }
+
+    public void setCountOnly(boolean countOnly) {
+        this.countOnly = countOnly;
+    }
 }

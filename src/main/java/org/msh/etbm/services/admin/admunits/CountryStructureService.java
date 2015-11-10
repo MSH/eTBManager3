@@ -11,6 +11,7 @@ import org.msh.etbm.db.repositories.CountryStructureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 
 /**
@@ -25,16 +26,16 @@ public class CountryStructureService extends EntityService<CountryStructure, Cou
 
 
     @Override
-    protected void prepareToSave(CountryStructure entity, MessageList msgs) throws EntityValidationException {
-        super.prepareToSave(entity, msgs);
+    protected void prepareToSave(CountryStructure entity, BindingResult bindingResult) throws EntityValidationException {
+        super.prepareToSave(entity, bindingResult);
 
         // there are error messages ?
-        if (msgs.size() > 0) {
+        if (bindingResult.hasErrors()) {
             return;
         }
 
         if (!checkUnique(entity, "name")) {
-            msgs.addNotUnique("name");
+            bindingResult.rejectValue("name", "validation.duplicatedname");
         }
     }
 

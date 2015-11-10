@@ -20,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -59,6 +63,9 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    Validator validator;
+
     /**
      * The crud repository reference
      */
@@ -74,44 +81,99 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     private Class<E> entityClass;
 
-
     /**
-     * Create a new entity based on the given values
+     * Create a new entity based on the given request object. The request object depends on the implementation
+     * and contains the values to create a new entity
      * @param req list of all values in the format field x value
-     * @return the primary key generated for the entity
+     * @return service result containing information about the new entity generated
      */
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
-    public ServiceResult create(@Valid @NotNull Object req) {
+    public ServiceResult create(@Valid @NotNull Object req) throws BindException {
+        // create a new instance of the entity
         E entity = createEntityInstance(req);
 
+        // set values from request to entity object (must ignore null values)
         mapRequest(req, entity);
 
-        // generate the result object to be sent to the client
-        ServiceResult res = createResult(entity);
+        BindingResult bindingResult = createBindingResult(entity);
 
-        MessageList msgs = res.getValidationErrors();
+        // prepare entity to be saved
+        prepareToSave(entity, bindingResult);
 
-        try {
-            // prepare entity to be saved
-            prepareToSave(entity, msgs);
-        } catch (EntityValidationException e) {
-            msgs.add(e.getField(), e.getMessage());
+        // validation errors?
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
         }
 
-        // any error during preparation ?
-        if (msgs.size() > 0) {
-            return res;
-        }
-
-        // save the entity
         saveEntity(entity);
+
+        // create the result of the service
+        ServiceResult res = createResult(entity);
         res.setId( entity.getId() );
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
         return res;
     }
+
+    /**
+     * Validate the entity
+     * @param entity the entity to be validated
+     * @return instance of BindingResult to receive the validation errors;
+     */
+    private void validateEntity(E entity, BindingResult bindingResult) {
+        validator.validate(entity, bindingResult);
+    }
+
+
+    /**
+     * Create a binding result to store validation error messages
+     * @param entity the entity assgined to the binding result
+     * @return instance of {@link BindingResult}
+     */
+    protected BindingResult createBindingResult(E entity) {
+        return new BeanPropertyBindingResult(entity, getEntityClass().getSimpleName());
+    }
+
+
+    /**
+     * Create a new entity based on the given values
+     * @param req list of all values in the format field x value
+     * @return the primary key generated for the entity
+     */
+//    @Transactional
+//    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
+//    public ServiceResult create(@Valid @NotNull Object req) {
+//        E entity = createEntityInstance(req);
+//
+//        mapRequest(req, entity);
+//
+//        // generate the result object to be sent to the client
+//        ServiceResult res = createResult(entity);
+//
+//        MessageList msgs = res.getValidationErrors();
+//
+//        try {
+//            // prepare entity to be saved
+//            prepareToSave(entity, msgs);
+//        } catch (EntityValidationException e) {
+//            msgs.add(e.getField(), e.getMessage());
+//        }
+//
+//        // any error during preparation ?
+//        if (msgs.size() > 0) {
+//            return res;
+//        }
+//
+//        // save the entity
+//        saveEntity(entity);
+//        res.setId( entity.getId() );
+//
+//        res.setLogValues(createValuesToLog(entity, Operation.NEW));
+//
+//        return res;
+//    }
 
     /**
      * Raise entity not found exception passing the ID of the entity
@@ -129,7 +191,53 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.UPDATE, handler = EntityCmdLogHandler.class)
-    public ServiceResult update(UUID id, Object req) {
+    public ServiceResult update(UUID id, Object req) throws BindException {
+        R rep = getCrudRepository();
+
+        E entity = (E)getCrudRepository().findOne(id);
+
+        if (entity == null) {
+            raiseEntityNotFoundException(id);
+        }
+
+        // get initial state
+        ObjectValues prevVals = createValuesToLog(entity, Operation.EDIT);
+
+        // set the values to the entity
+        mapRequest(req, entity);
+
+        // create diff list
+        ObjectValues newVals = createValuesToLog(entity, Operation.EDIT);
+        Diffs diffs = createDiffs(prevVals, newVals);
+
+        // is there anything to save?
+        if (diffs.getValues().size() == 0) {
+            return createResult(entity);
+        }
+
+        BindingResult bindingResult = createBindingResult(entity);
+
+        // prepare object to save
+        prepareToSave(entity, bindingResult);
+
+        // validate before saving it
+        validateEntity(entity, bindingResult);
+
+        // validation errors?
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+        }
+
+        // save the entity
+        saveEntity(entity);
+
+        // create result object
+        ServiceResult res = createResult(entity);
+        // generate the result
+        res.setLogDiffs(diffs);
+
+        return res;
+/*
         R rep = getCrudRepository();
 
         E entity = (E)getCrudRepository().findOne(id);
@@ -176,11 +284,12 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
         res.setLogDiffs(diffs);
 
         return res;
+         */
     }
 
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
-    public ServiceResult delete(UUID id) {
+    public ServiceResult delete(UUID id) throws BindException {
         R rep = getCrudRepository();
         E entity = (E)rep.findOne(id);
         if (entity == null) {
@@ -189,18 +298,11 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // create result to be sent back to the client
         ServiceResult res = createResult(entity);
-        MessageList msgs = res.getValidationErrors();
+//        MessageList msgs = res.getValidationErrors();
 
-        try {
-            // prepare entity to be deleted
-            prepareToDelete(entity, msgs);
-        } catch (EntityValidationException e) {
-            msgs.add(e.getField(), e.getMessage());
-        }
-
-        if (msgs.size() > 0) {
-            return res;
-        }
+        BindingResult bindingResult = createBindingResult(entity);
+        // prepare entity to be deleted
+        prepareToDelete(entity, bindingResult);
 
         // delete the entity
         deleteEntity(entity);
@@ -253,19 +355,19 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     /**
      * Prepare entity for saving, checking its workspace and if the entity is unique
      * @param entity
-     * @param msgs the list of possible validation errors along the preparation
+     * @param bindingResult the list of possible validation errors along the preparation
      */
-    protected void prepareToSave(E entity, MessageList msgs) throws EntityValidationException {
-        checkWorkspace(entity);
+    protected void prepareToSave(E entity, BindingResult bindingResult) {
+        checkWorkspace(entity, bindingResult);
+        validateEntity(entity, bindingResult);
     }
 
     /**
      * Make any preparation before deleting the entity
      * @param entity the entity to be deleted
-     * @param msgs the list of possible validation errors along the preparation
      */
-    protected void prepareToDelete(E entity, MessageList msgs) throws EntityValidationException {
-        checkWorkspace(entity);
+    protected void prepareToDelete(E entity, BindingResult bindingResult) {
+        checkWorkspace(entity, bindingResult);
     }
 
     /**
@@ -330,9 +432,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
             res.setEntityName(entity.toString());
         }
 
-        MessageList lst = createMessageList();
-        res.setValidationErrors(lst);
-
         return res;
     }
 
@@ -377,8 +476,10 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * user is set. If the workspace is set and it is different of the current user workspace, an exception
      * is thrown indicating it is an invalid workspace
      * @param entity
+     * @param bindingResult
      */
-    protected void checkWorkspace(E entity) {
+    protected void checkWorkspace(E entity, BindingResult bindingResult) {
+//        E entity = (E)bindingResult.getTarget();
         if (!(entity instanceof WorkspaceData)) {
             return;
         }
@@ -388,7 +489,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         if (wsdata.getWorkspace() != null) {
             if (!wsdata.getWorkspace().getId().equals(wsid)) {
-                throw new IllegalArgumentException("Invalid workspace in request");
+                bindingResult.rejectValue("id", "Invalid workspace");
             }
         }
         else {

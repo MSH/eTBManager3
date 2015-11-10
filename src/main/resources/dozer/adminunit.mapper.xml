@@ -42,7 +42,7 @@
     </mapping>
 
 
-    <mapping>
+    <mapping map-null="false">
         <class-a>org.msh.etbm.services.admin.admunits.AdminUnitRequest</class-a>
         <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
 
@@ -57,4 +57,9 @@
         </field>
     </mapping>
 
+
+    <mapping map-null="false">
+        <class-a>org.msh.etbm.test.DataRequest</class-a>
+        <class-b>org.msh.etbm.test.DataEntity</class-b>
+    </mapping>
 </mappings>

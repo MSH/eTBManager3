@@ -5,9 +5,18 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
     <configuration>
+
+        <custom-converters>
+            <converter type="org.msh.etbm.test.DozerOptionalConverter">
+                <class-a>java.util.Optional</class-a>
+                <class-b>java.lang.Object</class-b>
+            </converter>
+        </custom-converters>
+
         <copy-by-references>
             <copy-by-reference>java.util.UUID</copy-by-reference>
         </copy-by-references>
+
     </configuration>
 
 </mappings>
