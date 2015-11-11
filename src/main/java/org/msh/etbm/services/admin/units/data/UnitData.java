@@ -8,6 +8,7 @@ import java.util.UUID;
 public class UnitData extends UnitItemData {
     private UUID adminUnitId;
     private String adminUnitName;
+    private boolean active;
 
     public UUID getAdminUnitId() {
         return adminUnitId;
@@ -23,5 +24,13 @@ public class UnitData extends UnitItemData {
 
     public void setAdminUnitName(String adminUnitName) {
         this.adminUnitName = adminUnitName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

@@ -8,6 +8,8 @@ import org.msh.etbm.db.WorkspaceData;
 import org.msh.etbm.services.admin.units.UnitType;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -30,6 +32,8 @@ public abstract class Unit extends WorkspaceData implements EntityState {
      * The name of the unit
      */
     @PropertyLog(messageKey="form.name", operations={Operation.NEW})
+    @NotNull
+    @Size(min=3, max=250)
     private String name;
 
     @Column(length=50)

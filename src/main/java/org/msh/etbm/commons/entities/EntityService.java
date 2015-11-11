@@ -3,6 +3,7 @@ package org.msh.etbm.commons.entities;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.Displayable;
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
@@ -40,7 +41,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 17/10/15.
  */
-public abstract class EntityService<E extends Synchronizable, R extends CrudRepository> {
+public abstract class EntityService<E extends Synchronizable> {
 
     @Autowired
     ApplicationContext applicationContext;
@@ -67,16 +68,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
     Validator validator;
 
     /**
-     * The crud repository reference
-     */
-    private R crudRepository;
-
-    /**
-     * The Crud repository class
-     */
-    private Class<R> crudRepositoryClass;
-
-    /**
      * The entity class
      */
     private Class<E> entityClass;
@@ -89,7 +80,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
-    public ServiceResult create(@Valid @NotNull Object req) throws BindException {
+    public ServiceResult create(@Valid @NotNull Object req) {
         // create a new instance of the entity
         E entity = createEntityInstance(req);
 
@@ -103,7 +94,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // validation errors?
         if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
+            throw new EntityValidationException(bindingResult);
         }
 
         saveEntity(entity);
@@ -132,7 +123,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity the entity assgined to the binding result
      * @return instance of {@link BindingResult}
      */
-    protected BindingResult createBindingResult(E entity) {
+    protected BindingResult createBindingResult(Object entity) {
         return new BeanPropertyBindingResult(entity, getEntityClass().getSimpleName());
     }
 
@@ -191,10 +182,8 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.UPDATE, handler = EntityCmdLogHandler.class)
-    public ServiceResult update(UUID id, Object req) throws BindException {
-        R rep = getCrudRepository();
-
-        E entity = (E)getCrudRepository().findOne(id);
+    public ServiceResult update(UUID id, Object req) {
+        E entity = findEntity(id);
 
         if (entity == null) {
             raiseEntityNotFoundException(id);
@@ -225,7 +214,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
         // validation errors?
         if (bindingResult.hasErrors()) {
-            throw new BindException(bindingResult);
+            throw new EntityValidationException(bindingResult);
         }
 
         // save the entity
@@ -289,9 +278,8 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
-    public ServiceResult delete(UUID id) throws BindException {
-        R rep = getCrudRepository();
-        E entity = (E)rep.findOne(id);
+    public ServiceResult delete(UUID id) {
+        E entity = findEntity(id);
         if (entity == null) {
             raiseEntityNotFoundException(id);
         }
@@ -387,7 +375,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @return
      */
     public <K> K findOne(UUID id, Class<K> resultClass) {
-        E ent = (E)getCrudRepository().findOne(id);
+        E ent = findEntity(id);
         if (ent == null) {
             raiseEntityNotFoundException(id);
         }
@@ -437,6 +425,20 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
 
     /**
+     * Return the entity by its given id
+     * @param id the entity primary key
+     * @return entity object
+     */
+    protected E findEntity(Object id) {
+        try {
+            return entityManager.find(getEntityClass(), id);
+        }
+        catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
+
+    /**
      * Create the list of messages for validation error messages
      * @return instance of MessageList object
      */
@@ -446,11 +448,24 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
 
     /**
      * Raise exception of a required field not present
+     * @param obj the object related to the exception
      * @param field the name of the field
      */
-    protected void raiseRequiredFieldException(String field) {
-        String s = messageKeyResolver.evaluateExpression("{" + MessageList.MSGKEY_REQUIRED + "}");
-        throw new EntityValidationException(field, s);
+    protected void raiseRequiredFieldException(Object obj, String field) {
+        rejectFieldException(obj, field, ErrorMessages.REQUIRED);
+    }
+
+    /**
+     * Raise a validation error exception. The exception is thrown immediately and there will be
+     * just one field assigned to it
+     * @param obj the object related to the validation error
+     * @param field the field with an error
+     * @param msg the message with the validation error
+     */
+    protected void rejectFieldException(Object obj, String field, String msg) {
+        BindingResult res = createBindingResult(obj);
+        res.rejectValue(field, msg);
+        throw new EntityValidationException(res);
     }
 
     /**
@@ -458,7 +473,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity
      */
     protected void saveEntity(E entity) {
-        getCrudRepository().save(entity);
+        entityManager.persist(entity);
     }
 
 
@@ -467,7 +482,7 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      * @param entity
      */
     protected void deleteEntity(E entity) {
-        getCrudRepository().delete(entity);
+        entityManager.remove(entity);
     }
 
 
@@ -504,40 +519,6 @@ public abstract class EntityService<E extends Synchronizable, R extends CrudRepo
      */
     protected UUID getWorkspaceId() {
         return userSession.getUserWorkspace().getWorkspace().getId();
-    }
-
-
-    /**
-     * Return the crud repository
-     * @return
-     */
-    protected R getCrudRepository() {
-        if (crudRepository == null) {
-            Class<R> clazz = getCrudRepositoryClass();
-            crudRepository = applicationContext.getBean(clazz);
-        }
-        return crudRepository;
-    }
-
-
-    /**
-     * Return the class of the CRUD repository component
-     * @return
-     */
-    protected Class<R> getCrudRepositoryClass() {
-        if (crudRepositoryClass == null) {
-            Type type = getClass().getGenericSuperclass();
-            if (type instanceof ParameterizedType) {
-                ParameterizedType paramType = (ParameterizedType) type;
-                if (paramType.getActualTypeArguments().length == 2) {
-                    crudRepositoryClass = (Class<R>) paramType.getActualTypeArguments()[1];
-                }
-                else {
-                    throw new RuntimeException("Could not get repository class");
-                }
-            }
-        }
-        return crudRepositoryClass;
     }
 
 

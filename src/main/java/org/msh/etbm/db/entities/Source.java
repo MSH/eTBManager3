@@ -7,6 +7,7 @@ import org.msh.etbm.db.WorkspaceData;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
@@ -15,14 +16,19 @@ public class Source extends WorkspaceData {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
     @Column(length = 100)
+    @NotNull
 	private String name;
 
 	@PropertyLog(messageKey= "form.shortName", operations={Operation.NEW, Operation.DELETE})
+    @NotNull
 	private String shortName;
 
 	@Column(length=50)
 	@PropertyLog(messageKey="form.customId", operations={Operation.NEW, Operation.DELETE})
 	private String customId;
+
+    private boolean active = true;
+
 
 	public String getName() {
 		return name;
@@ -51,5 +57,13 @@ public class Source extends WorkspaceData {
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

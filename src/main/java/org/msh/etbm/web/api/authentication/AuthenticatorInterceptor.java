@@ -2,6 +2,7 @@ package org.msh.etbm.web.api.authentication;
 
 import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
+import org.msh.etbm.web.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -69,13 +70,13 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
      */
     private UserSession checkAuthenticated(HttpServletRequest request) {
         // get the authentication token in the request
-        String stoken = request.getHeader(AuthConstants.AUTH_TOKEN_HEADERNAME);
+        String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
         if (stoken == null &&
                 request.getQueryString() != null &&
-                request.getQueryString().contains(AuthConstants.AUTH_TOKEN_HEADERNAME))
+                request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME))
         {
-            stoken = request.getParameter(AuthConstants.AUTH_TOKEN_HEADERNAME);
+            stoken = request.getParameter(Constants.AUTH_TOKEN_HEADERNAME);
         }
 
         if (stoken == null) {

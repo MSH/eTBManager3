@@ -4,7 +4,7 @@ import org.msh.etbm.services.sys.SystemInfoService;
 import org.msh.etbm.services.sys.SystemInformation;
 import org.msh.etbm.services.sys.SystemState;
 import org.msh.etbm.services.usersession.UserSessionService;
-import org.msh.etbm.web.api.authentication.AuthConstants;
+import org.msh.etbm.web.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class SystemRest {
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
-    public SystemInformation getInformation(@RequestHeader(value = AuthConstants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
+    public SystemInformation getInformation(@RequestHeader(value = Constants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
         SystemInformation inf = systemInfoService.getInformation();
 
         // check if system is ready

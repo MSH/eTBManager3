@@ -10,6 +10,7 @@ var agent = require('./common/agent'),
 require('./admin/country-structure-test');
 require('./admin/adminunit-test');
 require('./admin/units-test');
+require('./admin/source-test');
 
 
 

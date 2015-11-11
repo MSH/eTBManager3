@@ -1073,6 +1073,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customId" type="${type.customId}"/>
+            <column name="active" type="${type.boolean}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 

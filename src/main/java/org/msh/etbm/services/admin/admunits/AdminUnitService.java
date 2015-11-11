@@ -25,7 +25,7 @@ import java.util.UUID;
  * Created by rmemoria on 24/10/15.
  */
 @Service
-public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUnitRepository> {
+public class AdminUnitService extends EntityService<AdministrativeUnit> {
 
     private static final String QUERY_PROFILE_ITEM = "item";
     private static final String QUERY_PROFILE_DEFAULT = "default";
@@ -79,9 +79,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             // include all child administrative units?
             if (q.isIncludeChildren()) {
                 // get parent because it needs the code
-                AdministrativeUnit parent = getCrudRepository().findOne(q.getParentId());
+                AdministrativeUnit parent = findEntity(q.getParentId());
                 if (parent == null) {
-                    throw new EntityValidationException("Invalid parent id");
+                    rejectFieldException(q, "parentId", "InvalidValue");
                 }
                 // get all sub units using the parent code
                 qry.addRestriction("a.code like :code", parent.getCode() + "%");
@@ -264,7 +264,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
         AdministrativeUnit parent = au.getParent();
 
         if (parent == null && au.getCountryStructure().getLevel() > 1) {
-            throw new EntityValidationException("parentId", "parentId must be informed for the given country structure level");
+            rejectFieldException(au, "parent", "parentId must be informed for the given country structure level");
         }
 
         // check if parent is in the same level of country structure
@@ -272,7 +272,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit, AdminUni
             System.out.println("ADMIN UNIT -> " + au.getName());
             System.out.println("COUNTRY STRUCTURE -> " + au.getCountryStructure());
             System.out.println("PARENT -> " + parent.getName() + ", level = " + parent.getLevel());
-            throw new EntityValidationException("csId", "Country structure is not compactible with parent");
+            rejectFieldException(au, "countryStructure", "Country structure is not compactible with parent");
         }
     }
 

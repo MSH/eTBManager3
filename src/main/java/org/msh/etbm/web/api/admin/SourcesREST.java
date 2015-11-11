@@ -5,7 +5,10 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQuery;
 import org.msh.etbm.services.admin.admunits.CountryStructureRequest;
-import org.msh.etbm.services.admin.admunits.CountryStructureService;
+import org.msh.etbm.services.admin.sources.SourceData;
+import org.msh.etbm.services.admin.sources.SourceQuery;
+import org.msh.etbm.services.admin.sources.SourceRequest;
+import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
@@ -18,47 +21,46 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
- * Set of rest API to support operations on country structures
- * Created by rmemoria on 24/10/15.
+ * Created by rmemoria on 11/11/15.
  */
 @RequestMapping("/api/tbl")
 @RestController
-@Authenticated(permissions = {Permissions.ADMIN_ADMUNITS_EDT})
-public class CountryStructureREST {
+@Authenticated(permissions = {Permissions.ADMIN_SOURCES_EDT})
+public class SourcesREST {
 
     @Autowired
-    CountryStructureService service;
+    SourceService service;
 
 
-    @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        CountryStructureData data = service.findOne(id, CountryStructureData.class);
+        SourceData data = service.findOne(id, SourceData.class);
         return new StandardResult(data, null, data != null);
     }
 
-    @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody CountryStructureRequest req) throws BindException {
+    @RequestMapping(value = "/source", method = RequestMethod.POST)
+    public StandardResult create(@Valid @NotNull @RequestBody SourceRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureRequest req) throws BindException  {
+    @RequestMapping(value = "/source/{id}", method = RequestMethod.POST)
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SourceRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException  {
+    @RequestMapping(value = "/source/{id}", method = RequestMethod.DELETE)
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
         ServiceResult res = service.delete(id);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/source/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody CountryStructureQuery query) {
-        return service.query(query);
+    public QueryResult query(@Valid @RequestBody SourceQuery query) {
+        return service.findMany(query);
     }
 
 }

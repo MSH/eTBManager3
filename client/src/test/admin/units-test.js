@@ -222,14 +222,67 @@ describe('units', function() {
 		});
 	});
 
-	 // disable units
-	 it('# Test disabled', function() {
-	 	 var unit = model[1];
+	 /** Test updating just a set of fields */
+	 it('# Updating specific fields', function() {
+	 	var unit = model[1];
+	 	var newname;
+	 	var customId = 'MY ID';
 
-	 	 return crud.update(unit.id, { name: unit.name + ' v1'})
-         .then(res => {
-                 assert(res.id);
-                 assert.equal(res.id, unit.id)
-             });
+	 	return crud.findOne(unit.id)
+	 	.then(doc => {
+	 		assert(doc);
+
+	 		unit = doc;
+	 		newname = unit.name + ' v2';
+
+	 		return crud.update(unit.id, { name: newname, customId: customId});
+	 	})
+        .then(res => {
+            assert(res);
+            assert.equal(res, unit.id);
+
+            return crud.findOne(unit.id);
+        })
+        .then(doc => {
+        	assert.equal(doc.name, newname);
+        	assert.equal(doc.type, unit.type);
+        	assert.equal(doc.customId, customId);
+        	assert(doc.address);
+        	assert.equal(doc.address.address, unit.address.address);
+        	assert.equal(doc.address.zipCode, unit.address.zipCode);
+        });
+	 });
+
+	 /** Testing disable unit and its effect on the listing */
+	 it('# Disable/enable', () => {
+	 	var count;
+	 	var id;
+
+	 	var qry = {
+	 		type: 'LAB'
+	 	};
+
+	 	// count number of laboratories
+	 	return crud.findMany(qry)
+	 	.then(res => {
+	 		assert(res.count);
+	 		assert(res.count > 1);
+	 		count = res.count;
+
+	 		id = res.list[0].id;
+	 		// disable one of the laboratories
+	 		return crud.update(id, {active: false});
+	 	})
+	 	.then(() => {
+	 		// check the count again
+	 		return crud.findMany(qry);
+	 	})
+	 	.then(res => {
+	 		// make sure one of the items are not available anymore
+	 		assert.equal(res.count, count - 1);
+
+	 		// active the item again
+	 		return crud.update(id, { active: true});
+	 	});
 	 });
 });

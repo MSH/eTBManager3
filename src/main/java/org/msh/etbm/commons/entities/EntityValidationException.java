@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.entities;
 
+import org.springframework.validation.BindingResult;
+
 /**
  * Exception generated inside an entity to indicate that an error occured and operation
  * cannot continue
@@ -7,37 +9,30 @@ package org.msh.etbm.commons.entities;
  * Created by rmemoria on 28/10/15.
  */
 public class EntityValidationException extends RuntimeException {
-    private String field;
-    private String group;
+    private BindingResult bindingResult;
 
-    public EntityValidationException(String message) {
-        super(message);
+    private String field;
+    private String message;
+
+    public EntityValidationException(BindingResult res) {
+        this.bindingResult = res;
     }
 
     public EntityValidationException(String field, String message) {
-        super(message);
         this.field = field;
+        this.message = message;
     }
 
-    public EntityValidationException(String field, String message, String group) {
-        super(message);
-        this.field = field;
-        this.group = group;
+    public BindingResult getBindingResult() {
+        return bindingResult;
     }
 
     public String getField() {
         return field;
     }
 
-    public void setField(String field) {
-        this.field = field;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

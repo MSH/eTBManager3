@@ -2,7 +2,9 @@ package org.msh.etbm.services.admin.units;
 
 import org.msh.etbm.services.admin.AddressRequest;
 
+import javax.swing.text.html.Option;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -15,216 +17,221 @@ public class UnitRequest implements TypedUnit {
     /**
      * The type indicates the kind of object to create
      */
-    @NotNull
-    private UnitType type;
+    private Optional<UnitType> type;
 
-    @NotNull
-    private String name;
+    private Optional<String> name;
 
-    private String customId;
+    private Optional<String> customId;
 
-    private boolean active;
+    private Optional<Boolean> active;
 
-    private String shipContactName;
-    private String shipContactPhone;
+    private Optional<String> shipContactName;
+    private Optional<String> shipContactPhone;
 
     /**
      * Address
      */
-    @NotNull
-    private AddressRequest address;
+    private Optional<AddressRequest> address;
 
     /**
      * Ship address
      */
-    private AddressRequest shipAddress;
+    private Optional<AddressRequest> shipAddress;
 
-    private UUID supplierId;
+    private Optional<UUID> supplierId;
 
-    private UUID authorizerId;
+    private Optional<UUID> authorizerId;
 
-    private boolean receiveFromManufacturer;
+    private Optional<Optional> receiveFromManufacturer;
 
     /** LABORATORY EXCLUSIVE **/
-    private boolean performCulture;
-    private boolean performMicroscopy;
-    private boolean performDst;
-    private boolean performXpert;
+    private Optional<Boolean> performCulture;
+    private Optional<Boolean> performMicroscopy;
+    private Optional<Boolean> performDst;
+    private Optional<Boolean> performXpert;
 
     /** TB UNIT EXCLUSIVE **/
-    private boolean tbFacility;
-    private boolean mdrFacility;
-    private boolean ntmFacility;
-    private boolean notificationUnit;
-    private boolean patientDispensing;
-    private Integer numDaysOrder;
+    private Optional<Boolean> tbFacility;
+    private Optional<Boolean> mdrFacility;
+    private Optional<Boolean> ntmFacility;
+    private Optional<Boolean> notificationUnit;
+    private Optional<Boolean> patientDispensing;
+    private Optional<Integer> numDaysOrder;
 
+    @Override
+    public UnitType getUnitType() {
+        return type == null? null: type.get();
+    }
 
-    public UnitType getType() {
+    public void setUnitType(UnitType type) {
+        this.type = Optional.of(type);
+    }
+
+    public Optional<UnitType> getType() {
         return type;
     }
 
-    public void setType(UnitType type) {
+    public void setType(Optional<UnitType> type) {
         this.type = type;
     }
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Optional<String> name) {
         this.name = name;
     }
 
-    public String getCustomId() {
+    public Optional<String> getCustomId() {
         return customId;
     }
 
-    public void setCustomId(String customId) {
+    public void setCustomId(Optional<String> customId) {
         this.customId = customId;
     }
 
-    public boolean isActive() {
+    public Optional<Boolean> getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Optional<Boolean> active) {
         this.active = active;
     }
 
-    public String getShipContactName() {
+    public Optional<String> getShipContactName() {
         return shipContactName;
     }
 
-    public void setShipContactName(String shipContactName) {
+    public void setShipContactName(Optional<String> shipContactName) {
         this.shipContactName = shipContactName;
     }
 
-    public String getShipContactPhone() {
+    public Optional<String> getShipContactPhone() {
         return shipContactPhone;
     }
 
-    public void setShipContactPhone(String shipContactPhone) {
+    public void setShipContactPhone(Optional<String> shipContactPhone) {
         this.shipContactPhone = shipContactPhone;
     }
 
-    public AddressRequest getAddress() {
+    public Optional<AddressRequest> getAddress() {
         return address;
     }
 
-    public void setAddress(AddressRequest address) {
+    public void setAddress(Optional<AddressRequest> address) {
         this.address = address;
     }
 
-    public AddressRequest getShipAddress() {
+    public Optional<AddressRequest> getShipAddress() {
         return shipAddress;
     }
 
-    public void setShipAddress(AddressRequest shipAddress) {
+    public void setShipAddress(Optional<AddressRequest> shipAddress) {
         this.shipAddress = shipAddress;
     }
 
-    public UUID getSupplierId() {
+    public Optional<UUID> getSupplierId() {
         return supplierId;
     }
 
-    public void setSupplierId(UUID supplierId) {
+    public void setSupplierId(Optional<UUID> supplierId) {
         this.supplierId = supplierId;
     }
 
-    public UUID getAuthorizerId() {
+    public Optional<UUID> getAuthorizerId() {
         return authorizerId;
     }
 
-    public void setAuthorizerId(UUID authorizerId) {
+    public void setAuthorizerId(Optional<UUID> authorizerId) {
         this.authorizerId = authorizerId;
     }
 
-    public boolean isReceiveFromManufacturer() {
+    public Optional<Optional> getReceiveFromManufacturer() {
         return receiveFromManufacturer;
     }
 
-    public void setReceiveFromManufacturer(boolean receiveFromManufacturer) {
+    public void setReceiveFromManufacturer(Optional<Optional> receiveFromManufacturer) {
         this.receiveFromManufacturer = receiveFromManufacturer;
     }
 
-    public boolean isPerformCulture() {
+    public Optional<Boolean> getPerformCulture() {
         return performCulture;
     }
 
-    public void setPerformCulture(boolean performCulture) {
+    public void setPerformCulture(Optional<Boolean> performCulture) {
         this.performCulture = performCulture;
     }
 
-    public boolean isPerformMicroscopy() {
+    public Optional<Boolean> getPerformMicroscopy() {
         return performMicroscopy;
     }
 
-    public void setPerformMicroscopy(boolean performMicroscopy) {
+    public void setPerformMicroscopy(Optional<Boolean> performMicroscopy) {
         this.performMicroscopy = performMicroscopy;
     }
 
-    public boolean isPerformDst() {
+    public Optional<Boolean> getPerformDst() {
         return performDst;
     }
 
-    public void setPerformDst(boolean performDst) {
+    public void setPerformDst(Optional<Boolean> performDst) {
         this.performDst = performDst;
     }
 
-    public boolean isPerformXpert() {
+    public Optional<Boolean> getPerformXpert() {
         return performXpert;
     }
 
-    public void setPerformXpert(boolean performXpert) {
+    public void setPerformXpert(Optional<Boolean> performXpert) {
         this.performXpert = performXpert;
     }
 
-    public boolean isTbFacility() {
+    public Optional<Boolean> getTbFacility() {
         return tbFacility;
     }
 
-    public void setTbFacility(boolean tbFacility) {
+    public void setTbFacility(Optional<Boolean> tbFacility) {
         this.tbFacility = tbFacility;
     }
 
-    public boolean isMdrFacility() {
+    public Optional<Boolean> getMdrFacility() {
         return mdrFacility;
     }
 
-    public void setMdrFacility(boolean mdrFacility) {
+    public void setMdrFacility(Optional<Boolean> mdrFacility) {
         this.mdrFacility = mdrFacility;
     }
 
-    public boolean isNtmFacility() {
+    public Optional<Boolean> getNtmFacility() {
         return ntmFacility;
     }
 
-    public void setNtmFacility(boolean ntmFacility) {
+    public void setNtmFacility(Optional<Boolean> ntmFacility) {
         this.ntmFacility = ntmFacility;
     }
 
-    public boolean isNotificationUnit() {
+    public Optional<Boolean> getNotificationUnit() {
         return notificationUnit;
     }
 
-    public void setNotificationUnit(boolean notificationUnit) {
+    public void setNotificationUnit(Optional<Boolean> notificationUnit) {
         this.notificationUnit = notificationUnit;
     }
 
-    public boolean isPatientDispensing() {
+    public Optional<Boolean> getPatientDispensing() {
         return patientDispensing;
     }
 
-    public void setPatientDispensing(boolean patientDispensing) {
+    public void setPatientDispensing(Optional<Boolean> patientDispensing) {
         this.patientDispensing = patientDispensing;
     }
 
-    public Integer getNumDaysOrder() {
+    public Optional<Integer> getNumDaysOrder() {
         return numDaysOrder;
     }
 
-    public void setNumDaysOrder(Integer numDaysOrder) {
+    public void setNumDaysOrder(Optional<Integer> numDaysOrder) {
         this.numDaysOrder = numDaysOrder;
     }
 }

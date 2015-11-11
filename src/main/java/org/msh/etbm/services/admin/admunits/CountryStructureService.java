@@ -19,7 +19,7 @@ import org.springframework.validation.BindingResult;
  * Created by rmemoria on 24/10/15.
  */
 @Service
-public class CountryStructureService extends EntityService<CountryStructure, CountryStructureRepository> {
+public class CountryStructureService extends EntityService<CountryStructure> {
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;

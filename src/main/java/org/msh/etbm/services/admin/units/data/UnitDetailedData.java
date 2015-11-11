@@ -8,19 +8,13 @@ import org.msh.etbm.services.admin.AddressData;
  * Created by rmemoria on 1/11/15.
  */
 public class UnitDetailedData extends UnitItemData {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String customId;
     private boolean active;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String shipContactName;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String shipContactPhone;
     private AddressData address;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private AddressData shipAddress;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UnitItemData supplier;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private UnitItemData authorizer;
     private boolean receiveFromManufacturer;
 

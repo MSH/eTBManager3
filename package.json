@@ -4,7 +4,7 @@
   "description": "e-TB Manager 3 UI",
   "main": "index.js",
   "scripts": {
-    "test": "mocha client/src/test/test.js --timeout 15000"
+    "test": "mocha client/src/test/run.js --timeout 15000"
   },
   "author": "MSH",
   "license": "ISC",

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
@@ -37,8 +38,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(authenticatorInterceptor);
 
         // add interceptor to set the current language
-        LocaleChangeInterceptor loc = new LocaleChangeInterceptor();
-        loc.setParamName("lang");
+        LocaleRequestInterceptor loc = new LocaleRequestInterceptor();
         registry.addInterceptor(loc);
 
         super.addInterceptors(registry);
@@ -48,15 +48,24 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     /**
      * Language support
      * @param defaultLanguage the default language of the system
-     * @return
+     * @return instance of {@link LocaleResolver}
      */
     @Bean
     public LocaleResolver localeResolver(@Value("${app.default-language}") String defaultLanguage) {
-        CookieLocaleResolver res = new CookieLocaleResolver();
-        res.setDefaultLocale(new Locale(defaultLanguage));
-        res.setCookieName("lang");
-        return res;
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        Locale locale = new Locale(defaultLanguage);
+        slr.setDefaultLocale(locale);
+        return slr;
     }
+
+    /**
+     * Interceptor to get the language
+     * @return instance of the LocaleChangeInterceptor
+     */
+//    @Bean
+//    public LocaleRequestInterceptor localeChangeInterceptor() {
+//        return new LocaleRequestInterceptor();
+//    }
 
     /**
      * Indicate the validator to use the same resource as the app uses

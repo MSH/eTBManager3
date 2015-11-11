@@ -14,6 +14,10 @@ public class UnitQuery extends EntityQuery {
     private UnitType type;
     private String name;
     private String key;
+    /**
+     * If true, will include non-active units
+     */
+    private boolean includeDisabled;
 
     private UUID adminUnitId;
     /**
@@ -135,5 +139,13 @@ public class UnitQuery extends EntityQuery {
 
     public void setIncludeSubunits(boolean includeSubunits) {
         this.includeSubunits = includeSubunits;
+    }
+
+    public boolean isIncludeDisabled() {
+        return includeDisabled;
+    }
+
+    public void setIncludeDisabled(boolean includeDisabled) {
+        this.includeDisabled = includeDisabled;
     }
 }

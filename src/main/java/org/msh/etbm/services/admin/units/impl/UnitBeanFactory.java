@@ -48,7 +48,7 @@ public class UnitBeanFactory implements BeanFactory {
         }
 
         if (data instanceof TypedUnit) {
-            ((TypedUnit) data).setType(unit.getType());
+            ((TypedUnit) data).setUnitType(unit.getType());
         }
 
         return data;
@@ -63,7 +63,7 @@ public class UnitBeanFactory implements BeanFactory {
         if (!(source instanceof TypedUnit)) {
             throw new RuntimeException("Source object must implement interface " + TypedUnit.class.getSimpleName() + "  --> " + source.getClass());
         }
-        UnitType type = ((TypedUnit) source).getType();
+        UnitType type = ((TypedUnit) source).getUnitType();
 
         switch (type) {
             case LAB: return new Laboratory();

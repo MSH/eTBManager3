@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.units;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -17,6 +18,8 @@ import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +30,15 @@ import javax.persistence.PersistenceContext;
  * Created by rmemoria on 31/10/15.
  */
 @Service
-public class UnitService extends EntityService<Unit, UnitRepository> {
+public class UnitService extends EntityService<Unit> {
+
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_ADMINUNIT = "admunit";
+
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
@@ -52,18 +63,26 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
 
         // add the available profiles
-        builder.addProfile("item", UnitItemData.class);
-        builder.addDefaultProfile("default", UnitData.class);
-        builder.addProfile("detailed", UnitDetailedData.class);
+        builder.addProfile(PROFILE_ITEM, UnitItemData.class);
+        builder.addDefaultProfile(PROFILE_DEFAULT, UnitData.class);
+        builder.addProfile(PROFILE_DETAILED, UnitDetailedData.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap("name", "a.name");
-        builder.addOrderByMap("adminUnit", "a.adminUnit.name");
+        builder.addDefaultOrderByMap(ORDERBY_NAME, "a.name");
+        builder.addOrderByMap(ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
+        builder.addOrderByMap(ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
+
+        builder.initialize(qry);
 
         // add the restrictions
         builder.addLikeRestriction("a.name", qry.getKey());
 
         builder.addRestriction("a.name = :name", qry.getName());
+
+        // default to include just active items
+        if (!qry.isIncludeDisabled()) {
+            builder.addRestriction("a.active = true");
+        }
 
         // restrictions administrative unit
         if (qry.getAdminUnitId() != null) {
@@ -71,7 +90,7 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
             if (qry.isIncludeSubunits()) {
                 AdministrativeUnit au = adminUnitRepository.findOne(qry.getAdminUnitId());
                 if (au == null || !au.getWorkspace().getId().equals(getWorkspaceId())) {
-                    throw new EntityValidationException("adminUnitId", "Invalid administrative unit");
+                    rejectFieldException(qry, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
                 builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
@@ -94,7 +113,8 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
         builder.addRestriction("ntmFacility = :ntmfacility", qry.getNtmFacility());
         builder.addRestriction("notificationUnit = :notifunit", qry.getNotificationUnit());
 
-        return builder.createQueryResult(UnitItemData.class);
+        QueryResult<UnitItemData> res = builder.createQueryResult();
+        return res;
     }
 
 
@@ -103,14 +123,29 @@ public class UnitService extends EntityService<Unit, UnitRepository> {
         UnitRequest ureq = (UnitRequest)req;
 
         if (ureq.getType() == null) {
-            raiseRequiredFieldException("type");
+            raiseRequiredFieldException(req, "type");
         }
 
-        switch (ureq.getType()) {
+        switch (ureq.getUnitType()) {
             case LAB: return new Laboratory();
             case TBUNIT: return new Tbunit();
         }
 
-        throw new EntityValidationException("type", "Unsupported type");
+        rejectFieldException(req, "type", "InvalidValue");
+        return null;
+    }
+
+    @Override
+    protected void prepareToSave(Unit entity, BindingResult bindingResult) {
+        super.prepareToSave(entity, bindingResult);
+
+        if (entity.getAddress() == null) {
+            bindingResult.rejectValue("address", ErrorMessages.REQUIRED);
+        }
+        else {
+            if (entity.getAddress().getAdminUnit() == null) {
+                bindingResult.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
+            }
+        }
     }
 }
