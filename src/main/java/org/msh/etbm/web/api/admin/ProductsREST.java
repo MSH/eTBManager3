@@ -2,10 +2,10 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.sources.SourceData;
-import org.msh.etbm.services.admin.sources.SourceQuery;
-import org.msh.etbm.services.admin.sources.SourceRequest;
-import org.msh.etbm.services.admin.sources.SourceService;
+import org.msh.etbm.services.admin.products.ProductData;
+import org.msh.etbm.services.admin.products.ProductQuery;
+import org.msh.etbm.services.admin.products.ProductRequest;
+import org.msh.etbm.services.admin.products.ProductService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
@@ -17,46 +17,47 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
+ * REST API controller to expose CRUD operations in a product/medicine
+ *
  * Created by rmemoria on 11/11/15.
  */
-@RequestMapping("/api/tbl")
 @RestController
-@Authenticated(permissions = {Permissions.ADMIN_SOURCES_EDT})
-public class SourcesREST {
-
+@RequestMapping("/api/tbl")
+@Authenticated(permissions = {Permissions.ADMIN_PRODUCTS_EDT})
+public class ProductsREST {
+    
     @Autowired
-    SourceService service;
+    ProductService service;
 
-
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        SourceData data = service.findOne(id, SourceData.class);
+        ProductData data = service.findOne(id, ProductData.class);
         return new StandardResult(data, null, data != null);
     }
 
-    @RequestMapping(value = "/source", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody SourceRequest req) {
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    public StandardResult create(@Valid @NotNull @RequestBody ProductRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SourceRequest req) {
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.POST)
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ProductRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         ServiceResult res = service.delete(id);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/source/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/product/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody SourceQuery query) {
+    public QueryResult query(@Valid @RequestBody ProductQuery query) {
         return service.findMany(query);
     }
-
+    
 }

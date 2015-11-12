@@ -4,6 +4,7 @@ import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceData;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by rmemoria on 29/6/15.
@@ -17,14 +18,18 @@ public class Product extends WorkspaceData {
 
     @Column(length = 250)
     @PropertyLog(messageKey = "form.name")
+    @NotNull
     private String name;
 
     @PropertyLog(messageKey = "form.shortName")
+    @NotNull
     private String shortName;
 
     @Column(length=50)
     @PropertyLog(messageKey="form.customId")
     private String customId;
+
+    private boolean active;
 
 
     public String getName() {
@@ -62,5 +67,13 @@ public class Product extends WorkspaceData {
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

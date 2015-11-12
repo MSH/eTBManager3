@@ -105,5 +105,6 @@ describe('country-structure', function() {
  * Delete all country structure, and consequently, delete in cascade all test data
  */
 exports.cleanup = function() {
+	console.log('deleting country structures...');
 	return crud.delete(exports.model);
 };

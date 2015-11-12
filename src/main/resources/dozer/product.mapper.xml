@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+
+    <mapping map-null="false" bean-factory="org.msh.etbm.services.admin.products.DozerProductFactory">
+        <class-a>org.msh.etbm.services.admin.products.ProductRequest</class-a>
+        <class-b>org.msh.etbm.db.entities.Product</class-b>
+    </mapping>
+
+    <mapping bean-factory="org.msh.etbm.services.admin.products.DozerProductFactory">
+        <class-a>org.msh.etbm.services.admin.products.ProductItem</class-a>
+        <class-b>org.msh.etbm.db.entities.Product</class-b>
+    </mapping>
+
+</mappings>

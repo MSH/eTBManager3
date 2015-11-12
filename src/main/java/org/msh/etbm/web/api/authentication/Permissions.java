@@ -27,8 +27,8 @@ public class Permissions {
     public static final String ADMIN_UNITS = "UNITS";
     public static final String ADMIN_UNITS_EDT = "UNITS_EDT";
 
-    public static final String ADMIN_MEDICINES = "MEDICINES";
-    public static final String ADMIN_MEDICINES_EDT = "MEDICINES_EDT";
+    public static final String ADMIN_PRODUCTS = "PRODUCTS";
+    public static final String ADMIN_PRODUCTS_EDT = "PRODUCTS_EDT";
 
     public static final String ADMIN_REGIMENS = "REGIMENS";
     public static final String ADMIN_REGIMENS_EDT = "REGIMENS_EDT";

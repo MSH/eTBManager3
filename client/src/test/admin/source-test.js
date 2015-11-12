@@ -50,8 +50,8 @@ describe('source', () => {
     it('# query', () => {
 	    return crud.findMany({})
 	    .then(res => {
-	    	assert(res.count > 2);
-	    	assert(res.list.length > 2);
+	    	assert(res.count >= 2);
+	    	assert(res.list.length >= 2);
 	    });
     });
 
@@ -111,3 +111,9 @@ describe('source', () => {
     	return crud.delete(source.id);
    	});
 });
+
+
+exports.cleanup = function() {
+	console.log('deleting sources...');
+	return crud.delete(exports.model.id);
+};

@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.entities;
 
-import org.msh.etbm.commons.messages.MessageList;
-
 import java.util.UUID;
 
 /**

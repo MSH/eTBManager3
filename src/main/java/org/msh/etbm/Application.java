@@ -4,7 +4,6 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.impl.DozerEntityConverter;
-import org.msh.etbm.test.DozerOptionalConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -51,6 +50,8 @@ public class Application {
         lst.add("dozer/adminunit.mapper.xml");
         lst.add("dozer/unit.mapper.xml");
         lst.add("dozer/source.mapper.xml");
+        lst.add("dozer/product.mapper.xml");
+        lst.add("dozer/substance.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();

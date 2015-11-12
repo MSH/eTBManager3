@@ -13,16 +13,13 @@ import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceData;
-import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
@@ -32,8 +29,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.UUID;
 
 /**
@@ -483,6 +478,7 @@ public abstract class EntityService<E extends Synchronizable> {
      */
     protected void deleteEntity(E entity) {
         entityManager.remove(entity);
+        entityManager.flush();
     }
 
 

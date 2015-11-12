@@ -97,5 +97,9 @@
     "The finish date must be after {0}": "Дата окончания должна  быть  после {0}",
     "The finish date must be before {0}": "Датаокончания должна  быть до {0}",
     "The beginning date must be after {0}": "Дата начала должна быть после {0}",
-    "{0} ago": "{0} назад"
+    "{0} ago": "{0} назад",
+    "Field is required": "",
+    "must be greater than or equal to {value}": "",
+    "must be less than or equal to {value}": "",
+    "Value is required": ""
 }

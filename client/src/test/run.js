@@ -11,6 +11,8 @@ require('./admin/country-structure-test');
 require('./admin/adminunit-test');
 require('./admin/units-test');
 require('./admin/source-test');
+require('./admin/substance-test');
+require('./admin/product-test');
 
 
 
@@ -85,6 +87,11 @@ before(function() {
 
 after( function() {
     console.log('cleaning up...');
+
     this.timeout(50000);
-    return require('./admin/country-structure-test').cleanup();
+
+    return require('./admin/country-structure-test').cleanup()
+    .then(require('./admin/source-test').cleanup)
+    .then(require('./admin/substance-test').cleanup)
+    .then(require('./admin/product-test').cleanup);
 });

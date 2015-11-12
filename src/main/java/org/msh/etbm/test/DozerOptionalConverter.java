@@ -1,7 +1,6 @@
 package org.msh.etbm.test;
 
 import org.dozer.CustomConverter;
-import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.MapperAware;
 

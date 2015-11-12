@@ -581,6 +581,9 @@
             <column name="customId" type="${type.customId}"/>
             <column name="displayorder" type="INT"/>
             <column name="discriminator" type="VARCHAR(100)" />
+            <column name="active" type="${type.boolean}" >
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -1087,19 +1090,22 @@
                 <constraints nullable="false"/>
             </column>
             <column name="shortName" type="${type.shortName}"/>
+            <column name="line" type="INT"/>
+            <column name="name" type="${type.name}"/>
             <column name="dstResultForm" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="line" type="INT"/>
-            <column name="name" type="${type.name}"/>
             <column name="prevTreatmentForm" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="prevTreatmentOrder" type="INT"/>
+            <column name="displayOrder" type="INT"/>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="customId" type="${type.customId}"/>
+            <column name="active" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

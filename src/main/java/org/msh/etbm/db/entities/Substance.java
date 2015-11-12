@@ -23,12 +23,14 @@ public class Substance extends WorkspaceData {
 	
 	private MedicineLine line;
 	
-	private boolean prevTreatmentForm;
+	private boolean prevTreatmentForm = true;
 	
-	private boolean dstResultForm;
-	
+	private boolean dstResultForm = true;
+
+    private boolean active = true;
+
 	@PropertyLog(messageKey="form.displayorder")
-	private Integer prevTreatmentOrder;
+	private Integer displayOrder;
 
 	@Column(length=50)
 	@PropertyLog(messageKey="form.customId")
@@ -81,21 +83,15 @@ public class Substance extends WorkspaceData {
 		this.dstResultForm = dstResultForm;
 	}
 
-	/**
-	 * @return the prevTreatmentOrder
-	 */
-	public Integer getPrevTreatmentOrder() {
-		return prevTreatmentOrder;
-	}
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
 
-	/**
-	 * @param prevTreatmentOrder the prevTreatmentOrder to set
-	 */
-	public void setPrevTreatmentOrder(Integer prevTreatmentOrder) {
-		this.prevTreatmentOrder = prevTreatmentOrder;
-	}
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
 
-	/**
+    /**
 	 * @return the name
 	 */
 	public String getName() {
@@ -128,5 +124,13 @@ public class Substance extends WorkspaceData {
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
