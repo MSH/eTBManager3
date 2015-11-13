@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +15,7 @@ import java.util.Date;
  *
  */
 @MappedSuperclass
-public class CaseEvent extends CaseData {
+public class CaseEvent extends CaseEntity {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="EVENT_DATE")

@@ -9,7 +9,11 @@ import org.msh.etbm.db.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
+ * Service component to handle CRUD operation on products and medicines
+ *
  * Created by rmemoria on 11/11/15.
  */
 @Service
@@ -20,6 +24,8 @@ public class ProductService extends EntityService<Product> {
 
     public static final String PROFILE_ITEM = "item";
     public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
@@ -39,11 +45,33 @@ public class ProductService extends EntityService<Product> {
         builder.addOrderByMap(ORDERBY_SHORTNAME, "shortName");
 
         // profiles
-        builder.addDefaultProfile(PROFILE_ITEM, ProductItem.class);
-        builder.addProfile(PROFILE_DEFAULT, ProductData.class);
+        builder.addDefaultProfile(PROFILE_DEFAULT, ProductData.class);
+        builder.addProfile(PROFILE_ITEM, ProductItem.class);
+        builder.addProfile(PROFILE_DETAILED, ProductDetailedData.class);
+
+        builder.initialize(qry);
 
         builder.addLikeRestriction("name", qry.getKey());
 
+        if (!qry.isIncludeDisabled()) {
+            builder.addRestriction("active = true");
+        }
+
         return builder.createQueryResult();
+    }
+
+    @Override
+    protected Product createEntityInstance(Object req) {
+        if (req instanceof ProductRequest) {
+            Optional<ProductType> optype = ((ProductRequest) req).getType();
+            ProductType type = optype == null? null: optype.get();
+            if (type == ProductType.MEDICINE) {
+                return new Medicine();
+            }
+            else {
+                return new Product();
+            }
+        }
+        return super.createEntityInstance(req);
     }
 }

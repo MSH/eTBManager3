@@ -1,12 +1,12 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "casecomorbidity")
-public class CaseComorbidity extends CaseData {
+public class CaseComorbidity extends CaseEntity {
 
 	@Embedded
 	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "COMORB_ID")) })

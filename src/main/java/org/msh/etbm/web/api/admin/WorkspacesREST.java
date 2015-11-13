@@ -2,10 +2,10 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.substances.SubstanceData;
-import org.msh.etbm.services.admin.substances.SubstanceQuery;
-import org.msh.etbm.services.admin.substances.SubstanceRequest;
-import org.msh.etbm.services.admin.substances.SubstanceService;
+import org.msh.etbm.services.admin.workspaces.WorkspaceDetailData;
+import org.msh.etbm.services.admin.workspaces.WorkspaceQuery;
+import org.msh.etbm.services.admin.workspaces.WorkspaceRequest;
+import org.msh.etbm.services.admin.workspaces.WorkspaceService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
@@ -17,49 +17,47 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
- * Rest API to handle CRUD operations in substances
- *
+ * CRUD API that exposes CRUD operations to workspaces
  * Created by rmemoria on 12/11/15.
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.ADMIN_SUBSTANCES_EDT})
-public class SubstancesREST {
+@Authenticated(permissions = {Permissions.ADMIN_WORKSPACES_EDT})
+public class WorkspacesREST {
 
     @Autowired
-    SubstanceService service;
+    WorkspaceService service;
 
 
-    @RequestMapping(value = "/substance/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/workspace/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        SubstanceData data = service.findOne(id, SubstanceData.class);
+        WorkspaceDetailData data = service.findOne(id, WorkspaceDetailData.class);
         return new StandardResult(data, null, data != null);
     }
 
-    @RequestMapping(value = "/substance", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody SubstanceRequest req) {
+    @RequestMapping(value = "/workspace", method = RequestMethod.POST)
+    public StandardResult create(@Valid @NotNull @RequestBody WorkspaceRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/substance/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SubstanceRequest req) {
+    @RequestMapping(value = "/workspace/{id}", method = RequestMethod.POST)
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody WorkspaceRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/substance/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/workspace/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         ServiceResult res = service.delete(id);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/substance/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/workspace/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody SubstanceQuery query) {
+    public QueryResult query(@Valid @RequestBody WorkspaceQuery query) {
         return service.findMany(query);
     }
-
 
 }

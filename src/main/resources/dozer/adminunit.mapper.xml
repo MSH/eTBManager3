@@ -16,6 +16,12 @@
     </mapping>
 
 
+    <mapping map-null="false">
+        <class-a>org.msh.etbm.services.admin.admunits.CountryStructureRequest</class-a>
+        <class-b>org.msh.etbm.db.entities.CountryStructure</class-b>
+    </mapping>
+
+
     <mapping>
         <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
         <class-b>org.msh.etbm.services.admin.admunits.AdminUnitData</class-b>

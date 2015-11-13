@@ -26,7 +26,16 @@ public class SubstanceData extends Item<UUID> {
 
     private Integer displayOrder;
 
+    private boolean active;
 
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public String getShortName() {
         return shortName;

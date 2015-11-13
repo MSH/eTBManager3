@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.OrderStatus;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Table(name="productorder")
-public class Order extends WorkspaceData {
+public class Order extends WorkspaceEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull

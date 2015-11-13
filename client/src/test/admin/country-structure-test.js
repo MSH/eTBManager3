@@ -2,7 +2,8 @@
 
 var assert = require('assert'),
 	u = require('../common/uniquename'),
-	crud = require('../common/crud')('countrystructure');
+	crud = require('../common/crud')('countrystructure'),
+	crudTest = require('../common/crud-test');
 
 
 
@@ -20,6 +21,18 @@ describe('country-structure', function() {
 		{
 			name: u('Municipality'),
 			level: 3
+		},
+		{
+			name: u('Region2'),
+			level: 1
+		},
+		{
+			name: u('City2'),
+			level: 2
+		},
+		{
+			name: u('Municipality2'),
+			level: 3
 		}
 	];
 
@@ -29,77 +42,70 @@ describe('country-structure', function() {
 	};
 
 
-	/**
-	 * Create the country structures
-	 */
-	it('# create', function() {
-		return crud.create(model)
-			.then(function() {
-				return crud.create(cs);
-			});
-	});
-
-
-	/**
-	 * Update the country structure
-	 */
-	it('# update', function() {
-		// get Municipality
-		var data = {
+	/** Standard test for CRUD operations */
+	crudTest({
+		/** the API name */
+		name: 'countrystructure',
+		/** The document to test */
+		doc: cs,
+		/** the model to create */
+		model: model,
+		/** List of fields by profile */
+		profiles: {
+			default: ['name', 'level']
+		},
+		/** List of required fields to test */
+		requiredFields: ['name', 'level'],
+		/** List of unique fields to test */
+		uniqueFields: ['name,level'],
+		/** what to test during update */
+		update: {
+			set: {
 				name: cs.name + ' v2',
 				level: 2
-			};
+			}
+		},
+		delete: {
+			beforeDelete: extraTests
+		}
+	});
 
-		return crud.update(cs.id, data)
-		.then(function() {
-			return crud.findOne(cs.id);
-		})
-		.then(function(res) {
-			assert.equal(res.id, cs.id);
-			assert.equal(res.name, data.name);
-			assert.equal(res.level, data.level);
+
+	function extraTests() {
+		/**
+		 * Try to update a country structure with an invalid level
+		 */
+		it('# invalid level', function() {
+			// get Municipality
+			var data = {
+					name: cs.name + ' v3',
+					level: 6
+				};
+
+			return crud.update(cs.id, data, {skipValidation: true })
+			.then(function(res) {
+				assert(res.errors);
+				assert.equal(res.errors.length, 1);
+				assert.equal(res.errors[0].field, 'level');
+			});
 		});
-	});
 
 
-	/**
-	 * Try to update a country structure with an invalid level
-	 */
-	it('# invalid level', function() {
-		// get Municipality
-		var data = {
-				name: cs.name + ' v3',
-				level: 6
-			};
-
-		return crud.update(cs.id, data, {skipValidation: true })
-		.then(function(res) {
-			assert(res.errors);
-			assert.equal(res.errors.length, 1);
-			assert.equal(res.errors[0].field, 'level');
+		/**
+		 * Search for itens
+		 */
+		it('# find many from level', function() {
+			return crud.findMany({level: 2})
+			.then(function(res) {
+				assert(res.list.length >= 2);
+			});
 		});
-	});
 
+	}
 
-	/**
-	 * Search for itens
-	 */
-	it('# find many', function() {
-		return crud.findMany({level: 2})
-		.then(function(res) {
-			assert(res.list.length >= 2);
-		});
-	});
-
-
-	/**
-	 * Delete country structure
-	 */
-	it('# delete', function() {
-		return crud.delete(cs.id, { testDeleted: true });
-	});
 
 });
+
 
 /**
  * Delete all country structure, and consequently, delete in cascade all test data

@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.substances;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -8,6 +9,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.Substance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 /**
  * CRUD service to handle substance operations
@@ -52,6 +54,27 @@ public class SubstanceService extends EntityService<Substance> {
             builder.addRestriction("prevTreatmentForm = true");
         }
 
+        if (!qry.isIncludeDisabled()) {
+            builder.addRestriction("active = true");
+        }
+
         return builder.createQueryResult();
+    }
+
+    @Override
+    protected void prepareToSave(Substance entity, BindingResult bindingResult) {
+        super.prepareToSave(entity, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return;
+        }
+
+        if (!checkUnique(entity, "name")) {
+            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        }
+
+        if (!checkUnique(entity, "shortName")) {
+            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        }
     }
 }

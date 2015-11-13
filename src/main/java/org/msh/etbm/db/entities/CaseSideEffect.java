@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.YesNoType;
 
 import javax.persistence.*;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="casesideeffect")
-public class CaseSideEffect extends CaseData {
+public class CaseSideEffect extends CaseEntity {
 
 	@Embedded
 	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "SIDEEFFECT_ID")) })

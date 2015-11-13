@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="treatmenthealthunit")
-public class TreatmentHealthUnit extends CaseData {
+public class TreatmentHealthUnit extends CaseEntity {
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="UNIT_ID")

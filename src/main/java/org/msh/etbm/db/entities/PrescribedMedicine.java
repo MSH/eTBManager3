@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="prescribedmedicine")
-public class PrescribedMedicine extends CaseData {
+public class PrescribedMedicine extends CaseEntity {
 
 	/**
 	 * Medicine prescribed

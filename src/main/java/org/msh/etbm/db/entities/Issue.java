@@ -3,7 +3,7 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="issue")
-public class Issue extends CaseData {
+public class Issue extends CaseEntity {
 
 
 	private boolean closed;

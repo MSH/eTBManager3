@@ -10,8 +10,7 @@ import org.msh.etbm.db.MessageKey;
  */
 public enum DisplayCaseNumber implements MessageKey {
 
-	CASE_ID,
-	VALIDATION_NUMBER,
+    SYSTEM_GENERATED,
 	USER_DEFINED;
 
 	/** {@inheritDoc}

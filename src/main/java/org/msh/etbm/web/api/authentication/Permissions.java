@@ -57,6 +57,7 @@ public class Permissions {
     public static final String ADMIN_SETUP_WORKSPACE = "SETUPWS";
     public static final String ADMIN_SETUP_SYSTEM = "SYSSETUP";
     public static final String ADMIN_WORKSPACES = "WORKSPACES";
+    public static final String ADMIN_WORKSPACES_EDT = "WORKSPACES_EDT";
     public static final String ADMIN_CHECKUPDT = "CHECKUPDT";
 
     /**

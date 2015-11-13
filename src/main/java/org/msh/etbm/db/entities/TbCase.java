@@ -5,7 +5,7 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Address;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
@@ -22,7 +22,7 @@ import java.util.*;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="tbcase")
-public class TbCase extends WorkspaceData {
+public class TbCase extends WorkspaceEntity {
 
 	@Version
 	@PropertyLog(ignore=true)

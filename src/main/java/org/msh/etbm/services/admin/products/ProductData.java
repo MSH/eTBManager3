@@ -1,18 +1,15 @@
 package org.msh.etbm.services.admin.products;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.enums.MedicineCategory;
 import org.msh.etbm.db.enums.MedicineLine;
-
-import java.util.UUID;
 
 /**
  * Product data returned by the product service with information about a product/medicine
  *
  * Created by rmemoria on 11/11/15.
  */
-public class ProductData extends Item<UUID> {
+public class ProductData extends ProductItem {
 
     private String shortName;
 
@@ -24,7 +21,18 @@ public class ProductData extends Item<UUID> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private MedicineCategory category;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String customId;
+
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public String getShortName() {
         return shortName;

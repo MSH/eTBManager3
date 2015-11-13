@@ -20,16 +20,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	@PropertyLog(ignore=true)
 	private List<UserWorkspace> users = new ArrayList<UserWorkspace>();
 
-	@Column(length=250)
-	private String description;
-
-	@Column(length=10)
-	private String defaultLocale;
-	
-
-	@Column(length=200)
-	private String defaultTimeZone;
-
 	// frequency of doses in a weekly basis
 	private Integer weekFreq1;
 	private Integer weekFreq2;
@@ -38,9 +28,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	private Integer weekFreq5;
 	private Integer weekFreq6;
 	private Integer weekFreq7;
-
-	@Column(length=10)
-	private String extension;
 
 	@OneToOne(cascade={CascadeType.REMOVE}, fetch= FetchType.LAZY)
 	@PrimaryKeyJoinColumn
@@ -110,25 +97,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	 */
 	private TreatMonitoringInput treatMonitoringInput;
 
-    /**
-     * If true, allows diagnosis date to be informed after the treatment start
-     */
-    private boolean allowDiagAfterTreatment;
-
-    /**
-     * If true, allows registration date to be informed after the diagnosis date
-     */
-    private boolean allowRegAfterDiagnosis;
-
-	/**
-	 * Setup the adjustment type that represents expired medicine movements
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="expiredMedicineAdjustmentType_ID")
-	@PropertyLog(messageKey="Workspace.ExpiredMedAdjustType")
-	private FieldValue expiredMedicineAdjustmentType;
-
-
 
 /*
 	public WeeklyFrequency[] getWeeklyFrequencies() {
@@ -171,15 +139,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	}
 */
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	
 	/**
 	 * Return the case validation setting of the given case classification
 	 * @param classification is the classification of the case
@@ -286,22 +245,6 @@ public class Workspace extends Synchronizable implements Displayable {
 		this.users = users;
 	}
 
-	public String getDefaultLocale() {
-		return defaultLocale;
-	}
-
-	public void setDefaultLocale(String defaultLocale) {
-		this.defaultLocale = defaultLocale;
-	}
-
-	public String getDefaultTimeZone() {
-		return defaultTimeZone;
-	}
-
-	public void setDefaultTimeZone(String defaultTimeZone) {
-		this.defaultTimeZone = defaultTimeZone;
-	}
-
 	/**
 	 * Returns the root path of the custom pages for the country. Ex: /brazil or /ukraine 
 	 * @return
@@ -337,20 +280,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	 */
 	public void setPatientAddrRequiredLevels(Integer patientAddrRequiredLevels) {
 		this.patientAddrRequiredLevels = patientAddrRequiredLevels;
-	}
-
-	/**
-	 * @return the extension
-	 */
-	public String getExtension() {
-		return extension;
-	}
-
-	/**
-	 * @param extension the extension to set
-	 */
-	public void setExtension(String extension) {
-		this.extension = extension;
 	}
 
 	/**
@@ -396,21 +325,6 @@ public class Workspace extends Synchronizable implements Displayable {
 		this.monthsToAlertExpiredMedicines = monthsToAlertExpiredMedicines;
 	}
 
-
-	/**
-	 * @return the expiredMedicineAdjustmentType
-	 */
-	public FieldValue getExpiredMedicineAdjustmentType() {
-		return expiredMedicineAdjustmentType;
-	}
-
-	/**
-	 * @param expiredMedicineAdjustmentType the expiredMedicineAdjustmentType to set
-	 */
-	public void setExpiredMedicineAdjustmentType(
-			FieldValue expiredMedicineAdjustmentType) {
-		this.expiredMedicineAdjustmentType = expiredMedicineAdjustmentType;
-	}
 
 	/**
 	 * @return the caseValidationTB
@@ -523,22 +437,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	public void setTreatMonitoringInput(TreatMonitoringInput treatMonitoringInput) {
 		this.treatMonitoringInput = treatMonitoringInput;
 	}
-
-    public boolean isAllowDiagAfterTreatment() {
-        return allowDiagAfterTreatment;
-    }
-
-    public void setAllowDiagAfterTreatment(boolean allowDiagAfterTreatment) {
-        this.allowDiagAfterTreatment = allowDiagAfterTreatment;
-    }
-
-    public boolean isAllowRegAfterDiagnosis() {
-        return allowRegAfterDiagnosis;
-    }
-
-    public void setAllowRegAfterDiagnosis(boolean allowRegAfterDiagnosis) {
-        this.allowRegAfterDiagnosis = allowRegAfterDiagnosis;
-    }
 
 	public Integer getWeekFreq1() {
 		return weekFreq1;

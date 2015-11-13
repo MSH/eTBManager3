@@ -8,7 +8,7 @@ var assert = require('assert'),
 
 
 describe('units', function() {
-	this.timeout(500000);
+	this.timeout(50000);
 
 	// the unit being tested
 	var unit;

@@ -82,7 +82,7 @@ function CRUD(tbl) {
 			.then(function(res) {
 				var data = res.body;
 
-				assert(data);
+				assert(data, 'No data returned from update operation');
 				if (opt && opt.skipValidation) {
 					return data;
 				}
@@ -113,6 +113,10 @@ function CRUD(tbl) {
 		else {
 			if (_.isObject(id)) {
 				id = id.id;
+			}
+
+			if (!id) {
+				return;
 			}
 
 			return agent.delete('/api/tbl/' + tbl + '/' + id, prepareAgentOptions(opt))
@@ -149,8 +153,10 @@ function CRUD(tbl) {
 					console.log(data.errors);
 				}
 				assert(!data.errors);
-				assert(data.list);
 				assert(data.count);
+				if (!qry.countOnly) {
+					assert(data.list);
+				}
 				return data;
 			});
 	};

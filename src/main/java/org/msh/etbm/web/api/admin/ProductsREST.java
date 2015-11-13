@@ -2,10 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.products.ProductData;
-import org.msh.etbm.services.admin.products.ProductQuery;
-import org.msh.etbm.services.admin.products.ProductRequest;
-import org.msh.etbm.services.admin.products.ProductService;
+import org.msh.etbm.services.admin.products.*;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.Permissions;
@@ -32,7 +29,7 @@ public class ProductsREST {
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        ProductData data = service.findOne(id, ProductData.class);
+        ProductData data = service.findOne(id, ProductDetailedData.class);
         return new StandardResult(data, null, data != null);
     }
 

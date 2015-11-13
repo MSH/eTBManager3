@@ -1,7 +1,8 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
+import org.msh.etbm.services.admin.products.ProductType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
-public class Product extends WorkspaceData {
+public class Product extends WorkspaceEntity {
 
     @Column(length = 250)
     @PropertyLog(messageKey = "form.name")
@@ -29,7 +30,7 @@ public class Product extends WorkspaceData {
     @PropertyLog(messageKey="form.customId")
     private String customId;
 
-    private boolean active;
+    private boolean active = true;
 
 
     public String getName() {
@@ -75,5 +76,9 @@ public class Product extends WorkspaceData {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public ProductType getType() {
+        return ProductType.PRODUCT;
     }
 }

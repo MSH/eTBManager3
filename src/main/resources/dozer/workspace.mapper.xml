@@ -6,9 +6,9 @@
 
 
 
-    <mapping map-null="false" bean-factory="org.msh.etbm.services.admin.products.DozerProductFactory">
-        <class-a>org.msh.etbm.services.admin.products.ProductRequest</class-a>
-        <class-b>org.msh.etbm.db.entities.Product</class-b>
+    <mapping map-null="false" >
+        <class-a>org.msh.etbm.services.admin.workspaces.WorkspaceRequest</class-a>
+        <class-b>org.msh.etbm.db.entities.Workspace</class-b>
     </mapping>
 
 

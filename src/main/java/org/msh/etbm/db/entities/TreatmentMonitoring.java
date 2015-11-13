@@ -4,7 +4,7 @@
 package org.msh.etbm.db.entities;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.TreatmentDayOption;
 
 import javax.persistence.Column;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="treatmentmonitoring")
-public class TreatmentMonitoring extends CaseData {
+public class TreatmentMonitoring extends CaseEntity {
 	
 	@Column(name="MONTH_TREAT")
 	private int month;

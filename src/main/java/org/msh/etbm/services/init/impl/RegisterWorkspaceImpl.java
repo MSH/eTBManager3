@@ -167,7 +167,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         Workspace ws = template.getWorkspace();
 
         ws.setName(form.getWorkspaceName());
-        ws.setDescription(form.getWorkspaceDescription());
 
         workspaceRepository.save(ws);
 

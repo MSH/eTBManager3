@@ -33,7 +33,7 @@ public class CountryStructureService extends EntityService<CountryStructure> {
         }
 
         if (!checkUnique(entity, "name")) {
-            bindingResult.rejectValue("name", "validation.duplicatedname");
+            bindingResult.rejectValue("name", "NotUnique");
         }
     }
 

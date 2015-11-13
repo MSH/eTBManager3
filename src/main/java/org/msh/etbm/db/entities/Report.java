@@ -3,7 +3,7 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="report")
-public class Report extends WorkspaceData {
+public class Report extends WorkspaceEntity {
 
 	/**
 	 * The title of the report, displayed to the user

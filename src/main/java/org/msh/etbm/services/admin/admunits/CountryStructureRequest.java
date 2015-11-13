@@ -1,34 +1,29 @@
 package org.msh.etbm.services.admin.admunits;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 /**
  * Created by rmemoria on 24/10/15.
  */
 public class CountryStructureRequest {
 
-    @NotNull
-    private String name;
+    private Optional<String> name;
 
-    @Max(5)
-    @Min(1)
-    private int level;
+    private Optional<Integer> level;
 
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Optional<String> name) {
         this.name = name;
     }
 
-    public int getLevel() {
+    public Optional<Integer> getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Optional<Integer> level) {
         this.level = level;
     }
 }

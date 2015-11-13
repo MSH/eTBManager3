@@ -20,12 +20,6 @@ public class RegisterWorkspaceRequest {
     private String workspaceName;
 
     /**
-     * The workspace description
-     */
-    @Size(min=3,max=250)
-    private String workspaceDescription;
-
-    /**
      * The administrator password
      */
     @Size(max=50)
@@ -48,14 +42,6 @@ public class RegisterWorkspaceRequest {
 
     public void setWorkspaceName(String workspaceName) {
         this.workspaceName = workspaceName;
-    }
-
-    public String getWorkspaceDescription() {
-        return workspaceDescription;
-    }
-
-    public void setWorkspaceDescription(String workspaceDescription) {
-        this.workspaceDescription = workspaceDescription;
     }
 
     public String getAdminPassword() {

@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.MedicineLine;
 
 import javax.persistence.Column;
@@ -12,13 +12,14 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="substance")
-public class Substance extends WorkspaceData {
+public class Substance extends WorkspaceEntity {
 
 	@NotNull
 	@PropertyLog(messageKey="form.name")
 	private String name;
 	
 	@PropertyLog(messageKey= "form.shortName")
+    @NotNull
 	private String shortName;
 	
 	private MedicineLine line;

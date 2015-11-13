@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.CaseView;
 
 import javax.persistence.*;
@@ -15,7 +15,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "casecomment")
-public class CaseComment extends CaseData {
+public class CaseComment extends CaseEntity {
 
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="USER_ID")

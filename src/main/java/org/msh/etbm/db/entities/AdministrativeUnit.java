@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "administrativeunit")
-public class AdministrativeUnit extends WorkspaceData {
+public class AdministrativeUnit extends WorkspaceEntity {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
     private String name;

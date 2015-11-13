@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="resistancepattern")
-public class ResistancePattern extends WorkspaceData {
+public class ResistancePattern extends WorkspaceEntity {
 
     /**
 	 * Criteria to compound the resistance pattern. It may be an exact match or

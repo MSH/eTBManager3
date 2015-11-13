@@ -11,6 +11,8 @@ public class SubstanceQuery extends EntityQuery {
     private boolean prevTreatmentForm;
     private boolean dstResultForm;
 
+    private boolean includeDisabled;
+
     public boolean isPrevTreatmentForm() {
         return prevTreatmentForm;
     }
@@ -25,5 +27,13 @@ public class SubstanceQuery extends EntityQuery {
 
     public void setDstResultForm(boolean dstResultForm) {
         this.dstResultForm = dstResultForm;
+    }
+
+    public boolean isIncludeDisabled() {
+        return includeDisabled;
+    }
+
+    public void setIncludeDisabled(boolean includeDisabled) {
+        this.includeDisabled = includeDisabled;
     }
 }

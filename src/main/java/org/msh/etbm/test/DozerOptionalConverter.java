@@ -16,7 +16,7 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
     @Override
     public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
         if (source == null) {
-            return null;
+            return dest;
         }
 
         if (source instanceof Optional) {

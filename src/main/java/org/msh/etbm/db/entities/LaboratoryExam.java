@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.ExamStatus;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ import java.util.Date;
  *
  */
 @MappedSuperclass
-public abstract class LaboratoryExam extends CaseData {
+public abstract class LaboratoryExam extends CaseEntity {
 
     public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE };
 

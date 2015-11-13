@@ -3,7 +3,7 @@ package org.msh.etbm.commons.entities.query;
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.services.usersession.UserSession;
 
 import javax.persistence.EntityManager;
@@ -197,7 +197,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     protected void addHQLRestrictions(StringBuilder hql) {
         boolean bWhere = false;
-        if (WorkspaceData.class.isAssignableFrom(entityClass) && userSession.getUserWorkspace() != null) {
+        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userSession.getUserWorkspace() != null) {
             hql.append("where ");
             if (entityPath != null) {
                 hql.append(entityPath);

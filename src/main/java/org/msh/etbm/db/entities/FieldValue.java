@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.TbField;
 
 import javax.persistence.Column;
@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="fieldvalue")
-public class FieldValue extends WorkspaceData {
+public class FieldValue extends WorkspaceEntity {
 
 	@PropertyLog(messageKey="form.name", operations={Operation.NEW})
     @Column(length = 100)

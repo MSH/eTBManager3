@@ -1,7 +1,6 @@
 {
   "workspace": {
     "name": "Workspace name",
-    "description": "Workspace description",
     "weekFreq1": 2,
     "weekFreq2": 18,
     "weekFreq3": 30,
@@ -20,9 +19,7 @@
     "monthsToAlertExpiredMedicines": 1,
     "minStockOnHand": 1,
     "maxStockOnHand": 6,
-    "treatMonitoringInput": "SIMPLE",
-    "allowDiagAfterTreatment": true,
-    "allowRegAfterDiagnosis": true
+    "treatMonitoringInput": "SIMPLE"
   },
   "userWorkspace": {
     "user": {

@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.Gender;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="tbcontact")
-public class TbContact extends CaseData {
+public class TbContact extends CaseEntity {
 
 	@PropertyLog(operations={Operation.ALL})
 	private String name;

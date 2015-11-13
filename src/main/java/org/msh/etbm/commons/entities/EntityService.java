@@ -12,7 +12,7 @@ import org.msh.etbm.commons.entities.impl.ObjectUtils;
 import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.Synchronizable;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserSession;
@@ -204,9 +204,6 @@ public abstract class EntityService<E extends Synchronizable> {
         // prepare object to save
         prepareToSave(entity, bindingResult);
 
-        // validate before saving it
-        validateEntity(entity, bindingResult);
-
         // validation errors?
         if (bindingResult.hasErrors()) {
             throw new EntityValidationException(bindingResult);
@@ -299,33 +296,39 @@ public abstract class EntityService<E extends Synchronizable> {
 
     /**
      * Check if the given entity is unique by searching by the given field
-     * @param entity
-     * @param field
+     * @param entity the entity to check unique values
+     * @param field the field (or comma separated list of fields) to check uniqueness
      * @return true if the entity is unique
      */
     protected boolean checkUnique(E entity, String field) {
-        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid " +
-                "and " + field + " = :" + field;
+        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid ";
+
+        String fields[] = field.split(",");
+        for (String f: fields) {
+            hql += " and " + f + " = :" + f;
+        }
+
         if (entity.getId() != null) {
             hql += " and id <> :id";
         }
 
-        // get the field value in the given object
-        Object val;
-        try {
-            val = PropertyUtils.getProperty(entity, field);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
         Query qry = entityManager
                 .createQuery(hql)
-                .setParameter("wsid", getWorkspaceId())
-                .setParameter(field, val);
+                .setParameter("wsid", getWorkspaceId());
 
         if (entity.getId() != null) {
             qry.setParameter("id", entity.getId());
+        }
+
+        // get the field value in the given object
+        try {
+            for (String f: fields) {
+                Object val = PropertyUtils.getProperty(entity, f);
+                qry.setParameter(f, val);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         // query the database
@@ -491,11 +494,11 @@ public abstract class EntityService<E extends Synchronizable> {
      */
     protected void checkWorkspace(E entity, BindingResult bindingResult) {
 //        E entity = (E)bindingResult.getTarget();
-        if (!(entity instanceof WorkspaceData)) {
+        if (!(entity instanceof WorkspaceEntity)) {
             return;
         }
 
-        WorkspaceData wsdata = (WorkspaceData)entity;
+        WorkspaceEntity wsdata = (WorkspaceEntity)entity;
         UUID wsid = getWorkspaceId();
 
         if (wsdata.getWorkspace() != null) {

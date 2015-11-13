@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name="tag")
-public class Tag extends WorkspaceData {
+public class Tag extends WorkspaceEntity {
 
     public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
 

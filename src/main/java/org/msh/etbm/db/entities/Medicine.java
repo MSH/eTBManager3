@@ -2,6 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.enums.MedicineCategory;
 import org.msh.etbm.db.enums.MedicineLine;
+import org.msh.etbm.services.admin.products.ProductType;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -40,6 +41,11 @@ public class Medicine extends Product {
 		return ((Medicine)obj).getId().equals(getId());
 	}
 
+
+    @Override
+    public ProductType getType() {
+        return ProductType.MEDICINE;
+    }
 
 	public MedicineCategory getCategory() {
 		return category;

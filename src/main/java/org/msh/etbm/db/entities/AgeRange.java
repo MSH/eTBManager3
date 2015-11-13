@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "agerange")
-public class AgeRange extends WorkspaceData {
+public class AgeRange extends WorkspaceEntity {
 	private static final long serialVersionUID = -9151429225415780966L;
 
 	@PropertyLog(messageKey="form.name")

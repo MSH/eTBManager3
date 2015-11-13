@@ -13,7 +13,7 @@ import java.util.UUID;
  */
 public class ProductRequest {
     /** if true, this product represents a medicine */
-    private Boolean medicine;
+    private Optional<ProductType> type;
 
     private Optional<String> name;
     private Optional<String> shortName;
@@ -26,12 +26,12 @@ public class ProductRequest {
     private List<UUID> substances;
 
 
-    public Boolean getMedicine() {
-        return medicine;
+    public Optional<ProductType> getType() {
+        return type;
     }
 
-    public void setMedicine(Boolean medicine) {
-        this.medicine = medicine;
+    public void setType(Optional<ProductType> type) {
+        this.type = type;
     }
 
     public Optional<String> getName() {

@@ -13,7 +13,7 @@ import java.util.UUID;
  * Created by rmemoria on 11/10/15.
  */
 @MappedSuperclass
-public class CaseData {
+public class CaseEntity {
 
     /**
      * The table primary key

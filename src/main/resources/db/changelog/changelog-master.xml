@@ -1699,10 +1699,6 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="defaultLocale" type="VARCHAR(10)"/>
-            <column name="defaultTimeZone" type="VARCHAR(100)"/>
-            <column name="description" type="VARCHAR(250)"/>
-            <column name="extension" type="VARCHAR(10)"/>
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
             </column>
@@ -1718,7 +1714,6 @@
             <column name="confirmedCaseNumber" type="INT"/>
             <column name="sendSystemMessages" type="${type.boolean}"/>
             <column name="monthsToAlertExpiredMedicines" type="INT"/>
-            <column name="expiredMedicineAdjustmentType_ID" type="${type.id}"/>
             <column name="caseValidationTB" type="INT"/>
             <column name="caseValidationDRTB" type="INT"/>
             <column name="caseValidationNTM" type="INT"/>
@@ -1726,12 +1721,6 @@
             <column name="maxStockOnHand" type="INT"/>
             <column name="suspectCaseNumber" type="INT"/>
             <column name="treatMonitoringInput" type="INT"/>
-            <column name="allowRegAfterDiagnosis" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="allowDiagAfterTreatment" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 

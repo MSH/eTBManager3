@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 @MappedSuperclass
-public abstract class WorkspaceData extends Synchronizable  implements Displayable {
+public abstract class WorkspaceEntity extends Synchronizable  implements Displayable {
 
     /**
 	 * The workspace of this entity

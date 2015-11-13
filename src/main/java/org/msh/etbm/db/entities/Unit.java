@@ -4,7 +4,7 @@ import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.EntityState;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.services.admin.units.UnitType;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ import java.util.Date;
 @Inheritance(strategy= InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
-public abstract class Unit extends WorkspaceData implements EntityState {
+public abstract class Unit extends WorkspaceEntity implements EntityState {
 
     /**
      * The name of the unit

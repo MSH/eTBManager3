@@ -10,13 +10,13 @@ import java.util.UUID;
  */
 public class ProductItem extends Item<UUID> {
 
-    private boolean medicine;
+    private ProductType type;
 
-    public boolean isMedicine() {
-        return medicine;
+    public ProductType getType() {
+        return type;
     }
 
-    public void setMedicine(boolean medicine) {
-        this.medicine = medicine;
+    public void setType(ProductType type) {
+        this.type = type;
     }
 }

@@ -4,6 +4,8 @@ import org.dozer.BeanFactory;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 
+import java.util.Optional;
+
 /**
  * Bean factory to create new request/medicine according to the condition if
  * the source represents a product or a medicine
@@ -16,8 +18,8 @@ public class DozerProductFactory implements BeanFactory {
 
         // source is a product request
         if (source instanceof ProductRequest) {
-            Boolean ismed = ((ProductRequest) source).getMedicine();
-            if (ismed != null && ismed == Boolean.TRUE) {
+            Optional<ProductType> opt = ((ProductRequest) source).getType();
+            if (opt != null && opt.get() == ProductType.MEDICINE) {
                 return new Medicine();
             }
             else {
@@ -25,23 +27,29 @@ public class DozerProductFactory implements BeanFactory {
             }
         }
 
-//        if (source instanceof Product) {
-//            throw new RuntimeException("invalid type " + source.getClass());
-//        }
-
         boolean isMed = source instanceof Medicine;
 
-        // target is a product item ?
-        if (ProductItem.class.isAssignableFrom(aClass)) {
-            ProductItem item = (ProductItem)createInstance(aClass);
-            item.setMedicine(isMed);
-            return item;
+        Class clazz;
+        try {
+            clazz = Class.forName(s);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
+        Object obj = createInstance(clazz);
+
+//        // target is a product item ?
+//        if (obj instanceof ProductItem) {
+//            ProductItem item = (ProductItem)obj;
+//            item.setMedicine(isMed);
+//            return item;
+//        }
+
         // target is a request?
-        if (aClass == ProductRequest.class) {
+        if (clazz == ProductRequest.class) {
             ProductRequest req = new ProductRequest();
-            req.setMedicine(isMed);
+            req.setType(Optional.of(isMed ? ProductType.MEDICINE: ProductType.PRODUCT));
             return req;
         }
 

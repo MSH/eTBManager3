@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceData;
+import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name="userprofile")
-public class UserProfile extends WorkspaceData implements Displayable {
+public class UserProfile extends WorkspaceEntity implements Displayable {
 
 	@Column(length=100)
 	@NotNull

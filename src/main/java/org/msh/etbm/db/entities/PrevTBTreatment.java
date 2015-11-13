@@ -1,6 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.CaseData;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @Table(name="prevtbtreatment")
-public class PrevTBTreatment extends CaseData {
+public class PrevTBTreatment extends CaseEntity {
 
 
 	@Column(name="TREATMENT_MONTH")
