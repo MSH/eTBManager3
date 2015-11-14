@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * Exception handlers to display friendly and standard messages to the client
+ *
  * Created by rmemoria on 22/8/15.
  */
 @ControllerAdvice
@@ -84,19 +86,6 @@ public class ExceptionHandlingController {
         return new StandardResult(null, errors, false);
     }
 
-
-//
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    @ResponseStatus(value = HttpStatus.OK)
-//    @ResponseBody
-//    public Object handleIllegalArgument(IllegalArgumentException e) {
-//        StandardResult res = new StandardResult();
-//        List<Message> errors = new ArrayList<>();
-//        errors.add(new Message(null, e.getMessage(), null));
-//
-//        res.setErrors(errors);
-//        return res;
-//    }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
