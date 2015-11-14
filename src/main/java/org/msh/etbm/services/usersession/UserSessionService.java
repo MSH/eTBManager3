@@ -1,9 +1,11 @@
 package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.Application;
 import org.msh.etbm.db.dto.UserWorkspaceDTO;
 import org.msh.etbm.db.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -43,13 +45,14 @@ public class UserSessionService {
      * @return instance of the user session, or null if authentication token is invalid
      */
     @Transactional
-    public UserSession getSessionByAuthToken(UUID authToken) {
+    @Cacheable(Application.CACHE_SESSION_ID)
+    public UserRequest getSessionByAuthToken(UUID authToken) {
         UserLogin login = entityManager.find(UserLogin.class, authToken);
         if (login == null) {
             return null;
         }
 
-        UserSession session = applicationContext.getBean(UserSession.class);
+        UserRequest session = applicationContext.getBean(UserRequest.class);
 
         // recover the information of the user in the workspace
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());

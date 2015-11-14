@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.usersession.UserRequest;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -103,7 +103,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     private EntityManager entityManager;
 
-    private UserSession userSession;
+    private UserRequest userRequest;
 
     private DozerBeanMapper mapper;
 
@@ -197,14 +197,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     protected void addHQLRestrictions(StringBuilder hql) {
         boolean bWhere = false;
-        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userSession.getUserWorkspace() != null) {
+        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequest.getUserWorkspace() != null) {
             hql.append("where ");
             if (entityPath != null) {
                 hql.append(entityPath);
                 hql.append('.');
             }
             hql.append("workspace.id = :wsid\n");
-            setParameter("wsid", userSession.getUserWorkspace().getWorkspace().getId());
+            setParameter("wsid", userRequest.getUserWorkspace().getWorkspace().getId());
             bWhere = true;
         }
 
@@ -437,12 +437,12 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.entityManager = entityManager;
     }
 
-    public UserSession getUserSession() {
-        return userSession;
+    public UserRequest getUserRequest() {
+        return userRequest;
     }
 
-    public void setUserSession(UserSession userSession) {
-        this.userSession = userSession;
+    public void setUserRequest(UserRequest userRequest) {
+        this.userRequest = userRequest;
     }
 
     public DozerBeanMapper getMapper() {

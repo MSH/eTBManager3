@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 @Component
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UserSession {
+public class UserRequest {
 
     /**
      * ID of the user login table

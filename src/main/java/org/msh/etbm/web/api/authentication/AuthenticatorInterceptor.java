@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.usersession.UserRequest;
 import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return true;
         }
 
-        UserSession session = checkAuthenticated(request);
+        UserRequest session = checkAuthenticated(request);
 
         // if there is no token, or token is invalid, return unauthorized
         if (session == null) {
@@ -68,7 +68,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
      * @param request the object representing the request
      * @return information about the user session, or null if authentication is not valid
      */
-    private UserSession checkAuthenticated(HttpServletRequest request) {
+    private UserRequest checkAuthenticated(HttpServletRequest request) {
         // get the authentication token in the request
         String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
@@ -86,7 +86,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         UUID authToken = UUID.fromString(stoken);
 
         // get information about the user session
-        UserSession session = userSessionService.getSessionByAuthToken(authToken);
+        UserRequest session = userSessionService.getSessionByAuthToken(authToken);
         if (session == null) {
             return null;
         }
@@ -102,16 +102,16 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
     /**
      * Check if user has permissions to go on with the request
      * @param perms list of roles allowed for the request
-     * @param userSession information about the user session
+     * @param userRequest information about the user session
      * @return true if user has the permissions necessary to continue
      */
-    private boolean checkAuthorized(String perms[], UserSession userSession) {
+    private boolean checkAuthorized(String perms[], UserRequest userRequest) {
         if (perms == null || perms.length == 0) {
             return true;
         }
 
         for (String p: perms) {
-            if (!userSession.isPermissionGranted(p)) {
+            if (!userRequest.isPermissionGranted(p)) {
                 return false;
             }
         }

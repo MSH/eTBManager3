@@ -15,7 +15,7 @@ import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
-import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.usersession.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,7 +42,7 @@ public abstract class EntityService<E extends Synchronizable> {
     ApplicationContext applicationContext;
 
     @Autowired
-    UserSession userSession;
+    UserRequest userRequest;
 
     @Autowired
     DozerBeanMapper mapper;
@@ -517,7 +517,7 @@ public abstract class EntityService<E extends Synchronizable> {
      * @return
      */
     protected UUID getWorkspaceId() {
-        return userSession.getUserWorkspace().getWorkspace().getId();
+        return userRequest.getUserWorkspace().getWorkspace().getId();
     }
 
 
