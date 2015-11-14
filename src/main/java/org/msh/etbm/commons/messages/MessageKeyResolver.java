@@ -51,7 +51,6 @@ public class MessageKeyResolver {
             text = text.replace(s, translate(key));
         }
 
-        System.out.println(text);
         return text;
     }
 

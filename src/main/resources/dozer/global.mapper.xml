@@ -31,4 +31,45 @@
         </field>
     </mapping>
 
+
+    <!-- User session data -->
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
+        <class-b>org.msh.etbm.services.usersession.UserSession</class-b>
+
+        <field>
+            <a>user.name</a>
+            <b>userName</b>
+        </field>
+
+        <field>
+            <a>user.id</a>
+            <b>userId</b>
+        </field>
+
+        <field>
+            <a>id</a>
+            <b>userWorkspaceId</b>
+        </field>
+
+        <field>
+            <a>workspace.id</a>
+            <b>workspaceId</b>
+        </field>
+
+        <field>
+            <a>workspace.name</a>
+            <b>workspaceName</b>
+        </field>
+
+        <field>
+            <a>unit.id</a>
+            <b>unitId</b>
+        </field>
+
+        <field>
+            <a>unit.name</a>
+            <b>unitName</b>
+        </field>
+    </mapping>
 </mappings>

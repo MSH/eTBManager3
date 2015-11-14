@@ -201,7 +201,6 @@ public class PrescribedMedicine extends CaseEntity {
 			months == 1){
 			
 			period.setEndDate(DateUtils.incDays(period.getIniDate(), 30));
-			System.out.println(period.getEndDate());
 			return;
 					
 		}

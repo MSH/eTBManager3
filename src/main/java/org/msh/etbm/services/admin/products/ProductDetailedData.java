@@ -1,6 +1,5 @@
 package org.msh.etbm.services.admin.products;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 
 import java.util.List;

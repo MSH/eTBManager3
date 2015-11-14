@@ -5,6 +5,8 @@ import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.users.UserUtils;
+import org.msh.etbm.services.usersession.UserSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,9 @@ public class LoginService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    UserSessionService userSessionService;
+
 
     /**
      * Authenticate a user by its user name, password and workspace
@@ -44,6 +49,9 @@ public class LoginService {
         }
 
         UserLogin userLogin = registerUserSession(uw, ipAddress, application);
+
+        // include user session in cache
+        userSessionService.getSessionByAuthToken(userLogin.getId());
 
         return userLogin.getId();
     }

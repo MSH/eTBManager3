@@ -4,8 +4,6 @@ import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandStoreService;
 import org.msh.etbm.commons.commands.data.DataType;
-import org.msh.etbm.db.dto.UserDTO;
-import org.msh.etbm.db.dto.WorkspaceDTO;
 import org.msh.etbm.db.entities.CommandHistory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.UserLog;
@@ -41,8 +39,8 @@ public class CommandStoreImpl implements CommandStoreService {
         cmd.setWorkspace(getWorkspaceLog(in));
 
         // get the unit involved in the command
-        if (in.getUnit() != null) {
-            Unit unit = entityManager.find(Unit.class, in.getUnit().getId());
+        if (in.getUnitId() != null) {
+            Unit unit = entityManager.find(Unit.class, in.getUnitId());
             cmd.setUnit(unit);
         }
 
@@ -70,12 +68,11 @@ public class CommandStoreImpl implements CommandStoreService {
      * @return
      */
     protected WorkspaceLog getWorkspaceLog(CommandHistoryInput in) {
-        WorkspaceDTO ws = in.getWorkspace();
-        if (ws == null) {
+        if (in.getWorkspaceId() == null) {
             return null;
         }
 
-        WorkspaceLog wslog = entityManager.find(WorkspaceLog.class, ws.getId());
+        WorkspaceLog wslog = entityManager.find(WorkspaceLog.class, in.getWorkspaceId());
 
         return wslog;
     }
@@ -85,13 +82,11 @@ public class CommandStoreImpl implements CommandStoreService {
      * @return
      */
     protected UserLog getUserLog(CommandHistoryInput in) {
-        UserDTO user = in.getUser();
-
-        if (user == null) {
+        if (in.getUserId() == null) {
             return null;
         }
 
-        UserLog userLog = entityManager.find(UserLog.class, user.getId());
+        UserLog userLog = entityManager.find(UserLog.class, in.getUserId());
 
         return userLog;
     }

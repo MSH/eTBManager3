@@ -517,7 +517,7 @@ public abstract class EntityService<E extends Synchronizable> {
      * @return
      */
     protected UUID getWorkspaceId() {
-        return userRequest.getUserWorkspace().getWorkspace().getId();
+        return userRequest.getUserSession().getWorkspaceId();
     }
 
 

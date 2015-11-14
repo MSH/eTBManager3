@@ -5,9 +5,6 @@ import org.msh.etbm.commons.commands.data.DiffLogData;
 import org.msh.etbm.commons.commands.data.ListLogData;
 import org.msh.etbm.commons.commands.data.TextLogData;
 import org.msh.etbm.commons.commands.impl.CommandException;
-import org.msh.etbm.db.dto.UnitDTO;
-import org.msh.etbm.db.dto.UserDTO;
-import org.msh.etbm.db.dto.WorkspaceDTO;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -52,11 +49,11 @@ public class CommandHistoryInput {
      */
     private CommandData data;
 
-    private WorkspaceDTO workspace;
+    private UUID workspaceId;
 
-    private UserDTO user;
+    private UUID userId;
 
-    private UnitDTO unit;
+    private UUID unitId;
 
     /**
      * If true, command log registration is canceled
@@ -168,28 +165,28 @@ public class CommandHistoryInput {
         this.data = data;
     }
 
-    public WorkspaceDTO getWorkspace() {
-        return workspace;
+    public UUID getWorkspaceId() {
+        return workspaceId;
     }
 
-    public void setWorkspace(WorkspaceDTO workspace) {
-        this.workspace = workspace;
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
-    public UnitDTO getUnit() {
-        return unit;
+    public UUID getUnitId() {
+        return unitId;
     }
 
-    public void setUnit(UnitDTO unit) {
-        this.unit = unit;
+    public void setUnitId(UUID unitId) {
+        this.unitId = unitId;
     }
 
     public String getType() {

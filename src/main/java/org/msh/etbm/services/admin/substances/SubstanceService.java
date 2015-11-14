@@ -1,7 +1,6 @@
 package org.msh.etbm.services.admin.substances;
 
 import org.msh.etbm.commons.ErrorMessages;
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.query.QueryBuilder;

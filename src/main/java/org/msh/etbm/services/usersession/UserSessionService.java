@@ -1,12 +1,10 @@
 package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.Application;
-import org.msh.etbm.db.dto.UserWorkspaceDTO;
+import org.msh.etbm.CacheConfiguration;
 import org.msh.etbm.db.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +24,8 @@ import java.util.UUID;
 @Configuration
 public class UserSessionService {
 
-    public static final String SESSION_KEY = "userSession";
-    public static final String SESSION_ID = "userSessionID";
-
     @PersistenceContext
     EntityManager entityManager;
-
-    @Autowired
-    ApplicationContext applicationContext;
 
     @Autowired
     DozerBeanMapper mapper;
@@ -45,14 +37,12 @@ public class UserSessionService {
      * @return instance of the user session, or null if authentication token is invalid
      */
     @Transactional
-    @Cacheable(Application.CACHE_SESSION_ID)
-    public UserRequest getSessionByAuthToken(UUID authToken) {
+    @Cacheable(value = CacheConfiguration.CACHE_SESSION_ID, unless = "#result == null")
+    public UserSession getSessionByAuthToken(UUID authToken) {
         UserLogin login = entityManager.find(UserLogin.class, authToken);
         if (login == null) {
             return null;
         }
-
-        UserRequest session = applicationContext.getBean(UserRequest.class);
 
         // recover the information of the user in the workspace
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());
@@ -61,15 +51,14 @@ public class UserSessionService {
             throw new IllegalArgumentException("User workspace not found");
         }
 
+        UserSession session = mapper.map(uw, UserSession.class);
+
         session.setUserLoginId(login.getId());
 
         if (!uw.isAdministrator()) {
             List<String> perms = createPermissionList(uw);
             session.setPermissions(perms);
         }
-
-        UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
-        session.setUserWorkspace(res);
 
         return session;
     }

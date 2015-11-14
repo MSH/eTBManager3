@@ -153,7 +153,7 @@ function CRUD(tbl) {
 					console.log(data.errors);
 				}
 				assert(!data.errors);
-				assert(data.count);
+				assert(data.count, 'No record found');
 				if (!qry.countOnly) {
 					assert(data.list);
 				}

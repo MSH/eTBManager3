@@ -77,7 +77,6 @@ public class ExceptionHandlingController {
         List<Message> errors = new ArrayList<>();
         List<FieldError> lst = res.getFieldErrors();
         for (FieldError fld: lst) {
-            System.out.println(fld.getDefaultMessage());
             String message = messageSource.getMessage(fld, locale);
             errors.add(new Message(fld.getField(), message, fld.getCode()));
         }

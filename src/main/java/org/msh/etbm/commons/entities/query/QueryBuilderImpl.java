@@ -197,14 +197,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     protected void addHQLRestrictions(StringBuilder hql) {
         boolean bWhere = false;
-        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequest.getUserWorkspace() != null) {
+        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequest.isAuthenticated()) {
             hql.append("where ");
             if (entityPath != null) {
                 hql.append(entityPath);
                 hql.append('.');
             }
             hql.append("workspace.id = :wsid\n");
-            setParameter("wsid", userRequest.getUserWorkspace().getWorkspace().getId());
+            setParameter("wsid", userRequest.getUserSession().getWorkspaceId());
             bWhere = true;
         }
 

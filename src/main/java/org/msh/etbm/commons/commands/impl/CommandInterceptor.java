@@ -105,8 +105,8 @@ public class CommandInterceptor {
 
         // include information about the authenticated user
         if (userRequest.isAuthenticated()) {
-            in.setWorkspace(userRequest.getUserWorkspace().getWorkspace());
-            in.setUser(userRequest.getUserWorkspace().getUser());
+            in.setWorkspaceId(userRequest.getUserSession().getWorkspaceId());
+            in.setUserId(userRequest.getUserSession().getUserId());
         }
 
         // call handler of the log

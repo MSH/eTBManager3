@@ -1,13 +1,10 @@
 package org.msh.etbm.services.init.impl;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
-import org.msh.etbm.db.dto.UserDTO;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.init.RegisterWorkspaceRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -23,8 +20,6 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
     @PersistenceContext
     EntityManager entityManager;
 
-    @Autowired
-    DozerBeanMapper mapper;
 
     @Override
     public void prepareLog(CommandHistoryInput in, RegisterWorkspaceRequest request, UUID response) {
@@ -36,8 +31,7 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
                 .setParameter("email", request.getAdminEmail())
                 .getSingleResult();
 
-        UserDTO u = mapper.map(user, UserDTO.class);
-        in.setUser(u);
+        in.setUserId(user.getId());
 
         in.beginListLog()
                 .add("Workspace.adminEmail", request.getAdminEmail());

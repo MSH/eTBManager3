@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api.authentication;
 
 import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
     @Autowired
     UserSessionService userSessionService;
 
+    @Autowired
+    UserRequest userRequest;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -46,7 +49,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return true;
         }
 
-        UserRequest session = checkAuthenticated(request);
+        UserSession session = checkAuthenticated(request);
 
         // if there is no token, or token is invalid, return unauthorized
         if (session == null) {
@@ -59,6 +62,8 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
         }
 
+        userRequest.setUserSession(session);
+
         return true;
     }
 
@@ -68,7 +73,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
      * @param request the object representing the request
      * @return information about the user session, or null if authentication is not valid
      */
-    private UserRequest checkAuthenticated(HttpServletRequest request) {
+    private UserSession checkAuthenticated(HttpServletRequest request) {
         // get the authentication token in the request
         String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
@@ -86,14 +91,10 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         UUID authToken = UUID.fromString(stoken);
 
         // get information about the user session
-        UserRequest session = userSessionService.getSessionByAuthToken(authToken);
+        UserSession session = userSessionService.getSessionByAuthToken(authToken);
         if (session == null) {
             return null;
         }
-
-        // set the token and user session as an attribute of the request to be used further in the code
-        request.setAttribute(UserSessionService.SESSION_ID, authToken);
-        request.setAttribute(UserSessionService.SESSION_KEY, session);
 
         return session;
     }
@@ -102,16 +103,16 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
     /**
      * Check if user has permissions to go on with the request
      * @param perms list of roles allowed for the request
-     * @param userRequest information about the user session
+     * @param userSession information about the user session
      * @return true if user has the permissions necessary to continue
      */
-    private boolean checkAuthorized(String perms[], UserRequest userRequest) {
+    private boolean checkAuthorized(String perms[], UserSession userSession) {
         if (perms == null || perms.length == 0) {
             return true;
         }
 
         for (String p: perms) {
-            if (!userRequest.isPermissionGranted(p)) {
+            if (!userSession.isPermissionGranted(p)) {
                 return false;
             }
         }
