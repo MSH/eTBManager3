@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.products;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -8,6 +9,7 @@ import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public class ProductService extends EntityService<Product> {
      * @return list of products
      */
     public QueryResult<Product> findMany(ProductQuery qry) {
-        Class clazz = qry.isMedicinesOnly()? Medicine.class: Product.class;
+        Class clazz = qry.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
 
         QueryBuilder<Product> builder = queryBuilderFactory.createQueryBuilder(clazz);
 
@@ -73,5 +75,22 @@ public class ProductService extends EntityService<Product> {
             }
         }
         return super.createEntityInstance(req);
+    }
+
+    @Override
+    protected void prepareToSave(Product entity, BindingResult bindingResult) {
+        super.prepareToSave(entity, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return;
+        }
+
+        if (!checkUnique(entity, "name")) {
+            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        }
+
+        if (!checkUnique(entity, "shortName")) {
+            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        }
     }
 }

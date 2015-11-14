@@ -50,10 +50,6 @@ describe('country-structure', function() {
 		doc: cs,
 		/** the model to create */
 		model: model,
-		/** List of fields by profile */
-		profiles: {
-			default: ['name', 'level']
-		},
 		/** List of required fields to test */
 		requiredFields: ['name', 'level'],
 		/** List of unique fields to test */

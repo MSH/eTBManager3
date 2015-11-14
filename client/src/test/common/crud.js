@@ -42,8 +42,8 @@ function CRUD(tbl) {
 					if (!data.success) {
 						console.log(data.errors);
 					}
-					assert(data.success);
-					assert(data.result);
+					assert(data.success, 'Error on the return of create');
+					assert(data.result, 'No result returned from create');
 					req.id = data.result;
 					return data.result;
 				});

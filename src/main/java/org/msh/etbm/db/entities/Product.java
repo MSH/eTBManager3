@@ -6,6 +6,7 @@ import org.msh.etbm.services.admin.products.ProductType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by rmemoria on 29/6/15.
@@ -20,10 +21,12 @@ public class Product extends WorkspaceEntity {
     @Column(length = 250)
     @PropertyLog(messageKey = "form.name")
     @NotNull
+    @Size(min=3, max = 250)
     private String name;
 
     @PropertyLog(messageKey = "form.shortName")
     @NotNull
+    @Size(min=1, max = 30)
     private String shortName;
 
     @Column(length=50)

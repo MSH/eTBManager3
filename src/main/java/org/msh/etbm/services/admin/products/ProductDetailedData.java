@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.products;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.SynchronizableItem;
 
 import java.util.List;
 
@@ -11,13 +12,13 @@ import java.util.List;
  */
 public class ProductDetailedData extends ProductData {
 
-    private List<Item> substances;
+    private List<SynchronizableItem> substances;
 
-    public List<Item> getSubstances() {
+    public List<SynchronizableItem> getSubstances() {
         return substances;
     }
 
-    public void setSubstances(List<Item> substances) {
+    public void setSubstances(List<SynchronizableItem> substances) {
         this.substances = substances;
     }
 }

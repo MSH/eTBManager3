@@ -8,18 +8,18 @@ import org.msh.etbm.commons.entities.query.EntityQuery;
  * Created by rmemoria on 11/11/15.
  */
 public class ProductQuery extends EntityQuery {
-    private boolean medicinesOnly;
+    private ProductType type;
 
     private String key;
 
     private boolean includeDisabled;
 
-    public boolean isMedicinesOnly() {
-        return medicinesOnly;
+    public ProductType getType() {
+        return type;
     }
 
-    public void setMedicinesOnly(boolean medicinesOnly) {
-        this.medicinesOnly = medicinesOnly;
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     public String getKey() {

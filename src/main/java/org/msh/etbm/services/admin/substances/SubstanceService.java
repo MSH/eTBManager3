@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.substances;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -37,7 +38,7 @@ public class SubstanceService extends EntityService<Substance> {
 
         // add the available profiles
         builder.addDefaultProfile(PROFILE_DEFAULT, SubstanceData.class);
-        builder.addProfile(PROFILE_ITEM, Item.class);
+        builder.addProfile(PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
         builder.addDefaultOrderByMap(ORDERBY_DISPLAYORDER, "displayOrder");
