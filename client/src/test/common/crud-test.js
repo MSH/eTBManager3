@@ -198,7 +198,7 @@ module.exports = function execute(opt) {
 
 			// calculate the last page
 			var lp = res.count / 5;
-			if (lp % 5 === 0) {
+			if (res.count % 5 === 0) {
 				lp--;
 			}
 			else {
@@ -215,7 +215,8 @@ module.exports = function execute(opt) {
 			var it2 = res.list[res.list.length - 1];
 			if (!it2) {
 				console.log('it2 is undefined');
-				console.log(res);
+				console.log('QUERY = ', qry);
+				console.log('RESULT = ', res);
 			}
 			if (!item) {
 				console.log('item is undefined');

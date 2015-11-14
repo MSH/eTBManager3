@@ -137,5 +137,6 @@ describe('product', () => {
 
 exports.cleanup = function() {
 	console.log('deleting products...');
-	return crud.delete(exports.model);
+	return crud.delete(exports.medicines)
+		.then( () => crud.delete(exports.products));
 };
