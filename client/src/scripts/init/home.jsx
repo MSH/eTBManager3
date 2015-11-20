@@ -1,4 +1,3 @@
-'use strict';
 
 import React from 'react';
 import { RouteView } from '../components/router.jsx';
@@ -15,23 +14,25 @@ import Success from './success.jsx';
 export default class Home extends React.Component {
 
 	render() {
-		let routes = [
+		const routes = [
 			{ path: '/welcome', view: Welcome },
-            { path: '/initoptions', view: InitOptions},
+            { path: '/initoptions', view: InitOptions },
             { path: '/newworkspace', view: NewWorkspace },
             { path: '/success', view: Success }
 		];
 
-		let viewProps = {
-			dispatch: this.props.dispatch,
-			appState: this.props.appState
+		const viewProps = {
+			app: this.props.app
 		};
 
 		return (
 			<div>
-	            <RouteView routes={routes} viewProps={viewProps}>
-	            </RouteView>
+				<RouteView routes={routes} viewProps={viewProps} />
 			</div>
 			);
 	}
 }
+
+Home.propTypes = {
+    app: React.PropTypes.object
+};

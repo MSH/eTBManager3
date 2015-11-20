@@ -1,17 +1,16 @@
+
 import React from 'react';
-import { Grid, Row, Col, Input, Button, Fade, PageHeader } from 'react-bootstrap';
+import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
 import { postSuccess } from './actions';
-import { navigator } from '../components/router.jsx';
-import Title from '../components/title.jsx';
 import { validateForm } from '../commons/validator.jsx';
 import Card from '../components/card.jsx';
-import Http from '../commons/http.js';
+import Server from '../commons/server.js';
 import AsyncButton from '../components/async-button.jsx';
 
 /**
  * Form validation model
  */
-let form = {
+const form = {
     wsname: {
         required: true,
         min: 3,
@@ -29,7 +28,7 @@ let form = {
         required: true,
         validate: function() {
             if (this.pwd2 !== this.pwd) {
-                return "Password is not the same";
+                return 'Password is not the same';
             }
         }
     }
@@ -47,32 +46,34 @@ export default class NewWorkspace extends React.Component {
      * Called when user clicks on the continue button
      */
     contClick() {
-        let res = validateForm(this, form);
+        const vals = validateForm(this, form);
 
         // there is any validation error ?
-        if (res.errors) {
-            this.setState({errors: res.errors});
+        if (vals.errors) {
+            this.setState({ errors: vals.errors });
             return;
         }
-        else {
-            this.setState({errors: {}, fetching: true});
-        }
 
-        let v = res.value;
-        let data = {
+        this.setState({ errors: {}, fetching: true });
+
+        const v = vals.value;
+        const data = {
             workspaceName: v.wsname,
             adminPassword: v.pwd,
             adminEmail: v.email
         };
 
-        let comp = this;
+        const self = this;
+        const app = this.props.app;
 
-        Http.post('/api/init/workspace', data)
-            .end((err, res) => {
-                comp.setState({fetching: false});
-                if (!err) {
-                    comp.props.dispatch(postSuccess(v.wsname));
+        Server.post('/api/init/workspace', data)
+            .then(res => {
+                if (res.errors) {
+                    self.setState({ errors: res.errors });
+                    return;
                 }
+                app.dispatch(postSuccess(v.wsname));
+                app.goto('/init/success');
             });
     }
 
@@ -81,57 +82,50 @@ export default class NewWorkspace extends React.Component {
      * Render the component
      */
     render() {
-        let langs = this.props.appState.app.languages;
-        let lg = window.app.getLang();
-        let err = this.state.errors || {};
-        let fetching = this.state.fetching;
+        const err = this.state.errors || {};
+        const fetching = this.state.fetching;
 
         return (
             <Fade in transitionAppear>
                 <Grid fluid>
                     <Col sm={8} smOffset={2} lg={8} lgOffset={2} >
-                        <Card title='Create a new workspace'>
+                        <Card title="Create a new workspace">
                             <div>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname?'error':undefined}>
-                                        </Input>
+                                        <Input type="text" ref="wsname" label="Workspace name:" autoFocus help={err.wsname} bsStyle={err.wsname ? 'error' : undefined} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={12}>
-                                        <div className='bs-callout bs-callout-warning'>
-                                            <h4>Administrator</h4>
-                                            <p>The administrator account is a special user with access to all data and functionalities inside e-TB Manager.
-                                                It is recommended that you use this account with caution.
+                                        <div className="bs-callout bs-callout-warning">
+                                            <h4>{'Administrator'}</h4>
+                                            <p>{'The administrator account is a special user with access to all data and functionalities inside e-TB Manager.' +
+                                                'It is recommended that you use this account with caution.'}
                                             </p>
                                         </div>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="text" label="Administrator user name:" value="Admin" disabled>
-                                        </Input>
+                                        <Input type="text" label="Administrator user name:" value="Admin" disabled />
                                     </Col>
                                     <Col sm={6}>
-                                        <Input type="text" ref="email" label="Administrator e-mail:" help={err.email} bsStyle={err.email?'error':undefined}>
-                                        </Input>
+                                        <Input type="text" ref="email" label="Administrator e-mail:" help={err.email} bsStyle={err.email ? 'error' : undefined} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd?'error':undefined}>
-                                        </Input>
+                                        <Input type="password" ref="pwd" label="Administrator password:" help={err.pwd} bsStyle={err.pwd ? 'error' : undefined} />
                                     </Col>
                                     <Col sm={6}>
-                                        <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2}  bsStyle={err.pwd2?'error':undefined}>
-                                        </Input>
+                                        <Input type="password" ref="pwd2" label="Administrator password (repeat):" help={err.pwd2} bsStyle={err.pwd2 ? 'error' : undefined} />
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={12}>
                                         <div className="pull-right">
-                                            <AsyncButton fetching={fetching} pullRight bsSize='large' onClick={this.contClick}>
+                                            <AsyncButton fetching={fetching} pullRight bsSize="large" onClick={this.contClick}>
                                                 {__('Create')}
                                             </AsyncButton>
                                         </div>
@@ -145,3 +139,8 @@ export default class NewWorkspace extends React.Component {
         );
     }
 }
+
+
+NewWorkspace.propTypes = {
+    app: React.PropTypes.object
+};

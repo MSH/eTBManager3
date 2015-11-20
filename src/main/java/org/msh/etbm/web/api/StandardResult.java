@@ -2,9 +2,8 @@ package org.msh.etbm.web.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.messages.Message;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Standard result structure for API requests. Not a rule, but used by many API functions to indicate the
@@ -28,7 +27,7 @@ public class StandardResult {
      * The list of error messages, in case validation fails
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<Message> errors;
+    private Map<String, Message> errors;
 
 
     public StandardResult() {
@@ -40,7 +39,7 @@ public class StandardResult {
         this.result = res.getId();
     }
 
-    public StandardResult(Object res, List<Message> errors, boolean success) {
+    public StandardResult(Object res, Map<String, Message> errors, boolean success) {
         this.result = res;
         this.errors = errors;
         this.success = success;
@@ -62,11 +61,11 @@ public class StandardResult {
         this.result = result;
     }
 
-    public List<Message> getErrors() {
+    public Map<String, Message> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<Message> errors) {
+    public void setErrors(Map<String, Message> errors) {
         this.errors = errors;
     }
 }

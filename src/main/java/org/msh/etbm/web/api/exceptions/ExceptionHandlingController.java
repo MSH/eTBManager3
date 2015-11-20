@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.exceptions;
 
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.messages.Message;
+import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Exception handlers to display friendly and standard messages to the client
@@ -55,10 +53,20 @@ public class ExceptionHandlingController {
     @ResponseBody
     public Object handleEntityValidationError(EntityValidationException e) {
         if (e.getBindingResult() == null) {
-            Message msg = new Message(e.getField(), e.getMessage(), null);
-            List<Message> lst = new ArrayList<>();
-            lst.add(msg);
-            return new StandardResult(null, lst, false);
+            // get the selected locale
+            Locale locale = LocaleContextHolder.getLocale();
+
+            // create the message
+            Map<String, Message> msgs = new HashMap<>();
+            String msg;
+            if (e.getCode() != null && e.getMessage() == null) {
+                msg = messageSource.getMessage(e.getCode(), null, locale);
+            }
+            else {
+                msg = e.getMessage();
+            }
+            msgs.put(e.getField(), new Message(msg, e.getCode()));
+            return new StandardResult(null, msgs, false);
         }
         return convertErrorsToStandardResult(e.getBindingResult());
     }
@@ -76,11 +84,11 @@ public class ExceptionHandlingController {
 
         Locale locale = LocaleContextHolder.getLocale();
 
-        List<Message> errors = new ArrayList<>();
+        Map<String, Message> errors = new HashMap<>();
         List<FieldError> lst = res.getFieldErrors();
         for (FieldError fld: lst) {
             String message = messageSource.getMessage(fld, locale);
-            errors.add(new Message(fld.getField(), message, fld.getCode()));
+            errors.put(fld.getField(), new Message(message, fld.getCode()));
         }
 
         return new StandardResult(null, errors, false);
@@ -92,10 +100,10 @@ public class ExceptionHandlingController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Object methodValidationError(MethodArgumentNotValidException e) {
-        List<Message> errors = new ArrayList<>();
+        Map<String, Message> errors = new HashMap<>();
 
         for (FieldError fld: e.getBindingResult().getFieldErrors()) {
-            errors.add(new Message(fld.getField(), fld.getDefaultMessage(), null));
+            errors.put(fld.getField(), new Message(fld.getDefaultMessage(), null));
         }
 
         StandardResult res = new StandardResult(null, errors, false);

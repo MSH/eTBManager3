@@ -1,19 +1,20 @@
 /**
  * First script called during application execution
  */
-'use strict';
 
-import React from 'react';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
+// import React from 'react';
+// import { createStore, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
+// import thunk from 'redux-thunk';
 
+// include babel modules
+require('babel-core/register');
 
 // application main component
 import App from './core/app.jsx';
-import Http from 'http';
-import { runApp } from './core/actions';
-import { appReducer } from './core/reducers';
+// import Http from 'http';
+// import { runApp } from './core/actions';
+// import { appReducer } from './core/reducers';
 
 
 // load the style sheet in use
@@ -21,27 +22,8 @@ require('../styles/theme.css');
 require('../styles/app.css');
 
 // load font awesome
-require("font-awesome-webpack");
+require('font-awesome-webpack');
 
-/**
- * Create application store
- */
-let createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-
-let store = createStoreWithMiddleware(appReducer);
-
-
-/**
- * Render application
- */
-React.render(
-  <Provider store={store}>
-    {() => <App />}
-  </Provider>,
-  document.getElementById('content'));
-
-
-/**
- * Run the application calling the run action
- */
-store.dispatch(runApp());
+// run the application
+var app = new App();
+app.run();

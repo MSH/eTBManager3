@@ -13,14 +13,16 @@ public class EntityValidationException extends RuntimeException {
 
     private String field;
     private String message;
+    private String code;
 
     public EntityValidationException(BindingResult res) {
         this.bindingResult = res;
     }
 
-    public EntityValidationException(String field, String message) {
+    public EntityValidationException(String field, String message, String code) {
         this.field = field;
         this.message = message;
+        this.code = code;
     }
 
     public BindingResult getBindingResult() {
@@ -29,6 +31,10 @@ public class EntityValidationException extends RuntimeException {
 
     public String getField() {
         return field;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     @Override

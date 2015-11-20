@@ -53,16 +53,37 @@ module.exports = config.languages.dev.map( function(lang) {
             reasons: true
         },
 
+        resolve: {
+            extensions: ["", ".js", ".jsx"]
+        },
+
         module: {
             loaders: [
                 {
-                    test: /\.jsx?$/,
+                    test: /\.jsx/,
+                    loader: 'babel-loader',
                     exclude: /node_modules/,
-                    loader: 'babel'
-                }, {
+                    query: {
+                        // https://github.com/babel/babel-loader#options
+                        cacheDirectory: true,
+                        presets: ['es2015', 'react']
+                    }
+                },
+                {
+                    test: /\.js/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/,
+                    query: {
+                        // https://github.com/babel/babel-loader#options
+                        cacheDirectory: true,
+                        presets: ['es2015', 'react']
+                    }
+                },
+                {
                     test: /\.less/,
                     loader: 'style-loader!css-loader!less-loader'
-                }, {
+                },
+                {
                     test: /\.css$/,
                     loader: 'style-loader!css-loader'
                 }, {

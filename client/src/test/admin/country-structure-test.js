@@ -81,8 +81,9 @@ describe('country-structure', function() {
 			return crud.update(cs.id, data, {skipValidation: true })
 			.then(function(res) {
 				assert(res.errors);
-				assert.equal(res.errors.length, 1);
-				assert.equal(res.errors[0].field, 'level');
+				var fields = Object.keys(res.errors);
+				assert.equal(fields.length, 1);
+				assert.equal(fields[0], 'level');
 			});
 		});
 

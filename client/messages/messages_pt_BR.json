@@ -119,5 +119,6 @@
     "must be in the past": "Precisa ser uma data passada",
     "must match \"{regexp}\"": "Precisa ser compatível com \"{regexp}\"",
     "size must be between {min} and {max}": "Tamanho precisa estar entre {min} e {max}",
-    "Value is required": "Valor deve ser informado"
+    "Value is required": "Valor deve ser informado",
+    "Invalid value": "Valor não é válido"
 }

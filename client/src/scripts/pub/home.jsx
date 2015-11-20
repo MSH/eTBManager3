@@ -1,4 +1,3 @@
-'use strict';
 
 import React from 'react';
 import { RouteView } from '../components/router.jsx';
@@ -15,22 +14,21 @@ import ForgotPwd from './forgot-pwd.jsx';
 export default class Home extends React.Component {
 
 	render() {
-		let routes = [
+		const routes = [
 			{ path: '/login', view: Login },
-            { path: '/forgotpwd', view: ForgotPwd},
+            { path: '/forgotpwd', view: ForgotPwd },
             { path: '/userreg', view: UserReg }
 		];
 
-		let viewProps = {
-			dispatch: this.props.dispatch,
-			appState: this.props.appState
+		// information passed to all views
+		const viewProps = {
+			app: this.props.app
 		};
 
-		return (
-			<div>
-	            <RouteView routes={routes} viewProps={viewProps}>
-	            </RouteView>
-			</div>
-			);
+		return <RouteView routes={routes} viewProps={viewProps} />;
 	}
 }
+
+Home.propTypes = {
+    app: React.PropTypes.object
+};

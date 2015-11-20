@@ -15,25 +15,31 @@ import { Button } from 'react-bootstrap';
 export default class AsyncButton extends React.Component {
 
     render() {
+        const props = this.props;
+        const fetching = props.fetching;
+        const fetchMsg = props.fetchCaption;
 
-        let props = this.props;
-        let fetching = props.fetching;
-        let fetchMsg = props.fetchCaption;
+        const btnProps = Object.assign({},
+            this.props,
+            { disabled: fetching, bsStyle: props.bsStyle ? props.bsStyle : 'primary' });
 
-        delete props.fetching;
-
-        props.disabled = fetching;
-
-        if (!props.bsStyle) {
-            props.bsStyle = 'primary';
-        }
-
+        delete btnProps.fetching;
 
         return (
-            <Button {...props}>
-                {fetching && <i className='fa fa-circle-o-notch fa-spin fa-fw'></i>}
-                {fetching && fetchMsg? fetchMsg: this.props.children}
+            <Button {...btnProps}>
+                {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw"></i>}
+                {fetching && fetchMsg ? fetchMsg : this.props.children}
             </Button>
-        )
+        );
     }
 }
+
+AsyncButton.propTypes = {
+    fetching: React.PropTypes.bool,
+    fetchMsg: React.PropTypes.string
+};
+
+AsyncButton.defaultProps = {
+    fetching: false,
+    fetchMsg: 'Wait...'
+};

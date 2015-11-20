@@ -88,7 +88,19 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return null;
         }
 
-        UUID authToken = UUID.fromString(stoken);
+        // convert authentication token to UUID
+        UUID authToken;
+        try {
+            authToken = UUID.fromString(stoken);
+        }
+        catch (IllegalArgumentException e) {
+            authToken = null;
+        }
+
+        // is not a valid UUID?
+        if (authToken == null) {
+            return null;
+        }
 
         // get information about the user session
         UserSession session = userSessionService.getSessionByAuthToken(authToken);

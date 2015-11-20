@@ -379,7 +379,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         Class dataClass = profile != null? profiles.get(profile): null;
 
         if (profile != null && dataClass == null) {
-            throw new EntityValidationException("profile", "Invalid profile");
+            throw new EntityValidationException("profile", null, "NotValid");
         }
 
         return createQueryResult(dataClass);

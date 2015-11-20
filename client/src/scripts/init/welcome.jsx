@@ -1,6 +1,6 @@
+
 import React from 'react';
 import { Grid, Row, Col, Input, Button, Fade } from 'react-bootstrap';
-import { navigator } from '../components/router.jsx';
 import Title from '../components/title.jsx';
 
 
@@ -18,15 +18,15 @@ export default class Welcome extends React.Component {
      * Called when user clicks on the continue button
      */
     contClick() {
-        navigator.goto('/init/initoptions');
+        this.props.app.goto('/init/initoptions');
     }
 
     /**
      * Called when user select a language
      */
     langChange() {
-        let elem = this.refs.langs.getInputDOMNode();
-        let lang = elem.options[elem.selectedIndex].value;
+        const elem = this.refs.langs.getInputDOMNode();
+        const lang = elem.options[elem.selectedIndex].value;
         window.app.setLang(lang);
         window.location.reload(true);
     }
@@ -35,29 +35,30 @@ export default class Welcome extends React.Component {
      * Render the component
      */
 	render() {
-		let langs = this.props.appState.app.languages;
-		let lg = window.app.getLang();
+        const app = this.props.app;
+		const langs = app.getState().app.languages;
+		const lg = window.app.getLang();
 
 		return (
             <Fade in transitionAppear>
                 <Grid>
                     <Row>
                         <Col md={6} mdOffset={3}>
-                            <Title text={__('Welcome to e-TB Manager')}></Title>
-                            <p className='text-muted'>{__('Please select your language and click \'Continue\'')}</p>
+                            <Title text={__('Welcome to e-TB Manager')} />
+                            <p className="text-muted">{__('Please select your language and click \'Continue\'')}</p>
                         </Col>
                         <Col md={6} mdOffset={3}>
                             <Input type="select" ref="langs" size={8} multiple autoFocus
-                                   bsSize="large" value={[lg]} onChange={this.langChange}>
-                                { langs.map((lang) =>
+                                bsSize="large" value={[lg]} onChange={this.langChange}>
+                                {langs.map((lang) =>
                                         <option key={lang.id} value={lang.id}>{lang.name}</option>
                                 )
                                 }
                             </Input>
                         </Col>
                         <Col md={6} mdOffset={3}>
-                            <div className='pull-right'>
-                                <Button bsStyle="primary" pullRight bsSize='large' onClick={this.contClick}>{__('Continue')}
+                            <div className="pull-right">
+                                <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>{__('Continue')}
                                 </Button>
                             </div>
                         </Col>
@@ -67,3 +68,8 @@ export default class Welcome extends React.Component {
 			);
 	}
 }
+
+
+Welcome.propTypes = {
+    app: React.PropTypes.object
+};

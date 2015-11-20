@@ -47,7 +47,7 @@ gulp.task('build', function() {
 gulp.task('run', function() {
     return runSequence(
         'clean',
-        'client-jshint',
+       /* 'client-jshint', */
         ['client-msgs', 'entry-point-dev', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',
@@ -59,8 +59,8 @@ gulp.task('run', function() {
 /**
  * Delete files from destination directory
  */
-gulp.task('clean', function(cb) {
-    del( path.join(distPath, '/**/*'), cb);
+gulp.task('clean', function() {
+    del( path.join(distPath, '/**/*'));
 });
 
 

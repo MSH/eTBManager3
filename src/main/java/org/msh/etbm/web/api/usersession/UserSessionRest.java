@@ -2,6 +2,7 @@ package org.msh.etbm.web.api.usersession;
 
 import org.msh.etbm.db.dto.UserWorkspaceDTO;
 import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("api/sys")
 public class UserSessionRest {
 
-//    @Autowired
-//    UserSessionService userSessionService;
+    @Autowired
+    UserRequest userRequest;
 
 
     @Autowired
@@ -29,11 +30,8 @@ public class UserSessionRest {
 
     @Authenticated
     @RequestMapping(value = "/session", method = RequestMethod.POST)
-    public UserWorkspaceDTO getUserSession(HttpServletRequest request) {
+    public UserSession getUserSession(HttpServletRequest request) {
 
-        UserRequest userRequest = context.getBean(UserRequest.class);
-        UserWorkspaceDTO uw = context.getBean(UserWorkspaceDTO.class);
-
-        return uw;
+        return userRequest.getUserSession();
     }
 }

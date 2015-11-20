@@ -1,18 +1,22 @@
-'use strict';
 
-import Http from '../commons/http.js';
+import Server from '../commons/server.js';
+import { AUTHENTICATED } from '../core/actions';
 
+var view;
 
-exports.init = function(path, done) {
+export function init(data) {
 
-    require.ensure('./routes.jsx', function(require) {
-        Http.post('/api/sys/session', (err, res) => {
-            if (err) {
-                return done();
-            }
+	return view || new Promise(resolve => {
+		require.ensure('./routes.jsx', function(require) {
+			var Routes = require('./routes.jsx');
 
-            var Routes = require('./routes.jsx');
-            done(Routes);
-        });
-    });
-};
+			// get information about the session
+			Server.post('/api/sys/session')
+			.then(res => {
+				data.app.dispatch(AUTHENTICATED, res);
+				resolve(Routes);
+			});
+		});
+
+	});
+}

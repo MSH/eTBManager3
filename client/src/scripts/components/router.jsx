@@ -16,6 +16,7 @@ export class RouteView extends React.Component {
 		this.state = {
 			routes: createRouteTable(this.props.routes)
 		};
+//		this.onHashChange = this.onHashChange.bind(this);
 	}
 
 	/**
@@ -35,13 +36,13 @@ export class RouteView extends React.Component {
 
 	componentDidMount() {
 		this.mounted = true;
-		this.isRoot = navigator.subscribe(this);
+		this.isRoot = router.subscribe(this);
 	}
 
 
 	componentWillUnmount() {
 		this.mounted = false;
-		navigator.unsubscribe(this);
+		router.unsubscribe(this);
 	}
 
 	/**
@@ -52,14 +53,16 @@ export class RouteView extends React.Component {
 	onHashChange(path) {
 		// resolve the view by the path
         currPath = path;
-		let res = this.resolveView(path);
-		if (!res) {
-			return;
-		}
+		// let res = this.resolveView(path);
+		// if (!res) {
+		// 	return;
+		// }
 
-		if (res.view) {
-			this.setState(res);
-		}
+		this.setState({ view: null, route: null,  params: null, loading: false });
+
+		// if (res.view || res.loading) {
+		// 	this.setState(res);
+		// }
 	}
 
 	/**
@@ -80,22 +83,25 @@ export class RouteView extends React.Component {
 
 		// search for route according to the given path
 		let route = this.findRoute(path);
+		console.log('PATH = ' + path + ', ROUTES = ', this.state.routes);
 		// route was found ?
 		if (!route) {
             if (!errorPath) {
                 errorPath = this.props.errorPath;
             }
 			if (errorPath) {
-				navigator.goto(errorPath);
+				router.goto(errorPath);
 			}
-			return;
+
+			return null;
 		}
 
 		var res = {
 			view: undefined,
 			route: route,
 			path: path,
-			params: this.resolveParams(route, path)
+			params: this.resolveParams(route, path),
+			loading: false
 		};
 
 		if (route.view) {
@@ -103,14 +109,26 @@ export class RouteView extends React.Component {
 			return res;
 		}
 
+		// has an external resolver defined in route parameters
 		if (route.viewResolver) {
-			let comp = this;
-			// called if view resolution is asynchronous
-			let done = (view) => {
-				res.view = view;
-				comp.setState(res);
-			};
-			res.view = route.viewResolver(path, done);
+			const comp = this;
+			const resolved = route.viewResolver(path);
+
+			// returned a promise ?
+			if (resolved && typeof resolved.then === 'function') {
+				// when view is resolved, refresh the component
+				resolved.then(view => {
+					res.view = view;
+					res.loading = false;
+					comp.setState(res);
+				});
+
+				res.view = null;
+				res.loading = true;
+			}
+			else {
+				res.view = resolved;
+			}
 		}
 		return res;
 	}
@@ -144,14 +162,18 @@ export class RouteView extends React.Component {
 		let route = this.state.route;
 		let params = this.state.params;
 
-		// view is not available and is not the root view?
-		if (!View && !this.isRoot) {
+		// indicate if the rout is being asynchronously loaded
+		var loading = this.state.loading;
+
+		// view is not resolved?
+		if (!View) {
 			// resolve the view by the current path
 			let res = this.resolveView(currPath);
 			if (res) {
 				View = res.view;
 				route = res.route;
 				params = res.params;
+				loading = res.loading;
 			}
 		}
 
@@ -170,20 +192,33 @@ export class RouteView extends React.Component {
 
 			// params were set ?
 			if (params) {
-				viewProps.params = {params};
+				viewProps.params = { params };
 			}
 
 			// update the current path for the next calls
-			currPath = currPath.replace(route.pathExp, '');
-			return (
-				<View {...viewProps} ></View>
-			);
+			if (route) {
+				currPath = currPath.replace(route.pathExp, '');
+			}
+
+			if (typeof View == 'object' && View.default) {
+				View = View.default;
+			}
+
+			return <View {...viewProps} ></View>;
 		}
 		else {
-			return null;
+			const loadingView = this.props.loadingView;
+			return loading && loadingView? loadingView: <div/>;
 		}
 	}
 }
+
+RouteView.propTypes = {
+    loadingView: React.PropTypes.object,
+    errorPath: React.PropTypes.string,
+    routes: React.PropTypes.array,
+    viewProps: React.PropTypes.object
+};
 
 
 
@@ -226,7 +261,7 @@ function createRouteTable(lst) {
  * Navigator is responsible for monitoring the location.hash object. Once a change is
  * found, the navigator notifies the root RouteView in order to update the view
  */
-class Navigator {
+class Router {
 	/**
 	 * Initialize the navigator passing a callback function that will receive notification
 	 * about changes in the URL. The initialization is just done once (during app startup),
@@ -278,6 +313,10 @@ class Navigator {
 	 * @return {[type]}        [description]
 	 */
 	goto(path, queryParams) {
+		console.log('GOTO = ' + path);
+		if (path === '/pagenotfound') {
+			console.log('?');
+		}
 		location.href = '#' + path;
 	}
 
@@ -288,6 +327,6 @@ class Navigator {
 	}
 }
 
-let navigator = new Navigator();
+let router = new Router();
 
-export { navigator };
+export { router };

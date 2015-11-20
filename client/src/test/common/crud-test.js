@@ -53,12 +53,12 @@ module.exports = function execute(opt) {
 			return crud.create({}, {skipValidation: true})
 			.then(res => {
 				assert(res.errors);
-				assert.equal(res.errors.length, opt.requiredFields.length);
-				res.errors.forEach(err => {
-					assert.equal(err.group, 'NotNull');
-					assert(opt.requiredFields.indexOf(err.field) >= 0);
-				});
-
+				assert.equal(Object.keys(res.errors).length, opt.requiredFields.length);
+				for (var field in res.errors) {
+					var err = res.errors[field];
+					assert.equal(err.code, 'NotNull');
+					assert(opt.requiredFields.indexOf(field) >= 0);
+				}
 			});
 		});
 	}
@@ -84,8 +84,9 @@ module.exports = function execute(opt) {
 				return crud.update(doc.id, data, { skipValidation: true})
 				.then(res => {
 					assert(res.errors, 'No errors found from unique test');
-					assert.equal(res.errors.length, 1);
-					assert.equal(res.errors[0].group, 'NotUnique');
+					var keys = Object.keys(res.errors);
+					assert.equal(keys.length, 1);
+					assert.equal(res.errors[keys[0]].code, 'NotUnique');
 				});
 			});
 

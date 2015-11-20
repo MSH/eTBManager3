@@ -47,13 +47,33 @@ module.exports = config.languages.prod.map( function(lang) {
         },
 
 
+        resolve: {
+            extensions: ['', '.js', '.jsx']
+        },
+
         module: {
             loaders: [
                 {
-                    test: /\.jsx?$/,
+                    test: /\.jsx/,
+                    loader: 'babel-loader',
                     exclude: /node_modules/,
-                    loader: 'babel'
-                }, {
+                    query: {
+                        // https://github.com/babel/babel-loader#options
+                        cacheDirectory: true,
+                        presets: ['es2015', 'react']
+                    }
+                },
+                {
+                    test: /\.js/,
+                    loader: 'babel-loader',
+                    exclude: /node_modules/,
+                    query: {
+                        // https://github.com/babel/babel-loader#options
+                        cacheDirectory: true,
+                        presets: ['es2015', 'react']
+                    }
+                },
+                {
                     test: /\.less/,
                     loader: 'style-loader!css-loader!less-loader'
                 }, {
@@ -80,7 +100,7 @@ module.exports = config.languages.prod.map( function(lang) {
 
         plugins: [
             new webpack.NoErrorsPlugin(),
-            new webpack.optimize.UglifyJsPlugin(),
+            new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
             new I18nPlugin(messages)
         ]
     }

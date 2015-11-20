@@ -39,9 +39,18 @@ public class SystemRest {
         // check if system is ready
         if (inf.getState() == SystemState.READY) {
 
+            // convert authentication token to UUID
+            UUID uuidToken;
+            try {
+                uuidToken = authToken != null? UUID.fromString(authToken) : null;
+            }
+            catch (IllegalArgumentException e) {
+                uuidToken = null;
+            }
+
             // check if authentication is required
-            boolean authRequired = authToken == null ||
-                    userSessionService.getSessionByAuthToken(UUID.fromString(authToken)) == null;
+            boolean authRequired = uuidToken == null ||
+                    userSessionService.getSessionByAuthToken(uuidToken) == null;
 
             if (authRequired) {
                 inf.setState(SystemState.AUTH_REQUIRED);
