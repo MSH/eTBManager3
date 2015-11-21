@@ -5,7 +5,6 @@ import { RouteView } from '../components/router.jsx';
 import Welcome from './welcome.jsx';
 import InitOptions from './initoptions.jsx';
 import NewWorkspace from './newworkspace.jsx';
-import Success from './success.jsx';
 
 
 /**
@@ -17,8 +16,7 @@ export default class Home extends React.Component {
 		const routes = [
 			{ path: '/welcome', view: Welcome },
             { path: '/initoptions', view: InitOptions },
-            { path: '/newworkspace', view: NewWorkspace },
-            { path: '/success', view: Success }
+            { path: '/newworkspace', view: NewWorkspace }
 		];
 
 		const viewProps = {

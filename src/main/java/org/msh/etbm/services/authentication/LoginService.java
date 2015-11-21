@@ -67,9 +67,14 @@ public class LoginService {
      */
     @Transactional
     public boolean logout(UUID authToken) {
+        if (authToken == null) {
+            return false;
+        }
+
         // recover the user login assigned to the authentication token
         List<UserLogin> lst = entityManager
                 .createQuery("from UserLogin  where id = :id and logoutDate is null")
+                .setParameter("id", authToken)
                 .getResultList();
 
         if (lst.size() == 0) {

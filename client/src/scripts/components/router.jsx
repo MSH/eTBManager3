@@ -83,7 +83,6 @@ export class RouteView extends React.Component {
 
 		// search for route according to the given path
 		let route = this.findRoute(path);
-		console.log('PATH = ' + path + ', ROUTES = ', this.state.routes);
 		// route was found ?
 		if (!route) {
             if (!errorPath) {
@@ -313,10 +312,6 @@ class Router {
 	 * @return {[type]}        [description]
 	 */
 	goto(path, queryParams) {
-		console.log('GOTO = ' + path);
-		if (path === '/pagenotfound') {
-			console.log('?');
-		}
 		location.href = '#' + path;
 	}
 

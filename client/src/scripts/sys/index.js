@@ -13,7 +13,7 @@ export function init(data) {
 			// get information about the session
 			Server.post('/api/sys/session')
 			.then(res => {
-				data.app.dispatch(AUTHENTICATED, res);
+				data.app.dispatch(AUTHENTICATED, { session: res });
 				resolve(Routes);
 			});
 		});

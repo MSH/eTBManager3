@@ -6862,6 +6862,11 @@ button.close {
   background-color: #abc1b3;
   border: none;
 }
+/** nav item in the toolbar with an icon */
+.nav-item-icon a {
+  padding-top: 11px !important;
+  padding-bottom: 10px !important;
+}
 /**
 * Decorate the workspace label in the page header
 **/
@@ -6874,6 +6879,7 @@ button.close {
 .header-ws .fa-inverse {
   color: #f0f0f0;
 }
+/** The header style */
 .header {
   box-shadow: #a0a0a0 0 4px 6px;
 }

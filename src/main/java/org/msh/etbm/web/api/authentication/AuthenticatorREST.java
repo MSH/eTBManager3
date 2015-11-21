@@ -51,7 +51,7 @@ public class AuthenticatorREST {
      * @param authToken a valid authentication token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public void logout(@RequestParam(value = "authToken", required = true) UUID authToken) {
+    public void logout(@RequestParam(value = "tk", required = true) UUID authToken) {
         loginService.logout(authToken);
     }
 

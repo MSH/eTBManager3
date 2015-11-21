@@ -1,11 +1,11 @@
 
 import React from 'react';
 import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
-import { postSuccess } from './actions';
-import { validateForm } from '../commons/validator.jsx';
-import Card from '../components/card.jsx';
-import Server from '../commons/server.js';
-import AsyncButton from '../components/async-button.jsx';
+import { validateForm } from '../commons/validator';
+import Card from '../components/card';
+import Server from '../commons/server';
+import AsyncButton from '../components/async-button';
+import Success from './success';
 
 /**
  * Form validation model
@@ -64,16 +64,16 @@ export default class NewWorkspace extends React.Component {
         };
 
         const self = this;
-        const app = this.props.app;
 
+        // request server to register workspace
         Server.post('/api/init/workspace', data)
             .then(res => {
                 if (res.errors) {
-                    self.setState({ errors: res.errors });
-                    return;
+                    self.setState({ errors: res.errors, fetching: false });
                 }
-                app.dispatch(postSuccess(v.wsname));
-                app.goto('/init/success');
+                else {
+                    self.setState({ success: true, wsname: v.wsname, fetching: false });
+                }
             });
     }
 
@@ -84,9 +84,15 @@ export default class NewWorkspace extends React.Component {
     render() {
         const err = this.state.errors || {};
         const fetching = this.state.fetching;
+        const success = this.state.success;
 
-        return (
-            <Fade in transitionAppear>
+        let content;
+
+        if (success) {
+            content = <Success app={this.props.app} wsname={this.state.wsname}/>;
+        }
+        else {
+            content = (
                 <Grid fluid>
                     <Col sm={8} smOffset={2} lg={8} lgOffset={2} >
                         <Card title="Create a new workspace">
@@ -135,6 +141,12 @@ export default class NewWorkspace extends React.Component {
                         </Card>
                     </Col>
                 </Grid>
+            );
+        }
+
+        return (
+            <Fade in transitionAppear>
+                {content}
             </Fade>
         );
     }

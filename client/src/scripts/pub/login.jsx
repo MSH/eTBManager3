@@ -30,7 +30,7 @@ export default class Login extends React.Component {
 
 
     forgotPwdClick() {
-        navigator.goto('/pub/forgotpwd');
+        this.props.app.goto('/pub/forgotpwd');
     }
 
     /**

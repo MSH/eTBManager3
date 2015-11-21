@@ -2,6 +2,8 @@ package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.CacheConfiguration;
+import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -64,6 +66,25 @@ public class UserSessionService {
     }
 
 
+    @Transactional
+    public UserSessionResponse createClientResponse(UserSession userSession) {
+        UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
+
+        List<Workspace> lst = entityManager.createQuery("select uw.workspace from UserWorkspace uw where uw.user.id = :id")
+                .setParameter("id", userSession.getUserId())
+                .getResultList();
+
+        List<SynchronizableItem> workspaces = new ArrayList<>();
+        for (Workspace ws: lst) {
+            SynchronizableItem item = mapper.map(ws, SynchronizableItem.class);
+            workspaces.add(item);
+        }
+
+        resp.setWorkspaces(workspaces);
+
+        return resp;
+    }
+
     /**
      * Create the list of permissions granted to the user
      * @param uw instance of {@link UserWorkspace}
@@ -109,37 +130,4 @@ public class UserSessionService {
         return lst.get(0);
     }
 
-//
-//    /**
-//     * Return the current user session information of the given request
-//     * @param request the current HTTP request
-//     * @return the information about the user
-//     */
-//    @Bean
-//    @Scope("prototype")
-//    public UserSession userSession(HttpServletRequest request) {
-//        return (UserSession) request.getAttribute(SESSION_KEY);
-//    }
-//
-//    /**
-//     * Return the UserWorkspace object based on the given user session. This function is a kind of factory
-//     * for the current user workspace
-//     * @param userSession information about the user session
-//     * @return instance of UserWorkspace
-//     */
-//    @Bean
-//    @Scope("request")
-//    @Transactional
-//    public UserWorkspaceDTO userWorkspace(UserSession userSession, DozerBeanMapper mapper) {
-//        if (userSession == null) {
-//            return null;
-//        }
-//
-//        UserWorkspace uw = entityManager.find(UserWorkspace.class, userSession.getUserWorkspaceId());
-//
-//        UserWorkspaceDTO res = mapper.map(uw, UserWorkspaceDTO.class);
-//
-//        res.setPermissions(userSession.getPermissions());
-//        return res;
-//    }
 }

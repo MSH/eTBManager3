@@ -1,14 +1,15 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.db.dto.UserWorkspaceDTO;
+import org.dozer.DozerBeanMapper;
 import org.msh.etbm.services.usersession.UserRequest;
 import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.usersession.UserSessionResponse;
+import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,14 +25,17 @@ public class UserSessionRest {
     @Autowired
     UserRequest userRequest;
 
-
     @Autowired
-    WebApplicationContext context;
+    UserSessionService userSessionService;
 
     @Authenticated
     @RequestMapping(value = "/session", method = RequestMethod.POST)
-    public UserSession getUserSession(HttpServletRequest request) {
+    public UserSessionResponse getUserSession(HttpServletRequest request) {
 
-        return userRequest.getUserSession();
+        UserSession session = userRequest.getUserSession();
+
+        UserSessionResponse res = userSessionService.createClientResponse(session);
+
+        return res;
     }
 }

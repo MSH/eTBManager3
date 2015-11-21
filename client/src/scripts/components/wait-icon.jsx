@@ -1,4 +1,3 @@
-'use strict';
 
 import React from 'react';
 
@@ -16,4 +15,4 @@ export default class WaitIcon extends React.Component {
             </div>
         );
     }
-};
+}

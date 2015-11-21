@@ -133,7 +133,7 @@ When initialization finishes, open the URL below:
     http://localhost:8080/index.html
 
 
-## Development the client side
+## Development on the client side
 
 e-TB Manager client side (HTML pages and code) uses `npm` and `gulp` as the building tool system. `npm` is used for dependency management, while `gulp` is used for running the development server, testing the code, system building and much more.
 
