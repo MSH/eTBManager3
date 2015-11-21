@@ -103,9 +103,11 @@ export default class Login extends React.Component {
                             </Row>
                             {st && st.invalid && (
                             <Row >
-                                <Alert bsStyle="danger">
-                                    {'Invalid user name or password'}
-                                </Alert>
+                                <Col sm={12}>
+                                    <Alert bsStyle="danger">
+                                        {'Invalid user name or password'}
+                                    </Alert>
+                                </Col>
                             </Row>
                             )}
                             <Row>

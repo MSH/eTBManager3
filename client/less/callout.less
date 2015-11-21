@@ -1,0 +1,76 @@
+
+
+.callout {
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #eee;
+	border-left-width: 5px;
+	border-radius: 3px;
+	h4 {
+		margin-top: 0;
+		margin-bottom: 5px;
+		font-weight: bold;
+	}
+	p:last-child {
+		margin-bottom: 0
+	}
+	code {
+		border-radius: 3px
+	}
+	p {
+		color: #707070;
+	}
+}
+
+/**
+ * Callout definition
+ */
+.callout {
+	padding: 20px;
+	margin: 20px 0;
+	border: 1px solid #eee;
+	border-left-width: 5px;
+	border-radius: 3px;
+	h4 {
+		margin-top: 0;
+		margin-bottom: 5px;
+		font-weight: bold;
+	}
+	p:last-child {
+		margin-bottom: 0
+	}
+	code {
+		border-radius: 3px
+	}
+	p {
+		color: #707070;
+	}
+}
+
+
+.callout+.callout {
+	margin-top: -5px
+}
+
+.callout-danger {
+	border-left-color: #ce4844;
+	h4 {
+		color: #ce4844
+	}
+}
+
+
+.callout-warning {
+	border-left-color: @brand-warning;
+	h4 {
+		color: darken( @brand-warning, 10%);
+	}
+}
+
+
+.callout-info {
+	border-left-color: #009e0c;
+	h4 {
+		color: #0e8618
+	}
+}

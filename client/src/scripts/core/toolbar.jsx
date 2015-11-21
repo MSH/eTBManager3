@@ -66,8 +66,6 @@ export default class Toolbar extends React.Component {
 
         var items;
 
-        console.log(state);
-
         // if logged in, show items in the toolbar
         if (loggedin) {
             // the input search key
@@ -100,9 +98,9 @@ export default class Toolbar extends React.Component {
             items = (
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem eventKey={1} href="#">{__('Home')}</NavItem>
-                        <NavItem eventKey={1} href="#">{__('Reports')}</NavItem>
-                        <NavItem eventKey={2} href="#">{__('Administration')}</NavItem>
+                        <NavItem eventKey={1} href="#">{'Home'}</NavItem>
+                        <NavItem eventKey={1} href="#">{'Reports'}</NavItem>
+                        <NavItem eventKey={2} href="#">{'Administration'}</NavItem>
                     </Nav>
                     <Nav pullRight>
                         <NavItem className="hsmall">
@@ -114,10 +112,10 @@ export default class Toolbar extends React.Component {
                         }
                         </NavDropdown>
                         <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon">
-                            <MenuItem eventKey="1">{__('User profile') + '...'}</MenuItem>
-                            <MenuItem eventKey="2">{__('Change password') + '...'}</MenuItem>
+                            <MenuItem eventKey="1">{'User profile...'}</MenuItem>
+                            <MenuItem eventKey="2">{'Change password...'}</MenuItem>
                             <MenuItem divider />
-                            <MenuItem eventKey="4" onClick={this.logout}>{__('Logout')}</MenuItem>
+                            <MenuItem eventKey="4" onClick={this.logout}>{'Logout'}</MenuItem>
                         </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>

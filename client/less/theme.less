@@ -1,14 +1,65 @@
 /**
  * Import bootstrap from npm packages
  */
-@import "bootstrap/less/bootstrap.less";
+// Core variables and mixins
+@import "bootstrap/less/variables.less";
+@import "bootstrap/less/mixins.less";
+
+// Reset and dependencies
+@import "bootstrap/less/normalize.less";
+@import "bootstrap/less/print.less";
+@import "bootstrap/less/glyphicons.less";
+
+// Core CSS
+@import "bootstrap/less/scaffolding.less";
+@import "bootstrap/less/type.less";
+@import "bootstrap/less/code.less";
+@import "bootstrap/less/grid.less";
+@import "bootstrap/less/tables.less";
+@import "bootstrap/less/forms.less";
+@import "bootstrap/less/buttons.less";
+
+// Components
+@import "bootstrap/less/component-animations.less";
+@import "bootstrap/less/dropdowns.less";
+@import "bootstrap/less/button-groups.less";
+@import "bootstrap/less/input-groups.less";
+@import "bootstrap/less/navs.less";
+@import "bootstrap/less/navbar.less";
+@import "bootstrap/less/breadcrumbs.less";
+@import "bootstrap/less/pagination.less";
+@import "bootstrap/less/pager.less";
+@import "bootstrap/less/labels.less";
+@import "bootstrap/less/badges.less";
+@import "bootstrap/less/jumbotron.less";
+@import "bootstrap/less/thumbnails.less";
+@import "bootstrap/less/alerts.less";
+@import "bootstrap/less/progress-bars.less";
+@import "bootstrap/less/media.less";
+@import "bootstrap/less/list-group.less";
+@import "bootstrap/less/panels.less";
+@import "bootstrap/less/responsive-embed.less";
+@import "bootstrap/less/wells.less";
+@import "bootstrap/less/close.less";
+
+// Components w/ JavaScript
+@import "bootstrap/less/modals.less";
+@import "bootstrap/less/tooltip.less";
+@import "bootstrap/less/popovers.less";
+@import "bootstrap/less/carousel.less";
+
+// Utility classes
+@import "bootstrap/less/utilities.less";
+@import "bootstrap/less/responsive-utilities.less";
+// @import "bootstrap/less/bootstrap.less";
+
 
 @font-face {
-  font-family: 'OpenSans';
-  font-style: normal;
-  font-weight: 400;
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: 400;
 //  src: local('Open Sans'), local('OpenSans'), url("//themes.googleusercontent.com/static/fonts/opensans/v6/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff") format('woff');
-  src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
+	src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
 }
 
 
@@ -29,7 +80,8 @@
 
 
 // Scaffolding
-@body-bg: #e8e8e8;
+@body-bg: #ffffff;
+//@body-bg: #D2DAD6;
 @text-color: @gray;
 @link-color: @brand-primary;
 @link-hover-color: darken(@link-color, 15%);
@@ -313,6 +365,7 @@
 @modal-backdrop-bg: #000;
 @modal-header-border-color: #e5e5e5;
 @modal-footer-border-color: @modal-header-border-color;
+
 @alert-padding: 15px;
 @alert-border-radius: @border-radius-base;
 @alert-link-font-weight: bold;
@@ -328,6 +381,7 @@
 @alert-danger-bg: @state-danger-bg;
 @alert-danger-text: @state-danger-text;
 @alert-danger-border: @state-danger-border;
+
 @progress-bg: #f5f5f5;
 @progress-bar-color: #fff;
 @progress-bar-bg:  @brand-primary;
@@ -413,214 +467,14 @@
 @container-md: @container-desktop;
 @container-lg: @container-large-desktop;
 
+@import "app.less";
+@import "callout.less";
+@import "card.less";
 
-// app variables
-@header-search-bg: #abc1b3;
-
-
-.placeholder(@color) {
-  ::-webkit-input-placeholder {color: @color}
-  ::-moz-placeholder {color: @color}
-  :-ms-input-placeholder {color: @color}
+.alert {
+	border-left-width: 10px;
 }
 
-
-.app-content {
-  background-color: #f8f8f8;
-  min-height: 500px;
-  padding-bottom:40px;
-}
-
-.bs-callout {
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
-  h4 {
-    margin-top: 0;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  p:last-child {
-    margin-bottom: 0
-  }
-  code {
-    border-radius: 3px
-  }
-  p {
-    color: #707070;
-  }
-}
-
-
-.bs-callout+.bs-callout {
-  margin-top: -5px
-}
-
-.bs-callout-danger {
-  border-left-color: #ce4844;
-  h4 {
-    color: #ce4844
-  }
-}
-
-
-.bs-callout-warning {
-  border-left-color: @brand-warning;
-  h4 {
-    color: darken( @brand-warning, 10%);
-  }
-}
-
-
-.bs-callout-info {
-  border-left-color: #009e0c;
-  h4 {
-    color: #0e8618
-  }
-}
-
-
-.header-search {
-  padding:2px;
-  background-color: @header-search-bg;
-  border-radius: 4px;
-  color: #606060;
-  height:28px;
-
-  input {
-    border:none;
-    width:auto;
-    background-color: @header-search-bg;
-    color: #000;
-    float:left;
-
-    .placeholder(@navbar-inverse-bg);
-  }
-  input:focus {
-    box-shadow: none;
-    outline:0;
-  }
-  button {
-    float:right;
-    background-color: @header-search-bg;
-    border:none;
-  }
-}
-
-/** nav item in the toolbar with an icon */
-.nav-item-icon {
-    a {
-        padding-top: 11px !important;
-        padding-bottom:10px !important;
-    }
-}
-
-/**
-* Decorate the workspace label in the page header
-**/
-.header-ws {
-    max-width: 100px;
-
-    .ws-text {
-      font-size: 0.9em;
-    }
-
-    .fa-inverse {
-      color:#f0f0f0;
-    }
-}
-
-
-/** The header style */
-.header {
-    box-shadow: #a0a0a0 0 4px 6px;
-
-    // small padding for nav items
-    .hsmall a {
-        padding-top: 12px;
-        padding-bottom:4px;
-    }
-}
-
-.dropdown {
-  .fa-inverse {
-    color: #f8f8f8;
-  }
-}
-.dropdown:hover, .dropdown.open {
-    .fa-inverse {
-      color: @navbar-inverse-link-color;
-    }
-}
-
-.footer {
- // border-top:1px solid #d0d0d0;
-//  background-color: #e0e0e0;
-  background-color: @body-bg;
-  border-top:1px solid @btn-default-border;
-  padding: 30px;
-  min-height: 150px;
-  img {
-    margin-bottom: 40px;
-  }
-}
-
-.card {
-  background-color:white;
-  margin-top:20px;
-  border:1px solid #e8e8e8;
-  border-radius: 2px;
-
-  /** Style of the title */
-  .card-title {
-    padding:6px 20px;
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  .card-content {
-    padding:20px;
-    border-bottom:1px solid @btn-default-border;
-  }
-
-  .page-header {
-    margin-top:4px;
-    h1 {
-      margin-top:8px;
-      margin-bottom:4px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-  }
-}
-
-
-@media screen and (min-width:550px) {
-  .central-container-sm {
-    margin: 30px auto 20px;
-    max-width:300px;
-  }
-  .central-container-md {
-    margin: 30px auto 20px;
-    max-width:450px;
-  }
-  .central-container-lg {
-    margin: 30px auto 20px;
-    max-width:700px;
-  }
-}
-
-.mtop {
-  margin-top:10px;
-}
-
-.mtop-2x {
-  margin-top:20px;
-}
-
-.borderless {
-  border:none;
-  box-shadow: none;
+.alert-danger {
+	border-color: lighten(@brand-danger, 10%);
 }

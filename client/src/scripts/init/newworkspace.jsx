@@ -6,6 +6,8 @@ import Card from '../components/card';
 import Server from '../commons/server';
 import AsyncButton from '../components/async-button';
 import Success from './success';
+import Callout from '../components/callout';
+
 
 /**
  * Form validation model
@@ -104,12 +106,12 @@ export default class NewWorkspace extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col sm={12}>
-                                        <div className="bs-callout bs-callout-warning">
+                                        <Callout bsStyle="warning">
                                             <h4>{'Administrator'}</h4>
                                             <p>{'The administrator account is a special user with access to all data and functionalities inside e-TB Manager.' +
                                                 'It is recommended that you use this account with caution.'}
                                             </p>
-                                        </div>
+                                        </Callout>
                                     </Col>
                                 </Row>
                                 <Row>

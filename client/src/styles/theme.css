@@ -1,11 +1,6 @@
 /**
  * Import bootstrap from npm packages
  */
-/*!
- * Bootstrap v3.3.5 (http://getbootstrap.com)
- * Copyright 2011-2015 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
   font-family: sans-serif;
@@ -1078,7 +1073,7 @@ body {
   font-size: 14px;
   line-height: 1.42857143;
   color: #365546;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
 }
 input,
 button,
@@ -1123,7 +1118,7 @@ img {
 .img-thumbnail {
   padding: 4px;
   line-height: 1.42857143;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 2px;
   -webkit-transition: all 0.2s ease-in-out;
@@ -2283,7 +2278,7 @@ th {
   border-top: 2px solid #dddddd;
 }
 .table .table {
-  background-color: #e8e8e8;
+  background-color: #ffffff;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -4068,7 +4063,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #365546;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -4114,7 +4109,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #e8e8e8;
+    border-bottom-color: #ffffff;
   }
 }
 .nav-pills > li {
@@ -4182,7 +4177,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #e8e8e8;
+    border-bottom-color: #ffffff;
   }
 }
 .tab-content > .tab-pane {
@@ -5031,7 +5026,7 @@ a.badge:focus {
   padding: 4px;
   margin-bottom: 20px;
   line-height: 1.42857143;
-  background-color: #e8e8e8;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 2px;
   -webkit-transition: border 0.2s ease-in-out;
@@ -6773,52 +6768,23 @@ button.close {
   font-weight: 400;
   src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
 }
+/** The toolbar */
+.navbar-brand {
+  padding: 8px;
+}
+.navbar-brand img {
+  max-width: 160px;
+  float: left;
+}
+.navbar-brand label {
+  padding-top: 6px;
+  padding-left: 4px;
+}
 .app-content {
-  background-color: #f8f8f8;
+  background-color: #f2f2f2;
   min-height: 500px;
   padding-bottom: 40px;
-}
-.bs-callout {
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
-}
-.bs-callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-.bs-callout p:last-child {
-  margin-bottom: 0;
-}
-.bs-callout code {
-  border-radius: 3px;
-}
-.bs-callout p {
-  color: #707070;
-}
-.bs-callout + .bs-callout {
-  margin-top: -5px;
-}
-.bs-callout-danger {
-  border-left-color: #ce4844;
-}
-.bs-callout-danger h4 {
-  color: #ce4844;
-}
-.bs-callout-warning {
-  border-left-color: #f0ad4e;
-}
-.bs-callout-warning h4 {
-  color: #ec971f;
-}
-.bs-callout-info {
-  border-left-color: #009e0c;
-}
-.bs-callout-info h4 {
-  color: #0e8618;
+  margin-top: 50px;
 }
 .header-search {
   padding: 2px;
@@ -6895,13 +6861,133 @@ button.close {
   color: #889987;
 }
 .footer {
-  background-color: #e8e8e8;
+  background-color: #ffffff;
   border-top: 1px solid #e8ebe8;
   padding: 30px;
   min-height: 150px;
 }
 .footer img {
   margin-bottom: 40px;
+}
+@media screen and (min-width: 550px) {
+  .central-container-sm {
+    margin: 30px auto 20px;
+    max-width: 300px;
+  }
+  .central-container-md {
+    margin: 30px auto 20px;
+    max-width: 450px;
+  }
+  .central-container-lg {
+    margin: 30px auto 20px;
+    max-width: 700px;
+  }
+}
+.mtop {
+  margin-top: 10px;
+}
+.mtop-2x {
+  margin-top: 20px;
+}
+.margin-2x {
+  margin: 20px;
+}
+.borderless {
+  border: none;
+  box-shadow: none;
+}
+.profile {
+  padding-top: 4px;
+}
+.profile .profile-image {
+  display: inline-block;
+  width: 6em;
+  height: 6em;
+  float: left;
+}
+.profile .profile-image .profile-front {
+  color: #90A29B;
+}
+.profile .profile-image .fa-inverse {
+  color: #e0e0e0;
+}
+.profile .profile-image .fa-stack-2x {
+  font-size: 6em;
+}
+.profile .profile-image .fa-stack-1x {
+  font-size: 4em;
+  padding: 0.4em 0 0 0;
+}
+.profile .profile-title {
+  padding-top: 6px;
+  font-size: 22px;
+  font-weight: bold;
+}
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.callout p:last-child {
+  margin-bottom: 0;
+}
+.callout code {
+  border-radius: 3px;
+}
+.callout p {
+  color: #707070;
+}
+/**
+ * Callout definition
+ */
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+}
+.callout h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.callout p:last-child {
+  margin-bottom: 0;
+}
+.callout code {
+  border-radius: 3px;
+}
+.callout p {
+  color: #707070;
+}
+.callout + .callout {
+  margin-top: -5px;
+}
+.callout-danger {
+  border-left-color: #ce4844;
+}
+.callout-danger h4 {
+  color: #ce4844;
+}
+.callout-warning {
+  border-left-color: #f0ad4e;
+}
+.callout-warning h4 {
+  color: #ec971f;
+}
+.callout-info {
+  border-left-color: #009e0c;
+}
+.callout-info h4 {
+  color: #0e8618;
 }
 .card {
   background-color: white;
@@ -6928,27 +7014,9 @@ button.close {
   font-size: 20px;
   font-weight: bold;
 }
-@media screen and (min-width: 550px) {
-  .central-container-sm {
-    margin: 30px auto 20px;
-    max-width: 300px;
-  }
-  .central-container-md {
-    margin: 30px auto 20px;
-    max-width: 450px;
-  }
-  .central-container-lg {
-    margin: 30px auto 20px;
-    max-width: 700px;
-  }
+.alert {
+  border-left-width: 10px;
 }
-.mtop {
-  margin-top: 10px;
-}
-.mtop-2x {
-  margin-top: 20px;
-}
-.borderless {
-  border: none;
-  box-shadow: none;
+.alert-danger {
+  border-color: #e27c79;
 }

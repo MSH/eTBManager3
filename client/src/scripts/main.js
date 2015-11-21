@@ -19,7 +19,6 @@ import App from './core/app.jsx';
 
 // load the style sheet in use
 require('../styles/theme.css');
-require('../styles/app.css');
 
 // load font awesome
 require('font-awesome-webpack');
