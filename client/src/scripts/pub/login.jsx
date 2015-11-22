@@ -1,10 +1,9 @@
+
 import React from 'react';
 import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
 import Card from '../components/card.jsx';
 import { validateForm } from '../commons/validator.jsx';
-import Server from '../commons/server.js';
 import AsyncButton from '../components/async-button.jsx';
-import { LOGIN } from '../core/actions';
 
 
 /**
@@ -39,6 +38,7 @@ export default class Login extends React.Component {
     loginClick() {
         const res = validateForm(this, formModel);
 
+        // is there any validation error ?
         if (res.errors) {
             this.setState({ errors: res.errors });
             return;
@@ -50,17 +50,15 @@ export default class Login extends React.Component {
         const app = this.props.app;
 
         const self = this;
-        // post to the server
-        Server.post('/api/auth/login', { username: val.user, password: val.pwd })
+
+        // request login to the server
+        app.session.login(val.user, val.pwd)
         .then(data => {
-            if (data.success) {
-                const authToken = data.authToken;
-                window.app.setCookie('autk', authToken);
+            if (data) {
                 app.goto('/sys/home');
             }
             else {
                 self.setState({ fetching: false, invalid: true });
-                app.dispatch(LOGIN);
             }
         });
     }

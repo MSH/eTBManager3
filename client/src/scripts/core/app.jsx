@@ -6,13 +6,17 @@ import Server from '../commons/server';
 import Storage from './storage';
 import { APP_INIT, ERROR } from './actions';
 import { router } from '../components/router';
+import Session from './session';
 
 
 export default class App {
 
 	constructor() {
 		this.listeners = [];
+		// create storage that will keep application state
 		this.storage = new Storage({ fetching: true });
+		// attach API to handle user session tasks
+		this.session = new Session(this);
 		Server.setErrorHandler(this._serverErrorHandler.bind(this));
 	}
 
@@ -89,6 +93,10 @@ export default class App {
 		router.goto(path);
 	}
 
+	/**
+	 * Standard handler for server error requests
+	 * @param  {object} err object containing information about the error, like status and message
+	 */
 	_serverErrorHandler(err) {
 		if (err.status === 401) {
 			this.goto('/pub/login');

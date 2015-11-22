@@ -1,19 +1,23 @@
 
-import Server from '../commons/server.js';
-import { AUTHENTICATED } from '../core/actions';
+import { TB_SET } from '../core/actions';
 
 var view;
 
 export function init(data) {
 
 	return view || new Promise(resolve => {
-		require.ensure('./routes.jsx', function(require) {
+		require.ensure(['./routes.jsx', './toolbar-content.jsx'], function(require) {
 			var Routes = require('./routes.jsx');
 
-			// get information about the session
-			Server.post('/api/sys/session')
-			.then(res => {
-				data.app.dispatch(AUTHENTICATED, { session: res });
+			data.app.session.authenticate()
+			.then(() => {
+				// set the content of the toolbar
+				const ToolbarContent = require('./toolbar-content.jsx');
+
+				// dispatch to the toolbar
+				data.app.dispatch(TB_SET, { toolbarContent: ToolbarContent.default });
+
+				// return the list of routes
 				resolve(Routes);
 			});
 		});
