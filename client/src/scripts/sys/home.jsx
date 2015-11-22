@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
+import Profile from '../components/profile';
 
 
 /**
@@ -16,26 +17,19 @@ export default class Home extends React.Component {
 			backgroundColor: '#ffffff'
 		};
 
-		const profStyle = {
-			paddingTop: "20px",
-			paddingBottom: "20px"
-		};
+		const subtitle = (
+			<div>{state.session.unitName}
+			<br/>
+			{'Rio de Janeiro, RJ'}</div>
+		);
 
 		return (
 			<div style={style}>
 				<Grid>
 					<Row>
 						<Col md={12}>
-							<div className="profile margin-2x">
-								<div className="profile-image">
-									<span className="fa-stack profile-image">
-										<i className="fa fa-circle fa-stack-2x fa-inverse" />
-										<i className="fa fa-user fa-stack-1x profile-front" />
-									</span>
-								</div>
-								<div className="profile-title">{state.session.userName}</div>
-								<div>{state.session.unitName}</div>
-								<div>{'Rio de Janeiro, RJ'}</div>
+							<div className="margin-2x">
+								<Profile title={state.session.userName} subtitle={subtitle} fa="user" />
 							</div>
 						</Col>
 					</Row>

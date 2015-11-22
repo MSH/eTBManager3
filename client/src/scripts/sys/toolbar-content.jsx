@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
+/** The reference of the application in the module */
 let app;
 
 /**
