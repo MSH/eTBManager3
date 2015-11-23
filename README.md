@@ -15,7 +15,7 @@ In order to build e-TB Manager from the source code, you will need the following
 
 In order to work with client side development, it is higly recommended that you also install the following programs:
 
-* Node 0.12.7+
+* Node 5.0+
 * Gulp 3.8+
 
 Development tools
