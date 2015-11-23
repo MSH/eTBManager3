@@ -71,7 +71,7 @@ export default class App {
 					break;
 				// if ready, go to the home page
 				case 'READY':
-					gotoModule('/sys', '/home');
+					gotoModule('/sys', '/home/index');
 					break;
 				// default module is the login page
 				default:

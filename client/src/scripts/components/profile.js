@@ -6,8 +6,10 @@ export default class Profile extends React.Component {
 	render() {
 		const iconClass = 'fa fa-' + this.props.fa + ' fa-stack-1x profile-front';
 
+		const profileClass = 'profile profile-' + (this.props.size || 'medium');
+
 		return (
-			<div className="profile margin-2x">
+			<div className={profileClass}>
 				<div className="profile-image">
 					<span className="fa-stack profile-image">
 						<i className="fa fa-circle fa-stack-2x fa-inverse" />
@@ -15,7 +17,7 @@ export default class Profile extends React.Component {
 					</span>
 				</div>
 				<div className="profile-title">{this.props.title}</div>
-				<div>{this.props.subtitle}</div>
+				<div className="profile-subtitle">{this.props.subtitle}</div>
 			</div>
 		);
 	}

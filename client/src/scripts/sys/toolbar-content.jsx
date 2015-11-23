@@ -5,6 +5,25 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 /** The reference of the application in the module */
 let app;
 
+
+// logs the user out of the system
+function logout() {
+    app.session.logout()
+    .then(() => app.goto('/pub/login'));
+}
+
+function gotoHome() {
+    app.goto('/sys/home');
+}
+
+function gotoReports() {
+    app.goto('/sys/reports/index');
+}
+
+function gotoAdmin() {
+    app.goto('/sys/admin/index');
+}
+
 /**
  * Export a default method to be sent to the toolbar and executed by she to get the
  * content to be displayed by the toolbar.
@@ -52,9 +71,15 @@ export default function(application) {
 	return (
         <Navbar.Collapse>
             <Nav>
-                <NavItem eventKey={1} href="#">{'Home'}</NavItem>
-                <NavItem eventKey={1} href="#">{'Reports'}</NavItem>
-                <NavItem eventKey={2} href="#">{'Administration'}</NavItem>
+                <NavItem eventKey={1} onClick={gotoHome}>{'Home'}</NavItem>
+                {
+                    app.session.hasPerm('REPORTS') &&
+                    <NavItem eventKey={1} onCLick={gotoReports}>{'Reports'}</NavItem>
+                }
+                {
+                    app.session.hasPerm('ADMIN') &&
+                    <NavItem eventKey={2} onClick={gotoAdmin}>{'Administration'}</NavItem>
+                }
             </Nav>
             <Nav pullRight>
                 <NavItem className="hsmall">
@@ -74,12 +99,5 @@ export default function(application) {
             </Nav>
         </Navbar.Collapse>
 	);
-}
-
-
-// logs the user out of the system
-function logout() {
-    app.session.logout()
-    .then(() => app.goto('/pub/login'));
 }
 

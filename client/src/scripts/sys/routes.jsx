@@ -4,7 +4,9 @@ import { RouteView } from '../components/router';
 import { LOGOUT, TB_SET } from '../core/actions';
 
 /** Pages of the public module */
-import Home from './home';
+import HomeRoutes from './home/routes';
+import ReportRoutes from './reports/routes';
+import AdminRoutes from './admin/routes';
 
 
 /**
@@ -31,9 +33,23 @@ export default class Routes extends React.Component {
 		}
 	}
 
+	openHome() {
+		return HomeRoutes;
+	}
+
+	openReports() {
+		return ReportRoutes;
+	}
+
+	openAdmin() {
+		return AdminRoutes;
+	}
+
 	render() {
 		const routes = [
-			{ path: '/home', view: Home }
+			{ path: '/home', viewResolver: this.openHome.bind(this) },
+			{ path: '/reports', viewResolver: this.openReports.bind(this) },
+			{ path: '/admin', viewResolver: this.openAdmin.bind(this) }
 		];
 
 		const viewProps = {

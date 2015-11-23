@@ -2,42 +2,62 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Profile from '../components/profile';
+import Card from '../components/card';
 
 
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
+// export default class Home extends React.Component {
 
-	render() {
-		const app = this.props.app;
-		const state = app.getState();
+// 	render() {
+// 		const app = this.props.app;
+// 		const state = app.getState();
 
-		const style = {
-			backgroundColor: '#ffffff'
-		};
+// 		const style = {
+// 			backgroundColor: '#ffffff'
+// 		};
 
-		const subtitle = (
-			<div>{state.session.unitName}
-			<br/>
-			{'Rio de Janeiro, RJ'}</div>
-		);
+// 		const subtitle = (
+// 			<div><a href="#">{state.session.unitName}</a>
+// 			<br/>
+// 			<a href="#">{'Rio de Janeiro, RJ '}</a>
+// 			<br/>
+// 			<a href="#">{state.session.workspaceName}</a>
+// 			</div>
+// 		);
 
-		return (
-			<div style={style}>
-				<Grid>
-					<Row>
-						<Col md={12}>
-							<div className="margin-2x">
-								<Profile title={state.session.userName} subtitle={subtitle} fa="user" />
-							</div>
-						</Col>
-					</Row>
-				</Grid>
-			</div>
-			);
-	}
-}
+// 		const unitName = 'Centro de Referência Professor Hélio Fraga';
+
+// 		return (
+// 			<div>
+// 				<div style={style}>
+// 					<Grid>
+// 						<Row>
+// 							<Col md={12}>
+// 								<div className="margin-2x">
+// 									<Profile title={state.session.userName} subtitle={subtitle} fa="user" size="large"/>
+// 								</div>
+// 							</Col>
+// 						</Row>
+// 					</Grid>
+// 				</div>
+// 				<Grid>
+// 					<Row>
+// 						<Col md={8} mdOffset={2}>
+// 						<Card>
+// 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"/>
+// 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
+// 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="small"/>
+// 						</Card>
+// 						</Col>
+// 					</Row>
+// 				</Grid>
+// 			</div>
+
+// 			);
+// 	}
+// }
 
 Home.propTypes = {
 	app: React.PropTypes.object

@@ -15,19 +15,11 @@ export default class Session {
 	}
 
 	/**
-	 * Return true if user is logged in
-	 * @return {Boolean} [description]
-	 */
-	isLoggedIn() {
-		return this.getSessionData() !== null;
-	}
-
-	/**
 	 * Check if a given permission is allowed
 	 * @param  {string}  perm The permission code to check
 	 * @return {Boolean}      Return true if permission is granted
 	 */
-	isAllowed(perm) {
+	hasPerm(perm) {
 		const session = this.getSessionData();
 		return session !== null && (session.administrator || session.indexOf(perm) >= 0);
 	}
