@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import Profile from '../../components/profile';
-import Card from '../../components/card';
-import Fluidbar from '../../components/fluidbar';
+import { Profile, Card, Fluidbar } from '../../components/index';
+import { app } from '../../core/app';
 
 
 /**
@@ -12,7 +11,6 @@ import Fluidbar from '../../components/fluidbar';
 export default class Home extends React.Component {
 
 	render() {
-		const app = this.props.app;
 		const state = app.getState();
 
 		const subtitle = (
@@ -54,7 +52,3 @@ export default class Home extends React.Component {
 			);
 	}
 }
-
-Home.propTypes = {
-	app: React.PropTypes.object
-};

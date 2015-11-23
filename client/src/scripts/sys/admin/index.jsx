@@ -1,9 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import Profile from '../../components/profile';
-import Card from '../../components/card';
-import Fluidbar from '../../components/fluidbar';
+import { Profile, Card, Fluidbar } from '../../components/index';
 
 
 /**
@@ -23,7 +21,7 @@ export default class Index extends React.Component {
 					<Row>
 						<Col md={8} mdOffset={2}>
 						<Card>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"/>
+							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="plus" size="large"/>
 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="small"/>
 						</Card>

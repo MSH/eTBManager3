@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import Card from '../components/card.jsx';
+import { app } from '../core/app';
 
 
 export default class Success extends React.Component {
@@ -14,7 +15,7 @@ export default class Success extends React.Component {
      * Called when user clicks on the continue button
      */
     contClick() {
-        this.props.app.goto('/pub/login');
+        app.goto('/pub/login');
     }
 
 
@@ -35,7 +36,7 @@ export default class Success extends React.Component {
                         <i className="fa fa-check-circle fa-4x text-success"></i>
                         <br/>
                         <p className="mtop-2x">
-                            The workspace<span className="badge">{msg}</span> was successfully registered.
+                            {'The workspace '}<span className="badge">{msg}</span>{' was successfully registered.'}
                         </p>
                     </div>
                     <div>
@@ -50,5 +51,4 @@ export default class Success extends React.Component {
 
 Success.propTypes = {
     wsname: React.PropTypes.string,
-    app: React.PropTypes.object
 };

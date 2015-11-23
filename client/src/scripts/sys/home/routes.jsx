@@ -16,16 +16,8 @@ export default class HomeRoutes extends React.Component {
 			{ path: '/index', view: Index }
 		];
 
-		const viewProps = {
-			app: this.props.app
-		};
-
 		return (
-			<RouteView routes={routes} viewProps={viewProps} />
+			<RouteView routes={routes} />
 			);
 	}
 }
-
-HomeRoutes.propTypes = {
-	app: React.PropTypes.object
-};

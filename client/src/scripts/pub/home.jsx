@@ -20,15 +20,6 @@ export default class Home extends React.Component {
             { path: '/userreg', view: UserReg }
 		];
 
-		// information passed to all views
-		const viewProps = {
-			app: this.props.app
-		};
-
-		return <RouteView routes={routes} viewProps={viewProps} />;
+		return <RouteView routes={routes} />;
 	}
 }
-
-Home.propTypes = {
-    app: React.PropTypes.object
-};

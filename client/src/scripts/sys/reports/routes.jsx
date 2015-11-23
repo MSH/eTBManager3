@@ -16,16 +16,8 @@ export default class ReportRoutes extends React.Component {
 			{ path: '/index', view: Index }
 		];
 
-		const viewProps = {
-			app: this.props.app
-		};
-
 		return (
-			<RouteView routes={routes} viewProps={viewProps} />
+			<RouteView routes={routes} />
 			);
 	}
 }
-
-ReportRoutes.propTypes = {
-	app: React.PropTypes.object
-};

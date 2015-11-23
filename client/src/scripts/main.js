@@ -1,28 +1,20 @@
 /**
- * First script called during application execution
+ * Client application entry-point
  */
 
-// import React from 'react';
-// import { createStore, applyMiddleware } from 'redux';
-// import { Provider } from 'react-redux';
-// import thunk from 'redux-thunk';
-
 // include babel modules
-require('babel-core/register');
+import 'babel-core/register';
 
 // application main component
-import App from './core/app.jsx';
-// import Http from 'http';
-// import { runApp } from './core/actions';
-// import { appReducer } from './core/reducers';
-
+import { App, init, app } from './core/app';
 
 // load the style sheet in use
-require('../styles/theme.css');
+import '../styles/theme.css';
 
 // load font awesome
-require('font-awesome-webpack');
+import 'font-awesome-webpack';
 
-// run the application
-var app = new App();
+// init application class
+init(new App());
+
 app.run();

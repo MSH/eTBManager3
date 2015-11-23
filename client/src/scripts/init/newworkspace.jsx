@@ -2,11 +2,9 @@
 import React from 'react';
 import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
-import Card from '../components/card';
 import Server from '../commons/server';
-import AsyncButton from '../components/async-button';
 import Success from './success';
-import Callout from '../components/callout';
+import { Callout, Card, AsyncButton } from '../components/index';
 
 
 /**
@@ -91,7 +89,7 @@ export default class NewWorkspace extends React.Component {
         let content;
 
         if (success) {
-            content = <Success app={this.props.app} wsname={this.state.wsname}/>;
+            content = <Success wsname={this.state.wsname}/>;
         }
         else {
             content = (
@@ -153,8 +151,3 @@ export default class NewWorkspace extends React.Component {
         );
     }
 }
-
-
-NewWorkspace.propTypes = {
-    app: React.PropTypes.object
-};

@@ -2,6 +2,7 @@
 import React from 'react';
 import { RouteView } from '../components/router';
 import { LOGOUT, TB_SET } from '../core/actions';
+import { app } from '../core/app';
 
 /** Pages of the public module */
 import HomeRoutes from './home/routes';
@@ -20,16 +21,16 @@ export default class Routes extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.app.add(this._onAppChange);
+		app.add(this._onAppChange);
 	}
 
 	componentDidUmount() {
-		this.props.app.remove(this._onAppChange);
+		app.remove(this._onAppChange);
 	}
 
 	_onAppChange(action) {
 		if (action === LOGOUT) {
-			this.props.app.dispatch(TB_SET, { toolbarContent: null });
+			app.dispatch(TB_SET, { toolbarContent: null });
 		}
 	}
 
@@ -52,16 +53,8 @@ export default class Routes extends React.Component {
 			{ path: '/admin', viewResolver: this.openAdmin.bind(this) }
 		];
 
-		const viewProps = {
-			app: this.props.app
-		};
-
 		return (
-			<RouteView routes={routes} viewProps={viewProps} />
+			<RouteView routes={routes} />
 			);
 	}
 }
-
-Routes.propTypes = {
-	app: React.PropTypes.object
-};

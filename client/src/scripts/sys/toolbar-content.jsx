@@ -1,15 +1,14 @@
 
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
-
-/** The reference of the application in the module */
-let app;
-
+import { app } from '../core/app';
+import ActSession from '../core/act-session';
 
 // logs the user out of the system
 function logout() {
-    app.session.logout()
-    .then(() => app.goto('/pub/login'));
+    ActSession
+        .logout()
+        .then(() => app.goto('/pub/login'));
 }
 
 function gotoHome() {
@@ -32,11 +31,9 @@ function gotoAdmin() {
  * Because the toolbar is even displayed when user is not authenticated, it will promove a
  * better code splitting
  *
- * @param  {[type]} app The singleton application object
  * @return {[type]}     The content of the toolbar
  */
-export default function(application) {
-    app = application;
+export default function() {
 	const session = app.getState().session;
 
     // the input search key
@@ -73,11 +70,11 @@ export default function(application) {
             <Nav>
                 <NavItem eventKey={1} onClick={gotoHome}>{'Home'}</NavItem>
                 {
-                    app.session.hasPerm('REPORTS') &&
+                    ActSession.hasPerm('REPORTS') &&
                     <NavItem eventKey={1} onCLick={gotoReports}>{'Reports'}</NavItem>
                 }
                 {
-                    app.session.hasPerm('ADMIN') &&
+                    ActSession.hasPerm('ADMIN') &&
                     <NavItem eventKey={2} onClick={gotoAdmin}>{'Administration'}</NavItem>
                 }
             </Nav>

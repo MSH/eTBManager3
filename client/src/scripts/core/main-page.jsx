@@ -25,31 +25,24 @@ export default class MainPage extends React.Component {
      * Open the public module
      */
     openPublic(path) {
-        return initPub({ app: this.props.app, path: path });
+        return initPub(path);
     }
 
     /**
      * Open the initialization module
      */
     openInit(path) {
-        return initInit({ app: this.props.app, path: path });
+        return initInit(path);
     }
 
     /**
      * Open the application home page
      */
     openApp(path) {
-        return initSys({ app: this.props.app, path: path });
+        return initSys(path);
     }
 
     render() {
-        const app = this.props.app;
-
-        // pass reference of the application to the child view
-        const viewProps = {
-            app: app
-        };
-
         var routers = [
             { path: '/pub', viewResolver: this.openPublic.bind(this) },
             { path: '/init', viewResolver: this.openInit.bind(this) },
@@ -59,10 +52,10 @@ export default class MainPage extends React.Component {
 
         return (
             <div>
-                <Toolbar app={app} />
+                <Toolbar />
                 <div className="app-content">
 
-                <RouteView key={1} viewProps={viewProps}
+                <RouteView key={1}
                     routes={routers}
                     loadingView={<WaitIcon/>}
                     errorPath="/pagenotfound" />
@@ -72,7 +65,3 @@ export default class MainPage extends React.Component {
             </div>);
     }
 }
-
-MainPage.propTypes = {
-    app: React.PropTypes.object
-};

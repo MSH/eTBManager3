@@ -2,6 +2,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { TB_SET } from './actions';
+import { app } from './app';
 
 /**
  * The home page of the initialization module
@@ -14,11 +15,11 @@ export default class Toolbar extends React.Component {
     }
 
     componentDidMount() {
-        this.props.app.add(this._onAppChange);
+        app.add(this._onAppChange);
     }
 
     componentDidUmount() {
-        this.props.app.remove(this._onAppChange);
+        app.remove(this._onAppChange);
     }
 
     _onAppChange(action) {
@@ -34,9 +35,9 @@ export default class Toolbar extends React.Component {
             </a>
         );
 
-        var state = this.props.app.getState();
+        var state = app.getState();
 
-        const items = (state.toolbarContent && state.toolbarContent(this.props.app)) || <Nav navbar />;
+        const items = (state.toolbarContent && state.toolbarContent(app)) || <Nav navbar />;
 
         return (
             <Navbar className="header" fixedTop inverse>
@@ -51,8 +52,3 @@ export default class Toolbar extends React.Component {
         );
     }
 }
-
-
-Toolbar.propTypes = {
-    app: React.PropTypes.object
-};

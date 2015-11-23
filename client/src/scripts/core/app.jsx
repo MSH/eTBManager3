@@ -6,17 +6,25 @@ import Server from '../commons/server';
 import Storage from './storage';
 import { APP_INIT, ERROR } from './actions';
 import { router } from '../components/router';
-import Session from './session';
 
+/**
+ * Reference to the application
+ */
+var app;
 
-export default class App {
+export { app };
+
+export function init(customApp) {
+	app = customApp;
+}
+
+export class App {
 
 	constructor() {
 		this.listeners = [];
 		// create storage that will keep application state
 		this.storage = new Storage({ fetching: true });
 		// attach API to handle user session tasks
-		this.session = new Session(this);
 		Server.setErrorHandler(this._serverErrorHandler.bind(this));
 	}
 
@@ -80,7 +88,7 @@ export default class App {
 
 			// render the main page
 			ReactDOM.render(
-				<MainPage app={self} />,
+				<MainPage />,
 				document.getElementById('content'));
 		});
 	}

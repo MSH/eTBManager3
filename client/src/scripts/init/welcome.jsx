@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { Grid, Row, Col, Input, Button, Fade } from 'react-bootstrap';
-import Title from '../components/title.jsx';
+import Title from '../components/title';
+import { app } from '../core/app';
 
 
 /**
@@ -18,7 +19,7 @@ export default class Welcome extends React.Component {
      * Called when user clicks on the continue button
      */
     contClick() {
-        this.props.app.goto('/init/initoptions');
+        app.goto('/init/initoptions');
     }
 
     /**
@@ -35,7 +36,6 @@ export default class Welcome extends React.Component {
      * Render the component
      */
 	render() {
-        const app = this.props.app;
 		const langs = app.getState().app.languages;
 		const lg = window.app.getLang();
 
@@ -68,8 +68,3 @@ export default class Welcome extends React.Component {
 			);
 	}
 }
-
-
-Welcome.propTypes = {
-    app: React.PropTypes.object
-};
