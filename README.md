@@ -128,7 +128,7 @@ In order to run e-TB Manager, just run it as any other java application:
 
 or using Maven
 
-    mvn exec:exec
+    mvn clean package exec:exec
 
 You must provide a configuration file etbmanager.properties, as described in the previous section.
 
@@ -139,7 +139,7 @@ When initialization finishes, open the URL below:
 
 ## Development on the client side
 
-e-TB Manager client side (HTML pages and code) uses `npm` and `gulp` as the building tool system. `npm` is used for dependency management, while `gulp` is used for running the development server, testing the code, system building and much more.
+e-TB Manager client side (browser code) uses `npm` and `gulp` as the building tool system. `npm` is used for dependency management, while `gulp` is used for running several tasks like the development server, testing the code, system building and much more.
 
 Although not required, a group of tasks are available in `gulp` to make client side development easier. They are implemented in the `gulpfile.js` . The main command lines are:
 
