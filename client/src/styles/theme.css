@@ -7058,6 +7058,16 @@ button.close {
   font-size: 2em;
   font-weight: bold;
 }
+.fluidbar {
+  padding: 2px 20px 10px 20px;
+}
+.fluidbar h3,
+.fluidbar h4 {
+  font-weight: bold;
+}
+.fluidbar-default {
+  background-color: #fff;
+}
 .alert {
   border-left-width: 10px;
 }

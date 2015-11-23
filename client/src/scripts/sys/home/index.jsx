@@ -3,6 +3,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Profile from '../../components/profile';
 import Card from '../../components/card';
+import Fluidbar from '../../components/fluidbar';
 
 
 /**
@@ -13,10 +14,6 @@ export default class Home extends React.Component {
 	render() {
 		const app = this.props.app;
 		const state = app.getState();
-
-		const style = {
-			backgroundColor: '#ffffff'
-		};
 
 		const subtitle = (
 			<div><a href="#">{state.session.unitName}</a>
@@ -31,7 +28,7 @@ export default class Home extends React.Component {
 
 		return (
 			<div>
-				<div style={style}>
+				<Fluidbar>
 					<Grid>
 						<Row>
 							<Col md={12}>
@@ -41,7 +38,7 @@ export default class Home extends React.Component {
 							</Col>
 						</Row>
 					</Grid>
-				</div>
+				</Fluidbar>
 				<Grid>
 					<Row>
 						<Col md={8} mdOffset={2}>
@@ -54,7 +51,6 @@ export default class Home extends React.Component {
 					</Row>
 				</Grid>
 			</div>
-
 			);
 	}
 }

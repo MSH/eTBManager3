@@ -15,6 +15,15 @@ export default class Session {
 	}
 
 	/**
+	 * Check if user was already authenticated
+	 * @return {Boolean} True if user is already authenticated
+	 */
+	isAuthenticated() {
+		const data = this.getSessionData();
+		return data !== undefined && data !== null;
+	}
+
+	/**
 	 * Check if a given permission is allowed
 	 * @param  {string}  perm The permission code to check
 	 * @return {Boolean}      Return true if permission is granted

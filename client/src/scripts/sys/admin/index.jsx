@@ -3,45 +3,22 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import Profile from '../../components/profile';
 import Card from '../../components/card';
+import Fluidbar from '../../components/fluidbar';
 
 
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
+export default class Index extends React.Component {
 
 	render() {
-		const app = this.props.app;
-		const state = app.getState();
-
-		const style = {
-			backgroundColor: '#ffffff'
-		};
-
-		const subtitle = (
-			<div><a href="#">{state.session.unitName}</a>
-			<br/>
-			<a href="#">{'Rio de Janeiro, RJ '}</a>
-			<br/>
-			<a href="#">{state.session.workspaceName}</a>
-			</div>
-		);
-
 		const unitName = 'Centro de Referência Professor Hélio Fraga';
 
 		return (
 			<div>
-				<div style={style}>
-					<Grid>
-						<Row>
-							<Col md={12}>
-								<div className="margin-2x">
-									<Profile title={state.session.userName} subtitle={subtitle} fa="user" size="large"/>
-								</div>
-							</Col>
-						</Row>
-					</Grid>
-				</div>
+				<Fluidbar>
+					<h3>{'Administration'}</h3>
+				</Fluidbar>
 				<Grid>
 					<Row>
 						<Col md={8} mdOffset={2}>
@@ -59,6 +36,6 @@ export default class Home extends React.Component {
 	}
 }
 
-Home.propTypes = {
+Index.propTypes = {
 	app: React.PropTypes.object
 };

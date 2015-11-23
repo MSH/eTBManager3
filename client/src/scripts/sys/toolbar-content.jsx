@@ -13,7 +13,7 @@ function logout() {
 }
 
 function gotoHome() {
-    app.goto('/sys/home');
+    app.goto('/sys/home/index');
 }
 
 function gotoReports() {
