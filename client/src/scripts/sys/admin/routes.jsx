@@ -3,7 +3,7 @@ import React from 'react';
 import { RouteView } from '../../components/router';
 
 /** Pages of the public module */
-import Index from './index';
+import Tables from './tables';
 
 
 /**
@@ -13,7 +13,7 @@ export default class AdminRoutes extends React.Component {
 
 	render() {
 		const routes = [
-			{ path: '/index', view: Index }
+			{ path: '/tables', view: Tables }
 		];
 
 		return (

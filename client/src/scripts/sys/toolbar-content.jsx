@@ -19,8 +19,13 @@ function gotoReports() {
     app.goto('/sys/reports/index');
 }
 
-function gotoAdmin() {
-    app.goto('/sys/admin/index');
+function adminClick(evt, key) {
+    switch (key) {
+        case 31: return app.goto('/sys/admin/tables');
+        case 32: return app.goto('/sys/admin/reps');
+        case 33: return app.goto('/sys/admin/cfg');
+        default: return -1;
+    }
 }
 
 /**
@@ -71,11 +76,15 @@ export default function() {
                 <NavItem eventKey={1} onClick={gotoHome}>{'Home'}</NavItem>
                 {
                     ActSession.hasPerm('REPORTS') &&
-                    <NavItem eventKey={1} onCLick={gotoReports}>{'Reports'}</NavItem>
+                    <NavItem eventKey={2} onCLick={gotoReports}>{'Reports'}</NavItem>
                 }
                 {
                     ActSession.hasPerm('ADMIN') &&
-                    <NavItem eventKey={2} onClick={gotoAdmin}>{'Administration'}</NavItem>
+                    <NavDropdown id="dd-admin" eventKey={3} title={'Administration'}>
+                        <MenuItem eventKey={31} onSelect={adminClick}>{'Tables'}</MenuItem>
+                        <MenuItem eventKey={32} onSelect={adminClick}>{'Reports'}</MenuItem>
+                        <MenuItem eventKey={33} onSelect={adminClick}>{'Settings'}</MenuItem>
+                    </NavDropdown>
                 }
             </Nav>
             <Nav pullRight>

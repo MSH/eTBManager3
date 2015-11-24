@@ -1,9 +1,10 @@
 
 import React from 'react';
 import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
-import Card from '../components/card.jsx';
-import { validateForm } from '../commons/validator.jsx';
-import AsyncButton from '../components/async-button.jsx';
+import { Card, AsyncButton } from '../components/index';
+import { validateForm } from '../commons/validator';
+import { app } from '../core/app';
+import ActSession from '../core/act-session';
 
 
 /**
@@ -29,7 +30,7 @@ export default class Login extends React.Component {
 
 
     forgotPwdClick() {
-        this.props.app.goto('/pub/forgotpwd');
+        app.goto('/pub/forgotpwd');
     }
 
     /**
@@ -47,15 +48,14 @@ export default class Login extends React.Component {
         // hide messages and disable button
         this.setState({ invalid: false, errors: null, fetching: true });
         const val = res.value;
-        const app = this.props.app;
 
         const self = this;
 
         // request login to the server
-        app.session.login(val.user, val.pwd)
+        ActSession.login(val.user, val.pwd)
         .then(data => {
             if (data) {
-                app.goto('/sys/home');
+                app.goto('/sys/home/index');
             }
             else {
                 self.setState({ fetching: false, invalid: true });

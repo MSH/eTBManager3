@@ -8,5 +8,6 @@ import Card from './card';
 import Fluidbar from './fluidbar';
 import Profile from './profile';
 import WaitIcon from './wait-icon';
+import Sidebar from './sidebar';
 
-export { Callout, AsyncButton, Card, Fluidbar, Profile, WaitIcon };
+export { Callout, AsyncButton, Card, Fluidbar, Profile, WaitIcon, Sidebar };
