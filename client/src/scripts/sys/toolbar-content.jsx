@@ -22,8 +22,8 @@ function gotoReports() {
 function adminClick(evt, key) {
     switch (key) {
         case 31: return app.goto('/sys/admin/tables');
-        case 32: return app.goto('/sys/admin/reps');
-        case 33: return app.goto('/sys/admin/cfg');
+        case 32: return app.goto('/sys/admin/reports');
+        case 33: return app.goto('/sys/admin/settings');
         default: return -1;
     }
 }

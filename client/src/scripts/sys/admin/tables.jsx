@@ -20,7 +20,7 @@ export default class Tables extends React.Component {
 		return (
 			<div>
 				<Fluidbar>
-					<h3>{'Administration'}</h3>
+					<h3>{'Administration - Tables'}</h3>
 				</Fluidbar>
 				<Grid fluid>
 					<Row>
