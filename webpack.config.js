@@ -1,8 +1,7 @@
 /*
- * Webpack development server configuration
+ * Webpack production configuration
  *
- * This file is set up for serving the webpack-dev-server, which will watch for changes and recompile as required if
- * the subfolder /webpack-dev-server/ is visited. Visiting the root will not automatically reload.
+ * This file will generate the final javascript file to be deployed to the browser
  */
 'use strict';
 var webpack = require('webpack'),
