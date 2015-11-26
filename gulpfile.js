@@ -215,6 +215,7 @@ gulp.task('client-msgs', function(cb) {
     });
 
     proc.stdout.on('close', function(code) {
+        console.log('[client-message]: FINISHED');
         cb(code);
     })
 });

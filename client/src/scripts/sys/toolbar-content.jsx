@@ -2,12 +2,11 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
-import ActSession from '../core/act-session';
+import { hasPerm, logout } from '../core/act-session';
 
 // logs the user out of the system
-function logout() {
-    ActSession
-        .logout()
+function cmdLogout() {
+    logout()
         .then(() => app.goto('/pub/login'));
 }
 
@@ -73,14 +72,14 @@ export default function() {
 	return (
         <Navbar.Collapse>
             <Nav>
-                <NavItem eventKey={1} onClick={gotoHome}>{'Home'}</NavItem>
+                <NavItem eventKey={1} onClick={gotoHome}>{__('home')}</NavItem>
                 {
-                    ActSession.hasPerm('REPORTS') &&
-                    <NavItem eventKey={2} onCLick={gotoReports}>{'Reports'}</NavItem>
+                    hasPerm('REPORTS') &&
+                    <NavItem eventKey={2} onCLick={gotoReports}>{__('reports')}</NavItem>
                 }
                 {
-                    ActSession.hasPerm('ADMIN') &&
-                    <NavDropdown id="dd-admin" eventKey={3} title={'Administration'}>
+                    hasPerm('ADMIN') &&
+                    <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
                         <MenuItem eventKey={31} onSelect={adminClick}>{'Tables'}</MenuItem>
                         <MenuItem eventKey={32} onSelect={adminClick}>{'Reports'}</MenuItem>
                         <MenuItem eventKey={33} onSelect={adminClick}>{'Settings'}</MenuItem>
@@ -98,9 +97,9 @@ export default function() {
                 </NavDropdown>
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon">
                     <MenuItem eventKey="1">{'User profile...'}</MenuItem>
-                    <MenuItem eventKey="2">{'Change password...'}</MenuItem>
+                    <MenuItem eventKey="2">{__('changepwd') + '...'}</MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey="4" onClick={logout}>{'Logout'}</MenuItem>
+                    <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
                 </NavDropdown>
             </Nav>
         </Navbar.Collapse>

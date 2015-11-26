@@ -44,8 +44,8 @@ export default class Welcome extends React.Component {
                 <Grid>
                     <Row>
                         <Col md={6} mdOffset={3}>
-                            <Title text={__('Welcome to e-TB Manager')} />
-                            <p className="text-muted">{__('Please select your language and click \'Continue\'')}</p>
+                            <Title text={__('init.welcome')} />
+                            <p className="text-muted">{__('init.welcome.msg1')}</p>
                         </Col>
                         <Col md={6} mdOffset={3}>
                             <Input type="select" ref="langs" size={8} multiple autoFocus
@@ -58,7 +58,7 @@ export default class Welcome extends React.Component {
                         </Col>
                         <Col md={6} mdOffset={3}>
                             <div className="pull-right">
-                                <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>{__('Continue')}
+                                <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>{__('action.continue')}
                                 </Button>
                             </div>
                         </Col>

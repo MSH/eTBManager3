@@ -1,6 +1,7 @@
+import { format } from './utils';
 
-let emailPattern = /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
-let passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
+const emailPattern = /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
+const passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
 
 /**
  * Validate a form based on its model
@@ -8,23 +9,23 @@ let passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
  * @param model the model of each field in the form with its validation rules
  */
 export function validateForm(comp, model) {
-    let errors = {};
-    let data = {};
+    const errors = {};
+    const data = {};
 
     // create field data
-    Object.keys(model).forEach( (field) => data[field] = comp.refs[field].getValue() );
+    Object.keys(model).forEach((field) => data[field] = comp.refs[field].getValue());
 
     // validate all fields
     Object.keys(model).forEach((field) => {
-        let val = data[field];
-        let msg = validateValue(val, model[field], data);
+        const val = data[field];
+        const msg = validateValue(val, model[field], data);
         if (msg) {
             errors[field] = msg;
         }
     });
 
     // prepare result
-    let res = {
+    var res = {
         value: data
     };
 
@@ -42,38 +43,36 @@ export function validateForm(comp, model) {
  */
 function validateValue(value, model, data) {
     // value is empty ?
-    let empty = value === undefined || value === null || value === '';
+    const empty = value === undefined || value === null || value === '';
 
     if (empty) {
         if (model.required) {
-            return 'Value is required';
+            return __('NotNull');
         }
-        else {
-            return;
-        }
+        return null;
     }
 
     if (typeof value === 'string') {
         if (model.min && value.length < model.min) {
-            return 'Must have at least ' + model.min + ' characters';
+            return format(__('validation.client.min'), model.min);
         }
 
         if (model.max && value.length > model.max) {
-            return 'Cannot have more than ' + model.max + ' characters';
+            return format(__('validation.client.max'), model.max);
         }
     }
 
     // check for valid e-mail address
     if (model.email && !emailPattern.test(value)) {
-        return 'e-mail address is not valid';
+        return __('NotValidEmail');
     }
 
     if (model.password && !passwordPattern.test(value)) {
-        return 'Password length must be at least 6 characteres long and contain at least one digit and letter';
+        return __('NotValidPassword');
     }
 
     if (model.validate) {
-        let res = model.validate.call(data);
+        const res = model.validate.call(data);
         if (res) {
             return res;
         }

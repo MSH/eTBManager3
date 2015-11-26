@@ -77,11 +77,11 @@ export default class Login extends React.Component {
         return (
             <Fade in transitionAppear>
                 <div className="container central-container-md">
-                    <Card title="Please login">
+                    <Card title={__('login.enter_system')}>
                         <div>
                             <Row>
                                 <Col sm={12}>
-                                    <Input type="text" ref="user" placeholder="User name" autoFocus
+                                    <Input type="text" ref="user" placeholder={__('User.login')} autoFocus
                                         addonBefore={iconUser}
                                         help={err.user} bsStyle={err.user ? 'error' : undefined}
                                     />
@@ -89,21 +89,21 @@ export default class Login extends React.Component {
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <Input type="password" ref="pwd" placeholder="Password"
+                                    <Input type="password" ref="pwd" placeholder={__('User.password')}
                                         addonBefore={iconPwd}
                                         help={err.pwd} bsStyle={err.pwd ? 'error' : undefined}/>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <Input type="checkbox" label="Remember me" />
+                                    <Input type="checkbox" label={__('login.rememberme')} />
                                 </Col>
                             </Row>
                             {st && st.invalid && (
                             <Row >
                                 <Col sm={12}>
                                     <Alert bsStyle="danger">
-                                        {'Invalid user name or password'}
+                                        {__('login.invaliduserpwd')}
                                     </Alert>
                                 </Col>
                             </Row>
@@ -111,8 +111,8 @@ export default class Login extends React.Component {
                             <Row>
                                 <Col sm={12}>
                                     <AsyncButton block onClick={this.loginClick}
-                                        fetching={fetching} fetchCaption="Entering...">
-                                        {'Enter'}
+                                        fetching={fetching} fetchCaption={__('action.entering')}>
+                                        {__('action.enter')}
                                     </AsyncButton>
                                 </Col>
                             </Row>
@@ -121,13 +121,13 @@ export default class Login extends React.Component {
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <Button bsStyle="link" onClick={this.forgotPwdClick}>{'Forgot your password?'}</Button>
+                                    <Button bsStyle="link" onClick={this.forgotPwdClick}>{__('login.msg2')}</Button>
                                 </Col>
                             </Row>
                             <Row>
                                 <Col sm={12}>
-                                    <p className="mtop-2x">{'Don\'t you have an user name?'}</p>
-                                    <Button bsStyle="default" block>{'Create an account'}</Button>
+                                    <p className="mtop-2x">{__('login.newuser')}</p>
+                                    <Button bsStyle="default" block>{__('login.createaccount')}</Button>
                                 </Col>
                             </Row>
                         </div>
@@ -137,7 +137,3 @@ export default class Login extends React.Component {
         );
     }
 }
-
-Login.propTypes = {
-    app: React.PropTypes.object
-};

@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { Profile, Card, Fluidbar } from '../../components/index';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Profile, Card, Fluidbar, Sidebar } from '../../components/index';
 
 
 /**
@@ -17,6 +17,76 @@ export default class Tables extends React.Component {
 			marginLeft: '-15px'
 		};
 
+		const items = [
+			{
+				caption: __('admin.adminunits'),
+				perm: 'ADMINUNITS',
+				icon: 'sitemap'
+			},
+			{
+				caption: __('admin.tbunits'),
+				perm: 'UNITS',
+				icon: 'hospital-o'
+			},
+			{
+				caption: __('admin.labs'),
+				perm: 'UNITS',
+				icon: 'building'
+			},
+			{
+				caption: __('admin.sources'),
+				perm: 'SOURCES',
+				icon: 'dropbox'
+			},
+			{
+				caption: __('admin.substances'),
+				perm: 'SUBSTANCES',
+				icon: 'h-square'
+			},
+			{
+				caption: __('admin.products'),
+				perm: 'PRODUCTS',
+				icon: 'cube'
+			},
+			{
+				caption: __('admin.regimens'),
+				perm: 'REGIMENS',
+				icon: 'medkit'
+			},
+			{
+				separator: true
+			},
+			{
+				caption: __('admin.weeklyfreq'),
+				perm: 'WEEKFREQ',
+				icon: 'calendar'
+			},
+			{
+				caption: __('admin.ageranges'),
+				perm: 'AGERANGES',
+				icon: 'tasks'
+			},
+			{
+				caption: __('admin.tags'),
+				perm: 'TAGS',
+				icon: 'tags'
+			},
+			{
+				separator: true
+			},
+			{
+				caption: __('admin.users'),
+				perm: 'USERS',
+				icon: 'user'
+			},
+			{
+				caption: __('admin.profiles'),
+				perm: 'PROFILES',
+				icon: 'group'
+			}
+		];
+
+
 		return (
 			<div>
 				<Fluidbar>
@@ -25,24 +95,7 @@ export default class Tables extends React.Component {
 				<Grid fluid>
 					<Row>
 						<Col md={3}>
-							<div style={style}>
-								<Nav>
-									<NavItem>{'Administrative Units'}</NavItem>
-									<NavItem>{'TB units'}</NavItem>
-									<NavItem>{'Laboratories'}</NavItem>
-									<NavItem>{'Medicine sources'}</NavItem>
-									<NavItem>{'Medicine generic names'}</NavItem>
-									<NavItem>{'Commodities & Medicines'}</NavItem>
-									<NavItem>{'Medicine Regimens'}</NavItem>
-									<hr/>
-									<NavItem>{'Tags'}</NavItem>
-									<NavItem>{'Weekly frequency'}</NavItem>
-									<NavItem>{'Age ranges'}</NavItem>
-									<hr/>
-									<NavItem>{'Users'}</NavItem>
-									<NavItem>{'User groups'}</NavItem>
-								</Nav>
-							</div>
+							<Sidebar items={items} />
 						</Col>
 						<Col md={9}>
 							<Card>

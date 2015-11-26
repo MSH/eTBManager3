@@ -6,28 +6,43 @@
  */
 
 import React from 'react';
+import { Nav, NavItem } from 'react-bootstrap';
+import { hasPerm } from '../core/act-session';
+
+// load style
 import './sidebar.less';
 
-
-export default class SideBar extends React.Component {
+export default class Sidebar extends React.Component {
 
     render() {
+		// get the items to fill in the sidebar
+		let items = this.props.items || [];
+
+		// remove items with no permission
+		items = items.filter(item => item.perm && !hasPerm(item.perm) ? null : item);
 
         return (
-            <div id="sidebar-wrapper">
-                {this.props.children}
-            </div>
+			<div className="sidebar">
+				<Nav>
+					{items.map(item => 	{
+						if (item.separator) {
+							return <hr/>;
+						}
+
+						if (item.icon) {
+							return <NavItem key={item.caption}><i className={'fa fa-fw fa-' + item.icon}/>{item.caption}</NavItem>;
+						}
+
+						return <NavItem>{item.caption}</NavItem>;
+					})}
+				</Nav>
+			</div>
         );
     }
 }
 
 
-SideBar.propTypes = {
-    bsStyle: React.PropTypes.string,
+Sidebar.propTypes = {
+	items: React.PropTypes.array,
     children: React.PropTypes.any
 };
-
-// SideBar.defaultProps = {
-//     fetching: false,
-//     fetchMsg: 'Wait...'
-// };

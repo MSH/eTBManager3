@@ -27,25 +27,25 @@ export default class InitOptions extends React.Component {
             <Fade in transitionAppear>
                 <Grid>
                     <Col sm={6} smOffset={3}>
-                    <Card title={__('e-TB Manager initialization')}>
+                    <Card title={__('init.initoptions')}>
                         <div>
                             <OverlayTrigger trigger="focus" placement="bottom"
                                 overlay={<Popover id="id1">It will start a fresh new instance of e-TB Manager from scratch</Popover>}>
-                                <Input type="radio" name="sel" label={__('Start e-TB Manager with a new workspace')} />
+                                <Input type="radio" name="sel" label={__('init.newworkspace')} />
                             </OverlayTrigger>
                             <OverlayTrigger trigger="focus" placement="bottom"
                                 overlay={<Popover id="id2">This instance will be in sync with another e-TB Manager</Popover>}>
-                                <Input type="radio" name="sel" label={__('I already have an e-TB Manager account')} />
+                                <Input type="radio" name="sel" label={__('init.initoptions.sync')} />
                             </OverlayTrigger>
                             <OverlayTrigger trigger="focus" placement="bottom"
                                 overlay={<Popover id="id3">Data will be imported from a previous version of e-TB Manager just this first time</Popover>}>
-                                <Input type="radio" name="sel" label={__('Import database from previous e-TB Manager version')} />
+                                <Input type="radio" name="sel" label={__('init.initoptions.import')} />
                             </OverlayTrigger>
                             <Row>
                                 <Col sm={12}>
                                     <div className="pull-right">
                                         <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>
-                                            {__('Continue')}
+                                            {__('action.continue')}
                                         </Button>
                                     </div>
                                 </Col>

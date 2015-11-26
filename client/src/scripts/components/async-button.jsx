@@ -46,5 +46,5 @@ AsyncButton.propTypes = {
 
 AsyncButton.defaultProps = {
     fetching: false,
-    fetchMsg: 'Wait...'
+    fetchMsg: __('global.wait')
 };

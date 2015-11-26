@@ -18,10 +18,7 @@ var webpack = require('webpack'),
 module.exports = config.languages.dev.map( function(lang) {
 
     // get list of messages for the given language
-    var messages;
-    if (lang !== config.defaultLanguage) {
-        messages = require('../messages/messages_' + lang + '.json');
-    }
+    var messages = require('../messages/messages_' + lang + '.json');
 
     return {
         name: lang,

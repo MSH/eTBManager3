@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import Card from '../components/card.jsx';
 import { app } from '../core/app';
+import { format } from '../commons/utils';
 
 
 export default class Success extends React.Component {
@@ -30,17 +31,17 @@ export default class Success extends React.Component {
                 <Card>
                     <div className="text-center">
                         <h3>
-                            {'Workspace registration'}
+                            {__('init.ws.name')}
                         </h3>
                         <br/>
                         <i className="fa fa-check-circle fa-4x text-success"></i>
                         <br/>
                         <p className="mtop-2x">
-                            {'The workspace '}<span className="badge">{msg}</span>{' was successfully registered.'}
+                            {format(__('init.ws.success'), msg)}
                         </p>
                     </div>
                     <div>
-                        <Button bsStyle="default" block onClick={this.contClick}>{'Go to login page'}</Button>
+                        <Button bsStyle="default" block onClick={this.contClick}>{__('init.ws.gotologin')}</Button>
                     </div>
                 </Card>
             </div>
