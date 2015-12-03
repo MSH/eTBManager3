@@ -12,9 +12,9 @@ import Index from './index';
 export default class ReportRoutes extends React.Component {
 
 	render() {
-		const routes = [
+		const routes = RouteView.createRoutes([
 			{ path: '/index', view: Index }
-		];
+		]);
 
 		return (
 			<RouteView routes={routes} />

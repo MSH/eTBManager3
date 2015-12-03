@@ -74,7 +74,8 @@ export default class NewWorkspace extends React.Component {
                 else {
                     self.setState({ success: true, wsname: v.wsname, fetching: false });
                 }
-            });
+            })
+            .catch(() => self.setState({ fetching: false }));
     }
 
 

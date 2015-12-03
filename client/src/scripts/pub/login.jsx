@@ -4,7 +4,7 @@ import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
 import { Card, AsyncButton } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { app } from '../core/app';
-import ActSession from '../core/act-session';
+import { login } from '../core/act-session';
 
 
 /**
@@ -52,7 +52,7 @@ export default class Login extends React.Component {
         const self = this;
 
         // request login to the server
-        ActSession.login(val.user, val.pwd)
+        login(val.user, val.pwd)
         .then(data => {
             if (data) {
                 app.goto('/sys/home/index');

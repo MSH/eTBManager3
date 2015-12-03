@@ -43,12 +43,12 @@ export default class MainPage extends React.Component {
     }
 
     render() {
-        var routers = [
+        var routers = RouteView.createRoutes([
             { path: '/pub', viewResolver: this.openPublic.bind(this) },
             { path: '/init', viewResolver: this.openInit.bind(this) },
             { path: '/sys', viewResolver: this.openApp.bind(this) },
             { path: '/pagenotfound', view: PageNotFound }
-        ];
+        ]);
 
         return (
             <div>

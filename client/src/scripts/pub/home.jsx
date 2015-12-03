@@ -14,11 +14,11 @@ import ForgotPwd from './forgot-pwd.jsx';
 export default class Home extends React.Component {
 
 	render() {
-		const routes = [
+		const routes = RouteView.createRoutes([
 			{ path: '/login', view: Login },
             { path: '/forgotpwd', view: ForgotPwd },
             { path: '/userreg', view: UserReg }
-		];
+		]);
 
 		return <RouteView routes={routes} />;
 	}

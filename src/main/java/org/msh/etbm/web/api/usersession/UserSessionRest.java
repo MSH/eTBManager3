@@ -1,6 +1,5 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.services.usersession.UserRequest;
 import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionResponse;

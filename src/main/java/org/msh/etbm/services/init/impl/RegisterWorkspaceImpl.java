@@ -168,7 +168,8 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         ws.setName(form.getWorkspaceName());
 
-        workspaceRepository.save(ws);
+        entityManager.persist(ws);
+//        workspaceRepository.save(ws);
 
         WorkspaceLog wslog = new WorkspaceLog();
         wslog.setId(ws.getId());

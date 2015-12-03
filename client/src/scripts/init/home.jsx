@@ -13,11 +13,11 @@ import NewWorkspace from './newworkspace.jsx';
 export default class Home extends React.Component {
 
 	render() {
-		const routes = [
+		const routes = RouteView.createRoutes([
 			{ path: '/welcome', view: Welcome },
             { path: '/initoptions', view: InitOptions },
             { path: '/newworkspace', view: NewWorkspace }
-		];
+		]);
 
 		const viewProps = {
 			app: this.props.app

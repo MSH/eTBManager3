@@ -47,11 +47,11 @@ export default class Routes extends React.Component {
 	}
 
 	render() {
-		const routes = [
+		const routes = RouteView.createRoutes([
 			{ path: '/home', viewResolver: this.openHome.bind(this) },
 			{ path: '/reports', viewResolver: this.openReports.bind(this) },
 			{ path: '/admin', viewResolver: this.openAdmin.bind(this) }
-		];
+		]);
 
 		return (
 			<RouteView routes={routes} />
