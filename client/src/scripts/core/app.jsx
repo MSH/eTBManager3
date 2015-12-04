@@ -2,7 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MainPage from './main-page';
-import Server from '../commons/server';
+import { server, onRequestError } from '../commons/server';
 import Storage from './storage';
 import { APP_INIT, ERROR } from './actions';
 import { router } from '../components/router';
@@ -25,7 +25,7 @@ export class App {
 		// create storage that will keep application state
 		this.storage = new Storage({ fetching: true });
 		// attach API to handle user session tasks
-		Server.setErrorHandler(this._serverErrorHandler.bind(this));
+		onRequestError(this._serverErrorHandler.bind(this));
 	}
 
 	/**
@@ -69,7 +69,7 @@ export class App {
 		const self = this;
 
 		// call server to get system status
-		Server.post('/api/sys/info', {})
+		server.post('/api/sys/info', {})
 		.then(res => {
 			self.dispatch(APP_INIT, { app: res });
 			// according to app state, go to specific module

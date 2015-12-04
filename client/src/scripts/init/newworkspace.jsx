@@ -2,7 +2,7 @@
 import React from 'react';
 import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
-import Server from '../commons/server';
+import { server } from '../commons/server';
 import Success from './success';
 import { Callout, Card, AsyncButton } from '../components/index';
 
@@ -66,7 +66,7 @@ export default class NewWorkspace extends React.Component {
         const self = this;
 
         // request server to register workspace
-        Server.post('/api/init/workspace', data)
+        server.post('/api/init/workspace', data)
             .then(res => {
                 if (res.errors) {
                     self.setState({ errors: res.errors, fetching: false });

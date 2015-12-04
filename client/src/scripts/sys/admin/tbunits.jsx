@@ -4,12 +4,12 @@ import { Table } from 'react-bootstrap';
 import { Card, WaitIcon } from '../../components/index';
 import CRUD from '../../commons/crud';
 
-const crud = new CRUD('adminunit');
+const crud = new CRUD('unit');
 
 /**
  * The page controller of the public module
  */
-export class AdmUnits extends React.Component {
+export class Tbunits extends React.Component {
 
 	render() {
 		const res = this.state ? this.state.result : null;
@@ -32,7 +32,7 @@ export class AdmUnits extends React.Component {
 		}
 
 		return (
-			<Card title={__('admin.adminunits')}>
+			<Card title={__('admin.tbunits')}>
 				<Table responsive>
 					<thead>
 						<tr>

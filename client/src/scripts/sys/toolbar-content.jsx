@@ -55,7 +55,7 @@ export default function() {
                 <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
                 <i className="fa fa-globe fa-stack-2x"></i>
             </span>
-            <span className="ws-text">
+            <span className="ws-text visible-lg-inline visible-md-inline visible-xs-inline">
             {session.workspaceName}
             </span>
         </span>
@@ -92,7 +92,10 @@ export default function() {
                 </NavItem>
                 <NavDropdown id="ddWs" eventKey={3} title={workspace} className="nav-item-icon">
                 {
-                    session.workspaces.map(ws => <MenuItem key={ws.id} eventKey={ws.id}>{ws.name}</MenuItem>)
+                    session.workspaces.map(ws =>
+                        <MenuItem key={ws.id} eventKey={ws.id}>
+                            {ws.name}
+                        </MenuItem>)
                 }
                 </NavDropdown>
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon">

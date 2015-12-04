@@ -42,7 +42,7 @@ export default class Sidebar extends React.Component {
 						if (item.icon) {
 							return (
                                 <NavItem eventKey={item} key={count}>
-                                    <i className={'fa fa-fw fa-' + item.icon}/>{item.caption}
+                                    <i className={'fa fa-fw fa-' + item.icon}/>{item.title}
                                 </NavItem>
                                 );
 						}

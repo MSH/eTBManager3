@@ -1,24 +1,39 @@
 
 import React from 'react';
 
-import { PageHeader } from 'react-bootstrap';
-
 /**
  * Define a page title
  */
 export default class Card extends React.Component {
     render() {
-        let title = this.props.title;
+        let header = this.props.header || null;
 
-        let children = React.Children.map(this.props.children, function(item) {
-            return <div className='card-content'>{item}</div>;
+        // header was not defined ?
+        if (!header) {
+            const title = this.props.title;
+            // title was defined?
+            if (title) {
+                header = <div className="card-header"><div className="card-title">{title}</div></div>;
+            }
+        }
+
+        const children = React.Children.map(this.props.children, function(item) {
+            return <div className="card-content">{item}</div>;
         });
 
         return (
-            <div className='card' style={this.props.style}>
-                {title && <div className='card-title'>{title}</div>}
+            <div className="card" style={this.props.style}>
+                {header}
                 {children}
             </div>
-        )
+        );
     }
 }
+
+Card.propTypes = {
+    title: React.PropTypes.string,
+    header: React.PropTypes.element,
+    noPadding: React.PropTypes.bool,
+    children: React.PropTypes.any,
+    style: React.PropTypes.object
+};

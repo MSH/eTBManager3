@@ -1,5 +1,5 @@
 
-import Server from '../commons/server';
+import { server } from '../commons/server';
 import { LOGOUT, AUTHENTICATED } from './actions';
 import { app } from './app';
 
@@ -29,7 +29,7 @@ export function hasPerm(perm) {
  * @return {Promise}      Promise that will be resolved with the authentication token, or null if failed
  */
 export function login(user, pwd) {
-	return Server.post('/api/auth/login', { username: user, password: pwd })
+	return server.post('/api/auth/login', { username: user, password: pwd })
 	.then(data => {
 		if (!data.success) {
 			return null;
@@ -52,7 +52,7 @@ export function logout() {
 	// inform server to register logout of the authentication token
 	if (autk) {
 		// call server to register logout
-		return Server.get('/api/auth/logout?tk=' + autk)
+		return server.get('/api/auth/logout?tk=' + autk)
 		.then(() => {
 			// clear authentication token in the cookies
 			window.app.setCookie('autk', null);
@@ -74,7 +74,7 @@ export function logout() {
  * @return {Promise} A promise containing the session data
  */
 export function authenticate() {
-	return Server.post('/api/sys/session')
+	return server.post('/api/sys/session')
 	.then(res => {
 		app.dispatch(AUTHENTICATED, { session: res });
 		return res;

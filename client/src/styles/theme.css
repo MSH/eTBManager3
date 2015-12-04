@@ -6828,6 +6828,30 @@ button.close {
   background-color: #abc1b3;
   border: none;
 }
+@media (max-width: 767px) {
+  .header-search input {
+    width: 80%;
+    padding: 1px 0 0 4px;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .header-search input {
+    width: 100px;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+    padding-left: 5px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+  .header-search input {
+    width: 150px;
+  }
+}
+@media (min-width: 1200px) {
+  .header-search input {
+    min-width: 200px;
+  }
+}
 /** nav item in the toolbar with an icon */
 .nav-item-icon a {
   padding-top: 11px !important;
@@ -6964,14 +6988,22 @@ button.close {
 }
 .card {
   background-color: white;
-  margin-top: 20px;
+  margin-top: 0px;
+  margin-bottom: 20px;
   border: 1px solid #e8e8e8;
   border-radius: 2px;
   /** Style of the title */
 }
-.card .card-title {
-  padding: 6px 20px;
-  font-size: 20px;
+.card .card-header {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+.card .card-header h3,
+.card .card-header h4,
+.card .card-header h5 {
+  margin-top: 4px;
+}
+.card .card-header h4 {
   font-weight: bold;
 }
 .card .card-content {

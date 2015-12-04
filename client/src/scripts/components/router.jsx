@@ -120,7 +120,8 @@ export class RouteView extends React.Component {
 			hash: router.hash(),
 			params: params ? params : {},
 			path: route.data.path,
-			forpath: currPath
+			forpath: currPath,
+			data: route.data
 		};
 
 		if (typeof View === 'object' && View.default) {

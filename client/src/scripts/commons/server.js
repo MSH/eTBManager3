@@ -9,54 +9,66 @@ import Request from 'superagent';
  */
 var customErrorHandler;
 
-export default {
+export function onRequestError(handler) {
+	customErrorHandler = handler;
+}
+
+
+class ServerRequest {
+
 	/**
 	 * Create a request GET to the given URL
 	 * @param  {String} url The remote address
      * @param  {function} callback called when server answers
 	 * @return {Request}    Request object
 	 */
-	get: function(url) {
-		return new Promise((resolve, reject) => {
-			Request
-				.get(url)
-				.use(auth)
-				.use(errorHandler)
-				.end((err, res) => {
-					if (err) {
-						return reject(err);
-					}
-					return resolve(res.body);
-				});
-		});
-	},
+	get(url) {
+		return this.promiseRequest(Request.get(url));
+	}
+
 
 	/**
 	 * Create a request POST to the given URL
 	 * @param  {String} url The remote address
 	 * @return {Request}    Request object
 	 */
-	post: function(url, data) {
+	post(url, data) {
+		return this.promiseRequest(Request
+			.post(url)
+			.send(data));
+	}
+
+
+	/**
+	 * Send a delete post
+	 * @param  {String} url [description]
+	 * @return {Request}     [description]
+	 */
+	delete(url) {
+		return this.promiseRequest(Request
+			.delete(url));
+	}
+
+	promiseRequest(request) {
 		return new Promise((resolve, reject) => {
-			Request
-				.post(url)
-				.send(data)
-			//	.set('Content-type', 'application/json')
+			request
 				.use(auth)
 				.use(errorHandler)
 				.end((err, res) => {
 					if (err) {
 						reject(err);
 					}
-					resolve(res.body);
+					else {
+						resolve(res.body);
+					}
 				});
 		});
-	},
-
-	setErrorHandler: function(handler) {
-		customErrorHandler = handler;
 	}
-};
+}
+
+var server = new ServerRequest();
+
+export { server };
 
 
 function auth(req) {
@@ -76,13 +88,8 @@ function errorHandler(req) {
 	req.callback = function(err, res) {
         cb.call(req, err, res);
 
-        if (err) {
-			if (customErrorHandler) {
-				customErrorHandler(err);
-			}
-			else {
-				alert(err);
-			}
+        if (err && customErrorHandler) {
+			customErrorHandler(err);
         }
 	};
 

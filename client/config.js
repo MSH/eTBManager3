@@ -53,6 +53,11 @@ module.exports = {
                 '/',
                 '/api/*'
             ]
+            /**
+             * Request delay for development purposes
+             * @type {number} delay in milliseconds
+             */
+            //requestDelay: 800
         },
 
         /**

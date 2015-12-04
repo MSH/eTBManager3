@@ -2,51 +2,55 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { RouteView, router } from '../../components/router';
-import { Profile, Card, Fluidbar, Sidebar, WaitIcon } from '../../components/index';
+import { Fluidbar, Sidebar, WaitIcon } from '../../components/index';
 
-import { initau } from './admunits';
+import { AdmUnits } from './admunits';
+import { Sources } from './sources';
+import { Tbunits } from './tbunits';
 
 
 const items = [
 	{
-		caption: __('admin.adminunits'),
+		title: __('admin.adminunits'),
 		perm: 'ADMINUNITS',
 		icon: 'sitemap',
         path: '/admunits',
-        viewResolver: initau
+        view: AdmUnits
 	},
 	{
-		caption: __('admin.tbunits'),
+		title: __('admin.tbunits'),
 		perm: 'UNITS',
 		icon: 'hospital-o',
-        path: '/units'
+        path: '/units',
+        view: Tbunits
 	},
 	{
-		caption: __('admin.labs'),
+		title: __('admin.labs'),
 		perm: 'UNITS',
 		icon: 'building',
         path: '/labs'
 	},
 	{
-		caption: __('admin.sources'),
+		title: __('admin.sources'),
 		perm: 'SOURCES',
 		icon: 'dropbox',
-        path: '/sources'
+        path: '/sources',
+        view: Sources
 	},
 	{
-		caption: __('admin.substances'),
+		title: __('admin.substances'),
 		perm: 'SUBSTANCES',
 		icon: 'h-square',
         path: '/substances'
 	},
 	{
-		caption: __('admin.products'),
+		title: __('admin.products'),
 		perm: 'PRODUCTS',
 		icon: 'cube',
         path: '/products'
 	},
 	{
-		caption: __('admin.regimens'),
+		title: __('admin.regimens'),
 		perm: 'REGIMENS',
 		icon: 'medkit',
         path: '/regimens'
@@ -55,19 +59,19 @@ const items = [
 		separator: true
 	},
 	{
-		caption: __('admin.weeklyfreq'),
+		title: __('admin.weeklyfreq'),
 		perm: 'WEEKFREQ',
 		icon: 'calendar',
         path: '/weeklyfreq'
 	},
 	{
-		caption: __('admin.ageranges'),
+		title: __('admin.ageranges'),
 		perm: 'AGERANGES',
 		icon: 'tasks',
         path: '/ageranges'
 	},
 	{
-		caption: __('admin.tags'),
+		title: __('admin.tags'),
 		perm: 'TAGS',
 		icon: 'tags',
         path: '/tags'
@@ -76,13 +80,13 @@ const items = [
 		separator: true
 	},
 	{
-		caption: __('admin.users'),
+		title: __('admin.users'),
 		perm: 'USERS',
 		icon: 'user',
         path: '/users'
 	},
 	{
-		caption: __('admin.profiles'),
+		title: __('admin.profiles'),
 		perm: 'PROFILES',
 		icon: 'group',
         path: '/groups'
@@ -113,7 +117,7 @@ export default class Tables extends React.Component {
 		const selroute = routes.find(forpath);
 
 		// calc selected item
-		const selItem = selroute !== null ? selroute.data : null;
+		const selItem = selroute ? selroute.data : null;
 
 		return (
 			<div>
@@ -126,7 +130,9 @@ export default class Tables extends React.Component {
 							<Sidebar items={items} selected={selItem} onSelect={this.menuSelect} />
 						</Col>
 						<Col md={9}>
-							<RouteView routes={routes} loadingIcon={<WaitIcon />} />
+							<div className="mtop-2x">
+								<RouteView routes={routes} loadingIcon={<WaitIcon />} />
+							</div>
 						</Col>
 					</Row>
 				</Grid>

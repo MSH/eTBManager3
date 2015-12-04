@@ -25,7 +25,8 @@
          */
         getCookie: function(cname) {
             var name = cname + '=';
-            var vals = document.cookie.split('; ' + name);
+            var s = '; ' + document.cookie;
+            var vals = s.split('; ' + name);
             if (vals.length === 2) {
                 return vals.pop().split(';').shift();
             }
