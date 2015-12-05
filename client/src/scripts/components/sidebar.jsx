@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
-import { hasPerm } from '../core/act-session';
+import { hasPerm } from '../core/session';
 
 // load style
 import './sidebar.less';

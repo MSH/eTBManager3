@@ -13,12 +13,18 @@ export default class Card extends React.Component {
             const title = this.props.title;
             // title was defined?
             if (title) {
-                header = <div className="card-header"><div className="card-title">{title}</div></div>;
+                header = <h4>{title}</h4>;
             }
         }
 
+        if (header) {
+            header = <div className="card-header">{header}</div>;
+        }
+
+        const contentClass = 'card-content' + (this.props.noPadding ? ' no-padding' : '');
+
         const children = React.Children.map(this.props.children, function(item) {
-            return <div className="card-content">{item}</div>;
+            return <div className={contentClass}>{item}</div>;
         });
 
         return (

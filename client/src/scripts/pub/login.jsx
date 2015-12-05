@@ -4,7 +4,7 @@ import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
 import { Card, AsyncButton } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { app } from '../core/app';
-import { login } from '../core/act-session';
+import { login } from '../core/session';
 
 
 /**

@@ -44,6 +44,7 @@
     "action.selectall": "Selecionar todos",
     "action.showdetails": "Ver detalhes",
     "action.update": "Atualizar",
+    "action.go": "Ir!",
     "admin.adminunits": "Unidades administrativas",
     "admin.adminunits.countrystructure": "Unidade admin.",
     "admin.adminunits.delerror1": "Usuário não pode excluir sua própria unidade administrativa",

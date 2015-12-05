@@ -1,7 +1,7 @@
 
 import { TB_SET } from '../core/actions';
 import { app } from '../core/app';
-import { authenticate, isAuthenticated } from '../core/act-session';
+import { authenticate, isAuthenticated } from '../core/session';
 
 var view;
 

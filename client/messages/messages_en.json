@@ -44,6 +44,7 @@
     "action.selectall": "Select all",
     "action.showdetails": "Show details",
     "action.update": "Update",
+    "action.go": "Go!",
     "admin": "Administration",
     "admin.adminunits": "Administrative units",
     "admin.adminunits.countrystructure": "Administrative unit",

@@ -1,10 +1,23 @@
 
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import { Card, WaitIcon } from '../../components/index';
+import TableView from './tableview';
 import CRUD from '../../commons/crud';
 
 const crud = new CRUD('unit');
+
+// definition of the table that will display the list of sources
+const tableDef = {
+	columns: [
+		{
+			title: __('form.name'),
+			property: 'name'
+		},
+		{
+			title: __('admin.adminunits'),
+			property: 'adminUnitName'
+		}
+	]
+};
 
 /**
  * The page controller of the public module
@@ -12,40 +25,16 @@ const crud = new CRUD('unit');
 export class Tbunits extends React.Component {
 
 	render() {
-		const res = this.state ? this.state.result : null;
-
-		let tbl;
-
-		if (!res) {
-			const self = this;
-			crud.query({ rootUnits: true })
-			.then(result => self.setState({ result: result }));
-
-			tbl = <tr><td><WaitIcon /></td></tr>;
-		}
-		else {
-			tbl = res.list.map(item => (
-					<tr key={item.id}>
-						<td>{item.name}</td>
-					</tr>
-				));
-		}
+		// get information about the route of this page
+		const data = this.props.route.data;
 
 		return (
-			<Card title={__('admin.tbunits')}>
-				<Table responsive>
-					<thead>
-						<tr>
-							<th>
-								{'Name'}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{tbl}
-					</tbody>
-				</Table>
-			</Card>
+			<TableView title={data.title} crud={crud}
+				search perm={data.perm} tableDef={tableDef} />
 			);
 	}
 }
+
+Tbunits.propTypes = {
+	route: React.PropTypes.object
+};

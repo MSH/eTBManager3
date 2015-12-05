@@ -8,7 +8,9 @@ import { AdmUnits } from './admunits';
 import { Sources } from './sources';
 import { Tbunits } from './tbunits';
 
-
+/**
+ * List of all items displayed in the left side box
+ */
 const items = [
 	{
 		title: __('admin.adminunits'),
@@ -95,7 +97,6 @@ const items = [
 
 /**
  * Create the route list from the list of items
- * @type {[type]}
  */
 const routes = RouteView.createRoutes(items.filter(item => !item.separator));
 

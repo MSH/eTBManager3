@@ -2,7 +2,7 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
-import { hasPerm, logout } from '../core/act-session';
+import { hasPerm, logout } from '../core/session';
 
 // logs the user out of the system
 function cmdLogout() {
