@@ -7,6 +7,7 @@ import { Fluidbar, Sidebar, WaitIcon } from '../../components/index';
 import { AdmUnits } from './admunits';
 import { Sources } from './sources';
 import { Tbunits } from './tbunits';
+import { Substances } from './substances';
 
 /**
  * List of all items displayed in the left side box
@@ -43,7 +44,8 @@ const items = [
 		title: __('admin.substances'),
 		perm: 'SUBSTANCES',
 		icon: 'h-square',
-        path: '/substances'
+        path: '/substances',
+        view: Substances
 	},
 	{
 		title: __('admin.products'),
@@ -127,10 +129,10 @@ export default class Tables extends React.Component {
 				</Fluidbar>
 				<Grid fluid>
 					<Row>
-						<Col md={3}>
+						<Col sm={3}>
 							<Sidebar items={items} selected={selItem} onSelect={this.menuSelect} />
 						</Col>
-						<Col md={9}>
+						<Col sm={9}>
 							<div className="mtop-2x">
 								<RouteView routes={routes} loadingIcon={<WaitIcon />} />
 							</div>

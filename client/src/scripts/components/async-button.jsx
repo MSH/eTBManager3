@@ -17,7 +17,7 @@ export default class AsyncButton extends React.Component {
     render() {
         const props = this.props;
         const fetching = props.fetching;
-        const fetchMsg = props.fetchCaption;
+        const fetchMsg = props.fetchMsg;
 
         const btnProps = Object.assign({},
             this.props,
@@ -29,9 +29,12 @@ export default class AsyncButton extends React.Component {
             btnProps.onClick = null;
         }
 
+        const faIcon = this.props.faIcon;
+
         return (
             <Button {...btnProps}>
                 {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw"></i>}
+                {!fetching && faIcon ? <i className={'fa fa-fw fa-' + faIcon}/> : null}
                 {fetching && fetchMsg ? fetchMsg : this.props.children}
             </Button>
         );
@@ -41,7 +44,8 @@ export default class AsyncButton extends React.Component {
 AsyncButton.propTypes = {
     fetching: React.PropTypes.bool,
     fetchMsg: React.PropTypes.string,
-    children: React.PropTypes.any
+    children: React.PropTypes.any,
+    faIcon: React.PropTypes.string
 };
 
 AsyncButton.defaultProps = {

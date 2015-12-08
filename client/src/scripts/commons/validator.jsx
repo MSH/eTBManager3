@@ -13,10 +13,10 @@ export function validateForm(comp, model) {
     const data = {};
 
     // create field data
-    Object.keys(model).forEach((field) => data[field] = comp.refs[field].getValue());
+    Object.keys(model).forEach(field => data[field] = comp.refs[field].getValue());
 
     // validate all fields
-    Object.keys(model).forEach((field) => {
+    Object.keys(model).forEach(field => {
         const val = data[field];
         const msg = validateValue(val, model[field], data);
         if (msg) {
@@ -40,6 +40,7 @@ export function validateForm(comp, model) {
  * Validate a single value based on its model
  * @param value the value to be validated
  * @param model the validation rules of the value
+ * @param {object} data is the object that host value
  */
 function validateValue(value, model, data) {
     // value is empty ?

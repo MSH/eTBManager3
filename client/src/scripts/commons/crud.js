@@ -19,7 +19,13 @@ export default class CRUD {
 	 * @return {[type]}     [description]
 	 */
 	create(req) {
-		return server.post(API_PREFIX + this.table, req);
+		return server.post(API_PREFIX + this.table, req)
+		.then(res => {
+			if (res.errors) {
+				return Promise.reject(res.errors);
+			}
+			return res;
+		});
 	}
 
 	/**

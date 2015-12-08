@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { Table, Button, Row, Col, Alert } from 'react-bootstrap';
-import { Card, WaitIcon } from '../../components/index';
-import { hasPerm } from '../../core/session';
+import { Table, Button, Row, Col, Alert, Badge } from 'react-bootstrap';
+import { Card } from '../../components/index';
 
 
 /**
@@ -16,18 +15,19 @@ export default class TableView extends React.Component {
 		this.newClick = this.newClick.bind(this);
 	}
 
-	fetchData(crud) {
-		const self = this;
-		crud.query({ rootUnits: true })
-		.then(result => self.setState({ result: result }));
-
-	}
 
 	/**
-	 * Called when the new button is clicked
+	 * Called when new is clicked
+	 * @return {[type]} [description]
 	 */
 	newClick() {
-		this.setState({ editing: true, doc: {} });
+		this.raiseEvent({ type: 'new' });
+	}
+
+	raiseEvent(evt) {
+		if (this.props.onEvent) {
+			this.props.onEvent(evt);
+		}
 	}
 
 	/**
@@ -35,7 +35,7 @@ export default class TableView extends React.Component {
 	 * @return {Component} The new button, or null if user has no permission to create a new item
 	 */
 	createNewButton() {
-		if (!hasPerm(this.props.perm)) {
+		if (this.props.readOnly) {
 			return null;
 		}
 
@@ -75,7 +75,7 @@ export default class TableView extends React.Component {
 	 */
 	createTable() {
 		const tbldef = this.props.tableDef;
-		const res = this.state.result;
+		const res = this.props.data;
 		if (!tbldef && !res) {
 			return null;
 		}
@@ -113,73 +113,72 @@ export default class TableView extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	render() {
-		const crud = this.props.crud;
-		const editForm = this.props.editForm;
-		const title = this.props.title;
-		const res = this.state ? this.state.result : null;
+		if (!this.props) {
+			return null;
+		}
+
+		const res = this.props.data;
+
+		if (!res) {
+			return null;
+		}
 
 		let content;
 
-		// check if data must be fetched from the server
-		if (!res) {
-			this.fetchData(crud);
-			return <WaitIcon />;
-		}
-
+		// no record was found ?
 		if (res.list.length === 0) {
 			content = <Alert bsStyle="warning">{'No record found'}</Alert>;
 		}
 		else {
+			// if records were found, create the table content
 			content = this.createTable();
 		}
 
 		const newButton = this.createNewButton();
 		const searchBox = this.createSearchBox();
 
-		// the title column properties (size will vary according to the elements there)
+		// the size of the title column
 		const colProps = {
 			xs: 12,
 			sm: 12,
 			md: 12
 		};
+		// adjust the size of the title according to the search box and new button
 		colProps.md += (searchBox ? -3 : 0) + (newButton ? -2 : 0);
 
-		// create the header of the table
+		const count = res.count > 0 ? <Badge className="tbl-counter">{res.count}</Badge> : null;
+
+		// create the header of the card
 		const header = (
 			<Row>
 				<Col {...colProps}>
-					<h4>{title}</h4>
+					<h4>{this.props.tableDef.title}{count}</h4>
 				</Col>
 				{searchBox}
 				{newButton}
 			</Row>
 			);
 
-		// is it in editing mode ?
-		const Editor = this.state.editing ? this.props.editForm : null;
-
 		return (
-			<div>
-				{Editor && <Editor/>}
-				<Card header={header}>
-					{content}
-				</Card>
-			</div>
+			<Card header={header}>
+				{content}
+			</Card>
 			);
 	}
 }
 
 TableView.propTypes = {
-	crud: React.PropTypes.object,
 	title: React.PropTypes.string,
 	paging: React.PropTypes.bool,
 	search: React.PropTypes.bool,
 	// the custom filters to be included in the panel
 	filterView: React.PropTypes.func,
-	// the edit form component
-	editForm: React.PropTypes.func,
-	// the permission to test to enable editing
-	perm: React.PropTypes.string,
+	// if true, the new button will not be available
+	readOnly: React.PropTypes.bool,
 	// layout of the table
-	tableDef: React.PropTypes.object
+	tableDef: React.PropTypes.object,
+	// event fired when user clicks on the new button
+	onEvent: React.PropTypes.func,
+	// data to be displayed
+	data: React.PropTypes.object
 };

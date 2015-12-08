@@ -17,10 +17,7 @@ var contextPath = path.join( __dirname, 'client', config.clientSrc),
 module.exports = config.languages.prod.map( function(lang) {
 
     // get list of messages for the given language
-    var messages;
-    if (lang !== config.defaultLanguage) {
-        messages = require('./client/messages/messages_' + lang + '.json');
-    }
+    var messages = require('./client/messages/messages_' + lang + '.json');
 
     // return the configuration to be used in production mode
     return {

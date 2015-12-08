@@ -10,6 +10,10 @@ const crud = new CRUD('source');
 const tableDef = {
 	columns: [
 		{
+			title: __('form.shortName'),
+			property: 'shortName'
+		},
+		{
 			title: __('form.name'),
 			property: 'name'
 		}

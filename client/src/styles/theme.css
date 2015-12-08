@@ -6920,6 +6920,15 @@ button.close {
   border: none;
   box-shadow: none;
 }
+.app-required {
+  padding-left: 4px;
+  color: #d9534f;
+  font-size: 0.9em !important;
+}
+.tbl-counter {
+  background-color: #1f69ad;
+  margin-left: 8px;
+}
 .callout {
   padding: 20px;
   margin: 20px 0;

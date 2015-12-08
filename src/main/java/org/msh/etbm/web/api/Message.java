@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Standard validation error message sent to the client
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 public class Message {
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("msg")
     private String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
