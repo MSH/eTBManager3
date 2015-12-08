@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Table, Button, Row, Col, Alert, Badge } from 'react-bootstrap';
+import { Table, Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card } from '../../components/index';
 
 
@@ -13,6 +13,7 @@ export default class TableView extends React.Component {
 		super(props);
 		this.state = {};
 		this.newClick = this.newClick.bind(this);
+		this.menuClick = this.menuClick.bind(this);
 	}
 
 
@@ -24,6 +25,19 @@ export default class TableView extends React.Component {
 		this.raiseEvent({ type: 'new' });
 	}
 
+	/**
+	 * Calledn when a menu item in the table is selected
+	 * @param  {[type]} evt [description]
+	 * @param  {[type]} key [description]
+	 */
+	menuClick(evt, key) {
+		this.raiseEvent({ type: 'cmd', key: key.key, item: key.item });
+	}
+
+	/**
+	 * Raise an event that triggers the 'onEvent' property of the table
+	 * @param  {object} evt The event to be triggered
+	 */
 	raiseEvent(evt) {
 		if (this.props.onEvent) {
 			this.props.onEvent(evt);
@@ -86,6 +100,7 @@ export default class TableView extends React.Component {
 				{
 					tbldef.columns.map(col => <th key={col.property} align={col.align}>{col.title}</th>)
 				}
+				{tbldef.menu && <th></th>}
 			</tr>
 			);
 
@@ -93,11 +108,24 @@ export default class TableView extends React.Component {
 		const rows = res.list.map(item => (
 				<tr key={item.id}>
 					{tbldef.columns.map(col => <td key={item.id + col.property}>{item[col.property]}</td>)}
+					{tbldef.menu &&
+						<td style={{ textAlign: 'right' }}>
+							<DropdownButton id="optMenu" bsSize="small" pullRight
+								onSelect={this.menuClick}
+								title={<span className="hidden-xs" >{__('form.options')}</span>}>
+								{
+									tbldef.menu.map(menu => <MenuItem key={menu.eventKey}
+										eventKey={{ item: item, key: menu.eventKey }}>
+											{menu.label}
+										</MenuItem>)
+								}
+							</DropdownButton>
+						</td>}
 				</tr>
 			));
 
 		return (
-			<Table responsive>
+			<Table>
 				<thead>
 					{titles}
 				</thead>

@@ -2,7 +2,7 @@
  * Generate and maintain a form based on a given layout (in object structure) and a data model
  */
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Alert } from 'react-bootstrap';
 import Field from './form-impl/field';
 import { validateForm } from './form-impl/validator';
 
@@ -32,8 +32,40 @@ export default class Form extends React.Component {
 	createForm() {
 		const layout = this.props.layout;
 		const doc = this.props.doc;
-		const errors = this.props.errors;
+		let errors = this.props.errors;
 
+		// check if there is any global error message
+		const globalMsg = errors instanceof Error ? errors.message : null;
+
+		// is not a list of error messages ?
+		if (!(errors instanceof Array)) {
+			errors = null;
+		}
+
+		const lst = this.createFields(layout, doc, errors);
+
+		// is there a global message
+		if (globalMsg) {
+			return (
+				<div>
+					<Alert bsStyle="danger">{globalMsg}</Alert>
+					{lst}
+				</div>
+				);
+		}
+
+		return lst;
+	}
+
+
+	/**
+	 * Create the fields of the form
+	 * @param  {[type]} layout [description]
+	 * @param  {[type]} doc    [description]
+	 * @param  {[type]} errors [description]
+	 * @return {[type]}        [description]
+	 */
+	createFields(layout, doc, errors) {
 		if (!layout || !doc) {
 			return null;
 		}
@@ -85,7 +117,6 @@ export default class Form extends React.Component {
 
 		return lst;
 	}
-
 
 	render() {
 		const form = this.createForm();

@@ -34,7 +34,14 @@ export default class CRUD {
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
 	get(id) {
-		return server.get(API_PREFIX + this.table + '/' + id);
+		return server.get(API_PREFIX + this.table + '/' + id)
+		.then(res => {
+			if (!res.success) {
+				return Promise.reject(res);
+			}
+
+			return res.result;
+		});
 	}
 
 	/**
@@ -44,7 +51,14 @@ export default class CRUD {
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
 	update(id, data) {
-		return server.post(API_PREFIX + this.table, data);
+		return server.post(API_PREFIX + this.table + '/' + id, data)
+		.then(res => {
+			if (!res.success) {
+				return Promise.reject(res);
+			}
+
+			return res.result;
+		});
 	}
 
 	/**

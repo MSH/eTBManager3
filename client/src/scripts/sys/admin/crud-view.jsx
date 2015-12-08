@@ -19,14 +19,26 @@ export default class CrudView extends React.Component {
 		this.onTableEvent = this.onTableEvent.bind(this);
 		this.onSave = this.onSave.bind(this);
 		this.onCancel = this.onCancel.bind(this);
+		this.handleMenuCmd = this.handleMenuCmd.bind(this);
 	}
 
 	/**
 	 * Called when the new button is clicked
 	 */
 	onTableEvent(evt) {
-		if (evt.type === 'new') {
-			return this.setState({ editing: true, doc: {} });
+		switch (evt.type) {
+			case 'new': return this.setState({ editing: true, doc: {} });
+			case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
+			default: throw new Error('Unexpected event ' + evt);
+		}
+	}
+
+	handleMenuCmd(key, item) {
+		if (key === 'edit') {
+			const self = this;
+			// start editing the doc
+			this.props.crud.get(item.id)
+			.then(res => self.setState({ editing: true, doc: res }));
 		}
 	}
 
@@ -36,8 +48,13 @@ export default class CrudView extends React.Component {
 	 */
 	onSave() {
 		const self = this;
-		return this.props.crud.create(this.state.doc)
-		.then(() => self.setState({ editing: false, table: null, doc: null }));
+		const doc = this.state.doc;
+		const crud = this.props.crud;
+
+		const promise = doc.id ? crud.update(doc.id, doc) : crud.create(doc);
+
+		return promise
+			.then(() => self.setState({ editing: false, table: null, doc: null }));
 	}
 
 	/**
@@ -72,12 +89,31 @@ export default class CrudView extends React.Component {
 			return <WaitIcon />;
 		}
 
+		const readOnly = !hasPerm(this.props.perm);
 
-		const tableDef = this.props.tableDef;
+		const tableDef = {
+			columns: this.props.tableDef.columns,
+			title: this.props.tableDef.title
+		};
+
+		// if it is not read only, show menu
+		if (!readOnly) {
+			tableDef.menu = [
+					{
+						label: __('action.edit'),
+						eventKey: 'edit'
+					},
+					{
+						label: __('action.delete'),
+						eventKey: 'delete'
+					}
+				];
+		}
+
 		const editorDef = this.props.editorDef;
 
 		// is it in editing mode ?
-		const editing = this.state.editing && hasPerm(this.props.perm);
+		const editing = this.state.editing && !readOnly;
 
 		return (
 			<div>
@@ -92,6 +128,7 @@ export default class CrudView extends React.Component {
 						</Collapse>
 				}
 				<TableView data={this.state.table}
+					readOnly={readOnly}
 					tableDef={tableDef}
 					search={this.props.search}
 					onEvent={this.onTableEvent}

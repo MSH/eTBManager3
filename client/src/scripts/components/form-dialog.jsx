@@ -18,7 +18,11 @@ export default class FormDialog extends React.Component {
 	}
 
 	componentDidMount() {
-		this.unmounted = true;
+		this.mounted = true;
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
 	}
 
 	/**
@@ -45,8 +49,8 @@ export default class FormDialog extends React.Component {
 			const self = this;
 
 			// wait for the end of the promise
-			prom.then(() => !self.unmounted && self.setState({ fetching: false }))
-				.catch(res => !self.unmounted && self.setState({ errors: res, fetching: false }));
+			prom.then(() => self.mounted && self.setState({ fetching: false }))
+				.catch(res => self.mounted && self.setState({ errors: res, fetching: false }));
 		}
 	}
 
