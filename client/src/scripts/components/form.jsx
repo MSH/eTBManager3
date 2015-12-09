@@ -2,7 +2,7 @@
  * Generate and maintain a form based on a given layout (in object structure) and a data model
  */
 import React from 'react';
-import { Grid, Row, Col, Alert } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import Field from './form-impl/field';
 import { validateForm } from './form-impl/validator';
 
@@ -38,7 +38,7 @@ export default class Form extends React.Component {
 		const globalMsg = errors instanceof Error ? errors.message : null;
 
 		// is not a list of error messages ?
-		if (!(errors instanceof Array)) {
+		if (errors instanceof Error) {
 			errors = null;
 		}
 
@@ -57,6 +57,21 @@ export default class Form extends React.Component {
 		return lst;
 	}
 
+	propertyErrors(propname, errors) {
+		if (!errors) {
+			return null;
+		}
+
+		const keys = Object.keys(errors);
+		const res = {};
+		keys.forEach(key => {
+			if (key.startsWith(propname)) {
+				const error = errors[key];
+				res[key] = error.msg ? error.msg : error;
+			}
+		});
+		return res;
+	}
 
 	/**
 	 * Create the fields of the form
@@ -83,8 +98,10 @@ export default class Form extends React.Component {
 				continue;
 			}
 
+			const compErrors = this.propertyErrors(elem.property, errors);
+
 			// create the component
-			const comp = <ReactComp element={elem} doc={doc} errors={errors} />;
+			const comp = <ReactComp element={elem} doc={doc} errors={compErrors} />;
 
 			// has information about size ?
 			if (elem.size) {
@@ -120,11 +137,7 @@ export default class Form extends React.Component {
 
 	render() {
 		const form = this.createForm();
-		return (
-			<Grid fluid>
-				{form}
-			</Grid>
-			);
+		return <div>{form}</div>;
 	}
 }
 

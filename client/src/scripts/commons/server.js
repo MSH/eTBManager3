@@ -86,6 +86,10 @@ function errorHandler(req) {
 	var cb = req.callback;
 
 	req.callback = function(err, res) {
+		if (err && !err.status) {
+			err.message = 'Connection error';
+		}
+
         cb.call(req, err, res);
 
         if (err && customErrorHandler) {
