@@ -790,5 +790,8 @@
     "XpertResult.NO_RESULT": "No result",
     "XpertResult.ONGOING": "On going",
     "XpertRifResult.RIF_DETECTED": "RIF Resistance Detected",
-    "XpertRifResult.RIF_INDETERMINATE": "RIF Resistance Indeterminate"
+    "XpertRifResult.RIF_INDETERMINATE": "RIF Resistance Indeterminate",
+    "default.entity_created": "Успішно зареєстровано",
+    "default.entity_deleted": "Успішно видалено",
+    "default.entity_updated": "Успішно виправлено"
 }

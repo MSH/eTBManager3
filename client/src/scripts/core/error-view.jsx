@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button, Alert, Row, Col } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { ERROR } from './actions';
 import { app } from './app';
 

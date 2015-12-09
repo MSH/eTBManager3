@@ -21,7 +21,8 @@ public class Substance extends WorkspaceEntity {
 	@PropertyLog(messageKey= "form.shortName")
     @NotNull
 	private String shortName;
-	
+
+    @NotNull
 	private MedicineLine line;
 	
 	private boolean prevTreatmentForm = true;

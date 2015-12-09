@@ -190,6 +190,10 @@ module.exports = function execute(opt) {
 		},
 		item, count;
 
+		if (opt.orderBy) {
+			qry.orderBy = opt.orderBy;
+		}
+
 		return crud.findMany(qry)
 		.then(res => {
 			assert(res.count > 0);

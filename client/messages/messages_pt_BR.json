@@ -847,5 +847,8 @@
     "XpertResult.NO_RESULT": "Sem resultado",
     "XpertResult.ONGOING": "Em andamento",
     "XpertRifResult.RIF_DETECTED": "RIF Resistance Detected",
-    "XpertRifResult.RIF_INDETERMINATE": "RIF Resistance Indeterminate"
+    "XpertRifResult.RIF_INDETERMINATE": "RIF Resistance Indeterminate",
+    "default.entity_created": "Registro criado com sucesso",
+    "default.entity_deleted": "Registro excluído com sucesso",
+    "default.entity_updated": "Informações atualizadas com sucesso"
 }

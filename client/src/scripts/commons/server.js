@@ -46,7 +46,7 @@ class ServerRequest {
 	 */
 	delete(url) {
 		return this.promiseRequest(Request
-			.delete(url));
+			.del(url));
 	}
 
 	promiseRequest(request) {

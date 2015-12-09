@@ -6,13 +6,25 @@ import React from 'react';
  */
 export default class WaitIcon extends React.Component {
 
-    render() {
-        return (
-            <div className="cssload-loading center">
-                <i></i>
-                <i></i>
-                <i></i>
-            </div>
-        );
-    }
+	render() {
+		if (this.props.type === 'page') {
+			return (
+				<div className="cssload-loading center">
+					<i></i>
+					<i></i>
+					<i></i>
+				</div>
+			);
+		}
+
+		return <i className="fa fa-circle-o-notch fa-spin wait-icon-field" />;
+	}
 }
+
+WaitIcon.propTypes = {
+	type: React.PropTypes.oneOf(['page', 'field'])
+};
+
+WaitIcon.defaultProps = {
+	type: 'page'
+};

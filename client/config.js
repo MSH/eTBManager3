@@ -52,12 +52,12 @@ module.exports = {
             path: [
                 '/',
                 '/api/*'
-            ]
+            ],
             /**
              * Request delay for development purposes
              * @type {number} delay in milliseconds
              */
-            //requestDelay: 800
+            requestDelay: 1000
         },
 
         /**

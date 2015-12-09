@@ -2,6 +2,8 @@
 import React from 'react';
 import { Table, Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card } from '../../components/index';
+import Fa from '../../components/fa';
+import WaitIcon from '../../components/wait-icon';
 
 
 /**
@@ -56,7 +58,7 @@ export default class TableView extends React.Component {
 		return (
 			<Col xs={4} sm={6} md={2}>
 				<div className="pull-right">
-					<Button bsStyle="default" bsSize="small" onClick={this.newClick}><i className="fa fa-plus"/>{'New'}</Button>
+					<Button bsStyle="default" bsSize="small" onClick={this.newClick}><Fa icon="plus"/>{'New'}</Button>
 				</div>
 			</Col>
 			);
@@ -105,24 +107,8 @@ export default class TableView extends React.Component {
 			);
 
 		// create table rows
-		const rows = res.list.map(item => (
-				<tr key={item.id}>
-					{tbldef.columns.map(col => <td key={item.id + col.property}>{item[col.property]}</td>)}
-					{tbldef.menu &&
-						<td style={{ textAlign: 'right' }}>
-							<DropdownButton id="optMenu" bsSize="small" pullRight
-								onSelect={this.menuClick}
-								title={<span className="hidden-xs" >{__('form.options')}</span>}>
-								{
-									tbldef.menu.map(menu => <MenuItem key={menu.eventKey}
-										eventKey={{ item: item, key: menu.eventKey }}>
-											{menu.label}
-										</MenuItem>)
-								}
-							</DropdownButton>
-						</td>}
-				</tr>
-			));
+		const self = this;
+		const rows = res.list.map(item => self.createRow(item));
 
 		return (
 			<Table>
@@ -134,6 +120,29 @@ export default class TableView extends React.Component {
 				</tbody>
 			</Table>
 			);
+	}
+
+	createRow(item) {
+		const tbldef = this.props.tableDef;
+		const fi = this.props.fetchingItem;
+
+		return 	(<tr key={item.id}>
+					{tbldef.columns.map(col => <td key={item.id + col.property}>{item[col.property]}</td>)}
+					{tbldef.menu &&
+						<td style={{ textAlign: 'right' }}>
+							{(fi === item) && <WaitIcon type="field" />}
+							<DropdownButton id="optMenu" bsSize="small" pullRight
+								onSelect={this.menuClick}
+								title={<span className="hidden-xs" >{__('form.options')}</span>}>
+								{
+									tbldef.menu.map(menu => <MenuItem key={menu.eventKey}
+										eventKey={{ item: item, key: menu.eventKey }}>
+											{menu.label}
+										</MenuItem>)
+								}
+							</DropdownButton>
+						</td>}
+				</tr>);
 	}
 
 	/**
@@ -208,5 +217,7 @@ TableView.propTypes = {
 	// event fired when user clicks on the new button
 	onEvent: React.PropTypes.func,
 	// data to be displayed
-	data: React.PropTypes.object
+	data: React.PropTypes.object,
+	// item that is being fetched in an asynchronous operation. Displays the wait icon
+	fetchingItem: React.PropTypes.object
 };

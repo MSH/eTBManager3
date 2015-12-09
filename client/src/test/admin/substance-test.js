@@ -25,7 +25,7 @@ var model = exports.model = [
 	{
 		name: u('Streptomicin'),
 		shortName: u('S'),
-		line: 'FIRST_LINE',
+		line: 'SECOND_LINE',
 		displayOrder: 2,
 		dstResultForm: true,
 		prevTreatmentForm: true
@@ -60,13 +60,14 @@ describe('substance', () => {
 			default: ['id', 'name', 'shortName', 'line', 'prevTreatmentForm', 'dstResultForm', 'displayOrder', 'active']
 		},
 		/** List of required fields to test */
-		requiredFields: ['name', 'shortName'],
+		requiredFields: ['name', 'shortName', 'line'],
 		/** List of unique fields to test */
 		uniqueFields: ['name', 'shortName'],
 		/** what to test during update */
 		update: {
 			fields: ['name', 'shortName']
-		}
+		},
+		orderBy: 'name'
 	});
 });
 

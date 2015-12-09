@@ -35,14 +35,21 @@ export default class Form extends React.Component {
 		let errors = this.props.errors;
 
 		// check if there is any global error message
-		const globalMsg = errors instanceof Error ? errors.message : null;
+		let globalMsg = errors instanceof Error ? errors.message : null;
 
 		// is not a list of error messages ?
 		if (errors instanceof Error) {
 			errors = null;
 		}
 
+		// errors handled by the fields
+		this.handledErrors = [];
+
 		const lst = this.createFields(layout, doc, errors);
+
+		if (!globalMsg) {
+			globalMsg = this.createGlobalMsgs(globalMsg);
+		}
 
 		// is there a global message
 		if (globalMsg) {
@@ -57,6 +64,40 @@ export default class Form extends React.Component {
 		return lst;
 	}
 
+	/**
+	 * Create a list of global messages based on unhandled messages from the fields
+	 * @return {[type]} [description]
+	 */
+	createGlobalMsgs(msg) {
+		const errors = this.props.errors;
+
+		if (!errors) {
+			return null;
+		}
+
+		const keys = Object.keys(errors);
+		const lst = [];
+
+		if (msg) {
+			lst.push(msg);
+		}
+
+		keys.forEach(key => {
+			if (this.handledErrors.indexOf(key) < 0) {
+				const err = errors[key];
+				lst.push(<li key={key}>{key + ': ' + (err.msg ? err.msg : err)}</li>);
+			}
+		});
+
+		return lst.length > 0 ? <ul>{lst}</ul> : null;
+	}
+
+	/**
+	 * Return a list of errors of a specific field
+	 * @param  {[type]} propname [description]
+	 * @param  {[type]} errors   [description]
+	 * @return {[type]}          [description]
+	 */
 	propertyErrors(propname, errors) {
 		if (!errors) {
 			return null;
@@ -68,6 +109,8 @@ export default class Form extends React.Component {
 			if (key.startsWith(propname)) {
 				const error = errors[key];
 				res[key] = error.msg ? error.msg : error;
+				// add error messages that are handled
+				this.handledErrors.push(key);
 			}
 		});
 		return res;
@@ -135,6 +178,10 @@ export default class Form extends React.Component {
 		return lst;
 	}
 
+	/**
+	 * Rend form
+	 * @return {[type]} [description]
+	 */
 	render() {
 		const form = this.createForm();
 		return <div>{form}</div>;

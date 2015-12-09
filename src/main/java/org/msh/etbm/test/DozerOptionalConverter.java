@@ -21,9 +21,9 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
 
         if (source instanceof Optional) {
             Optional opt = (Optional)source;
-//            if (opt == Optional.empty()) {
-//                return null;
-//            }
+            if (opt == Optional.empty()) {
+                return null;
+            }
 
             Object objSource = ((Optional) source).get();
 

@@ -17,6 +17,10 @@ const tableDef = {
 		{
 			title: __('form.name'),
 			property: 'name'
+		},
+		{
+			title: __('MedicineLine'),
+			property: 'line'
 		}
 	]
 };
@@ -38,6 +42,13 @@ const editorDef = {
 			type: 'string',
 			max: 200,
 			label: __('form.name'),
+			size: { sm: 6 }
+		},
+		{
+			property: 'line',
+			required: true,
+			type: 'string',
+			label: __('MedicineLine'),
 			size: { sm: 6 }
 		}
 	],

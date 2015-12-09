@@ -4,11 +4,12 @@
  */
 
 import React from 'react';
-import { Collapse } from 'react-bootstrap';
+import { Collapse, Alert } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
 import TableView from './tableview';
 import { hasPerm } from '../../core/session';
 import WaitIcon from '../../components/wait-icon';
+import MessageDlg from '../../components/message-dlg';
 
 
 export default class CrudView extends React.Component {
@@ -18,8 +19,9 @@ export default class CrudView extends React.Component {
 		this.state = {};
 		this.onTableEvent = this.onTableEvent.bind(this);
 		this.onSave = this.onSave.bind(this);
-		this.onCancel = this.onCancel.bind(this);
+		this.onCancelEditor = this.onCancelEditor.bind(this);
 		this.handleMenuCmd = this.handleMenuCmd.bind(this);
+		this.closeConfirm = this.closeConfirm.bind(this);
 	}
 
 	/**
@@ -27,7 +29,7 @@ export default class CrudView extends React.Component {
 	 */
 	onTableEvent(evt) {
 		switch (evt.type) {
-			case 'new': return this.setState({ editing: true, doc: {} });
+			case 'new': return this.setState({ editing: true, doc: {}, message: null });
 			case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
 			default: throw new Error('Unexpected event ' + evt);
 		}
@@ -35,10 +37,11 @@ export default class CrudView extends React.Component {
 
 	handleMenuCmd(key, item) {
 		if (key === 'edit') {
-			const self = this;
-			// start editing the doc
-			this.props.crud.get(item.id)
-			.then(res => self.setState({ editing: true, doc: res }));
+			this.edit(item);
+		}
+
+		if (key === 'delete') {
+			this.setState({ confirm: true, item: item });
 		}
 	}
 
@@ -54,15 +57,44 @@ export default class CrudView extends React.Component {
 		const promise = doc.id ? crud.update(doc.id, doc) : crud.create(doc);
 
 		return promise
-			.then(() => self.setState({ editing: false, table: null, doc: null }));
+			.then(() => self.setState({ editing: false,
+				table: null,
+				doc: null,
+				message: doc.id ? __('default.entity_updated') : __('default.entity_created') }));
+	}
+
+	edit(item) {
+		this.setState({ fetching: true, item: item, message: null });
+		const self = this;
+		// start editing the doc
+		return this.props.crud.get(item.id)
+			.then(res => self.setState({ editing: true, doc: res, fetching: false, item: null }))
+			.catch(res => self.setState({ fetching: false, item: null, message: res }));
+	}
+
+	delete() {
+		const item = this.state.item;
+		this.setState({ fetching: true, item: item, confirm: false, message: null });
+
+		const self = this;
+		return this.props.crud
+			.delete(item.id)
+			.then(() => self.setState({ fetching: false, item: null, message: __('default.entity_deleted'), table: null }));
 	}
 
 	/**
 	 * Called when user clicks on the cancel button of the editor
 	 * @return {[type]} [description]
 	 */
-	onCancel() {
+	onCancelEditor() {
 		this.setState({ editing: false });
+	}
+
+	closeConfirm(action) {
+		if (action === 'yes') {
+			return this.delete();
+		}
+		this.setState({ confirm: false, item: null });
 	}
 
 	/**
@@ -70,23 +102,16 @@ export default class CrudView extends React.Component {
 	 * @param  {[type]} crud [description]
 	 * @return {[type]}      [description]
 	 */
-	fetchData() {
+	fetchTable() {
 		const self = this;
 		this.props.crud.query({ rootUnits: true })
 		.then(result => self.setState({ table: result }));
-
 	}
 
 
 	render() {
 		if (!this.props) {
 			return null;
-		}
-
-		// check if data must be fetched from the server
-		if (!(this.state && this.state.table)) {
-			this.fetchData();
-			return <WaitIcon />;
 		}
 
 		const readOnly = !hasPerm(this.props.perm);
@@ -115,24 +140,48 @@ export default class CrudView extends React.Component {
 		// is it in editing mode ?
 		const editing = this.state.editing && !readOnly;
 
+		const fetchingItem = this.state.fetching && this.state.item;
+
+		const msg = this.state.message;
+
+		// the display of the table
+		let table;
+		// check if data must be fetched from the server
+		if (!(this.state && this.state.table)) {
+			this.fetchTable();
+			table = <WaitIcon />;
+		}
+		else {
+			table = (
+					<TableView data={this.state.table}
+						readOnly={readOnly}
+						tableDef={tableDef}
+						search={this.props.search}
+						onEvent={this.onTableEvent}
+						fetchingItem={fetchingItem}
+					/>);
+		}
+
 		return (
 			<div>
+				{
+					msg && <Alert bsStyle="success">{msg}</Alert>
+				}
 				{
 					editing && <Collapse in transitionAppear>
 						<div>
 							<FormDialog formDef={editorDef}
 								onConfirm={this.onSave}
-								onCancel={this.onCancel}
+								onCancel={this.onCancelEditor}
 								doc={this.state.doc} />
 						</div>
 						</Collapse>
 				}
-				<TableView data={this.state.table}
-					readOnly={readOnly}
-					tableDef={tableDef}
-					search={this.props.search}
-					onEvent={this.onTableEvent}
-					/>
+				{table}
+				<MessageDlg show={this.state.confirm}
+					onClose={this.closeConfirm}
+					title={__('action.delete')}
+					message={__('form.confirm_remove')} style="warning" type="YesNo" />
 			</div>
 			);
 	}
