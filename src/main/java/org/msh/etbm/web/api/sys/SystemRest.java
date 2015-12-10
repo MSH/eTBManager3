@@ -8,6 +8,7 @@ import org.msh.etbm.web.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -21,6 +22,9 @@ import java.util.UUID;
 @RequestMapping("/api/sys")
 public class SystemRest {
 
+    public final static String PARAM_TYPE = "list";
+    public final static String PARAM_TYPE_VALUE = "1";
+
     @Autowired
     SystemInfoService systemInfoService;
 
@@ -33,8 +37,11 @@ public class SystemRest {
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
-    public SystemInformation getInformation(@RequestHeader(value = Constants.AUTH_TOKEN_HEADERNAME, required = false) String authToken) {
-        SystemInformation inf = systemInfoService.getInformation();
+    public SystemInformation getInformation(@RequestHeader(value = Constants.AUTH_TOKEN_HEADERNAME, required = false) String authToken,
+                                            @RequestParam(value = PARAM_TYPE) String plist) {
+        boolean paramList = PARAM_TYPE_VALUE.equals(plist);
+
+        SystemInformation inf = systemInfoService.getInformation(paramList);
 
         // check if system is ready
         if (inf.getState() == SystemState.READY) {

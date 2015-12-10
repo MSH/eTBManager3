@@ -5,6 +5,7 @@ import React from 'react';
 import { Row, Col, Alert } from 'react-bootstrap';
 import Field from './form-impl/field';
 import { validateForm } from './form-impl/validator';
+import { setValue } from '../commons/utils';
 
 
 /**
@@ -12,8 +13,30 @@ import { validateForm } from './form-impl/validator';
  */
 export default class Form extends React.Component {
 
+	/**
+	 * Validate the form and return validation messages, if any erro is found
+	 * @param  {[type]} layout    [description]
+	 * @param  {[type]} datamodel [description]
+	 * @return {[type]}           [description]
+	 */
 	static validate(layout, datamodel) {
 		return validateForm(layout, datamodel);
+	}
+
+	/**
+	 * Create a new instance of the document to be edited in the form based on default values
+	 * of the form layout
+	 * @param  {[type]} layout [description]
+	 * @return {[type]}        [description]
+	 */
+	static newInstance(layout) {
+		const doc = {};
+		layout.forEach(elem => {
+			if (elem.property && elem.defaultValue) {
+				setValue(doc, elem.property, elem.defaultValue);
+			}
+		});
+		return doc;
 	}
 
 	findComp(elname) {

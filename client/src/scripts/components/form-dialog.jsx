@@ -61,11 +61,13 @@ export default class FormDialog extends React.Component {
 	}
 
 	render() {
-		const doc = this.props.doc;
 		const formDef = this.props.formDef;
 		if (!formDef) {
 			return null;
 		}
+
+		// get instance to be edited
+		const doc = this.props.doc;
 
 		// get the layout of the form
 		const layout = formDef.layout;

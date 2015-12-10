@@ -20,7 +20,8 @@ const tableDef = {
 		},
 		{
 			title: __('MedicineLine'),
-			property: 'line'
+			property: 'line',
+			options: 'MedicineLine'
 		}
 	]
 };
@@ -48,8 +49,21 @@ const editorDef = {
 			property: 'line',
 			required: true,
 			type: 'string',
+			options: 'MedicineLine',
 			label: __('MedicineLine'),
 			size: { sm: 6 }
+		},
+		{
+			property: 'active',
+			type: 'boolean',
+			label: __('EntityState.ACTIVE'),
+			defaultValue: true
+		},
+		{
+			property: 'customId',
+			type: 'string',
+			label: __('form.customId'),
+			size: { sm: 3 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.substances.edt') : __('admin.substances.new')
@@ -69,7 +83,7 @@ export class Substances extends React.Component {
 		return (
 			<CrudView tableDef={tableDef} crud={crud}
 				editorDef={editorDef}
-				search perm={data.perm} />
+				perm={data.perm} />
 			);
 	}
 }

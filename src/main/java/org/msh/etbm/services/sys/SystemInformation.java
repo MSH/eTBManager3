@@ -1,8 +1,10 @@
 package org.msh.etbm.services.sys;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.Item;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Store information about the system, like status, build version and number and available languages
@@ -29,6 +31,9 @@ public class SystemInformation {
      * If true, user can register himself in the system
      */
     private boolean allowRegPage;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Map<String, Map<String, String>> lists;
 
 
     public SystemState getState() {
@@ -69,5 +74,13 @@ public class SystemInformation {
 
     public void setAllowRegPage(boolean allowRegPage) {
         this.allowRegPage = allowRegPage;
+    }
+
+    public Map<String, Map<String, String>> getLists() {
+        return lists;
+    }
+
+    public void setLists(Map<String, Map<String, String>> lists) {
+        this.lists = lists;
     }
 }

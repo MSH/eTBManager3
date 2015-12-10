@@ -1,8 +1,7 @@
 
 import React from 'react';
-import TableView from './tableview';
+import CrudView from './crud-view';
 import CRUD from '../../commons/crud';
-import SourceEdt from './source-edt';
 
 const crud = new CRUD('source');
 
@@ -20,6 +19,29 @@ const tableDef = {
 	]
 };
 
+// definition of the form fields to edit substances
+const editorDef = {
+	layout: [
+		{
+			property: 'shortName',
+			required: true,
+			type: 'string',
+			max: 20,
+			label: __('form.shortName'),
+			size: { sm: 3 }
+		},
+		{
+			property: 'name',
+			required: true,
+			type: 'string',
+			max: 200,
+			label: __('form.name'),
+			size: { sm: 6 }
+		}
+	],
+	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')
+};
+
 /**
  * The page controller of the public module
  */
@@ -29,10 +51,12 @@ export class Sources extends React.Component {
 		// get information about the route of this page
 		const data = this.props.route.data;
 
+		tableDef.title = data.title;
+
 		return (
-			<TableView title={data.title} crud={crud}
-				editForm={SourceEdt}
-				search perm={data.perm} tableDef={tableDef} />
+			<CrudView tableDef={tableDef} crud={crud}
+				editorDef={editorDef}
+				perm={data.perm} />
 			);
 	}
 }

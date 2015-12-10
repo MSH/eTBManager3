@@ -2,6 +2,7 @@ package org.msh.etbm.services.sys;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.dto.SystemConfigDTO;
+import org.msh.etbm.web.api.sys.GlobalListsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,7 @@ import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -37,6 +35,9 @@ public class SystemInfoService {
     @Autowired
     SystemConfigDTO systemConfig;
 
+    @Autowired
+    GlobalListsService globalListsService;
+
     /**
      * Store information about the manifest.md file
      */
@@ -47,7 +48,7 @@ public class SystemInfoService {
      * Return information about the system
      * @return
      */
-    public SystemInformation getInformation() {
+    public SystemInformation getInformation(boolean includeLists) {
         SystemInformation inf = new SystemInformation();
 
         inf.setState(getState());
@@ -58,6 +59,10 @@ public class SystemInfoService {
 
         inf.setUlaActive(systemConfig.isUlaActive());
         inf.setAllowRegPage(systemConfig.isAllowRegPage());
+
+        if (includeLists) {
+            inf.setLists(globalListsService.getLists());
+        }
 
         return inf;
     }

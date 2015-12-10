@@ -6,6 +6,7 @@
 import React from 'react';
 import { Collapse, Alert } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
+import Form from '../../components/form';
 import TableView from './tableview';
 import { hasPerm } from '../../core/session';
 import WaitIcon from '../../components/wait-icon';
@@ -29,10 +30,19 @@ export default class CrudView extends React.Component {
 	 */
 	onTableEvent(evt) {
 		switch (evt.type) {
-			case 'new': return this.setState({ editing: true, doc: {}, message: null });
+			case 'new': return this.openNew();
 			case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
 			default: throw new Error('Unexpected event ' + evt);
 		}
+	}
+
+	openNew() {
+		const doc = Form.newInstance(this.props.editorDef.layout);
+		console.log(doc);
+		this.setState({
+			editing: true,
+			doc: doc,
+			message: null });
 	}
 
 	handleMenuCmd(key, item) {
@@ -140,7 +150,7 @@ export default class CrudView extends React.Component {
 		// is it in editing mode ?
 		const editing = this.state.editing && !readOnly;
 
-		const fetchingItem = this.state.fetching && this.state.item;
+		const fetchingItem = this.state.fetching ? this.state.item : null;
 
 		const msg = this.state.message;
 

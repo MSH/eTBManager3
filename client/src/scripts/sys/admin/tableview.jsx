@@ -4,6 +4,7 @@ import { Table, Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 
 import { Card } from '../../components/index';
 import Fa from '../../components/fa';
 import WaitIcon from '../../components/wait-icon';
+import { app } from '../../core/app';
 
 
 /**
@@ -127,7 +128,7 @@ export default class TableView extends React.Component {
 		const fi = this.props.fetchingItem;
 
 		return 	(<tr key={item.id}>
-					{tbldef.columns.map(col => <td key={item.id + col.property}>{item[col.property]}</td>)}
+					{tbldef.columns.map(col => <td key={item.id + col.property}>{this.colContent(col, item)}</td>)}
 					{tbldef.menu &&
 						<td style={{ textAlign: 'right' }}>
 							{(fi === item) && <WaitIcon type="field" />}
@@ -143,6 +144,23 @@ export default class TableView extends React.Component {
 							</DropdownButton>
 						</td>}
 				</tr>);
+	}
+
+	/**
+	 * Return the content of the column to be displayed to the user
+	 * @param  {[type]} col  The column definition
+	 * @param  {[type]} item The item to be d
+	 * @return {[type]}      [description]
+	 */
+	colContent(col, item) {
+		const name = item[col.property];
+
+		if (col.options) {
+			const lst = app.getState().app.lists[col.options];
+			return lst ? lst[name] : name;
+		}
+
+		return name;
 	}
 
 	/**

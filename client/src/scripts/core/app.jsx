@@ -69,7 +69,7 @@ export class App {
 		const self = this;
 
 		// call server to get system status
-		server.post('/api/sys/info', {})
+		server.post('/api/sys/info?list=1', {})
 		.then(res => {
 			self.dispatch(APP_INIT, { app: res });
 			// according to app state, go to specific module
