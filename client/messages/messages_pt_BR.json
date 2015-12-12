@@ -850,5 +850,6 @@
     "XpertRifResult.RIF_INDETERMINATE": "RIF Resistance Indeterminate",
     "default.entity_created": "Registro criado com sucesso",
     "default.entity_deleted": "Registro excluído com sucesso",
-    "default.entity_updated": "Informações atualizadas com sucesso"
+    "default.entity_updated": "Informações atualizadas com sucesso",
+    "CountryStructure": "Estrutura do país"
 }

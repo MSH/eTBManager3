@@ -923,5 +923,6 @@
     "XpertRifResult.RIF_NOT_DETECTED": "RIF Resistance Not Detected",
     "default.entity_created": "Successfully created",
     "default.entity_deleted": "Successfully deleted",
-    "default.entity_updated": "Successfully updated"
+    "default.entity_updated": "Successfully updated",
+    "CountryStructure": "Country structure"
 }

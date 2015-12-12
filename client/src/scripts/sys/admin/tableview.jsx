@@ -92,6 +92,12 @@ export default class TableView extends React.Component {
 	 */
 	createTable() {
 		const tbldef = this.props.tableDef;
+
+		// is there any delegator to the table display ?
+		if (tbldef.delegator) {
+			return tbldef.delegator;
+		}
+
 		const res = this.props.data;
 		if (!tbldef && !res) {
 			return null;

@@ -1,5 +1,11 @@
-.node-link {
-	cursor: pointer;
+.tree-view {
+	.title {
+		font-weight: bold;
+	}
+
+	.node-link {
+		cursor: pointer;
+	}
 }
 
 .node-enter, .node-leave {
@@ -23,4 +29,8 @@
 .node-leave.node-leave-active {
 	max-height: 0px;
 	transition: max-height 250ms ease-out;
+}
+
+.node-row {
+	border-top: 1px solid #f0f0f0;
 }

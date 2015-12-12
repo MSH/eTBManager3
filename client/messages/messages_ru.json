@@ -858,5 +858,6 @@
     "XpertRifResult.RIF_NOT_DETECTED": "резистентность  к рифампицину не выявлена",
     "default.entity_created": "Успешно создано",
     "default.entity_deleted": "Успешно удалено",
-    "default.entity_updated": "Успешно обновлено"
+    "default.entity_updated": "Успешно обновлено",
+    "CountryStructure": ""
 }

@@ -117,21 +117,21 @@ export default class CrudView extends React.Component {
 		.then(result => self.setState({ table: result }));
 	}
 
-
-	render() {
-		if (!this.props) {
-			return null;
-		}
-
-		const readOnly = !hasPerm(this.props.perm);
+	/**
+	 * Render the table
+	 * @return {Component} React component of the table view
+	 */
+	renderTable() {
+		const tbldef = this.props.tableDef;
 
 		const tableDef = {
-			columns: this.props.tableDef.columns,
-			title: this.props.tableDef.title
+			columns: tbldef.columns,
+			title: tbldef.title,
+			delegator: tbldef.delegator
 		};
 
 		// if it is not read only, show menu
-		if (!readOnly) {
+		if (!this.readOnly && tbldef.newButton) {
 			tableDef.menu = [
 					{
 						label: __('action.edit'),
@@ -144,32 +144,43 @@ export default class CrudView extends React.Component {
 				];
 		}
 
+		const fetchingItem = this.state.fetching ? this.state.item : null;
+		const readOnly = this.readOnly;
+
+		// check if data must be fetched from the server
+		if (!this.state.table && !tbldef.delegator) {
+			this.fetchTable();
+			return <WaitIcon />;
+		}
+
+		return (
+			<TableView data={this.state.table}
+				readOnly={readOnly}
+				tableDef={tableDef}
+				search={this.props.search}
+				onEvent={this.onTableEvent}
+				fetchingItem={fetchingItem}
+			/>);
+	}
+
+
+	render() {
+		if (!this.props) {
+			return null;
+		}
+
+		this.readOnly = !hasPerm(this.props.perm);
+
 		const editorDef = this.props.editorDef;
 
 		// is it in editing mode ?
-		const editing = this.state.editing && !readOnly;
+		const editing = this.state.editing && !this.readOnly;
 
-		const fetchingItem = this.state.fetching ? this.state.item : null;
-
+		// any message to be displayed
 		const msg = this.state.message;
 
-		// the display of the table
-		let table;
-		// check if data must be fetched from the server
-		if (!(this.state && this.state.table)) {
-			this.fetchTable();
-			table = <WaitIcon />;
-		}
-		else {
-			table = (
-					<TableView data={this.state.table}
-						readOnly={readOnly}
-						tableDef={tableDef}
-						search={this.props.search}
-						onEvent={this.onTableEvent}
-						fetchingItem={fetchingItem}
-					/>);
-		}
+		// get the table content to be displayed
+		const table = this.renderTable();
 
 		return (
 			<div>
