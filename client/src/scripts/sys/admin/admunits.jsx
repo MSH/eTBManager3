@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Table } from 'react-bootstrap';
-import { Card, WaitIcon } from '../../components/index';
+import { Card } from '../../components/index';
 import CRUD from '../../commons/crud';
+import TreeView from '../../components/tree-view';
 
 const crud = new CRUD('adminunit');
 
@@ -11,40 +11,35 @@ const crud = new CRUD('adminunit');
  */
 export class AdmUnits extends React.Component {
 
+	renderNode(item) {
+		return item.name;
+	}
+
+	checkLeaf(item) {
+		return item ? false : false;
+	}
+
+	loadNodes(parent) {
+//		const qry = parent ? { parentId: parent.id } : { rootUnits: true };
+		const lst = [];
+		const size = Math.round(Math.random() * 10 + 3);
+		for (var i = 1; i < size; i++) {
+			const name = parent ? parent.name + '.' + i : 'Item ' + i;
+			lst.push({ name: name });
+		}
+		return lst;
+		// return crud.query(qry)
+		// 	.then(res => res.list);
+	}
+
 	render() {
-		const res = this.state ? this.state.result : null;
-
-		let tbl;
-
-		if (!res) {
-			const self = this;
-			crud.query({ rootUnits: true })
-			.then(result => self.setState({ result: result }));
-
-			tbl = <tr><td><WaitIcon /></td></tr>;
-		}
-		else {
-			tbl = res.list.map(item => (
-					<tr key={item.id}>
-						<td>{item.name}</td>
-					</tr>
-				));
-		}
 
 		return (
 			<Card title={__('admin.adminunits')}>
-				<Table responsive>
-					<thead>
-						<tr>
-							<th>
-								{'Name'}
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						{tbl}
-					</tbody>
-				</Table>
+				<TreeView onGetNodes={this.loadNodes}
+					onRenderNode={this.renderNode}
+					checkLeaf={this.checkLeaf}
+				/>
 			</Card>
 			);
 	}

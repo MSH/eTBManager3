@@ -38,7 +38,7 @@ public class SystemRest {
      */
     @RequestMapping("/info")
     public SystemInformation getInformation(@RequestHeader(value = Constants.AUTH_TOKEN_HEADERNAME, required = false) String authToken,
-                                            @RequestParam(value = PARAM_TYPE) String plist) {
+                                            @RequestParam(value = PARAM_TYPE, required = false) String plist) {
         boolean paramList = PARAM_TYPE_VALUE.equals(plist);
 
         SystemInformation inf = systemInfoService.getInformation(paramList);

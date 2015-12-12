@@ -38,7 +38,6 @@ export default class CrudView extends React.Component {
 
 	openNew() {
 		const doc = Form.newInstance(this.props.editorDef.layout);
-		console.log(doc);
 		this.setState({
 			editing: true,
 			doc: doc,

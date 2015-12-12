@@ -57,7 +57,7 @@ module.exports = {
              * Request delay for development purposes
              * @type {number} delay in milliseconds
              */
-            requestDelay: 1000
+            requestDelay: 200
         },
 
         /**

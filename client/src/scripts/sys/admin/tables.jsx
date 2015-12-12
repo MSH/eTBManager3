@@ -6,7 +6,7 @@ import { Fluidbar, Sidebar, WaitIcon } from '../../components/index';
 
 import { AdmUnits } from './admunits';
 import { Sources } from './sources';
-import { Tbunits } from './tbunits';
+import { Units } from './units';
 import { Substances } from './substances';
 
 /**
@@ -25,7 +25,7 @@ const items = [
 		perm: 'UNITS',
 		icon: 'hospital-o',
         path: '/units',
-        view: Tbunits
+        view: Units
 	},
 	{
 		title: __('admin.labs'),

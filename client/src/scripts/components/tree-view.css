@@ -1,0 +1,25 @@
+.anim-open {
+	animation-name: slide-down;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in;
+    animation-duration: 0.2s;
+    overflow: hidden;
+
+    -webkit-animation-name: slide-down;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-duration: 0.2s;
+    -webkit-animation-fill-mode: forwards;
+}
+
+@keyframes slide-down {
+	from { height: 0; }
+	99% { height: 100px; }
+	to { height: auto; }
+}
+
+@-webkit-keyframes slide-down {
+	from { height: 0; }
+	99% { height: 100px; }
+	to { height: auto; }
+}
