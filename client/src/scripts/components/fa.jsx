@@ -8,10 +8,11 @@ export default class Fa extends React.Component {
 
 	render() {
 		const p = this.props;
-		const clazz = 'fa fa-fw fa-' +
-			p.icon +
-			(p.size ? 'fa-' + p.size + 'x' : '') +
-			(p.spin ? 'fa-spin' : '');
+		const clazz = 'fa fa-fw' +
+			(p.icon ? ' fa-' + p.icon : '') +
+			(p.size ? ' fa-' + p.size + 'x' : '') +
+			(p.spin ? ' fa-spin' : '') +
+			(p.className ? ' ' + p.className : '');
 
 		return <i className={clazz} />;
 	}
@@ -19,6 +20,7 @@ export default class Fa extends React.Component {
 
 Fa.propTypes = {
 	icon: React.PropTypes.string,
-	size: React.PropTypes.string,
-	spin: React.PropTypes.bool
+	size: React.PropTypes.number,
+	spin: React.PropTypes.bool,
+	className: React.PropTypes.string
 };

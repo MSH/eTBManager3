@@ -73,6 +73,12 @@ export default class TreeView extends React.Component {
 		const mountList = function(nlist, level, parentkey) {
 			let count = 0;
 			const lst = [];
+
+			// is the root being rendered
+			if (!parentkey && self.props.title) {
+				lst.push(self.props.title);
+			}
+
 			nlist.forEach(node => {
 				const key = (parentkey ? parentkey + '.' : '') + count;
 				const row = self.createNodeRow(node, level, key);
@@ -99,6 +105,28 @@ export default class TreeView extends React.Component {
 		return mountList(this.getRoots(), 0, false);
 	}
 
+	resolveIcon(node) {
+		const p = this.props;
+
+		let icon;
+		if (node.leaf) {
+			icon = p.iconLeaf;
+		}
+		else {
+			icon = node.state !== 'collapsed' ? p.iconMinus : p.iconPlus;
+		}
+
+		if (typeof icon === 'function') {
+			icon = icon(node.item);
+		}
+
+		if (typeof icon === 'string') {
+			icon = <Fa icon={icon} size={p.size} />;
+		}
+
+		return icon;
+	}
+
 	/**
 	 * Create node row containing the content of the node
 	 * @param  {[type]} node  [description]
@@ -107,20 +135,30 @@ export default class TreeView extends React.Component {
 	 * @return {[type]}       [description]
 	 */
 	createNodeRow(node, level, key) {
-		const func = this.props.onRenderNode;
+		const p = this.props;
+
+		// get the node content
+		const func = p.innerNode;
 
 		const content = func ? func(node.item) : node.item;
 
-		const expanded = node.state !== 'collapsed';
+		const icon = this.resolveIcon(node);
 
-		return (
-			<div key={key} style={{ marginLeft: (level * 16) + 'px' }}>
-				<a onClick={this.nodeClick} data-item={key}>
-					<Fa icon={expanded ? 'minus-square-o' : 'plus-square-o'} />
-				</a>
+		// the content
+		const nodeIcon = node.leaf ?
+			icon :
+			<a className="node-link" onClick={this.nodeClick} data-item={key}>
+				{icon}
+			</a>;
+
+		const nodeRow = (
+			<div key={key} className="node" style={{ marginLeft: (level * p.indent) + 'px' }}>
+				{nodeIcon}
 				{content}
 			</div>
 			);
+
+		return p.outerNode ? p.outerNode(nodeRow, node.item) : content;
 	}
 
 	/**
@@ -221,7 +259,24 @@ TreeView.propTypes = {
 	onGetNodes: React.PropTypes.func,
 	// called to render the div area that will host the node content
 	// in the format function(item): string | React component
-	onRenderNode: React.PropTypes.func,
+	innerNode: React.PropTypes.func,
+	outerNode: React.PropTypes.func,
+	// an optional title to be displayed on the top of the treeview
+	title: React.PropTypes.any,
 	// opitional. Check if node has children or is a leaf node
-	checkLeaf: React.PropTypes.func
+	checkLeaf: React.PropTypes.func,
+	iconPlus: React.PropTypes.any,
+	iconMinus: React.PropTypes.any,
+	iconLeaf: React.PropTypes.any,
+	iconSize: React.PropTypes.number,
+	// the indentation of each node level, in pixels
+	indent: React.PropTypes.number
+};
+
+TreeView.defaultProps = {
+	iconPlus: 'plus-square-o',
+	iconMinus: 'minus-square-o',
+	iconLeaf: 'circle-thin',
+	iconSize: 1,
+	indent: 16
 };

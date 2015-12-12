@@ -1332,11 +1332,11 @@ a.text-primary:focus {
   color: #15690e;
 }
 .text-success {
-  color: #468847;
+  color: #466288;
 }
 a.text-success:hover,
 a.text-success:focus {
-  color: #356635;
+  color: #354a66;
 }
 .text-info {
   color: #3a87ad;
@@ -1368,11 +1368,11 @@ a.bg-primary:focus {
   background-color: #15690e;
 }
 .bg-success {
-  background-color: #dff0d8;
+  background-color: #D8E0F0;
 }
 a.bg-success:hover,
 a.bg-success:focus {
-  background-color: #c1e2b3;
+  background-color: #b3c3e2;
 }
 .bg-info {
   background-color: #d9edf7;
@@ -2353,14 +2353,14 @@ table th[class*="col-"] {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: #dff0d8;
+  background-color: #D8E0F0;
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
 .table-hover > tbody > tr.success:hover > th {
-  background-color: #d0e9c6;
+  background-color: #c6d1e9;
 }
 .table > thead > tr > td.info,
 .table > tbody > tr > td.info,
@@ -2803,25 +2803,25 @@ select[multiple].input-lg {
 .has-success.checkbox label,
 .has-success.radio-inline label,
 .has-success.checkbox-inline label {
-  color: #468847;
+  color: #466288;
 }
 .has-success .form-control {
-  border-color: #468847;
+  border-color: #466288;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .has-success .form-control:focus {
-  border-color: #356635;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7aba7b;
+  border-color: #354a66;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7a95ba;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #7a95ba;
 }
 .has-success .input-group-addon {
-  color: #468847;
-  border-color: #468847;
-  background-color: #dff0d8;
+  color: #466288;
+  border-color: #466288;
+  background-color: #D8E0F0;
 }
 .has-success .form-control-feedback {
-  color: #468847;
+  color: #466288;
 }
 .has-warning .help-block,
 .has-warning .control-label,
@@ -5079,15 +5079,15 @@ a.thumbnail.active {
   color: inherit;
 }
 .alert-success {
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
-  color: #468847;
+  background-color: #D8E0F0;
+  border-color: #c6d7e9;
+  color: #466288;
 }
 .alert-success hr {
-  border-top-color: #c9e2b3;
+  border-top-color: #b3cae2;
 }
 .alert-success .alert-link {
-  color: #356635;
+  color: #354a66;
 }
 .alert-info {
   background-color: #d9edf7;
@@ -5338,12 +5338,12 @@ button.list-group-item {
   color: #8fef87;
 }
 .list-group-item-success {
-  color: #468847;
-  background-color: #dff0d8;
+  color: #466288;
+  background-color: #D8E0F0;
 }
 a.list-group-item-success,
 button.list-group-item-success {
-  color: #468847;
+  color: #466288;
 }
 a.list-group-item-success .list-group-item-heading,
 button.list-group-item-success .list-group-item-heading {
@@ -5353,8 +5353,8 @@ a.list-group-item-success:hover,
 button.list-group-item-success:hover,
 a.list-group-item-success:focus,
 button.list-group-item-success:focus {
-  color: #468847;
-  background-color: #d0e9c6;
+  color: #466288;
+  background-color: #c6d1e9;
 }
 a.list-group-item-success.active,
 button.list-group-item-success.active,
@@ -5363,8 +5363,8 @@ button.list-group-item-success.active:hover,
 a.list-group-item-success.active:focus,
 button.list-group-item-success.active:focus {
   color: #fff;
-  background-color: #468847;
-  border-color: #468847;
+  background-color: #466288;
+  border-color: #466288;
 }
 .list-group-item-info {
   color: #3a87ad;
@@ -5733,22 +5733,22 @@ button.list-group-item-danger.active:focus {
   border-bottom-color: #1e9614;
 }
 .panel-success {
-  border-color: #d6e9c6;
+  border-color: #c6d7e9;
 }
 .panel-success > .panel-heading {
-  color: #468847;
-  background-color: #dff0d8;
-  border-color: #d6e9c6;
+  color: #466288;
+  background-color: #D8E0F0;
+  border-color: #c6d7e9;
 }
 .panel-success > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #d6e9c6;
+  border-top-color: #c6d7e9;
 }
 .panel-success > .panel-heading .badge {
-  color: #dff0d8;
-  background-color: #468847;
+  color: #D8E0F0;
+  background-color: #466288;
 }
 .panel-success > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #d6e9c6;
+  border-bottom-color: #c6d7e9;
 }
 .panel-info {
   border-color: #bce8f1;
