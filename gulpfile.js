@@ -33,6 +33,8 @@ gulp.task('default', function() {
  * Build the client side for production mode
  */
 gulp.task('build', function() {
+    process.env.NODE_ENV = 'production';
+
     return runSequence(
         'clean',
         'client-jshint',

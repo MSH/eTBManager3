@@ -22,7 +22,7 @@ export class AdmUnits extends React.Component {
 	loadNodes(parent) {
 //		const qry = parent ? { parentId: parent.id } : { rootUnits: true };
 		const lst = [];
-		const size = Math.round(Math.random() * 10 + 3);
+		const size = Math.round(Math.random() * 10 + 2);
 		for (var i = 1; i < size; i++) {
 			const name = parent ? parent.name + '.' + i : 'Item ' + i;
 			lst.push({ name: name });

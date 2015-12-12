@@ -9,7 +9,7 @@ import React from 'react';
 import Fa from './fa';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-import './tree-view.css';
+import './tree-view.less';
 
 export default class TreeView extends React.Component {
 
@@ -34,11 +34,11 @@ export default class TreeView extends React.Component {
 
 		// is not a promise ?
 		if (!res.then) {
-			// force node resolution by using promises
+			// force node resolution by promises
 			res = Promise.resolve(res);
 		}
 
-		// create the nodes when nodes are resolved
+		// create nodes wrapper when nodes are resolved
 		const self = this;
 		return res.then(items => {
 			const nodes = self.createNodes(items);
@@ -69,8 +69,8 @@ export default class TreeView extends React.Component {
 		// get the item being expanded (for animation)
 		const expitem = this.state && this.state.expitem;
 
-		// recursive function to create the tree in a list
-		const mountList = function(nlist, level, parentkey, expanding) {
+		// recursive function to create the expanded tree in a list
+		const mountList = function(nlist, level, parentkey) {
 			let count = 0;
 			const lst = [];
 			nlist.forEach(node => {
@@ -86,12 +86,14 @@ export default class TreeView extends React.Component {
 
 			// the children div key
 			const divkey = (parentkey ? parentkey : '') + 'ch';
-			const props = !expanding ? { key: divkey } : {
-				className: 'anim-open',
-				key: divkey
-			};
+
 			// children are inside a div, in order to animate collapsing/expanding
-			return <div {...props}>{lst}</div>;
+			return (
+				<ReactCSSTransitionGroup key={divkey + 'trans'} transitionName="node"
+					transitionLeaveTimeout={250} transitionEnterTimeout={250} >
+					{lst}
+				</ReactCSSTransitionGroup>
+				);
 		};
 
 		return mountList(this.getRoots(), 0, false);
@@ -121,6 +123,11 @@ export default class TreeView extends React.Component {
 			);
 	}
 
+	/**
+	 * Called when user clicks on the plus/minus icon
+	 * @param  {[type]} evt [description]
+	 * @return {[type]}     [description]
+	 */
 	nodeClick(evt) {
 		const key = evt.currentTarget.getAttribute('data-item');
 
@@ -156,14 +163,14 @@ export default class TreeView extends React.Component {
 				.then(res => {
 					node.state = 'expanded';
 					node.children = res;
-					// inform the item being expanded
-					self.setState({ expitem: node });
+					// force tree to show the new expanded node
+					self.forceUpdate();
 				});
 		}
 		else {
 			node.state = 'expanded';
-			// inform the item being expanded
-			this.setState({ expitem: node });
+			// force tree to show the new expanded node
+			this.forceUpdate();
 		}
 	}
 
@@ -173,15 +180,8 @@ export default class TreeView extends React.Component {
 	 * @return {[type]}      [description]
 	 */
 	collapseNode(node) {
-		const collapse = function(n) {
-			n.state = 'collapsed';
-			if (n.children) {
-				n.children.forEach(cnode => collapse(cnode));
-			}
-		};
-		collapse(node);
-		this.setState({ colitem: node });
-//		this.forceUpdate();
+		node.state = 'collapsed';
+		this.forceUpdate();
 	}
 
 	/**
