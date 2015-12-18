@@ -8,6 +8,9 @@ import java.util.Optional;
  */
 public class SourceRequest {
 
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_SHORTNAME = "shortName";
+
     private Optional<String> name;
     private Optional<String> shortName;
     private Optional<String> customId;

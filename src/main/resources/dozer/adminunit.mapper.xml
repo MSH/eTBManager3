@@ -48,6 +48,27 @@
     </mapping>
 
 
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
+        <class-b>org.msh.etbm.services.admin.admunits.AdminUnitDetailedData</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>countryStructure</a>
+            <b>csId</b>
+        </field>
+
+        <field custom-converter-id="adminunit">
+            <a>parent</a>
+            <b>parents</b>
+        </field>
+
+        <field>
+            <a>countryStructure.name</a>
+            <b>csName</b>
+        </field>
+    </mapping>
+
+
     <mapping map-null="false">
         <class-a>org.msh.etbm.services.admin.admunits.AdminUnitRequest</class-a>
         <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
@@ -63,9 +84,4 @@
         </field>
     </mapping>
 
-
-    <mapping map-null="false">
-        <class-a>org.msh.etbm.test.DataRequest</class-a>
-        <class-b>org.msh.etbm.test.DataEntity</class-b>
-    </mapping>
 </mappings>

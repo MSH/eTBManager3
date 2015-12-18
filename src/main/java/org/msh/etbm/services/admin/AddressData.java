@@ -1,5 +1,7 @@
 package org.msh.etbm.services.admin;
 
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+
 import java.util.UUID;
 
 /**
@@ -10,8 +12,7 @@ public class AddressData {
     private String complement;
     private String zipCode;
 
-    private UUID adminUnitId;
-    private String adminUnitName;
+    private AdminUnitSeries adminUnit;
 
     public String getAddress() {
         return address;
@@ -37,19 +38,11 @@ public class AddressData {
         this.zipCode = zipCode;
     }
 
-    public UUID getAdminUnitId() {
-        return adminUnitId;
+    public AdminUnitSeries getAdminUnit() {
+        return adminUnit;
     }
 
-    public void setAdminUnitId(UUID adminUnitId) {
-        this.adminUnitId = adminUnitId;
-    }
-
-    public String getAdminUnitName() {
-        return adminUnitName;
-    }
-
-    public void setAdminUnitName(String adminUnitName) {
-        this.adminUnitName = adminUnitName;
+    public void setAdminUnit(AdminUnitSeries adminUnit) {
+        this.adminUnit = adminUnit;
     }
 }

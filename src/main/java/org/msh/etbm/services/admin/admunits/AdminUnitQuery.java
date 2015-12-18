@@ -35,6 +35,11 @@ public class AdminUnitQuery extends EntityQuery {
      */
     private boolean includeChildren;
 
+    /**
+     * If true, the country structure list will be included in the result list
+     */
+    private boolean fetchCountryStructure;
+
 
 
     public String getName() {
@@ -75,5 +80,13 @@ public class AdminUnitQuery extends EntityQuery {
 
     public void setIncludeChildren(boolean includeChildren) {
         this.includeChildren = includeChildren;
+    }
+
+    public boolean isFetchCountryStructure() {
+        return fetchCountryStructure;
+    }
+
+    public void setFetchCountryStructure(boolean fetchCountryStructure) {
+        this.fetchCountryStructure = fetchCountryStructure;
     }
 }

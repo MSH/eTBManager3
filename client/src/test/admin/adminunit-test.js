@@ -1,4 +1,3 @@
-'use strict';
 
 var crud = require('../common/crud'),
 	assert = require('assert'),
@@ -27,7 +26,7 @@ function createModel() {
 		tree.push(item);
 
 		// create admin unit level 2
-		for (var k = 1; k <= 12; k++) {
+		for (var k = 1; k <= 6; k++) {
 			var item2 = {
 				data: {
 					name: u('City ' + i + '.' + k),
@@ -54,10 +53,8 @@ function createModel() {
 }
 
 
-
 var ids = [];
 var model;
-
 
 
 /**
@@ -76,39 +73,39 @@ describe('admin-unit', function() {
 		model = exports.model = createModel();
 
 		// create a list of promises to create aus from a list
- 		var createPromises = function(lst, parent) {
- 			// create promises of each item in teh list
- 			var proms = lst.map(function(item) {
- 				if (parent) {
- 					item.data.parentId = parent.id;
- 				}
+		var createPromises = function(lst, parent) {
+			// create promises of each item in teh list
+			var proms = lst.map(function(item) {
+				if (parent) {
+					item.data.parentId = parent.id;
+				}
 
- 				// create a new administrative unit
- 				return crudAdminUnit.create(item.data)
- 					.then(function(res) {
- 						// save the ID
- 						ids.push(res);
- 						if (item.children) {
-	 						return createPromises(item.children, item.data);
- 						}
- 					});
- 			});
- 			return Promise.all(proms);
- 		};
+				// create a new administrative unit
+				return crudAdminUnit.create(item.data)
+					.then(function(res) {
+						// save the ID
+						ids.push(res);
+						if (item.children) {
+							return createPromises(item.children, item.data);
+						}
+					});
+			});
+			return Promise.all(proms);
+		};
 
- 		// this promise will conclude when all aus are created
- 		return createPromises(exports.model)
- 			// load all units created
- 			.then(function() {
- 				var req = {
- 					ids: ids,
- 					profile: 'detailed'
- 				};
- 				return crudAdminUnit.findMany(req);
- 			})
- 			// check if codes are ok
- 			.then(function(res) {
- 				// set the codes of the model
+		// this promise will conclude when all aus are created
+		return createPromises(exports.model)
+			// load all units created
+			.then(function() {
+				var req = {
+					ids: ids,
+					profile: 'detailed'
+				};
+				return crudAdminUnit.findMany(req);
+			})
+			// check if codes are ok
+			.then(function(res) {
+				// set the codes of the model
 				for (var i = 0; i < res.list.length; i++) {
 					var obj = res.list[i];
 					var au = findById(obj.id);
@@ -119,7 +116,7 @@ describe('admin-unit', function() {
 				}
 				// check if codes were created acordingly
 				assertCodes(exports.model);
- 			});
+			});
 	});
 
 
@@ -150,14 +147,13 @@ describe('admin-unit', function() {
 				assert(res.name);
 				assert(res.csId);
 				assert(res.csName);
-				assert(res.parentId);
-				assert(res.parentName);
+				assert(res.parents);
 
 				assert.equal(res.id, au.id);
 				assert.equal(res.name, au.name);
 				assert.equal(res.csId, au.csId);
-				assert.equal(res.parentName, parent.name);
-				assert.equal(res.parentId, parent.id);
+				assert.equal(res.parents.p0.name, parent.name);
+				assert.equal(res.parents.p0.id, parent.id);
 				assert.equal(res.csName, cslist[1].name);
 			});
 	});
@@ -185,7 +181,7 @@ describe('admin-unit', function() {
 				assert.equal(res.id, au.id);
 				assert.equal(res.name, data.name);
 				assert.equal(res.csId, au.csId);
-				assert.equal(res.parentId, au.parentId);
+				assert.equal(res.parents.p0.id, au.parentId);
 			});
 	});
 
@@ -194,7 +190,9 @@ describe('admin-unit', function() {
 	 * Move the admin unit to another parent
 	 */
 	it('# move to another branch', function() {
+		// get the first city under region
 		var au = model[0].children[0].data;
+		// get the new parent region
 		var newparent = model[1].data;
 
 		var data = {
@@ -211,10 +209,10 @@ describe('admin-unit', function() {
 			})
 			// check the parent
 			.then(function(res) {
-				assert.equal(res.parentId, newparent.id);
-				assert.equal(res.parentName, newparent.name);
+				assert.equal(res.parents.p0.id, newparent.id);
+				assert.equal(res.parents.p0.name, newparent.name);
 
-				return crudAdminUnit.findMany({ids: ids, profile: 'detailed'});
+				return crudAdminUnit.findMany({ ids: ids, profile: 'detailed' });
 			})
 			.then(function(res) {
 				// check if codes are correctly adjusted
@@ -222,7 +220,7 @@ describe('admin-unit', function() {
 				assertCodes(tree);
 
 				// count children of new parent
-				return crudAdminUnit.findMany({parentId: newparent.id});
+				return crudAdminUnit.findMany({ parentId: newparent.id });
 			})
 			.then(function(res) {
 				assert(res.count, 13);
@@ -234,7 +232,7 @@ describe('admin-unit', function() {
 			})
 			.then(function() {
 				// return all items again
-				return crudAdminUnit.findMany({ids: ids, profile: 'detailed'});
+				return crudAdminUnit.findMany({ ids: ids, profile: 'detailed' });
 			})
 			.then(function(res) {
 				// check if codes are correctly adjusted
@@ -242,20 +240,19 @@ describe('admin-unit', function() {
 				assertCodes(tree);
 
 				// count children of new parent
-				return crudAdminUnit.findMany({parentId: newparent.id});
+				return crudAdminUnit.findMany({ parentId: newparent.id });
 			});
 	});
 
 
-
 	it('# query roots', function() {
-		return crudAdminUnit.findMany({rootUnits: true, profile: 'detailed' })
+		return crudAdminUnit.findMany({ rootUnits: true, profile: 'detailed' })
 			.then(function(res) {
 				assert(res.count >= 3);
 				assert(res.list);
 				assert.equal(res.count, res.list.length);
 
-				res.list.forEach( function(item) {
+				res.list.forEach(item => {
 					assert(!item.parentId);
 					assert(!item.parentName);
 					assert.equal(item.code.length, 3);
@@ -263,33 +260,18 @@ describe('admin-unit', function() {
 			});
 	});
 
-// // 	it('# query child', function() {
-// // 		// query REGION-2
-// // // UPDATE NEEDED
-// // 		var pid = items[0].data.id;
-// // 		return crudAdminUnit.findMany({parentId: pid,  })
-// // 			.then(function(res) {
-// // 				assert(res.list);
-// // 				assert(res.count);
-// // 				assert.equal(res.count, 2);
 
-// // 				var pcode = items[0].data.code;
-// // 				res.list.forEach( function(item) {
-// // 					assert(item.parentId);
-// // 					assert(item.parentName);
-// // 					assert.equal(item.parentId, pid);
-// // 				});
-// // 			});
-// // 	});
-
+	it('# include country structure', function() {
+	   console.log('to be done');
+	});
 
 	it('# query key', function() {
 		var key = 'City ';
-		return crudAdminUnit.findMany({key: key, parentId: model[0].data.id })
+		return crudAdminUnit.findMany({ key: key, parentId: model[0].data.id })
 			.then(function(res) {
 				assert(res.list);
 				assert(res.count);
-				assert.equal(res.count, 12);
+				assert.equal(res.count, 6);
 				assert.equal(res.count, res.list.length);
 
 				res.list.forEach(function(item) {
@@ -299,15 +281,14 @@ describe('admin-unit', function() {
 	});
 
 
-
 	it('# query all children', function() {
 		// query all children of ROOT-2
 		var pid = model[1].data.id;
 
-		return crudAdminUnit.findMany({parentId: pid, includeChildren: true, profile: 'detailed'})
+		return crudAdminUnit.findMany({ parentId: pid, includeChildren: true, profile: 'detailed' })
 			.then(function(res) {
 				// including 12 cities and 2 municipalities for each city found
-				assert.equal(res.count, 12 * 3);
+				assert.equal(res.count, 6 * 3);
 			});
 	});
 
@@ -318,30 +299,21 @@ describe('admin-unit', function() {
 	it('# paging', function() {
 		var data = {
 			page: 0,
-			rpp: 5,
+			rpp: 4,
 			parentId: model[0].data.id
 		};
 
 		return crudAdminUnit.findMany(data)
 		.then(function(res) {
-			assert.equal(res.count, 12);
-			assert.equal(res.list.length, 5);
+			assert.equal(res.count, 6);
+			assert.equal(res.list.length, 4);
 
 			data.page = 1;
 			return crudAdminUnit.findMany(data);
 		})
 		.then(function(res) {
-			assert.equal(res.count, 12);
-			assert.equal(res.list.length, 5);
-
-			// query the last page
-			data.page = 2;
-			return crudAdminUnit.findMany(data);
-		})
-		.then(function(res) {
-			assert.equal(res.count, 12);
+			assert.equal(res.count, 6);
 			assert.equal(res.list.length, 2);
-
 		});
 	});
 
@@ -359,7 +331,7 @@ describe('admin-unit', function() {
 		.then(function(res) {
 			assert.equal(res.list.length, 5);
 			res.list.forEach(function(item) {
-				assert.equal(Object.keys(item).length, 2);
+				assert.equal(Object.keys(item).length, 3);
 				assert(item.id);
 				assert(item.name);
 			});
@@ -370,13 +342,14 @@ describe('admin-unit', function() {
 		.then(function(res) {
 			assert.equal(res.list.length, 5);
 			res.list.forEach(function(item) {
-				assert.equal(Object.keys(item).length, 6);
+				assert.equal(Object.keys(item).length, 7);
 				assert(item.id);
 				assert(item.name);
 				assert('parentId' in item);
 				assert('parentName' in item);
 				assert(item.csId);
 				assert(item.csName);
+				assert('unitsCount' in item);
 			});
 
 			// test detailed profile
@@ -387,11 +360,10 @@ describe('admin-unit', function() {
 		.then(function(res) {
 			assert.equal(res.list.length, 2);
 			res.list.forEach(function(item) {
-				assert.equal(Object.keys(item).length, 9);
+				assert.equal(Object.keys(item).length, 8);
 				assert(item.id);
 				assert(item.name);
-				assert('parentId' in item);
-				assert('parentName' in item);
+				assert('parents' in item);
 				assert(item.csId);
 				assert(item.csName);
 				assert('unitsCount' in item);
@@ -401,7 +373,6 @@ describe('admin-unit', function() {
 		});
 	});
 });
-
 
 
 /**
@@ -436,10 +407,8 @@ function findById(id, lst) {
  * @param  {[type]} parcode [description]
  * @return {[type]}         [description]
  */
-function assertCodes(lst, parcode) {
-	if (!parcode) {
-		parcode = '';
-	}
+function assertCodes(lst, parent) {
+	var parcode = parent ? parent.data.code : '';
 
 	for (var i = 0; i < lst.length; i++) {
 		var item = lst[i];
@@ -447,30 +416,40 @@ function assertCodes(lst, parcode) {
 		assert.equal(item.data.code.length, parcode.length + 3);
 		assert.equal(item.data.code.slice(0, parcode.length), parcode);
 		if (item.children) {
-			assertCodes(item.children, item.data.code);
+			assertCodes(item.children, item);
 		}
 	}
 }
 
+// mount the tree list from the admin units returned from the server
 function mountTree(lst) {
 	var tree = [];
 	for (var i = 0; i < lst.length; i++) {
 		var it = lst[i];
-		if (!it.parentId) {
-			var res = createLeaf(it, lst);
+		if (!it.parentId && !it.parents) {
+			var res = createChildren(it, lst);
 			tree.push(res);
 		}
 	}
 	return tree;
 }
 
-function createLeaf(it, lst) {
-	var res = { data: it};
+// create the children
+function createChildren(it, lst) {
+	var res = { data: it };
 	var children = [];
 	for (var i = 0; i < lst.length; i++) {
 		var node = lst[i];
-		if (node.parentId === it.id) {
-			children.push(createLeaf(node, lst));
+
+		// get the parent id
+		var pid = node.parentId;
+		if (!pid && node.parents) {
+			pid = node.parents.p0.id;
+		}
+
+		// compare parents
+		if (pid === it.id) {
+			children.push(createChildren(node, lst));
 		}
 	}
 	if (children.length > 0) {

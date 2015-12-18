@@ -6,7 +6,6 @@ var assert = require('assert'),
 	crudTest = require('../common/crud-test');
 
 
-
 describe('country-structure', function() {
 
 	var model = exports.model = [
@@ -78,7 +77,7 @@ describe('country-structure', function() {
 					level: 6
 				};
 
-			return crud.update(cs.id, data, {skipValidation: true })
+			return crud.update(cs.id, data, { skipValidation: true })
 			.then(function(res) {
 				assert(res.errors);
 				var fields = Object.keys(res.errors);
@@ -92,7 +91,7 @@ describe('country-structure', function() {
 		 * Search for itens
 		 */
 		it('# find many from level', function() {
-			return crud.findMany({level: 2})
+			return crud.findMany({ level: 2 })
 			.then(function(res) {
 				assert(res.list.length >= 2);
 			});

@@ -28,5 +28,14 @@
         <class-b>org.msh.etbm.services.admin.units.TypedUnit</class-b>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.Unit</class-a>
+        <class-b>org.msh.etbm.services.admin.units.data.UnitData</class-b>
+
+        <field custom-converter-id="adminunit">
+            <a>address.adminUnit</a>
+            <b>adminUnit</b>
+        </field>
+    </mapping>
 
 </mappings>

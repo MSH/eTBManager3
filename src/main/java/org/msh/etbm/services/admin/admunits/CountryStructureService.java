@@ -6,6 +6,7 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.CountryStructure;
+import org.msh.etbm.services.admin.substances.SubstanceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,9 +49,9 @@ public class CountryStructureService extends EntityService<CountryStructure> {
     public QueryResult<CountryStructureData> query(CountryStructureQuery q) {
         QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
 
-        qry.addDefaultOrderByMap("name", "name");
-        qry.addOrderByMap("level", "level, name");
-        qry.addOrderByMap("level desc", "level desc, name desc");
+        qry.addDefaultOrderByMap(CountryStructureRequest.ORDERBY_NAME, "name");
+        qry.addOrderByMap(CountryStructureRequest.ORDERBY_LEVEL, "level, name");
+        qry.addOrderByMap(CountryStructureRequest.ORDERBY_LEVEL_DESC, "level desc, name desc");
 
         qry.initialize(q);
 

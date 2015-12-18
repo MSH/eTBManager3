@@ -12,6 +12,13 @@ import java.util.UUID;
  */
 public class UnitRequest implements TypedUnit {
 
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_ADMINUNIT = "admunit";
+
     /**
      * The type indicates the kind of object to create
      */

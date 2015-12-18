@@ -4,6 +4,7 @@ package org.msh.etbm.db;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Address {
@@ -19,6 +20,7 @@ public class Address {
 	
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="ADMINUNIT_ID")
+    @NotNull
 	private AdministrativeUnit adminUnit;
 
 

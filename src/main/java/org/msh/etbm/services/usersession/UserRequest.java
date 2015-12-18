@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Basic information about the user session
  *
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserRequest {
 
+    public static final String KEY_ADMUNITSERIES_LIST = "admunit-series";
+
     private UserSession userSession;
 
     /**
@@ -20,6 +25,10 @@ public class UserRequest {
      */
     private boolean commandExecuting;
 
+    /**
+     * Temporary data stored in the request to be used among components
+     */
+    private Map<String, Object> requestAttribs;
 
     /**
      * Check if the user was properly authenticated
@@ -29,6 +38,27 @@ public class UserRequest {
         return userSession != null;
     }
 
+    /**
+     * Return a request data previously put in the <code>put</code>
+     * @param key the data key
+     * @return the data assigned to the key, or null if no data is available
+     */
+    public Object get(String key) {
+        return requestAttribs != null? requestAttribs.get(key) : null;
+    }
+
+    /**
+     * Set a request data to be used along the request
+     * @param key the data key
+     * @param data the data to be assigned to the key
+     */
+    public void put(String key, Object data) {
+        if (requestAttribs == null) {
+            requestAttribs = new HashMap<>();
+        }
+
+        requestAttribs.put(key, data);
+    }
 
     /**
      * Return true if the given permission is granted to the user

@@ -1,4 +1,3 @@
-'use strict';
 
 
 var request = require('supertest'),
@@ -11,13 +10,11 @@ var request = require('supertest'),
 var agent;
 
 
-
-
 /**
  * Agent to get/post to the system URL
  * @type {Object}
  */
-agent = module.exports = new StandardAgent('localhost:8080');
+agent = module.exports = new StandardAgent('http://localhost:8080');
 
 
 

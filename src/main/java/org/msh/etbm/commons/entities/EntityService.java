@@ -357,12 +357,23 @@ public abstract class EntityService<E extends Synchronizable> {
     }
 
     /**
-     * Set the values of the request to the entity
+     * Copy the values of the request to the entity
      * @param request
      * @param entity
      */
     protected void mapRequest(Object request, E entity) {
         mapper.map(request, entity);
+    }
+
+    /**
+     * Generate the response from the entity
+     * @param entity the entity class
+     * @param resultClass the class of the response data to be created
+     * @param <K>
+     * @return instance of the response data
+     */
+    protected <K> K mapResponse(E entity, Class<K> resultClass) {
+        return mapper.map(entity, resultClass);
     }
 
     /**
@@ -378,7 +389,7 @@ public abstract class EntityService<E extends Synchronizable> {
             raiseEntityNotFoundException(id);
         }
 
-        return mapper.map(ent, resultClass);
+        return mapResponse(ent, resultClass);
     }
 
     /**

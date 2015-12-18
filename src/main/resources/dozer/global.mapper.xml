@@ -20,14 +20,9 @@
         <class-a>org.msh.etbm.db.Address</class-a>
         <class-b>org.msh.etbm.services.admin.AddressData</class-b>
 
-        <field custom-converter-id="entity-id">
+        <field custom-converter-id="adminunit">
             <a>adminUnit</a>
-            <b>adminUnitId</b>
-        </field>
-
-        <field>
-            <a>adminUnit.name</a>
-            <b>adminUnitName</b>
+            <b>adminUnit</b>
         </field>
     </mapping>
 

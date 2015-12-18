@@ -14,6 +14,12 @@ import java.util.Optional;
  */
 public class WorkspaceRequest {
 
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+
+    public static final String ORDERBY_NAME = "name";
+
     /**
      * Just used when creating a new workspace, to indicate if template data
      * (like medicines and regimens) will be included as well

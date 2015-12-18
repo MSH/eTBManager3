@@ -19,12 +19,6 @@ import org.springframework.validation.BindingResult;
 @Service
 public class SubstanceService extends EntityService<Substance> {
 
-    public static final String PROFILE_ITEM = "item";
-    public static final String PROFILE_DEFAULT = "default";
-
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_DISPLAYORDER = "displayOrder";
-
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
@@ -36,12 +30,12 @@ public class SubstanceService extends EntityService<Substance> {
         QueryBuilder<Substance> builder = queryBuilderFactory.createQueryBuilder(Substance.class);
 
         // add the available profiles
-        builder.addDefaultProfile(PROFILE_DEFAULT, SubstanceData.class);
-        builder.addProfile(PROFILE_ITEM, SynchronizableItem.class);
+        builder.addDefaultProfile(SubstanceRequest.PROFILE_DEFAULT, SubstanceData.class);
+        builder.addProfile(SubstanceRequest.PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(ORDERBY_DISPLAYORDER, "displayOrder");
-        builder.addOrderByMap(ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(SubstanceRequest.ORDERBY_DISPLAYORDER, "displayOrder");
+        builder.addOrderByMap(SubstanceRequest.ORDERBY_NAME, "name");
 
         // initialize builder with standard query values
         builder.initialize(qry);

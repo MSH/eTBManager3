@@ -15,12 +15,10 @@ require('./admin/substance-test');
 require('./admin/product-test');
 
 
-
 /**
  * Called before execution of the tests. Prepare the environment
  */
 before(function() {
-
     // get information about the system
     return agent.get('/api/sys/info')
         .then(function(res) {
@@ -64,14 +62,14 @@ before(function() {
                 });
         })
         // login into the system
-        .then( function() {
+        .then(function() {
             var req = {
                 username: 'admin',
                 password: 'pwd123'
             };
 
             return agent.post('/api/auth/login', req)
-                .then( function (res) {
+                .then(function(res) {
                     var data = res.body;
 
                     assert.equal(data.success, true);
@@ -81,11 +79,10 @@ before(function() {
                     agent.authToken = data.authToken;
                 });
         });
-
 });
 
 
-after( function() {
+after(function() {
     console.log('cleaning up...');
 
     this.timeout(50000);

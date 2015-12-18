@@ -8,4 +8,11 @@ import java.util.UUID;
  * Created by rmemoria on 13/11/15.
  */
 public class SynchronizableItem extends Item<UUID> {
+    public SynchronizableItem() {
+        super();
+    }
+
+    public SynchronizableItem(UUID id, String name) {
+        super(id, name);
+    }
 }

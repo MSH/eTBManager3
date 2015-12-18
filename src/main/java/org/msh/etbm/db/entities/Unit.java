@@ -62,12 +62,13 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
     @AttributeOverrides({
             @AttributeOverride(name="address", column=@Column(name="ADDRESS")),
             @AttributeOverride(name="complement", column=@Column(name="addressCompl")),
-            @AttributeOverride(name="zipCode", column=@Column(name="zipcode")),
+            @AttributeOverride(name="zipCode", column=@Column(name="zipcode"))
     })
     @AssociationOverrides({
             @AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="ADMINUNIT_ID"))
     })
     @PropertyLog(messageKey="Address", operations={Operation.NEW})
+    @NotNull
     private Address address;
 
     /**

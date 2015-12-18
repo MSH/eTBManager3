@@ -1,4 +1,3 @@
-'use strict';
 
 var assert = require('assert'),
 	u = require('../common/uniquename'),
@@ -6,16 +5,13 @@ var assert = require('assert'),
 	clone = require('clone');
 
 
-
 describe('units', function() {
 	this.timeout(50000);
 
 	// the unit being tested
-	var unit;
-
-	var	admunits;
-
-	var model;
+	var unit,
+		admunits,
+		model;
 
 
 	/**
@@ -46,14 +42,14 @@ describe('units', function() {
 		];
 
 		// create laboratories
-		for (var i = 1; i <= 10; i++) {
+		for (var i = 1; i <= 6; i++) {
 			var lab = {
 				type: 'LAB',
 				name: u('Laboratory 1'),
 				active: true,
 				receiveFrommanufacturer: true,
-				performCulture: i <= 8,
-				performDst: i <=3,
+				performCulture: i <= 5,
+				performDst: i <= 3,
 				performXpert: i >= 3,
 				performMicroscopy: true,
 				address: {
@@ -74,14 +70,14 @@ describe('units', function() {
 				// create health facilities
 				exports.healthUnits = [];
 				var proms = [];
-				for (var i = 1; i <= 10; i++) {
+				for (var i = 1; i <= 6; i++) {
 					var data = {
 						type: 'TBUNIT',
 						name: u('Pharmacy'),
 						active: true,
 						receiveFrommanufacturer: true,
-						tbFacility: i <= 7,
-						mdrFacility: i >=7,
+						tbFacility: i <= 4,
+						mdrFacility: i >= 4,
 						ntmFacility: i <= 2,
 						notificationUnit: i <= 5,
 						patientDispensing: i >= 5,
@@ -89,7 +85,7 @@ describe('units', function() {
 						address: {
 							address: 'Street test',
 							zipCode: '6001-023',
-							adminUnitId: admunits[0].children[i].data.id
+							adminUnitId: admunits[0].children[i - 1].data.id
 						},
 						supplierId: model[0].id    // set the supplier as being the pharmacy
 					};
@@ -119,8 +115,7 @@ describe('units', function() {
 				assert(res.id);
 				assert(res.name);
 				assert(res.address);
-				assert(res.address.adminUnitId);
-				assert(res.address.adminUnitName);
+				assert(res.address.adminUnit);
 				// specific properties of the TB unit
 				assert.equal('tbFacility' in res, true);
 				assert.equal('mdrFacility' in res, true);
@@ -133,7 +128,7 @@ describe('units', function() {
 
 				assert.equal(res.name, unit.name);
 				assert.equal(res.id, unit.id);
-				assert.equal(res.address.adminUnitId, unit.address.adminUnitId);
+				assert.equal(res.address.adminUnit.p0.id, unit.address.adminUnitId);
 			});
 	});
 
@@ -155,8 +150,8 @@ describe('units', function() {
 
 		return crud.findMany(qry)
 		.then(function(res) {
-			// 1 Pharmacy + 10 health facilities + 10 laboratories
-			assert.equal(res.count, 21);
+			// 1 Pharmacy + 6 health facilities + 6 laboratories
+			assert.equal(res.count, 13);
 		});
 	});
 
@@ -188,12 +183,11 @@ describe('units', function() {
 			// check default return
 			assert.equal(res.list.length, 2);
 			res.list.forEach(function(item) {
-				assert.equal(Object.keys(item).length, 6);
+				assert.equal(Object.keys(item).length, 5);
 				assert(item.type);
 				assert(item.id);
 				assert(item.name);
-				assert('adminUnitId' in item);
-				assert('adminUnitName' in item);
+				assert('adminUnit' in item);
 			});
 
 			qry.profile = 'detailed';
@@ -210,8 +204,8 @@ describe('units', function() {
 				assert('customId' in item);
 				assert('active' in item);
 				assert(item.address);
-				assert(item.address.adminUnitId);
-				assert(item.address.adminUnitName);
+				assert(item.address.adminUnit);
+				assert(item.address.adminUnit.p0);
 				assert(item.shipAddress);
 				assert('receiveFromManufacturer' in item);
 				assert('performCulture' in item);
@@ -224,65 +218,65 @@ describe('units', function() {
 
 	 /** Test updating just a set of fields */
 	 it('# Updating specific fields', function() {
-	 	var unit = model[1];
-	 	var newname;
-	 	var customId = 'MY ID';
+		var unit = model[1];
+		var newname;
+		var customId = 'MY ID';
 
-	 	return crud.findOne(unit.id)
-	 	.then(doc => {
-	 		assert(doc);
+		return crud.findOne(unit.id)
+		.then(doc => {
+			assert(doc);
 
-	 		unit = doc;
-	 		newname = unit.name + ' v2';
+			unit = doc;
+			newname = unit.name + ' v2';
 
-	 		return crud.update(unit.id, { name: newname, customId: customId});
-	 	})
-        .then(res => {
-            assert(res);
-            assert.equal(res, unit.id);
+			return crud.update(unit.id, { name: newname, customId: customId});
+		})
+		.then(res => {
+			assert(res);
+			assert.equal(res, unit.id);
 
-            return crud.findOne(unit.id);
-        })
-        .then(doc => {
-        	assert.equal(doc.name, newname);
-        	assert.equal(doc.type, unit.type);
-        	assert.equal(doc.customId, customId);
-        	assert(doc.address);
-        	assert.equal(doc.address.address, unit.address.address);
-        	assert.equal(doc.address.zipCode, unit.address.zipCode);
-        });
+			return crud.findOne(unit.id);
+		})
+		.then(doc => {
+			assert.equal(doc.name, newname);
+			assert.equal(doc.type, unit.type);
+			assert.equal(doc.customId, customId);
+			assert(doc.address);
+			assert.equal(doc.address.address, unit.address.address);
+			assert.equal(doc.address.zipCode, unit.address.zipCode);
+		});
 	 });
 
 	 /** Testing disable unit and its effect on the listing */
 	 it('# Disable/enable', () => {
-	 	var count;
-	 	var id;
+		var count;
+		var id;
 
-	 	var qry = {
-	 		type: 'LAB'
-	 	};
+		var qry = {
+			type: 'LAB'
+		};
 
-	 	// count number of laboratories
-	 	return crud.findMany(qry)
-	 	.then(res => {
-	 		assert(res.count);
-	 		assert(res.count > 1);
-	 		count = res.count;
+		// count number of laboratories
+		return crud.findMany(qry)
+		.then(res => {
+			assert(res.count);
+			assert(res.count > 1);
+			count = res.count;
 
-	 		id = res.list[0].id;
-	 		// disable one of the laboratories
-	 		return crud.update(id, {active: false});
-	 	})
-	 	.then(() => {
-	 		// check the count again
-	 		return crud.findMany(qry);
-	 	})
-	 	.then(res => {
-	 		// make sure one of the items are not available anymore
-	 		assert.equal(res.count, count - 1);
+			id = res.list[0].id;
+			// disable one of the laboratories
+			return crud.update(id, {active: false});
+		})
+		.then(() => {
+			// check the count again
+			return crud.findMany(qry);
+		})
+		.then(res => {
+			// make sure one of the items are not available anymore
+			assert.equal(res.count, count - 1);
 
-	 		// active the item again
-	 		return crud.update(id, { active: true});
-	 	});
+			// active the item again
+			return crud.update(id, { active: true});
+		});
 	 });
 });

@@ -10,12 +10,15 @@ import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
+import org.msh.etbm.services.admin.admunits.parents.ParentAdmUnitsService;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+
+import java.util.UUID;
 
 /**
  * CRUD service to handle units (laboratories and TB units)
@@ -25,19 +28,14 @@ import org.springframework.validation.BindingResult;
 @Service
 public class UnitService extends EntityService<Unit> {
 
-    public static final String PROFILE_ITEM = "item";
-    public static final String PROFILE_DEFAULT = "default";
-    public static final String PROFILE_DETAILED = "detailed";
-
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_ADMINUNIT = "admunit";
-
-
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
     @Autowired
     AdminUnitRepository adminUnitRepository;
+
+    @Autowired
+    ParentAdmUnitsService parentAdmUnitsService;
 
     /**
      * Search for units based on the given query
@@ -56,14 +54,14 @@ public class UnitService extends EntityService<Unit> {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
 
         // add the available profiles
-        builder.addProfile(PROFILE_ITEM, UnitItemData.class);
-        builder.addDefaultProfile(PROFILE_DEFAULT, UnitData.class);
-        builder.addProfile(PROFILE_DETAILED, UnitDetailedData.class);
+        builder.addProfile(UnitRequest.PROFILE_ITEM, UnitItemData.class);
+        builder.addDefaultProfile(UnitRequest.PROFILE_DEFAULT, UnitData.class);
+        builder.addProfile(UnitRequest.PROFILE_DETAILED, UnitDetailedData.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(ORDERBY_NAME, "a.name");
-        builder.addOrderByMap(ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
-        builder.addOrderByMap(ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
+        builder.addDefaultOrderByMap(UnitRequest.ORDERBY_NAME, "a.name");
+        builder.addOrderByMap(UnitRequest.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
+        builder.addOrderByMap(UnitRequest.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
 
         builder.initialize(qry);
 
@@ -141,4 +139,21 @@ public class UnitService extends EntityService<Unit> {
             }
         }
     }
+
+//    @Override
+//    protected <K> K mapResponse(Unit entity, Class<K> resultClass) {
+//        K res = super.mapResponse(entity, resultClass);
+//
+//        if (res instanceof UnitData) {
+//            UnitData data = (UnitData)res;
+//            data.setAdminUnit(parentAdmUnitsService.getAdminUnitSeries(entity.getAddress().getAdminUnit()));
+//        }
+//
+//        if (res instanceof UnitDetailedData) {
+//            UnitDetailedData data = (UnitDetailedData)res;
+//            data.getAddress().setAdminUnit(parentAdmUnitsService.getAdminUnitSeries(entity.getAddress().getAdminUnit()));
+//            data.getShipAddress().setAdminUnit(parentAdmUnitsService.getAdminUnitSeries(entity.getShipAddress().getAdminUnit()));
+//        }
+//        return res;
+//    }
 }

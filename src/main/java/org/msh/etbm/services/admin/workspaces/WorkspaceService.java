@@ -17,12 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorkspaceService extends EntityService<Workspace> {
 
-    public static final String PROFILE_ITEM = "item";
-    public static final String PROFILE_DEFAULT = "default";
-    public static final String PROFILE_DETAILED = "detailed";
-
-    public static final String ORDERBY_NAME = "name";
-
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
@@ -31,12 +25,12 @@ public class WorkspaceService extends EntityService<Workspace> {
         QueryBuilder<Workspace> builder = queryBuilderFactory.createQueryBuilder(Workspace.class);
 
         // set the profiles
-        builder.addDefaultProfile(PROFILE_DEFAULT, WorkspaceData.class);
-        builder.addProfile(PROFILE_ITEM, Item.class);
-        builder.addProfile(PROFILE_DETAILED, WorkspaceDetailData.class);
+        builder.addDefaultProfile(WorkspaceRequest.PROFILE_DEFAULT, WorkspaceData.class);
+        builder.addProfile(WorkspaceRequest.PROFILE_ITEM, Item.class);
+        builder.addProfile(WorkspaceRequest.PROFILE_DETAILED, WorkspaceDetailData.class);
 
         // set the order
-        builder.addDefaultOrderByMap(ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(WorkspaceRequest.ORDERBY_NAME, "name");
 
         builder.initialize(qry);
 

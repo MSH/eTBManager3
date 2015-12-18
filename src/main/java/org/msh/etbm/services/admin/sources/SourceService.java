@@ -18,9 +18,6 @@ import org.springframework.validation.BindingResult;
 @Service
 public class SourceService extends EntityService<Source> {
 
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_SHORTNAME = "shortName";
-
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
@@ -32,8 +29,8 @@ public class SourceService extends EntityService<Source> {
     public QueryResult<SourceData> findMany(SourceQuery qry) {
         QueryBuilder<Source> builder = queryBuilderFactory.createQueryBuilder(Source.class);
 
-        builder.addDefaultOrderByMap(ORDERBY_NAME, "name");
-        builder.addOrderByMap(ORDERBY_SHORTNAME, "shortName");
+        builder.addDefaultOrderByMap(SourceRequest.ORDERBY_NAME, "name");
+        builder.addOrderByMap(SourceRequest.ORDERBY_SHORTNAME, "shortName");
 
         builder.addDefaultProfile("default", SourceData.class);
 

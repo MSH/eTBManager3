@@ -158,7 +158,7 @@ export default class TreeView extends React.Component {
 			</div>
 			);
 
-		return p.outerNode ? p.outerNode(nodeRow, node.item) : content;
+		return p.outerNode ? p.outerNode(nodeRow, node.item) : nodeRow;
 	}
 
 	/**

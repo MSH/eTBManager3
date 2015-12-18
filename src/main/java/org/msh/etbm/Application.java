@@ -4,6 +4,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.impl.DozerEntityConverter;
+import org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -43,7 +44,7 @@ public class Application {
      * @return instance of DozerBeanMapper
      */
     @Bean
-    public DozerBeanMapper mapper(DozerEntityConverter entityConverter) {
+    public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitSeriesConverter admconv) {
         DozerBeanMapper m = new DozerBeanMapper();
 
         List<String> lst = new ArrayList<>();
@@ -59,6 +60,7 @@ public class Application {
 
         Map<String, CustomConverter> convs = new HashMap<>();
         convs.put("entity-id", entityConverter);
+        convs.put("adminunit", admconv);
 
         m.setCustomConvertersWithId(convs);
 

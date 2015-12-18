@@ -9,6 +9,7 @@ import java.util.UUID;
 public class AdminUnitItemData {
     private UUID id;
     private String name;
+    private int unitsCount;
 
     public UUID getId() {
         return id;
@@ -24,5 +25,13 @@ public class AdminUnitItemData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getUnitsCount() {
+        return unitsCount;
+    }
+
+    public void setUnitsCount(int unitCount) {
+        this.unitsCount = unitCount;
     }
 }

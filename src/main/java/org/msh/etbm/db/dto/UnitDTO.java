@@ -1,5 +1,6 @@
 package org.msh.etbm.db.dto;
 
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.units.UnitType;
 
 import java.util.UUID;
@@ -11,7 +12,7 @@ public class UnitDTO {
     private UUID id;
     private String name;
     private UnitType type;
-    private AdministrativeUnitDTO adminUnit;
+    private AdminUnitSeries adminUnit;
 
     public UUID getId() {
         return id;
@@ -37,11 +38,11 @@ public class UnitDTO {
         this.type = type;
     }
 
-    public AdministrativeUnitDTO getAdminUnit() {
+    public AdminUnitSeries getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdministrativeUnitDTO adminUnit) {
+    public void setAdminUnit(AdminUnitSeries adminUnit) {
         this.adminUnit = adminUnit;
     }
 }

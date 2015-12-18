@@ -11,6 +11,18 @@ import java.util.Optional;
  */
 public class SubstanceRequest {
 
+    /**
+     * Available profiles
+     */
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+
+    /**
+     * Available sorting options
+     */
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_DISPLAYORDER = "displayOrder";
+
     private Optional<String> name;
     private Optional<String> shortName;
     private Optional<MedicineLine> line;

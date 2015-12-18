@@ -9,6 +9,8 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.parents.ParentAdmUnitsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -25,10 +27,6 @@ import java.util.UUID;
 @Service
 public class AdminUnitService extends EntityService<AdministrativeUnit> {
 
-    private static final String QUERY_PROFILE_ITEM = "item";
-    private static final String QUERY_PROFILE_DEFAULT = "default";
-    private static final String QUERY_PROFILE_DETAILED = "detailed";
-
     @PersistenceContext
     EntityManager entityManager;
 
@@ -38,15 +36,21 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
     @Autowired
     CodeGeneratorService codeGeneratorService;
 
+    @Autowired
+    CountryStructureService countryStructureService;
+
+    @Autowired
+    ParentAdmUnitsService parentAdmUnitsService;
+
     /**
      * Query the administrative units
      * @param q the query parameters
      * @return the result list
      */
-    public QueryResult<AdminUnitData> findMany(AdminUnitQuery q) {
+    public AdminUnitQueryResult findMany(AdminUnitQuery q) {
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class, "a");
 
-        if (!QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
+        if (!AdminUnitRequest.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
             qry.setHqlJoin("join fetch a.countryStructure cs left join fetch a.parent p");
         }
         else {
@@ -54,9 +58,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
 
         // add profiles
-        qry.addDefaultProfile(QUERY_PROFILE_DEFAULT, AdminUnitData.class);
-        qry.addProfile(QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
-        qry.addProfile(QUERY_PROFILE_ITEM, AdminUnitItemData.class);
+        qry.addDefaultProfile(AdminUnitRequest.QUERY_PROFILE_DEFAULT, AdminUnitData.class);
+        qry.addProfile(AdminUnitRequest.QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
+        qry.addProfile(AdminUnitRequest.QUERY_PROFILE_ITEM, AdminUnitItemData.class);
 
         // add order by
         qry.addDefaultOrderByMap("name", "a.name");
@@ -97,8 +101,24 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
             }
         }
 
-        return qry.createQueryResult();
+        // generate the result
+        QueryResult res = qry.createQueryResult();
+        AdminUnitQueryResult aures = new AdminUnitQueryResult();
+        aures.setCount(res.getCount());
+        aures.setList(res.getList());
+
+        // must include country structure ?
+        if (q.isFetchCountryStructure()) {
+            CountryStructureQuery csquery = new CountryStructureQuery();
+            csquery.setOrderBy("level");
+            res = countryStructureService.query(csquery);
+            aures.setCsList(res.getList());
+        }
+
+        return aures;
     }
+
+
 
     /**
      * This method is override because calling 'generateNewMethod' from prepareToSave, an entityManager.flush()
@@ -147,10 +167,6 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
 
         validateParent(entity);
-
-//        AdministrativeUnit parent = entity.getParent();
-
-//        checkCode(entity);
 
         if (!isUnique(entity)) {
             errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
@@ -223,36 +239,6 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
     }
 
 
-    /**
-     * Check if the parent unit is being changed
-     * @param au the administrative unit to be saved
-     */
-//    public void checkCode(AdministrativeUnit au) {
-//        AdministrativeUnit parent = au.getParent();
-//
-//        if (au.getId() != null) {
-//            System.out.println(" --> PARENT code = "+ (parent != null? parent.getCode(): "") + ", ID = " + (parent != null? parent.getId(): null));
-//            System.out.println(" --> AU code = " + au.getCode());
-//        }
-//
-//        // check if code must be generated
-//        if (au.getCode() == null || au.getCode().isEmpty() ||
-//                (parent != null && !parent.isSameOrChildCode(au.getCode())))
-//        {
-//            System.out.println("Calling new code");
-//            String code = codeGeneratorService.generateNewCode(parent != null? parent.getId(): null);
-//            System.out.println("New code = " + code);
-//
-//            // must update child records ?
-//            if (au.getId() != null) {
-//                String oldCode = au.getCode();
-//                System.out.println("   ***  TRANSFER CODE " + oldCode + " -> " + code);
-//                updateChildCodes(au.getId(), oldCode, code);
-//            }
-//            au.setCode(code);
-//        }
-//    }
-
 
     /**
      * Validate the administrative unit parent
@@ -274,4 +260,17 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
     }
 
+//
+//    @Override
+//    public <K> K findOne(UUID id, Class<K> resultClass) {
+//        K data = super.findOne(id, resultClass);
+//
+//        if (data instanceof AdminUnitDetailedData) {
+//            AdminUnitDetailedData au = (AdminUnitDetailedData) data;
+//            AdminUnitSeries parents = parentAdmUnitsService.getAdminUnitSeries(((AdminUnitDetailedData) data).getParentId());
+//            au.setParents(parents);
+//        }
+//
+//        return data;
+//    }
 }

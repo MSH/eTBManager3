@@ -7,6 +7,13 @@ import java.util.Optional;
  */
 public class CountryStructureRequest {
 
+    /**
+     * Available sorting options
+     */
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_LEVEL = "level, name";
+    public static final String ORDERBY_LEVEL_DESC = "level desc, name desc";
+
     private Optional<String> name;
 
     private Optional<Integer> level;
