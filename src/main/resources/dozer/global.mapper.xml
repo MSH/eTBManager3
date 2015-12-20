@@ -37,6 +37,11 @@
             <b>userName</b>
         </field>
 
+        <field custom-converter-id="adminunit">
+            <a>adminUnit</a>
+            <b>adminUnit</b>
+        </field>
+
         <field>
             <a>user.id</a>
             <b>userId</b>

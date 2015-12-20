@@ -16,6 +16,18 @@ export default class TreeView extends React.Component {
 	constructor(props) {
 		super(props);
 		this.nodeClick = this.nodeClick.bind(this);
+
+		if (props.root) {
+			this.state = { root: this.createNodes(props.root) };
+		}
+	}
+
+	componentDidMount() {
+		this.mounted = true;
+	}
+
+	componentWillUnmount() {
+		this.mounted = false;
 	}
 
 	/**
@@ -52,10 +64,20 @@ export default class TreeView extends React.Component {
 	 * @return {[type]}       [description]
 	 */
 	createNodes(items) {
-		const funcInfo = this.props.checkLeaf;
+		const funcInfo = this.props.nodeInfo;
 		return items.map(item => {
-			const leaf = funcInfo ? funcInfo(item) : false;
-			return { item: item, state: 'collapsed', children: null, leaf: leaf };
+			const info = funcInfo ? funcInfo(item) : { leaf: false, expanded: false };
+
+			const node = { item: item,
+				state: 'collapsed',
+				children: null,
+				leaf: info.leaf };
+
+			if (info.expanded) {
+				this.expandNode(node);
+			}
+
+			return node;
 		});
 	}
 
@@ -113,7 +135,14 @@ export default class TreeView extends React.Component {
 			icon = p.iconLeaf;
 		}
 		else {
-			icon = node.state !== 'collapsed' ? p.iconMinus : p.iconPlus;
+			switch (node.state) {
+				case 'expanding': icon = p.iconWait;
+					break;
+				case 'collapsed': icon = p.iconPlus;
+					break;
+				default: icon = p.iconMinus;
+					break;
+			}
 		}
 
 		if (typeof icon === 'function') {
@@ -145,7 +174,7 @@ export default class TreeView extends React.Component {
 		const icon = this.resolveIcon(node);
 
 		// the content
-		const nodeIcon = node.leaf ?
+		const nodeIcon = node.leaf || node.expanding ?
 			icon :
 			<a className="node-link" onClick={this.nodeClick} data-item={key}>
 				{icon}
@@ -193,7 +222,9 @@ export default class TreeView extends React.Component {
 	expandNode(node) {
 		// children are not loaded ?
 		if (!node.children) {
+			// node enters in the expanding state
 			node.state = 'expanding';
+			this.refreshTree();
 
 			// load the children
 			const self = this;
@@ -202,13 +233,13 @@ export default class TreeView extends React.Component {
 					node.state = 'expanded';
 					node.children = res;
 					// force tree to show the new expanded node
-					self.forceUpdate();
+					self.refreshTree();
 				});
 		}
 		else {
 			node.state = 'expanded';
 			// force tree to show the new expanded node
-			this.forceUpdate();
+			this.refreshTree();
 		}
 	}
 
@@ -222,14 +253,20 @@ export default class TreeView extends React.Component {
 		this.forceUpdate();
 	}
 
+	refreshTree() {
+		if (this.mounted) {
+			this.forceUpdate();
+		}
+	}
+
 	/**
 	 * Return the root list of nodes
 	 * @return {array} Array of objects with information about the nodes
 	 */
 	getRoots() {
-		if (this.props.root) {
-			return this.props.root;
-		}
+		// if (this.props.root) {
+		// 	return this.props.root;
+		// }
 
 		return this.state ? this.state.root : null;
 	}
@@ -264,10 +301,11 @@ TreeView.propTypes = {
 	// an optional title to be displayed on the top of the treeview
 	title: React.PropTypes.any,
 	// opitional. Check if node has children or is a leaf node
-	checkLeaf: React.PropTypes.func,
+	nodeInfo: React.PropTypes.func,
 	iconPlus: React.PropTypes.any,
 	iconMinus: React.PropTypes.any,
 	iconLeaf: React.PropTypes.any,
+	iconWait: React.PropTypes.any,
 	iconSize: React.PropTypes.number,
 	// the indentation of each node level, in pixels
 	indent: React.PropTypes.number
@@ -277,6 +315,7 @@ TreeView.defaultProps = {
 	iconPlus: 'plus-square-o',
 	iconMinus: 'minus-square-o',
 	iconLeaf: 'circle-thin',
+	iconWait: 'circle-o-notch',
 	iconSize: 1,
 	indent: 16
 };

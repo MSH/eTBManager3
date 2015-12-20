@@ -127,11 +127,12 @@ export default class CrudView extends React.Component {
 		const tableDef = {
 			columns: tbldef.columns,
 			title: tbldef.title,
-			delegator: tbldef.delegator
+			delegator: tbldef.delegator,
+			newButton: !this.readOnly
 		};
 
 		// if it is not read only, show menu
-		if (!this.readOnly && tbldef.newButton) {
+		if (tableDef.newButton) {
 			tableDef.menu = [
 					{
 						label: __('action.edit'),

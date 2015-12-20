@@ -3,7 +3,7 @@ package org.msh.etbm.services.admin.admunits.parents;
 import org.dozer.CustomConverter;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import java.util.List;
 public class DozerAdminUnitSeriesConverter implements CustomConverter {
 
     @Autowired
-    UserRequest userRequest;
+    UserRequestService userRequestService;
 
     @Autowired
     ParentAdmUnitsService parentAdmUnitsService;
@@ -43,7 +43,7 @@ public class DozerAdminUnitSeriesConverter implements CustomConverter {
     public AdminUnitSeries convertToSeries(AdministrativeUnit adm) {
         // check if admin unit is in the request data
         // the request data is a place where components may include data to be used later by other components
-        List<AdminUnitSeries> seriesList = (List<AdminUnitSeries>)userRequest.get(UserRequest.KEY_ADMUNITSERIES_LIST);
+        List<AdminUnitSeries> seriesList = (List<AdminUnitSeries>) userRequestService.get(UserRequestService.KEY_ADMUNITSERIES_LIST);
 
         // series list exists ?
         if (seriesList != null) {

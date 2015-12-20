@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Service
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UserRequest {
+public class UserRequestService {
 
     public static final String KEY_ADMUNITSERIES_LIST = "admunit-series";
 

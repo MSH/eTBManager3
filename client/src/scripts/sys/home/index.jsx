@@ -13,11 +13,22 @@ export default class Home extends React.Component {
 	render() {
 		const state = app.getState();
 
+		const lst = Object.keys(state.session.adminUnit);
+
+		const aus = [];
+		let count = 0;
+		lst.forEach(key => {
+			count++;
+			let s = state.session.adminUnit[key].name;
+			if (count < lst.length) {
+				s += ', ';
+			}
+			aus.push(<a href="#" key={key}>{s}</a>);
+		});
+
 		const subtitle = (
 			<div><a href="#">{state.session.unitName}</a>
-			<br/>
-			<a href="#">{'Rio de Janeiro, RJ'}</a>
-			<br/>
+			<div>{aus}</div>
 			<a href="#">{state.session.workspaceName}</a>
 			</div>
 		);

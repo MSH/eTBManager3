@@ -56,6 +56,7 @@ public class AdminUnitSeries {
      * Return the level of the administrative unit being referenced.
      * @return an integer value from 0 (no admin unit) until 5 (deepest level)
      */
+    @JsonIgnore
     public int getLevel() {
         int level = 5;
         return 5 - (p4 == null? 1: 0) -

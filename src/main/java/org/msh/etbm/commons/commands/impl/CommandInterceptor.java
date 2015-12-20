@@ -8,7 +8,7 @@ import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -30,7 +30,7 @@ public class CommandInterceptor {
     ApplicationContext applicationContext;
 
     @Autowired
-    UserRequest userRequest;
+    UserRequestService userRequestService;
 
 
     /**
@@ -44,17 +44,17 @@ public class CommandInterceptor {
         //  check if the current request is already under execution of a nested command call
         // command nesting is not supported, so if there is already a command being executed, just skip command log
         // and execute method
-        if (userRequest.isCommandExecuting()) {
+        if (userRequestService.isCommandExecuting()) {
             return pjp.proceed();
         }
 
         // execute the command and avoid other commands of being logged in a single request
-        userRequest.setCommandExecuting(true);
+        userRequestService.setCommandExecuting(true);
         try {
             return executeAndLog(pjp);
         }
         finally {
-            userRequest.setCommandExecuting(false);
+            userRequestService.setCommandExecuting(false);
         }
     }
 
@@ -104,9 +104,9 @@ public class CommandInterceptor {
         in.setMethod(method);
 
         // include information about the authenticated user
-        if (userRequest.isAuthenticated()) {
-            in.setWorkspaceId(userRequest.getUserSession().getWorkspaceId());
-            in.setUserId(userRequest.getUserSession().getUserId());
+        if (userRequestService.isAuthenticated()) {
+            in.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
+            in.setUserId(userRequestService.getUserSession().getUserId());
         }
 
         // call handler of the log

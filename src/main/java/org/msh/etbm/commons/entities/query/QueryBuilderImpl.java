@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -103,7 +103,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     private EntityManager entityManager;
 
-    private UserRequest userRequest;
+    private UserRequestService userRequestService;
 
     private DozerBeanMapper mapper;
 
@@ -197,14 +197,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     protected void addHQLRestrictions(StringBuilder hql) {
         boolean bWhere = false;
-        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequest.isAuthenticated()) {
+        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequestService.isAuthenticated()) {
             hql.append("where ");
             if (entityPath != null) {
                 hql.append(entityPath);
                 hql.append('.');
             }
             hql.append("workspace.id = :wsid\n");
-            setParameter("wsid", userRequest.getUserSession().getWorkspaceId());
+            setParameter("wsid", userRequestService.getUserSession().getWorkspaceId());
             bWhere = true;
         }
 
@@ -437,12 +437,12 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.entityManager = entityManager;
     }
 
-    public UserRequest getUserRequest() {
-        return userRequest;
+    public UserRequestService getUserRequestService() {
+        return userRequestService;
     }
 
-    public void setUserRequest(UserRequest userRequest) {
-        this.userRequest = userRequest;
+    public void setUserRequestService(UserRequestService userRequestService) {
+        this.userRequestService = userRequestService;
     }
 
     public DozerBeanMapper getMapper() {

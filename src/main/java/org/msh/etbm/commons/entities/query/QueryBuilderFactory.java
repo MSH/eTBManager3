@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.query;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,7 @@ public class QueryBuilderFactory {
     EntityManager entityManager;
 
     @Autowired
-    UserRequest userRequest;
+    UserRequestService userRequestService;
 
     @Autowired
     DozerBeanMapper mapper;
@@ -32,7 +32,7 @@ public class QueryBuilderFactory {
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass) {
         QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, null);
         builder.setEntityManager(entityManager);
-        builder.setUserRequest(userRequest);
+        builder.setUserRequestService(userRequestService);
         builder.setMapper(mapper);
 
         return builder;
@@ -47,7 +47,7 @@ public class QueryBuilderFactory {
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass, String path) {
         QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, path);
         builder.setEntityManager(entityManager);
-        builder.setUserRequest(userRequest);
+        builder.setUserRequestService(userRequestService);
         builder.setMapper(mapper);
 
         return builder;

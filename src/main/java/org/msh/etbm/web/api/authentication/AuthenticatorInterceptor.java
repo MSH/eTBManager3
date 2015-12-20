@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
@@ -27,7 +27,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
     UserSessionService userSessionService;
 
     @Autowired
-    UserRequest userRequest;
+    UserRequestService userRequestService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -62,7 +62,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
         }
 
-        userRequest.setUserSession(session);
+        userRequestService.setUserSession(session);
 
         return true;
     }

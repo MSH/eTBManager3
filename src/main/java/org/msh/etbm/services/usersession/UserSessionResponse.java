@@ -2,6 +2,7 @@ package org.msh.etbm.services.usersession;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.UserView;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,9 @@ public class UserSessionResponse {
     // information about the user unit
     private UUID unitId;
     private String unitName;
+
+    // the administrative unit of the unit
+    private AdminUnitSeries adminUnit;
 
     private UserView view;
 
@@ -123,5 +127,13 @@ public class UserSessionResponse {
 
     public void setWorkspaces(List<SynchronizableItem> workspaces) {
         this.workspaces = workspaces;
+    }
+
+    public AdminUnitSeries getAdminUnit() {
+        return adminUnit;
+    }
+
+    public void setAdminUnit(AdminUnitSeries adminUnit) {
+        this.adminUnit = adminUnit;
     }
 }

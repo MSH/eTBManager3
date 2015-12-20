@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.services.usersession.UserRequest;
+import org.msh.etbm.services.usersession.UserRequestService;
 import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionResponse;
 import org.msh.etbm.services.usersession.UserSessionService;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserSessionRest {
 
     @Autowired
-    UserRequest userRequest;
+    UserRequestService userRequestService;
 
     @Autowired
     UserSessionService userSessionService;
@@ -31,7 +31,7 @@ public class UserSessionRest {
     @RequestMapping(value = "/session", method = RequestMethod.POST)
     public UserSessionResponse getUserSession(HttpServletRequest request) {
 
-        UserSession session = userRequest.getUserSession();
+        UserSession session = userRequestService.getUserSession();
 
         UserSessionResponse res = userSessionService.createClientResponse(session);
 

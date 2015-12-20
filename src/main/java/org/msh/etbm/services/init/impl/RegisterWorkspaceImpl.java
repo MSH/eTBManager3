@@ -142,6 +142,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
             AdministrativeUnit au = adminUnits.get(0);
             uw.setAdminUnit(au);
         }
+        else {
+            uw.setAdminUnit(unit.getAddress().getAdminUnit());
+        }
 
         // get user profiles
         if (templ.getProfiles() != null) {

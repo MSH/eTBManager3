@@ -47,6 +47,7 @@ public class UserWorkspace extends WorkspaceEntity {
 	@ManyToOne(fetch= FetchType.LAZY)
 	@JoinColumn(name="ADMINUNIT_ID")
 	@PropertyLog(operations={Operation.NEW})
+    @NotNull
 	private AdministrativeUnit adminUnit;
     
     private boolean playOtherUnits;

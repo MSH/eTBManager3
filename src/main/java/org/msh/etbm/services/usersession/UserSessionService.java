@@ -69,7 +69,8 @@ public class UserSessionService {
     public UserSessionResponse createClientResponse(UserSession userSession) {
         UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
 
-        List<Workspace> lst = entityManager.createQuery("select uw.workspace from UserWorkspace uw where uw.user.id = :id")
+        List<Workspace> lst = entityManager
+                .createQuery("select uw.workspace from UserWorkspace uw where uw.user.id = :id")
                 .setParameter("id", userSession.getUserId())
                 .getResultList();
 

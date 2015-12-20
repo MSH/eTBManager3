@@ -1,6 +1,7 @@
 package org.msh.etbm.services.usersession;
 
 import org.msh.etbm.db.enums.UserView;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,9 @@ public class UserSession {
     // information about the user unit
     private UUID unitId;
     private String unitName;
+
+    // administrative unit of the user
+    private AdminUnitSeries adminUnit;
 
     private UserView view;
 
@@ -143,5 +147,13 @@ public class UserSession {
 
     public void setPermissions(List<String> permissions) {
         this.permissions = permissions;
+    }
+
+    public AdminUnitSeries getAdminUnit() {
+        return adminUnit;
+    }
+
+    public void setAdminUnit(AdminUnitSeries adminUnit) {
+        this.adminUnit = adminUnit;
     }
 }
