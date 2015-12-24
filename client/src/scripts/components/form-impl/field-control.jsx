@@ -1,26 +1,31 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import { getValue, setValue } from '../../commons/utils';
-import { app } from '../../core/app';
 
 
-export default class Field extends React.Component {
+export default class FieldControl extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 	}
 
+	static controlName() {
+		return 'field';
+	}
+
+	/**
+	 * Called when user changes the value in the control
+	 * @return {[type]} [description]
+	 */
 	onChange() {
 		const el = this.props.element;
-		const model = this.props.doc;
-		const comp = this.refs[el.property];
+		const comp = this.refs[el.data.property];
 
 		const value = comp.props.type === 'checkbox' ? comp.getChecked() : comp.getValue();
 
 		// change the value in the data model
-		setValue(model, el.property, value);
+		el.setValue(value);
 
 		// force component refreshing
 		this.forceUpdate();
@@ -38,7 +43,7 @@ export default class Field extends React.Component {
 			return ctype;
 		}
 
-		if (el.type === 'boolean') {
+		if (el.type === 'bool') {
 			return 'checkbox';
 		}
 
@@ -51,54 +56,41 @@ export default class Field extends React.Component {
 	 * @return {[type]}    [description]
 	 */
 	createOptions(el) {
-		if (!el.options) {
-			return null;
-		}
+		const opts = el.options();
 
-		const lst = typeof el.options === 'string' ? app.getState().app.lists[el.options] : el.options;
-
-		if (!lst) {
-			return null;
-		}
-
-		const opts = [];
-		opts.push({ value: '-', text: '-' });
-		Object.keys(lst).forEach(key => opts.push({ value: key, text: lst[key] }));
-
-		return opts.map(opt => <option key={opt.value} value={opt.value}>{opt.text}</option>);
+		return opts ?
+			opts.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>) :
+			null;
 	}
 
 	render() {
 		const el = this.props.element;
-		const data = this.props.doc;
 		const errors = this.props.errors;
 
-		if (!el.property || !data) {
+		if (!el.isValid()) {
 			return null;
 		}
 
-		const value = getValue(data, el.property);
+		const value = el.getValue();
 
-		const ctype = this.controlType(el);
+		const ctype = this.controlType(el.data);
 
-		let label = el.label;
 		let checked = null;
+		let label;
 		if (ctype !== 'checkbox') {
-			label += ':';
-			if (el.required) {
-				label = <span>{label}<i className="fa fa-exclamation-circle app-required"/></span>;
-			}
+			label = el.label();
 		}
 		else {
 			checked = value;
+			label = el.data.label;
 		}
 
-		const err = errors ? errors[el.property] : null;
+		const err = errors ? errors[el.data.property] : null;
 
 		const options = this.createOptions(el);
 
 		return	(
-			<Input ref={el.property}
+			<Input ref={el.data.property}
 				label={label}
 				type={ctype}
 				onChange={this.onChange}
@@ -112,7 +104,7 @@ export default class Field extends React.Component {
 	}
 }
 
-Field.propTypes = {
+FieldControl.propTypes = {
 	element: React.PropTypes.object,
 	doc: React.PropTypes.object,
 	errors: React.PropTypes.object

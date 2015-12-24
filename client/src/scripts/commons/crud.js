@@ -24,7 +24,7 @@ export default class CRUD {
 			if (res.errors) {
 				return Promise.reject(res.errors);
 			}
-			return res;
+			return res.result;
 		});
 	}
 

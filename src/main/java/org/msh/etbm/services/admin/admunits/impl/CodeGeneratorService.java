@@ -73,7 +73,7 @@ public class CodeGeneratorService {
     }
 
     @Around("execution(public * org.msh.etbm.commons.entities.EntityService.create(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
-    public Object adminUnitCreateInterceptor(ProceedingJoinPoint pjp) {
+    public Object adminUnitCreateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         AdminUnitRequest req = (AdminUnitRequest) args[0];
 
@@ -81,7 +81,7 @@ public class CodeGeneratorService {
     }
 
     @Around("execution(public * org.msh.etbm.commons.entities.EntityService.update(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
-    public Object adminUnitUpdateInterceptor(ProceedingJoinPoint pjp) {
+    public Object adminUnitUpdateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         AdminUnitRequest req = (AdminUnitRequest) args[1];
         return aroundCall(req.getParentId(), pjp);
@@ -92,15 +92,10 @@ public class CodeGeneratorService {
      * @param parentId
      * @param pjp
      */
-    private Object aroundCall(UUID parentId, ProceedingJoinPoint pjp) {
+    private Object aroundCall(UUID parentId, ProceedingJoinPoint pjp) throws Throwable{
         addRef(parentId);
         try {
-            try {
-                return pjp.proceed();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                throw new RuntimeException(throwable);
-            }
+            return pjp.proceed();
         }
         finally {
             remRef(parentId);

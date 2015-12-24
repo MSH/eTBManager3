@@ -47,7 +47,7 @@
     "action.go": "Go!",
     "admin": "Administration",
     "admin.adminunits": "Administrative units",
-    "admin.adminunits.countrystructure": "Administrative unit",
+    "admin.adminunits.countrystructure": "Designation",
     "admin.adminunits.delerror1": "User cannot delete its own administrative unit",
     "admin.adminunits.editparent": "modify parent unit",
     "admin.adminunits.edt": "Edit administrative unit data",

@@ -55,7 +55,7 @@ const editorDef = {
 		},
 		{
 			property: 'active',
-			type: 'boolean',
+			type: 'bool',
 			label: __('EntityState.ACTIVE'),
 			defaultValue: true
 		},

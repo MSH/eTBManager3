@@ -18,16 +18,101 @@ export default class TreeView extends React.Component {
 		this.nodeClick = this.nodeClick.bind(this);
 
 		if (props.root) {
-			this.state = { root: this.createNodes(props.root) };
+			this.state = { root: this.createNodes(null, props.root) };
 		}
 	}
 
 	componentDidMount() {
 		this.mounted = true;
+		if (this.props.onInit) {
+			this.props.onInit(this.createHandler());
+		}
 	}
 
 	componentWillUnmount() {
 		this.mounted = false;
+	}
+
+	/**
+	 * Create a handler that will be sent to the parent to have control over the items
+	 * @return {[type]} [description]
+	 */
+	createHandler() {
+		const self = this;
+
+		return {
+			self: self,
+			/**
+			 * Add a new node to the tree
+			 * @param  {[type]} parent Object representing the parent node
+			 * @param  {[type]} node   Object representing the new child
+			 */
+			addNode: (parent, item) => {
+				const pnode = parent ? self.findNode(parent) : null;
+				const cnode = self.createNode(pnode, item);
+				const children = pnode ? pnode.children : self.getRoots();
+				children.push(cnode);
+				self.forceUpdate();
+			},
+
+			/**
+			 * Remove a node
+			 * @param  {[type]} item [description]
+			 * @return {[type]}      [description]
+			 */
+			remNode: item => {
+				const node = self.findNode(item);
+				const lst = node.parent ? node.parent.children : this.getRoots();
+				const index = lst.indexOf(node);
+				lst.splice(index, 1);
+				self.forceUpdate();
+			},
+
+			/**
+			 * Update a node
+			 * @param  {[type]} item [description]
+			 * @return {[type]}      [description]
+			 */
+			updateNode: (olditem, newitem) => {
+				const node = self.findNode(olditem);
+				const newnode = self.createNode(node.parent, newitem);
+				// preserve the current state
+				newnode.state = node.state;
+				newnode.children = node.children;
+				// get the parent list
+				const lst = node.parent ? node.parent.children : this.getRoots();
+				// replace in the list
+				const index = lst.indexOf(node);
+				lst.splice(index, 1, newnode);
+				// refresh tree view
+				self.forceUpdate();
+			}
+		};
+	}
+
+
+	/**
+	 * Search a node by its data. It travesses the whole tree searching for the node
+	 * @param  {[type]} data  The data representing the node
+	 * @param  {[type]} nodes The list of nodes
+	 * @return {[type]}       The node or null if no node was found
+	 */
+	findNode(data, nodes) {
+		const lst = nodes ? nodes : this.getRoots();
+		for (var i = 0; i < lst.length; i++) {
+			const n = lst[i];
+			if (n.item === data) {
+				return n;
+			}
+
+			if (n.children) {
+				const res = this.findNode(data, n.children);
+				if (res) {
+					return res;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -53,7 +138,7 @@ export default class TreeView extends React.Component {
 		// create nodes wrapper when nodes are resolved
 		const self = this;
 		return res.then(items => {
-			const nodes = self.createNodes(items);
+			const nodes = self.createNodes(parent, items);
 			return nodes;
 		});
 	}
@@ -63,23 +148,31 @@ export default class TreeView extends React.Component {
 	 * @param  {[type]} items [description]
 	 * @return {[type]}       [description]
 	 */
-	createNodes(items) {
-		const funcInfo = this.props.nodeInfo;
-		return items.map(item => {
-			const info = funcInfo ? funcInfo(item) : { leaf: false, expanded: false };
-
-			const node = { item: item,
-				state: 'collapsed',
-				children: null,
-				leaf: info.leaf };
-
-			if (info.expanded) {
-				this.expandNode(node);
-			}
-
-			return node;
-		});
+	createNodes(parent, items) {
+		const self = this;
+		return items.map(item => self.createNode(parent, item));
 	}
+
+	/**
+	 * Create a node object from the data representing the node
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	createNode(parent, item) {
+		const info = this.props.nodeInfo ? this.props.nodeInfo(item) : { leaf: false, expanded: false };
+
+		const node = { item: item,
+			parent: parent,
+			state: 'collapsed',
+			children: null,
+			leaf: info.leaf };
+
+		if (info.expanded) {
+			this.expandNode(node);
+		}
+		return node;
+	}
+
 
 	/**
 	 * Create the React components of the nodes to be displayed in the tree
@@ -127,6 +220,11 @@ export default class TreeView extends React.Component {
 		return mountList(this.getRoots(), 0, false);
 	}
 
+	/**
+	 * Called to resolve the icon that will be used beside the node name
+	 * @param  {[type]} node [description]
+	 * @return {[type]}      [description]
+	 */
 	resolveIcon(node) {
 		const p = this.props;
 
@@ -167,7 +265,7 @@ export default class TreeView extends React.Component {
 		const p = this.props;
 
 		// get the node content
-		const func = p.innerNode;
+		const func = p.innerRender;
 
 		const content = func ? func(node.item) : node.item;
 
@@ -187,7 +285,7 @@ export default class TreeView extends React.Component {
 			</div>
 			);
 
-		return p.outerNode ? p.outerNode(nodeRow, node.item) : nodeRow;
+		return p.outerRender ? p.outerRender(nodeRow, node.item) : nodeRow;
 	}
 
 	/**
@@ -296,19 +394,22 @@ TreeView.propTypes = {
 	onGetNodes: React.PropTypes.func,
 	// called to render the div area that will host the node content
 	// in the format function(item): string | React component
-	innerNode: React.PropTypes.func,
-	outerNode: React.PropTypes.func,
+	innerRender: React.PropTypes.func,
+	outerRender: React.PropTypes.func,
 	// an optional title to be displayed on the top of the treeview
 	title: React.PropTypes.any,
 	// opitional. Check if node has children or is a leaf node
 	nodeInfo: React.PropTypes.func,
+	// replace the default icons
 	iconPlus: React.PropTypes.any,
 	iconMinus: React.PropTypes.any,
 	iconLeaf: React.PropTypes.any,
 	iconWait: React.PropTypes.any,
 	iconSize: React.PropTypes.number,
 	// the indentation of each node level, in pixels
-	indent: React.PropTypes.number
+	indent: React.PropTypes.number,
+	// called when tree is mounted in order to parent interact with tree
+	onInit: React.PropTypes.func
 };
 
 TreeView.defaultProps = {

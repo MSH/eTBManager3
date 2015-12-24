@@ -3,15 +3,54 @@
  */
 import React from 'react';
 import { Row, Col, Alert } from 'react-bootstrap';
-import Field from './form-impl/field';
+import FieldControl from './form-impl/field-control';
 import { validateForm } from './form-impl/validator';
 import { setValue } from '../commons/utils';
+import commonTypes from './form-impl/common-types';
+import Element from './form-impl/element';
 
 
 /**
  * Create a form based on a given json layout and a data model
  */
 export default class Form extends React.Component {
+
+	/**
+	 * Register a control
+	 * @param  {[type]} control [description]
+	 */
+	static registerControl(control, defaultCtrl) {
+		const name = control.controlName();
+		controls[name] = control;
+
+		if (defaultCtrl) {
+			controls.$ = control;
+		}
+	}
+
+	/**
+	 * Register a new type to be handled by the form
+	 * @param  {[type]} type [description]
+	 */
+	static registerType(type) {
+		if (type.constructor === Array) {
+			type.forEach(item => Form.registerType(item));
+			return;
+		}
+
+		const tname = type.type;
+
+		if (tname.constructor === Array) {
+			tname.forEach(item => typeHandlers[item] = type);
+		}
+		else {
+			typeHandlers[tname] = type;
+		}
+	}
+
+	static getType(name) {
+		return typeHandlers[name];
+	}
 
 	/**
 	 * Validate the form and return validation messages, if any erro is found
@@ -37,15 +76,6 @@ export default class Form extends React.Component {
 			}
 		});
 		return doc;
-	}
-
-	findComp(elname) {
-		// no name defined, so return the default render
-		if (!elname) {
-			return components.field;
-		}
-
-		return components[elname];
 	}
 
 	/**
@@ -140,6 +170,25 @@ export default class Form extends React.Component {
 	}
 
 	/**
+	 * Find control by the element
+	 * @param  {[type]} elname [description]
+	 * @return {[type]}        [description]
+	 */
+	findControl(elname, typeHandler) {
+		// no name defined, so return the default render
+		if (!elname) {
+			if (typeHandler.control) {
+				return controls[typeHandler.control];
+			}
+
+			// return the default control
+			return controls.$;
+		}
+
+		return controls[elname];
+	}
+
+	/**
 	 * Create the fields of the form
 	 * @param  {[type]} layout [description]
 	 * @param  {[type]} doc    [description]
@@ -158,7 +207,8 @@ export default class Form extends React.Component {
 		let key = 1;
 		for (let i = 0; i < layout.length; i++) {
 			const elem = layout[i];
-			const ReactComp = this.findComp(elem.el);
+			const type = typeHandlers[elem.type];
+			const ReactComp = this.findControl(elem.el, type);
 			// no render was found ?
 			if (!ReactComp) {
 				continue;
@@ -167,7 +217,7 @@ export default class Form extends React.Component {
 			const compErrors = this.propertyErrors(elem.property, errors);
 
 			// create the component
-			const comp = <ReactComp element={elem} doc={doc} errors={compErrors} />;
+			const comp = <ReactComp element={new Element(elem, doc)} doc={doc} errors={compErrors} />;
 
 			// has information about size ?
 			if (elem.size) {
@@ -237,7 +287,7 @@ class RowInfo {
 	 */
 	fitSize(size) {
 		const col = this.size;
-		if (!size) {
+		if (!size || size.newLine) {
 			return false;
 		}
 
@@ -273,6 +323,16 @@ class RowInfo {
 /**
  * List of components by its element name
  */
-const components = {
-	field: Field
+const controls = {
 };
+
+/**
+ * List of field types by name
+ */
+const typeHandlers = {};
+
+/**
+ * Register types and controls
+ */
+Form.registerType(commonTypes);
+Form.registerControl(FieldControl, true);
