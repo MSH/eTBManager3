@@ -1,7 +1,7 @@
 
 import { TB_SET } from '../core/actions';
 import { app } from '../core/app';
-import { authenticate, isAuthenticated } from '../core/session';
+import { authenticate, isAuthenticated, initSession } from './session';
 
 var view;
 
@@ -13,6 +13,10 @@ export function init() {
 			var FormExtension = require('./form-ext/registration');
 
 			FormExtension.register();
+
+			// initialize session
+			initSession();
+
 
 			// check if user was already authenticated, to avoid multiple requests to the server
 			// of data already requested

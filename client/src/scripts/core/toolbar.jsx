@@ -22,9 +22,9 @@ export default class Toolbar extends React.Component {
         app.remove(this._onAppChange);
     }
 
-    _onAppChange(action) {
+    _onAppChange(action, data) {
         if (action === TB_SET) {
-            this.forceUpdate();
+            this.setState({ toolbarContent: data.toolbarContent });
         }
     }
 
@@ -35,7 +35,7 @@ export default class Toolbar extends React.Component {
             </a>
         );
 
-        var state = app.getState();
+        var state = this.state || {};
 
         const items = (state.toolbarContent && state.toolbarContent(app)) || <Nav navbar />;
 

@@ -24,7 +24,7 @@ module.exports = config.languages.prod.map( function(lang) {
         context: contextPath,
 
         output: {
-            filename: 'main.js',
+            filename: 'app.js',
             path: path.join( outPath, 'scripts', lang),
             publicPath: '/scripts/' + lang + '/'
         },
@@ -33,9 +33,8 @@ module.exports = config.languages.prod.map( function(lang) {
         debug: true,
         devtool: false,
         entry: [
-            path.join(contextPath, 'scripts', config.mainScript)
+            path.join(contextPath, 'scripts', config.mainScript),
         ],
-
 
         stats: {
             colors: true,
@@ -96,6 +95,11 @@ module.exports = config.languages.prod.map( function(lang) {
 
         plugins: [
             new webpack.NoErrorsPlugin(),
+            new webpack.DefinePlugin({
+                __DEV__: false,
+                'process.env.NODE_ENV': '"production"'
+            }),
+//            new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'../vendor.js'),
             new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
             new I18nPlugin(messages)
         ]

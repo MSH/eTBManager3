@@ -1,4 +1,5 @@
-import { format } from './utils';
+
+import msgs from './messages';
 
 const emailPattern = /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
 const passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
@@ -48,28 +49,28 @@ function validateValue(value, model, data) {
 
     if (empty) {
         if (model.required) {
-            return __('NotNull');
+            return msgs.NotNull;
         }
         return null;
     }
 
     if (typeof value === 'string') {
         if (model.min && value.length < model.min) {
-            return format(__('validation.client.min'), model.min);
+            return msgs.minValue(model.min);
         }
 
         if (model.max && value.length > model.max) {
-            return format(__('validation.client.max'), model.max);
+            return msgs.maxValue(model.max);
         }
     }
 
     // check for valid e-mail address
     if (model.email && !emailPattern.test(value)) {
-        return __('NotValidEmail');
+        return msgs.NotValidEmail;
     }
 
     if (model.password && !passwordPattern.test(value)) {
-        return __('NotValidPassword');
+        return msgs.NotValidPassword;
     }
 
     if (model.validate) {

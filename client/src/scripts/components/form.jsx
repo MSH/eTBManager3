@@ -208,6 +208,9 @@ export default class Form extends React.Component {
 		for (let i = 0; i < layout.length; i++) {
 			const elem = layout[i];
 			const type = typeHandlers[elem.type];
+			if (!type) {
+				throw new Error('Type not found: ' + elem.type);
+			}
 			const ReactComp = this.findControl(elem.el, type);
 			// no render was found ?
 			if (!ReactComp) {

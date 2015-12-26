@@ -1,7 +1,25 @@
 
 import { server } from '../commons/server';
-import { LOGOUT, AUTHENTICATED } from './actions';
-import { app } from './app';
+import { LOGOUT, AUTHENTICATED } from '../core/actions';
+import { app } from '../core/app';
+
+/**
+ * Initialize the session module by wiring the session to the app action dispatcher
+ * @return {[type]} [description]
+ */
+export function initSession() {
+	app.add(actionHandler);
+}
+
+function actionHandler(act, data) {
+	if (act === AUTHENTICATED) {
+		return data;
+	}
+
+	if (act === LOGOUT) {
+		return { session: null };
+	}
+}
 
 /**
  * Check if user was already authenticated
@@ -22,25 +40,6 @@ export function hasPerm(perm) {
 	return session !== null && (session.administrator || session.indexOf(perm) >= 0);
 }
 
-/**
- * Perform login into the system. Returns a promise that will indicate if user
- * @param  {String} user the user account
- * @param  {String} pwd  the user password
- * @return {Promise}      Promise that will be resolved with the authentication token, or null if failed
- */
-export function login(user, pwd) {
-	return server.post('/api/auth/login', { username: user, password: pwd })
-	.then(data => {
-		if (!data.success) {
-			return null;
-		}
-
-		// register the authentication token in the cookies
-		const authToken = data.authToken;
-		window.app.setCookie('autk', authToken);
-		return authToken;
-	});
-}
 
 /**
  * Perform a user logout in the system, forcing him to login again
@@ -58,7 +57,7 @@ export function logout() {
 			window.app.setCookie('autk', null);
 
 			// inform the system about the logout
-			app.dispatch(LOGOUT, { session: null });
+			app.dispatch(LOGOUT);
 		});
 	}
 

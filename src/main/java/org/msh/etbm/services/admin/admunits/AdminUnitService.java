@@ -118,7 +118,31 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         return aures;
     }
 
+    @Override
+    protected void saveEntity(AdministrativeUnit entity) {
+        boolean isNew = entity.getId() == null;
 
+        super.saveEntity(entity);
+
+        // update number of children in the parent administrative unit
+        if (isNew && entity.getParent() != null) {
+            entityManager.createQuery("update AdministrativeUnit set unitsCount = unitsCount + 1 where id = :id")
+                    .setParameter("id", entity.getParent().getId())
+                    .executeUpdate();
+        }
+    }
+
+    @Override
+    protected void deleteEntity(AdministrativeUnit entity) {
+        super.deleteEntity(entity);
+
+        // update number of children in the parent administrative unit
+        if (entity.getParent() != null) {
+            entityManager.createQuery("update AdministrativeUnit set unitsCount = unitsCount - 1 where id = :id")
+                    .setParameter("id", entity.getParent().getId())
+                    .executeUpdate();
+        }
+    }
 
     /**
      * This method is override because calling 'generateNewMethod' from prepareToSave, an entityManager.flush()

@@ -20,6 +20,9 @@ export default class TreeView extends React.Component {
 		if (props.root) {
 			this.state = { root: this.createNodes(null, props.root) };
 		}
+		else {
+			this.state = {};
+		}
 	}
 
 	componentDidMount() {
@@ -50,6 +53,21 @@ export default class TreeView extends React.Component {
 			addNode: (parent, item) => {
 				const pnode = parent ? self.findNode(parent) : null;
 				const cnode = self.createNode(pnode, item);
+
+				// children are loaded ?
+				if (pnode && !pnode.leaf && !pnode.children) {
+					// if no, just load them and refresh it
+					self.expandNode(pnode);
+					return;
+				}
+
+				// check if children are initialized
+				if (pnode && !pnode.children) {
+					pnode.children = [];
+					pnode.state = 'expanded';
+					pnode.leaf = false;
+				}
+
 				const children = pnode ? pnode.children : self.getRoots();
 				children.push(cnode);
 				self.forceUpdate();
@@ -362,10 +380,6 @@ export default class TreeView extends React.Component {
 	 * @return {array} Array of objects with information about the nodes
 	 */
 	getRoots() {
-		// if (this.props.root) {
-		// 	return this.props.root;
-		// }
-
 		return this.state ? this.state.root : null;
 	}
 

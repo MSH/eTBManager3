@@ -8,7 +8,7 @@ import { Collapse, Alert } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
 import Form from '../../components/form';
 import TableView from './tableview';
-import { hasPerm } from '../../core/session';
+import { hasPerm } from '../session';
 import WaitIcon from '../../components/wait-icon';
 import MessageDlg from '../../components/message-dlg';
 
@@ -24,6 +24,7 @@ export default class CrudView extends React.Component {
 		this.handleMenuCmd = this.handleMenuCmd.bind(this);
 		this.closeConfirm = this.closeConfirm.bind(this);
 	}
+
 
 	/**
 	 * Called when the new button is clicked
@@ -62,14 +63,19 @@ export default class CrudView extends React.Component {
 		const self = this;
 		const doc = this.state.doc;
 		const crud = this.props.crud;
+		const isNew = doc.id;
 
-		const promise = doc.id ? crud.update(doc.id, doc) : crud.create(doc);
+		const promise = isNew ? crud.update(doc.id, doc) : crud.create(doc);
 
 		return promise
-			.then(() => self.setState({ editing: false,
+			.then(() => {
+				self.setState({ editing: false,
 				table: null,
 				doc: null,
-				message: doc.id ? __('default.entity_updated') : __('default.entity_created') }));
+				message: doc.id ? __('default.entity_updated') : __('default.entity_created') });
+
+//				app.dispatch(isNew ? CRUD_CREATE : CRUD_UPDATE, );
+			});
 	}
 
 	edit(item) {
@@ -114,7 +120,7 @@ export default class CrudView extends React.Component {
 	fetchTable() {
 		const self = this;
 		this.props.crud.query({ rootUnits: true })
-		.then(result => self.setState({ table: result }));
+			.then(result => self.setState({ table: result }));
 	}
 
 	/**

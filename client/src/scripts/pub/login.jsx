@@ -4,7 +4,7 @@ import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
 import { Card, AsyncButton } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { app } from '../core/app';
-import { login } from '../core/session';
+import { server } from '../commons/server';
 
 
 /**
@@ -52,7 +52,7 @@ export default class Login extends React.Component {
         const self = this;
 
         // request login to the server
-        login(val.user, val.pwd)
+        this.login(val.user, val.pwd)
         .then(data => {
             if (data) {
                 app.goto('/sys/home/index');
@@ -62,6 +62,27 @@ export default class Login extends React.Component {
             }
         });
     }
+
+    /**
+     * Perform login into the system. Returns a promise that will indicate if user
+     * @param  {String} user the user account
+     * @param  {String} pwd  the user password
+     * @return {Promise}      Promise that will be resolved with the authentication token, or null if failed
+     */
+    login(user, pwd) {
+        return server.post('/api/auth/login', { username: user, password: pwd })
+        .then(data => {
+            if (!data.success) {
+                return null;
+            }
+
+            // register the authentication token in the cookies
+            const authToken = data.authToken;
+            window.app.setCookie('autk', authToken);
+            return authToken;
+        });
+    }
+
 
     /**
      * Render the component

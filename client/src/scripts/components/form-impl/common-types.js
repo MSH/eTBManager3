@@ -1,6 +1,6 @@
 
-import { setValue, format } from '../../commons/utils';
-import msgs from './messages';
+import { setValue } from '../../commons/utils';
+import msgs from '../../commons/messages';
 
 
 const emailPattern = /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
@@ -15,11 +15,11 @@ export default [
 		type: 'string',
 		validate: function(elem, value, dm) {
 			if (elem.min && value.length < elem.min) {
-				return format(__('validation.client.min'), elem.min);
+				return msgs.minValue(elem.min);
 			}
 
 			if (elem.max && value.length > elem.max) {
-				return format(__('validation.client.max'), elem.max);
+				return msgs.maxValue(elem.max);
 			}
 
 			if (elem.trim) {
@@ -34,7 +34,7 @@ export default [
 		type: 'email',
 		validate: function(elem, value) {
 			if (!emailPattern.test(value)) {
-				return __('NotValidEmail');
+				return msgs.NotValidEmail;
 			}
 		}
 	},
@@ -45,7 +45,7 @@ export default [
 		type: 'password',
 		validate: function(elem, value) {
 			if (!passwordPattern.test(value)) {
-				return __('NotValidPassword');
+				return msgs.NotValidPassword;
 			}
 		}
 	},
@@ -53,7 +53,7 @@ export default [
 	 * Number validator
 	 */
 	{
-		type: 'number',
+		type: ['number', 'int', 'float'],
 		validate: function(elem, value, dm) {
 			if (isNaN(value)) {
 				return msgs.NotValid;

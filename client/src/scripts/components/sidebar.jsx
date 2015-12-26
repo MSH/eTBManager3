@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
-import { hasPerm } from '../core/session';
 
 // load style
 import './sidebar.less';
@@ -22,10 +21,7 @@ export default class Sidebar extends React.Component {
 
     render() {
 		// get the items to fill in the sidebar
-		let items = this.props.items || [];
-
-		// remove items with no permission
-		items = items.filter(item => item.perm && !hasPerm(item.perm) ? null : item);
+		const items = this.props.items || [];
 
         let count = 0;
 

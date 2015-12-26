@@ -3,6 +3,8 @@
  */
 
 import { server } from './server';
+import { app } from '../core/app';
+import { DOC_CREATE, DOC_UPDATE, DOC_DELETE } from '../core/actions';
 
 const API_PREFIX = '/api/tbl/';
 
@@ -24,6 +26,10 @@ export default class CRUD {
 			if (res.errors) {
 				return Promise.reject(res.errors);
 			}
+
+			// inform application about new document
+			app.dispatch(DOC_CREATE, { type: this.table, doc: req, id: res.result });
+
 			return res.result;
 		});
 	}
@@ -57,6 +63,9 @@ export default class CRUD {
 				return Promise.reject(res);
 			}
 
+			// inform application about document updated
+			app.dispatch(DOC_UPDATE, { type: this.table, doc: data, id: id });
+
 			return res.result;
 		});
 	}
@@ -67,7 +76,17 @@ export default class CRUD {
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
 	delete(id) {
-		return server.delete(API_PREFIX + this.table + '/' + id);
+		return server.delete(API_PREFIX + this.table + '/' + id)
+		.then(res => {
+			if (!res.success) {
+				return Promise.reject(res);
+			}
+
+			// inform application about deleted document
+			app.dispatch(DOC_DELETE, { type: this.table, id: id });
+
+			return res.result;
+		});
 	}
 
 	/**

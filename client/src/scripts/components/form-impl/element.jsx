@@ -2,7 +2,7 @@
 import React from 'react';
 import { getValue, setValue } from '../../commons/utils';
 import { app } from '../../core/app';
-import msgs from './messages';
+import msgs from '../../commons/messages';
 import Form from '../form';
 
 /**
@@ -104,7 +104,15 @@ export default class Element {
 		let opts = [];
 		opts.push({ id: '-', name: '-' });
 		if (lst.constructor !== Array && typeof lst === 'object') {
-			Object.keys(lst).forEach(key => opts.push({ id: key, name: lst[key] }));
+			const keys = Object.keys(lst);
+			if (keys.length === 2 && lst.from && lst.to) {
+				for (var i = lst.from; i <= lst.to; i++) {
+					opts.push({ id: i.toString(), name: i.toString() });
+				}
+			}
+			else {
+				keys.forEach(key => opts.push({ id: key, name: lst[key] }));
+			}
 		}
 		else {
 			opts = opts.concat(lst);

@@ -124,6 +124,6 @@
      */
     var jsElem = document.createElement("script");
     jsElem.type = "application/javascript";
-    jsElem.src = data.contextPath + "/scripts/" + lang + "/main.js";
+    jsElem.src = data.contextPath + "/scripts/" + lang + "/app.js";
     document.body.appendChild(jsElem);
 })();

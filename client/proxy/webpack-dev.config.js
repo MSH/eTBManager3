@@ -26,7 +26,7 @@ module.exports = config.languages.dev.map( function(lang) {
         context: path.join(__dirname, '..', config.clientSrc),
 
         output: {
-            filename: 'main.js',
+            filename: 'app.js',
             path: path.join(__dirname, config.distPath, 'scripts', lang),
             publicPath: '/scripts/' + lang + '/'
         },
@@ -105,7 +105,10 @@ module.exports = config.languages.dev.map( function(lang) {
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoErrorsPlugin(),
-            new I18nPlugin(messages)
+            new I18nPlugin(messages),
+            new webpack.DefinePlugin({
+                __DEV__: true
+            })
         ]
     }
 });

@@ -5,9 +5,11 @@ import { Card } from '../../components/index';
 import CRUD from '../../commons/crud';
 import TreeView from '../../components/tree-view';
 import { app } from '../../core/app';
-import { hasPerm } from '../../core/session';
+import { hasPerm } from '../session';
 import MessageDlg from '../../components/message-dlg';
 import FormDialog from '../../components/form-dialog';
+import CountryStructures from './country-structures';
+import { DOC_CREATE, DOC_UPDATE, DOC_DELETE } from '../../core/actions';
 
 
 const crud = new CRUD('adminunit');
@@ -29,9 +31,39 @@ export class AdmUnits extends React.Component {
 		this.onMenuSel = this.onMenuSel.bind(this);
 		this.onInitTree = this.onInitTree.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
+		this.onCsChange = this.onCsChange.bind(this);
+		this.state = { root: this.createRoot() };
+	}
 
+	componentDidMount() {
+		app.add(this.onCsChange);
+	}
+
+	componentWillUnmount() {
+		app.remove(this.onCsChange);
+	}
+
+	/**
+	 * Create the root object of the tree view
+	 * @return {[type]} [description]
+	 */
+	createRoot() {
 		const session = app.getState().session;
-		this.root = { name: session.workspaceName, id: session.workspaceId, level: 0 };
+		const key = this.state && this.state.root ? this.state.root.key + 1 : 1;
+		return { name: session.workspaceName, id: session.workspaceId, level: 0, key: key };
+	}
+
+	/**
+	 * Called by the app if the list of country structures is modified
+	 * (user editing the country structure list)
+	 * @param  {[type]} act  [description]
+	 * @param  {[type]} data [description]
+	 * @return {[type]}      [description]
+	 */
+	onCsChange(act, data) {
+		if ((act === DOC_CREATE || act === DOC_UPDATE || act === DOC_DELETE) && (data.type === 'countrystructure')) {
+			this.setState({ cslist: null, root: this.createRoot() });
+		}
 	}
 
 	onInitTree(handler) {
@@ -43,7 +75,7 @@ export class AdmUnits extends React.Component {
 	}
 
 	nodeInfo(item) {
-		if (item === this.root) {
+		if (item === this.state.root) {
 			return { leaf: false, expanded: true };
 		}
 		return { leaf: item.unitsCount === 0 };
@@ -54,7 +86,7 @@ export class AdmUnits extends React.Component {
 
 		// has permission to edit
 		if (hasPerm(this.props.route.data.perm + '_EDT')) {
-			btn = item === this.root ?
+			btn = item === this.state.root ?
 				<Button bsSize="small" onClick={this.addRoot}
 					pullRight>{__('action.add') + ' ' + this.csname(1)}
 				</Button> :
@@ -96,11 +128,14 @@ export class AdmUnits extends React.Component {
 		return this.state.cslist.filter(item => item.level === level);
 	}
 
+	/**
+	 * Called when user clicks on the add button of the workspace node
+	 */
 	addRoot() {
 		this.setState({ editing: true,
 			level: 1,
 			doc: { parents: { } },
-			parent: this.root });
+			parent: this.state.root });
 	}
 
 	onMenuSel(evt, key) {
@@ -121,7 +156,7 @@ export class AdmUnits extends React.Component {
 		let aux = item;
 		const parents = {};
 		let index = 0;
-		while (aux !== this.root) {
+		while (aux !== this.state.root) {
 			parents['p' + index++] = { id: aux.id, name: aux.name };
 			aux = aux.parent;
 		}
@@ -162,12 +197,16 @@ export class AdmUnits extends React.Component {
 	 * @return {[type]}        [description]
 	 */
 	deleteItem(action) {
+		const item = this.state.item;
+		this.setState({ confirm: false, item: null });
 		if (action === 'yes') {
 			const self = this;
-			return crud.delete(this.state.item.id)
-				.then(() => self.forceUpdate());
+			return crud.delete(item.id)
+				.then(() => {
+					this.tvhandler.remNode(item);
+					self.forceUpdate();
+				});
 		}
-		this.setState({ confirm: false, item: null });
 	}
 
 	/**
@@ -193,7 +232,7 @@ export class AdmUnits extends React.Component {
 	 * @return {[type]}        [description]
 	 */
 	loadNodes(parent) {
-		const qry = parent !== this.root ? { parentId: parent.id } : { rootUnits: true };
+		const qry = parent !== this.state.root ? { parentId: parent.id } : { rootUnits: true };
 
 		if (!this.state || !this.state.cslist) {
 			qry.fetchCountryStructure = true;
@@ -316,6 +355,7 @@ export class AdmUnits extends React.Component {
 		// render the view
 		return (
 			<div>
+				<CountryStructures/>
 				{
 					editing && <Collapse in transitionAppear>
 						<div>
@@ -327,8 +367,9 @@ export class AdmUnits extends React.Component {
 						</Collapse>
 				}
 				<Card title={__('admin.adminunits')}>
-					<TreeView onGetNodes={this.loadNodes}
-						root={[this.root]}
+					<TreeView key={state.root ? state.root.key : -1}
+						onGetNodes={this.loadNodes}
+						root={[state.root]}
 						innerRender={this.renderNode}
 						outerRender={this.nodeWrapper}
 						nodeInfo={this.nodeInfo}

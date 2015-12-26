@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import msgs from '../../components/form-impl/messages';
+import msgs from '../../commons/messages';
 import { app } from '../../core/app';
 
 /**
@@ -59,10 +59,12 @@ class AdminUnitControl extends React.Component {
 	}
 }
 
+
 AdminUnitControl.propTypes = {
 	element: React.PropTypes.object,
 	doc: React.PropTypes.object,
 	errors: React.PropTypes.object
 };
+
 
 export { AdminUnitControl, adminUnitType };

@@ -22,8 +22,6 @@ export class App {
 
 	constructor() {
 		this.listeners = [];
-		// create storage that will keep application state
-		this.storage = new Storage({ fetching: true });
 		// attach API to handle user session tasks
 		onRequestError(this._serverErrorHandler.bind(this));
 	}
@@ -42,7 +40,10 @@ export class App {
 	 * @param {[type]} state  The new state to be merged with the current one
 	 */
 	dispatch(action, state) {
-		this.storage.setState(action, state);
+		if (__DEV__) {
+			console.log(action, state);
+		}
+		this.storage.dispatch(action, state);
 	}
 
 	/**
@@ -71,7 +72,9 @@ export class App {
 		// call server to get system status
 		server.post('/api/sys/info?list=1', {})
 		.then(res => {
-			self.dispatch(APP_INIT, { app: res });
+			// create storage that will keep application state
+			self.storage = new Storage({ app: res });
+
 			// according to app state, go to specific module
 			switch (res.state) {
 				// if it is a new instance, go to the initialization module

@@ -15,7 +15,8 @@
     "$": false,
     "_": false,
     "require": true,
-    "__": true
+    "__": true,
+    "__DEV__": true
   },
   "plugins": [
     "react"

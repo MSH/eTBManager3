@@ -41,20 +41,31 @@ export default class Storage {
 	 * @param {String} action The action that originated the state change
 	 * @param {[type]} obj    THe state to be incorporated to the current state
 	 */
-	setState(action, obj) {
-		for (var p in obj) {
-			const val = obj[p];
-			if (val === undefined || val === null) {
-				delete this.state[p];
-			}
-			else {
-				this.state[p] = obj[p];
-			}
-		}
-
+	dispatch(action, obj) {
+		// call listeners
+		const states = [];
 		const lst = this.listeners;
+		lst.forEach(listener => {
+			const res = listener(action, obj);
+			if (res) {
+				states.push(res);
+			}
+		});
 
-		lst.forEach(listener => listener(action, obj));
+		// update state, if any
+		states.forEach(st => {
+			for (var p in st) {
+				const val = st[p];
+				if (val === undefined || val === null) {
+					delete this.state[p];
+				}
+				else {
+					this.state[p] = obj[p];
+				}
+			}
+
+
+		});
 	}
 
 	getState() {

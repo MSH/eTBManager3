@@ -8,6 +8,7 @@ import { AdmUnits } from './admunits';
 import { Sources } from './sources';
 import { Units } from './units';
 import { Substances } from './substances';
+import { hasPerm } from '../session';
 
 /**
  * List of all items displayed in the left side box
@@ -122,6 +123,10 @@ export default class Tables extends React.Component {
 		// calc selected item
 		const selItem = selroute ? selroute.data : null;
 
+		// remove items with no permission
+		const menu = items.filter(item => item.perm && !hasPerm(item.perm) ? null : item);
+
+
 		return (
 			<div>
 				<Fluidbar>
@@ -130,7 +135,7 @@ export default class Tables extends React.Component {
 				<Grid fluid>
 					<Row>
 						<Col sm={3}>
-							<Sidebar items={items} selected={selItem} onSelect={this.menuSelect} />
+							<Sidebar items={menu} selected={selItem} onSelect={this.menuSelect} />
 						</Col>
 						<Col sm={9}>
 							<div className="mtop-2x">
