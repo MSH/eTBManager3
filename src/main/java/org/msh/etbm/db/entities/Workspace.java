@@ -178,12 +178,10 @@ public class Workspace extends Synchronizable implements Displayable {
 */
 
 	
-/*
 	@Override
 	public String toString() {
-		return getName().toString();
+		return "(" + getId() + ") " + getName().toString();
 	}
-*/
 
 /*
 	public String getViewUri() {

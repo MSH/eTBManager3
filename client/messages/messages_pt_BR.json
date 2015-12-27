@@ -851,5 +851,8 @@
     "default.entity_created": "Registro criado com sucesso",
     "default.entity_deleted": "Registro excluído com sucesso",
     "default.entity_updated": "Informações atualizadas com sucesso",
-    "CountryStructure": "Estrutura do país"
+    "CountryStructure": "Estrutura do país",
+    "admin.adminunits.hidecs": "Esconder estrutura do país",
+    "admin.adminunits.showcs": "Exibir estrutura do país",
+    "validation.au.invalidparent": "UF/Município selecionado não é compatível com a unidade pai"
 }

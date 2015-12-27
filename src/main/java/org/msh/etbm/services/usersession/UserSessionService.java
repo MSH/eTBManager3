@@ -49,7 +49,9 @@ public class UserSessionService {
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());
 
         if (uw == null) {
-            throw new IllegalArgumentException("User workspace not found");
+            System.out.println("User workspace not found. user=" + login.getUser().toString() + ", workspace=" + login.getWorkspace().toString());
+            return null;
+//            throw new IllegalArgumentException("User workspace not found");
         }
 
         UserSession session = mapper.map(uw, UserSession.class);

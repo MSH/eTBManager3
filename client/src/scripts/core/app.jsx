@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import MainPage from './main-page';
 import { server, onRequestError } from '../commons/server';
 import Storage from './storage';
-import { APP_INIT, ERROR } from './actions';
+import { ERROR } from './actions';
 import { router } from '../components/router';
 
 /**

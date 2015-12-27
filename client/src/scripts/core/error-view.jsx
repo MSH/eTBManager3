@@ -11,6 +11,7 @@ export default class ErrorView extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onAppChange = this._onAppChange.bind(this);
+		this.close = this.close.bind(this);
 	}
 
     componentDidMount() {
@@ -26,9 +27,9 @@ export default class ErrorView extends React.Component {
      * @param  {[type]} action [description]
      * @return {[type]}        [description]
      */
-    _onAppChange(action) {
+    _onAppChange(action, data) {
         if (action === ERROR) {
-            this.forceUpdate();
+            this.setState(data);
         }
     }
 
@@ -37,12 +38,12 @@ export default class ErrorView extends React.Component {
      */
 	close() {
 		// clean up the error message
-		app.dispatch(ERROR, { error: null });
+		this.setState({ error: null });
 	}
 
 	render() {
-		const err = app.getState().error;
-		const show = err !== undefined;
+		const err = this.state ? this.state.error : null;
+		const show = err !== null;
 
 		return (
 			<Modal show={show} onHide={this.close} >

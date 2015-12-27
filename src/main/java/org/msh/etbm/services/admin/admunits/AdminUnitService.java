@@ -205,17 +205,28 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
     protected boolean isUnique(AdministrativeUnit au) {
         String hql = "select count(*) from AdministrativeUnit " +
                 "where workspace.id = :wsid " +
-                "and upper(name) = :name " +
-                "and countryStructure.level = :level";
+                "and upper(name) = :name ";
 
+        // set the condition to check just items from the same parent
+        if (au.getParent() != null) {
+            hql += " and parent.id = :parentid";
+        }
+        else {
+            hql += " and parent.id is null";
+        }
+
+        // if admin unit already exists, exclude it from the query
         if (au.getId() != null) {
             hql += " and id <> :id";
         }
 
         Query qry = entityManager.createQuery(hql)
                 .setParameter("wsid", getWorkspaceId())
-                .setParameter("name", au.getName().toUpperCase())
-                .setParameter("level", au.getCountryStructure().getLevel());
+                .setParameter("name", au.getName().toUpperCase());
+
+        if (au.getParent() != null) {
+            qry.setParameter("parentid", au.getParent().getId());
+        }
 
         if (au.getId() != null) {
             qry.setParameter("id", au.getId());
@@ -272,15 +283,12 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         AdministrativeUnit parent = au.getParent();
 
         if (parent == null && au.getCountryStructure().getLevel() > 1) {
-            rejectFieldException(au, "parent", "parentId must be informed for the given country structure level");
+            raiseRequiredFieldException(au, "parent");
         }
 
         // check if parent is in the same level of country structure
         if (parent != null && au.getCountryStructure().getLevel() != parent.getLevel() + 1) {
-            System.out.println("ADMIN UNIT -> " + au.getName());
-            System.out.println("COUNTRY STRUCTURE -> " + au.getCountryStructure());
-            System.out.println("PARENT -> " + parent.getName() + ", level = " + parent.getLevel());
-            rejectFieldException(au, "countryStructure", "Country structure is not compactible with parent");
+            rejectFieldException(au, "countryStructure", "validation.au.invalidparent");
         }
     }
 

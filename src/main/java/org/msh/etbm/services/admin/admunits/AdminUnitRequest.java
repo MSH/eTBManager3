@@ -24,6 +24,8 @@ public class AdminUnitRequest {
     @NotNull
     private UUID csId;
 
+    private String customId;
+
     public String getName() {
         return name;
     }
@@ -46,5 +48,13 @@ public class AdminUnitRequest {
 
     public void setCsId(UUID csId) {
         this.csId = csId;
+    }
+
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
     }
 }

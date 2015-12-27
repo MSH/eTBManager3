@@ -9,6 +9,7 @@ import { hasPerm } from '../session';
 import MessageDlg from '../../components/message-dlg';
 import FormDialog from '../../components/form-dialog';
 import CountryStructures from './country-structures';
+import Fa from '../../components/fa';
 import { DOC_CREATE, DOC_UPDATE, DOC_DELETE } from '../../core/actions';
 
 
@@ -32,6 +33,7 @@ export class AdmUnits extends React.Component {
 		this.onInitTree = this.onInitTree.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
 		this.onCsChange = this.onCsChange.bind(this);
+		this.onCsToggle = this.onCsToggle.bind(this);
 		this.state = { root: this.createRoot() };
 	}
 
@@ -88,7 +90,7 @@ export class AdmUnits extends React.Component {
 		if (hasPerm(this.props.route.data.perm + '_EDT')) {
 			btn = item === this.state.root ?
 				<Button bsSize="small" onClick={this.addRoot}
-					pullRight>{__('action.add') + ' ' + this.csname(1)}
+					pullRight><Fa icon="plus"/><span className="hidden-xs">{__('action.add') + ' ' + this.csname(1)}</span>
 				</Button> :
 				<DropdownButton id="optMenu" bsSize="small" pullRight
 					onSelect={this.onMenuSel}
@@ -112,14 +114,12 @@ export class AdmUnits extends React.Component {
 		}
 
 		return (
-			<Row key={item.name}>
-				<div className="tbl-cell">
-					<Col xs={7}>{content}</Col>
-					<Col xs={3}>{item.csName}</Col>
-					<Col xs={2}>
-						{btn}
-					</Col>
-				</div>
+			<Row key={item.name} className="tbl-cell">
+				<Col xs={7}>{content}</Col>
+				<Col xs={3}>{item.csName}</Col>
+				<Col xs={2}>
+					{btn}
+				</Col>
 			</Row>
 			);
 	}
@@ -263,19 +263,26 @@ export class AdmUnits extends React.Component {
 	onSave() {
 		const self = this;
 		const doc = this.state.doc;
+		const req = {
+			name: doc.name,
+			parentId: doc.parents && doc.parents.p0 ? doc.parents.p0.id : null,
+			csId: doc.csId
+		};
 
 		let prom;
+		doc.level = this.state.level;
+
 		// is an existing item ?
 		if (doc.id) {
-			doc.level = this.state.item.level;
-			prom = crud.update(doc.id, doc)
+			prom = crud.update(doc.id, req)
 				.then(() => self.tvhandler.updateNode(this.state.item, doc));
 		}
 		else {
-			prom = crud.create(doc)
+			prom = crud.create(req)
 				.then(res => {
 					doc.id = res;
 					doc.unitsCount = 0;
+					doc.parent = this.state.parent;
 					// get the country structure name
 					doc.csName = this.state.cslist.find(item => item.id === doc.csId).name;
 					// add to the tree
@@ -294,6 +301,14 @@ export class AdmUnits extends React.Component {
 		this.setState({ editing: false });
 	}
 
+
+	/**
+	 * Called when user wants to hide or show the country structure list
+	 * @return {[type]} [description]
+	 */
+	onCsToggle() {
+		this.setState({ showcs: !this.state.showcs });
+	}
 
 	/**
 	 * Return the editor used for add or edit an administrative unit
@@ -337,6 +352,9 @@ export class AdmUnits extends React.Component {
 		};
 	}
 
+	/**
+	 * Render the component
+	 */
 	render() {
 		const state = this.state ? this.state : {};
 
@@ -352,10 +370,25 @@ export class AdmUnits extends React.Component {
 
 		const editing = state.editing;
 
+		const btntitle = this.state.showcs ? __('admin.adminunits.hidecs') : __('admin.adminunits.showcs');
+
+		const header = (
+			<Row>
+				<Col sm={7}>
+					<h4>{__('admin.adminunits')}</h4>
+				</Col>
+				<Col sm={5}>
+					<Button block onClick={this.onCsToggle}>{btntitle}</Button>
+				</Col>
+			</Row>
+			);
+
 		// render the view
 		return (
 			<div>
-				<CountryStructures/>
+				{
+					state.showcs && <CountryStructures/>
+				}
 				{
 					editing && <Collapse in transitionAppear>
 						<div>
@@ -366,7 +399,7 @@ export class AdmUnits extends React.Component {
 						</div>
 						</Collapse>
 				}
-				<Card title={__('admin.adminunits')}>
+				<Card header={header}>
 					<TreeView key={state.root ? state.root.key : -1}
 						onGetNodes={this.loadNodes}
 						root={[state.root]}
