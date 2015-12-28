@@ -178,7 +178,8 @@ export class AdmUnits extends React.Component {
 			this.setState({ editing: true,
 				level: item.level,
 				doc: res,
-				item: item
+				item: item,
+				parent: item.parent
 			});
 		});
 	}
@@ -271,6 +272,7 @@ export class AdmUnits extends React.Component {
 
 		let prom;
 		doc.level = this.state.level;
+		doc.parent = this.state.parent;
 
 		// is an existing item ?
 		if (doc.id) {
@@ -282,7 +284,6 @@ export class AdmUnits extends React.Component {
 				.then(res => {
 					doc.id = res;
 					doc.unitsCount = 0;
-					doc.parent = this.state.parent;
 					// get the country structure name
 					doc.csName = this.state.cslist.find(item => item.id === doc.csId).name;
 					// add to the tree
