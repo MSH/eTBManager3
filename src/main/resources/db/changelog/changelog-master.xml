@@ -56,7 +56,9 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="COUNTRYSTRUCTURE_ID" type="${type.id}"/>
+            <column name="COUNTRYSTRUCTURE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="PARENT_ID" type="${type.id}"/>
         </createTable>
     </changeSet>
