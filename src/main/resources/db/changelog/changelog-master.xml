@@ -71,7 +71,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="${type.name}"/>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="endAge" type="INT"/>
         </createTable>
     </changeSet>
@@ -96,7 +98,9 @@
             <column name="PRODUCT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="MEDICINE_ID" type="${type.id}"/>
         </createTable>
     </changeSet>
@@ -241,7 +245,9 @@
             </column>
             <column name="STRUCTURE_LEVEL" type="INT"/>
             <column name="name" type="${type.name}"/>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -537,7 +543,9 @@
             <column name="date" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="workspace_id" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="content" type="${type.text}"/>
         </createTable>
     </changeSet>
@@ -697,7 +705,9 @@
             <column name="shipInstitutionName" type="VARCHAR(200)"/>
             <column name="shipZipCode" type="VARCHAR(50)"/>
             <column name="SHIP_ADMINUNIT_ID" type="${type.id}"/>
-            <column name="workspace_id" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -1016,7 +1026,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="data" type="${type.text}"/>
-            <column name="workspace_id" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -1039,7 +1051,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="PATTERN_NAME" type="VARCHAR(100)"/>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="criteria" type="INT"/>
         </createTable>
     </changeSet>
@@ -1056,7 +1070,9 @@
             <column name="seq_name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -1187,7 +1203,9 @@
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
             </column>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
             <column name="sqlCondition" type="${type.text}"/>
             <column name="consistencyCheck" type="${type.boolean}">
                 <constraints nullable="false"/>
@@ -1286,7 +1304,9 @@
             <column name="lastBmuDateTbRegister" type="date"/>
             <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
             <column name="movedSecondLineTreatment" type="${type.boolean}"/>
-            <column name="WORKSPACE_ID" type="${type.id}"/>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 
@@ -1721,6 +1741,7 @@
             <column name="maxStockOnHand" type="INT"/>
             <column name="suspectCaseNumber" type="INT"/>
             <column name="treatMonitoringInput" type="INT"/>
+            <column name="customId" type="${type.customId}" />
         </createTable>
     </changeSet>
 

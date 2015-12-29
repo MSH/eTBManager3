@@ -36,4 +36,15 @@ public class WorkspaceService extends EntityService<Workspace> {
 
         return builder.createQueryResult();
     }
+
+    @Override
+    protected void mapRequest(Object request, Workspace entity) {
+        super.mapRequest(request, entity);
+        WorkspaceRequest req = (WorkspaceRequest)request;
+    }
+
+    @Override
+    protected void saveEntity(Workspace entity) {
+        super.saveEntity(entity);
+    }
 }

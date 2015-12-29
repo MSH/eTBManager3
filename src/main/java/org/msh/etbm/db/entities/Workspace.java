@@ -101,6 +101,7 @@ public class Workspace extends Synchronizable implements Displayable {
 	 */
 	private TreatMonitoringInput treatMonitoringInput;
 
+    private String customId;
 
 /*
 	public WeeklyFrequency[] getWeeklyFrequencies() {
@@ -499,5 +500,13 @@ public class Workspace extends Synchronizable implements Displayable {
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
     }
 }
