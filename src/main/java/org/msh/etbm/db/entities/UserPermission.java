@@ -9,18 +9,15 @@ import java.util.UUID;
 
 @Entity
 @Table(name="userpermission")
-public class UserPermission implements Serializable, Comparable<UserPermission> {
-	private static final long serialVersionUID = 7565244271956307412L;
+public class UserPermission  {
 
 	@Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
     private UUID id;
 
-	@ManyToOne
-	@JoinColumn(name="ROLE_ID")
 	@NotNull
-	private UserRole userRole;
+	private String permission;
 
 	@ManyToOne
 	@JoinColumn(name="PROFILE_ID")
@@ -56,14 +53,6 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 		this.id = id;
 	}
 
-	public UserRole getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
-
 	public UserProfile getUserProfile() {
 		return userProfile;
 	}
@@ -72,13 +61,15 @@ public class UserPermission implements Serializable, Comparable<UserPermission> 
 		this.userProfile = userProfile;
 	}
 
-	public int compareTo(UserPermission userPermission) {
-		return (((getUserRole() != null) && (userPermission.getUserRole() != null))? 
-				userRole.compareTo(userPermission.getUserRole()): 
-				0);
-	}
+    public String getPermission() {
+        return permission;
+    }
 
-	/**
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    /**
 	 * @return the canChange
 	 */
 	public boolean isCanChange() {

@@ -5,7 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.products.*;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.msh.etbm.web.api.authentication.Permissions;
+import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.ADMIN_PRODUCTS_EDT})
+@Authenticated(permissions = {Permissions.TABLE_PRODUCTS_EDT})
 public class ProductsREST {
     
     @Autowired

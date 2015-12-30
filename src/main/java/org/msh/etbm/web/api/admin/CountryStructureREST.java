@@ -8,7 +8,7 @@ import org.msh.etbm.services.admin.admunits.CountryStructureRequest;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.msh.etbm.web.api.authentication.Permissions;
+import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @RequestMapping("/api/tbl")
 @RestController
-@Authenticated(permissions = {Permissions.ADMIN_ADMUNITS_EDT})
+@Authenticated(permissions = {Permissions.TABLE_ADMUNITS_EDT})
 public class CountryStructureREST {
 
     @Autowired

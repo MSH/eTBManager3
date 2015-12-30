@@ -10,6 +10,8 @@ import org.msh.etbm.db.repositories.*;
 import org.msh.etbm.services.init.InitializationException;
 import org.msh.etbm.services.init.RegisterWorkspaceRequest;
 import org.msh.etbm.services.init.RegisterWorkspaceService;
+import org.msh.etbm.services.permissions.Permission;
+import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.services.sys.ConfigurationService;
 import org.msh.etbm.services.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     CountryStructureRepository countryStructureRepository;
 
     @Autowired
-    UserRoleRepositories userRoleRepositories;
+    Permissions permissions;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -277,12 +279,12 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         }
     }
 
+
     /**
      * Create the user profiles
      */
     private void createProfiles() {
-        // load all roles
-        roles = Lists.newArrayList(userRoleRepositories.findAll());
+        List<Permission> lst = permissions.getList();
 
         for (UserProfileTemplate t: template.getProfiles()) {
             UserProfile u = new UserProfile();
@@ -326,20 +328,12 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
             roleName = roleName.substring(1);
         }
 
-        // search for role
-        for (UserRole r: roles) {
-            if (r.getName().equals(roleName)) {
-                perm.setUserRole(r);
-                break;
-            }
-        }
-
-        // user role not found ?
-        if (perm.getUserRole() == null) {
+        Permission appPerm = permissions.find(roleName);
+        if (appPerm == null) {
             throw new RuntimeException("User role not defined: " + roleName + " profile: " + profile.getName());
-        }
+        };
 
-        if (perm.getUserRole().isChangeable()) {
+        if (appPerm.isChangeable()) {
             perm.setCanChange(canChange);
         }
         perm.setCanExecute(true);

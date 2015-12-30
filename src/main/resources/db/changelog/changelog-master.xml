@@ -1635,7 +1635,7 @@
             <column name="PROFILE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="ROLE_ID" type="int">
+            <column name="permission" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1670,6 +1670,7 @@
     </changeSet>
 
 
+    <!--
     <changeSet author="rmemoria" id="1433264274749-74">
         <createTable tableName="userrole">
             <column name="id" type="int" autoIncrement="true">
@@ -1688,6 +1689,7 @@
             <column name="messageKey" type="VARCHAR(100)"/>
         </createTable>
     </changeSet>
+    -->
 
 
     <changeSet author="rmemoria" id="1433264274749-75">
@@ -2277,9 +2279,11 @@
     <changeSet author="rmemoria" id="1433264274749-254">
         <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userpermission" constraintName="FK974CAFDA7730850C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-255">
         <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="userpermission" constraintName="FK974CAFDAB93F8B48" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userrole"/>
     </changeSet>
+    -->
     <changeSet author="rmemoria" id="1433264274749-256">
         <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="casesideeffect" constraintName="FK9D7338D896FA537" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>

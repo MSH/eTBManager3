@@ -13,7 +13,7 @@ import javax.persistence.PersistenceContext;
  * the list of user roles
  * Created by rmemoria on 2/9/15.
  */
-@Component
+//@Component
 public class InitializeDB implements ApplicationListener<ContextRefreshedEvent> {
 
     @PersistenceContext

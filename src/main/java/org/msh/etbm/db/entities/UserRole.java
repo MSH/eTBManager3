@@ -21,8 +21,8 @@ import javax.validation.constraints.NotNull;
  * @author Ricardo Memoria
  */
 
-@Entity
-@Table(name="userrole")
+//@Entity
+//@Table(name="userrole")
 public class UserRole {
 
 	@Id

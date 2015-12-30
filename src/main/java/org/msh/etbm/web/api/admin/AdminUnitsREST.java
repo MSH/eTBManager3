@@ -5,7 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.admunits.*;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.msh.etbm.web.api.authentication.Permissions;
+import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +21,14 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.ADMIN_ADMUNITS_EDT})
+@Authenticated(permissions = {Permissions.TABLE_ADMUNITS_EDT})
 public class AdminUnitsREST {
 
     @Autowired
     AdminUnitService adminUnitService;
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
-    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
+    @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
         AdminUnitItemData data = adminUnitService.findOne(id, AdminUnitDetailedData.class);
         return new StandardResult(data, null, data != null);
@@ -53,7 +53,7 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST)
-    @Authenticated(permissions = {Permissions.ADMIN_ADMUNITS})
+    @Authenticated(permissions = {Permissions.TABLE_ADMUNITS})
     public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQuery query) {
         return adminUnitService.findMany(query);
     }

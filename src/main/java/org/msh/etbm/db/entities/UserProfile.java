@@ -26,9 +26,9 @@ public class UserProfile extends WorkspaceEntity implements Displayable {
 	private String customId;
 
 
-	public UserPermission permissionByRole(UserRole role) {
+	public UserPermission permissionByPermissionID(String permissionId) {
 		for (UserPermission up: getPermissions()) {
-			if (up.getUserRole().equals(role)) {
+			if (up.getPermission().equals(permissionId)) {
                 return up;
 			}
 		}

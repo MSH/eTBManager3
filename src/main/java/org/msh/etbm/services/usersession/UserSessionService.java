@@ -4,6 +4,8 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.CacheConfiguration;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.*;
+import org.msh.etbm.services.permissions.Permission;
+import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +32,9 @@ public class UserSessionService {
 
     @Autowired
     DozerBeanMapper mapper;
+
+    @Autowired
+    Permissions permissions;
 
 
     /**
@@ -96,14 +101,19 @@ public class UserSessionService {
         List<String> lst = new ArrayList<>();
 
         for (UserProfile prof: uw.getProfiles()) {
-            for (UserPermission perm: prof.getPermissions()) {
-                String roleName = perm.getUserRole().getName();
-                lst.add(roleName);
+            for (UserPermission up: prof.getPermissions()) {
+                String permID = up.getPermission();
+                Permission perm = permissions.find(permID);
 
-                // can change ?
-                if (perm.getUserRole().isChangeable() && perm.isCanChange()) {
-                    lst.add(roleName + "_EDT");
+                if (perm != null) {
+                    lst.add(permID);
+
+                    // can change ?
+                    if (perm.isChangeable() && up.isCanChange()) {
+                        lst.add(permID + "_EDT");
+                    }
                 }
+
             }
         }
 
