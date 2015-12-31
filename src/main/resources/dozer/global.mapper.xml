@@ -38,7 +38,7 @@
         </field>
 
         <field custom-converter-id="adminunit">
-            <a>adminUnit</a>
+            <a>unit.address.adminUnit</a>
             <b>adminUnit</b>
         </field>
 
