@@ -246,6 +246,7 @@ export default class TreeView extends React.Component {
 	resolveIcon(node) {
 		const p = this.props;
 
+		let waiting = false;
 		let icon;
 		if (node.leaf) {
 			icon = p.iconLeaf;
@@ -253,6 +254,7 @@ export default class TreeView extends React.Component {
 		else {
 			switch (node.state) {
 				case 'expanding': icon = p.iconWait;
+					waiting = true;
 					break;
 				case 'collapsed': icon = p.iconPlus;
 					break;
@@ -266,7 +268,7 @@ export default class TreeView extends React.Component {
 		}
 
 		if (typeof icon === 'string') {
-			icon = <Fa icon={icon} size={p.size} />;
+			icon = <Fa icon={icon} size={p.size} spin={waiting} />;
 		}
 
 		return icon;

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
-import { hasPerm, logout } from './session';
+import { hasPerm, logout, changeWorkspace } from './session';
 
 // logs the user out of the system
 function cmdLogout() {
@@ -25,6 +25,10 @@ function adminClick(evt, key) {
         case 33: return app.goto('/sys/admin/settings');
         default: return -1;
     }
+}
+
+function wsChange(evt, key) {
+    changeWorkspace(key);
 }
 
 /**
@@ -90,7 +94,7 @@ export default function() {
                 <NavItem className="hsmall">
                     {search}
                 </NavItem>
-                <NavDropdown id="ddWs" eventKey={3} title={workspace} className="nav-item-icon">
+                <NavDropdown id="ddWs" eventKey={3} title={workspace} className="nav-item-icon" onSelect={wsChange}>
                 {
                     session.workspaces.map(ws =>
                         <MenuItem key={ws.id} eventKey={ws.id}>

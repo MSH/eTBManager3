@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,13 +40,43 @@ public class UserSessionService {
 
 
     /**
+     * Register the new user session
+     * @param userWorkspaceId the ID of the user workspace
+     * @param ipAddress the ip address of the client requesting login
+     * @param application the name of the client application requesting login. Usually it is the browser agent
+     * @return authentication token, to be used in future authentications
+     */
+    @Transactional
+    public UUID beginSession(UUID userWorkspaceId, String ipAddress, String application) {
+        UserWorkspace uw = entityManager.find(UserWorkspace.class, userWorkspaceId);
+        if (uw == null) {
+            throw new EntityNotFoundException("Workspace not found");
+        }
+
+        // register new user session
+        UserLogin login = new UserLogin();
+        login.setWorkspace(uw.getWorkspace());
+        login.setLoginDate(new Date());
+        login.setIpAddress(ipAddress);
+        login.setApplication(application);
+        login.setUser(uw.getUser());
+
+        // save the user session
+        entityManager.persist(login);
+        entityManager.flush();
+
+        return login.getId();
+    }
+
+
+    /**
      * Return the user session information by its authentication token
      * @param authToken the authentication token
      * @return instance of the user session, or null if authentication token is invalid
      */
     @Transactional
     @Cacheable(value = CacheConfiguration.CACHE_SESSION_ID, unless = "#result == null")
-    public UserSession getSessionByAuthToken(UUID authToken) {
+    public UserSession recoverSession(UUID authToken) {
         UserLogin login = entityManager.find(UserLogin.class, authToken);
         if (login == null) {
             return null;
@@ -72,19 +104,52 @@ public class UserSessionService {
     }
 
 
+    /**
+     * End a session by specifying its logout date. Once closed, the session cannot be recovered anymore
+     * @param authToken the authentication token assigned to the session
+     * @return
+     */
+    @Transactional
+    public boolean endSession(UUID authToken) {
+        // recover the user login assigned to the authentication token
+        List<UserLogin> lst = entityManager
+                .createQuery("from UserLogin  where id = :id and logoutDate is null")
+                .setParameter("id", authToken)
+                .getResultList();
+
+        if (lst.size() == 0) {
+            return false;
+        }
+
+        UserLogin login = lst.get(0);
+
+        // register the logout date
+        Date logoutDate = new Date();
+
+        login.setLogoutDate(logoutDate);
+        login.setLastAccess(logoutDate);
+
+        entityManager.persist(login);
+        entityManager.flush();
+        return true;
+    }
+
+
     @Transactional
     public UserSessionResponse createClientResponse(UserSession userSession) {
         UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
 
-        List<Workspace> lst = entityManager
-                .createQuery("select uw.workspace from UserWorkspace uw where uw.user.id = :id")
+        List<Object[]> lst = entityManager
+                .createQuery("select uw.id, uw.workspace.name from UserWorkspace uw where uw.user.id = :id " +
+                        "order by uw.workspace.name")
                 .setParameter("id", userSession.getUserId())
                 .getResultList();
 
         List<SynchronizableItem> workspaces = new ArrayList<>();
-        for (Workspace ws: lst) {
-            SynchronizableItem item = mapper.map(ws, SynchronizableItem.class);
-            workspaces.add(item);
+        for (Object[] vals: lst) {
+            UUID id = (UUID)vals[0];
+            String name = (String)vals[1];
+            workspaces.add(new SynchronizableItem(id, name));
         }
 
         resp.setWorkspaces(workspaces);

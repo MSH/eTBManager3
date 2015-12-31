@@ -30,7 +30,6 @@ public class LoginService {
     @Autowired
     UserSessionService userSessionService;
 
-
     /**
      * Authenticate a user by its user name, password and workspace
      * @param username the user name
@@ -48,12 +47,12 @@ public class LoginService {
             return null;
         }
 
-        UserLogin userLogin = registerUserSession(uw, ipAddress, application);
+        UUID authToken = userSessionService.beginSession(uw.getId(), ipAddress, application);
 
         // include user session in cache
-        userSessionService.getSessionByAuthToken(userLogin.getId());
+        userSessionService.recoverSession(authToken);
 
-        return userLogin.getId();
+        return authToken;
     }
 
 
@@ -71,53 +70,9 @@ public class LoginService {
             return false;
         }
 
-        // recover the user login assigned to the authentication token
-        List<UserLogin> lst = entityManager
-                .createQuery("from UserLogin  where id = :id and logoutDate is null")
-                .setParameter("id", authToken)
-                .getResultList();
-
-        if (lst.size() == 0) {
-            return false;
-        }
-
-        UserLogin login = lst.get(0);
-
-        // register the logout date
-        Date logoutDate = new Date();
-
-        login.setLogoutDate(logoutDate);
-        login.setLastAccess(logoutDate);
-
-        entityManager.persist(login);
-        entityManager.flush();
-
-        return true;
+        return userSessionService.endSession(authToken);
     }
 
-
-    /**
-     * Register the new user session
-     * @param uw instance of UserWorkspace object
-     * @param ipAddress the ip address of the client requesting login
-     * @param application the name of the client application requesting login. Usually it is the browser agent
-     * @return instance of the UserLogin
-     */
-    private UserLogin registerUserSession(UserWorkspace uw, String ipAddress, String application) {
-        // register new user session
-        UserLogin login = new UserLogin();
-        login.setWorkspace(uw.getWorkspace());
-        login.setLoginDate(new Date());
-        login.setIpAddress(ipAddress);
-        login.setApplication(application);
-        login.setUser(uw.getUser());
-
-        // save the user session
-        entityManager.persist(login);
-        entityManager.flush();
-
-        return login;
-    }
 
 
     /**

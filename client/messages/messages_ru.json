@@ -860,5 +860,6 @@
     "default.entity_deleted": "Успешно удалено",
     "default.entity_updated": "Успешно обновлено",
     "CountryStructure": "",
-    "admin.adminunits.hidecs": ""
+    "admin.adminunits.hidecs": "",
+    "validation.changews": ""
 }

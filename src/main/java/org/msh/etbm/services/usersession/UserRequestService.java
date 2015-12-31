@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Basic information about the user session
@@ -18,7 +19,15 @@ public class UserRequestService {
 
     public static final String KEY_ADMUNITSERIES_LIST = "admunit-series";
 
+    /**
+     * The user session assigned to the request
+     */
     private UserSession userSession;
+
+    /**
+     * The authentication token used by the client to log into the system
+     */
+    private UUID authToken;
 
     /**
      * If true, the current request is being executed under a declared command
@@ -85,4 +94,11 @@ public class UserRequestService {
         this.userSession = userSession;
     }
 
+    public UUID getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(UUID authToken) {
+        this.authToken = authToken;
+    }
 }

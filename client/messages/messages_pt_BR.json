@@ -854,5 +854,6 @@
     "CountryStructure": "Estrutura do país",
     "admin.adminunits.hidecs": "Esconder estrutura do país",
     "admin.adminunits.showcs": "Exibir estrutura do país",
-    "validation.au.invalidparent": "UF/Município selecionado não é compatível com a unidade pai"
+    "validation.au.invalidparent": "UF/Município selecionado não é compatível com a unidade pai",
+    "validation.changews": "Erro ao trocar de área de trabalho"
 }

@@ -1,6 +1,6 @@
 
 import { server } from '../commons/server';
-import { LOGOUT, AUTHENTICATED } from '../core/actions';
+import { LOGOUT, AUTHENTICATED, WORKSPACE_CHANGE, ERROR } from '../core/actions';
 import { app } from '../core/app';
 
 /**
@@ -18,6 +18,9 @@ function actionHandler(act, data) {
 
 	if (act === LOGOUT) {
 		return { session: null };
+	}
+
+	if (act === WORKSPACE_CHANGE) {
 	}
 }
 
@@ -77,6 +80,22 @@ export function authenticate() {
 	.then(res => {
 		app.dispatch(AUTHENTICATED, { session: res });
 		return res;
+	});
+}
+
+
+export function changeWorkspace(wsid) {
+	return server.post('/api/sys/changews/' + wsid)
+	.then(res => {
+		if (!res.success) {
+			app.dispatch(ERROR, { error: __('validation.changews') });
+		}
+		else {
+			const authToken = res.result;
+			console.log('NEW SESSION = ' + res.result);
+			window.app.setCookie('autk', authToken);
+			app.dispatch(WORKSPACE_CHANGE, { authToken: authToken });
+		}
 	});
 }
 

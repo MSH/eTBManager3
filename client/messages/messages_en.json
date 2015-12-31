@@ -295,6 +295,7 @@
     "period.timeago": "{0} ago",
     "validation.client.max": "Cannot have more than {0} characteres",
     "validation.client.min": "Cannot have less than {0} characteres",
+    "validation.changews": "Error when changing the workspace",
     "validation.duplicatedemail": "The e-mail address is already in use. Please provide another one.",
     "validation.duplicatedname": "A record with the same value already exists",
     "validation.notfound": "Information was not found",

@@ -49,7 +49,9 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return true;
         }
 
-        UserSession session = checkAuthenticated(request);
+        UUID authToken = getAuthenticationToken(request);
+
+        UserSession session = authToken != null ? checkAuthenticated(authToken) : null;
 
         // if there is no token, or token is invalid, return unauthorized
         if (session == null) {
@@ -63,17 +65,18 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         }
 
         userRequestService.setUserSession(session);
+        userRequestService.setAuthToken(authToken);
 
         return true;
     }
 
 
     /**
-     * Check if the user is authenticated to the system
-     * @param request the object representing the request
-     * @return information about the user session, or null if authentication is not valid
+     * Get the authentication token from the request sent from the client
+     * @param request the object representing the request from the client
+     * @return the authentication token in UUID format
      */
-    private UserSession checkAuthenticated(HttpServletRequest request) {
+    private UUID getAuthenticationToken(HttpServletRequest request) {
         // get the authentication token in the request
         String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
@@ -97,13 +100,18 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             authToken = null;
         }
 
-        // is not a valid UUID?
-        if (authToken == null) {
-            return null;
-        }
+        return authToken;
+    }
 
+
+    /**
+     * Check if the user is authenticated to the system
+     * @param authToken the authentication token sent from the client
+     * @return information about the user session, or null if authentication is not valid
+     */
+    private UserSession checkAuthenticated(UUID authToken) {
         // get information about the user session
-        UserSession session = userSessionService.getSessionByAuthToken(authToken);
+        UserSession session = userSessionService.recoverSession(authToken);
         if (session == null) {
             return null;
         }

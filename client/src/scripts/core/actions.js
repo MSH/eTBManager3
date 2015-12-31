@@ -2,6 +2,7 @@
 export const APP_INIT = 'app-init';
 export const AUTHENTICATED = 'authenticated';
 export const LOGOUT = 'logout';
+export const WORKSPACE_CHANGE = 'ws-change';
 export const ERROR = 'error';
 
 // used to set the content of the toolbar after login
