@@ -7020,7 +7020,6 @@ button.close {
 .card {
   background-color: white;
   margin-top: 0px;
-  margin-bottom: 20px;
   border: 1px solid #e8e8e8;
   border-radius: 2px;
   /** Style of the title */
@@ -7038,12 +7037,29 @@ button.close {
   font-weight: bold;
 }
 .card .card-content {
-  padding: 20px;
   border-bottom: 1px solid #e8ebe8;
 }
-.card .no-padding {
-  padding-left: 0px;
-  padding-right: 0px;
+.card .card-content:last-child {
+  border-bottom: none;
+}
+.card .card-pad-sm {
+  padding: 8px;
+}
+.card div[class*="col-"] {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.card-default {
+  margin-bottom: 20px;
+}
+.card-default .card-content {
+  padding: 20px;
+}
+.card-small {
+  margin-bottom: 10px;
+}
+.card-small .card-content {
+  padding: 8px;
 }
 @media (max-width: 767px) {
   .card .card-header {
@@ -7059,6 +7075,7 @@ button.close {
 }
 .profile {
   padding-top: 4px;
+  overflow: auto;
 }
 .profile .profile-image {
   display: inline-block;
@@ -7137,6 +7154,10 @@ button.close {
 }
 .fluidbar-default {
   background-color: #fff;
+}
+.collapse-card:hover {
+  background-color: #f4f6f4;
+  cursor: pointer;
 }
 .alert {
   border-left-width: 10px;

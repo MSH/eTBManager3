@@ -5,6 +5,15 @@ import React from 'react';
  * Define a page title
  */
 export default class Card extends React.Component {
+
+    borderClass() {
+        switch (this.props.padding) {
+            case 'none': return '';
+            case 'small': return ' card-small';
+            default: return ' card-default';
+        }
+    }
+
     render() {
         let header = this.props.header || null;
 
@@ -21,14 +30,17 @@ export default class Card extends React.Component {
             header = <div className="card-header">{header}</div>;
         }
 
-        const contentClass = 'card-content' + (this.props.noPadding ? ' no-padding' : '');
+        const contentClass = 'card-content';
 
         const children = React.Children.map(this.props.children, function(item) {
             return <div className={contentClass}>{item}</div>;
         });
 
+        const cn = this.props.className;
+        const className = 'card' + this.borderClass() + (cn ? ' ' + cn : '');
+
         return (
-            <div className="card" style={this.props.style}>
+            <div className={className} style={this.props.style} onClick={this.props.onClick}>
                 {header}
                 {children}
             </div>
@@ -39,7 +51,13 @@ export default class Card extends React.Component {
 Card.propTypes = {
     title: React.PropTypes.string,
     header: React.PropTypes.element,
-    noPadding: React.PropTypes.bool,
     children: React.PropTypes.any,
-    style: React.PropTypes.object
+    style: React.PropTypes.object,
+    onClick: React.PropTypes.func,
+    className: React.PropTypes.string,
+    padding: React.PropTypes.oneOf(['none', 'small', 'default'])
+};
+
+Card.defaulProps = {
+    padding: 'default'
 };

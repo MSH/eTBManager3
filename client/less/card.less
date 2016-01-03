@@ -2,7 +2,6 @@
 .card {
 	background-color:white;
 	margin-top:0px;
-	margin-bottom:20px;
 	border:1px solid #e8e8e8;
 	border-radius: 2px;
 
@@ -19,13 +18,36 @@
 	}
 
 	.card-content {
-		padding:20px;
 		border-bottom:1px solid @btn-default-border;
 	}
 
-	.no-padding {
-		padding-left:0px;
-		padding-right:0px;
+	.card-content:last-child {
+		border-bottom: none;
+	}
+
+	.card-pad-sm {
+		padding:8px;
+	}
+
+	div[class*="col-"] {
+		padding-left:8px;
+		padding-right:8px;
+	}
+}
+
+.card-default {
+	margin-bottom:20px;
+
+	.card-content {
+		padding:20px;
+	}
+}
+
+.card-small {
+	margin-bottom:10px;
+
+	.card-content {
+		padding:8px;
 	}
 }
 
