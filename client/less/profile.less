@@ -1,13 +1,10 @@
 
-@profile-small-size: 2.5em;
-@profile-small-size2: 1.5em;
+@profile-circlesize: 1.5em;
 
+@profile-small-imgsize: 1.5em;
+@profile-medium-imgsize: 2.6em;
+@profile-large-imgsize: 4em;
 
-@profile-medium-size: 4.2em;
-@profile-medium-size2: 2.6em;
-
-@profile-large-size: 6em;
-@profile-large-size2: 4em;
 
 
 .profile {
@@ -15,17 +12,15 @@
 	overflow: auto;
 
 	.profile-image {
-		display: inline-block;
+		display: block;
 		float: left;
 		margin-right: 2px;
-
-		.profile-front {
-			color: #90A29B;
-		}
-
-		.fa-inverse {
-			color: #e0e0e0;
-		}
+		overflow: hidden;
+		text-align: center;
+		line-height:1.5;
+		width: @profile-circlesize;
+		height: @profile-circlesize;
+		border-radius: @profile-circlesize/2;
 	}
 
 	.profile-title {
@@ -37,17 +32,7 @@
 
 .profile-small {
 	.profile-image {
-		width: @profile-small-size;
-		height: @profile-small-size;
-
-		.fa-stack-2x {
-			font-size: @profile-small-size;
-		}
-
-		.fa-stack-1x {
-			font-size: @profile-small-size2;
-			padding-top:0.1em;
-		}
+		font-size: @profile-small-imgsize;
 	}
 
 
@@ -66,20 +51,9 @@
 
 .profile-medium {
 	.profile-image {
-		width: @profile-medium-size;
-		height: @profile-medium-size;
-		margin-right: 4px;
-
-		.fa-stack-2x {
-			font-size: @profile-medium-size;
-		}
-
-		.fa-stack-1x {
-			font-size: @profile-medium-size2;
-			padding-top:0.3em;
-		}
+		font-size: @profile-medium-imgsize;
+		margin-right:8px;
 	}
-
 
 	.profile-title {
 		font-size: 1.3em;
@@ -91,20 +65,9 @@
 
 .profile-large {
 	.profile-image {
-		width: @profile-large-size;
-		height: @profile-large-size;
-		margin-right: 8px;
-
-		.fa-stack-2x {
-			font-size: @profile-large-size;
-		}
-
-		.fa-stack-1x {
-			font-size: @profile-large-size2;
-			padding: 0.47em 0 0 0;
-		}
+		font-size: @profile-large-imgsize;
+		margin-right: 12px;
 	}
-
 
 	.profile-title {
 		font-size: 2em;
@@ -116,3 +79,7 @@
 	}
 }
 
+.profile-img-default {
+	color: #808080;
+	background-color: #e8e8e8;
+}

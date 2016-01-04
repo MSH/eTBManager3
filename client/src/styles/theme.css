@@ -6951,6 +6951,26 @@ button.close {
 .tbl-cell:hover {
   background-color: #f8f8f8;
 }
+.prof-tbunit {
+  color: #3F51B5;
+  background-color: #DAE473;
+}
+.prof-lab {
+  color: #4CAF50;
+  background-color: #DCF0DC;
+}
+.prof-male {
+  color: #43698E;
+  background-color: #B0CFD0;
+}
+.prof-female {
+  color: #C73F76;
+  background-color: #DEC5F9;
+}
+.prof-ws {
+  color: #E2E8E7;
+  background-color: #5F847F;
+}
 .callout {
   padding: 20px;
   margin: 20px 0;
@@ -7078,30 +7098,22 @@ button.close {
   overflow: auto;
 }
 .profile .profile-image {
-  display: inline-block;
+  display: block;
   float: left;
   margin-right: 2px;
-}
-.profile .profile-image .profile-front {
-  color: #90A29B;
-}
-.profile .profile-image .fa-inverse {
-  color: #e0e0e0;
+  overflow: hidden;
+  text-align: center;
+  line-height: 1.5;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 0.75em;
 }
 .profile .profile-title {
   text-transform: uppercase;
   color: #505050;
 }
 .profile-small .profile-image {
-  width: 2.5em;
-  height: 2.5em;
-}
-.profile-small .profile-image .fa-stack-2x {
-  font-size: 2.5em;
-}
-.profile-small .profile-image .fa-stack-1x {
   font-size: 1.5em;
-  padding-top: 0.1em;
 }
 .profile-small .profile-title {
   font-size: 1em;
@@ -7113,16 +7125,8 @@ button.close {
   line-height: 100%;
 }
 .profile-medium .profile-image {
-  width: 4.2em;
-  height: 4.2em;
-  margin-right: 4px;
-}
-.profile-medium .profile-image .fa-stack-2x {
-  font-size: 4.2em;
-}
-.profile-medium .profile-image .fa-stack-1x {
   font-size: 2.6em;
-  padding-top: 0.3em;
+  margin-right: 8px;
 }
 .profile-medium .profile-title {
   font-size: 1.3em;
@@ -7130,20 +7134,16 @@ button.close {
   padding-top: 2px;
 }
 .profile-large .profile-image {
-  width: 6em;
-  height: 6em;
-  margin-right: 8px;
-}
-.profile-large .profile-image .fa-stack-2x {
-  font-size: 6em;
-}
-.profile-large .profile-image .fa-stack-1x {
   font-size: 4em;
-  padding: 0.47em 0 0 0;
+  margin-right: 12px;
 }
 .profile-large .profile-title {
   font-size: 2em;
   font-weight: bold;
+}
+.profile-img-default {
+  color: #808080;
+  background-color: #e8e8e8;
 }
 .fluidbar {
   padding: 2px 20px 10px 20px;

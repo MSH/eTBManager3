@@ -57,6 +57,7 @@ export default class Home extends React.Component {
 				<Profile title={'UNIT ' + (item + 1)}
 					subtitle="Rio de Janeiro, RJ"
 					fa="hospital-o"
+					imgClass="prof-tbunit"
 					size="small"/>
 			</CollapseCard>
 			);
@@ -114,7 +115,9 @@ export default class Home extends React.Component {
 								<div className="margin-2x">
 									<Profile title={state.session.userName}
 										subtitle={subtitle}
-										fa="user" size="large"/>
+										fa="user" size="large"
+										imgClass="prof-male"
+										/>
 								</div>
 							</Col>
 						</Row>
@@ -136,7 +139,9 @@ export default class Home extends React.Component {
 						<Col mdOffset={2} md={4}>
 							<Card onClick={this.toggleCard}>
 								<div>
-									<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
+									<Profile title="Laboratory Test" subtitle="Rio de Janeiro, RJ"
+										fa="building" size="medium"
+										imgClass="prof-lab "/>
 									<Collapse in={this.state.show}>
 										<p>{'This is a simple text to display the habilities to hide and show in an animated fashion'}
 										</p>
@@ -146,17 +151,39 @@ export default class Home extends React.Component {
 						</Col>
 						<Col md={4}>
 							<Card>
-								<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
+								<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="globe" size="medium"/>
 							</Card>
 						</Col>
 					</Row>
 					<Row>
 						<Col md={8} mdOffset={2}>
 						<Card onClick={this.cardClick}>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"/>
+							<Profile title={unitName}
+								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"
+								imgClass="prof-tbunit"
+								/>
 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
 							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="small"/>
 						</Card>
+						</Col>
+					</Row>
+					<Row>
+						<Col md={8} mdOffset={2}>
+							<Card>
+								<Profile title="Male" subtitle="A male example" type="male"/>
+							</Card>
+							<Card>
+								<Profile title="Female" subtitle="A female example" type="female"/>
+							</Card>
+							<Card>
+								<Profile title="TB unit" subtitle="The location of the hospital" type="tbunit"/>
+							</Card>
+							<Card>
+								<Profile title="Laboratory" subtitle="The location of the laboratory" type="lab" />
+							</Card>
+							<Card>
+								<Profile title="Workspace" subtitle="The location of the workspace" type="ws"/>
+							</Card>
 						</Col>
 					</Row>
 				</Grid>
