@@ -9,5 +9,22 @@ import Fluidbar from './fluidbar';
 import Profile from './profile';
 import WaitIcon from './wait-icon';
 import Sidebar from './sidebar';
+import CollapseCard from './collapse-card';
+import GridTable from './grid-table';
+import TreeView from './tree-view';
+import Fa from './fa';
+import MessageDlg from './message-dlg';
 
-export { Callout, AsyncButton, Card, Fluidbar, Profile, WaitIcon, Sidebar };
+export { Callout,
+	AsyncButton,
+	Card,
+	Fluidbar,
+	Profile,
+	WaitIcon,
+	Sidebar,
+	CollapseCard,
+	GridTable,
+	TreeView,
+	Fa,
+	MessageDlg
+};

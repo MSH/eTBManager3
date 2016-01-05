@@ -36,6 +36,10 @@ export default class Home extends React.Component {
 		evt.stopPropagation();
 	}
 
+	cellSize(item) {
+		return item === 3 ? { md: 12 } : { md: 6 };
+	}
+
 	createCell(item) {
 		const expdata = (
 			<div>
@@ -129,8 +133,10 @@ export default class Home extends React.Component {
 						<Col md={8} mdOffset={2}>
 							<Card title="This is a list">
 								<div>
-									<GridTable values={lst2} cellRender={this.createCell} />
-									{lst2}
+									<GridTable values={lst2}
+										onCellRender={this.createCell}
+										onCellSize={this.cellSize}
+									/>
 								</div>
 							</Card>
 						</Col>

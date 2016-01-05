@@ -37,7 +37,8 @@ export default class Card extends React.Component {
         });
 
         const cn = this.props.className;
-        const className = 'card' + this.borderClass() + (cn ? ' ' + cn : '');
+        const className = 'card' + this.borderClass() + (cn ? ' ' + cn : '') +
+            (this.props.highlight ? ' shadow' : '');
 
         return (
             <div className={className} style={this.props.style} onClick={this.props.onClick}>
@@ -55,7 +56,8 @@ Card.propTypes = {
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,
     className: React.PropTypes.string,
-    padding: React.PropTypes.oneOf(['none', 'small', 'default'])
+    padding: React.PropTypes.oneOf(['none', 'small', 'default']),
+    highlight: React.PropTypes.bool
 };
 
 Card.defaulProps = {

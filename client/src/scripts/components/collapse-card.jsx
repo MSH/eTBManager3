@@ -45,9 +45,11 @@ export default class CollapseCard extends React.Component {
 
 
 CollapseCard.propTypes = {
+	// the title of the card
     title: React.PropTypes.string,
+    // the header of the card (if title is not informed)
     header: React.PropTypes.element,
-    noPadding: React.PropTypes.bool,
+    padding: React.PropTypes.oneOf(['none', 'small', 'default']),
     children: React.PropTypes.any,
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,

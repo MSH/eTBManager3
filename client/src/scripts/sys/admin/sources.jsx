@@ -6,18 +6,18 @@ import CRUD from '../../commons/crud';
 const crud = new CRUD('source');
 
 // definition of the table that will display the list of sources
-const tableDef = {
-	columns: [
-		{
-			title: __('form.shortName'),
-			property: 'shortName'
-		},
-		{
-			title: __('form.name'),
-			property: 'name'
-		}
-	]
-};
+// const tableDef = {
+// 	columns: [
+// 		{
+// 			title: __('form.shortName'),
+// 			property: 'shortName'
+// 		},
+// 		{
+// 			title: __('form.name'),
+// 			property: 'name'
+// 		}
+// 	]
+// };
 
 // definition of the form fields to edit substances
 const editorDef = {
@@ -47,15 +47,26 @@ const editorDef = {
  */
 export class Sources extends React.Component {
 
+	cellRender(item) {
+		return (
+			<div>
+				<b>{item.shortName}</b>
+				<div className="text-muted">{item.name}</div>
+			</div>
+			);
+	}
+
 	render() {
 		// get information about the route of this page
 		const data = this.props.route.data;
 
-		tableDef.title = data.title;
+//		tableDef.title = data.title;
 
 		return (
-			<CrudView tableDef={tableDef} crud={crud}
+			<CrudView crud={crud}
+				title={data.title}
 				editorDef={editorDef}
+				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);
 	}

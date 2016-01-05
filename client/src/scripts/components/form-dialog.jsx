@@ -40,8 +40,8 @@ export default class FormDialog extends React.Component {
 
 		// the promise to be called when confirming
 		let prom;
-		if (this.props.onConfirm) {
-			prom = this.props.onConfirm();
+		if (this.props.onEvent) {
+			prom = this.props.onEvent({ type: 'ok', doc: this.props.doc });
 		}
 
 		// it is expected that a promise is returned, in order to be informed about errors
@@ -55,8 +55,8 @@ export default class FormDialog extends React.Component {
 	}
 
 	cancelClick() {
-		if (this.props.onCancel) {
-			this.props.onCancel();
+		if (this.props.onEvent) {
+			this.props.onEvent({ type: 'cancel' });
 		}
 	}
 
@@ -91,7 +91,7 @@ export default class FormDialog extends React.Component {
 		}
 
 		return (
-			<Card title={title} >
+			<Card title={title} highlight={this.props.highlight}>
 				<div>
 					<Form layout={layout} doc={doc} errors={errors}/>
 				</div>
@@ -114,10 +114,17 @@ FormDialog.propTypes = {
 	doc: React.PropTypes.object,
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
-	confirmCaption: React.PropTypes.any
+	/**
+	 * Basic event handler of format func(evt, data)
+	 */
+	onEvent: React.PropTypes.func,
+	confirmCaption: React.PropTypes.any,
+	highlight: React.PropTypes.bool
 };
 
 FormDialog.defaultProps = {
-	dataModel: {}
+	dataModel: {},
+	cardWrap: true,
+	highlight: false
 };
 

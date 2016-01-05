@@ -4,112 +4,238 @@
  */
 
 import React from 'react';
-import { Collapse, Alert } from 'react-bootstrap';
+import { Collapse, Alert, Button, ButtonToolbar } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
 import Form from '../../components/form';
-import TableView from './tableview';
 import { hasPerm } from '../session';
-import WaitIcon from '../../components/wait-icon';
-import MessageDlg from '../../components/message-dlg';
+import { MessageDlg, CollapseCard, AsyncButton } from '../../components/index';
+import CrudCard from './crud-card';
 
 
 export default class CrudView extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
-		this.onTableEvent = this.onTableEvent.bind(this);
-		this.onSave = this.onSave.bind(this);
-		this.onCancelEditor = this.onCancelEditor.bind(this);
-		this.handleMenuCmd = this.handleMenuCmd.bind(this);
-		this.closeConfirm = this.closeConfirm.bind(this);
+		// set the initial state
+		this.state = { readOnly: !hasPerm(this.props.perm) };
+
+		// function binding
+		this.getValues = this.getValues.bind(this);
+		this.getCellSize = this.getCellSize.bind(this);
+		this.cellRender = this.cellRender.bind(this);
+		this.editClick = this.editClick.bind(this);
+		this.deleteClick = this.deleteClick.bind(this);
+		this.cardEventHandler = this.cardEventHandler.bind(this);
+		this.deleteConfirm = this.deleteConfirm.bind(this);
+	}
+
+	/**
+	 * Called when the crud card wants to update its content
+	 * @return {[type]} [description]
+	 */
+	getValues() {
+		const self = this;
+
+		return this.props.crud.query({ })
+		.then(res => {
+			// wrap itens inside a controller object
+			const list = res.list.map(item => ({ data: item, state: 'ok' }));
+			// generate new result
+			const result = { count: res.count, list: list };
+			// set state
+			self.setState(result);
+			// return to the promise
+			return result;
+		});
+	}
+
+
+	cellRender(item, index) {
+		// is in edit mode ?
+		if (item.state === 'edit') {
+			// create a context that will be used when clicking on the save or cancel button
+			const context = { self: this, item: item };
+			const func = this.formEventHandler.bind(context);
+
+			// display cell for editing
+			return (
+				<FormDialog formDef={this.props.editorDef}
+					doc={item.data}
+					highlight
+					onEvent={func}
+					/>
+				);
+		}
+
+		const content = this.props.onCellRender(item.data);
+
+		// generate the hidden content
+		const colRender = this.props.onCollapseCellRender;
+		let colContent = colRender ? colRender(item.data) : null;
+		colContent = (
+				<div>
+					{colContent}
+					<ButtonToolbar className="mtop">
+						<AsyncButton bsStyle="warning"
+							fetching={item.state === 'fetching'}
+							data-item={index}
+							onClick={this.editClick}>{__('action.edit')}</AsyncButton>
+						<Button bsStyle="link"
+							onClick={this.deleteClick}
+							data-item={index}>{__('action.delete')}</Button>
+					</ButtonToolbar>
+				</div>
+			);
+
+		// render the cell content
+		return (
+			<CollapseCard collapsable={colContent} padding="small">
+				{content}
+			</CollapseCard>
+			);
 	}
 
 
 	/**
+	 * Return the cell size (width) that will take the whole are if it is editing
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	getCellSize(item) {
+		return item.state === 'edit' ? { xs: 12 } : this.props.cellSize;
+	}
+
+	/**
 	 * Called when the new button is clicked
 	 */
-	onTableEvent(evt) {
-		switch (evt.type) {
-			case 'new': return this.openNew();
-			case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
-			default: throw new Error('Unexpected event ' + evt);
+	// onTableEvent(evt) {
+	// 	switch (evt.type) {
+	// 		case 'new': return this.openNew();
+	// 		case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
+	// 		default: throw new Error('Unexpected event ' + evt);
+	// 	}
+	// }
+
+	cardEventHandler(evt) {
+		if (evt.type === 'new') {
+			const doc = Form.newInstance(this.props.editorDef.layout);
+			this.setState({
+				editing: true,
+				doc: doc,
+				message: null });
 		}
 	}
 
-	openNew() {
-		const doc = Form.newInstance(this.props.editorDef.layout);
-		this.setState({
-			editing: true,
-			doc: doc,
-			message: null });
-	}
+	formEventHandler(evt) {
+		const item = this.item;
+		const comp = this.self;
 
-	handleMenuCmd(key, item) {
-		if (key === 'edit') {
-			this.edit(item);
+		// user canceled the operation ?
+		if (evt.type === 'cancel') {
+			item.state = 'ok';
+			comp.forceUpdate();
+			return null;
 		}
 
-		if (key === 'delete') {
-			this.setState({ confirm: true, item: item });
+		// user confirmed the operation ?
+		if (evt.type === 'ok') {
+			const crud = comp.props.crud;
+			const promise = item ? crud.update(evt.doc.id, evt.doc) : crud.create(evt.doc);
+
+			return promise
+				.then(() => {
+					if (item) {
+						item.state = 'ok';
+					}
+
+					comp.setState({
+						values: null,
+						editing: null,
+						message: item ? __('default.entity_updated') : __('default.entity_created')
+					});
+				});
 		}
+
+		return null;
 	}
 
 	/**
 	 * Called when form editor requires the document being edited to be saved
 	 * @return {[type]} [description]
 	 */
-	onSave() {
+// 	onSave() {
+// 		const self = this;
+// 		const doc = this.state.doc;
+// 		const crud = this.props.crud;
+// 		const isNew = doc.id;
+
+// 		const promise = isNew ? crud.update(doc.id, doc) : crud.create(doc);
+
+// 		return promise
+// 			.then(() => {
+// 				self.setState({ editing: false,
+// 				table: null,
+// 				doc: null,
+// 				message: doc.id ? __('default.entity_updated') : __('default.entity_created') });
+
+// //				app.dispatch(isNew ? CRUD_CREATE : CRUD_UPDATE, );
+// 			});
+// 	}
+
+	editClick(evt) {
+		const item = this._cmdReference(evt);
+
+		// show wait icon
+		item.state = 'fetching';
+		this.forceUpdate();
+
+		// get data to edit from server
 		const self = this;
-		const doc = this.state.doc;
-		const crud = this.props.crud;
-		const isNew = doc.id;
-
-		const promise = isNew ? crud.update(doc.id, doc) : crud.create(doc);
-
-		return promise
-			.then(() => {
-				self.setState({ editing: false,
-				table: null,
-				doc: null,
-				message: doc.id ? __('default.entity_updated') : __('default.entity_created') });
-
-//				app.dispatch(isNew ? CRUD_CREATE : CRUD_UPDATE, );
-			});
+		this.props.crud.get(item.data.id)
+		.then(res => {
+			item.state = 'edit';
+			item.doc = res;
+			self.forceUpdate();
+		});
 	}
 
-	edit(item) {
-		this.setState({ fetching: true, item: item, message: null });
-		const self = this;
-		// start editing the doc
-		return this.props.crud.get(item.id)
-			.then(res => self.setState({ editing: true, doc: res, fetching: false, item: null }))
-			.catch(res => self.setState({ fetching: false, item: null, message: res }));
+	deleteClick(evt) {
+		const item = this._cmdReference(evt);
+		this.setState({
+			showConfirm: true,
+			item: item
+		});
 	}
 
-	delete() {
-		const item = this.state.item;
-		this.setState({ fetching: true, item: item, confirm: false, message: null });
+	_cmdReference(evt) {
+		evt.stopPropagation();
+		// prevent panel to collapse
+		evt.stopPropagation();
 
-		const self = this;
-		return this.props.crud
-			.delete(item.id)
-			.then(() => self.setState({ fetching: false, item: null, message: __('default.entity_deleted'), table: null }));
+		// recover item
+		const index = evt.currentTarget.dataset.item;
+		return this.state.list[index];
 	}
 
-	/**
-	 * Called when user clicks on the cancel button of the editor
-	 * @return {[type]} [description]
-	 */
-	onCancelEditor() {
-		this.setState({ editing: false });
-	}
+	// edit(item) {
+	// 	this.setState({ fetching: true, item: item, message: null });
+	// 	const self = this;
+	// 	// start editing the doc
+	// 	return this.props.crud.get(item.id)
+	// 		.then(res => self.setState({ editing: true, doc: res, fetching: false, item: null }))
+	// 		.catch(res => self.setState({ fetching: false, item: null, message: res }));
+	// }
 
-	closeConfirm(action) {
+
+	deleteConfirm(action) {
 		if (action === 'yes') {
-			return this.delete();
+			const self = this;
+
+			this.props.crud
+				.delete(this.state.item.data.id)
+				.then(() => self.setState({ message: __('default.entity_deleted') }));
 		}
-		this.setState({ confirm: false, item: null });
+		this.setState({ showConfirm: false, doc: null, message: null });
 	}
 
 	/**
@@ -117,58 +243,11 @@ export default class CrudView extends React.Component {
 	 * @param  {[type]} crud [description]
 	 * @return {[type]}      [description]
 	 */
-	fetchTable() {
-		const self = this;
-		this.props.crud.query({ rootUnits: true })
-			.then(result => self.setState({ table: result }));
-	}
-
-	/**
-	 * Render the table
-	 * @return {Component} React component of the table view
-	 */
-	renderTable() {
-		const tbldef = this.props.tableDef;
-
-		const tableDef = {
-			columns: tbldef.columns,
-			title: tbldef.title,
-			delegator: tbldef.delegator,
-			newButton: !this.readOnly
-		};
-
-		// if it is not read only, show menu
-		if (tableDef.newButton) {
-			tableDef.menu = [
-					{
-						label: __('action.edit'),
-						eventKey: 'edit'
-					},
-					{
-						label: __('action.delete'),
-						eventKey: 'delete'
-					}
-				];
-		}
-
-		const fetchingItem = this.state.fetching ? this.state.item : null;
-		const readOnly = this.readOnly;
-
-		// check if data must be fetched from the server
-		if (!this.state.table && !tbldef.delegator) {
-			this.fetchTable();
-			return <WaitIcon />;
-		}
-
-		return (
-			<TableView data={this.state.table}
-				readOnly={readOnly}
-				tableDef={tableDef}
-				search={this.props.search}
-				onEvent={this.onTableEvent}
-				fetchingItem={fetchingItem}
-			/>);
-	}
+	// fetchTable() {
+	// 	const self = this;
+	// 	this.props.crud.query({ rootUnits: true })
+	// 		.then(result => self.setState({ table: result }));
+	// }
 
 
 	render() {
@@ -176,18 +255,13 @@ export default class CrudView extends React.Component {
 			return null;
 		}
 
-		this.readOnly = !hasPerm(this.props.perm);
-
-		const editorDef = this.props.editorDef;
-
 		// is it in editing mode ?
-		const editing = this.state.editing && !this.readOnly;
+		const editing = this.state.editing && !this.state.readOnly;
 
 		// any message to be displayed
 		const msg = this.state.message;
 
-		// get the table content to be displayed
-		const table = this.renderTable();
+		const formHandler = editing ? this.formEventHandler.bind({ self: this }) : null;
 
 		return (
 			<div>
@@ -197,16 +271,19 @@ export default class CrudView extends React.Component {
 				{
 					editing && <Collapse in transitionAppear>
 						<div>
-							<FormDialog formDef={editorDef}
-								onConfirm={this.onSave}
-								onCancel={this.onCancelEditor}
+							<FormDialog formDef={this.props.editorDef}
+								onEvent={formHandler}
 								doc={this.state.doc} />
 						</div>
 						</Collapse>
 				}
-				{table}
-				<MessageDlg show={this.state.confirm}
-					onClose={this.closeConfirm}
+				<CrudCard title={this.props.title}
+					onEvent={this.cardEventHandler}
+					onGetValues={this.getValues}
+					onCellSize={this.getCellSize}
+					onCellRender={this.cellRender} />
+				<MessageDlg show={this.state.showConfirm}
+					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
 			</div>
@@ -215,10 +292,20 @@ export default class CrudView extends React.Component {
 }
 
 CrudView.propTypes = {
-	tableDef: React.PropTypes.object,
+	title: React.PropTypes.string,
 	editorDef: React.PropTypes.object,
+	onCellRender: React.PropTypes.func,
+	onCollapseCellRender: React.PropTypes.func,
+	cellSize: React.PropTypes.object,
 	perm: React.PropTypes.string,
 	crud: React.PropTypes.object,
 	search: React.PropTypes.bool,
 	paging: React.PropTypes.bool
 };
+
+CrudView.defaultProps = {
+	search: false,
+	paging: false,
+	cellSize: { md: 6 }
+};
+

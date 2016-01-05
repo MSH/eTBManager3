@@ -17,12 +17,17 @@ export default class WaitIcon extends React.Component {
 			);
 		}
 
-		return <i className="fa fa-circle-o-notch fa-spin wait-icon-field" />;
+		const className = 'fa fa-circle-o-notch fa-spin';
+		if (this.props.type === 'card') {
+			return <div className="wait-card"><i className={className + ' wait-icon-card'} /></div>;
+		}
+
+		return <i className={className + ' wait-icon-field'} />;
 	}
 }
 
 WaitIcon.propTypes = {
-	type: React.PropTypes.oneOf(['page', 'field'])
+	type: React.PropTypes.oneOf(['page', 'field', 'card'])
 };
 
 WaitIcon.defaultProps = {

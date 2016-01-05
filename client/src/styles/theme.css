@@ -6942,6 +6942,15 @@ button.close {
   font-size: 1.4em !important;
   margin: 0px 4px;
 }
+.wait-card {
+  width: 100%;
+  text-align: center;
+}
+.wait-icon-card {
+  color: #1e9614;
+  font-size: 4em !important;
+  margin: 10px 10px 30px 10px;
+}
 .tbl-cell {
   padding: 4px;
   line-height: 1.42857143;
@@ -6953,7 +6962,7 @@ button.close {
 }
 .prof-tbunit {
   color: #3F51B5;
-  background-color: #DAE473;
+  background-color: #FFC107;
 }
 .prof-lab {
   color: #4CAF50;
@@ -6970,6 +6979,9 @@ button.close {
 .prof-ws {
   color: #E2E8E7;
   background-color: #5F847F;
+}
+.shadow {
+  box-shadow: 2px 2px 14px #909090;
 }
 .callout {
   padding: 20px;
@@ -7100,7 +7112,6 @@ button.close {
 .profile .profile-image {
   display: block;
   float: left;
-  margin-right: 2px;
   overflow: hidden;
   text-align: center;
   line-height: 1.5;
@@ -7114,6 +7125,7 @@ button.close {
 }
 .profile-small .profile-image {
   font-size: 1.5em;
+  margin-right: 4px;
 }
 .profile-small .profile-title {
   font-size: 1em;
@@ -7164,5 +7176,8 @@ button.close {
 }
 .alert-danger {
   border-color: #e27c79;
+}
+.btn {
+  text-transform: uppercase;
 }
 /* Small devices (tablets, 768px and up) */

@@ -4,10 +4,7 @@ import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandStoreService;
 import org.msh.etbm.commons.commands.data.DataType;
-import org.msh.etbm.db.entities.CommandHistory;
-import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.UserLog;
-import org.msh.etbm.db.entities.WorkspaceLog;
+import org.msh.etbm.db.entities.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +71,19 @@ public class CommandStoreImpl implements CommandStoreService {
 
         WorkspaceLog wslog = entityManager.find(WorkspaceLog.class, in.getWorkspaceId());
 
+        // workspace log does not exist ?
+        if (wslog == null) {
+            // register a new workspace log
+            Workspace ws = entityManager.find(Workspace.class, in.getWorkspaceId());
+
+            wslog = new WorkspaceLog();
+            wslog.setName(ws.getName());
+            wslog.setId(ws.getId());
+
+            entityManager.persist(wslog);
+            entityManager.flush();
+        }
+
         return wslog;
     }
 
@@ -87,6 +97,18 @@ public class CommandStoreImpl implements CommandStoreService {
         }
 
         UserLog userLog = entityManager.find(UserLog.class, in.getUserId());
+
+        // user log does not exist ?
+        if (userLog == null) {
+            // register a new user log
+            User user = entityManager.find(User.class, in.getUserId());
+
+            userLog = new UserLog();
+            userLog.setName(user.getName());
+            userLog.setId(user.getId());
+            entityManager.persist(userLog);
+            entityManager.flush();
+        }
 
         return userLog;
     }
