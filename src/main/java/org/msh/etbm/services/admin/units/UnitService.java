@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import java.util.UUID;
-
 /**
  * CRUD service to handle units (laboratories and TB units)
  *

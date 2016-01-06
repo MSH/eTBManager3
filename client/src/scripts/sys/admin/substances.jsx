@@ -2,29 +2,11 @@
 import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
+import { app } from '../../core/app';
+import Types from '../../components/types';
 
-// import SubstanceEdt from './substance-edt';
 
 const crud = new CRUD('substance');
-
-// definition of the table that will display the list of sources
-const tableDef = {
-	columns: [
-		{
-			title: __('form.shortName'),
-			property: 'shortName'
-		},
-		{
-			title: __('form.name'),
-			property: 'name'
-		},
-		{
-			title: __('MedicineLine'),
-			property: 'line',
-			options: 'MedicineLine'
-		}
-	]
-};
 
 // definition of the form fields to edit substances
 const editorDef = {
@@ -54,6 +36,20 @@ const editorDef = {
 			size: { sm: 6 }
 		},
 		{
+			property: 'dstResultForm',
+			type: 'bool',
+			label: __('Substance.dstResultForm'),
+			size: { newLine: true, sm: 6 },
+			defaultValue: true
+		},
+		{
+			property: 'prevTreatmentForm',
+			type: 'bool',
+			label: __('Substance.prevTreatmentForm'),
+			size: { sm: 6 },
+			defaultValue: true
+		},
+		{
 			property: 'active',
 			type: 'bool',
 			label: __('EntityState.ACTIVE'),
@@ -74,14 +70,63 @@ const editorDef = {
  */
 export class Substances extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.cellRender = this.cellRender.bind(this);
+	}
+
+	_itemClass(item) {
+		switch (item.line) {
+			case 'FIRST_LINE': return 'bg-success';
+			case 'SECOND_LINE': return 'bg-danger';
+			default: return 'bg-warning';
+		}
+	}
+
+	cellRender(item) {
+		const opts = app.getState().app.lists.MedicineLine;
+		const medline = opts[item.line];
+		const className = 'pull-right status-box text-small ' + this._itemClass(item);
+
+		return (
+			<div>
+				<div className={className}>{medline}</div>
+				<b>{item.shortName}</b>
+				<div className="text-muted">{item.name}</div>
+			</div>
+			);
+	}
+
+	collapseCellRender(item) {
+		return (
+			<div>
+				<hr/>
+				<dl className="text-small dl-horizontal text-muted">
+					<dt>{__('form.displayorder') + ':'}</dt>
+					<dd>{item.displayOrder}</dd>
+					<dt>{__('Substance.dstResultForm') + ':'}</dt>
+					<dd>{Types.yesNo.render(item.dstResultForm)}</dd>
+					<dt>{__('Substance.prevTreatmentForm') + ':'}</dt>
+					<dd>{Types.yesNo.render(item.prevTreatmentForm)}</dd>
+					<dt>{__('EntityState.ACTIVE') + ':'}</dt>
+					<dd>{Types.yesNo.render(item.active)}</dd>
+					<dt>{__('form.customId') + ':'}</dt>
+					<dd>{item.customId}</dd>
+				</dl>
+				<hr/>
+			</div>
+			);
+	}
+
 	render() {
 		// get information about the route of this page
 		const data = this.props.route.data;
 
-		tableDef.title = data.title;
-
 		return (
-			<CrudView tableDef={tableDef} crud={crud}
+			<CrudView crud={crud}
+				title={data.title}
+				onCellRender={this.cellRender}
+				onCollapseCellRender={this.collapseCellRender}
 				editorDef={editorDef}
 				perm={data.perm} />
 			);

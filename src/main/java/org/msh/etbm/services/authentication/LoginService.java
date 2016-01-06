@@ -1,7 +1,6 @@
 package org.msh.etbm.services.authentication;
 
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.users.UserUtils;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 

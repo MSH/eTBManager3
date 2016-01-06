@@ -6,19 +6,19 @@ import CRUD from '../../commons/crud';
 const crud = new CRUD('countrystructure');
 
 // definition of the table that will display the list of sources
-const tableDef = {
-	title: __('admin.auorg'),
-	columns: [
-		{
-			title: __('form.name'),
-			property: 'name'
-		},
-		{
-			title: __('form.level'),
-			property: 'level'
-		}
-	]
-};
+// const tableDef = {
+// 	title: __('admin.auorg'),
+// 	columns: [
+// 		{
+// 			title: __('form.name'),
+// 			property: 'name'
+// 		},
+// 		{
+// 			title: __('form.level'),
+// 			property: 'level'
+// 		}
+// 	]
+// };
 
 // definition of the form fields to edit substances
 const editorDef = {
@@ -48,10 +48,21 @@ const editorDef = {
  */
 export default class CountryStructures extends React.Component {
 
+	cellRender(item) {
+		return (
+			<div>
+				<div className="pull-right">{__('form.level') + ' ' + item.level}</div>
+				{item.name}
+			</div>
+			);
+	}
+
 	render() {
 		return (
-			<CrudView tableDef={tableDef} crud={crud}
+			<CrudView crud={crud}
+				onCellRender={this.cellRender}
 				editorDef={editorDef}
+				cellSize={{ md: 12 }}
 				perm="ADMINUNIT_ED" />
 			);
 	}

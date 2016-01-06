@@ -9,7 +9,6 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.admunits.parents.ParentAdmUnitsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

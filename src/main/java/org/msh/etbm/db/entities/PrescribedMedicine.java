@@ -100,13 +100,12 @@ public class PrescribedMedicine extends CaseEntity {
 	public void initializeFromRegimen(MedicineRegimen medReg, Date iniDate) {
 		Period p = new Period();
 		p.setIniDate(iniDate);
-		Date dtend = DateUtils.incDays(DateUtils.incMonths(iniDate, medReg.getMonthsTreatment()), -1);
+		Date dtend = DateUtils.incDays(DateUtils.incDays(iniDate, medReg.getDays()), -1);
 		p.setEndDate(dtend);
 
 		doseUnit = medReg.getDefaultDoseUnit();
 		frequency = medReg.getDefaultFrequency();
 		product = medReg.getMedicine();
-		source = medReg.getDefaultSource();
 		period = p;
 	}
 

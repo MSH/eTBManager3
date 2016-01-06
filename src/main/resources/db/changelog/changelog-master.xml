@@ -751,14 +751,12 @@
             </column>
             <column name="defaultDoseUnit" type="INT"/>
             <column name="defaultFrequency" type="INT"/>
-            <column name="SOURCE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
+            <column name="iniDay" type="INT" />
+            <column name="days" type="INT" />
             <column name="MEDICINE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="REGIMEN_ID" type="${type.id}"/>
-            <column name="daysTreatment" type="INT"/>
         </createTable>
     </changeSet>
 
@@ -999,10 +997,12 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customId" type="${type.customId}"/>
-            <column name="caseClassification" type="INT">
+            <column name="classification" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="daysOfIntensivePhaseDuration" type="INT"/>
+            <column name="active" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -2161,9 +2161,11 @@
     <changeSet author="rmemoria" id="1433264274749-212">
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_ID" baseTableName="batchmovement" constraintName="FK5E1EFDE94E21F23D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
+<!--
     <changeSet author="rmemoria" id="1433264274749-213">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E71CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
+-->
     <changeSet author="rmemoria" id="1433264274749-214">
         <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>

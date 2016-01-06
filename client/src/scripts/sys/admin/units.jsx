@@ -3,6 +3,7 @@ import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
 import Profile from '../../components/profile';
+import Types from '../../components/types';
 
 const crud = new CRUD('unit');
 
@@ -48,10 +49,12 @@ const editorDef = {
 export class Units extends React.Component {
 
 	cellRender(item) {
+		const auname = Types.adminUnit.displayText(item.adminUnit);
+
 		return (
 			<Profile type={item.type.toLowerCase()}
 				title={item.name}
-				subtitle={item.adminUnit.p0.name}
+				subtitle={auname}
 				size="small" />
 			);
 	}

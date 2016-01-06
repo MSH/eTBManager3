@@ -6,9 +6,9 @@ import org.msh.etbm.services.admin.workspaces.WorkspaceDetailData;
 import org.msh.etbm.services.admin.workspaces.WorkspaceQuery;
 import org.msh.etbm.services.admin.workspaces.WorkspaceRequest;
 import org.msh.etbm.services.admin.workspaces.WorkspaceService;
+import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

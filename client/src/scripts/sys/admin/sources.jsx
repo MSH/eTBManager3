@@ -5,20 +5,6 @@ import CRUD from '../../commons/crud';
 
 const crud = new CRUD('source');
 
-// definition of the table that will display the list of sources
-// const tableDef = {
-// 	columns: [
-// 		{
-// 			title: __('form.shortName'),
-// 			property: 'shortName'
-// 		},
-// 		{
-// 			title: __('form.name'),
-// 			property: 'name'
-// 		}
-// 	]
-// };
-
 // definition of the form fields to edit substances
 const editorDef = {
 	layout: [

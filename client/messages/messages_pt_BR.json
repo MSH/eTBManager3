@@ -855,5 +855,10 @@
     "admin.adminunits.hidecs": "Esconder estrutura do país",
     "admin.adminunits.showcs": "Exibir estrutura do país",
     "validation.au.invalidparent": "UF/Município selecionado não é compatível com a unidade pai",
-    "validation.changews": "Erro ao trocar de área de trabalho"
+    "validation.changews": "Erro ao trocar de área de trabalho",
+    "admin.units": "Unidades & laboratorios",
+    "Cancel": "",
+    "admin.products.edt": "Editar produto",
+    "admin.meds.edt": "Editar medicamento",
+    "admin.syssetup.links": ""
 }

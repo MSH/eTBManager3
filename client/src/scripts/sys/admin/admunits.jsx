@@ -27,8 +27,7 @@ export class AdmUnits extends React.Component {
 		this.nodeInfo = this.nodeInfo.bind(this);
 		this.nodeWrapper = this.nodeWrapper.bind(this);
 		this.addRoot = this.addRoot.bind(this);
-		this.onSave = this.onSave.bind(this);
-		this.onCancelEditor = this.onCancelEditor.bind(this);
+		this.onEditorEvent = this.onEditorEvent.bind(this);
 		this.onMenuSel = this.onMenuSel.bind(this);
 		this.onInitTree = this.onInitTree.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
@@ -257,6 +256,15 @@ export class AdmUnits extends React.Component {
 			});
 	}
 
+	onEditorEvent(evt) {
+		if (evt.type === 'ok') {
+			this.onSave();
+		}
+		else {
+			this.onCancelEditor();
+		}
+	}
+
 	/**
 	 * Called when admin unit must be saved
 	 * @return {[type]} [description]
@@ -394,8 +402,7 @@ export class AdmUnits extends React.Component {
 					editing && <Collapse in transitionAppear>
 						<div>
 							<FormDialog formDef={this.getEditorDef()}
-								onConfirm={this.onSave}
-								onCancel={this.onCancelEditor}
+								onEvent={this.onEditorEvent}
 								doc={this.state.doc} />
 						</div>
 						</Collapse>

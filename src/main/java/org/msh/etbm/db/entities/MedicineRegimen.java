@@ -22,21 +22,16 @@ public class MedicineRegimen extends Synchronizable {
 	
 	private Integer defaultFrequency;
 
-	private Integer daysTreatment;
+    /**
+     * The initial day of the treatment for this medicine in the regimen
+     */
+    private int iniDay;
+
+    /**
+     * Number of days of treatment for this medicine
+     */
+	private int days;
 	
-	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
-	@NotNull
-	private Source defaultSource;
-
-	public Source getDefaultSource() {
-		return defaultSource;
-	}
-
-	public void setDefaultSource(Source defaultSource) {
-		this.defaultSource = defaultSource;
-	}
-
 
 	public Medicine getMedicine() {
 		return medicine;
@@ -62,17 +57,19 @@ public class MedicineRegimen extends Synchronizable {
 		this.defaultFrequency = defaultFrequency;
 	}
 
-	/**
-	 * @return the monthsTreatment
-	 */
-	public Integer getMonthsTreatment() {
-		return daysTreatment;
-	}
+    public int getIniDay() {
+        return iniDay;
+    }
 
-	/**
-	 * @param daysTreatment the monthsTreatment to set
-	 */
-	public void setMonthsTreatment(Integer daysTreatment) {
-		this.daysTreatment = daysTreatment;
-	}
+    public void setIniDay(int iniDay) {
+        this.iniDay = iniDay;
+    }
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
 }

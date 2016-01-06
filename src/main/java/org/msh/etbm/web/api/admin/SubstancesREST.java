@@ -6,9 +6,9 @@ import org.msh.etbm.services.admin.substances.SubstanceData;
 import org.msh.etbm.services.admin.substances.SubstanceQuery;
 import org.msh.etbm.services.admin.substances.SubstanceRequest;
 import org.msh.etbm.services.admin.substances.SubstanceService;
+import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

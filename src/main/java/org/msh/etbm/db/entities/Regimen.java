@@ -16,7 +16,7 @@ public class Regimen extends WorkspaceEntity {
 	@Column(length=100)
 	private String name;
 	
-	private CaseClassification caseClassification;
+	private CaseClassification classification;
 
 	@OneToMany(cascade={CascadeType.ALL})
 	@JoinColumn(name="REGIMEN_ID")
@@ -26,18 +26,7 @@ public class Regimen extends WorkspaceEntity {
 	@PropertyLog(messageKey="form.customId")
 	private String customId;
 
-	private Integer daysOfIntensivePhaseDuration;
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof Regimen))
-			return false;
-	
-		return ((Regimen)obj).getId().equals(getId());
-	}
+    private boolean active;
 
 
 	/* (non-Javadoc)
@@ -46,22 +35,6 @@ public class Regimen extends WorkspaceEntity {
 	@Override
 	public String toString() {
 		return (name != null? name: super.toString());
-	}
-
-	/**
-	 * Include a medicine regimen to the regimen and also update the intensive and continuous list
-	 * @param mr
-	 */
-	public void addMedicine(MedicineRegimen mr) {
-		getMedicines().add(mr);
-	}
-	
-	/**
-	 * Remove a medicine in the regimen and also update the intensive and continuous phase list
-	 * @param mr
-	 */
-	public void remMedicine(MedicineRegimen mr) {
-		getMedicines().remove(mr);
 	}
 
 	/**
@@ -99,7 +72,7 @@ public class Regimen extends WorkspaceEntity {
 	 * @return the mdrTreatment
 	 */
 	public boolean isMdrTreatment() {
-		return CaseClassification.DRTB.equals(caseClassification);
+		return CaseClassification.DRTB.equals(classification);
 	}
 
 
@@ -107,7 +80,7 @@ public class Regimen extends WorkspaceEntity {
 	 * @return the tbTreatment
 	 */
 	public boolean isTbTreatment() {
-		return CaseClassification.TB.equals(caseClassification);
+		return CaseClassification.TB.equals(classification);
 	}
 
     public String getCustomId() {
@@ -118,31 +91,24 @@ public class Regimen extends WorkspaceEntity {
         this.customId = customId;
     }
 
-    /**
-	 * @return the caseClassification
-	 */
-	public CaseClassification getCaseClassification() {
-		return caseClassification;
-	}
+    public CaseClassification getClassification() {
+        return classification;
+    }
 
-
-	/**
-	 * @param caseClassification the caseClassification to set
-	 */
-	public void setCaseClassification(CaseClassification caseClassification) {
-		this.caseClassification = caseClassification;
-	}
-
-	public Integer getIntensivePhaseDuration() {
-		return daysOfIntensivePhaseDuration;
-	}
-
-	public void setIntensivePhaseDuration(Integer daysOfIntensivePhaseDuration) {
-		this.daysOfIntensivePhaseDuration = daysOfIntensivePhaseDuration;
-	}
+    public void setClassification(CaseClassification classification) {
+        this.classification = classification;
+    }
 
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

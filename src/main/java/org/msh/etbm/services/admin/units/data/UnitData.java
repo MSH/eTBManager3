@@ -2,8 +2,6 @@ package org.msh.etbm.services.admin.units.data;
 
 import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 
-import java.util.UUID;
-
 /**
  * Created by rmemoria on 1/11/15.
  */

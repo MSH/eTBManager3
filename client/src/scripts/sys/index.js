@@ -8,11 +8,14 @@ var view;
 export function init() {
 
 	return view || new Promise(resolve => {
-		require.ensure(['./routes', './form-ext/registration', './toolbar-content'], function(require) {
+		require.ensure(['./routes', './form-ext/registration', './toolbar-content', './types/init'], function(require) {
 			var Routes = require('./routes');
 			var FormExtension = require('./form-ext/registration');
+			var Types = require('./types/init');
 
 			FormExtension.register();
+
+			Types.register();
 
 			// initialize session
 			initSession();

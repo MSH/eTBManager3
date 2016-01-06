@@ -20,7 +20,6 @@ export default class CrudView extends React.Component {
 		this.state = { readOnly: !hasPerm(this.props.perm) };
 
 		// function binding
-		this.getValues = this.getValues.bind(this);
 		this.getCellSize = this.getCellSize.bind(this);
 		this.cellRender = this.cellRender.bind(this);
 		this.editClick = this.editClick.bind(this);
@@ -29,11 +28,15 @@ export default class CrudView extends React.Component {
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 	}
 
+	componentWillMount() {
+		this.refreshTable();
+	}
+
 	/**
 	 * Called when the crud card wants to update its content
 	 * @return {[type]} [description]
 	 */
-	getValues() {
+	refreshTable() {
 		const self = this;
 
 		return this.props.crud.query({ })
@@ -43,7 +46,7 @@ export default class CrudView extends React.Component {
 			// generate new result
 			const result = { count: res.count, list: list };
 			// set state
-			self.setState(result);
+			self.setState({ values: result });
 			// return to the promise
 			return result;
 		});
@@ -59,11 +62,15 @@ export default class CrudView extends React.Component {
 
 			// display cell for editing
 			return (
-				<FormDialog formDef={this.props.editorDef}
-					doc={item.data}
-					highlight
-					onEvent={func}
-					/>
+				<Collapse in transitionAppear>
+					<div>
+					<FormDialog formDef={this.props.editorDef}
+						doc={item.data}
+						highlight
+						onEvent={func}
+						/>
+					</div>
+				</Collapse>
 				);
 		}
 
@@ -76,7 +83,7 @@ export default class CrudView extends React.Component {
 				<div>
 					{colContent}
 					<ButtonToolbar className="mtop">
-						<AsyncButton bsStyle="warning"
+						<AsyncButton bsStyle="primary"
 							fetching={item.state === 'fetching'}
 							data-item={index}
 							onClick={this.editClick}>{__('action.edit')}</AsyncButton>
@@ -105,16 +112,6 @@ export default class CrudView extends React.Component {
 		return item.state === 'edit' ? { xs: 12 } : this.props.cellSize;
 	}
 
-	/**
-	 * Called when the new button is clicked
-	 */
-	// onTableEvent(evt) {
-	// 	switch (evt.type) {
-	// 		case 'new': return this.openNew();
-	// 		case 'cmd': return this.handleMenuCmd(evt.key, evt.item);
-	// 		default: throw new Error('Unexpected event ' + evt);
-	// 	}
-	// }
 
 	cardEventHandler(evt) {
 		if (evt.type === 'new') {
@@ -126,19 +123,23 @@ export default class CrudView extends React.Component {
 		}
 	}
 
+
 	formEventHandler(evt) {
 		const item = this.item;
 		const comp = this.self;
 
 		// user canceled the operation ?
 		if (evt.type === 'cancel') {
-			item.state = 'ok';
-			comp.forceUpdate();
+			if (item) {
+				item.state = 'ok';
+			}
+			comp.setState({ editing: null });
 			return null;
 		}
 
 		// user confirmed the operation ?
 		if (evt.type === 'ok') {
+			// save the document
 			const crud = comp.props.crud;
 			const promise = item ? crud.update(evt.doc.id, evt.doc) : crud.create(evt.doc);
 
@@ -153,34 +154,13 @@ export default class CrudView extends React.Component {
 						editing: null,
 						message: item ? __('default.entity_updated') : __('default.entity_created')
 					});
+					comp.refreshTable();
 				});
 		}
 
 		return null;
 	}
 
-	/**
-	 * Called when form editor requires the document being edited to be saved
-	 * @return {[type]} [description]
-	 */
-// 	onSave() {
-// 		const self = this;
-// 		const doc = this.state.doc;
-// 		const crud = this.props.crud;
-// 		const isNew = doc.id;
-
-// 		const promise = isNew ? crud.update(doc.id, doc) : crud.create(doc);
-
-// 		return promise
-// 			.then(() => {
-// 				self.setState({ editing: false,
-// 				table: null,
-// 				doc: null,
-// 				message: doc.id ? __('default.entity_updated') : __('default.entity_created') });
-
-// //				app.dispatch(isNew ? CRUD_CREATE : CRUD_UPDATE, );
-// 			});
-// 	}
 
 	editClick(evt) {
 		const item = this._cmdReference(evt);
@@ -214,17 +194,8 @@ export default class CrudView extends React.Component {
 
 		// recover item
 		const index = evt.currentTarget.dataset.item;
-		return this.state.list[index];
+		return this.state.values.list[index];
 	}
-
-	// edit(item) {
-	// 	this.setState({ fetching: true, item: item, message: null });
-	// 	const self = this;
-	// 	// start editing the doc
-	// 	return this.props.crud.get(item.id)
-	// 		.then(res => self.setState({ editing: true, doc: res, fetching: false, item: null }))
-	// 		.catch(res => self.setState({ fetching: false, item: null, message: res }));
-	// }
 
 
 	deleteConfirm(action) {
@@ -233,21 +204,13 @@ export default class CrudView extends React.Component {
 
 			this.props.crud
 				.delete(this.state.item.data.id)
-				.then(() => self.setState({ message: __('default.entity_deleted') }));
+				.then(() => {
+					self.setState({ message: __('default.entity_deleted') });
+					self.refreshTable();
+				});
 		}
 		this.setState({ showConfirm: false, doc: null, message: null });
 	}
-
-	/**
-	 * Fetch data to feed the table
-	 * @param  {[type]} crud [description]
-	 * @return {[type]}      [description]
-	 */
-	// fetchTable() {
-	// 	const self = this;
-	// 	this.props.crud.query({ rootUnits: true })
-	// 		.then(result => self.setState({ table: result }));
-	// }
 
 
 	render() {
@@ -266,7 +229,7 @@ export default class CrudView extends React.Component {
 		return (
 			<div>
 				{
-					msg && <Alert bsStyle="success">{msg}</Alert>
+					msg && <Alert bsStyle="warning">{msg}</Alert>
 				}
 				{
 					editing && <Collapse in transitionAppear>
@@ -279,7 +242,7 @@ export default class CrudView extends React.Component {
 				}
 				<CrudCard title={this.props.title}
 					onEvent={this.cardEventHandler}
-					onGetValues={this.getValues}
+					values={this.state.values}
 					onCellSize={this.getCellSize}
 					onCellRender={this.cellRender} />
 				<MessageDlg show={this.state.showConfirm}

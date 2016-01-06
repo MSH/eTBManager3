@@ -48,8 +48,8 @@ export default class Form extends React.Component {
 		}
 	}
 
-	static getType(name) {
-		return typeHandlers[name];
+	static get type() {
+		return typeHandlers;
 	}
 
 	/**

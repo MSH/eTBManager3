@@ -16,15 +16,15 @@ export default class CrudCard extends React.Component {
 		this.menuClick = this.menuClick.bind(this);
 	}
 
-	componentWillMount() {
-		if (this.props.onGetValues) {
-			const self = this;
-			// call parent to return the values to display
-			const prom = this.props.onGetValues(null);
-			// must alway return a promise
-			prom.then(values => self.setState({ count: values.count, values: values.list }));
-		}
-	}
+	// componentWillMount() {
+	// 	if (this.props.onGetValues) {
+	// 		const self = this;
+	// 		// call parent to return the values to display
+	// 		const prom = this.props.onGetValues(null);
+	// 		// must alway return a promise
+	// 		prom.then(values => self.setState({ count: values.count, values: values.list }));
+	// 	}
+	// }
 
 	/**
 	 * Called when new is clicked
@@ -55,7 +55,7 @@ export default class CrudCard extends React.Component {
 
 	/**
 	 * Create the new button
-	 * @return {Component} The new button, or null if user has no permission to create a new item
+	 * @return {React.Component} The new button, or null if user has no permission to create a new item
 	 */
 	createNewButton() {
 		if (this.props.readOnly) {
@@ -98,10 +98,10 @@ export default class CrudCard extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	createTable() {
-		const values = this.state.values;
+		const values = this.props.values;
 
 		return (
-			<GridTable values={values}
+			<GridTable values={values.list}
 				onCellRender={this.props.onCellRender}
 				onCellSize={this.props.onCellSize}
 				/>
@@ -126,7 +126,7 @@ export default class CrudCard extends React.Component {
 		// adjust the size of the title according to the search box and new button
 		colProps.md += (searchBox ? -3 : 0) + (newButton ? -2 : 0);
 
-		const count = this.state.count;
+		const count = this.props.values ? this.props.values.count : 0;
 		const compCount = count > 0 ? <Badge className="tbl-counter">{count}</Badge> : null;
 
 		// create the header of the card
@@ -150,7 +150,7 @@ export default class CrudCard extends React.Component {
 		const header = this.headerRender();
 
 		// get the list of values
-		const res = this.state.values;
+		const res = this.props.values;
 
 		// create the content of the card
 		let content;
@@ -179,6 +179,7 @@ export default class CrudCard extends React.Component {
 
 CrudCard.propTypes = {
 	title: React.PropTypes.string,
+	values: React.PropTypes.object,
 	paging: React.PropTypes.bool,
 	search: React.PropTypes.bool,
 	onCellRender: React.PropTypes.func,
@@ -188,9 +189,7 @@ CrudCard.propTypes = {
 	// if true, the new button will not be available
 	readOnly: React.PropTypes.bool,
 	// event fired when user clicks on the new button
-	onEvent: React.PropTypes.func,
-	// data to be displayed
-	onGetValues: React.PropTypes.func
+	onEvent: React.PropTypes.func
 };
 
 CrudCard.defaultProps = {

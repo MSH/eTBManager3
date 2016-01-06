@@ -1,6 +1,5 @@
 package org.msh.etbm.services.init.impl;
 
-import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandLog;

@@ -8,6 +8,9 @@ import { AdmUnits } from './admunits';
 import { Sources } from './sources';
 import { Units } from './units';
 import { Substances } from './substances';
+import Products from './products';
+import Regimens from './regimens';
+import Tags from './tags';
 import { hasPerm } from '../session';
 
 /**
@@ -22,17 +25,11 @@ const items = [
         view: AdmUnits
 	},
 	{
-		title: __('admin.tbunits'),
+		title: __('admin.units'),
 		perm: 'UNITS',
 		icon: 'hospital-o',
         path: '/units',
         view: Units
-	},
-	{
-		title: __('admin.labs'),
-		perm: 'UNITS',
-		icon: 'building',
-        path: '/labs'
 	},
 	{
 		title: __('admin.sources'),
@@ -52,13 +49,15 @@ const items = [
 		title: __('admin.products'),
 		perm: 'PRODUCTS',
 		icon: 'cube',
-        path: '/products'
+        path: '/products',
+        view: Products
 	},
 	{
 		title: __('admin.regimens'),
 		perm: 'REGIMENS',
 		icon: 'medkit',
-        path: '/regimens'
+        path: '/regimens',
+        view: Regimens
 	},
 	{
 		separator: true
@@ -79,7 +78,8 @@ const items = [
 		title: __('admin.tags'),
 		perm: 'TAGS',
 		icon: 'tags',
-        path: '/tags'
+        path: '/tags',
+        view: Tags
 	},
 	{
 		separator: true
