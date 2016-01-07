@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
+ * CRUD services for medicine regimens
+ *
  * Created by rmemoria on 6/1/16.
  */
 @Service

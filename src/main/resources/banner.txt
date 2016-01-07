@@ -6,3 +6,5 @@
   \___|      |_|  |____/  |_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|
                                                      __/ |
                                                     |___/
+
+Copyright (c) 2005 Management Sciences for Health, Inc. All rights reserved.

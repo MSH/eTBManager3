@@ -18,9 +18,11 @@ public class MedicineRegimen extends Synchronizable {
 	@NotNull
 	private Medicine medicine;
 
-	private Integer defaultDoseUnit;
-	
-	private Integer defaultFrequency;
+    @NotNull
+	private int defaultDoseUnit;
+
+    @NotNull
+	private int defaultFrequency;
 
     /**
      * The initial day of the treatment for this medicine in the regimen
@@ -41,21 +43,21 @@ public class MedicineRegimen extends Synchronizable {
 		this.medicine = medicine;
 	}
 
-	public Integer getDefaultDoseUnit() {
-		return defaultDoseUnit;
-	}
+    public int getDefaultDoseUnit() {
+        return defaultDoseUnit;
+    }
 
-	public void setDefaultDoseUnit(Integer defaultDoseUnit) {
-		this.defaultDoseUnit = defaultDoseUnit;
-	}
+    public void setDefaultDoseUnit(int defaultDoseUnit) {
+        this.defaultDoseUnit = defaultDoseUnit;
+    }
 
-	public Integer getDefaultFrequency() {
-		return defaultFrequency;
-	}
+    public int getDefaultFrequency() {
+        return defaultFrequency;
+    }
 
-	public void setDefaultFrequency(Integer defaultFrequency) {
-		this.defaultFrequency = defaultFrequency;
-	}
+    public void setDefaultFrequency(int defaultFrequency) {
+        this.defaultFrequency = defaultFrequency;
+    }
 
     public int getIniDay() {
         return iniDay;

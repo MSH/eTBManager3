@@ -5,6 +5,7 @@ import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Represent an age range for the workspace
@@ -17,6 +18,7 @@ public class AgeRange extends WorkspaceEntity {
 	private static final long serialVersionUID = -9151429225415780966L;
 
 	@PropertyLog(messageKey="form.name")
+    @NotNull
 	private String name;
 
 	private int iniAge;

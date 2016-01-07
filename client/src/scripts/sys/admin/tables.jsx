@@ -11,6 +11,7 @@ import { Substances } from './substances';
 import Products from './products';
 import Regimens from './regimens';
 import Tags from './tags';
+import AgeRanges from './ageranges';
 import { hasPerm } from '../session';
 
 /**
@@ -72,7 +73,8 @@ const items = [
 		title: __('admin.ageranges'),
 		perm: 'AGERANGES',
 		icon: 'tasks',
-        path: '/ageranges'
+        path: '/ageranges',
+        view: AgeRanges
 	},
 	{
 		title: __('admin.tags'),

@@ -55,7 +55,7 @@ export default class ErrorView extends React.Component {
 						<i className="fa fa-5x fa-bomb"/>
 					</div>
 					<div style={{ minHeight: '60px' }}>
-						<p className="lead text-danger">{__('error.msg1')}</p>
+						<p className="lead">{__('error.msg1')}</p>
 						<p className="text-muted"><b>{__('form.reason') + ': '}</b>{err}</p>
 					</div>
 				</Modal.Body>

@@ -72,7 +72,9 @@
             <column name="iniAge" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${type.name}"/>
+            <column name="name" type="${type.name}">
+                <constraints nullable="false" />
+            </column>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false" />
             </column>
@@ -581,15 +583,18 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${type.name}" />
-            <column name="shortName" type="${type.shortName}"/>
+            <column name="name" type="${type.name}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="shortName" type="${type.shortName}">
+                <constraints nullable="false" />
+            </column>
             <column name="category" type="INT"/>
             <column name="line" type="INT"/>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="customId" type="${type.customId}"/>
-            <column name="displayorder" type="INT"/>
             <column name="discriminator" type="VARCHAR(100)" />
             <column name="active" type="${type.boolean}" >
                 <constraints nullable="false" />
@@ -749,14 +754,24 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="defaultDoseUnit" type="INT"/>
-            <column name="defaultFrequency" type="INT"/>
-            <column name="iniDay" type="INT" />
-            <column name="days" type="INT" />
+            <column name="defaultDoseUnit" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="defaultFrequency" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="iniDay" type="INT" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="days" type="INT" >
+                <constraints nullable="false"/>
+            </column>
             <column name="MEDICINE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="REGIMEN_ID" type="${type.id}"/>
+            <column name="REGIMEN_ID" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -992,7 +1007,9 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${type.name}"/>
+            <column name="name" type="${type.name}">
+                <constraints nullable="false"/>
+            </column>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -1158,15 +1175,22 @@
             <column name="password" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
-            <column name="registrationDate" type="${type.datetime}"/>
-            <column name="state" type="INT"/>
+            <column name="registrationDate" type="${type.datetime}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
             <column name="timeZone" type="VARCHAR(50)"/>
-            <column name="ADMINUNIT_ID" type="${type.id}"/>
             <column name="DEFAULTWORKSPACE_ID" type="${type.id}"/>
             <column name="PARENTUSER_ID" type="${type.id}"/>
             <column name="customId" type="${type.customId}"/>
-            <column name="sendSystemMessages" type="${type.boolean}"/>
-            <column name="ulaAccepted" type="${type.boolean}"/>
+            <column name="sendSystemMessages" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ulaAccepted" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
             <column name="pwdChangeRequest" type="varchar(100)" />
         </createTable>
     </changeSet>
@@ -1703,7 +1727,9 @@
             <column name="USER_VIEW" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="ADMINUNIT_ID" type="${type.id}"/>
+            <column name="ADMINUNIT_ID" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
             <column name="UNIT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -1713,7 +1739,9 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="administrator" type="${type.boolean}"/>
+            <column name="administrator" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -1726,17 +1754,37 @@
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
             </column>
-            <column name="patientNameComposition" type="INT"/>
-            <column name="weekFreq1" type="INT"/>
-            <column name="weekFreq2" type="INT"/>
-            <column name="weekFreq3" type="INT"/>
-            <column name="weekFreq4" type="INT"/>
-            <column name="weekFreq5" type="INT"/>
-            <column name="weekFreq6" type="INT"/>
-            <column name="weekFreq7" type="INT"/>
-            <column name="patientAddrRequiredLevels" type="INT"/>
+            <column name="patientNameComposition" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq2" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq3" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq4" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq5" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq6" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weekFreq7" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patientAddrRequiredLevels" type="INT">
+                <constraints nullable="false"/>
+            </column>
             <column name="confirmedCaseNumber" type="INT"/>
-            <column name="sendSystemMessages" type="${type.boolean}"/>
+            <column name="sendSystemMessages" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
             <column name="monthsToAlertExpiredMedicines" type="INT"/>
             <column name="caseValidationTB" type="INT"/>
             <column name="caseValidationDRTB" type="INT"/>
@@ -1755,7 +1803,9 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${type.name}"/>
+            <column name="name" type="${type.name}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -2550,11 +2600,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-403">
         <addForeignKeyConstraint baseColumnNames="resistpattern_id" baseTableName="caseresistancepattern" constraintName="respatt_caserespat_fk" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-404">
-        <createIndex indexName="FK7873F63D8A1004CB" tableName="sys_user" unique="false">
-            <column name="ADMINUNIT_ID"/>
-        </createIndex>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-406">
         <createIndex indexName="fk_adminunit_code" tableName="administrativeunit" unique="false">

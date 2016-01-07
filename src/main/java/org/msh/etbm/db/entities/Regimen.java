@@ -5,6 +5,7 @@ import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.CaseClassification;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class Regimen extends WorkspaceEntity {
 
 	@Column(length=100)
+    @NotNull
 	private String name;
 	
 	private CaseClassification classification;
