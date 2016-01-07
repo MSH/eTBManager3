@@ -176,6 +176,10 @@ export default class CrudView extends React.Component {
 			item.state = 'edit';
 			item.doc = res;
 			self.forceUpdate();
+		})
+		.catch(() => {
+			item.state = 'ok';
+			self.forceUpdate();
 		});
 	}
 

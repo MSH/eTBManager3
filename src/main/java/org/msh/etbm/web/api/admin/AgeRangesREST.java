@@ -2,10 +2,9 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.regimens.RegimenData;
-import org.msh.etbm.services.admin.regimens.RegimenQuery;
-import org.msh.etbm.services.admin.regimens.RegimenRequest;
-import org.msh.etbm.services.admin.regimens.RegimenService;
+import org.msh.etbm.services.admin.ageranges.AgeRangeData;
+import org.msh.etbm.services.admin.ageranges.AgeRangeRequest;
+import org.msh.etbm.services.admin.ageranges.AgeRangeService;
 import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagQuery;
 import org.msh.etbm.services.admin.tags.TagRequest;
@@ -21,46 +20,48 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
+ * REST Interface to handle age range CRUD operations
+ *
  * Created by rmemoria on 6/1/16.
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.TABLE_TAGS_EDT})
-public class TagsREST {
+@Authenticated(permissions = {Permissions.TABLE_AGERANGES_EDT})
+public class AgeRangesREST {
 
     @Autowired
-    TagService service;
+    AgeRangeService service;
 
 
-    @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/agerange/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        TagData data = service.findOne(id, TagData.class);
+        AgeRangeData data = service.findOne(id, AgeRangeData.class);
         return new StandardResult(data, null, data != null);
     }
 
-    @RequestMapping(value = "/tag", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody TagRequest req) {
+    @RequestMapping(value = "/agerange", method = RequestMethod.POST)
+    public StandardResult create(@Valid @NotNull @RequestBody AgeRangeRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/tag/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody TagRequest req) {
+    @RequestMapping(value = "/agerange/{id}", method = RequestMethod.POST)
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AgeRangeRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/tag/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/agerange/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         ServiceResult res = service.delete(id);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/tag/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/agerange/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody TagQuery query) {
-        return service.findMany(query);
+    public QueryResult query() {
+        return service.findMany();
     }
 
 }

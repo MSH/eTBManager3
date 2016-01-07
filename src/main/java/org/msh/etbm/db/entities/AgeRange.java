@@ -17,10 +17,6 @@ import javax.validation.constraints.NotNull;
 public class AgeRange extends WorkspaceEntity {
 	private static final long serialVersionUID = -9151429225415780966L;
 
-	@PropertyLog(messageKey="form.name")
-    @NotNull
-	private String name;
-
 	private int iniAge;
 	private int endAge;
 	
@@ -37,6 +33,8 @@ public class AgeRange extends WorkspaceEntity {
 
 		return Integer.toString(iniAge) + " - " + Integer.toString(endAge);
 	}
+
+
 
 	/**
 	 * @return the iniAge
@@ -67,15 +65,11 @@ public class AgeRange extends WorkspaceEntity {
 	}
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return toString();
     }
 
     @Override
     public String getDisplayString() {
-        return name;
+        return getName();
     }
 }
