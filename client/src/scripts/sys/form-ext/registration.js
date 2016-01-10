@@ -1,5 +1,5 @@
 
-import Form from '../../components/form';
+import Form from '../../forms/form';
 
 import { adminUnitType, AdminUnitControl } from './admunit-control';
 
@@ -8,8 +8,8 @@ import { adminUnitType, AdminUnitControl } from './admunit-control';
  * @return {[type]} [description]
  */
 function register() {
-	Form.registerType(adminUnitType);
-	Form.registerControl(AdminUnitControl);
+//	Form.registerType(adminUnitType);
+//	Form.registerControl(AdminUnitControl);
 }
 
 export { register };

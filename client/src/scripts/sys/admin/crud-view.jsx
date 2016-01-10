@@ -6,7 +6,7 @@
 import React from 'react';
 import { Collapse, Alert, Button, ButtonToolbar } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
-import Form from '../../components/form';
+import Form from '../../forms/form';
 import { hasPerm } from '../session';
 import { MessageDlg, CollapseCard, AsyncButton } from '../../components/index';
 import CrudCard from './crud-card';

@@ -6,7 +6,7 @@ import { Fluidbar, Sidebar, WaitIcon } from '../../components/index';
 
 import { AdmUnits } from './admunits';
 import { Sources } from './sources';
-import { Units } from './units';
+import Units from './units';
 import { Substances } from './substances';
 import Products from './products';
 import Regimens from './regimens';

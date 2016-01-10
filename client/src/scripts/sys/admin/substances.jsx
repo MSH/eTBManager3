@@ -3,7 +3,7 @@ import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
 import { app } from '../../core/app';
-import Types from '../../components/types';
+import Types from '../../forms/types';
 
 
 const crud = new CRUD('substance');
@@ -105,11 +105,11 @@ export class Substances extends React.Component {
 					<dt>{__('form.displayorder') + ':'}</dt>
 					<dd>{item.displayOrder}</dd>
 					<dt>{__('Substance.dstResultForm') + ':'}</dt>
-					<dd>{Types.yesNo.render(item.dstResultForm)}</dd>
+					<dd>{Types.list.yesNo.render(item.dstResultForm)}</dd>
 					<dt>{__('Substance.prevTreatmentForm') + ':'}</dt>
-					<dd>{Types.yesNo.render(item.prevTreatmentForm)}</dd>
+					<dd>{Types.list.yesNo.render(item.prevTreatmentForm)}</dd>
 					<dt>{__('EntityState.ACTIVE') + ':'}</dt>
-					<dd>{Types.yesNo.render(item.active)}</dd>
+					<dd>{Types.list.yesNo.render(item.active)}</dd>
 					<dt>{__('form.customId') + ':'}</dt>
 					<dd>{item.customId}</dd>
 				</dl>

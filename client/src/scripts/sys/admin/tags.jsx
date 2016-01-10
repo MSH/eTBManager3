@@ -2,8 +2,7 @@
 import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
-import { app } from '../../core/app';
-import Types from '../../components/types';
+import Types from '../../forms/types';
 
 
 const crud = new CRUD('tag');

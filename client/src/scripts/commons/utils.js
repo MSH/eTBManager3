@@ -52,3 +52,32 @@ export function setValue(obj, prop, val) {
 
     value[prop] = val;
 }
+
+/**
+ * Compare if two objects have the same properties and values. property values are compared
+ * using === operator, i.e, a shallow comparation is done
+ * @param  {object} obj1 The first object
+ * @param  {bbject} obj2 The second object
+ * @return {boolean}     True if both object are the same
+ */
+export function objEqual(obj1, obj2) {
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+        return false;
+    }
+
+    for (var k in obj1) {
+        if (obj1[k] !== obj2[k]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Check if value is null or undefined
+ * @param  {[type]}  val [description]
+ * @return {Boolean}     [description]
+ */
+export function isEmpty(val) {
+    return val === undefined || val === null;
+}

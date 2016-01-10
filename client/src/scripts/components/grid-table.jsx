@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { Size } from '../commons/grid-utils';
 
 export default class GridTable extends React.Component {
 
@@ -119,32 +120,3 @@ GridTable.defaultProps = {
 	singleColumn: false
 };
 
-/**
- * Simple size class to handle size operation
- */
-class Size {
-	constructor() {
-		this.xs = 0;
-		this.sm = 0;
-		this.md = 0;
-		this.lg = 0;
-	}
-
-	add(size) {
-		this.xs += size.xs ? size.xs : 0;
-		this.sm += size.sm ? size.sm : 0;
-		this.md += size.md ? size.md : 0;
-		this.lg += size.md ? size.md : 0;
-	}
-
-	isOverflow() {
-		return this.xs > 12 || this.sm > 12 || this.md > 12 || this.lg > 12;
-	}
-
-	fitInSize(size) {
-		return (this.xs + (size.xs ? size.xs : 0) <= 12) &&
-				(this.sm + (size.sm ? size.sm : 0) <= 12) &&
-				(this.md + (size.md ? size.md : 0) <= 12) &&
-				(this.lg + (size.lg ? size.lg : 0) <= 12);
-	}
-}

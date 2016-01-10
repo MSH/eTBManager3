@@ -2,7 +2,7 @@
 import React from 'react';
 import { ButtonToolbar, Button } from 'react-bootstrap';
 import Card from './card';
-import Form from './form';
+import Form from '../forms/form';
 import AsyncButton from './async-button';
 
 /**
@@ -29,7 +29,7 @@ export default class FormDialog extends React.Component {
 	 * Called when the user clicks on the confirm button
 	 */
 	confirmClick() {
-		const errors = Form.validate(this.props.formDef.layout, this.props.doc);
+		const errors = this.refs.form.validate();
 
 		// there are validation errors?
 		if (errors) {
@@ -93,7 +93,7 @@ export default class FormDialog extends React.Component {
 		return (
 			<Card title={title} highlight={this.props.highlight}>
 				<div>
-					<Form layout={layout} doc={doc} errors={errors}/>
+					<Form ref="form" layout={layout} doc={doc} errors={errors}/>
 				</div>
 				<ButtonToolbar>
 					<AsyncButton fetching={this.state.fetching} faIcon="check"

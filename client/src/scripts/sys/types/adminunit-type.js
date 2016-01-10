@@ -1,10 +1,10 @@
 
-import Types from '../../components/types';
+import Types from '../../forms/types';
 
 /**
  * Type handle for administrative unit series
  */
-export default class AdminUnitType extends Types.$.Handler {
+export default class AdminUnitType extends Types.Handler {
 
 	/**
 	 * Display representation of the administrative unit
