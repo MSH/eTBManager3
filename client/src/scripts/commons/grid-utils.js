@@ -23,7 +23,7 @@ function arrangeGrid(lst) {
 		const content = item.content;
 
 		// get the cell size (width)
-		const colsize = item.size;
+		const colsize = item.size ? item.size : { sm: 12 };
 
 		// rend cell
 		const col = (
@@ -36,8 +36,12 @@ function arrangeGrid(lst) {
 
 		rowsize.add(colsize);
 
+		// is next item a new line ?
+		const nextItem = index < lst.length ? lst[index] : null;
+		const newLine = nextItem && nextItem.size ? nextItem.size.newLine : false;
+
 		// check if next cell fits in ermaining size or if it is the last item
-		if (!rowsize.fitInSize(colsize) || index === lst.length) {
+		if (!rowsize.fitInSize(colsize) || index === lst.length || newLine) {
 			// add cells to the row
 			rows.push(
 				<Row key={index}>

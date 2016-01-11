@@ -187,44 +187,11 @@ export default class CrudView extends React.Component {
 	}
 
 
-	// formEventHandler(evt) {
-	// 	const item = this.item;
-	// 	const comp = this.self;
-
-	// 	// user canceled the operation ?
-	// 	if (evt.type === 'cancel') {
-	// 		if (item) {
-	// 			item.state = 'ok';
-	// 		}
-	// 		comp.setState({ editing: null });
-	// 		return null;
-	// 	}
-
-	// 	// user confirmed the operation ?
-	// 	if (evt.type === 'ok') {
-	// 		// save the document
-	// 		const crud = comp.props.crud;
-	// 		const promise = item ? crud.update(evt.doc.id, evt.doc) : crud.create(evt.doc);
-
-	// 		return promise
-	// 			.then(() => {
-	// 				if (item) {
-	// 					item.state = 'ok';
-	// 				}
-
-	// 				comp.setState({
-	// 					values: null,
-	// 					editing: null,
-	// 					message: item ? __('default.entity_updated') : __('default.entity_created')
-	// 				});
-	// 				comp.refreshTable();
-	// 			});
-	// 	}
-
-	// 	return null;
-	// }
-
-
+	/**
+	 * Called when user clicks on the edit button
+	 * @param  {SyntheticMouseEvent} evt Information about the click event
+	 * @return {Promise}     Promise to be resolved when data to edit is available
+	 */
 	editClick(evt) {
 		const item = this._cmdReference(evt);
 
@@ -234,7 +201,7 @@ export default class CrudView extends React.Component {
 
 		// get data to edit from server
 		const self = this;
-		this.props.crud.get(item.data.id)
+		return this.props.crud.get(item.data.id)
 		.then(res => {
 			const cntxt = this.createFormContext(res, item);
 
@@ -248,14 +215,27 @@ export default class CrudView extends React.Component {
 		});
 	}
 
+	/**
+	 * Called when user clicks on the delete event
+	 * @param  {[type]} evt [description]
+	 * @return {[type]}     [description]
+	 */
 	deleteClick(evt) {
 		const item = this._cmdReference(evt);
+
+		// show the confirm delete dialog
 		this.setState({
 			showConfirm: true,
 			item: item
 		});
 	}
 
+	/**
+	 * Get the item reference stored in the button that rose the event
+	 * in a DOM attribute called data-item
+	 * @param  {SyntheticMouseEvent} evt Information about the event
+	 * @return {object}     The item assigned to the event
+	 */
 	_cmdReference(evt) {
 		evt.stopPropagation();
 		// prevent panel to collapse
@@ -268,16 +248,20 @@ export default class CrudView extends React.Component {
 
 
 	deleteConfirm(action) {
+		const item = this.state.item;
+
 		if (action === 'yes') {
 			const self = this;
 
 			this.props.crud
-				.delete(this.state.item.data.id)
+				.delete(item.data.id)
 				.then(() => {
 					self.setState({ message: __('default.entity_deleted') });
 					self.refreshTable();
 				});
 		}
+
+		item.state = 'ok';
 		this.setState({ showConfirm: false, doc: null, message: null });
 	}
 

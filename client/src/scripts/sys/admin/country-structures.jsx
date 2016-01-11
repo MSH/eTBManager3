@@ -5,20 +5,6 @@ import CRUD from '../../commons/crud';
 
 const crud = new CRUD('countrystructure');
 
-// definition of the table that will display the list of sources
-// const tableDef = {
-// 	title: __('admin.auorg'),
-// 	columns: [
-// 		{
-// 			title: __('form.name'),
-// 			property: 'name'
-// 		},
-// 		{
-// 			title: __('form.level'),
-// 			property: 'level'
-// 		}
-// 	]
-// };
 
 // definition of the form fields to edit substances
 const editorDef = {
