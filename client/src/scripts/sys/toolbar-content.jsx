@@ -94,13 +94,14 @@ export default function() {
                 <NavItem className="hsmall">
                     {search}
                 </NavItem>
-                <NavDropdown id="ddWs" eventKey={3} title={workspace} className="nav-item-icon" onSelect={wsChange}>
-                {
-                    session.workspaces.map(ws =>
-                        <MenuItem key={ws.id} eventKey={ws.id}>
-                            {ws.name}
-                        </MenuItem>)
-                }
+                <NavDropdown id="ddWs" eventKey={3}
+                    title={workspace} className="nav-item-icon scrollable-menu" onSelect={wsChange}>
+                    {
+                        session.workspaces.map(ws =>
+                            <MenuItem key={ws.id} eventKey={ws.id}>
+                                {ws.name}
+                            </MenuItem>)
+                    }
                 </NavDropdown>
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon">
                     <MenuItem eventKey="1">{'User profile...'}</MenuItem>

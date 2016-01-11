@@ -24,24 +24,20 @@ const adminUnitType = {
 /**
  * Control to handle administrative unit selection
  */
-class AdminUnitControl extends React.Component {
-
-	static controlName() {
-		return 'adminunit';
-	}
+export default class AdminUnitControl extends React.Component {
 
 	auDisplay(val) {
 		return Object.keys(val).map(key => val[key].name).join(', ');
 	}
 
 	renderReadOnly() {
-		const el = this.props.element;
-		const val = el.getValue();
+		const el = this.props.schema;
+		const val = this.props.value;
 		const txt = val && val.p0 ? this.auDisplay(val) : app.getState().session.workspaceName;
 
 		return	(
-			<Input ref={el.data.property}
-				label={el.label()}
+			<Input ref={el.property}
+				label={el.label}
 				type="text"
 				disabled
 				value={txt} />
@@ -53,18 +49,18 @@ class AdminUnitControl extends React.Component {
 	}
 
 	render() {
-		const el = this.props.element;
+		const el = this.props.schema;
 
-		return el.isReadOnly() ? this.renderReadOnly() : this.renderEditor();
+		return el.readOnly ? this.renderReadOnly() : this.renderEditor();
 	}
 }
 
 
 AdminUnitControl.propTypes = {
-	element: React.PropTypes.object,
-	doc: React.PropTypes.object,
+	schema: React.PropTypes.object,
+	value: React.PropTypes.object,
 	errors: React.PropTypes.object
 };
 
 
-export { AdminUnitControl, adminUnitType };
+// export { AdminUnitControl, adminUnitType };

@@ -5,11 +5,6 @@ import Types from '../types';
 
 export default class FieldElement extends React.Component {
 
-	// constructor(props) {
-	// 	super(props);
-	// 	this.onChange = this.onChange.bind(this);
-	// }
-
 	shouldComponentUpdate(nextProps) {
 		// component should update only if element or doc is changed
 		var update = nextProps.schema !== this.props.schema ||
@@ -37,6 +32,19 @@ export default class FieldElement extends React.Component {
 		const th = Types.list[el.type];
 
 		const Comp = th.formComponent(el);
+
+		if (Comp === null) {
+			if (__DEV__) {
+				return (
+					<div>
+						<label>{'Undefined component'}</label>
+						<div className="text-muted">{'type = ' + el.type}</div>
+					</div>
+					);
+			}
+
+			return null;
+		}
 
 		return (
 			<Comp schema={el}

@@ -1,5 +1,6 @@
 
 import Types from '../../forms/types';
+import AdminUnitControl from './admunit-control';
 
 /**
  * Type handle for administrative unit series
@@ -31,5 +32,9 @@ export default class AdminUnitType extends Types.Handler {
 
 	toServer(value) {
 		return value && value.p0 ? value.p0.id : null;
+	}
+
+	formComponent() {
+		return AdminUnitControl;
 	}
 }

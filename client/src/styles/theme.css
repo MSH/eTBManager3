@@ -6994,6 +6994,11 @@ button.close {
   padding: 2px 4px;
   border-radius: 2px;
 }
+.open.scrollable-menu .dropdown-menu {
+  height: auto;
+  max-height: 300px;
+  overflow-x: hidden;
+}
 .callout {
   padding: 20px;
   margin: 20px 0;

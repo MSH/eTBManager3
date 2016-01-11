@@ -60,6 +60,7 @@ export default class CountryStructures extends React.Component {
 	render() {
 		return (
 			<CrudView crud={crud}
+				title={__('admin.auorg')}
 				onCellRender={this.cellRender}
 				editorDef={editorDef}
 				cellSize={{ md: 12 }}

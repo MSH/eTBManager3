@@ -27,7 +27,8 @@ export class AdmUnits extends React.Component {
 		this.nodeInfo = this.nodeInfo.bind(this);
 		this.nodeWrapper = this.nodeWrapper.bind(this);
 		this.addRoot = this.addRoot.bind(this);
-		this.onEditorEvent = this.onEditorEvent.bind(this);
+		this.onSave = this.onSave.bind(this);
+		this.onCancelEditor = this.onCancelEditor.bind(this);
 		this.onMenuSel = this.onMenuSel.bind(this);
 		this.onInitTree = this.onInitTree.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
@@ -336,7 +337,7 @@ export class AdmUnits extends React.Component {
 				},
 				{
 					property: 'parents',
-					type: 'adminunit',
+					type: 'adminUnit',
 					label: __('admin.adminunits.parentunit'),
 					readOnly: true,
 					size: { sm: 6, newLine: true }
@@ -402,7 +403,8 @@ export class AdmUnits extends React.Component {
 					editing && <Collapse in transitionAppear>
 						<div>
 							<FormDialog formDef={this.getEditorDef()}
-								onEvent={this.onEditorEvent}
+								onConfirm={this.onSave}
+								onCancel={this.onCancelEditor}
 								doc={this.state.doc} />
 						</div>
 						</Collapse>
