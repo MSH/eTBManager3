@@ -56,18 +56,15 @@ export default class CrudView extends React.Component {
 	cellRender(item, index) {
 		// is in edit mode ?
 		if (item.state === 'edit') {
-			// create a context that will be used when clicking on the save or cancel button
-			const context = { self: this, item: item };
-			const func = this.formEventHandler.bind(context);
-
 			// display cell for editing
 			return (
 				<Collapse in transitionAppear>
 					<div>
 					<FormDialog formDef={this.props.editorDef}
-						doc={item.data}
+						doc={item.context.doc}
 						highlight
-						onEvent={func}
+						onConfirm={item.context.saveForm}
+						onCancel={item.context.cancelForm}
 						/>
 					</div>
 				</Collapse>
@@ -115,51 +112,117 @@ export default class CrudView extends React.Component {
 
 	cardEventHandler(evt) {
 		if (evt.type === 'new') {
-			const doc = Form.newInstance(this.props.editorDef.layout);
-			this.setState({
-				editing: true,
-				doc: doc,
-				message: null });
+			this.openNewForm();
 		}
 	}
 
 
-	formEventHandler(evt) {
-		const item = this.item;
-		const comp = this.self;
+	createFormContext(doc, item) {
+		const cntxt = {
+			comp: this,
+			doc: doc,
+			item: item,
+			errors: null
+		};
 
-		// user canceled the operation ?
-		if (evt.type === 'cancel') {
-			if (item) {
-				item.state = 'ok';
-			}
-			comp.setState({ editing: null });
-			return null;
-		}
+		cntxt.saveForm = this.saveForm.bind(cntxt);
+		cntxt.cancelForm = this.cancelForm.bind(cntxt);
 
-		// user confirmed the operation ?
-		if (evt.type === 'ok') {
-			// save the document
-			const crud = comp.props.crud;
-			const promise = item ? crud.update(evt.doc.id, evt.doc) : crud.create(evt.doc);
+		return cntxt;
+	}
 
-			return promise
-				.then(() => {
-					if (item) {
-						item.state = 'ok';
-					}
 
-					comp.setState({
-						values: null,
-						editing: null,
-						message: item ? __('default.entity_updated') : __('default.entity_created')
-					});
-					comp.refreshTable();
+	openNewForm() {
+		const doc = Form.newInstance(this.props.editorDef.layout);
+		const formCont = this.createFormContext(doc);
+		// set the state
+		this.setState({
+			newform: formCont,
+			message: null });
+	}
+
+	/**
+	 * Save content of the form. This function is executed in a exclusive context
+	 * @return {Promise} Promise resolved when server return
+	 */
+	saveForm() {
+		// get reference to the context ('this' is not the react component)
+		const self = this;
+		const crud = this.comp.props.crud;
+		const promise = this.item ? crud.update(this.doc.id, this.doc) : crud.create(this.doc);
+
+		return promise
+			.then(() => {
+				if (this.item) {
+					this.item.state = 'ok';
+				}
+
+				self.comp.setState({
+					values: null,
+					newform: null,
+					message: this.item ? __('default.entity_updated') : __('default.entity_created')
 				});
+				self.comp.refreshTable();
+			});
+	}
+
+	/**
+	 * Cancel form editor and hide form
+	 * @return {[type]} [description]
+	 */
+	cancelForm() {
+		const item = this.item;
+		const comp = this.comp;
+
+		if (item) {
+			item.state = 'ok';
 		}
 
-		return null;
+		if (comp.state.newform) {
+			comp.setState({ newform: null });
+		}
+		else {
+			comp.forceUpdate();
+		}
 	}
+
+
+	// formEventHandler(evt) {
+	// 	const item = this.item;
+	// 	const comp = this.self;
+
+	// 	// user canceled the operation ?
+	// 	if (evt.type === 'cancel') {
+	// 		if (item) {
+	// 			item.state = 'ok';
+	// 		}
+	// 		comp.setState({ editing: null });
+	// 		return null;
+	// 	}
+
+	// 	// user confirmed the operation ?
+	// 	if (evt.type === 'ok') {
+	// 		// save the document
+	// 		const crud = comp.props.crud;
+	// 		const promise = item ? crud.update(evt.doc.id, evt.doc) : crud.create(evt.doc);
+
+	// 		return promise
+	// 			.then(() => {
+	// 				if (item) {
+	// 					item.state = 'ok';
+	// 				}
+
+	// 				comp.setState({
+	// 					values: null,
+	// 					editing: null,
+	// 					message: item ? __('default.entity_updated') : __('default.entity_created')
+	// 				});
+	// 				comp.refreshTable();
+	// 			});
+	// 	}
+
+	// 	return null;
+	// }
 
 
 	editClick(evt) {
@@ -173,8 +236,10 @@ export default class CrudView extends React.Component {
 		const self = this;
 		this.props.crud.get(item.data.id)
 		.then(res => {
+			const cntxt = this.createFormContext(res, item);
+
 			item.state = 'edit';
-			item.doc = res;
+			item.context = cntxt;
 			self.forceUpdate();
 		})
 		.catch(() => {
@@ -216,19 +281,43 @@ export default class CrudView extends React.Component {
 		this.setState({ showConfirm: false, doc: null, message: null });
 	}
 
+	/**
+	 * Rend the new form
+	 * @return {React.Component} The new form, or null if not in new form mode
+	 */
+	newFormRender() {
+		// is it in editing mode ?
+		const newform = this.state.newform;
 
+		if (!newform) {
+			return null;
+		}
+
+		return (
+				<Collapse in transitionAppear>
+					<div>
+						<FormDialog formDef={this.props.editorDef}
+							onConfirm={newform.saveForm}
+							onCancel={newform.cancelForm}
+							doc={newform.doc} />
+					</div>
+				</Collapse>
+			);
+	}
+
+
+	/**
+	 * Component render
+	 * @return {[type]} [description]
+	 */
 	render() {
 		if (!this.props) {
 			return null;
 		}
 
-		// is it in editing mode ?
-		const editing = this.state.editing && !this.state.readOnly;
-
 		// any message to be displayed
 		const msg = this.state.message;
 
-		const formHandler = editing ? this.formEventHandler.bind({ self: this }) : null;
 
 		return (
 			<div>
@@ -236,13 +325,7 @@ export default class CrudView extends React.Component {
 					msg && <Alert bsStyle="warning">{msg}</Alert>
 				}
 				{
-					editing && <Collapse in transitionAppear>
-						<div>
-							<FormDialog formDef={this.props.editorDef}
-								onEvent={formHandler}
-								doc={this.state.doc} />
-						</div>
-						</Collapse>
+					this.newFormRender()
 				}
 				<CrudCard title={this.props.title}
 					onEvent={this.cardEventHandler}

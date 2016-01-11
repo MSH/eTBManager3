@@ -14,7 +14,6 @@ export default class FormDialog extends React.Component {
 		super(props);
 		this.state = {};
 		this.confirmClick = this.confirmClick.bind(this);
-		this.cancelClick = this.cancelClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -28,7 +27,7 @@ export default class FormDialog extends React.Component {
 	/**
 	 * Called when the user clicks on the confirm button
 	 */
-	confirmClick() {
+	confirmClick(evt) {
 		const errors = this.refs.form.validate();
 
 		// there are validation errors?
@@ -40,8 +39,8 @@ export default class FormDialog extends React.Component {
 
 		// the promise to be called when confirming
 		let prom;
-		if (this.props.onEvent) {
-			prom = this.props.onEvent({ type: 'ok', doc: this.props.doc });
+		if (this.props.onConfirm) {
+			prom = this.props.onConfirm(evt);
 		}
 
 		// it is expected that a promise is returned, in order to be informed about errors
@@ -54,11 +53,6 @@ export default class FormDialog extends React.Component {
 		}
 	}
 
-	cancelClick() {
-		if (this.props.onEvent) {
-			this.props.onEvent({ type: 'cancel' });
-		}
-	}
 
 	render() {
 		const formDef = this.props.formDef;
@@ -100,7 +94,7 @@ export default class FormDialog extends React.Component {
 						bsStyle="primary"
 						onClick={this.confirmClick}>{confirmCaption}
 					</AsyncButton>
-					<Button onClick={this.cancelClick}>
+					<Button onClick={this.props.onCancel}>
 						<i className="fa fa-times fa-fw"/>{__('action.cancel')}
 					</Button>
 				</ButtonToolbar>
@@ -114,10 +108,6 @@ FormDialog.propTypes = {
 	doc: React.PropTypes.object,
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
-	/**
-	 * Basic event handler of format func(evt, data)
-	 */
-	onEvent: React.PropTypes.func,
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool
 };
