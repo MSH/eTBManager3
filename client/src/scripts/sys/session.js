@@ -1,6 +1,6 @@
 
 import { server } from '../commons/server';
-import { LOGOUT, AUTHENTICATED, WORKSPACE_CHANGE, ERROR } from '../core/actions';
+import { LOGOUT, AUTHENTICATED, WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../core/actions';
 import { app } from '../core/app';
 
 /**
@@ -21,6 +21,8 @@ function actionHandler(act, data) {
 	}
 
 	if (act === WORKSPACE_CHANGE) {
+		app.goto('/sys/home/index');
+		return data;
 	}
 }
 
@@ -85,17 +87,13 @@ export function authenticate() {
 
 
 export function changeWorkspace(wsid) {
+	app.dispatch(WORKSPACE_CHANGING);
+
 	return server.post('/api/sys/changews/' + wsid)
 	.then(res => {
-		if (!res.success) {
-			app.dispatch(ERROR, { error: __('validation.changews') });
-		}
-		else {
-			const authToken = res.result;
-			console.log('NEW SESSION = ' + res.result);
-			window.app.setCookie('autk', authToken);
-			app.dispatch(WORKSPACE_CHANGE, { authToken: authToken });
-		}
+		const authToken = res.authToken;
+		window.app.setCookie('autk', authToken);
+		app.dispatch(WORKSPACE_CHANGE, { session: res.session });
 	});
 }
 

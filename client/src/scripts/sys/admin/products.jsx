@@ -7,25 +7,64 @@ const crud = new CRUD('product');
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
-		{
-			property: 'shortName',
-			required: true,
-			type: 'string',
-			max: 20,
-			label: __('form.shortName'),
-			size: { sm: 3 }
+	editors: {
+		'PRODUCT': {
+			label: __('Product'),
+			layout: [
+				{
+					property: 'shortName',
+					required: true,
+					type: 'string',
+					max: 20,
+					label: __('form.shortName'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'name',
+					required: true,
+					type: 'string',
+					max: 200,
+					label: __('form.name'),
+					size: { sm: 6 }
+				},
+				{
+					property: 'active',
+					type: 'bool',
+					label: __('EntityState.ACTIVE')
+				},
+				{
+					property: 'customId',
+					type: 'string',
+					label: __('form.customId'),
+					size: { sm: 3 }
+				}
+			],
+			title: doc => doc && doc.id ? __('admin.products.edt') : __('admin.products.new')
 		},
-		{
-			property: 'name',
-			required: true,
-			type: 'string',
-			max: 200,
-			label: __('form.name'),
-			size: { sm: 6 }
+		'MEDICINE': {
+			label: __('Medicine'),
+			layout: [
+				{
+					property: 'shortName',
+					required: true,
+					type: 'string',
+					max: 20,
+					label: __('form.shortName'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'name',
+					required: true,
+					type: 'string',
+					max: 200,
+					label: __('form.name'),
+					size: { sm: 6 }
+				}
+			],
+			title: doc => doc && doc.id ? __('admin.meds.edt') : __('admin.meds.new')
 		}
-	],
-	title: doc => doc && doc.id ? __('admin.meds.edt') : __('admin.meds.new')
+	},
+	select: item => item.type
 };
 
 /**

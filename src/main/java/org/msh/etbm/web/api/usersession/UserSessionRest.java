@@ -54,12 +54,20 @@ public class UserSessionRest {
      */
     @Authenticated
     @RequestMapping(value = "/changews/{userwsId}", method = RequestMethod.POST)
-    public StandardResult changeWorkspace(HttpServletRequest request, @PathVariable UUID userwsId) {
+    public ChangeWsResponse changeWorkspace(HttpServletRequest request, @PathVariable UUID userwsId) {
         String ipAddr = request.getRemoteAddr();
         String app = request.getHeader("User-Agent");
 
+        // change the workspace
         UUID newAuthToken = changeWorkspaceService.changeTo(userwsId, ipAddr, app);
 
-        return new StandardResult(newAuthToken, null, newAuthToken != null);
+        // get the new session
+        UserSession session = userRequestService.getUserSession();
+
+        // convert it to a client response
+        UserSessionResponse res = userSessionService.createClientResponse(session);
+
+        // send it back to the client
+        return new ChangeWsResponse(newAuthToken, res);
     }
 }

@@ -41,9 +41,7 @@ function wsChange(evt, key) {
  *
  * @return {[type]}     The content of the toolbar
  */
-export default function() {
-	const session = app.getState().session;
-
+export default function(session) {
     // the input search key
     const search = (
         <div className="header-search">

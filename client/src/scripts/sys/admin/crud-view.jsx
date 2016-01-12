@@ -56,11 +56,17 @@ export default class CrudView extends React.Component {
 	cellRender(item, index) {
 		// is in edit mode ?
 		if (item.state === 'edit') {
+			let editor = this.props.editorDef;
+			// multiple editors ?
+			if (editor.editors) {
+				editor = editor.editors.select(item);
+			}
+
 			// display cell for editing
 			return (
 				<Collapse in transitionAppear>
 					<div>
-					<FormDialog formDef={this.props.editorDef}
+					<FormDialog formDef={item.context.editor}
 						doc={item.context.doc}
 						highlight
 						onConfirm={item.context.saveForm}
@@ -112,13 +118,14 @@ export default class CrudView extends React.Component {
 
 	cardEventHandler(evt) {
 		if (evt.type === 'new') {
-			this.openNewForm();
+			this.openNewForm(evt.key);
 		}
 	}
 
 
-	createFormContext(doc, item) {
+	createFormContext(editor, doc, item) {
 		const cntxt = {
+			editor: editor,
 			comp: this,
 			doc: doc,
 			item: item,
@@ -132,9 +139,12 @@ export default class CrudView extends React.Component {
 	}
 
 
-	openNewForm() {
-		const doc = Form.newInstance(this.props.editorDef.layout);
-		const formCont = this.createFormContext(doc);
+	openNewForm(key) {
+		const edt = this.props.editorDef;
+		const editor = edt.editors ? edt.editors[key] : edt;
+
+		const doc = Form.newInstance(editor.layout);
+		const formCont = this.createFormContext(editor, doc);
 		// set the state
 		this.setState({
 			newform: formCont,
@@ -199,11 +209,15 @@ export default class CrudView extends React.Component {
 		item.state = 'fetching';
 		this.forceUpdate();
 
+		// select the property editor definition
+		const edt = this.props.editorDef;
+		const editor = edt.editors ? edt.editors[edt.select(item.data)] : edt;
+
 		// get data to edit from server
 		const self = this;
 		return this.props.crud.get(item.data.id)
 		.then(res => {
-			const cntxt = this.createFormContext(res, item);
+			const cntxt = this.createFormContext(editor, res, item);
 
 			item.state = 'edit';
 			item.context = cntxt;
@@ -280,7 +294,7 @@ export default class CrudView extends React.Component {
 		return (
 				<Collapse in transitionAppear>
 					<div>
-						<FormDialog formDef={this.props.editorDef}
+						<FormDialog formDef={newform.editor}
 							onConfirm={newform.saveForm}
 							onCancel={newform.cancelForm}
 							doc={newform.doc} />
@@ -302,6 +316,12 @@ export default class CrudView extends React.Component {
 		// any message to be displayed
 		const msg = this.state.message;
 
+		const editor = this.props.editorDef;
+
+		// multiple options for new button ?
+		const newDropDown = editor.editors ?
+			Object.keys(editor.editors).map(key => ({ key: key, label: editor.editors[key].label })) :
+			null;
 
 		return (
 			<div>
@@ -314,6 +334,7 @@ export default class CrudView extends React.Component {
 				<CrudCard title={this.props.title}
 					onEvent={this.cardEventHandler}
 					values={this.state.values}
+					newDropDown={newDropDown}
 					onCellSize={this.getCellSize}
 					onCellRender={this.cellRender} />
 				<MessageDlg show={this.state.showConfirm}

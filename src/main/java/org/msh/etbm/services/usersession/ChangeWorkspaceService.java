@@ -24,12 +24,19 @@ public class ChangeWorkspaceService {
      * @param wsuserId the ID of the user workspace
      */
     public UUID changeTo(UUID wsuserId, String ipAddr, String appName) {
-        UserSession userSession = userRequestService.getUserSession();
+//        UserSession userSession = userRequestService.getUserSession();
 
+        // start a new session
         UUID newAuthToken = userSessionService.beginSession(wsuserId, ipAddr, appName);
 
+        // update user session
+        UserSession session = userSessionService.recoverSession(newAuthToken);
+        userRequestService.setUserSession(session);
+
+        // end current session
         userSessionService.endSession(userRequestService.getAuthToken());
 
+        // return new token
         return newAuthToken;
     }
 }

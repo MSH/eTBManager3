@@ -7127,7 +7127,7 @@ button.close {
 }
 .profile {
   padding-top: 4px;
-  overflow: auto;
+  overflow-y: hidden;
 }
 .profile .profile-image {
   display: block;

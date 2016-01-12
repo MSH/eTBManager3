@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import { TB_SET } from './actions';
+import { TB_SET, WORKSPACE_CHANGE, LOGOUT } from './actions';
 import { app } from './app';
 
 /**
@@ -24,7 +24,18 @@ export default class Toolbar extends React.Component {
 
     _onAppChange(action, data) {
         if (action === TB_SET) {
-            this.setState({ toolbarContent: data.toolbarContent });
+            return this.setState({
+                session: app.getState().session,
+                toolbarContent: data.toolbarContent
+            });
+        }
+
+        if (action === LOGOUT) {
+            return this.setState({ toolbarContent: null, session: null });
+        }
+
+        if (action === WORKSPACE_CHANGE) {
+            return this.setState({ session: data.session });
         }
     }
 
@@ -37,7 +48,7 @@ export default class Toolbar extends React.Component {
 
         var state = this.state || {};
 
-        const items = (state.toolbarContent && state.toolbarContent(app)) || <Nav navbar />;
+        const items = (state.toolbarContent && state.toolbarContent(this.state.session)) || <Nav navbar />;
 
         return (
             <Navbar className="header" fixedTop inverse>

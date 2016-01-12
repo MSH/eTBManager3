@@ -114,11 +114,12 @@
     "admin.tags.conderror": "Condição SQL incorreta",
     "admin.tags.edt": "Dados da etiqueta",
     "admin.tags.new": "Nova etiqueta",
-    "admin.tbunits": "Instituições",
+    "admin.tbunits": "Unidade",
+    "admin.tbunits.new": "Nova unidade de armazenamento",
+    "admin.tbunits.edt": "Editar dados da unidade",
     "admin.tbunits.delerror1": "Usuário não pode excluir sua própria Instituição",
     "admin.tbunits.medmanagement": "Gestão de medicamentos",
     "admin.tbunits.medsuppliers": "Fornecedor de Medicamentos",
-    "admin.tbunits.new": "Nova unidade de armazenamento",
     "admin.tbunits.ordershipping": "Fornecimento de medicamentos para outras unidades",
     "admin.tbunits.remuserunit": "Você não pode excluir a unidade da qual você pertence",
     "admin.users": "Usuários",
@@ -860,5 +861,9 @@
     "Cancel": "",
     "admin.products.edt": "Editar produto",
     "admin.meds.edt": "Editar medicamento",
-    "admin.syssetup.links": ""
+    "admin.syssetup.links": "",
+    "Product": "Produto",
+    "pagenotfound": "Página não encontrada",
+    "pagenotfound.home": "Página inicial",
+    "pagenotfound.msg": "A página que você está tentando ir não existe"
 }

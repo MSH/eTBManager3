@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Grid, Row, Col, Collapse, Button, ButtonToolbar } from 'react-bootstrap';
-import { Profile, Card, Fluidbar } from '../../components/index';
+import { Profile, Card, Fluidbar, WaitIcon } from '../../components/index';
 import CollapseCard from '../../components/collapse-card';
-import GridTable from '../../components/grid-table';
 import { app } from '../../core/app';
+import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
 
 
 /**
@@ -14,25 +14,40 @@ export default class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.cardClick = this.cardClick.bind(this);
 		this.toggleCard = this.toggleCard.bind(this);
 		this.editClick = this.editClick.bind(this);
-		this.createCell = this.createCell.bind(this);
-		this.state = {};
+//		this.createCell = this.createCell.bind(this);
+
+		this._appEvent = this._appEvent.bind(this);
+
+		this.state = { session: app.getState().session };
 	}
 
-	cardClick(evt) {
-		console.log('Hi card', evt);
+	componentDidMount() {
+		// set handler to receive information about actions
+		app.add(this._appEvent);
 	}
 
-	toggleCard(evt, key) {
+	componentWillUmount() {
+		app.remove(this._appEvent);
+	}
+
+	_appEvent(action, data) {
+		if (action === WORKSPACE_CHANGE) {
+			return this.setState({ session: data.session });
+		}
+
+		if (action === WORKSPACE_CHANGING) {
+			return this.setState({ session: null });
+		}
+	}
+
+	toggleCard(evt) {
 		var show = this.state.show;
 		this.setState({ show: !show });
-		console.log(evt, key);
 	}
 
 	editClick(evt) {
-//		console.log(evt);
 		evt.stopPropagation();
 	}
 
@@ -40,43 +55,20 @@ export default class Home extends React.Component {
 		return item === 3 ? { md: 12 } : { md: 6 };
 	}
 
-	createCell(item) {
-		const expdata = (
-			<div>
-				<p>{'This is a simple text to display the habilities to hide and show in an animated fashion'}
-				</p>
-				<p><b>{'And what the rest?'}</b></p>
-				<p>
-					{'By the edge of the world, when the rest isn\'t worth'}
-				</p>
-				<ButtonToolbar>
-					<Button bsStyle="warning" onClick={this.editClick}>{'Edit'}</Button>
-					<Button bsStyle="link">{'Delete'}</Button>
-				</ButtonToolbar>
-			</div>
-			);
-
-		return (
-			<CollapseCard collapsable={expdata} padding="small">
-				<Profile title={'UNIT ' + (item + 1)}
-					subtitle="Rio de Janeiro, RJ"
-					fa="hospital-o"
-					imgClass="prof-tbunit"
-					size="small"/>
-			</CollapseCard>
-			);
-	}
-
 	render() {
-		const state = app.getState();
+		const session = this.state.session;
 
-		const lst = Object.keys(state.session.adminUnit);
+		if (!session) {
+			return <WaitIcon />;
+		}
+
+		const lst = Object.keys(session.adminUnit);
 
 		const aus = [];
 		let count = 0;
 		lst.forEach(key => {
 			count++;
-			let s = state.session.adminUnit[key].name;
+			let s = session.adminUnit[key].name;
 			if (count < lst.length) {
 				s += ', ';
 			}
@@ -84,9 +76,9 @@ export default class Home extends React.Component {
 		});
 
 		const subtitle = (
-			<div><a href="#">{state.session.unitName}</a>
+			<div><a href="#">{session.unitName}</a>
 			<div>{aus}</div>
-			<a href="#">{state.session.workspaceName}</a>
+			<a href="#">{session.workspaceName}</a>
 			</div>
 		);
 
@@ -97,18 +89,6 @@ export default class Home extends React.Component {
 		for (var i = 0; i < 12; i++) {
 			lst2.push(i);
 		}
-		// for (var i = 1; i < 4; i++) {
-		// 	lst2.push(
-		// 		<Row key={i * 2}>
-		// 			<Col md={6}>
-		// 				{this.createCell()}
-		// 			</Col>
-		// 			<Col md={6}>
-		// 				{this.createCell()}
-		// 			</Col>
-		// 		</Row>
-		// 		);
-		// }
 
 		return (
 			<div>
@@ -117,7 +97,7 @@ export default class Home extends React.Component {
 						<Row>
 							<Col md={12}>
 								<div className="margin-2x">
-									<Profile title={state.session.userName}
+									<Profile title={session.userName}
 										subtitle={subtitle}
 										fa="user" size="large"
 										imgClass="prof-male"
@@ -131,39 +111,7 @@ export default class Home extends React.Component {
 				<Grid className="mtop-2x">
 					<Row>
 						<Col md={8} mdOffset={2}>
-							<Card title="This is a list">
-								<div>
-									<GridTable values={lst2}
-										onCellRender={this.createCell}
-										onCellSize={this.cellSize}
-									/>
-								</div>
-							</Card>
-						</Col>
-					</Row>
-					<Row>
-						<Col mdOffset={2} md={4}>
-							<Card onClick={this.toggleCard}>
-								<div>
-									<Profile title="Laboratory Test" subtitle="Rio de Janeiro, RJ"
-										fa="building" size="medium"
-										imgClass="prof-lab "/>
-									<Collapse in={this.state.show}>
-										<p>{'This is a simple text to display the habilities to hide and show in an animated fashion'}
-										</p>
-									</Collapse>
-								</div>
-							</Card>
-						</Col>
-						<Col md={4}>
-							<Card>
-								<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="globe" size="medium"/>
-							</Card>
-						</Col>
-					</Row>
-					<Row>
-						<Col md={8} mdOffset={2}>
-						<Card onClick={this.cardClick}>
+						<Card>
 							<Profile title={unitName}
 								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"
 								imgClass="prof-tbunit"

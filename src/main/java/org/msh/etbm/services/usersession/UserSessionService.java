@@ -7,6 +7,7 @@ import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.permissions.Permission;
 import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -82,13 +83,17 @@ public class UserSessionService {
             return null;
         }
 
+        // is a valid session ?
+        if (login.getLogoutDate() != null) {
+            return null;
+        }
+
         // recover the information of the user in the workspace
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());
 
         if (uw == null) {
-            System.out.println("User workspace not found. user=" + login.getUser().toString() + ", workspace=" + login.getWorkspace().toString());
+//            System.out.println("User workspace not found. user=" + login.getUser().toString() + ", workspace=" + login.getWorkspace().toString());
             return null;
-//            throw new IllegalArgumentException("User workspace not found");
         }
 
         UserSession session = mapper.map(uw, UserSession.class);
@@ -110,6 +115,7 @@ public class UserSessionService {
      * @return
      */
     @Transactional
+    @CacheEvict(value = CacheConfiguration.CACHE_SESSION_ID)
     public boolean endSession(UUID authToken) {
         // recover the user login assigned to the authentication token
         List<UserLogin> lst = entityManager

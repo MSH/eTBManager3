@@ -5,7 +5,7 @@ import React from 'react';
 const paramsPattern = /{(\w+)}/g;
 
 // the current path being resolved by the route
-let currPath,
+let // currPath,
 	errorPath;
 
 
@@ -13,6 +13,26 @@ let currPath,
  * React component responsible for displaying the content of a route
  */
 export class RouteView extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
+
+	getChildContext() {
+		const path = this._currentPath();
+		const route = this.props.routes.find(path);
+
+		const rpath = (this.context.path ? this.context.path : '') +
+			(route ? route.data.path : '');
+
+		return { path: rpath };
+	}
+
+	componentWillMount() {
+		// console.log('    >>> comp will mount -> ', this.context);
+		// this.setState({ parentPath: this.context.path ? this.context.parentPath : '/' });
+	}
 
 	componentDidMount() {
 		this.isRoot = router.subscribe(this);
@@ -28,6 +48,18 @@ export class RouteView extends React.Component {
 	}
 
 
+	/**
+	 * Return the current path being resolved by this path
+	 * @return {[type]} [description]
+	 */
+	_currentPath() {
+		let hash = router.hash();
+		if (this.context.path) {
+			hash = hash.replace(this.context.path, '');
+		}
+		return hash;
+	}
+
 	static createRoutes(data) {
 		return new RouteList(data);
 	}
@@ -37,34 +69,47 @@ export class RouteView extends React.Component {
 	 * @param  {[type]} path [description]
 	 * @return {[type]}      [description]
 	 */
-	onHashChange(path) {
+	onHashChange() {
 		// resolve the view by the path
-        currPath = path;
+//        currPath = path;
 
 		this.setState({ view: null, route: null,  params: null });
 	}
 
-	resolveView(path) {
+	resolveView() {
+		const path = this._currentPath();
 		if (!path) {
 			return null;
 		}
 
+		const route = this.props.routes.find(path);
+
+		if (!route) {
+			if (errorPath) {
+				router.goto(errorPath);
+			}
+			return null;
+		}
+		// if (!path) {
+		// 	return null;
+		// }
+
 		let View = this.state ? this.state.view : null;
-		let route = this.state ? this.state.route : null;
+//		let route = this.state ? this.state.route : null;
 
 		if (!View) {
 			// list of routes for this view
-			const routes = this.props.routes;
+//			const routes = this.props.routes;
 
-			route = routes.find(path);
+//			route = routes.find(path);
 
 			// route was not found ?
-			if (!route) {
-				if (errorPath) {
-					router.goto(errorPath);
-				}
-				return null;
-			}
+			// if (!route) {
+			// 	if (errorPath) {
+			// 		router.goto(errorPath);
+			// 	}
+			// 	return null;
+			// }
 
 			// view is resolved ?
 			if (route.view) {
@@ -85,7 +130,7 @@ export class RouteView extends React.Component {
 	 * @return {Component} The rendered react view
 	 */
 	render() {
-		const res = this.resolveView(currPath);
+		const res = this.resolveView();
 
 		// no route was found ?
 		if (!res) {
@@ -109,18 +154,20 @@ export class RouteView extends React.Component {
 			viewProps = this.props.viewProps;
 		}
 
-		// update the current path for the next calls
-		currPath = currPath.replace(route.pathExp, '');
 
 		// get any param defined in the page
-		const params = route.resolveParams(currPath);
+		const path = this._currentPath();
+		const params = route.resolveParams(path);
+
+		// get the next path
+		const forpath = path.replace(route.pathExp, '');
 
 		// include information about the route
 		viewProps.route = {
 			hash: router.hash(),
 			params: params ? params : {},
 			path: route.data.path,
-			forpath: currPath,
+			forpath: forpath,
 			data: route.data
 		};
 
@@ -142,6 +189,14 @@ RouteView.propTypes = {
     errorPath: React.PropTypes.string,
     routes: React.PropTypes.object,
     viewProps: React.PropTypes.object
+};
+
+RouteView.childContextTypes = {
+	path: React.PropTypes.string
+};
+
+RouteView.contextTypes = {
+	path: React.PropTypes.string
 };
 
 

@@ -31,6 +31,12 @@ export default class FieldElement extends React.Component {
 
 		const th = Types.list[el.type];
 
+		if (__DEV__) {
+			if (!th) {
+				return <div>{'Type not found: ' + el.type}</div>;
+			}
+		}
+
 		const Comp = th.formComponent(el);
 
 		if (Comp === null) {

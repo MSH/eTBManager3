@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Button, Row, Col, Alert, Badge } from 'react-bootstrap';
+import { Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card, WaitIcon, Fa, GridTable } from '../../components/index';
 
 
@@ -13,18 +13,9 @@ export default class CrudCard extends React.Component {
 		super(props);
 		this.state = {};
 		this.newClick = this.newClick.bind(this);
-		this.menuClick = this.menuClick.bind(this);
+//		this.menuClick = this.menuClick.bind(this);
+		this.newMenuClick = this.newMenuClick.bind(this);
 	}
-
-	// componentWillMount() {
-	// 	if (this.props.onGetValues) {
-	// 		const self = this;
-	// 		// call parent to return the values to display
-	// 		const prom = this.props.onGetValues(null);
-	// 		// must alway return a promise
-	// 		prom.then(values => self.setState({ count: values.count, values: values.list }));
-	// 	}
-	// }
 
 	/**
 	 * Called when new is clicked
@@ -34,14 +25,10 @@ export default class CrudCard extends React.Component {
 		this.raiseEvent({ type: 'new' });
 	}
 
-	/**
-	 * Calledn when a menu item in the table is selected
-	 * @param  {[type]} evt [description]
-	 * @param  {[type]} key [description]
-	 */
-	menuClick(evt, key) {
-		this.raiseEvent({ type: 'cmd', key: key.key, item: key.item });
+	newMenuClick(evt, key) {
+		this.raiseEvent({ type: 'new', key: key });
 	}
+
 
 	/**
 	 * Raise an event that triggers the 'onEvent' property of the table
@@ -62,10 +49,38 @@ export default class CrudCard extends React.Component {
 			return null;
 		}
 
+		// render the button title
+		const title = <span><Fa icon="plus"/>{__('action.add')}</span>;
+
+		// get the content of the new button
+		let content;
+		if (this.props.newDropDown) {
+
+			content = (
+				<DropdownButton id="optMenu" bsSize="small" pullRight
+					title={title}
+					onSelect={this.newMenuClick}>
+					{
+						this.props.newDropDown.map(item =>
+							<MenuItem key={item.key} eventKey={item.key}>
+								{item.label}
+							</MenuItem>)
+					}
+				</DropdownButton>
+				);
+		}
+		else {
+			content = (
+				<Button bsStyle="default" bsSize="small" onClick={this.newClick}>
+					{title}
+				</Button>
+				);
+		}
+
 		return (
 			<Col xs={4} sm={6} md={2}>
 				<div className="pull-right">
-					<Button bsStyle="default" bsSize="small" onClick={this.newClick}><Fa icon="plus"/>{'New'}</Button>
+					{content}
 				</div>
 			</Col>
 			);
@@ -189,7 +204,9 @@ CrudCard.propTypes = {
 	// if true, the new button will not be available
 	readOnly: React.PropTypes.bool,
 	// event fired when user clicks on the new button
-	onEvent: React.PropTypes.func
+	onEvent: React.PropTypes.func,
+	// list of key / label to display in a new drop down
+	newDropDown: React.PropTypes.array
 };
 
 CrudCard.defaultProps = {

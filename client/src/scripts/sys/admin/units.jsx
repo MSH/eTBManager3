@@ -9,37 +9,108 @@ const crud = new CRUD('unit');
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
-		{
-			property: 'name',
-			required: true,
-			type: 'string',
-			max: 200,
-			label: __('form.name'),
-			size: { sm: 6 }
+	editors: {
+		// TB units editor
+		tbunit: {
+			label: __('Tbunit'),
+			layout: [
+					{
+						property: 'name',
+						required: true,
+						type: 'string',
+						max: 200,
+						label: __('form.name'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'active',
+						type: 'bool',
+						label: __('EntityState.ACTIVE'),
+						defaultValue: true
+					},
+					{
+						property: 'address.address',
+						label: __('Address.address'),
+						type: 'string',
+						size: { newLine: true, sm: 6 }
+					},
+					{
+						property: 'address.complement',
+						label: __('Address.complement'),
+						type: 'string',
+						size: { sm: 6 }
+					},
+					{
+						property: 'address.zipCode',
+						label: __('Address.zipCode'),
+						type: 'string',
+						size: { sm: 3 }
+					},
+					{
+						property: 'address.adminUnit',
+						label: __('AdministrativeUnit'),
+						type: 'adminUnit',
+						size: { sm: 6 }
+					},
+					{
+						property: 'customId',
+						type: 'string',
+						label: __('form.customId'),
+						size: { sm: 3 }
+					}
+			],
+			title: doc => doc && doc.id ? __('admin.tbunits.edt') : __('admin.tbunits.new')
 		},
-		{
-			property: 'line',
-			required: true,
-			type: 'string',
-			options: 'MedicineLine',
-			label: __('MedicineLine'),
-			size: { sm: 6 }
-		},
-		{
-			property: 'active',
-			type: 'boolean',
-			label: __('EntityState.ACTIVE'),
-			defaultValue: true
-		},
-		{
-			property: 'customId',
-			type: 'string',
-			label: __('form.customId'),
-			size: { sm: 3 }
+		lab: {
+			label: __('Laboratory'),
+			layout: [
+					{
+						property: 'name',
+						required: true,
+						type: 'string',
+						max: 200,
+						label: __('form.name'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'active',
+						type: 'bool',
+						label: __('EntityState.ACTIVE'),
+						defaultValue: true
+					},
+					{
+						property: 'customId',
+						type: 'string',
+						label: __('form.customId'),
+						size: { sm: 3 }
+					},
+					{
+						property: 'address.address',
+						label: __('Address.address'),
+						type: 'string'
+					},
+					{
+						property: 'address.complement',
+						label: __('Address.complement'),
+						type: 'string'
+					},
+					{
+						property: 'address.zipCode',
+						label: __('Address.zipCode'),
+						type: 'string',
+						size: { sm: 6 }
+					},
+					{
+						property: 'address.adminUnit',
+						label: __('AdministrativeUnit'),
+						type: 'adminUnit',
+						size: { sm: 6 }
+					}
+			],
+			title: doc => doc && doc.id ? __('admin.labs.edt') : __('admin.labs.new')
 		}
-	],
-	title: doc => doc && doc.id ? __('admin.substances.edt') : __('admin.substances.new')
+	},
+	select: item => item.type
 };
 
 

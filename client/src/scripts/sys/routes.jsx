@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { RouteView } from '../components/router';
-import { LOGOUT, TB_SET } from '../core/actions';
+import WaitIcon from '../components/wait-icon';
+import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
 import { app } from '../core/app';
 
 /** Pages of the public module */
@@ -29,9 +30,17 @@ export default class Routes extends React.Component {
 	}
 
 	_onAppChange(action) {
-		if (action === LOGOUT) {
-			app.dispatch(TB_SET, { toolbarContent: null });
+		if (action === WORKSPACE_CHANGING) {
+			return this.setState({ changing: true });
 		}
+
+		if (action === WORKSPACE_CHANGE) {
+			return this.setState({ changing: false });
+		}
+
+		// if (action === LOGOUT) {
+		// 	return app.dispatch(TB_SET, { toolbarContent: null });
+		// }
 	}
 
 	openHome() {
@@ -47,6 +56,11 @@ export default class Routes extends React.Component {
 	}
 
 	render() {
+		const changing = this.state && this.state.changing;
+		if (changing) {
+			return <WaitIcon />;
+		}
+
 		const routes = RouteView.createRoutes([
 			{ path: '/home', viewResolver: this.openHome.bind(this) },
 			{ path: '/reports', viewResolver: this.openReports.bind(this) },
@@ -54,7 +68,7 @@ export default class Routes extends React.Component {
 		]);
 
 		return (
-			<RouteView routes={routes} />
+			<RouteView id="routes-index" routes={routes} />
 			);
 	}
 }

@@ -197,6 +197,7 @@
     "Medicine.secondLine": "2nd Line",
     "Medicine.strength": "Strength",
     "Medicine.strengthUnit": "Unit",
+    "Product": "Product",
     "MedicineCategory": "Category",
     "MedicineCategory.INJECTABLE": "Injectable",
     "MedicineCategory.ORAL": "Oral",
@@ -738,11 +739,12 @@
     "admin.tags.edt": "Tag data",
     "admin.tags.new": "New tag",
     "admin.tbunits": "TB Units",
+    "admin.tbunits.new": "New pharmacy storage",
+    "admin.tbunits.edt": "Edit unit data",
     "admin.tbunits.casestrans": "Transfer cases to another unit",
     "admin.tbunits.delerror1": "User cannot delete its own TB unit",
     "admin.tbunits.medmanagement": "Medicine management",
     "admin.tbunits.medsuppliers": "Medicine supplier",
-    "admin.tbunits.new": "New pharmacy storage",
     "admin.tbunits.ordershipping": "Medicine order shipping to other units",
     "admin.tbunits.remuserunit": "You cannot delete the health unit you belong to",
     "admin.tbunits.userstrans": "Transfer users to another unit",
@@ -931,5 +933,8 @@
     "validation.duplicatedemail": "The e-mail address is already in use. Please provide another one.",
     "validation.duplicatedname": "A record with the same value already exists",
     "validation.notfound": "Information was not found",
-    "validation.pwdNotSame": "Password is not the same"
+    "validation.pwdNotSame": "Password is not the same",
+    "pagenotfound": "Page not found",
+    "pagenotfound.home": "Go to home",
+    "pagenotfound.msg": "The page you are trying to access does not exist"
 }
