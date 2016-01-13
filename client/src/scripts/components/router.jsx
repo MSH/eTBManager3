@@ -30,11 +30,6 @@ export class RouteView extends React.Component {
 	}
 
 	componentWillMount() {
-		// console.log('    >>> comp will mount -> ', this.context);
-		// this.setState({ parentPath: this.context.path ? this.context.parentPath : '/' });
-	}
-
-	componentDidMount() {
 		this.isRoot = router.subscribe(this);
 		// set the errorPath page
 		if (this.isRoot && this.props.errorPath) {
@@ -66,51 +61,33 @@ export class RouteView extends React.Component {
 
 	/**
 	 * Called by navigator when the has changed
-	 * @param  {[type]} path [description]
 	 * @return {[type]}      [description]
 	 */
 	onHashChange() {
-		// resolve the view by the path
-//        currPath = path;
-
 		this.setState({ view: null, route: null,  params: null });
 	}
 
 	resolveView() {
 		const path = this._currentPath();
+
+		// no path to be resolved ?
 		if (!path) {
 			return null;
 		}
 
 		const route = this.props.routes.find(path);
 
+		// route to the current path was not found ?
 		if (!route) {
 			if (errorPath) {
 				router.goto(errorPath);
 			}
 			return null;
 		}
-		// if (!path) {
-		// 	return null;
-		// }
 
 		let View = this.state ? this.state.view : null;
-//		let route = this.state ? this.state.route : null;
 
 		if (!View) {
-			// list of routes for this view
-//			const routes = this.props.routes;
-
-//			route = routes.find(path);
-
-			// route was not found ?
-			// if (!route) {
-			// 	if (errorPath) {
-			// 		router.goto(errorPath);
-			// 	}
-			// 	return null;
-			// }
-
 			// view is resolved ?
 			if (route.view) {
 				View = route.view;
@@ -153,7 +130,6 @@ export class RouteView extends React.Component {
 		if (this.props.viewProps) {
 			viewProps = this.props.viewProps;
 		}
-
 
 		// get any param defined in the page
 		const path = this._currentPath();
@@ -275,7 +251,13 @@ export class Route {
 	 */
 	resolveView() {
 		const data = this.data;
-		return new Promise((resolve, reject) => {
+
+		// is being resolved by a promise ?
+		if (this._resPromise) {
+			return this._resPromise;
+		}
+
+		this._resPromise = new Promise((resolve, reject) => {
 			if (data.view) {
 				return resolve(data.view);
 			}
@@ -285,6 +267,8 @@ export class Route {
 			}
 			reject('No view or viewResolver');
 		});
+
+		return this._resPromise;
 	}
 }
 
@@ -313,7 +297,7 @@ class Router {
 
 		// MUST IMPROVE THAT TO USE SOMETHING MORE MODERN
         var self = this;
-        var current;
+        var current = self.hash();
         var fn = function() {
             var hash = self.hash();
             if (current !== hash && self.observer) {

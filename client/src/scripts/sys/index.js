@@ -21,6 +21,7 @@ export function init() {
 			// check if user was already authenticated, to avoid multiple requests to the server
 			// of data already requested
 			if (isAuthenticated()) {
+				view = Routes;
 				return resolve(Routes);
 			}
 
@@ -34,6 +35,7 @@ export function init() {
 				app.dispatch(TB_SET, { toolbarContent: ToolbarContent.default });
 
 				// return the list of routes
+				view = Routes;
 				resolve(Routes);
 			});
 		});

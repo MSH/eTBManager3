@@ -117,9 +117,10 @@ export default class Tables extends React.Component {
 	render() {
 		// get information about the route being rendered
 		const route = this.props.route;
+
 		// get forward path
 		const forpath = route.forpath;
-		console.log(forpath);
+
 		// get route to be rendered
 		const selroute = routes.find(forpath);
 

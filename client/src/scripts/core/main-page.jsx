@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { RouteView } from '../components/router';
+import { RouteView, router } from '../components/router';
 import PageNotFound from './page-not-found';
 
 import Toolbar from './toolbar';
@@ -45,9 +45,9 @@ export default class MainPage extends React.Component {
 
 	render() {
 		var routers = RouteView.createRoutes([
-			{ path: '/pub', viewResolver: this.openPublic.bind(this) },
-			{ path: '/init', viewResolver: this.openInit.bind(this) },
-			{ path: '/sys', viewResolver: this.openApp.bind(this) },
+			{ path: '/pub', viewResolver: this.openPublic },
+			{ path: '/init', viewResolver: this.openInit },
+			{ path: '/sys', viewResolver: this.openApp },
 			{ path: '/pagenotfound', view: PageNotFound }
 		]);
 

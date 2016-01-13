@@ -1,0 +1,89 @@
+
+import React from 'react';
+import { Button } from 'react-bootstrap';
+
+
+export default class Popup extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this._togglePopup = this._togglePopup.bind(this);
+		this.show = this.show.bind(this);
+		this.hide = this.hide.bind(this);
+
+		this.state = { open: false };
+	}
+
+	componentWillUnmount() {
+		this._remHandler();
+	}
+
+	_togglePopup() {
+		const open = !this.state.open;
+
+		if (open) {
+			this.show();
+		}
+		else {
+			const prevHide = this._prevHide;
+			delete this._prevHide;
+
+			if (!prevHide) {
+				this.hide();
+			}
+		}
+	}
+
+	_addHandler() {
+		document.addEventListener('click', this._togglePopup, false);
+	}
+
+	_remHandler() {
+		document.removeEventListener('click', this._togglePopup);
+	}
+
+	hide() {
+		if (!this.state.open) {
+			return;
+		}
+		this.setState({ open: false });
+		this._remHandler();
+	}
+
+	show() {
+		delete this._prevHide;
+		if (this.state.open) {
+			return;
+		}
+		this.setState({ open: true });
+		this._addHandler();
+	}
+
+	preventHide() {
+		this._prevHide = true;
+	}
+
+	// itemClick() {
+	// 	console.log('test');
+	// 	this.preventHide();
+	// }
+
+	render() {
+		const open = this.state && this.state.open;
+
+		const clazz = 'dropdown' + (open ? ' open' : '');
+
+		return (
+			<div className={clazz}>
+				<Button onClick={this.show}>{'@'}</Button>
+				<div className="dropdown-menu">
+					{this.props.children}
+				</div>
+			</div>
+			);
+	}
+}
+
+Popup.propTypes = {
+	children: React.PropTypes.node
+};

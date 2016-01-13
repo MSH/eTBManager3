@@ -82,9 +82,9 @@ export default function(session) {
                 {
                     hasPerm('ADMIN') &&
                     <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
-                        <MenuItem eventKey={31} onSelect={adminClick}>{'Tables'}</MenuItem>
-                        <MenuItem eventKey={32} onSelect={adminClick}>{'Reports'}</MenuItem>
-                        <MenuItem eventKey={33} onSelect={adminClick}>{'Settings'}</MenuItem>
+                        <MenuItem eventKey={31} onSelect={adminClick}>{__('admin.tables')}</MenuItem>
+                        <MenuItem eventKey={32} onSelect={adminClick}>{__('admin.reports')}</MenuItem>
+                        <MenuItem eventKey={33} onSelect={adminClick}>{__('admin.config')}</MenuItem>
                     </NavDropdown>
                 }
             </Nav>

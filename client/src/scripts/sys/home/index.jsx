@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Grid, Row, Col, Collapse, Button, ButtonToolbar } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Profile, Card, Fluidbar, WaitIcon } from '../../components/index';
-import CollapseCard from '../../components/collapse-card';
+import Popup from '../../components/popup';
 import { app } from '../../core/app';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
 
@@ -16,6 +16,7 @@ export default class Home extends React.Component {
 		super(props);
 		this.toggleCard = this.toggleCard.bind(this);
 		this.editClick = this.editClick.bind(this);
+		this.itemClick = this.itemClick.bind(this);
 //		this.createCell = this.createCell.bind(this);
 
 		this._appEvent = this._appEvent.bind(this);
@@ -42,7 +43,7 @@ export default class Home extends React.Component {
 		}
 	}
 
-	toggleCard(evt) {
+	toggleCard() {
 		var show = this.state.show;
 		this.setState({ show: !show });
 	}
@@ -53,6 +54,11 @@ export default class Home extends React.Component {
 
 	cellSize(item) {
 		return item === 3 ? { md: 12 } : { md: 6 };
+	}
+
+	itemClick(evt) {
+		console.log(evt);
+		this.refs.pop1.preventHide();
 	}
 
 	render() {
@@ -111,6 +117,14 @@ export default class Home extends React.Component {
 				<Grid className="mtop-2x">
 					<Row>
 						<Col md={8} mdOffset={2}>
+						<Popup ref="pop1">
+							<h3 onClick={this.itemClick} >{'Test 1'}</h3>
+							<h3 onClick={this.itemClick} >{'Test 2'}</h3>
+						</Popup>
+						<Popup ref="pop2">
+							<h3 onClick={this.itemClick} >{'Test 3'}</h3>
+							<h3 onClick={this.itemClick} >{'Test 4'}</h3>
+						</Popup>
 						<Card>
 							<Profile title={unitName}
 								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"

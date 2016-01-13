@@ -6961,12 +6961,12 @@ button.close {
   background-color: #f8f8f8;
 }
 .prof-tbunit {
-  color: #3F51B5;
-  background-color: #CACEE4;
+  color: #CACEE4;
+  background-color: #3F51B5;
 }
 .prof-lab {
-  color: #4CAF50;
-  background-color: #DCF0DC;
+  color: #DCF0DC;
+  background-color: #4CAF50;
 }
 .prof-male {
   color: #43698E;
@@ -7143,9 +7143,13 @@ button.close {
   text-transform: uppercase;
   color: #505050;
 }
+.profile .profile-subtitle {
+  color: #a0a0a0;
+  font-weight: bold;
+}
 .profile-small .profile-image {
   font-size: 1.5em;
-  margin-right: 4px;
+  margin-right: 8px;
 }
 .profile-small .profile-title {
   font-size: 1em;
@@ -7158,7 +7162,7 @@ button.close {
 }
 .profile-medium .profile-image {
   font-size: 2.6em;
-  margin-right: 8px;
+  margin-right: 12px;
 }
 .profile-medium .profile-title {
   font-size: 1.3em;
@@ -7167,7 +7171,7 @@ button.close {
 }
 .profile-large .profile-image {
   font-size: 4em;
-  margin-right: 12px;
+  margin-right: 18px;
 }
 .profile-large .profile-title {
   font-size: 2em;

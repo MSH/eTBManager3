@@ -56,16 +56,25 @@ export default class Routes extends React.Component {
 	}
 
 	render() {
+
 		const changing = this.state && this.state.changing;
 		if (changing) {
 			return <WaitIcon />;
 		}
 
-		const routes = RouteView.createRoutes([
-			{ path: '/home', viewResolver: this.openHome.bind(this) },
-			{ path: '/reports', viewResolver: this.openReports.bind(this) },
-			{ path: '/admin', viewResolver: this.openAdmin.bind(this) }
-		]);
+		const routesInfo = [
+			{ path: '/home', view: HomeRoutes },
+			{ path: '/reports', view: ReportRoutes },
+			{ path: '/admin', view: AdminRoutes }
+			];
+
+		// playground for dev is available just in dev module
+		if (__DEV__) {
+			const TempRoutes = require('./dev/routes');
+			routesInfo.push({ path: '/dev', view: TempRoutes.default });
+		}
+
+		const routes = RouteView.createRoutes(routesInfo);
 
 		return (
 			<RouteView id="routes-index" routes={routes} />
