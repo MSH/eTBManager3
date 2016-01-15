@@ -20,10 +20,12 @@ export default class FieldElement extends React.Component {
 
 		// checks done in development time
 		if (__DEV__) {
+			// check if property was defined
 			if (!el.property) {
 				throw new Error('Property not defined in schema');
 			}
 
+			// check if type was defined
 			if (!el.type) {
 				throw new Error('Type not defined. Property ' + el.property);
 			}
@@ -32,6 +34,7 @@ export default class FieldElement extends React.Component {
 		const th = Types.list[el.type];
 
 		if (__DEV__) {
+			// check if type was not found
 			if (!th) {
 				return <div>{'Type not found: ' + el.type}</div>;
 			}
@@ -41,9 +44,10 @@ export default class FieldElement extends React.Component {
 
 		if (Comp === null) {
 			if (__DEV__) {
+				// return nice message to the developer
 				return (
 					<div>
-						<label>{'Undefined component'}</label>
+						<label className="text-danger">{'Undefined component'}</label>
 						<div className="text-muted">{'type = ' + el.type}</div>
 					</div>
 					);
@@ -52,11 +56,18 @@ export default class FieldElement extends React.Component {
 			return null;
 		}
 
+		// simplify error handling, sending just a string if there is
+		// just one single error for the property
+		let errors = this.props.errors;
+		if (errors && Object.keys(errors).length === 1 && el && errors[el.property]) {
+			errors = errors[el.property];
+		}
+
 		return (
 			<Comp schema={el}
 				onChange={this.props.onChange}
 				value={this.props.value}
-				errors={this.props.errors} />
+				errors={errors} />
 			);
 	}
 }

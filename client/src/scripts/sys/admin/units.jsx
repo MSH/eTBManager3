@@ -24,9 +24,10 @@ const editorDef = {
 					},
 					{
 						property: 'active',
-						type: 'bool',
+						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
-						defaultValue: true
+						defaultValue: true,
+						size: { sm: 4 }
 					},
 					{
 						property: 'address.address',
@@ -41,16 +42,16 @@ const editorDef = {
 						size: { sm: 6 }
 					},
 					{
-						property: 'address.zipCode',
-						label: __('Address.zipCode'),
-						type: 'string',
-						size: { sm: 3 }
-					},
-					{
 						property: 'address.adminUnit',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
 						size: { sm: 6 }
+					},
+					{
+						property: 'address.zipCode',
+						label: __('Address.zipCode'),
+						type: 'string',
+						size: { sm: 3 }
 					},
 					{
 						property: 'customId',
@@ -74,29 +75,20 @@ const editorDef = {
 					},
 					{
 						property: 'active',
-						type: 'bool',
+						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
-						defaultValue: true
-					},
-					{
-						property: 'customId',
-						type: 'string',
-						label: __('form.customId'),
-						size: { sm: 3 }
+						defaultValue: true,
+						size: { sm: 4 }
 					},
 					{
 						property: 'address.address',
 						label: __('Address.address'),
-						type: 'string'
+						type: 'string',
+						size: { newLine: true, sm: 6 }
 					},
 					{
 						property: 'address.complement',
 						label: __('Address.complement'),
-						type: 'string'
-					},
-					{
-						property: 'address.zipCode',
-						label: __('Address.zipCode'),
 						type: 'string',
 						size: { sm: 6 }
 					},
@@ -105,6 +97,18 @@ const editorDef = {
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
 						size: { sm: 6 }
+					},
+					{
+						property: 'address.zipCode',
+						label: __('Address.zipCode'),
+						type: 'string',
+						size: { sm: 3 }
+					},
+					{
+						property: 'customId',
+						type: 'string',
+						label: __('form.customId'),
+						size: { sm: 3 }
 					}
 			],
 			title: doc => doc && doc.id ? __('admin.labs.edt') : __('admin.labs.new')

@@ -1,6 +1,5 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Input } from 'react-bootstrap';
 
 
@@ -83,8 +82,6 @@ export default class InputControl extends React.Component {
 			checked = this.props.value;
 		}
 
-		const err = errors ? errors[sc.property] : null;
-
 		const options = this.createOptions(sc);
 
 		return	(
@@ -93,9 +90,9 @@ export default class InputControl extends React.Component {
 				type={ctype}
 				onChange={this.onChange}
 				value={this.props.value}
-				help={err}
+				help={errors}
 				checked={checked}
-				bsStyle={err ? 'error' : null} >
+				bsStyle={errors ? 'error' : null} >
 				{options}
 			</Input>
 			);
@@ -106,5 +103,5 @@ InputControl.propTypes = {
 	schema: React.PropTypes.object,
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
-	errors: React.PropTypes.object
+	errors: React.PropTypes.any
 };
