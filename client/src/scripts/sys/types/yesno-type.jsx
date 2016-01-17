@@ -2,12 +2,13 @@
 import React from 'react';
 import { Input } from 'react-bootstrap';
 import Types from '../../forms/types';
+import Form from '../../forms/form';
 import Fa from '../../components/fa';
 
 /**
  * Type handle for administrative unit series
  */
-export default class YesNoType extends Types.Handler {
+export default class YesNoType extends Types.Class.BoolType {
 
 	displayText(value) {
 		return value ? __('global.yes') : __('global.no');
@@ -19,10 +20,6 @@ export default class YesNoType extends Types.Handler {
 
 	formComponent() {
 		return YesNoControl;
-	}
-
-	fromString(value) {
-		return Boolean(value);
 	}
 }
 
@@ -48,8 +45,8 @@ class YesNoControl extends React.Component {
 		const err = schema.errors;
 
 		return (
-			<Input label={schema.label + ':'} help={err} ref="input"
-				onChange={this.onChange}
+			<Input label={Form.labelRender(schema.label, schema.required)} help={err} ref="input"
+				onChange={this.onChange} wrapperClassName="size-3"
 				style={err ? 'error' : null} type="select" value={this.props.value}>
 				<option value="-">{'-'}</option>
 				<option value="true">{__('global.yes')}</option>

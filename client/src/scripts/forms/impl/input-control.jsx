@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
+import Form from '../form';
 
 
 export default class InputControl extends React.Component {
@@ -31,11 +32,6 @@ export default class InputControl extends React.Component {
 		const value = comp.props.type === 'checkbox' ? comp.getChecked() : comp.getValue();
 
 		this.props.onChange({ event: evt, element: el, value: value });
-		// // change the value in the data model
-		// el.setValue(value);
-
-		// // force component refreshing
-		// this.forceUpdate();
 	}
 
 	/**
@@ -70,6 +66,25 @@ export default class InputControl extends React.Component {
 			null;
 	}
 
+	getWrapperClass(sc) {
+		if (!sc.controlSize) {
+			return null;
+		}
+
+		switch (sc.controlSize) {
+			case 2: return 'size-2';
+			case 3: return 'size-3';
+			case 4: return 'size-4';
+			default:
+		}
+
+		if (__DEV__) {
+			throw new Error('Invalid control size = ' + sc.controlSize);
+		}
+
+		return null;
+	}
+
 	render() {
 		const sc = this.props.schema;
 		const errors = this.props.errors;
@@ -77,12 +92,18 @@ export default class InputControl extends React.Component {
 		const ctype = this.controlType(sc);
 
 		let checked = null;
-		const label = sc.label;
+		let label;
 		if (ctype === 'checkbox') {
 			checked = this.props.value;
+			label = sc.label;
+		}
+		else {
+			label = Form.labelRender(sc.label, sc.required);
 		}
 
 		const options = this.createOptions(sc);
+
+		const wrapperClazz = this.getWrapperClass(sc);
 
 		return	(
 			<Input ref={sc.property}
@@ -92,6 +113,7 @@ export default class InputControl extends React.Component {
 				value={this.props.value}
 				help={errors}
 				checked={checked}
+				wrapperClassName={wrapperClazz}
 				bsStyle={errors ? 'error' : null} >
 				{options}
 			</Input>

@@ -52,6 +52,24 @@ export default class Form extends React.Component {
 	}
 
 	/**
+	 * Generate a new label component to be displayed as the label of an input control.
+	 * Includes a red icon on the right side to indicate required fields
+	 * @param  {[type]} schema [description]
+	 * @return {[type]}        [description]
+	 */
+	static labelRender(label, required) {
+		if (!label) {
+			return null;
+		}
+
+		const txt = label + ':';
+
+		return required ?
+			<span>{txt}<i className="fa fa-exclamation-circle app-required"/></span> :
+			txt;
+	}
+
+	/**
 	 * Validate the form and return validation messages, if any erro is found
 	 * @param  {[type]} layout    [description]
 	 * @param  {[type]} datamodel [description]
@@ -174,7 +192,7 @@ export default class Form extends React.Component {
 				this.handledErrors.push(key);
 			}
 		});
-		return res;
+		return Object.keys(res).length === 0 ? null : res;
 	}
 
 
@@ -238,7 +256,7 @@ export default class Form extends React.Component {
 
 		const items = this.state.elements.map(elem => {
 			const compErrors = elem.property ? this.propertyErrors(elem.property, errors) : null;
-			const value = getValue(this.props.doc, elem.property);
+			const value = elem.el === 'field' ? getValue(this.props.doc, elem.property) : null;
 
 			const comp = this.createComponent(elem, value, compErrors);
 
@@ -267,6 +285,9 @@ export default class Form extends React.Component {
 	}
 
 	createComponent(schema, value, errors) {
+		if (schema.el === 'subtitle') {
+			return <div className="subtitle">{schema.label}</div>;
+		}
 		// BY NOW JUST THE FIELD ELEMENT IS SUPPORTED
 		return <FieldElement schema={schema} value={value} onChange={this._onChange} errors={errors} />;
 	}

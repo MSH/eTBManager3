@@ -24,10 +24,16 @@ const editorDef = {
 					},
 					{
 						property: 'active',
+						required: true,
 						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
 						defaultValue: true,
 						size: { sm: 4 }
+					},
+					{
+						el: 'subtitle',
+						label: 'Unit address',
+						size: { sm: 12 }
 					},
 					{
 						property: 'address.address',
@@ -45,6 +51,7 @@ const editorDef = {
 						property: 'address.adminUnit',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
+						required: true,
 						size: { sm: 6 }
 					},
 					{
@@ -58,6 +65,56 @@ const editorDef = {
 						type: 'string',
 						label: __('form.customId'),
 						size: { sm: 3 }
+					},
+					{
+						property: 'receiveFromManufacturer',
+						type: 'bool',
+						label: __('Unit.receiveFromManufacturer')
+					},
+					{
+						property: 'tbFacility',
+						type: 'bool',
+						label: __('Tbunit.tbFacility')
+					},
+					{
+						property: 'drtbFacility',
+						type: 'bool',
+						label: __('Tbunit.drtbFacility')
+					},
+					{
+						property: 'ntmFacility',
+						type: 'bool',
+						label: __('Tbunit.ntmFacility')
+					},
+					{
+						property: 'notificationUnit',
+						type: 'bool',
+						label: __('Tbunit.notificationUnit')
+					},
+					{
+						el: 'subtitle',
+						label: 'Medicine order settings',
+						size: { sm: 12 }
+					},
+					{
+						property: 'supplier',
+						type: 'unit',
+						label: __('Unit.supplier'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'authorizer',
+						type: 'unit',
+						label: __('Unit.authorizer'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'numDaysOrder',
+						type: 'int',
+						label: __('Tbunit.numDaysOrder'),
+						defaultValue: 120,
+						size: { sm: 8 },
+						controlSize: 4
 					}
 			],
 			title: doc => doc && doc.id ? __('admin.tbunits.edt') : __('admin.tbunits.new')

@@ -5,6 +5,7 @@ import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import WaitIcon from '../../components/wait-icon';
 import Types from '../../forms/types';
+import Form from '../../forms/form';
 
 const crud = new CRUD('adminunit');
 
@@ -32,8 +33,7 @@ export default class AdminUnitInput extends React.Component {
 			// query the root items
 			crud.query(qry)
 			.then(res => self.setState({
-				list: self.createList(res),
-				value: {}
+				list: self.createList(res)
 			}));
 		}
 	}
@@ -152,10 +152,12 @@ export default class AdminUnitInput extends React.Component {
 
 		const self = this;
 
+		const label = Form.labelRender(item.name, this.props.schema.required);
+
 		return (
 			<div key={item.key}>
 				<Input ref={ref} data-ref={item.level}
-					type="select" label={item.name + ':'} onChange={self.onChange}>
+					type="select" label={label} onChange={self.onChange}>
 					{options}
 				</Input>
 				{item.fetching && <WaitIcon type="field" />}

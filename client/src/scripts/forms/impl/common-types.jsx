@@ -75,28 +75,31 @@ class NumberType extends BaseInputType {
 			setValue(dm, elem.property, num);
 		}
 	}
+
+	fromString(value) {
+		return Number(value);
+	}
 }
 
 
+/**
+ * Basic type to handle boolean types
+ */
 class BoolType extends BaseInputType {
-
-	static typeName() {
-		return 'bool';
-	}
 
 	validate(schema, value) {
 		if (typeof value !== 'boolean') {
 			return msgs.NotValid;
 		}
 	}
+
+	fromString(value) {
+		return Boolean(value);
+	}
 }
 
 
 class ItemType extends BaseInputType {
-
-	static typeName() {
-		return 'item';
-	}
 
 	validate(schema, value) {
 		if (typeof value !== 'object' || !value.id || !value.name) {

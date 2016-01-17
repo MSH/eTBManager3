@@ -1389,14 +1389,13 @@
 
             <!-- unit part -->
             <column name="tbFacility" type="${type.boolean}" />
-            <column name="mdrFacility" type="${type.boolean}" />
+            <column name="drtbFacility" type="${type.boolean}" />
             <column name="ntmFacility" type="${type.boolean}" />
             <column name="numDaysOrder" type="INT"/>
             <column name="receiveFromManufacturer" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
             <column name="notificationUnit" type="${type.boolean}"/>
-            <column name="patientDispensing" type="${type.boolean}"/>
             <column name="AUTHORIZERUNIT_ID" type="${type.id}"/>
             <column name="SUPPLIER_ID" type="${type.id}"/>
             <column name="inventoryCloseDate" type="date"/>

@@ -17,18 +17,13 @@ public class Tbunit extends Unit {
      * TB cases handled by the health unit (susceptible TB, DR-TB and NTM)
      */
     private boolean tbFacility;
-    private boolean mdrFacility;
+    private boolean drtbFacility;
     private boolean ntmFacility;
 
     /**
      * Indicate if this is a notification health unit
      */
     private boolean notificationUnit;
-
-    /**
-     * if true, unit can register medicine dispensing to patient
-     */
-    private boolean patientDispensing;
 
     /**
      * Number of days to estimate medicine orders
@@ -52,21 +47,6 @@ public class Tbunit extends Unit {
 	}
 
 
-	/**
-	 * @return the patientDispensing
-	 */
-	public boolean isPatientDispensing() {
-		return patientDispensing;
-	}
-
-
-	/**
-	 * @param patientDispensing the patientDispensing to set
-	 */
-	public void setPatientDispensing(boolean patientDispensing) {
-		this.patientDispensing = patientDispensing;
-	}
-
     @Override
     public UnitType getType() {
         return UnitType.TBUNIT;
@@ -78,14 +58,6 @@ public class Tbunit extends Unit {
 
     public void setTbFacility(boolean tbFacility) {
         this.tbFacility = tbFacility;
-    }
-
-    public boolean isMdrFacility() {
-        return mdrFacility;
-    }
-
-    public void setMdrFacility(boolean mdrFacility) {
-        this.mdrFacility = mdrFacility;
     }
 
     public boolean isNtmFacility() {
@@ -102,5 +74,13 @@ public class Tbunit extends Unit {
 
     public void setNotificationUnit(boolean notificationUnit) {
         this.notificationUnit = notificationUnit;
+    }
+
+    public boolean isDrtbFacility() {
+        return drtbFacility;
+    }
+
+    public void setDrtbFacility(boolean drtbFacility) {
+        this.drtbFacility = drtbFacility;
     }
 }

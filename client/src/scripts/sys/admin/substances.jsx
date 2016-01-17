@@ -37,23 +37,27 @@ const editorDef = {
 		},
 		{
 			property: 'dstResultForm',
-			type: 'bool',
+			type: 'yesNo',
 			label: __('Substance.dstResultForm'),
-			size: { newLine: true, sm: 6 },
+			size: { newLine: true, sm: 4 },
+			required: true,
 			defaultValue: true
 		},
 		{
 			property: 'prevTreatmentForm',
-			type: 'bool',
+			type: 'yesNo',
 			label: __('Substance.prevTreatmentForm'),
-			size: { sm: 6 },
+			size: { sm: 4 },
+			required: true,
 			defaultValue: true
 		},
 		{
 			property: 'active',
-			type: 'bool',
+			type: 'yesNo',
 			label: __('EntityState.ACTIVE'),
-			defaultValue: true
+			defaultValue: true,
+			required: true,
+			size: { sm: 4 }
 		},
 		{
 			property: 'customId',

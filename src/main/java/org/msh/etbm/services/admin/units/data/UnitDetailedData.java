@@ -14,8 +14,8 @@ public class UnitDetailedData extends UnitData {
     private String shipContactPhone;
     private AddressData address;
     private AddressData shipAddress;
-    private UnitItemData supplier;
-    private UnitItemData authorizer;
+    private UnitData supplier;
+    private UnitData authorizer;
     private boolean receiveFromManufacturer;
 
     /** laboratory part */
@@ -90,19 +90,19 @@ public class UnitDetailedData extends UnitData {
         this.shipAddress = shipAddress;
     }
 
-    public UnitItemData getSupplier() {
+    public UnitData getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(UnitItemData supplier) {
+    public void setSupplier(UnitData supplier) {
         this.supplier = supplier;
     }
 
-    public UnitItemData getAuthorizer() {
+    public UnitData getAuthorizer() {
         return authorizer;
     }
 
-    public void setAuthorizer(UnitItemData authorizer) {
+    public void setAuthorizer(UnitData authorizer) {
         this.authorizer = authorizer;
     }
 

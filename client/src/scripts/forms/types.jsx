@@ -19,6 +19,9 @@ function registerType(Type) {
 
 	const name = Type.typeName();
 	const instance = new Type();
+
+	_types.Class[Type.name] = Type;
+
 	if (name.constructor === Array) {
 		name.forEach(k => _types.list[k] = instance);
 	}
@@ -34,8 +37,9 @@ function registerType(Type) {
  */
 var _types = {
 	register: registerType,
-	Handler: TypeHandler,
-	list: {}
+	BaseClass: TypeHandler,
+	list: {},
+	Class: {}
 };
 
 

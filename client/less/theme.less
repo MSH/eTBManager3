@@ -466,6 +466,9 @@
 @container-md: @container-desktop;
 @container-lg: @container-large-desktop;
 
+
+@control-label-color: #808080;
+
 @import "app.less";
 @import "callout.less";
 @import "card.less";
@@ -483,6 +486,11 @@
 
 .btn {
 	text-transform: uppercase;
+}
+
+.control-label {
+	font-size:0.9em;
+	color: @control-label-color;
 }
 
 /* Small devices (tablets, 768px and up) */

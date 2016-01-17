@@ -6999,6 +6999,24 @@ button.close {
   max-height: 300px;
   overflow-x: hidden;
 }
+.size-2 {
+  width: 50% !important;
+}
+.size-4 {
+  width: 25% !important;
+}
+.size-3 {
+  width: 33.33333333% !important;
+}
+.subtitle {
+  font-size: 1.2em;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #1e9614;
+  border-bottom: 1px solid #e5e5e5;
+  width: 100%;
+  margin: 20px 0 10px 0;
+}
 .callout {
   padding: 20px;
   margin: 20px 0;
@@ -7203,5 +7221,9 @@ button.close {
 }
 .btn {
   text-transform: uppercase;
+}
+.control-label {
+  font-size: 0.9em;
+  color: #808080;
 }
 /* Small devices (tablets, 768px and up) */

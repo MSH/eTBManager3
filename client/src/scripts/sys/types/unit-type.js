@@ -1,11 +1,11 @@
 
 import Types from '../../forms/types';
-import AdminUnitInput from './admin-unit-input';
+import UnitInput from './unit-input';
 
 /**
  * Type handle for administrative unit series
  */
-export default class AdminUnitType extends Types.BaseClass {
+export default class UnitType extends Types.BaseClass {
 
 	/**
 	 * Display representation of the administrative unit
@@ -35,6 +35,6 @@ export default class AdminUnitType extends Types.BaseClass {
 	}
 
 	formComponent() {
-		return AdminUnitInput;
+		return UnitInput;
 	}
 }
