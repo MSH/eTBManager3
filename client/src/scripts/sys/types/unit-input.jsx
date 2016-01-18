@@ -14,7 +14,8 @@ export default class UnitInput extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onChange = this.onChange.bind(this);
+		this.onAuChange = this.onAuChange.bind(this);
+		this.onUnitChange = this.onUnitChange.bind(this);
 
 		this.state = {};
 	}
@@ -37,23 +38,73 @@ export default class UnitInput extends React.Component {
 		}
 	}
 
-	onChange() {
-		console.log('changed');
+	/**
+	 * Called when user changes the administrative unit select box
+	 * @return {[type]} [description]
+	 */
+	onAuChange() {
+		const admUnit = this.refs.admunit.getValue();
+
+		if (admUnit === '-') {
+			return this.setState({ units: null });
+		}
+
+		const self = this;
+		crud.query({ adminUnitId: admUnit, includeSubunits: true })
+		.then(res => self.setState({ units: res.list }));
+
+		this.setState({ units: null });
+	}
+
+	onUnitChange() {
+		const id = this.refs.unit.getValue();
+		if (this.props.onChange) {
+			this.props.onChange({ element: this.props.schema, value: id });
+		}
+		this.setState({ unit: id });
 	}
 
 	createAdmUnitList() {
+		// admin unit is being loaded ?
+		if (!this.state.adminUnits) {
+			return <WaitIcon type="field" />;
+		}
+
 		const options = this.state.adminUnits.map(opt => (
 				<option key={opt.id} value={opt.id}>
 					{opt.name}
 				</option>
 				));
+		// include 'no selection' option
+		options.unshift(<option key="-" value="-" >{'-'}</option>);
 
 		const sc = this.props.schema;
 		const label = Form.labelRender(sc.label, sc.required);
 
 		return (
 				<Input ref="admunit"
-					type="select" label={label} onChange={self.onChange}>
+					type="select" label={label} onChange={this.onAuChange}>
+					{options}
+				</Input>
+				);
+	}
+
+	createUnitList() {
+		if (!this.state.units) {
+			return null;
+		}
+
+		const options = this.state.units.map(opt => (
+				<option key={opt.id} value={opt.id}>
+					{opt.name}
+				</option>
+				));
+		// include 'no selection' option
+		options.unshift(<option key="-" value="-" >{'-'}</option>);
+
+		return (
+				<Input ref="unit"
+					type="select" onChange={this.onUnitChange}>
 					{options}
 				</Input>
 				);
@@ -64,17 +115,9 @@ export default class UnitInput extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	editorRender(schema) {
-		// admin unit is being loaded ?
-		if (!this.state.adminUnits) {
-			return <WaitIcon type="field" />;
-		}
-
 		const aulist = this.createAdmUnitList();
 
-		const unitlist = (
-			<Input ref="units" type="select"
-				onChange={self.onChange} />
-			);
+		const unitlist = this.createUnitList();
 
 		return (
 			<div>
@@ -103,7 +146,7 @@ export default class UnitInput extends React.Component {
 }
 
 UnitInput.propTypes = {
-	value: React.PropTypes.object,
+	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
 	errors: React.PropTypes.any

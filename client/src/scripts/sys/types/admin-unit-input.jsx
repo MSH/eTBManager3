@@ -15,7 +15,7 @@ export default class AdminUnitInput extends React.Component {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 
-		this.state = {};
+		this.state = { };
 	}
 
 
@@ -154,9 +154,11 @@ export default class AdminUnitInput extends React.Component {
 
 		const label = Form.labelRender(item.name, this.props.schema.required);
 
+		const errors = item.level === 1 ? this.props.errors : null;
+
 		return (
 			<div key={item.key}>
-				<Input ref={ref} data-ref={item.level}
+				<Input ref={ref} data-ref={item.level} help={errors} bsStyle={errors ? 'error' : null}
 					type="select" label={label} onChange={self.onChange}>
 					{options}
 				</Input>

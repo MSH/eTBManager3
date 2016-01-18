@@ -171,7 +171,7 @@ const editorDef = {
 			title: doc => doc && doc.id ? __('admin.labs.edt') : __('admin.labs.new')
 		}
 	},
-	select: item => item.type
+	select: item => item.type.toLowerCase()
 };
 
 

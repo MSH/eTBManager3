@@ -46,6 +46,7 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "awesome-bootstrap-checkbox": "^0.3.6",
     "bootstrap": "^3.3.5",
     "font-awesome": "^4.4.0",
     "font-awesome-webpack": "0.0.4",

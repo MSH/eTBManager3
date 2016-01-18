@@ -59,7 +59,7 @@ export default class CrudView extends React.Component {
 			let editor = this.props.editorDef;
 			// multiple editors ?
 			if (editor.editors) {
-				editor = editor.editors.select(item);
+				editor = editor.select(item.data);
 			}
 
 			// display cell for editing
@@ -80,8 +80,9 @@ export default class CrudView extends React.Component {
 		const content = this.props.onCellRender(item.data);
 
 		// generate the hidden content
-		const colRender = this.props.onCollapseCellRender;
+		const colRender = this.props.onDetailRender;
 		let colContent = colRender ? colRender(item.data) : null;
+
 		colContent = (
 				<div>
 					{colContent}
@@ -217,7 +218,11 @@ export default class CrudView extends React.Component {
 		const self = this;
 		return this.props.crud.get(item.data.id)
 		.then(res => {
-			const cntxt = this.createFormContext(editor, res, item);
+			let doc = res;
+			if (this.props.beforeEdit) {
+				doc = this.props.beforeEdit(doc);
+			}
+			const cntxt = this.createFormContext(editor, doc, item);
 
 			item.state = 'edit';
 			item.context = cntxt;
@@ -350,7 +355,8 @@ CrudView.propTypes = {
 	title: React.PropTypes.string,
 	editorDef: React.PropTypes.object,
 	onCellRender: React.PropTypes.func,
-	onCollapseCellRender: React.PropTypes.func,
+	onDetailRender: React.PropTypes.func,
+	beforeEdit: React.PropTypes.func,
 	cellSize: React.PropTypes.object,
 	perm: React.PropTypes.string,
 	crud: React.PropTypes.object,

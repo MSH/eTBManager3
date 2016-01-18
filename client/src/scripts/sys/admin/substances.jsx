@@ -130,7 +130,7 @@ export class Substances extends React.Component {
 			<CrudView crud={crud}
 				title={data.title}
 				onCellRender={this.cellRender}
-				onCollapseCellRender={this.collapseCellRender}
+				onDetailRender={this.collapseCellRender}
 				editorDef={editorDef}
 				perm={data.perm} />
 			);
