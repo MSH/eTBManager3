@@ -11,6 +11,13 @@ import java.util.UUID;
  */
 public class UnitQuery extends EntityQuery {
 
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_ADMINUNIT = "admunit";
+
+
     private UnitType type;
     private String name;
     private String key;

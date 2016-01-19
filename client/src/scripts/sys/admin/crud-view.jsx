@@ -216,13 +216,13 @@ export default class CrudView extends React.Component {
 
 		// get data to edit from server
 		const self = this;
-		return this.props.crud.get(item.data.id)
+		return this.props.crud.get(item.data.id, true)
 		.then(res => {
 			let doc = res;
-			if (this.props.beforeEdit) {
-				doc = this.props.beforeEdit(doc);
+			if (self.props.beforeEdit) {
+				doc = self.props.beforeEdit(doc);
 			}
-			const cntxt = this.createFormContext(editor, doc, item);
+			const cntxt = self.createFormContext(editor, doc, item);
 
 			item.state = 'edit';
 			item.context = cntxt;

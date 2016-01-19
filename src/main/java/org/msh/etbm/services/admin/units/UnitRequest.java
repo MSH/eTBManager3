@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.units;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.services.admin.AddressRequest;
 
 import java.util.Optional;
@@ -12,17 +13,10 @@ import java.util.UUID;
  */
 public class UnitRequest implements TypedUnit {
 
-    public static final String PROFILE_ITEM = "item";
-    public static final String PROFILE_DEFAULT = "default";
-    public static final String PROFILE_DETAILED = "detailed";
-
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_ADMINUNIT = "admunit";
-
     /**
      * The type indicates the kind of object to create
      */
-    private Optional<UnitType> type;
+    private UnitType type;
 
     private Optional<String> name;
 
@@ -36,18 +30,18 @@ public class UnitRequest implements TypedUnit {
     /**
      * Address
      */
-    private Optional<AddressRequest> address;
+    private AddressRequest address;
 
     /**
      * Ship address
      */
-    private Optional<AddressRequest> shipAddress;
+    private AddressRequest shipAddress;
 
     private Optional<UUID> supplierId;
 
     private Optional<UUID> authorizerId;
 
-    private Optional<Optional> receiveFromManufacturer;
+    private Optional<Boolean> receiveFromManufacturer;
 
     /** LABORATORY EXCLUSIVE **/
     private Optional<Boolean> performCulture;
@@ -57,26 +51,26 @@ public class UnitRequest implements TypedUnit {
 
     /** TB UNIT EXCLUSIVE **/
     private Optional<Boolean> tbFacility;
-    private Optional<Boolean> mdrFacility;
+    private Optional<Boolean> drtbFacility;
     private Optional<Boolean> ntmFacility;
     private Optional<Boolean> notificationUnit;
-    private Optional<Boolean> patientDispensing;
     private Optional<Integer> numDaysOrder;
 
+    @JsonIgnore
     @Override
     public UnitType getUnitType() {
-        return type == null? null: type.get();
-    }
-
-    public void setUnitType(UnitType type) {
-        this.type = Optional.of(type);
-    }
-
-    public Optional<UnitType> getType() {
         return type;
     }
 
-    public void setType(Optional<UnitType> type) {
+    public void setUnitType(UnitType type) {
+        this.type = type;
+    }
+
+    public UnitType getType() {
+        return type;
+    }
+
+    public void setType(UnitType type) {
         this.type = type;
     }
 
@@ -120,19 +114,25 @@ public class UnitRequest implements TypedUnit {
         this.shipContactPhone = shipContactPhone;
     }
 
-    public Optional<AddressRequest> getAddress() {
+    public AddressRequest getAddress() {
+        if (address == null) {
+            address = new AddressRequest();
+        }
         return address;
     }
 
-    public void setAddress(Optional<AddressRequest> address) {
+    public void setAddress(AddressRequest address) {
         this.address = address;
     }
 
-    public Optional<AddressRequest> getShipAddress() {
+    public AddressRequest getShipAddress() {
+        if (shipAddress == null) {
+            shipAddress = new AddressRequest();
+        }
         return shipAddress;
     }
 
-    public void setShipAddress(Optional<AddressRequest> shipAddress) {
+    public void setShipAddress(AddressRequest shipAddress) {
         this.shipAddress = shipAddress;
     }
 
@@ -152,11 +152,11 @@ public class UnitRequest implements TypedUnit {
         this.authorizerId = authorizerId;
     }
 
-    public Optional<Optional> getReceiveFromManufacturer() {
+    public Optional<Boolean> getReceiveFromManufacturer() {
         return receiveFromManufacturer;
     }
 
-    public void setReceiveFromManufacturer(Optional<Optional> receiveFromManufacturer) {
+    public void setReceiveFromManufacturer(Optional<Boolean> receiveFromManufacturer) {
         this.receiveFromManufacturer = receiveFromManufacturer;
     }
 
@@ -200,14 +200,6 @@ public class UnitRequest implements TypedUnit {
         this.tbFacility = tbFacility;
     }
 
-    public Optional<Boolean> getMdrFacility() {
-        return mdrFacility;
-    }
-
-    public void setMdrFacility(Optional<Boolean> mdrFacility) {
-        this.mdrFacility = mdrFacility;
-    }
-
     public Optional<Boolean> getNtmFacility() {
         return ntmFacility;
     }
@@ -224,12 +216,12 @@ public class UnitRequest implements TypedUnit {
         this.notificationUnit = notificationUnit;
     }
 
-    public Optional<Boolean> getPatientDispensing() {
-        return patientDispensing;
+    public Optional<Boolean> getDrtbFacility() {
+        return drtbFacility;
     }
 
-    public void setPatientDispensing(Optional<Boolean> patientDispensing) {
-        this.patientDispensing = patientDispensing;
+    public void setDrtbFacility(Optional<Boolean> drtbFacility) {
+        this.drtbFacility = drtbFacility;
     }
 
     public Optional<Integer> getNumDaysOrder() {

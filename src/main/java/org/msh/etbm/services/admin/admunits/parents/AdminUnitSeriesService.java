@@ -14,7 +14,7 @@ import java.util.UUID;
  * Created by rmemoria on 16/12/15.
  */
 @Service
-public class ParentAdmUnitsService {
+public class AdminUnitSeriesService {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -52,23 +52,23 @@ public class ParentAdmUnitsService {
     private AdminUnitSeries createParentSeries(Object[] vals) {
         AdminUnitSeries res = new AdminUnitSeries();
         if (vals[0] != null) {
-            res.setP0(new SynchronizableItem((UUID)vals[0], (String)vals[1]));
+            res.setP1(new SynchronizableItem((UUID)vals[0], (String)vals[1]));
         }
 
         if (vals[2] != null) {
-            res.setP1(new SynchronizableItem((UUID)vals[2], (String)vals[3]));
+            res.setP2(new SynchronizableItem((UUID)vals[2], (String)vals[3]));
         }
 
         if (vals[4] != null) {
-            res.setP2(new SynchronizableItem((UUID)vals[4], (String)vals[5]));
+            res.setP3(new SynchronizableItem((UUID)vals[4], (String)vals[5]));
         }
 
         if (vals[6] != null) {
-            res.setP3(new SynchronizableItem((UUID)vals[6], (String)vals[7]));
+            res.setP4(new SynchronizableItem((UUID)vals[6], (String)vals[7]));
         }
 
         if (vals[8] != null) {
-            res.setP4(new SynchronizableItem((UUID)vals[8], (String)vals[9]));
+            res.setP5(new SynchronizableItem((UUID)vals[8], (String)vals[9]));
         }
 
         return res;

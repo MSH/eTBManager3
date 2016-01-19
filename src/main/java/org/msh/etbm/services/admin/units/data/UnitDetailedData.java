@@ -32,13 +32,11 @@ public class UnitDetailedData extends UnitData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean tbFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean mdrFacility;
+    private Boolean drtbFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean ntmFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean notificationUnit;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Boolean patientDispensing;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer numDaysOrder;
 
@@ -154,14 +152,6 @@ public class UnitDetailedData extends UnitData {
         this.tbFacility = tbFacility;
     }
 
-    public Boolean getMdrFacility() {
-        return mdrFacility;
-    }
-
-    public void setMdrFacility(Boolean mdrFacility) {
-        this.mdrFacility = mdrFacility;
-    }
-
     public Boolean getNtmFacility() {
         return ntmFacility;
     }
@@ -178,19 +168,19 @@ public class UnitDetailedData extends UnitData {
         this.notificationUnit = notificationUnit;
     }
 
-    public Boolean getPatientDispensing() {
-        return patientDispensing;
-    }
-
-    public void setPatientDispensing(Boolean patientDispensing) {
-        this.patientDispensing = patientDispensing;
-    }
-
     public Integer getNumDaysOrder() {
         return numDaysOrder;
     }
 
     public void setNumDaysOrder(Integer numDaysOrder) {
         this.numDaysOrder = numDaysOrder;
+    }
+
+    public Boolean getDrtbFacility() {
+        return drtbFacility;
+    }
+
+    public void setDrtbFacility(Boolean drtbFacility) {
+        this.drtbFacility = drtbFacility;
     }
 }

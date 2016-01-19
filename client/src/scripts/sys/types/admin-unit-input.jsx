@@ -20,38 +20,21 @@ export default class AdminUnitInput extends React.Component {
 
 
 	componentWillMount() {
+		// field is already initialized ?
+		if (this.props.resources) {
+			return this.setState({ list: this.props.resources });
+		}
+
 		// root was loaded ?
 		if (!this.state.list) {
-			// create the query
-			const qry = {
-				rootUnits: true,
-				fetchCountryStructure: true
-			};
-
 			const self = this;
 
-			// query the root items
-			crud.query(qry)
-			.then(res => self.setState({
-				list: self.createList(res)
-			}));
+			// request field initialization from server
+			Form.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+				.then(res => self.setState({ list: res.v }));
 		}
 	}
 
-
-	createList(res) {
-		const list = [];
-
-		res.csList.forEach(item => {
-			const lev = list[item.level];
-			list[item.level] = lev ?
-				Object.assign(lev, { name: lev.name + '/' + item.name }) :
-				{ name: item.name, list: null, key: item.id, level: item.level };
-		});
-
-		list[1].list = res.list;
-		return list;
-	}
 
 	/**
 	 * Called when the user changes the item selected
@@ -66,7 +49,7 @@ export default class AdminUnitInput extends React.Component {
 
 		// get the ID of the selected administrative unit
 		const id = this.refs[compRef].getValue();
-		const item = list[level];
+		const item = list[level - 1];
 
 		// clear list of the next levels
 		for (var i = level + 1; i <= 5; i++) {
@@ -87,7 +70,7 @@ export default class AdminUnitInput extends React.Component {
 		// search for selected admin unit
 		const admUnit = item.list.find(au => au.id === id);
 
-		item.selected = admUnit;
+		item.selected = admUnit.id;
 
 		// is this the last select component ?
 		if (level === 5 || !admUnit.unitsCount) {
@@ -96,12 +79,12 @@ export default class AdminUnitInput extends React.Component {
 		}
 
 		// get the information about the next level
-		const childItem = list[level + 1];
+		const childItem = list[level];
 		const self = this;
 
 		item.fetching = true;
 		// get children of the parent id
-		crud.query({ parentId: id })
+		crud.query({ parentId: id, profile: 'item' })
 		.then(res => {
 			childItem.list = res.list;
 			delete item.fetching;
@@ -152,13 +135,14 @@ export default class AdminUnitInput extends React.Component {
 
 		const self = this;
 
-		const label = Form.labelRender(item.name, this.props.schema.required);
+		const label = Form.labelRender(item.label, this.props.schema.required);
 
 		const errors = item.level === 1 ? this.props.errors : null;
 
 		return (
-			<div key={item.key}>
+			<div key={item.level}>
 				<Input ref={ref} data-ref={item.level} help={errors} bsStyle={errors ? 'error' : null}
+					value={item.selected}
 					type="select" label={label} onChange={self.onChange}>
 					{options}
 				</Input>
@@ -203,8 +187,9 @@ export default class AdminUnitInput extends React.Component {
 }
 
 AdminUnitInput.propTypes = {
-	value: React.PropTypes.object,
+	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
-	errors: React.PropTypes.any
+	errors: React.PropTypes.any,
+	resources: React.PropTypes.array
 };

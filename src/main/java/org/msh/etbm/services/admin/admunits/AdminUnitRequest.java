@@ -9,13 +9,6 @@ import java.util.UUID;
  */
 public class AdminUnitRequest {
 
-    /**
-     * Available profiles
-     */
-    public static final String QUERY_PROFILE_ITEM = "item";
-    public static final String QUERY_PROFILE_DEFAULT = "default";
-    public static final String QUERY_PROFILE_DETAILED = "detailed";
-
     @NotNull
     private String name;
 

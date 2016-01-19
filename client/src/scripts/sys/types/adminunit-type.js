@@ -7,6 +7,10 @@ import AdminUnitInput from './admin-unit-input';
  */
 export default class AdminUnitType extends Types.BaseClass {
 
+	requireServerInit(schema) {
+		return !schema.readOnly;
+	}
+
 	/**
 	 * Display representation of the administrative unit
 	 * @param  {[type]} value [description]

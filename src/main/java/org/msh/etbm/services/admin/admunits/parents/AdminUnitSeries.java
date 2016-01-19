@@ -12,9 +12,6 @@ import org.msh.etbm.commons.SynchronizableItem;
  */
 public class AdminUnitSeries {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private SynchronizableItem p0;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private SynchronizableItem p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,13 +23,20 @@ public class AdminUnitSeries {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private SynchronizableItem p4;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private SynchronizableItem p5;
+
     /**
      * Return the administrative unit represented by the series, i.e, the
      * unit in the lowest level
      * @return the administrative unit id and name
      */
     @JsonIgnore
-    public SynchronizableItem getAdminUnit() {
+    public SynchronizableItem getSelected() {
+        if (p5 != null) {
+            return p5;
+        }
+
         if (p4 != null) {
             return p4;
         }
@@ -45,11 +49,25 @@ public class AdminUnitSeries {
             return p2;
         }
 
-        if (p1 != null) {
-            return p1;
-        }
+        return p1;
+    }
 
-        return p0;
+    /**
+     * Return the administrative unit by the given level
+     * @param level the administrative level, from 1 to 5
+     * @return the administrative unit info at the given level, or null if no information found or invalid level
+     */
+    @JsonIgnore
+    public SynchronizableItem getAdminUnitLevel(int level) {
+        int itemPos = getLevel() - level;
+        switch (itemPos) {
+            case 0: return p1;
+            case 1: return p2;
+            case 2: return p3;
+            case 3: return p4;
+            case 4: return p5;
+            default: return null;
+        }
     }
 
     /**
@@ -59,19 +77,19 @@ public class AdminUnitSeries {
     @JsonIgnore
     public int getLevel() {
         int level = 5;
-        return 5 - (p4 == null? 1: 0) -
+        return 5 - (p5 == null? 1: 0) -
+                (p4 == null? 1: 0) -
                 (p3 == null? 1: 0) -
                 (p2 == null? 1: 0) -
-                (p1 == null? 1: 0) -
-                (p0 == null? 1: 0);
+                (p1 == null? 1: 0);
     }
 
-    public SynchronizableItem getP0() {
-        return p0;
+    public SynchronizableItem getP5() {
+        return p5;
     }
 
-    public void setP0(SynchronizableItem p0) {
-        this.p0 = p0;
+    public void setP5(SynchronizableItem p5) {
+        this.p5 = p5;
     }
 
     public SynchronizableItem getP1() {

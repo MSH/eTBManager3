@@ -30,7 +30,7 @@ public class AdminUnitsREST {
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        AdminUnitItemData data = adminUnitService.findOne(id, AdminUnitDetailedData.class);
+        AdminUnitDetailedData data = adminUnitService.findOne(id, AdminUnitDetailedData.class);
         return new StandardResult(data, null, data != null);
     }
 

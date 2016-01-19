@@ -30,6 +30,9 @@ public class FieldInitRequest {
      */
     private Map<String, Object> params;
 
+    public FieldInitRequest() {
+        super();
+    }
 
     public String getId() {
         return id;

@@ -37,10 +37,16 @@ export default class CRUD {
 	/**
 	 * Find a single entity by the given id
 	 * @param  {string} id The ID of the entity
+	 * @param  {string} edit if true, the return data will be ready for a form editor
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
-	get(id) {
-		return server.get(API_PREFIX + this.table + '/' + id)
+	get(id, edit) {
+		let param = '/' + id;
+		if (edit) {
+			param += '?edit=1';
+		}
+
+		return server.get(API_PREFIX + this.table + param)
 		.then(res => {
 			if (!res.success) {
 				return Promise.reject(res);

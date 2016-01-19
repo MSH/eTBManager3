@@ -8,6 +8,9 @@ import { validateForm } from './impl/validator';
 import { getValue, setValue, objEqual } from '../commons/utils';
 import { arrangeGrid } from '../commons/grid-utils';
 import { app } from '../core/app';
+import Types from './types';
+import { server } from '../commons/server';
+import WaitIcon from '../components/wait-icon';
 
 
 /**
@@ -18,6 +21,7 @@ export default class Form extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onChange = this._onChange.bind(this);
+		this.state = {};
 	}
 
 	componentWillMount() {
@@ -33,6 +37,8 @@ export default class Form extends React.Component {
 		}
 
 		this.setState({ elements: elems });
+
+		this.initForm(elems);
 	}
 
 	/**
@@ -49,6 +55,15 @@ export default class Form extends React.Component {
 			}
 		});
 		return doc;
+	}
+
+	/**
+	 * Request the server to initialize the given fields
+	 * @param  {Array} req list of field objects with id, type and value
+	 * @return {Promise}   Promise to be resolved when server answers back
+	 */
+	static initFields(req) {
+		return server.post('/api/form/initfields', req);
 	}
 
 	/**
@@ -84,11 +99,14 @@ export default class Form extends React.Component {
 	 * @param  {[type]} elem [description]
 	 * @return {[type]}      [description]
 	 */
-	createElemState(elem) {
+	createElemState(elem, index) {
 		// create a new state
 		const state = Object.assign({ el: 'field' }, elem, { options: null });
 
-		state.options = this.fieldOptions(elem);
+		if (state.el === 'field') {
+			state.options = this.fieldOptions(elem);
+			state.id = elem.property + index;
+		}
 
 		// replace functions by properties
 		for (var key in state) {
@@ -106,7 +124,7 @@ export default class Form extends React.Component {
 	 * @return {Array} List of element states
 	 */
 	updateElementStates() {
-		const lst = this.props.layout.map(elem => this.createElemState(elem));
+		const lst = this.props.layout.map((elem, index) => this.createElemState(elem, index));
 
 		const oldlst = this.state ? this.state.elements : null;
 
@@ -236,11 +254,14 @@ export default class Form extends React.Component {
 
 
 	createForm() {
-		const layout = this.props.layout;
+		if (!this.state.resources) {
+			return <WaitIcon type="card" />;
+		}
+
 		const doc = this.props.doc;
 		let errors = this.props.errors;
 
-		if (!layout || !doc) {
+		if (!this.props.layout || !doc) {
 			return null;
 		}
 
@@ -288,8 +309,57 @@ export default class Form extends React.Component {
 		if (schema.el === 'subtitle') {
 			return <div className="subtitle">{schema.label}</div>;
 		}
+
+		// get any resource that came from the object
+		const res = this.state.resources[schema.id];
+
 		// BY NOW JUST THE FIELD ELEMENT IS SUPPORTED
-		return <FieldElement schema={schema} value={value} onChange={this._onChange} errors={errors} />;
+		return (
+			<FieldElement schema={schema} value={value} resources={res}
+				onChange={this._onChange} errors={errors} />
+			);
+	}
+
+	/**
+	 * Initialize form. Called once when form is included in the DOM to check
+	 * if any field requires initialization from server side.
+	 * If so, sends a request to server to get field resources
+	 * @return {Promise} Null if no initialization is required, otherwise returns a promise that will be
+	 * resolved when resources are returned from server
+	 */
+	initForm(elems) {
+		const doc = this.props.doc;
+
+		// create query to be sent to the server
+		const req = elems
+			.filter(elem => {
+				if (elem.el !== 'field') {
+					return false;
+				}
+
+				const th = Types.list[elem.type];
+				return th.requireServerInit(elem);
+			})
+			.map(elem => ({ id: elem.id, type: elem.type, value: getValue(doc, elem.property) }));
+
+		// is there anything to be sent ?
+		if (req.length === 0) {
+			return this.notifyReady({});
+		}
+
+		// request to the server initialization data of the fields
+		const self = this;
+
+//		self.notifyReady([]);
+		Form.initFields(req)
+			.then(res => self.notifyReady(res));
+	}
+
+	notifyReady(resources) {
+		this.setState({ resources: resources });
+		if (this.props.onReady) {
+			this.props.onReady();
+		}
 	}
 
 	/**
@@ -305,7 +375,8 @@ export default class Form extends React.Component {
 Form.propTypes = {
 	layout: React.PropTypes.array,
 	doc: React.PropTypes.object,
-	errors: React.PropTypes.object
+	errors: React.PropTypes.object,
+	onReady: React.PropTypes.func
 };
 
 

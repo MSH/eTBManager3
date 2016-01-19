@@ -1,7 +1,11 @@
 package org.msh.etbm.commons.forms;
 
+import org.msh.etbm.commons.forms.handlers.AdminUnitTypeHandler;
+import org.msh.etbm.commons.forms.handlers.UnitTypeHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +17,24 @@ import java.util.Map;
 @Component
 public class TypesManagerService {
 
+    @Autowired
+    AdminUnitTypeHandler adminUnitTypeHandler;
+
+    @Autowired
+    UnitTypeHandler unitTypeHandler;
+
+
     private Map<String, TypeHandler> types = new HashMap<>();
+
+
+    /**
+     * Register all supported type handlers
+     */
+    @PostConstruct
+    void initialize() {
+        register(adminUnitTypeHandler);
+        register(unitTypeHandler);
+    }
 
     /**
      * Register a new type handler
@@ -25,6 +46,7 @@ public class TypesManagerService {
         if (types.containsKey(name)) {
             throw new RuntimeException("Name is already registered: " + name);
         }
+        types.put(name, handler);
     }
 
     /**

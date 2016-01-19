@@ -66,6 +66,7 @@ export default class FieldElement extends React.Component {
 		return (
 			<Comp schema={el}
 				onChange={this.props.onChange}
+				resources={this.props.resources}
 				value={this.props.value}
 				errors={errors} />
 			);
@@ -76,5 +77,6 @@ FieldElement.propTypes = {
 	schema: React.PropTypes.object,
 	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
-	errors: React.PropTypes.object
+	errors: React.PropTypes.object,
+	resources: React.PropTypes.any
 };

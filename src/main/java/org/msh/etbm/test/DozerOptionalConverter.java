@@ -19,7 +19,8 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
             return dest;
         }
 
-        if (source instanceof Optional) {
+        // source is optional ?
+        if (Optional.class.isAssignableFrom(sourceClass)) {
             Optional opt = (Optional)source;
             if (opt == Optional.empty()) {
                 return null;
@@ -40,7 +41,8 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
             }
         }
         else {
-            return Optional.of(dest);
+            // dest must be optional
+            return source == null? Optional.empty() : Optional.of(source);
         }
     }
 

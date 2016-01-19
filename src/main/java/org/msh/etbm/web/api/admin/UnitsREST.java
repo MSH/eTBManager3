@@ -2,9 +2,11 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.admin.AddressRequest;
 import org.msh.etbm.services.admin.units.UnitQuery;
 import org.msh.etbm.services.admin.units.UnitRequest;
 import org.msh.etbm.services.admin.units.UnitService;
+import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -43,8 +46,9 @@ public class UnitsREST {
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.GET)
     @Authenticated
-    public StandardResult get(@PathVariable UUID id) {
-        UnitDetailedData data = unitService.findOne(id, UnitDetailedData.class);
+    public StandardResult get(@PathVariable UUID id, @RequestParam(value="edit", defaultValue = "false") boolean edit) {
+        Class dataClazz = edit ? UnitRequest.class : UnitDetailedData.class;
+        Object data = unitService.findOne(id, dataClazz);
         return new StandardResult(data, null, data != null);
     }
 

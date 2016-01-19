@@ -2,7 +2,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Profile, Card, Fluidbar, WaitIcon } from '../../components/index';
-import Popup from '../../components/popup';
 import { app } from '../../core/app';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
 
@@ -117,14 +116,6 @@ export default class Home extends React.Component {
 				<Grid className="mtop-2x">
 					<Row>
 						<Col md={8} mdOffset={2}>
-						<Popup ref="pop1">
-							<h3 onClick={this.itemClick} >{'Test 1'}</h3>
-							<h3 onClick={this.itemClick} >{'Test 2'}</h3>
-						</Popup>
-						<Popup ref="pop2">
-							<h3 onClick={this.itemClick} >{'Test 3'}</h3>
-							<h3 onClick={this.itemClick} >{'Test 4'}</h3>
-						</Popup>
 						<Card>
 							<Profile title={unitName}
 								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"

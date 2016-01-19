@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -31,7 +32,7 @@ public class DozerEntityConverter implements CustomConverter {
 
 
         if (source instanceof Synchronizable) {
-            return convertToId((Synchronizable)source);
+            return convertToId((Synchronizable)source, destClass);
         }
 
         return null;
@@ -52,7 +53,15 @@ public class DozerEntityConverter implements CustomConverter {
      * @param source
      * @return
      */
-    private UUID convertToId(Synchronizable source) {
-        return source.getId();
+    private Object convertToId(Synchronizable source, Class<?> destClass) {
+        if (destClass == UUID.class) {
+            return source.getId();
+        }
+
+        if (destClass == Optional.class) {
+            return Optional.ofNullable(source.getId());
+        }
+
+        throw new RuntimeException("Destination class not supported: " + destClass);
     }
 }

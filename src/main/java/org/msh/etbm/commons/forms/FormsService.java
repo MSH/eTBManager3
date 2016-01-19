@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Services to handle form operations. Initialize field contents that need resources
@@ -19,11 +21,11 @@ public class FormsService {
 
     /**
      * Initialize fields content
-     * @param fields
-     * @return
+     * @param fields list of fields and its data to be initialized with the content to be displayed
+     * @return Map with id (given in the argument) as the key and the result to initialize the fields
      */
-    public List<FieldInitResponse> initFormFields(List<FieldInitRequest> fields) {
-        List<FieldInitResponse> lst = new ArrayList<>();
+    public Map<String, Object> initFormFields(List<FieldInitRequest> fields) {
+        Map<String, Object> map = new HashMap<>();
 
         for (FieldInitRequest fieldReq: fields) {
             TypeHandler handler = typesManager.get(fieldReq.getType());
@@ -35,9 +37,9 @@ public class FormsService {
             // initialize the field with the proper response
             Object res = handler.initField(fieldReq);
 
-            lst.add( new FieldInitResponse(fieldReq.getId(), res) );
+            map.put(fieldReq.getId(), res);
         }
 
-        return lst;
+        return map;
     }
 }

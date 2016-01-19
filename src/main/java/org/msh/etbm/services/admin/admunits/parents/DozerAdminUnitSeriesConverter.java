@@ -19,7 +19,7 @@ public class DozerAdminUnitSeriesConverter implements CustomConverter {
     UserRequestService userRequestService;
 
     @Autowired
-    ParentAdmUnitsService parentAdmUnitsService;
+    AdminUnitSeriesService adminUnitSeriesService;
 
     @Override
     public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
@@ -49,13 +49,13 @@ public class DozerAdminUnitSeriesConverter implements CustomConverter {
         if (seriesList != null) {
             // check in the series list
             for (AdminUnitSeries au: seriesList) {
-                SynchronizableItem item = au.getAdminUnit();
+                SynchronizableItem item = au.getSelected();
                 if (item != null && adm.getId().equals(item.getId())) {
                     return au;
                 }
             }
         }
 
-        return parentAdmUnitsService.getAdminUnitSeries(adm);
+        return adminUnitSeriesService.getAdminUnitSeries(adm);
     }
 }

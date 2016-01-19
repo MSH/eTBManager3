@@ -358,8 +358,6 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         QueryResult res = new QueryResult();
 
-        res.setCount(getCount());
-
         // check if just counting is to be performed, or list too
         if (!this.countOnly) {
             // execute the query
@@ -369,6 +367,15 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             List lst2 = Lists.transform(lst, item -> mapper.map(item, dataClass));
 
             res.setList(lst2);
+        }
+
+        // is paging enabled or count only ?
+        if (page != null || countOnly) {
+            res.setCount(getCount());
+        }
+        else {
+            // if there is no paging, avoid unnecessary database query
+            res.setCount(res.getList().size());
         }
 
         return res;

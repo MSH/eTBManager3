@@ -21,6 +21,16 @@ export default class UnitInput extends React.Component {
 	}
 
 	componentWillMount() {
+		// resources are available to initialize the field ?
+		const resources = this.props.resources;
+		if (resources) {
+			return this.setState({
+				adminUnits: resources.adminUnits,
+				units: resources.units,
+				adminUnitId: resources.adminUnitId
+			});
+		}
+
 		// root was loaded ?
 		if (!this.state.adminUnits) {
 			// create the query
@@ -82,7 +92,7 @@ export default class UnitInput extends React.Component {
 		const label = Form.labelRender(sc.label, sc.required);
 
 		return (
-				<Input ref="admunit"
+				<Input ref="admunit" value={this.state.adminUnitId}
 					type="select" label={label} onChange={this.onAuChange}>
 					{options}
 				</Input>
@@ -103,7 +113,7 @@ export default class UnitInput extends React.Component {
 		options.unshift(<option key="-" value="-" >{'-'}</option>);
 
 		return (
-				<Input ref="unit"
+				<Input ref="unit" value={this.props.value}
 					type="select" onChange={this.onUnitChange}>
 					{options}
 				</Input>
@@ -149,5 +159,6 @@ UnitInput.propTypes = {
 	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
-	errors: React.PropTypes.any
+	errors: React.PropTypes.any,
+	resources: React.PropTypes.object
 };

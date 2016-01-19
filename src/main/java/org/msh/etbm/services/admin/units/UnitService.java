@@ -10,7 +10,7 @@ import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
-import org.msh.etbm.services.admin.admunits.parents.ParentAdmUnitsService;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
@@ -33,7 +33,7 @@ public class UnitService extends EntityService<Unit> {
     AdminUnitRepository adminUnitRepository;
 
     @Autowired
-    ParentAdmUnitsService parentAdmUnitsService;
+    AdminUnitSeriesService adminUnitSeriesService;
 
     /**
      * Search for units based on the given query
@@ -52,14 +52,14 @@ public class UnitService extends EntityService<Unit> {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
 
         // add the available profiles
-        builder.addProfile(UnitRequest.PROFILE_ITEM, UnitItemData.class);
-        builder.addDefaultProfile(UnitRequest.PROFILE_DEFAULT, UnitData.class);
-        builder.addProfile(UnitRequest.PROFILE_DETAILED, UnitDetailedData.class);
+        builder.addProfile(UnitQuery.PROFILE_ITEM, UnitItemData.class);
+        builder.addDefaultProfile(UnitQuery.PROFILE_DEFAULT, UnitData.class);
+        builder.addProfile(UnitQuery.PROFILE_DETAILED, UnitDetailedData.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(UnitRequest.ORDERBY_NAME, "a.name");
-        builder.addOrderByMap(UnitRequest.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
-        builder.addOrderByMap(UnitRequest.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
+        builder.addDefaultOrderByMap(UnitQuery.ORDERBY_NAME, "a.name");
+        builder.addOrderByMap(UnitQuery.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
+        builder.addOrderByMap(UnitQuery.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
 
         builder.initialize(qry);
 

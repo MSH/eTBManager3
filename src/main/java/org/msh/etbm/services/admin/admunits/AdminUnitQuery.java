@@ -11,6 +11,12 @@ import java.util.UUID;
  */
 public class AdminUnitQuery extends EntityQuery {
     /**
+     * Available profiles
+     */
+    public static final String QUERY_PROFILE_ITEM = "item";
+    public static final String QUERY_PROFILE_DEFAULT = "default";
+    public static final String QUERY_PROFILE_DETAILED = "detailed";
+    /**
      * The partial name to search by administrative units
      */
     private String key;

@@ -20,6 +20,16 @@
     <mapping map-null="false" bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
         <class-a>org.msh.etbm.services.admin.units.UnitRequest</class-a>
         <class-b>org.msh.etbm.db.entities.Unit</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>supplierId</a>
+            <b>supplier</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>authorizerId</a>
+            <b>authorizer</b>
+        </field>
     </mapping>
 
 

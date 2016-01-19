@@ -9,7 +9,8 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
-import org.msh.etbm.services.admin.admunits.parents.ParentAdmUnitsService;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -39,7 +40,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
     CountryStructureService countryStructureService;
 
     @Autowired
-    ParentAdmUnitsService parentAdmUnitsService;
+    AdminUnitSeriesService adminUnitSeriesService;
 
     /**
      * Query the administrative units
@@ -49,7 +50,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
     public AdminUnitQueryResult findMany(AdminUnitQuery q) {
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class, "a");
 
-        if (!AdminUnitRequest.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
+        if (!AdminUnitQuery.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
             qry.setHqlJoin("join fetch a.countryStructure cs left join fetch a.parent p");
         }
         else {
@@ -57,9 +58,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
 
         // add profiles
-        qry.addDefaultProfile(AdminUnitRequest.QUERY_PROFILE_DEFAULT, AdminUnitData.class);
-        qry.addProfile(AdminUnitRequest.QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
-        qry.addProfile(AdminUnitRequest.QUERY_PROFILE_ITEM, AdminUnitItemData.class);
+        qry.addDefaultProfile(AdminUnitQuery.QUERY_PROFILE_DEFAULT, AdminUnitData.class);
+        qry.addProfile(AdminUnitQuery.QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
+        qry.addProfile(AdminUnitQuery.QUERY_PROFILE_ITEM, AdminUnitItemData.class);
 
         // add order by
         qry.addDefaultOrderByMap("name", "a.name");
@@ -291,17 +292,12 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
     }
 
-//
-//    @Override
-//    public <K> K findOne(UUID id, Class<K> resultClass) {
-//        K data = super.findOne(id, resultClass);
-//
-//        if (data instanceof AdminUnitDetailedData) {
-//            AdminUnitDetailedData au = (AdminUnitDetailedData) data;
-//            AdminUnitSeries parents = parentAdmUnitsService.getAdminUnitSeries(((AdminUnitDetailedData) data).getParentId());
-//            au.setParents(parents);
-//        }
-//
-//        return data;
-//    }
+    @Override
+    protected <K> K mapResponse(AdministrativeUnit entity, Class<K> resultClass) {
+        if (AdminUnitSeries.class.isAssignableFrom(resultClass)) {
+            return (K)adminUnitSeriesService.getAdminUnitSeries(entity);
+        }
+
+        return super.mapResponse(entity, resultClass);
+    }
 }

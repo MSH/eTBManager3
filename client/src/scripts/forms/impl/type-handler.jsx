@@ -61,7 +61,21 @@ export default class TypeHandler {
 		return null;
 	}
 
+	/**
+	 * Convert the value to be posted to the server
+	 * @param  {[type]} value [description]
+	 * @return {[type]}       [description]
+	 */
 	toServer(value) {
 		return value;
+	}
+
+	/**
+	 * Check if field needs server resources in order to be initialized
+	 * @param  {Object} schema The schema of the field element
+	 * @return {[type]}        [description]
+	 */
+	requireServerInit() {
+		return false;
 	}
 }

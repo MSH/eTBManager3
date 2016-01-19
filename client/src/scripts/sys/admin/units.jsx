@@ -48,7 +48,7 @@ const editorDef = {
 						size: { sm: 6 }
 					},
 					{
-						property: 'address.adminUnit',
+						property: 'address.adminUnitId',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
 						required: true,
@@ -97,13 +97,13 @@ const editorDef = {
 						size: { sm: 12 }
 					},
 					{
-						property: 'supplier',
+						property: 'supplierId',
 						type: 'unit',
 						label: __('Unit.supplier'),
 						size: { sm: 6 }
 					},
 					{
-						property: 'authorizer',
+						property: 'authorizerId',
 						type: 'unit',
 						label: __('Unit.authorizer'),
 						size: { sm: 6 }
