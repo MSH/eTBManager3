@@ -40,13 +40,8 @@ export default class CRUD {
 	 * @param  {string} edit if true, the return data will be ready for a form editor
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
-	get(id, edit) {
-		let param = '/' + id;
-		if (edit) {
-			param += '?edit=1';
-		}
-
-		return server.get(API_PREFIX + this.table + param)
+	get(id) {
+		return server.get(API_PREFIX + this.table + '/' + id)
 		.then(res => {
 			if (!res.success) {
 				return Promise.reject(res);
@@ -54,6 +49,15 @@ export default class CRUD {
 
 			return res.result;
 		});
+	}
+
+	/**
+	 * Return a single entity data ready to be edited in a form
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
+	getFormData(id) {
+		return server.get(API_PREFIX + this.table + '/' + id + '?edit=1');
 	}
 
 	/**
