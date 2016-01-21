@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Set of permission constants used to authorize a user to execute
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by rmemoria on 22/10/15.
  */
 @Service
-public class    Permissions {
+public class Permissions {
     /**
      * Administration module permissions
      */
@@ -56,7 +57,7 @@ public class    Permissions {
     public static final String TABLE_WORKSPACES = "WORKSPACES";
     public static final String TABLE_WORKSPACES_EDT = "WORKSPACES_EDT";
 
-    public static final String ADMIN_WEEKFREQ = "WEEKFREQ";
+//    public static final String ADMIN_WEEKFREQ = "WEEKFREQ";
 
 
     public static final String ADMIN_REPORTS = "ADMREP";
@@ -92,8 +93,10 @@ public class    Permissions {
      * Laboratory module
      */
     public static final String LABS = "LABS";
-
-
+    public static final String LABS_NEWREQUEST = "LAB_NEWREQUEST";
+    public static final String LABS_POSTRESULT = "LAB_POSTRESULT";
+    public static final String LABS_EDTREQ = "LAB_EDTREQ";
+    public static final String LABS_REMREQ = "LAB_REMREQ";
 
     private List<Permission> list;
 
@@ -110,10 +113,19 @@ public class    Permissions {
 
     /**
      * Search for a permission by its ID
-     * @param id
-     * @return
+     * @param id the permission ID
+     * @return instance of the permission
      */
     public Permission find(String id) {
+        for (Permission perm: getList()) {
+            if (perm.getId().equals(id)) {
+                return perm;
+            }
+            Permission aux = perm.find(id);
+            if (aux != null) {
+                return aux;
+            }
+        }
         return null;
     }
 
@@ -127,7 +139,11 @@ public class    Permissions {
 
         module(INVENTORY);
 
-        module(LABS);
+        module(LABS,
+                add(LABS_NEWREQUEST),
+                add(LABS_EDTREQ),
+                add(LABS_POSTRESULT),
+                add(LABS_REMREQ));
 
         module(REPORTS);
 
@@ -142,6 +158,7 @@ public class    Permissions {
                     addChangeable(TABLE_PRODUCTS),
                     addChangeable(TABLE_REGIMENS),
                     addChangeable(TABLE_AGERANGES),
+                    addChangeable(TABLE_USERPROFILES),
                     addChangeable(TABLE_TAGS),
                     addChangeable(TABLE_USERS),
                     addChangeable(TABLE_WORKSPACES)
@@ -188,6 +205,6 @@ public class    Permissions {
     }
 
     private Permission addChangeable(String id) {
-        return new Permission();
+        return new Permission(null, id, true);
     }
 }

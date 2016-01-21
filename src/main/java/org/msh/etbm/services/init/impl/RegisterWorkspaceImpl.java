@@ -292,9 +292,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
             if (t.isAllRoles()) {
                 // include all roles
-                for (UserRole role: roles) {
-                    String roleName = role.getName();
-                    if (role.isChangeable()) {
+                for (Permission perm: permissions.getList()) {
+                    String roleName = perm.getId();
+                    if (perm.isChangeable()) {
                         roleName = "+" + roleName;
                     }
                     createPermission(u, roleName);
@@ -329,9 +329,10 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         Permission appPerm = permissions.find(roleName);
         if (appPerm == null) {
-            throw new RuntimeException("User role not defined: " + roleName + " profile: " + profile.getName());
+            throw new RuntimeException("Permission not defined: " + roleName + " profile: " + profile.getName());
         };
 
+        perm.setPermission(roleName);
         if (appPerm.isChangeable()) {
             perm.setCanChange(canChange);
         }
