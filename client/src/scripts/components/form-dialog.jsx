@@ -78,21 +78,17 @@ export default class FormDialog extends React.Component {
 		// get validation errors, if any available
 		const errors = this.state ? this.state.errors : null;
 
-		// get the caption to be displayed in the confirm button
-		let confirmCaption = this.props.confirmCaption;
-		if (!confirmCaption) {
-			confirmCaption = __('action.save');
-		}
-
 		return (
 			<Card title={title} highlight={this.props.highlight}>
 				<div>
-					<Form ref="form" layout={layout} doc={doc} errors={errors}/>
+					<Form ref="form" layout={layout}
+						doc={doc} errors={errors}
+						resources={this.props.resources} />
 				</div>
 				<ButtonToolbar>
 					<AsyncButton fetching={this.state.fetching} faIcon="check"
 						bsStyle="primary"
-						onClick={this.confirmClick}>{confirmCaption}
+						onClick={this.confirmClick}>{this.props.confirmCaption}
 					</AsyncButton>
 					<Button onClick={this.props.onCancel}>
 						<i className="fa fa-times fa-fw"/>{__('action.cancel')}
@@ -109,12 +105,14 @@ FormDialog.propTypes = {
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
 	confirmCaption: React.PropTypes.any,
-	highlight: React.PropTypes.bool
+	highlight: React.PropTypes.bool,
+	resources: React.PropTypes.object
 };
 
 FormDialog.defaultProps = {
 	dataModel: {},
 	cardWrap: true,
-	highlight: false
+	highlight: false,
+	confirmCaption: __('action.save')
 };
 

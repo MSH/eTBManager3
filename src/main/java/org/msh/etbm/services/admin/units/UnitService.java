@@ -40,7 +40,7 @@ public class UnitService extends EntityService<Unit> {
      * @param qry unit query filters
      * @return list of units
      */
-    public QueryResult<UnitItemData> findMany(UnitQuery qry) {
+    public QueryResult<UnitItemData> findMany(UnitQueryParams qry) {
         // determine the class to be used in the query
         Class clazz;
         if (qry.getType() != null) {
@@ -52,14 +52,14 @@ public class UnitService extends EntityService<Unit> {
         QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
 
         // add the available profiles
-        builder.addProfile(UnitQuery.PROFILE_ITEM, UnitItemData.class);
-        builder.addDefaultProfile(UnitQuery.PROFILE_DEFAULT, UnitData.class);
-        builder.addProfile(UnitQuery.PROFILE_DETAILED, UnitDetailedData.class);
+        builder.addProfile(UnitQueryParams.PROFILE_ITEM, UnitItemData.class);
+        builder.addDefaultProfile(UnitQueryParams.PROFILE_DEFAULT, UnitData.class);
+        builder.addProfile(UnitQueryParams.PROFILE_DETAILED, UnitDetailedData.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(UnitQuery.ORDERBY_NAME, "a.name");
-        builder.addOrderByMap(UnitQuery.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
-        builder.addOrderByMap(UnitQuery.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
+        builder.addDefaultOrderByMap(UnitQueryParams.ORDERBY_NAME, "a.name");
+        builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
+        builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
 
         builder.initialize(qry);
 
@@ -109,7 +109,7 @@ public class UnitService extends EntityService<Unit> {
 
     @Override
     protected Unit createEntityInstance(Object req) {
-        UnitRequest ureq = (UnitRequest)req;
+        UnitFormData ureq = (UnitFormData)req;
 
         if (ureq.getType() == null) {
             raiseRequiredFieldException(req, "type");

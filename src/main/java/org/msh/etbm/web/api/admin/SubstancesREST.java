@@ -2,9 +2,13 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceData;
-import org.msh.etbm.services.admin.substances.SubstanceQuery;
-import org.msh.etbm.services.admin.substances.SubstanceRequest;
+import org.msh.etbm.services.admin.substances.SubstanceQueryParams;
+import org.msh.etbm.services.admin.substances.SubstanceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -29,6 +33,9 @@ public class SubstancesREST {
     @Autowired
     SubstanceService service;
 
+    @Autowired
+    FormsService formsService;
+
 
     @RequestMapping(value = "/substance/{id}", method = RequestMethod.GET)
     @Authenticated()
@@ -37,14 +44,19 @@ public class SubstancesREST {
         return new StandardResult(data, null, data != null);
     }
 
+    @RequestMapping(value = "/substance/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, SubstancesREST.class);
+    }
+
     @RequestMapping(value = "/substance", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody SubstanceRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody SubstanceFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/substance/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SubstanceRequest req) {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SubstanceFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
@@ -57,7 +69,7 @@ public class SubstancesREST {
 
     @RequestMapping(value = "/substance/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody SubstanceQuery query) {
+    public QueryResult query(@Valid @RequestBody SubstanceQueryParams query) {
         return service.findMany(query);
     }
 

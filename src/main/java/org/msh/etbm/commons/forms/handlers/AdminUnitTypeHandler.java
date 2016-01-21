@@ -3,8 +3,7 @@ package org.msh.etbm.commons.forms.handlers;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.forms.FieldInitRequest;
 import org.msh.etbm.commons.forms.TypeHandler;
-import org.msh.etbm.db.entities.CountryStructure;
-import org.msh.etbm.services.admin.admunits.AdminUnitQuery;
+import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
@@ -51,9 +50,9 @@ public class AdminUnitTypeHandler implements TypeHandler<AdminUnitFieldResponse[
         UUID id = val != null && !val.isEmpty() ? UUID.fromString(val) : null;
 
         // return the root list
-        AdminUnitQuery qry = new AdminUnitQuery();
+        AdminUnitQueryParams qry = new AdminUnitQueryParams();
         qry.setRootUnits(true);
-        qry.setProfile(AdminUnitQuery.QUERY_PROFILE_ITEM);
+        qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         qry.setFetchCountryStructure(true);
         AdminUnitQueryResult qr = adminUnitService.findMany(qry);
 

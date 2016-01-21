@@ -5,7 +5,7 @@ import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import WaitIcon from '../../components/wait-icon';
 import Types from '../../forms/types';
-import Form from '../../forms/form';
+import FormUtils from '../../forms/form-utils';
 
 const crud = new CRUD('unit');
 const crudAU = new CRUD('adminunit');
@@ -89,7 +89,7 @@ export default class UnitInput extends React.Component {
 		options.unshift(<option key="-" value="-" >{'-'}</option>);
 
 		const sc = this.props.schema;
-		const label = Form.labelRender(sc.label, sc.required);
+		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		return (
 				<Input ref="admunit" value={this.state.adminUnitId}

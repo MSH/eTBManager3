@@ -7,7 +7,7 @@ import org.msh.etbm.commons.entities.query.EntityQuery;
  *
  * Created by rmemoria on 12/11/15.
  */
-public class SubstanceQuery extends EntityQuery {
+public class SubstanceQueryParams extends EntityQuery {
     private boolean prevTreatmentForm;
     private boolean dstResultForm;
 

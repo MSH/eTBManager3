@@ -9,7 +9,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 28/10/15.
  */
-public class UnitQuery extends EntityQuery {
+public class UnitQueryParams extends EntityQuery {
 
     public static final String PROFILE_ITEM = "item";
     public static final String PROFILE_DEFAULT = "default";

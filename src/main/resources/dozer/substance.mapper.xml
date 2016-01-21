@@ -7,7 +7,7 @@
 
 
     <mapping map-null="false" >
-        <class-a>org.msh.etbm.services.admin.substances.SubstanceRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.substances.SubstanceFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Substance</class-b>
     </mapping>
 

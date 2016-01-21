@@ -9,8 +9,8 @@ import { getValue, setValue, objEqual } from '../commons/utils';
 import { arrangeGrid } from '../commons/grid-utils';
 import { app } from '../core/app';
 import Types from './types';
-import { server } from '../commons/server';
 import WaitIcon from '../components/wait-icon';
+import FormUtils from './form-utils';
 
 
 /**
@@ -39,49 +39,6 @@ export default class Form extends React.Component {
 		this.setState({ elements: elems });
 
 		this.initForm(elems);
-	}
-
-	/**
-	 * Create a new instance of the document to be edited in the form based on default values
-	 * of the form layout
-	 * @param  {[type]} layout [description]
-	 * @return {[type]}        [description]
-	 */
-	static newInstance(layout) {
-		const doc = {};
-		layout.forEach(elem => {
-			if (elem.property) {
-				setValue(doc, elem.property, elem.defaultValue);
-			}
-		});
-		return doc;
-	}
-
-	/**
-	 * Request the server to initialize the given fields
-	 * @param  {Array} req list of field objects with id, type and value
-	 * @return {Promise}   Promise to be resolved when server answers back
-	 */
-	static initFields(req) {
-		return server.post('/api/form/initfields', req);
-	}
-
-	/**
-	 * Generate a new label component to be displayed as the label of an input control.
-	 * Includes a red icon on the right side to indicate required fields
-	 * @param  {[type]} schema [description]
-	 * @return {[type]}        [description]
-	 */
-	static labelRender(label, required) {
-		if (!label) {
-			return null;
-		}
-
-		const txt = label + ':';
-
-		return required ?
-			<span>{txt}<i className="fa fa-exclamation-circle app-required"/></span> :
-			txt;
 	}
 
 	/**
@@ -329,6 +286,13 @@ export default class Form extends React.Component {
 	 */
 	initForm(elems) {
 		const doc = this.props.doc;
+		const resources = this.props.resources;
+
+		// resources were given by the parent component ?
+		if (resources) {
+			// so form is considered initialized
+			return this.notifyReady({ resources: resources });
+		}
 
 		// create query to be sent to the server
 		const req = elems
@@ -350,8 +314,7 @@ export default class Form extends React.Component {
 		// request to the server initialization data of the fields
 		const self = this;
 
-//		self.notifyReady([]);
-		Form.initFields(req)
+		FormUtils.initFields(req)
 			.then(res => self.notifyReady(res));
 	}
 
@@ -376,6 +339,7 @@ Form.propTypes = {
 	layout: React.PropTypes.array,
 	doc: React.PropTypes.object,
 	errors: React.PropTypes.object,
+	resources: React.PropTypes.object,
 	onReady: React.PropTypes.func
 };
 

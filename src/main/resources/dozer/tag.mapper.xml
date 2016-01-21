@@ -7,7 +7,7 @@
 
 
     <mapping map-null="false" >
-        <class-a>org.msh.etbm.services.admin.tags.TagRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.tags.TagFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Tag</class-b>
     </mapping>
 

@@ -2,22 +2,22 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.AddressRequest;
-import org.msh.etbm.services.admin.units.UnitQuery;
-import org.msh.etbm.services.admin.units.UnitRequest;
+import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.services.admin.units.UnitQueryParams;
+import org.msh.etbm.services.admin.units.UnitFormData;
 import org.msh.etbm.services.admin.units.UnitService;
-import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -32,6 +32,9 @@ public class UnitsREST {
     @Autowired
     UnitService unitService;
 
+    @Autowired
+    FormsService formsService;
+
     /**
      * Query units (labs or TB units) based on the request query
      * @param qry search criterias to query the database
@@ -39,27 +42,31 @@ public class UnitsREST {
      */
     @RequestMapping(value = "/unit/query", method = RequestMethod.POST)
     @Authenticated
-    public QueryResult queryUnits(@Valid @RequestBody UnitQuery qry) {
+    public QueryResult queryUnits(@Valid @RequestBody UnitQueryParams qry) {
         return unitService.findMany(qry);
     }
 
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.GET)
     @Authenticated
-    public StandardResult get(@PathVariable UUID id, @RequestParam(value="edit", defaultValue = "false") boolean edit) {
-        Class dataClazz = edit ? UnitRequest.class : UnitDetailedData.class;
-        Object data = unitService.findOne(id, dataClazz);
+    public Object get(@PathVariable UUID id) {
+        Object data = unitService.findOne(id, UnitDetailedData.class);
         return new StandardResult(data, null, data != null);
     }
 
+    @RequestMapping(value = "/unit/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, unitService, UnitFormData.class);
+    }
+
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody UnitRequest req) throws BindException {
+    public StandardResult create(@Valid @NotNull @RequestBody UnitFormData req) throws BindException {
         ServiceResult res = unitService.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitRequest req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitFormData req)  throws BindException {
         ServiceResult res = unitService.update(id, req);
         return new StandardResult(res);
     }

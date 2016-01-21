@@ -26,16 +26,16 @@ public class SubstanceService extends EntityService<Substance> {
      * Return a list of substances based on the query result
      * @return
      */
-    public QueryResult findMany(SubstanceQuery qry) {
+    public QueryResult findMany(SubstanceQueryParams qry) {
         QueryBuilder<Substance> builder = queryBuilderFactory.createQueryBuilder(Substance.class);
 
         // add the available profiles
-        builder.addDefaultProfile(SubstanceRequest.PROFILE_DEFAULT, SubstanceData.class);
-        builder.addProfile(SubstanceRequest.PROFILE_ITEM, SynchronizableItem.class);
+        builder.addDefaultProfile(SubstanceFormData.PROFILE_DEFAULT, SubstanceData.class);
+        builder.addProfile(SubstanceFormData.PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(SubstanceRequest.ORDERBY_DISPLAYORDER, "displayOrder");
-        builder.addOrderByMap(SubstanceRequest.ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(SubstanceFormData.ORDERBY_DISPLAYORDER, "displayOrder");
+        builder.addOrderByMap(SubstanceFormData.ORDERBY_NAME, "name");
 
         // initialize builder with standard query values
         builder.initialize(qry);

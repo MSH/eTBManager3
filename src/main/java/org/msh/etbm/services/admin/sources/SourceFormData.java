@@ -6,7 +6,7 @@ import java.util.Optional;
  * Request object to save or update a new source
  * Created by rmemoria on 11/11/15.
  */
-public class SourceRequest {
+public class SourceFormData {
 
     public static final String ORDERBY_NAME = "name";
     public static final String ORDERBY_SHORTNAME = "shortName";

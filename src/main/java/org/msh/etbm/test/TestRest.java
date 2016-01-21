@@ -6,7 +6,7 @@ import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
-import org.msh.etbm.services.admin.units.UnitRequest;
+import org.msh.etbm.services.admin.units.UnitFormData;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.web.api.StandardResult;
@@ -79,7 +79,7 @@ public class TestRest {
         UnitData data = mapper.map(lab, UnitData.class);
         System.out.println(data);
 
-        UnitRequest req = new UnitRequest();
+        UnitFormData req = new UnitFormData();
         req.setUnitType(UnitType.LAB);
         Unit unit = mapper.map(req, Unit.class);
         return unit.getClass().getName();

@@ -3,10 +3,10 @@ package org.msh.etbm.commons.forms.handlers;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FieldInitRequest;
 import org.msh.etbm.commons.forms.TypeHandler;
-import org.msh.etbm.services.admin.admunits.AdminUnitQuery;
+import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
-import org.msh.etbm.services.admin.units.UnitQuery;
+import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
@@ -41,9 +41,9 @@ public class UnitTypeHandler implements TypeHandler {
         UUID unitId = val != null && !val.isEmpty() ? UUID.fromString(val) : null;
 
         // return the root list
-        AdminUnitQuery qry = new AdminUnitQuery();
+        AdminUnitQueryParams qry = new AdminUnitQueryParams();
         qry.setRootUnits(true);
-        qry.setProfile(AdminUnitQuery.QUERY_PROFILE_ITEM);
+        qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         AdminUnitQueryResult qr = adminUnitService.findMany(qry);
 
         UnitFieldResponse res = new UnitFieldResponse();
@@ -61,10 +61,10 @@ public class UnitTypeHandler implements TypeHandler {
         res.setAdminUnitId( unit.getAdminUnit().getSelected().getId() );
 
         // query the units of administrative unit as parent
-        UnitQuery uqry = new UnitQuery();
+        UnitQueryParams uqry = new UnitQueryParams();
         uqry.setAdminUnitId(unit.getAdminUnit().getSelected().getId());
         uqry.setIncludeSubunits(true);
-        uqry.setProfile(UnitQuery.PROFILE_ITEM);
+        uqry.setProfile(UnitQueryParams.PROFILE_ITEM);
         QueryResult<UnitItemData> unitRes = unitService.findMany(uqry);
 
         res.setUnits(unitRes.getList());

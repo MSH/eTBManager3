@@ -6,7 +6,7 @@ import org.msh.etbm.commons.entities.query.EntityQuery;
  * Extended query for searching of country structure entities
  * Created by rmemoria on 28/10/15.
  */
-public class CountryStructureQuery extends EntityQuery {
+public class CountryStructureQueryParams extends EntityQuery {
     /**
      * The level to search for
      */

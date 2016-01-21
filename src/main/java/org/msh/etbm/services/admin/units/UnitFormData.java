@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 28/10/15.
  */
-public class UnitRequest implements TypedUnit {
+public class UnitFormData implements TypedUnit {
 
     /**
      * The type indicates the kind of object to create

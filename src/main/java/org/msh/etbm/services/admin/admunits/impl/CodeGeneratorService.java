@@ -3,7 +3,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.msh.etbm.services.admin.admunits.AdminUnitRequest;
+import org.msh.etbm.services.admin.admunits.AdminUnitFormData;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -75,7 +75,7 @@ public class CodeGeneratorService {
     @Around("execution(public * org.msh.etbm.commons.entities.EntityService.create(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
     public Object adminUnitCreateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
-        AdminUnitRequest req = (AdminUnitRequest) args[0];
+        AdminUnitFormData req = (AdminUnitFormData) args[0];
 
         return aroundCall(req.getParentId(), pjp);
     }
@@ -83,7 +83,7 @@ public class CodeGeneratorService {
     @Around("execution(public * org.msh.etbm.commons.entities.EntityService.update(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
     public Object adminUnitUpdateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
-        AdminUnitRequest req = (AdminUnitRequest) args[1];
+        AdminUnitFormData req = (AdminUnitFormData) args[1];
         return aroundCall(req.getParentId(), pjp);
     }
 

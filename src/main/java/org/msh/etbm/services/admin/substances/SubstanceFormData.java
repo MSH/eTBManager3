@@ -9,7 +9,7 @@ import java.util.Optional;
  *
  * Created by rmemoria on 12/11/15.
  */
-public class SubstanceRequest {
+public class SubstanceFormData {
 
     /**
      * Available profiles

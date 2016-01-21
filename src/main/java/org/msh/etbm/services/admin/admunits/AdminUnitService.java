@@ -47,10 +47,10 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
      * @param q the query parameters
      * @return the result list
      */
-    public AdminUnitQueryResult findMany(AdminUnitQuery q) {
+    public AdminUnitQueryResult findMany(AdminUnitQueryParams q) {
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(AdministrativeUnit.class, "a");
 
-        if (!AdminUnitQuery.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
+        if (!AdminUnitQueryParams.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
             qry.setHqlJoin("join fetch a.countryStructure cs left join fetch a.parent p");
         }
         else {
@@ -58,9 +58,9 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
         }
 
         // add profiles
-        qry.addDefaultProfile(AdminUnitQuery.QUERY_PROFILE_DEFAULT, AdminUnitData.class);
-        qry.addProfile(AdminUnitQuery.QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
-        qry.addProfile(AdminUnitQuery.QUERY_PROFILE_ITEM, AdminUnitItemData.class);
+        qry.addDefaultProfile(AdminUnitQueryParams.QUERY_PROFILE_DEFAULT, AdminUnitData.class);
+        qry.addProfile(AdminUnitQueryParams.QUERY_PROFILE_DETAILED, AdminUnitDetailedData.class);
+        qry.addProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM, AdminUnitItemData.class);
 
         // add order by
         qry.addDefaultOrderByMap("name", "a.name");
@@ -109,7 +109,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
 
         // must include country structure ?
         if (q.isFetchCountryStructure()) {
-            CountryStructureQuery csquery = new CountryStructureQuery();
+            CountryStructureQueryParams csquery = new CountryStructureQueryParams();
             csquery.setOrderBy("level");
             res = countryStructureService.query(csquery);
             aures.setCsList(res.getList());
@@ -152,7 +152,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
      */
     @Override
     protected void mapRequest(Object request, AdministrativeUnit entity) {
-        AdminUnitRequest req = (AdminUnitRequest)request;
+        AdminUnitFormData req = (AdminUnitFormData)request;
 
         // check if parent has changed
         UUID pid =  entity.getParent() != null? entity.getParent().getId(): null;

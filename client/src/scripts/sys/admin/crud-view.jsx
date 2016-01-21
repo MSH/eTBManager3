@@ -6,7 +6,7 @@
 import React from 'react';
 import { Collapse, Alert, Button, ButtonToolbar } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
-import Form from '../../forms/form';
+import FormUtils from '../../forms/form-utils';
 import { hasPerm } from '../session';
 import { MessageDlg, CollapseCard, AsyncButton } from '../../components/index';
 import CrudCard from './crud-card';
@@ -69,6 +69,7 @@ export default class CrudView extends React.Component {
 					<FormDialog formDef={item.context.editor}
 						doc={item.context.doc}
 						highlight
+						resources={this.context.resources}
 						onConfirm={item.context.saveForm}
 						onCancel={item.context.cancelForm}
 						/>
@@ -124,13 +125,14 @@ export default class CrudView extends React.Component {
 	}
 
 
-	createFormContext(editor, doc, item) {
+	createFormContext(editor, doc, item, resources) {
 		const cntxt = {
 			editor: editor,
 			comp: this,
 			doc: doc,
 			item: item,
-			errors: null
+			errors: null,
+			resources: resources
 		};
 
 		cntxt.saveForm = this.saveForm.bind(cntxt);
@@ -144,7 +146,7 @@ export default class CrudView extends React.Component {
 		const edt = this.props.editorDef;
 		const editor = edt.editors ? edt.editors[key] : edt;
 
-		const doc = Form.newInstance(editor.layout);
+		const doc = FormUtils.newInstance(editor.layout);
 		const formCont = this.createFormContext(editor, doc);
 		// set the state
 		this.setState({
@@ -216,14 +218,11 @@ export default class CrudView extends React.Component {
 
 		// get data to edit from server
 		const self = this;
-		return this.props.crud.get(item.data.id, true)
+		return this.props.crud.initForm({ id: item.data.id })
 		.then(res => {
-			let doc = res;
-			if (self.props.beforeEdit) {
-				doc = self.props.beforeEdit(doc);
-			}
-			const cntxt = self.createFormContext(editor, doc, item);
+			const cntxt = self.createFormContext(editor, res.doc, item, res.resources);
 
+			console.log(res);
 			item.state = 'edit';
 			item.context = cntxt;
 			self.forceUpdate();

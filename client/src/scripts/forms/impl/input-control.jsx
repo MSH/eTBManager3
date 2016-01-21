@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import Form from '../form';
+import FormUtils from '../form-utils';
 
 
 export default class InputControl extends React.Component {
@@ -98,7 +98,7 @@ export default class InputControl extends React.Component {
 			label = sc.label;
 		}
 		else {
-			label = Form.labelRender(sc.label, sc.required);
+			label = FormUtils.labelRender(sc.label, sc.required);
 		}
 
 		const options = this.createOptions(sc);

@@ -2,9 +2,12 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
-import org.msh.etbm.services.admin.admunits.CountryStructureQuery;
-import org.msh.etbm.services.admin.admunits.CountryStructureRequest;
+import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
+import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -29,6 +32,8 @@ public class CountryStructureREST {
     @Autowired
     CountryStructureService service;
 
+    @Autowired
+    FormsService formsService;
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
     @Authenticated()
@@ -37,14 +42,19 @@ public class CountryStructureREST {
         return new StandardResult(data, null, data != null);
     }
 
+    @RequestMapping(value = "/countrystructure/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, CountryStructureFormData.class);
+    }
+
     @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody CountryStructureRequest req) throws BindException {
+    public StandardResult create(@Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureRequest req) throws BindException  {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException  {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
@@ -57,7 +67,7 @@ public class CountryStructureREST {
 
     @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody CountryStructureQuery query) {
+    public QueryResult query(@Valid @RequestBody CountryStructureQueryParams query) {
         return service.query(query);
     }
 

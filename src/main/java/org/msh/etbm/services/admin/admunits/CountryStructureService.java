@@ -45,12 +45,12 @@ public class CountryStructureService extends EntityService<CountryStructure> {
      * @return instance of {@link QueryResult}
      */
     @Transactional
-    public QueryResult<CountryStructureData> query(CountryStructureQuery q) {
+    public QueryResult<CountryStructureData> query(CountryStructureQueryParams q) {
         QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
 
-        qry.addDefaultOrderByMap(CountryStructureRequest.ORDERBY_LEVEL, "level, name");
-        qry.addOrderByMap(CountryStructureRequest.ORDERBY_NAME, "name");
-        qry.addOrderByMap(CountryStructureRequest.ORDERBY_LEVEL_DESC, "level desc, name desc");
+        qry.addDefaultOrderByMap(CountryStructureFormData.ORDERBY_LEVEL, "level, name");
+        qry.addOrderByMap(CountryStructureFormData.ORDERBY_NAME, "name");
+        qry.addOrderByMap(CountryStructureFormData.ORDERBY_LEVEL_DESC, "level desc, name desc");
 
         qry.initialize(q);
 

@@ -2,7 +2,11 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
 import org.msh.etbm.services.admin.admunits.*;
+import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -25,36 +29,44 @@ import java.util.UUID;
 public class AdminUnitsREST {
 
     @Autowired
-    AdminUnitService adminUnitService;
+    AdminUnitService service;
+
+    @Autowired
+    FormsService formsService;
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
-        AdminUnitDetailedData data = adminUnitService.findOne(id, AdminUnitDetailedData.class);
+        AdminUnitDetailedData data = service.findOne(id, AdminUnitDetailedData.class);
         return new StandardResult(data, null, data != null);
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitRequest req)  throws BindException {
-        ServiceResult res = adminUnitService.create(req);
+    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req)  throws BindException {
+        ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
+    @RequestMapping(value = "/adminunit/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, SourceFormData.class);
+    }
+
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitRequest req) throws BindException {
-        ServiceResult res = adminUnitService.update(id, req);
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody AdminUnitFormData req) throws BindException {
+        ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
-        ServiceResult res = adminUnitService.delete(id);
+        ServiceResult res = service.delete(id);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST)
     @Authenticated(permissions = {Permissions.TABLE_ADMUNITS})
-    public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQuery query) {
-        return adminUnitService.findMany(query);
+    public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQueryParams query) {
+        return service.findMany(query);
     }
 }

@@ -5,7 +5,7 @@ import java.util.Optional;
 /**
  * Created by rmemoria on 24/10/15.
  */
-public class CountryStructureRequest {
+public class CountryStructureFormData {
 
     /**
      * Available sorting options

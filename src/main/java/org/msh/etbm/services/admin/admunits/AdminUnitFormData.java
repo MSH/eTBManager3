@@ -7,7 +7,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 21/10/15.
  */
-public class AdminUnitRequest {
+public class AdminUnitFormData {
 
     @NotNull
     private String name;

@@ -2,9 +2,13 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.sources.SourceData;
-import org.msh.etbm.services.admin.sources.SourceQuery;
-import org.msh.etbm.services.admin.sources.SourceRequest;
+import org.msh.etbm.services.admin.sources.SourceQueryParams;
+import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -27,6 +31,9 @@ public class SourcesREST {
     @Autowired
     SourceService service;
 
+    @Autowired
+    FormsService formsService;
+
 
     @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
     @Authenticated()
@@ -35,14 +42,19 @@ public class SourcesREST {
         return new StandardResult(data, null, data != null);
     }
 
+    @RequestMapping(value = "/source/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, SourceFormData.class);
+    }
+
     @RequestMapping(value = "/source", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody SourceRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody SourceFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/source/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SourceRequest req) {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SourceFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
@@ -55,7 +67,7 @@ public class SourcesREST {
 
     @RequestMapping(value = "/source/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody SourceQuery query) {
+    public QueryResult query(@Valid @RequestBody SourceQueryParams query) {
         return service.findMany(query);
     }
 

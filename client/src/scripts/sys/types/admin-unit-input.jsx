@@ -5,7 +5,7 @@ import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import WaitIcon from '../../components/wait-icon';
 import Types from '../../forms/types';
-import Form from '../../forms/form';
+import FormUtils from '../../forms/form-utils';
 
 const crud = new CRUD('adminunit');
 
@@ -30,7 +30,7 @@ export default class AdminUnitInput extends React.Component {
 			const self = this;
 
 			// request field initialization from server
-			Form.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
 				.then(res => self.setState({ list: res.v }));
 		}
 	}
@@ -135,7 +135,7 @@ export default class AdminUnitInput extends React.Component {
 
 		const self = this;
 
-		const label = Form.labelRender(item.label, this.props.schema.required);
+		const label = FormUtils.labelRender(item.label, this.props.schema.required);
 
 		const errors = item.level === 1 ? this.props.errors : null;
 

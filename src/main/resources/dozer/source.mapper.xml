@@ -7,7 +7,7 @@
 
 
     <mapping map-null="false" >
-        <class-a>org.msh.etbm.services.admin.sources.SourceRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.sources.SourceFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Source</class-b>
     </mapping>
 

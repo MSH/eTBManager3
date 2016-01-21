@@ -5,7 +5,7 @@ import java.util.Optional;
 /**
  * Created by rmemoria on 6/1/16.
  */
-public class TagRequest {
+public class TagFormData {
     private Optional<String> name;
     private Optional<String> sqlCondition;
     private Optional<Boolean> consistencyCheck;

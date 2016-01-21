@@ -17,7 +17,7 @@
 
 
     <mapping map-null="false">
-        <class-a>org.msh.etbm.services.admin.admunits.CountryStructureRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.admunits.CountryStructureFormData</class-a>
         <class-b>org.msh.etbm.db.entities.CountryStructure</class-b>
     </mapping>
 
@@ -70,7 +70,7 @@
 
 
     <mapping>
-        <class-a>org.msh.etbm.services.admin.admunits.AdminUnitRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.admunits.AdminUnitFormData</class-a>
         <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
 
         <field custom-converter-id="entity-id">

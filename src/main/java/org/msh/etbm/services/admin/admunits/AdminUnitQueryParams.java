@@ -9,7 +9,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 21/10/15.
  */
-public class AdminUnitQuery extends EntityQuery {
+public class AdminUnitQueryParams extends EntityQuery {
     /**
      * Available profiles
      */

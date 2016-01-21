@@ -2,7 +2,7 @@
 import React from 'react';
 import { Input } from 'react-bootstrap';
 import Types from '../../forms/types';
-import Form from '../../forms/form';
+import FormUtils from '../../forms/form-utils';
 import Fa from '../../components/fa';
 
 /**
@@ -45,7 +45,7 @@ class YesNoControl extends React.Component {
 		const err = schema.errors;
 
 		return (
-			<Input label={Form.labelRender(schema.label, schema.required)} help={err} ref="input"
+			<Input label={FormUtils.labelRender(schema.label, schema.required)} help={err} ref="input"
 				onChange={this.onChange} wrapperClassName="size-3"
 				style={err ? 'error' : null} type="select" value={this.props.value}>
 				<option value="-">{'-'}</option>

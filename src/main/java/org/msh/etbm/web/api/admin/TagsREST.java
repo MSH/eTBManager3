@@ -2,13 +2,13 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.regimens.RegimenData;
-import org.msh.etbm.services.admin.regimens.RegimenQuery;
-import org.msh.etbm.services.admin.regimens.RegimenRequest;
-import org.msh.etbm.services.admin.regimens.RegimenService;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.tags.TagData;
-import org.msh.etbm.services.admin.tags.TagQuery;
-import org.msh.etbm.services.admin.tags.TagRequest;
+import org.msh.etbm.services.admin.tags.TagQueryParams;
+import org.msh.etbm.services.admin.tags.TagFormData;
 import org.msh.etbm.services.admin.tags.TagService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -31,6 +31,9 @@ public class TagsREST {
     @Autowired
     TagService service;
 
+    @Autowired
+    FormsService formsService;
+
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
     @Authenticated()
@@ -39,14 +42,19 @@ public class TagsREST {
         return new StandardResult(data, null, data != null);
     }
 
+    @RequestMapping(value = "/tag/form", method = RequestMethod.POST)
+    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, TagFormData.class);
+    }
+
     @RequestMapping(value = "/tag", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody TagRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody TagFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody TagRequest req) {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody TagFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
@@ -59,7 +67,7 @@ public class TagsREST {
 
     @RequestMapping(value = "/tag/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody TagQuery query) {
+    public QueryResult query(@Valid @RequestBody TagQueryParams query) {
         return service.findMany(query);
     }
 

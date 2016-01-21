@@ -1,9 +1,9 @@
 package org.msh.etbm.commons.forms;
 
+import org.msh.etbm.commons.entities.EntityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,32 @@ public class FormsService {
 
     @Autowired
     TypesManagerService typesManager;
+
+    public FormResponse initForm(FormRequest req, EntityService serv, Class formDataClass) {
+        FormResponse resp = new FormResponse();
+
+        if (req.getId() != null) {
+            // load the entity from the service
+            Object data = serv.findOne(req.getId(), formDataClass);
+            resp.setDoc(data);
+        }
+        else {
+            try {
+                // create a new empty instance
+                resp.setDoc(formDataClass.newInstance());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (req.getFields() != null) {
+            // initialize the fields
+            Map<String, Object> flds = initFormFields(req.getFields());
+            resp.setResources(flds);
+        }
+
+        return resp;
+    }
 
     /**
      * Initialize fields content

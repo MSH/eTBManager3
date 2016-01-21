@@ -53,11 +53,15 @@ export default class CRUD {
 
 	/**
 	 * Return a single entity data ready to be edited in a form
-	 * @param  {[type]} id [description]
-	 * @return {[type]}    [description]
+	 * @param  {object} params Parameters to the query { id, fields }
+	 * @return {Promise} Promise resolved with server response
 	 */
-	getFormData(id) {
-		return server.get(API_PREFIX + this.table + '/' + id + '?edit=1');
+	initForm(params) {
+		const req = {
+			id: params.id,
+			fields: params.fields
+		};
+		return server.post(API_PREFIX + this.table + '/form', req);
 	}
 
 	/**
