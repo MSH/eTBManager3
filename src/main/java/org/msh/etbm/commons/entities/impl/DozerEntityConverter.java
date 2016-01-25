@@ -26,12 +26,22 @@ public class DozerEntityConverter implements CustomConverter {
             return null;
         }
 
+        // check if source is an optional value
+        if (source instanceof Optional) {
+            // unwrap value from optional
+            Optional sourceOpt = (Optional)source;
+            source = sourceOpt.isPresent() ? sourceOpt.get() : null;
+        }
+
+        // is an entity ID ?
         if (source instanceof UUID) {
+            // from ID, get the source class
             return convertFromId((UUID) source, destClass);
         }
 
-
+        // is the entity itself?
         if (source instanceof Synchronizable) {
+            // get the ID from the entity
             return convertToId((Synchronizable)source, destClass);
         }
 

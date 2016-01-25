@@ -1,8 +1,6 @@
 import React from 'react';
 import { server } from '../commons/server';
-import { setValue } from '../commons/utils';
 import { app } from '../core/app';
-import Form from './form';
 
 
 export default class FormUtils {
@@ -63,26 +61,6 @@ export default class FormUtils {
 		return opts.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>);
 	}
 
-
-	/**
-	 * Create a new instance of the document to be edited in the form based on default values
-	 * of the form layout
-	 * @param  {[type]} layout [description]
-	 * @return {[type]}        [description]
-	 */
-	static newInstance(layout) {
-		const doc = {};
-		layout
-			.filter(elem => elem.el === 'field' || !elem.el)
-			.forEach(elem => {
-				const type = Form.types[elem.type];
-				const defaultValue = elem.defaultValue || type.defaultValue();
-				if (defaultValue !== undefined) {
-					setValue(doc, elem.property, defaultValue, true);
-				}
-			});
-		return doc;
-	}
 
 	/**
 	 * Request the server to initialize the given fields

@@ -73,7 +73,7 @@ class UnitControl extends React.Component {
 	onUnitChange() {
 		const id = this.refs.unit.getValue();
 		if (this.props.onChange) {
-			this.props.onChange({ element: this.props.schema, value: id });
+			this.props.onChange({ schema: this.props.schema, value: id });
 		}
 		this.setState({ unit: id });
 	}

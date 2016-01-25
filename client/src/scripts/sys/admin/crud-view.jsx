@@ -6,7 +6,6 @@
 import React from 'react';
 import { Collapse, Alert, Button, ButtonToolbar } from 'react-bootstrap';
 import FormDialog from '../../components/form-dialog';
-import FormUtils from '../../forms/form-utils';
 import { hasPerm } from '../session';
 import { MessageDlg, CollapseCard, AsyncButton } from '../../components/index';
 import CrudCard from './crud-card';
@@ -146,7 +145,7 @@ export default class CrudView extends React.Component {
 		const edt = this.props.editorDef;
 		const editor = edt.editors ? edt.editors[key] : edt;
 
-		const doc = FormUtils.newInstance(editor.layout);
+		const doc = { };
 		const formCont = this.createFormContext(editor, doc);
 		// set the state
 		this.setState({
@@ -159,7 +158,6 @@ export default class CrudView extends React.Component {
 	 * @return {Promise} Promise resolved when server return
 	 */
 	saveForm() {
-		console.log(this.doc);
 		// get reference to the context ('this' is not the react component)
 		const self = this;
 		const crud = this.comp.props.crud;

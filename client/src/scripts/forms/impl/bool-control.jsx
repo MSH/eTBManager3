@@ -11,18 +11,16 @@ class BoolControl extends React.Component {
 	}
 
 	onChange() {
-		const id = this.props.schema;
-		const comp = this.refs[id];
-		const value = comp.getChecked();
+		const value = this.refs.input.getChecked();
 
-		this.props.onChange({ id: id, value: value });
+		this.props.onChange({ schema: this.props.schema, value: value });
 	}
 
 	render() {
 		const sc = this.props.schema;
 
 		return	(
-			<Input ref={sc.id}
+			<Input ref="input"
 				label={sc.label}
 				type="checkbox"
 				onChange={this.onChange}

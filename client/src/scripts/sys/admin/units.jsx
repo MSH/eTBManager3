@@ -13,6 +13,10 @@ const editorDef = {
 		// TB units editor
 		tbunit: {
 			label: __('Tbunit'),
+			// the default properties that the document must contain (set on initialization)
+			defaultProperties: {
+				type: 'TBUNIT'
+			},
 			layout: [
 					{
 						property: 'name',
@@ -121,6 +125,10 @@ const editorDef = {
 		},
 		lab: {
 			label: __('Laboratory'),
+			// the default properties that the document must contain (set on initialization)
+			defaultProperties: {
+				type: 'LAB'
+			},
 			layout: [
 					{
 						property: 'name',
@@ -132,10 +140,16 @@ const editorDef = {
 					},
 					{
 						property: 'active',
+						required: true,
 						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
 						defaultValue: true,
 						size: { sm: 4 }
+					},
+					{
+						el: 'subtitle',
+						label: 'Unit address',
+						size: { sm: 12 }
 					},
 					{
 						property: 'address.address',
@@ -150,9 +164,10 @@ const editorDef = {
 						size: { sm: 6 }
 					},
 					{
-						property: 'address.adminUnit',
+						property: 'address.adminUnitId',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
+						required: true,
 						size: { sm: 6 }
 					},
 					{
@@ -166,6 +181,56 @@ const editorDef = {
 						type: 'string',
 						label: __('form.customId'),
 						size: { sm: 3 }
+					},
+					{
+						property: 'performMicroscopy',
+						type: 'bool',
+						label: __('Laboratory.performMicroscopy')
+					},
+					{
+						property: 'performXpert',
+						type: 'bool',
+						label: __('Laboratory.performXpert')
+					},
+					{
+						property: 'performCulture',
+						type: 'bool',
+						label: __('Laboratory.performCulture')
+					},
+					{
+						property: 'performDst',
+						type: 'bool',
+						label: __('Laboratory.performDst')
+					},
+					{
+						property: 'receiveFromManufacturer',
+						type: 'bool',
+						label: __('Unit.receiveFromManufacturer')
+					},
+					{
+						el: 'subtitle',
+						label: 'Medicine order settings',
+						size: { sm: 12 }
+					},
+					{
+						property: 'supplierId',
+						type: 'unit',
+						label: __('Unit.supplier'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'authorizerId',
+						type: 'unit',
+						label: __('Unit.authorizer'),
+						size: { sm: 6 }
+					},
+					{
+						property: 'numDaysOrder',
+						type: 'number',
+						label: __('Tbunit.numDaysOrder'),
+						defaultValue: 120,
+						size: { sm: 8 },
+						controlSize: 4
 					}
 			],
 			title: doc => doc && doc.id ? __('admin.labs.edt') : __('admin.labs.new')

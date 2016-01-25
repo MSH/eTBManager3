@@ -1,7 +1,7 @@
 
 import FormUtils from '../form-utils';
 import Form from '../form';
-import { getValue } from '../../commons/utils';
+import { setValue, getValue } from '../../commons/utils';
 
 
 /**
@@ -12,6 +12,8 @@ import { getValue } from '../../commons/utils';
  * resolved when resources are returned from server
  */
 export default function initForm(form, snapshot) {
+
+	initDefaultValues(form);
 
 	return new Promise(resolve => {
 		const resources = form.props.resources;
@@ -75,4 +77,34 @@ function createInitRequest(snapshot, doc) {
 	});
 
 	return lst.length === 0 ? null : lst;
+}
+
+
+/**
+ * Initialize default properties in the document
+ * @param  {[type]} form [description]
+ * @return {[type]}      [description]
+ */
+function initDefaultValues(form) {
+	const schema = form.props.schema;
+	const doc = form.props.doc;
+
+	// set default properties of the document
+	const defprops = schema.defaultProperties;
+	if (defprops) {
+		Object.keys(defprops).forEach(prop => {
+			doc[prop] = defprops[prop];
+		});
+	}
+
+	// set the default properties of the controls
+	schema.layout
+			.filter(elem => elem.el === 'field' || !elem.el)
+			.forEach(elem => {
+				const type = Form.types[elem.type];
+				const defaultValue = elem.defaultValue || type.defaultValue();
+				if (defaultValue !== undefined) {
+					setValue(doc, elem.property, defaultValue, true);
+				}
+			});
 }
