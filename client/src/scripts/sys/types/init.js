@@ -1,15 +1,15 @@
 
-import Types from '../../forms/types';
+import Form from '../../forms/form';
 
-import AdminUnitType from './adminunit-type';
-import YesNoType from './yesno-type';
-import UnitType from './unit-type';
+import AdminUnitControl from './admin-unit-control';
+import YesNoControl from './yesno-control';
+import UnitControl from './unit-control';
 
 function register() {
-	Types.register([
-		AdminUnitType,
-		YesNoType,
-		UnitType
+	Form.registerType([
+		AdminUnitControl,
+		YesNoControl,
+		UnitControl
 		]);
 }
 

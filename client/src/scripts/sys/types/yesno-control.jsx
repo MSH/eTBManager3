@@ -1,33 +1,19 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import Types from '../../forms/types';
+import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
 import Fa from '../../components/fa';
 
-/**
- * Type handle for administrative unit series
- */
-export default class YesNoType extends Types.Class.BoolType {
-
-	displayText(value) {
-		return value ? __('global.yes') : __('global.no');
-	}
-
-	render(value) {
-		return value ? <Fa icon="check" className="text-primary" /> : '-';
-	}
-
-	formComponent() {
-		return YesNoControl;
-	}
-}
-
 
 /**
- * Default control to be used in forms
+ * Control for yes-no selection
  */
 class YesNoControl extends React.Component {
+
+	static displayText(value) {
+		return value ? __('global.yes') : __('global.no');
+	}
 
 	readOnlyRender(schema) {
 		return <Input disabled value={this.props.value} label={schema.label} type="text" />;
@@ -56,6 +42,11 @@ class YesNoControl extends React.Component {
 	}
 
 	render() {
+		// if there is no form, just display an icon
+		if (this.props.noForm) {
+			return this.props.value ? <Fa icon="check" className="text-primary" /> : '-';
+		}
+
 		const schema = this.props.schema || {};
 
 		return schema.readOnly ? this.readOnlyRender(schema) : this.editRender(schema);
@@ -66,5 +57,12 @@ YesNoControl.propTypes = {
 	value: React.PropTypes.bool,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
-	schema: React.PropTypes.object
+	schema: React.PropTypes.object,
+	noForm: React.PropTypes.bool
 };
+
+YesNoControl.options = {
+	supportedTypes: 'yesNo'
+};
+
+export default Form.typeWrapper(YesNoControl);

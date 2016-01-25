@@ -3,7 +3,7 @@ import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
 import Profile from '../../components/profile';
-import Types from '../../forms/types';
+import Form from '../../forms/form';
 
 const crud = new CRUD('unit');
 
@@ -110,7 +110,7 @@ const editorDef = {
 					},
 					{
 						property: 'numDaysOrder',
-						type: 'int',
+						type: 'number',
 						label: __('Tbunit.numDaysOrder'),
 						defaultValue: 120,
 						size: { sm: 8 },
@@ -181,7 +181,7 @@ const editorDef = {
 export default class Units extends React.Component {
 
 	cellRender(item) {
-		const auname = Types.list.adminUnit.displayText(item.adminUnit);
+		const auname = Form.types.adminUnit.displayText(item.adminUnit);
 
 		return (
 			<Profile type={item.type.toLowerCase()}

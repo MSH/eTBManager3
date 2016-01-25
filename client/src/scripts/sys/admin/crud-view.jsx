@@ -66,7 +66,7 @@ export default class CrudView extends React.Component {
 			return (
 				<Collapse in transitionAppear>
 					<div>
-					<FormDialog formDef={item.context.editor}
+					<FormDialog schema={item.context.editor}
 						doc={item.context.doc}
 						highlight
 						resources={this.context.resources}
@@ -159,6 +159,7 @@ export default class CrudView extends React.Component {
 	 * @return {Promise} Promise resolved when server return
 	 */
 	saveForm() {
+		console.log(this.doc);
 		// get reference to the context ('this' is not the react component)
 		const self = this;
 		const crud = this.comp.props.crud;
@@ -298,7 +299,7 @@ export default class CrudView extends React.Component {
 		return (
 				<Collapse in transitionAppear>
 					<div>
-						<FormDialog formDef={newform.editor}
+						<FormDialog schema={newform.editor}
 							onConfirm={newform.saveForm}
 							onCancel={newform.cancelForm}
 							doc={newform.doc} />

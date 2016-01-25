@@ -34,23 +34,43 @@ export function getValue(obj, prop) {
 }
 
 
-export function setValue(obj, prop, val) {
+/**
+ * Set a value of an object by giving its property. The property argument may reference a
+ * nested property, separated by dots or brackets. Ex.: val[1].prop
+ * @param {[type]} obj        The object to set the value in
+ * @param {[type]} prop       The name of the property
+ * @param {[type]} val        The value to set in the given property
+ * @param {[type]} autoCreate If true and one of the nested properties doesn't exist, an empty object will be set.
+ *                            If false and one of the nested properties doesn't exist an exception will be thrown
+ */
+export function setValue(obj, prop, val, autoCreate) {
 	let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
-    var a = s.split('.');
+    var props = s.split('.');
 
-    for (var i = 0, n = a.length - 1; i < n; ++i) {
-        var k = a[i];
-        if (k in value) {
-            value = value[k];
+    for (var i = 0; i < props.length - 1; i++) {
+        const k = props[i];
+        let newval = value[k];
+
+        // new value was found ?
+        if (!newval) {
+            // object is to be created automatically ?
+            if (autoCreate) {
+                newval = {};
+                value[k] = newval;
+            }
+            else {
+                // if value is not found, raises an exception
+                throw new Error('Cannot set property ' + prop);
+            }
         }
-        else {
-            return null;
-        }
+        value = newval;
     }
 
-    value[prop] = val;
+    // set the value
+    const p = props[props.length - 1];
+    value[p] = val;
 }
 
 /**

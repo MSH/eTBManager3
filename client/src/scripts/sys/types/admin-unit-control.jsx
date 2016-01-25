@@ -4,12 +4,14 @@ import React from 'react';
 import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import WaitIcon from '../../components/wait-icon';
-import Types from '../../forms/types';
+import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
+
 
 const crud = new CRUD('adminunit');
 
-export default class AdminUnitInput extends React.Component {
+
+class AdminUnitControl extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -35,6 +37,32 @@ export default class AdminUnitInput extends React.Component {
 		}
 	}
 
+	/**
+	 * Display representation of the administrative unit
+	 * @param  {[type]} value [description]
+	 * @return {[type]}       [description]
+	 */
+	static displayText(value) {
+		if (!value) {
+			return '';
+		}
+
+		const vals = [];
+		let index = 4;
+		while (index >= 0) {
+			const p = value['p' + index];
+			if (p) {
+				vals.push(p.name);
+			}
+			index--;
+		}
+
+		return vals.join(', ');
+	}
+
+	static isServerInitRequired(sc) {
+		return !sc.readOnly;
+	}
 
 	/**
 	 * Called when the user changes the item selected
@@ -63,7 +91,7 @@ export default class AdminUnitInput extends React.Component {
 		// check if no item was selected
 		if (id === '-') {
 			item.selected = null;
-			this.raiseChangeEvent();
+			this.raiseChangeEvent(null);
 			return;
 		}
 
@@ -72,44 +100,29 @@ export default class AdminUnitInput extends React.Component {
 
 		item.selected = admUnit.id;
 
-		// is this the last select component ?
-		if (level === 5 || !admUnit.unitsCount) {
-			this.raiseChangeEvent();
-			return;
+		// check if must load other items
+		if (level < 5 && admUnit.unitsCount > 0) {
+			// get the information about the next level
+			const childItem = list[level];
+			const self = this;
+
+			item.fetching = true;
+			// get children of the parent id
+			crud.query({ parentId: id, profile: 'item' })
+			.then(res => {
+				childItem.list = res.list;
+				delete item.fetching;
+				self.forceUpdate();
+			});
 		}
 
-		// get the information about the next level
-		const childItem = list[level];
-		const self = this;
-
-		item.fetching = true;
-		// get children of the parent id
-		crud.query({ parentId: id, profile: 'item' })
-		.then(res => {
-			childItem.list = res.list;
-			delete item.fetching;
-			self.forceUpdate();
-		});
-
-		this.raiseChangeEvent();
+		this.raiseChangeEvent(item.selected);
 	}
 
 
-	raiseChangeEvent() {
-		// construct selected object
-		const items = this.state.list.map(item =>
-			item.selected ? { id: item.selected.id, name: item.selected.name } : null);
-
-		const obj = {};
-		let index = 0;
-		items.forEach(item => {
-			if (item) {
-				obj['p' + index++] = item;
-			}
-		});
-
+	raiseChangeEvent(newvalue) {
 		if (this.props.onChange) {
-			this.props.onChange({ value: obj, element: this.props.schema });
+			this.props.onChange({ value: newvalue, schema: this.props.schema });
 		}
 
 		// force component to update its state
@@ -122,6 +135,8 @@ export default class AdminUnitInput extends React.Component {
 	 * @return {[type]}      [description]
 	 */
 	compRender(item) {
+		const schema = this.props.schema || {};
+
 		const options = item.list ?
 			item.list.map(opt => (
 				<option key={opt.id} value={opt.id}>
@@ -135,7 +150,7 @@ export default class AdminUnitInput extends React.Component {
 
 		const self = this;
 
-		const label = FormUtils.labelRender(item.label, this.props.schema.required);
+		const label = FormUtils.labelRender(item.label, schema.required);
 
 		const errors = item.level === 1 ? this.props.errors : null;
 
@@ -158,7 +173,7 @@ export default class AdminUnitInput extends React.Component {
 				label={schema.label}
 				type="text"
 				disabled
-				value={Types.list.adminUnit.displayText(this.props.value)} />
+				value={Form.types.adminUnit.displayText(this.props.value)} />
 			);
 	}
 
@@ -186,10 +201,18 @@ export default class AdminUnitInput extends React.Component {
 	}
 }
 
-AdminUnitInput.propTypes = {
+AdminUnitControl.options = {
+	supportedTypes: 'adminUnit'
+};
+
+
+AdminUnitControl.propTypes = {
 	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.array
 };
+
+export default Form.typeWrapper(AdminUnitControl);
+

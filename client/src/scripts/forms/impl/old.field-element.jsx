@@ -1,6 +1,6 @@
 
 import React from 'react';
-import Types from '../types';
+import Form from '../form';
 
 
 export default class FieldElement extends React.Component {
@@ -31,16 +31,14 @@ export default class FieldElement extends React.Component {
 			}
 		}
 
-		const th = Types.list[el.type];
+		const Comp = Form.types[el.type];
 
 		if (__DEV__) {
 			// check if type was not found
-			if (!th) {
+			if (!Comp) {
 				return <div>{'Type not found: ' + el.type}</div>;
 			}
 		}
-
-		const Comp = th.formComponent(el);
 
 		if (Comp === null) {
 			if (__DEV__) {

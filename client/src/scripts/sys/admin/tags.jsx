@@ -2,7 +2,7 @@
 import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
-import Types from '../../forms/types';
+import Form from '../../forms/form';
 
 
 const crud = new CRUD('tag');
@@ -85,12 +85,6 @@ export default class Tags extends React.Component {
 				<dl className="text-small dl-horizontal text-muted">
 					<dt>{__('form.displayorder') + ':'}</dt>
 					<dd>{item.displayOrder}</dd>
-					<dt>{__('Substance.dstResultForm') + ':'}</dt>
-					<dd>{Types.list.yesNo.render(item.dstResultForm)}</dd>
-					<dt>{__('Substance.prevTreatmentForm') + ':'}</dt>
-					<dd>{Types.list.yesNo.render(item.prevTreatmentForm)}</dd>
-					<dt>{__('EntityState.ACTIVE') + ':'}</dt>
-					<dd>{Types.list.yesNo.render(item.active)}</dd>
 					<dt>{__('form.customId') + ':'}</dt>
 					<dd>{item.customId}</dd>
 				</dl>

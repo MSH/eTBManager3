@@ -4,13 +4,13 @@ import React from 'react';
 import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import WaitIcon from '../../components/wait-icon';
-import Types from '../../forms/types';
 import FormUtils from '../../forms/form-utils';
+import Form from '../../forms/form';
 
 const crud = new CRUD('unit');
 const crudAU = new CRUD('adminunit');
 
-export default class UnitInput extends React.Component {
+class UnitControl extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -46,6 +46,10 @@ export default class UnitInput extends React.Component {
 				adminUnits: res.list
 			}));
 		}
+	}
+
+	static isServerInitRequired(schema) {
+		return !schema.readOnly;
 	}
 
 	/**
@@ -138,14 +142,12 @@ export default class UnitInput extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		const txt = Types.list.unit.displayText(this.props.value);
-
 		return (
 			<Input
 				label={schema.label}
 				type="text"
 				disabled
-				value={txt} />
+				value={this.props.value} />
 			);
 	}
 
@@ -155,10 +157,16 @@ export default class UnitInput extends React.Component {
 	}
 }
 
-UnitInput.propTypes = {
+UnitControl.propTypes = {
 	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.object
 };
+
+UnitControl.options = {
+	supportedTypes: 'unit'
+};
+
+export default Form.typeWrapper(UnitControl);

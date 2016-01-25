@@ -24,6 +24,10 @@ export default class FormDialog extends React.Component {
 		this.mounted = false;
 	}
 
+	onInit(req) {
+		console.log(req);
+	}
+
 	/**
 	 * Called when the user clicks on the confirm button
 	 */
@@ -55,24 +59,21 @@ export default class FormDialog extends React.Component {
 
 
 	render() {
-		const formDef = this.props.formDef;
-		if (!formDef) {
+		const schema = this.props.schema;
+		if (!schema) {
 			return null;
 		}
 
 		// get instance to be edited
 		const doc = this.props.doc;
 
-		// get the layout of the form
-		const layout = formDef.layout;
-
 		// get the title of the form
 		let title;
-		if (typeof formDef.title === 'function') {
-			title = formDef.title(doc);
+		if (typeof schema.title === 'function') {
+			title = schema.title(doc);
 		}
 		else {
-			title = formDef.title;
+			title = schema.title;
 		}
 
 		// get validation errors, if any available
@@ -81,7 +82,8 @@ export default class FormDialog extends React.Component {
 		return (
 			<Card title={title} highlight={this.props.highlight}>
 				<div>
-					<Form ref="form" layout={layout}
+					<Form ref="form" schema={schema}
+						onInit={this.onInit}
 						doc={doc} errors={errors}
 						resources={this.props.resources} />
 				</div>
@@ -100,10 +102,11 @@ export default class FormDialog extends React.Component {
 }
 
 FormDialog.propTypes = {
-	formDef: React.PropTypes.object,
+	schema: React.PropTypes.object,
 	doc: React.PropTypes.object,
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
+	onInit: React.PropTypes.func,
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object
