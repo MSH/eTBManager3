@@ -3,6 +3,29 @@ import React from 'react';
 
 export default class Profile extends React.Component {
 
+	/**
+	 * Get the icon to display accoring to the type
+	 * @return {string} name of the icon in the font awesome library
+	 */
+	getIconType() {
+		switch (this.props.type) {
+			case 'male':
+			case 'female':
+				return 'user';
+			case 'tbunit':
+				return 'hospital-o';
+			case 'lab':
+				return 'building';
+			case 'ws':
+				return 'globe';
+			case 'medicine':
+				return 'ticket';
+			case 'product':
+				return 'product-hunt';
+			default:
+				return 'exclamation-triangle';
+		}
+	}
 
 	render() {
 		let icon,
@@ -10,24 +33,7 @@ export default class Profile extends React.Component {
 
 		if (this.props.type) {
 			imgClass = 'prof-' + this.props.type;
-			switch (this.props.type) {
-				case 'male':
-				case 'female':
-					icon = 'user';
-					break;
-				case 'tbunit':
-					icon = 'hospital-o';
-					break;
-				case 'lab':
-					icon = 'building';
-					break;
-				case 'ws':
-					icon = 'globe';
-					break;
-				default:
-					icon = 'user';
-					imgClass = null;
-			}
+			icon = this.getIconType();
 		}
 		else {
 			icon = this.props.fa;

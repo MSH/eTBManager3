@@ -96,7 +96,7 @@ export default class Products extends React.Component {
 	cellRender(item) {
 		return (
 			<Profile title={item.shortName} subtitle={item.name}
-				size="small" imgClass="prof-male" fa="product-hunt" />
+				size="small" type={item.type.toLowerCase()} />
 			);
 	}
 
