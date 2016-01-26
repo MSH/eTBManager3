@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.admunits;
 
-import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 21/10/15.
  */
-public class AdminUnitQueryParams extends EntityQuery {
+public class AdminUnitQueryParams extends EntityQueryParams {
     /**
      * Available profiles
      */

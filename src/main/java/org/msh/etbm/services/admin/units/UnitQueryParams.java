@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.units;
 
-import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 import java.util.UUID;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 28/10/15.
  */
-public class UnitQueryParams extends EntityQuery {
+public class UnitQueryParams extends EntityQueryParams {
 
     public static final String PROFILE_ITEM = "item";
     public static final String PROFILE_DEFAULT = "default";
@@ -19,8 +19,17 @@ public class UnitQueryParams extends EntityQuery {
 
 
     private UnitType type;
+
+    /**
+     * Search for the exact name
+     */
     private String name;
+
+    /**
+     * Search for part of the name (using LIKE)
+     */
     private String key;
+
     /**
      * If true, will include non-active units
      */

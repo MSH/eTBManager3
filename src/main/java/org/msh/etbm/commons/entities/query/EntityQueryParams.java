@@ -10,7 +10,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 28/10/15.
  */
-public class EntityQuery {
+public class EntityQueryParams {
     /**
      * Page number of the result search. Null indicates all records will be returned
      */

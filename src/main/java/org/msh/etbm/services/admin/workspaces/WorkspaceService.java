@@ -21,7 +21,7 @@ public class WorkspaceService extends EntityService<Workspace> {
     QueryBuilderFactory queryBuilderFactory;
 
 
-    public QueryResult findMany(WorkspaceQuery qry) {
+    public QueryResult findMany(WorkspaceQueryParams qry) {
         QueryBuilder<Workspace> builder = queryBuilderFactory.createQueryBuilder(Workspace.class);
 
         // set the profiles

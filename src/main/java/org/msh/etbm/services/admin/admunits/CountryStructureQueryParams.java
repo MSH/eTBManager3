@@ -1,12 +1,12 @@
 package org.msh.etbm.services.admin.admunits;
 
-import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Extended query for searching of country structure entities
  * Created by rmemoria on 28/10/15.
  */
-public class CountryStructureQueryParams extends EntityQuery {
+public class CountryStructureQueryParams extends EntityQueryParams {
     /**
      * The level to search for
      */

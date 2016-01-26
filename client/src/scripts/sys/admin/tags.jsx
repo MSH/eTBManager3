@@ -2,7 +2,7 @@
 import React from 'react';
 import CRUD from '../../commons/crud';
 import CrudView from './crud-view';
-import Form from '../../forms/form';
+import Profile from '../../components/profile';
 
 
 const crud = new CRUD('tag');
@@ -75,7 +75,18 @@ export default class Tags extends React.Component {
 	}
 
 	cellRender(item) {
-		return item.name;
+		let type;
+
+		if (item.sqlCondition) {
+			type = item.consistencyCheck ? 'danger' : 'warn';
+		}
+		else {
+			type = 'userdef';
+		}
+
+		type = 'prof-tag-' + type;
+
+		return <Profile imgClass={type} fa="tag" title={item.name} size="small" />;
 	}
 
 	collapseCellRender(item) {
@@ -83,10 +94,10 @@ export default class Tags extends React.Component {
 			<div>
 				<hr/>
 				<dl className="text-small dl-horizontal text-muted">
-					<dt>{__('form.displayorder') + ':'}</dt>
-					<dd>{item.displayOrder}</dd>
-					<dt>{__('form.customId') + ':'}</dt>
-					<dd>{item.customId}</dd>
+					<dt>{__('Tag.consistencyCheck') + ':'}</dt>
+					<dd>{item.consistencyCheck}</dd>
+					<dt>{__('Tag.sqlCondition') + ':'}</dt>
+					<dd>{item.sqlCondition}</dd>
 				</dl>
 				<hr/>
 			</div>

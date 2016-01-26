@@ -129,7 +129,7 @@ public interface QueryBuilder<E> {
      * Initialize the query builder with the parameters in the entityQuery object
      * @param qry the query
      */
-    void initialize(EntityQuery qry);
+    void initialize(EntityQueryParams qry);
 
     /**
      * Select the profile to be used

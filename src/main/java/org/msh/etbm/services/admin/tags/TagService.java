@@ -35,7 +35,8 @@ public class TagService extends EntityService<Tag> {
             builder.addRestriction("active = true");
         }
 
-        return builder.createQueryResult();
+        QueryResult<SynchronizableItem> res = builder.createQueryResult();
+        return res;
     }
 
 }

@@ -3,7 +3,7 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.regimens.RegimenData;
-import org.msh.etbm.services.admin.regimens.RegimenQuery;
+import org.msh.etbm.services.admin.regimens.RegimenQueryParams;
 import org.msh.etbm.services.admin.regimens.RegimenRequest;
 import org.msh.etbm.services.admin.regimens.RegimenService;
 import org.msh.etbm.services.permissions.Permissions;
@@ -57,7 +57,7 @@ public class RegimensREST {
 
     @RequestMapping(value = "/regimen/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody RegimenQuery query) {
+    public QueryResult query(@Valid @RequestBody RegimenQueryParams query) {
         return service.findMany(query);
     }
 

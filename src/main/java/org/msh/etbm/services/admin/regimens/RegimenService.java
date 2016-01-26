@@ -20,18 +20,18 @@ public class RegimenService extends EntityService<Regimen> {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    public QueryResult findMany(RegimenQuery qry) {
+    public QueryResult findMany(RegimenQueryParams qry) {
         QueryBuilder<Regimen> builder = queryBuilderFactory.createQueryBuilder(Regimen.class);
 
         // order by options
-        builder.addDefaultOrderByMap(RegimenQuery.ORDERBY_NAME, "name");
-        builder.addOrderByMap(RegimenQuery.ORDERBY_CLASSIFICATION, "classification, name");
-        builder.addOrderByMap(RegimenQuery.ORDERBY_CLASSIFICATION + "_DESC", "classification desc, name");
+        builder.addDefaultOrderByMap(RegimenQueryParams.ORDERBY_NAME, "name");
+        builder.addOrderByMap(RegimenQueryParams.ORDERBY_CLASSIFICATION, "classification, name");
+        builder.addOrderByMap(RegimenQueryParams.ORDERBY_CLASSIFICATION + "_DESC", "classification desc, name");
 
         // profiles
-        builder.addDefaultProfile(RegimenQuery.PROFILE_DEFAULT, RegimenData.class);
-        builder.addProfile(RegimenQuery.PROFILE_ITEM, SynchronizableItem.class);
-        builder.addProfile(RegimenQuery.PROFILE_DETAILED, RegimenDetailedData.class);
+        builder.addDefaultProfile(RegimenQueryParams.PROFILE_DEFAULT, RegimenData.class);
+        builder.addProfile(RegimenQueryParams.PROFILE_ITEM, SynchronizableItem.class);
+        builder.addProfile(RegimenQueryParams.PROFILE_DETAILED, RegimenDetailedData.class);
 
         builder.initialize(qry);
 

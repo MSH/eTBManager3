@@ -1,13 +1,13 @@
 package org.msh.etbm.services.admin.products;
 
-import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Filters or conditions to generate a query of products
  *
  * Created by rmemoria on 11/11/15.
  */
-public class ProductQuery extends EntityQuery {
+public class ProductQueryParams extends EntityQueryParams {
     private ProductType type;
 
     private String key;

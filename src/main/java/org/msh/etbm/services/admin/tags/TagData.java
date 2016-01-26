@@ -5,7 +5,7 @@ package org.msh.etbm.services.admin.tags;
  */
 public class TagData {
     private String name;
-    private String slqCondition;
+    private String sqlCondition;
     private boolean consistencyCheck;
     private boolean active;
     private boolean dailyUpdate;
@@ -18,12 +18,12 @@ public class TagData {
         this.name = name;
     }
 
-    public String getSlqCondition() {
-        return slqCondition;
+    public String getSqlCondition() {
+        return sqlCondition;
     }
 
-    public void setSlqCondition(String slqCondition) {
-        this.slqCondition = slqCondition;
+    public void setSqlCondition(String sqlCondition) {
+        this.sqlCondition = sqlCondition;
     }
 
     public boolean isConsistencyCheck() {

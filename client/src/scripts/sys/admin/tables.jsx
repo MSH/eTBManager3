@@ -12,6 +12,8 @@ import Products from './products';
 import Regimens from './regimens';
 import Tags from './tags';
 import AgeRanges from './ageranges';
+import UserProfiles from './user-profiles';
+import UsersWs from './users-ws';
 import { hasPerm } from '../session';
 
 /**
@@ -64,12 +66,6 @@ const items = [
 		separator: true
 	},
 	{
-		title: __('admin.weeklyfreq'),
-		perm: 'WEEKFREQ',
-		icon: 'calendar',
-        path: '/weeklyfreq'
-	},
-	{
 		title: __('admin.ageranges'),
 		perm: 'AGERANGES',
 		icon: 'tasks',
@@ -90,13 +86,15 @@ const items = [
 		title: __('admin.users'),
 		perm: 'USERS',
 		icon: 'user',
-        path: '/users'
+        path: '/users',
+        view: UsersWs
 	},
 	{
 		title: __('admin.profiles'),
 		perm: 'PROFILES',
 		icon: 'group',
-        path: '/groups'
+        path: '/groups',
+        view: UserProfiles
 	}
 ];
 

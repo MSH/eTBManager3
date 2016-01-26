@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping map-null="false">
+        <class-a>org.msh.etbm.services.admin.usersws.UserWsFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.UserWorkspace</class-b>
+
+        <field>
+            <a>name</a>
+            <b>user.name</b>
+        </field>
+
+        <field>
+            <a>login</a>
+            <b>user.login</b>
+        </field>
+
+        <field>
+            <a>email</a>
+            <b>user.email</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>adminUnitId</a>
+            <b>adminUnit</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>unitId</a>
+            <b>unit</b>
+        </field>
+    </mapping>
+
+
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
+        <class-b>org.msh.etbm.services.admin.usersws.UserWsData</class-b>
+
+        <field>
+            <a>user.name</a>
+            <b>name</b>
+        </field>
+    </mapping>
+
+
+</mappings>

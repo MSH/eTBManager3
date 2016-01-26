@@ -37,7 +37,7 @@ public class ProductService extends EntityService<Product> {
      * @param qry the parameters to generate the query
      * @return list of products
      */
-    public QueryResult<Product> findMany(ProductQuery qry) {
+    public QueryResult<Product> findMany(ProductQueryParams qry) {
         Class clazz = qry.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
 
         QueryBuilder<Product> builder = queryBuilderFactory.createQueryBuilder(clazz);

@@ -5,7 +5,6 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormResponse;
 import org.msh.etbm.commons.forms.FormsService;
-import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.products.*;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -66,7 +65,7 @@ public class ProductsREST {
 
     @RequestMapping(value = "/product/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody ProductQuery query) {
+    public QueryResult query(@Valid @RequestBody ProductQueryParams query) {
         return service.findMany(query);
     }
     

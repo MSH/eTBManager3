@@ -56,6 +56,7 @@ public class Application {
         lst.add("dozer/product.mapper.xml");
         lst.add("dozer/substance.mapper.xml");
         lst.add("dozer/workspace.mapper.xml");
+        lst.add("dozer/userws.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();

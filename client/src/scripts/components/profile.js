@@ -22,6 +22,8 @@ export default class Profile extends React.Component {
 				return 'ticket';
 			case 'product':
 				return 'product-hunt';
+			case 'user':
+				return 'user';
 			default:
 				return 'exclamation-triangle';
 		}
@@ -64,6 +66,6 @@ Profile.propTypes = {
 	subtitle: React.PropTypes.any,
 	size: React.PropTypes.string,
 	imgClass: React.PropTypes.string,
-	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine'])
+	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user'])
 };
 

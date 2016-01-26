@@ -1,13 +1,13 @@
 package org.msh.etbm.services.admin.substances;
 
-import org.msh.etbm.commons.entities.query.EntityQuery;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Query class to establish the criterias to return a list of substances
  *
  * Created by rmemoria on 12/11/15.
  */
-public class SubstanceQueryParams extends EntityQuery {
+public class SubstanceQueryParams extends EntityQueryParams {
     private boolean prevTreatmentForm;
     private boolean dstResultForm;
 
