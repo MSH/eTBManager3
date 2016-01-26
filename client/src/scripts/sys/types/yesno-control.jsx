@@ -44,7 +44,7 @@ class YesNoControl extends React.Component {
 	render() {
 		// if there is no form, just display an icon
 		if (this.props.noForm) {
-			return this.props.value ? <Fa icon="check" className="text-primary" /> : '-';
+			return this.props.value ? <Fa icon="check" className="text-primary" /> : <span>{'-'}</span>;
 		}
 
 		const schema = this.props.schema || {};

@@ -1,7 +1,6 @@
 package org.msh.etbm.web.api.usersession;
 
 import org.msh.etbm.services.usersession.*;
-import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

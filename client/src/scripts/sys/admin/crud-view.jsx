@@ -161,7 +161,7 @@ export default class CrudView extends React.Component {
 		// get reference to the context ('this' is not the react component)
 		const self = this;
 		const crud = this.comp.props.crud;
-		const promise = this.item ? crud.update(this.doc.id, this.doc) : crud.create(this.doc);
+		const promise = this.item ? crud.update(this.item.data.id, this.doc) : crud.create(this.doc);
 
 		return promise
 			.then(() => {
@@ -219,9 +219,11 @@ export default class CrudView extends React.Component {
 		const self = this;
 		return this.props.crud.initForm({ id: item.data.id })
 		.then(res => {
+			// set the id in order to identify if is a new doc or an existing doc
+			res.doc.id = item.data.id;
+			// create a context to execute the editing operation
 			const cntxt = self.createFormContext(editor, res.doc, item, res.resources);
 
-			console.log(res);
 			item.state = 'edit';
 			item.context = cntxt;
 			self.forceUpdate();

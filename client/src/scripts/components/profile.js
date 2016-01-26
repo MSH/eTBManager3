@@ -58,6 +58,6 @@ Profile.propTypes = {
 	subtitle: React.PropTypes.any,
 	size: React.PropTypes.string,
 	imgClass: React.PropTypes.string,
-	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws'])
+	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine'])
 };
 

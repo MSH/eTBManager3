@@ -1,11 +1,9 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  * Represent an age range for the workspace

@@ -1,9 +1,7 @@
 package org.msh.etbm.web.api.forms;
 
 import org.msh.etbm.commons.forms.FieldInitRequest;
-import org.msh.etbm.commons.forms.FieldInitResponse;
 import org.msh.etbm.commons.forms.FormsService;
-import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

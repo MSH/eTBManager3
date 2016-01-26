@@ -5,7 +5,6 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AgeRange;
-import org.msh.etbm.db.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

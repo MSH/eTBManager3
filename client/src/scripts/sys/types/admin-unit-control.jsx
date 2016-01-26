@@ -22,6 +22,11 @@ class AdminUnitControl extends React.Component {
 
 
 	componentWillMount() {
+		const schema = this.props.schema || {};
+		if (schema.readOnly) {
+			return null;
+		}
+
 		// field is already initialized ?
 		if (this.props.resources) {
 			return this.setState({ list: this.props.resources });
@@ -168,12 +173,15 @@ class AdminUnitControl extends React.Component {
 
 
 	readOnlyRender(schema) {
+		const value = this.props.value;
+		const s = Form.types.adminUnit.displayText(value);
+
 		return (
 			<Input
 				label={schema.label}
 				type="text"
 				disabled
-				value={Form.types.adminUnit.displayText(this.props.value)} />
+				value={s} />
 			);
 	}
 
@@ -207,7 +215,7 @@ AdminUnitControl.options = {
 
 
 AdminUnitControl.propTypes = {
-	value: React.PropTypes.string,
+	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
 	errors: React.PropTypes.any,

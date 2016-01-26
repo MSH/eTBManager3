@@ -102,6 +102,7 @@ export class Substances extends React.Component {
 	}
 
 	collapseCellRender(item) {
+		const YesNo = Form.types.yesNo;
 		return (
 			<div>
 				<hr/>
@@ -109,11 +110,11 @@ export class Substances extends React.Component {
 					<dt>{__('form.displayorder') + ':'}</dt>
 					<dd>{item.displayOrder}</dd>
 					<dt>{__('Substance.dstResultForm') + ':'}</dt>
-					<dd>{Form.types.yesNo.render(item.dstResultForm)}</dd>
+					<dd><YesNo value={item.dstResultForm} noForm /></dd>
 					<dt>{__('Substance.prevTreatmentForm') + ':'}</dt>
-					<dd>{Form.types.yesNo.render(item.prevTreatmentForm)}</dd>
+					<dd><YesNo value={item.prevTreatmentForm} noForm /></dd>
 					<dt>{__('EntityState.ACTIVE') + ':'}</dt>
-					<dd>{Form.types.yesNo.render(item.active)}</dd>
+					<dd><YesNo value={item.active} noForm /></dd>
 					<dt>{__('form.customId') + ':'}</dt>
 					<dd>{item.customId}</dd>
 				</dl>

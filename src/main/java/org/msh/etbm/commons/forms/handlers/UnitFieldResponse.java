@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.forms.handlers;
 
-import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.services.admin.admunits.AdminUnitItemData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 

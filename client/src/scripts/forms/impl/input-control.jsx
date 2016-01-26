@@ -33,6 +33,14 @@ class InputControl extends React.Component {
 	}
 
 	/**
+	 * Check if type being handled in a number
+	 * @return {Boolean} True if type is supposed to be a number
+	 */
+	isNumericType() {
+		return ['number', 'int', 'float'].indexOf(this.props.schema.type) >= 0;
+	}
+
+	/**
 	 * Called when user changes the value in the control
 	 * @return {[type]} [description]
 	 */
@@ -44,7 +52,7 @@ class InputControl extends React.Component {
 		if (!value) {
 			value = null;
 		}
-		else if (sc.type === 'number') {
+		else if (this.isNumericType()) {
 			// if is a number, convert to number
 			if (!isNaN(value)) {
 				value = Number(value);
@@ -110,7 +118,7 @@ class InputControl extends React.Component {
 }
 
 InputControl.options = {
-	supportedTypes: ['string', 'number']
+	supportedTypes: ['string', 'number', 'int', 'float']
 };
 
 

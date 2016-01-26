@@ -2,6 +2,10 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormResponse;
+import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.products.*;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -26,11 +30,20 @@ public class ProductsREST {
     @Autowired
     ProductService service;
 
+    @Autowired
+    FormsService formsService;
+
     @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
     @Authenticated()
     public StandardResult get(@PathVariable UUID id) {
         ProductData data = service.findOne(id, ProductDetailedData.class);
         return new StandardResult(data, null, data != null);
+    }
+
+    @RequestMapping(value = "/product/form", method = RequestMethod.POST)
+    @Authenticated()
+    public FormResponse initForm(@Valid @NotNull @RequestBody FormRequest req) {
+        return formsService.initForm(req, service, ProductRequest.class);
     }
 
     @RequestMapping(value = "/product", method = RequestMethod.POST)

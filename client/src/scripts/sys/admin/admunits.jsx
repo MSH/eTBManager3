@@ -402,7 +402,7 @@ export class AdmUnits extends React.Component {
 				{
 					editing && <Collapse in transitionAppear>
 						<div>
-							<FormDialog formDef={this.getEditorDef()}
+							<FormDialog schema={this.getEditorDef()}
 								onConfirm={this.onSave}
 								onCancel={this.onCancelEditor}
 								doc={this.state.doc} />

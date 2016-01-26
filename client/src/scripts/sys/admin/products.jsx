@@ -2,6 +2,7 @@
 import React from 'react';
 import CrudView from './crud-view';
 import CRUD from '../../commons/crud';
+import Profile from '../../components/profile';
 
 const crud = new CRUD('product');
 
@@ -10,6 +11,9 @@ const editorDef = {
 	editors: {
 		'PRODUCT': {
 			label: __('Product'),
+			defaultProperties: {
+				type: 'PRODUCT'
+			},
 			layout: [
 				{
 					property: 'shortName',
@@ -39,10 +43,13 @@ const editorDef = {
 					size: { sm: 3 }
 				}
 			],
-			title: doc => doc && doc.id ? __('admin.products.edt') : __('admin.products.new')
+			title: doc => doc.id ? __('admin.products.edt') : __('admin.products.new')
 		},
 		'MEDICINE': {
 			label: __('Medicine'),
+			defaultProperties: {
+				type: 'MEDICINE'
+			},
 			layout: [
 				{
 					property: 'shortName',
@@ -59,6 +66,20 @@ const editorDef = {
 					max: 200,
 					label: __('form.name'),
 					size: { sm: 6 }
+				},
+				{
+					property: 'customId',
+					type: 'string',
+					max: 50,
+					label: __('form.customId'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'active',
+					type: 'yesNo',
+					required: true,
+					label: __('EntityState.ACTIVE'),
+					size: { sm: 6 }
 				}
 			],
 			title: doc => doc && doc.id ? __('admin.meds.edt') : __('admin.meds.new')
@@ -74,10 +95,8 @@ export default class Products extends React.Component {
 
 	cellRender(item) {
 		return (
-			<div>
-				<b>{item.shortName}</b>
-				<div className="text-muted">{item.name}</div>
-			</div>
+			<Profile title={item.shortName} subtitle={item.name}
+				size="small" imgClass="prof-male" fa="product-hunt" />
 			);
 	}
 

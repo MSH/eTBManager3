@@ -20,13 +20,34 @@ export default class Form extends React.Component {
 		this._onChange = this._onChange.bind(this);
 		this.state = {};
 
+		// this code block is just available in development mode
 		if (__DEV__) {
 			if (!this.props.doc) {
 				throw new Error('Form document is required (property doc)');
 			}
 
-			if (!this.props.schema) {
+			const schema = this.props.schema;
+			if (!schema) {
 				throw new Error('Form schema is required (property schema)');
+			}
+
+			// validate the schema
+			if (schema.layout) {
+				schema.layout
+				.filter(elem => elem.el === 'field' || !elem.el)
+				.forEach(elem => {
+					if (!elem.property) {
+						throw new Error('Property must be informed in field schema');
+					}
+					if (!elem.type) {
+						throw new Error('Element type not defined for ' + elem.property);
+					}
+
+					const comp = Form.types[elem.type];
+					if (!comp) {
+						throw new Error('Component type not found: ' + elem.type);
+					}
+				});
 			}
 		}
 	}

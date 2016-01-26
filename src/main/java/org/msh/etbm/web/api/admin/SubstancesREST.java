@@ -5,10 +5,9 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormResponse;
 import org.msh.etbm.commons.forms.FormsService;
-import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceData;
-import org.msh.etbm.services.admin.substances.SubstanceQueryParams;
 import org.msh.etbm.services.admin.substances.SubstanceFormData;
+import org.msh.etbm.services.admin.substances.SubstanceQueryParams;
 import org.msh.etbm.services.admin.substances.SubstanceService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -46,7 +45,7 @@ public class SubstancesREST {
 
     @RequestMapping(value = "/substance/form", method = RequestMethod.POST)
     public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, service, SubstancesREST.class);
+        return formsService.initForm(req, service, SubstanceData.class);
     }
 
     @RequestMapping(value = "/substance", method = RequestMethod.POST)

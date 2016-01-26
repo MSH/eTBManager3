@@ -1,8 +1,5 @@
 package org.msh.etbm.commons.forms;
 
-import org.msh.etbm.commons.forms.FieldInitRequest;
-import org.msh.etbm.commons.forms.FieldInitResponse;
-
 import java.util.List;
 import java.util.UUID;
 

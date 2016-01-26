@@ -56,13 +56,6 @@ function createInitRequest(snapshot, doc) {
 		// doesn't require server init ?
 		const Comp = Form.types[sc.type];
 
-		if (__DEV__) {
-			// check if component was found by the given type
-			if (!Comp) {
-				throw new Error('Type component not found: ' + sc.type);
-			}
-		}
-
 		if (!Comp.isServerInitRequired(sc)) {
 			return;
 		}
@@ -102,6 +95,7 @@ function initDefaultValues(form) {
 			.filter(elem => elem.el === 'field' || !elem.el)
 			.forEach(elem => {
 				const type = Form.types[elem.type];
+
 				const defaultValue = elem.defaultValue || type.defaultValue();
 				if (defaultValue !== undefined) {
 					setValue(doc, elem.property, defaultValue, true);
