@@ -7108,7 +7108,11 @@ button.close {
     margin-right: 5px;
   }
   .card .card-content {
-    padding: 20px 10px;
+    padding: 8px 16px;
+  }
+  div[class*="col-"] {
+    padding-left: 6px;
+    padding-right: 6px;
   }
 }
 .profile {
