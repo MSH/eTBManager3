@@ -1,14 +1,25 @@
 package org.msh.etbm.services.admin.tags;
 
+import java.util.UUID;
+
 /**
  * Created by rmemoria on 6/1/16.
  */
 public class TagData {
+    private UUID id;
     private String name;
     private String sqlCondition;
     private boolean consistencyCheck;
     private boolean active;
     private boolean dailyUpdate;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

@@ -113,6 +113,12 @@ export default function fieldControlWrapper(Component) {
 			const props = Object.assign({}, this.props);
 			delete props.onInit;
 
+			const sc = this.props.schema;
+
+			if (sc && 'visible' in sc && !sc.visible) {
+				return null;
+			}
+
 			return <Component ref="input" {...props} />;
 		}
 

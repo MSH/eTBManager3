@@ -7,7 +7,7 @@ import { setValue, objEqual } from '../commons/utils';
 import createForm from './impl/form-create';
 import createSnapshot from './impl/form-snapshot';
 import fieldControlWrapper from './impl/field-control';
-import initForm from './impl/form-init';
+import { initDefaultValues, initForm } from './impl/form-init';
 
 
 /**
@@ -53,6 +53,8 @@ export default class Form extends React.Component {
 	}
 
 	componentWillMount() {
+		initDefaultValues(this);
+
 		const snapshot = this.updateSnapshot();
 
 		// check if there is any element to set focus on
@@ -191,6 +193,8 @@ Form.typeWrapper = fieldControlWrapper;
 
 import InputControl from './impl/input-control';
 import BoolControl from './impl/bool-control';
+import TextControl from './impl/text-control';
 
 Form.registerType(InputControl);
 Form.registerType(BoolControl);
+Form.registerType(TextControl);

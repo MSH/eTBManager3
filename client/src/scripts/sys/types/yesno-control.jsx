@@ -11,6 +11,11 @@ import Fa from '../../components/fa';
  */
 class YesNoControl extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.onChange = this.onChange.bind(this);
+	}
+
 	static displayText(value) {
 		return value ? __('global.yes') : __('global.no');
 	}
@@ -22,8 +27,8 @@ class YesNoControl extends React.Component {
 	onChange() {
 		if (this.props.onChange) {
 			const s = this.refs.input.getValue();
-			const value = s === '-' ? null : Boolean(s);
-			this.props.onChange({ element: this.props.schema, value: value });
+			const value = s === '-' ? null : s === 'true';
+			this.props.onChange({ schema: this.props.schema, value: value });
 		}
 	}
 

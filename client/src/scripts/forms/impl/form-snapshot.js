@@ -1,5 +1,12 @@
 
 /**
+ * properties to evaluate during spanshot creation
+ */
+const evalProps = [
+	'readOnly', 'visible', 'label', 'required', 'disabled'
+];
+
+/**
  * Create an snapshot of the form, based on the form schema and the document assigned to it.
  * An snapshot is the current status of the schema properties for the document. It is called
  * on the initialization of the form and whenever the document is changed during its editing,
@@ -16,13 +23,18 @@ export default function createSnapshot(schema, doc) {
 			elem,
 			{ id: elem.property ? elem.property + index : 'elem' + index });
 
-		// replace functions by properties
-		for (var key in state) {
-			const val = state[key];
+		// replace functions by properties values
+		evalProps.forEach(prop => {
+			const val = state[prop];
 			if (typeof val === 'function') {
-				const res = val.call(doc ? doc : {});
-				state[key] = res;
+				const res = val.call(doc, doc);
+				state[prop] = res;
 			}
+		});
+
+		// element contains another set of elements ?
+		if (state.layout) {
+			state.layout = createSnapshot(elem, doc);
 		}
 		return state;
 	});

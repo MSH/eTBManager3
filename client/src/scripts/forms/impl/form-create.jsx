@@ -29,7 +29,11 @@ export default function createForm(form) {
 		errors = null;
 	}
 
-	const items = form.state.snapshot.map(elem => {
+	const sslist = [];
+	// create list of components to render
+	getCompList(form.state.snapshot, sslist);
+
+	const items = sslist.map(elem => {
 		const compErrors = elem.property ? propertyErrors(elem.property, errors, handledErrors) : null;
 		const value = elem.el === 'field' ? getValue(form.props.doc, elem.property) : null;
 
@@ -59,6 +63,24 @@ export default function createForm(form) {
 	return lst;
 }
 
+/**
+ * Create an array with all elements including recursivelly all that are inside a group
+ * @param  {[type]} snapshot [description]
+ * @param  {[type]} lst      [description]
+ * @return {[type]}          [description]
+ */
+function getCompList(snapshot, lst) {
+	snapshot.forEach(elem => {
+		if (elem.el === 'group') {
+			if ('visible' in elem && elem.visible) {
+				getCompList(elem.layout, lst);
+			}
+		}
+		else {
+			lst.push(elem);
+		}
+	});
+}
 
 /**
  * Create the component of a given schema

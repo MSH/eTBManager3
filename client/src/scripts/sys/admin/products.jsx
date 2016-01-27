@@ -80,6 +80,10 @@ const editorDef = {
 					required: true,
 					label: __('EntityState.ACTIVE'),
 					size: { sm: 6 }
+				},
+				{
+					el: 'subtitle',
+					label: __('Medicine.components')
 				}
 			],
 			title: doc => doc && doc.id ? __('admin.meds.edt') : __('admin.meds.new')
