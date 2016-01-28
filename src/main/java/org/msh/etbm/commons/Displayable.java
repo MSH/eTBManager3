@@ -6,6 +6,7 @@ package org.msh.etbm.commons;
  *
  * Created by rmemoria on 26/10/15.
  */
+@FunctionalInterface
 public interface Displayable {
 
     /**
