@@ -869,5 +869,6 @@
     "Laboratory.performCulture": "Realiza exames de cultura",
     "Laboratory.performDst": "Realiza TS (testes de sensibilidade)",
     "Laboratory.performMicroscopy": "Realiza exames de baciloscopia",
-    "Laboratory.performXpert": "Realiza testes rápido (Xpert)"
+    "Laboratory.performXpert": "Realiza testes rápido (Xpert)",
+    "admin.users.edt": "Editar usuário"
 }

@@ -194,7 +194,7 @@ export default class CrudView extends React.Component {
 			comp.setState({ newform: null });
 		}
 		else {
-			comp.forceUpdate();
+			comp.updateValues();
 		}
 	}
 
@@ -209,7 +209,7 @@ export default class CrudView extends React.Component {
 
 		// show wait icon
 		item.state = 'fetching';
-		this.forceUpdate();
+		this.updateValues();
 
 		// select the property editor definition
 		const edt = this.props.editorDef;
@@ -226,12 +226,17 @@ export default class CrudView extends React.Component {
 
 			item.state = 'edit';
 			item.context = cntxt;
-			self.forceUpdate();
+			self.updateValues();
 		})
 		.catch(() => {
 			item.state = 'ok';
-			self.forceUpdate();
+			self.updateValues();
 		});
+	}
+
+	updateValues() {
+		const val = this.state.values;
+		this.setState({ values: { count: val.count, list: val.list.slice(0) } });
 	}
 
 	/**

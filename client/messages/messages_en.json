@@ -757,6 +757,7 @@
     "admin.users.confirmnewpass": "A new password will be sent to the user e-mail address. Confirm?",
     "admin.users.delerror1": "A user cannot delete himself from the system",
     "admin.users.new": "New user",
+    "admin.users.edt": "Edit user",
     "admin.users.newpasswd": "Send new password",
     "admin.users.remove": "Remove",
     "admin.users.reqlogin": "Invalid login (it cannot contain spaces and cannot be shorter than 4 characteres)",

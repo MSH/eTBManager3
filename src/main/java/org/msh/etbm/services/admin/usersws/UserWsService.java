@@ -28,11 +28,13 @@ public class UserWsService extends EntityService<UserWorkspace> {
         builder.addProfile(UserWsQueryParams.PROFILE_DETAILED, UserWsDetailedData.class);
 
         // add order by
-        builder.addDefaultOrderByMap(UserWsQueryParams.ORDERBY_NAME, "user.name");
-        builder.addOrderByMap(UserWsQueryParams.ORDERBY_UNIT, "unit.name");
+        builder.addDefaultOrderByMap(UserWsQueryParams.ORDERBY_NAME, "u.name");
+        builder.addOrderByMap(UserWsQueryParams.ORDERBY_UNIT, "u.name");
         builder.addOrderByMap(UserWsQueryParams.ORDERBY_ADMINUNIT, "adminUnit.name");
 
         builder.initialize(params);
+
+        builder.setHqlJoin("join fetch a.user u join fetch a.unit u");
 
         QueryResult<SynchronizableItem> res = builder.createQueryResult();
         return res;

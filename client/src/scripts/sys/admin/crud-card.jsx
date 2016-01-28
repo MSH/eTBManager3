@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card, WaitIcon, Fa, GridTable } from '../../components/index';
+import { objEqual } from '../../commons/utils';
 
 
 /**
@@ -13,9 +14,13 @@ export default class CrudCard extends React.Component {
 		super(props);
 		this.state = {};
 		this.newClick = this.newClick.bind(this);
-//		this.menuClick = this.menuClick.bind(this);
 		this.newMenuClick = this.newMenuClick.bind(this);
 	}
+
+	shouldComponentUpdate(nextProps) {
+		return !objEqual(nextProps, this.props);
+	}
+
 
 	/**
 	 * Called when new is clicked

@@ -3,6 +3,7 @@ package org.msh.etbm.web.api.sys;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.MedicineLine;
+import org.msh.etbm.db.enums.UserState;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -28,7 +29,8 @@ public class GlobalListsService {
     static final public Class[] lists = {
             MedicineLine.class,
             CaseClassification.class,
-            CaseState.class
+            CaseState.class,
+            UserState.class
     };
 
     /**
