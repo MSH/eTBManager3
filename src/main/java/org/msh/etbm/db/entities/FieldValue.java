@@ -42,20 +42,6 @@ public class FieldValue extends WorkspaceEntity {
 	private Integer displayOrder;
 	
 
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof FieldValue))
-			return false;
-		
-		return ((FieldValue)obj).getId().equals(getId());
-	}
 
 	/**
 	 * @return the name

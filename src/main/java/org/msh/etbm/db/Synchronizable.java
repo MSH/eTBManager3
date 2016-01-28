@@ -38,10 +38,14 @@ public class Synchronizable {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
         if (obj == this)
             return true;
 
-        if (!getClass().isAssignableFrom(obj.getClass())) {
+        if (!(obj instanceof Synchronizable)) {
             return false;
         }
 

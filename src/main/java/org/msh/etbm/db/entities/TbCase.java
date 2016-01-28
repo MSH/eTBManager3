@@ -491,18 +491,6 @@ public class TbCase extends WorkspaceEntity {
 	}
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof TbCase))
-			return false;
-		
-		return ((TbCase)obj).getId().equals(getId());
-	}
-
-
 	/**
 	 * Returns the case number in a formated way ready for displaying
 	 * @return

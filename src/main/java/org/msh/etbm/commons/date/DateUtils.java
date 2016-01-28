@@ -4,7 +4,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Set of date and time utilities used throughout the app
+ */
 public class DateUtils {
+
+    /**
+     * Private method to avoid creation of instances of this class
+     */
+    private DateUtils() {
+        super();
+    }
 
 	/**
 	 * Return the number of days between two dates
@@ -149,10 +159,9 @@ public class DateUtils {
 	 * @return
 	 */
 	static public int hoursBetween(Date first, Date second) {
-		 
 		double milliElapsed = second.getTime() - first.getTime();
-		double hoursElapsed = (milliElapsed / 3600F / 1000F);
-		return Math.round((Math.round(hoursElapsed * 100F) / 100F));
+		double hoursElapsed = milliElapsed / 3600F / 1000F;
+		return Math.round(Math.round(hoursElapsed * 100F) / 100F);
 	}
 
 	
@@ -163,7 +172,7 @@ public class DateUtils {
 	 * @return minutes between dtIni and dtEnd
 	 */
 	static public int minutesBetween(Date dtIni, Date dtEnd) {
-		return Math.round(DateUtils.secondsBetween(dtIni, dtEnd) / 60);
+		return DateUtils.secondsBetween(dtIni, dtEnd) / 60;
 	}
 
 	
@@ -188,10 +197,13 @@ public class DateUtils {
 	 * @return
 	 */
 	static public int monthsBetween(Date dt1, Date dt2) {
-		if (dt1.after(dt2)) {
-			Date aux = dt1;
-			dt1 = dt2;
-			dt2 = aux;
+        Date ini = dt1,
+             end = dt2;
+
+		if (ini.after(end)) {
+			Date aux = ini;
+			ini = end;
+			end = ini;
 		}
 
 		Calendar c1 = Calendar.getInstance();
@@ -229,9 +241,8 @@ public class DateUtils {
 		}
 		int num = c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR);
 		
-		if (num > 0) {
-			if (c1.get(Calendar.DAY_OF_YEAR) > c2.get(Calendar.DAY_OF_YEAR))
-				num--;
+        if (num > 0 && c1.get(Calendar.DAY_OF_YEAR) > c2.get(Calendar.DAY_OF_YEAR)) {
+            num--;
 		}
 
 		return num;
@@ -282,6 +293,7 @@ public class DateUtils {
 	 */
 	public static int dayOfWeek(Date dt) {
 		Calendar c = Calendar.getInstance();
+        c.setTime(dt);
 		return c.get(Calendar.DAY_OF_WEEK);
 	}
 
@@ -290,11 +302,13 @@ public class DateUtils {
 	 * Calculate the day of the month according to the month, year, week in the month and weekday
 	 * @param year
 	 * @param month
-	 * @param week
+	 * @param aweek
 	 * @param weekday - 1 is the first day of the week and 7 is the last day of the week
 	 * @return
 	 */
-	public static int calcMonthDay(int year, int month, int week, int weekday) {
+	public static int calcMonthDay(int year, int month, int aweek, int weekday) {
+        int week = aweek;
+
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.YEAR, year);
 		c.set(Calendar.MONTH, month);
@@ -390,28 +404,7 @@ public class DateUtils {
 			return false;
 
 		Calendar c = Calendar.getInstance();
-		return (c.get(Calendar.HOUR) > 0) || (c.get(Calendar.MINUTE) > 0) | (c.get(Calendar.SECOND) > 0) || (c.get(Calendar.MILLISECOND) > 0);
+		return (c.get(Calendar.HOUR) > 0) || (c.get(Calendar.MINUTE) > 0) || (c.get(Calendar.SECOND) > 0) || (c.get(Calendar.MILLISECOND) > 0);
 	}
-	
-	/**
-	 * Returns a string formating the date on the format of a locale
-	 * @param dt
-	 * @param includeTime
-	 * @return
-	 */
-/*
-	public static String formatAsLocale(Date dt, boolean includeTime) {
-		if(dt==null)
-			return "";
-		
-		String patt = Messages.instance().get("locale.outputDatePattern");
-		if (includeTime)
-			patt += " HH:mm:ss";
-		Locale locale = LocaleSelector.instance().getLocale();
-		SimpleDateFormat df = new SimpleDateFormat(patt, locale);
-		
-		return df.format(dt);
-	}
-*/
 
 }

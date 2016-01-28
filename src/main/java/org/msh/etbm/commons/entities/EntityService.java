@@ -43,7 +43,7 @@ public abstract class EntityService<E extends Synchronizable> {
     /**
      * For operation log
      */
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final static Logger LOG = LoggerFactory.getLogger(EntityService.class);
 
     @Autowired
     ApplicationContext applicationContext;
@@ -129,44 +129,6 @@ public abstract class EntityService<E extends Synchronizable> {
         return new BeanPropertyBindingResult(entity, getEntityClass().getSimpleName());
     }
 
-
-    /**
-     * Create a new entity based on the given values
-     * @param req list of all values in the format field x value
-     * @return the primary key generated for the entity
-     */
-//    @Transactional
-//    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
-//    public ServiceResult create(@Valid @NotNull Object req) {
-//        E entity = createEntityInstance(req);
-//
-//        mapRequest(req, entity);
-//
-//        // generate the result object to be sent to the client
-//        ServiceResult res = createResult(entity);
-//
-//        MessageList msgs = res.getValidationErrors();
-//
-//        try {
-//            // prepare entity to be saved
-//            prepareToSave(entity, msgs);
-//        } catch (EntityValidationException e) {
-//            msgs.add(e.getField(), e.getMessage());
-//        }
-//
-//        // any error during preparation ?
-//        if (msgs.size() > 0) {
-//            return res;
-//        }
-//
-//        // save the entity
-//        saveEntity(entity);
-//        res.setId( entity.getId() );
-//
-//        res.setLogValues(createValuesToLog(entity, Operation.NEW));
-//
-//        return res;
-//    }
 
     /**
      * Raise entity not found exception passing the ID of the entity
@@ -285,7 +247,7 @@ public abstract class EntityService<E extends Synchronizable> {
                 qry.setParameter(f, val);
             }
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -513,7 +475,7 @@ public abstract class EntityService<E extends Synchronizable> {
         try {
             return clazz.newInstance();
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
