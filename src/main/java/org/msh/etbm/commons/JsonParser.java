@@ -2,6 +2,8 @@ package org.msh.etbm.commons;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.InputStream;
@@ -10,6 +12,8 @@ import java.io.InputStream;
  * Created by rmemoria on 2/9/15.
  */
 public class JsonParser {
+
+    private final static Logger log = LoggerFactory.getLogger(JsonParser.class);
 
     /**
      * Read a json file from the application resources and convert it to a given Java type
@@ -26,6 +30,7 @@ public class JsonParser {
             return mapper.readValue(in, type);
         }
         catch (Exception e) {
+            log. error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -42,7 +47,7 @@ public class JsonParser {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            log. error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

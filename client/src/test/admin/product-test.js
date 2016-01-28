@@ -46,7 +46,7 @@ var products = exports.products = [
 	{
 		name: u('Cat III patient kit'),
 		shortName: u('CAT III KIT')
-	},
+	}
 ];
 
 
@@ -74,7 +74,7 @@ describe('medicines', () => {
 		profiles: {
 			item: ['id', 'name', 'type'],
 			default: ['id', 'type', 'name', 'shortName', 'active', 'line', 'category'],
-			detailed: ['id', 'type', 'name', 'shortName', 'active', 'line', 'category', 'substances'],
+			detailed: ['id', 'type', 'name', 'shortName', 'active', 'line', 'category', 'substances']
 		},
 		/** The base attributes to be included in every query */
 		baseQuery: {
@@ -90,7 +90,6 @@ describe('medicines', () => {
 		}
 	});
 });
-
 
 
 /**

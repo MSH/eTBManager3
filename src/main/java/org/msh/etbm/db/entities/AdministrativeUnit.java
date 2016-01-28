@@ -23,7 +23,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	
 	@OneToMany(mappedBy="parent",fetch= FetchType.LAZY)
 	@OrderBy("NAME")
-	private List<AdministrativeUnit> units = new ArrayList<AdministrativeUnit>();
+	private List<AdministrativeUnit> units = new ArrayList<>();
 
 	@Column(length=50)
 	@PropertyLog(messageKey="form.customId")
@@ -56,10 +56,10 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 * @return
 	 */
 	public String getFullDisplayName() {
-		String s = getName().toString();
+		String s = getName();
 
 		for (AdministrativeUnit adm: getParentsTreeList(false)) {
-			s += ", " + adm.getName().toString();
+			s += ", " + adm.getName();
 		}
 		
 		return s;
@@ -74,9 +74,9 @@ public class AdministrativeUnit extends WorkspaceEntity {
 
 		for (AdministrativeUnit adm: getParentsTreeList(true)) {
 			if(s == null)
-				s = adm.getName().toString();
+				s = adm.getName();
 			else
-				s += ", " + adm.getName().toString();
+				s += ", " + adm.getName();
 		}
 		
 		return s;
@@ -88,7 +88,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 * @return {@link List} of {@link AdministrativeUnit} instances
 	 */
 	public List<AdministrativeUnit> getParentsTreeList(boolean includeThis) {
-		ArrayList<AdministrativeUnit> lst = new ArrayList<AdministrativeUnit>();
+		ArrayList<AdministrativeUnit> lst = new ArrayList<>();
 
 		AdministrativeUnit aux;
 		if (includeThis)
@@ -141,7 +141,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
 		int len = parentCode.length();
 		if (len > code.length())
 			return false;
-		return (parentCode.equals(code.substring(0, parentCode.length())));
+		return parentCode.equals(code.substring(0, parentCode.length()));
 	}
 
 
@@ -278,20 +278,6 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 */
 	public void setUnitsCount(int unitsCount) {
 		this.unitsCount = unitsCount;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof AdministrativeUnit))
-			return false;
-		
-		return ((AdministrativeUnit)obj).getId().equals(getId());
 	}
 
 	/**

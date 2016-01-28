@@ -52,18 +52,7 @@ public class UserWorkspace extends WorkspaceEntity {
     
     private boolean playOtherUnits;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof UserWorkspace))
-			return false;
 
-		return ((UserWorkspace)obj).getId().equals(getId());
-	}
-
-	
 	/**
 	 * Return the text to be displayed according to the view
 	 * @return

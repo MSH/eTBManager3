@@ -108,20 +108,6 @@ public class User implements Displayable {
 		return state == UserState.PASSWD_EXPIRED;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) 
-			return true;
-		
-		if (!(obj instanceof User))
-			return false;
-		
-		return ((User)obj).getId().equals(getId());
-	}
-
 
 	/**
 	 * Search the user workspace by the workspace

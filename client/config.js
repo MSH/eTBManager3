@@ -4,7 +4,6 @@
  * @author Ricardo Memoria
  * aug-2015
  */
-'use strict';
 
 module.exports = {
 
@@ -22,7 +21,9 @@ module.exports = {
      * Languages used in the client side
      */
     languages: {
-        dev:  ['en', 'pt_BR'],  // just two languages in dev, to speed-up refreshes
+        // just two languages in dev, to speed-up refreshes
+        dev:  ['en', 'pt_BR'],
+        // all languages available in production mode
         prod: ['en', 'pt_BR', 'uk', 'ru']
     },
 
@@ -64,7 +65,8 @@ module.exports = {
          * This is the webpack server, that will provide js compiled code during development
          */
         webpack: {
-            port: 8090, // must be informed twice because it is used in 2 different points
+            // must be informed twice because it is used in 2 different parts of the configuration
+            port: 8090,
             url: 'http://localhost:8090',
             path: '/scripts/*'
         }

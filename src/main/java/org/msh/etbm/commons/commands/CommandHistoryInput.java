@@ -5,6 +5,8 @@ import org.msh.etbm.commons.commands.data.DiffLogData;
 import org.msh.etbm.commons.commands.data.ListLogData;
 import org.msh.etbm.commons.commands.data.TextLogData;
 import org.msh.etbm.commons.commands.impl.CommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -14,6 +16,12 @@ import java.util.UUID;
  * Created by rmemoria on 17/10/15.
  */
 public class CommandHistoryInput {
+
+    /**
+     * For operation log
+     */
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     /**
      * The method source that generated the command
      */
@@ -107,11 +115,8 @@ public class CommandHistoryInput {
         else {
             try {
                 data = (CommandData)clazz.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-                throw new CommandException(e);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                log.error("Not possible to create an instance of " + data.getClass(), e);
                 throw new CommandException(e);
             }
         }

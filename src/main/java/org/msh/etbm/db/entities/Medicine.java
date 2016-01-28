@@ -23,22 +23,10 @@ public class Medicine extends Product {
 	private MedicineLine line;
 
 	@OneToMany(mappedBy="medicine", cascade={CascadeType.ALL})
-	private List<MedicineComponent> components = new ArrayList<MedicineComponent>();
+	private List<MedicineComponent> components = new ArrayList<>();
 
 	public String getTbInfoKey() {
 		return line != null? line.getKey(): null;
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) 
-			return true;
-		
-		if (!(obj instanceof Medicine))
-			return false;
-		
-		return ((Medicine)obj).getId().equals(getId());
 	}
 
 

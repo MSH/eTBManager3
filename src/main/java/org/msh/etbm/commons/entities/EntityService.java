@@ -16,6 +16,8 @@ import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserRequestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,11 @@ import java.util.UUID;
  * Created by rmemoria on 17/10/15.
  */
 public abstract class EntityService<E extends Synchronizable> {
+
+    /**
+     * For operation log
+     */
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     ApplicationContext applicationContext;
@@ -218,54 +225,6 @@ public abstract class EntityService<E extends Synchronizable> {
         res.setLogDiffs(diffs);
 
         return res;
-/*
-        R rep = getCrudRepository();
-
-        E entity = (E)getCrudRepository().findOne(id);
-
-        if (entity == null) {
-            raiseEntityNotFoundException(id);
-        }
-
-        // get initial state
-        ObjectValues prevVals = createValuesToLog(entity, Operation.EDIT);
-
-        // set the values to the entity
-        mapRequest(req, entity);
-
-        // create diff list
-        ObjectValues newVals = createValuesToLog(entity, Operation.EDIT);
-        Diffs diffs = createDiffs(prevVals, newVals);
-
-        // is there anything to save?
-        if (diffs.getValues().size() == 0) {
-            return createResult(entity);
-        }
-
-        // create result object
-        ServiceResult res = createResult(entity);
-        MessageList msgs = res.getValidationErrors();
-
-        try {
-            // validate new values
-            prepareToSave(entity, msgs);
-        }
-        catch (EntityValidationException e) {
-            msgs.add(e.getField(), e.getMessage());
-        }
-
-        if (res.getValidationErrors().size() > 0) {
-            return res;
-        }
-
-        // save the entity
-        saveEntity(entity);
-
-        // generate the result
-        res.setLogDiffs(diffs);
-
-        return res;
-         */
     }
 
     @Transactional
@@ -278,7 +237,6 @@ public abstract class EntityService<E extends Synchronizable> {
 
         // create result to be sent back to the client
         ServiceResult res = createResult(entity);
-//        MessageList msgs = res.getValidationErrors();
 
         BindingResult bindingResult = createBindingResult(entity);
         // prepare entity to be deleted
@@ -303,7 +261,7 @@ public abstract class EntityService<E extends Synchronizable> {
     protected boolean checkUnique(E entity, String field) {
         String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid ";
 
-        String fields[] = field.split(",");
+        String[] fields = field.split(",");
         for (String f: fields) {
             hql += " and " + f + " = :" + f;
         }
@@ -327,7 +285,7 @@ public abstract class EntityService<E extends Synchronizable> {
                 qry.setParameter(f, val);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -504,7 +462,6 @@ public abstract class EntityService<E extends Synchronizable> {
      * @param bindingResult
      */
     protected void checkWorkspace(E entity, BindingResult bindingResult) {
-//        E entity = (E)bindingResult.getTarget();
         if (!(entity instanceof WorkspaceEntity)) {
             return;
         }
@@ -555,11 +512,8 @@ public abstract class EntityService<E extends Synchronizable> {
         Class<E> clazz = getEntityClass();
         try {
             return clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

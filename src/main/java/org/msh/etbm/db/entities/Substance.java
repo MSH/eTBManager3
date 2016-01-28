@@ -38,17 +38,6 @@ public class Substance extends WorkspaceEntity {
 	@PropertyLog(messageKey="form.customId")
 	private String customId;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) 
-			return true;
-		
-		if (!(obj instanceof Substance))
-			return false;
-		
-		return ((Substance)obj).getId().equals(getId());
-	}
-
 	public void setLine(MedicineLine line) {
 		this.line = line;
 	}

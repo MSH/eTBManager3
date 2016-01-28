@@ -12,9 +12,7 @@ public class DateUtils {
 	 * @param b ending date
 	 * @return number of days
 	 */
-	public static int daysBetween(Date a, Date b)
-	{
-		int tempDifference = 0;
+	public static int daysBetween(Date a, Date b) {
 	    int difference = 0;
 	    Calendar earlier = Calendar.getInstance();
 	    Calendar later = Calendar.getInstance();
@@ -32,7 +30,7 @@ public class DateUtils {
 		 
 		while (earlier.get(Calendar.YEAR) != later.get(Calendar.YEAR))
 		{
-		    tempDifference = 365 * (later.get(Calendar.YEAR) - earlier.get(Calendar.YEAR));
+            int tempDifference = 365 * (later.get(Calendar.YEAR) - earlier.get(Calendar.YEAR));
 		    difference += tempDifference;
 		 
 		    earlier.add(Calendar.DAY_OF_YEAR, tempDifference);
@@ -40,7 +38,7 @@ public class DateUtils {
 		 
 		if (earlier.get(Calendar.DAY_OF_YEAR) != later.get(Calendar.DAY_OF_YEAR))
 		{
-		    tempDifference = later.get(Calendar.DAY_OF_YEAR) - earlier.get(Calendar.DAY_OF_YEAR);
+            int tempDifference = later.get(Calendar.DAY_OF_YEAR) - earlier.get(Calendar.DAY_OF_YEAR);
 		    difference += tempDifference;
 		 
 		    earlier.add(Calendar.DAY_OF_YEAR, tempDifference);
