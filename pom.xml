@@ -23,7 +23,7 @@
     <properties>
         <java.version>1.8</java.version>
         <mainClass>org.msh.etbm.Application</mainClass>
-        <sonar.sources>client,src/main/java,src/test/java</sonar.sources>
+        <sonar.sources>client,src/main/java</sonar.sources>
     </properties>
 
     <scm>
