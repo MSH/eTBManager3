@@ -1,8 +1,8 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.ObjectValues;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -73,21 +73,6 @@ public class PropertyLogUtils {
 
 
     /**
-     * Return the field value
-     * @param obj
-     * @param field
-     * @return
-     */
-    protected Object getFieldValue(Object obj, Field field) {
-        try {
-            return PropertyUtils.getProperty(obj, field.getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
      * Return the message key to log the field value
      * @param field
      * @return
@@ -119,7 +104,7 @@ public class PropertyLogUtils {
             return;
         }
 
-        Object val = getFieldValue(obj, field);
+        Object val = ObjectUtils.getProperty(obj, field.getName());
 
         if (val == null) {
             return;

@@ -11,7 +11,10 @@ import org.msh.etbm.db.enums.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -90,11 +93,11 @@ public class TbCase extends WorkspaceEntity {
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
 	@PropertyLog(ignore=true)
-	private List<TreatmentHealthUnit> healthUnits = new ArrayList<TreatmentHealthUnit>();
+	private List<TreatmentHealthUnit> healthUnits = new ArrayList<>();
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
 	@PropertyLog(ignore=true)
-	private List<PrescribedMedicine> prescribedMedicines = new ArrayList<PrescribedMedicine>();
+	private List<PrescribedMedicine> prescribedMedicines = new ArrayList<>();
 
 	@NotNull
 	private CaseState state;
@@ -181,7 +184,6 @@ public class TbCase extends WorkspaceEntity {
 		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="NOTIF_ADMINUNIT_ID"))
 	})
 	@PropertyLog(messageKey="cases.details.addressnotif", operations={Operation.NEW})
-//	@InnerValidation
 	private Address notifAddress;
 	
 	@Embedded
@@ -195,7 +197,6 @@ public class TbCase extends WorkspaceEntity {
 		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="CURR_ADMINUNIT_ID"))
 	})
 	@PropertyLog(messageKey="cases.details.addresscurr")
-//	@InnerValidation
 	private Address currentAddress;
 
     @Column(name="NOTIF_LOCALITYTYPE")
@@ -211,40 +212,40 @@ public class TbCase extends WorkspaceEntity {
 	private String mobileNumber;
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<CaseSideEffect> sideEffects = new ArrayList<CaseSideEffect>();
+	private List<CaseSideEffect> sideEffects = new ArrayList<>();
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<CaseComorbidity> comorbidities = new ArrayList<CaseComorbidity>();
+	private List<CaseComorbidity> comorbidities = new ArrayList<>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
 	@OrderBy("date desc")
-	private List<MedicalExamination> examinations = new ArrayList<MedicalExamination>();
+	private List<MedicalExamination> examinations = new ArrayList<>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<ExamXRay> resXRay = new ArrayList<ExamXRay>();
+	private List<ExamXRay> resXRay = new ArrayList<>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<TbContact> contacts = new ArrayList<TbContact>();
+	private List<TbContact> contacts = new ArrayList<>();
 	
 	@OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<TreatmentMonitoring>();
+	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 	
 
 	/* EXAMS */
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<ExamHIV> resHIV = new ArrayList<ExamHIV>();
+	private List<ExamHIV> resHIV = new ArrayList<>();
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<ExamCulture> examsCulture = new ArrayList<ExamCulture>();
+	private List<ExamCulture> examsCulture = new ArrayList<>();
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<ExamMicroscopy>();
+	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-	private List<ExamDST> examsDST = new ArrayList<ExamDST>();
+	private List<ExamDST> examsDST = new ArrayList<>();
 
     @OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
-    private List<ExamXpert> examsXpert = new ArrayList<ExamXpert>();
+    private List<ExamXpert> examsXpert = new ArrayList<>();
 
     @PropertyLog(operations={Operation.NEW, Operation.DELETE})
     private SecDrugsReceived secDrugsReceived;
@@ -285,24 +286,8 @@ public class TbCase extends WorkspaceEntity {
 	@JoinTable(name="tags_case",
 			joinColumns={@JoinColumn(name="CASE_ID")},
 			inverseJoinColumns={@JoinColumn(name="TAG_ID")})
-	private List<Tag> tags = new ArrayList<Tag>();
+	private List<Tag> tags = new ArrayList<>();
 
-
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-/*
-	@Override
-	public String toString() {
-		String s = getPatient().getFullName();
-		String num = getDisplayCaseNumber();
-		if (num != null)
-			s = "(" + num + ") " + s;
-
-		return s;
-	}
-*/
 
 
 	/**
@@ -316,54 +301,9 @@ public class TbCase extends WorkspaceEntity {
 		if ((regimen == null) || (regimenIni == null))
 			return true;
 		
-		return (regimen.getId().equals(regimenIni.getId()));
+		return regimen.getId().equals(regimenIni.getId());
 	}
 
-
-	/**
-	 * Update number of days of treatment planned for the patient
-	 */
-/*
-	public void updateDaysTreatPlanned() {
-		Date dt = getTreatmentPeriod().getIniDate();
-		Date dtend = getTreatmentPeriod().getEndDate();
-		
-		int num = 0;
-		while (!dt.after(dtend)) {
-			if (isDayPrescription(dt))
-				num++;
-			dt = DateUtils.incDays(dt, 1);
-		}
-
-		daysTreatPlanned = num;
-	}
-*/
-
-
-	/**
-	 * Returns if the date dt is a day of medicine prescription
-	 * @param dt - Date
-	 * @return true - if it's a day of medicine prescription
-	 */
-/*
-	public boolean isDayPrescription(Date dt) {
-		if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty()))
-			return false;
-		
-		if (!treatmentPeriod.isDateInside(dt))
-			return false;
-
-		for (PrescribedMedicine pm: getPrescribedMedicines()) {
-			if (pm.getPeriod().isDateInside(dt)) {
-				WeeklyFrequency wf = pm.getWeeklyFrequency();
-				if (wf.isDateSet(dt))
-					return true;
-			}
-		}
-		
-		return false;
-	}
-*/
 
 	/**
 	 * Return number of month of treatment based on the date 
@@ -378,9 +318,7 @@ public class TbCase extends WorkspaceEntity {
 		if ((dtTreat == null) || (date.before(dtTreat)))
 			return -1;
 
-		int num = DateUtils.monthsBetween(date, dtTreat) + 1;
-
-		return num;
+		return DateUtils.monthsBetween(date, dtTreat) + 1;
 	}
 	
 
@@ -390,12 +328,8 @@ public class TbCase extends WorkspaceEntity {
 	 */
 	public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
 		// sort the periods
-		Collections.sort(healthUnits, new Comparator<TreatmentHealthUnit>() {
-			public int compare(TreatmentHealthUnit o1, TreatmentHealthUnit o2) {
-				return o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate());
-			}
-		});
-		
+        Collections.sort(healthUnits, (o1, o2) -> o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate()));
+
 		return healthUnits;
 	}
 	
@@ -406,13 +340,10 @@ public class TbCase extends WorkspaceEntity {
 	 */
 	public List<PrescribedMedicine> getSortedPrescribedMedicines() {
 		// sort the periods
-		Collections.sort(prescribedMedicines, new Comparator<PrescribedMedicine>() {
-			public int compare(PrescribedMedicine pm1, PrescribedMedicine pm2) {
-				int val = pm1.getProduct().getShortName().compareTo(pm2.getProduct().getShortName());
-
-				return (val != 0 ? val : pm1.getPeriod().getIniDate().compareTo(pm2.getPeriod().getEndDate()));
-			}
-		});
+		Collections.sort(prescribedMedicines, (pm1, pm2) -> {
+            int val = pm1.getProduct().getShortName().compareTo(pm2.getProduct().getShortName());
+            return val != 0 ? val : pm1.getPeriod().getIniDate().compareTo(pm2.getPeriod().getEndDate());
+        });
 		
 		return prescribedMedicines;
 	}
@@ -492,43 +423,6 @@ public class TbCase extends WorkspaceEntity {
 
 
 	/**
-	 * Returns the case number in a formated way ready for displaying
-	 * @return
-	 */
-/*
-	public String getDisplayCaseNumber() {
-		Workspace ws = (patient != null? patient.getWorkspace() : null);
-
-		if (ws == null)
-			return id != null? id.toString(): "null";
-
-		DisplayCaseNumber dcn;
-		if (diagnosisType == DiagnosisType.SUSPECT)
-			 dcn = ws.getSuspectCaseNumber();
-		else dcn = ws.getConfirmedCaseNumber();
-
-		switch (dcn) {
-		case USER_DEFINED: {
-			String code;
-			if (diagnosisType == DiagnosisType.SUSPECT)
-				 code = suspectRegistrationCode;
-			else code = registrationCode;
-			if ((code == null) || (code.isEmpty()))
-				code = Messages.instance().get("cases.nonumber");
-			return code;
-		}
-		case VALIDATION_NUMBER:
-			if ((getCaseNumber() == null) || (getValidationState() == ValidationState.WAITING_VALIDATION))
-				 return Messages.instance().get("cases.nonumber");
-			else return formatCaseNumber(patient.getRecordNumber(), caseNumber);
-		default:
-			return id != null? id.toString(): Messages.instance().get("cases.nonumber");
-		}
-	}
-*/
-
-
-	/**
 	 * Formats the case number to be displayed to the user
 	 * @param patientNumber - patient record number
 	 * @param caseNumber - case number associated to the patient
@@ -549,7 +443,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @return
 	 */
 	public boolean isOpen() {
-		return (state != null ? state.ordinal() <=  CaseState.TRANSFERRING.ordinal() : false);
+		return state != null ? state.ordinal() <=  CaseState.TRANSFERRING.ordinal() : false;
 	}
 
 
@@ -749,15 +643,6 @@ public class TbCase extends WorkspaceEntity {
         return diagnosisDate;
     }
 
-/*
-    public String getDiagnosisDateFormated() {
-        return DateUtils.formatAsLocale(diagnosisDate, false);
-    }
-
-    public String getRegistrationDateFormated() {
-        return DateUtils.formatAsLocale(registrationDate, false);
-    }
-*/
 
 	public void setDiagnosisDate(Date diagnosisDate) {
 		this.diagnosisDate = diagnosisDate;
@@ -1231,48 +1116,6 @@ public class TbCase extends WorkspaceEntity {
 		this.regimenIni = regimenIni;
 	}
 	
-	/**
-	 * @return the evolution of the case
-	 */
-//	public String getCaseEvolution() {
-//		MedicalExamination lastExam = null;
-//
-//		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
-//			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
-//
-//			if(lastExam != null){
-//				ClinicalEvolution eval = lastExam.getClinicalEvolution(); // for some old cases may be null AK 26/05/2012
-//					if (eval != null)
-//						return lastExam.getClinicalEvolution().getKey();
-//			}
-//
-//		}
-//
-//		return "";
-//	}
-	
-	/**
-	 * @return the name of the sepervision unit
-	 */
-//	public String getSupervisionUnitName() {
-//
-//		MedicalExamination lastExam = null;
-//
-//		if(this.getExaminations() != null && this.getExaminations().size() > 1){//If there is only one examination, the field clinical evolution doesn't make sense
-//			lastExam = this.getExaminations().get(0); //the list is selected ordered by exam.event_date desc look at the annotation in TbCase
-//		}
-//
-//		if(lastExam != null
-//				&& lastExam.getSupervisedTreatment() != null
-//				&& lastExam.getSupervisedTreatment().equals(YesNoType.YES)
-//				&& lastExam.getSupervisionUnitName() != null){
-//
-//			return lastExam.getSupervisionUnitName();
-//		}
-//
-//		return "";
-//	}
-
 
 	/**
 	 * @return the suspectRegistrationCode

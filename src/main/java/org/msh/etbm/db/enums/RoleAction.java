@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.transactionlog;
+package org.msh.etbm.db.enums;
 
 /**
  * Actions available for each role

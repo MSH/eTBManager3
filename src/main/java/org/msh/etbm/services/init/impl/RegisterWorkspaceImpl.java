@@ -70,7 +70,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
-    private List<UserRole> roles;
 
     /**
      * Register a new workspace during the initialization process
@@ -78,6 +77,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      */
     @Transactional
     @CommandLog(type = "init.regworkspace", handler = RegisterWorkspaceLog.class)
+    @Override
     public UUID run(@Valid @NotNull RegisterWorkspaceRequest form) {
         // check if workspace is alread initialized
         Long count = workspaceRepository.count();
@@ -124,7 +124,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         // get TB unit
         List<Unit> units = unitRepository.findByNameAndWorkspaceId(templ.getUnitName(), template.getWorkspace().getId());
-        if (units.size() == 0) {
+        if (units.isEmpty()) {
             throw new RuntimeException("No unit found with name " + templ.getUnitName());
         }
         Unit unit = units.get(0);
@@ -138,8 +138,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         // get administrative unit
         if (templ.getAdminUnitName() != null) {
-            List<AdministrativeUnit> admunits = adminUnitRepository
-                    .findByNameAndWorkspaceId(templ.getAdminUnitName(), template.getWorkspace().getId());
             AdministrativeUnit au = adminUnits.get(0);
             uw.setAdminUnit(au);
         }
@@ -173,7 +171,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         ws.setName(form.getWorkspaceName());
 
         entityManager.persist(ws);
-//        workspaceRepository.save(ws);
 
         WorkspaceLog wslog = new WorkspaceLog();
         wslog.setId(ws.getId());
@@ -230,7 +227,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
                 au.setParent(p);
                 p.setUnitsCount(p.getUnitsCount() + 1);
                 p.getUnits().add(au);
-                au.setCode( p.getCode() + format.format(p.getUnitsCount() + 1));
+                au.setCode( p.getCode() + format.format(p.getUnitsCount() + 1L));
             }
             else {
                 au.setCode( format.format(rootCount));
@@ -283,8 +280,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      * Create the user profiles
      */
     private void createProfiles() {
-        List<Permission> lst = permissions.getList();
-
         for (UserProfileTemplate t: template.getProfiles()) {
             UserProfile u = new UserProfile();
             u.setName(t.getName());
@@ -316,16 +311,14 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     /**
      * Create the permissions of the user profile
      * @param profile
-     * @param roleName
+     * @param permName
      */
-    private void createPermission(UserProfile profile, String roleName) {
+    private void createPermission(UserProfile profile, String permName) {
         // create new permission
         UserPermission perm = new UserPermission();
 
-        boolean canChange = roleName.startsWith("+");
-        if (canChange) {
-            roleName = roleName.substring(1);
-        }
+        boolean canChange = permName.startsWith("+");
+        String roleName = canChange ? permName.substring(1) : permName;
 
         Permission appPerm = permissions.find(roleName);
         if (appPerm == null) {

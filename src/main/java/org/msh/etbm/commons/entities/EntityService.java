@@ -16,8 +16,6 @@ import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserRequestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,11 +37,6 @@ import java.util.UUID;
  * Created by rmemoria on 17/10/15.
  */
 public abstract class EntityService<E extends Synchronizable> {
-
-    /**
-     * For operation log
-     */
-    private final static Logger LOG = LoggerFactory.getLogger(EntityService.class);
 
     @Autowired
     ApplicationContext applicationContext;

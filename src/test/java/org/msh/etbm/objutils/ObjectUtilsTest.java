@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.objutils.ObjectAccessException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test ObjectUtils class

@@ -148,14 +148,9 @@ public class SystemInfoService {
             resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
             while (resEnum.hasMoreElements()) {
                 URL url = (URL)resEnum.nextElement();
-                // is the app manifest file?
-                if (url.toString().equals(appManifestFileName)) {
-                    // open the manifest
-                    InputStream is = url.openStream();
-                    if (is != null) {
-                        // read the manifest and return it to the application
-                        return new Manifest(is);
-                    }
+                Manifest man = checkAppManifest(url, appManifestFileName);
+                if (man != null) {
+                    return man;
                 }
             }
         } catch (IOException e1) {
@@ -164,4 +159,22 @@ public class SystemInfoService {
         return null;
     }
 
+    /**
+     * Check if the URL points to the application manifest file
+     * @param url
+     * @param appManifestFileName
+     * @return
+     */
+    private Manifest checkAppManifest(URL url, String appManifestFileName) throws IOException {
+        // is the app manifest file?
+        if (url.toString().equals(appManifestFileName)) {
+            // open the manifest
+            InputStream is = url.openStream();
+            if (is != null) {
+                // read the manifest and return it to the application
+                return new Manifest(is);
+            }
+        }
+        return null;
+    }
 }
