@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.entities.impl;
+package org.msh.etbm.commons.entities;
 
 import org.dozer.CustomConverter;
 import org.msh.etbm.db.Synchronizable;

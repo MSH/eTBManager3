@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.UUID;
@@ -93,7 +94,7 @@ public class LoginService {
                     .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
-            if (lst.size() == 0)
+            if (lst.isEmpty())
                 return null;
 
             User user = lst.get(0);
@@ -114,7 +115,7 @@ public class LoginService {
                     .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
-            if (lst.size() == 0)
+            if (lst.isEmpty())
                 return null;
 
             return lst.get(0);
@@ -131,14 +132,13 @@ public class LoginService {
         if (user.getDefaultWorkspace() != null)
             return user.getDefaultWorkspace();
 
-        try {
-            return (UserWorkspace)entityManager.createQuery("from UserWorkspace where id = (select min(id) " +
-                    "from UserWorkspace aux where aux.user.id = :userid)")
-                    .setParameter("userid", user.getId())
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
+        List<UserWorkspace> lst = entityManager.createQuery("from UserWorkspace where id = (select min(id) " +
+                "from UserWorkspace aux where aux.user.id = :userid)")
+                .setParameter("userid", user.getId())
+                .setMaxResults(1)
+                .getResultList();
+
+        return lst.isEmpty() ? null : lst.get(0);
     }
 
 }

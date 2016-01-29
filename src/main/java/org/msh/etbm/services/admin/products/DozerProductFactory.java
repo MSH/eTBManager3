@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.products;
 
 import org.dozer.BeanFactory;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 
@@ -29,22 +30,8 @@ public class DozerProductFactory implements BeanFactory {
 
         boolean isMed = source instanceof Medicine;
 
-        Class clazz;
-        try {
-            clazz = Class.forName(s);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        Object obj = createInstance(clazz);
-
-//        // target is a product item ?
-//        if (obj instanceof ProductItem) {
-//            ProductItem item = (ProductItem)obj;
-//            item.setMedicine(isMed);
-//            return item;
-//        }
+        Class clazz = ObjectUtils.forClass(s);
+        Object obj = ObjectUtils.newInstance(clazz);
 
         // target is a request?
         if (clazz == ProductRequest.class) {
@@ -54,22 +41,5 @@ public class DozerProductFactory implements BeanFactory {
         }
 
         return null;
-    }
-
-    /**
-     * Create a new instance of the given class without worrying about exceptions
-     * @param clazz the class to create an instance of
-     * @return instance of the given class
-     */
-    protected <E> E createInstance(Class<E> clazz) {
-        try {
-            return (E)clazz.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
     }
 }

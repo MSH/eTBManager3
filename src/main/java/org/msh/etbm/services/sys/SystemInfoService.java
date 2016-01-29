@@ -91,7 +91,7 @@ public class SystemInfoService {
      */
     protected List<Item<String>> getLanguages() {
         // create the list of languages
-        List<Item<String>> lst = new ArrayList<Item<String>>();
+        List<Item<String>> lst = new ArrayList<>();
         for (String lang: languages) {
             Locale loc;
             String[] opts = lang.split("_");
@@ -147,21 +147,15 @@ public class SystemInfoService {
             // get a list of all manifest files found in the jars loaded by the app
             resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
             while (resEnum.hasMoreElements()) {
-                try {
-                    URL url = (URL)resEnum.nextElement();
-                    // is the app manifest file?
-                    if (url.toString().equals(appManifestFileName)) {
-                        // open the manifest
-                        InputStream is = url.openStream();
-                        if (is != null) {
-                            // read the manifest and return it to the application
-                            Manifest manifest = new Manifest(is);
-                            return manifest;
-                        }
+                URL url = (URL)resEnum.nextElement();
+                // is the app manifest file?
+                if (url.toString().equals(appManifestFileName)) {
+                    // open the manifest
+                    InputStream is = url.openStream();
+                    if (is != null) {
+                        // read the manifest and return it to the application
+                        return new Manifest(is);
                     }
-                }
-                catch (Exception e) {
-                    // Silently ignore wrong manifests on classpath?
                 }
             }
         } catch (IOException e1) {

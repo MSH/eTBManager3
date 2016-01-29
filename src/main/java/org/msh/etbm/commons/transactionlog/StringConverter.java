@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.transactionlog;
 
+import org.msh.etbm.commons.objutils.ObjectUtils;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,8 +10,15 @@ import java.util.Date;
 
 public class StringConverter {
 
+    /**
+     * Just to avoid creation of this class with just static methods
+     */
+    private StringConverter() {
+        super();
+    }
+
 	public static String intToString(Integer val) {
-		return (val == null? "": val.toString());
+		return val == null? "": val.toString();
 	}
 	
 	public static String floatToString(Double val) {
@@ -24,7 +33,7 @@ public class StringConverter {
 	
 	
 	public static String longToString(Long val) {
-		return (val == null? "": val.toString());
+		return val == null? "": val.toString();
 	}
 	
 	/**
@@ -50,7 +59,7 @@ public class StringConverter {
 	 * @return
 	 */
 	public static String boolToString(Boolean b) {
-		return (b==null? "": (b.equals(Boolean.TRUE)?"1":"0"));
+		return b==null? "": (b.equals(Boolean.TRUE)?"1":"0");
 	}
 	
 	
@@ -81,17 +90,11 @@ public class StringConverter {
 		String enumname = val.substring(pos + 1);
 		
 		Enum value = null;
-		
-		try {
-			Class<?> clazz = Class.forName(cl);
-			if (clazz.isEnum()) {
-				value = Enum.valueOf((Class<? extends Enum>) clazz, enumname);
-			}
-			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+
+        Class<?> clazz = ObjectUtils.forClass(cl);
+        if (clazz.isEnum()) {
+            value = Enum.valueOf((Class<? extends Enum>) clazz, enumname);
+        }
 
 		return value;
 	}
@@ -160,13 +163,14 @@ public class StringConverter {
 	}
 	
 	
-	public static Double stringToDouble(String s) {
-		if ((s == null) || (s.isEmpty()))
+	public static Double stringToDouble(String val) {
+		if ((val == null) || (val.isEmpty()))
 			return null;
 
 		DecimalFormat df = new DecimalFormat();
 		char c = df.getDecimalFormatSymbols().getDecimalSeparator();
-		s = s.replace('.', c);
+
+		String s = val.replace('.', c);
 		try {
 			return df.parse(s).doubleValue();
 		} catch (ParseException e) {

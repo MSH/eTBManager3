@@ -9,20 +9,33 @@ import org.springframework.validation.BindingResult;
  * Created by rmemoria on 28/10/15.
  */
 public class EntityValidationException extends RuntimeException {
-    private BindingResult bindingResult;
+    private transient final BindingResult bindingResult;
 
-    private String field;
-    private String message;
-    private String code;
+    private final String field;
+    private final String code;
 
-    public EntityValidationException(BindingResult res) {
-        this.bindingResult = res;
+    /**
+     * Constructor when there is just one single validation error message
+     * @param field
+     * @param message
+     * @param code
+     */
+    public EntityValidationException(String field, String message, String code) {
+        super(message);
+        this.field = field;
+        this.code = code;
+        this.bindingResult = null;
     }
 
-    public EntityValidationException(String field, String message, String code) {
-        this.field = field;
-        this.message = message;
-        this.code = code;
+    /**
+     * Constructor when validation messages are already in the binding result object
+     * @param bindingResult instance of BindingResult object containing validation messages
+     */
+    public EntityValidationException(BindingResult bindingResult) {
+        super();
+        this.bindingResult = bindingResult;
+        this.field = null;
+        this.code = null;
     }
 
     public BindingResult getBindingResult() {
@@ -37,8 +50,5 @@ public class EntityValidationException extends RuntimeException {
         return code;
     }
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
+
 }

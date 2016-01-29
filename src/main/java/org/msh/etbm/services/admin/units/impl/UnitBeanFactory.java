@@ -1,6 +1,8 @@
 package org.msh.etbm.services.admin.units.impl;
 
 import org.dozer.BeanFactory;
+import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
@@ -34,18 +36,7 @@ public class UnitBeanFactory implements BeanFactory {
      * @return new instnace of target
      */
     protected Object createFromUnit(Unit unit, Class target) {
-        Object data;
-
-        // create the object instance
-        try {
-            data = target.newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        Object data = ObjectUtils.newInstance( target );
 
         if (data instanceof TypedUnit) {
             ((TypedUnit) data).setUnitType(unit.getType());
@@ -61,7 +52,9 @@ public class UnitBeanFactory implements BeanFactory {
      */
     protected Unit createUnit(Object source) {
         if (!(source instanceof TypedUnit)) {
-            throw new RuntimeException("Source object must implement interface " + TypedUnit.class.getSimpleName() + "  --> " + source.getClass());
+            throw new EntityValidationException("type",
+                    "Source object must implement interface " + TypedUnit.class.getSimpleName() + "  --> " + source.getClass(),
+                    null);
         }
         UnitType type = ((TypedUnit) source).getUnitType();
 
@@ -70,6 +63,6 @@ public class UnitBeanFactory implements BeanFactory {
             case TBUNIT: return new Tbunit();
         }
 
-        throw new RuntimeException("Type not supported " + type);
+        throw new EntityValidationException("type", "Type not supported " + type, null);
     }
 }

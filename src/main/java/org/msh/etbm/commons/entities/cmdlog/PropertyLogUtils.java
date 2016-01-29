@@ -62,16 +62,11 @@ public class PropertyLogUtils {
                 return false;
             }
         }
-        else {
-            // the default operation is EDIT
-            if (oper != Operation.EDIT) {
+        else
+            // the default operation is EDIT or type is a collection ?
+            if (oper != Operation.EDIT || classImplementsInterface(field.getType(), Collection.class)) {
                 return false;
             }
-
-            Class type = field.getType();
-            if (classImplementsInterface(type, Collection.class))
-                return false;
-        }
 
         return true;
     }

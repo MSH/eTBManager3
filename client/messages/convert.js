@@ -44,7 +44,7 @@ new Promise.all( files.map(function(fname) {
     })
 
     // read the file and convert to an object
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
         var obj = {};
 
         // read lines of the text file

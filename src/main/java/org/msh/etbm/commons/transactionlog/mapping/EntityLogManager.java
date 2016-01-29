@@ -22,17 +22,8 @@ import java.util.List;
 //@BypassInterceptors
 public class EntityLogManager {
 
-	private List<EntityLogMapping> entities = new ArrayList<EntityLogMapping>();
+	private List<EntityLogMapping> entities = new ArrayList<>();
 	
-	/**
-	 * Return the instance of the {@link EntityLogManager} class. This is a singleton instance
-	 * @return
-	 */
-/*
-	public static EntityLogManager instance() {
-		return (EntityLogManager)Component.getInstance("entityLogManager");
-	}
-*/
 
 	/**
 	 * Return property mapping of the given object to be logged during a transaction 
@@ -40,7 +31,6 @@ public class EntityLogManager {
 	 * @return
 	 */
 	public EntityLogMapping get(Object obj) {
-//		entities.clear(); // <- JUST FOR TESTING
 		// return the true class, and not the hibernate proxy
 		Class entityClass = Hibernate.getClass(obj);
 
@@ -134,11 +124,7 @@ public class EntityLogManager {
 	 */
 	protected void analyzeProperty(EntityLogMapping entMap, Class clazz, Field field) {
 		PropertyLog propertyLog = null;
-		try {
-			propertyLog = field.getAnnotation(PropertyLog.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		propertyLog = field.getAnnotation(PropertyLog.class);
 
 		// check if property must be logged
 		if ((propertyLog != null) && (propertyLog.ignore()))
@@ -158,16 +144,6 @@ public class EntityLogManager {
 		entMap.getProperties().add(pm);
 
 		if (propertyLog != null) {
-//			if (propertyLog.logEntityFields()) {
-//				try {
-//					Class propType = field.getType();
-//					EntityLogMapping map = createEntityMapping(propType);
-//					pm.setEntityProperty(map);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					throw new RuntimeException(e);
-//				}
-//			}
 			pm.setMessageKey(propertyLog.messageKey());
 			pm.setOperations(propertyLog.operations());
 		}
@@ -182,7 +158,7 @@ public class EntityLogManager {
 
 		// no operation was declared
 		if (pm.getOperations() == null) {
-			Operation oper[] = new Operation[0];
+			Operation[] oper = new Operation[0];
 			pm.setOperations(oper);
 		}
 	}

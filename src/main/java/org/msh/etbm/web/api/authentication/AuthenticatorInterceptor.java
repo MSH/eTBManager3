@@ -4,6 +4,8 @@ import org.msh.etbm.services.usersession.UserRequestService;
 import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,8 @@ import java.util.UUID;
  */
 @Component
 public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticatorInterceptor.class);
 
     @Autowired
     UserSessionService userSessionService;
@@ -97,6 +101,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             authToken = UUID.fromString(stoken);
         }
         catch (IllegalArgumentException e) {
+            LOGGER.error("Invalid token format for UUID " + stoken, e);
             authToken = null;
         }
 

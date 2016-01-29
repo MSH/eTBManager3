@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.entities;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.ErrorMessages;
@@ -8,9 +7,10 @@ import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
-import org.msh.etbm.commons.entities.impl.ObjectUtils;
 import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
+import org.msh.etbm.commons.objutils.ObjectDiffs;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
@@ -56,9 +56,6 @@ public abstract class EntityService<E extends Synchronizable> {
 
     @Autowired
     WorkspaceRepository workspaceRepository;
-
-    @Autowired
-    ObjectUtils objectUtils;
 
     @Autowired
     MessageKeyResolver messageKeyResolver;
@@ -241,14 +238,9 @@ public abstract class EntityService<E extends Synchronizable> {
         }
 
         // get the field value in the given object
-        try {
-            for (String f: fields) {
-                Object val = PropertyUtils.getProperty(entity, f);
-                qry.setParameter(f, val);
-            }
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            throw new RuntimeException(e);
+        for (String f: fields) {
+            Object val = ObjectUtils.getProperty(entity, f);
+            qry.setParameter(f, val);
         }
 
         // query the database
@@ -329,7 +321,7 @@ public abstract class EntityService<E extends Synchronizable> {
      * @return
      */
     protected Diffs createDiffs(ObjectValues prevVals, ObjectValues newVals) {
-        return objectUtils.compareOldAndNew(prevVals, newVals);
+        return ObjectDiffs.compareOldAndNew(prevVals, newVals);
     }
 
 
@@ -472,12 +464,7 @@ public abstract class EntityService<E extends Synchronizable> {
      */
     protected E createEntityInstance(Object req) {
         Class<E> clazz = getEntityClass();
-        try {
-            return clazz.newInstance();
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        }
+        return ObjectUtils.newInstance(clazz);
     }
 
 

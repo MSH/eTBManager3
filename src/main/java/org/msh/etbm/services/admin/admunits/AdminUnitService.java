@@ -3,10 +3,10 @@ package org.msh.etbm.services.admin.admunits;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.impl.ObjectUtils;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.objutils.ObjectDiffs;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.services.admin.admunits.impl.CodeGeneratorService;
 import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
@@ -156,7 +156,7 @@ public class AdminUnitService extends EntityService<AdministrativeUnit> {
 
         // check if parent has changed
         UUID pid =  entity.getParent() != null? entity.getParent().getId(): null;
-        boolean parentChanged = entity.getId() == null || !ObjectUtils.isEqualValues(req.getParentId(), pid);
+        boolean parentChanged = entity.getId() == null || !ObjectDiffs.compareEquals(req.getParentId(), pid);
 
         String newCode = null;
         if (parentChanged) {

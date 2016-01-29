@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.forms;
 
 import org.msh.etbm.commons.entities.EntityService;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,12 +29,7 @@ public class FormsService {
             resp.setDoc(data);
         }
         else {
-            try {
-                // create a new empty instance
-                resp.setDoc(formDataClass.newInstance());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            resp.setDoc(ObjectUtils.newInstance(formDataClass));
         }
 
         if (req.getFields() != null) {
@@ -57,7 +53,7 @@ public class FormsService {
             TypeHandler handler = typesManager.get(fieldReq.getType());
 
             if (handler == null) {
-                throw new RuntimeException("Invalid type handler " + fieldReq.getType());
+                throw new FormException("Invalid type handler " + fieldReq.getType());
             }
 
             // initialize the field with the proper response

@@ -26,7 +26,8 @@ public class GlobalListsService {
     @Resource
     MessageSource messageSource;
 
-    static final public Class[] lists = {
+    // available lists to be sent to the client
+    private static final Class[] lists = {
             MedicineLine.class,
             CaseClassification.class,
             CaseState.class,

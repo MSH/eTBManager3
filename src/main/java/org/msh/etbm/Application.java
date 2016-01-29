@@ -3,7 +3,7 @@ package org.msh.etbm;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.entities.impl.DozerEntityConverter;
+import org.msh.etbm.commons.entities.DozerEntityConverter;
 import org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

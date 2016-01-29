@@ -3,7 +3,7 @@
  */
 package org.msh.etbm.db.entities;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.TreatmentDayOption;
 
@@ -80,12 +80,7 @@ public class TreatmentMonitoring extends CaseEntity {
 	 * @return instance of {@link TreatmentDayOption}, or null if nothing is found
 	 */
 	public TreatmentDayOption getDay(int day) {
-		try {
-			return (TreatmentDayOption) PropertyUtils.getProperty(this, "day" + Integer.toString(day));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+        return (TreatmentDayOption) ObjectUtils.getProperty(this, "day" + Integer.toString(day));
 	}
 	
 	/**
@@ -94,11 +89,7 @@ public class TreatmentMonitoring extends CaseEntity {
 	 * @param value instance of {@link TreatmentDayOption}
 	 */
 	public void setDay(int day, TreatmentDayOption value) {
-		try {
-			PropertyUtils.setProperty(this, "day" + Integer.toString(day), value);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        ObjectUtils.setProperty(this, "day" + Integer.toString(day), value);
 	}
 
 	/**
