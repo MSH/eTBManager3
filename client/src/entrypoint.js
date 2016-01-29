@@ -12,6 +12,10 @@
  */
 
 (function() {
+
+    var LANG_KEY = 'lang',
+        AUTHTOKEN_KEY = 'autk';
+
     /**
      * Information exposed to the main page, necessary to start the client side
      */
@@ -66,9 +70,7 @@
     window.app = data;
 
     var setCookie = data.setCookie,
-        getCookie = data.getCookie,
-        LANG_KEY = 'lang',
-        AUTHTOKEN_KEY = 'autk';
+        getCookie = data.getCookie;
 
 
     // the navigator language

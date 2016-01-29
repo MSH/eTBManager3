@@ -3,6 +3,7 @@
 var express = require('express');
 var httpProxy = require('http-proxy'),
     path = require('path'),
+    gutil = require('gulp-util'),
     config = require('../config'),
     _ = require('underscore');
 
@@ -56,11 +57,11 @@ var staticFiles = path.join(__dirname, '..', config.proxy.static);
 app.use(express.static( staticFiles ));
 
 
-proxy.on('error', function(e) {
-    console.log('Could not connect to proxy, please try again...');
+proxy.on('error', function() {
+    gutil.log('Could not connect to proxy, please try again...');
 });
 
 // start the server
 app.listen(config.proxy.port, function () {
-    console.log('Server running on port ' + config.proxy.port);
+    gutil.log('Server running on port ' + config.proxy.port);
 });
