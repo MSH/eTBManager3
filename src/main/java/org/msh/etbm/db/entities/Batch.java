@@ -47,55 +47,13 @@ public class Batch extends WorkspaceEntity {
 
 	@Override
 	public String toString() {
-		return (batchNumber != null? batchNumber: super.toString());
+		return batchNumber != null? batchNumber: super.toString();
 	}
 
 
-	/**
-	 * Copy data from another batch. 
-	 * @param
-	 */
-/*	public void copyFromBatch(Batch b) {
-		batchNumber = b.getBatchNumber();
-		container = b.getContainer();
-		expiryDate = b.getExpiryDate();
-		manufacturer = b.getManufacturer();
-		medicine = b.getMedicine();
-		quantityReceived = b.getQuantityReceived();
-		quantityContainer = b.getQuantityContainer();
-		unitPrice = b.getUnitPrice();
-	}
-*/
-	
-//	/**
-//	 * Returns the number of containers based on the quantity and the quantity per box
-//	 * @return
-//	 */
-//	public int getNumContainers() {
-//		return (quantityContainer > 0)? (int) Math.ceil((double) quantityReceived / (double) quantityContainer): 0;
-//	}
-	
-//	public void setNumContainers(int value) {
-//		if (quantityContainer==0)
-//			quantityContainer = (value != 0? quantityReceived/value: 0);
-//	}
-	
 	public void setContainerPrice(float containerPrice) {
 		return;
 	}
-
-//	public float getContainerPrice() {
-//		return unitPrice*quantityContainer;
-//	}
-	
-	
-//	public Integer getQuantityContainer() {
-//		return quantityContainer;
-//	}
-//
-//	public void setQuantityContainer(Integer quantityContainer) {
-//		this.quantityContainer = quantityContainer;
-//	}
 
 	public Medicine getMedicine() {
 		return medicine;

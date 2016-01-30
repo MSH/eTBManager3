@@ -64,7 +64,7 @@ public class DateUtils {
 	 * @param numDays
 	 * @return
 	 */
-	static public Date incDays(Date dt, int numDays) {
+	public static Date incDays(Date dt, int numDays) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.DAY_OF_MONTH, numDays);
@@ -82,7 +82,7 @@ public class DateUtils {
 	 * @param numMonths
 	 * @return
 	 */
-	static public Date incMonths(Date dt, int numMonths) {
+	public static Date incMonths(Date dt, int numMonths) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.MONTH, numMonths);
@@ -96,7 +96,7 @@ public class DateUtils {
 	 * @param numYears
 	 * @return
 	 */
-	static public Date incYears(Date dt, int numYears) {
+	public static Date incYears(Date dt, int numYears) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.YEAR, numYears);
@@ -110,7 +110,7 @@ public class DateUtils {
 	 * @param numHours
 	 * @return
 	 */
-	static public Date incHours(Date dt, int numHours) {
+	public static Date incHours(Date dt, int numHours) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		c.add(Calendar.HOUR_OF_DAY, numHours);
@@ -122,7 +122,7 @@ public class DateUtils {
 	 * @param dt - Date
 	 * @return - year of the date dt
 	 */
-	static public int yearOf(Date dt) {
+	public static int yearOf(Date dt) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		return c.get(Calendar.YEAR);
@@ -134,7 +134,7 @@ public class DateUtils {
 	 * @param dt - Date
 	 * @return - year of the given date
 	 */
-	static public int monthOf(Date dt) {
+	public static int monthOf(Date dt) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		return c.get(Calendar.MONTH);
@@ -146,7 +146,7 @@ public class DateUtils {
 	 * @param dt - Date
 	 * @return - year of the date dt
 	 */
-	static public int dayOf(Date dt) {
+	public static int dayOf(Date dt) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(dt);
 		return c.get(Calendar.DAY_OF_MONTH);
@@ -158,7 +158,7 @@ public class DateUtils {
 	 * @param second
 	 * @return
 	 */
-	static public int hoursBetween(Date first, Date second) {
+	public static int hoursBetween(Date first, Date second) {
 		double milliElapsed = second.getTime() - first.getTime();
 		double hoursElapsed = milliElapsed / 3600F / 1000F;
 		return Math.round(Math.round(hoursElapsed * 100F) / 100F);
@@ -171,7 +171,7 @@ public class DateUtils {
 	 * @param dtEnd end date
 	 * @return minutes between dtIni and dtEnd
 	 */
-	static public int minutesBetween(Date dtIni, Date dtEnd) {
+	public static int minutesBetween(Date dtIni, Date dtEnd) {
 		return DateUtils.secondsBetween(dtIni, dtEnd) / 60;
 	}
 
@@ -182,11 +182,11 @@ public class DateUtils {
 	 * @param dtEnd end date
 	 * @return seconds between the two dates
 	 */
-	static public int secondsBetween(Date dtIni, Date dtEnd) {
+	public static int secondsBetween(Date dtIni, Date dtEnd) {
 		long milliElapsed = dtIni.getTime() - dtEnd.getTime();
 		if (milliElapsed < 0)
 			milliElapsed = -milliElapsed;
-		return Math.round(milliElapsed / 1000);
+		return (int)milliElapsed / 1000;
 	}
 	
 	
@@ -196,14 +196,14 @@ public class DateUtils {
 	 * @param dt2
 	 * @return
 	 */
-	static public int monthsBetween(Date dt1, Date dt2) {
+	public static int monthsBetween(Date dt1, Date dt2) {
         Date ini = dt1,
              end = dt2;
 
 		if (ini.after(end)) {
 			Date aux = ini;
 			ini = end;
-			end = ini;
+			end = aux;
 		}
 
 		Calendar c1 = Calendar.getInstance();

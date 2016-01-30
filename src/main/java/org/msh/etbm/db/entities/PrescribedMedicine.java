@@ -65,32 +65,6 @@ public class PrescribedMedicine extends CaseEntity {
 		return (comments != null) && (!comments.isEmpty());
 	}
 
-	
-	/**
-	 * Returns the weekly frequency object related to the prescription
-	 * @return WeeklyFrequency object instance
-	 */
-/*
-	public WeeklyFrequency getWeeklyFrequency() {
-		Workspace ws = getMedicine().getWorkspace();
-		return ws.getWeeklyFrequency(getFrequency());
-	}
-*/
-
-	/**
-	 * Calculates the estimated consumption for the period
-	 * @return integer value containing the estimated quantity to be dispensed in the period
-	 */
-/*
-	public int calcEstimatedDispensing(Period p) {
-		int doseUnit = getDoseUnit();
-		
-		int qtd = calcNumDaysDispensing(p) * doseUnit;
-		
-		return qtd;
-	}
-*/
-
 
 	/**
 	 * Initialize the attributes from a {@link MedicineRegimen} object
@@ -109,33 +83,6 @@ public class PrescribedMedicine extends CaseEntity {
 		period = p;
 	}
 
-
-	/**
-	 * Return the number of prescribed days for the period
-	 * @return integer value containing the number of prescribed days
-	 */
-/*
-	public int getNumPrescribedDays() {
-		return getWeeklyFrequency().calcNumDays(period);
-	}
-*/
-
-	/**
-	 * Calculates the number of days of dispensing in the period
-	 * @param p is the Period to be calculated
-	 * @return the number of days of dispensing for the given period
-	 */
-/*
-	public int calcNumDaysDispensing(Period p) {
-		Period aux = new Period(p);
-		aux.intersect(getPeriod());
-		int numDays = getWeeklyFrequency().calcNumDays(aux);
-		
-		return numDays;
-	}
-*/
-
-	
 	/**
 	 * Return the month of treatment according to the beginning of the treatment and the initial date of the period
 	 * @return month of treatment, from 0 (=January) to 11 (=December)
@@ -191,7 +138,8 @@ public class PrescribedMedicine extends CaseEntity {
 			else period.setIniDate(new Date());
 		}
 		
-		/*Solves a bug that happens every end of January (pay attention in other dates)
+		/*
+		 * Solves a bug that happens every end of January (pay attention in other dates)
 		 * on the creation of a individualized treatment if there is only one month of medicine precription*/
 		Calendar c = Calendar.getInstance();
 		c.setTime(period.getIniDate());

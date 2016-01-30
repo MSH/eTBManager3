@@ -41,7 +41,7 @@ new Promise.all( files.map(function(fname) {
     var f = path.join(config.src, fname);
     var reader = readline.createInterface({
         input: fs.createReadStream(f)
-    })
+    });
 
     // read the file and convert to an object
     return new Promise(function(resolve) {
@@ -67,9 +67,9 @@ new Promise.all( files.map(function(fname) {
             resolve(obj);
         });
     })
-    // receive the object with the keys
-    // write the file
     .then(function(obj) {
+        // receive the object with the keys
+        // write the file
         return new Promise(function(resolve, reject) {
             var fdest = path.join(config.dest, 'messages_' + lang + '.json');
             var txt = JSON.stringify(obj, null, 4);
@@ -92,4 +92,3 @@ new Promise.all( files.map(function(fname) {
     console.log(err);
     process.exit(-1);
 });
-

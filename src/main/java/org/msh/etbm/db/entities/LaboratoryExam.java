@@ -19,8 +19,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class LaboratoryExam extends CaseEntity {
 
-    public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE };
-
+    public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE }
 
 	@Temporal(TemporalType.DATE)
 	@NotNull

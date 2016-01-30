@@ -32,15 +32,6 @@ public class WorkspaceView {
 	@Column(length=20)
 	private String pictureContentType;
 
-	
-	/**
-	 * Return the URI for the workspace picture. Return it as a .seam extension
-	 * because it will be handled by seam when request is fired
-	 * @return
-	 */
-	public String getPictureURI() {
-		return (picture == null? null: "/workspaceimg/img" + id.toString() + ".seam");
-	}
 
 	/**
 	 * @return the id
@@ -153,15 +144,15 @@ public class WorkspaceView {
 		if (extension == null)
 			return false;
 		
-		extension = extension.toLowerCase();
+		String ext = extension.toLowerCase();
 		
-		if (extension.equals(".gif"))
+		if (".gif".equals(ext))
 			pictureContentType = "image/gif";
 		else
-		if ((extension.equals(".jpg")) || (extension.equals(".jpeg")) || (extension.equals(".jpe")))
+		if ((".jpg".equals(ext)) || (".jpeg".equals(ext)) || (".jpe".equals(ext)))
 			pictureContentType = "image/jpeg";
 		else
-		if (extension.equals(".png"))
+		if ("png".equals(ext))
 			pictureContentType = "image/x-png";
 		else return false;
 		

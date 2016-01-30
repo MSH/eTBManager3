@@ -24,6 +24,13 @@ export default class Home extends React.Component {
 	}
 
 	render() {
+		const options = [
+			{ value: 1, label: 'banana' },
+			{ value: 2, label: 'apple' },
+			{ value: 3, label: 'strawberry' },
+			{ value: 4, label: 'orange' }
+		];
+
 		return (
 			<div>
 				<Fluidbar>
@@ -56,7 +63,7 @@ export default class Home extends React.Component {
 						<Card>
 							<Row>
 								<Col sm={12}>
-									<SelectionBox />
+									<SelectionBox label="Medicines:" options={options}/>
 								</Col>
 							</Row>
 						</Card>

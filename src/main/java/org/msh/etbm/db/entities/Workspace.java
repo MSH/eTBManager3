@@ -22,7 +22,7 @@ public class Workspace extends Synchronizable implements Displayable {
 
 	@OneToMany(mappedBy="workspace", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	@PropertyLog(ignore=true)
-	private List<UserWorkspace> users = new ArrayList<UserWorkspace>();
+	private List<UserWorkspace> users = new ArrayList<>();
 
 	// frequency of doses in a weekly basis
 	private Integer weekFreq1;
@@ -103,46 +103,6 @@ public class Workspace extends Synchronizable implements Displayable {
 
     private String customId;
 
-/*
-	public WeeklyFrequency[] getWeeklyFrequencies() {
-		WeeklyFrequency[] lst = new WeeklyFrequency[7];
-
-		lst[0] = new WeeklyFrequency(weekFreq1);
-		lst[1] = new WeeklyFrequency(weekFreq2);
-		lst[2] = new WeeklyFrequency(weekFreq3);
-		lst[3] = new WeeklyFrequency(weekFreq4);
-		lst[4] = new WeeklyFrequency(weekFreq5);
-		lst[5] = new WeeklyFrequency(weekFreq6);
-		lst[6] = new WeeklyFrequency(weekFreq7);
-
-		return lst;
-	}
-*/
-
-/*
-	public void setWeeklyFrequency(WeeklyFrequency[] vals) {
-		weekFreq1 = vals[0].getValue();
-		weekFreq2 = vals[1].getValue();
-		weekFreq3 = vals[2].getValue();
-		weekFreq4 = vals[3].getValue();
-		weekFreq5 = vals[4].getValue();
-		weekFreq6 = vals[5].getValue();
-		weekFreq7 = vals[6].getValue();
-	}
-	
-	public WeeklyFrequency getWeeklyFrequency(int frequency) {
-		switch (frequency) {
-		case 1: return new WeeklyFrequency(weekFreq1);
-		case 2: return new WeeklyFrequency(weekFreq2);
-		case 3: return new WeeklyFrequency(weekFreq3);
-		case 4: return new WeeklyFrequency(weekFreq4);
-		case 5: return new WeeklyFrequency(weekFreq5);
-		case 6: return new WeeklyFrequency(weekFreq6);
-		case 7: return new WeeklyFrequency(weekFreq7);
-		}
-		return null;
-	}
-*/
 
 	/**
 	 * Return the case validation setting of the given case classification
@@ -162,67 +122,11 @@ public class Workspace extends Synchronizable implements Displayable {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-/*
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this)
-			return true;
-		
-		if (!(obj instanceof Workspace))
-			return false;
-
-		return ((Workspace)obj).getId().equals(getId());
-	}
-*/
-
 	
 	@Override
 	public String toString() {
 		return "(" + getId() + ") " + getName().toString();
 	}
-
-/*
-	public String getViewUri() {
-		WorkspaceView view = getView();
-		if ((view == null) || (view.getPictureURI() == null))
-			 return "/public/images/globe.png";
-		else return view.getPictureURI();
-	}
-*/
-
-	/**
-	 * Returns the name of the language according to the locale
-//	 * @param s
-	 * @return
-	 */
-/*
-	protected String getLocaleDisplayName(String s) {
-		if ((s == null) || (s.isEmpty()))
-			return null;
-
-		int p = s.indexOf("_");
-		Locale loc = null;
-		if (p != -1) {
-			String lan = s.substring(0, p);
-			String lc = s.substring(p+1);
-			loc = new Locale(lan, lc);
-		}
-		else  loc = new Locale(s);
-
-		return loc.getDisplayName(LocaleSelector.instance().getLocale());
-	}
-*/
-
-/*
-	public String getDefaultDisplayLocale() {
-		String s = getDefaultLocale();
-		return getLocaleDisplayName(s);
-	}
-*/
-
 
 
 	/**
@@ -248,14 +152,7 @@ public class Workspace extends Synchronizable implements Displayable {
 		this.users = users;
 	}
 
-	/**
-	 * Returns the root path of the custom pages for the country. Ex: /brazil or /ukraine 
-	 * @return
-	 */
-/*	public String getRootPath() {
-		return ((customPath == null)||(customPath.isEmpty()) ? "/custom/generic": customPath);
-	}
-*/
+
 
 	/**
 	 * @return the patientNameComposition
