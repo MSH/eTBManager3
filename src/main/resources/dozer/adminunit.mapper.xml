@@ -16,7 +16,7 @@
     </mapping>
 
 
-    <mapping map-null="false">
+    <mapping>
         <class-a>org.msh.etbm.services.admin.admunits.CountryStructureFormData</class-a>
         <class-b>org.msh.etbm.db.entities.CountryStructure</class-b>
     </mapping>

@@ -8,12 +8,10 @@ import java.util.Optional;
  */
 public class SourceFormData {
 
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_SHORTNAME = "shortName";
-
     private Optional<String> name;
     private Optional<String> shortName;
     private Optional<String> customId;
+    private Optional<Boolean> active;
 
     public Optional<String> getName() {
         return name;
@@ -37,5 +35,13 @@ public class SourceFormData {
 
     public void setCustomId(Optional<String> customId) {
         this.customId = customId;
+    }
+
+    public Optional<Boolean> getActive() {
+        return active;
+    }
+
+    public void setActive(Optional<Boolean> active) {
+        this.active = active;
     }
 }

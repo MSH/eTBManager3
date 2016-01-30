@@ -18,6 +18,8 @@ public class SourceData extends Item<UUID> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String customId;
 
+    private boolean active;
+
 
     public String getName() {
         return name;
@@ -41,5 +43,13 @@ public class SourceData extends Item<UUID> {
 
     public void setCustomId(String customId) {
         this.customId = customId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

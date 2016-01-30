@@ -31,9 +31,8 @@ public class AgeRangesREST {
 
     @RequestMapping(value = "/agerange/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        AgeRangeData data = service.findOne(id, AgeRangeData.class);
-        return new StandardResult(data, null, data != null);
+    public AgeRangeData get(@PathVariable UUID id) {
+        return service.findOne(id, AgeRangeData.class);
     }
 
     @RequestMapping(value = "/agerange", method = RequestMethod.POST)
@@ -49,9 +48,8 @@ public class AgeRangesREST {
     }
 
     @RequestMapping(value = "/agerange/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/agerange/query", method = RequestMethod.POST)

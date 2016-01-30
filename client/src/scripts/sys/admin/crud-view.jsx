@@ -374,4 +374,3 @@ CrudView.defaultProps = {
 	paging: false,
 	cellSize: { md: 6 }
 };
-

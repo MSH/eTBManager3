@@ -37,9 +37,8 @@ public class CountryStructureREST {
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        CountryStructureData data = service.findOne(id, CountryStructureData.class);
-        return new StandardResult(data, null, data != null);
+    public CountryStructureData get(@PathVariable UUID id) {
+        return service.findOne(id, CountryStructureData.class);
     }
 
     @RequestMapping(value = "/countrystructure/form", method = RequestMethod.POST)
@@ -60,9 +59,8 @@ public class CountryStructureREST {
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException  {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) throws BindException  {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)

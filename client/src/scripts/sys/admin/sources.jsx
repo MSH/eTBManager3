@@ -23,6 +23,19 @@ const editorDef = {
 			max: 200,
 			label: __('form.name'),
 			size: { sm: 6 }
+		},
+		{
+			property: 'customId',
+			type: 'string',
+			max: 20,
+			label: __('form.customId'),
+			size: { sm: 3 }
+		},
+		{
+			property: 'active',
+			type: 'yesNo',
+			label: __('EntityState.ACTIVE'),
+			size: { sm: 3 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')

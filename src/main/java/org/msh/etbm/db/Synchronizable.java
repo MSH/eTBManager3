@@ -59,7 +59,7 @@ public class Synchronizable {
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null? id.hashCode() : super.hashCode();
     }
 
     @Override

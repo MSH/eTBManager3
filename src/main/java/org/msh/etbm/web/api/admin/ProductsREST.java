@@ -25,45 +25,46 @@ import java.util.UUID;
 @RequestMapping("/api/tbl")
 @Authenticated(permissions = {Permissions.TABLE_PRODUCTS_EDT})
 public class ProductsREST {
-    
+
+    // the api prefix used in the URL
+    private static final String API_PREFIX = "/product";
+
     @Autowired
     ProductService service;
 
     @Autowired
     FormsService formsService;
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        ProductData data = service.findOne(id, ProductDetailedData.class);
-        return new StandardResult(data, null, data != null);
+    public ProductDetailedData get(@PathVariable UUID id) {
+        return service.findOne(id, ProductDetailedData.class);
     }
 
-    @RequestMapping(value = "/product/form", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/form", method = RequestMethod.POST)
     @Authenticated()
     public FormResponse initForm(@Valid @NotNull @RequestBody FormRequest req) {
         return formsService.initForm(req, service, ProductRequest.class);
     }
 
-    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody ProductRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.POST)
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ProductRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
-    @RequestMapping(value = "/product/query", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)
     @Authenticated()
     public QueryResult query(@Valid @RequestBody ProductQueryParams query) {
         return service.findMany(query);

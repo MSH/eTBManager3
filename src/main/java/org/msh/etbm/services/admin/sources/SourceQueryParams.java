@@ -7,6 +7,8 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
  */
 public class SourceQueryParams extends EntityQueryParams {
 
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_SHORTNAME = "shortName";
     /**
      * If true, will include non active entities
      */

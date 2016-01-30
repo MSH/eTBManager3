@@ -17,7 +17,7 @@
     </mapping>
 
 
-    <mapping map-null="false" bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
+    <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
         <class-a>org.msh.etbm.services.admin.units.UnitFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Unit</class-b>
 

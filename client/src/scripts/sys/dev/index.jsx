@@ -4,7 +4,7 @@ import { Grid, Row, Col, MenuItem } from 'react-bootstrap';
 import { Profile, Card, Fluidbar } from '../../components/index';
 import Popup from '../../components/popup';
 
-import AdminUnitControl from '../types/admin-unit-control';
+import SelectionBox from '../../components/selection-box';
 
 
 /**
@@ -56,12 +56,7 @@ export default class Home extends React.Component {
 						<Card>
 							<Row>
 								<Col sm={12}>
-									<AdminUnitControl value={this.state.adminUnit} schema={{ readOnly: true }}/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={6}>
-									<AdminUnitControl onChange={this._onChangeAdmUnit}/>
+									<SelectionBox />
 								</Col>
 							</Row>
 						</Card>
@@ -70,6 +65,5 @@ export default class Home extends React.Component {
 				</Grid>
 			</div>
 			);
-
 	}
 }

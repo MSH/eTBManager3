@@ -48,9 +48,8 @@ public class WorkspacesREST {
     }
 
     @RequestMapping(value = "/workspace/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/workspace/query", method = RequestMethod.POST)

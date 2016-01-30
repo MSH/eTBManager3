@@ -41,14 +41,7 @@ export default class CRUD {
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
 	get(id) {
-		return server.get(API_PREFIX + this.table + '/' + id)
-		.then(res => {
-			if (!res.success) {
-				return Promise.reject(res);
-			}
-
-			return res.result;
-		});
+		return server.get(API_PREFIX + this.table + '/' + id);
 	}
 
 	/**
@@ -92,14 +85,10 @@ export default class CRUD {
 	delete(id) {
 		return server.delete(API_PREFIX + this.table + '/' + id)
 		.then(res => {
-			if (!res.success) {
-				return Promise.reject(res);
-			}
-
 			// inform application about deleted document
 			app.dispatch(DOC_DELETE, { type: this.table, id: id });
 
-			return res.result;
+			return res;
 		});
 	}
 

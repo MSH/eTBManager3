@@ -70,9 +70,8 @@ public class UserProfileREST {
     }
 
     @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/userprofile/query", method = RequestMethod.POST)

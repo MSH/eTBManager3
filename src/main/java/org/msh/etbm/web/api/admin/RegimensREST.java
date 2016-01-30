@@ -26,36 +26,36 @@ import java.util.UUID;
 @Authenticated(permissions = {Permissions.TABLE_REGIMENS_EDT})
 public class RegimensREST {
 
+    private static final String API_PREFIX = "/regimen";
+
     @Autowired
     RegimenService service;
 
 
-    @RequestMapping(value = "/regimen/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        RegimenData data = service.findOne(id, RegimenData.class);
-        return new StandardResult(data, null, data != null);
+    public RegimenData get(@PathVariable UUID id) {
+        return service.findOne(id, RegimenData.class);
     }
 
-    @RequestMapping(value = "/regimen", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody RegimenRequest req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/regimen/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.POST)
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody RegimenRequest req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/regimen/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
-    @RequestMapping(value = "/regimen/query", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)
     @Authenticated()
     public QueryResult query(@Valid @RequestBody RegimenQueryParams query) {
         return service.findMany(query);

@@ -29,8 +29,8 @@ public class SourceService extends EntityService<Source> {
     public QueryResult<SourceData> findMany(SourceQueryParams qry) {
         QueryBuilder<Source> builder = queryBuilderFactory.createQueryBuilder(Source.class);
 
-        builder.addDefaultOrderByMap(SourceFormData.ORDERBY_NAME, "name");
-        builder.addOrderByMap(SourceFormData.ORDERBY_SHORTNAME, "shortName");
+        builder.addDefaultOrderByMap(SourceQueryParams.ORDERBY_NAME, "name");
+        builder.addOrderByMap(SourceQueryParams.ORDERBY_SHORTNAME, "shortName");
 
         builder.addDefaultProfile("default", SourceData.class);
 

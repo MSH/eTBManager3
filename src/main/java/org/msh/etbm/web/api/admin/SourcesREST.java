@@ -20,12 +20,16 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
+ * Rest api to handle CRUD operations on medicine sources
+ *
  * Created by rmemoria on 11/11/15.
  */
 @RequestMapping("/api/tbl")
 @RestController
 @Authenticated(permissions = {Permissions.TABLE_SOURCES_EDT})
 public class SourcesREST {
+
+    private static final String API_PREFIX = "/source";
 
     @Autowired
     SourceService service;
@@ -34,37 +38,35 @@ public class SourcesREST {
     FormsService formsService;
 
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        SourceData data = service.findOne(id, SourceData.class);
-        return new StandardResult(data, null, data != null);
+    public SourceData get(@PathVariable UUID id) {
+        return service.findOne(id, SourceData.class);
     }
 
-    @RequestMapping(value = "/source/form", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/form", method = RequestMethod.POST)
     public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
         return formsService.initForm(req, service, SourceFormData.class);
     }
 
-    @RequestMapping(value = "/source", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody SourceFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.POST)
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody SourceFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
-    @RequestMapping(value = "/source/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
-    @RequestMapping(value = "/source/query", method = RequestMethod.POST)
+    @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)
     @Authenticated()
     public QueryResult query(@Valid @RequestBody SourceQueryParams query) {
         return service.findMany(query);

@@ -38,9 +38,8 @@ public class SubstancesREST {
 
     @RequestMapping(value = "/substance/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        SubstanceData data = service.findOne(id, SubstanceData.class);
-        return new StandardResult(data, null, data != null);
+    public SubstanceData get(@PathVariable UUID id) {
+        return service.findOne(id, SubstanceData.class);
     }
 
     @RequestMapping(value = "/substance/form", method = RequestMethod.POST)
@@ -61,9 +60,8 @@ public class SubstancesREST {
     }
 
     @RequestMapping(value = "/substance/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/substance/query", method = RequestMethod.POST)

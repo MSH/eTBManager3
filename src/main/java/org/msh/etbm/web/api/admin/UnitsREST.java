@@ -49,9 +49,8 @@ public class UnitsREST {
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.GET)
     @Authenticated
-    public Object get(@PathVariable UUID id) {
-        Object data = unitService.findOne(id, UnitDetailedData.class);
-        return new StandardResult(data, null, data != null);
+    public UnitDetailedData get(@PathVariable UUID id) {
+        return unitService.findOne(id, UnitDetailedData.class);
     }
 
     @RequestMapping(value = "/unit/form", method = RequestMethod.POST)
@@ -72,8 +71,7 @@ public class UnitsREST {
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
-        ServiceResult res = unitService.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
+        return unitService.delete(id).getId();
     }
 }

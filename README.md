@@ -165,7 +165,7 @@ Sublime is a lightweight text editor widely used for Nodes and Javascript develo
 
 `SublimeLinter` is a plugin for Sublime Text 3 that provides a framework for linting code, and `SublimeLinter-contrib-eslint` provides integration to the eslint tool, in order to provide JavaScript linting. Check how to install them and use in Sublime.
 
- Inside the source code structure, `SublimeLinter-contrib-eslint` recognizes files called `.eslintrc` as the eslint conguration.
+ Inside the source code structure, `SublimeLinter-contrib-eslint` recognizes files called `.eslintrc` as the eslint configuration.
 
 It is also necessary to install the following programs:
 

@@ -36,9 +36,8 @@ public class TagsREST {
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public StandardResult get(@PathVariable UUID id) {
-        TagData data = service.findOne(id, TagData.class);
-        return new StandardResult(data, null, data != null);
+    public TagData get(@PathVariable UUID id) {
+        return service.findOne(id, TagData.class);
     }
 
     @RequestMapping(value = "/tag/form", method = RequestMethod.POST)
@@ -59,9 +58,8 @@ public class TagsREST {
     }
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) {
-        ServiceResult res = service.delete(id);
-        return new StandardResult(res);
+    public UUID delete(@PathVariable @NotNull UUID id) {
+        return service.delete(id).getId();
     }
 
     @RequestMapping(value = "/tag/query", method = RequestMethod.POST)
