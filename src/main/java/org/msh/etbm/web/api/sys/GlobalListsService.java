@@ -4,6 +4,8 @@ import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.MedicineLine;
 import org.msh.etbm.db.enums.UserState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,6 +24,8 @@ import java.util.Map;
  */
 @Service
 public class GlobalListsService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalListsService.class);
 
     @Resource
     MessageSource messageSource;
@@ -75,6 +79,7 @@ public class GlobalListsService {
                 message = messageSource.getMessage(messageKey, null, locale);
             }
             catch (NoSuchMessageException e) {
+                LOGGER.warn("No message found for " + messageKey + " in the locale " + locale.getDisplayName());
                 message = messageKey;
             }
 
