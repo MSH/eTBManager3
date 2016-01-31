@@ -1,0 +1,43 @@
+
+.sel-box {
+    cursor: pointer;
+
+    .btn-dd {
+        float:right;
+        color: #b0b0b0;
+    }
+
+    .sel-box-items {
+        margin: -2px -10px -4px -10px;
+
+        .sel-box-item {
+            display: inline-block;
+            border: 1px solid #f0f0f0;
+            padding: 1px 3px;
+            margin: 0px 1px 2px 2px;
+            background-color: #f0f0f0;
+            border-radius: 2px;
+            cursor: text;
+
+            .btn-close {
+                color: #CACACA;
+                float: right;
+                position: relative;
+                top: -4px;
+                padding-left: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .form-control {
+        height: auto;
+        min-height: 34px;
+    }
+}
+
+.sel-box:hover {
+    .btn-dd {
+        color: darken(#b0b0b0, 30%);
+    }
+}

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 
 
 export default class Popup extends React.Component {
@@ -63,11 +63,6 @@ export default class Popup extends React.Component {
 		this._prevHide = true;
 	}
 
-	// itemClick() {
-	// 	console.log('test');
-	// 	this.preventHide();
-	// }
-
 	render() {
 		const open = this.state && this.state.open;
 
@@ -75,10 +70,11 @@ export default class Popup extends React.Component {
 
 		return (
 			<div className={clazz}>
-				<Button onClick={this.show}>{'@'}</Button>
-				<div className="dropdown-menu">
-					{this.props.children}
-				</div>
+			<Collapse in={open}>
+					<div className="dropdown-menu">
+						{this.props.children}
+					</div>
+			</Collapse>
 			</div>
 			);
 	}
