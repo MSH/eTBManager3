@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col, Input, Button, Fade, OverlayTrigger, Popover } from 'react-bootstrap';
-import { Card } from '../components/index';
+import Card from '../components/card';
 import { app } from '../core/app';
 
 

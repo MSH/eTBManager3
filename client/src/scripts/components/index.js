@@ -14,6 +14,9 @@ import GridTable from './grid-table';
 import TreeView from './tree-view';
 import Fa from './fa';
 import MessageDlg from './message-dlg';
+import Popup from './popup';
+import FormDialog from './form-dialog';
+import SelectionBox from './selection-box';
 
 export { Callout,
 	AsyncButton,
@@ -26,5 +29,8 @@ export { Callout,
 	GridTable,
 	TreeView,
 	Fa,
-	MessageDlg
+	MessageDlg,
+	Popup,
+	FormDialog,
+	SelectionBox
 };

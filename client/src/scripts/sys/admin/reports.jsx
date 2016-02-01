@@ -2,6 +2,10 @@
 import React from 'react';
 import PageContent from './page-content';
 
+/**
+ * Options of the left menu in the reports page
+ * @type {Array}
+ */
 const menu = [
 	{
 		title: __('admin.websessions'),
@@ -36,7 +40,7 @@ const menu = [
 ];
 
 /**
- * The page controller of the public module
+ * Reports page of the administration module
  */
 export default class Reports extends React.Component {
 

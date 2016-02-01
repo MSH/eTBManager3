@@ -36,7 +36,7 @@ export default class Home extends React.Component {
 
 		this.popupClick = this.popupClick.bind(this);
 		this.onChange = this.onChange.bind(this);
-		this.state = {};
+		this.state = { selBox1: [options[1], options[2], options[5]] };
 	}
 
 	popupClick() {
@@ -88,6 +88,7 @@ export default class Home extends React.Component {
 							<Row>
 								<Col sm={6}>
 									<SelectionBox ref="selBox1"
+										value={this.state.selBox1}
 										mode="multiple"
 										optionDisplay={this.itemDisplay}
 										label="Items:"

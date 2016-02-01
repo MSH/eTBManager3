@@ -4,7 +4,9 @@ import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import Success from './success';
-import { Callout, Card, AsyncButton } from '../components/index';
+import Callout from '../components/callout';
+import Card from '../components/card';
+import AsyncButton from '../components/async-button';
 
 
 /**

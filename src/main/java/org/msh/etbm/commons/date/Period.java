@@ -26,8 +26,16 @@ public class Period {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
-	
-	/**
+
+    /**
+     * Standard constructor
+     */
+    public Period() {
+        super();
+    }
+
+
+    /**
 	 * Create a new period defining the initial and final date
 	 * @param iniDate
 	 * @param endDate
@@ -64,14 +72,6 @@ public class Period {
 
 
 	/**
-	 * Standard constructor
-	 */
-	public Period() {
-		super();
-	}
-
-	
-	/**
 	 * Check if initial date is before the initial date. If not, they are swapped
 	 */
 	private void checkDatesOrder() {
@@ -89,7 +89,7 @@ public class Period {
 	 * @return
 	 */
 	public int getDays() {
-		return ((iniDate != null) && (endDate != null) ? DateUtils.daysBetween(iniDate, endDate): 0);
+		return (iniDate != null) && (endDate != null) ? DateUtils.daysBetween(iniDate, endDate): 0;
 	}
 
 	
@@ -98,7 +98,7 @@ public class Period {
 	 * @return
 	 */
 	public int getMonths() {
-		return ((iniDate != null) && (endDate != null) ? DateUtils.monthsBetween(iniDate, DateUtils.incDays(endDate, 1)): 0);
+		return (iniDate != null) && (endDate != null) ? DateUtils.monthsBetween(iniDate, DateUtils.incDays(endDate, 1)): 0;
 	}
 
 
@@ -107,7 +107,7 @@ public class Period {
 	 * @return
 	 */
 	public int getYears() {
-		return ((iniDate != null) && (endDate != null) ? DateUtils.monthsBetween(iniDate, DateUtils.incDays(endDate, 1)): 0);
+		return (iniDate != null) && (endDate != null) ? DateUtils.monthsBetween(iniDate, DateUtils.incDays(endDate, 1)): 0;
 	}
 
 	
@@ -116,7 +116,7 @@ public class Period {
 	 * @param p
 	 */
 	public boolean isBefore(Period p) {
-		return (iniDate.before(p.getIniDate()));
+		return iniDate.before(p.getIniDate());
 	}
 
 
@@ -126,7 +126,7 @@ public class Period {
 	 * @return
 	 */
 	public boolean isAfter(Period p) {
-		return (iniDate.after(p.getIniDate()));
+		return iniDate.after(p.getIniDate());
 	}
 
 	
@@ -250,7 +250,7 @@ public class Period {
 		if (isEmpty())
 			return false;
 		
-		return ((!iniDate.before(p.getIniDate())) && (!endDate.after(p.getEndDate())));
+		return (!iniDate.before(p.getIniDate())) && (!endDate.after(p.getEndDate()));
 	}
 
 
@@ -275,11 +275,14 @@ public class Period {
 		if (!isIntersected(ini, end))
 			return false;
 
-		if (ini.after(iniDate))
-			iniDate = ini;
-		if (end.before(endDate))
-			endDate = end;
-			
+		if (ini.after(iniDate)) {
+            iniDate = ini;
+        }
+
+		if (end.before(endDate)) {
+            endDate = end;
+        }
+
 		return true;
 	}
 
@@ -319,7 +322,7 @@ public class Period {
 	 * @param iniDate
 	 */
 	public void setIniDate(Date iniDate) {
-		this.iniDate = (iniDate != null? (Date)iniDate.clone(): iniDate);
+		this.iniDate = iniDate != null? (Date)iniDate.clone(): iniDate;
 		checkDatesOrder();
 	}
 
@@ -338,7 +341,7 @@ public class Period {
 	 * @param endDate
 	 */
 	public void setEndDate(Date endDate) {
-		this.endDate = (endDate != null? (Date)endDate.clone(): endDate);
+		this.endDate = endDate != null? (Date)endDate.clone(): endDate;
 		checkDatesOrder();
 	}
 

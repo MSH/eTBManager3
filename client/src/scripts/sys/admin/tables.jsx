@@ -2,16 +2,16 @@
 import React from 'react';
 import PageContent from './page-content';
 
-import { AdmUnits } from './admunits';
-import { Sources } from './sources';
-import Units from './units';
-import { Substances } from './substances';
-import Products from './products';
-import Regimens from './regimens';
-import Tags from './tags';
-import AgeRanges from './ageranges';
-import UserProfiles from './user-profiles';
-import UsersWs from './users-ws';
+import AdmUnits from './tables/admunits';
+import Sources from './tables/sources';
+import Units from './tables/units';
+import Substances from './tables/substances';
+import Products from './tables/products';
+import Regimens from './tables/regimens';
+import Tags from './tables/tags';
+import AgeRanges from './tables/ageranges';
+import UserProfiles from './tables/user-profiles';
+import UsersWs from './tables/users-ws';
 
 /**
  * List of all items displayed in the left side box
@@ -94,11 +94,6 @@ const menu = [
         view: UserProfiles
 	}
 ];
-
-/**
- * Create the route list from the list of items
- */
-// const routes = RouteView.createRoutes(items.filter(item => !item.separator));
 
 /**
  * The page controller of the public module

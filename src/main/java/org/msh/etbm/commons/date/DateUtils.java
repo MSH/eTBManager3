@@ -209,15 +209,16 @@ public class DateUtils {
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		
-		c1.setTime(dt1);
-		c2.setTime(dt2);
+		c1.setTime(ini);
+		c2.setTime(end);
 		
 		int y = c2.get(Calendar.YEAR) - c1.get(Calendar.YEAR);
 		int m = (c2.get(Calendar.MONTH) + (y * 12)) - c1.get(Calendar.MONTH);
 		
-		if (c2.get(Calendar.DAY_OF_MONTH) < c1.get(Calendar.DAY_OF_MONTH))
-			m--;
-		
+		if (c2.get(Calendar.DAY_OF_MONTH) < c1.get(Calendar.DAY_OF_MONTH)) {
+            m--;
+        }
+
 		return m;
 	}
 
