@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { RouteView, router } from '../../components/router';
-import { Fluidbar, Sidebar, WaitIcon } from '../../components/index';
+import PageContent from './page-content';
 
 import { AdmUnits } from './admunits';
 import { Sources } from './sources';
@@ -14,12 +12,11 @@ import Tags from './tags';
 import AgeRanges from './ageranges';
 import UserProfiles from './user-profiles';
 import UsersWs from './users-ws';
-import { hasPerm } from '../session';
 
 /**
  * List of all items displayed in the left side box
  */
-const items = [
+const menu = [
 	{
 		title: __('admin.adminunits'),
 		perm: 'ADMINUNITS',
@@ -101,53 +98,19 @@ const items = [
 /**
  * Create the route list from the list of items
  */
-const routes = RouteView.createRoutes(items.filter(item => !item.separator));
+// const routes = RouteView.createRoutes(items.filter(item => !item.separator));
 
 /**
  * The page controller of the public module
  */
 export default class Tables extends React.Component {
 
-	menuSelect(data) {
-		router.goto('/sys/admin/tables' + data.path);
-	}
-
 	render() {
-		// get information about the route being rendered
-		const route = this.props.route;
-
-		// get forward path
-		const forpath = route.forpath;
-
-		// get route to be rendered
-		const selroute = routes.find(forpath);
-
-		// calc selected item
-		const selItem = selroute ? selroute.data : null;
-
-		// remove items with no permission
-		const menu = items.filter(item => item.perm && !hasPerm(item.perm) ? null : item);
-
-
 		return (
-			<div>
-				<Fluidbar>
-					<h3>{__('admin') + ' - ' + __('admin.tables')}</h3>
-				</Fluidbar>
-				<Grid fluid>
-					<Row>
-						<Col sm={3}>
-							<Sidebar items={menu} selected={selItem} onSelect={this.menuSelect} />
-						</Col>
-						<Col sm={9}>
-							<div className="mtop-2x">
-								<RouteView routes={routes} loadingIcon={<WaitIcon />} />
-							</div>
-						</Col>
-					</Row>
-				</Grid>
-			</div>
-
+			<PageContent route={this.props.route}
+				menu={menu}
+				title={__('admin.tables')}
+				path="/sys/admin/tables" />
 			);
 	}
 }

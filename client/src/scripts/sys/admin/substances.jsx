@@ -31,7 +31,7 @@ const editorDef = {
 			property: 'line',
 			required: true,
 			type: 'string',
-			options: 'MedicineLine',
+			options: app.getState().app.lists.MedicineLine,
 			label: __('MedicineLine'),
 			size: { sm: 6 }
 		},
@@ -77,6 +77,7 @@ export class Substances extends React.Component {
 	constructor(props) {
 		super(props);
 		this.cellRender = this.cellRender.bind(this);
+
 	}
 
 	_itemClass(item) {

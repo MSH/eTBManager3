@@ -1,42 +1,55 @@
 
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { Fluidbar } from '../../components/index';
+import PageContent from './page-content';
 
+const menu = [
+	{
+		title: __('admin.websessions'),
+		icon: 'users',
+		perm: 'ONLINE',
+		path: 'online'
+	},
+	{
+		title: __('admin.reports.usersession'),
+		icon: 'file-text-o',
+		perm: 'USERSESREP',
+		path: 'usersessions'
+	},
+	{
+		title: 'Command history',
+		icon: 'file-text-o',
+		perm: 'CMDHISTORY',
+		path: 'cmdhistory'
+	},
+	{
+		title: 'Command statistics',
+		icon: 'file-text-o',
+		perm: 'CMDSTATISTICS',
+		path: 'cmdstatistics'
+	},
+	{
+		title: 'Error log report',
+		icon: 'bug',
+		perm: 'ERRORLOGREP',
+		path: 'errorlogrep'
+	}
+];
 
 /**
  * The page controller of the public module
  */
-export default class Settings extends React.Component {
+export default class Reports extends React.Component {
 
 	render() {
-		let style = {
-			minHeight: '550px',
-			marginLeft: '-15px'
-		};
-
 		return (
-			<div>
-				<Fluidbar>
-					<h3>{'Administration - Reports'}</h3>
-				</Fluidbar>
-				<Grid fluid>
-					<Row>
-						<Col md={3}>
-							<div style={style}>
-								<Nav>
-									<NavItem>{'On-line users'}</NavItem>
-									<NavItem>{'User session history'}</NavItem>
-									<NavItem>{'Command history'}</NavItem>
-									<NavItem>{'Command statistics'}</NavItem>
-									<NavItem>{'Error log'}</NavItem>
-								</Nav>
-							</div>
-						</Col>
-					</Row>
-				</Grid>
-			</div>
-
+			<PageContent route={this.props.route}
+				menu={menu}
+				title={__('admin.reports')}
+				path="/sys/admin/reps" />
 			);
 	}
 }
+
+Reports.propTypes = {
+	route: React.PropTypes.object
+};

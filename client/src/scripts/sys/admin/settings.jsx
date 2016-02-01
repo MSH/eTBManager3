@@ -1,40 +1,49 @@
 
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { Fluidbar } from '../../components/index';
+import PageContent from './page-content';
+import { app } from '../../core/app';
 
 
 /**
- * The page controller of the public module
+ * Settings page of the administration module
  */
 export default class Settings extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.menu = [
+			{
+				title: __('admin.workspaces'),
+				perm: 'WORKSPACES',
+				icon: 'globe',
+				path: '/workspaces'
+			},
+			{
+				title: __('admin.syssetup'),
+				perm: 'SYSSETUP',
+				icon: 'wrench',
+				path: '/syssetup'
+			},
+			{
+				title: __('admin.setup') + ' ' + app.getState().session.workspaceName,
+				perm: 'WORKSPACE_EDT',
+				icon: 'cog',
+				path: '/wssetup'
+			}
+		];
+	}
+
 	render() {
-		let style = {
-			minHeight: '550px',
-			marginLeft: '-15px'
-		};
-
 		return (
-			<div>
-				<Fluidbar>
-					<h3>{'Administration - Settings'}</h3>
-				</Fluidbar>
-				<Grid fluid>
-					<Row>
-						<Col md={3}>
-							<div style={style}>
-								<Nav>
-									<NavItem>{'Workspaces'}</NavItem>
-									<NavItem>{'Configuration'}</NavItem>
-									<NavItem>{'Workspace settings'}</NavItem>
-								</Nav>
-							</div>
-						</Col>
-					</Row>
-				</Grid>
-			</div>
-
+			<PageContent route={this.props.route}
+				menu={this.menu}
+				title={__('admin.config')}
+				path="/sys/admin/tables" />
 			);
 	}
 }
+
+Settings.propTypes = {
+	route: React.PropTypes.object
+};
+

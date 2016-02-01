@@ -11,6 +11,9 @@ export default class Storage {
 	constructor(inistate) {
 		this.state = inistate || {};
 		this.listeners = [];
+		if (__DEV__) {
+			console.log('storage', inistate);
+		}
 	}
 
 	/**
