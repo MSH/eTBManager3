@@ -39,6 +39,7 @@ public class SubstanceOptionsResolver implements OptionsResolver {
     public List<Item> getOptions(Map<String, Object> params) {
         SubstanceQueryParams qry = new SubstanceQueryParams();
         qry.setProfile(SubstanceQueryParams.PROFILE_ITEM);
+        qry.setOrderBy(SubstanceQueryParams.ORDERBY_NAME);
         QueryResult res = substanceService.findMany(qry);
 
         return res.getList();

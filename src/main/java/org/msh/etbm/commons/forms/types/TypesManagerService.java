@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.forms.types;
 
 import org.msh.etbm.commons.forms.FormException;
-import org.msh.etbm.commons.forms.types.TypeHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

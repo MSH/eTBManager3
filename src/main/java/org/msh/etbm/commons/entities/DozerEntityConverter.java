@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.entities;
 
 import org.dozer.ConfigurableCustomConverter;
-import org.dozer.CustomConverter;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
 import org.springframework.stereotype.Component;
