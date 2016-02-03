@@ -870,5 +870,7 @@
     "Laboratory.performDst": "Realiza TS (testes de sensibilidade)",
     "Laboratory.performMicroscopy": "Realiza exames de baciloscopia",
     "Laboratory.performXpert": "Realiza testes rápido (Xpert)",
-    "admin.users.edt": "Editar usuário"
+    "admin.users.edt": "Editar usuário",
+    "UserWorkspace.unit": "Unidade do usuário",
+    "UserWorkspace.administrator": "Usuário é administrator do sistema"
 }

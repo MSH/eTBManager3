@@ -4,7 +4,7 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.options.OptionsManagerService;
-import org.msh.etbm.commons.forms.options.OptionsResolver;
+import org.msh.etbm.commons.forms.options.OptionsProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import java.util.Map;
  * Created by rmemoria on 1/2/16.
  */
 @Component
-public class SubstanceOptionsResolver implements OptionsResolver {
+public class SubstanceOptionsProvider implements OptionsProvider {
 
     public static final String OPTIONS_NAME = "substances";
 

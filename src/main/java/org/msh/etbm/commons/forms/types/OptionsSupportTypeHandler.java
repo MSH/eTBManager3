@@ -4,7 +4,7 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FieldInitRequest;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.options.OptionsManagerService;
-import org.msh.etbm.commons.forms.options.OptionsResolver;
+import org.msh.etbm.commons.forms.options.OptionsProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +57,7 @@ public class OptionsSupportTypeHandler implements TypeHandler {
      */
     protected List<Item> resolveOptions(String name, Map<String, Object> params) {
         // find option resolver
-        OptionsResolver resolver = optionsManagerService.get(name);
+        OptionsProvider resolver = optionsManagerService.get(name);
 
         // no resolver found ?
         if (resolver == null) {

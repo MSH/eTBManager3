@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.admin;
 
+import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
@@ -56,7 +57,7 @@ public class UsersWsREST {
      */
     @RequestMapping(value = PREFIX + "/form", method = RequestMethod.POST)
     public FormResponse initForm(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, service, UserWsFormData.class);
+        return formsService.initForm(req, (EntityServiceImpl)service, UserWsFormData.class);
     }
 
     @RequestMapping(value = PREFIX, method = RequestMethod.POST)

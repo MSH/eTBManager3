@@ -554,6 +554,7 @@
     "User.sendSystemMessages": "Send system messages in certain events",
     "User.state": "State",
     "User.timeZone": "Time zone",
+    "UserWorkspace.unit": "User unit",
     "UserLogin.application": "Browser information",
     "UserLogin.ipAddress": "IP address",
     "UserLogin.loginDate": "Login time",
@@ -941,5 +942,6 @@
     "validation.duplicatedemail": "The e-mail address is already in use. Please provide another one.",
     "validation.duplicatedname": "A record with the same value already exists",
     "validation.notfound": "Information was not found",
-    "validation.pwdNotSame": "Password is not the same"
+    "validation.pwdNotSame": "Password is not the same",
+    "UserWorkspace.administrator": "User is system administrator"
 }

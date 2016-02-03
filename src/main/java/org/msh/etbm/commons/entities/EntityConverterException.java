@@ -6,8 +6,8 @@ package org.msh.etbm.commons.entities;
  * Created by rmemoria on 2/2/16.
  */
 public class EntityConverterException extends RuntimeException {
-    private final Object source;
-    private final Object dest;
+    private final transient Object source;
+    private final transient Object dest;
 
     EntityConverterException(Object source, Object dest, String message) {
         super(message);

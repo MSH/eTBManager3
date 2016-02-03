@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.db.enums.UserState;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ public class UserWsFormData {
     private Optional<String> comments;
     private Optional<String> customId;
     private Optional<Boolean> playOtherUnits;
+    private List<UUID> profiles;
 
 
     public Optional<String> getName() {
@@ -101,5 +103,13 @@ public class UserWsFormData {
 
     public void setPlayOtherUnits(Optional<Boolean> playOtherUnits) {
         this.playOtherUnits = playOtherUnits;
+    }
+
+    public List<UUID> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<UUID> profiles) {
+        this.profiles = profiles;
     }
 }

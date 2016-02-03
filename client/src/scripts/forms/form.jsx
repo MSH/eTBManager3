@@ -124,6 +124,10 @@ export default class Form extends React.Component {
 		const value = evt.value;
 		setValue(this.props.doc, schema.property, value, true);
 
+		if (schema.refreshOnChange) {
+			console.log('update ' + schema.refreshOnChange);
+		}
+
 		this.updateSnapshot();
 		// force update, in case snapshot remains the same
 		this.forceUpdate();

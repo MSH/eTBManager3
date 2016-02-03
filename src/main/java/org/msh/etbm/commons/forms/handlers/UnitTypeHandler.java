@@ -52,7 +52,7 @@ public class UnitTypeHandler implements TypeHandler {
         AdminUnitQueryParams qry = new AdminUnitQueryParams();
         qry.setRootUnits(true);
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
-        AdminUnitQueryResult qr = adminUnitService.findMany(qry);
+        AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
 
         UnitFieldResponse res = new UnitFieldResponse();
         res.setAdminUnits(qr.getList());

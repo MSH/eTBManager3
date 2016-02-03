@@ -72,7 +72,7 @@ public class CodeGeneratorService {
         }
     }
 
-    @Around("execution(public * org.msh.etbm.commons.entities.EntityService.create(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
+    @Around("execution(public * org.msh.etbm.commons.entities.EntityServiceImpl.create(..)) && target(org.msh.etbm.services.admin.admunits.impl.AdminUnitServiceImpl))")
     public Object adminUnitCreateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         AdminUnitFormData req = (AdminUnitFormData) args[0];
@@ -80,7 +80,7 @@ public class CodeGeneratorService {
         return aroundCall(req.getParentId(), pjp);
     }
 
-    @Around("execution(public * org.msh.etbm.commons.entities.EntityService.update(..)) && target(org.msh.etbm.services.admin.admunits.AdminUnitService))")
+    @Around("execution(public * org.msh.etbm.commons.entities.EntityServiceImpl.update(..)) && target(org.msh.etbm.services.admin.admunits.impl.AdminUnitServiceImpl))")
     public Object adminUnitUpdateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         AdminUnitFormData req = (AdminUnitFormData) args[1];

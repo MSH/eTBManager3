@@ -33,6 +33,11 @@
             <a>unitId</a>
             <b>unit</b>
         </field>
+
+        <field custom-converter-id="entity-id" custom-converter-param="org.msh.etbm.db.entities.UserProfile">
+            <a>profiles</a>
+            <b>profiles</b>
+        </field>
     </mapping>
 
 

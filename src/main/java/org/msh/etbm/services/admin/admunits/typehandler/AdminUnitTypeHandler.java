@@ -61,7 +61,7 @@ public class AdminUnitTypeHandler implements TypeHandler<AdminUnitFieldResponse[
         qry.setRootUnits(true);
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         qry.setFetchCountryStructure(true);
-        AdminUnitQueryResult qr = adminUnitService.findMany(qry);
+        AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
 
         // calc max level
         int level = 0;
@@ -106,7 +106,7 @@ public class AdminUnitTypeHandler implements TypeHandler<AdminUnitFieldResponse[
 
             if (l < level) {
                 qry.setParentId(item.getId());
-                qr = adminUnitService.findMany(qry);
+                qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
                 vals[l].setList(qr.getList());
             }
             l++;

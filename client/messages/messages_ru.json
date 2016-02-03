@@ -861,5 +861,6 @@
     "default.entity_updated": "Успешно обновлено",
     "CountryStructure": "",
     "admin.adminunits.hidecs": "",
-    "validation.changews": ""
+    "validation.changews": "",
+    "UserWorkspace.administrator": ""
 }
