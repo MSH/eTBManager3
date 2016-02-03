@@ -8,6 +8,18 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
  * Created by rmemoria on 12/11/15.
  */
 public class SubstanceQueryParams extends EntityQueryParams {
+    /**
+     * Available profiles
+     */
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    /**
+     * Available sorting options
+     */
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_DISPLAYORDER = "displayOrder";
+
+
     private boolean prevTreatmentForm;
     private boolean dstResultForm;
 

@@ -60,16 +60,6 @@ const menu = [
         view: Regimens
 	},
 	{
-		separator: true
-	},
-	{
-		title: __('admin.ageranges'),
-		perm: 'AGERANGES',
-		icon: 'tasks',
-        path: '/ageranges',
-        view: AgeRanges
-	},
-	{
 		title: __('admin.tags'),
 		perm: 'TAGS',
 		icon: 'tags',

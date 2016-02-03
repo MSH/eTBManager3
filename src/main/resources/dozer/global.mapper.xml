@@ -26,6 +26,11 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>java.util.UUID</class-a>
+        <class-b>org.msh.etbm.db.Synchronizable</class-b>
+    </mapping>
+
 
     <!-- User session data -->
     <mapping>

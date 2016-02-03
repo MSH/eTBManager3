@@ -7,11 +7,6 @@ export default function fieldControlWrapper(Component) {
 
 	class FieldControl extends React.Component {
 
-		// constructor(props) {
-		// 	super(props);
-		// 	this.onChange = this.onChange.bind(this);
-		// }
-
 		componentWillMount() {
 			// resources were informed to initialize the field ?
 			if (this.props.resources) {
@@ -32,7 +27,7 @@ export default function fieldControlWrapper(Component) {
 				return this.props.onInit(this.props, params);
 			}
 
-			FormUtils.initFields({ id: 'v', type: this.schema.type })
+			FormUtils.initFields({ id: 'v', type: this.props.schema.type })
 			.then(res => console.log('TODO', res));
 		}
 

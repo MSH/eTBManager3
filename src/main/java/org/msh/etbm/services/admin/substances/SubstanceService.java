@@ -22,6 +22,7 @@ public class SubstanceService extends EntityService<Substance> {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
+
     /**
      * Return a list of substances based on the query result
      * @return
@@ -30,12 +31,12 @@ public class SubstanceService extends EntityService<Substance> {
         QueryBuilder<Substance> builder = queryBuilderFactory.createQueryBuilder(Substance.class);
 
         // add the available profiles
-        builder.addDefaultProfile(SubstanceFormData.PROFILE_DEFAULT, SubstanceData.class);
-        builder.addProfile(SubstanceFormData.PROFILE_ITEM, SynchronizableItem.class);
+        builder.addDefaultProfile(SubstanceQueryParams.PROFILE_DEFAULT, SubstanceData.class);
+        builder.addProfile(SubstanceQueryParams.PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(SubstanceFormData.ORDERBY_DISPLAYORDER, "displayOrder");
-        builder.addOrderByMap(SubstanceFormData.ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_DISPLAYORDER, "displayOrder");
+        builder.addOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
 
         // initialize builder with standard query values
         builder.initialize(qry);
@@ -72,3 +73,4 @@ public class SubstanceService extends EntityService<Substance> {
         }
     }
 }
+

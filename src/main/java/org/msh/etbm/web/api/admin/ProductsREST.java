@@ -44,17 +44,17 @@ public class ProductsREST {
     @RequestMapping(value = API_PREFIX + "/form", method = RequestMethod.POST)
     @Authenticated()
     public FormResponse initForm(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, service, ProductRequest.class);
+        return formsService.initForm(req, service, ProductFormData.class);
     }
 
     @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody ProductRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody ProductFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ProductRequest req) {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ProductFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }

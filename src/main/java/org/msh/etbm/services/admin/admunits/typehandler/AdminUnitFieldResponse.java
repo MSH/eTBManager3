@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.forms.handlers;
+package org.msh.etbm.services.admin.admunits.typehandler;
 
 import org.msh.etbm.services.admin.admunits.AdminUnitItemData;
 

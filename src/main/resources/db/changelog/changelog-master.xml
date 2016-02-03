@@ -603,13 +603,13 @@
     </changeSet>
 
     <changeSet author="rmemoria" id="1433264274749-29">
-        <createTable tableName="medicinecomponent">
-            <column name="id" type="${type.id}">
+        <createTable tableName="medicine_substances">
+            <column name="medicine_id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="strength" type="INT"/>
-            <column name="MEDICINE_ID" type="${type.id}"/>
-            <column name="SUBSTANCE_ID" type="${type.id}"/>
+            <column name="substance_id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -1931,7 +1931,7 @@
         <addPrimaryKey columnNames="id" constraintName="PKproduct" tableName="product"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-107">
-        <addPrimaryKey columnNames="id" constraintName="PKMEDICINECOMPONENT" tableName="medicinecomponent"/>
+        <addPrimaryKey columnNames="medicine_id,substance_id" constraintName="PKMEDICINECOMPONENT" tableName="medicine_substances" />
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-108">
         <addPrimaryKey columnNames="id" constraintName="PKMEDICINEDISPENSING" tableName="medicinedispensing"/>
@@ -2210,11 +2210,6 @@
     <changeSet author="rmemoria" id="1433264274749-212">
         <addForeignKeyConstraint baseColumnNames="MOVEMENT_ID" baseTableName="batchmovement" constraintName="FK5E1EFDE94E21F23D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="movement"/>
     </changeSet>
-<!--
-    <changeSet author="rmemoria" id="1433264274749-213">
-        <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E71CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
-    </changeSet>
--->
     <changeSet author="rmemoria" id="1433264274749-214">
         <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicineregimen" constraintName="FK6A83C3E7BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
@@ -2297,12 +2292,14 @@
     <changeSet author="rmemoria" id="1433264274749-242">
         <addForeignKeyConstraint baseColumnNames="RECEIVING_ID" baseTableName="medicinereceivingitem" constraintName="FK806185F9D418CD1D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="productreceiving"/>
     </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-243">
-        <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="medicinecomponent" constraintName="FK80E3280396FA537" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
+        <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="medicine_substances" constraintName="FK80E3280396FA537" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-244">
-        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicinecomponent" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
+        <addForeignKeyConstraint baseColumnNames="MEDICINE_ID" baseTableName="medicine_substances" constraintName="FK80E32803BC45025D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="product"/>
     </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-245">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prevtbtreatment" constraintName="FK824DD5B7A3F04EEB" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
@@ -2330,11 +2327,7 @@
     <changeSet author="rmemoria" id="1433264274749-254">
         <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userpermission" constraintName="FK974CAFDA7730850C" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
     </changeSet>
-<!--
-    <changeSet author="rmemoria" id="1433264274749-255">
-        <addForeignKeyConstraint baseColumnNames="ROLE_ID" baseTableName="userpermission" constraintName="FK974CAFDAB93F8B48" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userrole"/>
-    </changeSet>
-    -->
+
     <changeSet author="rmemoria" id="1433264274749-256">
         <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="casesideeffect" constraintName="FK9D7338D896FA537" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="substance"/>
     </changeSet>

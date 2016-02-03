@@ -2,7 +2,8 @@ package org.msh.etbm.commons.forms.handlers;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FieldInitRequest;
-import org.msh.etbm.commons.forms.TypeHandler;
+import org.msh.etbm.commons.forms.types.TypeHandler;
+import org.msh.etbm.commons.forms.types.TypesManagerService;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
@@ -13,6 +14,7 @@ import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.UUID;
 
 /**
@@ -23,16 +25,22 @@ import java.util.UUID;
 @Component
 public class UnitTypeHandler implements TypeHandler {
 
+    // the supported type
+    public static final String TYPE_NAME = "unit";
+
     @Autowired
     AdminUnitService adminUnitService;
 
     @Autowired
     UnitService unitService;
 
+    @Autowired
+    TypesManagerService typesManagerService;
 
-    @Override
-    public String getTypeName() {
-        return "unit";
+
+    @PostConstruct
+    public void init() {
+        typesManagerService.register(TYPE_NAME, this);
     }
 
     @Override

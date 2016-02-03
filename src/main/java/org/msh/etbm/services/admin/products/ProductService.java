@@ -64,8 +64,8 @@ public class ProductService extends EntityService<Product> {
 
     @Override
     protected Product createEntityInstance(Object req) {
-        if (req instanceof ProductRequest) {
-            Optional<ProductType> optype = ((ProductRequest) req).getType();
+        if (req instanceof ProductFormData) {
+            Optional<ProductType> optype = ((ProductFormData) req).getType();
             ProductType type = optype == null? null: optype.get();
             if (type == ProductType.MEDICINE) {
                 return new Medicine();

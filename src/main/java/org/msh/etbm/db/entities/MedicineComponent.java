@@ -14,8 +14,8 @@ import javax.persistence.Table;
  * @author Ricardo Memoria
  *
  */
-@Entity
-@Table(name="medicinecomponent")
+//@Entity
+//@Table(name="medicinecomponent")
 public class MedicineComponent extends Synchronizable {
 
 

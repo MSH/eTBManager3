@@ -1,9 +1,6 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.db.enums.CaseClassification;
-import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.db.enums.MedicineLine;
-import org.msh.etbm.db.enums.UserState;
+import org.msh.etbm.db.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -33,6 +30,7 @@ public class GlobalListsService {
     // available lists to be sent to the client
     private static final Class[] lists = {
             MedicineLine.class,
+            MedicineCategory.class,
             CaseClassification.class,
             CaseState.class,
             UserState.class

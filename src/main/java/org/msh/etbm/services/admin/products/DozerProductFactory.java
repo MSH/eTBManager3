@@ -18,8 +18,8 @@ public class DozerProductFactory implements BeanFactory {
     public Object createBean(Object source, Class<?> aClass, String s) {
 
         // source is a product request
-        if (source instanceof ProductRequest) {
-            Optional<ProductType> opt = ((ProductRequest) source).getType();
+        if (source instanceof ProductFormData) {
+            Optional<ProductType> opt = ((ProductFormData) source).getType();
             if (opt != null && opt.get() == ProductType.MEDICINE) {
                 return new Medicine();
             }
@@ -34,8 +34,8 @@ public class DozerProductFactory implements BeanFactory {
         Object obj = ObjectUtils.newInstance(clazz);
 
         // target is a request?
-        if (clazz == ProductRequest.class) {
-            ProductRequest req = new ProductRequest();
+        if (clazz == ProductFormData.class) {
+            ProductFormData req = new ProductFormData();
             req.setType(Optional.of(isMed ? ProductType.MEDICINE: ProductType.PRODUCT));
             return req;
         }

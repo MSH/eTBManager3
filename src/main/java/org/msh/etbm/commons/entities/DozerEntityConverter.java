@@ -1,13 +1,14 @@
 package org.msh.etbm.commons.entities;
 
+import org.dozer.ConfigurableCustomConverter;
 import org.dozer.CustomConverter;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Dozer custom convert that simplify conversion from/to ID and entity object
@@ -15,15 +16,21 @@ import java.util.UUID;
  * Created by rmemoria on 25/10/15.
  */
 @Component
-public class DozerEntityConverter implements CustomConverter {
+public class DozerEntityConverter implements ConfigurableCustomConverter {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    private String param;
 
     @Override
     public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
         if (source == null) {
             return null;
+        }
+
+        if (source instanceof Collection) {
+            return handleCollection(dest, (Collection)source, destClass, sourceClass);
         }
 
         // check if source is an optional value
@@ -45,7 +52,7 @@ public class DozerEntityConverter implements CustomConverter {
             return convertToId((Synchronizable)source, destClass);
         }
 
-        return null;
+        throw new EntityConverterException(dest, source, "Invalid source type used in entity conversion: " + source.getClass());
     }
 
     /**
@@ -73,5 +80,48 @@ public class DozerEntityConverter implements CustomConverter {
         }
 
         throw new RuntimeException("Destination class not supported: " + destClass);
+    }
+
+    /**
+     * Handle mapping of entities in a collection
+     * @param dest the destination object
+     * @param source the source object
+     * @param destClass the destination class
+     * @param sourceClass the source class
+     * @return Collection with the mapped objects
+     */
+    private Collection handleCollection(Object dest, Collection source, Class<?> destClass, Class<?> sourceClass) {
+        if (!Collection.class.isAssignableFrom(destClass)) {
+            throw new EntityConverterException(source, dest, "When a source is a collection, destination object must be a collection");
+        }
+
+        // get the list that will receive mapped values
+        List list = dest != null ? (List)dest : new ArrayList<>();
+        list.clear();
+
+        if (param == null) {
+            throw new EntityConverterException(source, dest, "Dozer mapping - field converter - Must inform custom-converter-param with the entity class");
+        }
+
+        Class entityClass = ObjectUtils.forClass(param);
+        Class destType = null; // ObjectUtils.getGenericType(destClass, 0);
+        Class sourceType = null; // ObjectUtils.getGenericType(sourceClass, 0);
+
+        for (Object obj: source) {
+            Object result = obj instanceof UUID ?
+                    convert(null, obj, entityClass, UUID.class) :
+                    convert(null, obj, UUID.class, entityClass);
+
+            if (result != null) {
+                list.add(result);
+            }
+        }
+
+        return list;
+    }
+
+    @Override
+    public void setParameter(String s) {
+        this.param = s;
     }
 }

@@ -39,7 +39,7 @@ TextControl.options = {
 
 
 TextControl.propTypes = {
-	value: React.PropTypes.bool,
+	value: React.PropTypes.string,
 	schema: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any

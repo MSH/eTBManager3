@@ -7,8 +7,18 @@
 
 
     <mapping bean-factory="org.msh.etbm.services.admin.products.DozerProductFactory">
-        <class-a>org.msh.etbm.services.admin.products.ProductRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.products.ProductFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Product</class-b>
+    </mapping>
+
+    <mapping bean-factory="org.msh.etbm.services.admin.products.DozerProductFactory">
+        <class-a>org.msh.etbm.services.admin.products.ProductFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.Medicine</class-b>
+
+        <field custom-converter-id="entity-id" custom-converter-param="org.msh.etbm.db.entities.Substance">
+            <a>substances</a>
+            <b>substances</b>
+        </field>
     </mapping>
 
 

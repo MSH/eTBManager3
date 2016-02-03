@@ -1,16 +1,19 @@
-package org.msh.etbm.commons.forms.handlers;
+package org.msh.etbm.services.admin.admunits.typehandler;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.forms.FieldInitRequest;
-import org.msh.etbm.commons.forms.TypeHandler;
+import org.msh.etbm.commons.forms.types.TypeHandler;
+import org.msh.etbm.commons.forms.types.TypesManagerService;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.typehandler.AdminUnitFieldResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,14 +25,19 @@ import java.util.UUID;
 @Component
 public class AdminUnitTypeHandler implements TypeHandler<AdminUnitFieldResponse[]> {
 
+    public static final String TYPE_NAME = "adminUnit";
+
     @Autowired
     AdminUnitService adminUnitService;
 
+    @Autowired
+    TypesManagerService typesManagerService;
 
-    @Override
-    public String getTypeName() {
-        return "adminUnit";
+    @PostConstruct
+    public void register() {
+        typesManagerService.register(TYPE_NAME, this);
     }
+
 
     protected String getLevelName(int level, List<CountryStructureData> lst) {
         String delim = "";

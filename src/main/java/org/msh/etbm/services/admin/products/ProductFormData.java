@@ -11,7 +11,7 @@ import java.util.UUID;
  * Request class used as input data to save or update a product/medicine
  * Created by rmemoria on 11/11/15.
  */
-public class ProductRequest {
+public class ProductFormData {
     /** if true, this product represents a medicine */
     private Optional<ProductType> type;
 

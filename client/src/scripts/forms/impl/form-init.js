@@ -118,7 +118,8 @@ function getFieldsRequest(snapshot, doc, lst) {
 		const req = {
 			id: sc.id,
 			type: sc.type,
-			value: getValue(doc, sc.property)
+			value: getValue(doc, sc.property),
+			params: Comp.getInitParams(sc)
 		};
 
 		lst.push(req);
