@@ -18,14 +18,9 @@ import org.springframework.stereotype.Service;
 public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, WorkspaceQueryParams>
     implements WorkspaceService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
 
     @Override
-    public QueryResult findMany(WorkspaceQueryParams qry) {
-        QueryBuilder<Workspace> builder = queryBuilderFactory.createQueryBuilder(Workspace.class);
-
+    public void buildQuery(QueryBuilder<Workspace> builder, WorkspaceQueryParams qry) {
         // set the profiles
         builder.addDefaultProfile(WorkspaceRequest.PROFILE_DEFAULT, WorkspaceData.class);
         builder.addProfile(WorkspaceRequest.PROFILE_ITEM, Item.class);
@@ -33,10 +28,6 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
         // set the order
         builder.addDefaultOrderByMap(WorkspaceRequest.ORDERBY_NAME, "name");
-
-        builder.initialize(qry);
-
-        return builder.createQueryResult();
     }
 
     @Override

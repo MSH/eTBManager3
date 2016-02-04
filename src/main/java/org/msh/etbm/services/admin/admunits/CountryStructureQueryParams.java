@@ -8,6 +8,13 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
  */
 public class CountryStructureQueryParams extends EntityQueryParams {
     /**
+     * Available sorting options
+     */
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_LEVEL = "level";
+    public static final String ORDERBY_LEVEL_DESC = "level desc";
+
+    /**
      * The level to search for
      */
     private Integer level;

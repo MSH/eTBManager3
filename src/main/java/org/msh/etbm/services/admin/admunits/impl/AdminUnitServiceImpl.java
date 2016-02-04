@@ -43,6 +43,12 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     @Autowired
     AdminUnitSeriesService adminUnitSeriesService;
 
+
+    @Override
+    protected void buildQuery(QueryBuilder<AdministrativeUnit> builder, AdminUnitQueryParams queryParams) {
+
+    }
+
     /**
      * Query the administrative units
      * @param q the query parameters

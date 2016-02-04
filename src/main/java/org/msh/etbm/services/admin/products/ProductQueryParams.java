@@ -8,6 +8,13 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
  * Created by rmemoria on 11/11/15.
  */
 public class ProductQueryParams extends EntityQueryParams {
+    public static final String ORDERBY_NAME = "name";
+    public static final String ORDERBY_SHORTNAME = "shortName";
+    public static final String PROFILE_ITEM = "item";
+    public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_DETAILED = "detailed";
+
+
     private ProductType type;
 
     private String key;

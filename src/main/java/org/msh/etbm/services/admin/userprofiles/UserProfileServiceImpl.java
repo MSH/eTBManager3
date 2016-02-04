@@ -17,18 +17,9 @@ import org.springframework.stereotype.Service;
 public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserProfileQueryParams>
     implements UserProfileService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
 
-    /**
-     * Search for user profiles by the given query params
-     * @param params
-     * @return
-     */
     @Override
-    public QueryResult<SynchronizableItem> findMany(UserProfileQueryParams params) {
-        QueryBuilder<UserProfile> builder = queryBuilderFactory.createQueryBuilder(UserProfile.class, "a");
-
+    protected void buildQuery(QueryBuilder<UserProfile> builder, UserProfileQueryParams queryParams) {
         // add profiles
         builder.addProfile(UserProfileQueryParams.PROFILE_ITEM, SynchronizableItem.class);
         builder.addDefaultProfile(UserProfileQueryParams.PROFILE_DEFAULT, SynchronizableItem.class);
@@ -36,11 +27,5 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
 
         // add order by
         builder.addDefaultOrderByMap(UserProfileQueryParams.ORDERBY_NAME, "name");
-
-        builder.initialize(params);
-
-        QueryResult<SynchronizableItem> res = builder.createQueryResult();
-
-        return res;
     }
 }

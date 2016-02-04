@@ -20,32 +20,19 @@ import org.springframework.validation.BindingResult;
 public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryParams>
     implements SourceService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
-    /**
-     * Return a list of sources by the given query
-     * @param qry filters and constraints about what to return
-     * @return result of the query
-     */
-    public QueryResult<SourceData> findMany(SourceQueryParams qry) {
-        QueryBuilder<Source> builder = queryBuilderFactory.createQueryBuilder(Source.class);
-
+    @Override
+    protected void buildQuery(QueryBuilder<Source> builder, SourceQueryParams queryParams) {
         builder.addDefaultOrderByMap(SourceQueryParams.ORDERBY_NAME, "name");
         builder.addOrderByMap(SourceQueryParams.ORDERBY_SHORTNAME, "shortName");
 
         builder.addDefaultProfile("default", SourceData.class);
 
-        builder.initialize(qry);
-
         // default to include just active items
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
-
-        QueryResult<SourceData> res = builder.createQueryResult();
-        return res;
     }
+
 
     @Override
     protected void prepareToSave(Source entity, BindingResult bindingResult) {

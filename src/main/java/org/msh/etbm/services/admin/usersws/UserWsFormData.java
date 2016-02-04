@@ -23,6 +23,7 @@ public class UserWsFormData {
     private Optional<String> customId;
     private Optional<Boolean> playOtherUnits;
     private List<UUID> profiles;
+    private Optional<String> view;
 
 
     public Optional<String> getName() {
@@ -111,5 +112,13 @@ public class UserWsFormData {
 
     public void setProfiles(List<UUID> profiles) {
         this.profiles = profiles;
+    }
+
+    public Optional<String> getView() {
+        return view;
+    }
+
+    public void setView(Optional<String> view) {
+        this.view = view;
     }
 }

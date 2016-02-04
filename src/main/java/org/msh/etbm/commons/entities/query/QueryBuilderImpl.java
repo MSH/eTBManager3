@@ -92,9 +92,9 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     private Integer recordsPerPage;
 
     /**
-     * The path used in the from clause
+     * The entity alias used in the from clause
      */
-    private String entityPath;
+    private String entityAlias;
 
     /**
      * If true, just count operation will be performed
@@ -110,11 +110,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     /**
      * Default constructor
      * @param entityClass the entity class to be handled
-     * @param entityPath the path used in the FROM clause (optional, but required in join operation)
+     * @param entityAlias the path used in the FROM clause (optional, but required in join operation)
      */
-    public QueryBuilderImpl(Class entityClass, String entityPath) {
+    public QueryBuilderImpl(Class entityClass, String entityAlias) {
         this.entityClass = entityClass;
-        this.entityPath = entityPath;
+        this.entityAlias = entityAlias;
     }
 
     /**
@@ -126,8 +126,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         s.append("from ");
         s.append(entityClass.getSimpleName());
 
-        if (entityPath != null) {
-            s.append(" " + entityPath);
+        if (entityAlias != null) {
+            s.append(" " + entityAlias);
         }
         s.append('\n');
 
@@ -142,9 +142,9 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      */
     public String createHQL() {
         StringBuilder s = new StringBuilder("from " + entityClass.getSimpleName());
-        if (entityPath != null) {
+        if (entityAlias != null) {
             s.append(' ');
-            s.append(entityPath);
+            s.append(entityAlias);
         }
         s.append('\n');
 
@@ -199,8 +199,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         boolean bWhere = false;
         if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequestService.isAuthenticated()) {
             hql.append("where ");
-            if (entityPath != null) {
-                hql.append(entityPath);
+            if (entityAlias != null) {
+                hql.append(entityAlias);
                 hql.append('.');
             }
             hql.append("workspace.id = :wsid\n");
@@ -496,11 +496,21 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.profile = profile;
     }
 
-    public String getEntityPath() {
-        return entityPath;
+    public String getentityAlias() {
+        return entityAlias;
     }
 
-    public void setEntityPath(String entityPath) {
-        this.entityPath = entityPath;
+    public void setentityAlias(String entityAlias) {
+        this.entityAlias = entityAlias;
+    }
+
+    @Override
+    public void setEntityClass(Class entityClass) {
+        this.entityClass = entityClass;
+    }
+
+    @Override
+    public void setEntityAlias(String alias) {
+        this.entityAlias = alias;
     }
 }

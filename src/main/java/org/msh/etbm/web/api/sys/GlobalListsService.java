@@ -1,8 +1,10 @@
 package org.msh.etbm.web.api.sys;
 
+import org.msh.etbm.Messages;
 import org.msh.etbm.db.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -24,8 +26,9 @@ public class GlobalListsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalListsService.class);
 
-    @Resource
-    MessageSource messageSource;
+    @Autowired
+    Messages messages;
+
 
     // available lists to be sent to the client
     private static final Class[] lists = {
@@ -43,11 +46,9 @@ public class GlobalListsService {
     public Map<String, Map<String, String> > getLists() {
         Map<String, Map<String, String>> res = new HashMap<>();
 
-        Locale locale = LocaleContextHolder.getLocale();
-
         for (Class clazz: lists) {
             String name = clazz.getSimpleName();
-            Map<String, String> options = getOptions(clazz, locale);
+            Map<String, String> options = getOptions(clazz);
 
             res.put(name, options);
         }
@@ -58,10 +59,9 @@ public class GlobalListsService {
     /**
      * Return the options from the given class (actually, just enums are supported)
      * @param clazz the enum class to get options from
-     * @param locale the locale to get translated enum values
      * @return the list of options from the enumeration
      */
-    private Map<String, String> getOptions(Class clazz, Locale locale) {
+    private Map<String, String> getOptions(Class clazz) {
         if (!clazz.isEnum()) {
             throw new RuntimeException("Type not supported: " + clazz);
         }
@@ -72,14 +72,7 @@ public class GlobalListsService {
 
         for (Object val: vals) {
             String messageKey = clazz.getSimpleName() + '.' + val.toString();
-            String message;
-            try {
-                message = messageSource.getMessage(messageKey, null, locale);
-            }
-            catch (NoSuchMessageException e) {
-                LOGGER.warn("No message found for " + messageKey + " in the locale " + locale.getDisplayName());
-                message = messageKey;
-            }
+            String message = messages.get(messageKey);
 
             opts.put(val.toString(), message);
         }

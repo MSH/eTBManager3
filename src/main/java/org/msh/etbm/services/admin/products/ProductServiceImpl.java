@@ -3,11 +3,8 @@ package org.msh.etbm.services.admin.products;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
-import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -22,47 +19,29 @@ import java.util.Optional;
 public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryParams>
     implements ProductService {
 
-    public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_SHORTNAME = "shortName";
 
-    public static final String PROFILE_ITEM = "item";
-    public static final String PROFILE_DEFAULT = "default";
-    public static final String PROFILE_DETAILED = "detailed";
-
-
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
-    /**
-     * Return a list of products according to the given query parameters
-     * @param qry the parameters to generate the query
-     * @return list of products
-     */
     @Override
-    public QueryResult<Product> findMany(ProductQueryParams qry) {
-        Class clazz = qry.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
-
-        QueryBuilder<Product> builder = queryBuilderFactory.createQueryBuilder(clazz);
+    protected void buildQuery(QueryBuilder<Product> builder, ProductQueryParams queryParams) {
+        Class clazz = queryParams.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
 
         // order by options
-        builder.addDefaultOrderByMap(ORDERBY_NAME, "name");
-        builder.addOrderByMap(ORDERBY_SHORTNAME, "shortName");
+        builder.addDefaultOrderByMap(ProductQueryParams.ORDERBY_NAME, "name");
+        builder.addOrderByMap(ProductQueryParams.ORDERBY_SHORTNAME, "shortName");
 
         // profiles
-        builder.addDefaultProfile(PROFILE_DEFAULT, ProductData.class);
-        builder.addProfile(PROFILE_ITEM, ProductItem.class);
-        builder.addProfile(PROFILE_DETAILED, ProductDetailedData.class);
+        builder.addDefaultProfile(ProductQueryParams.PROFILE_DEFAULT, ProductData.class);
+        builder.addProfile(ProductQueryParams.PROFILE_ITEM, ProductItem.class);
+        builder.addProfile(ProductQueryParams.PROFILE_DETAILED, ProductDetailedData.class);
 
-        builder.initialize(qry);
+        builder.initialize(queryParams);
 
-        builder.addLikeRestriction("name", qry.getKey());
+        builder.addLikeRestriction("name", queryParams.getKey());
 
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
-
-        return builder.createQueryResult();
     }
+
 
     @Override
     protected Product createEntityInstance(Object req) {

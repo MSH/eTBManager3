@@ -32,30 +32,24 @@ import org.springframework.validation.BindingResult;
 public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> implements UnitService {
 
     @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
-    @Autowired
     AdminUnitRepository adminUnitRepository;
 
     @Autowired
     AdminUnitSeriesService adminUnitSeriesService;
 
-    /**
-     * Search for units based on the given query
-     * @param qry unit query filters
-     * @return list of units
-     */
-    public QueryResult<UnitItemData> findMany(UnitQueryParams qry) {
+    @Override
+    protected void buildQuery(QueryBuilder<Unit> builder, UnitQueryParams queryParams) {
         // determine the class to be used in the query
         Class clazz;
-        if (qry.getType() != null) {
-            clazz = qry.getType() == UnitType.TBUNIT? Tbunit.class : Laboratory.class;
+        if (queryParams.getType() != null) {
+            clazz = queryParams.getType() == UnitType.TBUNIT? Tbunit.class : Laboratory.class;
         }
         else {
             clazz = Unit.class;
         }
-        QueryBuilder<Unit> builder = queryBuilderFactory.createQueryBuilder(clazz, "a");
-
+        builder.setEntityClass(clazz);
+        builder.setEntityAlias("a");
+        
         // add the available profiles
         builder.addProfile(UnitQueryParams.PROFILE_ITEM, UnitItemData.class);
         builder.addDefaultProfile(UnitQueryParams.PROFILE_DEFAULT, UnitData.class);
@@ -66,49 +60,44 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
 
-        builder.initialize(qry);
-
         // add the restrictions
-        builder.addLikeRestriction("a.name", qry.getKey());
+        builder.addLikeRestriction("a.name", queryParams.getKey());
 
-        builder.addRestriction("a.name = :name", qry.getName());
+        builder.addRestriction("a.name = :name", queryParams.getName());
 
         // default to include just active items
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("a.active = true");
         }
 
         // restrictions administrative unit
-        if (qry.getAdminUnitId() != null) {
+        if (queryParams.getAdminUnitId() != null) {
             // include children?
-            if (qry.isIncludeSubunits()) {
-                AdministrativeUnit au = adminUnitRepository.findOne(qry.getAdminUnitId());
+            if (queryParams.isIncludeSubunits()) {
+                AdministrativeUnit au = adminUnitRepository.findOne(queryParams.getAdminUnitId());
                 if (au == null || !au.getWorkspace().getId().equals(getWorkspaceId())) {
-                    rejectFieldException(qry, "adminUnitId", "Invalid administrative unit");
+                    rejectFieldException(queryParams, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
                 builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
             }
             else {
                 // search for units directly registered in this administrative unit
-                builder.addRestriction("a.address.adminUnit.id = :auid", qry.getAdminUnitId());
+                builder.addRestriction("a.address.adminUnit.id = :auid", queryParams.getAdminUnitId());
             }
         }
 
         // laboratory filters
-        builder.addRestriction("performCulture = :pefculture", qry.getPerformCulture());
-        builder.addRestriction("performMicroscopy = :pefmic", qry.getPerformMicroscopy());
-        builder.addRestriction("performDst = :pefdst", qry.getPerformDst());
-        builder.addRestriction("performXpert = :pefxpert", qry.getPerformXpert());
+        builder.addRestriction("performCulture = :pefculture", queryParams.getPerformCulture());
+        builder.addRestriction("performMicroscopy = :pefmic", queryParams.getPerformMicroscopy());
+        builder.addRestriction("performDst = :pefdst", queryParams.getPerformDst());
+        builder.addRestriction("performXpert = :pefxpert", queryParams.getPerformXpert());
 
         // TB unit filters
-        builder.addRestriction("tbFacility = :tbfacility", qry.getTbFacility());
-        builder.addRestriction("mdrFacility = :mdrfacility", qry.getMdrFacility());
-        builder.addRestriction("ntmFacility = :ntmfacility", qry.getNtmFacility());
-        builder.addRestriction("notificationUnit = :notifunit", qry.getNotificationUnit());
-
-        QueryResult<UnitItemData> res = builder.createQueryResult();
-        return res;
+        builder.addRestriction("tbFacility = :tbfacility", queryParams.getTbFacility());
+        builder.addRestriction("mdrFacility = :mdrfacility", queryParams.getMdrFacility());
+        builder.addRestriction("ntmFacility = :ntmfacility", queryParams.getNtmFacility());
+        builder.addRestriction("notificationUnit = :notifunit", queryParams.getNotificationUnit());
     }
 
 

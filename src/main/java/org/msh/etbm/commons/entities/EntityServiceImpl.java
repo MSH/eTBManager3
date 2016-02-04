@@ -8,6 +8,8 @@ import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
@@ -60,6 +62,10 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
     @Autowired
     Validator validator;
+
+    @Autowired
+    QueryBuilderFactory queryBuilderFactory;
+
 
     /**
      * The entity class
@@ -466,6 +472,31 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     }
 
     @Override
-    public abstract QueryResult findMany(Q params);
+    public QueryResult findMany(Q qryParams) {
+        QueryBuilder<E> builder = queryBuilderFactory.createQueryBuilder( getEntityClass() );
 
+        builder.initialize(qryParams);
+
+        buildQuery(builder, qryParams);
+
+        return builder.createQueryResult();
+    }
+
+    /**
+     * Return the entity manager in use
+     * @return instance of {@link EntityManager}
+     */
+    protected EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    /**
+     * Called when the method {@link EntityServiceImpl#findMany(EntityQueryParams)} is invoked, in order to
+     * build the query that will return the entities
+     * @param builder instance of the {@link QueryBuilder}
+     * @param queryParams the parameters sent from the client to return the entities
+     */
+    protected void buildQuery(QueryBuilder<E> builder, Q queryParams) {
+        // nothing to do
+    };
 }

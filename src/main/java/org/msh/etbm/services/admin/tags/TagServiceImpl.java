@@ -15,13 +15,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> implements TagService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
     @Override
-    public QueryResult findMany(TagQueryParams qry) {
-        QueryBuilder<Tag> builder = queryBuilderFactory.createQueryBuilder(Tag.class);
-
+    protected void buildQuery(QueryBuilder<Tag> builder, TagQueryParams queryParams) {
         // order by options
         builder.addDefaultOrderByMap(TagQueryParams.ORDERBY_NAME, "name");
         builder.addOrderByMap(TagQueryParams.ORDERBY_TYPE, "classification, name");
@@ -30,14 +25,9 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         builder.addDefaultProfile(TagQueryParams.PROFILE_DEFAULT, TagData.class);
         builder.addProfile(TagQueryParams.PROFILE_ITEM, SynchronizableItem.class);
 
-        builder.initialize(qry);
-
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
-
-        QueryResult<SynchronizableItem> res = builder.createQueryResult();
-        return res;
     }
 
 }

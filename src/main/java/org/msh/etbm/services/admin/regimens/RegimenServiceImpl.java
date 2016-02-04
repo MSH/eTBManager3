@@ -18,13 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryParams> implements RegimenService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
     @Override
-    public QueryResult findMany(RegimenQueryParams qry) {
-        QueryBuilder<Regimen> builder = queryBuilderFactory.createQueryBuilder(Regimen.class);
-
+    protected void buildQuery(QueryBuilder<Regimen> builder, RegimenQueryParams queryParams) {
         // order by options
         builder.addDefaultOrderByMap(RegimenQueryParams.ORDERBY_NAME, "name");
         builder.addOrderByMap(RegimenQueryParams.ORDERBY_CLASSIFICATION, "classification, name");
@@ -35,12 +30,8 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
         builder.addProfile(RegimenQueryParams.PROFILE_ITEM, SynchronizableItem.class);
         builder.addProfile(RegimenQueryParams.PROFILE_DETAILED, RegimenDetailedData.class);
 
-        builder.initialize(qry);
-
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
-
-        return builder.createQueryResult();
     }
 }

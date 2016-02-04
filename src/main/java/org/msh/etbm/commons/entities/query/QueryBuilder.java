@@ -143,4 +143,16 @@ public interface QueryBuilder<E> {
      */
     String getProfile();
 
+
+    /**
+     * Change the entity class in use in the query builder
+     * @param entity the entity class
+     */
+    void setEntityClass(Class entity);
+
+    /**
+     * Set the entity alias in use in the query builder
+     * @param alias the entity alias
+     */
+    void setEntityAlias(String alias);
 }

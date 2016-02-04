@@ -3,16 +3,11 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
-import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
-import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 
@@ -24,9 +19,26 @@ import org.springframework.validation.BindingResult;
 public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStructure, CountryStructureQueryParams>
     implements CountryStructureService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
+    @Override
+    protected void buildQuery(QueryBuilder<CountryStructure> builder, CountryStructureQueryParams queryParams) {
+        builder.addDefaultProfile("default", CountryStructureData.class);
 
+        builder.addDefaultOrderByMap(CountryStructureQueryParams.ORDERBY_LEVEL, "level, name");
+        builder.addOrderByMap(CountryStructureQueryParams.ORDERBY_NAME, "name");
+        builder.addOrderByMap(CountryStructureQueryParams.ORDERBY_LEVEL_DESC, "level desc, name desc");
+
+        // filter by the level
+        if (queryParams.getLevel() != null) {
+            builder.addRestriction("level = :level");
+            builder.setParameter("level", queryParams.getLevel());
+        }
+
+        // filter by the name
+        if (queryParams.getName() != null) {
+            builder.addRestriction("name = :name");
+            builder.setParameter("name", queryParams.getName());
+        }
+    }
 
     @Override
     protected void prepareToSave(CountryStructure entity, BindingResult bindingResult) throws EntityValidationException {
@@ -42,38 +54,4 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
         }
     }
 
-
-
-    /**
-     * Query the database based on the given query criterias
-     * @param q the query criteria
-     * @return instance of {@link QueryResult}
-     */
-    @Transactional
-    @Override
-    public QueryResult<CountryStructureData> findMany(CountryStructureQueryParams q) {
-        QueryBuilder<CountryStructure> qry = queryBuilderFactory.createQueryBuilder(CountryStructure.class);
-
-        qry.addDefaultOrderByMap(CountryStructureFormData.ORDERBY_LEVEL, "level, name");
-        qry.addOrderByMap(CountryStructureFormData.ORDERBY_NAME, "name");
-        qry.addOrderByMap(CountryStructureFormData.ORDERBY_LEVEL_DESC, "level desc, name desc");
-
-        qry.initialize(q);
-
-        // filter by the level
-        if (q.getLevel() != null) {
-            qry.addRestriction("level = :level");
-            qry.setParameter("level", q.getLevel());
-        }
-
-        // filter by the name
-        if (q.getName() != null) {
-            qry.addRestriction("name = :name");
-            qry.setParameter("name", q.getName());
-        }
-
-        QueryResult<CountryStructureData> res = qry.createQueryResult(CountryStructureData.class);
-
-        return res;
-    }
 }

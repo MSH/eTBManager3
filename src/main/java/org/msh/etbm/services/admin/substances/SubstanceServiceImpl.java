@@ -20,18 +20,8 @@ import org.springframework.validation.BindingResult;
 public class SubstanceServiceImpl extends EntityServiceImpl<Substance, SubstanceQueryParams>
         implements SubstanceService {
 
-    @Autowired
-    QueryBuilderFactory queryBuilderFactory;
-
-
-    /**
-     * Return a list of substances based on the query result
-     * @return
-     */
     @Override
-    public QueryResult findMany(SubstanceQueryParams qry) {
-        QueryBuilder<Substance> builder = queryBuilderFactory.createQueryBuilder(Substance.class);
-
+    protected void buildQuery(QueryBuilder<Substance> builder, SubstanceQueryParams queryParams) {
         // add the available profiles
         builder.addDefaultProfile(SubstanceQueryParams.PROFILE_DEFAULT, SubstanceData.class);
         builder.addProfile(SubstanceQueryParams.PROFILE_ITEM, SynchronizableItem.class);
@@ -40,23 +30,19 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
         builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_DISPLAYORDER, "displayOrder");
         builder.addOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
 
-        // initialize builder with standard query values
-        builder.initialize(qry);
-
-        if (qry.isDstResultForm()) {
+        if (queryParams.isDstResultForm()) {
             builder.addRestriction("dstResultForm = true");
         }
 
-        if (qry.isPrevTreatmentForm()) {
+        if (queryParams.isPrevTreatmentForm()) {
             builder.addRestriction("prevTreatmentForm = true");
         }
 
-        if (!qry.isIncludeDisabled()) {
+        if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
-
-        return builder.createQueryResult();
     }
+
 
     @Override
     protected void prepareToSave(Substance entity, BindingResult bindingResult) {
