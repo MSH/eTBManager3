@@ -8,8 +8,10 @@ export default function fieldControlWrapper(Component) {
 	class FieldControl extends React.Component {
 
 		componentWillMount() {
+			const isServerInitRequired = Component.isServerInitRequired ? Component.isServerInitRequired(this.props.schema) : false;
+
 			// resources were informed to initialize the field ?
-			if (this.props.resources) {
+			if (!isServerInitRequired || this.props.resources) {
 				return this.setState({ init: true });
 			}
 
@@ -101,7 +103,7 @@ export default function fieldControlWrapper(Component) {
 
 
 		render() {
-			if (!this.state.init) {
+			if (!this.state || !this.state.init) {
 				return null;
 			}
 

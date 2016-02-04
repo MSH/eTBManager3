@@ -18,6 +18,7 @@ public class ProductFormData {
     private Optional<String> name;
     private Optional<String> shortName;
     private Optional<String> customId;
+    private Optional<Boolean> active;
 
     // used just in medicines
     private Optional<MedicineCategory> category;
@@ -80,5 +81,13 @@ public class ProductFormData {
 
     public void setSubstances(List<UUID> substances) {
         this.substances = substances;
+    }
+
+    public Optional<Boolean> getActive() {
+        return active;
+    }
+
+    public void setActive(Optional<Boolean> active) {
+        this.active = active;
     }
 }

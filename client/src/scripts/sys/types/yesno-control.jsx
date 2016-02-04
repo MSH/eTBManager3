@@ -3,7 +3,7 @@ import React from 'react';
 import { Input } from 'react-bootstrap';
 import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
-import Fa from '../../components/fa';
+import { Fa, SelectionBox } from '../../components/index';
 
 
 /**
@@ -26,23 +26,31 @@ class YesNoControl extends React.Component {
 
 	onChange() {
 		if (this.props.onChange) {
-			const s = this.refs.input.getValue();
-			const value = s === '-' ? null : s === 'true';
-			this.props.onChange({ schema: this.props.schema, value: value });
+			const val = this.refs.input.getValue();
+			this.props.onChange({ schema: this.props.schema, value: val });
 		}
 	}
 
+
+	optionRender(val) {
+		return val ?
+			<div><Fa icon="check-circle" className="text-primary"/>{__('global.yes')}</div> :
+			<div><Fa icon="times-circle" className="text-danger"/>{__('global.no')}</div>;
+	}
+
+
 	editRender(schema) {
-		const err = schema.errors;
+		const err = this.props.errors;
+		const options = [true, false];
 
 		return (
-			<Input label={FormUtils.labelRender(schema.label, schema.required)} help={err} ref="input"
-				onChange={this.onChange} wrapperClassName="size-3"
-				style={err ? 'error' : null} type="select" value={this.props.value}>
-				<option value="-">{'-'}</option>
-				<option value="true">{__('global.yes')}</option>
-				<option value="false">{__('global.no')}</option>
-			</Input>
+			<SelectionBox label={FormUtils.labelRender(schema.label, schema.required)}
+				help={err} ref="input"
+				onChange={this.onChange}
+				options={options}
+				optionDisplay={this.optionRender}
+				wrapperClassName="size-3"
+				bsStyle={err ? 'error' : null} value={this.props.value} />
 			);
 	}
 

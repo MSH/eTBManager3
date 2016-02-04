@@ -7232,6 +7232,10 @@ button.close {
   height: auto;
   min-height: 34px;
 }
+.sel-box .dropdown-menu {
+  max-height: 300px;
+  overflow: auto;
+}
 .sel-box:hover .btn-dd {
   color: #646464;
 }

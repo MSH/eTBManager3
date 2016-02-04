@@ -29,12 +29,12 @@ export default class FormUtils {
 	 * @param  {[type]} options [description]
 	 * @return {[type]}         [description]
 	 */
-	static createOptions(options) {
-		if (!options) {
+	static createOptions(options, resources) {
+		if (!options && !resources) {
 			return null;
 		}
 
-		const lst = typeof options === 'string' ? app.getState().app.lists[options] : options;
+		const lst = typeof options === 'string' ? resources : options;
 
 		if (!lst) {
 			return null;
@@ -58,7 +58,8 @@ export default class FormUtils {
 		}
 
 		// create component for list of options
-		return opts.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>);
+		return opts;
+//		return opts.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>);
 	}
 
 

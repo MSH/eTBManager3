@@ -4,8 +4,11 @@ import fieldControlWrapper from './field-control';
 import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from './validators';
+import { SelectionBox } from '../../components/index';
 
-
+/**
+ * Used in the Form library. Provide input data of string and number types
+ */
 class InputControl extends React.Component {
 
 
@@ -15,14 +18,40 @@ class InputControl extends React.Component {
 		this.focus = this.focus.bind(this);
 	}
 
+	static isServerInitRequired(schema) {
+		return typeof schema.options === 'string';
+	}
+
+	static getInitParams(schema) {
+		return {
+			options: schema.options
+		};
+	}
+
 	validate() {
 		const schema = this.props.schema;
-		const value = this.refs.input.getValue();
+		const value = this.getValue();
 
 		return schema.type === 'string' ?
 			stringValidator(schema, value) :
 			numberValidator(schema, value);
 	}
+
+
+	/**
+	 * Get the selected value in the control
+	 * @return {Any} The value in the control
+	 */
+	getValue() {
+		if (this.refs.input) {
+			return this.refs.input.getValue();
+		}
+
+		const val = this.refs.sel.getValue();
+
+		return val ? val.id : null;
+	}
+
 
 	/**
 	 * Set the component focus
@@ -46,7 +75,7 @@ class InputControl extends React.Component {
 	 */
 	onChange() {
 		const sc = this.props.schema;
-		let value = this.refs.input.getValue();
+		let value = this.getValue();
 
 		// if it is an empty string, so return null
 		if (!value) {
@@ -87,26 +116,40 @@ class InputControl extends React.Component {
 		const sc = this.props.schema;
 		const errors = this.props.errors;
 
-		const options = FormUtils.createOptions(sc.options);
-
-		let ctype;
-		if (options) {
-			ctype = 'select';
-		}
-		else {
-			ctype = sc.password ? 'password' : 'text';
-		}
-
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		const wrapperClazz = this.getWrapperClass(sc);
+
+		const options = FormUtils.createOptions(sc.options, this.props.resources);
+
+		let value = this.props.value;
+
+		// is selection box ?
+		if (options) {
+			// get the value according to the option
+			value = options.find(item => item.id === value);
+
+			// rend the selection box
+			return (
+				<SelectionBox ref="sel"
+					options={options}
+					optionDisplay="name"
+					label={label}
+					onChange={this.onChange}
+					value={value}
+					help={errors}
+					bsStyle={errors ? 'error' : null} />
+			);
+		}
+
+		const ctype = sc.password ? 'password' : 'text';
 
 		return	(
 			<Input ref="input"
 				label={label}
 				type={ctype}
 				onChange={this.onChange}
-				value={this.props.value}
+				value={value}
 				help={errors}
 				wrapperClassName={wrapperClazz}
 				bsStyle={errors ? 'error' : null} >

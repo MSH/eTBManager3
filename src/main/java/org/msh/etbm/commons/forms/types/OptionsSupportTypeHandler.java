@@ -30,6 +30,7 @@ public class OptionsSupportTypeHandler implements TypeHandler {
 
     @PostConstruct
     public void init() {
+        typesManagerService.register("string", this);
         typesManagerService.register("multi-select", this);
     }
 

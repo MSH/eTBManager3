@@ -65,17 +65,8 @@ public class CommandInterceptor {
      * @throws Throwable
      */
     protected Object executeAndLog(ProceedingJoinPoint pjp) throws Throwable {
-        // try to get the command log annotation from the method
-        MethodSignature signature = (MethodSignature)pjp.getSignature();
-        Method method = signature.getMethod();
-        Method metAnnot;
-        if (method.getDeclaringClass().isInterface()) {
-            metAnnot = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
-        }
-        else {
-            metAnnot = method;
-        }
-        CommandLog cmdLog = metAnnot.getAnnotation(CommandLog.class);
+        Method method = findAnnotatedMethod(pjp);
+        CommandLog cmdLog = method.getAnnotation(CommandLog.class);
 
         if (cmdLog == null) {
             throw new CommandException("Annotation for command log not found in method " + method.toString());
@@ -86,6 +77,37 @@ public class CommandInterceptor {
         storeCommand(method, cmdLog, pjp.getArgs(), res);
 
         return res;
+    }
+
+    protected Method findAnnotatedMethod(ProceedingJoinPoint pjp) {
+        // try to get the command log annotation from the method
+        MethodSignature signature = (MethodSignature)pjp.getSignature();
+        Method method = signature.getMethod();
+
+        if (!method.getDeclaringClass().isInterface()) {
+            return method;
+        }
+
+        Class clazz = pjp.getTarget().getClass();
+        while (clazz != Object.class) {
+            for (Method met: clazz.getDeclaredMethods()) {
+                if (met.getName().equals(method.getName()) && met.getParameterCount() == method.getParameterCount()) {
+                    return met;
+                }
+            }
+            clazz = clazz.getSuperclass();
+        }
+
+        throw new CommandException("Annotated method not found: " + method.getName());
+//            System.out.println(pjp.getTarget().getClass());
+//            for (Method met: pjp.getTarget().getClass().getDeclaredMethods()) {
+//                System.out.println(met);
+//            }
+//            metAnnot = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+//        }
+//        else {
+//            metAnnot = method;
+//        }
     }
 
     /**

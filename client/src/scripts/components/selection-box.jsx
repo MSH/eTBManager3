@@ -65,7 +65,7 @@ export default class SelectionBox extends React.Component {
 	 */
 	labelRender() {
 		const label = this.props.label;
-		return label ? <div className="control-label">{label}</div> : null;
+		return label ? <label className="control-label">{label}</label> : null;
 	}
 
 	/**
@@ -189,7 +189,7 @@ export default class SelectionBox extends React.Component {
 	 */
 	contentRender() {
 		const value = this.state.value;
-		if (!value) {
+		if (value === null || value === undefined) {
 			return null;
 		}
 
@@ -218,29 +218,42 @@ export default class SelectionBox extends React.Component {
 	 * @return {React.Component} Component to display
 	 */
 	render() {
+		const clazz = 'sel-box form-group' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
+
+		const helpBlock = this.props.help ? (
+				<div className="help-block">{this.props.help}</div>
+			) : null;
+
+		const ctrlClass = this.props.wrapperClassName;
+		const controlClass = 'form-control' + (ctrlClass ? ' ' + ctrlClass : '');
+
 		return (
-			<div className="sel-box form-group">
+			<div className={clazz}>
 				{this.labelRender()}
-				<div className="form-control" onClick={this.controlClick}>
+				<div className={controlClass} onClick={this.controlClick}>
 					<div className="btn-dd">
 						<i className="fa fa-chevron-down" />
 					</div>
 					{this.contentRender()}
 				</div>
 				{this.createPopup()}
+				{helpBlock}
 			</div>
 			);
 	}
 }
 
 SelectionBox.propTypes = {
-	label: React.PropTypes.string,
+	label: React.PropTypes.node,
 	optionDisplay: React.PropTypes.any,
 	options: React.PropTypes.array,
 	onChange: React.PropTypes.func,
 	mode: React.PropTypes.oneOf(['single', 'multiple']),
 	noOption: React.PropTypes.bool,
-	value: React.PropTypes.any
+	value: React.PropTypes.any,
+	bsStyle: React.PropTypes.oneOf(['success', 'warning', 'error']),
+	help: React.PropTypes.string,
+	wrapperClassName: React.PropTypes.string
 };
 
 SelectionBox.defaultProps = {
