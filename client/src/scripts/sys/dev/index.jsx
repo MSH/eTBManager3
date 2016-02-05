@@ -103,7 +103,7 @@ export default class Home extends React.Component {
 										help="This is a simple help message"
 										onChange={this.onChange('selBox2')}
 										options={options2}
-										noOption />
+										noSelectionLabel="-" />
 								</Col>
 							</Row>
 							<Row>

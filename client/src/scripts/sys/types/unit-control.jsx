@@ -1,9 +1,8 @@
 
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
-import WaitIcon from '../../components/wait-icon';
+import { WaitIcon, SelectionBox } from '../../components/index';
 import FormUtils from '../../forms/form-utils';
 import Form from '../../forms/form';
 
@@ -56,8 +55,8 @@ class UnitControl extends React.Component {
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]
 	 */
-	onAuChange() {
-		const admUnit = this.refs.admunit.getValue();
+	onAuChange(evt, item) {
+		const admUnit = item ? item.id : null;
 
 		if (admUnit === '-') {
 			return this.setState({ units: null });
@@ -70,8 +69,14 @@ class UnitControl extends React.Component {
 		this.setState({ units: null });
 	}
 
-	onUnitChange() {
-		const id = this.refs.unit.getValue();
+	/**
+	 * Called when user selects a unit
+	 * @param  {[type]} evt  [description]
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	onUnitChange(evt, item) {
+		const id = item ? item.id : null;
 		if (this.props.onChange) {
 			this.props.onChange({ schema: this.props.schema, value: id });
 		}
@@ -84,22 +89,15 @@ class UnitControl extends React.Component {
 			return <WaitIcon type="field" />;
 		}
 
-		const options = this.state.adminUnits.map(opt => (
-				<option key={opt.id} value={opt.id}>
-					{opt.name}
-				</option>
-				));
-		// include 'no selection' option
-		options.unshift(<option key="-" value="-" >{'-'}</option>);
-
 		const sc = this.props.schema;
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		return (
-				<Input ref="admunit" value={this.state.adminUnitId}
-					type="select" label={label} onChange={this.onAuChange}>
-					{options}
-				</Input>
+				<SelectionBox ref="admunit" value={this.state.adminUnitId}
+					type="select" label={label} onChange={this.onAuChange}
+					noSelectionLabel="-"
+					optionDisplay="name"
+					options={this.state.adminUnits} />
 				);
 	}
 
@@ -108,19 +106,20 @@ class UnitControl extends React.Component {
 			return null;
 		}
 
-		const options = this.state.units.map(opt => (
-				<option key={opt.id} value={opt.id}>
-					{opt.name}
-				</option>
-				));
-		// include 'no selection' option
-		options.unshift(<option key="-" value="-" >{'-'}</option>);
+		// const options = this.state.units.map(opt => (
+		// 		<option key={opt.id} value={opt.id}>
+		// 			{opt.name}
+		// 		</option>
+		// 		));
+		// // include 'no selection' option
+		// options.unshift(<option key="-" value="-" >{'-'}</option>);
 
 		return (
-				<Input ref="unit" value={this.props.value}
-					type="select" onChange={this.onUnitChange}>
-					{options}
-				</Input>
+				<SelectionBox ref="unit" value={this.props.value}
+					type="select" onChange={this.onUnitChange}
+					noSelectionLabel="-"
+					optionDisplay="name"
+					options={this.state.units} />
 				);
 	}
 

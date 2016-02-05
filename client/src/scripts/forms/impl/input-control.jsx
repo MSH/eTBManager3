@@ -138,6 +138,7 @@ class InputControl extends React.Component {
 					onChange={this.onChange}
 					value={value}
 					help={errors}
+					noSelectionLabel={sc.required ? null : '-'}
 					bsStyle={errors ? 'error' : null} />
 			);
 		}

@@ -41,7 +41,6 @@ export default class FormUtils {
 		}
 
 		let opts = [];
-		opts.push({ id: '-', name: '-' });
 		if (lst.constructor !== Array && typeof lst === 'object') {
 			const keys = Object.keys(lst);
 			if (keys.length === 2 && lst.from && lst.to) {
