@@ -49,7 +49,7 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
             return;
         }
 
-        if (!checkUnique(entity, "name")) {
+        if (!checkUnique(entity, "name", "level = " + entity.getLevel())) {
             bindingResult.rejectValue("name", "NotUnique");
         }
     }

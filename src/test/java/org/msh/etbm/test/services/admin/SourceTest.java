@@ -8,9 +8,7 @@ import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 8/2/16.
@@ -33,7 +31,12 @@ public class SourceTest extends CommonEntityServiceTests {
         props.put("name", "My source");
         props.put("shortName", "MS");
 
-        UUID id = testCreateAndFindOne(props);
+        // unique properties
+        List<String> lst = new ArrayList<>();
+        lst.add("name");
+        lst.add("shortName");
+
+        UUID id = testCreateAndFindOne(props, lst);
 
         // test update
         props.clear();

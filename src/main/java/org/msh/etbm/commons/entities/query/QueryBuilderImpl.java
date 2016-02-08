@@ -2,7 +2,7 @@ package org.msh.etbm.commons.entities.query;
 
 import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.services.usersession.UserRequestService;
 
@@ -189,7 +189,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         }
 
         if (field == null) {
-            throw new IllegalArgumentException("Invalid order by clause " + orderByKey);
+            throw new InvalidArgumentException("orderBy", "Invalid order by clause " + orderByKey, null);
         }
 
         hql.append("order by " + field);
@@ -386,7 +386,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         Class dataClass = profile != null? profiles.get(profile): null;
 
         if (profile != null && dataClass == null) {
-            throw new EntityValidationException("profile", null, "NotValid");
+            throw new InvalidArgumentException("profile", null, "NotValid");
         }
 
         return createQueryResult(dataClass);

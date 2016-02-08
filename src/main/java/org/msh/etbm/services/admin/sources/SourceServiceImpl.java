@@ -39,11 +39,11 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
             return;
         }
 
-        if (!checkUnique(entity, "name")) {
+        if (!checkUnique(entity, "name", null)) {
             bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        if (!checkUnique(entity, "shortName")) {
+        if (!checkUnique(entity, "shortName", null)) {
             bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }

@@ -13,13 +13,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
+ * Implementation of the User profile service for CRUD operations
+ *
  * Created by rmemoria on 26/1/16.
  */
 @Service
 public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserProfileQueryParams>
     implements UserProfileService {
 
-    private final static String CMD_NAME = "profiles";
+    private static final String CMD_NAME = "profiles";
 
     @Override
     protected void buildQuery(QueryBuilder<UserProfile> builder, UserProfileQueryParams queryParams) {

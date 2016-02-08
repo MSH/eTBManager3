@@ -52,7 +52,7 @@ public class UnitBeanFactory implements BeanFactory {
      */
     protected Unit createUnit(Object source) {
         if (!(source instanceof TypedUnit)) {
-            throw new EntityValidationException("type",
+            throw new EntityValidationException(source, "type",
                     "Source object must implement interface " + TypedUnit.class.getSimpleName() + "  --> " + source.getClass(),
                     null);
         }
@@ -63,6 +63,6 @@ public class UnitBeanFactory implements BeanFactory {
             case TBUNIT: return new Tbunit();
         }
 
-        throw new EntityValidationException("type", "Type not supported " + type, null);
+        throw new EntityValidationException(source, "type", "Type not supported " + type, null);
     }
 }

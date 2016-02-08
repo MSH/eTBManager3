@@ -64,6 +64,7 @@ public class UnitFormData implements TypedUnit {
         return type;
     }
 
+    @Override
     public void setUnitType(UnitType type) {
         this.type = type;
     }

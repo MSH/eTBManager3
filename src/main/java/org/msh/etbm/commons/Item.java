@@ -5,7 +5,7 @@ package org.msh.etbm.commons;
  *
  * Created by rmemoria on 30/8/15.
  */
-public class Item<E> {
+public class Item<E> implements Displayable {
     private E id;
     private String name;
 
@@ -48,5 +48,10 @@ public class Item<E> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getDisplayString() {
+        return name;
     }
 }

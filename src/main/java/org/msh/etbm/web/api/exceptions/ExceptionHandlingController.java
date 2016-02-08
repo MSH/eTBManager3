@@ -1,11 +1,11 @@
 package org.msh.etbm.web.api.exceptions;
 
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -20,7 +20,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -32,7 +31,8 @@ import java.util.Map;
 public class ExceptionHandlingController {
 
     @Autowired
-    MessageSource messageSource;
+    Messages messages;
+
 
     /**
      * Handle errors when the entity was not found in the database
@@ -55,23 +55,14 @@ public class ExceptionHandlingController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Object handleEntityValidationError(EntityValidationException e) {
-        if (e.getBindingResult() == null) {
-            // get the selected locale
-            Locale locale = LocaleContextHolder.getLocale();
-
-            // create the message
-            Map<String, Message> msgs = new HashMap<>();
-            String msg;
-            if (e.getCode() != null && e.getMessage() == null) {
-                msg = messageSource.getMessage(e.getCode(), null, locale);
-            }
-            else {
-                msg = e.getMessage();
-            }
-            msgs.put(e.getField(), new Message(msg, e.getCode()));
-            return new StandardResult(null, msgs, false);
-        }
         return convertErrorsToStandardResult(e.getBindingResult());
+    }
+
+    @ExceptionHandler(InvalidArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public Object handleInvalidArgument(InvalidArgumentException e) {
+        return e.getProperty() + " - " + e.getMessage();
     }
 
     /**
@@ -85,12 +76,10 @@ public class ExceptionHandlingController {
             return new StandardResult(null, null, false);
         }
 
-        Locale locale = LocaleContextHolder.getLocale();
-
         Map<String, Message> errors = new HashMap<>();
         List<FieldError> lst = res.getFieldErrors();
         for (FieldError fld: lst) {
-            String message = messageSource.getMessage(fld, locale);
+            String message = messages.get(fld);
             errors.put(fld.getField(), new Message(message, fld.getCode()));
         }
 

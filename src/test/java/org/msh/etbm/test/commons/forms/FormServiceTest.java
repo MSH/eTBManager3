@@ -1,10 +1,10 @@
 package org.msh.etbm.test.commons.forms;
 
 import org.junit.Test;
-import org.msh.etbm.test.AbstractAuthenticatedTest;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.test.AbstractAuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

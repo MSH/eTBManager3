@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.entities;
 
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
 /**
@@ -9,10 +10,8 @@ import org.springframework.validation.BindingResult;
  * Created by rmemoria on 28/10/15.
  */
 public class EntityValidationException extends RuntimeException {
-    private transient final BindingResult bindingResult;
 
-    private final String field;
-    private final String code;
+    private transient final BindingResult bindingResult;
 
     /**
      * Constructor when there is just one single validation error message
@@ -20,11 +19,11 @@ public class EntityValidationException extends RuntimeException {
      * @param message
      * @param code
      */
-    public EntityValidationException(String field, String message, String code) {
+    public EntityValidationException(Object entity, String field, String message, String code) {
         super(message);
-        this.field = field;
-        this.code = code;
-        this.bindingResult = null;
+
+        this.bindingResult = new BeanPropertyBindingResult(entity, entity.getClass().getSimpleName());
+        this.bindingResult.rejectValue(field, code);
     }
 
     /**
@@ -34,21 +33,10 @@ public class EntityValidationException extends RuntimeException {
     public EntityValidationException(BindingResult bindingResult) {
         super();
         this.bindingResult = bindingResult;
-        this.field = null;
-        this.code = null;
     }
 
     public BindingResult getBindingResult() {
         return bindingResult;
     }
-
-    public String getField() {
-        return field;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
 
 }

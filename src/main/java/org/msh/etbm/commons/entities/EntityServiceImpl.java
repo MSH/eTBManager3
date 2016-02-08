@@ -222,6 +222,18 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return true if the entity is unique
      */
     protected boolean checkUnique(E entity, String field) {
+        return checkUnique(entity, field, null);
+    }
+
+
+    /**
+     * Check if the given entity is unique by searching by the given field
+     * @param entity the entity to check unique values
+     * @param field the field (or comma separated list of fields) to check uniqueness
+     * @param restriction an optional restriction to be included in the HQL WHERE clause
+     * @return true if the entity is unique
+     */
+    protected boolean checkUnique(E entity, String field, String restriction) {
         String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid ";
 
         String[] fields = field.split(",");
@@ -231,6 +243,11 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         if (entity.getId() != null) {
             hql += " and id <> :id";
+        }
+
+        // any restriction available
+        if (restriction != null) {
+            hql += " and " + restriction;
         }
 
         Query qry = entityManager
