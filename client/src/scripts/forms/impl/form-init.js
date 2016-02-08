@@ -111,7 +111,7 @@ function getFieldsRequest(snapshot, doc, lst) {
 		// doesn't require server init ?
 		const Comp = Form.types[sc.type];
 
-		if (!Comp.isServerInitRequired(sc)) {
+		if (!Comp.isServerInitRequired(sc, doc)) {
 			return;
 		}
 
@@ -119,7 +119,7 @@ function getFieldsRequest(snapshot, doc, lst) {
 			id: sc.id,
 			type: sc.type,
 			value: getValue(doc, sc.property),
-			params: Comp.getInitParams(sc)
+			params: Comp.getInitParams(sc, doc)
 		};
 
 		lst.push(req);

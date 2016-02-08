@@ -4,6 +4,8 @@ import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.users.UserUtils;
+import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.usersession.UserSession;
 import org.msh.etbm.services.usersession.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,9 @@ public class LoginService {
     @Autowired
     UserSessionService userSessionService;
 
+    @Autowired
+    UserRequestService userRequestService;
+
     /**
      * Authenticate a user by its user name, password and workspace
      * @param username the user name
@@ -48,7 +53,8 @@ public class LoginService {
         UUID authToken = userSessionService.beginSession(uw.getId(), ipAddress, application);
 
         // include user session in cache
-        userSessionService.recoverSession(authToken);
+        UserSession ses = userSessionService.recoverSession(authToken);
+        userRequestService.setUserSession(ses);
 
         return authToken;
     }

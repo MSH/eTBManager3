@@ -5,7 +5,6 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.ageranges.AgeRangeData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeRequest;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
-import org.msh.etbm.services.admin.ageranges.AgeRangeServiceImpl;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;

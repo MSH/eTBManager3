@@ -1,6 +1,6 @@
 import React from 'react';
 import { server } from '../commons/server';
-import { app } from '../core/app';
+import { isFunction } from '../commons/utils';
 
 
 export default class FormUtils {
@@ -58,7 +58,6 @@ export default class FormUtils {
 
 		// create component for list of options
 		return opts;
-//		return opts.map(opt => <option key={opt.id} value={opt.id}>{opt.name}</option>);
 	}
 
 
@@ -76,35 +75,35 @@ export default class FormUtils {
 	 * @param  {[type]} params [description]
 	 * @return {[type]}        [description]
 	 */
-	static initForm(params) {
-		const formSchema = params.formSchema;
-		const crud = params.crud;
+	// static initForm(params) {
+	// 	const formSchema = params.formSchema;
+	// 	const crud = params.crud;
 
-		const fields = FormUtils.generateFormState(formSchema);
+	// 	const fields = FormUtils.generateFormState(formSchema);
 
-		if (__DEV__) {
-			if (params.id && !crud) {
-				throw new Error('No crud defined');
-			}
-		}
+	// 	if (__DEV__) {
+	// 		if (params.id && !crud) {
+	// 			throw new Error('No crud defined');
+	// 		}
+	// 	}
 
-		// crud was informed ?
-		if (crud) {
-			const req = {
-				id: params.id,
-				fields: fields
-			};
-			return crud.initForm(req);
-		}
+	// 	// crud was informed ?
+	// 	if (crud) {
+	// 		const req = {
+	// 			id: params.id,
+	// 			fields: fields
+	// 		};
+	// 		return crud.initForm(req);
+	// 	}
 
-		// No field to initialize ?
-		if (!fields) {
-			return null;
-		}
+	// 	// No field to initialize ?
+	// 	if (!fields) {
+	// 		return null;
+	// 	}
 
-		// call the server to initialize fields
-		return FormUtils.initFields(fields);
-	}
+	// 	// call the server to initialize fields
+	// 	return FormUtils.initFields(fields);
+	// }
 
 
 }

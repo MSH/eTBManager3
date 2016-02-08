@@ -1,11 +1,8 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormResponse;
-import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.userprofiles.UserProfileFormData;
 import org.msh.etbm.services.admin.usersws.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.UserWsFormData;
@@ -36,7 +33,7 @@ public class UsersWsREST {
     UserWsService service;
 
     @Autowired
-    FormsService formsService;
+    FormService formService;
 
 
     /**
@@ -48,16 +45,6 @@ public class UsersWsREST {
     @Authenticated()
     public UserWsDetailedData get(@PathVariable UUID id) {
         return service.findOne(id, UserWsDetailedData.class);
-    }
-
-    /**
-     * User profile data to initialize a form
-     * @param req
-     * @return
-     */
-    @RequestMapping(value = PREFIX + "/form", method = RequestMethod.POST)
-    public FormResponse initForm(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, (EntityServiceImpl)service, UserWsFormData.class);
     }
 
     @RequestMapping(value = PREFIX, method = RequestMethod.POST)

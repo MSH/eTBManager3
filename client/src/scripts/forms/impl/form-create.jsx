@@ -37,7 +37,7 @@ export default function createForm(form) {
 		const compErrors = elem.property ? propertyErrors(elem.property, errors, handledErrors) : null;
 		const value = elem.el === 'field' ? getValue(form.props.doc, elem.property) : null;
 
-		const comp = createSchemaComp(form, elem, value, compErrors);
+		const comp = createElement(form, elem, value, compErrors);
 
 		const size = elem.size ? elem.size : { sm: 12 };
 		return { size: size, content: comp };
@@ -89,7 +89,7 @@ function getCompList(snapshot, lst) {
  * @param  {[type]} errors [description]
  * @return {[type]}        [description]
  */
-function createSchemaComp(form, schema, value, errors) {
+function createElement(form, schema, value, errors) {
 	if (schema.el === 'subtitle') {
 		return <div className="subtitle">{schema.label}</div>;
 	}

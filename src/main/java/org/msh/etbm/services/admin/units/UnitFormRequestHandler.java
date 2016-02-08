@@ -1,20 +1,16 @@
-package org.msh.etbm.commons.forms.handlers;
+package org.msh.etbm.services.admin.units;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FieldInitRequest;
-import org.msh.etbm.commons.forms.types.TypeHandler;
-import org.msh.etbm.commons.forms.types.TypesManagerService;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
-import org.msh.etbm.services.admin.units.UnitQueryParams;
-import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.UUID;
 
 /**
@@ -23,10 +19,10 @@ import java.util.UUID;
  * Created by rmemoria on 18/1/16.
  */
 @Component
-public class UnitTypeHandler implements TypeHandler {
+public class UnitFormRequestHandler implements FormRequestHandler<UnitFormResponse> {
 
     // the supported type
-    public static final String TYPE_NAME = "unit";
+    public static final String CMD_NAME = "unit";
 
     @Autowired
     AdminUnitService adminUnitService;
@@ -34,18 +30,9 @@ public class UnitTypeHandler implements TypeHandler {
     @Autowired
     UnitService unitService;
 
-    @Autowired
-    TypesManagerService typesManagerService;
-
-
-    @PostConstruct
-    public void init() {
-        typesManagerService.register(TYPE_NAME, this);
-    }
-
     @Override
-    public Object initField(FieldInitRequest req) {
-        String val = (String)req.getValue();
+    public UnitFormResponse execFormRequest(FormRequest req) {
+        String val = req.getStringParam("value");
         UUID unitId = val != null && !val.isEmpty() ? UUID.fromString(val) : null;
 
         // return the root list
@@ -54,7 +41,7 @@ public class UnitTypeHandler implements TypeHandler {
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
 
-        UnitFieldResponse res = new UnitFieldResponse();
+        UnitFormResponse res = new UnitFormResponse();
         res.setAdminUnits(qr.getList());
 
         // if there is no ID, then just return the root list
@@ -78,5 +65,10 @@ public class UnitTypeHandler implements TypeHandler {
         res.setUnits(unitRes.getList());
 
         return res;
+    }
+
+    @Override
+    public String getFormCommandName() {
+        return CMD_NAME;
     }
 }

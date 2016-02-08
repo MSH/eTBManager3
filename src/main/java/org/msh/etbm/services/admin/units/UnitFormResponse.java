@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.forms.handlers;
+package org.msh.etbm.services.admin.units;
 
 import org.msh.etbm.services.admin.admunits.AdminUnitItemData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 18/1/16.
  */
-public class UnitFieldResponse {
+public class UnitFormResponse {
 
     /**
      * List of administrative units to fill a select box
@@ -25,12 +25,12 @@ public class UnitFieldResponse {
      */
     private List<UnitItemData> units;
 
-    public UnitFieldResponse(List<AdminUnitItemData> adminUnits, List<UnitItemData> units) {
+    public UnitFormResponse(List<AdminUnitItemData> adminUnits, List<UnitItemData> units) {
         this.adminUnits = adminUnits;
         this.units = units;
     }
 
-    public UnitFieldResponse() {
+    public UnitFormResponse() {
         super();
     }
 

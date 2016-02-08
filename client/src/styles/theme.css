@@ -7231,6 +7231,7 @@ button.close {
 .sel-box .form-control {
   height: auto;
   min-height: 34px;
+  text-align: left;
 }
 .sel-box .dropdown-menu {
   max-height: 300px;

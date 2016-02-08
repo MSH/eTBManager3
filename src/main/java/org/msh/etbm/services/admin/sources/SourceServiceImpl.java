@@ -4,10 +4,7 @@ package org.msh.etbm.services.admin.sources;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
-import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.Source;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 

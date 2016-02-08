@@ -99,7 +99,6 @@ export default class Home extends React.Component {
 									<SelectionBox ref="selBox2"
 										mode="single"
 										label="Items:"
-										bsStyle="success"
 										help="This is a simple help message"
 										onChange={this.onChange('selBox2')}
 										options={options2}

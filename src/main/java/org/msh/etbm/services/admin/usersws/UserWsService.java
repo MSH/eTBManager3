@@ -1,13 +1,14 @@
 package org.msh.etbm.services.admin.usersws;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.entities.EntityService;
-import org.msh.etbm.commons.forms.options.OptionsProvider;
-import org.springframework.stereotype.Service;
+import org.msh.etbm.commons.forms.FormRequestHandler;
+
+import java.util.List;
 
 /**
  * Created by rmemoria on 3/2/16.
  */
-@Service
-public interface UserWsService extends EntityService<UserWsQueryParams>, OptionsProvider {
+public interface UserWsService extends EntityService<UserWsQueryParams>, FormRequestHandler<List<Item>> {
 }
 

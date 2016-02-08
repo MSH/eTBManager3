@@ -4,7 +4,8 @@ import fieldControlWrapper from './field-control';
 import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from './validators';
-import { SelectionBox } from '../../components/index';
+import { SelectionBox, WaitIcon } from '../../components/index';
+import { isPromise } from '../../commons/utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -121,6 +122,12 @@ class InputControl extends React.Component {
 		const wrapperClazz = this.getWrapperClass(sc);
 
 		const options = FormUtils.createOptions(sc.options, this.props.resources);
+		// check if options is a promise
+		if (isPromise(options)) {
+			const self = this;
+			options.then(() => self.forceUpdate());
+			return <WaitIcon type="field" />;
+		}
 
 		let value = this.props.value;
 

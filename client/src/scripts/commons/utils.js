@@ -101,3 +101,21 @@ export function objEqual(obj1, obj2) {
 export function isEmpty(val) {
     return val === undefined || val === null;
 }
+
+/**
+ * Return true if object is a promise
+ * @param  {object}  obj The object to be tested
+ * @return {Boolean}     [description]
+ */
+export function isPromise(obj) {
+    return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
+}
+
+/**
+ * Test if object is a function
+ * @param  {[type]}  obj [description]
+ * @return {Boolean}     [description]
+ */
+export function isFunction(obj) {
+    return !!obj && (typeof obj === 'function');
+}

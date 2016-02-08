@@ -1,7 +1,9 @@
-package org.msh.etbm.services.admin.units;
+package org.msh.etbm.services.admin.units.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.services.admin.AddressRequest;
+import org.msh.etbm.services.admin.units.TypedUnit;
+import org.msh.etbm.services.admin.units.UnitType;
 
 import java.util.Optional;
 import java.util.UUID;

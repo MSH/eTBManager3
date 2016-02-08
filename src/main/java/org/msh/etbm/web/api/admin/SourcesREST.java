@@ -2,9 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormResponse;
-import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.sources.SourceData;
 import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceQueryParams;
@@ -35,18 +33,13 @@ public class SourcesREST {
     SourceService service;
 
     @Autowired
-    FormsService formsService;
+    FormService formService;
 
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.GET)
     @Authenticated()
     public SourceData get(@PathVariable UUID id) {
         return service.findOne(id, SourceData.class);
-    }
-
-    @RequestMapping(value = API_PREFIX + "/form", method = RequestMethod.POST)
-    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, service, SourceFormData.class);
     }
 
     @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)

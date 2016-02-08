@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.msh</groupId>
     <artifactId>etbmanager</artifactId>
-    <version>2.9.0-ALPHA</version>
+    <version>2.9.0</version>
     <packaging>jar</packaging>
 
     <organization>
@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <mainClass>org.msh.etbm.Application</mainClass>
         <sonar.sources>client,src/main/java</sonar.sources>
+        <test.workingDirectory>target/test</test.workingDirectory>
     </properties>
 
     <scm>
@@ -47,6 +48,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Spring test integration with JUnit -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <dependency>
@@ -137,20 +144,20 @@
                 <executions>
                     <execution>
                         <goals>
-                        <goal>repackage</goal>
+                            <goal>repackage</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
 
-            <!-- Copy the etbmanager.properties for execution of app for testing -->
+            <!-- Copy the resources necessary for building and testing -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.7</version>
                 <executions>
+                    <!-- copy etbmanager.properties file necessary to create the package -->
                     <execution>
                         <id>copy-resources</id>
-                        <!-- here the phase you need -->
                         <phase>validate</phase>
                         <goals>
                             <goal>copy-resources</goal>
@@ -161,6 +168,24 @@
                                 <resource>
                                     <directory>resources</directory>
                                     <filtering>true</filtering>
+                                    <include>etbmanager.properties</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+
+                    <!-- copy the etbmanager.properties file used in tests -->
+                    <execution>
+                        <id>copy-test-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${test.workingDirectory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>resources/test/mysql</directory>
                                     <include>etbmanager.properties</include>
                                 </resource>
                             </resources>
@@ -301,6 +326,14 @@
                 </executions>
             </plugin>
 
+            <!-- Surefire is declared here just to specify the working directory of the tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <workingDirectory>${test.workingDirectory}</workingDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

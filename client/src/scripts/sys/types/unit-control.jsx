@@ -92,8 +92,12 @@ class UnitControl extends React.Component {
 		const sc = this.props.schema;
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
+		// get the selected item
+		const id = this.state.adminUnitId;
+		const value = id ? this.state.adminUnits.find(item => item.id === id) : null;
+
 		return (
-				<SelectionBox ref="admunit" value={this.state.adminUnitId}
+				<SelectionBox ref="admunit" value={value}
 					type="select" label={label} onChange={this.onAuChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
@@ -106,16 +110,12 @@ class UnitControl extends React.Component {
 			return null;
 		}
 
-		// const options = this.state.units.map(opt => (
-		// 		<option key={opt.id} value={opt.id}>
-		// 			{opt.name}
-		// 		</option>
-		// 		));
-		// // include 'no selection' option
-		// options.unshift(<option key="-" value="-" >{'-'}</option>);
+		// get the selected item
+		const id = this.props.value;
+		const value = id ? this.state.units.find(item => item.id === id) : null;
 
 		return (
-				<SelectionBox ref="unit" value={this.props.value}
+				<SelectionBox ref="unit" value={value}
 					type="select" onChange={this.onUnitChange}
 					noSelectionLabel="-"
 					optionDisplay="name"

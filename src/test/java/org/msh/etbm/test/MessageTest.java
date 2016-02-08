@@ -1,4 +1,4 @@
-package org.msh.etbm;
+package org.msh.etbm.test;
 
 import org.junit.Test;
 import org.msh.etbm.commons.messages.MessageKeyResolver;

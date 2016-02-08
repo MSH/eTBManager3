@@ -1,4 +1,4 @@
-package org.msh.etbm.objutils;
+package org.msh.etbm.test.commons.objutils;
 
 import org.junit.Test;
 import org.msh.etbm.commons.entities.DiffValue;

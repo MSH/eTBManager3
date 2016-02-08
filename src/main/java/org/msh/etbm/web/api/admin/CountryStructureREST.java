@@ -2,14 +2,11 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormResponse;
-import org.msh.etbm.commons.forms.FormsService;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
-import org.msh.etbm.services.admin.admunits.impl.CountryStructureServiceImpl;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -34,17 +31,12 @@ public class CountryStructureREST {
     CountryStructureService service;
 
     @Autowired
-    FormsService formsService;
+    FormService formService;
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
     @Authenticated()
     public CountryStructureData get(@PathVariable UUID id) {
         return service.findOne(id, CountryStructureData.class);
-    }
-
-    @RequestMapping(value = "/countrystructure/form", method = RequestMethod.POST)
-    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, service, CountryStructureFormData.class);
     }
 
     @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)

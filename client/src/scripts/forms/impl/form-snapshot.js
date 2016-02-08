@@ -20,8 +20,8 @@ export default function createSnapshot(schema, doc) {
 	const lst = schema.layout.map((elem, index) => {
 		// create element state
 		const state = Object.assign({ el: 'field' },
-			elem,
-			{ id: elem.property ? elem.property + index : 'elem' + index });
+			{ id: elem.property ? elem.property + index : 'elem' + index },
+			elem);
 
 		// replace functions by properties values
 		evalProps.forEach(prop => {

@@ -2,13 +2,11 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormResponse;
-import org.msh.etbm.commons.forms.FormsService;
-import org.msh.etbm.services.admin.units.UnitFormData;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
+import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -33,7 +31,7 @@ public class UnitsREST {
     UnitService unitService;
 
     @Autowired
-    FormsService formsService;
+    FormService formService;
 
     /**
      * Query units (labs or TB units) based on the request query
@@ -51,11 +49,6 @@ public class UnitsREST {
     @Authenticated
     public UnitDetailedData get(@PathVariable UUID id) {
         return unitService.findOne(id, UnitDetailedData.class);
-    }
-
-    @RequestMapping(value = "/unit/form", method = RequestMethod.POST)
-    public FormResponse getFormData(@Valid @NotNull @RequestBody FormRequest req) {
-        return formsService.initForm(req, unitService, UnitFormData.class);
     }
 
     @RequestMapping(value = "/unit", method = RequestMethod.POST)

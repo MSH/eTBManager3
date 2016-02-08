@@ -1,4 +1,4 @@
-package org.msh.etbm.objutils;
+package org.msh.etbm.test.commons.objutils;
 
 import java.util.Date;
 
