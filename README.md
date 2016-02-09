@@ -78,7 +78,7 @@ You need the following tools in order to start development:
 
 * Java 1.8
 * Maven 3+
-* Node 0.12.7+
+* Node 5+
 * Gulp 3.8+
 * A development environment of your choice (IntelliJ recommended)
 
