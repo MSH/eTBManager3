@@ -19,7 +19,7 @@ In order to work with client side development, it is highly recommended that you
 * Gulp 3.8+
 
 Development tools
-* A development environment of your choice - Recommended: IntelliJ for server development, and Sublime for client development
+* A development environment of your choice - Recommended: `IntelliJ` for server development, and `Sublime 3` for client development
 * eslint, for client linting
 
 
@@ -45,6 +45,7 @@ Below is the list of frameworks and libraries used in e-TB Manager.
 * Underscore;
 * Font-awesome 4;
 
+All these frameworks are ***automatically*** loaded by the respective building tools (Maven and NPM), so the list is just a reference.
 
 ## Directories & files
 
@@ -143,18 +144,16 @@ e-TB Manager client side (browser code) uses `npm` and `gulp` as the building to
 
 Although not required, a group of tasks are available in `gulp` to make client side development easier. They are implemented in the `gulpfile.js` . The main command lines are:
 
-`gulp run` - Prepare and run the client side on a proxy web server. This proxy web-server has the following features:
+**`gulp run`** - Prepare and run the client side on a proxy web server. This proxy web-server has the following features:
 
 * Provides client files (js, html, css, etc);
 * Automatically update browser window when a file is changed;
 * Proxy requests to the server-side (the server side must be running);
 * Cache JS files in order to make quick rebuild on file changes;
 
-Once you call `gulp run`, a browser window will be opened with the initial system URL.
+**`gulp build`** - Prepare and build all client files and copy them to the folder `src\main\resources\static`.
 
-`gulp build` - Prepare and build all client files and copy them to the folder `src\main\resources\static`.
-
-`gulp test` - Run the UI tests (TO BE DONE);
+**`gulp test`** - Run the UI tests (TO BE DONE);
 
 ### Sublime plugins
 
@@ -162,15 +161,20 @@ Sublime is a lightweight text editor widely used for Nodes and Javascript develo
 
 * SublimeLinter
 * SublimeLinter-contrib-eslint
+* Babel
+* ColorPicker
+* DocBlockr
+* LESS
+* MarkdownEditing
 
-`SublimeLinter` is a plugin for Sublime Text 3 that provides a framework for linting code, and `SublimeLinter-contrib-eslint` provides integration to the eslint tool, in order to provide JavaScript linting. Check how to install them and use in Sublime.
+`SublimeLinter` is a plugin for Sublime Text 3 that provides a framework for linting code, and `SublimeLinter-contrib-eslint` provides integration to the eslint tool, in order to provide JavaScript linting. Check how to install them and use them in Sublime.
 
  Inside the source code structure, `SublimeLinter-contrib-eslint` recognizes files called `.eslintrc` as the eslint configuration.
 
-It is also necessary to install the following programs:
+It is also necessary to install the following programs, in order to have the plugins working properly:
 
-* eslint
-* eslint-plugin-react
+* [eslint](http://eslint.org/)
+* [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)
 
 ### Atom plugins
 
