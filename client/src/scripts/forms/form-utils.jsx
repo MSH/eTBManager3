@@ -67,43 +67,9 @@ export default class FormUtils {
 	 * @return {Promise}   Promise to be resolved when server answers back
 	 */
 	static initFields(req) {
-		return server.post('/api/form/initfields', req);
+		const data = Array.isArray(req) ? req : [req];
+		return server.post('/api/form/request', data);
 	}
-
-	/**
-	 * Initialize a form making a request to the server
-	 * @param  {[type]} params [description]
-	 * @return {[type]}        [description]
-	 */
-	// static initForm(params) {
-	// 	const formSchema = params.formSchema;
-	// 	const crud = params.crud;
-
-	// 	const fields = FormUtils.generateFormState(formSchema);
-
-	// 	if (__DEV__) {
-	// 		if (params.id && !crud) {
-	// 			throw new Error('No crud defined');
-	// 		}
-	// 	}
-
-	// 	// crud was informed ?
-	// 	if (crud) {
-	// 		const req = {
-	// 			id: params.id,
-	// 			fields: fields
-	// 		};
-	// 		return crud.initForm(req);
-	// 	}
-
-	// 	// No field to initialize ?
-	// 	if (!fields) {
-	// 		return null;
-	// 	}
-
-	// 	// call the server to initialize fields
-	// 	return FormUtils.initFields(fields);
-	// }
 
 
 }

@@ -119,3 +119,12 @@ export function isPromise(obj) {
 export function isFunction(obj) {
     return !!obj && (typeof obj === 'function');
 }
+
+/**
+ * Check if an object is a string
+ * @param  {[type]}  obj [description]
+ * @return {Boolean}     true if value is a string, otherwise return false
+ */
+export function isString(obj) {
+    return typeof obj === 'string';
+}
