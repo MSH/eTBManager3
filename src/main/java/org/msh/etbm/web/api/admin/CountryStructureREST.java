@@ -39,6 +39,12 @@ public class CountryStructureREST {
         return service.findOne(id, CountryStructureData.class);
     }
 
+    @RequestMapping(value = "/countrystructure/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public CountryStructureFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, CountryStructureFormData.class);
+    }
+
     @RequestMapping(value = "/countrystructure", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException {
         ServiceResult res = service.create(req);

@@ -8,29 +8,18 @@ export default function fieldControlWrapper(Component) {
 	class FieldControl extends React.Component {
 
 		componentWillMount() {
-			const isServerInitRequired = Component.isServerInitRequired ? Component.isServerInitRequired(this.props.schema) : false;
+			const request = Component.getServerRequest ? Component.getServerRequest(this.props.schema) : null;
 
 			// resources were informed to initialize the field ?
-			if (!isServerInitRequired || this.props.resources) {
+			if (!request || this.props.resources) {
 				return this.setState({ init: true });
 			}
 
-			// get parameters to initialize the field
-			const params = Component.getInitParams ? Component.getInitParams(this.props.schema) : null;
-			// no parameter ?
-			if (!params) {
-				// so field is initialized
-				return this.setState({ init: true });
-			}
+			const self = this;
 
-			// property to be initialized by the parent was informed ?
-			if (this.props.onInit) {
-				// call parent to initialize the fields
-				return this.props.onInit(this.props, params);
-			}
-
-			FormUtils.initFields({ id: 'v', type: this.props.schema.type })
-			.then(res => console.log('TODO', res));
+			// request the server
+			FormUtils.initFields(request)
+			.then(res => self.setState({ resources: res }));
 		}
 
 
@@ -69,12 +58,8 @@ export default function fieldControlWrapper(Component) {
 			return Component.displayText ? Component.displayText(value) : value;
 		}
 
-		static isServerInitRequired(schema) {
-			return Component.isServerInitRequired ? Component.isServerInitRequired(schema) : false;
-		}
-
-		static getInitParams(schema) {
-			return Component.getInitParams ? Component.getInitParams(schema) : null;
+		static getServerRequest(schema, val) {
+			return Component.getServerRequest ? Component.getServerRequest(schema, val) : false;
 		}
 
 		/**
@@ -126,8 +111,7 @@ export default function fieldControlWrapper(Component) {
 		schema: React.PropTypes.object,
 		onChange: React.PropTypes.func,
 		errors: React.PropTypes.any,
-		resources: React.PropTypes.any,
-		onInit: React.PropTypes.func
+		resources: React.PropTypes.any
 	};
 
 	return FieldControl;

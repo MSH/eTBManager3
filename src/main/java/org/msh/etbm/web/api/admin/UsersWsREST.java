@@ -35,7 +35,6 @@ public class UsersWsREST {
     @Autowired
     FormService formService;
 
-
     /**
      * Return displayable information about a user profile
      * @param id the ID of the profile
@@ -46,6 +45,14 @@ public class UsersWsREST {
     public UserWsDetailedData get(@PathVariable UUID id) {
         return service.findOne(id, UserWsDetailedData.class);
     }
+
+
+    @RequestMapping(value = PREFIX + "/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public UserWsFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, UserWsFormData.class);
+    }
+
 
     @RequestMapping(value = PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody UserWsFormData data) throws BindException {

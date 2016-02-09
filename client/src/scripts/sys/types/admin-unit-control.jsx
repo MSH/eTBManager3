@@ -67,8 +67,11 @@ class AdminUnitControl extends React.Component {
 		return vals.join(', ');
 	}
 
-	static isServerInitRequired(sc) {
-		return !sc.readOnly;
+	static getServerRequest(sc, val) {
+		return {
+			cmd: 'adminUnit',
+			params: { value: val }
+		};
 	}
 
 	/**

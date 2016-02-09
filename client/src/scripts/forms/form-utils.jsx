@@ -1,7 +1,10 @@
 import React from 'react';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
-import { isFunction } from '../commons/utils';
 
+const requiredTooltip = (
+	<Tooltip id="required">{__('NotNull')}</Tooltip>
+	);
 
 export default class FormUtils {
 
@@ -19,7 +22,9 @@ export default class FormUtils {
 		const txt = label + ':';
 
 		return required ?
-			<span>{txt}<i className="fa fa-exclamation-circle app-required"/></span> :
+			<OverlayTrigger placement="top" overlay={requiredTooltip}>
+				<span>{txt}<i className="fa fa-exclamation-circle app-required"/></span>
+			</OverlayTrigger> :
 			txt;
 	}
 
@@ -66,10 +71,20 @@ export default class FormUtils {
 	 * @param  {Array} req list of field objects with id, type and value
 	 * @return {Promise}   Promise to be resolved when server answers back
 	 */
-	static initFields(req) {
-		const data = Array.isArray(req) ? req : [req];
-		return server.post('/api/form/request', data);
-	}
+	static serverRequest(req) {
+		// multiple requests ?
+		const mult = Array.isArray(req);
+		// create the data request to be posted
+		const data = mult ?
+			req :
+			[{
+				cmd: req.cmd,
+				id: 'v',
+				params: req.params
+			}];
 
+		return server.post('/api/form/request', data)
+			.then(res => mult ? res : res.v);
+	}
 
 }

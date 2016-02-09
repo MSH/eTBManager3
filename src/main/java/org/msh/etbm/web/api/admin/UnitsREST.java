@@ -51,6 +51,12 @@ public class UnitsREST {
         return unitService.findOne(id, UnitDetailedData.class);
     }
 
+    @RequestMapping(value = "/unit/form/{id}", method = RequestMethod.GET)
+    @Authenticated
+    public UnitFormData getFormData(@PathVariable UUID id) {
+        return unitService.findOne(id, UnitFormData.class);
+    }
+
     @RequestMapping(value = "/unit", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody UnitFormData req) throws BindException {
         ServiceResult res = unitService.create(req);

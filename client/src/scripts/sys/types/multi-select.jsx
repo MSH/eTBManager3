@@ -3,6 +3,7 @@ import React from 'react';
 import { SelectionBox } from '../../components/index';
 import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
+import { isString } from '../../commons/utils';
 
 
 class MultiSelect extends React.Component {
@@ -16,8 +17,10 @@ class MultiSelect extends React.Component {
 		this.setState({ resources: this.props.resources ? this.props.resources : null });
 	}
 
-	static isServerInitRequired(sc) {
-		return sc.options && typeof sc.options === 'string';
+	static getServerRequest(sc) {
+		return isString(sc.options) ?
+			{ cmd: sc.options } :
+			null;
 	}
 
 	static getInitParams(sc) {

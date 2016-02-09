@@ -40,6 +40,12 @@ public class SubstancesREST {
         return service.findOne(id, SubstanceData.class);
     }
 
+    @RequestMapping(value = "/substance/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public SubstanceFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, SubstanceFormData.class);
+    }
+
     @RequestMapping(value = "/substance", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody SubstanceFormData req) {
         ServiceResult res = service.create(req);

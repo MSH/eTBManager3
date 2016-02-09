@@ -40,6 +40,12 @@ public class AdminUnitsREST {
         return service.findOne(id, AdminUnitDetailedData.class);
     }
 
+    @RequestMapping(value = "/adminunit/form/{id}", method = RequestMethod.GET)
+    @Authenticated
+    public AdminUnitFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, AdminUnitFormData.class);
+    }
+
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req)  throws BindException {
         ServiceResult res = service.create(req);

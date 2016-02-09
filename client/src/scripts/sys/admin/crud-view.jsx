@@ -84,19 +84,19 @@ export default class CrudView extends React.Component {
 		let colContent = colRender ? colRender(item.data) : null;
 
 		colContent = (
-				<div>
-					{colContent}
-					<ButtonToolbar className="mtop">
-						<AsyncButton bsStyle="primary"
-							fetching={item.state === 'fetching'}
-							data-item={index}
-							onClick={this.editClick}>{__('action.edit')}</AsyncButton>
-						<Button bsStyle="link"
-							onClick={this.deleteClick}
-							data-item={index}>{__('action.delete')}</Button>
-					</ButtonToolbar>
-				</div>
-			);
+			<div>
+				{colContent}
+				<ButtonToolbar className="mtop">
+					<AsyncButton bsStyle="primary"
+						fetching={item.state === 'fetching'}
+						data-item={index}
+						onClick={this.editClick}>{__('action.edit')}</AsyncButton>
+					<Button bsStyle="link"
+						onClick={this.deleteClick}
+						data-item={index}>{__('action.delete')}</Button>
+				</ButtonToolbar>
+			</div>
+		);
 
 		// render the cell content
 		return (
@@ -217,12 +217,12 @@ export default class CrudView extends React.Component {
 
 		// get data to edit from server
 		const self = this;
-		return this.props.crud.initForm({ id: item.data.id })
+		return this.props.crud.getEdit(item.data.id)
 		.then(res => {
 			// set the id in order to identify if is a new doc or an existing doc
-			res.doc.id = item.data.id;
+			res.id = item.data.id;
 			// create a context to execute the editing operation
-			const cntxt = self.createFormContext(editor, res.doc, item, res.resources);
+			const cntxt = self.createFormContext(editor, res, item);
 
 			item.state = 'edit';
 			item.context = cntxt;

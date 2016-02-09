@@ -5,7 +5,7 @@ import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from './validators';
 import { SelectionBox, WaitIcon } from '../../components/index';
-import { isPromise } from '../../commons/utils';
+import { isPromise, isString } from '../../commons/utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -19,14 +19,15 @@ class InputControl extends React.Component {
 		this.focus = this.focus.bind(this);
 	}
 
-	static isServerInitRequired(schema) {
-		return typeof schema.options === 'string';
-	}
-
-	static getInitParams(schema) {
-		return {
-			options: schema.options
-		};
+	/**
+	 * Return request to be sent to server, if necessary
+	 * @param  {[type]} schema [description]
+	 * @return {[type]}        [description]
+	 */
+	static getServerRequest(schema) {
+		return isString(schema.options) ?
+			{ cmd: schema.options } :
+			null;
 	}
 
 	validate() {

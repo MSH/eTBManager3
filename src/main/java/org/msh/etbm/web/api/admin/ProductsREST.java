@@ -42,6 +42,12 @@ public class ProductsREST {
         return service.findOne(id, ProductDetailedData.class);
     }
 
+    @RequestMapping(value = API_PREFIX + "/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public ProductFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, ProductFormData.class);
+    }
+
     @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody ProductFormData req) {
         ServiceResult res = service.create(req);

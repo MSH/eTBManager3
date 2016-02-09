@@ -4,7 +4,7 @@
 import React from 'react';
 import validateForm from './impl/form-validate';
 import { setValue, objEqual } from '../commons/utils';
-import createForm from './impl/form-create';
+import createForm from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
 import fieldControlWrapper from './impl/field-control';
 import { initDefaultValues, initForm } from './impl/form-init';

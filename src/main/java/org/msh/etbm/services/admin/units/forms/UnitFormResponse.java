@@ -1,4 +1,4 @@
-package org.msh.etbm.services.admin.units;
+package org.msh.etbm.services.admin.units.forms;
 
 import org.msh.etbm.services.admin.admunits.AdminUnitItemData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;

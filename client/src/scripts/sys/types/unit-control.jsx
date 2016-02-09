@@ -51,6 +51,15 @@ class UnitControl extends React.Component {
 		return !schema.readOnly;
 	}
 
+	static getServerRequest(schema, val) {
+		return schema.readOnly ?
+			null :
+			{
+				cmd: 'unit',
+				params: { value: val }
+			};
+	}
+
 	/**
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]

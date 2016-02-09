@@ -1,4 +1,6 @@
 
+import { isFunction } from '../../commons/utils';
+
 /**
  * properties to evaluate during spanshot creation
  */
@@ -26,7 +28,7 @@ export default function createSnapshot(schema, doc) {
 		// replace functions by properties values
 		evalProps.forEach(prop => {
 			const val = state[prop];
-			if (typeof val === 'function') {
+			if (isFunction(val)) {
 				const res = val.call(doc, doc);
 				state[prop] = res;
 			}

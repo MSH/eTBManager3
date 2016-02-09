@@ -47,8 +47,6 @@ export function initDefaultValues(form) {
  */
 export function initForm(form, snapshot) {
 
-//	initDefaultValues(form);
-
 	return new Promise(resolve => {
 		const resources = form.props.resources;
 
@@ -66,11 +64,7 @@ export function initForm(form, snapshot) {
 		}
 
 		// is there a custom initialization function ?
-		if (!form.onInit) {
-			return resolve(FormUtils.initFields(req));
-		}
-
-		resolve(form.onInit(req));
+		return resolve(FormUtils.serverRequest(req));
 	});
 }
 
@@ -111,18 +105,18 @@ function getFieldsRequest(snapshot, doc, lst) {
 		// doesn't require server init ?
 		const Comp = Form.types[sc.type];
 
-		if (!Comp.isServerInitRequired(sc, doc)) {
-			return;
+		const val = getValue(doc, sc.property);
+
+		// get server request, if any
+		const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val) : null;
+
+		if (req) {
+			lst.push({
+				id: sc.id,
+				cmd: req.cmd,
+				params: req.params
+			});
 		}
-
-		const req = {
-			id: sc.id,
-			type: sc.type,
-			value: getValue(doc, sc.property),
-			params: Comp.getInitParams(sc, doc)
-		};
-
-		lst.push(req);
 	});
 }
 

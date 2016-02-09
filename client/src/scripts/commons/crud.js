@@ -37,7 +37,6 @@ export default class CRUD {
 	/**
 	 * Find a single entity by the given id
 	 * @param  {string} id The ID of the entity
-	 * @param  {string} edit if true, the return data will be ready for a form editor
 	 * @return {Promise}   Promise that will be resolved when server posts answer
 	 */
 	get(id) {
@@ -45,16 +44,12 @@ export default class CRUD {
 	}
 
 	/**
-	 * Return a single entity data ready to be edited in a form
-	 * @param  {object} params Parameters to the query { id, fields }
-	 * @return {Promise} Promise resolved with server response
+	 * Return data about an entity in a format ready to be edited
+	 * @param  {String} id The ID of the entity
+	 * @return {Promise}    Promise that will be resolved when server returns
 	 */
-	initForm(params) {
-		const req = {
-			id: params.id,
-			fields: params.fields
-		};
-		return server.post(API_PREFIX + this.table + '/form', req);
+	getEdit(id) {
+		return server.get(API_PREFIX + this.table + '/form/' + id);
 	}
 
 	/**

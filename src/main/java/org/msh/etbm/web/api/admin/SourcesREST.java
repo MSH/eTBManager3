@@ -42,6 +42,12 @@ public class SourcesREST {
         return service.findOne(id, SourceData.class);
     }
 
+    @RequestMapping(value = API_PREFIX + "/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public SourceFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, SourceFormData.class);
+    }
+
     @RequestMapping(value = API_PREFIX, method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody SourceFormData req) {
         ServiceResult res = service.create(req);
