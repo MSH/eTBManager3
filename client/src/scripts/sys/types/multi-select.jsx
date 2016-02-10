@@ -6,6 +6,9 @@ import FormUtils from '../../forms/form-utils';
 import { isString } from '../../commons/utils';
 
 
+/**
+ * Field component to handle an array as value to select multiple options
+ */
 class MultiSelect extends React.Component {
 
 	constructor(props) {

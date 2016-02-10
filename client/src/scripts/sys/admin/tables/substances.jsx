@@ -30,7 +30,7 @@ const editorDef = {
 		{
 			property: 'line',
 			required: true,
-			type: 'string',
+			type: 'select',
 			options: app.getState().app.lists.MedicineLine,
 			label: __('MedicineLine'),
 			size: { sm: 6 }

@@ -8,18 +8,18 @@ export default function fieldControlWrapper(Component) {
 	class FieldControl extends React.Component {
 
 		componentWillMount() {
-			const request = Component.getServerRequest ? Component.getServerRequest(this.props.schema) : null;
+			// const request = Component.getServerRequest ? Component.getServerRequest(this.props.schema) : null;
 
-			// resources were informed to initialize the field ?
-			if (!request || this.props.resources) {
-				return this.setState({ init: true });
-			}
+			// // resources were informed to initialize the field ?
+			// if (!request || this.props.resources) {
+			// 	return this.setState({ init: true });
+			// }
 
-			const self = this;
+			// const self = this;
 
-			// request the server
-			FormUtils.initFields(request)
-			.then(res => self.setState({ resources: res }));
+			// // request the server
+			// FormUtils.initFields(request)
+			// .then(res => self.setState({ resources: res }));
 		}
 
 
@@ -58,8 +58,8 @@ export default function fieldControlWrapper(Component) {
 			return Component.displayText ? Component.displayText(value) : value;
 		}
 
-		static getServerRequest(schema, val) {
-			return Component.getServerRequest ? Component.getServerRequest(schema, val) : false;
+		static getServerRequest(schema, val, doc) {
+			return Component.getServerRequest ? Component.getServerRequest(schema, val, doc) : false;
 		}
 
 		/**
@@ -88,9 +88,9 @@ export default function fieldControlWrapper(Component) {
 
 
 		render() {
-			if (!this.state || !this.state.init) {
-				return null;
-			}
+			// if (!this.state || !this.state.init) {
+			// 	return null;
+			// }
 
 			const props = Object.assign({}, this.props);
 			delete props.onInit;

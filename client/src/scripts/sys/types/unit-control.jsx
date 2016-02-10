@@ -47,9 +47,9 @@ class UnitControl extends React.Component {
 		}
 	}
 
-	static isServerInitRequired(schema) {
-		return !schema.readOnly;
-	}
+	// static isServerInitRequired(schema) {
+	// 	return !schema.readOnly;
+	// }
 
 	static getServerRequest(schema, val) {
 		return schema.readOnly ?

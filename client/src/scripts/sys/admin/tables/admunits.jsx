@@ -341,7 +341,7 @@ export default class AdmUnits extends React.Component {
 				},
 				{
 					property: 'csId',
-					type: 'string',
+					type: 'select',
 					label: __('admin.adminunits.countrystructure'),
 					options: this.getCsOptions(this.state.level),
 					required: true,

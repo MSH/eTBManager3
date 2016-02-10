@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.forms;
 
+import org.msh.etbm.commons.InvalidArgumentException;
+
 import java.util.Map;
 
 /**
@@ -23,16 +25,70 @@ public class FormRequest {
     private Map<String, Object> params;
 
 
+    /**
+     * Return a parameter value as string type. If parameter value is not of string type,
+     * an {@link InvalidArgumentException} is thrown
+     * @param name the parameter name
+     * @return String value, or null if value is not found
+     */
     public String getStringParam(String name) {
-        return params != null ? (String)params.get(name) : null;
+        if (params == null) {
+            return null;
+        }
+
+        Object value = params.get(name);
+        if (value == null) {
+            return null;
+        }
+
+        if (!(value instanceof String)) {
+            throw new InvalidArgumentException(name, "Invalid type. Expected string", null);
+        }
+        return (String)value;
     }
 
+    /**
+     * Return a parameter value as an integer type. If parameter value is not of number type,
+     * an {@link InvalidArgumentException} is thrown
+     * @param name the parameter name
+     * @return an Integer value, or null if parameter value is not found
+     */
     public Integer getIntParam(String name) {
-        return params != null ? (Integer)params.get(name) : null;
+        if (params == null) {
+            return null;
+        }
+
+        Object value = params.get(name);
+        if (value == null) {
+            return null;
+        }
+
+        if (!(value instanceof Number)) {
+            throw new InvalidArgumentException(name, "Invalid type. Expected number", null);
+        }
+        return ((Number)value).intValue();
     }
 
-    public boolean getBoolParam(String name) {
-        return params != null ? (Boolean)params.get(name) : false;
+    /**
+     * Return a parameter value as a boolean type. If parameter value is not of boolean type,
+     * an {@link InvalidArgumentException} is thrown
+     * @param name the parameter name
+     * @return a boolean value, or null if parameter value is not found
+     */
+    public Boolean getBoolParam(String name) {
+        if (params == null) {
+            return null;
+        }
+
+        Object value = params.get(name);
+        if (value == null) {
+            return null;
+        }
+
+        if (!(value instanceof Boolean)) {
+            throw new InvalidArgumentException(name, "Invalid type. Expected boolean", null);
+        }
+        return (Boolean)value;
     }
 
     public String getCmd() {

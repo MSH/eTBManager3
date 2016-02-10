@@ -28,7 +28,7 @@ const editorDef = {
 			size: { sm: 6 }
 		},
 		{
-			property: 'email',
+			property: 'string',
 			required: true,
 			type: 'string',
 			email: true,
@@ -81,8 +81,8 @@ const editorDef = {
 		{
 			id: 'view',
 			property: 'view',
-			type: 'string',
-			options: 'userViews',
+			type: 'select',
+			options: doc => ({ cmd: 'userViews', params: { unitId: doc && doc.unitId } }),
 			label: __('UserView'),
 			required: true
 		}

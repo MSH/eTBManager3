@@ -87,7 +87,7 @@ const editorDef = {
 				},
 				{
 					property: 'category',
-					type: 'string',
+					type: 'select',
 					required: true,
 					options: app.getState().app.lists.MedicineCategory,
 					label: __('MedicineCategory'),
@@ -95,7 +95,7 @@ const editorDef = {
 				},
 				{
 					property: 'line',
-					type: 'string',
+					type: 'select',
 					required: true,
 					options: app.getState().app.lists.MedicineLine,
 					label: __('MedicineLine'),

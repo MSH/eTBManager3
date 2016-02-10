@@ -20,7 +20,7 @@ const editorDef = {
 		{
 			property: 'level',
 			required: true,
-			type: 'int',
+			type: 'select',
 			label: __('form.level'),
 			options: { from: 1, to: 5 },
 			size: { sm: 3 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
+import { isFunction } from '../commons/utils';
 
 const requiredTooltip = (
 	<Tooltip id="required">{__('NotNull')}</Tooltip>
@@ -30,6 +31,27 @@ export default class FormUtils {
 
 
 	/**
+	 * Return the server request of the options, if available
+	 * @param  {[type]} schema The element schema
+	 * @param  {[type]} doc    The document of the form
+	 * @return {[type]}        [description]
+	 */
+	static optionsRequest(schema, doc) {
+		const options = schema.options;
+		if (!options) {
+			return null;
+		}
+		const req = isFunction(options) ? options(doc) : options;
+
+		if (typeof req === 'string') {
+			return { cmd: req };
+		}
+
+		return typeof req === 'object' && Object.keys(req).length <= 2 && 'cmd' in req ?
+			req : null;
+	}
+
+	/**
 	 * Create the options for a select box control
 	 * @param  {[type]} options [description]
 	 * @return {[type]}         [description]
@@ -39,10 +61,17 @@ export default class FormUtils {
 			return null;
 		}
 
-		const lst = typeof options === 'string' ? resources : options;
+		// if options is a string, so it was (probably) resolved before,
+		// so return the resources instead
+		const lst = typeof options === 'string' ? resources : null;
 
 		if (!lst) {
 			return null;
+		}
+
+		// options is an array ?
+		if (Array.isArray(lst)) {
+			return lst;
 		}
 
 		let opts = [];
@@ -83,6 +112,7 @@ export default class FormUtils {
 				params: req.params
 			}];
 
+		console.log('form request => ', data);
 		return server.post('/api/form/request', data)
 			.then(res => mult ? res : res.v);
 	}

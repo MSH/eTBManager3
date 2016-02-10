@@ -108,7 +108,7 @@ function getFieldsRequest(snapshot, doc, lst) {
 		const val = getValue(doc, sc.property);
 
 		// get server request, if any
-		const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val) : null;
+		const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val, doc) : null;
 
 		if (req) {
 			lst.push({

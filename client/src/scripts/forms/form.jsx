@@ -198,7 +198,6 @@ Form.typeWrapper = fieldControlWrapper;
 import InputControl from './impl/input-control';
 import BoolControl from './impl/bool-control';
 import TextControl from './impl/text-control';
+import SelectControl from './impl/select-control';
 
-Form.registerType(InputControl);
-Form.registerType(BoolControl);
-Form.registerType(TextControl);
+Form.registerType([InputControl, BoolControl, TextControl, SelectControl]);
