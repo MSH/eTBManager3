@@ -4,6 +4,7 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,10 @@ public class QueryBuilderFactory {
     @Autowired
     DozerBeanMapper mapper;
 
+    @Autowired
+    PlatformTransactionManager transactionManager;
+
+
     /**
      * Create a query builder
      * @param entityClass the entity class to be queried
@@ -32,6 +37,7 @@ public class QueryBuilderFactory {
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass) {
         QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, null);
         builder.setEntityManager(entityManager);
+        builder.setTransactionManager(transactionManager);
         builder.setUserRequestService(userRequestService);
         builder.setMapper(mapper);
 
@@ -47,6 +53,7 @@ public class QueryBuilderFactory {
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass, String path) {
         QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, path);
         builder.setEntityManager(entityManager);
+        builder.setTransactionManager(transactionManager);
         builder.setUserRequestService(userRequestService);
         builder.setMapper(mapper);
 

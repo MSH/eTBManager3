@@ -3,6 +3,7 @@ package org.msh.etbm.commons.forms;
 import org.msh.etbm.commons.InvalidArgumentException;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Form request data to be sent by the client
@@ -25,6 +26,21 @@ public class FormRequest {
     private Map<String, Object> params;
 
 
+    public FormRequest(String cmd, String id) {
+        this.cmd = cmd;
+        this.id = id;
+    }
+
+    public FormRequest() {
+        super();
+    }
+
+    public FormRequest(String cmd, String id, Map<String, Object> params) {
+        this.cmd = cmd;
+        this.id = id;
+        this.params = params;
+    }
+
     /**
      * Return a parameter value as string type. If parameter value is not of string type,
      * an {@link InvalidArgumentException} is thrown
@@ -45,6 +61,39 @@ public class FormRequest {
             throw new InvalidArgumentException(name, "Invalid type. Expected string", null);
         }
         return (String)value;
+    }
+
+    /**
+     * Return a parameter value as a UUID type. If parameter type is a string, it will try to convert
+     * to an UUID. In case of invalid string or not the expected type, a {@link InvalidArgumentException}
+     * will be thrown
+     * @param name the parameter name
+     * @return the value in UUID type
+     */
+    public UUID getIdParam(String name) {
+        if (params == null) {
+            return null;
+        }
+
+        Object value = params.get(name);
+        if (value == null) {
+            return null;
+        }
+
+        if (value instanceof UUID) {
+            return (UUID)value;
+        }
+
+        if (!(value instanceof String)) {
+            throw new InvalidArgumentException(name, "Invalid type. Expected string or UUID", null);
+        }
+
+        try {
+            return UUID.fromString((String)value);
+        }
+        catch (IllegalArgumentException e) {
+            throw new InvalidArgumentException(name, "Not a valid UUID", null);
+        }
     }
 
     /**
@@ -75,14 +124,14 @@ public class FormRequest {
      * @param name the parameter name
      * @return a boolean value, or null if parameter value is not found
      */
-    public Boolean getBoolParam(String name) {
+    public boolean getBoolParam(String name) {
         if (params == null) {
-            return null;
+            return false;
         }
 
         Object value = params.get(name);
         if (value == null) {
-            return null;
+            return false;
         }
 
         if (!(value instanceof Boolean)) {

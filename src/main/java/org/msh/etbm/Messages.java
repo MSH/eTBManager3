@@ -52,8 +52,8 @@ public class Messages {
         }
         catch (NoSuchMessageException e) {
             LOGGER.warn("No message found for " + res.getDefaultMessage() + " in the locale " + locale.getDisplayName());
-            return res.getDefaultMessage();
         }
+        return res.getDefaultMessage();
     }
 
 }

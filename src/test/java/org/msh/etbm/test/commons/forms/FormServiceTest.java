@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.test.AbstractAuthenticatedTest;
+import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by rmemoria on 6/2/16.
  */
-public class FormServiceTest extends AbstractAuthenticatedTest {
+public class FormServiceTest extends AuthenticatedTest {
 
     private static final String ID = "sub";
 

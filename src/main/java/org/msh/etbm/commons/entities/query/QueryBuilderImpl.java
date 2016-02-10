@@ -4,7 +4,10 @@ import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.db.WorkspaceEntity;
+import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.usersession.UserRequestService;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -102,6 +105,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     private boolean countOnly;
 
     private EntityManager entityManager;
+
+    private PlatformTransactionManager transactionManager;
 
     private UserRequestService userRequestService;
 
@@ -348,6 +353,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     @Override
     public QueryResult createQueryResult(Class destClass) {
+        TransactionTemplate tmpl = new TransactionTemplate(transactionManager);
+
         // check if destination class is set
         if (destClass == null) {
             destClass = profiles.get(defaultProfile);
@@ -356,29 +363,35 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             }
         }
 
-        QueryResult res = new QueryResult();
+        final Class finalDestClass = destClass;
 
-        // check if just counting is to be performed, or list too
-        if (!this.countOnly) {
-            // execute the query
-            List<E> lst = getResultList();
+        return tmpl.execute(transactionStatus -> {
+            QueryResult res = new QueryResult();
 
-            final Class dataClass = destClass;
-            List lst2 = Lists.transform(lst, item -> mapper.map(item, dataClass));
+            // check if just counting is to be performed, or list too
+            if (!this.countOnly) {
+                // execute the query
+                List<E> lst = getResultList();
 
-            res.setList(lst2);
-        }
+                List lst2 = new ArrayList();
+                for (E ent: lst) {
+                    lst2.add(mapper.map(ent, finalDestClass));
+                }
 
-        // is paging enabled or count only ?
-        if (page != null || countOnly) {
-            res.setCount(getCount());
-        }
-        else {
-            // if there is no paging, avoid unnecessary database query
-            res.setCount(res.getList().size());
-        }
+                res.setList(lst2);
+            }
 
-        return res;
+            // is paging enabled or count only ?
+            if (page != null || countOnly) {
+                res.setCount(getCount());
+            }
+            else {
+                // if there is no paging, avoid unnecessary database query
+                res.setCount(res.getList().size());
+            }
+
+            return res;
+        });
     }
 
     @Override
@@ -442,6 +455,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public PlatformTransactionManager getTransactionManager() {
+        return transactionManager;
+    }
+
+    public void setTransactionManager(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
     }
 
     public UserRequestService getUserRequestService() {

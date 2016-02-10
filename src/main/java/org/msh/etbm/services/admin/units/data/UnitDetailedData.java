@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.AddressData;
  * Detailed data to be returned by the Unit service about an unit
  * Created by rmemoria on 1/11/15.
  */
-public class UnitDetailedData extends UnitData {
+public class UnitDetailedData extends UnitItemData {
     private String customId;
     private boolean active;
     private String shipContactName;
@@ -183,4 +183,5 @@ public class UnitDetailedData extends UnitData {
     public void setDrtbFacility(Boolean drtbFacility) {
         this.drtbFacility = drtbFacility;
     }
+
 }

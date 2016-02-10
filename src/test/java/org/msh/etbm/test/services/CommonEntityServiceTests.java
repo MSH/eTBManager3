@@ -6,7 +6,7 @@ import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.msh.etbm.test.AbstractAuthenticatedTest;
+import org.msh.etbm.test.AuthenticatedTest;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
  *
  * Created by rmemoria on 7/2/16.
  */
-public abstract class CommonEntityServiceTests extends AbstractAuthenticatedTest {
+public abstract class CommonEntityServiceTests extends AuthenticatedTest {
 
     // the entity class managed by the service
     private Class entityClass;
