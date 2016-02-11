@@ -112,7 +112,6 @@ export default class FormUtils {
 				params: req.params
 			}];
 
-		console.log('form request => ', data);
 		return server.post('/api/form/request', data)
 			.then(res => mult ? res : res.v);
 	}

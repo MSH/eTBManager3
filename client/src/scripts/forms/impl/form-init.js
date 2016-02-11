@@ -98,25 +98,36 @@ function getFieldsRequest(snapshot, doc, lst) {
 			getFieldsRequest(sc.layout, doc, lst);
 		}
 
-		if (sc.el !== 'field') {
-			return;
-		}
-
-		// doesn't require server init ?
-		const Comp = Form.types[sc.type];
-
-		const val = getValue(doc, sc.property);
-
-		// get server request, if any
-		const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val, doc) : null;
+		const req = schemaRequest(sc, doc);
 
 		if (req) {
-			lst.push({
-				id: sc.id,
-				cmd: req.cmd,
-				params: req.params
-			});
+			lst.push(req);
 		}
 	});
 }
 
+/**
+ * Generate a request object of a given element schema
+ * @param  {object} sc  The schema snapshot of the element
+ * @param  {object} doc The document being edited in the form
+ * @return {object}     The request to be sent to the server, or null if no request is necessary
+ */
+export function schemaRequest(sc, doc) {
+	if (sc.el !== 'field') {
+		return null;
+	}
+
+	// doesn't require server init ?
+	const Comp = Form.types[sc.type];
+
+	const val = getValue(doc, sc.property);
+
+	// get server request, if any
+	const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val, doc) : null;
+
+	return req ? {
+		id: sc.id,
+		cmd: req.cmd,
+		params: req.params
+	} : null;
+}

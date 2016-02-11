@@ -1,5 +1,7 @@
 package org.msh.etbm.commons;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * General purpose class to store information about an item (from list of options, entity collections, etc.)
  *
@@ -51,6 +53,7 @@ public class Item<E> implements Displayable {
     }
 
     @Override
+    @JsonIgnore
     public String getDisplayString() {
         return name;
     }

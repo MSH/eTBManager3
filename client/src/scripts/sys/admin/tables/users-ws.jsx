@@ -47,8 +47,7 @@ const editorDef = {
 			property: 'unitId',
 			type: 'unit',
 			label: __('UserWorkspace.unit'),
-			refreshOnChange: 'userView',
-			onChangeUpdate: 'view',
+			refreshOnChange: 'view',
 			size: { sm: 6 }
 		},
 		{
@@ -82,7 +81,7 @@ const editorDef = {
 			id: 'view',
 			property: 'view',
 			type: 'select',
-			options: doc => ({ cmd: 'userViews', params: { unitId: doc && doc.unitId } }),
+			options: doc => ({ cmd: 'userViews', params: { unitId: doc.unitId } }),
 			label: __('UserView'),
 			required: true
 		}

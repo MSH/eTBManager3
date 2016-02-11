@@ -1,10 +1,8 @@
 package org.msh.etbm.commons.entities.query;
 
-import com.google.common.collect.Lists;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;

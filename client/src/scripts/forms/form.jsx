@@ -7,7 +7,8 @@ import { setValue, objEqual } from '../commons/utils';
 import createForm from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
 import fieldControlWrapper from './impl/field-control';
-import { initDefaultValues, initForm } from './impl/form-init';
+import { initDefaultValues, initForm, schemaRequest } from './impl/form-init';
+import FormUtils from './form-utils';
 
 
 /**
@@ -125,12 +126,35 @@ export default class Form extends React.Component {
 		setValue(this.props.doc, schema.property, value, true);
 
 		if (schema.refreshOnChange) {
-			console.log('update ' + schema.refreshOnChange);
+			this._refreshElems(schema.refreshOnChange);
 		}
 
 		this.updateSnapshot();
 		// force update, in case snapshot remains the same
 		this.forceUpdate();
+	}
+
+	_refreshElems(ids) {
+		const reqs = [];
+
+		const ids2 = Array.isArray(ids) ? ids : [ids];
+
+		this.state.snapshot.filter(sc => ids2.indexOf(sc.id) >= 0)
+			.forEach(sc => {
+				const req = schemaRequest(sc, this.props.doc);
+				if (req) {
+					reqs.push(req);
+				}
+			});
+
+		const self = this;
+		if (reqs.length > 0) {
+			FormUtils.serverRequest(reqs)
+			.then(res => {
+				const newres = Object.assign({}, this.state.resources, res);
+				self.setState({ resources: newres });
+			});
+		}
 	}
 
 	/**

@@ -7,7 +7,7 @@ export default function fieldControlWrapper(Component) {
 
 	class FieldControl extends React.Component {
 
-		componentWillMount() {
+//		componentWillMount() {
 			// const request = Component.getServerRequest ? Component.getServerRequest(this.props.schema) : null;
 
 			// // resources were informed to initialize the field ?
@@ -20,7 +20,7 @@ export default function fieldControlWrapper(Component) {
 			// // request the server
 			// FormUtils.initFields(request)
 			// .then(res => self.setState({ resources: res }));
-		}
+//		}
 
 
 		componentDidMount() {
@@ -48,6 +48,7 @@ export default function fieldControlWrapper(Component) {
 		shouldComponentUpdate(nextProps) {
 			// component should update only if element or doc is changed
 			var update = nextProps.schema !== this.props.schema ||
+						nextProps.resources !== this.props.resources ||
 						nextProps.value !== this.props.value ||
 						nextProps.errors !== this.props.errors;
 
