@@ -176,46 +176,47 @@ public class Permissions {
         module(CASES,
                 add(CASES_NEWSUSP),
                 add(CASES_NEWCASE),
-                add(CASES_TREAT),
-                add(CASES_INTAKEMED),
-                add(CASES_EXAM_MICROSCOPY),
-                add(CASES_EXAM_XPERT),
-                add(CASES_EXAM_CULTURE),
-                add(CASES_EXAM_DST),
-                add(CASES_EXAM_HIV),
-                add(CASES_EXAM_XRAY),
-                add(CASES_ADDINFO),
-                add(CASES_VALIDATE),
+                add(CASES_TREAT, "cases.details.treatment"),
+                addChangeable(CASES_INTAKEMED),
+                addChangeable(CASES_EXAM_MICROSCOPY, "cases.exammicroscopy"),
+                addChangeable(CASES_EXAM_XPERT, "cases.examxpert"),
+                addChangeable(CASES_EXAM_CULTURE, "cases.examculture"),
+                addChangeable(CASES_EXAM_DST, "cases.examdst"),
+                addChangeable(CASES_EXAM_HIV, "cases.examhiv"),
+                addChangeable(CASES_EXAM_XRAY, "cases.examxray"),
+                add(CASES_ADDINFO, "cases.details.otherinfo"),
+                add(CASES_VALIDATE, "cases.validate"),
                 add(CASES_DEL_VAL),
-                add(CASES_TRANSFER),
-                add(CASES_CLOSE),
-                add(CASES_REOPEN),
+                add(CASES_TRANSFER, "cases.move"),
+                add(CASES_CLOSE, "cases.close"),
+                add(CASES_REOPEN, "cases.reopen"),
+                add(CASES_COMMENTS),
                 add(CASES_REM_COMMENTS),
                 add(CASES_TAG),
-                add(CASES_COMORBIDITIES),
-                add(CASES_TBCONTACT),
-                add(CASES_ADV_EFFECTS),
-                add(CASES_MED_EXAM),
-                add(CASES_ISSUES),
-                add(CASES_NEW_ISSUE),
-                add(CASES_ANSWER_ISSUE),
-                add(CASES_CLOSEDEL_ISSUE));
+                addChangeable(CASES_COMORBIDITIES, "cases.comorbidities"),
+                addChangeable(CASES_TBCONTACT, "cases.contacts"),
+                addChangeable(CASES_ADV_EFFECTS, "cases.sideeffects"),
+                add(CASES_MED_EXAM, "cases.details.medexam"),
+                add(CASES_ISSUES, "cases.issues",
+                    add(CASES_NEW_ISSUE, "cases.issues.new"),
+                    add(CASES_ANSWER_ISSUE),
+                    add(CASES_CLOSEDEL_ISSUE)));
 
         module(INVENTORY,
-                add(INVENTORY_INIT),
-                add(INV_STOCKADJ),
-                add(INV_RECEIV),
-                add(INV_ORDERS,
-                        add(INV_NEW_ORDER),
-                        add(INV_VAL_ORDER),
-                        add(INV_SEND_ORDER),
-                        add(INV_RECEIV_ORDER),
-                        add(INV_ORDER_CANC)),
-                add(INV_DISPENSING),
-                add(INV_TRANSFER,
-                        add(INV_NEW_TRANSFER),
-                        add(INV_TRANSF_REC),
-                        add(INV_TRANSF_CANCEL)));
+                add(INVENTORY_INIT, "inventory.start"),
+                add(INV_STOCKADJ, "inventory.newadjust"),
+                add(INV_RECEIV, "inventory.receiving"),
+                add(INV_ORDERS, "inventory.orders",
+                        add(INV_NEW_ORDER, "inventory.orders.new"),
+                        add(INV_VAL_ORDER, "inventory.orders.autorize"),
+                        add(INV_SEND_ORDER, "inventory.orders.shipment"),
+                        add(INV_RECEIV_ORDER, "inventory.orders.receive"),
+                        add(INV_ORDER_CANC, "inventory.orders.cancel")),
+                add(INV_DISPENSING, "inventory.dispensing"),
+                add(INV_TRANSFER, "inventory.transfer",
+                        add(INV_NEW_TRANSFER, "inventory.transfer.new"),
+                        add(INV_TRANSF_REC, "inventory.transfer.receive"),
+                        add(INV_TRANSF_CANCEL, "inventory.transfer.cancel")));
 
         module(LABS,
                 add(LABS_NEWREQUEST),
@@ -224,31 +225,31 @@ public class Permissions {
                 add(LABS_REMREQ));
 
         module(REPORTS,
-                add(REP_DATA_ANALYSIS),
-                add(REP_MOVEMENTS),
-                add(REP_ORDER_LEADTIME));
+                add(REP_DATA_ANALYSIS, "reports.dat"),
+                add(REP_MOVEMENTS, "reports.movements"),
+                add(REP_ORDER_LEADTIME, "reports.orderleadtime"));
 
 
         // define permissions of the administration module
         module(ADMIN,
-                add(ADMIN_TABLES,
-                    addChangeable(TABLE_ADMUNITS),
-                    addChangeable(TABLE_SOURCES),
-                    addChangeable(TABLE_UNITS),
-                    addChangeable(TABLE_SUBSTANCES),
-                    addChangeable(TABLE_PRODUCTS),
-                    addChangeable(TABLE_REGIMENS),
-                    addChangeable(TABLE_AGERANGES),
-                    addChangeable(TABLE_USERPROFILES),
-                    addChangeable(TABLE_TAGS),
-                    addChangeable(TABLE_USERS),
-                    addChangeable(TABLE_WORKSPACES)
+                add(ADMIN_TABLES, "admin.tables",
+                    addChangeable(TABLE_ADMUNITS, "admin.adminunits"),
+                    addChangeable(TABLE_SOURCES, "admin.sources"),
+                    addChangeable(TABLE_UNITS, "admin.units"),
+                    addChangeable(TABLE_SUBSTANCES, "admin.substances"),
+                    addChangeable(TABLE_PRODUCTS, "admin.products"),
+                    addChangeable(TABLE_REGIMENS, "admin.regimens"),
+                    addChangeable(TABLE_AGERANGES, "admin.ageranges"),
+                    addChangeable(TABLE_USERPROFILES, "admin.profiles"),
+                    addChangeable(TABLE_TAGS, "admin.tags"),
+                    addChangeable(TABLE_USERS, "admin.users"),
+                    addChangeable(TABLE_WORKSPACES, "admin.workspaces")
                 ),
-                add(ADMIN_REPORTS,
+                add(ADMIN_REPORTS, "admin.reports",
                     add(ADMIN_REP_CMDHISTORY),
                     add(ADMIN_REP_CMDSTATISTICS),
                     add(ADMIN_REP_USERSONLINE),
-                    add(ADMIN_REP_USERSESSIONS),
+                    add(ADMIN_REP_USERSESSIONS, "admin.reports.usersession"),
                     add(ADMIN_REP_ERRORLOG)
                 ),
                 add(ADMIN_SETUP_WORKSPACE),
@@ -276,7 +277,11 @@ public class Permissions {
     }
 
     private Permission add(String id, Permission ...children) {
-        Permission perm = new Permission(null, id, false);
+        return add(id, "Permission." + id, children);
+    }
+
+    private Permission add(String id, String messageKey, Permission ...children) {
+        Permission perm = new Permission(null, id, messageKey, false);
         if (children != null && children.length > 0) {
             for (Permission child: children) {
                 perm.addPermission(child);
@@ -286,6 +291,10 @@ public class Permissions {
     }
 
     private Permission addChangeable(String id) {
-        return new Permission(null, id, true);
+        return new Permission(null, id, "Permission." + id, true);
+    }
+
+    private Permission addChangeable(String id, String messageKey) {
+        return new Permission(null, id, messageKey, true);
     }
 }

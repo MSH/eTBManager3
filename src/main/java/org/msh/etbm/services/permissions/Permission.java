@@ -14,6 +14,7 @@ public class Permission {
     private List<Permission> children;
     private Permission parent;
     private boolean changeable;
+    private String messageKey;
 
     /**
      * Constructor with no argument, used when creating the root element
@@ -28,18 +29,11 @@ public class Permission {
      * @param id the id of the permission. A name easily assigned to this item
      * @param changeable
      */
-    protected Permission(Permission parent, String id, boolean changeable) {
+    protected Permission(Permission parent, String id, String messageKey, boolean changeable) {
         this.parent = parent;
         this.id = id;
+        this.messageKey = messageKey;
         this.changeable = changeable;
-    }
-
-    /**
-     * Return the message key used to get the message to be displayed in the current language
-     * @return String value
-     */
-    public String getMessageKey() {
-        return "Permission." + id;
     }
 
     /**
@@ -71,8 +65,8 @@ public class Permission {
      * @param id the ID of the permission
      * @return instance of the Permission class
      */
-    public Permission add(String id) {
-        addChild(id, false);
+    public Permission add(String id, String messageKey) {
+        addChild(id, messageKey, false);
         return this;
     }
 
@@ -89,13 +83,13 @@ public class Permission {
      * @param id is the ID of the permission
      * @return instance of the Permission class
      */
-    public Permission addChangeable(String id) {
-        addChild(id, true);
+    public Permission addChangeable(String id, String messageKey) {
+        addChild(id, messageKey, true);
         return this;
     }
 
-    private Permission addChild(String id, boolean changeable) {
-        Permission perm = new Permission(this, id, changeable);
+    private Permission addChild(String id, String messageKey, boolean changeable) {
+        Permission perm = new Permission(this, id, messageKey, changeable);
 
         addPermission(perm);
         return perm;
@@ -118,6 +112,7 @@ public class Permission {
         return parent;
     }
 
-
-
+    public String getMessageKey() {
+        return messageKey;
+    }
 }
