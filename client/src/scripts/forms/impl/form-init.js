@@ -1,7 +1,7 @@
 
 import FormUtils from '../form-utils';
 import Form from '../form';
-import { setValue, getValue } from '../../commons/utils';
+import { setValue, getValue, isFunction } from '../../commons/utils';
 
 
 /**
@@ -18,7 +18,7 @@ export function initDefaultValues(form) {
 	if (defprops) {
 		Object.keys(defprops).forEach(prop => {
 			let val = defprops[prop];
-			if (typeof val === 'function') {
+			if (isFunction(val)) {
 				val = val.call(doc, doc);
 			}
 			doc[prop] = val;
@@ -29,7 +29,7 @@ export function initDefaultValues(form) {
 	schema.layout
 			.filter(elem => elem.el === 'field' || !elem.el)
 			.forEach(elem => {
-				const type = Form.types[elem.type];
+				const type = FormUtils.getComponent(elem);
 
 				const defaultValue = elem.defaultValue || type.defaultValue();
 				if (defaultValue !== undefined) {
@@ -118,7 +118,7 @@ export function schemaRequest(sc, doc) {
 	}
 
 	// doesn't require server init ?
-	const Comp = Form.types[sc.type];
+	const Comp = FormUtils.getComponent(sc);
 
 	const val = getValue(doc, sc.property);
 

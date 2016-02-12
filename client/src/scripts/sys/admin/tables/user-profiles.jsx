@@ -2,6 +2,7 @@
 import React from 'react';
 import CrudView from '../crud-view';
 import CRUD from '../../../commons/crud';
+import PermissionTree from './permission-tree';
 
 const crud = new CRUD('userprofile');
 
@@ -15,6 +16,11 @@ const editorDef = {
 			max: 200,
 			label: __('form.name'),
 			size: { sm: 6 }
+		},
+		{
+			property: 'permissions',
+			type: PermissionTree,
+			size: { sm: 12 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.regimens.edt') : __('admin.regimens.new')

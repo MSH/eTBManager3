@@ -147,6 +147,11 @@ export default class TreeView extends React.Component {
 		const pitem = parent ? parent.item : undefined;
 		let res = func(pitem);
 
+		// no nodes, then return an empty list
+		if (!res) {
+			return Promise.resolve([]);
+		}
+
 		// is not a promise ?
 		if (!res.then) {
 			// force node resolution by promises

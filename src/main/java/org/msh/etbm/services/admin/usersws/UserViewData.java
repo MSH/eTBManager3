@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.db.enums.UserView;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -14,12 +15,12 @@ public class UserViewData {
     /**
      * The user view
      */
-    private UserView view;
+    private Optional<UserView> view;
 
     /**
      * The administrative unit ID, case view is {@link UserView#ADMINUNIT}
      */
-    private UUID adminUnitId;
+    private Optional<UUID> adminUnitId;
 
     /**
      * Constructor passing the arguments
@@ -27,12 +28,12 @@ public class UserViewData {
      * @param adminUnitId
      */
     public UserViewData(UserView view, UUID adminUnitId) {
-        this.view = view;
-        this.adminUnitId = adminUnitId;
+        this.view = Optional.of(view);
+        this.adminUnitId = Optional.of(adminUnitId);
     }
 
     public UserViewData(UserView view) {
-        this.view = view;
+        this.view = Optional.of(view);
     }
 
     @Override
@@ -53,19 +54,19 @@ public class UserViewData {
         super();
     }
 
-    public UserView getView() {
+    public Optional<UserView> getView() {
         return view;
     }
 
-    public void setView(UserView view) {
+    public void setView(Optional<UserView> view) {
         this.view = view;
     }
 
-    public UUID getAdminUnitId() {
+    public Optional<UUID> getAdminUnitId() {
         return adminUnitId;
     }
 
-    public void setAdminUnitId(UUID adminUnitId) {
+    public void setAdminUnitId(Optional<UUID> adminUnitId) {
         this.adminUnitId = adminUnitId;
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
 import { isFunction } from '../commons/utils';
+import Form from './form';
 
 const requiredTooltip = (
 	<Tooltip id="required">{__('NotNull')}</Tooltip>
@@ -116,4 +117,19 @@ export default class FormUtils {
 			.then(res => mult ? res : res.v);
 	}
 
+	/**
+	 * Return the component referenced by the type property in the schema.
+	 * The component may be a string reference to a form type or a reference
+	 * to a React Component
+	 * @param  {[type]} schema [description]
+	 * @return {[type]}        [description]
+	 */
+	static getComponent(schema) {
+		if (__DEV__) {
+			if (!schema.type) {
+				throw new Error('No control type defined for property ' + schema.property);
+			}
+		}
+		return typeof schema.type === 'string' ? Form.types[schema.type] : schema.type;
+	}
 }

@@ -4,7 +4,7 @@ import { Alert } from 'react-bootstrap';
 import WaitIcon from '../../components/wait-icon';
 import { getValue } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
-import Form from '../form';
+import FormUtils from '../form-utils';
 
 
 /**
@@ -119,7 +119,7 @@ function createElement(form, schema, value, errors) {
 		err = errors;
 	}
 
-	const Comp = Form.types[schema.type];
+	const Comp = FormUtils.getComponent(schema);
 
 	if (__DEV__) {
 		if (!Comp) {

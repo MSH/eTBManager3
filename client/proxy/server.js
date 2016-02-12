@@ -58,7 +58,7 @@ app.use(express.static( staticFiles ));
 
 
 proxy.on('error', function() {
-    gutil.log('Could not connect to proxy, please try again...');
+    gutil.log('Could not connect to proxy, check if java app is running...');
 });
 
 // start the server

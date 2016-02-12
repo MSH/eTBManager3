@@ -25,11 +25,6 @@
         </field>
 
         <field custom-converter-id="entity-id">
-            <a>adminUnitId</a>
-            <b>adminUnit</b>
-        </field>
-
-        <field custom-converter-id="entity-id">
             <a>unitId</a>
             <b>unit</b>
         </field>
@@ -37,6 +32,16 @@
         <field custom-converter-id="entity-id" custom-converter-param="org.msh.etbm.db.entities.UserProfile">
             <a>profiles</a>
             <b>profiles</b>
+        </field>
+
+        <field>
+            <a>view.view</a>
+            <b>view</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>view.adminUnitId</a>
+            <b>adminUnit</b>
         </field>
     </mapping>
 

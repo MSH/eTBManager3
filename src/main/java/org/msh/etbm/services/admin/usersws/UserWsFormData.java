@@ -16,14 +16,13 @@ public class UserWsFormData {
     private Optional<String> login;
     private Optional<String> email;
     private Optional<UUID> unitId;
-    private Optional<UUID> adminUnitId;
     private Optional<UserState> state;
     private Optional<Boolean> administrator;
     private Optional<String> comments;
     private Optional<String> customId;
     private Optional<Boolean> playOtherUnits;
     private List<UUID> profiles;
-    private Optional<UserViewData> view;
+    private UserViewData view;
 
 
     public Optional<String> getName() {
@@ -56,14 +55,6 @@ public class UserWsFormData {
 
     public void setUnitId(Optional<UUID> unitId) {
         this.unitId = unitId;
-    }
-
-    public Optional<UUID> getAdminUnitId() {
-        return adminUnitId;
-    }
-
-    public void setAdminUnitId(Optional<UUID> adminUnitId) {
-        this.adminUnitId = adminUnitId;
     }
 
     public Optional<UserState> getState() {
@@ -114,11 +105,14 @@ public class UserWsFormData {
         this.profiles = profiles;
     }
 
-    public Optional<UserViewData> getView() {
+    public UserViewData getView() {
+        if (view == null) {
+            view = new UserViewData();
+        }
         return view;
     }
 
-    public void setView(Optional<UserViewData> view) {
+    public void setView(UserViewData view) {
         this.view = view;
     }
 }

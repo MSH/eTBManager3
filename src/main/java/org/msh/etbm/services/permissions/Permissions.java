@@ -44,9 +44,6 @@ public class Permissions {
     public static final String TABLE_SUBSTANCES = "SUBSTANCES";
     public static final String TABLE_SUBSTANCES_EDT = "SUBSTANCES_EDT";
 
-//    public static final String ADMIN_FIELDVALUES = "FIELDS";
-//    public static final String ADMIN_FIELDVALUES_EDT = "FIELDS_EDT";
-
     public static final String TABLE_TAGS = "TAGS";
     public static final String TABLE_TAGS_EDT = "TAGS_EDT";
 
@@ -55,9 +52,6 @@ public class Permissions {
 
     public static final String TABLE_WORKSPACES = "WORKSPACES";
     public static final String TABLE_WORKSPACES_EDT = "WORKSPACES_EDT";
-
-//    public static final String ADMIN_WEEKFREQ = "WEEKFREQ";
-
 
     public static final String ADMIN_REPORTS = "ADMREP";
     public static final String ADMIN_REP_USERSONLINE = "ONLINE";
@@ -75,10 +69,29 @@ public class Permissions {
      */
     public static final String INVENTORY = "INVENTORY";
 
+    public static final String INVENTORY_INIT = "INVENTORY_INIT";
+    public static final String INV_RECEIV = "RECEIV";
+    public static final String INV_STOCKADJ = "STOCK_ADJ";
+    public static final String INV_ORDERS = "ORDERS";
+    public static final String INV_NEW_ORDER = "NEW_ORDER";
+    public static final String INV_VAL_ORDER = "VAL_ORDER";
+    public static final String INV_SEND_ORDER = "SEND_ORDER";
+    public static final String INV_RECEIV_ORDER = "RECEIV_ORDER";
+    public static final String INV_ORDER_CANC = "ORDER_CANC";
+    public static final String INV_DISPENSING = "DISP_PAC";
+    public static final String INV_TRANSFER = "TRANSFER";
+    public static final String INV_TRANSF_REC = "TRANSF_REC";
+    public static final String INV_NEW_TRANSFER = "NEW_TRANSFER";
+    public static final String INV_TRANSF_CANCEL = "TRANSF_CANCEL";
+
     /**
      * Report module permissions
      */
     public static final String REPORTS = "REPORTS";
+
+    public static final String REP_DATA_ANALYSIS = "DATA_ANALISYS";
+    public static final String REP_ORDER_LEADTIME = "REP_ORDER_LEADTIME";
+    public static final String REP_MOVEMENTS = "REP_MOVEMENTS";
 
     /**
      * Case management module
@@ -87,15 +100,41 @@ public class Permissions {
 
     public static final String CASES_NEWSUSP = "NEWSUSP";
     public static final String CASES_NEWCASE = "NEWCASE";
+    public static final String CASES_TREAT = "CASE_TREAT";
+    public static final String CASES_INTAKEMED = "CASE_INTAKEMED";
+    public static final String CASES_EXAM_XPERT = "EXAM_XPERT";
+    public static final String CASES_ADDINFO = "CASE_ADDINFO";
+    public static final String CASES_VALIDATE = "CASE_VALIDATE";
+    public static final String CASES_DEL_VAL = "CASE_DEL_VAL";
+    public static final String CASES_TRANSFER = "CASE_TRANSFER";
+    public static final String CASES_CLOSE = "CASE_CLOSE";
+    public static final String CASES_REOPEN = "CASE_REOPEN";
+    public static final String CASES_COMMENTS = "CASE_COMMENTS";
+    public static final String CASES_REM_COMMENTS = "REM_COMMENTS";
+    public static final String CASES_TAG = "CASE_TAG";
+    public static final String CASES_EXAM_CULTURE = "EXAM_CULTURE";
+    public static final String CASES_EXAM_MICROSCOPY = "EXAM_MICROSCOPY";
+    public static final String CASES_EXAM_DST = "EXAM_DST";
+    public static final String CASES_EXAM_XRAY = "EXAM_XRAY";
+    public static final String CASES_EXAM_HIV = "EXAM_HIV";
+    public static final String CASES_COMORBIDITIES = "COMIRBIDITIES";
+    public static final String CASES_TBCONTACT = "TBCONTACT";
+    public static final String CASES_ADV_EFFECTS = "ADV_EFFECTS";
+    public static final String CASES_MED_EXAM = "CASE_MED_EXAM";
+    public static final String CASES_ISSUES = "ISSUES";
+    public static final String CASES_NEW_ISSUE = "NEW_ISSUE";
+    public static final String CASES_ANSWER_ISSUE = "ANSWER_ISSUE";
+    public static final String CASES_CLOSEDEL_ISSUE = "CLOSEDEL_ISSUE";
 
     /**
      * Laboratory module
      */
-    public static final String LABS = "LABS";
+    public static final String LABS = "LAB_MODULE";
     public static final String LABS_NEWREQUEST = "LAB_NEWREQUEST";
     public static final String LABS_POSTRESULT = "LAB_POSTRESULT";
     public static final String LABS_EDTREQ = "LAB_EDTREQ";
     public static final String LABS_REMREQ = "LAB_REMREQ";
+
 
     private List<Permission> list;
 
@@ -134,9 +173,49 @@ public class Permissions {
      */
     private void initList() {
         // define permissions of the cases module
-        module(CASES);
+        module(CASES,
+                add(CASES_NEWSUSP),
+                add(CASES_NEWCASE),
+                add(CASES_TREAT),
+                add(CASES_INTAKEMED),
+                add(CASES_EXAM_MICROSCOPY),
+                add(CASES_EXAM_XPERT),
+                add(CASES_EXAM_CULTURE),
+                add(CASES_EXAM_DST),
+                add(CASES_EXAM_HIV),
+                add(CASES_EXAM_XRAY),
+                add(CASES_ADDINFO),
+                add(CASES_VALIDATE),
+                add(CASES_DEL_VAL),
+                add(CASES_TRANSFER),
+                add(CASES_CLOSE),
+                add(CASES_REOPEN),
+                add(CASES_REM_COMMENTS),
+                add(CASES_TAG),
+                add(CASES_COMORBIDITIES),
+                add(CASES_TBCONTACT),
+                add(CASES_ADV_EFFECTS),
+                add(CASES_MED_EXAM),
+                add(CASES_ISSUES),
+                add(CASES_NEW_ISSUE),
+                add(CASES_ANSWER_ISSUE),
+                add(CASES_CLOSEDEL_ISSUE));
 
-        module(INVENTORY);
+        module(INVENTORY,
+                add(INVENTORY_INIT),
+                add(INV_STOCKADJ),
+                add(INV_RECEIV),
+                add(INV_ORDERS,
+                        add(INV_NEW_ORDER),
+                        add(INV_VAL_ORDER),
+                        add(INV_SEND_ORDER),
+                        add(INV_RECEIV_ORDER),
+                        add(INV_ORDER_CANC)),
+                add(INV_DISPENSING),
+                add(INV_TRANSFER,
+                        add(INV_NEW_TRANSFER),
+                        add(INV_TRANSF_REC),
+                        add(INV_TRANSF_CANCEL)));
 
         module(LABS,
                 add(LABS_NEWREQUEST),
@@ -144,7 +223,10 @@ public class Permissions {
                 add(LABS_POSTRESULT),
                 add(LABS_REMREQ));
 
-        module(REPORTS);
+        module(REPORTS,
+                add(REP_DATA_ANALYSIS),
+                add(REP_MOVEMENTS),
+                add(REP_ORDER_LEADTIME));
 
 
         // define permissions of the administration module

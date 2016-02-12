@@ -35,6 +35,14 @@ public class Permission {
     }
 
     /**
+     * Return the message key used to get the message to be displayed in the current language
+     * @return String value
+     */
+    public String getMessageKey() {
+        return "Permission." + id;
+    }
+
+    /**
      * Find a permission with the given ID. It will check if the given ID is the permission ID.
      * If so, returns the own object. If not, it will check if the ID is the changeable permission
      * (if available) and if not, it will check in the children recursively

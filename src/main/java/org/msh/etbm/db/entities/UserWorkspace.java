@@ -138,4 +138,5 @@ public class UserWorkspace extends WorkspaceEntity {
     public String getDisplayString() {
         return user.getDisplayString() + " - " + getWorkspace().getDisplayString();
     }
+
 }

@@ -44,7 +44,7 @@ export default class Form extends React.Component {
 						throw new Error('Element type not defined for ' + elem.property);
 					}
 
-					const comp = Form.types[elem.type];
+					const comp = FormUtils.getComponent(elem);
 					if (!comp) {
 						throw new Error('Component type not found: ' + elem.type);
 					}

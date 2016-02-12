@@ -28,7 +28,7 @@ const editorDef = {
 			size: { sm: 6 }
 		},
 		{
-			property: 'string',
+			property: 'email',
 			required: true,
 			type: 'string',
 			email: true,
@@ -45,6 +45,7 @@ const editorDef = {
 		},
 		{
 			property: 'unitId',
+			required: true,
 			type: 'unit',
 			label: __('UserWorkspace.unit'),
 			refreshOnChange: 'view',
