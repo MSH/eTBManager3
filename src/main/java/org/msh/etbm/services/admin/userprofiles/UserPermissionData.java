@@ -7,7 +7,6 @@ package org.msh.etbm.services.admin.userprofiles;
 public class UserPermissionData {
 
     private String permission;
-    private boolean canExecute;
     private boolean canChange;
 
 
@@ -17,14 +16,6 @@ public class UserPermissionData {
 
     public void setPermission(String permission) {
         this.permission = permission;
-    }
-
-    public boolean isCanExecute() {
-        return canExecute;
-    }
-
-    public void setCanExecute(boolean canExecute) {
-        this.canExecute = canExecute;
     }
 
     public boolean isCanChange() {

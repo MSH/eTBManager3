@@ -114,26 +114,6 @@ export default class TreeView extends React.Component {
 				lst.splice(index, 1, newnode);
 				// refresh tree view
 				self.forceUpdate();
-			},
-
-			/**
-			 * Expand a node, passing the item as argument
-			 * @param  {[type]} item [description]
-			 * @return {[type]}      [description]
-			 */
-			expand: item => {
-				const node = self.findNode(item);
-				self._expandNode(node);
-			},
-
-			/**
-			 * Collapse a node, passing the item as argument
-			 * @param  {[type]} item [description]
-			 * @return {[type]}      [description]
-			 */
-			collapse: item => {
-				const node = self.findNode(item);
-				self._expandNode(node);
 			}
 		};
 	}
