@@ -234,9 +234,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         // has parameters ?
         if (parameters != null) {
-            for (String p: parameters.keySet()) {
-                Object val = parameters.get(p);
-                qry.setParameter(p, val);
+            for (Map.Entry<String, Object>  p: parameters.entrySet()) {
+                qry.setParameter(p.getKey(), p.getValue());
             }
         }
 

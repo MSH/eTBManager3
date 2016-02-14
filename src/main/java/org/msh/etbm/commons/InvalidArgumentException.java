@@ -6,8 +6,8 @@ package org.msh.etbm.commons;
  * Created by rmemoria on 8/2/16.
  */
 public class InvalidArgumentException extends RuntimeException {
-    private String property;
-    private String code;
+    private final String property;
+    private final String code;
 
     /**
      * Default constructor

@@ -36,6 +36,16 @@ export default class TreeView extends React.Component {
 		this.mounted = false;
 	}
 
+	expand(item) {
+		const node = this.findNode(item);
+		this._expandNode(node);
+	}
+
+	collapse(item) {
+		const node = this.findNode(item);
+		this._collapseNode(node);
+	}
+
 	/**
 	 * Create a handler that will be sent to the parent to have control over the items
 	 * @return {[type]} [description]
@@ -57,7 +67,7 @@ export default class TreeView extends React.Component {
 				// children are loaded ?
 				if (pnode && !pnode.leaf && !pnode.children) {
 					// if no, just load them and refresh it
-					self.expandNode(pnode);
+					self._expandNode(pnode);
 					return;
 				}
 
@@ -104,6 +114,26 @@ export default class TreeView extends React.Component {
 				lst.splice(index, 1, newnode);
 				// refresh tree view
 				self.forceUpdate();
+			},
+
+			/**
+			 * Expand a node, passing the item as argument
+			 * @param  {[type]} item [description]
+			 * @return {[type]}      [description]
+			 */
+			expand: item => {
+				const node = self.findNode(item);
+				self._expandNode(node);
+			},
+
+			/**
+			 * Collapse a node, passing the item as argument
+			 * @param  {[type]} item [description]
+			 * @return {[type]}      [description]
+			 */
+			collapse: item => {
+				const node = self.findNode(item);
+				self._expandNode(node);
 			}
 		};
 	}
@@ -191,7 +221,7 @@ export default class TreeView extends React.Component {
 			leaf: info.leaf };
 
 		if (info.expanded) {
-			this.expandNode(node);
+			this._expandNode(node);
 		}
 		return node;
 	}
@@ -287,12 +317,18 @@ export default class TreeView extends React.Component {
 	 * @return {[type]}       [description]
 	 */
 	createNodeRow(node, level, key) {
+		// is there any function to render the whole node ?
+		if (this.props.nodeRender) {
+			const cont = this.props.nodeRender(node.item);
+			return this.wrapRow(cont, null, level, key);
+		}
+
 		const p = this.props;
 
 		// get the node content
-		const func = p.innerRender;
+		const innerRender = p.innerRender;
 
-		const content = func ? func(node.item) : node.item;
+		const content = innerRender ? innerRender(node.item) : node.item;
 
 		const icon = this.resolveIcon(node);
 
@@ -303,14 +339,18 @@ export default class TreeView extends React.Component {
 				{icon}
 			</a>;
 
-		const nodeRow = (
-			<div key={key} className="node" style={{ marginLeft: (level * p.indent) + 'px' }}>
-				{nodeIcon}
-				{content}
-			</div>
-			);
+		const nodeRow = this.wrapRow(content, nodeIcon, level, key);
 
 		return p.outerRender ? p.outerRender(nodeRow, node.item) : nodeRow;
+	}
+
+	wrapRow(content, nodeIcon, level, key) {
+		return (
+			<div key={key} className="node" style={{ marginLeft: (level * this.props.indent) + 'px' }}>
+			{nodeIcon}
+			{content}
+			</div>
+			);
 	}
 
 	/**
@@ -330,10 +370,10 @@ export default class TreeView extends React.Component {
 		});
 
 		if (node.state === 'collapsed') {
-			this.expandNode(node);
+			this._expandNode(node);
 		}
 		else {
-			this.collapseNode(node);
+			this._collapseNode(node);
 		}
 	}
 
@@ -342,7 +382,7 @@ export default class TreeView extends React.Component {
 	 * @param  {[type]} node [description]
 	 * @return {[type]}      [description]
 	 */
-	expandNode(node) {
+	_expandNode(node) {
 		// children are not loaded ?
 		if (!node.children) {
 			// node enters in the expanding state
@@ -371,7 +411,7 @@ export default class TreeView extends React.Component {
 	 * @param  {[type]} node [description]
 	 * @return {[type]}      [description]
 	 */
-	collapseNode(node) {
+	_collapseNode(node) {
 		node.state = 'collapsed';
 		this.forceUpdate();
 	}
@@ -417,6 +457,8 @@ TreeView.propTypes = {
 	// in the format function(item): string | React component
 	innerRender: React.PropTypes.func,
 	outerRender: React.PropTypes.func,
+	// called to render the whole node. func(nodeStateFunc, item)
+	nodeRender: React.PropTypes.func,
 	// an optional title to be displayed on the top of the treeview
 	title: React.PropTypes.any,
 	// opitional. Check if node has children or is a leaf node

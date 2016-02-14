@@ -50,7 +50,7 @@ public class PermissionsTreeOptions implements FormRequestHandler<List<Permissio
     protected PermissionItem createItem(Permission perm) {
         PermissionItem item = new PermissionItem(perm.getId(), messages.get(perm.getMessageKey()), perm.isChangeable());
 
-        if (perm.getChildren() != null && perm.getChildren().size() > 0) {
+        if (perm.getChildren() != null && !perm.getChildren().isEmpty()) {
             List<PermissionItem> lst = new ArrayList<>();
 
             for (Permission child: perm.getChildren()) {

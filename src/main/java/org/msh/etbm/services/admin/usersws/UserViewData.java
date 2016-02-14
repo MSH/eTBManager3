@@ -23,6 +23,17 @@ public class UserViewData {
     private Optional<UUID> adminUnitId;
 
     /**
+     * No argument constructor
+     */
+    public UserViewData() {
+        super();
+    }
+
+    public UserViewData(UserView view) {
+        this.view = Optional.of(view);
+    }
+
+    /**
      * Constructor passing the arguments
      * @param view the user view
      * @param adminUnitId
@@ -30,10 +41,6 @@ public class UserViewData {
     public UserViewData(UserView view, UUID adminUnitId) {
         this.view = Optional.of(view);
         this.adminUnitId = Optional.of(adminUnitId);
-    }
-
-    public UserViewData(UserView view) {
-        this.view = Optional.of(view);
     }
 
     @Override
@@ -45,13 +52,6 @@ public class UserViewData {
         }
 
         return s;
-    }
-
-    /**
-     * No argument constructor
-     */
-    public UserViewData() {
-        super();
     }
 
     public Optional<UserView> getView() {
