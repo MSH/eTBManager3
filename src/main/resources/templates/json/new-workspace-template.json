@@ -113,7 +113,7 @@
     {
       "name": "Laboratory staff",
       "roles": [
-        "LABS",
+        "LAB_MODULE",
         "LAB_NEWREQUEST",
         "LAB_POSTRESULT",
         "LAB_EDTREQ",
