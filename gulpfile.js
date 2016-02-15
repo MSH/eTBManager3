@@ -37,7 +37,7 @@ gulp.task('build', function() {
         'clean',
         'client-jshint',
         ['client-msgs', 'bootstrap-fonts', 'entry-point', 'client-copy', 'less'],
-        'webpack-prod');
+        'webpack-prod', 'client-msgs');
 });
 
 
@@ -109,11 +109,12 @@ gulp.task('client-jshint', function() {
  * Generate the final java-script code
  */
 gulp.task('webpack-prod', [], function(callback) {
-    var devCompiler = webpack(require('./webpack.config'));
+    var webpackCompiler = webpack(require('./webpack.config'));
 
-    devCompiler.run(function(err, stats) {
-        if(err) {
-            throw new gutil.PluginError('webpack:build-prod', err);
+    webpackCompiler.run(function(err, stats) {
+        if (err || stats.hasErrors()) {
+            callback(err || stats.hasErrors());
+//            throw new gutil.PluginError('webpack:build-prod', err);
         }
         gutil.log('[webpack:build-prod]', stats.toString({
             colors: true
