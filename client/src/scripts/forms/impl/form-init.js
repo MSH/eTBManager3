@@ -1,6 +1,5 @@
 
 import FormUtils from '../form-utils';
-import Form from '../form';
 import { setValue, getValue, isFunction } from '../../commons/utils';
 
 
@@ -31,7 +30,14 @@ export function initDefaultValues(form) {
 			.forEach(elem => {
 				const type = FormUtils.getComponent(elem);
 
-				const defaultValue = elem.defaultValue || type.defaultValue();
+				let defaultValue;
+
+				if ('defaultValue' in elem) {
+					defaultValue = elem.defaultValue;
+				} else {
+					defaultValue = type.defaultValue();
+				}
+
 				if (defaultValue !== undefined) {
 					setValue(doc, elem.property, defaultValue, true);
 				}
