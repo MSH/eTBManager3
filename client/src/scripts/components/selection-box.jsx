@@ -19,7 +19,7 @@ export default class SelectionBox extends React.Component {
 	}
 
 	componentWillMount() {
-		const value = this.props.value ? this.props.value : null;
+		const value = this.props.value !== undefined ? this.props.value : null;
 		this.setState({ value: value });
 	}
 
