@@ -74,5 +74,4 @@ public class Application {
         builder.modulesToInstall(Jdk8Module.class);
         return builder;
     }
-
 }

@@ -20,7 +20,6 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
     @PersistenceContext
     EntityManager entityManager;
 
-
     @Override
     public void prepareLog(CommandHistoryInput in, RegisterWorkspaceRequest request, UUID response) {
         in.setAction(CommandAction.EXEC);

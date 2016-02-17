@@ -50,6 +50,12 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
+        <!-- Support for mail delivery in spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
         <!-- Spring test integration with JUnit -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
