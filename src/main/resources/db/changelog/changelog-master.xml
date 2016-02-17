@@ -1652,9 +1652,6 @@
             <column name="canChange" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="canExecute" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
             <column name="PROFILE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
