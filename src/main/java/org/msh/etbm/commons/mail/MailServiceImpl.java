@@ -30,10 +30,10 @@ import java.util.Map;
 public class MailServiceImpl implements MailService {
     private static final Logger LOGGER = LoggerFactory.getLogger(MailService.class);
 
-    @Value("${mail.from}")
+    @Value("${mail.from:}")
     String mailFrom;
 
-    @Value("${mail.host}")
+    @Value("${mail.host:}")
     String mailHost;
 
     @Autowired
