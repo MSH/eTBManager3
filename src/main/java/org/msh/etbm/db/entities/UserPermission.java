@@ -23,7 +23,6 @@ public class UserPermission  {
 	@NotNull
 	private UserProfile userProfile;
 
-	private boolean canExecute;
 	private boolean canChange;
 
 
@@ -80,22 +79,6 @@ public class UserPermission  {
 	 */
 	public void setCanChange(boolean canChange) {
 		this.canChange = canChange;
-	}
-
-
-	/**
-	 * @return the canExecute
-	 */
-	public boolean isCanExecute() {
-		return canExecute;
-	}
-
-
-	/**
-	 * @param canExecute the canExecute to set
-	 */
-	public void setCanExecute(boolean canExecute) {
-		this.canExecute = canExecute;
 	}
 
 }

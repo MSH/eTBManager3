@@ -3,6 +3,7 @@ package org.msh.etbm.services.init.impl;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.dto.SystemConfigDTO;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.repositories.*;
@@ -13,6 +14,8 @@ import org.msh.etbm.services.permissions.Permission;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.services.sys.ConfigurationService;
 import org.msh.etbm.services.users.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +36,8 @@ import java.util.UUID;
  */
 @Service
 public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterWorkspaceService.class);
 
     @Autowired
     DozerBeanMapper mapper;
@@ -67,6 +72,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    MailService mailService;
+
 
     private NewWorkspaceTemplate template;
     private List<AdministrativeUnit> adminUnits;
@@ -96,7 +104,21 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         updateConfiguration(form);
 
+        sendSuccessMailMessage(ws);
+
         return ws.getId();
+    }
+
+
+    /**
+     * Send an e-mail message to the user to inform him about the new workspace created
+     * @param ws the created workspace
+     */
+    protected void sendSuccessMailMessage(Workspace ws) {
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("name", "Ricardo");
+//
+//        mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
     }
 
 
@@ -329,7 +351,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         if (appPerm.isChangeable()) {
             perm.setCanChange(canChange);
         }
-        perm.setCanExecute(true);
         perm.setUserProfile(profile);
 
         profile.getPermissions().add(perm);

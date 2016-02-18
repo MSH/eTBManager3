@@ -1,6 +1,7 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.Address;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
@@ -13,6 +14,7 @@ import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.mail.MailSender;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,6 +49,9 @@ public class TestRest {
 
     @Autowired
     Validator validator;
+
+    @Autowired
+    MailService mailService;
 
     @RequestMapping("/hello")
     public String hello() {
@@ -126,5 +132,18 @@ public class TestRest {
 
         mapper.map(data, ent);
         return new StandardResult(ent, null, true);
+    }
+
+
+    @RequestMapping(value = "/sendmail", method = RequestMethod.GET)
+    public void send() {
+        Workspace ws = new Workspace();
+        ws.setName("MSH Demo");
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", "Ricardo Memória");
+        data.put("workspace", ws);
+
+        mailService.send("rmemoria@msh.org", "New workspace", "register-workspace.html", data);
     }
 }
