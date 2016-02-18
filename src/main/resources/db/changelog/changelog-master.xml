@@ -32,7 +32,7 @@
     <!-- default columns -->
     <property name="type.name" value="VARCHAR(100)" />
     <property name="type.shortName" value="VARCHAR(30)" />
-    <property name="type.customId" value="VARCHAR(30)" />
+    <property name="type.customId" value="VARCHAR(50)" />
 
 
 
