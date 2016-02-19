@@ -37,8 +37,9 @@ export default class CrudView extends React.Component {
 	 */
 	refreshTable() {
 		const self = this;
+		const qry = Object.assign({}, this.props.queryFilters);
 
-		return this.props.crud.query({ })
+		return this.props.crud.query(qry)
 		.then(res => {
 			// wrap itens inside a controller object
 			const list = res.list.map(item => ({ data: item, state: 'ok' }));
@@ -366,7 +367,8 @@ CrudView.propTypes = {
 	perm: React.PropTypes.string,
 	crud: React.PropTypes.object,
 	search: React.PropTypes.bool,
-	paging: React.PropTypes.bool
+	paging: React.PropTypes.bool,
+	queryFilters: React.PropTypes.obj
 };
 
 CrudView.defaultProps = {

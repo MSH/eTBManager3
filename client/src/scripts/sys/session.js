@@ -42,7 +42,7 @@ export function	isAuthenticated() {
  */
 export function hasPerm(perm) {
 	const session = getSessionData();
-	return session !== null && (session.administrator || session.indexOf(perm) >= 0);
+	return session !== null && (session.administrator || session.permissions.indexOf(perm) >= 0);
 }
 
 
