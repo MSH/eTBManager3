@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Profile, Card, Fluidbar, WaitIcon } from '../../components/index';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
+import { Profile, Card, Fluidbar, WaitIcon, Sidebar } from '../../components/index';
 import { app } from '../../core/app';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
 
@@ -13,15 +13,13 @@ export default class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.toggleCard = this.toggleCard.bind(this);
 		this.editClick = this.editClick.bind(this);
-		this.itemClick = this.itemClick.bind(this);
-//		this.createCell = this.createCell.bind(this);
 
 		this._appEvent = this._appEvent.bind(this);
 
 		this.state = { session: app.getState().session };
 	}
+
 
 	componentDidMount() {
 		// set handler to receive information about actions
@@ -42,22 +40,12 @@ export default class Home extends React.Component {
 		}
 	}
 
-	toggleCard() {
-		var show = this.state.show;
-		this.setState({ show: !show });
-	}
-
 	editClick(evt) {
 		evt.stopPropagation();
 	}
 
 	cellSize(item) {
 		return item === 3 ? { md: 12 } : { md: 6 };
-	}
-
-	itemClick(evt) {
-		console.log(evt);
-		this.refs.pop1.preventHide();
 	}
 
 	render() {
@@ -80,6 +68,8 @@ export default class Home extends React.Component {
 			aus.push(<a href="#" key={key}>{s}</a>);
 		});
 
+		const aulist = lst.map(k => session.adminUnit[k].name);
+
 		const subtitle = (
 			<div><a href="#">{session.unitName}</a>
 			<div>{aus}</div>
@@ -87,13 +77,22 @@ export default class Home extends React.Component {
 			</div>
 		);
 
-		const unitName = 'Centro de Referência Professor Hélio Fraga';
-
 		// create temporary cells
 		var lst2 = [];
 		for (var i = 0; i < 12; i++) {
 			lst2.push(i);
 		}
+
+		const items = [
+			{
+				title: 'Dashboard',
+				icon: 'dashboard'
+			},
+			{
+				title: 'My activities',
+				icon: 'history'
+			}
+		];
 
 		return (
 			<div>
@@ -113,36 +112,51 @@ export default class Home extends React.Component {
 					</Grid>
 				</Fluidbar>
 
-				<Grid className="mtop-2x">
+				<Grid className="mtop-2x" fluid>
 					<Row>
-						<Col md={8} mdOffset={2}>
-						<Card>
-							<Profile title={unitName}
-								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"
-								imgClass="prof-tbunit"
-								/>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="small"/>
-						</Card>
+						<Col md={2}>
+							<Sidebar items={items} selected={items[0]} />
 						</Col>
-					</Row>
-					<Row>
-						<Col md={8} mdOffset={2}>
-							<Card>
-								<Profile title="Male" subtitle="A male example" type="male"/>
-							</Card>
-							<Card>
-								<Profile title="Female" subtitle="A female example" type="female"/>
-							</Card>
-							<Card>
-								<Profile title="TB unit" subtitle="The location of the hospital" type="tbunit"/>
-							</Card>
-							<Card>
-								<Profile title="Laboratory" subtitle="The location of the laboratory" type="lab" />
-							</Card>
-							<Card>
-								<Profile title="Workspace" subtitle="The location of the workspace" type="ws"/>
-							</Card>
+						<Col md={10}>
+						<Card>
+							<div>
+								<Profile title={session.unitName}
+									subtitle={aulist.join(', ')}
+									size="small"
+									type="tbunit"
+									/>
+								<Row className="mtop-2x">
+									<Col sm={6}>
+										<Card title="Cases" className="card-indicator">
+											<Row>
+												<Col xs={6}>
+													<div className="ind-value text-primary">{121}</div>
+													<div className="ind-label">{'Presumptives'}</div>
+												</Col>
+												<Col xs={6}>
+													<div className="ind-value text-primary">{78}</div>
+													<div className="ind-label">{'Cases on treatment'}</div>
+												</Col>
+											</Row>
+										</Card>
+									</Col>
+									<Col sm={6}>
+										<Card title="Inventory" className="card-indicator">
+											<Row>
+												<Col xs={6}>
+													<div className="ind-value text-danger">{'28 days'}</div>
+													<div className="ind-label">{'Estimated stock-out'}</div>
+												</Col>
+												<Col xs={6}>
+													<div className="ind-value text-primary">{'84 days'}</div>
+													<div className="ind-label">{'First batch to expire'}</div>
+												</Col>
+											</Row>
+										</Card>
+									</Col>
+								</Row>
+							</div>
+						</Card>
 						</Col>
 					</Row>
 				</Grid>

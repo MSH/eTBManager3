@@ -43,7 +43,7 @@ export default class Sidebar extends React.Component {
                                 );
 						}
 
-						return <NavItem eventKey={item} key={count}>{item.caption}</NavItem>;
+						return <NavItem eventKey={item} key={count}>{item.title}</NavItem>;
 					})}
 				</Nav>
 			</div>

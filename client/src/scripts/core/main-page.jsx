@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { RouteView, router } from '../components/router';
+import { RouteView } from '../components/router';
 import PageNotFound from './page-not-found';
 
 import Toolbar from './toolbar';

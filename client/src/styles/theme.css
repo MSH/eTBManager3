@@ -7131,6 +7131,28 @@ button.close {
     padding-right: 6px;
   }
 }
+.card-indicator {
+  color: #909090;
+  margin-bottom: 1px;
+}
+.card-indicator .card-header {
+  padding-bottom: 1px;
+}
+.card-indicator .card-header h4 {
+  text-transform: uppercase;
+  font-size: 16px;
+}
+.card-indicator .card-content {
+  padding: 0 15px 20px 15px;
+}
+.card-indicator .card-content .ind-value {
+  font-size: 36px;
+  font-weight: bold;
+}
+.card-indicator .card-content > div.row {
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .profile {
   padding-top: 4px;
   overflow-y: hidden;
