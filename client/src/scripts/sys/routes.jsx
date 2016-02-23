@@ -70,8 +70,8 @@ export default class Routes extends React.Component {
 
 		// playground for dev is available just in dev module
 		if (__DEV__) {
-			const TempRoutes = require('./dev/routes');
-			routesInfo.push({ path: '/dev', view: TempRoutes.default });
+			const DevIndex = require('./dev/index');
+			routesInfo.push({ path: '/dev', view: DevIndex.default, title: 'Developers playground' });
 		}
 
 		const routes = RouteView.createRoutes(routesInfo);

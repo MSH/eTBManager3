@@ -4,6 +4,7 @@ import { RouteView } from '../../components/router';
 
 /** Pages of the public module */
 import Index from './index';
+import DatePickerExamples from './date-picker-examples';
 
 
 /**
@@ -17,6 +18,11 @@ export default class TempRoutes extends React.Component {
 				path: '/index',
 				view: Index,
 				title: 'Developer playground'
+			},
+			{
+				path: '/datepicker',
+				view: DatePickerExamples,
+				title: 'Date picker examples'
 			}
 		]);
 
