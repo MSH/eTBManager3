@@ -1,16 +1,29 @@
 package org.msh.etbm.services.admin.tags;
 
+import org.hibernate.exception.SQLGrammarException;
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.entities.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+
+import javax.persistence.PersistenceException;
+import javax.transaction.UserTransaction;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 6/1/16.
  */
 @Service
 public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> implements TagService {
+
+    @Autowired
+    TagsCasesService tagsCasesService;
 
     @Override
     protected void buildQuery(QueryBuilder<Tag> builder, TagQueryParams queryParams) {
@@ -27,4 +40,47 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         }
     }
 
+    @Override
+    protected void saveEntity(Tag entity) {
+        super.saveEntity(entity);
+        tagsCasesService.updateCases(entity);
+    }
+
+    @Override
+    protected void prepareToSave(Tag entity, BindingResult bindingResult){
+        super.prepareToSave(entity, bindingResult);
+
+        // there are error messages ?
+        if (bindingResult.hasErrors()) {
+            return;
+        }
+
+        String sqlTestMessage = testTagCondition(entity);
+
+        if (sqlTestMessage != null) {
+            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        }
+
+    }
+
+    /**
+     * Check if the SQL condition given to the tag is correct
+     * @return null if no error is found or the error message.
+     */
+    public String testTagCondition(Tag tag) {
+        String sqlErrorMessage = null;
+
+        try{
+            String sql = "select count(*) from tbcase a inner join patient p on p.id=a.patient_id where " + tag.getSqlCondition();
+            getEntityManager().createNativeQuery(sql).getSingleResult();
+        }catch(PersistenceException e){
+            sqlErrorMessage = "error";
+            if (e.getCause() instanceof SQLGrammarException) {
+                SQLGrammarException sqlerror = (SQLGrammarException)e.getCause();
+                sqlErrorMessage = sqlerror.getSQLException().getMessage();
+            }
+        }
+
+        return sqlErrorMessage;
+    }
 }

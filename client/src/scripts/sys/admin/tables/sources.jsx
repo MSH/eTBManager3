@@ -35,7 +35,8 @@ const editorDef = {
 			property: 'active',
 			type: 'yesNo',
 			label: __('EntityState.ACTIVE'),
-			size: { sm: 5 }
+			size: { sm: 5 },
+			defaultValue: true
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')

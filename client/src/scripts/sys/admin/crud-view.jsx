@@ -368,7 +368,7 @@ CrudView.propTypes = {
 	crud: React.PropTypes.object,
 	search: React.PropTypes.bool,
 	paging: React.PropTypes.bool,
-	queryFilters: React.PropTypes.obj
+	queryFilters: React.PropTypes.object
 };
 
 CrudView.defaultProps = {
