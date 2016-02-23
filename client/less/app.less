@@ -2,6 +2,9 @@
 @header-search-bg: #abc1b3;
 @highlight-bg: #D6E4D6;
 
+// the style of the button in input boxes
+@input-btn-color: #a2a2a2;
+
 // app components
 @import "callout.less";
 @import "card.less";
@@ -341,4 +344,34 @@
 	border-bottom: 1px solid @legend-border-color;
 	width:100%;
 	margin: 20px 0 10px 0;
+}
+
+
+.form-control-action {
+    position: absolute;
+    right: 12px;
+    bottom: 0px;
+    height: 14px;
+    margin: auto;
+    margin-bottom:12px;
+    font-size: 14px;
+    cursor: pointer;
+    color: @input-btn-color;
+	transition: 0.5s;
+	margin-left:10px;
+}
+
+.form-control-action:hover {
+	color: darken(@input-btn-color, 30%);
+}
+
+.input-right-button {
+	padding-right: 25px;
+}
+
+.box-control {
+	position: static !important;
+	padding-right: 45px;
+	width: 100%;
+	outline: none;
 }

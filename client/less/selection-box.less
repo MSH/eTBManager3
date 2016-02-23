@@ -4,7 +4,8 @@
 
     .btn-dd {
         float:right;
-        color: #b0b0b0;
+        color: @input-btn-color;
+        transition-duration: 0.5s;
     }
 
     .sel-box-items {
@@ -44,6 +45,6 @@
 
 .sel-box:hover {
     .btn-dd {
-        color: darken(#b0b0b0, 30%);
+        color: darken(@input-btn-color, 30%);
     }
 }

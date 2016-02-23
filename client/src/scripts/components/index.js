@@ -17,6 +17,7 @@ import MessageDlg from './message-dlg';
 import Popup from './popup';
 import FormDialog from './form-dialog';
 import SelectionBox from './selection-box';
+import DatePicker from './date-picker';
 
 export { Callout,
 	AsyncButton,
@@ -32,5 +33,6 @@ export { Callout,
 	MessageDlg,
 	Popup,
 	FormDialog,
-	SelectionBox
+	SelectionBox,
+	DatePicker
 };
