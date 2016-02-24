@@ -53,7 +53,19 @@ export class RouteView extends React.Component {
 	_currentPath() {
 		let hash = router.hash();
 		if (this.context.path) {
-			hash = hash.replace(this.context.path, '');
+			const s = hash.split('?');
+			hash = s.shift();
+			const params = s.shift();
+
+			// check if the context is beyond hash (using default views in routes)
+			if (this.context.path.startsWith(hash)) {
+				hash = '';
+			}
+			else {
+				hash = hash.replace(this.context.path, '');
+			}
+
+			hash += params ? '?' + params : '';
 		}
 		return hash;
 	}
@@ -78,7 +90,7 @@ export class RouteView extends React.Component {
 
 	resolveView() {
 		// get the current path, i.e, the path from here ahead
-		const path = this._currentPath();
+		let path = this._currentPath();
 
 		// search for a suitable route for this path
 		const route = this.props.routes.find(path);
@@ -90,6 +102,10 @@ export class RouteView extends React.Component {
 				router.showPageNotFound();
 			}
 			return null;
+		}
+
+		if (!path) {
+			path = route.data.path;
 		}
 
 		const View = route.view;
