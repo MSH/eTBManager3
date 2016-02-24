@@ -4,17 +4,13 @@ import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
-import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import javax.persistence.PersistenceException;
-import javax.transaction.UserTransaction;
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 6/1/16.
@@ -53,6 +49,10 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         // there are error messages ?
         if (bindingResult.hasErrors()) {
             return;
+        }
+
+        if (!checkUnique(entity, "name", null)) {
+            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         String sqlTestMessage = testTagCondition(entity);
