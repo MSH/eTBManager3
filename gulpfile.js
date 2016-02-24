@@ -12,7 +12,8 @@ var gulp = require('gulp'),
     open = require('gulp-open'),
     path = require('path'),
     less = require('gulp-less'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    babel = require('gulp-babel');
 
 
 // the client path
@@ -37,7 +38,9 @@ gulp.task('build', function() {
         'clean',
         'client-lint',
         ['client-msgs', 'bootstrap-fonts', 'entry-point', 'client-copy', 'less'],
-        'webpack-prod');
+        'webpack-prod',
+        // transpile is being called in order to be analysed by sonar
+        'transpile');
 });
 
 
@@ -125,22 +128,13 @@ gulp.task('webpack-prod', [], function(callback) {
 
 
 /**
- * Generate the source code in ES5 format
+ * Convert the code from JSX syntax to pure java script
  */
-gulp.task('webpack-codegen', [], function(callback) {
-    var webpackCompiler = webpack(require('./client/webpack-codegen.config'));
-
-    webpackCompiler.run(function(err, stats) {
-        if (err || stats.hasErrors()) {
-            callback(err || stats.hasErrors());
-        }
-        gutil.log('[webpack:build-prod]', stats.toString({
-            colors: true
-        }));
-        callback();
-    });
+gulp.task('transpile', [], function() {
+    return gulp.src(clientPath + '/src/scripts/**/*.{js,jsx}')
+        .pipe(babel({ presets: ['react'] }))
+        .pipe(gulp.dest('target/client'));
 });
-
 
 
 /**
