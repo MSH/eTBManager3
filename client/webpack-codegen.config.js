@@ -6,18 +6,19 @@
 'use strict';
 var webpack = require('webpack'),
     path = require('path'),
-    config = require('./client/config'),
+    config = require('./config'),
     I18nPlugin = require('i18n-webpack-plugin');
 
+var langs = [ config.defaultLanguage ];
 
-var contextPath = path.join( __dirname, 'client', config.clientSrc),
-    outPath = path.join(__dirname, 'client', config.distPath);
+var contextPath = path.join( __dirname, config.clientSrc),
+    outPath = path.join(__dirname, config.codeGenDistPath);
 
 
-module.exports = config.languages.prod.map( function(lang) {
+module.exports = langs.map( function(lang) {
 
     // get list of messages for the given language
-    var messages = require('./client/messages/messages_' + lang + '.json');
+    var messages = require('./messages/messages_' + lang + '.json');
 
     // return the configuration to be used in production mode
     return {
@@ -100,7 +101,7 @@ module.exports = config.languages.prod.map( function(lang) {
                 'process.env.NODE_ENV': '"production"'
             }),
 //            new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'../vendor.js'),
-            new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
+//            new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
             new I18nPlugin(messages)
         ]
     }

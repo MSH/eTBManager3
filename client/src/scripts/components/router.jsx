@@ -10,6 +10,10 @@ const paramsPattern = /{(\w+)}/g;
  */
 export class RouteView extends React.Component {
 
+	static createRoutes(data) {
+		return new RouteList(data);
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {};
@@ -70,10 +74,6 @@ export class RouteView extends React.Component {
 		return hash;
 	}
 
-	static createRoutes(data) {
-		return new RouteList(data);
-	}
-
 	/**
 	 * Called by navigator when the has changed
 	 * @return {[type]}      [description]
@@ -101,7 +101,7 @@ export class RouteView extends React.Component {
 			if (path) {
 				router.showPageNotFound();
 			}
-			return null;
+			return;
 		}
 
 		if (!path) {
@@ -113,7 +113,8 @@ export class RouteView extends React.Component {
 		const params = route.resolveParams(path);
 
 		if (View) {
-			return this.setState({ view: View, route: route, path: path, params: params });
+			this.setState({ view: View, route: route, path: path, params: params });
+			return;
 		}
 
 		const self = this;
@@ -277,7 +278,7 @@ export class Route {
 			if (data.viewResolver) {
 				return resolve(data.viewResolver(data.path, this));
 			}
-			reject('No view or viewResolver');
+			return reject('No view or viewResolver');
 		});
 
 		return this._resPromise;

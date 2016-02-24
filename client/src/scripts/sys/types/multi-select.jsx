@@ -11,6 +11,18 @@ import { isString } from '../../commons/utils';
  */
 class MultiSelect extends React.Component {
 
+	static getServerRequest(sc) {
+		return isString(sc.options) ?
+			{ cmd: sc.options } :
+			null;
+	}
+
+	// static getInitParams(sc) {
+	// 	return {
+	// 		options: sc.options
+	// 	};
+	// }
+
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
@@ -18,18 +30,6 @@ class MultiSelect extends React.Component {
 
 	componentWillMount() {
 		this.setState({ resources: this.props.resources ? this.props.resources : null });
-	}
-
-	static getServerRequest(sc) {
-		return isString(sc.options) ?
-			{ cmd: sc.options } :
-			null;
-	}
-
-	static getInitParams(sc) {
-		return {
-			options: sc.options
-		};
 	}
 
 	/**

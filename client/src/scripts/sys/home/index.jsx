@@ -34,8 +34,6 @@ export default class Index extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.editClick = this.editClick.bind(this);
-
 		this._appEvent = this._appEvent.bind(this);
 
 		this.state = { session: app.getState().session };
@@ -53,20 +51,14 @@ export default class Index extends React.Component {
 
 	_appEvent(action, data) {
 		if (action === WORKSPACE_CHANGE) {
-			return this.setState({ session: data.session });
+			this.setState({ session: data.session });
+			return;
 		}
 
 		if (action === WORKSPACE_CHANGING) {
-			return this.setState({ session: null });
+			this.setState({ session: null });
+			return;
 		}
-	}
-
-	editClick(evt) {
-		evt.stopPropagation();
-	}
-
-	cellSize(item) {
-		return item === 3 ? { md: 12 } : { md: 6 };
 	}
 
 	render() {
@@ -90,7 +82,7 @@ export default class Index extends React.Component {
 		});
 
 		const subtitle = (
-			<div><a href="#">{session.unitName}</a>
+			<div><a href="#/sys/home/unit">{session.unitName}</a>
 			<div>{aus}</div>
 			<a href="#">{session.workspaceName}</a>
 			</div>

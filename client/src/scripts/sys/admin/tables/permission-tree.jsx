@@ -6,15 +6,15 @@ import { TreeView } from '../../../components';
 
 class PermissionTree extends React.Component {
 
+	static getServerRequest() {
+		return { cmd: 'perms-tree' };
+	}
+
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
-	}
-
-	static getServerRequest() {
-		return { cmd: 'perms-tree' };
 	}
 
 	onChange() {
@@ -61,11 +61,6 @@ class PermissionTree extends React.Component {
 	}
 
 	render() {
-//		const sc = this.props.schema;
-		if (this.props.resources) {
-			console.log(this.props.resources);
-		}
-
 		const title = (
 			<Row key="title">
 				<Col sm={7}>{'Permissions'}</Col>

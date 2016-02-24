@@ -9,7 +9,6 @@ import Substances from './tables/substances';
 import Products from './tables/products';
 import Regimens from './tables/regimens';
 import Tags from './tables/tags';
-import AgeRanges from './tables/ageranges';
 import UserProfiles from './tables/user-profiles';
 import UsersWs from './tables/users-ws';
 

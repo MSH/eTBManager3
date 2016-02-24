@@ -11,13 +11,13 @@ import { Fa, SelectionBox } from '../../components/index';
  */
 class YesNoControl extends React.Component {
 
+	static displayText(value) {
+		return value ? __('global.yes') : __('global.no');
+	}
+
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-	}
-
-	static displayText(value) {
-		return value ? __('global.yes') : __('global.no');
 	}
 
 	readOnlyRender(schema) {

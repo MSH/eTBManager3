@@ -205,6 +205,7 @@ export default class AdmUnits extends React.Component {
 					self.forceUpdate();
 				});
 		}
+		return null;
 	}
 
 	/**
