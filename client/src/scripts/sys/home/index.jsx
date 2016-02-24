@@ -1,15 +1,36 @@
 
 import React from 'react';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
-import { Profile, Card, Fluidbar, WaitIcon, Sidebar } from '../../components/index';
+import { Grid, Row, Col } from 'react-bootstrap';
+import { Profile, Fluidbar, WaitIcon } from '../../components/index';
 import { app } from '../../core/app';
+import SidebarContent from '../sidebar-content';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
+
+import Dashboard from './index-dashboard';
+import MyActivities from './index-my-activities';
+
+
+const menu = [
+	{
+		title: 'Dashboard',
+		icon: 'dashboard',
+		default: true,
+		path: '/dashboard',
+		view: Dashboard
+	},
+	{
+		title: 'My activities',
+		icon: 'history',
+		path: '/myactivities',
+		view: MyActivities
+	}
+];
 
 
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
+export default class Index extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -68,8 +89,6 @@ export default class Home extends React.Component {
 			aus.push(<a href="#" key={key}>{s}</a>);
 		});
 
-		const aulist = lst.map(k => session.adminUnit[k].name);
-
 		const subtitle = (
 			<div><a href="#">{session.unitName}</a>
 			<div>{aus}</div>
@@ -82,17 +101,6 @@ export default class Home extends React.Component {
 		for (var i = 0; i < 12; i++) {
 			lst2.push(i);
 		}
-
-		const items = [
-			{
-				title: 'Dashboard',
-				icon: 'dashboard'
-			},
-			{
-				title: 'My activities',
-				icon: 'history'
-			}
-		];
 
 		return (
 			<div>
@@ -111,56 +119,12 @@ export default class Home extends React.Component {
 						</Row>
 					</Grid>
 				</Fluidbar>
-
-				<Grid className="mtop-2x" fluid>
-					<Row>
-						<Col md={2}>
-							<Sidebar items={items} selected={items[0]} />
-						</Col>
-						<Col md={10}>
-						<Card>
-							<div>
-								<Profile title={session.unitName}
-									subtitle={aulist.join(', ')}
-									size="small"
-									type="tbunit"
-									/>
-								<Row className="mtop-2x">
-									<Col sm={6}>
-										<Card title="Cases" className="card-indicator">
-											<Row>
-												<Col xs={6}>
-													<div className="ind-value text-primary">{121}</div>
-													<div className="ind-label">{'Presumptives'}</div>
-												</Col>
-												<Col xs={6}>
-													<div className="ind-value text-primary">{78}</div>
-													<div className="ind-label">{'Cases on treatment'}</div>
-												</Col>
-											</Row>
-										</Card>
-									</Col>
-									<Col sm={6}>
-										<Card title="Inventory" className="card-indicator">
-											<Row>
-												<Col xs={6}>
-													<div className="ind-value text-danger">{'28 days'}</div>
-													<div className="ind-label">{'Estimated stock-out'}</div>
-												</Col>
-												<Col xs={6}>
-													<div className="ind-value text-primary">{'84 days'}</div>
-													<div className="ind-label">{'First batch to expire'}</div>
-												</Col>
-											</Row>
-										</Card>
-									</Col>
-								</Row>
-							</div>
-						</Card>
-						</Col>
-					</Row>
-				</Grid>
+				<SidebarContent menu={menu} path="/sys/home/index" route={this.props.route} />
 			</div>
 			);
 	}
 }
+
+Index.propTypes = {
+	route: React.PropTypes.object
+};

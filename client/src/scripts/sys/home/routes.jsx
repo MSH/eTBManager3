@@ -13,7 +13,7 @@ export default class HomeRoutes extends React.Component {
 
 	render() {
 		const routes = RouteView.createRoutes([
-			{ path: '/index', view: Index, title: __('home') }
+			{ path: '/index', view: Index, title: __('home'), default: true }
 		]);
 
 		return (
