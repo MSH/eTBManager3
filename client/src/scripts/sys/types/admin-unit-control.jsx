@@ -15,35 +15,6 @@ const crud = new CRUD('adminunit');
  */
 class AdminUnitControl extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.onChange = this.onChange.bind(this);
-
-		this.state = { };
-	}
-
-
-	componentWillMount() {
-		const schema = this.props.schema || {};
-		if (schema.readOnly) {
-			return null;
-		}
-
-		// field is already initialized ?
-		if (this.props.resources) {
-			return this.setState({ list: this.props.resources });
-		}
-
-		// root was loaded ?
-		if (!this.state.list) {
-			const self = this;
-
-			// request field initialization from server
-			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
-				.then(res => self.setState({ list: res.v }));
-		}
-	}
-
 	/**
 	 * Display representation of the administrative unit
 	 * @param  {[type]} value [description]
@@ -67,11 +38,43 @@ class AdminUnitControl extends React.Component {
 		return vals.join(', ');
 	}
 
+
 	static getServerRequest(sc, val) {
 		return {
 			cmd: 'adminUnit',
 			params: { value: val }
 		};
+	}
+
+
+	constructor(props) {
+		super(props);
+		this.onChange = this.onChange.bind(this);
+
+		this.state = { };
+	}
+
+
+	componentWillMount() {
+		const schema = this.props.schema || {};
+		if (schema.readOnly) {
+			return;
+		}
+
+		// field is already initialized ?
+		if (this.props.resources) {
+			this.setState({ list: this.props.resources });
+			return;
+		}
+
+		// root was loaded ?
+		if (!this.state.list) {
+			const self = this;
+
+			// request field initialization from server
+			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+				.then(res => self.setState({ list: res.v }));
+		}
 	}
 
 	/**

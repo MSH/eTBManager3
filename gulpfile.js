@@ -3,7 +3,7 @@
 
 var gulp = require('gulp'),
     runSequence = require('run-sequence'),
-    jshint = require('gulp-jshint'),
+    eslint = require('gulp-eslint'),
     webpack = require('webpack'),
     gutil = require('gulp-util'),
     del = require('del'),
@@ -12,7 +12,8 @@ var gulp = require('gulp'),
     open = require('gulp-open'),
     path = require('path'),
     less = require('gulp-less'),
-    uglify = require('gulp-uglify');
+    uglify = require('gulp-uglify'),
+    babel = require('gulp-babel');
 
 
 // the client path
@@ -35,9 +36,11 @@ gulp.task('default', function() {
 gulp.task('build', function() {
     return runSequence(
         'clean',
-        'client-jshint',
+        'client-lint',
         ['client-msgs', 'bootstrap-fonts', 'entry-point', 'client-copy', 'less'],
-        'webpack-prod', 'client-msgs');
+        'webpack-prod',
+        // transpile is being called in order to be analysed by sonar
+        'transpile');
 });
 
 
@@ -98,10 +101,11 @@ gulp.task('client-copy', function() {
 /**
  * Check JS quality of syntax in client code
  */
-gulp.task('client-jshint', function() {
-    return gulp.src(clientPath + 'src/scripts/**/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'));
+gulp.task('client-lint', function() {
+    return gulp.src(clientPath + '/src/scripts/**/*.{js,jsx}')
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 
@@ -109,12 +113,11 @@ gulp.task('client-jshint', function() {
  * Generate the final java-script code
  */
 gulp.task('webpack-prod', [], function(callback) {
-    var webpackCompiler = webpack(require('./webpack.config'));
+    var webpackCompiler = webpack(require('./client/webpack.config'));
 
     webpackCompiler.run(function(err, stats) {
         if (err || stats.hasErrors()) {
             callback(err || stats.hasErrors());
-//            throw new gutil.PluginError('webpack:build-prod', err);
         }
         gutil.log('[webpack:build-prod]', stats.toString({
             colors: true
@@ -123,6 +126,15 @@ gulp.task('webpack-prod', [], function(callback) {
     });
 });
 
+
+/**
+ * Convert the code from JSX syntax to pure java script
+ */
+gulp.task('transpile', [], function() {
+    return gulp.src(clientPath + '/src/scripts/**/*.{js,jsx}')
+        .pipe(babel({ presets: ['react'] }))
+        .pipe(gulp.dest('target/client'));
+});
 
 
 /**
@@ -149,7 +161,6 @@ gulp.task('proxy-server', function(cb) {
         script: 'server.js',
         cwd: path.join(clientPath, 'proxy'),
         env: {'NODE_ENV': 'development'},
-//        tasks: ['server-lint'],
     }).on('start', function() {
         console.log('STARTED');
         if (first) {

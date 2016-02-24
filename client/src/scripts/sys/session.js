@@ -24,6 +24,8 @@ function actionHandler(act, data) {
 		app.goto('/sys/home/index');
 		return data;
 	}
+
+	return null;
 }
 
 /**

@@ -31,12 +31,13 @@ export default class Toolbar extends React.Component {
         }
 
         if (action === LOGOUT) {
-            return this.setState({ toolbarContent: null, session: null });
+            this.setState({ toolbarContent: null, session: null });
         }
 
         if (action === WORKSPACE_CHANGE) {
-            return this.setState({ session: data.session });
+            this.setState({ session: data.session });
         }
+        return null;
     }
 
     render() {

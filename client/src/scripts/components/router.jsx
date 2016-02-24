@@ -4,24 +4,30 @@ import React from 'react';
 // pattern to extract the params from the route
 const paramsPattern = /{(\w+)}/g;
 
-// the current path being resolved by the route
-let // currPath,
-	errorPath;
-
 
 /**
  * React component responsible for displaying the content of a route
  */
 export class RouteView extends React.Component {
 
+	static createRoutes(data) {
+		return new RouteList(data);
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {};
 	}
 
+	/**
+	 * Return the path from the left side to the current route
+	 * @return {string} The relative path or null if route was not found
+	 */
 	getChildContext() {
-		const path = this._currentPath();
-		const route = this.props.routes.find(path);
+		const route = this.state.route;
+		if (!route) {
+			return null;
+		}
 
 		const rpath = (this.context.path ? this.context.path : '') +
 			(route ? route.data.path : '');
@@ -30,18 +36,19 @@ export class RouteView extends React.Component {
 	}
 
 	componentWillMount() {
-		this.isRoot = router.subscribe(this);
-		// set the errorPath page
-		if (this.isRoot && this.props.errorPath) {
-			errorPath = this.props.errorPath;
-		}
+		router.subscribe(this);
+		this.resolveView();
+	}
+
+
+	componentWillReceiveProps() {
+		this.resolveView();
 	}
 
 
 	componentWillUnmount() {
 		router.unsubscribe(this);
 	}
-
 
 	/**
 	 * Return the current path being resolved by this path
@@ -50,13 +57,21 @@ export class RouteView extends React.Component {
 	_currentPath() {
 		let hash = router.hash();
 		if (this.context.path) {
-			hash = hash.replace(this.context.path, '');
+			const s = hash.split('?');
+			hash = s.shift();
+			const params = s.shift();
+
+			// check if the context is beyond hash (using default views in routes)
+			if (this.context.path.startsWith(hash)) {
+				hash = '';
+			}
+			else {
+				hash = hash.replace(this.context.path, '');
+			}
+
+			hash += params ? '?' + params : '';
 		}
 		return hash;
-	}
-
-	static createRoutes(data) {
-		return new RouteList(data);
 	}
 
 	/**
@@ -64,42 +79,49 @@ export class RouteView extends React.Component {
 	 * @return {[type]}      [description]
 	 */
 	onHashChange() {
-		this.setState({ view: null, route: null,  params: null });
+		this.resolveView();
+	}
+
+	onPageNotFound() {
+		if (this.props.pageNotFoundView) {
+			this.setState({ view: this.props.pageNotFoundView });
+		}
 	}
 
 	resolveView() {
-		const path = this._currentPath();
+		// get the current path, i.e, the path from here ahead
+		let path = this._currentPath();
 
-		// no path to be resolved ?
-		if (!path) {
-			return null;
-		}
-
+		// search for a suitable route for this path
 		const route = this.props.routes.find(path);
 
 		// route to the current path was not found ?
 		if (!route) {
-			if (errorPath) {
-				router.goto(errorPath);
+			// if there was a path but route was not found, show page not found
+			if (path) {
+				router.showPageNotFound();
 			}
-			return null;
+			return;
 		}
 
-		let View = this.state ? this.state.view : null;
-
-		if (!View) {
-			// view is resolved ?
-			if (route.view) {
-				View = route.view;
-			}
-			else {
-				const self = this;
-				route.resolveView(path)
-				.then(view => self.setState({ view: view, route: route }));
-			}
+		if (!path) {
+			path = route.data.path;
 		}
 
-		return { view: View, route: route };
+		const View = route.view;
+
+		const params = route.resolveParams(path);
+
+		if (View) {
+			this.setState({ view: View, route: route, path: path, params: params });
+			return;
+		}
+
+		const self = this;
+		route.resolveView(path)
+		.then(view => self.setState({ view: view, route: route, path: path, params: params }));
+
+		this.setState({ view: null, route: route, path: path, params: params });
 	}
 
 	/**
@@ -107,38 +129,22 @@ export class RouteView extends React.Component {
 	 * @return {Component} The rendered react view
 	 */
 	render() {
-		const res = this.resolveView();
+		let View = this.state.view;
 
-		// no route was found ?
-		if (!res) {
-			return <div/>;
-		}
-
-		// get any route in the state of the component
-		let View = res.view;
-		const route = res.route;
-
-		// view is still being resolved?
+		// no view resolved?
 		if (!View) {
-			// show loading component while view is being resolved
-			const loadingView = this.props.loadingView;
-			return loadingView ? loadingView : <div/>;
+			const loadingView = this.state.loadingView;
+			// is resolving view, i.e, route != null ?
+			return route && loadingView ? loadingView : null;
 		}
 
-		// properties to be passed to the view are set ?
-		let viewProps = {};
-		if (this.props.viewProps) {
-			viewProps = this.props.viewProps;
-		}
-
-		// get any param defined in the page
+		const route = this.state.route;
+		const params = this.state.params;
 		const path = this._currentPath();
-		const params = route.resolveParams(path);
-
-		// get the next path
 		const forpath = path.replace(route.pathExp, '');
 
-		// include information about the route
+		// set the properties to be passed to the view that will be rendered
+		const viewProps = Object.assign({}, this.props.viewProps);
 		viewProps.route = {
 			hash: router.hash(),
 			params: params ? params : {},
@@ -162,7 +168,7 @@ export class RouteView extends React.Component {
 
 RouteView.propTypes = {
     loadingView: React.PropTypes.object,
-    errorPath: React.PropTypes.string,
+    pageNotFoundView: React.PropTypes.func,
     routes: React.PropTypes.object,
     viewProps: React.PropTypes.object
 };
@@ -191,6 +197,12 @@ export class RouteList {
 	 * @return {object}      Object containing information about the route
 	 */
 	find(path) {
+		// no path defined ?
+		if (!path) {
+			// search for default path
+			return this.list.find(r => r.data.default);
+		}
+
 		for (var i = 0; i < this.list.length; i++) {
 			const r = this.list[i];
 			// given path matches the route path ?
@@ -198,6 +210,7 @@ export class RouteList {
 				return r;
 			}
 		}
+		return null;
 	}
 }
 
@@ -216,7 +229,7 @@ export class Route {
 		let params = data.path.match(paramsPattern);
 
 		if (params) {
-			params = params.map((item) => item.substring(1).split('}')[0]);
+			params = params.map(item => item.substring(1).split('}')[0]);
 		}
 
 		this.params = params;
@@ -265,7 +278,7 @@ export class Route {
 			if (data.viewResolver) {
 				return resolve(data.viewResolver(data.path, this));
 			}
-			reject('No view or viewResolver');
+			return reject('No view or viewResolver');
 		});
 
 		return this._resPromise;
@@ -309,6 +322,7 @@ class Router {
         // set the interval to check every 1/10 of second
         this.interval = setInterval(fn, 100);
 		this.initialized = true;
+		this.rootView = rootView;
 
 		return res;
 	}
@@ -336,6 +350,14 @@ class Router {
 		if (rootView === this.observer) {
 			this.observer = null;
 		}
+	}
+
+	/**
+	 * Called when part of the page is not found
+	 * @return {[type]} [description]
+	 */
+	showPageNotFound() {
+		return this.rootView.onPageNotFound();
 	}
 }
 

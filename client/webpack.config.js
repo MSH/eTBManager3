@@ -6,18 +6,18 @@
 'use strict';
 var webpack = require('webpack'),
     path = require('path'),
-    config = require('./client/config'),
+    config = require('./config'),
     I18nPlugin = require('i18n-webpack-plugin');
 
 
-var contextPath = path.join( __dirname, 'client', config.clientSrc),
-    outPath = path.join(__dirname, 'client', config.distPath);
+var contextPath = path.join( __dirname, config.clientSrc),
+    outPath = path.join(__dirname, config.distPath);
 
 
 module.exports = config.languages.prod.map( function(lang) {
 
     // get list of messages for the given language
-    var messages = require('./client/messages/messages_' + lang + '.json');
+    var messages = require('./messages/messages_' + lang + '.json');
 
     // return the configuration to be used in production mode
     return {

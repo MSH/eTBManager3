@@ -167,7 +167,8 @@ export default class SelectionBox extends React.Component {
 		const self = this;
 		return evt => {
 			if (self.props.mode === 'single') {
-				return self.notifyChange(item, evt);
+				self.notifyChange(item, evt);
+				return;
 			}
 
 			const values = this.state.value ? this.state.value : [];

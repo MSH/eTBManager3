@@ -31,16 +31,14 @@ export default class Routes extends React.Component {
 
 	_onAppChange(action) {
 		if (action === WORKSPACE_CHANGING) {
-			return this.setState({ changing: true });
+			this.setState({ changing: true });
+			return;
 		}
 
 		if (action === WORKSPACE_CHANGE) {
-			return this.setState({ changing: false });
+			this.setState({ changing: false });
+			return;
 		}
-
-		// if (action === LOGOUT) {
-		// 	return app.dispatch(TB_SET, { toolbarContent: null });
-		// }
 	}
 
 	openHome() {

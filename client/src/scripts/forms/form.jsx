@@ -195,13 +195,14 @@ Form.propTypes = {
  */
 Form.registerType = function(Comp) {
 	if (Comp.constructor.name === 'Array') {
-		return Comp.forEach(item => Form.registerType(item));
+		Comp.forEach(item => Form.registerType(item));
+		return;
 	}
 
 	const name = Comp.supportedTypes();
 
 	if (name.constructor.name === 'Array') {
-		name.forEach(k => Form.types[k] = Comp);
+		name.forEach(k => { Form.types[k] = Comp; });
 	}
 
 	Form.types[name] = Comp;

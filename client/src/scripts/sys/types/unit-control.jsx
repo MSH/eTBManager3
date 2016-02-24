@@ -1,6 +1,6 @@
 
-
 import React from 'react';
+import { Input } from 'react-bootstrap';
 import CRUD from '../../commons/crud';
 import { WaitIcon, SelectionBox } from '../../components/index';
 import FormUtils from '../../forms/form-utils';
@@ -10,6 +10,15 @@ const crud = new CRUD('unit');
 const crudAU = new CRUD('adminunit');
 
 class UnitControl extends React.Component {
+
+	static getServerRequest(schema, val) {
+		return schema.readOnly ?
+			null :
+			{
+				cmd: 'unit',
+				params: { value: val }
+			};
+	}
 
 	constructor(props) {
 		super(props);
@@ -23,11 +32,12 @@ class UnitControl extends React.Component {
 		// resources are available to initialize the field ?
 		const resources = this.props.resources;
 		if (resources) {
-			return this.setState({
+			this.setState({
 				adminUnits: resources.adminUnits,
 				units: resources.units,
 				adminUnitId: resources.adminUnitId
 			});
+			return;
 		}
 
 		// root was loaded ?
@@ -51,15 +61,6 @@ class UnitControl extends React.Component {
 	// 	return !schema.readOnly;
 	// }
 
-	static getServerRequest(schema, val) {
-		return schema.readOnly ?
-			null :
-			{
-				cmd: 'unit',
-				params: { value: val }
-			};
-	}
-
 	/**
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]
@@ -68,7 +69,8 @@ class UnitControl extends React.Component {
 		const admUnit = item ? item.id : null;
 
 		if (admUnit === '-') {
-			return this.setState({ units: null });
+			this.setState({ units: null });
+			return;
 		}
 
 		const self = this;
@@ -136,7 +138,7 @@ class UnitControl extends React.Component {
 	 * Create the editor control to enter or change an unit
 	 * @return {[type]} [description]
 	 */
-	editorRender(schema) {
+	editorRender() {
 		const aulist = this.createAdmUnitList();
 
 		const unitlist = this.createUnitList();

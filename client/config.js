@@ -18,6 +18,12 @@ module.exports = {
     distPath: '../src/main/resources/static',
 
     /**
+     * When generating the ES5 code to be analysed by SONAR
+     * @type {String}
+     */
+    codeGenDistPath: '../target/client',
+
+    /**
      * Languages used in the client side
      */
     languages: {

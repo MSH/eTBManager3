@@ -24,10 +24,6 @@ export default class FormDialog extends React.Component {
 		this.mounted = false;
 	}
 
-	onInit(req) {
-		console.log(req);
-	}
-
 	/**
 	 * Called when the user clicks on the confirm button
 	 */
@@ -36,7 +32,8 @@ export default class FormDialog extends React.Component {
 
 		// there are validation errors?
 		if (errors) {
-			return this.setState({ errors: errors });
+			this.setState({ errors: errors });
+			return;
 		}
 
 		this.setState({ errors: null, fetching: true });
@@ -83,7 +80,7 @@ export default class FormDialog extends React.Component {
 			<Card title={title} highlight={this.props.highlight}>
 				<div>
 					<Form ref="form" schema={schema}
-						onInit={this.onInit}
+						onInit={this.props.onInit}
 						doc={doc} errors={errors}
 						resources={this.props.resources} />
 				</div>

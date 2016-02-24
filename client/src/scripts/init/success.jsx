@@ -51,5 +51,5 @@ export default class Success extends React.Component {
 
 
 Success.propTypes = {
-    wsname: React.PropTypes.string,
+    wsname: React.PropTypes.string
 };
