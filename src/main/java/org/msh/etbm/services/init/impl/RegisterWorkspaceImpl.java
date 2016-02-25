@@ -113,10 +113,10 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      */
     protected void sendSuccessMailMessage(Workspace ws) {
         // TODO Implement e-mail delivery of successful workspace registration
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", "Ricardo");
+        // Map<String, Object> data = new HashMap<>();
+        // data.put("name", "Ricardo");
 
-        mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
+        // mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
     }
 
 
