@@ -40,9 +40,8 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         // determine the class to be used in the query
         Class clazz;
         if (queryParams.getType() != null) {
-            clazz = queryParams.getType() == UnitType.TBUNIT? Tbunit.class : Laboratory.class;
-        }
-        else {
+            clazz = queryParams.getType() == UnitType.TBUNIT ? Tbunit.class : Laboratory.class;
+        } else {
             clazz = Unit.class;
         }
         builder.setEntityClass(clazz);
@@ -78,8 +77,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
                 }
                 // search for all administrative units
                 builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
-            }
-            else {
+            } else {
                 // search for units directly registered in this administrative unit
                 builder.addRestriction("a.address.adminUnit.id = :auid", queryParams.getAdminUnitId());
             }
@@ -122,11 +120,8 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
 
         if (entity.getAddress() == null) {
             bindingResult.rejectValue("address", ErrorMessages.REQUIRED);
-        }
-        else {
-            if (entity.getAddress().getAdminUnit() == null) {
-                bindingResult.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
-            }
+        } else if (entity.getAddress().getAdminUnit() == null) {
+            bindingResult.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
         }
     }
 }

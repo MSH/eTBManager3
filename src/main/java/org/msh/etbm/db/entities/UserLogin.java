@@ -125,8 +125,6 @@ public class UserLogin {
 	 */
 	public void setWorkspace(Workspace workspace) {
 		this.workspace = workspace;
-		if (workspace != null)
-			workspace.getId();
 	}
 
 	/**

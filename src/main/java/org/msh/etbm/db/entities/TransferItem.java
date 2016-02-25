@@ -19,17 +19,17 @@ public class TransferItem {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "TRANSFER_ID",nullable=false)
+	@JoinColumn(name = "TRANSFER_ID", nullable = false)
 	@NotNull
 	private Transfer transfer;
 	
 	@ManyToOne
-	@JoinColumn(name = "SOURCE_ID",nullable=false)
+	@JoinColumn(name = "SOURCE_ID", nullable = false)
 	@NotNull
 	private Source source;
 	
 	@ManyToOne
-	@JoinColumn(name = "product_id",nullable=false)
+	@JoinColumn(name = "product_id", nullable = false)
 	@NotNull
 	private Product product;
 
@@ -55,8 +55,9 @@ public class TransferItem {
 	 */
 	public TransferBatch findByBatch(Batch b) {
 		for (TransferBatch tb: getBatches()) {
-			if (tb.getBatch().equals(b))
-				return tb;
+			if (tb.getBatch().equals(b)) {
+                return tb;
+            }
 		}
 		
 		return null;
@@ -73,8 +74,9 @@ public class TransferItem {
 	public int getQuantityReceived() {
 		Integer val = 0;
 		for (TransferBatch b: getBatches()) {
-			if (b.getQuantityReceived() != null)
-				val += b.getQuantityReceived();
+			if (b.getQuantityReceived() != null) {
+                val += b.getQuantityReceived();
+            }
 		}
 		return val;
 	}
@@ -97,9 +99,8 @@ public class TransferItem {
 	
 	public float getUnitPrice() {
 		int val = getQuantity();
-		if (val == 0)
-			 return 0;
-		else return getTotalPrice() / val;
+
+        return val == 0 ? 0 : getTotalPrice() / val;
 	}
 
 	public Movement getMovementOut() {

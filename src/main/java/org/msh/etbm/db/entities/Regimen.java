@@ -36,7 +36,7 @@ public class Regimen extends WorkspaceEntity {
 	 */
 	@Override
 	public String toString() {
-		return (name != null? name: super.toString());
+		return (name != null ? name : super.toString());
 	}
 
 	/**

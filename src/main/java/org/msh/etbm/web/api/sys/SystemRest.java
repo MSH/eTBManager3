@@ -53,9 +53,8 @@ public class SystemRest {
             // convert authentication token to UUID
             UUID uuidToken;
             try {
-                uuidToken = authToken != null? UUID.fromString(authToken) : null;
-            }
-            catch (IllegalArgumentException e) {
+                uuidToken = authToken != null ? UUID.fromString(authToken) : null;
+            } catch (IllegalArgumentException e) {
                 LOGGER.error("Invalid token UUID format : " + authToken, e);
                 uuidToken = null;
             }

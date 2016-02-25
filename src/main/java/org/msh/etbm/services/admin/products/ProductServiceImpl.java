@@ -22,7 +22,7 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
 
     @Override
     protected void buildQuery(QueryBuilder<Product> builder, ProductQueryParams queryParams) {
-        Class clazz = queryParams.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
+        Class clazz = queryParams.getType() == ProductType.MEDICINE ? Medicine.class : Product.class;
 
         // order by options
         builder.addDefaultOrderByMap(ProductQueryParams.ORDERBY_NAME, "name");
@@ -47,11 +47,10 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     protected Product createEntityInstance(Object req) {
         if (req instanceof ProductFormData) {
             Optional<ProductType> optype = ((ProductFormData) req).getType();
-            ProductType type = optype == null? null: optype.get();
+            ProductType type = optype == null ? null : optype.get();
             if (type == ProductType.MEDICINE) {
                 return new Medicine();
-            }
-            else {
+            } else {
                 return new Product();
             }
         }

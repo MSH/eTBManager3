@@ -61,12 +61,10 @@ public class PropertyLogUtils {
             if ((Arrays.binarySearch(opers, oper) == -1) && (Arrays.binarySearch(opers, Operation.ALL) == -1)) {
                 return false;
             }
-        }
-        else
+        } else if (oper != Operation.EDIT || classImplementsInterface(field.getType(), Collection.class)) {
             // the default operation is EDIT or type is a collection ?
-            if (oper != Operation.EDIT || classImplementsInterface(field.getType(), Collection.class)) {
-                return false;
-            }
+            return false;
+        }
 
         return true;
     }
@@ -82,12 +80,10 @@ public class PropertyLogUtils {
         if (log == null || log.messageKey().isEmpty()) {
             if (!field.getType().isPrimitive()) {
                 return field.getDeclaringClass().getSimpleName() + "." + field.getName();
-            }
-            else {
+            } else {
                 return field.getType().getSimpleName();
             }
-        }
-        else {
+        } else {
             return log.messageKey();
         }
     }
@@ -113,8 +109,7 @@ public class PropertyLogUtils {
         if (!val.getClass().isPrimitive() && !(val instanceof Date)) {
             if (val instanceof Displayable) {
                 val = ((Displayable)val).getDisplayString();
-            }
-            else {
+            } else {
                 val = val.toString();
             }
         }
@@ -130,24 +125,28 @@ public class PropertyLogUtils {
      * @return
      */
     private boolean classImplementsInterface(Class clazz, Class interf) {
-        if (clazz.isInterface())
+        if (clazz.isInterface()) {
             return isInterfaceImplemented(clazz, interf);
+        }
 
-        if (clazz.isPrimitive())
+        if (clazz.isPrimitive()) {
             return false;
+        }
 
         Class[] ints = clazz.getInterfaces();
 
         if (ints != null) {
             for (Class intf: clazz.getInterfaces()) {
-                if (isInterfaceImplemented(intf, interf))
+                if (isInterfaceImplemented(intf, interf)) {
                     return true;
+                }
             }
         }
 
         Class parent = clazz.getSuperclass();
-        if (parent == Object.class)
+        if (parent == Object.class) {
             return false;
+        }
 
         return classImplementsInterface(parent, interf);
     }
@@ -160,13 +159,16 @@ public class PropertyLogUtils {
      * @return
      */
     private boolean isInterfaceImplemented(Class clazz, Class interf) {
-        if (clazz == interf)
+        if (clazz == interf) {
             return true;
+        }
 
         Class[] lst = clazz.getInterfaces();
-        for (Class aux: lst)
-            if (isInterfaceImplemented(aux, interf))
+        for (Class aux: lst) {
+            if (isInterfaceImplemented(aux, interf)) {
                 return true;
+            }
+        }
 
         return false;
     }

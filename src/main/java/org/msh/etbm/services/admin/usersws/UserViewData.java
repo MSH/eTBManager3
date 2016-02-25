@@ -45,7 +45,7 @@ public class UserViewData {
 
     @Override
     public String toString() {
-        String s = view != null? view.toString() : "view = null";
+        String s = view != null ? view.toString() : "view = null";
 
         if (adminUnitId != null) {
             s += ", " + adminUnitId.toString();

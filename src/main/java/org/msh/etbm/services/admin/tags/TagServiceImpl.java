@@ -43,7 +43,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void prepareToSave(Tag entity, BindingResult bindingResult){
+    protected void prepareToSave(Tag entity, BindingResult bindingResult) {
         super.prepareToSave(entity, bindingResult);
 
         // there are error messages ?
@@ -70,10 +70,10 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     public String testTagCondition(Tag tag) {
         String sqlErrorMessage = null;
 
-        try{
+        try {
             String sql = "select count(*) from tbcase a inner join patient p on p.id=a.patient_id where " + tag.getSqlCondition();
             getEntityManager().createNativeQuery(sql).getSingleResult();
-        }catch(PersistenceException e){
+        } catch (PersistenceException e) {
             sqlErrorMessage = "error";
             if (e.getCause() instanceof SQLGrammarException) {
                 SQLGrammarException sqlerror = (SQLGrammarException)e.getCause();

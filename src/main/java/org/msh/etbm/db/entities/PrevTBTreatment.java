@@ -97,7 +97,8 @@ public class PrevTBTreatment extends CaseEntity {
 	public void setOutcomeYear(Integer outcomeYear) {
 		this.outcomeYear = outcomeYear;
 	}
-	public boolean hasOutcomeDate(){
+
+	public boolean hasOutcomeDate() {
         return getOutcomeMonth() != null && getOutcomeYear() != null;
 	}
 	

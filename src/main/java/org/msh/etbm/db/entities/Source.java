@@ -19,7 +19,7 @@ public class Source extends WorkspaceEntity {
     @NotNull
 	private String name;
 
-	@PropertyLog(messageKey= "form.shortName", operations = {Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "form.shortName", operations = {Operation.NEW, Operation.DELETE})
     @NotNull
 	private String shortName;
 

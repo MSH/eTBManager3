@@ -68,8 +68,9 @@ public class TreatmentMonitoring extends CaseEntity {
 		int res = 0;
 		for (int i = 1; i <= 31; i++) {
 			TreatmentDayOption opt = getDay(i);
-			if ((opt == TreatmentDayOption.DOTS) || (opt == TreatmentDayOption.SELF_ADMIN))
-				res++;
+			if ((opt == TreatmentDayOption.DOTS) || (opt == TreatmentDayOption.SELF_ADMIN)) {
+                res++;
+            }
 		}
 		return res;
 	}

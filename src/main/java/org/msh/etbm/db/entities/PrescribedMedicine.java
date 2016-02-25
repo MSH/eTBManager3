@@ -88,9 +88,10 @@ public class PrescribedMedicine extends CaseEntity {
 	 * @return month of treatment, from 0 (=January) to 11 (=December)
 	 */
 	public Integer getIniMonth() {
-		if ((period == null) || (period.isEmpty()) || (getTbcase() == null))
-			return null;
-		
+		if ((period == null) || (period.isEmpty()) || (getTbcase() == null)) {
+            return null;
+        }
+
 		return getTbcase().getMonthTreatment(period.getIniDate()) - 1;
 	}
 	
@@ -100,7 +101,7 @@ public class PrescribedMedicine extends CaseEntity {
 	 * @return integer value with the number of months between the initial and final dates of the period 
 	 */
 	public Integer getMonths() {
-		return (period != null? period.getMonths(): null);
+		return (period != null ? period.getMonths() : null);
 	}
 
 
@@ -111,14 +112,16 @@ public class PrescribedMedicine extends CaseEntity {
 	public void setIniMonth(Integer month) {
         TbCase tbcase = getTbcase();
 		if (period.isEmpty()) {
-			if (tbcase != null)
-				period = new Period(tbcase.getTreatmentPeriod());
-			
-			if (period.getIniDate() == null)
-				period.set(new Date(), new Date());
+			if (tbcase != null) {
+                period = new Period(tbcase.getTreatmentPeriod());
+            }
+
+			if (period.getIniDate() == null) {
+                period.set(new Date(), new Date());
+            }
 		}
 		
-		Date dt = DateUtils.incMonths(period.getIniDate(), month-1);
+		Date dt = DateUtils.incMonths(period.getIniDate(), month - 1);
 		period.movePeriod(dt);
 	}
 
@@ -130,12 +133,16 @@ public class PrescribedMedicine extends CaseEntity {
 	public void setMonths(Integer months) {
         TbCase tbcase = getTbcase();
 
-		if (period == null)
-			return;
+		if (period == null) {
+            return;
+        }
+
 		if (period.getIniDate() == null) {
-			if (tbcase != null)
-				 period.setIniDate(tbcase.getTreatmentPeriod().getIniDate());
-			else period.setIniDate(new Date());
+			if (tbcase != null) {
+                period.setIniDate(tbcase.getTreatmentPeriod().getIniDate());
+            } else {
+                period.setIniDate(new Date());
+            }
 		}
 		
 		/*
@@ -143,13 +150,12 @@ public class PrescribedMedicine extends CaseEntity {
 		 * on the creation of a individualized treatment if there is only one month of medicine precription*/
 		Calendar c = Calendar.getInstance();
 		c.setTime(period.getIniDate());
-		if((c.get(Calendar.MONTH) == Calendar.JANUARY &&
-			(c.get(Calendar.DAY_OF_MONTH)==29 || c.get(Calendar.DAY_OF_MONTH)==30 || c.get(Calendar.DAY_OF_MONTH)==31)) &&
-			months == 1){
-			
+		if ((c.get(Calendar.MONTH) == Calendar.JANUARY &&
+			(c.get(Calendar.DAY_OF_MONTH) == 29 || c.get(Calendar.DAY_OF_MONTH) == 30 || c.get(Calendar.DAY_OF_MONTH) == 31)) &&
+			months == 1) {
+
 			period.setEndDate(DateUtils.incDays(period.getIniDate(), 30));
 			return;
-					
 		}
 		
 		Date dt = DateUtils.incMonths(period.getIniDate(), months);
@@ -161,7 +167,7 @@ public class PrescribedMedicine extends CaseEntity {
 
 	@Override
 	public String toString() {
-		return ((product != null) && (period != null)? period.toString() + " - " + product.toString(): null);
+		return ((product != null) && (period != null) ? period.toString() + " - " + product.toString() : null);
 	}
 
     public Product getProduct() {

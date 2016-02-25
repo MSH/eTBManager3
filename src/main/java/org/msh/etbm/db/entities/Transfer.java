@@ -66,7 +66,7 @@ public class Transfer  {
 	
 	@Override
 	public String toString() {
-		return (id != null? id.toString() : super.toString());
+		return (id != null ? id.toString() : super.toString());
 	}
 
 	public UUID getId() {

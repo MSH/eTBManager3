@@ -162,8 +162,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         if (templ.getAdminUnitName() != null) {
             AdministrativeUnit au = adminUnits.get(0);
             uw.setAdminUnit(au);
-        }
-        else {
+        } else {
             uw.setAdminUnit(unit.getAddress().getAdminUnit());
         }
 
@@ -250,8 +249,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
                 p.setUnitsCount(p.getUnitsCount() + 1);
                 p.getUnits().add(au);
                 au.setCode( p.getCode() + format.format(p.getUnitsCount() + 1L));
-            }
-            else {
+            } else {
                 au.setCode( format.format(rootCount));
                 rootCount++;
             }
@@ -316,8 +314,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
                     }
                     createPermission(u, roleName);
                 }
-            }
-            else {
+            } else {
                 // include selected roles
                 if (t.getRoles() != null) {
                     for (String roleName: t.getRoles()) {
@@ -345,7 +342,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         Permission appPerm = permissions.find(roleName);
         if (appPerm == null) {
             throw new RuntimeException("Permission not defined: " + roleName + " profile: " + profile.getName());
-        };
+        }
 
         perm.setPermission(roleName);
         if (appPerm.isChangeable()) {

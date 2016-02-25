@@ -53,7 +53,7 @@ public class UserRequestService {
      * @return the data assigned to the key, or null if no data is available
      */
     public Object get(String key) {
-        return requestAttribs != null? requestAttribs.get(key) : null;
+        return requestAttribs != null ? requestAttribs.get(key) : null;
     }
 
     /**
@@ -75,7 +75,7 @@ public class UserRequestService {
      * @return true if permission is granted
      */
     public boolean isPermissionGranted(String perm) {
-        return userSession != null? userSession.isPermissionGranted(perm): false;
+        return userSession != null ? userSession.isPermissionGranted(perm) : false;
     }
 
     public boolean isCommandExecuting() {

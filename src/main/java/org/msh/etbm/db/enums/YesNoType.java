@@ -14,11 +14,11 @@ public enum YesNoType {
 		return messageKey;
 	}
 	
-	public boolean isNo(){
+	public boolean isNo() {
 		return this.ordinal() == YesNoType.NO.ordinal();
 	}
 	
-	public boolean isYes(){
+	public boolean isYes() {
 		return this.ordinal() == YesNoType.YES.ordinal();
 	}
 }

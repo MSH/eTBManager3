@@ -15,14 +15,14 @@ public class RegisterWorkspaceRequest {
     /**
      * The workspace name to be displayed on the screen
      */
-    @Size(min=3,max=100)
+    @Size(min = 3, max = 100)
     @NotNull
     private String workspaceName;
 
     /**
      * The administrator password
      */
-    @Size(max=50)
+    @Size(max = 50)
     @NotNull
     @Pattern(regexp = UserConstants.PASSWORD_PATTERN)
     private String adminPassword;
@@ -30,7 +30,7 @@ public class RegisterWorkspaceRequest {
     /**
      * The administrator e-mail address
      */
-    @Size(max=100)
+    @Size(max = 100)
     @NotNull
     @Pattern(regexp = UserConstants.EMAIL_PATTERN)
     private String adminEmail;

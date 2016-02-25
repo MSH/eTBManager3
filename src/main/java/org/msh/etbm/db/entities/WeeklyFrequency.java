@@ -64,7 +64,7 @@ public class WeeklyFrequency {
 			Calendar c = Calendar.getInstance();
 			c.setTime(p.getIniDate());
 			int wd = c.get(Calendar.DAY_OF_WEEK);
-			return (getDay(wd)? 1: 0);
+			return getDay(wd) ? 1 : 0;
 		}
 		
 		// get number of days between dates (+ 1 <= include the last day)
@@ -118,7 +118,7 @@ public class WeeklyFrequency {
 	 * @return true - the week day is set to have dispensing
 	 */
 	public boolean getDay(int day) {
-		return ((value >> (day-1)) & 1) != 0;
+		return ((value >> (day - 1)) & 1) != 0;
 	}
 
 	/**

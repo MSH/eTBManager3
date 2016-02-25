@@ -33,7 +33,7 @@ public class Workspace extends Synchronizable implements Displayable {
 	private Integer weekFreq6;
 	private Integer weekFreq7;
 
-	@OneToOne(cascade = {CascadeType.REMOVE}, fetch= FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private WorkspaceView view;
 

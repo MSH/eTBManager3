@@ -47,8 +47,9 @@ public class ProductReceiving extends Synchronizable {
 	 */
 	public Movement movementByProduct(Product prod) {
 		for (Movement mov: movements) {
-			if (mov.getProduct().equals(prod))
-				return mov;
+			if (mov.getProduct().equals(prod)) {
+                return mov;
+            }
 		}
 		return null;
 	}
@@ -58,7 +59,7 @@ public class ProductReceiving extends Synchronizable {
 	 */
 	@Override
 	public String toString() {
-		return (source != null? source.toString() + " - " + DateUtils.formatDate(receivingDate, "dd-MMM-yyyy"): super.toString());
+		return (source != null ? source.toString() + " - " + DateUtils.formatDate(receivingDate, "dd-MMM-yyyy") : super.toString());
 	}
 
 

@@ -33,7 +33,7 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @PropertyLog(messageKey = "form.name", operations = {Operation.NEW})
     @NotNull
-    @Size(min=3, max=250)
+    @Size(min = 3, max = 250)
     private String name;
 
     @Column(length = 50)
@@ -60,9 +60,9 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "address", column=@Column(name = "ADDRESS")),
-            @AttributeOverride(name = "complement", column=@Column(name = "addressCompl")),
-            @AttributeOverride(name = "zipCode", column=@Column(name = "zipcode"))
+            @AttributeOverride(name = "address", column = @Column(name = "ADDRESS")),
+            @AttributeOverride(name = "complement", column = @Column(name = "addressCompl")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "zipcode"))
     })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "ADMINUNIT_ID"))
@@ -76,9 +76,9 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "address", column=@Column(name = "shipAddress")),
-            @AttributeOverride(name = "complement", column=@Column(name = "shipAddressCompl")),
-            @AttributeOverride(name = "zipCode", column=@Column(name = "shipZipCode")),
+            @AttributeOverride(name = "address", column = @Column(name = "shipAddress")),
+            @AttributeOverride(name = "complement", column = @Column(name = "shipAddressCompl")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "shipZipCode")),
     })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "SHIP_ADMINUNIT_ID"))

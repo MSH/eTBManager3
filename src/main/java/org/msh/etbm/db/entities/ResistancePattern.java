@@ -27,7 +27,7 @@ public class ResistancePattern extends WorkspaceEntity {
 		EXACT_RESISTANT, ANY_RESISTANT, EXACT_SUSCEPTIBLE, ANY_SUSCEPTIBLE;
 	}
 
-	@Column(length = 100, name="PATTERN_NAME")
+	@Column(length = 100, name = "PATTERN_NAME")
 	private String name;
 
 	@ManyToMany

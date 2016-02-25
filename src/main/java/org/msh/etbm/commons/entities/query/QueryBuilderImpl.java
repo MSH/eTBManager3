@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
-    private static final Pattern PARAM_PATTERN =Pattern.compile("\\:([_a-zA-Z]+)");
+    private static final Pattern PARAM_PATTERN = Pattern.compile("\\:([_a-zA-Z]+)");
 
     /**
      * Default number of entities per page
@@ -186,8 +186,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
                     field += " desc";
                 }
             }
-        }
-        else {
+        } else {
             field = orderByMap.get(orderByKey);
         }
 
@@ -215,8 +214,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             for (String restr: restrictions) {
                 if (bWhere) {
                     hql.append(" and ");
-                }
-                else {
+                } else {
                     hql.append(" where ");
                     bWhere = true;
                 }
@@ -339,7 +337,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         // setup paging
         if (page != null) {
-            int maxResult = recordsPerPage != null? recordsPerPage: DEFAULT_RECORDS_PER_PAGE;
+            int maxResult = recordsPerPage != null ? recordsPerPage : DEFAULT_RECORDS_PER_PAGE;
             int firstResult = page * maxResult;
 
             qry.setMaxResults(maxResult).setFirstResult(firstResult);
@@ -381,8 +379,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             // is paging enabled or count only ?
             if (page != null || countOnly) {
                 res.setCount(getCount());
-            }
-            else {
+            } else {
                 // if there is no paging, avoid unnecessary database query
                 res.setCount(res.getList().size());
             }
@@ -393,7 +390,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     @Override
     public QueryResult createQueryResult() {
-        Class dataClass = profile != null? profiles.get(profile): null;
+        Class dataClass = profile != null ? profiles.get(profile) : null;
 
         if (profile != null && dataClass == null) {
             throw new InvalidArgumentException("profile", null, "NotValid");

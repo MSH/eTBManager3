@@ -18,7 +18,7 @@ public class Substance extends WorkspaceEntity {
 	@PropertyLog(messageKey = "form.name")
 	private String name;
 	
-	@PropertyLog(messageKey= "form.shortName")
+	@PropertyLog(messageKey = "form.shortName")
     @NotNull
 	private String shortName;
 

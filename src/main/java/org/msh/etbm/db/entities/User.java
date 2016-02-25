@@ -52,7 +52,7 @@ public class User implements Displayable {
 	@PropertyLog(ignore = true)
     private String password;
     
-    @Column(nullable=false, length = 80)
+    @Column(nullable = false, length = 80)
 	@PropertyLog(operations = {Operation.NEW})
     @Email
     private String email;
