@@ -38,15 +38,12 @@ public class CountryStructure extends WorkspaceEntity {
     }
 
     /**
-	 * @param level the level to set
-	 */
-	public void setLevel(Integer level) {
+     * @param level the level to set
+     */
+    public void setLevel(Integer level) {
 		this.level = level;
 	}
 
-	/**
-	 * @return the level
-	 */
 	public Integer getLevel() {
 		return level;
 	}

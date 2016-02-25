@@ -269,9 +269,6 @@ public class AdministrativeUnit extends WorkspaceEntity {
         this.customId = customId;
     }
 
-    /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
 	@Override
 	public String toString() {
 		return getFullDisplayName();

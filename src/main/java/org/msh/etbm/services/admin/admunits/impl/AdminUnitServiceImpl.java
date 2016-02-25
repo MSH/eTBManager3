@@ -207,9 +207,9 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
      * @return true if there is no other administrative unit with the same name in the branch
      */
     protected boolean isUnique(AdministrativeUnit au) {
-        String hql = "select count(*) from AdministrativeUnit " +
-                "where workspace.id = :wsid " +
-                "and upper(name) = :name ";
+        String hql = "select count(*) from AdministrativeUnit "
+                + "where workspace.id = :wsid "
+                + "and upper(name) = :name ";
 
         // set the condition to check just items from the same parent
         if (au.getParent() != null) {

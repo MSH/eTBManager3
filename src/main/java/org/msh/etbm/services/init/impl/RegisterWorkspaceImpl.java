@@ -25,10 +25,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Register a new workspace. Only valid during initialization of the system, and no other workspace should be available
@@ -115,10 +112,11 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      * @param ws the created workspace
      */
     protected void sendSuccessMailMessage(Workspace ws) {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("name", "Ricardo");
-//
-//        mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
+        // TODO Implement e-mail delivery of successful workspace registration
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", "Ricardo");
+
+        mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
     }
 
 
@@ -242,7 +240,8 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
             if (it.getParent() != null) {
                 AdministrativeUnit p = findAdminUnit(it.getParent());
                 if (p == null) {
-                    throw new RuntimeException("Error creating administrative unit " + it.getName() + ". Invalid parent " + it.getParent());
+                    throw new RuntimeException("Error creating administrative unit " + it.getName() +
+                            ". Invalid parent " + it.getParent());
                 }
 
                 au.setParent(p);

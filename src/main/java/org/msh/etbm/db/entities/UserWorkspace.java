@@ -52,26 +52,6 @@ public class UserWorkspace extends WorkspaceEntity {
     
     private boolean playOtherUnits;
 
-
-	/**
-	 * Return the text to be displayed according to the view
-	 * @return
-	 */
-/*
-	public String getDisplayView() {
-		switch (getView()) {
-		case COUNTRY:
-			return getWorkspace().getName().toString();
-		case ADMINUNIT:
-			return (getAdminUnit() != null? adminUnit.getCountryStructure().getName().toString() + ": " + adminUnit.getName().toString(): null);
-		case TBUNIT:
-			return Messages.instance().get("UserView.TBUNIT") + ": " + getTbunit().getName().toString();
-		default:
-			return null;
-		}
-	}
-*/
-
 	public User getUser() {
 		return user;
 	}

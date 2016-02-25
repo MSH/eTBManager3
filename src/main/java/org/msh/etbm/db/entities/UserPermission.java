@@ -26,23 +26,7 @@ public class UserPermission  {
 	private boolean canChange;
 
 
-/*
-	@Override
-	public String toString() {
-		Map<String, String> msgs = Messages.instance();
 
-		String s = "";
-		if (!userRole.getName().equals("-"))
-			s = userRole.getDisplayName();
-		
-		if ((caseClassification != null) && (userRole.isByCaseClassification())) {
-			s = msgs.get(caseClassification.getKey()) + " - " + s;
-		}
-		return s;
-	}
-*/
-
-	
 	public UUID getId() {
 		return id;
 	}
@@ -68,17 +52,17 @@ public class UserPermission  {
     }
 
     /**
-	 * @return the canChange
-	 */
-	public boolean isCanChange() {
-		return canChange;
-	}
+     * @return the canChange
+     */
+    public boolean isCanChange() {
+        return canChange;
+    }
 
-	/**
-	 * @param canChange the canChange to set
-	 */
-	public void setCanChange(boolean canChange) {
-		this.canChange = canChange;
-	}
+    /**
+     * @param canChange the canChange to set
+     */
+    public void setCanChange(boolean canChange) {
+        this.canChange = canChange;
+    }
 
 }

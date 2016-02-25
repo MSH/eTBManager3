@@ -22,24 +22,28 @@ public class WorkspaceInfo {
         this.name = name;
         this.unitName = unitName;
     }
+
     /**
      * @return the id
      */
     public UUID getId() {
         return id;
     }
+
     /**
      * @param id the id to set
      */
     public void setId(UUID id) {
         this.id = id;
     }
+
     /**
      * @return the name1
      */
     public String getName() {
         return name;
     }
+
     /**
      * @param name the name1 to set
      */

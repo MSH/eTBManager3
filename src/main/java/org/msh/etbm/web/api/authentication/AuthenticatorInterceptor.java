@@ -84,9 +84,9 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         // get the authentication token in the request
         String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
-        if (stoken == null &&
-                request.getQueryString() != null &&
-                request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME)) {
+        if (stoken == null
+                && request.getQueryString() != null
+                && request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME)) {
             stoken = request.getParameter(Constants.AUTH_TOKEN_HEADERNAME);
         }
 
@@ -129,7 +129,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
      * @param userSession information about the user session
      * @return true if user has the permissions necessary to continue
      */
-    private boolean checkAuthorized(String perms[], UserSession userSession) {
+    private boolean checkAuthorized(String[] perms, UserSession userSession) {
         if (perms == null || perms.length == 0) {
             return true;
         }

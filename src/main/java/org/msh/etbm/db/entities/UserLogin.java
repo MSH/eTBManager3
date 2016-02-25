@@ -58,12 +58,6 @@ public class UserLogin {
 
 
 
-/*
-    public String getDisplayLocale() {
-    	return Locale.instance().getDisplayName(Locale.instance());
-    }
-*/
-
     public UUID getId() {
         return id;
     }
@@ -121,17 +115,17 @@ public class UserLogin {
     }
 
     /**
-	 * @param workspace the workspace to set
-	 */
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
-	}
+     * @param workspace the workspace to set
+     */
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
 
-	/**
-	 * @return the workspace
-	 */
-	public Workspace getWorkspace() {
-		return workspace;
-	}
+    /**
+     * @return the workspace
+     */
+    public Workspace getWorkspace() {
+        return workspace;
+    }
 
 }

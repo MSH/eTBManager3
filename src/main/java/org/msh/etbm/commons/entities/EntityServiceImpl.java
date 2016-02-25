@@ -512,5 +512,5 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      */
     protected void buildQuery(QueryBuilder<E> builder, Q queryParams) {
         // nothing to do
-    };
+    }
 }

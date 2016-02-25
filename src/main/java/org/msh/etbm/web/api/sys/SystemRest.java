@@ -60,8 +60,8 @@ public class SystemRest {
             }
 
             // check if authentication is required
-            boolean authRequired = uuidToken == null ||
-                    userSessionService.recoverSession(uuidToken) == null;
+            boolean authRequired = uuidToken == null
+                    || userSessionService.recoverSession(uuidToken) == null;
 
             if (authRequired) {
                 inf.setState(SystemState.AUTH_REQUIRED);

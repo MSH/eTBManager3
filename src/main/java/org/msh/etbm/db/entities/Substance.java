@@ -83,11 +83,11 @@ public class Substance extends WorkspaceEntity {
     }
 
     /**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
 	/**
 	 * @param name the name to set

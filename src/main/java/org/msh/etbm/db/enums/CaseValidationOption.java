@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.msh.etbm.db.enums;
 
 import org.msh.etbm.db.MessageKey;

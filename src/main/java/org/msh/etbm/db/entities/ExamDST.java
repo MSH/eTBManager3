@@ -42,18 +42,18 @@ public class ExamDST extends LaboratoryExam {
     }
 
     /**
-	 * Search for a result by the substance 
-	 * @param sub - Substance to be used to search result
-	 * @return - Susceptibility result
-	 */
-	public ExamDSTResult findResultBySubstance(Substance sub) {
-		for (ExamDSTResult res: results) {
-			if (res.getSubstance().equals(sub)) {
-				return res;
-			}
-		}
-		return null;
-	}
+     * Search for a result by the substance
+     * @param sub - Substance to be used to search result
+     * @return - Susceptibility result
+     */
+    public ExamDSTResult findResultBySubstance(Substance sub) {
+        for (ExamDSTResult res: results) {
+            if (res.getSubstance().equals(sub)) {
+                return res;
+            }
+        }
+        return null;
+    }
 
 	public List<ExamDSTResult> getResults() {
 		return results;

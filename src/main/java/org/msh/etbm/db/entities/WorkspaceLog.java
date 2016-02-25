@@ -31,11 +31,11 @@ public class WorkspaceLog {
     }
 
     /**
-	 * @return the id
-	 */
-	public UUID getId() {
-		return id;
-	}
+     * @return the id
+     */
+    public UUID getId() {
+        return id;
+    }
 
 	/**
 	 * @param id the id to set

@@ -77,17 +77,17 @@ public class CaseComment extends CaseEntity {
 		this.comment = comment;
 	}
 
-	/**
-	 * @return the view
-	 */
+    /**
+     * @return the view
+     */
     public CaseView getView() {
 		return view;
 	}
 
 
-	/**
-	 * @param view the view to set
-	 */
+    /**
+     * @param view the view to set
+     */
     public void setView(CaseView view) {
 		this.view = view;
 	}

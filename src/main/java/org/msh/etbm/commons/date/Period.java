@@ -36,16 +36,16 @@ public class Period {
 
 
     /**
-	 * Create a new period defining the initial and final date
-	 * @param iniDate
-	 * @param endDate
-	 */
-	public Period(Date iniDate, Date endDate) {
-		super();
-		this.iniDate = iniDate != null ? (Date)iniDate.clone() : null;
-		this.endDate = endDate != null ? (Date)endDate.clone() : null;
-		checkDatesOrder();
-	}
+     * Create a new period defining the initial and final date
+     * @param iniDate
+     * @param endDate
+     */
+    public Period(Date iniDate, Date endDate) {
+        super();
+        this.iniDate = iniDate != null ? (Date)iniDate.clone() : null;
+        this.endDate = endDate != null ? (Date)endDate.clone() : null;
+        checkDatesOrder();
+    }
 
 	
 	/**

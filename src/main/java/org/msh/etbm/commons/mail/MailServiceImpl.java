@@ -49,8 +49,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public boolean isEnabled() {
         // to be enabled, it must provide at least the mail server host and the recipient of the message
-        return (mailHost != null && !mailHost.isEmpty()) &&
-                (mailFrom != null && !mailFrom.isEmpty());
+        return (mailHost != null && !mailHost.isEmpty())
+                && (mailFrom != null && !mailFrom.isEmpty());
     }
 
     /**

@@ -150,9 +150,9 @@ public class PrescribedMedicine extends CaseEntity {
 		 * on the creation of a individualized treatment if there is only one month of medicine precription*/
 		Calendar c = Calendar.getInstance();
 		c.setTime(period.getIniDate());
-		if ((c.get(Calendar.MONTH) == Calendar.JANUARY &&
-			(c.get(Calendar.DAY_OF_MONTH) == 29 || c.get(Calendar.DAY_OF_MONTH) == 30 || c.get(Calendar.DAY_OF_MONTH) == 31)) &&
-			months == 1) {
+		if ((c.get(Calendar.MONTH) == Calendar.JANUARY
+			&& (c.get(Calendar.DAY_OF_MONTH) == 29 || c.get(Calendar.DAY_OF_MONTH) == 30 || c.get(Calendar.DAY_OF_MONTH) == 31))
+			&& months == 1) {
 
 			period.setEndDate(DateUtils.incDays(period.getIniDate(), 30));
 			return;

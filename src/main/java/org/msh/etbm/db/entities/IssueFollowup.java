@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.Synchronizable;

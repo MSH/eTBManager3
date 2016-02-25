@@ -46,30 +46,35 @@ public class CaseResistancePattern {
 	public TbCase getTbcase() {
 		return tbcase;
 	}
+
 	/**
 	 * @param tbcase the tbcase to set
 	 */
 	public void setTbcase(TbCase tbcase) {
 		this.tbcase = tbcase;
 	}
+
 	/**
 	 * @return the resistancePattern
 	 */
 	public ResistancePattern getResistancePattern() {
 		return resistancePattern;
 	}
+
 	/**
 	 * @param resistancePattern the resistancePattern to set
 	 */
 	public void setResistancePattern(ResistancePattern resistancePattern) {
 		this.resistancePattern = resistancePattern;
 	}
+
 	/**
 	 * @return the diagnostic
 	 */
 	public boolean isDiagnosis() {
 		return diagnosis;
 	}
+
 	/**
 	 * @param diagnosis set the diagnosis
 	 */

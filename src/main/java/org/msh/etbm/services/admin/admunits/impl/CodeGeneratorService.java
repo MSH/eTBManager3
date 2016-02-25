@@ -28,7 +28,7 @@ public class CodeGeneratorService {
      */
     private static final UUID NULL_ID = new UUID(0, 0);
 
-    private enum Oper { ADD, REM };
+    private enum Oper { ADD, REM }
 
     /**
      * List of parent codes being managed

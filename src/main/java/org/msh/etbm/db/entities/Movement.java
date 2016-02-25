@@ -97,12 +97,12 @@ public class Movement  {
     }
 
     /**
-	 * Returns adjustment type of the transaction
-	 * @return a FieldValue representing the adjustment type
-	 */
-	public FieldValue getAdjustmentType() {
-		return adjustmentType;
-	}
+     * Returns adjustment type of the transaction
+     * @return a FieldValue representing the adjustment type
+     */
+    public FieldValue getAdjustmentType() {
+        return adjustmentType;
+    }
 
 	public void setAdjustmentType(FieldValue adjustmentType) {
 		this.adjustmentType = adjustmentType;

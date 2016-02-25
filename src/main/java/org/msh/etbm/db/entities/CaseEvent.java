@@ -60,20 +60,5 @@ public class CaseEvent extends CaseEntity {
 		this.comments = comment;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-/*
-	@Override
-	public String toString() {
-		if (date == null)
-			return getTbcase().getPatient().getFullName();
-
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-		String s = dateFormat.format(getDate());
-		return s + " - " + getTbcase().getPatient().getFullName();
-	}
-*/
-
 
 }

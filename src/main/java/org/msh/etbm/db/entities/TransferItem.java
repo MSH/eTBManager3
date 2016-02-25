@@ -160,11 +160,11 @@ public class TransferItem {
     }
 
     /**
-	 * @return the data
-	 */
-	public Object getData() {
-		return data;
-	}
+     * @return the data
+     */
+    public Object getData() {
+        return data;
+    }
 
 	/**
 	 * @param data the data to set

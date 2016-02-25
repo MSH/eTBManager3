@@ -324,19 +324,19 @@ public class TbCase extends WorkspaceEntity {
 
 		return DateUtils.monthsBetween(date, dtTreat) + 1;
 	}
-	
 
-	/**
-	 * Return list of treatment health units sorted by period
-	 * @return
-	 */
-	public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
-		// sort the periods
+
+    /**
+     * Return list of treatment health units sorted by period
+     * @return
+     */
+    public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
+        // sort the periods
         Collections.sort(healthUnits, (o1, o2) -> o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate()));
 
-		return healthUnits;
-	}
-	
+        return healthUnits;
+    }
+
 	
 	/**
 	 * Return list of prescribed medicines sorted by medicine name and initial date of the period

@@ -135,8 +135,8 @@ public abstract class LaboratoryExam extends CaseEntity {
 	 */
 	public String getMonthDisplay() {
 		throw new RuntimeException("Not implemented");
-//		WorkspaceCustomizationService wsservice = WorkspaceCustomizationService.instance();
-//		return wsservice.getExamControl().getMonthDisplay(tbcase, getDateCollected());
+        //		WorkspaceCustomizationService wsservice = WorkspaceCustomizationService.instance();
+        //		return wsservice.getExamControl().getMonthDisplay(tbcase, getDateCollected());
 	}
 
     /**
@@ -230,51 +230,6 @@ public abstract class LaboratoryExam extends CaseEntity {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-/*
-	@Override
-	public String toString() {
-		Date dt = getDateCollected();
-		TbCase tbcase = getTbcase();
-		String s = tbcase != null? tbcase.getPatient().getFullName() : null;
-
-		if (s == null) {
-			return super.toString();
-		}
-
-		if (dt != null) {
-			Locale locale = LocaleSelector.instance().getLocale();
-			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
-			s = dateFormat.format(dt) + " - " + s;
-		}
-
-		return s;
-	}
-*/
-
-/*
-	pub Date getDateCollected() {
-		return dateCollected;
-	}
-
-	pub void setDateCollected(Date dateCollected) {
-		this.dateCollected = dateCollected;
-	}
-
-	pub String getSampleNumber() {
-		return sampleNumber;
-	}
-
-	pub void setSampleNumber(String sampleNumber) {
-		this.sampleNumber = sampleNumber;
-	}
-*/
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#getLastTransaction()
-	 */
 
     public ExamStatus getStatus() {
         return status;

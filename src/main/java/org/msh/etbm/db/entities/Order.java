@@ -206,11 +206,11 @@ public class Order extends WorkspaceEntity {
     }
 
     /**
-	 * @return the shipAddress
-	 */
-	public String getShipAddress() {
-		return shipAddress;
-	}
+     * @return the shipAddress
+     */
+    public String getShipAddress() {
+        return shipAddress;
+    }
 
 	/**
 	 * @param shipAddress the shipAddress to set

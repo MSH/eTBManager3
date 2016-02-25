@@ -32,8 +32,8 @@ public class MedicineRegimen extends Synchronizable {
     /**
      * Number of days of treatment for this medicine
      */
-	private int days;
-	
+    private int days;
+
 
 	public Medicine getMedicine() {
 		return medicine;

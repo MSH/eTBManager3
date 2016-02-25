@@ -32,20 +32,24 @@ public class OrderBatch extends Synchronizable {
 	public Integer getReceivedQuantity() {
 		return receivedQuantity;
 	}
-	public void setReceivedQuantity(Integer receivedQuantity) {
+
+    public void setReceivedQuantity(Integer receivedQuantity) {
 		this.receivedQuantity = receivedQuantity;
 	}
-	public Batch getBatch() {
+
+    public Batch getBatch() {
 		return batch;
 	}
-	public void setBatch(Batch batch) {
+
+    public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+
+    public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 

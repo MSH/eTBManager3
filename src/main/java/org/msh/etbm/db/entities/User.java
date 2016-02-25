@@ -88,12 +88,12 @@ public class User implements Displayable {
     /**
      * If true, user will receive system messages to his e-mail address
      */
-	private boolean sendSystemMessages;
+    private boolean sendSystemMessages;
 
     /**
      * Indicate if the ULA was accepted or not
      */
-	private boolean ulaAccepted;
+    private boolean ulaAccepted;
 
     /**
      * The request token used by the user to change its password when using the forgot password process
@@ -285,11 +285,11 @@ public class User implements Displayable {
     }
 
     /**
-	 * @return the sendSystemMessages
-	 */
-	public boolean isSendSystemMessages() {
-		return sendSystemMessages;
-	}
+     * @return the sendSystemMessages
+     */
+    public boolean isSendSystemMessages() {
+        return sendSystemMessages;
+    }
 
 
 	/**

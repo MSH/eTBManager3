@@ -147,68 +147,88 @@ public class OrderItem extends Synchronizable {
 	public Integer getApprovedQuantity() {
 		return approvedQuantity;
 	}
-	public void setApprovedQuantity(Integer approvedQuantity) {
+
+    public void setApprovedQuantity(Integer approvedQuantity) {
 		this.approvedQuantity = approvedQuantity;
 	}
 
 	public int getRequestedQuantity() {
 		return requestedQuantity;
 	}
+
 	public void setRequestedQuantity(int requestedQuantity) {
 		this.requestedQuantity = requestedQuantity;
 	}
-	public Integer getReceivedQuantity() {
+
+    public Integer getReceivedQuantity() {
 		return receivedQuantity;
 	}
-	public void setReceivedQuantity(Integer receivedQuantity) {
+
+    public void setReceivedQuantity(Integer receivedQuantity) {
 		this.receivedQuantity = receivedQuantity;
 	}
-	public Source getSource() {
+
+    public Source getSource() {
 		return source;
 	}
-	public void setSource(Source source) {
+
+    public void setSource(Source source) {
 		this.source = source;
 	}
-	public Movement getMovementIn() {
+
+    public Movement getMovementIn() {
 		return MovementIn;
 	}
-	public void setMovementIn(Movement movementIn) {
+
+    public void setMovementIn(Movement movementIn) {
 		MovementIn = movementIn;
 	}
-	public Movement getMovementOut() {
+
+    public Movement getMovementOut() {
 		return MovementOut;
 	}
-	public void setMovementOut(Movement movementOut) {
+
+    public void setMovementOut(Movement movementOut) {
 		MovementOut = movementOut;
 	}
-	public List<OrderBatch> getBatches() {
+
+    public List<OrderBatch> getBatches() {
 		return batches;
 	}
-	public void setBatches(List<OrderBatch> batches) {
+
+    public void setBatches(List<OrderBatch> batches) {
 		this.batches = batches;
 	}
-	public Order getOrder() {
+
+    public Order getOrder() {
 		return order;
 	}
-	public void setOrder(Order order) {
+
+    public void setOrder(Order order) {
 		this.order = order;
 	}
-	public int getEstimatedQuantity() {
+
+    public int getEstimatedQuantity() {
 		return estimatedQuantity;
 	}
-	public void setEstimatedQuantity(int estimatedQuantity) {
+
+    public void setEstimatedQuantity(int estimatedQuantity) {
 		this.estimatedQuantity = estimatedQuantity;
 	}
-	public Integer getShippedQuantity() {
+
+    public Integer getShippedQuantity() {
 		return shippedQuantity;
 	}
-	public void setShippedQuantity(Integer shippedQuantity) {
+
+    public void setShippedQuantity(Integer shippedQuantity) {
 		this.shippedQuantity = shippedQuantity;
 	}
-	public String getComment() {
+
+    public String getComment() {
 		return comment;
 	}
-	public void setComment(String comment) {
+
+    public void setComment(String comment) {
 		this.comment = comment;
 	}
 

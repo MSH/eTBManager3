@@ -98,15 +98,6 @@ public class CommandInterceptor {
         }
 
         throw new CommandException("Annotated method not found: " + method.getName());
-//            System.out.println(pjp.getTarget().getClass());
-//            for (Method met: pjp.getTarget().getClass().getDeclaredMethods()) {
-//                System.out.println(met);
-//            }
-//            metAnnot = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
-//        }
-//        else {
-//            metAnnot = method;
-//        }
     }
 
     /**

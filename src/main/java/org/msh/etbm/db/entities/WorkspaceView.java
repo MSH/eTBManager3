@@ -144,29 +144,4 @@ public class WorkspaceView {
 		this.pictureContentType = pictureContentType;
 	}
 
-	/**
-	 * Change the content type according to the image type
-	 * @param extension
-	 * @return
-	 */
-//	public boolean setPictureContentTypeByFileExtension(String extension) {
-//		if (extension == null) {
-//            return false;
-//        }
-//
-//		String ext = extension.toLowerCase();
-//
-//		if (".gif".equals(ext)) {
-//            pictureContentType = "image/gif";
-//        }
-//		else
-//		if ((".jpg".equals(ext)) || (".jpeg".equals(ext)) || (".jpe".equals(ext)))
-//			pictureContentType = "image/jpeg";
-//		else
-//		if ("png".equals(ext))
-//			pictureContentType = "image/x-png";
-//		else return false;
-//
-//		return true;
-//	}
 }

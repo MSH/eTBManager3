@@ -60,53 +60,6 @@ public class Patient extends WorkspaceEntity {
 	private String fatherName;
 	
 
-
-/*
-	public String getFullName() {
-		Workspace ws;
-		if (getWorkspace() != null)
-			 ws = getWorkspace();
-		else ws = (Workspace)Component.getInstance("defaultWorkspace", true);
-		return compoundName(ws);
-	}
-*/
-
-/*
-	public String compoundName(Workspace ws) {
-		NameComposition comp = ws.getPatientNameComposition();
-
-		String result;
-		switch (comp) {
-		case FIRST_MIDDLE_LASTNAME:
-			   result = (name != null? name: "") + (middleName != null? " " + middleName: "") + (lastName != null? " " + lastName: "");
-			   break;
-
-		case FULLNAME:
-			result = name;
-			break;
-		
-		case FIRSTSURNAME:
-			result = (name != null? name: "") + (lastName != null? ", " + lastName: "");
-			break;
-			
-		case LAST_FIRST_MIDDLENAME:
-			result = (lastName != null? lastName + ", ": "") + (name != null? name: "") + ((middleName != null) && (!middleName.isEmpty())? ", " + middleName: "");
-			break;
-		case LAST_FIRST_MIDDLENAME_WITHOUT_COMMAS:
-			result = (lastName != null? lastName + " ": "") + (name != null? name: "") + ((middleName != null) && (!middleName.isEmpty())? " " + middleName: "");
-			break;
-			
-		case SURNAME_FIRSTNAME:
-			result = (middleName != null? middleName + ", ":"") + (name != null? name: "");
-			break;
-		default:
-		   result = (name != null? name: "") + (middleName != null? " " + middleName: "") + (lastName != null? " " + lastName: "");
-		}
-		
-		return result.trim();
-	}
-*/
-
 	public Gender getGender() {
 		return gender;
 	}
@@ -164,11 +117,11 @@ public class Patient extends WorkspaceEntity {
     }
 
     /**
-	 * @return the middleName
-	 */
-	public String getMiddleName() {
-		return middleName;
-	}
+     * @return the middleName
+     */
+    public String getMiddleName() {
+        return middleName;
+    }
 
 	/**
 	 * @param middleName the middleName to set
