@@ -2,6 +2,8 @@
 import React from 'react';
 import PageContent from './page-content';
 
+import UserSession from './reports/usersession';
+
 /**
  * Options of the left menu in the reports page
  * @type {Array}
@@ -17,7 +19,8 @@ const menu = [
 		title: __('admin.reports.usersession'),
 		icon: 'file-text-o',
 		perm: 'USERSESREP',
-		path: 'usersessions'
+		path: '/usersession',
+		view: UserSession
 	},
 	{
 		title: 'Command history',
@@ -49,11 +52,12 @@ export default class Reports extends React.Component {
 			<PageContent route={this.props.route}
 				menu={menu}
 				title={__('admin.reports')}
-				path="/sys/admin/reps" />
+				path="/sys/admin/reports" />
 			);
 	}
 }
 
 Reports.propTypes = {
+	app: React.PropTypes.object,
 	route: React.PropTypes.object
 };
