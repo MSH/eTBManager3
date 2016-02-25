@@ -72,18 +72,50 @@ These are the main files in the root folder:
 * `.gitignore` - List of files and folders to be ignored by git;
 
 
-## Preparing the development environment
+## Development environment
 
 You need the following tools in order to start development:
 
+* Git
 * Java 1.8
 * Maven 3+
 * Node 5+
 * Gulp 3.8+
 * A development environment of your choice (IntelliJ recommended)
 
+### Downloading the source code
 
-## Building from the source code
+The source code is stored in a Git repository, and the current Git URL is:
+
+https://rmemoria@bitbucket.org/etbmanager/etbm3.git
+
+To download the code, issue the git command
+
+    git clone https://rmemoria@bitbucket.org/etbmanager/etbm3.git
+
+You will need a user name and password for that.
+
+Inside the repository, there are two main branches: `master` and `development`. The master contains the stable version, and should be merged with stable versions achieved in the development branch. So, if you want to change the code, move to the development branch:
+
+    git checkout development
+
+When you finish your changes, perform the following git sequence (as described in the git documentation):
+
+1. Add all changed files to be committed
+
+    git add .
+
+2. Commit the changes providing a good description
+
+    git commit -m "description of the changes"
+
+3. Upload the changes to the remote server
+
+    git push origin development
+
+
+
+### Building from the source code
 
 In order to generate a new version of e-TB Manager from the source code, you must issue the following Maven command:
 
@@ -91,7 +123,7 @@ In order to generate a new version of e-TB Manager from the source code, you mus
 
 This will install all necessary dependencies and generate a new version in `target/etbmanager-x.x.x.jar`, where x.x.x is the version number.
 
-## Configuration file
+### Configuration file
 
 Before running e-TB Manager, it is necessary to create a text-file called `etbmanager.properties` containing information about e-TB Manager  configuration.
 
@@ -137,8 +169,22 @@ When initialization finishes, open the URL below:
 
     http://localhost:8080/index.html
 
+## Server side development
 
-## Development on the client side
+There is no restriction on the IDE in use, but the recommended one is IDEA IntelliJ.
+
+
+### CheckStyle
+
+The build tool uses [CheckStyle](http://checkstyle.sourceforge.net/) to guarantee that Java code follows code standards. CheckStyle rules are located in the `checkstyle.xml` file. To check if your code adheres to the rules, you may use maven for that:
+
+    mvn checkstyle:check
+
+**IDEA CheckStyle plugin** - There is a [CheckStyle plugin](https://plugins.jetbrains.com/plugin/1065) available, which makes it easier to display the CheckStyle issues.
+
+Once installed, go to Preferences -> Other Setting -> CheckStyle, and include the file `checkstyle.xml` located in the project root folder.
+
+## Client side development
 
 e-TB Manager client side (browser code) uses `npm` and `gulp` as the building tool system. `npm` is used for dependency management, while `gulp` is used for running several tasks like the development server, testing the code, system building and much more.
 
@@ -179,3 +225,28 @@ It is also necessary to install the following programs, in order to have the plu
 ### Atom plugins
 
 Atom editor is another IDE that you can use to edit the client code. Please go to http://atom.io and follow instructions on how to install it.
+
+
+## Testing
+
+### JUnit tests
+
+Server side tests are implemented using JUnit and Spring Boot under the `src/test/java` folder.
+
+### Test configuration
+
+When running test suites, the application will be started. When started in test mode, the application will search for the `etbmanager.properties` file in the `target/test` folder.
+
+When executing tests using maven, it will automatically copy a configuration file from `resources/test/mysql/etbmanager.properties`.
+
+
+### Executing the test
+e-TB Manager follows the maven standard way of executing tests:
+
+    mvn test
+
+The source will be compiled and all tests will be executed.
+
+### Other tests (TO BE DONE)
+
+JUnit tests are not the only one available - The test suite also contains API call tests and UI tests.
