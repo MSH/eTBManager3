@@ -12,25 +12,25 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name="caseresistancepattern")
+@Table(name = "caseresistancepattern")
 public class CaseResistancePattern {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
 	/**
 	 * The TB case 
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="case_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "case_id")
 	private TbCase tbcase;
 
 	/**
 	 * The resistance pattern of the case
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="resistpattern_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "resistpattern_id")
 	@NotNull
 	private ResistancePattern resistancePattern;
 

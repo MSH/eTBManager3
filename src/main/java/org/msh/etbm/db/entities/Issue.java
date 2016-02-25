@@ -21,14 +21,14 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="issue")
+@Table(name = "issue")
 public class Issue extends CaseEntity {
 
 
 	private boolean closed;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -37,17 +37,17 @@ public class Issue extends CaseEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date answerDate;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String title;
 
 	@Lob
 	private String description;
 	
-	@OneToMany(mappedBy="issue")
+	@OneToMany(mappedBy = "issue")
 	private List<IssueFollowup> followups = new ArrayList<IssueFollowup>();
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="unit_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "unit_id")
 	@NotNull
 	private Tbunit unit;
 

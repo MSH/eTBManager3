@@ -357,8 +357,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setEntityClass(getEntityClass());
         if (entity instanceof Displayable) {
             res.setEntityName(((Displayable)entity).getDisplayString());
-        }
-        else {
+        } else {
             res.setEntityName(entity.toString());
         }
 
@@ -374,8 +373,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     protected E findEntity(Object id) {
         try {
             return entityManager.find(getEntityClass(), id);
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return null;
         }
     }
@@ -448,8 +446,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
             if (!wsdata.getWorkspace().getId().equals(wsid)) {
                 bindingResult.rejectValue("id", "Invalid workspace");
             }
-        }
-        else {
+        } else {
             Workspace ws = workspaceRepository.findOne(wsid);
             wsdata.setWorkspace(ws);
         }

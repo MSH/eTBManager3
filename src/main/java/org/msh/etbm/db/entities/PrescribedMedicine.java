@@ -15,14 +15,14 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name="prescribedmedicine")
+@Table(name = "prescribedmedicine")
 public class PrescribedMedicine extends CaseEntity {
 
 	/**
 	 * Medicine prescribed
 	 */
 	@ManyToOne
-	@JoinColumn(name="product_id")
+	@JoinColumn(name = "product_id")
 	@NotNull
 	private Product product;
 
@@ -46,7 +46,7 @@ public class PrescribedMedicine extends CaseEntity {
 	 * Medicine source
 	 */
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 

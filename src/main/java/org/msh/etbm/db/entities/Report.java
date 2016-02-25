@@ -16,13 +16,13 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name="report")
+@Table(name = "report")
 public class Report extends WorkspaceEntity {
 
 	/**
 	 * The title of the report, displayed to the user
 	 */
-	@Column(length=200)
+	@Column(length = 200)
 	@NotNull
     private String title;
 	
@@ -40,8 +40,8 @@ public class Report extends WorkspaceEntity {
 	/**
 	 * The user that is the owner of the report, i.e, just the user can change or delete the report
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="OWNER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OWNER_ID")
 	private User owner;
 	
 	/**

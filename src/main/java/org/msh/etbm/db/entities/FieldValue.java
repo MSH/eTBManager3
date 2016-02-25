@@ -15,30 +15,30 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="fieldvalue")
+@Table(name = "fieldvalue")
 public class FieldValue extends WorkspaceEntity {
 
-	@PropertyLog(messageKey="form.name", operations={Operation.NEW})
+	@PropertyLog(messageKey = "form.name", operations = {Operation.NEW})
     @Column(length = 100)
 	private String name;
 
-	@PropertyLog(messageKey= "form.shortName", operations={Operation.NEW})
+	@PropertyLog(messageKey = "form.shortName", operations = {Operation.NEW})
     @Column(length = 30)
 	private String shortName;
 
-	@Column(length=20)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 20)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@PropertyLog(messageKey="TbField")
+	@PropertyLog(messageKey = "TbField")
 	private TbField field;
 	
 	private boolean other;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String otherDescription;
 
-	@PropertyLog(messageKey="form.displayorder")
+	@PropertyLog(messageKey = "form.displayorder")
 	private Integer displayOrder;
 	
 
@@ -104,7 +104,7 @@ public class FieldValue extends WorkspaceEntity {
 	 */
 	@Override
 	public String toString() {
-		return (getName() != null? name.toString(): super.toString());
+		return (getName() != null ? name.toString() : super.toString());
 	}
 
 	/**

@@ -6,26 +6,26 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="medicinedispensingcase")
+@Table(name = "medicinedispensingcase")
 public class MedicineDispensingCase extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="DISPENSING_ID")
+	@JoinColumn(name = "DISPENSING_ID")
 	@NotNull
 	private MedicineDispensing dispensing;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="CASE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CASE_ID")
 	@NotNull
 	private TbCase tbcase;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SOURCE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="BATCH_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 	

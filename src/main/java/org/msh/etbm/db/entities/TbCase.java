@@ -23,31 +23,31 @@ import java.util.List;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="tbcase")
+@Inheritance(strategy =  InheritanceType.JOINED)
+@Table(name = "tbcase")
 public class TbCase extends WorkspaceEntity {
 
 	@Version
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private Integer version;
 	
 	private Integer caseNumber;
 
 	// specific suspect information
-	@Column(length=50)
+	@Column(length = 50)
 	private String suspectRegistrationCode;
 
-	@PropertyLog(messageKey="CaseClassification")
+	@PropertyLog(messageKey = "CaseClassification")
 	private CaseClassification suspectClassification;
 	
-	@Column(length=50)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 50)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String registrationCode;
 
 	private Integer daysTreatPlanned;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PATIENT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PATIENT_ID")
 	@NotNull
 	@PropertyLog(operations = {Operation.ALL})
 	private Patient patient;
@@ -56,11 +56,11 @@ public class TbCase extends WorkspaceEntity {
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date registrationDate;
 	
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date diagnosisDate;
 	
 	@Temporal(TemporalType.DATE)
@@ -69,8 +69,8 @@ public class TbCase extends WorkspaceEntity {
 	// Treatment information
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="iniDate", column=@Column(name="iniTreatmentDate")),
-		@AttributeOverride(name="endDate", column=@Column(name="endTreatmentDate"))
+		@AttributeOverride(name = "iniDate", column=@Column(name = "iniTreatmentDate")),
+		@AttributeOverride(name = "endDate", column=@Column(name = "endTreatmentDate"))
 	})
 	@PropertyLog(operations = {Operation.ALL})
 	private Period treatmentPeriod = new Period();
@@ -78,25 +78,25 @@ public class TbCase extends WorkspaceEntity {
 	@Temporal(TemporalType.DATE)
 	private Date endIntensivePhase;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="REGIMEN_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "REGIMEN_ID")
 	private Regimen regimen;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="REGIMEN_INI_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "REGIMEN_INI_ID")
 	private Regimen regimenIni;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="OWNER_UNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OWNER_UNIT_ID")
 	@NotNull
 	private Tbunit ownerUnit ;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
-	@PropertyLog(ignore=true)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+	@PropertyLog(ignore = true)
 	private List<TreatmentHealthUnit> healthUnits = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
-	@PropertyLog(ignore=true)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+	@PropertyLog(ignore = true)
 	private List<PrescribedMedicine> prescribedMedicines = new ArrayList<>();
 
 	@NotNull
@@ -105,58 +105,58 @@ public class TbCase extends WorkspaceEntity {
 	@NotNull
 	private ValidationState validationState;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private PatientType patientType;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private PatientType previouslyTreatedType;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private CaseDefinition caseDefinition;
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private DiagnosisType diagnosisType;
 	
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private DrugResistanceType drugResistanceType;
 
 	@NotNull
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private CaseClassification classification;
 	
-	@PropertyLog(messageKey="InfectionSite", operations={Operation.NEW})
+	@PropertyLog(messageKey = "InfectionSite", operations = {Operation.NEW})
 	private InfectionSite infectionSite;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PULMONARY_ID")
-	@PropertyLog(messageKey="TbField.PULMONARY_TYPES")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PULMONARY_ID")
+	@PropertyLog(messageKey = "TbField.PULMONARY_TYPES")
 	private FieldValue pulmonaryType;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="EXTRAPULMONARY_ID")
-	@PropertyLog(messageKey="TbField.EXTRAPULMONARY_TYPES")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EXTRAPULMONARY_ID")
+	@PropertyLog(messageKey = "TbField.EXTRAPULMONARY_TYPES")
 	private FieldValue extrapulmonaryType;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="EXTRAPULMONARY2_ID")
-	@PropertyLog(messageKey="TbField.EXTRAPULMONARY_TYPES")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "EXTRAPULMONARY2_ID")
+	@PropertyLog(messageKey = "TbField.EXTRAPULMONARY_TYPES")
 	private FieldValue extrapulmonaryType2;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String patientTypeOther;
 
 	private Nationality nationality;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String otherOutcome;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="NOTIFICATION_UNIT_ID")
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "NOTIFICATION_UNIT_ID")
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Tbunit notificationUnit;
 	
 	private boolean notifAddressChanged;
@@ -167,7 +167,7 @@ public class TbCase extends WorkspaceEntity {
 
     private boolean movedSecondLineTreatment;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String patientContactName;
 	
 	@Lob
@@ -175,89 +175,89 @@ public class TbCase extends WorkspaceEntity {
 	
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="address", column=@Column(name="NOTIF_ADDRESS")),
-		@AttributeOverride(name="complement", column=@Column(name="NOTIF_COMPLEMENT")),
-		@AttributeOverride(name="localityType", column=@Column(name="NOTIF_LOCALITYTYPE")),
-		@AttributeOverride(name="zipCode", column=@Column(name="NOTIF_ZIPCODE")),
+		@AttributeOverride(name = "address", column=@Column(name = "NOTIF_ADDRESS")),
+		@AttributeOverride(name = "complement", column=@Column(name = "NOTIF_COMPLEMENT")),
+		@AttributeOverride(name = "localityType", column=@Column(name = "NOTIF_LOCALITYTYPE")),
+		@AttributeOverride(name = "zipCode", column=@Column(name = "NOTIF_ZIPCODE")),
 	})
 	@AssociationOverrides({
-		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="NOTIF_ADMINUNIT_ID"))
+		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
 	})
-	@PropertyLog(messageKey="cases.details.addressnotif", operations={Operation.NEW})
+	@PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
 	private Address notifAddress;
 	
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="address", column=@Column(name="CURR_ADDRESS")),
-		@AttributeOverride(name="complement", column=@Column(name="CURR_COMPLEMENT")),
-		@AttributeOverride(name="localityType", column=@Column(name="CURR_LOCALITYTYPE")),
-		@AttributeOverride(name="zipCode", column=@Column(name="CURR_ZIPCODE")),
+		@AttributeOverride(name = "address", column=@Column(name = "CURR_ADDRESS")),
+		@AttributeOverride(name = "complement", column=@Column(name = "CURR_COMPLEMENT")),
+		@AttributeOverride(name = "localityType", column=@Column(name = "CURR_LOCALITYTYPE")),
+		@AttributeOverride(name = "zipCode", column=@Column(name = "CURR_ZIPCODE")),
 	})
 	@AssociationOverrides({
-		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="CURR_ADMINUNIT_ID"))
+		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
 	})
-	@PropertyLog(messageKey="cases.details.addresscurr")
+	@PropertyLog(messageKey = "cases.details.addresscurr")
 	private Address currentAddress;
 
-    @Column(name="NOTIF_LOCALITYTYPE")
+    @Column(name = "NOTIF_LOCALITYTYPE")
     private LocalityType localityType;
 
-    @Column(name="CURR_LOCALITYTYPE")
+    @Column(name = "CURR_LOCALITYTYPE")
     private LocalityType currLocalityType;
 
-    @Column(length=50)
+    @Column(length = 50)
 	private String phoneNumber;
 	
-	@Column(length=50)
+	@Column(length = 50)
 	private String mobileNumber;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<CaseSideEffect> sideEffects = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<CaseComorbidity> comorbidities = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	@OrderBy("date desc")
 	private List<MedicalExamination> examinations = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<ExamXRay> resXRay = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<TbContact> contacts = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 	
 
 	/* EXAMS */
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<ExamHIV> resHIV = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<ExamCulture> examsCulture = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
 	private List<ExamDST> examsDST = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch= FetchType.LAZY)
     private List<ExamXpert> examsXpert = new ArrayList<>();
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private SecDrugsReceived secDrugsReceived;
 
 	private int issueCounter;
 
     @Temporal(TemporalType.DATE)
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Date lastBmuDateTbRegister;
 
-    @Column(length=50)
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @Column(length = 50)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
 	
 	@Transient
@@ -282,10 +282,10 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * Tags of this case
 	 */
-	@ManyToMany(fetch= FetchType.LAZY)
-	@JoinTable(name="tags_case",
-			joinColumns={@JoinColumn(name="CASE_ID")},
-			inverseJoinColumns={@JoinColumn(name="TAG_ID")})
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "tags_case",
+			joinColumns = {@JoinColumn(name = "CASE_ID")},
+			inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
 	private List<Tag> tags = new ArrayList<>();
 
 

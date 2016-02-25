@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="countrystructure")
+@Table(name = "countrystructure")
 public class CountryStructure extends WorkspaceEntity {
 
     @Column(length = 100)
@@ -21,7 +21,7 @@ public class CountryStructure extends WorkspaceEntity {
     @NotNull
 	private String name;
 	
-	@Column(name="STRUCTURE_LEVEL")
+	@Column(name = "STRUCTURE_LEVEL")
     @Max(5)
     @Min(1)
     @PropertyLog(messageKey = "form.level", operations = {Operation.ALL})

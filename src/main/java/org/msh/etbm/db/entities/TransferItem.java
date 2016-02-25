@@ -10,7 +10,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name="transferitem")
+@Table(name = "transferitem")
 public class TransferItem {
 
 	@Id
@@ -19,30 +19,30 @@ public class TransferItem {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name="TRANSFER_ID",nullable=false)
+	@JoinColumn(name = "TRANSFER_ID",nullable=false)
 	@NotNull
 	private Transfer transfer;
 	
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID",nullable=false)
+	@JoinColumn(name = "SOURCE_ID",nullable=false)
 	@NotNull
 	private Source source;
 	
 	@ManyToOne
-	@JoinColumn(name="product_id",nullable=false)
+	@JoinColumn(name = "product_id",nullable=false)
 	@NotNull
 	private Product product;
 
 	@ManyToOne
-	@JoinColumn(name="MOV_OUT_ID")
+	@JoinColumn(name = "MOV_OUT_ID")
 	private Movement movementOut;
 	
 	@ManyToOne
-	@JoinColumn(name="MOV_IN_ID")
+	@JoinColumn(name = "MOV_IN_ID")
 	private Movement movementIn;
 	
-	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="TRANSFERITEM_ID")
+	@OneToMany(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "TRANSFERITEM_ID")
 	private List<TransferBatch> batches = new ArrayList<TransferBatch>();
 	
 	@Transient

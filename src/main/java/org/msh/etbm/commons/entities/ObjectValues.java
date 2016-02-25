@@ -34,7 +34,7 @@ public class ObjectValues {
 
     public boolean getBool(String prop) {
         Boolean v = (Boolean)values.get(prop);
-        return v == null? false: v;
+        return v == null ? false : v;
     }
 
     public void put(String prop, Object value) {

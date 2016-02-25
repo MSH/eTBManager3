@@ -13,8 +13,8 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "product")
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
+@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 public class Product extends WorkspaceEntity {
 
@@ -29,8 +29,8 @@ public class Product extends WorkspaceEntity {
     @Size(min=1, max = 30)
     private String shortName;
 
-    @Column(length=50)
-    @PropertyLog(messageKey="form.customId")
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
     private String customId;
 
     private boolean active = true;

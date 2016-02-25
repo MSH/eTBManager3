@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name="casesideeffect")
+@Table(name = "casesideeffect")
 public class CaseSideEffect extends CaseEntity {
 
 	@Embedded
@@ -23,17 +23,17 @@ public class CaseSideEffect extends CaseEntity {
 
 	private String medicines;
 	
-	@Column(name="SE_MONTH")
+	@Column(name = "SE_MONTH")
 	private int month;
 	
 	private YesNoType resolved;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SUBSTANCE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SUBSTANCE_ID")
 	private Substance substance;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SUBSTANCE2_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SUBSTANCE2_ID")
 	private Substance substance2;
 	
 	@Lob
@@ -72,8 +72,10 @@ public class CaseSideEffect extends CaseEntity {
 	 * @return the sideEffect
 	 */
 	public FieldValueComponent getSideEffect() {
-		if (sideEffect == null)
-			sideEffect = new FieldValueComponent();
+		if (sideEffect == null) {
+            sideEffect = new FieldValueComponent();
+        }
+
 		return sideEffect;
 	}
 

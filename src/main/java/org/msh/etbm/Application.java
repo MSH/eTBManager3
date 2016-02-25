@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @SpringBootApplication
 @PropertySource("file:./etbmanager.properties")
-@EnableJpaRepositories(value="org.msh.etbm.db.repositories")
+@EnableJpaRepositories(value = "org.msh.etbm.db.repositories")
 @EnableCaching
 public class Application {
 

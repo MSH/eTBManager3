@@ -27,27 +27,22 @@ public class DateUtils {
 	    Calendar earlier = Calendar.getInstance();
 	    Calendar later = Calendar.getInstance();
 		 
-	    if (a.compareTo(b) < 0)
-	    {
+	    if (a.compareTo(b) < 0) {
 	        earlier.setTime(a);
 	        later.setTime(b);
-	    }
-	    else
-	    {
+	    } else {
 	        earlier.setTime(b);
 	        later.setTime(a);
 	    }
 		 
-		while (earlier.get(Calendar.YEAR) != later.get(Calendar.YEAR))
-		{
+		while (earlier.get(Calendar.YEAR) != later.get(Calendar.YEAR)) {
             int tempDifference = 365 * (later.get(Calendar.YEAR) - earlier.get(Calendar.YEAR));
 		    difference += tempDifference;
 		 
 		    earlier.add(Calendar.DAY_OF_YEAR, tempDifference);
 		}
 		 
-		if (earlier.get(Calendar.DAY_OF_YEAR) != later.get(Calendar.DAY_OF_YEAR))
-		{
+		if (earlier.get(Calendar.DAY_OF_YEAR) != later.get(Calendar.DAY_OF_YEAR)) {
             int tempDifference = later.get(Calendar.DAY_OF_YEAR) - earlier.get(Calendar.DAY_OF_YEAR);
 		    difference += tempDifference;
 		 
@@ -184,8 +179,10 @@ public class DateUtils {
 	 */
 	public static int secondsBetween(Date dtIni, Date dtEnd) {
 		long milliElapsed = dtIni.getTime() - dtEnd.getTime();
-		if (milliElapsed < 0)
-			milliElapsed = -milliElapsed;
+		if (milliElapsed < 0) {
+            milliElapsed = -milliElapsed;
+        }
+
 		return (int)milliElapsed / 1000;
 	}
 	
@@ -249,8 +246,7 @@ public class DateUtils {
 		return num;
 	}
 	
-	public static String FormatDateTime(String dateFormat, Date dt)
-	{
+	public static String FormatDateTime(String dateFormat, Date dt) {
 		SimpleDateFormat f = new SimpleDateFormat(dateFormat);
 		return f.format(dt);
 	}
@@ -318,20 +314,21 @@ public class DateUtils {
 		
 		wd = weekday - wd + 1;
 		if (wd <= 0) {
-			if (week == 1)
-				return 1;
+			if (week == 1) {
+                return 1;
+            }
 			wd += 7;
 			week--;
 		}
 		
-		if (week == 1)
-			return wd;		
-		
+		if (week == 1) {
+            return wd;
+        }
+
 		int max = c.getActualMaximum(Calendar.DAY_OF_MONTH);
 		int d = wd + (week - 1) * 7;
-		if (d > max)
-			return max;
-		else return d;
+
+        return d > max ? max : d;
 	}
 
 
@@ -387,9 +384,10 @@ public class DateUtils {
 		c2.setTime(d2);
 
 		long len = c1.getTimeInMillis() - c2.getTimeInMillis();
-		if (len < 0)
-			len = -len;
-		
+		if (len < 0) {
+            len = -len;
+        }
+
 		c1.setTimeInMillis(len);
 		return c1;
 	}
@@ -401,8 +399,9 @@ public class DateUtils {
 	 * @return
 	 */
 	public static boolean hasTimePart(Date dt1) {
-		if (dt1 instanceof java.sql.Date)
-			return false;
+		if (dt1 instanceof java.sql.Date) {
+            return false;
+        }
 
 		Calendar c = Calendar.getInstance();
 		return (c.get(Calendar.HOUR) > 0) || (c.get(Calendar.MINUTE) > 0) || (c.get(Calendar.SECOND) > 0) || (c.get(Calendar.MILLISECOND) > 0);

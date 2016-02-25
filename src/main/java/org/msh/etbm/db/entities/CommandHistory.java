@@ -14,14 +14,14 @@ import java.util.UUID;
  * Created by rmemoria on 9/10/15.
  */
 @Entity
-@Table(name="commandhistory")
+@Table(name = "commandhistory")
 public class CommandHistory {
 
     /**
      * The table primary key
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     /**
@@ -54,24 +54,24 @@ public class CommandHistory {
     /**
      * The user that executed the command
      */
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="USERLOG_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USERLOG_ID")
     @NotNull
     private UserLog user;
 
     /**
      * The workspace where the command was executed
      */
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="WORKSPACELOG_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKSPACELOG_ID")
     private WorkspaceLog workspace;
 
     /**
      * The unit related to the execution of the command. Its value is null
      * if the command was executed out of a unit scope
      */
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="UNIT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIT_ID")
     private Unit unit;
 
     /**

@@ -25,10 +25,10 @@ public abstract class WorkspaceEntity extends Synchronizable  implements Display
     /**
 	 * The workspace of this entity
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="WORKSPACE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WORKSPACE_ID")
 	@NotNull
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private Workspace workspace;
 
 

@@ -77,8 +77,7 @@ public class MailServiceImpl implements MailService {
             message.setText(txt, true); // true = HTML
 
             javaMailSender.send(msg);
-        }
-        catch (MailException e) {
+        } catch (MailException e) {
             LOGGER.error("Error sending mail message", e);
             throw new MailServiceException(e);
         } catch (MessagingException e) {

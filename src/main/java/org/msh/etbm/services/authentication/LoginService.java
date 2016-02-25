@@ -99,13 +99,13 @@ public class LoginService {
                     .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
-            if (lst.isEmpty())
+            if (lst.isEmpty()) {
                 return null;
+            }
 
             User user = lst.get(0);
             return selectUserWorkspace(user);
-        }
-        else {
+        } else {
             // authenticate user, password and workspace
             List<UserWorkspace> lst = entityManager.createQuery("from UserWorkspace uw " +
                     "join fetch uw.user u " +
@@ -120,8 +120,9 @@ public class LoginService {
                     .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
-            if (lst.isEmpty())
+            if (lst.isEmpty()) {
                 return null;
+            }
 
             return lst.get(0);
         }
@@ -134,8 +135,9 @@ public class LoginService {
      * @return instance of UserWorkspace
      */
     private UserWorkspace selectUserWorkspace(User user) {
-        if (user.getDefaultWorkspace() != null)
+        if (user.getDefaultWorkspace() != null) {
             return user.getDefaultWorkspace();
+        }
 
         List<UserWorkspace> lst = entityManager.createQuery("from UserWorkspace where id = (select min(id) " +
                 "from UserWorkspace aux where aux.user.id = :userid)")

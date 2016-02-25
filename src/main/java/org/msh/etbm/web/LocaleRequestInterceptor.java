@@ -27,9 +27,9 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
             newLocale = request.getParameter(Constants.LANG_TOKEN_PARAM);
         }
 
-        if(newLocale != null) {
+        if (newLocale != null) {
             LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-            if(localeResolver == null) {
+            if (localeResolver == null) {
                 throw new IllegalStateException("No LocaleResolver found: not in a DispatcherServlet request?");
             }
 

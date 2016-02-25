@@ -33,8 +33,7 @@ public class Messages {
         Locale locale = LocaleContextHolder.getLocale();
         try {
             return messageSource.getMessage(key, null, locale);
-        }
-        catch (NoSuchMessageException e) {
+        } catch (NoSuchMessageException e) {
             LOGGER.warn("No message found for " + key + " in the locale " + locale.getDisplayName());
             return key;
         }
@@ -49,8 +48,7 @@ public class Messages {
         Locale locale = LocaleContextHolder.getLocale();
         try {
             return messageSource.getMessage(res, locale);
-        }
-        catch (NoSuchMessageException e) {
+        } catch (NoSuchMessageException e) {
             LOGGER.warn("No message found for " + res.getDefaultMessage() + " in the locale " + locale.getDisplayName());
         }
         return res.getDefaultMessage();

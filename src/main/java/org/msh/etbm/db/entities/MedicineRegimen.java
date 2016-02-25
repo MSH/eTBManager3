@@ -9,12 +9,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="medicineregimen")
+@Table(name = "medicineregimen")
 public class MedicineRegimen extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name = "MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
 

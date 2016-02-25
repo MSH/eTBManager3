@@ -16,15 +16,15 @@ public class Batch extends WorkspaceEntity {
 	@Temporal(TemporalType.DATE)
 	private Date expiryDate;
 	
-	@Column(length=30)
+	@Column(length = 30)
 	@NotNull
 	private String batchNumber;
 	
-	@Column(length=80)
+	@Column(length = 80)
 	private String manufacturer;
 	
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name = "MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
 
@@ -33,7 +33,7 @@ public class Batch extends WorkspaceEntity {
     @Override
     public String getDisplayString() {
         return batchNumber +
-                (manufacturer != null && !manufacturer.isEmpty()? " - " + manufacturer: "");
+                (manufacturer != null && !manufacturer.isEmpty() ? " - " + manufacturer : "");
     }
 
 	/**
@@ -47,7 +47,7 @@ public class Batch extends WorkspaceEntity {
 
 	@Override
 	public String toString() {
-		return batchNumber != null? batchNumber: super.toString();
+		return batchNumber != null ? batchNumber : super.toString();
 	}
 
 

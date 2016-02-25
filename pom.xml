@@ -25,6 +25,7 @@
         <mainClass>org.msh.etbm.Application</mainClass>
         <sonar.sources>target/client,src/main/java</sonar.sources>
         <test.workingDirectory>target/test</test.workingDirectory>
+        <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>
 
     <scm>
@@ -339,6 +340,28 @@
                 <configuration>
                     <workingDirectory>${test.workingDirectory}</workingDirectory>
                 </configuration>
+            </plugin>
+
+            <!-- Checkstyle plugin to verify style during building -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <linkXRef>false</linkXRef>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

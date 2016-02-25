@@ -42,8 +42,8 @@ public class Period {
 	 */
 	public Period(Date iniDate, Date endDate) {
 		super();
-		this.iniDate = iniDate != null? (Date)iniDate.clone() : null;
-		this.endDate = endDate != null? (Date)endDate.clone() : null;
+		this.iniDate = iniDate != null ? (Date)iniDate.clone() : null;
+		this.endDate = endDate != null ? (Date)endDate.clone() : null;
 		checkDatesOrder();
 	}
 
@@ -75,8 +75,9 @@ public class Period {
 	 * Check if initial date is before the initial date. If not, they are swapped
 	 */
 	private void checkDatesOrder() {
-		if ((iniDate == null) || (endDate == null))
-			return;
+		if ((iniDate == null) || (endDate == null)) {
+            return;
+        }
 		if (iniDate.after(endDate)) {
 			Date dt = iniDate;
 			iniDate = endDate;

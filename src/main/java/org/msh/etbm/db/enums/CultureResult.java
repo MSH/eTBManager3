@@ -40,8 +40,9 @@ public enum CultureResult {
 	static public CultureResult[] getPositiveResults() {
 		int num = 0;
 		for (CultureResult res: values()) {
-			if (res.isPositive())
-				num++;
+			if (res.isPositive()) {
+                num++;
+            }
 		}
 		
 		CultureResult[] lst = new CultureResult[num];
@@ -63,8 +64,9 @@ public enum CultureResult {
 	static public CultureResult[] getNegativeResults() {
 		int num = 0;
 		for (CultureResult res: values()) {
-			if (res.isNegative())
-				num++;
+			if (res.isNegative()) {
+                num++;
+            }
 		}
 		
 		CultureResult[] lst = new CultureResult[num];

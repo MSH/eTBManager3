@@ -12,16 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="workspace")
+@Table(name = "workspace")
 public class Workspace extends Synchronizable implements Displayable {
 
-	@PropertyLog(messageKey="form.name")
+	@PropertyLog(messageKey = "form.name")
     @NotNull
     @Size(min = 2, max = 50)
 	private String name;
 
-	@OneToMany(mappedBy="workspace", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-	@PropertyLog(ignore=true)
+	@OneToMany(mappedBy = "workspace", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@PropertyLog(ignore = true)
 	private List<UserWorkspace> users = new ArrayList<>();
 
 	// frequency of doses in a weekly basis
@@ -33,7 +33,7 @@ public class Workspace extends Synchronizable implements Displayable {
 	private Integer weekFreq6;
 	private Integer weekFreq7;
 
-	@OneToOne(cascade={CascadeType.REMOVE}, fetch= FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.REMOVE}, fetch= FetchType.LAZY)
 	@PrimaryKeyJoinColumn
 	private WorkspaceView view;
 

@@ -22,7 +22,7 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name="userlogin")
+@Table(name = "userlogin")
 public class UserLogin {
 
 	@Id
@@ -30,8 +30,8 @@ public class UserLogin {
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
     private UUID id;
     
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
 	@NotNull
     private User user;
     
@@ -45,14 +45,14 @@ public class UserLogin {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date lastAccess;
     
-    @Column(length=200)
+    @Column(length = 200)
     private String Application;
     
-    @Column(length=16)
+    @Column(length = 16)
     private String IpAddress;
 
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="WORKSPACE_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKSPACE_ID")
 	@NotNull
     private Workspace workspace;
 

@@ -17,46 +17,46 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="patient")
+@Table(name = "patient")
 public class Patient extends WorkspaceEntity {
 
-	@Column(length=100)
+	@Column(length = 100)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String name;
 	
-	@Column(length=100)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 100)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String middleName;
 	
-	@Column(length=100)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 100)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String lastName;
 	
-	@Column(length=50)
+	@Column(length = 50)
 	private String securityNumber;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String motherName;
 	
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Date birthDate;
 
 	private Integer recordNumber;
 
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Gender gender;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@OneToMany(mappedBy="patient")
+	@OneToMany(mappedBy = "patient")
 	private List<TbCase> cases = new ArrayList<TbCase>();
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String fatherName;
 	
 
@@ -216,7 +216,7 @@ public class Patient extends WorkspaceEntity {
     @Override
     public String getDisplayString() {
         return name +
-                (middleName != null && !middleName.isEmpty()? " " + middleName + " ": "") +
-                (lastName != null && !lastName.isEmpty()? " " + lastName + " ": "");
+                (middleName != null && !middleName.isEmpty() ? " " + middleName + " " : "") +
+                (lastName != null && !lastName.isEmpty() ? " " + lastName + " " : "");
     }
 }

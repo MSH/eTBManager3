@@ -14,26 +14,26 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
+@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
-@Table(name="examxray")
+@Table(name = "examxray")
 public class ExamXRay extends CaseEvent {
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private XRayResult result;
 	
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private XRayEvolution evolution;
 	
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private XRayBaseline baseline;
 	
 	private Boolean destruction;
 	
 	@ManyToOne
-	@JoinColumn(name="PRESENTATION_ID")
-	@PropertyLog(operations={Operation.NEW}, messageKey="TbField.XRAYPRESENTATION")
+	@JoinColumn(name = "PRESENTATION_ID")
+	@PropertyLog(operations = {Operation.NEW}, messageKey = "TbField.XRAYPRESENTATION")
 	private FieldValue presentation;
 
 	/**

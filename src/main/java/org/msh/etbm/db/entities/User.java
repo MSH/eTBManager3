@@ -29,7 +29,7 @@ import java.util.UUID;
  * @author Ricardo Memoria
  */
 @Entity
-@Table(name="sys_user")
+@Table(name = "sys_user")
 public class User implements Displayable {
 
 	@Id
@@ -37,52 +37,52 @@ public class User implements Displayable {
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
     private UUID id;
     
-    @Column(length=30)
+    @Column(length = 30)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private String login;
     
-    @Column(length=80)
+    @Column(length = 80)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private String name;
 
-    @Column(length=32)
+    @Column(length = 32)
 	@NotNull
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
     private String password;
     
-    @Column(nullable=false, length=80)
-	@PropertyLog(operations={Operation.NEW})
+    @Column(nullable=false, length = 80)
+	@PropertyLog(operations = {Operation.NEW})
     @Email
     private String email;
     
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private UserState state;
 	
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="DEFAULTWORKSPACE_ID")
-	@PropertyLog(operations={Operation.NEW})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEFAULTWORKSPACE_ID")
+	@PropertyLog(operations = {Operation.NEW})
     private UserWorkspace defaultWorkspace;
     
-    @Column(length=50)
+    @Column(length = 50)
     private String timeZone;
 
-	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
 	private List<UserWorkspace> workspaces = new ArrayList<UserWorkspace>();
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String comments;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PARENTUSER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PARENTUSER_ID")
 	private User parentUser;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date registrationDate;
 
-	@Column(length=30)
-	@PropertyLog(messageKey="global.customId")
+	@Column(length = 30)
+	@PropertyLog(messageKey = "global.customId")
 	private String customId;
 
     /**

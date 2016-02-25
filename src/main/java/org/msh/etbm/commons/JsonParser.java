@@ -28,8 +28,7 @@ public class JsonParser {
             InputStream in = res.getInputStream();
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(in, type);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log. error(e.getMessage(), e);
             throw new RuntimeException(e);
         }

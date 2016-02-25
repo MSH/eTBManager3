@@ -24,35 +24,35 @@ public abstract class LaboratoryExam extends CaseEntity {
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Past
-	@PropertyLog(messageKey="PatientSample.dateCollected", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "PatientSample.dateCollected", operations = {Operation.NEW, Operation.DELETE})
 	private Date dateCollected;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="PatientSample.sampleNumber", operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 50)
+	@PropertyLog(messageKey = "PatientSample.sampleNumber", operations = {Operation.NEW, Operation.DELETE})
 	private String sampleNumber;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="request_id")
+    @JoinColumn(name = "request_id")
     private ExamRequest request;
 
 	@Lob
-	@PropertyLog(messageKey="global.comments")
+	@PropertyLog(messageKey = "global.comments")
 	private String comments;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="LABORATORY_ID")
-	@PropertyLog(messageKey="Laboratory", operations={Operation.NEW, Operation.DELETE})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LABORATORY_ID")
+	@PropertyLog(messageKey = "Laboratory", operations = {Operation.NEW, Operation.DELETE})
 	private Laboratory laboratory;
 
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(messageKey="cases.exams.dateRelease", operations={Operation.NEW})
+	@PropertyLog(messageKey = "cases.exams.dateRelease", operations = {Operation.NEW})
 	@Past
 	private Date dateRelease;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="METHOD_ID")
-	@PropertyLog(messageKey="cases.exams.method", operations={Operation.NEW})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "METHOD_ID")
+	@PropertyLog(messageKey = "cases.exams.method", operations = {Operation.NEW})
 	private FieldValue method;
 	
 
@@ -122,8 +122,9 @@ public abstract class LaboratoryExam extends CaseEntity {
 	public Integer getMonthTreatment() {
 		Date dt = getDateCollected();
 		
-		if (getTbcase() == null)
-			return null;
+		if (getTbcase() == null) {
+            return null;
+        }
 
 		return getTbcase().getMonthTreatment(dt);
 	}

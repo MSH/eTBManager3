@@ -24,20 +24,20 @@ public class ExamRequest {
     private Date requestDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="case_id")
+    @JoinColumn(name = "case_id")
     private TbCase tbcase;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="unit_id")
+    @JoinColumn(name = "unit_id")
     private Tbunit tbunit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="laboratory_id")
+    @JoinColumn(name = "laboratory_id")
     @NotNull
     private Laboratory laboratory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     @NotNull
     private User user;
 

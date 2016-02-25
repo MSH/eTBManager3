@@ -112,13 +112,12 @@ public class CommandHistoryInput {
         if (data != null && clazz.isAssignableFrom(data.getClass())) {
             throw new CommandException("Log details was already initialized");
         }
-        else {
-            try {
-                data = (CommandData)clazz.newInstance();
-            } catch (Exception e) {
-                log.error("Not possible to create an instance of " + data.getClass(), e);
-                throw new CommandException(e);
-            }
+
+        try {
+            data = (CommandData)clazz.newInstance();
+        } catch (Exception e) {
+            log.error("Not possible to create an instance of " + data.getClass(), e);
+            throw new CommandException(e);
         }
     }
 

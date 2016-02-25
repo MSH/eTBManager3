@@ -20,17 +20,17 @@ import javax.validation.constraints.NotNull;
  */
 
 //@Entity
-//@Table(name="userrole")
+//@Table(name = "userrole")
 public class UserRole {
 
 	@Id
     private Integer id;
 
-    @Column(length=80)
+    @Column(length = 80)
     @NotNull
     private String name;
 
-    @Column(length=50)
+    @Column(length = 50)
     private String code;
     
     /**

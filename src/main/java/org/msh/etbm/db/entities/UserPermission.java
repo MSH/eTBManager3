@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(name="userpermission")
+@Table(name = "userpermission")
 public class UserPermission  {
 
 	@Id
@@ -19,7 +19,7 @@ public class UserPermission  {
 	private String permission;
 
 	@ManyToOne
-	@JoinColumn(name="PROFILE_ID")
+	@JoinColumn(name = "PROFILE_ID")
 	@NotNull
 	private UserProfile userProfile;
 

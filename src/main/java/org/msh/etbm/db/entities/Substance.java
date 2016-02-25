@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="substance")
+@Table(name = "substance")
 public class Substance extends WorkspaceEntity {
 
 	@NotNull
-	@PropertyLog(messageKey="form.name")
+	@PropertyLog(messageKey = "form.name")
 	private String name;
 	
 	@PropertyLog(messageKey= "form.shortName")
@@ -31,11 +31,11 @@ public class Substance extends WorkspaceEntity {
 
     private boolean active = true;
 
-	@PropertyLog(messageKey="form.displayorder")
+	@PropertyLog(messageKey = "form.displayorder")
 	private Integer displayOrder;
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
 	public void setLine(MedicineLine line) {

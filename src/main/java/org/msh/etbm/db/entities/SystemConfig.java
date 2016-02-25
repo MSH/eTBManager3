@@ -8,36 +8,36 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="systemconfig")
+@Table(name = "systemconfig")
 public class SystemConfig {
 
 	@Id
 	private Integer id;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String systemURL;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String pageRootURL;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String systemMail;
 	
 	private boolean allowRegPage;
 	
 	@ManyToOne
-	@JoinColumn(name="WORKSPACE_ID")
+	@JoinColumn(name = "WORKSPACE_ID")
 	private Workspace workspace;
 	
 	@ManyToOne
-	@JoinColumn(name="USERPROFILE_ID")
+	@JoinColumn(name = "USERPROFILE_ID")
 	private UserProfile userProfile;
 	
 	@ManyToOne
-	@JoinColumn(name="UNIT_ID")
+	@JoinColumn(name = "UNIT_ID")
 	private Tbunit tbunit;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String adminMail;
 
 
@@ -45,7 +45,7 @@ public class SystemConfig {
     private String updateSite;
 
     @ManyToOne
-    @JoinColumn(name="PUBDS_WORKSPACE_ID")
+    @JoinColumn(name = "PUBDS_WORKSPACE_ID")
     private Workspace pubDashboardWorkspace;
 
     /**

@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="userworkspace")
+@Table(name = "userworkspace")
 public class UserWorkspace extends WorkspaceEntity {
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="UNIT_ID")
-	@PropertyLog(operations={Operation.NEW})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UNIT_ID")
+	@PropertyLog(operations = {Operation.NEW})
 	private Unit unit;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
 	@NotNull
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private User user;
 
     /**
@@ -32,21 +32,21 @@ public class UserWorkspace extends WorkspaceEntity {
 	
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="userworkspace_profiles",
-            joinColumns={@JoinColumn(name="USERWORKSPACE_ID")},
-            inverseJoinColumns={@JoinColumn(name="USERPROFILE_ID")})
-    @PropertyLog(operations={Operation.NEW})
+    @JoinTable(name = "userworkspace_profiles",
+            joinColumns = {@JoinColumn(name = "USERWORKSPACE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USERPROFILE_ID")})
+    @PropertyLog(operations = {Operation.NEW})
 	private List<UserProfile> profiles = new ArrayList<>();
 
 
-	@Column(name="USER_VIEW")
+	@Column(name = "USER_VIEW")
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private UserView view;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="ADMINUNIT_ID")
-	@PropertyLog(operations={Operation.NEW})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ADMINUNIT_ID")
+	@PropertyLog(operations = {Operation.NEW})
     @NotNull
 	private AdministrativeUnit adminUnit;
     

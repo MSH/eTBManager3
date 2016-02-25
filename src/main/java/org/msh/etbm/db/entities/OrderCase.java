@@ -10,17 +10,17 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="ordercase")
+@Table(name = "ordercase")
 public class OrderCase extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="CASE_ID")
+	@JoinColumn(name = "CASE_ID")
 	@NotNull
 	private TbCase tbcase;
 	
 	@ManyToOne
-	@JoinColumn(name="ORDERITEM_ID")
+	@JoinColumn(name = "ORDERITEM_ID")
 	@NotNull
 	private OrderItem item;
 	

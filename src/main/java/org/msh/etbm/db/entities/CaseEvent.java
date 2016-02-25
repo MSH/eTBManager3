@@ -18,8 +18,8 @@ import java.util.Date;
 public class CaseEvent extends CaseEntity {
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="EVENT_DATE")
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(name = "EVENT_DATE")
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date date;
 	
 	@Lob
@@ -32,11 +32,13 @@ public class CaseEvent extends CaseEntity {
 	 */
 	public Integer getMonthTreatment() {
 		Date dt = getDate();
-		if (dt == null)
-			return null;
-		
-		if (getTbcase() == null)
-			return null;
+		if (dt == null) {
+            return null;
+        }
+
+		if (getTbcase() == null) {
+            return null;
+        }
 
 		return getTbcase().getMonthTreatment(dt);
 	}

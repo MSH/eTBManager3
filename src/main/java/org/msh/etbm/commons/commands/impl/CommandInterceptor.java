@@ -52,8 +52,7 @@ public class CommandInterceptor {
         userRequestService.setCommandExecuting(true);
         try {
             return executeAndLog(pjp);
-        }
-        finally {
+        } finally {
             userRequestService.setCommandExecuting(false);
         }
     }
@@ -134,7 +133,7 @@ public class CommandInterceptor {
         // call handler of the log
         if (handlerClass != null) {
             CommandLogHandler handler = (CommandLogHandler) applicationContext.getBean(handlerClass);
-            Object p = args.length == 1? args[0]: args;
+            Object p = args.length == 1 ? args[0] : args;
             handler.prepareLog(in, p, result);
         }
 

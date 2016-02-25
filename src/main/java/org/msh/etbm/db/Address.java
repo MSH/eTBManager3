@@ -9,40 +9,43 @@ import javax.validation.constraints.NotNull;
 @Embeddable
 public class Address {
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String address;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String complement;
 
-	@Column(length=20)
+	@Column(length = 20)
 	private String zipCode;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="ADMINUNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ADMINUNIT_ID")
     @NotNull
 	private AdministrativeUnit adminUnit;
 
 
 	@Override
 	public String toString() {
-		String s = (address == null? "": address);
+		String s = (address == null ? "" : address);
 
 		if ((complement != null) && (!complement.isEmpty())) {
-			if (!s.isEmpty())
-				s += '\n';
+			if (!s.isEmpty()) {
+                s += '\n';
+            }
 			s += complement;
 		}
 		
 		if ((zipCode != null) && (!zipCode.isEmpty())) {
-			if (!s.isEmpty())
-				s += '\n';
+			if (!s.isEmpty()) {
+                s += '\n';
+            }
 			s += zipCode;
 		}
 		
 		if (adminUnit != null) {
-			if (!s.isEmpty())
-				s += "\n";
+			if (!s.isEmpty()) {
+                s += "\n";
+            }
 			s += adminUnit.getFullDisplayName();
 		}
 		

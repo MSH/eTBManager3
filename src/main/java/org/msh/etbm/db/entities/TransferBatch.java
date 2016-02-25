@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(name="transferbatch")
+@Table(name = "transferbatch")
 public class TransferBatch {
 
 	@Id
@@ -16,12 +16,12 @@ public class TransferBatch {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name="BATCH_ID")
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 	
 	@ManyToOne
-	@JoinColumn(name="TRANSFERITEM_ID")
+	@JoinColumn(name = "TRANSFERITEM_ID")
 	@NotNull
 	private TransferItem transferItem;
 

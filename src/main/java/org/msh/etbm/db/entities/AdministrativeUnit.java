@@ -13,32 +13,32 @@ import java.util.List;
 @Table(name = "administrativeunit")
 public class AdministrativeUnit extends WorkspaceEntity {
 
-	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "form.name", operations = {Operation.NEW, Operation.DELETE})
     private String name;
 
 	@ManyToOne
-	@JoinColumn(name="PARENT_ID")
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@JoinColumn(name = "PARENT_ID")
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private AdministrativeUnit parent;
 	
-	@OneToMany(mappedBy="parent",fetch= FetchType.LAZY)
+	@OneToMany(mappedBy = "parent",fetch = FetchType.LAZY)
 	@OrderBy("NAME")
 	private List<AdministrativeUnit> units = new ArrayList<>();
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
 	// properties to help dealing with trees
 	private int unitsCount;
 	
-	@Column(length=15, nullable=false)
-	@PropertyLog(ignore=true)
+	@Column(length = 15, nullable = false)
+	@PropertyLog(ignore = true)
 	private String code;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="COUNTRYSTRUCTURE_ID")
-	@PropertyLog(operations={Operation.ALL})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COUNTRYSTRUCTURE_ID")
+	@PropertyLog(operations = {Operation.ALL})
 	private CountryStructure countryStructure;
 	
 
@@ -73,10 +73,11 @@ public class AdministrativeUnit extends WorkspaceEntity {
 		String s = null;
 
 		for (AdministrativeUnit adm: getParentsTreeList(true)) {
-			if(s == null)
-				s = adm.getName();
-			else
-				s += ", " + adm.getName();
+			if (s == null) {
+                s = adm.getName();
+            } else {
+                s += ", " + adm.getName();
+            }
 		}
 		
 		return s;
@@ -91,9 +92,11 @@ public class AdministrativeUnit extends WorkspaceEntity {
 		ArrayList<AdministrativeUnit> lst = new ArrayList<>();
 
 		AdministrativeUnit aux;
-		if (includeThis)
-			 aux = this;
-		else aux = getParent();
+		if (includeThis) {
+            aux = this;
+        } else {
+            aux = getParent();
+        }
 
 		while (aux != null) {
 			lst.add(0, aux);
@@ -109,16 +112,19 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 * @return
 	 */
 	public static String getParentCode(String code) {
-		if ((code == null) || (code.length() <= 3))
-			return null;
+		if ((code == null) || (code.length() <= 3)) {
+            return null;
+        }
 
-		if (code.length() <= 6)
-			return code.substring(0, 3);
-		if (code.length() <= 9)
-			return code.substring(0, 6);
-		if (code.length() <= 12)
-			return code.substring(0, 9);
-		return code.substring(0, 12);
+		if (code.length() <= 6) {
+            return code.substring(0, 3);
+        }
+
+		if (code.length() <= 9) {
+            return code.substring(0, 6);
+        }
+
+        return code.length() <= 12 ? code.substring(0, 9) : code.substring(0, 12);
 	}
 	
 	/**
@@ -139,8 +145,10 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 */
 	public static boolean isSameOrChildCode(String parentCode, String code) {
 		int len = parentCode.length();
-		if (len > code.length())
-			return false;
+		if (len > code.length()) {
+            return false;
+        }
+
 		return parentCode.equals(code.substring(0, parentCode.length()));
 	}
 
@@ -152,12 +160,15 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	 * @return {@link AdministrativeUnit} instance, which is itself or a parent admin unit
 	 */
 	public AdministrativeUnit getAdminUnitByLevel(int level) {
-		if (level == countryStructure.getLevel())
-			return this;
+		if (level == countryStructure.getLevel()) {
+            return this;
+        }
+
 		List<AdministrativeUnit> lst = getParents();
 		for (AdministrativeUnit adm: lst) {
-			if (adm.getLevel()== level)
-				return adm;
+			if (adm.getLevel() == level) {
+                return adm;
+            }
 		}
 		return null;
 	}
@@ -311,10 +322,11 @@ public class AdministrativeUnit extends WorkspaceEntity {
 
 	public int getLevel() {
 		String s = getCode();
-		if (s == null)
-			return 0;
+		if (s == null) {
+            return 0;
+        }
 
-		return s.length()/3;
+		return s.length() / 3;
 	}
 
     @Override

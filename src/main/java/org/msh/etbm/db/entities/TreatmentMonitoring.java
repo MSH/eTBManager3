@@ -18,13 +18,13 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="treatmentmonitoring")
+@Table(name = "treatmentmonitoring")
 public class TreatmentMonitoring extends CaseEntity {
 	
-	@Column(name="MONTH_TREAT")
+	@Column(name = "MONTH_TREAT")
 	private int month;
 	
-	@Column(name="YEAR_TREAT")
+	@Column(name = "YEAR_TREAT")
 	private int year;
 	
 	private TreatmentDayOption day1 = TreatmentDayOption.NOT_TAKEN;

@@ -49,8 +49,7 @@ public class CodeGeneratorService {
             CodeRef ref;
             if (parentId != null) {
                 ref = parentCodes.get(parentId);
-            }
-            else {
+            } else {
                 ref = parentCodes.get(NULL_ID);
             }
 
@@ -92,12 +91,11 @@ public class CodeGeneratorService {
      * @param parentId
      * @param pjp
      */
-    private Object aroundCall(UUID parentId, ProceedingJoinPoint pjp) throws Throwable{
+    private Object aroundCall(UUID parentId, ProceedingJoinPoint pjp) throws Throwable {
         addRef(parentId);
         try {
             return pjp.proceed();
-        }
-        finally {
+        } finally {
             remRef(parentId);
         }
     }
@@ -140,8 +138,7 @@ public class CodeGeneratorService {
 
             if (oper == Oper.ADD) {
                 ref.addRef();
-            }
-            else {
+            } else {
                 ref.removeRef();
             }
 
@@ -159,9 +156,11 @@ public class CodeGeneratorService {
      */
     private String retrieveLastCode(UUID parentId) {
         String cond;
-        if (parentId == null)
-             cond = "where aux.parent is null";
-        else cond = "where aux.parent.id = :id";
+        if (parentId == null) {
+            cond = "where aux.parent is null";
+        } else {
+            cond = "where aux.parent.id = :id";
+        }
 
         Query qry = entityManager
                 .createQuery("select max(aux.code) from AdministrativeUnit aux " + cond);

@@ -12,7 +12,7 @@ import java.util.UUID;
  * disappear if the workspace is deleted
  */
 @Entity
-@Table(name="workspacelog")
+@Table(name = "workspacelog")
 public class WorkspaceLog {
 
 	@Id

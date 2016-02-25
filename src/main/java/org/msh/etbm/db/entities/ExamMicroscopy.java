@@ -10,10 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="exammicroscopy")
+@Table(name = "exammicroscopy")
 public class ExamMicroscopy extends LaboratoryExam {
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private MicroscopyResult result;
 	
 	private Integer numberOfAFB;

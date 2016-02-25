@@ -16,32 +16,32 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name="movement")
+@Table(name = "movement")
 public class Movement  {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="mov_date")
+	@Column(name = "mov_date")
 	@NotNull
 	private Date date;
 	
 	private MovementType type;
 	
 	@ManyToOne
-	@JoinColumn(name="PRODUCT_ID")
+	@JoinColumn(name = "PRODUCT_ID")
 	@NotNull
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="UNIT_ID")
+	@JoinColumn(name = "UNIT_ID")
 	@NotNull
 	private Tbunit tbunit;
 	
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 
@@ -49,14 +49,14 @@ public class Movement  {
 	@NotNull
 	private Date recordDate;
 
-	@Length(max=250)
+	@Length(max = 250)
 	private String comment;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="movement")
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "movement")
 	private List<BatchMovement> batches = new ArrayList<BatchMovement>();
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="ADJUSTMENT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ADJUSTMENT_ID")
 	private FieldValue adjustmentType;
 
 
@@ -238,17 +238,11 @@ public class Movement  {
 	}
 
 	public boolean isAdjustment() {
-		if(this.type != null)
-			return type.equals(MovementType.ADJUSTMENT);
-		else
-			return false;
+        return this.type != null ? type.equals(MovementType.ADJUSTMENT) : false;
 	}
 	
 	public boolean isDispensing() {
-		if(this.type != null)
-			return type.equals(MovementType.DISPENSING);
-		else
-			return false;
+        return this.type != null ? type.equals(MovementType.DISPENSING) : false;
 	}
 
     public Product getProduct() {

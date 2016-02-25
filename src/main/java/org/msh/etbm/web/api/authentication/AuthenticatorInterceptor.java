@@ -86,8 +86,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
 
         if (stoken == null &&
                 request.getQueryString() != null &&
-                request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME))
-        {
+                request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME)) {
             stoken = request.getParameter(Constants.AUTH_TOKEN_HEADERNAME);
         }
 
@@ -99,8 +98,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         UUID authToken;
         try {
             authToken = UUID.fromString(stoken);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error("Invalid token format for UUID " + stoken, e);
             authToken = null;
         }

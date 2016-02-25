@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="examdst")
+@Table(name = "examdst")
 public class ExamDST extends LaboratoryExam {
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="exam")
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "exam")
 	private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numResistant;
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numSusceptible;
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numContaminated;
 
     @Override

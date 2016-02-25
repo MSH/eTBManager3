@@ -28,7 +28,7 @@ public class CaseEntity {
      * The case related to this data
      */
     @ManyToOne
-    @JoinColumn(name="CASE_ID")
+    @JoinColumn(name = "CASE_ID")
     @NotNull
     private TbCase tbcase;
 

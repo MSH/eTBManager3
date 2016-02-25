@@ -59,8 +59,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
         if (!AdminUnitQueryParams.QUERY_PROFILE_ITEM.equals(qry.getProfile())) {
             qry.setHqlJoin("join fetch a.countryStructure cs left join fetch a.parent p");
-        }
-        else {
+        } else {
             qry.setHqlJoin("join fetch a.countryStructure cs");
         }
 
@@ -97,12 +96,10 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
                 // but exclude the own parent
                 qry.addRestriction("a.id <> :parentid", q.getParentId());
-            }
-            else {
+            } else {
                 qry.addRestriction("a.parent.id = :pid", q.getParentId());
             }
-        }
-        else {
+        } else {
             if (q.isRootUnits()) {
                 qry.addRestriction("a.parent.id is null");
             }
@@ -162,7 +159,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         AdminUnitFormData req = (AdminUnitFormData)request;
 
         // check if parent has changed
-        UUID pid =  entity.getParent() != null? entity.getParent().getId(): null;
+        UUID pid =  entity.getParent() != null ? entity.getParent().getId() : null;
         boolean parentChanged = entity.getId() == null || !ObjectDiffs.compareEquals(req.getParentId(), pid);
 
         String newCode = null;
@@ -217,8 +214,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         // set the condition to check just items from the same parent
         if (au.getParent() != null) {
             hql += " and parent.id = :parentid";
-        }
-        else {
+        } else {
             hql += " and parent.id is null";
         }
 
@@ -286,7 +282,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
      * Validate the administrative unit parent
      * @param au instance of AdministrativeUnit to be saved
      */
-    protected void validateParent(AdministrativeUnit au) throws EntityValidationException{
+    protected void validateParent(AdministrativeUnit au) throws EntityValidationException {
         AdministrativeUnit parent = au.getParent();
 
         if (parent == null && au.getCountryStructure().getLevel() > 1) {

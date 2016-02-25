@@ -49,8 +49,7 @@ public class UserSession {
      */
     public boolean isPermissionGranted(String perm) {
         return isAdministrator()?
-                true:
-                permissions != null && permissions.contains(perm);
+                true : permissions != null && permissions.contains(perm);
     }
 
     public UUID getUserLoginId() {

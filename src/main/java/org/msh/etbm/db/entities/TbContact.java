@@ -9,35 +9,35 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="tbcontact")
+@Inheritance(strategy =  InheritanceType.JOINED)
+@Table(name = "tbcontact")
 public class TbContact extends CaseEntity {
 
-	@PropertyLog(operations={Operation.ALL})
+	@PropertyLog(operations = {Operation.ALL})
 	private String name;
 	
-	@PropertyLog(messageKey="Gender")
+	@PropertyLog(messageKey = "Gender")
 	private Gender gender;
 	
-	@PropertyLog(messageKey="TbCase.age", operations={Operation.NEW})
+	@PropertyLog(messageKey = "TbCase.age", operations = {Operation.NEW})
 	private String age;
 	
 	//VR: adding 'date of examination'
 	private Date dateOfExamination;
 	
 	@ManyToOne
-	@JoinColumn(name="CONTACTTYPE_ID")
-	@PropertyLog(operations={Operation.NEW})
+	@JoinColumn(name = "CONTACTTYPE_ID")
+	@PropertyLog(operations = {Operation.NEW})
 	private FieldValue contactType;
 	
 	private boolean examinated;
 	
 	@ManyToOne
-	@JoinColumn(name="CONDUCT_ID")
+	@JoinColumn(name = "CONDUCT_ID")
 	private FieldValue conduct;
 
 	@Lob
-	@PropertyLog(messageKey="global.comments")
+	@PropertyLog(messageKey = "global.comments")
 	private String comments;
 	
 

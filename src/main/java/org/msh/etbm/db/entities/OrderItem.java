@@ -14,30 +14,30 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="orderitem")
+@Table(name = "orderitem")
 public class OrderItem extends Synchronizable {
 
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="ORDER_ID")
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "ORDER_ID")
 	@NotNull
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name="PRODUCT_ID")
+	@JoinColumn(name = "PRODUCT_ID")
 	@NotNull
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="MOVEMENT_IN_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MOVEMENT_IN_ID")
 	private Movement MovementIn;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="MOVEMENT_OUT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MOVEMENT_OUT_ID")
 	private Movement MovementOut;
 	
 	private int estimatedQuantity;
@@ -50,13 +50,13 @@ public class OrderItem extends Synchronizable {
 	
 	private Integer numPatients;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String comment;
 
-	@OneToMany(mappedBy="orderItem", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "orderItem", cascade = {CascadeType.ALL})
 	private List<OrderBatch> batches = new ArrayList<OrderBatch>();
 
-	@OneToMany(mappedBy="item", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "item", cascade = {CascadeType.ALL})
 	private List<OrderCase> cases = new ArrayList<OrderCase>();
 
 	/**
@@ -72,7 +72,7 @@ public class OrderItem extends Synchronizable {
 	 * @return
 	 */
 	public Integer getQuantityToShip() {
-		return (approvedQuantity != null? approvedQuantity: requestedQuantity);
+		return (approvedQuantity != null ? approvedQuantity : requestedQuantity);
 	}
 
 
@@ -98,12 +98,12 @@ public class OrderItem extends Synchronizable {
 		float total = 0;
 		float qtd = 0;
 		for (OrderBatch b: batches) {
-			int aux = (b.getReceivedQuantity() != null? b.getReceivedQuantity(): b.getQuantity()); 
+			int aux = (b.getReceivedQuantity() != null ? b.getReceivedQuantity() : b.getQuantity());
 			qtd += aux;
 			total += b.getBatch().getUnitPrice() * aux;
 		}
 		
-		return (qtd > 0? total/qtd: 0);
+		return qtd > 0 ? total / qtd : 0;
 	}
 
 
@@ -137,8 +137,9 @@ public class OrderItem extends Synchronizable {
 	 */
 	public OrderBatch findOrderBatchByBatch(Batch batch) {
 		for (OrderBatch ob: batches) {
-			if (ob.getBatch().equals(batch))
-				return ob;
+			if (ob.getBatch().equals(batch)) {
+                return ob;
+            }
 		}
 		return null;
 	}

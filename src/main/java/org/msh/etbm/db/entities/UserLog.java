@@ -12,13 +12,13 @@ import java.util.UUID;
  * deleted from the system
  */
 @Entity
-@Table(name="userlog")
+@Table(name = "userlog")
 public class UserLog {
 
 	@Id
 	private UUID id;
 
-	@Column(length=100)
+	@Column(length = 100)
 	@NotNull
 	private String name;
 	

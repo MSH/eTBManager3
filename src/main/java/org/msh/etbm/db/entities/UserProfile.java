@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="userprofile")
+@Table(name = "userprofile")
 public class UserProfile extends WorkspaceEntity implements Displayable {
 
-	@Column(length=100)
+	@Column(length = 100)
 	@NotNull
-	@PropertyLog(messageKey="form.name")
+	@PropertyLog(messageKey = "form.name")
 	private String name;
 
-	@OneToMany(fetch= FetchType.LAZY, mappedBy="userProfile",cascade={CascadeType.ALL})
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfile",cascade = {CascadeType.ALL})
     private List<UserPermission> permissions = new ArrayList<UserPermission>();
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
 

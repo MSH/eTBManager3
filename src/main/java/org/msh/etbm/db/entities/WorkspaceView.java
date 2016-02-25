@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name="workspaceview")
+@Table(name = "workspaceview")
 public class WorkspaceView {
 
 	@Id
@@ -20,16 +20,16 @@ public class WorkspaceView {
 	private UUID id;
 	
 	// specific information by country
-	@OneToOne(mappedBy="view")
+	@OneToOne(mappedBy = "view")
 	private Workspace workspace;
 	
 	@Lob
 	private byte[] picture;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String logoImage;
 	
-	@Column(length=20)
+	@Column(length = 20)
 	private String pictureContentType;
 
 

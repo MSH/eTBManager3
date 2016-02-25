@@ -10,11 +10,11 @@ import java.util.List;
 
 
 @Entity
-@Table(name="medicinedispensing")
+@Table(name = "medicinedispensing")
 public class MedicineDispensing extends Synchronizable {
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="UNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UNIT_ID")
 	private Tbunit tbunit;
 	
 	@Temporal(TemporalType.DATE)
@@ -22,12 +22,12 @@ public class MedicineDispensing extends Synchronizable {
 	private Date dispensingDate;
 	
 	@ManyToMany
-	@JoinTable(name="movements_dispensing",
-			joinColumns={@JoinColumn(name="DISPENSING_ID")},
-			inverseJoinColumns={@JoinColumn(name="MOVEMENT_ID")})
+	@JoinTable(name = "movements_dispensing",
+			joinColumns = {@JoinColumn(name = "DISPENSING_ID")},
+			inverseJoinColumns = {@JoinColumn(name = "MOVEMENT_ID")})
 	private List<Movement> movements = new ArrayList<Movement>();
 	
-	@OneToMany(mappedBy="dispensing", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "dispensing", cascade = {CascadeType.ALL})
 	private List<MedicineDispensingCase> patients = new ArrayList<MedicineDispensingCase>();
 
 		

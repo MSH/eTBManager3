@@ -24,10 +24,13 @@ public class AgeRange extends WorkspaceEntity {
 	 */
 	@Override
 	public String toString() {
-		if (iniAge == 0)
-			return "<= " + Integer.toString(endAge);
-		if ((endAge == 0) || (endAge > 150))
-			return ">= " + Integer.toString(iniAge);
+		if (iniAge == 0) {
+            return "<= " + Integer.toString(endAge);
+        }
+
+		if ((endAge == 0) || (endAge > 150)) {
+            return ">= " + Integer.toString(iniAge);
+        }
 
 		return Integer.toString(iniAge) + " - " + Integer.toString(endAge);
 	}

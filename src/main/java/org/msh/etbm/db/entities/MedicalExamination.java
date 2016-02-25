@@ -18,13 +18,13 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="medicalexamination")
+@Table(name = "medicalexamination")
 public class MedicalExamination extends CaseEvent {
 
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Double weight;
 	
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Double height;
 	
 
@@ -32,13 +32,13 @@ public class MedicalExamination extends CaseEvent {
 
 	private YesNoType usingPrescMedicines;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String reasonNotUsingPrescMedicines;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String responsible;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String positionResponsible;
 
 
@@ -48,10 +48,12 @@ public class MedicalExamination extends CaseEvent {
 	 * @return BMI value
 	 */
 	public double getBMI() {
-		if ((height == null) || (height == 0))
-			return 0;
+		if ((height == null) || (height == 0)) {
+            return 0;
+        }
+
 		double h = height / 100;
-		return (weight == null? 0: weight/(h*h)); 
+		return weight == null ? 0 : weight / (h * h);
 	}
 	
 	public Double getWeight() {

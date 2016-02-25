@@ -7,16 +7,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="orderbatch")
+@Table(name = "orderbatch")
 public class OrderBatch extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="ORDERITEM_ID")
+	@JoinColumn(name = "ORDERITEM_ID")
 	@NotNull
 	private OrderItem orderItem;
 	
 	@ManyToOne
-	@JoinColumn(name="BATCH_ID")
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 
@@ -25,8 +25,8 @@ public class OrderBatch extends Synchronizable {
 
 	@Transient
 	public float getTotalPrice() {
-		float qtd = (receivedQuantity != null? receivedQuantity: quantity);
-		return (batch != null? (float)batch.getUnitPrice() * qtd: 0);
+		float qtd = (receivedQuantity != null ? receivedQuantity : quantity);
+		return batch != null ? (float)batch.getUnitPrice() * qtd : 0;
 	}
 	
 	public Integer getReceivedQuantity() {
@@ -57,8 +57,4 @@ public class OrderBatch extends Synchronizable {
 		this.orderItem = orderItem;
 	}
 	
-
-	public void setNumContainersRec(int numContainersRec){
-		return;
-	}
 }

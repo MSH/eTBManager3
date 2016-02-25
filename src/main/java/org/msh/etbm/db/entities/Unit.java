@@ -23,36 +23,36 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "unit")
-@Inheritance(strategy= InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="DISCRIMINATOR", discriminatorType= DiscriminatorType.STRING)
+@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 public abstract class Unit extends WorkspaceEntity implements EntityState {
 
     /**
      * The name of the unit
      */
-    @PropertyLog(messageKey="form.name", operations={Operation.NEW})
+    @PropertyLog(messageKey = "form.name", operations = {Operation.NEW})
     @NotNull
     @Size(min=3, max=250)
     private String name;
 
-    @Column(length=50)
-    @PropertyLog(messageKey="form.customId")
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
     private String customId;
 
-    @PropertyLog(messageKey="EntityState.ACTIVE")
+    @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active;
 
     /**
      * Order contact name
      */
-    @Column(length=200)
+    @Column(length = 200)
     private String shipContactName;
 
     /**
      * Order contact phone
      */
-    @Column(length=200)
+    @Column(length = 200)
     private String shipContactPhone;
 
     /**
@@ -60,14 +60,14 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="address", column=@Column(name="ADDRESS")),
-            @AttributeOverride(name="complement", column=@Column(name="addressCompl")),
-            @AttributeOverride(name="zipCode", column=@Column(name="zipcode"))
+            @AttributeOverride(name = "address", column=@Column(name = "ADDRESS")),
+            @AttributeOverride(name = "complement", column=@Column(name = "addressCompl")),
+            @AttributeOverride(name = "zipCode", column=@Column(name = "zipcode"))
     })
     @AssociationOverrides({
-            @AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="ADMINUNIT_ID"))
+            @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "ADMINUNIT_ID"))
     })
-    @PropertyLog(messageKey="Address", operations={Operation.NEW})
+    @PropertyLog(messageKey = "Address", operations = {Operation.NEW})
     @NotNull
     private Address address;
 
@@ -76,14 +76,14 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name="address", column=@Column(name="shipAddress")),
-            @AttributeOverride(name="complement", column=@Column(name="shipAddressCompl")),
-            @AttributeOverride(name="zipCode", column=@Column(name="shipZipCode")),
+            @AttributeOverride(name = "address", column=@Column(name = "shipAddress")),
+            @AttributeOverride(name = "complement", column=@Column(name = "shipAddressCompl")),
+            @AttributeOverride(name = "zipCode", column=@Column(name = "shipZipCode")),
     })
     @AssociationOverrides({
-            @AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="SHIP_ADMINUNIT_ID"))
+            @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "SHIP_ADMINUNIT_ID"))
     })
-    @PropertyLog(messageKey="Address.shipAddr", operations={Operation.NEW})
+    @PropertyLog(messageKey = "Address.shipAddr", operations = {Operation.NEW})
     private Address shipAddress;
 
 
@@ -93,15 +93,15 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
     /**
      * Indicate the unit that will supply medicines
      */
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="SUPPLIER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SUPPLIER_ID")
     private Tbunit supplier;
 
     /**
      * The authorizer for orders
      */
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="AUTHORIZERUNIT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AUTHORIZERUNIT_ID")
     private Tbunit authorizer;
 
     /**

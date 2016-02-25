@@ -38,7 +38,7 @@ public class GlobalListsService {
      * Return the options of all lists supported by the system
      * @return
      */
-    public Map<String, Map<String, String> > getLists() {
+    public Map<String, Map<String, String>> getLists() {
         Map<String, Map<String, String>> res = new HashMap<>();
 
         for (Class clazz: lists) {
