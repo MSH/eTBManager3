@@ -253,7 +253,7 @@ export default class TreeView extends React.Component {
 
 				lst.push(row);
 				if (node.state !== 'collapsed' && !node.leaf && node.children) {
-					lst.push(mountList(node.children, level + 1, key, expitem === node));
+					lst.push(mountList(node.children, level + 1, key));
 				}
 				count++;
 			});

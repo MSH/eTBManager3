@@ -102,7 +102,7 @@ export default class StuffExamples extends React.Component {
 								</ul>
 							</Col>
 							<Col sm={6}>
-								{this.state.selBox2 && this.state.selBox2}
+								{this.state.selBox1 && this.state.selBox2}
 							</Col>
 						</Row>
 					</Card>

@@ -55,7 +55,7 @@ function validateValue(value, model, data) {
     }
 
     if (typeof value === 'string') {
-        return validateString(value, model, data);
+        return validateString(value, model);
     }
 
     // check for valid e-mail address
