@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from 'react-bootstrap';
 import { app } from '../core/app';
+import SearchBox from './search-box';
 import { hasPerm, logout, changeWorkspace } from './session';
 
 // logs the user out of the system
@@ -42,14 +43,6 @@ function wsChange(evt, key) {
  * @return {[type]}     The content of the toolbar
  */
 export default function(session) {
-    // the input search key
-    const search = (
-        <div className="header-search">
-            <input type="search" placeholder="Search..."/>
-            <button><i className="fa fa-remove"></i></button>
-        </div>
-    );
-
     // the workspace menu
     const workspace = (
         <span className="header-ws">
@@ -89,9 +82,6 @@ export default function(session) {
                 }
             </Nav>
             <Nav pullRight>
-                <NavItem className="hsmall">
-                    {search}
-                </NavItem>
                 <NavDropdown id="ddWs" eventKey={3}
                     title={workspace} className="nav-item-icon scrollable-menu" onSelect={wsChange}>
                     {
@@ -108,6 +98,9 @@ export default function(session) {
                     <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
                 </NavDropdown>
             </Nav>
+            <Navbar.Form pullRight>
+                <SearchBox />
+            </Navbar.Form>
         </Navbar.Collapse>
 	);
 }

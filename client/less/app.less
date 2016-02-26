@@ -45,30 +45,39 @@
 
 
 .header-search {
-	padding:2px;
-	background-color: @header-search-bg;
-	border-radius: 4px;
-	color: #606060;
-	height:28px;
-
-	input {
-		border:none;
-		width:auto;
+	.search-input {
+		padding:2px;
 		background-color: @header-search-bg;
-		color: #000;
-		float:left;
+		border-radius: 4px;
+		color: #606060;
+		height:28px;
+		margin-top:2px;
 
-		.placeholder(@navbar-inverse-bg);
+		input {
+			border:none;
+			width:auto;
+			background-color: @header-search-bg;
+			color: #000;
+			float:left;
+
+			.placeholder(@navbar-inverse-bg);
+		}
+		input:focus {
+			box-shadow: none;
+			outline:0;
+		}
+		button {
+			float:right;
+			background-color: @header-search-bg;
+			border:none;
+		}
 	}
-	input:focus {
-		box-shadow: none;
-		outline:0;
+
+	.dropdown-menu > li > a {
+		white-space: normal !important;
+		width: 300px;
 	}
-	button {
-		float:right;
-		background-color: @header-search-bg;
-		border:none;
-	}
+
 }
 
 
@@ -134,8 +143,8 @@
 		box-shadow: #a0a0a0 0 4px 6px;
 
 		// small padding for nav items
-		.hsmall a {
-				padding-top: 12px;
+		.hsmall {
+				padding-top: 2px;
 				padding-bottom:4px;
 		}
 }

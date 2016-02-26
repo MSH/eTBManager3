@@ -7119,47 +7119,52 @@ button.close {
   padding-bottom: 10px;
   margin-top: 50px;
 }
-.header-search {
+.header-search .search-input {
   padding: 2px;
   background-color: #abc1b3;
   border-radius: 4px;
   color: #606060;
   height: 28px;
+  margin-top: 2px;
 }
-.header-search input {
+.header-search .search-input input {
   border: none;
   width: auto;
   background-color: #abc1b3;
   color: #000;
   float: left;
 }
-.header-search input::-moz-placeholder {
+.header-search .search-input input::-moz-placeholder {
   color: #303e3c;
   opacity: 1;
 }
-.header-search input:-ms-input-placeholder {
+.header-search .search-input input:-ms-input-placeholder {
   color: #303e3c;
 }
-.header-search input::-webkit-input-placeholder {
+.header-search .search-input input::-webkit-input-placeholder {
   color: #303e3c;
 }
-.header-search input ::-webkit-input-placeholder {
+.header-search .search-input input ::-webkit-input-placeholder {
   color: #303e3c;
 }
-.header-search input ::-moz-placeholder {
+.header-search .search-input input ::-moz-placeholder {
   color: #303e3c;
 }
-.header-search input :-ms-input-placeholder {
+.header-search .search-input input :-ms-input-placeholder {
   color: #303e3c;
 }
-.header-search input:focus {
+.header-search .search-input input:focus {
   box-shadow: none;
   outline: 0;
 }
-.header-search button {
+.header-search .search-input button {
   float: right;
   background-color: #abc1b3;
   border: none;
+}
+.header-search .dropdown-menu > li > a {
+  white-space: normal !important;
+  width: 300px;
 }
 @media (max-width: 767px) {
   .header-search input {
@@ -7206,8 +7211,8 @@ button.close {
 .header {
   box-shadow: #a0a0a0 0 4px 6px;
 }
-.header .hsmall a {
-  padding-top: 12px;
+.header .hsmall {
+  padding-top: 2px;
   padding-bottom: 4px;
 }
 .dropdown .fa-inverse {

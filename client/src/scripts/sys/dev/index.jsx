@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Profile, Fluidbar, Sidebar } from '../../components/index';
-import { RouteView, router } from '../../components/router';
+import { Profile, Fluidbar } from '../../components/index';
 import SidebarContent from '../sidebar-content';
 
 /** Pages of the public module */
