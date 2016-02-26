@@ -10,6 +10,7 @@ import Profile from './profile';
 import WaitIcon from './wait-icon';
 import Sidebar from './sidebar';
 import CollapseCard from './collapse-card';
+import CollapseRow from './collapse-row';
 import GridTable from './grid-table';
 import TreeView from './tree-view';
 import Fa from './fa';
@@ -34,5 +35,6 @@ export { Callout,
 	Popup,
 	FormDialog,
 	SelectionBox,
-	DatePicker
+	DatePicker,
+	CollapseRow
 };

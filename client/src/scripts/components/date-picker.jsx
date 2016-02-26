@@ -34,7 +34,7 @@ export default class DatePicker extends React.Component {
 
 		// label render
 		const label = this.props.label ?
-			<label className="control-label">{'Start date:'}</label> :
+			<label className="control-label">{this.props.label}</label> :
 			null;
 
 		return (
