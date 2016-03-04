@@ -62,51 +62,51 @@ export default class StuffExamples extends React.Component {
 
 	render() {
 		return (
-				<div>
-					<Card>
-						<div>
-						<Button onClick={this.popupClick}>{'Open'}</Button>
-						<Popup ref="pop1">
-							<MenuItem>{'Test 1'}</MenuItem>
-							<MenuItem>{'Test 2'}</MenuItem>
-						</Popup>
-						</div>
-					</Card>
-					<Card>
-						<Row>
-							<Col sm={6}>
-								<SelectionBox ref="selBox1"
-									value={this.state.selBox1}
-									mode="multiple"
-									optionDisplay={this.itemDisplay}
-									label="Items:"
-									onChange={this.onChange('selBox1')}
-									options={options}/>
-							</Col>
-							<Col sm={6}>
-								<SelectionBox ref="selBox2"
-									mode="single"
-									label="Items:"
-									help="This is a simple help message"
-									onChange={this.onChange('selBox2')}
-									options={options2}
-									noSelectionLabel="-" />
-							</Col>
-						</Row>
-						<Row>
-							<Col sm={6}>
-								<ul>
-									{this.state.selBox1 &&
-										this.state.selBox1.map(item => <li key={item.value}>{item.label}</li>)
-									}
-								</ul>
-							</Col>
-							<Col sm={6}>
-								{this.state.selBox1 && this.state.selBox2}
-							</Col>
-						</Row>
-					</Card>
-				</div>
+			<div>
+				<Card>
+					<div>
+					<Button onClick={this.popupClick}>{'Open'}</Button>
+					<Popup ref="pop1">
+						<MenuItem>{'Test 1'}</MenuItem>
+						<MenuItem>{'Test 2'}</MenuItem>
+					</Popup>
+					</div>
+				</Card>
+				<Card>
+					<Row>
+						<Col sm={6}>
+							<SelectionBox ref="selBox1"
+								value={this.state.selBox1}
+								mode="multiple"
+								optionDisplay={this.itemDisplay}
+								label="Items:"
+								onChange={this.onChange('selBox1')}
+								options={options}/>
+						</Col>
+						<Col sm={6}>
+							<SelectionBox ref="selBox2"
+								mode="single"
+								label="Items:"
+								help="This is a simple help message"
+								onChange={this.onChange('selBox2')}
+								options={options2}
+								noSelectionLabel="-" />
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={6}>
+							<ul>
+								{this.state.selBox1 &&
+									this.state.selBox1.map(item => <li key={item.value}>{item.label}</li>)
+								}
+							</ul>
+						</Col>
+						<Col sm={6}>
+							{this.state.selBox1 && this.state.selBox2}
+						</Col>
+					</Row>
+				</Card>
+			</div>
 			);
 	}
 }

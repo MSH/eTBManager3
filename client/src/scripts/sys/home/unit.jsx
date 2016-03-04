@@ -1,27 +1,76 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
 import { Profile, Fluidbar } from '../../components/index';
 import { app } from '../../core/app';
-import SidebarContent from '../sidebar-content';
+import { RouteView, router } from '../../components/router';
+
+
+import General from './unit/general';
+import Cases from './unit/cases';
+import Inventory from './unit/inventory';
+
+
+const routes = RouteView.createRoutes([
+	{
+		title: 'General',
+		path: '/general',
+		view: General,
+		default: true
+	},
+	{
+		title: 'Cases',
+		path: '/cases',
+		view: Cases
+	},
+	{
+		title: 'Inventory',
+		path: '/inventory',
+		view: Inventory
+	}
+]);
 
 
 export default class Unit extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.tabSelect = this.tabSelect.bind(this);
 	}
 
+
+	tabIndex() {
+		const route = this.props.route;
+		const path = route.forpath;
+		if (!path) {
+			return 0;
+		}
+		return routes.list.findIndex(it => path.startsWith(it.data.path));
+	}
+
+	tabSelect(key) {
+		const item = routes.list[key].data;
+		router.goto('/sys/home/unit' + item.path);
+	}
 
 	render() {
 		const session = app.getState().session;
 
-		const lst = Object.keys(session.adminUnit)
-			.map(k => <a href="/sys/home/admunit">{session.adminUnit[k].name}</a>);
+		const lst = [];
+		const keys = Object.keys(session.adminUnit);
+		keys.forEach((k, index) => {
+				lst.push(<a key={index} href="/sys/home/admunit">{session.adminUnit[k].name}</a>);
+				if (index < keys.length - 1) {
+					lst.push(<span key={'s' + index}>{', '}</span>);
+				}
+			});
 
 		const subtitle = (
 			<div>
-				{lst.join(', ')}
+				{lst}
+				<br/>
+				<a>{session.workspaceName}</a>
 			</div>
 		);
 
@@ -46,8 +95,23 @@ export default class Unit extends React.Component {
 								</div>
 							</Col>
 						</Row>
+						<Row>
+							<Col md={12}>
+								<Nav bsStyle="tabs" activeKey={this.tabIndex()}
+									onSelect={this.tabSelect}
+									className="app-tabs">
+									{
+										routes.list.map((it, index) =>
+											<NavItem key={index} eventKey={index}>
+												{it.data.title}
+											</NavItem>)
+									}
+								</Nav>
+							</Col>
+						</Row>
 					</Grid>
 				</Fluidbar>
+				<RouteView routes={routes} />
 			</div>
 			);
 	}

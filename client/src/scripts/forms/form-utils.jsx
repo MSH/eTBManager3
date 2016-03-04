@@ -64,7 +64,7 @@ export default class FormUtils {
 
 		// if options is a string, so it was (probably) resolved before,
 		// so return the resources instead
-		const lst = typeof options === 'string' ? resources : null;
+		const lst = typeof options === 'string' ? resources : options;
 
 		if (!lst) {
 			return null;

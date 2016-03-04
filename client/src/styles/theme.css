@@ -6728,27 +6728,6 @@ button.close {
   font-weight: 400;
   src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
 }
-.callout {
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
-}
-.callout h4 {
-  margin-top: 0;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-.callout p:last-child {
-  margin-bottom: 0;
-}
-.callout code {
-  border-radius: 3px;
-}
-.callout p {
-  color: #707070;
-}
 /**
  * Callout definition
  */
@@ -6793,6 +6772,12 @@ button.close {
 }
 .callout-info h4 {
   color: #0e8618;
+}
+.callout-success {
+  border-left-color: #1f69ad;
+}
+.callout-primary {
+  border-left-color: #1e9614;
 }
 .card {
   background-color: white;
@@ -7161,6 +7146,7 @@ button.close {
   float: right;
   background-color: #abc1b3;
   border: none;
+  outline: 0;
 }
 .header-search .dropdown-menu > li > a {
   white-space: normal !important;
@@ -7403,6 +7389,69 @@ button.close {
   padding-right: 45px;
   width: 100%;
   outline: none;
+}
+.app-tabs {
+  border-bottom: none;
+  padding-top: 8px;
+}
+.app-tabs li.active a,
+.app-tabs li.active a:hover {
+  border-color: #1e9614;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom-width: 4px;
+  padding-left: 30px;
+  padding-right: 30px;
+  font-weight: bold;
+  color: #1e9614;
+}
+.app-tabs li a {
+  color: #a0a0a0;
+  text-transform: uppercase;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
+  border-bottom: 4px solid #fff;
+  border-color: #fff;
+  transition: border-color 0.5s ease;
+}
+.app-tabs li a:focus {
+  background-color: transparent;
+}
+.app-tabs li a:hover {
+  background-color: transparent;
+  border-color: #1e9614;
+}
+.tag-link {
+  cursor: pointer;
+}
+.tag-link:hover {
+  background: #f0f0f0;
+}
+.tag-danger,
+.tag-userdef,
+.tag-warn {
+  display: block;
+  color: #909090;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  clear: both;
+  padding: 10px;
+  border: 0 solid #fff;
+  border-style: solid;
+  border-left-width: 5px;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.tag-danger {
+  border-left-color: #d9534f;
+}
+.tag-userdef {
+  border-left-color: #1e9614;
+}
+.tag-warn {
+  border-left-color: #1f69ad;
 }
 .alert {
   border-left-width: 10px;

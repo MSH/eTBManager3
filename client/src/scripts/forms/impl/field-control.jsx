@@ -1,59 +1,10 @@
 
 import React from 'react';
-import FormUtils from '../form-utils';
 
 
 export default function fieldControlWrapper(Component) {
 
 	class FieldControl extends React.Component {
-
-//		componentWillMount() {
-			// const request = Component.getServerRequest ? Component.getServerRequest(this.props.schema) : null;
-
-			// // resources were informed to initialize the field ?
-			// if (!request || this.props.resources) {
-			// 	return this.setState({ init: true });
-			// }
-
-			// const self = this;
-
-			// // request the server
-			// FormUtils.initFields(request)
-			// .then(res => self.setState({ resources: res }));
-//		}
-
-
-		componentDidMount() {
-			if (!this.refs.input) {
-				return;
-			}
-
-			const sc = this.props.schema;
-			if (sc && sc.autoFocus) {
-				// set the focus
-				// it seems that, because form is displayed through an animation, the focus must
-				// be set after a while
-				setTimeout(() => {
-					const focusFunc = this.refs.input.focus;
-					if (__DEV__) {
-						if (!focusFunc) {
-							console.warn('No focus function implemented for component ' + this.refs.input);
-						}
-					}
-					focusFunc();
-				}, 50);
-			}
-		}
-
-		shouldComponentUpdate(nextProps) {
-			// component should update only if element or doc is changed
-			var update = nextProps.schema !== this.props.schema ||
-						nextProps.resources !== this.props.resources ||
-						nextProps.value !== this.props.value ||
-						nextProps.errors !== this.props.errors;
-
-			return update;
-		}
 
 		static displayText(value) {
 			return Component.displayText ? Component.displayText(value) : value;
@@ -81,6 +32,42 @@ export default function fieldControlWrapper(Component) {
 			return Component.options.defaultValue;
 		}
 
+		constructor(props) {
+			super('FieldControl', props);
+		}
+
+		componentDidMount() {
+			if (!this.refs.input) {
+				return;
+			}
+
+			const sc = this.props.schema;
+			if (sc && sc.autoFocus) {
+				// set the focus
+				// it seems that, because form is displayed through an animation, the focus must
+				// be set after a while
+				setTimeout(() => {
+					const focusFunc = this.refs.input.focus;
+					if (__DEV__) {
+						if (!focusFunc) {
+							/* eslint no-console: 0 */
+							console.warn('No focus function implemented for component ' + this.refs.input);
+						}
+					}
+					focusFunc();
+				}, 50);
+			}
+		}
+
+		shouldComponentUpdate(nextProps) {
+			// component should update only if element or doc is changed
+			var update = nextProps.schema !== this.props.schema ||
+						nextProps.resources !== this.props.resources ||
+						nextProps.value !== this.props.value ||
+						nextProps.errors !== this.props.errors;
+
+			return update;
+		}
 
 		validate() {
 			const comp = this.refs.input;
@@ -104,7 +91,6 @@ export default function fieldControlWrapper(Component) {
 
 			return <Component ref="input" {...props} />;
 		}
-
 	}
 
 	FieldControl.propTypes = {

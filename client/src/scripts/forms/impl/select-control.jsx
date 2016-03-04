@@ -10,10 +10,20 @@ import { isPromise } from '../../commons/utils';
  */
 class SelectControl extends React.Component {
 
+	/**
+	 * Return request to be sent to server, if necessary
+	 * @param  {[type]} schema [description]
+	 * @return {[type]}        [description]
+	 */
+	static getServerRequest(schema, val, doc) {
+		return FormUtils.optionsRequest(schema, doc);
+	}
+
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.focus = this.focus.bind(this);
+		this.state = {};
 	}
 
 	componentWillMount() {
@@ -23,15 +33,6 @@ class SelectControl extends React.Component {
 				this.setState({ options: options });
 			}
 		}
-	}
-
-	/**
-	 * Return request to be sent to server, if necessary
-	 * @param  {[type]} schema [description]
-	 * @return {[type]}        [description]
-	 */
-	static getServerRequest(schema, val, doc) {
-		return FormUtils.optionsRequest(schema, doc);
 	}
 
 
@@ -62,6 +63,9 @@ class SelectControl extends React.Component {
 		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
 
 		const options = this.props.resources || this.state.options;
+		if (!options) {
+			return null;
+		}
 
 		let value = this.props.value;
 

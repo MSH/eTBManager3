@@ -2,6 +2,8 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Card, Profile } from '../../components/index';
 import { app } from '../../core/app';
+import { router } from '../../components/router';
+
 
 export default class IndexDashboard extends React.Component {
 
@@ -22,7 +24,8 @@ export default class IndexDashboard extends React.Component {
 						/>
 					<Row className="mtop-2x">
 						<Col sm={6}>
-							<Card title="Cases" className="card-indicator">
+							<Card title="Cases" className="card-indicator collapse-card"
+								onClick={() => router.goto('/sys/home/unit/cases')}>
 								<Row>
 									<Col xs={6}>
 										<div className="ind-value text-primary">{121}</div>
@@ -36,7 +39,8 @@ export default class IndexDashboard extends React.Component {
 							</Card>
 						</Col>
 						<Col sm={6}>
-							<Card title="Inventory" className="card-indicator">
+							<Card title="Inventory" className="card-indicator collapse-card"
+								onClick={() => router.goto('/sys/home/unit/cases')}>
 								<Row>
 									<Col xs={6}>
 										<div className="ind-value text-danger">{'28 days'}</div>
