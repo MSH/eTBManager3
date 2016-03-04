@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge } from 'react-bootstrap';
-import { Card } from '../../../components';
+import { Card, Profile } from '../../../components';
 
 
 const tags = [
@@ -78,10 +78,40 @@ const presumptives = [
 		}
 	},
 	{
+		name: 'Donna Summer',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'FEMALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
 		name: 'Bruce Dickinson',
 		id: '123456',
 		recordNumber: '123456-789-01',
 		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
+		name: 'Maria da Silva',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'FEMALE',
 		recordDate: '21-jan-2016',
 		xpertResult: {
 			id: 'TB_DETECT',
@@ -148,6 +178,7 @@ export default class Cases extends React.Component {
 				</Col>
 				<Col sm={9}>
 					<Card title="Cases">
+						<div>
 						<Nav bsStyle="tabs" activeKey={0}
 							className="app-tabs"
 							onSelect={this.tabSelect}>
@@ -155,6 +186,40 @@ export default class Cases extends React.Component {
 							<NavItem key={1} eventKey={1}>{'TB Cases'}</NavItem>
 							<NavItem key={2} eventKey={2}>{'DR-TB Cases'}</NavItem>
 						</Nav>
+						<Row className="mtop-2x title">
+							<Col sm={4}>
+								{'Patient'}
+							</Col>
+							<Col sm={2}>
+								{'Registration date'}
+							</Col>
+							<Col sm={2}>
+								{'Xpert'}
+							</Col>
+							<Col sm={2}>
+								{'Microscopy'}
+							</Col>
+						</Row>
+						{
+							presumptives.map(item =>
+								<Row className="tbl-cell" style={{ padding: '10px 4px' }}>
+									<Col sm={4}>
+										<Profile type={item.gender.toLowerCase()} size="small"
+											title={item.name} subtitle={item.recordNumber} />
+									</Col>
+									<Col sm={2}>
+										{'24-jan-2016'}
+									</Col>
+									<Col sm={2}>
+										{'Positive'}
+									</Col>
+									<Col sm={2}>
+										{'TB Positive'}
+									</Col>
+								</Row>
+								)
+						}
+						</div>
 					</Card>
 				</Col>
 			</Row>

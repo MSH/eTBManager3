@@ -7465,6 +7465,11 @@ button.close {
 .tag-warn {
   border-left-color: #1f69ad;
 }
+.title {
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .alert {
   border-left-width: 10px;
 }
