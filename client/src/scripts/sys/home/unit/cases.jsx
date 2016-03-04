@@ -31,6 +31,84 @@ const tags = [
 	}
 ];
 
+const presumptives = [
+	{
+		name: 'Bruce Dickinson',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
+		name: 'Bruce Dickinson',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
+		name: 'Bruce Dickinson',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
+		name: 'Bruce Dickinson',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	},
+	{
+		name: 'Bruce Dickinson',
+		id: '123456',
+		recordNumber: '123456-789-01',
+		gender: 'MALE',
+		recordDate: '21-jan-2016',
+		xpertResult: {
+			id: 'TB_DETECT',
+			name: 'TB Detected'
+		},
+		micResult: {
+			id: 'POSITIVE',
+			name: 'Positive'
+		}
+	}
+];
+
 export default class Cases extends React.Component {
 
 	render() {
@@ -71,6 +149,7 @@ export default class Cases extends React.Component {
 				<Col sm={9}>
 					<Card title="Cases">
 						<Nav bsStyle="tabs" activeKey={0}
+							className="app-tabs"
 							onSelect={this.tabSelect}>
 							<NavItem key={0} eventKey={0}>{'Presumptive'}</NavItem>
 							<NavItem key={1} eventKey={1}>{'TB Cases'}</NavItem>

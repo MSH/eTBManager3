@@ -6935,6 +6935,13 @@ button.close {
   background-color: #f4f6f4;
   cursor: pointer;
 }
+.collapse-row:hover {
+  background-color: #f4f6f4;
+  cursor: pointer;
+}
+.collapse-row div {
+  padding: 4px;
+}
 .sel-box {
   cursor: pointer;
 }
@@ -7146,7 +7153,6 @@ button.close {
   float: right;
   background-color: #abc1b3;
   border: none;
-  outline: 0;
 }
 .header-search .dropdown-menu > li > a {
   white-space: normal !important;
@@ -7389,6 +7395,12 @@ button.close {
   padding-right: 45px;
   width: 100%;
   outline: none;
+}
+.bold {
+  font-weight: bold;
+}
+.table1-title-row div {
+  padding: 4px;
 }
 .app-tabs {
   border-bottom: none;
