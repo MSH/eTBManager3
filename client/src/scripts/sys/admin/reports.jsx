@@ -2,7 +2,7 @@
 import React from 'react';
 import PageContent from './page-content';
 
-import UserSession from './reports/usersession';
+import UserSession from './reports/reportssession';
 
 /**
  * Options of the left menu in the reports page
@@ -19,7 +19,7 @@ const menu = [
 		title: __('admin.reports.usersession'),
 		icon: 'file-text-o',
 		perm: 'USERSESREP',
-		path: '/usersession',
+		path: '/reportssession',
 		view: UserSession
 	},
 	{
