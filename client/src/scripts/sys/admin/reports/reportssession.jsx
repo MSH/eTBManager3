@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Tabs, Tab, Grid, Row, Col, Button } from 'react-bootstrap';
-import { Fluidbar, DatePicker, CollapseRow, SelectionBox } from '../../../components/index';
+import { Tabs, Tab, Grid, Row, Col, Button, Badge } from 'react-bootstrap';
+import { Card, DatePicker, CollapseRow, SelectionBox } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 
 const userSessions = [
@@ -67,7 +67,7 @@ const userList = [
 /**
  * The page controller of the public module
  */
-export default class UserSession extends React.Component {
+export default class ReportsSession extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -105,6 +105,19 @@ export default class UserSession extends React.Component {
 		this.setState({ dayPicker: day.toString() });
 	}
 
+	headerRender() {
+		const countHTML = <Badge className="tbl-counter">{500}</Badge>;
+
+		// create the header of the card
+		return (
+			<Row>
+				<Col md={12}>
+					<h4>{__('admin.reports.usersession')}{countHTML}</h4>
+				</Col>
+			</Row>
+			);
+	}
+
 	render() {
 		const selday = this.state.day;
 
@@ -114,10 +127,10 @@ export default class UserSession extends React.Component {
 			selected: day => selday ? DateUtils.isSameDay(day, selday) : false
 		};
 
+		const header = this.headerRender();
+
 		return (
-			<div className="mtop-2x">
-				<h3>{__('admin.reports.usersession')}</h3>
-				<Fluidbar>
+			<Card header={header}>
 				<form>
 					<Tabs defaultActiveKey={1} className="mtop" animation={false}>
 
@@ -198,12 +211,11 @@ export default class UserSession extends React.Component {
 
 					</Grid>
 				</form>
-				</Fluidbar>
-			</div>
+			</Card>
 		);
 	}
 }
 
-UserSession.propTypes = {
+ReportsSession.propTypes = {
 	route: React.PropTypes.object
 };
