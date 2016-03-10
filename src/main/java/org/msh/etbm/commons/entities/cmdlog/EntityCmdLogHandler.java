@@ -88,8 +88,7 @@ public class EntityCmdLogHandler implements CommandLogHandler {
             DiffValue diff = it.getValue();
             if (diff.isCollection()) {
                 handleCollectionUpdate(in, it.getKey(), diff);
-            }
-            else {
+            } else {
                 in.addDiff("$" + it.getKey(), it.getValue().getPrevValue(), it.getValue().getNewValue());
             }
         }

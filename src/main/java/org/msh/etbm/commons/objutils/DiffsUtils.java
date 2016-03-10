@@ -18,36 +18,6 @@ public class DiffsUtils {
         super();
     }
 
-    /**
-     * Generate a list of values from a given object. The object must be mapped in dozer
-     * in order to generate a mapping to ObjectValues
-     * @param obj
-     * @return
-     */
-//    public static ObjectValues generateValues(Object obj) {
-//
-//        Map<String, Object> values;
-//        try {
-//            values = PropertyUtils.describe(obj);
-//
-//            PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(obj);
-//
-//            // remove properties that don't have a get or a set
-//            for (PropertyDescriptor prop: props) {
-//                if (prop.getReadMethod() == null || prop.getWriteMethod() == null) {
-//                    values.remove(prop.getName());
-//                }
-//            }
-//
-//        } catch (Exception e) {
-//            throw new ObjectAccessException("Error getting object properties", e);
-//        }
-//
-//        ObjectValues vals = new ObjectValues();
-//
-//        vals.setValues(values);
-//        return vals;
-//    }
 
     /**
      * Compare if objects are the same. It checks if references point to the same object.

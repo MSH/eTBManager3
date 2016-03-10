@@ -112,14 +112,6 @@ public class PropertyLogUtils {
             return;
         }
 
-//        if (!val.getClass().isPrimitive() && !(val instanceof Date)) {
-//            if (val instanceof Displayable) {
-//                val = ((Displayable)val).getDisplayString();
-//            } else {
-//                val = val.toString();
-//            }
-//        }
-
         String key = getMessageKey(field);
 
         vals.put(key, val);
