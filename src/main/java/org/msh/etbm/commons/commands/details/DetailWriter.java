@@ -105,8 +105,7 @@ public class DetailWriter {
 
             if (obj instanceof Displayable) {
                 s.append(((Displayable) obj).getDisplayString());
-            }
-            else {
+            } else {
                 s.append(obj.toString());
             }
         }
