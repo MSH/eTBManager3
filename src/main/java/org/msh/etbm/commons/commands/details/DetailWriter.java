@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.commands.details;
 
+import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.impl.CommandException;
 
 import java.util.ArrayList;
@@ -88,6 +89,10 @@ public class DetailWriter {
             return convertCollection((Collection)value);
         }
 
+        if (value instanceof Displayable) {
+            return CommandLogDetail.TYPE_STRING + ((Displayable) value).getDisplayString();
+        }
+
         throw new CommandException("Type not supported for string convertion: " + value.getClass());
     }
 
@@ -97,7 +102,13 @@ public class DetailWriter {
             if (s.length() > 0) {
                 s.append(", ");
             }
-            s.append(obj.toString());
+
+            if (obj instanceof Displayable) {
+                s.append(((Displayable) obj).getDisplayString());
+            }
+            else {
+                s.append(obj.toString());
+            }
         }
 
         return s.toString();
