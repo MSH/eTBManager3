@@ -2,7 +2,8 @@
 import React from 'react';
 import PageContent from './page-content';
 
-import UserSession from './reports/usersession';
+import ReportsSession from './reports/reportssession';
+import ReportsOnline from './reports/reportsonline';
 
 /**
  * Options of the left menu in the reports page
@@ -13,14 +14,15 @@ const menu = [
 		title: __('admin.websessions'),
 		icon: 'users',
 		perm: 'ONLINE',
-		path: 'online'
+		path: 'online',
+		view: ReportsOnline
 	},
 	{
 		title: __('admin.reports.usersession'),
 		icon: 'file-text-o',
 		perm: 'USERSESREP',
-		path: '/usersession',
-		view: UserSession
+		path: '/reportssession',
+		view: ReportsSession
 	},
 	{
 		title: 'Command history',
