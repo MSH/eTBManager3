@@ -24,7 +24,9 @@ public class Workspace extends Synchronizable implements Displayable {
 	@PropertyLog(ignore = true)
 	private List<UserWorkspace> users = new ArrayList<>();
 
-	// frequency of doses in a weekly basis
+    /**
+     * frequency of doses in a weekly basis
+     */
     @PropertyLog(ignore = true)
 	private Integer weekFreq1;
 
