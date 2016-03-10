@@ -30,7 +30,8 @@ public class TbCase extends WorkspaceEntity {
 	@Version
 	@PropertyLog(ignore = true)
 	private Integer version;
-	
+
+    @PropertyLog(messageKey = "DisplayCaseNumber.CASE_ID")
 	private Integer caseNumber;
 
 	// specific suspect information
@@ -72,7 +73,7 @@ public class TbCase extends WorkspaceEntity {
 		@AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
 		@AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
 	})
-	@PropertyLog(operations = {Operation.ALL})
+	@PropertyLog(operations = {Operation.ALL}, addProperties = true)
 	private Period treatmentPeriod = new Period();
 	
 	@Temporal(TemporalType.DATE)
@@ -171,6 +172,7 @@ public class TbCase extends WorkspaceEntity {
 	private String patientContactName;
 	
 	@Lob
+    @PropertyLog(messageKey = "global.comments")
 	private String comments;
 	
 	@Embedded
@@ -212,44 +214,56 @@ public class TbCase extends WorkspaceEntity {
 	private String mobileNumber;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<CaseSideEffect> sideEffects = new ArrayList<>();
 
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<CaseComorbidity> comorbidities = new ArrayList<>();
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
 	@OrderBy("date desc")
+    @PropertyLog(ignore = true)
 	private List<MedicalExamination> examinations = new ArrayList<>();
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamXRay> resXRay = new ArrayList<>();
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(messageKey = "cases.contacts")
 	private List<TbContact> contacts = new ArrayList<>();
 	
 	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 	
 
 	/* EXAMS */
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamHIV> resHIV = new ArrayList<>();
 
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamCulture> examsCulture = new ArrayList<>();
 
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamDST> examsDST = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
     private List<ExamXpert> examsXpert = new ArrayList<>();
 
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    @PropertyLog(ignore = true)
     private SecDrugsReceived secDrugsReceived;
 
+    @PropertyLog(ignore = true)
 	private int issueCounter;
 
     @Temporal(TemporalType.DATE)
@@ -260,25 +274,6 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
 	
-	@Transient
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	private Integer clientId;
-	
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
-
 	/**
 	 * Tags of this case
 	 */
@@ -286,6 +281,7 @@ public class TbCase extends WorkspaceEntity {
 	@JoinTable(name = "tags_case",
 			joinColumns = {@JoinColumn(name = "CASE_ID")},
 			inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
+    @PropertyLog(ignore = true)
 	private List<Tag> tags = new ArrayList<>();
 
 

@@ -5,6 +5,7 @@ import org.msh.etbm.commons.models.props.Property;
 import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.PropertyValue;
+import org.msh.etbm.db.Synchronizable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -66,12 +67,17 @@ public class PropertyLogUtils {
             }
             Operation[] opers = propertyLog.operations();
 
+            // just to make testing easier
+            if (oper == Operation.ALL) {
+                return true;
+            }
+
             // if operation is not supported, exit
             if ((Arrays.binarySearch(opers, oper) == -1) && (Arrays.binarySearch(opers, Operation.ALL) == -1)) {
                 return false;
             }
-        } else if (oper != Operation.EDIT) {
-            // if is not an edit operation, so the field shall not be logged
+        } else if (oper != Operation.EDIT && oper != Operation.ALL) {
+            // if is not an edit operation (or a log to return all items), so the field shall not be logged
             return false;
         }
 
@@ -87,11 +93,20 @@ public class PropertyLogUtils {
     protected String getMessageKey(Field field) {
         PropertyLog log = field.getAnnotation(PropertyLog.class);
         if (log == null || log.messageKey().isEmpty()) {
-            if (!field.getType().isPrimitive()) {
-                return field.getDeclaringClass().getSimpleName() + "." + field.getName();
-            } else {
+
+            // is an enum type ?
+            if (field.getType().isEnum()) {
+                // so return the enum class name
                 return field.getType().getSimpleName();
             }
+
+            // is an entity class from the system ?
+            if (Synchronizable.class.isAssignableFrom(field.getType())) {
+                return field.getType().getSimpleName();
+            }
+
+            // is a primitive type ?
+            return field.getDeclaringClass().getSimpleName() + "." + field.getName();
         } else {
             return log.messageKey();
         }

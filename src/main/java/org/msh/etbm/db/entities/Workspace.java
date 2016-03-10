@@ -25,16 +25,30 @@ public class Workspace extends Synchronizable implements Displayable {
 	private List<UserWorkspace> users = new ArrayList<>();
 
 	// frequency of doses in a weekly basis
+    @PropertyLog(ignore = true)
 	private Integer weekFreq1;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq2;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq3;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq4;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq5;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq6;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq7;
 
 	@OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
+    @PropertyLog(ignore = true)
 	private WorkspaceView view;
 
 	/**
@@ -101,6 +115,7 @@ public class Workspace extends Synchronizable implements Displayable {
 	 */
 	private TreatMonitoringInput treatMonitoringInput;
 
+    @PropertyLog(messageKey = "form.customId")
     private String customId;
 
 

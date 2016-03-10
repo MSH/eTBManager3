@@ -54,6 +54,7 @@ public class Patient extends WorkspaceEntity {
 	private String customId;
 	
 	@OneToMany(mappedBy = "patient")
+    @PropertyLog(ignore = true)
 	private List<TbCase> cases = new ArrayList<TbCase>();
 
 	@Column(length = 100)

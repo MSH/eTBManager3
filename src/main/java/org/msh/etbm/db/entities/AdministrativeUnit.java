@@ -23,6 +23,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	
 	@OneToMany(mappedBy = "parent",fetch = FetchType.LAZY)
 	@OrderBy("NAME")
+    @PropertyLog(ignore = true)
 	private List<AdministrativeUnit> units = new ArrayList<>();
 
 	@Column(length = 50)
