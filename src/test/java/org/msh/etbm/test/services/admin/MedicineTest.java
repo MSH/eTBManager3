@@ -6,13 +6,11 @@ import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Substance;
 import org.msh.etbm.db.enums.MedicineCategory;
 import org.msh.etbm.db.enums.MedicineLine;
-import org.msh.etbm.services.admin.products.ProductData;
-import org.msh.etbm.services.admin.products.ProductFormData;
-import org.msh.etbm.services.admin.products.ProductService;
-import org.msh.etbm.services.admin.products.ProductType;
+import org.msh.etbm.services.admin.products.*;
 import org.msh.etbm.services.admin.substances.SubstanceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -37,7 +35,7 @@ public class MedicineTest extends CommonEntityServiceTests {
      *
      */
     public MedicineTest() {
-        super(Medicine.class, ProductFormData.class, ProductData.class);
+        super(Medicine.class, ProductFormData.class, ProductDetailedData.class);
     }
 
     @Test
@@ -63,7 +61,7 @@ public class MedicineTest extends CommonEntityServiceTests {
         lst.add("name");
         lst.add("shortName");
 
-        UUID id = testCreateAndFindOne(props, lst);
+        TestResult res = testCreateAndFindOne(props, lst, null);
 
         // test update
         props.clear();
@@ -75,10 +73,10 @@ public class MedicineTest extends CommonEntityServiceTests {
         subs.add(toAdd);
         props.put("substances", subs);
 
-        testUpdate(id, props);
+        testUpdate(res.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(res.getId());
     }
 
 

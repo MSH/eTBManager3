@@ -67,7 +67,7 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "ADMINUNIT_ID"))
     })
-    @PropertyLog(messageKey = "Address", operations = {Operation.NEW})
+    @PropertyLog(messageKey = "Address", operations = {Operation.NEW}, addProperties = true)
     @NotNull
     private Address address;
 
@@ -83,7 +83,7 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "SHIP_ADMINUNIT_ID"))
     })
-    @PropertyLog(messageKey = "Address.shipAddr", operations = {Operation.NEW})
+    @PropertyLog(messageKey = "Address.shipAddress", operations = {Operation.EDIT}, addProperties = true)
     private Address shipAddress;
 
 

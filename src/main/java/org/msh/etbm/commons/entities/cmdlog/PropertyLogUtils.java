@@ -1,13 +1,16 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
 import org.msh.etbm.commons.Displayable;
+import org.msh.etbm.commons.models.props.Property;
 import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.objutils.PropertyValue;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Utilities to generate log values of an object based on its property log information and the operation
@@ -106,15 +109,26 @@ public class PropertyLogUtils {
             return;
         }
 
+        // check how log is done (whole object or its properties)
+        PropertyLog log = field.getAnnotation(PropertyLog.class);
+
+        // get key ready to be formatted
+        String key = "$" + getMessageKey(field);
+
+        // get single property of the object
         Object val = ObjectUtils.getProperty(obj, field.getName());
 
-        if (val == null) {
-            return;
+        // must add properties of the field object ?
+        if (val != null && log != null && log.addProperties() && !field.getType().isPrimitive()) {
+            // scan properties of the linked object
+            ObjectValues fieldVals = generateLog(val, field.getType(), oper);
+
+            for (Map.Entry<String, PropertyValue> entry: fieldVals.getValues().entrySet()) {
+                vals.putPropertyValue(key + " - " + entry.getKey(), entry.getValue());
+            }
+        } else {
+            vals.put(key, val);
         }
-
-        String key = getMessageKey(field);
-
-        vals.put(key, val);
     }
 
     /**

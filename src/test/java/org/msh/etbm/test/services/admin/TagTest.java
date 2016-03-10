@@ -7,6 +7,7 @@ import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagFormData;
 import org.msh.etbm.services.admin.tags.TagService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class TagTest extends CommonEntityServiceTests {
         List<String> lst = new ArrayList<>();
         lst.add("name");
 
-        UUID id = testCreateAndFindOne(props, lst);
+        TestResult res = testCreateAndFindOne(props, lst, null);
 
         // test update
         props.clear();
@@ -49,10 +50,10 @@ public class TagTest extends CommonEntityServiceTests {
         props.put("active", false);
         props.put("dailyUpdate", true);
 
-        testUpdate(id, props);
+        testUpdate(res.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(res.getId());
     }
 
     @Test(expected = EntityValidationException.class)
@@ -71,6 +72,6 @@ public class TagTest extends CommonEntityServiceTests {
         List<String> lst = new ArrayList<>();
         lst.add("name");
 
-        testCreateAndFindOne(props, lst);
+        testCreateAndFindOne(props, lst, null);
     }
 }

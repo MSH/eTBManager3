@@ -27,6 +27,7 @@ public class Source extends WorkspaceEntity {
 	@PropertyLog(messageKey = "form.customId", operations = {Operation.NEW, Operation.DELETE})
 	private String customId;
 
+    @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active = true;
 
 

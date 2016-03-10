@@ -319,6 +319,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return the instance of resultClass containing the mapped entity values
      */
     @Override
+    @Transactional
     public <K> K findOne(UUID id, Class<K> resultClass) {
         E ent = findEntity(id);
         if (ent == null) {

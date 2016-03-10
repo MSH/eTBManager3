@@ -34,6 +34,6 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
 
         in.setUserId(user.getId());
 
-        in.addItem("Workspace.adminEmail", request.getAdminEmail());
+        in.addItem("$Workspace.adminEmail", request.getAdminEmail());
     }
 }

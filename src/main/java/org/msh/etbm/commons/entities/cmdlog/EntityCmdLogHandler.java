@@ -89,7 +89,7 @@ public class EntityCmdLogHandler implements CommandLogHandler {
             if (diff.isCollection()) {
                 handleCollectionUpdate(in, it.getKey(), diff);
             } else {
-                in.addDiff("$" + it.getKey(), it.getValue().getPrevValue(), it.getValue().getNewValue());
+                in.addDiff(it.getKey(), it.getValue().getPrevValue(), it.getValue().getNewValue());
             }
         }
 
@@ -99,15 +99,15 @@ public class EntityCmdLogHandler implements CommandLogHandler {
 
     private void handleCollectionUpdate(CommandHistoryInput in, String key, DiffValue diffValue) {
         if (diffValue.getAddedItems() != null) {
-            in.addItem("$" + key + " ($action.added)", diffValue.getAddedItems());
+            in.addItem(key + " ($action.added)", diffValue.getAddedItems());
         }
 
         if (diffValue.getRemovedItems() != null) {
-            in.addItem("$" + key + " ($action.removed)", diffValue.getRemovedItems());
+            in.addItem(key + " ($action.removed)", diffValue.getRemovedItems());
         }
 
         if (diffValue.getChangedItems() != null) {
-            in.addItem("$" + key + " ($action.changed)", diffValue.getChangedItems());
+            in.addItem(key + " ($action.changed)", diffValue.getChangedItems());
         }
     }
 
@@ -130,7 +130,7 @@ public class EntityCmdLogHandler implements CommandLogHandler {
         Map<String, PropertyValue> values = vals.getValues();
         for (Map.Entry<String, PropertyValue> it: values.entrySet()) {
             if (!it.getValue().isCollection()) {
-                in.addItem("$" + it.getKey(), it.getValue().get());
+                in.addItem(it.getKey(), it.getValue().get());
             }
         }
     }

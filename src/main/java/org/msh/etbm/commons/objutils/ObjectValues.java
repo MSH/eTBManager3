@@ -55,4 +55,13 @@ public class ObjectValues {
         return values;
     }
 
+    /**
+     * Set a property value as an instance of {@link PropertyValue} class
+     * @param prop the property to set
+     * @param val the instance of the {@link PropertyValue}
+     */
+    public void putPropertyValue(String prop, PropertyValue val) {
+        values.put(prop, val);
+    }
+
 }

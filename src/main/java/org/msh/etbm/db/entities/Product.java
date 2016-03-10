@@ -33,6 +33,7 @@ public class Product extends WorkspaceEntity {
     @PropertyLog(messageKey = "form.customId")
     private String customId;
 
+    @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active = true;
 
 

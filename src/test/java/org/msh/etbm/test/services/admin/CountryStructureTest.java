@@ -9,6 +9,7 @@ import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.FieldError;
 
@@ -44,16 +45,16 @@ public class CountryStructureTest extends CommonEntityServiceTests {
         props.put("name", NAME);
         props.put("level", 1);
 
-        UUID id = testCreateAndFindOne(props, null);
+        TestResult res = testCreateAndFindOne(props, null, null);
 
         // test update
         props.clear();
         props.put("name", "My region 2");
 
-        testUpdate(id, props);
+        testUpdate(res.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(res.getId());
     }
 
 

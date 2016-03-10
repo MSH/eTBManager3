@@ -6,6 +6,7 @@ import org.msh.etbm.services.admin.sources.SourceData;
 import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -38,16 +39,16 @@ public class SourceTest extends CommonEntityServiceTests {
         lst.add("name");
         lst.add("shortName");
 
-        UUID id = testCreateAndFindOne(props, lst);
+        TestResult res = testCreateAndFindOne(props, lst, null);
 
         // test update
         props.clear();
         props.put("name", "My source 2");
         props.put("shortName", "MS 2");
 
-        testUpdate(id, props);
+        testUpdate(res.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(res.getId());
     }
 }
