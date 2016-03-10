@@ -11,16 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 
 /**
+ * Test of CRUD operations in {@link SourceService}
+ *
  * Created by rmemoria on 8/2/16.
  */
 public class SourceTest extends CommonEntityServiceTests {
 
+    @Autowired
+    SourceService sourceService;
+
     public SourceTest() {
         super(Source.class, SourceFormData.class, SourceData.class);
     }
-
-    @Autowired
-    SourceService sourceService;
 
     @Test
     public void executeTest() {

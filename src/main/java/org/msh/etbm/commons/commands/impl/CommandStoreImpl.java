@@ -3,7 +3,7 @@ package org.msh.etbm.commons.commands.impl;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.commons.commands.data.DataType;
+import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.db.entities.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class CommandStoreImpl implements CommandStoreService {
 
     @Override
     @Transactional
-    public void store(CommandHistoryInput in) {
+    public Integer store(CommandHistoryInput in) {
         CommandHistory cmd = new CommandHistory();
 
         cmd.setType(in.getType());
@@ -47,15 +47,15 @@ public class CommandStoreImpl implements CommandStoreService {
         cmd.setAction(in.getAction());
 
         // parse the data to json format
-        if (in.getData() != null) {
-            Object data = in.getData().getDataToSerialize();
+        CommandLogDetail data = in.getDetailData();
+        if (data != null) {
             String json = JsonParser.objectToJSONString(data);
-            DataType dttype = in.getData().getType();
             cmd.setData(json);
-            cmd.setDataType(dttype);
         }
 
         entityManager.persist(cmd);
+
+        return cmd.getId();
     }
 
 

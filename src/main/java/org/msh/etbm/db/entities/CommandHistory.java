@@ -1,7 +1,6 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.data.DataType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,11 +38,6 @@ public class CommandHistory {
      */
     @Lob
     private String data;
-
-    /**
-     * The type of data stored in the data field
-     */
-    private DataType dataType;
 
     /**
      * The date and time that the command was executed
@@ -179,13 +173,5 @@ public class CommandHistory {
 
     public void setAction(CommandAction action) {
         this.action = action;
-    }
-
-    public DataType getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(DataType dataType) {
-        this.dataType = dataType;
     }
 }

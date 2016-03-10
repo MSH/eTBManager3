@@ -6,5 +6,10 @@ package org.msh.etbm.commons.commands;
  */
 @FunctionalInterface
 public interface CommandStoreService {
-    void store(CommandHistoryInput cmd);
+    /**
+     * Create a new command history based on the given command parameters
+     * @param cmd object containing information about the command
+     * @return the ID of the command
+     */
+    Integer store(CommandHistoryInput cmd);
 }

@@ -1322,7 +1322,7 @@ mark,
   text-transform: capitalize;
 }
 .text-muted {
-  color: #889987;
+  color: #a0a0a0;
 }
 .text-primary {
   color: #1e9614;
@@ -2240,7 +2240,7 @@ table {
 caption {
   padding-top: 6px;
   padding-bottom: 6px;
-  color: #889987;
+  color: #a0a0a0;
   text-align: left;
 }
 th {
@@ -7250,6 +7250,11 @@ button.close {
   border: none;
   box-shadow: none;
 }
+.sub-text {
+  color: #a0a0a0;
+  font-weight: bold;
+  font-size: 0.8em;
+}
 .app-required {
   padding-left: 4px;
   color: #F7B64E;
@@ -7465,10 +7470,15 @@ button.close {
 .tag-warn {
   border-left-color: #1f69ad;
 }
-.title {
+.tbl-title {
   font-weight: bold;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+.tbl-row {
+  border-top: 1px solid #f0f0f0;
+  padding-top: 4px;
+  padding-botttom: 4px;
 }
 .alert {
   border-left-width: 10px;

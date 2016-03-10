@@ -1,6 +1,7 @@
 package org.msh.etbm.test.commons.objutils;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rmemoria on 28/1/16.
@@ -15,18 +16,20 @@ public class Model {
     private int age;
     private boolean married;
     private Date lastUpdate;
+    private List<String> fruits;
 
     public Model() {
         super();
     }
 
-    public Model(String name, Long id, int age, boolean married, Date lastUpdate) {
+    public Model(String name, Long id, int age, boolean married, Date lastUpdate, List<String> fruits) {
         super();
         this.name = name;
         this.id = id;
         this.age = age;
         this.married = married;
         this.lastUpdate = lastUpdate;
+        this.fruits = fruits;
     }
 
     @Override
@@ -87,5 +90,13 @@ public class Model {
 
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public List<String> getFruits() {
+        return fruits;
+    }
+
+    public void setFruits(List<String> fruits) {
+        this.fruits = fruits;
     }
 }

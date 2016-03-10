@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
 import org.msh.etbm.commons.Displayable;
-import org.msh.etbm.commons.entities.ObjectValues;
+import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.lang.reflect.Field;
@@ -35,18 +35,24 @@ public class PropertyLogUtils {
      * @param oper
      */
     protected void generateLogValues(ObjectValues vals, Object obj, Class clazz, Operation oper) {
-        Field[] fields = clazz.getDeclaredFields();
+        Class objClass = clazz;
 
-        for (Field field: fields) {
-            analyseProperty(vals, obj, field, oper);
+        while (objClass != Object.class && objClass != null) {
+            Field[] fields = objClass.getDeclaredFields();
+
+            for (Field field: fields) {
+                analyseProperty(vals, obj, field, oper);
+            }
+
+            objClass = objClass.getSuperclass();
         }
     }
 
     /**
      * Return true if the field must be logged
-     * @param field
-     * @param oper
-     * @return
+     * @param field the field to be analysed
+     * @param oper the log operation (new, edit or delete)
+     * @return true if the field must be logged, otherwise false if the field should not be logged
      */
     protected boolean isFieldLogged(Field field, Operation oper) {
         PropertyLog propertyLog = field.getAnnotation(PropertyLog.class);
@@ -61,8 +67,8 @@ public class PropertyLogUtils {
             if ((Arrays.binarySearch(opers, oper) == -1) && (Arrays.binarySearch(opers, Operation.ALL) == -1)) {
                 return false;
             }
-        } else if (oper != Operation.EDIT || classImplementsInterface(field.getType(), Collection.class)) {
-            // the default operation is EDIT or type is a collection ?
+        } else if (oper != Operation.EDIT) {
+            // if is not an edit operation, so the field shall not be logged
             return false;
         }
 
@@ -106,13 +112,13 @@ public class PropertyLogUtils {
             return;
         }
 
-        if (!val.getClass().isPrimitive() && !(val instanceof Date)) {
-            if (val instanceof Displayable) {
-                val = ((Displayable)val).getDisplayString();
-            } else {
-                val = val.toString();
-            }
-        }
+//        if (!val.getClass().isPrimitive() && !(val instanceof Date)) {
+//            if (val instanceof Displayable) {
+//                val = ((Displayable)val).getDisplayString();
+//            } else {
+//                val = val.toString();
+//            }
+//        }
 
         String key = getMessageKey(field);
 
