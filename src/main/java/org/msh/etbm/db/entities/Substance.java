@@ -114,7 +114,7 @@ public class Substance extends WorkspaceEntity {
 
     @Override
     public String getDisplayString() {
-        return name;
+        return "(" + shortName + ") " + name;
     }
 
     public boolean isActive() {

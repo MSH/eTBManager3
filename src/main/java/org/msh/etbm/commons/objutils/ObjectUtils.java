@@ -2,8 +2,13 @@ package org.msh.etbm.commons.objutils;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * General utility functions involving an object
@@ -93,6 +98,54 @@ public class ObjectUtils {
         } catch (ClassNotFoundException e) {
             throw new ObjectAccessException("Class not found: " + className, e);
         }
+    }
+
+
+    /**
+     * Generate a hash of the object, hashing every property value using the JDK Objects.hash function
+     * @param obj
+     * @return
+     */
+    public static int hash(Object obj) {
+        if (obj == null || obj instanceof String || obj instanceof Number || obj instanceof Date ||
+            obj instanceof Collection || obj.getClass().isArray()) {
+            return Objects.hash(obj);
+        }
+
+        Map<String, Object> values = describeProperties(obj);
+        Object[] vals = new Object[values.size()];
+        int index = 0;
+        for (Map.Entry<String, Object> prop: values.entrySet()) {
+            vals[index] = prop.getValue();
+            index++;
+        }
+        return Objects.hash(vals);
+    }
+
+    /**
+     * Return a map containing the object property name and its values
+     * @param obj
+     * @return
+     */
+    public static Map<String, Object> describeProperties(Object obj) {
+        Map<String, Object> values;
+        try {
+            values = PropertyUtils.describe(obj);
+
+            PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(obj);
+
+            // remove properties that don't have a get or a set
+            for (PropertyDescriptor prop: props) {
+                if (prop.getReadMethod() == null || prop.getWriteMethod() == null) {
+                    values.remove(prop.getName());
+                }
+            }
+
+        } catch (Exception e) {
+            throw new ObjectAccessException("Error getting object properties", e);
+        }
+
+        return values;
     }
 
 }

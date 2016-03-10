@@ -35,6 +35,7 @@ public class User implements Displayable {
 	@Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @PropertyLog(ignore = true)
     private UUID id;
     
     @Column(length = 30)
@@ -69,9 +70,11 @@ public class User implements Displayable {
     private String timeZone;
 
 	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @PropertyLog(ignore = true)
 	private List<UserWorkspace> workspaces = new ArrayList<UserWorkspace>();
 	
 	@Column(length = 200)
+    @PropertyLog(messageKey = "global.comments")
 	private String comments;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -79,10 +82,11 @@ public class User implements Displayable {
 	private User parentUser;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+    @PropertyLog(ignore = true)
 	private Date registrationDate;
 
 	@Column(length = 30)
-	@PropertyLog(messageKey = "global.customId")
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
     /**
@@ -98,6 +102,7 @@ public class User implements Displayable {
     /**
      * The request token used by the user to change its password when using the forgot password process
      */
+    @PropertyLog(ignore = true)
     private String pwdChangeRequest;
 	
 	/**

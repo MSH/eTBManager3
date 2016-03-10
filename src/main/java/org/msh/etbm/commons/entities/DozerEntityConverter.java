@@ -28,15 +28,15 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
             return null;
         }
 
-        if (source instanceof Collection) {
-            return handleCollection(dest, (Collection)source, destClass, sourceClass);
-        }
-
         // check if source is an optional value
         if (source instanceof Optional) {
             // unwrap value from optional
             Optional sourceOpt = (Optional)source;
             source = sourceOpt.isPresent() ? sourceOpt.get() : null;
+        }
+
+        if (source instanceof Collection) {
+            return handleCollection(dest, (Collection)source, destClass, sourceClass);
         }
 
         // is an entity ID ?
@@ -89,8 +89,10 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
      * @param sourceClass the source class
      * @return Collection with the mapped objects
      */
-    private Collection handleCollection(Object dest, Collection source, Class<?> destClass, Class<?> sourceClass) {
-        if (!Collection.class.isAssignableFrom(destClass)) {
+    private Object handleCollection(Object dest, Collection source, Class<?> destClass, Class<?> sourceClass) {
+        boolean optional = destClass == Optional.class;
+
+        if (!optional && !Collection.class.isAssignableFrom(destClass)) {
             throw new EntityConverterException(source, dest, "When a source is a collection, destination object must be a collection");
         }
 
@@ -116,7 +118,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
             }
         }
 
-        return list;
+        return optional ? Optional.of(list) : list;
     }
 
     @Override

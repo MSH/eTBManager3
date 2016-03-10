@@ -1,6 +1,8 @@
 package org.msh.etbm.db;
 
 
+import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 
 import javax.persistence.*;
@@ -21,6 +23,7 @@ public class Address {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ADMINUNIT_ID")
     @NotNull
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private AdministrativeUnit adminUnit;
 
 

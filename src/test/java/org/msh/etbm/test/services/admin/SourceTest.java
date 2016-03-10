@@ -6,21 +6,24 @@ import org.msh.etbm.services.admin.sources.SourceData;
 import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 /**
+ * Test of CRUD operations in {@link SourceService}
+ *
  * Created by rmemoria on 8/2/16.
  */
 public class SourceTest extends CommonEntityServiceTests {
 
+    @Autowired
+    SourceService sourceService;
+
     public SourceTest() {
         super(Source.class, SourceFormData.class, SourceData.class);
     }
-
-    @Autowired
-    SourceService sourceService;
 
     @Test
     public void executeTest() {
@@ -36,16 +39,16 @@ public class SourceTest extends CommonEntityServiceTests {
         lst.add("name");
         lst.add("shortName");
 
-        UUID id = testCreateAndFindOne(props, lst);
+        TestResult res = testCreateAndFindOne(props, lst, null);
 
         // test update
         props.clear();
         props.put("name", "My source 2");
         props.put("shortName", "MS 2");
 
-        testUpdate(id, props);
+        testUpdate(res.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(res.getId());
     }
 }

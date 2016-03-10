@@ -67,10 +67,10 @@ class SelectControl extends React.Component {
 			return null;
 		}
 
-		let value = this.props.value;
+		let value = this.props.value ? this.props.value.toString() : null;
 
 		// get the value according to the option
-		value = options.find(item => item.id === value);
+		value = options.find(item => item.id.toString() === value);
 
 		// rend the selection box
 		return (

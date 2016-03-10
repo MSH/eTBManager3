@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import java.util.UUID;
 
 /**
+ * Register in the command log the initialization of the system by registering a new workspace
+ *
  * Created by rmemoria on 17/10/15.
  */
 @Component
@@ -32,7 +34,6 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
 
         in.setUserId(user.getId());
 
-        in.beginListLog()
-                .add("Workspace.adminEmail", request.getAdminEmail());
+        in.addItem("$Workspace.adminEmail", request.getAdminEmail());
     }
 }

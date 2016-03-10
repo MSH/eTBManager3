@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.entities;
 
 import org.dozer.DozerBeanMapper;
+import org.hibernate.Hibernate;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.commands.CommandLog;
@@ -13,8 +14,10 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.messages.MessageKeyResolver;
 import org.msh.etbm.commons.messages.MessageList;
-import org.msh.etbm.commons.objutils.ObjectDiffs;
+import org.msh.etbm.commons.objutils.Diffs;
+import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Workspace;
@@ -316,6 +319,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return the instance of resultClass containing the mapped entity values
      */
     @Override
+    @Transactional
     public <K> K findOne(UUID id, Class<K> resultClass) {
         E ent = findEntity(id);
         if (ent == null) {
@@ -332,7 +336,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return
      */
     protected ObjectValues createValuesToLog(E entity, Operation oper) {
-        return PropertyLogUtils.generateLog(entity, getEntityClass(), oper);
+        Class entityClass = Hibernate.getClass(entity);
+        return PropertyLogUtils.generateLog(entity, entityClass, oper);
     }
 
     /**
@@ -342,14 +347,14 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return
      */
     protected Diffs createDiffs(ObjectValues prevVals, ObjectValues newVals) {
-        return ObjectDiffs.compareOldAndNew(prevVals, newVals);
+        return DiffsUtils.generateDiffsFromValues(prevVals, newVals);
     }
 
 
     /**
-     * Create the result to be returned by the method call
-     * @param entity
-     * @return
+     * Create the result to be returned by the create, update or delete operation
+     * @param entity the entity involved in the operation
+     * @return instance of {@link ServiceResult}
      */
     protected ServiceResult createResult(E entity) {
         ServiceResult res = new ServiceResult();

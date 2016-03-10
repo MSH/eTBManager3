@@ -1,6 +1,9 @@
-package org.msh.etbm.commons.entities;
+package org.msh.etbm.commons.objutils;
+
+import org.msh.etbm.commons.objutils.DiffValue;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,6 +27,19 @@ public class Diffs {
      */
     public void put(String prop, Object prevValue, Object newValue) {
         DiffValue d = new DiffValue(prevValue, newValue);
+        values.put(prop, d);
+    }
+
+
+    /**
+     * Add a changes related to a collection
+     * @param prop the property name
+     * @param addedItems the added items
+     * @param removedItems the items removed
+     * @param changedItems the changed items
+     */
+    public void putCollection(String prop, List addedItems, List removedItems, List changedItems) {
+        DiffValue d = new DiffValue(addedItems, removedItems, changedItems);
         values.put(prop, d);
     }
 

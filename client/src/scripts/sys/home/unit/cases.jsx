@@ -139,6 +139,77 @@ const presumptives = [
 	}
 ];
 
+const cases = [
+	{
+		name: 'James Hetfield',
+		id: '123455',
+		recordNumber: '123123-333',
+		gender: 'MALE',
+		regGroup: {
+			id: 'AFTER_FAILURE',
+			name: 'After failure of 1st treatment'
+		},
+		infectionSite: {
+			id: 'PULMONARY',
+			name: 'Pulmonary'
+		},
+		recordDate: 'jan 20th, 2016',
+		iniTreatmentDate: 'Jan 31th, 2016',
+		treatProgess: 35
+	},
+	{
+		name: 'James Hetfield',
+		id: '123455',
+		recordNumber: '123123-333',
+		gender: 'MALE',
+		regGroup: {
+			id: 'AFTER_FAILURE',
+			name: 'After failure of 1st treatment'
+		},
+		infectionSite: {
+			id: 'PULMONARY',
+			name: 'Pulmonary'
+		},
+		recordDate: 'jan 20th, 2016',
+		iniTreatmentDate: 'Jan 31th, 2016',
+		treatProgess: 35
+	},
+	{
+		name: 'James Hetfield',
+		id: '123455',
+		recordNumber: '123123-333',
+		gender: 'MALE',
+		regGroup: {
+			id: 'AFTER_FAILURE',
+			name: 'After failure of 1st treatment'
+		},
+		infectionSite: {
+			id: 'PULMONARY',
+			name: 'Pulmonary'
+		},
+		recordDate: 'jan 20th, 2016',
+		iniTreatmentDate: 'Jan 31th, 2016',
+		treatProgess: 35
+	},
+	{
+		name: 'James Hetfield',
+		id: '123455',
+		recordNumber: '123123-333',
+		gender: 'MALE',
+		regGroup: {
+			id: 'AFTER_FAILURE',
+			name: 'After failure of 1st treatment'
+		},
+		infectionSite: {
+			id: 'PULMONARY',
+			name: 'Pulmonary'
+		},
+		recordDate: 'jan 20th, 2016',
+		iniTreatmentDate: 'Jan 31th, 2016',
+		treatProgess: 35
+	}
+];
+
 export default class Cases extends React.Component {
 
 	render() {
@@ -182,15 +253,15 @@ export default class Cases extends React.Component {
 						<Nav bsStyle="tabs" activeKey={0}
 							className="app-tabs"
 							onSelect={this.tabSelect}>
-							<NavItem key={0} eventKey={0}>{'Presumptive'}</NavItem>
-							<NavItem key={1} eventKey={1}>{'TB Cases'}</NavItem>
-							<NavItem key={2} eventKey={2}>{'DR-TB Cases'}</NavItem>
+							<NavItem key={0} eventKey={0}>{'Presumptive '}<Badge>{presumptives.length}</Badge></NavItem>
+							<NavItem key={1} eventKey={1}>{'TB Cases '}</NavItem>
+							<NavItem key={2} eventKey={2}>{'DR-TB Cases '}<Badge>{cases.length}</Badge></NavItem>
 						</Nav>
-						<Row className="mtop-2x title">
+						<Row className="mtop-2x tbl-title">
 							<Col sm={4}>
 								{'Patient'}
 							</Col>
-							<Col sm={2}>
+							<Col sm={3}>
 								{'Registration date'}
 							</Col>
 							<Col sm={2}>
@@ -202,13 +273,14 @@ export default class Cases extends React.Component {
 						</Row>
 						{
 							presumptives.map(item =>
-								<Row className="tbl-cell" style={{ padding: '10px 4px' }}>
+								<Row className="tbl-row" style={{ padding: '10px 4px' }}>
 									<Col sm={4}>
 										<Profile type={item.gender.toLowerCase()} size="small"
 											title={item.name} subtitle={item.recordNumber} />
 									</Col>
-									<Col sm={2}>
-										{'24-jan-2016'}
+									<Col sm={3}>
+										<div>{'24-jan-2016'}</div>
+										<div className="sub-text">{'30 days ago'}</div>
 									</Col>
 									<Col sm={2}>
 										{'Positive'}
