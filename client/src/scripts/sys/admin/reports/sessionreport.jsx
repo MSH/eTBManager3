@@ -67,7 +67,7 @@ const userList = [
 /**
  * The page controller of the public module
  */
-export default class ReportsSession extends React.Component {
+export default class SessionReport extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -79,11 +79,21 @@ export default class ReportsSession extends React.Component {
 
 	allInformation(item) {
 		const collapsedValue = (<div className="text-small">
-									<Col md={3}><span className="bold">{__('User.login') + ': '}</span>{item.login}</Col>
-									<Col md={3}><span className="bold">{__('Workspace') + ': '}</span>{item.workspace}</Col>
-									<Col md={3}><span className="bold">{__('UserLogin.loginDate') + ': '}</span>{item.loginDate}</Col>
-									<Col md={3}><span className="bold">{__('UserLogin.logoutDate') + ': '}</span>{item.logoutDate}</Col>
-									<Col md={12} className="text-small">{item.IpAddress + ' - ' + item.Application}</Col>
+									<dl>
+										<Col sm={4}>
+											<dt>{__('User.login') + ':'}</dt>
+											<dd>{item.login}</dd>
+										</Col>
+										<Col sm={4}>
+											<dt>{__('UserLogin.logoutDate') + ':'}</dt>
+											<dd>{item.logoutDate}</dd>
+										</Col>
+										<Col sm={4}>
+											<dt>{__('UserLogin.ipAddress') + ':'}</dt>
+											<dd>{item.IpAddress}</dd>
+										</Col>
+									</dl>
+									<Col md={12} className="text-small">{item.Application}</Col>
 								</div>);
 		return (collapsedValue);
 	}
@@ -216,6 +226,6 @@ export default class ReportsSession extends React.Component {
 	}
 }
 
-ReportsSession.propTypes = {
+SessionReport.propTypes = {
 	route: React.PropTypes.object
 };

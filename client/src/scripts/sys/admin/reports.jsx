@@ -2,8 +2,8 @@
 import React from 'react';
 import PageContent from './page-content';
 
-import ReportsSession from './reports/reportssession';
-import ReportsOnline from './reports/reportsonline';
+import ReportsSession from './reports/sessionreport';
+import ReportsOnline from './reports/onlinereport';
 
 /**
  * Options of the left menu in the reports page
