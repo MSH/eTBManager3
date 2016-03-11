@@ -14,7 +14,7 @@ public class SessionReportData {
     private String ipAddress;
     private String application;
 
-    public SessionReportData(String userLogin, String userName, Date loginDate, Date logoutDate, String ipAddress, String application){
+    public SessionReportData(String userLogin, String userName, Date loginDate, Date logoutDate, String ipAddress, String application) {
         this.userLogin = userLogin;
         this.userName = userName;
         this.loginDate = loginDate;

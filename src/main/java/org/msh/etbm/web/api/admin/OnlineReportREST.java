@@ -1,14 +1,16 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.admin.onlinereport.OnlineReportData;
 import org.msh.etbm.services.admin.onlinereport.OnlineReportService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * Created by rmemoria on 6/1/16.
+ * Created by msantos on 11/3/16.
  */
 @RestController
 @RequestMapping("/api/admin/rep")
@@ -19,7 +21,8 @@ public class OnlineReportREST {
     OnlineReportService service;
 
     @RequestMapping(value = "/onlinereport", method = RequestMethod.POST)
-    public QueryResult query() {
+    public List<OnlineReportData> query() {
         return service.getResult();
     }
+
 }

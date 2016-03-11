@@ -1,10 +1,13 @@
 package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.admin.onlinereport.OnlineReportService;
 import org.msh.etbm.services.admin.sessionreport.SessionReportData;
 import org.msh.etbm.services.admin.sessionreport.SessionReportQueryParams;
+import org.msh.etbm.services.admin.sessionreport.SessionReportService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,33 +19,24 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by rmemoria on 10/3/16.
+ * Created by msantos on 10/3/16.
  */
 @RestController
 @RequestMapping("/api/admin/rep")
 @Authenticated(permissions = {Permissions.ADMIN_REP_USERSESSIONS})
 public class SessionReportREST {
 
-    //@Autowired
-    //OnlineReportService service;
+    @Autowired
+    SessionReportService service;
 
-    @RequestMapping(value = "/sessionreport/day", method = RequestMethod.POST)
-    @Authenticated()
+    @RequestMapping(value = "/dailysessionreport", method = RequestMethod.POST)
     public QueryResult queryFilterByDay(@Valid @RequestBody SessionReportQueryParams query) {
-        String app = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36";
-        QueryResult ret = new QueryResult();
-        ret.setList(new ArrayList<SessionReportQueryParams>());
-
-        ret.getList().add(new SessionReportData("MSANTOS", "Mauricio Santos", new Date(), new Date(), "127.0.0.1", app));
-        ret.getList().add(new SessionReportData("MSANTOS", "Mauricio Santos", new Date(), new Date(), "127.0.0.1", app));
-        ret.getList().add(new SessionReportData("MSANTOS", "Mauricio Santos", new Date(), new Date(), "127.0.0.1", app));
-
-        return null;
-    }
-
-    @RequestMapping(value = "/sessionreport/other", method = RequestMethod.POST)
-    @Authenticated()
-    public QueryResult queryOtherFilters(@Valid @RequestBody SessionReportQueryParams query) {
-        return null;
+        if (query != null) {
+            System.out.println("hey hey hey");
+            System.out.println("iniDate: " + query.getIniDate());
+            System.out.println("endDate: " + query.getEndDate());
+            System.out.println("userId: " + query.getUserId());
+        }
+        return service.getResultByDay(query.getIniDate());
     }
 }

@@ -12,7 +12,7 @@ public class OnlineReportData {
     private Date loginDate;
     private Date lastAccess;
 
-    public OnlineReportData(String userLogin, String userName, Date loginDate, Date lastAccess){
+    public OnlineReportData(String userLogin, String userName, Date loginDate, Date lastAccess) {
         this.userLogin = userLogin;
         this.userName = userName;
         this.loginDate = loginDate;
