@@ -6,6 +6,7 @@ import { RouteView } from '../../components/router';
 import Index from './index';
 import Unit from './unit';
 
+import NewNotif from './cases/newnotif';
 
 /**
  * Initial page that declare all routes of the module
@@ -24,6 +25,11 @@ export default class HomeRoutes extends React.Component {
 				path: '/unit',
 				view: Unit,
 				title: 'Unit'
+			},
+			{
+				path: '/cases/newnotif',
+				view: NewNotif,
+				title: __('cases.newnotif')
 			}
 		]);
 

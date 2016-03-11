@@ -2,6 +2,8 @@ import React from 'react';
 import { MenuItem } from 'react-bootstrap';
 import { Popup, Profile } from '../components';
 
+import { generateName, generateCaseNumber } from './mock-data';
+
 const items = [
 {
 	type: 'ws',
@@ -31,36 +33,6 @@ const items = [
 	type: 'lab',
 	title: 'Laboratory 2',
 	subtitle: 'Region 2'
-},
-{
-	type: 'male',
-	title: 'Bruce Willis',
-	subtitle: '2342390'
-},
-{
-	type: 'male',
-	title: 'William Smith',
-	subtitle: 'TB-123123'
-},
-{
-	type: 'female',
-	title: 'Angelina Joulie',
-	subtitle: '4758493'
-},
-{
-	type: 'female',
-	title: 'Julia Roberts',
-	subtitle: '544-3'
-},
-{
-	type: 'male',
-	title: 'Jim Morrison',
-	subtitle: '69-1'
-},
-{
-	type: 'male',
-	title: 'Ricardo Lima',
-	subtitle: '292929'
 }
 ];
 
@@ -72,6 +44,22 @@ export default class SearchBox extends React.Component {
 		this.keyPressed = this.keyPressed.bind(this);
 		this.clearKey = this.clearKey.bind(this);
 		this.state = {};
+	}
+
+	componentWillMount() {
+		const lst = items.slice(0);
+
+		// generate mock data
+		for (var i = 0; i < 100; i++) {
+			const res = generateName();
+			lst.push({
+				type: res.gender.toLowerCase(),
+				title: res.name,
+				subtitle: generateCaseNumber()
+			});
+		}
+
+		this.setState({ items: lst });
 	}
 
 
@@ -95,7 +83,7 @@ export default class SearchBox extends React.Component {
 		let index = 0;
 
 		const key = this.state.key ? this.state.key.toLowerCase() : null;
-		const res = key ? items.filter(it => it.title.toLowerCase().indexOf(key) > -1) : items;
+		const res = key ? this.state.items.filter(it => it.title.toLowerCase().indexOf(key) > -1).slice(0, 15) : items;
 
 		return (
 			<div className="header-search">

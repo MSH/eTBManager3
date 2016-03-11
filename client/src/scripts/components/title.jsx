@@ -9,10 +9,14 @@ import { PageHeader } from 'react-bootstrap';
 export default class Title extends React.Component {
     render() {
         var title = this.props.text;
-        document.title = 'e-TB Manager' + (title? ' - ' + title: '');
+        document.title = 'e-TB Manager' + (title ? ' - ' + title : '');
 
         return (
             <PageHeader>{title}</PageHeader>
-        )
+        );
     }
 }
+
+Title.propTypes = {
+	text: React.PropTypes.string
+};
