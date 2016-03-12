@@ -5,6 +5,8 @@
 // the style of the button in input boxes
 @input-btn-color: #a2a2a2;
 
+@content-bgcolor: #EBF1F0;
+
 // app components
 @import "callout.less";
 @import "card.less";
@@ -37,7 +39,7 @@
 
 
 .app-content {
-	background-color: #EBF1F0;
+	background-color: @content-bgcolor;
 	min-height: 500px;
 	padding-bottom:10px;
     margin-top:50px;
@@ -440,6 +442,45 @@
   }
 }
 
+
+.app-tabs2 {
+  border-bottom: none;
+  background-color: @content-bgcolor;
+
+  li {
+    a {
+      color: @text-muted;
+      text-transform: uppercase;
+      padding:5px 30px;
+      background-color: @content-bgcolor;
+      border: 1px solid @content-bgcolor !important;
+      border-bottom: 1px solid @card-border-color !important;
+      transition: background-color 0.5s ease;
+    }
+    a:focus {
+      background-color: transparent;
+    }
+    a:hover {
+      background-color: #fff;
+    }
+  }
+
+  li.active {
+    a, a:hover {
+    	background-color: #fff;
+    	border: 1px solid #fff !important;
+    	font-weight: bold;
+    	color: @text-muted;
+    }
+  }
+}
+
+.value-big {
+	font-size: 26px;
+	text-align: center;
+	width: 100%;
+}
+
 .tag-link {
   cursor: pointer;
 }
@@ -492,4 +533,9 @@
     padding-right:0px;
 }
 
+.col-center {
+	display: inline-block;
+	float: none;
+	text-align: center;
+}
 

@@ -6782,7 +6782,6 @@ button.close {
 .card {
   background-color: white;
   margin-top: 0px;
-  border: 1px solid #e8e8e8;
   border-radius: 2px;
   /** Style of the title */
 }
@@ -6798,9 +6797,6 @@ button.close {
 .card .card-header h4 {
   font-weight: bold;
 }
-.card .card-content {
-  border-bottom: 1px solid #e8ebe8;
-}
 .card .card-content hr {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -6814,6 +6810,9 @@ button.close {
 .card div[class*="col-"] {
   padding-left: 8px;
   padding-right: 8px;
+}
+.card div[class*="col-"] .card {
+  border: 1px solid #e8e8e8;
 }
 .card-default {
   margin-bottom: 20px;
@@ -7440,6 +7439,37 @@ button.close {
   background-color: transparent;
   border-color: #1e9614;
 }
+.app-tabs2 {
+  border-bottom: none;
+  background-color: #EBF1F0;
+}
+.app-tabs2 li a {
+  color: #a0a0a0;
+  text-transform: uppercase;
+  padding: 5px 30px;
+  background-color: #EBF1F0;
+  border: 1px solid #EBF1F0 !important;
+  border-bottom: 1px solid #e8e8e8 !important;
+  transition: background-color 0.5s ease;
+}
+.app-tabs2 li a:focus {
+  background-color: transparent;
+}
+.app-tabs2 li a:hover {
+  background-color: #fff;
+}
+.app-tabs2 li.active a,
+.app-tabs2 li.active a:hover {
+  background-color: #fff;
+  border: 1px solid #fff !important;
+  font-weight: bold;
+  color: #a0a0a0;
+}
+.value-big {
+  font-size: 26px;
+  text-align: center;
+  width: 100%;
+}
 .tag-link {
   cursor: pointer;
 }
@@ -7485,6 +7515,11 @@ button.close {
   padding-left: 0px;
   padding-bottom: 0px;
   padding-right: 0px;
+}
+.col-center {
+  display: inline-block;
+  float: none;
+  text-align: center;
 }
 .alert {
   border-left-width: 10px;

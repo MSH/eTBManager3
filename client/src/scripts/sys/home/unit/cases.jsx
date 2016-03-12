@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge } from 'react-bootstrap';
+import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon } from '../../../components';
 import { app } from '../../../core/app';
 
@@ -121,6 +121,7 @@ export default class Cases extends React.Component {
 			tags: null
 		};
 		this.newPresumptive = this.newPresumptive.bind(this);
+		this.tabSelect = this.tabSelect.bind(this);
 	}
 
 	componentWillMount() {
@@ -155,17 +156,28 @@ export default class Cases extends React.Component {
 			}
 
 			const drtb = [];
-			for (var n = 0; n < 20; n++) {
+			for (var n = 0; n < 16; n++) {
 				const res = generateName();
 				drtb.push({
 					name: res.name,
 					gender: res.gender,
 					id: (123456 + n).toString(),
-					recordNumber: generateCaseNumber()
+					recordNumber: generateCaseNumber(),
+					regGroup: {
+						id: 'AFTER_FAILURE',
+						name: 'After failure of 1st treatment'
+					},
+					infectionSite: {
+						id: 'PULMONARY',
+						name: 'Pulmonary'
+					},
+					recordDate: 'jan 20th, 2016',
+					iniTreatmentDate: 'Jan 31th, 2016',
+					treatProgess: 35
 				});
 			}
 
-			self.setState({ presumptives: presumptives, tags: tags });
+			self.setState({ presumptives: presumptives, tags: tags, drtbCases: drtb, tbCases: [] });
 		}, 800);
 	}
 
@@ -185,6 +197,10 @@ export default class Cases extends React.Component {
 		app.goto('/sys/home/cases/newnotif');
 	}
 
+	tabSelect(evt) {
+		this.setState({ sel: evt });
+	}
+
 	/**
 	 * Rendering of the cases tab
 	 * @return {React.Element} [description]
@@ -194,16 +210,119 @@ export default class Cases extends React.Component {
 			return <WaitIcon type="card"/>;
 		}
 
-		return (
-			<div>
-			<Nav bsStyle="tabs" activeKey={0}
-				className="app-tabs"
+		const tabs = (
+			<Nav bsStyle="tabs" activeKey={this.state.sel} justified
+				className="app-tabs2"
 				onSelect={this.tabSelect}>
-				<NavItem key={0} eventKey={0}>{'Presumptive '}<Badge>{this.state.presumptives.length}</Badge></NavItem>
-				<NavItem key={1} eventKey={1}>{'TB Cases '}</NavItem>
-				<NavItem key={2} eventKey={2}>{'DR-TB Cases '}<Badge>{cases.length}</Badge></NavItem>
+				<NavItem key={0} eventKey={0}>
+					{this.listCount(this.state.presumptives)}
+					{'Presumptive'}
+				</NavItem>
+				<NavItem key={1} eventKey={1}>
+					{this.listCount(this.state.tbCases)}
+					{'TB Cases'}
+				</NavItem>
+				<NavItem key={2} eventKey={2}>
+					{this.listCount(this.state.drtbCases)}
+					{'DR-TB Cases'}
+				</NavItem>
 			</Nav>
-			<Row className="mtop-2x tbl-title">
+			);
+
+		return (
+			<Card padding="none">
+				{tabs}
+				{
+					this.state.sel === 0 ? this.presumptiveRender() : null
+				}
+				{
+					this.state.sel === 1 ? this.tbCasesRender() : null
+				}
+				{
+					this.state.sel === 2 ? this.drtbCasesRender() : null
+				}
+			</Card>
+			);
+	}
+
+
+	listCount(lst) {
+		const count = lst.length > 0 ? lst.length : '-';
+		return <div className="value-big text-primary">{count}</div>;
+	}
+
+	tbCasesRender() {
+		const lst = this.state.tbCases;
+
+		if (lst.length === 0) {
+			return this.noRecFoundRender();
+		}
+		return null;
+	}
+
+	drtbCasesRender() {
+		const lst = this.state.drtbCases;
+
+		if (lst.length === 0) {
+			return this.noRecFoundRender();
+		}
+
+		return (
+			<Grid fluid>
+				<Row className="tbl-title">
+					<Col sm={4}>
+						{'Patient'}
+					</Col>
+					<Col sm={2}>
+						{'Registration date'}
+					</Col>
+					<Col sm={2}>
+						{'Registration group'}
+					</Col>
+					<Col sm={2}>
+						{'Start treatment date'}
+					</Col>
+					<Col sm={2}>
+						{'Treatment progress'}
+					</Col>
+				</Row>
+				{
+					lst.map(item =>
+						<Row key={item.id} className="tbl-row" style={{ padding: '10px 4px' }}>
+							<Col sm={4}>
+								<Profile type={item.gender.toLowerCase()} size="small"
+									title={item.name} subtitle={item.recordNumber} />
+							</Col>
+							<Col sm={2}>
+								<div>{'24-jan-2016'}</div>
+								<div className="sub-text">{'30 days ago'}</div>
+							</Col>
+							<Col sm={2}>
+								{'Positive'}
+							</Col>
+							<Col sm={2}>
+								{'TB Positive'}
+							</Col>
+							<Col sm={2} className="col-center">
+								<img src="images/small_pie2.png" style={{ width: '32px' }} />
+							</Col>
+						</Row>
+						)
+				}
+			</Grid>
+			);
+	}
+
+	presumptiveRender() {
+		const lst = this.state.presumptives;
+
+		if (lst.length === 0) {
+			return this.noRecFoundRender();
+		}
+
+		return (
+			<Grid fluid>
+			<Row className="tbl-title">
 				<Col sm={4}>
 					{'Patient'}
 				</Col>
@@ -218,7 +337,7 @@ export default class Cases extends React.Component {
 				</Col>
 			</Row>
 			{
-				this.state.presumptives.map(item =>
+				lst.map(item =>
 					<Row key={item.id} className="tbl-row" style={{ padding: '10px 4px' }}>
 						<Col sm={4}>
 							<Profile type={item.gender.toLowerCase()} size="small"
@@ -229,18 +348,27 @@ export default class Cases extends React.Component {
 							<div className="sub-text">{'30 days ago'}</div>
 						</Col>
 						<Col sm={2}>
-							{'Positive'}
+							{item.xpertResult.name}
 						</Col>
 						<Col sm={2}>
-							{'TB Positive'}
+							{item.micResult.name}
 						</Col>
 					</Row>
 				)
 			}
+			</Grid>
+		);
+	}
+
+	noRecFoundRender() {
+		return (
+			<div className="card-default">
+				<div className="card-content">
+					<Alert bsStyle="warning">{__('form.norecordfound')}</Alert>
+				</div>
 			</div>
 			);
 	}
-
 
 	render() {
 
@@ -278,9 +406,7 @@ export default class Cases extends React.Component {
 					</Card>
 				</Col>
 				<Col sm={9}>
-					<Card title="Cases">
-						{this.casesRender()}
-					</Card>
+					{this.casesRender()}
 				</Col>
 			</Row>
 			</Grid>
