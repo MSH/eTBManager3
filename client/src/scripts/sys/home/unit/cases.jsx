@@ -304,7 +304,7 @@ export default class Cases extends React.Component {
 								{'TB Positive'}
 							</Col>
 							<Col sm={2} className="col-center">
-								<img src="images/small_pie2.png" style={{ width: '32px' }} />
+								<img src="images/small_pie2.png" style={{ width: '34px' }} />
 							</Col>
 						</Row>
 						)
