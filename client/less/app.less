@@ -6,6 +6,7 @@
 @input-btn-color: #a2a2a2;
 
 @content-bgcolor: #EBF1F0;
+@row-hover: #f8f8f8;
 
 // app components
 @import "callout.less";
@@ -249,17 +250,6 @@
 	color: @brand-primary;
 	font-size:4em !important;
 	margin: 10px 10px 30px 10px;
-}
-
-.tbl-cell {
-	padding: 4px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    border-top: 1px solid #dddddd;
-}
-
-.tbl-cell:hover {
-	background-color: #f8f8f8;
 }
 
 
@@ -515,6 +505,11 @@
 }
 
 
+.tbl-hover > .tbl-row:hover {
+	background-color: @row-hover;
+	cursor: pointer;
+}
+
 .tbl-title {
     font-weight: bold;
     padding-top:10px;
@@ -526,6 +521,17 @@
     padding-bottom: 4px;
 }
 
+.tbl-cell {
+	padding: 4px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+.tbl-cell:hover {
+	background-color: @row-hover;
+}
+
 .nopadding{
 	padding-top:0px;
     padding-left:0px;
@@ -535,7 +541,10 @@
 
 .col-center {
 	display: inline-block;
-	float: none;
 	text-align: center;
 }
 
+.col-right {
+	display: inline-block;
+	text-align: right;
+}

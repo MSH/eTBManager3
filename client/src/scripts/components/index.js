@@ -19,6 +19,7 @@ import Popup from './popup';
 import FormDialog from './form-dialog';
 import SelectionBox from './selection-box';
 import DatePicker from './date-picker';
+import ReactTable from './react-table';
 
 export { Callout,
 	AsyncButton,
@@ -36,5 +37,6 @@ export { Callout,
 	FormDialog,
 	SelectionBox,
 	DatePicker,
-	CollapseRow
+	CollapseRow,
+	ReactTable
 };

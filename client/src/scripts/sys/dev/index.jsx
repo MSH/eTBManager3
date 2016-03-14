@@ -6,6 +6,7 @@ import SidebarContent from '../sidebar-content';
 /** Pages of the public module */
 import Home from './home';
 import DatePickerExamples from './date-picker-examples';
+import ReacttableExample from './reacttable-example';
 
 
 const sidebar = [
@@ -20,6 +21,12 @@ const sidebar = [
 		view: DatePickerExamples,
 		path: '/calendar',
 		icon: 'calendar'
+	},
+	{
+		title: 'Reactive table',
+		view: ReacttableExample,
+		path: '/reacttable',
+		icon: 'table'
 	}
 ];
 

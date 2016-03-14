@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Grid, Row, Col, Input } from 'react-bootstrap';
-import { Profile, Fluidbar, Card, AsyncButton } from '../../../components/index';
+import { Grid, Row, Col, Input, Button, ButtonToolbar } from 'react-bootstrap';
+import { Profile, Fluidbar, Card, AsyncButton, ReactTable } from '../../../components/index';
 import { app } from '../../../core/app';
 
 import { generateName } from '../../mock-data';
@@ -37,6 +37,15 @@ export default class NewNotif extends React.Component {
 		}, 1000);
 	}
 
+	/**
+	 * Called when user clicks on the patient
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	patientClick(item) {
+		app.goto('/sys/home/cases/details/' + item.id);
+	}
+
 	patientsRender() {
 		const lst = this.state.patients;
 
@@ -45,42 +54,48 @@ export default class NewNotif extends React.Component {
 		}
 
 		return (
+			<div>
 				<Card className="mtop" title="Search result" >
-					<div>
-					<Row className="tbl-title">
-						<Col sm={6} xs={9}>
-							{'Patient'}
-						</Col>
-						<Col sm={2} xs={3}>
-							{'Age'}
-						</Col>
-						<Col sm={4} xs={12}>
-							{'Status'}
-						</Col>
-					</Row>
-					{
-						lst.map(item =>
-							<Row className="tbl-row" key={item.id}>
-								<Col sm={6} xs={9}>
+					<ReactTable values={lst}
+						className="mtop"
+						onClick={this.patientClick}
+						columns={[
+							{
+								title: 'Patient',
+								size: { sm: 6, xs: 9 },
+								content: item =>
 									<Profile type={item.gender.toLowerCase()}
 										size="small"
 										title={item.name}
 										/>
-								</Col>
-								<Col sm={2} xs={3}>
-									{item.age}
-								</Col>
-								<Col sm={4} xs={12}>
-									{'TO BE DONE'}
-								</Col>
-							</Row>
-							)
-					}
-					</div>
+							},
+							{
+								title: 'Age',
+								size: { sm: 2, xs: 3 },
+								content: 'age'
+							},
+							{
+								title: 'Status',
+								size: { sm: 4, xs: 12 },
+								content: () => 'TO BE DONE'
+							}
+						]} />
 				</Card>
+			</div>
 			);
 	}
 
+	/**
+	 * Called when user wants to cancel the notification
+	 */
+	cancelClick() {
+		app.goto('/sys/home/unit/cases');
+	}
+
+	/**
+	 * Render
+	 * @return {React.Component} Component to display
+	 */
 	render() {
 		const session = app.getState().session;
 		const lst = [];
@@ -117,9 +132,9 @@ export default class NewNotif extends React.Component {
 						</Row>
 					</Grid>
 				</Fluidbar>
-				<Grid>
+				<Grid fluid>
 					<Row>
-						<Col mdOffset={2} md={8}>
+						<Col mdOffset={2} md={9}>
 							<h1>{'New notification'} </h1>
 							<Card title="Search patient">
 								<div>
@@ -139,12 +154,15 @@ export default class NewNotif extends React.Component {
 									</Row>
 									<Row>
 										<Col sm={12}>
+											<ButtonToolbar>
 											<AsyncButton
 												fetching={this.state.fetching}
 												onClick={this.searchClick}
 												bsStyle="primary">
 												{'Search'}
 											</AsyncButton>
+											<Button onClick={this.cancelClick}>{__('action.cancel')}</Button>
+											</ButtonToolbar>
 										</Col>
 									</Row>
 								</div>
