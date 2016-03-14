@@ -4,13 +4,7 @@ import { Tabs, Tab, Grid, Row, Col, Button, Badge } from 'react-bootstrap';
 import { Card, DatePicker, CollapseRow, SelectionBox, WaitIcon } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
-
-const userList = [
-	'Ricardo Memoria',
-	'Mauricio Santos',
-	'Gustavo Bastos',
-	'Kyle Duarte'
-];
+import CRUD from '../../../commons/crud';
 
 /**
  * The page controller of the public module
@@ -19,14 +13,27 @@ export default class SessionReport extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onDayClick = this.onDayClick.bind(this);
-		this.dayPickerSelect = this.dayPickerSelect.bind(this);
+		this.onDayClickCalendar = this.onDayClickCalendar.bind(this);
+		this.refreshTableAllFilters = this.refreshTableAllFilters.bind(this);
 
-		this.state = { day: new Date() };
+		this.state = { iniDate: new Date() };
 	}
 
 	componentWillMount() {
-		this.refreshTableByDay(this.state.day);
+		this.refreshTableByDay(this.state.iniDate);
+		this.loadUsersList();
+	}
+
+	loadUsersList() {
+		const crud = new CRUD('userws');
+
+		const qry = { profile: 'default' };
+		const self = this;
+
+		crud.query(qry)
+		.then(res => {
+			self.setState({ users: res.list });
+		});
 	}
 
 	/**
@@ -35,6 +42,7 @@ export default class SessionReport extends React.Component {
 	 */
 	refreshTableByDay(day) {
 		const self = this;
+
 		const query = {
 			iniDate: day ? day.getTime() : ''
 		};
@@ -44,27 +52,44 @@ export default class SessionReport extends React.Component {
 			// generate new result
 			const result = { count: res.count, list: res.list };
 			// set state
-			self.setState({ values: result, day: day });
+			self.setState({ values: result, iniDate: day });
 			// return to the promise
 			return result;
 		});
 	}
 
-	onDayClick(e, day) {
+	refreshTableAllFilters() {
+		// TODO: VALIDATE BEFORE THIS
+
+		const self = this;
+		const query = {
+			iniDate: this.state.iniDate,
+			endDate: this.state.endDate,
+			userId: this.state.user ? this.state.user.userId : ''
+		};
+
+		return server.post('/api/admin/rep/sessionreport', query)
+		.then(res => {
+			// generate new result
+			const result = { count: res.count, list: res.list };
+			// set state
+			self.setState({ values: result });
+			// return to the promise
+			return result;
+		});
+	}
+
+	onDayClickCalendar(e, day) {
 		this.refreshTableByDay(day);
 	}
 
-	onChange(ref) {
+	onValueChange(ref) {
 		const self = this;
 		return (evt, val) => {
 			const obj = {};
 			obj[ref] = val;
 			self.setState(obj);
 		};
-	}
-
-	dayPickerSelect(e, day) {
-		this.setState({ dayPicker: day.toString() });
 	}
 
 	parseDetails(item) {
@@ -127,7 +152,7 @@ export default class SessionReport extends React.Component {
 									</Col>
 
 									<Col md={4}>
-										{item.data.loginDate}
+										{new Date(item.data.loginDate).toString()}
 									</Col>
 
 									<Col md={4}>
@@ -159,7 +184,7 @@ export default class SessionReport extends React.Component {
 								<Col md={4} />
 								<Col md={4}>
 									<div>
-										<DayPicker modifiers={modifiers} onDayClick={this.onDayClick} />
+										<DayPicker modifiers={modifiers} onDayClick={this.onDayClickCalendar} />
 									</div>
 								</Col>
 								<Col md={4}/>
@@ -171,24 +196,25 @@ export default class SessionReport extends React.Component {
 						<div>
 							<Row>
 								<Col md={4}>
-									<DatePicker label={__('Period.iniDate')} />
+									<DatePicker label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')} />
 								</Col>
 
 								<Col md={4}>
-									<DatePicker label={__('Period.endDate')} />
+									<DatePicker label={__('Period.endDate')} onChange={this.onValueChange('endDate')} />
 								</Col>
 
 								<Col md={4}>
+								{!this.state || !this.state.users ? <WaitIcon type="field" /> : 
 									<SelectionBox ref="selBox1"
 										value={this.state.selBox1}
 										mode="single"
-										optionDisplay={this.itemDisplay}
+										optionDisplay="name"
 										label={__('User')}
-										onChange={this.onChange('selBox1')}
-										options={userList}/>
+										onChange={this.onValueChange('user')}
+										options={this.state.users} />}
 								</Col>
 
-								<Col md={12}><Button bsStyle="primary">{'Update'}</Button></Col>
+								<Col md={12}><Button onClick={this.refreshTableAllFilters} bsStyle="primary">{'Update'}</Button></Col>
 							</Row>
 						</div>
 					</Tab>

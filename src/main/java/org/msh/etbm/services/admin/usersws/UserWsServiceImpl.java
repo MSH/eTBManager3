@@ -25,10 +25,10 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
         // add order by
         builder.addDefaultOrderByMap(UserWsQueryParams.ORDERBY_NAME, "u.name");
-        builder.addOrderByMap(UserWsQueryParams.ORDERBY_UNIT, "u.name");
+        builder.addOrderByMap(UserWsQueryParams.ORDERBY_UNIT, "un.name");
         builder.addOrderByMap(UserWsQueryParams.ORDERBY_ADMINUNIT, "adminUnit.name");
 
-        builder.setHqlJoin("join fetch a.user u join fetch a.unit u");
+        builder.setHqlJoin("join fetch a.user u join fetch a.unit un");
     }
 
 }
