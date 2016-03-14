@@ -45,6 +45,20 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
+        <class-b>org.msh.etbm.services.admin.usersws.UserWsItemData</class-b>
+
+        <field>
+            <a>user.name</a>
+            <b>name</b>
+        </field>
+
+        <field>
+            <a>user.id</a>
+            <b>userId</b>
+        </field>
+    </mapping>
 
     <mapping>
         <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>

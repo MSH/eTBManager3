@@ -19,7 +19,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         builder.setEntityAlias("a");
 
         // add profiles
-        builder.addProfile(UserWsQueryParams.PROFILE_ITEM, SynchronizableItem.class);
+        builder.addProfile(UserWsQueryParams.PROFILE_ITEM, UserWsItemData.class);
         builder.addDefaultProfile(UserWsQueryParams.PROFILE_DEFAULT, UserWsData.class);
         builder.addProfile(UserWsQueryParams.PROFILE_DETAILED, UserWsDetailedData.class);
 
