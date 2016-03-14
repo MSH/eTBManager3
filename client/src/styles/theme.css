@@ -7285,15 +7285,6 @@ button.close {
   font-size: 4em !important;
   margin: 10px 10px 30px 10px;
 }
-.tbl-cell {
-  padding: 4px;
-  line-height: 1.42857143;
-  vertical-align: top;
-  border-top: 1px solid #dddddd;
-}
-.tbl-cell:hover {
-  background-color: #f8f8f8;
-}
 .prof-tbunit {
   color: #CACEE4;
   background-color: #3F51B5;
@@ -7500,6 +7491,10 @@ button.close {
 .tag-warn {
   border-left-color: #1f69ad;
 }
+.tbl-hover > .tbl-row:hover {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}
 .tbl-title {
   font-weight: bold;
   padding-top: 10px;
@@ -7510,6 +7505,15 @@ button.close {
   padding-top: 4px;
   padding-bottom: 4px;
 }
+.tbl-cell {
+  padding: 4px;
+  line-height: 1.42857143;
+  vertical-align: top;
+  border-top: 1px solid #dddddd;
+}
+.tbl-cell:hover {
+  background-color: #f8f8f8;
+}
 .nopadding {
   padding-top: 0px;
   padding-left: 0px;
@@ -7518,8 +7522,11 @@ button.close {
 }
 .col-center {
   display: inline-block;
-  float: none;
   text-align: center;
+}
+.col-right {
+  display: inline-block;
+  text-align: right;
 }
 .alert {
   border-left-width: 10px;

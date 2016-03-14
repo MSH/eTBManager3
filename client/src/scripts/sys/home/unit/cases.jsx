@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
-import { Card, Profile, WaitIcon } from '../../../components';
+import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
 import { app } from '../../../core/app';
 
 import { generateName, generateCaseNumber } from '../../mock-data';
@@ -39,77 +39,6 @@ const tags = [
 	}
 ];
 
-
-const cases = [
-	{
-		name: 'James Hetfield',
-		id: '123455',
-		recordNumber: '123123-333',
-		gender: 'MALE',
-		regGroup: {
-			id: 'AFTER_FAILURE',
-			name: 'After failure of 1st treatment'
-		},
-		infectionSite: {
-			id: 'PULMONARY',
-			name: 'Pulmonary'
-		},
-		recordDate: 'jan 20th, 2016',
-		iniTreatmentDate: 'Jan 31th, 2016',
-		treatProgess: 35
-	},
-	{
-		name: 'James Hetfield',
-		id: '123456',
-		recordNumber: '123123-333',
-		gender: 'MALE',
-		regGroup: {
-			id: 'AFTER_FAILURE',
-			name: 'After failure of 1st treatment'
-		},
-		infectionSite: {
-			id: 'PULMONARY',
-			name: 'Pulmonary'
-		},
-		recordDate: 'jan 20th, 2016',
-		iniTreatmentDate: 'Jan 31th, 2016',
-		treatProgess: 35
-	},
-	{
-		name: 'James Hetfield',
-		id: '123455',
-		recordNumber: '123123-333',
-		gender: 'MALE',
-		regGroup: {
-			id: 'AFTER_FAILURE',
-			name: 'After failure of 1st treatment'
-		},
-		infectionSite: {
-			id: 'PULMONARY',
-			name: 'Pulmonary'
-		},
-		recordDate: 'jan 20th, 2016',
-		iniTreatmentDate: 'Jan 31th, 2016',
-		treatProgess: 35
-	},
-	{
-		name: 'James Hetfield',
-		id: '123455',
-		recordNumber: '123123-333',
-		gender: 'MALE',
-		regGroup: {
-			id: 'AFTER_FAILURE',
-			name: 'After failure of 1st treatment'
-		},
-		infectionSite: {
-			id: 'PULMONARY',
-			name: 'Pulmonary'
-		},
-		recordDate: 'jan 20th, 2016',
-		iniTreatmentDate: 'Jan 31th, 2016',
-		treatProgess: 35
-	}
-];
 
 export default class Cases extends React.Component {
 
@@ -197,6 +126,15 @@ export default class Cases extends React.Component {
 		app.goto('/sys/home/cases/newnotif');
 	}
 
+	/**
+	 * Called when user clicks on a case
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
+	caseClick(item) {
+		app.goto('/sys/home/cases/detail/' + item.id);
+	}
+
 	tabSelect(evt) {
 		this.setState({ sel: evt });
 	}
@@ -253,113 +191,103 @@ export default class Cases extends React.Component {
 
 	tbCasesRender() {
 		const lst = this.state.tbCases;
-
-		if (lst.length === 0) {
-			return this.noRecFoundRender();
-		}
-		return null;
+		return this.confirmRender(lst);
 	}
 
 	drtbCasesRender() {
 		const lst = this.state.drtbCases;
+		return this.confirmRender(lst);
+	}
 
+	confirmRender(lst) {
 		if (lst.length === 0) {
 			return this.noRecFoundRender();
 		}
 
 		return (
-			<Grid fluid>
-				<Row className="tbl-title">
-					<Col sm={4}>
-						{'Patient'}
-					</Col>
-					<Col sm={2}>
-						{'Registration date'}
-					</Col>
-					<Col sm={2}>
-						{'Registration group'}
-					</Col>
-					<Col sm={2}>
-						{'Start treatment date'}
-					</Col>
-					<Col sm={2}>
-						{'Treatment progress'}
-					</Col>
-				</Row>
-				{
-					lst.map(item =>
-						<Row key={item.id} className="tbl-row" style={{ padding: '10px 4px' }}>
-							<Col sm={4}>
-								<Profile type={item.gender.toLowerCase()} size="small"
-									title={item.name} subtitle={item.recordNumber} />
-							</Col>
-							<Col sm={2}>
-								<div>{'24-jan-2016'}</div>
-								<div className="sub-text">{'30 days ago'}</div>
-							</Col>
-							<Col sm={2}>
-								{'Positive'}
-							</Col>
-							<Col sm={2}>
-								{'TB Positive'}
-							</Col>
-							<Col sm={2} className="col-center">
-								<img src="images/small_pie2.png" style={{ width: '34px' }} />
-							</Col>
-						</Row>
-						)
-				}
-			</Grid>
+			<ReactTable className="mtop-2x"
+				columns={[
+					{
+						title: 'Patient',
+						size: { sm: 4 },
+						content: item =>
+							<Profile type={item.gender.toLowerCase()} size="small"
+								title={item.name} subtitle={item.recordNumber} />
+					},
+					{
+						title: 'Registration date',
+						size: { sm: 2 },
+						content: item => <div>{item.recordDate}<br/>
+								<div className="sub-text">{'30 days ago'}</div></div>
+					},
+					{
+						title: 'Registration group',
+						size: { sm: 2 },
+						content: item => <div>{item.regGroup.name}<br/>{item.infectionSite.name}</div>
+					},
+					{
+						title: 'Start treatment date',
+						size: { sm: 2 },
+						content: 'iniTreatmentDate'
+					},
+					{
+						title: 'Progress',
+						size: { sm: 2 },
+						align: 'center',
+						content: () => <img src="images/small_pie2.png" style={{ width: '36px' }} />
+					}
+				]} values={lst} onClick={this.caseClick}/>
 			);
 	}
 
+	/**
+	 * Return the list of cases to be displayed
+	 * @return {React.Component} Component displaying the cases
+	 */
 	presumptiveRender() {
 		const lst = this.state.presumptives;
 
+		// is there any case to display ?
 		if (lst.length === 0) {
 			return this.noRecFoundRender();
 		}
 
 		return (
-			<Grid fluid>
-			<Row className="tbl-title">
-				<Col sm={4}>
-					{'Patient'}
-				</Col>
-				<Col sm={3}>
-					{'Registration date'}
-				</Col>
-				<Col sm={2}>
-					{'Xpert'}
-				</Col>
-				<Col sm={2}>
-					{'Microscopy'}
-				</Col>
-			</Row>
-			{
-				lst.map(item =>
-					<Row key={item.id} className="tbl-row" style={{ padding: '10px 4px' }}>
-						<Col sm={4}>
+			<ReactTable columns={
+				[{
+					title: 'Patient',
+					size: { sm: 4 },
+					content: item =>
 							<Profile type={item.gender.toLowerCase()} size="small"
 								title={item.name} subtitle={item.recordNumber} />
-						</Col>
-						<Col sm={3}>
-							<div>{'24-jan-2016'}</div>
+				},
+				{
+					title: 'Registration date',
+					size: { sm: 3 },
+					content: item =>
+						<div>{item.recordDate}
 							<div className="sub-text">{'30 days ago'}</div>
-						</Col>
-						<Col sm={2}>
-							{item.xpertResult.name}
-						</Col>
-						<Col sm={2}>
-							{item.micResult.name}
-						</Col>
-					</Row>
-				)
-			}
-			</Grid>
+						</div>,
+					align: 'center'
+				},
+				{
+					title: 'Xpert',
+					size: { sm: 2 },
+					content: item => item.xpertResult.name
+				},
+				{
+					title: 'Microscopy',
+					size: { sm: 2 },
+					content: item => item.micResult.name
+				}
+				]} values={lst} className="mtop-2x" onClick={this.caseClick} />
 		);
 	}
 
+	/**
+	 * Return a message displaying 'No record found'
+	 * @return {[type]} [description]
+	 */
 	noRecFoundRender() {
 		return (
 			<div className="card-default">
@@ -388,7 +316,7 @@ export default class Cases extends React.Component {
 				<Col sm={3}>
 					<OverlayTrigger trigger="click" placement="right"
 						overlay={popup} rootClose>
-						<Button bsStyle="danger" style={{ padding: '8px 40px' }}>{'Notify'}</Button>
+						<Button bsStyle="danger" block style={{ padding: '8px 40px' }}>{'Notify'}</Button>
 					</OverlayTrigger>
 
 					<Card className="mtop" title="Tags">
