@@ -153,7 +153,7 @@ export default class CrudCard extends React.Component {
 		return (
 			<Row>
 				<Col {...colProps}>
-					<h4>{this.props.title}{compCount}</h4>
+					<h4>{this.props.title} {compCount}</h4>
 				</Col>
 				{searchBox}
 				{newButton}

@@ -407,4 +407,24 @@ public class DateUtils {
 		return (c.get(Calendar.HOUR) > 0) || (c.get(Calendar.MINUTE) > 0) || (c.get(Calendar.SECOND) > 0) || (c.get(Calendar.MILLISECOND) > 0);
 	}
 
+	/**
+	 * Remove time information of a {@link Date} object
+	 * @param dt date to remove time information
+	 * @return {@link Date} instance without time information
+	 */
+	public static Date getLastMinute(Date dt) {
+		Calendar c = Calendar.getInstance();
+		Calendar aux = Calendar.getInstance();
+		aux.setTime(dt);
+		c.clear();
+		c.set(Calendar.YEAR, aux.get(Calendar.YEAR));
+		c.set(Calendar.MONTH, aux.get(Calendar.MONTH));
+		c.set(Calendar.DAY_OF_YEAR, aux.get(Calendar.DAY_OF_YEAR));
+		c.set(Calendar.HOUR_OF_DAY, 24);
+		c.set(Calendar.MINUTE, 59);
+		c.set(Calendar.SECOND, 59);
+
+		return c.getTime();
+	}
+
 }
