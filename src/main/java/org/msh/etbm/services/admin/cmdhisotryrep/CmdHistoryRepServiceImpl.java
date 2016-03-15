@@ -1,6 +1,8 @@
-package org.msh.etbm.services.admin.onlinereport;
+package org.msh.etbm.services.admin.cmdhisotryrep;
 
 import org.msh.etbm.db.entities.UserLogin;
+import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
+import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by msantos on 9/3/16.
  */
 @Service
-public class OnlineUsersRepServiceImpl implements OnlineUsersRepService {
+public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
     @PersistenceContext
     EntityManager entityManager;

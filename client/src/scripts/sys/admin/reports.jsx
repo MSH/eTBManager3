@@ -4,6 +4,7 @@ import PageContent from './page-content';
 
 import UserSessions from './reports/usersessions';
 import OnlineUsers from './reports/onlineusers';
+import CommandHistory from './reports/cmdhistory';
 
 /**
  * Options of the left menu in the reports page
@@ -28,7 +29,8 @@ const menu = [
 		title: 'Command history',
 		icon: 'file-text-o',
 		perm: 'CMDHISTORY',
-		path: 'cmdhistory'
+		path: '/cmdhistory',
+		view: CommandHistory
 	},
 	{
 		title: 'Command statistics',
