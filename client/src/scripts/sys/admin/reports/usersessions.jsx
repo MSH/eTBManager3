@@ -26,7 +26,7 @@ export default class UserSessions extends React.Component {
 
 	loadUsersList() {
 		const crud = new CRUD('userws');
-		const qry = { profile: 'default' };
+		const qry = { profile: 'item' };
 		const self = this;
 
 		crud.query(qry)
