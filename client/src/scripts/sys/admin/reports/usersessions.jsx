@@ -5,6 +5,19 @@ import { Card, DatePicker, CollapseRow, SelectionBox, WaitIcon } from '../../../
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
 import CRUD from '../../../commons/crud';
+import { validateForm } from '../../../commons/validator';
+
+/**
+ * Form validation model
+ */
+const form = {
+	inidate: {
+		required: true
+	},
+	enddate: {
+		required: true
+	}
+};
 
 /**
  * The page controller of the public module
@@ -58,23 +71,28 @@ export default class UserSessions extends React.Component {
 	}
 
 	refreshTableAllFilters() {
-		// TODO: VALIDATE BEFORE THIS
-
 		const self = this;
+
+		const vals = validateForm(self, form);
+
+        // there is any validation error ?
+        if (vals.errors) {
+            this.setState({ errors: vals.errors });
+            return;
+        }
+
 		const query = {
 			iniDate: this.state.iniDate,
 			endDate: this.state.endDate,
 			userId: this.state.user ? this.state.user.userId : ''
 		};
 
-		return server.post('/api/admin/rep/usersession', query)
+		server.post('/api/admin/rep/usersession', query)
 		.then(res => {
 			// generate new result
 			const result = { count: res.count, list: res.list };
 			// set state
 			self.setState({ values: result });
-			// return to the promise
-			return result;
 		});
 	}
 
@@ -165,12 +183,13 @@ export default class UserSessions extends React.Component {
 
 	render() {
 		const selday = this.state.iniDate;
-
 		const modifiers = {
 			selected: day => selday ? DateUtils.isSameDay(day, selday) : false
 		};
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
+
+		const err = this.state.errors || {};
 
 		return (
 			<Card header={header}>
@@ -195,15 +214,17 @@ export default class UserSessions extends React.Component {
 						<div>
 							<Row>
 								<Col md={4}>
-									<DatePicker label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')} />
+									<DatePicker ref="inidate" label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')}
+										help={err.inidate} bsStyle={err.inidate ? 'error' : undefined} />
 								</Col>
 
 								<Col md={4}>
-									<DatePicker label={__('Period.endDate')} onChange={this.onValueChange('endDate')} />
+									<DatePicker ref="enddate" label={__('Period.endDate')} onChange={this.onValueChange('endDate')}
+										help={err.enddate} bsStyle={err.enddate ? 'error' : undefined} />
 								</Col>
 
 								<Col md={4}>
-								{!this.state || !this.state.users ? <WaitIcon type="field" /> : 
+								{!this.state || !this.state.users ? <WaitIcon type="field" /> :
 									<SelectionBox ref="selBox1"
 										value={this.state.selBox1}
 										mode="single"
@@ -212,7 +233,8 @@ export default class UserSessions extends React.Component {
 										onChange={this.onValueChange('user')}
 										options={this.state.users} />}
 								</Col>
-
+							</Row>
+							<Row>
 								<Col md={12}><Button onClick={this.refreshTableAllFilters} bsStyle="primary">{'Update'}</Button></Col>
 							</Row>
 						</div>

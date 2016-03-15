@@ -24,7 +24,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     @Autowired
     UserRequestService userRequestService;
 
-    public List<OnlineUsersRepData> getResult() {
+    public List<OnlineUsersRepData> getResult(CmdHistoryRepQueryParams query) {
         List<OnlineUsersRepData> ret = new ArrayList<>();
 
         List<UserLogin> results = entityManager.createQuery("from UserLogin where logoutDate is null and workspace.id = :wId")
