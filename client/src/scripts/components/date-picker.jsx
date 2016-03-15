@@ -18,6 +18,22 @@ export default class DatePicker extends React.Component {
 		if (this.onChange) {
 			this.onChange(evt, day);
 		}
+
+		this.refs.textfield.value = this.formatDay(day);
+	}
+
+	formatDay(day) {
+		var date = day.getDate().toString();
+		if (date.length === 1) {
+			date = '0' + date;
+		}
+
+		var month = (day.getMonth() + 1).toString();
+		if (month.length === 1) {
+			month = '0' + month;
+		}
+
+		return date + '/' + month + '/' + day.getFullYear();
 	}
 
 
@@ -40,7 +56,7 @@ export default class DatePicker extends React.Component {
 		return (
 			<div>
 				{label}
-				<input type="text" className="form-control input-right-button" placeholder="dd/mm/yyyy" />
+				<input type="text" ref="textfield" className="form-control input-right-button" placeholder="dd/mm/yyyy" />
 				<a className="form-control-action" onClick={this.buttonClick} >
 					<Fa icon="calendar"/>
 				</a>
