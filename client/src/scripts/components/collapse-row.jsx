@@ -42,7 +42,7 @@ export default class CollapseRow extends React.Component {
 
 
 CollapseRow.propTypes = {
-    className: React.PropTypes.String,
+    className: React.PropTypes.string,
     children: React.PropTypes.any,
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,

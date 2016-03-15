@@ -46,7 +46,7 @@ export default class UserSessions extends React.Component {
 			iniDate: day.getTime()
 		};
 
-		return server.post('/api/admin/rep/dailysessionreport', query)
+		return server.post('/api/admin/rep/dailyusersession', query)
 		.then(res => {
 			// generate new result
 			const result = { count: res.count, list: res.list };
@@ -67,7 +67,7 @@ export default class UserSessions extends React.Component {
 			userId: this.state.user ? this.state.user.userId : ''
 		};
 
-		return server.post('/api/admin/rep/sessionreport', query)
+		return server.post('/api/admin/rep/usersession', query)
 		.then(res => {
 			// generate new result
 			const result = { count: res.count, list: res.list };

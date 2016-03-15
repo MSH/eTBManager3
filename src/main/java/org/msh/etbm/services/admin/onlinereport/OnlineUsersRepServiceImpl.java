@@ -1,6 +1,8 @@
 package org.msh.etbm.services.admin.onlinereport;
 
 import org.msh.etbm.db.entities.UserLogin;
+import org.msh.etbm.services.usersession.UserRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -17,10 +19,14 @@ public class OnlineUsersRepServiceImpl implements OnlineUsersRep {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    UserRequestService userRequestService;
+
     public List<OnlineUsersRepData> getResult() {
         List<OnlineUsersRepData> ret = new ArrayList<>();
 
-        List<UserLogin> results = entityManager.createQuery("from UserLogin where logoutDate is null ")
+        List<UserLogin> results = entityManager.createQuery("from UserLogin where logoutDate is null and workspace.id = :wId")
+                                    .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
                                     .getResultList();
 
         for (UserLogin u : results) {

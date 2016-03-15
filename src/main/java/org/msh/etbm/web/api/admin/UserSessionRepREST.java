@@ -24,8 +24,13 @@ public class UserSessionRepREST {
     @Autowired
     UserSessionRepService service;
 
-    @RequestMapping(value = "/dailysessionreport", method = RequestMethod.POST)
-    public QueryResult queryFilterByDay(@Valid @RequestBody UserSessionRepQueryParams query) {
+    @RequestMapping(value = "/dailyusersession", method = RequestMethod.POST)
+    public QueryResult queryByDay(@Valid @RequestBody UserSessionRepQueryParams query) {
         return service.getResultByDay(query);
+    }
+
+    @RequestMapping(value = "/usersession", method = RequestMethod.POST)
+    public QueryResult query(@Valid @RequestBody UserSessionRepQueryParams query) {
+        return service.getResult(query);
     }
 }
