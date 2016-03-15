@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by rmemoria on 10/3/16.
  */
-public class SessionReportQueryParams extends EntityQueryParams {
+public class UserSessionRepQueryParams extends EntityQueryParams {
 
     Date iniDate;
     Date endDate;

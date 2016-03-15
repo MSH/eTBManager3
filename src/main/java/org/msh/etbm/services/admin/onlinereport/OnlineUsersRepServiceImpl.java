@@ -12,19 +12,19 @@ import java.util.List;
  * Created by msantos on 9/3/16.
  */
 @Service
-public class OnlineReportServiceImpl implements OnlineReportService {
+public class OnlineUsersRepServiceImpl implements OnlineUsersRep {
 
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<OnlineReportData> getResult() {
-        List<OnlineReportData> ret = new ArrayList<>();
+    public List<OnlineUsersRepData> getResult() {
+        List<OnlineUsersRepData> ret = new ArrayList<>();
 
         List<UserLogin> results = entityManager.createQuery("from UserLogin where logoutDate is null ")
                                     .getResultList();
 
         for (UserLogin u : results) {
-            ret.add(new OnlineReportData(u.getUser().getLogin(), u.getUser().getName(), u.getLoginDate(), u.getLastAccess()));
+            ret.add(new OnlineUsersRepData(u.getUser().getLogin(), u.getUser().getName(), u.getLoginDate(), u.getLastAccess()));
         }
 
         return ret;

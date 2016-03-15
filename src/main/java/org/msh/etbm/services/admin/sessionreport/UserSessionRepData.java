@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by msantos on 9/3/16.
  */
-public class SessionReportData {
+public class UserSessionRepData {
 
     private String userLogin;
     private String userName;
@@ -14,7 +14,7 @@ public class SessionReportData {
     private String ipAddress;
     private String application;
 
-    public SessionReportData(String userLogin, String userName, Date loginDate, Date logoutDate, String ipAddress, String application) {
+    public UserSessionRepData(String userLogin, String userName, Date loginDate, Date logoutDate, String ipAddress, String application) {
         this.userLogin = userLogin;
         this.userName = userName;
         this.loginDate = loginDate;

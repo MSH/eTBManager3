@@ -25,7 +25,7 @@ export default class OnlineUsers extends React.Component {
 	refreshTable() {
 		const self = this;
 
-		return server.post('/api/admin/rep/onlinereport')
+		return server.post('/api/admin/rep/onlineusers')
 		.then(res => {
 			// generate new result
 			const result = { count: res.length, list: res };

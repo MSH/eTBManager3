@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.services.admin.onlinereport.OnlineReportData;
-import org.msh.etbm.services.admin.onlinereport.OnlineReportService;
+import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
+import org.msh.etbm.services.admin.onlinereport.OnlineUsersRep;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/rep")
 @Authenticated(permissions = {Permissions.ADMIN_REP_USERSONLINE})
-public class OnlineReportREST {
+public class OnlineUsersRepREST {
 
     @Autowired
-    OnlineReportService service;
+    OnlineUsersRep service;
 
-    @RequestMapping(value = "/onlinereport", method = RequestMethod.POST)
-    public List<OnlineReportData> query() {
+    @RequestMapping(value = "/onlineusers", method = RequestMethod.POST)
+    public List<OnlineUsersRepData> query() {
         return service.getResult();
     }
 

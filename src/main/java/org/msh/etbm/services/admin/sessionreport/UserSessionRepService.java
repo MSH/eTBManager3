@@ -8,8 +8,8 @@ import java.util.UUID;
 /**
  * Created by msantos on 11/3/16.
  */
-public interface SessionReportService {
-    QueryResult getResultByDay(Date day);
+public interface UserSessionRepService {
+    QueryResult getResultByDay(UserSessionRepQueryParams query);
 
-    QueryResult getResult(Date iniDate, Date endDate, UUID userId);
+    QueryResult getResult(UserSessionRepQueryParams query);
 }

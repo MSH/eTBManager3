@@ -2,7 +2,7 @@
 import React from 'react';
 import PageContent from './page-content';
 
-import ReportsSession from './reports/sessionreport';
+import UserSessions from './reports/usersessions';
 import OnlineUsers from './reports/onlineusers';
 
 /**
@@ -21,8 +21,8 @@ const menu = [
 		title: __('admin.reports.usersession'),
 		icon: 'file-text-o',
 		perm: 'USERSESREP',
-		path: '/reportssession',
-		view: ReportsSession
+		path: '/usersessions',
+		view: UserSessions
 	},
 	{
 		title: 'Command history',

@@ -5,14 +5,14 @@ import java.util.Date;
 /**
  * Created by msantos on 9/3/16.
  */
-public class OnlineReportData {
+public class OnlineUsersRepData {
 
     private String userLogin;
     private String userName;
     private Date loginDate;
     private Date lastAccess;
 
-    public OnlineReportData(String userLogin, String userName, Date loginDate, Date lastAccess) {
+    public OnlineUsersRepData(String userLogin, String userName, Date loginDate, Date lastAccess) {
         this.userLogin = userLogin;
         this.userName = userName;
         this.loginDate = loginDate;

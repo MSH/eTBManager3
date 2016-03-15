@@ -9,7 +9,7 @@ import CRUD from '../../../commons/crud';
 /**
  * The page controller of the public module
  */
-export default class SessionReport extends React.Component {
+export default class UserSessions extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -26,7 +26,6 @@ export default class SessionReport extends React.Component {
 
 	loadUsersList() {
 		const crud = new CRUD('userws');
-
 		const qry = { profile: 'default' };
 		const self = this;
 
@@ -44,7 +43,7 @@ export default class SessionReport extends React.Component {
 		const self = this;
 
 		const query = {
-			iniDate: day ? day.getTime() : ''
+			iniDate: day.getTime()
 		};
 
 		return server.post('/api/admin/rep/dailysessionreport', query)
@@ -120,7 +119,7 @@ export default class SessionReport extends React.Component {
 		return (
 			<Row>
 				<Col md={12}>
-					<h4>{__('admin.reports.usersession')}{count === 0 ? '' : countHTML}</h4>
+					<h4>{__('admin.reports.usersession')} {count === 0 ? '' : countHTML}</h4>
 				</Col>
 			</Row>
 			);
@@ -165,7 +164,7 @@ export default class SessionReport extends React.Component {
 	}
 
 	render() {
-		const selday = this.state.day;
+		const selday = this.state.iniDate;
 
 		const modifiers = {
 			selected: day => selday ? DateUtils.isSameDay(day, selday) : false
@@ -228,6 +227,6 @@ export default class SessionReport extends React.Component {
 	}
 }
 
-SessionReport.propTypes = {
+UserSessions.propTypes = {
 	route: React.PropTypes.object
 };
