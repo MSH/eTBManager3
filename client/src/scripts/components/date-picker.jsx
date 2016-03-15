@@ -1,7 +1,8 @@
 import React from 'react';
-import DayPicker from 'react-day-picker';
+import DayPicker, { DateUtils } from 'react-day-picker';
 import Popup from './popup';
 import Fa from './fa';
+
 
 export default class DatePicker extends React.Component {
 
@@ -10,6 +11,7 @@ export default class DatePicker extends React.Component {
 		this.dayClick = this.dayClick.bind(this);
 		this.buttonClick = this.buttonClick.bind(this);
 		this.preventClose = this.preventClose.bind(this);
+		this.valueChange = this.valueChange.bind(this);
 
 		this.state = { };
 	}
@@ -19,10 +21,10 @@ export default class DatePicker extends React.Component {
 			this.props.onChange(evt, day);
 		}
 
-		this.refs.textfield.value = this.formatDay(day);
+		this.refs.textfield.value = this.dateToStr(day);
 	}
 
-	formatDay(day) {
+	dateToStr(day) {
 		var date = day.getDate().toString();
 		if (date.length === 1) {
 			date = '0' + date;
@@ -36,6 +38,23 @@ export default class DatePicker extends React.Component {
 		return date + '/' + month + '/' + day.getFullYear();
 	}
 
+	strToDate(s) {
+		const vals = s.split('/');
+		if (vals.length !== 3) {
+			return null;
+		}
+
+		const year = Number(vals[2]);
+		if (year < 1000 || year > 3000) {
+			return null;
+		}
+
+		const dt = new Date(year, Number(vals[1]) - 1, Number(vals[0]));
+		if (isNaN(dt.getTime())) {
+			return null;
+		}
+		return !dt ? null : dt;
+	}
 
 	buttonClick() {
 		this.refs.popup.show();
@@ -45,6 +64,13 @@ export default class DatePicker extends React.Component {
 		this.refs.popup.preventHide();
 	}
 
+	valueChange() {
+		const s = this.refs.textfield.value;
+		const dt = this.strToDate(s);
+		if (dt) {
+			this.dayClick(null, dt);
+		}
+	}
 
 	render() {
 
@@ -53,15 +79,27 @@ export default class DatePicker extends React.Component {
 			<label className="control-label">{this.props.label}</label> :
 			null;
 
+		const dt = this.props.value;
+		const value = dt ? this.dateToStr(dt) : '';
+
+		// display the selected day
+		const modifiers = {
+			selected: day => dt ? DateUtils.isSameDay(day, dt) : false
+		};
+
 		return (
 			<div>
 				{label}
-				<input type="text" ref="textfield" className="form-control input-right-button" placeholder="dd/mm/yyyy" />
+				<input type="text" ref="textfield"
+					className="form-control input-right-button"
+					placeholder="dd/mm/yyyy"
+					defaultValue={value} onChange={this.valueChange}/>
 				<a className="form-control-action" onClick={this.buttonClick} >
 					<Fa icon="calendar"/>
 				</a>
 				<Popup ref="popup">
 					<DayPicker onDayClick={this.dayClick}
+						modifiers={modifiers}
 						onMonthChange={this.preventClose} />
 				</Popup>
 			</div>
