@@ -3,7 +3,7 @@ import React from 'react';
 import PageContent from './page-content';
 
 import ReportsSession from './reports/sessionreport';
-import ReportsOnline from './reports/onlinereport';
+import OnlineUsers from './reports/onlineusers';
 
 /**
  * Options of the left menu in the reports page
@@ -14,8 +14,8 @@ const menu = [
 		title: __('admin.websessions'),
 		icon: 'users',
 		perm: 'ONLINE',
-		path: 'online',
-		view: ReportsOnline
+		path: '/onlineusers',
+		view: OnlineUsers
 	},
 	{
 		title: __('admin.reports.usersession'),

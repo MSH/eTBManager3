@@ -7,7 +7,7 @@ import { server } from '../../../commons/server';
 /**
  * The page controller of the public module
  */
-export default class OnlineReport extends React.Component {
+export default class OnlineUsers extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -106,7 +106,7 @@ export default class OnlineReport extends React.Component {
 								</Col>
 
 								<Col md={4}>
-									{item.data.loginDate}
+									{new Date(item.data.loginDate).toString()}
 								</Col>
 
 								<Col md={4}>
@@ -122,6 +122,6 @@ export default class OnlineReport extends React.Component {
 	}
 }
 
-OnlineReport.propTypes = {
+OnlineUsers.propTypes = {
 	route: React.PropTypes.object
 };
