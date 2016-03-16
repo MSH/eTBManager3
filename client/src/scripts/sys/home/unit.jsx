@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { Profile, Fluidbar } from '../../components/index';
+import { Row, Col, Nav, NavItem } from 'react-bootstrap';
 import { app } from '../../core/app';
 import { RouteView, router } from '../../components/router';
+import UnitPanel from './commons/unit-panel';
 
 
 import General from './unit/general';
@@ -55,62 +55,26 @@ export default class Unit extends React.Component {
 	}
 
 	render() {
-		const session = app.getState().session;
-
-		const lst = [];
-		const keys = Object.keys(session.adminUnit);
-		keys.forEach((k, index) => {
-				lst.push(<a key={index} href="/sys/home/admunit">{session.adminUnit[k].name}</a>);
-				if (index < keys.length - 1) {
-					lst.push(<span key={'s' + index}>{', '}</span>);
-				}
-			});
-
-		const subtitle = (
-			<div>
-				{lst}
-				<br/>
-				<a>{session.workspaceName}</a>
-			</div>
-		);
-
-		// create temporary cells
-		var lst2 = [];
-		for (var i = 0; i < 12; i++) {
-			lst2.push(i);
-		}
+		const content = (
+			<Row>
+				<Col md={12}>
+					<Nav bsStyle="tabs" activeKey={this.tabIndex()}
+						onSelect={this.tabSelect}
+						className="app-tabs">
+						{
+							routes.list.map((it, index) =>
+								<NavItem key={index} eventKey={index}>
+									{it.data.title}
+								</NavItem>)
+						}
+					</Nav>
+				</Col>
+			</Row>
+			);
 
 		return (
 			<div>
-				<Fluidbar>
-					<Grid>
-						<Row>
-							<Col md={12}>
-								<div className="margin-2x">
-									<Profile title={session.unitName}
-										subtitle={subtitle}
-										type="tbunit"
-										size="large"
-										/>
-								</div>
-							</Col>
-						</Row>
-						<Row>
-							<Col md={12}>
-								<Nav bsStyle="tabs" activeKey={this.tabIndex()}
-									onSelect={this.tabSelect}
-									className="app-tabs">
-									{
-										routes.list.map((it, index) =>
-											<NavItem key={index} eventKey={index}>
-												{it.data.title}
-											</NavItem>)
-									}
-								</Nav>
-							</Col>
-						</Row>
-					</Grid>
-				</Fluidbar>
+				<UnitPanel content={content} />
 				<RouteView routes={routes} />
 			</div>
 			);

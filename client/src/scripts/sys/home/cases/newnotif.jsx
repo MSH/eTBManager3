@@ -5,6 +5,7 @@ import { Profile, Fluidbar } from '../../../components/index';
 import { app } from '../../../core/app';
 import SearchPatient from './new-searchpatient';
 import NotifForm from './new-notifform';
+import UnitPanel from '../commons/unit-panel';
 
 
 export default class NewNotif extends React.Component {
@@ -13,8 +14,8 @@ export default class NewNotif extends React.Component {
 		super(props);
 		this.onSelectPatient = this.onSelectPatient.bind(this);
 
-//		this.state = { };
-		this.state = { patient: { name: 'Juan Suarez', age: 44, gender: 'MALE' } };
+		this.state = { };
+//		this.state = { patient: { name: 'Juan Suarez', age: 44, gender: 'MALE' } };
 	}
 
 	/**
@@ -38,41 +39,9 @@ export default class NewNotif extends React.Component {
 	 * @return {React.Component} Component to display
 	 */
 	render() {
-		const session = app.getState().session;
-		const lst = [];
-		const keys = Object.keys(session.adminUnit);
-		keys.forEach((k, index) => {
-				lst.push(<a key={index} href="/sys/home/admunit">{session.adminUnit[k].name}</a>);
-				if (index < keys.length - 1) {
-					lst.push(<span key={'s' + index}>{', '}</span>);
-				}
-			});
-
-		const subtitle = (
-			<div>
-				{lst}
-				<br/>
-				<a>{session.workspaceName}</a>
-			</div>
-		);
-
 		return (
 			<div>
-				<Fluidbar>
-					<Grid>
-						<Row>
-							<Col md={12}>
-								<div className="margin-2x">
-									<Profile title={session.unitName}
-										subtitle={subtitle}
-										type="tbunit"
-										size="large"
-										/>
-								</div>
-							</Col>
-						</Row>
-					</Grid>
-				</Fluidbar>
+				<UnitPanel />
 				{
 					this.state.patient ?
 						<NotifForm patient={this.state.patient} /> :

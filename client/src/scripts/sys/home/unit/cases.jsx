@@ -132,7 +132,7 @@ export default class Cases extends React.Component {
 	 * @return {[type]}    [description]
 	 */
 	caseClick(item) {
-		app.goto('/sys/home/cases/detail/' + item.id);
+		app.goto('/sys/home/cases/details/' + item.id);
 	}
 
 	tabSelect(evt) {

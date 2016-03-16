@@ -7499,6 +7499,7 @@ button.close {
 }
 .tag-danger {
   border-left-color: #d9534f;
+  font-weight: bold;
 }
 .tag-userdef {
   border-left-color: #1e9614;
