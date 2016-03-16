@@ -7369,11 +7369,9 @@ button.close {
 .form-control-action {
   position: absolute;
   right: 12px;
-  bottom: 0px;
-  height: 14px;
-  margin: auto;
-  margin-bottom: 12px;
-  font-size: 14px;
+  top: 30px;
+  height: 22px;
+  font-size: 16px;
   cursor: pointer;
   color: #a2a2a2;
   transition: 0.5s;

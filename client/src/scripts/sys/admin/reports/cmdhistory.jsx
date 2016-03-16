@@ -43,7 +43,7 @@ const fschema = {
 					property: 'type',
 					required: false,
 					type: 'select',
-					label: __('admin.reports.cmdhistory.type'),
+					label: 'TODO', // __('admin.reports.cmdhistory.type'),
 					options: 'users', // TODOMS
 					size: { md: 4 }
 				},
