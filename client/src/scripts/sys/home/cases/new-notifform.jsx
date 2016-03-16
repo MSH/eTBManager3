@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, ButtonToolbar, Grid, Col, Row } from 'react-bootstrap';
 import { Card, AsyncButton } from '../../../components';
 import Form from '../../../forms/form';
+import { app } from '../../../core/app';
 
 
 const notifForm = {
@@ -248,6 +249,10 @@ export default class NotifForm extends React.Component {
 		this.setState({ schema: notifForm });
 	}
 
+	cancelClick() {
+		app.goto('/sys/home/unit/cases');
+	}
+
 	render() {
 		const schema = this.state && this.state.schema;
 		if (!schema) {
@@ -262,7 +267,7 @@ export default class NotifForm extends React.Component {
 							<Form schema={schema} doc={this.props.patient} />
 							<ButtonToolbar>
 								<AsyncButton bsStyle="primary">{__('action.save')}</AsyncButton>
-								<Button bsStyle="link" >{__('action.cancel')}</Button>
+								<Button bsStyle="link" onClick={this.cancelClick}>{__('action.cancel')}</Button>
 							</ButtonToolbar>
 						</Card>
 					</Col>

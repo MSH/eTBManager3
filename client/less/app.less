@@ -355,10 +355,29 @@
 }
 
 
+.input-btn-group {
+	position: relative;
+
+	input {
+		padding-right: 25px;
+	}
+
+	.btn-group {
+	    position: absolute;
+	    right: 6px;
+	    top: 6px;
+	    height: 22px;
+	    font-size: 16px;
+	    cursor: pointer;
+	    color: @input-btn-color;
+		transition: 0.5s;
+		margin-left:10px;
+	}
+}
 .form-control-action {
     position: absolute;
-    right: 12px;
-    top: 30px;
+    right: 6px;
+    top: 6px;
     height: 22px;
     font-size: 16px;
     cursor: pointer;

@@ -7366,10 +7366,27 @@ button.close {
   width: 100%;
   margin: 20px 0 10px 0;
 }
+.input-btn-group {
+  position: relative;
+}
+.input-btn-group input {
+  padding-right: 25px;
+}
+.input-btn-group .btn-group {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  height: 22px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #a2a2a2;
+  transition: 0.5s;
+  margin-left: 10px;
+}
 .form-control-action {
   position: absolute;
-  right: 12px;
-  top: 30px;
+  right: 6px;
+  top: 6px;
   height: 22px;
   font-size: 16px;
   cursor: pointer;

@@ -131,13 +131,15 @@ export default class DatePicker extends React.Component {
 			<div className={compClass}>
 				<div>
 					{label}
-					<input type="text" ref="textfield"
-						className="form-control input-right-button"
-						placeholder="dd/mm/yyyy"
-						defaultValue={value} onChange={this.valueChange}/>
-					<a className="form-control-action" onClick={this.buttonClick} >
-						<Fa icon="calendar"/>
-					</a>
+					<div className="input-btn-group">
+						<input type="text" ref="textfield"
+							className="form-control"
+							placeholder="dd/mm/yyyy"
+							defaultValue={value} onChange={this.valueChange}/>
+						<a className="btn-group" onClick={this.buttonClick} >
+							<Fa icon="calendar"/>
+						</a>
+					</div>
 					<Popup ref="popup">
 						<DayPicker onDayClick={this.dayClick}
 							modifiers={modifiers}
