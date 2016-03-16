@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class TagsCasesService {
 
-	//TODO: create a method/class that updates the daily updated tags
+	//TODOMS: create a method/class that updates the daily updated tags
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -54,7 +54,7 @@ public class TagsCasesService {
 	 * @param tbcase
 	*/
 	public void updateTags(TbCase tbcase) {
-		// TODO: this method was never used/tested
+		// TODOMS: this method was never used/tested
 
 		UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
@@ -93,7 +93,7 @@ public class TagsCasesService {
 	 * Update the cases of all auto generated tag
 	*/
 	public void fixTagsConsolidation() {
-		// TODO: this method was never used/tested
+		// TODOMS: this method was never used/tested
 		List<Tag> tags = entityManager.createQuery("from Tag").getResultList();
 
 		for (Tag tag : tags) {

@@ -44,7 +44,7 @@ const fschema = {
 					required: false,
 					type: 'select',
 					label: __('admin.reports.cmdhistory.type'),
-					options: 'users', //TODO
+					options: 'users', // TODOMS
 					size: { md: 4 }
 				},
 				{
@@ -98,7 +98,7 @@ export default class CommandHistory extends React.Component {
 			endDate: this.state.doc.endDate ? this.state.doc.endDate : null,
 			action: this.state.doc.action ? this.state.doc.action : null,
 			userId: this.state.doc.userId ? this.state.doc.userId : null,
-			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODO
+			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODOMS
 			adminUnitId: this.state.doc.adminUnitId ? this.state.doc.adminUnitId : null,
 			searchKey: this.state.doc.searchKey ? this.state.doc.searchKey : null
 		};
@@ -186,7 +186,7 @@ export default class CommandHistory extends React.Component {
 									</Col>
 
 									<Col md={4}>
-										{'TO DO: calcular baseado na hora de login e hra de logout'}
+										{'TODOMS: calcular baseado na hora de login e hra de logout'}
 									</Col>
 								</CollapseRow>
 								))

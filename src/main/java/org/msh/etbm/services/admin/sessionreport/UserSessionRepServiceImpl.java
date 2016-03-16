@@ -36,7 +36,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
 
     public QueryResult getResultByDay(UserSessionRepQueryParams query) {
         if (query.getIniDate() == null) {
-            //TODO: retornar erro e validação
+            //TODOMS: retornar erro e validação
         }
 
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
@@ -50,7 +50,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
     public QueryResult getResult(UserSessionRepQueryParams query) {
 
         if (query.getIniDate() == null) {
-            //TODO: retornar erro e validação
+            //TODOMS: retornar erro e validação
         }
 
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
