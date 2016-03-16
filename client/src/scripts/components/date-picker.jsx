@@ -118,6 +118,9 @@ export default class DatePicker extends React.Component {
 			selected: day => dt ? DateUtils.isSameDay(day, dt) : false
 		};
 
+		console.log(this.props);
+		const help = this.props.help;
+
 		return (
 			<div>
 				{label}
@@ -133,6 +136,9 @@ export default class DatePicker extends React.Component {
 						modifiers={modifiers}
 						onMonthChange={this.preventClose} />
 				</Popup>
+				{
+					help ? <div className="help-block">{help}</div> : null
+				}
 			</div>
 			);
 	}

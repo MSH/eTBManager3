@@ -22,7 +22,8 @@ class DateControl extends React.Component {
 		const sc = this.props.schema;
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
-		console.log(label);
+
+		console.log(sc);
 
 		return	(
 			<DatePicker ref="input"

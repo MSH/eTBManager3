@@ -97,6 +97,12 @@ export default class ReacttableExample extends React.Component {
 					</div>
 					<Button onClick={this.clearIt}>{'Clear it'}</Button>
 				</Card>
+				{
+					this.state.errors ?
+					<Card title="Errors">
+						{JSON.stringify(this.state.errors, null, '    ')}
+					</Card> : null
+				}
 			</div>
 			);
 	}
