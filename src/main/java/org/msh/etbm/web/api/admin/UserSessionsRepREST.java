@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/admin/rep")
 @Authenticated(permissions = {Permissions.ADMIN_REP_USERSESSIONS})
-public class UserSessionRepREST {
+public class UserSessionsRepREST {
 
     @Autowired
     UserSessionRepService service;

@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
-import org.msh.etbm.services.admin.onlinereport.OnlineUsersRep;
+import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.List;
 public class OnlineUsersRepREST {
 
     @Autowired
-    OnlineUsersRep service;
+    OnlineUsersRepService service;
 
     @RequestMapping(value = "/onlineusers", method = RequestMethod.POST)
     public List<OnlineUsersRepData> query() {

@@ -5,6 +5,6 @@ import java.util.List;
 /**
  * Created by msantos on 9/3/16.
  */
-public interface OnlineUsersRep {
+public interface OnlineUsersRepService {
     List<OnlineUsersRepData> getResult();
 }

@@ -1,11 +1,12 @@
 
 import React from 'react';
-import { Tabs, Tab, Grid, Row, Col, Button, Badge } from 'react-bootstrap';
+import { Tabs, Tab, Grid, Row, Col, Button, Badge, Input } from 'react-bootstrap';
 import { Card, DatePicker, CollapseRow, SelectionBox, WaitIcon } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
 import CRUD from '../../../commons/crud';
 import { validateForm } from '../../../commons/validator';
+import { AdminUnitControl } from '../../types/admin-unit-control';
 
 /**
  * Form validation model
@@ -13,28 +14,23 @@ import { validateForm } from '../../../commons/validator';
 const form = {
 	inidate: {
 		required: true
-	},
-	enddate: {
-		required: true
 	}
 };
 
 /**
  * The page controller of the public module
  */
-export default class UserSessions extends React.Component {
+export default class CommandHistory extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onDayClickCalendar = this.onDayClickCalendar.bind(this);
-		this.refreshTableAllFilters = this.refreshTableAllFilters.bind(this);
-
-		this.state = { iniDate: new Date() };
+		this.refresh = this.refresh.bind(this);
 	}
 
 	componentWillMount() {
-		this.refreshTableByDay(this.state.iniDate);
 		this.loadUsersList();
+		this.loadActionList();
+		this.loadTypeList();
 	}
 
 	loadUsersList() {
@@ -48,29 +44,29 @@ export default class UserSessions extends React.Component {
 		});
 	}
 
-	/**
-	 * Called when the report wants to update its content
-	 * @return {[type]} [description]
-	 */
-	refreshTableByDay(day) {
-		const self = this;
+	loadActionList() {
+		const ac = [
+			{ code: 1, name: 'Exec' },
+			{ code: 2, name: 'New' },
+			{ code: 3, name: 'Update' },
+			{ code: 4, name: 'delete' }
+		];
 
-		const query = {
-			iniDate: day.getTime()
-		};
-
-		return server.post('/api/admin/rep/dailyusersession', query)
-		.then(res => {
-			// generate new result
-			const result = { count: res.count, list: res.list };
-			// set state
-			self.setState({ values: result, iniDate: day });
-			// return to the promise
-			return result;
-		});
+		this.setState({ actions: ac });
 	}
 
-	refreshTableAllFilters() {
+	loadTypeList() {
+		const ty = [
+			{ code: 1, name: 'Event1' },
+			{ code: 2, name: 'Event2' },
+			{ code: 3, name: 'Event3' },
+			{ code: 4, name: 'Event event event event event event' }
+		];
+
+		this.setState({ types: ty });
+	}
+
+	refresh() {
 		const self = this;
 
 		const vals = validateForm(self, form);
@@ -80,24 +76,24 @@ export default class UserSessions extends React.Component {
             this.setState({ errors: vals.errors });
             return;
         }
-
+        /*amigo estou aqui*/
 		const query = {
 			iniDate: this.state.iniDate,
-			endDate: this.state.endDate,
-			userId: this.state.user ? this.state.user.userId : ''
+			endDate: this.state.endDate ? this.state.endDate : null,
+			action: this.state.action ? this.state.action.code : null,
+			userId: this.state.user ? this.state.user.userId : null,
+			type: this.state.type ? this.state.type.name : null,
+			adminUnitId: this.state.adminunit ? this.state.adminunit.id : null,
+			searchKey: this.refs.skey.value ? this.refs.skey.getValue : null
 		};
 
-		server.post('/api/admin/rep/usersession', query)
+		server.post('/api/admin/rep/cmdhistory', query)
 		.then(res => {
 			// generate new result
 			const result = { count: res.count, list: res.list };
 			// set state
 			self.setState({ values: result });
 		});
-	}
-
-	onDayClickCalendar(e, day) {
-		this.refreshTableByDay(day);
 	}
 
 	onValueChange(ref) {
@@ -109,7 +105,7 @@ export default class UserSessions extends React.Component {
 		};
 	}
 
-	parseDetails(item) {
+	/*parseDetails(item) {
 		const collapsedValue = (<div className="text-small">
 									<dl>
 										<Col sm={4}>
@@ -128,7 +124,7 @@ export default class UserSessions extends React.Component {
 									<Col md={12} className="text-small">{item.Application}</Col>
 								</div>);
 		return (collapsedValue);
-	}
+	}*/
 
 	headerRender(count) {
 		const countHTML = <Badge className="tbl-counter">{count}</Badge>;
@@ -137,13 +133,13 @@ export default class UserSessions extends React.Component {
 		return (
 			<Row>
 				<Col md={12}>
-					<h4>{__('admin.reports.usersession')} {count === 0 ? '' : countHTML}</h4>
+					<h4>{'Command History'} {count === 0 ? '' : countHTML}</h4>
 				</Col>
 			</Row>
 			);
 	}
 
-	tableRender() {
+	/*tableRender() {
 		const rowList = this.state.values.list.map(item => ({ data: item, detailsHTML: this.parseDetails(item) }));
 
 		return (<Grid className="mtop-2x table">
@@ -179,13 +175,9 @@ export default class UserSessions extends React.Component {
 								))
 							}
 						</Grid>);
-	}
+	}*/
 
 	render() {
-		const selday = this.state.iniDate;
-		const modifiers = {
-			selected: day => selday ? DateUtils.isSameDay(day, selday) : false
-		};
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
@@ -194,61 +186,70 @@ export default class UserSessions extends React.Component {
 		return (
 			<Card header={header}>
 				<div>
-				<Tabs defaultActiveKey={1} className="mtop" animation={false}>
+				<Row>
+					<Col sm={6} md={3}>
+						<DatePicker ref="inidate" label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')}
+							help={err.inidate} bsStyle={err.inidate ? 'error' : undefined} />
+					</Col>
 
-					<Tab eventKey={1} title={__('datetime.date')} className="mtop">
-						<div>
-							<Row>
-								<Col md={4} />
-								<Col md={4}>
-									<div>
-										<DayPicker modifiers={modifiers} onDayClick={this.onDayClickCalendar} />
-									</div>
-								</Col>
-								<Col md={4}/>
-							</Row>
-						</div>
-					</Tab>
+					<Col sm={6} md={3}>
+						<DatePicker ref="enddate" label={__('Period.endDate')} onChange={this.onValueChange('endDate')} />
+					</Col>
 
-					<Tab eventKey={2} title={__('form.otherfilters')} className="mtop">
-						<div>
-							<Row>
-								<Col md={4}>
-									<DatePicker ref="inidate" label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')}
-										help={err.inidate} bsStyle={err.inidate ? 'error' : undefined} />
-								</Col>
+					<Col sm={4} md={2}>
+					{!this.state || !this.state.actions ? <WaitIcon type="field" /> :
+						<SelectionBox ref="acSelBox"
+							value={this.state.acSelBox}
+							mode="single"
+							optionDisplay="name"
+							label={'Action'}
+							onChange={this.onValueChange('action')}
+							options={this.state.actions} />}
+					</Col>
 
-								<Col md={4}>
-									<DatePicker ref="enddate" label={__('Period.endDate')} onChange={this.onValueChange('endDate')}
-										help={err.enddate} bsStyle={err.enddate ? 'error' : undefined} />
-								</Col>
+					<Col sm={8} md={4}>
+					{!this.state || !this.state.users ? <WaitIcon type="field" /> :
+						<SelectionBox ref="uSelBox"
+							value={this.state.uSelBox}
+							mode="single"
+							optionDisplay="name"
+							label={__('User')}
+							onChange={this.onValueChange('user')}
+							options={this.state.users} />}
+					</Col>
+				</Row>
+				<Row>
+					<Col sm={4} md={5}>
+					{!this.state || !this.state.types ? <WaitIcon type="field" /> :
+						<SelectionBox ref="tySelBox"
+							value={this.state.tySelBox}
+							mode="single"
+							optionDisplay="name"
+							label={'Type'}
+							onChange={this.onValueChange('type')}
+							options={this.state.types} />}
+					</Col>
 
-								<Col md={4}>
-								{!this.state || !this.state.users ? <WaitIcon type="field" /> :
-									<SelectionBox ref="selBox1"
-										value={this.state.selBox1}
-										mode="single"
-										optionDisplay="name"
-										label={__('User')}
-										onChange={this.onValueChange('user')}
-										options={this.state.users} />}
-								</Col>
-							</Row>
-							<Row>
-								<Col md={12}><Button onClick={this.refreshTableAllFilters} bsStyle="primary">{'Update'}</Button></Col>
-							</Row>
-						</div>
-					</Tab>
-				</Tabs>
+					<Col sm={4} md={4}>
+						
+					</Col>
 
-				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()}
-
+					<Col sm={4} md={3}>
+						<Input type="text" ref="skey" label={'Search Key:'} />
+					</Col>
+				</Row>
+				<Row>
+					<Col md={12}><Button onClick={this.refresh} bsStyle="primary">{'Update'}</Button></Col>
+				</Row>
 				</div>
+
+				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()} 
+
 			</Card>
 		);
 	}
 }
 
-UserSessions.propTypes = {
+CommandHistory.propTypes = {
 	route: React.PropTypes.object
 };
