@@ -97,6 +97,11 @@ export default class DatePicker extends React.Component {
 	 */
 	valueChange() {
 		const s = this.refs.textfield.value;
+		if (!s) {
+			this.dayClick(null, dt);
+			return;
+		}
+
 		const dt = this.strToDate(s);
 		if (dt) {
 			this.dayClick(null, dt);
