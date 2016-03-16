@@ -3,7 +3,7 @@ import React from 'react';
 import fieldControlWrapper from './field-control';
 import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
-import { stringValidator, numberValidator } from './validators';
+import { stringValidator, numberValidator } from '../impl/validators';
 
 /**
  * Used in the Form library. Provide input data of string and number types

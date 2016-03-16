@@ -4,6 +4,9 @@ import Popup from './popup';
 import Fa from './fa';
 
 
+/**
+ * React component that displays an input box for a date picker component
+ */
 export default class DatePicker extends React.Component {
 
 	constructor(props) {
@@ -16,6 +19,12 @@ export default class DatePicker extends React.Component {
 		this.state = { };
 	}
 
+	/**
+	 * Called when user clicks on the drop down calendar
+	 * @param  {[type]} evt [description]
+	 * @param  {[type]} day [description]
+	 * @return {[type]}     [description]
+	 */
 	dayClick(evt, day) {
 		if (this.props.onChange) {
 			this.props.onChange(evt, day);
@@ -24,6 +33,11 @@ export default class DatePicker extends React.Component {
 		this.refs.textfield.value = this.dateToStr(day);
 	}
 
+	/**
+	 * Convert a date to a string for displaying
+	 * @param  {[type]} day [description]
+	 * @return {[type]}     [description]
+	 */
 	dateToStr(day) {
 		var date = day.getDate().toString();
 		if (date.length === 1) {
@@ -38,6 +52,11 @@ export default class DatePicker extends React.Component {
 		return date + '/' + month + '/' + day.getFullYear();
 	}
 
+	/**
+	 * Convert a string to a date object
+	 * @param  {[type]} s [description]
+	 * @return {[type]}   [description]
+	 */
 	strToDate(s) {
 		const vals = s.split('/');
 		if (vals.length !== 3) {
@@ -56,14 +75,26 @@ export default class DatePicker extends React.Component {
 		return !dt ? null : dt;
 	}
 
+	/**
+	 * Called when user clicks on the calendar button to display the drop down calendar
+	 * @return {[type]} [description]
+	 */
 	buttonClick() {
 		this.refs.popup.show();
 	}
 
+	/**
+	 * Called to prevent that the calendar is closed when changing months
+	 * @return {[type]} [description]
+	 */
 	preventClose() {
 		this.refs.popup.preventHide();
 	}
 
+	/**
+	 * Called when user changes the text in the input box
+	 * @return {[type]} [description]
+	 */
 	valueChange() {
 		const s = this.refs.textfield.value;
 		const dt = this.strToDate(s);

@@ -2,11 +2,12 @@
  * Generate and maintain a form based on a given layout (in object structure) and a data model
  */
 import React from 'react';
+import { Grid } from 'react-bootstrap';
 import validateForm from './impl/form-validate';
 import { setValue, objEqual } from '../commons/utils';
 import createForm from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
-import fieldControlWrapper from './impl/field-control';
+import fieldControlWrapper from './controls/field-control';
 import { initDefaultValues, initForm, schemaRequest } from './impl/form-init';
 import FormUtils from './form-utils';
 
@@ -125,6 +126,10 @@ export default class Form extends React.Component {
 		const value = evt.value;
 		setValue(this.props.doc, schema.property, value, true);
 
+		if (this.props.onChange) {
+			this.props.onChange(this.props.doc, schema, value);
+		}
+
 		if (schema.refreshOnChange) {
 			this._refreshElems(schema.refreshOnChange);
 		}
@@ -175,7 +180,7 @@ export default class Form extends React.Component {
 	 */
 	render() {
 		const form = createForm(this);
-		return <div>{form}</div>;
+		return <Grid fluid>{form}</Grid>;
 	}
 }
 
@@ -185,7 +190,8 @@ Form.propTypes = {
 	errors: React.PropTypes.object,
 	resources: React.PropTypes.object,
 	onReady: React.PropTypes.func,
-	crud: React.PropTypes.object
+	crud: React.PropTypes.object,
+	onChange: React.PropTypes.func
 };
 
 /**
@@ -220,9 +226,10 @@ Form.typeWrapper = fieldControlWrapper;
  * Automatically register common controls
  */
 
-import InputControl from './impl/input-control';
-import BoolControl from './impl/bool-control';
-import TextControl from './impl/text-control';
-import SelectControl from './impl/select-control';
+import InputControl from './controls/input-control';
+import BoolControl from './controls/bool-control';
+import TextControl from './controls/text-control';
+import SelectControl from './controls/select-control';
+import DateControl from './controls/date-control';
 
-Form.registerType([InputControl, BoolControl, TextControl, SelectControl]);
+Form.registerType([InputControl, BoolControl, TextControl, SelectControl, DateControl]);

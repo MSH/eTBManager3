@@ -7,6 +7,7 @@ import SidebarContent from '../sidebar-content';
 import Home from './home';
 import DatePickerExamples from './date-picker-examples';
 import ReacttableExample from './reacttable-example';
+import FormExample from './form-example';
 
 
 const sidebar = [
@@ -27,6 +28,12 @@ const sidebar = [
 		view: ReacttableExample,
 		path: '/reacttable',
 		icon: 'table'
+	},
+	{
+		title: 'Forms',
+		view: FormExample,
+		path: '/form-example',
+		icon: 'reddit-alien'
 	}
 ];
 
