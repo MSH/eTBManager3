@@ -9,4 +9,8 @@ public enum CommandAction {
     CREATE,
     UPDATE,
     DELETE;
+
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 }

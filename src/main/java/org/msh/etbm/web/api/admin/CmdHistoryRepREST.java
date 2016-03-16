@@ -33,7 +33,14 @@ public class CmdHistoryRepREST {
         System.out.println("userId: " + query.getUserId());
         System.out.println("Type: " + query.getType());
         System.out.println("adminUnitId: " + query.getAdminUnitId());
-        System.out.println("SearchKey: " + query.getSearchKey()); //TODO: não ta vindo!!!
+        System.out.println("SearchKey: " + query.getSearchKey());
+
+        return null;
+    }
+
+    @RequestMapping(value = "/todaycmdhistory", method = RequestMethod.POST)
+    public List<CmdHistoryRepData> todayResult() {
+        System.out.println("hey oh! Lets Go!");
 
         return null;
     }

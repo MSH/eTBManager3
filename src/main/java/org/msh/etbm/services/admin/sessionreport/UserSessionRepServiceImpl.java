@@ -1,7 +1,10 @@
 package org.msh.etbm.services.admin.sessionreport;
 
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
 import org.msh.etbm.services.usersession.UserRequestService;
@@ -28,45 +31,35 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
     @Autowired
     UserRequestService userRequestService;
 
+    @Autowired
+    QueryBuilderFactory queryBuilderFactory;
+
     public QueryResult getResultByDay(UserSessionRepQueryParams query) {
         if (query.getIniDate() == null) {
             //TODO: retornar erro e validação
         }
 
-        List<UserLogin> result = entityManager.createQuery("from UserLogin where loginDate >= :iniDate and loginDate < :endDate and workspace.id = :wId ")
-                .setParameter("iniDate", DateUtils.getDatePart(query.getIniDate()))
-                .setParameter("endDate", DateUtils.getDatePart(DateUtils.incDays(query.getIniDate(), 1)))
-                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
-                .getResultList();
+        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
+        qry.addRestriction("a.loginDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
+        qry.addRestriction("a.loginDate < :endDate", DateUtils.getDatePart(DateUtils.incDays(query.getIniDate(), 1)));
+        qry.addRestriction("a.workspace.id = :wId", userRequestService.getUserSession().getWorkspaceId());
 
-        return createQueryResult(result);
+        return createQueryResult(qry.getResultList());
     }
 
     public QueryResult getResult(UserSessionRepQueryParams query) {
+
         if (query.getIniDate() == null) {
             //TODO: retornar erro e validação
         }
 
-        if (query.getEndDate() == null) {
-            //TODO: retornar erro e validação
-        }
+        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
+        qry.addRestriction("a.loginDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
+        qry.addRestriction("a.loginDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
+        qry.addRestriction("a.workspace.id = :wId", userRequestService.getUserSession().getWorkspaceId());
+        qry.addRestriction("a.user.id = :userId", query.getUserId());
 
-        String qStr = "from UserLogin where loginDate >= :iniDate and loginDate < :endDate and workspace.id = :wId ";
-        if (query.getUserId() != null) {
-            qStr = qStr + "and user.id = :userId";
-        }
-
-        Query q = entityManager.createQuery(qStr);
-        q.setParameter("iniDate", DateUtils.getDatePart(query.getIniDate()));
-        q.setParameter("endDate", DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)));
-        q.setParameter("wId", userRequestService.getUserSession().getWorkspaceId());
-        if (qStr.contains("userId")) {
-            q.setParameter("userId", query.getUserId());
-        }
-
-        List<UserLogin> result = q.getResultList();
-
-        return createQueryResult(result);
+        return createQueryResult(qry.getResultList());
     }
 
     private QueryResult createQueryResult(List<UserLogin> result) {
