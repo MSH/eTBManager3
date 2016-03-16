@@ -118,24 +118,27 @@ export default class DatePicker extends React.Component {
 			selected: day => dt ? DateUtils.isSameDay(day, dt) : false
 		};
 
-		console.log(this.props);
 		const help = this.props.help;
 
+		const compClass = 'form-group' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
+
 		return (
-			<div>
-				{label}
-				<input type="text" ref="textfield"
-					className="form-control input-right-button"
-					placeholder="dd/mm/yyyy"
-					defaultValue={value} onChange={this.valueChange}/>
-				<a className="form-control-action" onClick={this.buttonClick} >
-					<Fa icon="calendar"/>
-				</a>
-				<Popup ref="popup">
-					<DayPicker onDayClick={this.dayClick}
-						modifiers={modifiers}
-						onMonthChange={this.preventClose} />
-				</Popup>
+			<div className={compClass}>
+				<div>
+					{label}
+					<input type="text" ref="textfield"
+						className="form-control input-right-button"
+						placeholder="dd/mm/yyyy"
+						defaultValue={value} onChange={this.valueChange}/>
+					<a className="form-control-action" onClick={this.buttonClick} >
+						<Fa icon="calendar"/>
+					</a>
+					<Popup ref="popup">
+						<DayPicker onDayClick={this.dayClick}
+							modifiers={modifiers}
+							onMonthChange={this.preventClose} />
+					</Popup>
+				</div>
 				{
 					help ? <div className="help-block">{help}</div> : null
 				}

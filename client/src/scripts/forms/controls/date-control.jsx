@@ -23,15 +23,13 @@ class DateControl extends React.Component {
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
-		console.log(sc);
-
 		return	(
 			<DatePicker ref="input"
 				label={label}
 				onChange={this.onChange}
-				help={sc.errors}
+				help={this.props.errors}
 				value={this.props.value}
-				bsStyle={sc.errors ? 'error' : null} />
+				bsStyle={this.props.errors ? 'error' : null} />
 			);
 	}
 }
