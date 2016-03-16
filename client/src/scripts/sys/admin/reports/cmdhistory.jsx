@@ -1,21 +1,68 @@
 
 import React from 'react';
-import { Tabs, Tab, Grid, Row, Col, Button, Badge, Input } from 'react-bootstrap';
-import { Card, DatePicker, CollapseRow, SelectionBox, WaitIcon } from '../../../components/index';
-import DayPicker, { DateUtils } from 'react-day-picker';
+import { Row, Col, Button, Badge } from 'react-bootstrap';
+import { Card, WaitIcon } from '../../../components/index';
 import { server } from '../../../commons/server';
-import CRUD from '../../../commons/crud';
-import { validateForm } from '../../../commons/validator';
-import { AdminUnitControl } from '../../types/admin-unit-control';
+import Form from '../../../forms/form';
+import { app } from '../../../core/app';
 
-/**
- * Form validation model
- */
-const form = {
-	inidate: {
-		required: true
-	}
-};
+const fschema = {
+			layout: [
+				{
+					property: 'iniDate',
+					required: true,
+					type: 'date',
+					label: __('Period.iniDate'),
+					size: { md: 3 },
+					defaultValue: new Date()
+				},
+				{
+					property: 'endDate',
+					required: false,
+					type: 'date',
+					label: __('Period.endDate'),
+					size: { md: 3 }
+				},
+				{
+					property: 'action',
+					required: false,
+					type: 'select',
+					label: __('form.action'),
+					options: app.getState().app.lists.CommandAction,
+					size: { md: 3 }
+				},
+				{
+					property: 'userId',
+					required: false,
+					type: 'select',
+					label: __('User'),
+					options: 'users',
+					size: { md: 3 }
+				},
+				{
+					property: 'type',
+					required: false,
+					type: 'select',
+					label: __('admin.reports.cmdhistory.type'),
+					options: 'users', // TODOMS
+					size: { md: 4 }
+				},
+				{
+					property: 'adminUnitId',
+					type: 'adminUnit',
+					label: __('AdministrativeUnit'),
+					size: { md: 4 }
+				},
+				{
+					property: 'searchKey',
+					required: false,
+					type: 'string',
+					max: 50,
+					label: __('form.searchkey'),
+					size: { sm: 4 }
+				}
+			]
+		};
 
 /**
  * The page controller of the public module
@@ -25,66 +72,35 @@ export default class CommandHistory extends React.Component {
 	constructor(props) {
 		super(props);
 		this.refresh = this.refresh.bind(this);
+		this.onChangeDoc = this.onChangeDoc.bind(this);
+		this.state = { doc: {} };
 	}
 
 	componentWillMount() {
-		this.loadUsersList();
-		this.loadActionList();
-		this.loadTypeList();
+		this.refreshTodayRep();
 	}
 
-	loadUsersList() {
-		const crud = new CRUD('userws');
-		const qry = { profile: 'item' };
-		const self = this;
-
-		crud.query(qry)
-		.then(res => {
-			self.setState({ users: res.list });
-		});
-	}
-
-	loadActionList() {
-		const ac = [
-			{ code: 1, name: 'Exec' },
-			{ code: 2, name: 'New' },
-			{ code: 3, name: 'Update' },
-			{ code: 4, name: 'delete' }
-		];
-
-		this.setState({ actions: ac });
-	}
-
-	loadTypeList() {
-		const ty = [
-			{ code: 1, name: 'Event1' },
-			{ code: 2, name: 'Event2' },
-			{ code: 3, name: 'Event3' },
-			{ code: 4, name: 'Event event event event event event' }
-		];
-
-		this.setState({ types: ty });
+	onChangeDoc() {
+		this.forceUpdate();
 	}
 
 	refresh() {
 		const self = this;
 
-		const vals = validateForm(self, form);
+		const errors = self.refs.form.validate();
+		this.setState({ errors: errors });
+		if (errors) {
+			return;
+		}
 
-        // there is any validation error ?
-        if (vals.errors) {
-            this.setState({ errors: vals.errors });
-            return;
-        }
-        /*amigo estou aqui*/
 		const query = {
-			iniDate: this.state.iniDate,
-			endDate: this.state.endDate ? this.state.endDate : null,
-			action: this.state.action ? this.state.action.code : null,
-			userId: this.state.user ? this.state.user.userId : null,
-			type: this.state.type ? this.state.type.name : null,
-			adminUnitId: this.state.adminunit ? this.state.adminunit.id : null,
-			searchKey: this.refs.skey.value ? this.refs.skey.getValue : null
+			iniDate: this.state.doc.iniDate,
+			endDate: this.state.doc.endDate ? this.state.doc.endDate : null,
+			action: this.state.doc.action ? this.state.doc.action : null,
+			userId: this.state.doc.userId ? this.state.doc.userId : null,
+			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODOMS
+			adminUnitId: this.state.doc.adminUnitId ? this.state.doc.adminUnitId : null,
+			searchKey: this.state.doc.searchKey ? this.state.doc.searchKey : null
 		};
 
 		server.post('/api/admin/rep/cmdhistory', query)
@@ -96,13 +112,14 @@ export default class CommandHistory extends React.Component {
 		});
 	}
 
-	onValueChange(ref) {
-		const self = this;
-		return (evt, val) => {
-			const obj = {};
-			obj[ref] = val;
-			self.setState(obj);
-		};
+	refreshTodayRep() {
+		server.post('/api/admin/rep/todaycmdhistory')
+		.then(res => {
+			// generate new result
+			const result = { count: res.count, list: res.list };
+			// set state
+			self.setState({ values: result });
+		});
 	}
 
 	/*parseDetails(item) {
@@ -169,7 +186,7 @@ export default class CommandHistory extends React.Component {
 									</Col>
 
 									<Col md={4}>
-										{'TO DO: calcular baseado na hora de login e hra de logout'}
+										{'TODOMS: calcular baseado na hora de login e hra de logout'}
 									</Col>
 								</CollapseRow>
 								))
@@ -181,71 +198,24 @@ export default class CommandHistory extends React.Component {
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
-		const err = this.state.errors || {};
-
 		return (
+			<div>
 			<Card header={header}>
-				<div>
 				<Row>
-					<Col sm={6} md={3}>
-						<DatePicker ref="inidate" label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')}
-							help={err.inidate} bsStyle={err.inidate ? 'error' : undefined} />
+					<Col md={12}>
+						<Form ref="form"
+							schema={fschema}
+							doc={this.state.doc}
+							onChange={this.onChangeDoc}
+							errors={this.state.errors} />
 					</Col>
-
-					<Col sm={6} md={3}>
-						<DatePicker ref="enddate" label={__('Period.endDate')} onChange={this.onValueChange('endDate')} />
-					</Col>
-
-					<Col sm={4} md={2}>
-					{!this.state || !this.state.actions ? <WaitIcon type="field" /> :
-						<SelectionBox ref="acSelBox"
-							value={this.state.acSelBox}
-							mode="single"
-							optionDisplay="name"
-							label={'Action'}
-							onChange={this.onValueChange('action')}
-							options={this.state.actions} />}
-					</Col>
-
-					<Col sm={8} md={4}>
-					{!this.state || !this.state.users ? <WaitIcon type="field" /> :
-						<SelectionBox ref="uSelBox"
-							value={this.state.uSelBox}
-							mode="single"
-							optionDisplay="name"
-							label={__('User')}
-							onChange={this.onValueChange('user')}
-							options={this.state.users} />}
-					</Col>
-				</Row>
-				<Row>
-					<Col sm={4} md={5}>
-					{!this.state || !this.state.types ? <WaitIcon type="field" /> :
-						<SelectionBox ref="tySelBox"
-							value={this.state.tySelBox}
-							mode="single"
-							optionDisplay="name"
-							label={'Type'}
-							onChange={this.onValueChange('type')}
-							options={this.state.types} />}
-					</Col>
-
-					<Col sm={4} md={4}>
-						
-					</Col>
-
-					<Col sm={4} md={3}>
-						<Input type="text" ref="skey" label={'Search Key:'} />
-					</Col>
-				</Row>
-				<Row>
 					<Col md={12}><Button onClick={this.refresh} bsStyle="primary">{'Update'}</Button></Col>
 				</Row>
-				</div>
 
-				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()} 
+				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()}
 
 			</Card>
+			</div>
 		);
 	}
 }

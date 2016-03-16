@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api.sys;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.db.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,8 @@ public class GlobalListsService {
             MedicineCategory.class,
             CaseClassification.class,
             CaseState.class,
-            UserState.class
+            UserState.class,
+            CommandAction.class
     };
 
     /**

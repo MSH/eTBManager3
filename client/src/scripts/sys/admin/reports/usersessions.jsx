@@ -1,23 +1,37 @@
 
 import React from 'react';
 import { Tabs, Tab, Grid, Row, Col, Button, Badge } from 'react-bootstrap';
-import { Card, DatePicker, CollapseRow, SelectionBox, WaitIcon } from '../../../components/index';
+import { Card, CollapseRow, WaitIcon } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
-import CRUD from '../../../commons/crud';
-import { validateForm } from '../../../commons/validator';
+import Form from '../../../forms/form';
 
-/**
- * Form validation model
- */
-const form = {
-	inidate: {
-		required: true
-	},
-	enddate: {
-		required: true
-	}
-};
+const fschema = {
+			layout: [
+				{
+					property: 'iniDate',
+					required: true,
+					type: 'date',
+					label: __('Period.iniDate'),
+					size: { sm: 4 }
+				},
+				{
+					property: 'endDate',
+					required: false,
+					type: 'date',
+					label: __('Period.endDate'),
+					size: { sm: 4 }
+				},
+				{
+					property: 'userId',
+					required: false,
+					type: 'select',
+					label: __('User'),
+					options: 'users',
+					size: { sm: 4 }
+				}
+			]
+		};
 
 /**
  * The page controller of the public module
@@ -28,24 +42,17 @@ export default class UserSessions extends React.Component {
 		super(props);
 		this.onDayClickCalendar = this.onDayClickCalendar.bind(this);
 		this.refreshTableAllFilters = this.refreshTableAllFilters.bind(this);
+		this.onChangeDoc = this.onChangeDoc.bind(this);
 
-		this.state = { iniDate: new Date() };
+		this.state = { iniDate: new Date(), doc: {} };
 	}
 
 	componentWillMount() {
 		this.refreshTableByDay(this.state.iniDate);
-		this.loadUsersList();
 	}
 
-	loadUsersList() {
-		const crud = new CRUD('userws');
-		const qry = { profile: 'item' };
-		const self = this;
-
-		crud.query(qry)
-		.then(res => {
-			self.setState({ users: res.list });
-		});
+	onChangeDoc() {
+		this.forceUpdate();
 	}
 
 	/**
@@ -73,18 +80,16 @@ export default class UserSessions extends React.Component {
 	refreshTableAllFilters() {
 		const self = this;
 
-		const vals = validateForm(self, form);
-
-        // there is any validation error ?
-        if (vals.errors) {
-            this.setState({ errors: vals.errors });
-            return;
-        }
+		const errors = this.refs.form.validate();
+		this.setState({ errors: errors });
+		if (errors) {
+			return;
+		}
 
 		const query = {
-			iniDate: this.state.iniDate,
-			endDate: this.state.endDate,
-			userId: this.state.user ? this.state.user.userId : ''
+			iniDate: this.state.doc.iniDate,
+			endDate: this.state.doc.endDate,
+			userId: this.state.doc.userId ? this.state.doc.userId : ''
 		};
 
 		server.post('/api/admin/rep/usersession', query)
@@ -98,15 +103,6 @@ export default class UserSessions extends React.Component {
 
 	onDayClickCalendar(e, day) {
 		this.refreshTableByDay(day);
-	}
-
-	onValueChange(ref) {
-		const self = this;
-		return (evt, val) => {
-			const obj = {};
-			obj[ref] = val;
-			self.setState(obj);
-		};
 	}
 
 	parseDetails(item) {
@@ -173,7 +169,7 @@ export default class UserSessions extends React.Component {
 									</Col>
 
 									<Col md={4}>
-										{'TO DO: calcular baseado na hora de login e hra de logout'}
+										{'TODOMS: calcular baseado na hora de login e hra de logout'}
 									</Col>
 								</CollapseRow>
 								))
@@ -189,11 +185,8 @@ export default class UserSessions extends React.Component {
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
-		const err = this.state.errors || {};
-
 		return (
 			<Card header={header}>
-				<div>
 				<Tabs defaultActiveKey={1} className="mtop" animation={false}>
 
 					<Tab eventKey={1} title={__('datetime.date')} className="mtop">
@@ -211,39 +204,20 @@ export default class UserSessions extends React.Component {
 					</Tab>
 
 					<Tab eventKey={2} title={__('form.otherfilters')} className="mtop">
-						<div>
-							<Row>
-								<Col md={4}>
-									<DatePicker ref="inidate" label={__('Period.iniDate')} onChange={this.onValueChange('iniDate')}
-										help={err.inidate} bsStyle={err.inidate ? 'error' : undefined} />
-								</Col>
-
-								<Col md={4}>
-									<DatePicker ref="enddate" label={__('Period.endDate')} onChange={this.onValueChange('endDate')}
-										help={err.enddate} bsStyle={err.enddate ? 'error' : undefined} />
-								</Col>
-
-								<Col md={4}>
-								{!this.state || !this.state.users ? <WaitIcon type="field" /> :
-									<SelectionBox ref="selBox1"
-										value={this.state.selBox1}
-										mode="single"
-										optionDisplay="name"
-										label={__('User')}
-										onChange={this.onValueChange('user')}
-										options={this.state.users} />}
-								</Col>
-							</Row>
-							<Row>
-								<Col md={12}><Button onClick={this.refreshTableAllFilters} bsStyle="primary">{'Update'}</Button></Col>
-							</Row>
-						</div>
+						<Row>
+							<Col md={12}>
+								<Form ref="form"
+									schema={fschema}
+									doc={this.state.doc}
+									onChange={this.onChangeDoc}
+									errors={this.state.errors} />
+							</Col>
+							<Col md={12}><Button onClick={this.refreshTableAllFilters} bsStyle="primary">{'Update'}</Button></Col>
+						</Row>
 					</Tab>
 				</Tabs>
 
 				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()}
-
-				</div>
 			</Card>
 		);
 	}
