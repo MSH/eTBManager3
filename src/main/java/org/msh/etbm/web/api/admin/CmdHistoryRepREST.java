@@ -1,5 +1,7 @@
 package org.msh.etbm.web.api.admin;
 
+import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepData;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepQueryParams;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepService;
@@ -26,23 +28,15 @@ public class CmdHistoryRepREST {
     CmdHistoryRepService service;
 
     @RequestMapping(value = "/cmdhistory", method = RequestMethod.POST)
-    public List<CmdHistoryRepData> query(@Valid @RequestBody CmdHistoryRepQueryParams query) {
-        System.out.println("iniDate: " + query.getIniDate());
-        System.out.println("endDate: " + query.getEndDate());
-        System.out.println("Action: " + query.getAction());
-        System.out.println("userId: " + query.getUserId());
-        System.out.println("Type: " + query.getType());
-        System.out.println("adminUnitId: " + query.getAdminUnitId());
-        System.out.println("SearchKey: " + query.getSearchKey());
-
-        return null;
+    public QueryResult query(@Valid @RequestBody CmdHistoryRepQueryParams query) {
+        return service.getResult(query);
     }
 
     @RequestMapping(value = "/todaycmdhistory", method = RequestMethod.POST)
-    public List<CmdHistoryRepData> todayResult() {
-        System.out.println("hey oh! Lets Go!");
-
-        return null;
+    public QueryResult todayResult() {
+        CmdHistoryRepQueryParams query = new CmdHistoryRepQueryParams();
+        query.setIniDate(DateUtils.getDate());
+        return service.getResult(query);
     }
 
 }

@@ -1,5 +1,10 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
+import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
+import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.db.entities.CommandHistory;
 import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
@@ -24,15 +29,36 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     @Autowired
     UserRequestService userRequestService;
 
-    public List<OnlineUsersRepData> getResult(CmdHistoryRepQueryParams query) {
-        List<OnlineUsersRepData> ret = new ArrayList<>();
+    @Autowired
+    QueryBuilderFactory queryBuilderFactory;
 
-        List<UserLogin> results = entityManager.createQuery("from UserLogin where logoutDate is null and workspace.id = :wId")
-                                    .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
-                                    .getResultList();
+    public QueryResult getResult(CmdHistoryRepQueryParams query) {
+        if (query.getIniDate() == null) {
+            //TODOMS: retornar erro e validação
+        }
 
-        for (UserLogin u : results) {
-            ret.add(new OnlineUsersRepData(u.getUser().getLogin(), u.getUser().getName(), u.getLoginDate(), u.getLastAccess()));
+        QueryResult<CmdHistoryRepData> ret = new QueryResult();
+
+        QueryBuilder qry = queryBuilderFactory.createQueryBuilder(CommandHistory.class, "a");
+        qry.addRestriction("a.workspace.id = :wId", userRequestService.getUserSession().getWorkspaceId());
+        qry.addRestriction("a.execDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
+        qry.addRestriction("a.execDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
+        qry.addRestriction("a.action = :action", query.getAction());
+        qry.addRestriction("a.user.id = :userId", query.getUserId());
+        qry.addRestriction("a.type = :type", query.getType());
+        //qry.addRestriction("a.type = :type", query.getAdminUnitId()); TODOMS
+        //qry.addRestriction("a.type = :type", query.getSearchKey()); TODOMS
+
+        List<CommandHistory> list = qry.getResultList();
+        ret.setList(new ArrayList<>());
+        ret.setCount(list.size());
+
+        for (CommandHistory c : list) {
+            String userName = c.getUser() != null ? c.getUser().getName() : null;
+            String unitName = c.getUnit() != null ? c.getUnit().getName() : null;
+            String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
+
+            ret.getList().add(new CmdHistoryRepData(c.getType(), c.getAction(), c.getExecDate(), c.getEntityName(), userName, unitName, adminUnitName, c.getData()));
         }
 
         return ret;

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
-import { Card, WaitIcon } from '../../../components/index';
+import { Card, Grid, CollapseRow, WaitIcon, ReactTable } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
 import { app } from '../../../core/app';
@@ -43,7 +43,7 @@ const fschema = {
 					property: 'type',
 					required: false,
 					type: 'select',
-					label: 'TODO', // __('admin.reports.cmdhistory.type'),
+					label: 'TODOMS - Type', // __('admin.reports.cmdhistory.type'),
 					options: 'users', // TODOMS
 					size: { md: 4 }
 				},
@@ -113,6 +113,7 @@ export default class CommandHistory extends React.Component {
 	}
 
 	refreshTodayRep() {
+		const self = this;
 		server.post('/api/admin/rep/todaycmdhistory')
 		.then(res => {
 			// generate new result
@@ -122,7 +123,7 @@ export default class CommandHistory extends React.Component {
 		});
 	}
 
-	/*parseDetails(item) {
+	parseDetails(item) {
 		const collapsedValue = (<div className="text-small">
 									<dl>
 										<Col sm={4}>
@@ -141,7 +142,7 @@ export default class CommandHistory extends React.Component {
 									<Col md={12} className="text-small">{item.Application}</Col>
 								</div>);
 		return (collapsedValue);
-	}*/
+	}
 
 	headerRender(count) {
 		const countHTML = <Badge className="tbl-counter">{count}</Badge>;
@@ -156,47 +157,60 @@ export default class CommandHistory extends React.Component {
 			);
 	}
 
-	/*tableRender() {
-		const rowList = this.state.values.list.map(item => ({ data: item, detailsHTML: this.parseDetails(item) }));
-
-		return (<Grid className="mtop-2x table">
-							<Row className="title">
-								<Col md={4} className="nopadding">
-									{__('User')}
-								</Col>
-
-								<Col md={4} className="nopadding">
-									{__('UserLogin.loginDate')}
-								</Col>
-
-								<Col md={4} className="nopadding">
-									{__('admin.websessions.sessiontime')}
-								</Col>
-							</Row>
-
-							{
-								rowList.map(item => (
-								<CollapseRow collapsable={item.detailsHTML} className={'tbl-cell'}>
-									<Col md={4}>
-										{item.data.userName}
-									</Col>
-
-									<Col md={4}>
-										{new Date(item.data.loginDate).toString()}
-									</Col>
-
-									<Col md={4}>
-										{'TODOMS: calcular baseado na hora de login e hra de logout'}
-									</Col>
-								</CollapseRow>
-								))
-							}
-						</Grid>);
-	}*/
-
 	render() {
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
+
+
+		const tschema = [
+		{
+			title: 'Type',
+			content: 'type',
+			size: { sm: 2 }
+		},
+		{
+			title: 'Action',
+			content: 'action',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'ExecDate',
+			content: 'execDate',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'entityName',
+			content: 'entityName',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'userName',
+			content: 'userName',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'unitName',
+			content: 'unitName',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'adminUnitName',
+			content: 'adminUnitName',
+			size: { sm: 1 },
+			align: 'center'
+		},
+		{
+			title: 'data',
+			content: 'data',
+			size: { sm: 4 },
+			align: 'center'
+		}
+		];
 
 		return (
 			<div>
@@ -212,7 +226,17 @@ export default class CommandHistory extends React.Component {
 					<Col md={12}><Button onClick={this.refresh} bsStyle="primary">{'Update'}</Button></Col>
 				</Row>
 
-				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.tableRender()}
+				{!this.state || !this.state.values ? <WaitIcon type="card" /> :
+				<div>
+					<Card>
+						<Row>
+							<Col md={12}>
+								<ReactTable columns={tschema}
+									values={this.state.values.list} />
+							</Col>
+						</Row>
+					</Card>
+				</div>}
 
 			</Card>
 			</div>
