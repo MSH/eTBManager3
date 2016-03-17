@@ -18,7 +18,7 @@ public class CmdHistoryRepData {
     private String adminUnitName;
     private String data;
 
-    public CmdHistoryRepData(String type, CommandAction action, Date execDate, String entityName, String userName, String unitName, String adminUnitName, String data){
+    public CmdHistoryRepData(String type, CommandAction action, Date execDate, String entityName, String userName, String unitName, String adminUnitName, String data) {
         this.type = type;
         this.action = action;
         this.execDate = execDate;
