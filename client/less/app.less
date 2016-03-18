@@ -414,12 +414,11 @@
   padding-top: 8px;
 
   li.active {
-    a, a:hover {
-      border-color: @brand-primary;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      border-bottom-width: 4px;
+    a, a:hover, a:visited {
+      border-left: none !important;
+      border-right: none !important;
+      border-top: none !important;
+      border-bottom: 4px solid @brand-primary !important;
       padding-left: 30px;
       padding-right: 30px;
       font-weight: bold;

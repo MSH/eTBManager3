@@ -30,6 +30,17 @@ export default class FormUtils {
 			txt;
 	}
 
+	static readOnlyRender(content, label) {
+		const labelelem = label ? <label className="control-label">{FormUtils.labelRender(label)}</label> : null;
+		return (
+			<div className="form-group">
+				{labelelem}
+				<div className="form-control-static">
+					{content ? content : '-'}
+				</div>
+			</div>
+			);
+	}
 
 	/**
 	 * Return the server request of the options, if available

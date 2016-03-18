@@ -12,7 +12,7 @@ import FormUtils from '../form-utils';
  * @param  {Form} form The form component
  * @return {React.Component} The rendered form content
  */
-export default function createForm(form) {
+export default function formRender(form) {
 	if (!form.state.resources) {
 		return <WaitIcon type="card" />;
 	}

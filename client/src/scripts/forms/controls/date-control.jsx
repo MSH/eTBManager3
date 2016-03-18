@@ -12,14 +12,27 @@ class DateControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
+		this.focus = this.focus.bind(this);
 	}
 
 	onChange(evt, value) {
 		this.props.onChange({ schema: this.props.schema, value: value });
 	}
 
+	/**
+	 * Set the component focus
+	 * @return {[type]} [description]
+	 */
+	focus() {
+		this.refs.input.focus();
+	}
+
 	render() {
 		const sc = this.props.schema;
+
+		if (sc.readOnly) {
+			return FormUtils.readOnlyRender('TO BE IMPLEMENTED', sc.label);
+		}
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
 

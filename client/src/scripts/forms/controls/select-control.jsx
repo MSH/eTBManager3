@@ -58,6 +58,12 @@ class SelectControl extends React.Component {
 
 	render() {
 		const sc = this.props.schema;
+
+		if (sc.readOnly) {
+			const val = this.props.value ? this.props.value.item : null;
+			return FormUtils.readOnlyRender(val, sc.label);
+		}
+
 		const errors = this.props.errors;
 
 		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;

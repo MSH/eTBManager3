@@ -7417,12 +7417,12 @@ button.close {
   padding-top: 8px;
 }
 .app-tabs li.active a,
-.app-tabs li.active a:hover {
-  border-color: #1e9614;
-  border-left: none;
-  border-right: none;
-  border-top: none;
-  border-bottom-width: 4px;
+.app-tabs li.active a:hover,
+.app-tabs li.active a:visited {
+  border-left: none !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: 4px solid #1e9614 !important;
   padding-left: 30px;
   padding-right: 30px;
   font-weight: bold;
@@ -7556,5 +7556,10 @@ button.close {
 .control-label {
   font-size: 0.9em;
   color: #808080;
+}
+.form-control-static {
+  padding: 4px 8px !important;
+  font-weight: bold;
+  background-color: #f8f8f8;
 }
 /* Small devices (tablets, 768px and up) */

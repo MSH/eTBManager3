@@ -5,7 +5,7 @@ import React from 'react';
 import { Grid } from 'react-bootstrap';
 import validateForm from './impl/form-validate';
 import { setValue, objEqual } from '../commons/utils';
-import createForm from './impl/form-render';
+import formRender from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
 import fieldControlWrapper from './controls/field-control';
 import { initDefaultValues, initForm, schemaRequest } from './impl/form-init';
@@ -89,7 +89,7 @@ export default class Form extends React.Component {
 	 * @return {Array} List of element states
 	 */
 	updateSnapshot() {
-		const lst = createSnapshot(this.props.schema, this.props.doc);
+		const lst = createSnapshot(this.props.schema, this.props.doc, this.props.readOnly);
 
 		const oldlst = this.state ? this.state.snapshot : null;
 
@@ -179,7 +179,7 @@ export default class Form extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	render() {
-		const form = createForm(this);
+		const form = formRender(this);
 		return <Grid fluid>{form}</Grid>;
 	}
 }
@@ -191,7 +191,8 @@ Form.propTypes = {
 	resources: React.PropTypes.object,
 	onReady: React.PropTypes.func,
 	crud: React.PropTypes.object,
-	onChange: React.PropTypes.func
+	onChange: React.PropTypes.func,
+	readOnly: React.PropTypes.bool
 };
 
 /**

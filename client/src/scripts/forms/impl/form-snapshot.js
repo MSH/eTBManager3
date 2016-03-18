@@ -18,7 +18,7 @@ const evalProps = [
  * @param  {Object} doc    The document in use
  * @return {Array}         List of form elements state to the given document
  */
-export default function createSnapshot(schema, doc) {
+export default function createSnapshot(schema, doc, readOnly) {
 	const lst = schema.layout.map((elem, index) => {
 		// create element state
 		const state = Object.assign({ el: 'field' },
@@ -34,9 +34,13 @@ export default function createSnapshot(schema, doc) {
 			}
 		});
 
+		if (readOnly) {
+			state.readOnly = true;
+		}
+
 		// element contains another set of elements ?
 		if (state.layout) {
-			state.layout = createSnapshot(elem, doc);
+			state.layout = createSnapshot(elem, doc, readOnly);
 		}
 		return state;
 	});

@@ -46,17 +46,19 @@ export default class Details extends React.Component {
 	}
 
 	componentWillMount() {
-		this.setState({
-			tbcase: {
-				patient: {
-					name: 'Jim Morrison',
-					gender: 'MALE',
-					birthDate: new Date(1970, 1, 1)
+		setTimeout(() => {
+			this.setState({
+				tbcase: {
+					patient: {
+						name: 'Jim Morrison',
+						gender: 'MALE',
+						birthDate: new Date(1970, 1, 1)
+					},
+					recordNumber: '12345-2'
 				},
-				recordNumber: '12345-2'
-			},
-			tags: tags
-		});
+				tags: tags
+			});
+		}, 100);
 	}
 
 	tagsRender() {
@@ -85,8 +87,10 @@ export default class Details extends React.Component {
 			return <WaitIcon type="page" />;
 		}
 
+		const seltab = this.state.selTab;
+
 		const tabs = (
-			<Nav bsStyle="tabs" activeKey={this.state.selTab}
+			<Nav bsStyle="tabs" activeKey={seltab}
 				onSelect={this.selectTab}
 				className="app-tabs">
 				<NavItem key={0} eventKey={0}>{'Data'}</NavItem>
@@ -111,11 +115,17 @@ export default class Details extends React.Component {
 								this.tagsRender()
 							}
 							</Card>
-							<Card title="Other cases of this patient">
-							</Card>
+							<Card title="Other cases of this patient" />
 						</Col>
 						<Col sm={9}>
-							<Card header={tabs} />
+							<Card >
+							<div>
+								{tabs}
+								{seltab === 0 && <CaseData tbcase={tbcase} />}
+								{seltab === 1 && <CaseExams tbcase={tbcase} />}
+								{seltab === 2 && <CaseTreatment tbcase={tbcase} />}
+							</div>
+							</Card>
 						</Col>
 					</Row>
 				</Grid>

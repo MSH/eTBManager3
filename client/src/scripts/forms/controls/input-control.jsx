@@ -68,6 +68,10 @@ class InputControl extends React.Component {
 
 	render() {
 		const sc = this.props.schema;
+		if (sc.readOnly) {
+			return FormUtils.readOnlyRender(this.props.value, sc.label);
+		}
+
 		const errors = this.props.errors;
 
 		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;

@@ -108,6 +108,10 @@ export default class DatePicker extends React.Component {
 		}
 	}
 
+	focus() {
+		this.refs.textfield.focus();
+	}
+
 	render() {
 
 		// label render
@@ -135,7 +139,7 @@ export default class DatePicker extends React.Component {
 						<input type="text" ref="textfield"
 							className="form-control"
 							placeholder="dd/mm/yyyy"
-							defaultValue={value} onChange={this.valueChange}/>
+							defaultValue={value} onChange={this.valueChange} />
 						<a className="btn-group" onClick={this.buttonClick} >
 							<Fa icon="calendar"/>
 						</a>
