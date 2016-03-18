@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
-import { Card, Grid, CollapseRow, WaitIcon, ReactTable } from '../../../components/index';
+import { Card, WaitIcon, ReactTable, Profile } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
 import { app } from '../../../core/app';
@@ -95,12 +95,12 @@ export default class CommandHistory extends React.Component {
 
 		const query = {
 			iniDate: this.state.doc.iniDate,
-			endDate: this.state.doc.endDate ? this.state.doc.endDate : null,
-			action: this.state.doc.action ? this.state.doc.action : null,
-			userId: this.state.doc.userId ? this.state.doc.userId : null,
-			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODOMSF: Pensar sobr euma solução para gerar a lista de opções
-			adminUnitId: this.state.doc.adminUnitId ? this.state.doc.adminUnitId : null,
-			searchKey: this.state.doc.searchKey ? this.state.doc.searchKey : null
+			endDate: this.state.doc.endDate,
+			action: this.state.doc.action,
+			userId: this.state.doc.userId,
+			type: this.state.doc.type, // TODOMSF: Pensar sobr euma solução para gerar a lista de opções
+			adminUnitId: this.state.doc.adminUnitId,
+			searchKey: this.state.doc.searchKey
 		};
 
 		server.post('/api/admin/rep/cmdhistory', query)
@@ -157,12 +157,38 @@ export default class CommandHistory extends React.Component {
 			);
 	}
 
+	collapseRender(item) {
+		return (<div className="text-small">
+					<dl>
+						<Col sm={4}>
+							<dt>{__('User.login') + ':'}</dt>
+							<dd>{item.userLogin}</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
+							<dd>
+								{new Date(item.lastAccess).toString()}
+							</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
+							<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
+						</Col>
+					</dl>
+				</div>);
+	}
+
 	render() {
 
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
 
 		const tschema = [
+		{
+			title: __('User'),
+			content: item => <Profile size="small" title={item.userName} type="user" />,
+			size: { sm: 4 }
+		},
 		{
 			title: 'Type',
 			content: 'type',
@@ -183,12 +209,6 @@ export default class CommandHistory extends React.Component {
 		{
 			title: 'entityName',
 			content: 'entityName',
-			size: { sm: 1 },
-			align: 'center'
-		},
-		{
-			title: 'userName',
-			content: 'userName',
 			size: { sm: 1 },
 			align: 'center'
 		},
@@ -232,7 +252,8 @@ export default class CommandHistory extends React.Component {
 						<Row>
 							<Col md={12}>
 								<ReactTable columns={tschema}
-									values={this.state.values.list} />
+									values={this.state.values.list}
+									collapseRender={this.collapseRender} />
 							</Col>
 						</Row>
 					</Card>

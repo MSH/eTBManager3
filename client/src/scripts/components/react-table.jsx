@@ -87,7 +87,7 @@ export default class ReactTable extends React.Component {
 			return null;
 		}
 
-		const clickable = !!this.props.onClick;
+		const clickable = !!this.props.onClick || !!this.props.collapseRender;
 
 		return lst.map((item, index) =>
 			<Row key={index} className="tbl-row" onClick={clickable ? this.rowClick(item) : null}>
@@ -114,7 +114,7 @@ export default class ReactTable extends React.Component {
 			classes.push(this.props.className);
 		}
 
-		if (this.props.onClick) {
+		if (this.props.onClick || this.props.collapseRender) {
 			classes.push('tbl-hover');
 		}
 

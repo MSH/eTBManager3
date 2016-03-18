@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Tabs, Tab, Grid, Row, Col, Button, Badge } from 'react-bootstrap';
-import { Card, CollapseRow, WaitIcon } from '../../../components/index';
+import { Tabs, Tab, Row, Col, Button, Badge } from 'react-bootstrap';
+import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
@@ -89,7 +89,7 @@ export default class UserSessions extends React.Component {
 		const query = {
 			iniDate: this.state.doc.iniDate,
 			endDate: this.state.doc.endDate,
-			userId: this.state.doc.userId ? this.state.doc.userId : ''
+			userId: this.state.doc.userId
 		};
 
 		server.post('/api/admin/rep/usersession', query)
@@ -103,27 +103,6 @@ export default class UserSessions extends React.Component {
 
 	onDayClickCalendar(e, day) {
 		this.refreshTableByDay(day);
-	}
-
-	parseDetails(item) {
-		const collapsedValue = (<div className="text-small">
-									<dl>
-										<Col sm={4}>
-											<dt>{__('User.login') + ':'}</dt>
-											<dd>{item.userLogin}</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('UserLogin.logoutDate') + ':'}</dt>
-											<dd>{item.logoutDate}</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('UserLogin.ipAddress') + ':'}</dt>
-											<dd>{item.ipAddress}</dd>
-										</Col>
-									</dl>
-									<Col md={12} className="text-small">{item.Application}</Col>
-								</div>);
-		return (collapsedValue);
 	}
 
 	headerRender(count) {
@@ -140,41 +119,55 @@ export default class UserSessions extends React.Component {
 	}
 
 	tableRender() {
-		const rowList = this.state.values.list.map(item => ({ data: item, detailsHTML: this.parseDetails(item) }));
+		const colschema = [
+			{
+				title: __('User'),
+				content: item => <Profile size="small" title={item.userName} type="user" />,
+				size: { sm: 4 }
+			},
+			{
+				title: __('UserLogin.loginDate'),
+				content: item => new Date(item.loginDate).toString(),
+				size: { sm: 4 }
+			},
+			{
+				title: __('admin.websessions.idletime') + ' TODOMS: CALC with momentsjs',
+				content: item => new Date(item.loginDate).toString(),
+				size: { sm: 4 }
+			}
+		];
 
-		return (<Grid className="mtop-2x table">
-							<Row className="title">
-								<Col md={4} className="nopadding">
-									{__('User')}
-								</Col>
+		return (
+				<div>
+					<Row>
+						<Col md={12}>
+							<ReactTable columns={colschema}
+								values={this.state.values.list}
+								collapseRender={this.collapseRender} />
+						</Col>
+					</Row>
+				</div>
+			);
+	}
 
-								<Col md={4} className="nopadding">
-									{__('UserLogin.loginDate')}
-								</Col>
-
-								<Col md={4} className="nopadding">
-									{__('admin.websessions.sessiontime')}
-								</Col>
-							</Row>
-
-							{
-								rowList.map(item => (
-								<CollapseRow collapsable={item.detailsHTML} className={'tbl-cell'}>
-									<Col md={4}>
-										{item.data.userName}
-									</Col>
-
-									<Col md={4}>
-										{new Date(item.data.loginDate).toString()}
-									</Col>
-
-									<Col md={4}>
-										{'TODOMS: calcular baseado na hora de login e hra de logout. aguardando momentsjs'}
-									</Col>
-								</CollapseRow>
-								))
-							}
-						</Grid>);
+	collapseRender(item) {
+		return (<div className="text-small">
+					<dl>
+						<Col sm={4}>
+							<dt>{__('User.login') + ':'}</dt>
+							<dd>{item.userLogin}</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('UserLogin.logoutDate') + ':'}</dt>
+							<dd>{new Date(item.logoutDate).toString()}</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('UserLogin.ipAddress') + ':'}</dt>
+							<dd>{item.ipAddress}</dd>
+						</Col>
+					</dl>
+					<Col md={12} className="text-small">{item.Application}</Col>
+				</div>);
 	}
 
 	render() {
@@ -183,10 +176,8 @@ export default class UserSessions extends React.Component {
 			selected: day => selday ? DateUtils.isSameDay(day, selday) : false
 		};
 
-		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
-
 		return (
-			<Card header={header}>
+			<Card header={this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count)}>
 				<Tabs defaultActiveKey={1} className="mtop" animation={false}>
 
 					<Tab eventKey={1} title={__('datetime.date')} className="mtop">

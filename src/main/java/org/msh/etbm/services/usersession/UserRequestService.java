@@ -77,7 +77,7 @@ public class UserRequestService {
     }
 
     @Transactional
-    public void updateLastAccess(){
+    public void updateLastAccess() {
         entityManager.createNativeQuery("update userlogin set lastAccess = :lastAccess where id = :id")
                         .setParameter("lastAccess", new Date())
                         .setParameter("id", getUserSession().getUserLoginId())

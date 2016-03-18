@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Col, Grid, Row, Badge } from 'react-bootstrap';
-import { Card, CollapseRow, WaitIcon } from '../../../components/index';
+import { Col, Row, Badge } from 'react-bootstrap';
+import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import { server } from '../../../commons/server';
 
 /**
@@ -36,28 +36,6 @@ export default class OnlineUsers extends React.Component {
 		});
 	}
 
-	parseDetails(item) {
-		const collapsedValue = (<div className="text-small">
-									<dl>
-										<Col sm={4}>
-											<dt>{__('User.login') + ':'}</dt>
-											<dd>{item.userLogin}</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
-											<dd>
-												{item.lastAccess}
-											</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
-											<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
-										</Col>
-									</dl>
-								</div>);
-		return (collapsedValue);
-	}
-
 	headerRender(count) {
 		const countHTML = <Badge className="tbl-counter">{count}</Badge>;
 
@@ -65,10 +43,31 @@ export default class OnlineUsers extends React.Component {
 		return (
 			<Row>
 				<Col sm={12}>
-					<h4>{__('admin.websessions')} {countHTML}</h4>
+					<h4>{__('admin.websessions')} {countHTML} {'TODOMS: Rever regras de criação/destruição de user session'}</h4>
 				</Col>
 			</Row>
 			);
+	}
+
+	collapseRender(item) {
+		return (<div className="text-small">
+					<dl>
+						<Col sm={4}>
+							<dt>{__('User.login') + ':'}</dt>
+							<dd>{item.userLogin}</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
+							<dd>
+								{new Date(item.lastAccess).toString()}
+							</dd>
+						</Col>
+						<Col sm={4}>
+							<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
+							<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
+						</Col>
+					</dl>
+				</div>);
 	}
 
 	render() {
@@ -76,47 +75,36 @@ export default class OnlineUsers extends React.Component {
 			return <WaitIcon type="card" />;
 		}
 
-		const rowList = this.state.values.list.map(item => ({ data: item, detailsHTML: this.parseDetails(item) }));
-		const header = this.headerRender(this.state.values.count);
+		const colschema = [
+			{
+				title: __('User'),
+				content: item => <Profile size="small" title={item.userName} type="user" />,
+				size: { sm: 4 }
+			},
+			{
+				title: __('UserLogin.loginDate'),
+				content: item => new Date(item.loginDate).toString(),
+				size: { sm: 4 }
+			},
+			{
+				title: __('admin.websessions.idletime') + ' TODOMS: CALC with momentsjs',
+				content: item => new Date(item.loginDate).toString(),
+				size: { sm: 4 }
+			}
+		];
 
 		return (
-				<Card header={header}>
-				{'TODOMS: Rever regras de criação/destruição de user session'}
-					<Grid className="mtop-2x table">
-						<Row className="title">
-							<Col md={4} className="nopadding">
-								{__('User')}
-							</Col>
-
-							<Col md={4} className="nopadding">
-								{__('UserLogin.loginDate')}
-							</Col>
-
-							<Col md={4} className="nopadding">
-								{__('admin.websessions.idletime')}
+				<div>
+					<Card header={this.headerRender(this.state.values.count)}>
+						<Row>
+							<Col md={12}>
+								<ReactTable columns={colschema}
+									values={this.state.values.list}
+									collapseRender={this.collapseRender} />
 							</Col>
 						</Row>
-
-						{
-							rowList.map(item => (
-							<CollapseRow collapsable={item.detailsHTML} className={'tbl-cell'}>
-								<Col md={4}>
-									{item.data.userName}
-								</Col>
-
-								<Col md={4}>
-									{new Date(item.data.loginDate).toString()}
-								</Col>
-
-								<Col md={4}>
-									{'TODOMS: CALC VALUE BASED ON lastAccess. aguardando momentsjs'}
-								</Col>
-							</CollapseRow>
-							))
-						}
-
-					</Grid>
-				</Card>
+					</Card>
+				</div>
 			);
 	}
 }
