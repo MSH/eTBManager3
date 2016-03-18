@@ -36,6 +36,20 @@ export default class ReacttableExample extends React.Component {
 		alert(item.name);
 	}
 
+	collapseRender(item) {
+		return (<div>
+					<hr/>
+						<dl className="text-small dl-horizontal text-muted">
+							<dt>{__('Patient') + ':'}</dt>
+							<dd>{item.name}</dd>
+							<dt>{__('Status') + ':'}</dt>
+							<dd>{item.status}</dd>
+							<dt>{__('Quantity') + ':'}</dt>
+							<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
+						</dl>
+					<hr/>
+				</div>);
+	}
 
 	render() {
 
@@ -67,7 +81,8 @@ export default class ReacttableExample extends React.Component {
 						<Col md={12}>
 							<ReactTable columns={columns}
 								values={this.state.values}
-								onClick={this.rowClick} />
+								onClick={this.rowClick}
+								collapseRender={this.collapseRender} />
 						</Col>
 					</Row>
 				</Card>

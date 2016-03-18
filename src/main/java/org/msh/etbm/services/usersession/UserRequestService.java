@@ -4,6 +4,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,6 +20,9 @@ import java.util.UUID;
 @Service
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserRequestService {
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     public static final String KEY_ADMUNITSERIES_LIST = "admunit-series";
 
@@ -67,6 +74,14 @@ public class UserRequestService {
         }
 
         requestAttribs.put(key, data);
+    }
+
+    @Transactional
+    public void updateLastAccess(){
+        entityManager.createNativeQuery("update userlogin set lastAccess = :lastAccess where id = :id")
+                        .setParameter("lastAccess", new Date())
+                        .setParameter("id", getUserSession().getUserLoginId())
+                        .executeUpdate();
     }
 
     /**

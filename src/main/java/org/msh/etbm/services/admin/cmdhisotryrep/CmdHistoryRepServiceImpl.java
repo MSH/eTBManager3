@@ -34,7 +34,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
     public QueryResult getResult(CmdHistoryRepQueryParams query) {
         if (query.getIniDate() == null) {
-            //TODOMS: retornar erro e validação
+            //TODOMSF: EntityValidationException
         }
 
         QueryResult<CmdHistoryRepData> ret = new QueryResult();
@@ -45,9 +45,9 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.execDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
         qry.addRestriction("a.action = :action", query.getAction());
         qry.addRestriction("a.user.id = :userId", query.getUserId());
-        qry.addRestriction("a.type = :type", query.getType());
-        //qry.addRestriction("a.type = :type", query.getAdminUnitId()); TODOMS
-        //qry.addRestriction("a.type = :type", query.getSearchKey()); TODOMS
+        qry.addRestriction("a.type like :type", query.getType());
+        //qry.addRestriction("a.type = :type", query.getAdminUnitId()); TODOMSF
+        //qry.addRestriction("(a.type like :type or a.type like :type)", query.getSearchKey()); TODOMSF
 
         List<CommandHistory> list = qry.getResultList();
         ret.setList(new ArrayList<>());

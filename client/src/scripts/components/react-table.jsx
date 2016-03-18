@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { isFunction } from '../commons/utils';
 
 
@@ -67,7 +67,18 @@ export default class ReactTable extends React.Component {
 			if (this.props.onClick) {
 				this.props.onClick(item);
 			}
+			if (this.props.collapseRender) {
+				item.iscollapsed = item.iscollapsed ? !item.iscollapsed : true;
+				this.forceUpdate();
+			}
 		};
+	}
+
+	collapseRender(item) {
+		if (this.props.collapseRender) {
+			return this.props.collapseRender(item);
+		}
+		return null;
 	}
 
 	contentRender() {
@@ -86,6 +97,12 @@ export default class ReactTable extends React.Component {
 					return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
 				})
 			}
+			{this.props.collapseRender &&
+			<Col sm={12}>
+				<Collapse in={item.iscollapsed}>
+					<div>{this.collapseRender(item)}</div>
+				</Collapse>
+			</Col>}
 			</Row>
 		);
 	}
@@ -123,5 +140,6 @@ ReactTable.propTypes = {
 	showCounter: React.PropTypes.bool,
 	onChangePage: React.PropTypes.func,
 	page: React.PropTypes.number,
-	maxPage: React.PropTypes.number
+	maxPage: React.PropTypes.number,
+	collapseRender: React.PropTypes.func
 };

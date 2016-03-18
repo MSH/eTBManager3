@@ -169,7 +169,7 @@ export default class UserSessions extends React.Component {
 									</Col>
 
 									<Col md={4}>
-										{'TODOMS: calcular baseado na hora de login e hra de logout'}
+										{'TODOMS: calcular baseado na hora de login e hra de logout. aguardando momentsjs'}
 									</Col>
 								</CollapseRow>
 								))

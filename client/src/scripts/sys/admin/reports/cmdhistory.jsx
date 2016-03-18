@@ -43,8 +43,8 @@ const fschema = {
 					property: 'type',
 					required: false,
 					type: 'select',
-					label: 'TODOMS - Type', // __('admin.reports.cmdhistory.type'),
-					options: 'users', // TODOMS
+					label: 'Type', // __('admin.reports.cmdhistory.type'),
+					options: 'users', // TODOMSF: trocar para string
 					size: { md: 4 }
 				},
 				{
@@ -98,7 +98,7 @@ export default class CommandHistory extends React.Component {
 			endDate: this.state.doc.endDate ? this.state.doc.endDate : null,
 			action: this.state.doc.action ? this.state.doc.action : null,
 			userId: this.state.doc.userId ? this.state.doc.userId : null,
-			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODOMS
+			type: this.state.doc.type ? this.state.doc.type.toString() : null, // TODOMSF: Pensar sobr euma solução para gerar a lista de opções
 			adminUnitId: this.state.doc.adminUnitId ? this.state.doc.adminUnitId : null,
 			searchKey: this.state.doc.searchKey ? this.state.doc.searchKey : null
 		};

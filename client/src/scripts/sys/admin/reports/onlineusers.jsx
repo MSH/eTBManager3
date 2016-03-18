@@ -46,13 +46,12 @@ export default class OnlineUsers extends React.Component {
 										<Col sm={4}>
 											<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
 											<dd>
-												{'TODOMS: passar a registrar ultimo acesso'}
 												{item.lastAccess}
 											</dd>
 										</Col>
 										<Col sm={4}>
 											<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
-											<dd>{'TODOMS: CALC VALUE BASED ON loginDate'}</dd>
+											<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
 										</Col>
 									</dl>
 								</div>);
@@ -82,7 +81,7 @@ export default class OnlineUsers extends React.Component {
 
 		return (
 				<Card header={header}>
-				{'TODOMS: passar a derrubar o usuario depois de um determinado tempo sem atividade'}
+				{'TODOMS: Rever regras de criação/destruição de user session'}
 					<Grid className="mtop-2x table">
 						<Row className="title">
 							<Col md={4} className="nopadding">
@@ -110,7 +109,7 @@ export default class OnlineUsers extends React.Component {
 								</Col>
 
 								<Col md={4}>
-									{'TODOMS: CALC VALUE BASED ON lastAccess'}
+									{'TODOMS: CALC VALUE BASED ON lastAccess. aguardando momentsjs'}
 								</Col>
 							</CollapseRow>
 							))
