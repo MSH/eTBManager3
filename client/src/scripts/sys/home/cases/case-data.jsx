@@ -1,5 +1,11 @@
 import React from 'react';
+import { Alert } from 'react-bootstrap';
 import Form from '../../../forms/form';
+import { Card } from '../../../components';
+import CommentsBox from './comments-box';
+
+import Contacts from './contacts';
+
 
 
 const data = {
@@ -202,8 +208,18 @@ export default class CaseData extends React.Component {
 
 	render() {
 		return (
-			<div className="mtop-2x">
-				<Form schema={data} doc={this.props.tbcase} readOnly/>
+			<div>
+				<Card title="Case data" padding="combine">
+					<Form schema={data} doc={this.props.tbcase} readOnly/>
+				</Card>
+				<CommentsBox />
+				<Contacts case={this.props.tbcase} />
+				<Card title={__('cases.sideeffects')}>
+					<Alert bsStyle="warning">{'No record found'}</Alert>
+				</Card>
+				<Card title={__('TbField.COMORBIDITY')}>
+					<Alert bsStyle="warning">{'No record found'}</Alert>
+				</Card>
 			</div>
 			);
 	}

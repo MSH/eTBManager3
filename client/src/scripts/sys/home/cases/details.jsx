@@ -118,14 +118,10 @@ export default class Details extends React.Component {
 							<Card title="Other cases of this patient" />
 						</Col>
 						<Col sm={9}>
-							<Card >
-							<div>
-								{tabs}
-								{seltab === 0 && <CaseData tbcase={tbcase} />}
-								{seltab === 1 && <CaseExams tbcase={tbcase} />}
-								{seltab === 2 && <CaseTreatment tbcase={tbcase} />}
-							</div>
-							</Card>
+							{tabs}
+							{seltab === 0 && <CaseData tbcase={tbcase} />}
+							{seltab === 1 && <CaseExams tbcase={tbcase} />}
+							{seltab === 2 && <CaseTreatment tbcase={tbcase} />}
 						</Col>
 					</Row>
 				</Grid>

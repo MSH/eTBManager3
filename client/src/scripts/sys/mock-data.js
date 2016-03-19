@@ -12,13 +12,16 @@ export function generateName() {
 		firstNamesFemale[randonIndex(firstNamesFemale.length)]) + ' ' +
 		lastNames[randonIndex(lastNames.length)];
 
-	return { name: name, gender: gender };
+	const age = Math.round((Math.random() * 40) + 10);
+
+	return { name: name, gender: gender, age: age };
 }
 
 
 export function generateCaseNumber() {
 	return Math.round((Math.random() * 10000) + 10000) + '-' + Math.round(Math.random() * 10);
 }
+
 
 function randonIndex(size) {
 	return Math.round(Math.random() * size);

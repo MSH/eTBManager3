@@ -10,6 +10,7 @@ export default class Card extends React.Component {
         switch (this.props.padding) {
             case 'none': return '';
             case 'small': return ' card-small';
+            case 'combine': return ' card-combine';
             default: return ' card-default';
         }
     }
@@ -56,7 +57,7 @@ Card.propTypes = {
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,
     className: React.PropTypes.string,
-    padding: React.PropTypes.oneOf(['none', 'small', 'default']),
+    padding: React.PropTypes.oneOf(['none', 'small', 'default', 'combine']),
     highlight: React.PropTypes.bool
 };
 

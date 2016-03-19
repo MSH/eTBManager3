@@ -42,7 +42,7 @@ export default function fieldControlWrapper(Component) {
 			}
 
 			const sc = this.props.schema;
-			if (sc && sc.autoFocus) {
+			if (sc && sc.autoFocus && !sc.readOnly) {
 				// set the focus
 				// it seems that, because form is displayed through an animation, the focus must
 				// be set after a while
