@@ -1,5 +1,10 @@
 import React from 'react';
+import { Alert } from 'react-bootstrap';
 import Form from '../../../forms/form';
+import { Card } from '../../../components';
+import CardWithComments from './card-with-comments';
+
+import Contacts from './contacts';
 
 
 const data = {
@@ -201,9 +206,21 @@ const data = {
 export default class CaseData extends React.Component {
 
 	render() {
+		const tbcase = this.props.tbcase;
+
 		return (
-			<div className="mtop-2x">
-				<Form schema={data} doc={this.props.tbcase} readOnly/>
+			<div>
+				<CardWithComments title="Case data" tbcase={tbcase} group="data">
+					<Form schema={data} doc={tbcase} readOnly/>
+				</CardWithComments>
+
+				<Contacts tbcase={this.props.tbcase} />
+				<CardWithComments title={__('cases.sideeffects')} tbcase={tbcase} group="adv-reactions">
+					<Alert bsStyle="warning">{'No record found'}</Alert>
+				</CardWithComments>
+				<CardWithComments title={__('TbField.COMORBIDITY')} tbcase={tbcase} group="comorbidities">
+					<Alert bsStyle="warning">{'No record found'}</Alert>
+				</CardWithComments>
 			</div>
 			);
 	}

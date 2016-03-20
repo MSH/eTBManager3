@@ -6780,7 +6780,7 @@ button.close {
   border-left-color: #1e9614;
 }
 .card {
-  background-color: white;
+  background-color: #fff;
   margin-top: 0px;
   border-radius: 2px;
   /** Style of the title */
@@ -6818,13 +6818,19 @@ button.close {
   margin-bottom: 20px;
 }
 .card-default .card-content {
-  padding: 20px;
+  padding: 10px 20px;
 }
 .card-small {
   margin-bottom: 10px;
 }
 .card-small .card-content {
   padding: 8px;
+}
+.card-combine {
+  margin-bottom: 0;
+}
+.card-combine .card-content {
+  padding: 20px;
 }
 @media (max-width: 767px) {
   .card .card-header {
@@ -6919,6 +6925,50 @@ button.close {
 .profile-img-default {
   color: #808080;
   background-color: #e8e8e8;
+}
+.prof-tbunit {
+  color: #CACEE4;
+  background-color: #3F51B5;
+}
+.prof-lab {
+  color: #DCF0DC;
+  background-color: #4CAF50;
+}
+.prof-male {
+  color: #43698E;
+  background-color: #B0CFD0;
+}
+.prof-female {
+  color: #C73F76;
+  background-color: #DEC5F9;
+}
+.prof-ws {
+  color: #CFE6F1;
+  background-color: #607D8B;
+}
+.prof-medicine {
+  color: #CC0606;
+  background-color: #FFD2D2;
+}
+.prof-product {
+  color: #CFE6F1;
+  background-color: #607D8B;
+}
+.prof-user {
+  color: #DEE8E3;
+  background-color: #819A92;
+}
+.prof-tag-userdef {
+  color: #FFFFFF;
+  background-color: #3E6DC1;
+}
+.prof-tag-danger {
+  color: #FFFFFF;
+  background-color: #FF0000;
+}
+.prof-tag-warn {
+  color: #FFFFFF;
+  background-color: #DEAE00;
 }
 .fluidbar {
   padding: 2px 20px 10px 20px;
@@ -7245,6 +7295,12 @@ button.close {
 .margin-2x {
   margin: 20px;
 }
+.no-margin-bottom {
+  margin-bottom: 0 !important;
+}
+.def-margin-bottom {
+  margin-bottom: 20px;
+}
 .borderless {
   border: none;
   box-shadow: none;
@@ -7284,50 +7340,6 @@ button.close {
   color: #1e9614;
   font-size: 4em !important;
   margin: 10px 10px 30px 10px;
-}
-.prof-tbunit {
-  color: #CACEE4;
-  background-color: #3F51B5;
-}
-.prof-lab {
-  color: #DCF0DC;
-  background-color: #4CAF50;
-}
-.prof-male {
-  color: #43698E;
-  background-color: #B0CFD0;
-}
-.prof-female {
-  color: #C73F76;
-  background-color: #DEC5F9;
-}
-.prof-ws {
-  color: #CFE6F1;
-  background-color: #607D8B;
-}
-.prof-medicine {
-  color: #CC0606;
-  background-color: #FFD2D2;
-}
-.prof-product {
-  color: #CFE6F1;
-  background-color: #607D8B;
-}
-.prof-user {
-  color: #DEE8E3;
-  background-color: #26775D;
-}
-.prof-tag-userdef {
-  color: #FFFFFF;
-  background-color: #3E6DC1;
-}
-.prof-tag-danger {
-  color: #FFFFFF;
-  background-color: #FF0000;
-}
-.prof-tag-warn {
-  color: #FFFFFF;
-  background-color: #DEAE00;
 }
 .shadow {
   box-shadow: 2px 2px 14px #b0b0b0;
@@ -7414,7 +7426,7 @@ button.close {
 }
 .app-tabs {
   border-bottom: none;
-  padding-top: 8px;
+  margin-bottom: 9px;
 }
 .app-tabs li.active a,
 .app-tabs li.active a:hover,
@@ -7423,19 +7435,16 @@ button.close {
   border-right: none !important;
   border-top: none !important;
   border-bottom: 4px solid #1e9614 !important;
-  padding-left: 30px;
-  padding-right: 30px;
   font-weight: bold;
   color: #1e9614;
+  background-color: transparent !important;
 }
 .app-tabs li a {
   color: #a0a0a0;
   text-transform: uppercase;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 6px 30px;
   border: none;
-  border-bottom: 4px solid #fff;
-  border-color: #fff;
+  border-bottom: 4px solid transparent;
   transition: border-color 0.5s ease;
 }
 .app-tabs li a:focus {
@@ -7559,7 +7568,7 @@ button.close {
 }
 .form-control-static {
   padding: 4px 8px !important;
-  font-weight: bold;
-  background-color: #f8f8f8;
+  background-color: #f6f6f6;
+  color: #404040;
 }
 /* Small devices (tablets, 768px and up) */
