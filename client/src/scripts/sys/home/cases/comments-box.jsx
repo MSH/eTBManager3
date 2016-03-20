@@ -5,7 +5,7 @@ import { Card, Profile, Fa } from '../../../components';
 import './comments-box.less';
 
 
-export default class CommentsCard extends React.Component {
+export default class CommentsBox extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -30,6 +30,7 @@ export default class CommentsCard extends React.Component {
 		const el = this.refs.input;
 		el.style.height = 'auto';
 		el.style.height = el.scrollHeight + 'px';
+		this.setState({ disabled: !this.refs.input.value.trim() });
 	}
 
 	/**
@@ -39,6 +40,7 @@ export default class CommentsCard extends React.Component {
 		const txt = this.refs.input.value;
 		this.props.onAdd(txt);
 		this.refs.input.value = '';
+		this.inputHeight();
 	}
 
 	/**
@@ -60,7 +62,7 @@ export default class CommentsCard extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	showCommentsBox() {
-		this.setState({ showComments: true });
+		this.setState({ showComments: true, disabled: true });
 		const self = this;
 		setTimeout(() => {
 			if (self.refs.input) {
@@ -71,10 +73,11 @@ export default class CommentsCard extends React.Component {
 
 	render() {
 		const comments = this.props.values;
+		const hasComments = comments && comments.length > 0;
 
 		// if there is no comment to display, initially just the 'add comments' link
 		// is displayed
-		if (!comments && !this.state.showComments) {
+		if (!hasComments && !this.state.showComments) {
 			return this.emptyRender();
 		}
 
@@ -89,7 +92,13 @@ export default class CommentsCard extends React.Component {
 							</div>
 							<div className="media-body">
 								<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
-								{it.comment}
+								{it.comment.split('\n').map((item, index) =>
+									<span key={index}>
+										{item}
+										<br/>
+									</span>
+									)
+								}
 							</div>
 						</div>
 						)
@@ -102,9 +111,10 @@ export default class CommentsCard extends React.Component {
 						<div className="form-group no-margin-bottom">
 							<textarea ref="input" rows="1"
 								className="form-control"
-								style={{ height: 'auto', overflowY: 'hidden' }}
+								style={{ height: 'auto', overflowY: 'hidden', resize: 'none' }}
 								onInput={this.inputHeight}/>
 							<Button bsStyle="primary"
+								disabled={this.state.disabled}
 								onClick={this.addComment}
 								bsSize="small"
 								style={{ marginTop: '6px' }}>
@@ -119,7 +129,7 @@ export default class CommentsCard extends React.Component {
 	}
 }
 
-CommentsCard.propTypes = {
+CommentsBox.propTypes = {
 	values: React.PropTypes.array,
 	onAdd: React.PropTypes.func
 };
