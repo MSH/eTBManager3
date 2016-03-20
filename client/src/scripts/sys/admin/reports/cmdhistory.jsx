@@ -161,9 +161,9 @@ export default class CommandHistory extends React.Component {
 
 					{item.detail.items && item.detail.items.map(i => 	<div>
 																			<dt>
-																				<Fa icon="plus-square"/>
-																				<Fa icon="minus-square"/>
-																				{i.title + ':'}
+																				{i.title.substr(0, 1) === '+' ? <Fa icon="plus-square"/> : null}
+																				{i.title.substr(0, 1) === '-' ? <Fa icon="minus-square"/> : null}
+																				{i.title.substr(0, 1) === '-' || i.title.substr(0, 1) === '+' ? i.title.substr(1, i.length) + ':' : i.title + ':'}
 																			</dt>
 																			<dd>{i.value}</dd>
 																		</div>)}

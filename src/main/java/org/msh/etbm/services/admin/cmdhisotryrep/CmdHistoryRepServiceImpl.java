@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.commons.commands.details.CommandLogDiff;
@@ -33,6 +34,9 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
+    @Autowired
+    Messages messages;
+
     public QueryResult getResult(CmdHistoryRepQueryParams query) {
         if (query.getIniDate() == null) {
             //TODOMSF: EntityValidationException
@@ -65,7 +69,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         return ret;
     }
 
-    private CommandLogDetail processJsonData(String data){
+    private CommandLogDetail processJsonData(String data) {
         CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
         if (c == null) {
             return null;
@@ -73,25 +77,65 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         if (c.getItems() != null ) {
             for (CommandLogItem i : c.getItems()) {
-                i.setTitle(processStringToDisplay(i.getTitle()));
-                i.setValue(processStringToDisplay(i.getValue()));
+                i.setTitle(processTitleToDisplay(i.getTitle()));
+                i.setValue(processValueToDisplay(i.getValue()));
             }
         }
 
         if (c.getDiffs() != null) {
             for (CommandLogDiff i : c.getDiffs()) {
-                i.setTitle(processStringToDisplay(i.getTitle()));
-                i.setNewValue(processStringToDisplay(i.getNewValue()));
-                i.setPrevValue(processStringToDisplay(i.getPrevValue()));
+                i.setTitle(processTitleToDisplay(i.getTitle()));
+                i.setNewValue(processValueToDisplay(i.getNewValue()));
+                i.setPrevValue(processValueToDisplay(i.getPrevValue()));
             }
         }
 
+        //TODOMS tirar isso aqui
         c.setText("Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!");
 
         return c;
     }
 
-    private String processStringToDisplay(String s){
+    private String processTitleToDisplay(String s) {
+        if (s == null) {
+            return null;
+        }
+
+        String ret;
+
+        if (s.contains("action.added")) {
+            ret = "+";
+        } else if (s.contains("action.removed")) {
+            ret = "-";
+        } else {
+            ret = "";
+        }
+
+        String[] msgs = s.replace("(","").replace(")", "").split(" ");
+        ret = ret + s;
+
+        for (String msg : msgs) {
+            ret = ret.replace(msg, messages.get(msg.substring(1, msg.length())));
+        }
+
+        return ret;
+    }
+
+    private String processValueToDisplay(String s) {
+        if (s == null) {
+            return null;
+        }
+
+        String type = s.substring(0,1);
+
+        switch (type) {
+            case CommandLogDetail.TYPE_STRING :  s = s.substring(1, s.length());
+                break;
+            case "$" :  s = messages.get(s);
+                break;
+        }
+
         return s;
     }
+
 }
