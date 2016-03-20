@@ -67,16 +67,23 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
     private CommandLogDetail processJsonData(String data){
         CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
-
-        for (CommandLogItem i : c.getItems()) {
-            i.setTitle(processStringToDisplay(i.getTitle()));
-            i.setValue(processStringToDisplay(i.getValue()));
+        if (c == null) {
+            return null;
         }
 
-        for (CommandLogDiff i : c.getDiffs()) {
-            i.setTitle(processStringToDisplay(i.getTitle()));
-            i.setNewValue(processStringToDisplay(i.getNewValue()));
-            i.setPrevValue(processStringToDisplay(i.getPrevValue()));
+        if (c.getItems() != null ) {
+            for (CommandLogItem i : c.getItems()) {
+                i.setTitle(processStringToDisplay(i.getTitle()));
+                i.setValue(processStringToDisplay(i.getValue()));
+            }
+        }
+
+        if (c.getDiffs() != null) {
+            for (CommandLogDiff i : c.getDiffs()) {
+                i.setTitle(processStringToDisplay(i.getTitle()));
+                i.setNewValue(processStringToDisplay(i.getNewValue()));
+                i.setPrevValue(processStringToDisplay(i.getPrevValue()));
+            }
         }
 
         c.setText("Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!");

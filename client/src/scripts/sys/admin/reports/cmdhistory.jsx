@@ -137,56 +137,59 @@ export default class CommandHistory extends React.Component {
 	}
 
 	collapseRender(item) {
-		const text = item.detail.text ? <Col sm={12}>
-											<dl className="dl-horizontal text-muted">
-												<dt>{'Observations:'}</dt>
-												<dd>{item.detail.text}</dd>
-											</dl>
-										</Col> : null;
 
-		var fields = null;
-		if (item.detail.diffs || item.detail.items) {
-			fields = (<Col sm={12}>
-						<dl className="dl-horizontal text-muted">
-						{item.detail.diffs.map(diff => {
-								const prevValue = diff.prevValue ? diff.prevValue : '"form.empty"';
-								const newValue = diff.newValue ? diff.newValue : '"form.empty"';
-								const title = diff.title ? <dt><Fa icon="pencil"/>{diff.title + ':'}</dt> : <dt><Fa icon="pencil"/></dt>;
-								const vals = <dd>{prevValue}<Fa icon="caret-right"/>{newValue}</dd>;
-								return (<div>{title}{vals}</div>);
-							})}
-						{item.detail.items.map(i => {
-								return (
-									<div>
-										<dt><Fa icon="plus-square"/><Fa icon="minus-square"/>{i.title}</dt>
-										<dd>{'(Gati) gatifloxacin, (Mfx) moxifloxacin, (Cm) capreomycin'}</dd>
-									</div>);
-							})}
-						</dl>
-					</Col>);
+		const text = item.detail.text ?
+							<Col sm={12}>
+								<dl className="dl-horizontal text-muted">
+								<dt>{'form.obs:'}</dt>
+								<dd>{item.detail.text}</dd>
+								</dl>
+							</Col> : null;
+
+		var vals = null;
+		if (item.detail.items || item.detail.diffs) {
+		vals = (<Col sm={12}>
+					<dl className="dl-horizontal text-muted">
+					{item.detail.diffs && item.detail.diffs.map(diff => 	<div>
+																				<dt>{diff.title + ':'}</dt>
+																				<dd>
+																					{diff.prevValue ? diff.prevValue : 'form.empty'}
+																					<Fa icon="caret-right"/>
+																					{diff.newValue ? diff.newValue : 'form.empty'}
+																				</dd>
+																			</div>)}
+
+					{item.detail.items && item.detail.items.map(i => 	<div>
+																			<dt>
+																				<Fa icon="plus-square"/>
+																				<Fa icon="minus-square"/>
+																				{i.title + ':'}
+																			</dt>
+																			<dd>{i.value}</dd>
+																		</div>)}
+					</dl>
+				</Col>);
 		}
 
-		return (<Row>
-					<div className="margin-2x">
-					{text}
-					{fields}
-					</div>
-				</Row>);
+		return (<Row><div className="margin-2x">{text}{vals}</div></Row>);
 	}
 
 	render() {
-
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
-
 
 		const tschema = [
 		{
 			title: __('User'),
-			content: item => <Profile size="small" title={item.userName} subtitle={item.unitName + ' - ' + item.adminUnitName} type="user" />,
+			content: item => <Profile size="small" title={item.userName} type="user" subtitle={item.unitName + ' ' + item.adminUnitName} />,
 			size: { sm: 3 }
 		},
 		{
-			title: 'commandType',
+			title: __('datetime.date'),
+			content: item => new Date(item.execDate).toString(),
+			size: { sm: 2 }
+		},
+		{
+			title: 'Type',
 			content: 'type',
 			size: { sm: 2 }
 		},
@@ -196,14 +199,9 @@ export default class CommandHistory extends React.Component {
 			size: { sm: 1 }
 		},
 		{
-			title: __('cases.details.date'),
-			content: item => new Date(item.execDate).toString(),
-			size: { sm: 3 }
-		},
-		{
 			title: 'entityName',
 			content: 'entityName',
-			size: { sm: 3 }
+			size: { sm: 4 }
 		}
 		];
 
