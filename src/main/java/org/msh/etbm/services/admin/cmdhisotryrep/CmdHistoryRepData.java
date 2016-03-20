@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
 import org.msh.etbm.commons.commands.CommandAction;
+import org.msh.etbm.commons.commands.details.CommandLogDetail;
 
 import java.util.Date;
 
@@ -16,9 +17,9 @@ public class CmdHistoryRepData {
     private String userName;
     private String unitName;
     private String adminUnitName;
-    private String data;
+    private CommandLogDetail detail;
 
-    public CmdHistoryRepData(String type, CommandAction action, Date execDate, String entityName, String userName, String unitName, String adminUnitName, String data) {
+    public CmdHistoryRepData(String type, CommandAction action, Date execDate, String entityName, String userName, String unitName, String adminUnitName, CommandLogDetail detail) {
         this.type = type;
         this.action = action;
         this.execDate = execDate;
@@ -26,7 +27,7 @@ public class CmdHistoryRepData {
         this.userName = userName;
         this.unitName = unitName;
         this.adminUnitName = adminUnitName;
-        this.data = data;
+        this.detail = detail;
     }
 
     public String getType() {
@@ -85,11 +86,11 @@ public class CmdHistoryRepData {
         this.adminUnitName = adminUnitName;
     }
 
-    public String getData() {
-        return data;
+    public CommandLogDetail getDetail() {
+        return detail;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDetail(CommandLogDetail detail) {
+        this.detail = detail;
     }
 }

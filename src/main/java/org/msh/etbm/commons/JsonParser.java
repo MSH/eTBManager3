@@ -35,6 +35,23 @@ public class JsonParser {
 
     }
 
+    /**
+     * Convert a json String to a given Java type
+     * @param jsonString the json string
+     * @param type the type to parse the file into
+     * @param <T>
+     * @return instance of the type T
+     */
+    public static <T> T parseString(String jsonString, Class<T> type) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(jsonString, type);
+        } catch (Exception e) {
+            log. error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+
+    }
 
     /**
      * Convert an object to JSON string representation

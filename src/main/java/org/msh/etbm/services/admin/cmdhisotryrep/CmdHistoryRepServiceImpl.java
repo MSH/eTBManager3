@@ -1,13 +1,14 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
+import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.commands.details.CommandLogDetail;
+import org.msh.etbm.commons.commands.details.CommandLogDiff;
+import org.msh.etbm.commons.commands.details.CommandLogItem;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.CommandHistory;
-import org.msh.etbm.db.entities.UserLogin;
-import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
-import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,9 +59,32 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String unitName = c.getUnit() != null ? c.getUnit().getName() : null;
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
-            ret.getList().add(new CmdHistoryRepData(c.getType(), c.getAction(), c.getExecDate(), c.getEntityName(), userName, unitName, adminUnitName, c.getData()));
+            ret.getList().add(new CmdHistoryRepData(c.getType(), c.getAction(), c.getExecDate(), c.getEntityName(), userName, unitName, adminUnitName, processJsonData(c.getData())));
         }
 
         return ret;
+    }
+
+    private CommandLogDetail processJsonData(String data){
+        CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
+
+        for (CommandLogItem i : c.getItems()) {
+            i.setTitle(processStringToDisplay(i.getTitle()));
+            i.setValue(processStringToDisplay(i.getValue()));
+        }
+
+        for (CommandLogDiff i : c.getDiffs()) {
+            i.setTitle(processStringToDisplay(i.getTitle()));
+            i.setNewValue(processStringToDisplay(i.getNewValue()));
+            i.setPrevValue(processStringToDisplay(i.getPrevValue()));
+        }
+
+        c.setText("Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!");
+
+        return c;
+    }
+
+    private String processStringToDisplay(String s){
+        return s;
     }
 }

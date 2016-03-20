@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, Button, Badge } from 'react-bootstrap';
-import { Card, WaitIcon, ReactTable, Profile } from '../../../components/index';
+import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
 import { app } from '../../../core/app';
@@ -123,27 +123,6 @@ export default class CommandHistory extends React.Component {
 		});
 	}
 
-	parseDetails(item) {
-		const collapsedValue = (<div className="text-small">
-									<dl>
-										<Col sm={4}>
-											<dt>{__('User.login') + ':'}</dt>
-											<dd>{item.userLogin}</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('UserLogin.logoutDate') + ':'}</dt>
-											<dd>{item.logoutDate}</dd>
-										</Col>
-										<Col sm={4}>
-											<dt>{__('UserLogin.ipAddress') + ':'}</dt>
-											<dd>{item.ipAddress}</dd>
-										</Col>
-									</dl>
-									<Col md={12} className="text-small">{item.Application}</Col>
-								</div>);
-		return (collapsedValue);
-	}
-
 	headerRender(count) {
 		const countHTML = <Badge className="tbl-counter">{count}</Badge>;
 
@@ -158,24 +137,41 @@ export default class CommandHistory extends React.Component {
 	}
 
 	collapseRender(item) {
-		return (<div className="text-small">
-					<dl>
-						<Col sm={4}>
-							<dt>{__('User.login') + ':'}</dt>
-							<dd>{item.userLogin}</dd>
-						</Col>
-						<Col sm={4}>
-							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
-							<dd>
-								{new Date(item.lastAccess).toString()}
-							</dd>
-						</Col>
-						<Col sm={4}>
-							<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
-							<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
-						</Col>
-					</dl>
-				</div>);
+		const text = item.detail.text ? <Col sm={12}>
+											<dl className="dl-horizontal text-muted">
+												<dt>{'Observations:'}</dt>
+												<dd>{item.detail.text}</dd>
+											</dl>
+										</Col> : null;
+
+		var fields = null;
+		if (item.detail.diffs || item.detail.items) {
+			fields = (<Col sm={12}>
+						<dl className="dl-horizontal text-muted">
+						{item.detail.diffs.map(diff => {
+								const prevValue = diff.prevValue ? diff.prevValue : '"form.empty"';
+								const newValue = diff.newValue ? diff.newValue : '"form.empty"';
+								const title = diff.title ? <dt><Fa icon="pencil"/>{diff.title + ':'}</dt> : <dt><Fa icon="pencil"/></dt>;
+								const vals = <dd>{prevValue}<Fa icon="caret-right"/>{newValue}</dd>;
+								return (<div>{title}{vals}</div>);
+							})}
+						{item.detail.items.map(i => {
+								return (
+									<div>
+										<dt><Fa icon="plus-square"/><Fa icon="minus-square"/>{i.title}</dt>
+										<dd>{'(Gati) gatifloxacin, (Mfx) moxifloxacin, (Cm) capreomycin'}</dd>
+									</div>);
+							})}
+						</dl>
+					</Col>);
+		}
+
+		return (<Row>
+					<div className="margin-2x">
+					{text}
+					{fields}
+					</div>
+				</Row>);
 	}
 
 	render() {
@@ -186,49 +182,28 @@ export default class CommandHistory extends React.Component {
 		const tschema = [
 		{
 			title: __('User'),
-			content: item => <Profile size="small" title={item.userName} type="user" />,
-			size: { sm: 4 }
+			content: item => <Profile size="small" title={item.userName} subtitle={item.unitName + ' - ' + item.adminUnitName} type="user" />,
+			size: { sm: 3 }
 		},
 		{
-			title: 'Type',
+			title: 'commandType',
 			content: 'type',
 			size: { sm: 2 }
 		},
 		{
-			title: 'Action',
+			title: __('form.action'),
 			content: 'action',
-			size: { sm: 1 },
-			align: 'center'
+			size: { sm: 1 }
 		},
 		{
-			title: 'ExecDate',
-			content: 'execDate',
-			size: { sm: 1 },
-			align: 'center'
+			title: __('cases.details.date'),
+			content: item => new Date(item.execDate).toString(),
+			size: { sm: 3 }
 		},
 		{
 			title: 'entityName',
 			content: 'entityName',
-			size: { sm: 1 },
-			align: 'center'
-		},
-		{
-			title: 'unitName',
-			content: 'unitName',
-			size: { sm: 1 },
-			align: 'center'
-		},
-		{
-			title: 'adminUnitName',
-			content: 'adminUnitName',
-			size: { sm: 1 },
-			align: 'center'
-		},
-		{
-			title: 'data',
-			content: 'data',
-			size: { sm: 4 },
-			align: 'center'
+			size: { sm: 3 }
 		}
 		];
 
