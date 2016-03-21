@@ -5,11 +5,14 @@
 // the style of the button in input boxes
 @input-btn-color: #a2a2a2;
 
-@content-bgcolor: #EBF1F0;
+@content-bgcolor: #E6EEEE; // EBF1F0;
 @row-hover: #f8f8f8;
+
 
 // alternative background color
 @alt-background: #f8fafa;
+
+@link-muted-color: #a0a0a0;
 
 // app components
 @import "callout.less";
@@ -309,6 +312,14 @@
 	margin: 20px 0 10px 0;
 }
 
+.link-muted {
+	padding:0 6px;
+	color: @link-muted-color;
+	cursor: pointer;
+}
+.link-muted:hover {
+	color: darken(@link-muted-color, 10%);
+}
 
 .input-btn-group {
 	position: relative;

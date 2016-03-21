@@ -20,6 +20,7 @@ import FormDialog from './form-dialog';
 import SelectionBox from './selection-box';
 import DatePicker from './date-picker';
 import ReactTable from './react-table';
+import AutoheightInput from './autoheight-input';
 
 export { Callout,
 	AsyncButton,
@@ -38,5 +39,6 @@ export { Callout,
 	SelectionBox,
 	DatePicker,
 	CollapseRow,
-	ReactTable
+	ReactTable,
+	AutoheightInput
 };

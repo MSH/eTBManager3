@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Card, Profile, Fa } from '../../../components';
+import { Button, ButtonToolbar, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
+import { Card, Profile, Fa, AutoheightInput, MessageDlg } from '../../../components';
 
 import './comments-box.less';
 
@@ -9,38 +9,25 @@ export default class CommentsBox extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.inputHeight = this.inputHeight.bind(this);
 		this.addComment = this.addComment.bind(this);
 		this.showCommentsBox = this.showCommentsBox.bind(this);
-		this.state = { };
-	}
+		this.editClick = this.editClick.bind(this);
+		this.modalClose = this.modalClose.bind(this);
+		this.editConfirm = this.editConfirm.bind(this);
+		this.closeRemoveConfDlg = this.closeRemoveConfDlg.bind(this);
+		this.textChange = this.textChange.bind(this);
+		this.editTextChange = this.editTextChange.bind(this);
 
-	componentDidMount() {
-		this.inputHeight();
-	}
-
-	/**
-	 * Update the input height based on the content
-	 * @return {[type]} [description]
-	 */
-	inputHeight() {
-		if (!this.refs.input) {
-			return;
-		}
-		const el = this.refs.input;
-		el.style.height = 'auto';
-		el.style.height = el.scrollHeight + 'px';
-		this.setState({ disabled: !this.refs.input.value.trim() });
+		this.state = { disabled: true };
 	}
 
 	/**
 	 * Called when user adds a new comment
 	 */
 	addComment() {
-		const txt = this.refs.input.value;
-		this.props.onAdd(txt);
-		this.refs.input.value = '';
-		this.inputHeight();
+		const txt = this.refs.input.getText();
+		this.props.onEvent('add', txt);
+		this.refs.input.setText('');
 	}
 
 	/**
@@ -71,6 +58,72 @@ export default class CommentsBox extends React.Component {
 		}, 200);
 	}
 
+	/**
+	 * Return a function to be called when user clicks on the edit link
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	editClick(item) {
+		const self = this;
+		return () => {
+			self.setState({ edtitem: item });
+			setTimeout(() => this.refs.edtinput.focus(), 100);
+		};
+	}
+
+	/**
+	 * Return a function to be called when user clicks on the remove link
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	removeClick(item) {
+		const self = this;
+		return () => self.setState({ showRemoveConf: true, item: item, showComments: false });
+	}
+
+	/**
+	 * Called when user confirms (or reject) the deleting of a comment
+	 * @param  {string} evt The option selected by the user - yes or no
+	 */
+	closeRemoveConfDlg(evt) {
+		if (evt === 'yes') {
+			this.props.onEvent('remove', this.state.item);
+		}
+		this.setState({ showRemoveConf: null, item: null });
+	}
+
+	/**
+	 * Called when user clicks on the close link
+	 * @return {[type]} [description]
+	 */
+	modalClose() {
+		this.setState({ edtitem: null });
+	}
+
+	/**
+	 * Called when user confirms the changed text in the dialog box
+	 * @return {[type]} [description]
+	 */
+	editConfirm() {
+		const item = this.state.edtitem;
+		this.props.onEvent('edit', item, this.refs.edtinput.getText());
+		this.modalClose();
+	}
+
+	/**
+	 * Called when the text of the input box is changed. Enable or disable the add button
+	 */
+	textChange() {
+		this.setState({ disabled: !this.refs.input.getText().trim() });
+	}
+
+	/**
+	 * Called when the text of the input in edit dialog is changed. Enable or disable the save button
+	 */
+	editTextChange() {
+		this.setState({ edtdisabled: !this.refs.edtinput.getText().trim() });
+	}
+
 	render() {
 		const comments = this.props.values;
 		const hasComments = comments && comments.length > 0;
@@ -91,6 +144,12 @@ export default class CommentsBox extends React.Component {
 								<Profile size="small" type="user"/>
 							</div>
 							<div className="media-body">
+								<div className="pull-right">
+									<a className="link-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
+									<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+										<a className="link-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
+									</OverlayTrigger>
+								</div>
 								<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
 								{it.comment.split('\n').map((item, index) =>
 									<span key={index}>
@@ -109,10 +168,8 @@ export default class CommentsBox extends React.Component {
 					</div>
 					<div className="media-body">
 						<div className="form-group no-margin-bottom">
-							<textarea ref="input" rows="1"
-								className="form-control"
-								style={{ height: 'auto', overflowY: 'hidden', resize: 'none' }}
-								onInput={this.inputHeight}/>
+							<AutoheightInput ref="input"
+								onChange={this.textChange} />
 							<Button bsStyle="primary"
 								disabled={this.state.disabled}
 								onClick={this.addComment}
@@ -124,6 +181,34 @@ export default class CommentsBox extends React.Component {
 					</div>
 				</div>
 				</div>
+				<Modal show={!!this.state.edtitem} onHide={this.modalClose}>
+					<Modal.Header closeButton>
+						<Modal.Title>{'Edit comment'}</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>
+					{
+						this.state.edtitem &&
+
+						<div className="form-group">
+							<AutoheightInput defaultValue={this.state.edtitem.comment}
+								onChange={this.editTextChange}
+								ref="edtinput" />
+						</div>
+					}
+					<ButtonToolbar>
+						<Button disabled={this.state.edtdisabled}
+							bsStyle="primary"
+							onClick={this.editConfirm}>{__('action.save')}</Button>
+						<Button bsStyle="link" onClick={this.modalClose}>{__('action.cancel')}</Button>
+					</ButtonToolbar>
+					</Modal.Body>
+				</Modal>
+				<MessageDlg show={this.state.showRemoveConf}
+					title={__('action.delete')}
+					message={__('form.confirm_remove')}
+					type="YesNo"
+					onClose={this.closeRemoveConfDlg}
+					/>
 			</Card>
 			);
 	}
@@ -131,5 +216,8 @@ export default class CommentsBox extends React.Component {
 
 CommentsBox.propTypes = {
 	values: React.PropTypes.array,
-	onAdd: React.PropTypes.func
+	/**
+	 * Possible events: add, edit, remove
+	 */
+	onEvent: React.PropTypes.func
 };

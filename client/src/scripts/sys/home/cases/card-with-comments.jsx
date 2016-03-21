@@ -7,11 +7,20 @@ export default class CardWithComments extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onAddComment = this.onAddComment.bind(this);
+		this.onCommentEvent = this.onCommentEvent.bind(this);
 	}
 
 
-	onAddComment(txt) {
+	onCommentEvent(evt, data, txt) {
+		switch (evt) {
+			case 'add': return this.addComment(data);
+			case 'remove': return this.removeComment(data);
+			case 'edit': return this.editComment(data, txt);
+			default: throw new Error('Invalid ' + evt);
+		}
+	}
+
+	addComment(txt) {
 		this.props.tbcase.comments.push({
 			id: '11-22-' + this.props.tbcase.comments.length,
 			user: {
@@ -21,6 +30,18 @@ export default class CardWithComments extends React.Component {
 			group: this.props.group,
 			comment: txt
 		});
+		this.forceUpdate();
+	}
+
+	removeComment(item) {
+		const lst = this.props.tbcase.comments;
+		const index = lst.indexOf(item);
+		this.props.tbcase.comments.splice(index, 1);
+		this.forceUpdate();
+	}
+
+	editComment(item, text) {
+		item.comment = text;
 		this.forceUpdate();
 	}
 
@@ -38,7 +59,7 @@ export default class CardWithComments extends React.Component {
 						this.props.children
 					}
 				</Card>
-				<CommentsBox values={comments} onAdd={this.onAddComment}/>
+				<CommentsBox values={comments} onEvent={this.onCommentEvent}/>
 			</div>
 			);
 	}

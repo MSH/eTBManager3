@@ -7155,7 +7155,7 @@ button.close {
   padding-left: 4px;
 }
 .app-content {
-  background-color: #EBF1F0;
+  background-color: #E6EEEE;
   min-height: 500px;
   padding-bottom: 10px;
   margin-top: 50px;
@@ -7378,6 +7378,14 @@ button.close {
   width: 100%;
   margin: 20px 0 10px 0;
 }
+.link-muted {
+  padding: 0 6px;
+  color: #a0a0a0;
+  cursor: pointer;
+}
+.link-muted:hover {
+  color: #878787;
+}
 .input-btn-group {
   position: relative;
 }
@@ -7456,14 +7464,14 @@ button.close {
 }
 .app-tabs2 {
   border-bottom: none;
-  background-color: #EBF1F0;
+  background-color: #E6EEEE;
 }
 .app-tabs2 li a {
   color: #a0a0a0;
   text-transform: uppercase;
   padding: 5px 30px;
-  background-color: #EBF1F0;
-  border: 1px solid #EBF1F0 !important;
+  background-color: #E6EEEE;
+  border: 1px solid #E6EEEE !important;
   border-bottom: 1px solid #e8e8e8 !important;
   transition: background-color 0.5s ease;
 }
