@@ -49,23 +49,14 @@ module.exports = config.languages.prod.map( function(lang) {
         module: {
             loaders: [
                 {
-                    test: /\.jsx/,
+                    test: /\.(js|jsx)$/,
                     loader: 'babel-loader',
                     exclude: /node_modules/,
                     query: {
                         // https://github.com/babel/babel-loader#options
                         cacheDirectory: true,
-                        presets: ['es2015', 'react']
-                    }
-                },
-                {
-                    test: /\.js/,
-                    loader: 'babel-loader',
-                    exclude: /node_modules/,
-                    query: {
-                        // https://github.com/babel/babel-loader#options
-                        cacheDirectory: true,
-                        presets: ['es2015', 'react']
+                        presets: ['es2015', 'react'],
+                        plugins: ['babel-plugin-transform-react-remove-prop-types']
                     }
                 },
                 {
