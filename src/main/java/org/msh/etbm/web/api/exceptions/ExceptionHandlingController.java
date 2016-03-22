@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -77,10 +78,16 @@ public class ExceptionHandlingController {
         }
 
         Map<String, Message> errors = new HashMap<>();
-        List<FieldError> lst = res.getFieldErrors();
-        for (FieldError fld: lst) {
+        List<FieldError> lst1 = res.getFieldErrors();
+        for (FieldError fld: lst1) {
             String message = messages.get(fld);
             errors.put(fld.getField(), new Message(message, fld.getCode()));
+        }
+
+        List<ObjectError> lst2 = res.getGlobalErrors();
+        for (ObjectError fld: lst2) {
+            String message = messages.get(fld);
+            errors.put("global", new Message(message, fld.getCode())); //TODOMS: melhorar para permitir mais de uma mensagem global, o key nao pode ser repetido
         }
 
         return new StandardResult(null, errors, false);

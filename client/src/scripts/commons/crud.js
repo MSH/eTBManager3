@@ -62,7 +62,7 @@ export default class CRUD {
 		return server.post(API_PREFIX + this.table + '/' + id, data)
 		.then(res => {
 			if (!res.success) {
-				return Promise.reject(res);
+				return Promise.reject(res.errors);
 			}
 
 			// inform application about document updated

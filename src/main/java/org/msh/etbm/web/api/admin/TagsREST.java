@@ -61,7 +61,6 @@ public class TagsREST {
     }
 
     @RequestMapping(value = "/tag/form/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public TagFormData getForm(@PathVariable UUID id) {
         return service.findOne(id, TagFormData.class);
     }

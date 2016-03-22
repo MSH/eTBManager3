@@ -6,4 +6,5 @@ package org.msh.etbm.commons;
 public class ErrorMessages {
     public static final String REQUIRED = "NotNull";
     public static final String NOT_UNIQUE = "NotUnique";
+    public static final String NOT_VALID = "NotValid";
 }
