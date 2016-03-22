@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Row, Col, Button, Badge } from 'react-bootstrap';
+import { Row, Col, Button, Badge, Label } from 'react-bootstrap';
 import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
@@ -42,10 +42,10 @@ const fschema = {
 				{
 					property: 'type',
 					required: false,
-					type: 'select',
-					label: 'Type', // __('admin.reports.cmdhistory.type'),
-					options: 'users', // TODOMSF: trocar para string
-					size: { md: 4 }
+					type: 'string',
+					max: 50,
+					label: __('admin.reports.cmdhistory.cmdevent'),
+					size: { sm: 4 }
 				},
 				{
 					property: 'adminUnitId',
@@ -98,7 +98,7 @@ export default class CommandHistory extends React.Component {
 			endDate: this.state.doc.endDate,
 			action: this.state.doc.action,
 			userId: this.state.doc.userId,
-			type: this.state.doc.type, // TODOMSF: Pensar sobr euma solução para gerar a lista de opções
+			type: this.state.doc.type, // TODOMS: Pensar sobr euma solução para gerar a lista de opções
 			adminUnitId: this.state.doc.adminUnitId,
 			searchKey: this.state.doc.searchKey
 		};
@@ -120,6 +120,7 @@ export default class CommandHistory extends React.Component {
 			const result = { count: res.count, list: res.list };
 			// set state
 			self.setState({ values: result });
+			/*amigo estou aqui*/
 		});
 	}
 
@@ -141,29 +142,33 @@ export default class CommandHistory extends React.Component {
 		const text = item.detail.text ?
 							<Col sm={12}>
 								<dl className="dl-horizontal text-muted">
-								<dt>{'form.obs:'}</dt>
+								<dt>{__('global.comments')}<Fa icon="comment-o"/>{':'}</dt>
 								<dd>{item.detail.text}</dd>
 								</dl>
 							</Col> : null;
 
 		var vals = null;
 		if (item.detail.items || item.detail.diffs) {
+
 		vals = (<Col sm={12}>
 					<dl className="dl-horizontal text-muted">
 					{item.detail.diffs && item.detail.diffs.map(diff => 	<div>
-																				<dt>{diff.title + ':'}</dt>
+																				<dt>
+																					{diff.title}<Fa icon="pencil-square-o"/>{':'}
+																				</dt>
 																				<dd>
-																					{diff.prevValue ? diff.prevValue : 'form.empty'}
+																					{diff.prevValue ? diff.prevValue : __('global.notdef')}
 																					<Fa icon="caret-right"/>
-																					{diff.newValue ? diff.newValue : 'form.empty'}
+																					{diff.newValue ? diff.newValue : __('global.notdef')}
 																				</dd>
 																			</div>)}
 
 					{item.detail.items && item.detail.items.map(i => 	<div>
 																			<dt>
-																				{i.title.substr(0, 1) === '+' ? <Fa icon="plus-square"/> : null}
-																				{i.title.substr(0, 1) === '-' ? <Fa icon="minus-square"/> : null}
-																				{i.title.substr(0, 1) === '-' || i.title.substr(0, 1) === '+' ? i.title.substr(1, i.length) + ':' : i.title + ':'}
+																				{i.title.substr(0, 1) === '-' || i.title.substr(0, 1) === '+' ? i.title.substr(1, i.length) : i.title}
+																				{i.title.substr(0, 1) === '+' ? <Fa icon="plus-square-o"/> : null}
+																				{i.title.substr(0, 1) === '-' ? <Fa icon="minus-square-o"/> : null}
+																				{':'}
 																			</dt>
 																			<dd>{i.value}</dd>
 																		</div>)}
@@ -171,7 +176,11 @@ export default class CommandHistory extends React.Component {
 				</Col>);
 		}
 
-		return (<Row><div className="margin-2x">{text}{vals}</div></Row>);
+		return (<Row><div className="margin-2x">{text} {vals}</div></Row>);
+	}
+
+	profileSubtitleRender(item) {
+		return (<div>{item.unitName} <br/> {item.adminUnitName} </div>);
 	}
 
 	render() {
@@ -180,22 +189,41 @@ export default class CommandHistory extends React.Component {
 		const tschema = [
 		{
 			title: __('User'),
-			content: item => <Profile size="small" title={item.userName} type="user" subtitle={item.unitName + ' ' + item.adminUnitName} />,
+			content: item => <Profile size="small" title={item.userName} type="user" subtitle={this.profileSubtitleRender(item)} />,
 			size: { sm: 3 }
 		},
 		{
 			title: __('datetime.date'),
 			content: item => new Date(item.execDate).toString(),
-			size: { sm: 2 }
+			size: { sm: 2 } /*TODOMS formatar essa data quando tiver o momentsjs*/
 		},
 		{
-			title: 'Type',
+			title: __('admin.reports.cmdhistory.cmdevent'),
 			content: 'type',
 			size: { sm: 2 }
 		},
 		{
 			title: __('form.action'),
-			content: 'action',
+			content: item => {
+				var c = null;
+				switch (item.action.id) {
+				case 'EXEC':
+					c = 'default';
+					break;
+				case 'CREATE':
+					c = 'success';
+					break;
+				case 'UPDATE':
+					c = 'warning';
+					break;
+				case 'DELETE':
+					c = 'danger';
+					break;
+				default:
+					c = 'default';
+				}
+				return (<Label bsStyle={c}>{item.action.name}</Label>);
+			},
 			size: { sm: 1 }
 		},
 		{

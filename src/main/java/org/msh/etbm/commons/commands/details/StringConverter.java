@@ -72,7 +72,7 @@ public class StringConverter {
             return "";
         }
 
-        return val.getClass().getName() + "." + val.toString();
+        return val.getClass().getSimpleName() + "." + val.toString();
     }
 
     /**
