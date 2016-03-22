@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
+import AdvancedSearch from '../cases/advanced-search';
 import { app } from '../../../core/app';
 
 import { generateName, generateCaseNumber } from '../../mock-data';
@@ -51,6 +52,7 @@ export default class Cases extends React.Component {
 		};
 		this.newPresumptive = this.newPresumptive.bind(this);
 		this.tabSelect = this.tabSelect.bind(this);
+		this.toggleSearch = this.toggleSearch.bind(this);
 	}
 
 	componentWillMount() {
@@ -107,7 +109,7 @@ export default class Cases extends React.Component {
 			}
 
 			self.setState({ presumptives: presumptives, tags: tags, drtbCases: drtb, tbCases: [] });
-		}, 800);
+		}, 600);
 	}
 
 	/**
@@ -298,16 +300,30 @@ export default class Cases extends React.Component {
 			);
 	}
 
+
+	/**
+	 * Called when user clicks on the advanced search button. Toggles the state
+	 * of the search
+	 */
+	toggleSearch() {
+		// toggle state of advanced search
+		const search = !app.getState().caseSearch;
+		app.setState({ caseSearch: search });
+		this.forceUpdate();
+	}
+
 	render() {
 
+		const caseSearch = app.getState().caseSearch;
+
 		const popup = (
-			<Popover id="ppmenu" title={'Notify'}>
-				<ButtonGroup vertical style={{ minWidth: '200px' }}>
-					<Button bsStyle="link" onClick={this.newPresumptive}>{'Presumptive'}</Button>
-					<Button bsStyle="link" onClick={this.newTB}>{'TB Case'}</Button>
-					<Button bsStyle="link" onClick={this.newDRTB}>{'DR-TB Case'}</Button>
-				</ButtonGroup>
-			</Popover>
+				<Popover id="ppmenu" title={'Notify'}>
+					<ButtonGroup vertical style={{ minWidth: '200px' }}>
+						<Button bsStyle="link" onClick={this.newPresumptive}>{'Presumptive'}</Button>
+						<Button bsStyle="link" onClick={this.newTB}>{'TB Case'}</Button>
+						<Button bsStyle="link" onClick={this.newDRTB}>{'DR-TB Case'}</Button>
+					</ButtonGroup>
+				</Popover>
 			);
 
 		return (
@@ -318,6 +334,7 @@ export default class Cases extends React.Component {
 						overlay={popup} rootClose>
 						<Button bsStyle="danger" block style={{ padding: '8px 40px' }}>{'Notify'}</Button>
 					</OverlayTrigger>
+					<Button block onClick={this.toggleSearch}>{__('cases.advancedsearch')}</Button>
 
 					<Card className="mtop" title="Tags">
 						<div>
@@ -334,7 +351,11 @@ export default class Cases extends React.Component {
 					</Card>
 				</Col>
 				<Col sm={9}>
-					{this.casesRender()}
+				{
+					caseSearch ?
+					<AdvancedSearch onClose={this.toggleSearch}/> :
+					this.casesRender()
+				}
 				</Col>
 			</Row>
 			</Grid>

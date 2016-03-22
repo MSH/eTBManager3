@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import Form from '../../../forms/form';
-import { Card } from '../../../components';
 import CardWithComments from './card-with-comments';
 
 import Contacts from './contacts';

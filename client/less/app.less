@@ -12,7 +12,7 @@
 // alternative background color
 @alt-background: #f8fafa;
 
-@link-muted-color: #a0a0a0;
+@link-muted-color: #c8c8c8;
 
 // app components
 @import "callout.less";
@@ -23,6 +23,7 @@
 @import "collapse-row.less";
 @import "selection-box.less";
 @import "day-picker.less";
+@import "filters.less";
 
 
 /** The toolbar */
@@ -312,13 +313,27 @@
 	margin: 20px 0 10px 0;
 }
 
-.link-muted {
+.lnk-muted {
 	padding:0 6px;
 	color: @link-muted-color;
 	cursor: pointer;
+    transition:0.5s ease;
 }
-.link-muted:hover {
-	color: darken(@link-muted-color, 10%);
+.lnk-muted:hover {
+	color: darken(@link-muted-color, 20%);
+}
+
+.lnk-circle {
+    border-radius: 13px;
+    border: 2px solid @link-muted-color;
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    padding: 2px 2px;
+}
+
+.lnk-circle:hover {
+	border-color: darken(@link-muted-color, 20%);
 }
 
 .input-btn-group {

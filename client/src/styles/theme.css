@@ -6797,6 +6797,9 @@ button.close {
 .card .card-header h4 {
   font-weight: bold;
 }
+.card .card-btn-close {
+  font-size: 1.4em;
+}
 .card .card-content hr {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -7142,6 +7145,25 @@ button.close {
   color: #FFF;
   background-color: #1f69ad;
 }
+.filter .remove-link {
+  position: absolute;
+  left: 9px;
+  top: 4px;
+}
+.filter .form-group {
+  padding-left: 28px;
+}
+.filter .form-control {
+  border: none !important;
+  box-shadow: none !important;
+  padding-left: 6px;
+}
+.filter .btn-dd {
+  color: #cdcdcd;
+}
+.filter .form-control:hover {
+  background-color: #f8f8f8;
+}
 /** The toolbar */
 .navbar-brand {
   padding: 8px;
@@ -7378,13 +7400,25 @@ button.close {
   width: 100%;
   margin: 20px 0 10px 0;
 }
-.link-muted {
+.lnk-muted {
   padding: 0 6px;
-  color: #a0a0a0;
+  color: #c8c8c8;
   cursor: pointer;
+  transition: 0.5s ease;
 }
-.link-muted:hover {
-  color: #878787;
+.lnk-muted:hover {
+  color: #959595;
+}
+.lnk-circle {
+  border-radius: 13px;
+  border: 2px solid #c8c8c8;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  padding: 2px 2px;
+}
+.lnk-circle:hover {
+  border-color: #959595;
 }
 .input-btn-group {
   position: relative;

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Fa from './fa';
 
 /**
  * Define a page title
@@ -43,6 +44,12 @@ export default class Card extends React.Component {
 
         return (
             <div className={className} style={this.props.style} onClick={this.props.onClick}>
+                {
+                    this.props.closeBtn &&
+                    <a className="lnk-muted pull-right card-btn-close" onClick={this.props.onClose}>
+                        <Fa icon="close"/>
+                    </a>
+                }
                 {header}
                 {children}
             </div>
@@ -58,7 +65,9 @@ Card.propTypes = {
     onClick: React.PropTypes.func,
     className: React.PropTypes.string,
     padding: React.PropTypes.oneOf(['none', 'small', 'default', 'combine']),
-    highlight: React.PropTypes.bool
+    highlight: React.PropTypes.bool,
+    closeBtn: React.PropTypes.bool,
+    onClose: React.PropTypes.func
 };
 
 Card.defaulProps = {

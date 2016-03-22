@@ -34,6 +34,10 @@ export class App {
 		return this.storage.getState();
 	}
 
+	setState(state) {
+		this.storage.setState(state);
+	}
+
 	/**
 	 * Dispatch an action, changing the state of the application
 	 * @param {[type]} action The action that generated the state change
