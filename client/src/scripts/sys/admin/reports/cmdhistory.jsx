@@ -141,7 +141,7 @@ export default class CommandHistory extends React.Component {
 		const text = item.detail.text ?
 							<Col sm={12}>
 								<dl className="dl-horizontal text-muted">
-								<dt>{'form.obs:'}</dt>
+								<dt>{__('global.comments')}<Fa icon="comment-o"/>{':'}</dt>
 								<dd>{item.detail.text}</dd>
 								</dl>
 							</Col> : null;
@@ -151,19 +151,22 @@ export default class CommandHistory extends React.Component {
 		vals = (<Col sm={12}>
 					<dl className="dl-horizontal text-muted">
 					{item.detail.diffs && item.detail.diffs.map(diff => 	<div>
-																				<dt>{diff.title + ':'}</dt>
+																				<dt>
+																					{diff.title}<Fa icon="pencil-square-o"/>{':'}
+																				</dt>
 																				<dd>
-																					{diff.prevValue ? diff.prevValue : 'form.empty'}
+																					{diff.prevValue ? diff.prevValue : __('global.notdef')}
 																					<Fa icon="caret-right"/>
-																					{diff.newValue ? diff.newValue : 'form.empty'}
+																					{diff.newValue ? diff.newValue : __('global.notdef')}
 																				</dd>
 																			</div>)}
 
 					{item.detail.items && item.detail.items.map(i => 	<div>
 																			<dt>
-																				{i.title.substr(0, 1) === '+' ? <Fa icon="plus-square"/> : null}
-																				{i.title.substr(0, 1) === '-' ? <Fa icon="minus-square"/> : null}
-																				{i.title.substr(0, 1) === '-' || i.title.substr(0, 1) === '+' ? i.title.substr(1, i.length) + ':' : i.title + ':'}
+																				{i.title.substr(0, 1) === '-' || i.title.substr(0, 1) === '+' ? i.title.substr(1, i.length) : i.title}
+																				{i.title.substr(0, 1) === '+' ? <Fa icon="plus-square-o"/> : null}
+																				{i.title.substr(0, 1) === '-' ? <Fa icon="minus-square-o"/> : null}
+																				{':'}
 																			</dt>
 																			<dd>{i.value}</dd>
 																		</div>)}

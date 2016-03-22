@@ -90,9 +90,6 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             }
         }
 
-        //TODOMS tirar isso aqui
-        c.setText("Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go! Hey oh lets go!");
-
         return c;
     }
 
@@ -105,8 +102,10 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         if (s.contains("action.added")) {
             ret = "+";
+            s = s.replace(" ($action.added)", "");
         } else if (s.contains("action.removed")) {
             ret = "-";
+            s = s.replace(" ($action.removed)", "");
         } else {
             ret = "";
         }
@@ -131,10 +130,38 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         switch (type) {
             case CommandLogDetail.TYPE_STRING :  s = s.substring(1, s.length());
                 break;
-            case "$" :  s = messages.get(s);
+            case CommandLogDetail.TYPE_BOOLEAN :  s = processBooleanValue(s);
+                break;
+            case CommandLogDetail.TYPE_DATETIME :  s = processDateValue(s);
+                break;
+            case CommandLogDetail.TYPE_NUMBER :  s = processNumberValue(s);
+                break;
+            case CommandLogDetail.TYPE_TEMPLATE :  s = processTemplateValue(s);
                 break;
         }
 
+        return s;
+    }
+
+    private String processBooleanValue(String s){
+        if (s.equals("B0")) {
+            return messages.get("global.no");
+        } else if (s.equals("B1")){
+            return messages.get("global.yes");
+        }
+
+        return s;
+    }
+
+    private String processDateValue(String s){
+        return s;
+    }
+
+    private String processNumberValue(String s){
+        return s;
+    }
+
+    private String processTemplateValue(String s){
         return s;
     }
 
