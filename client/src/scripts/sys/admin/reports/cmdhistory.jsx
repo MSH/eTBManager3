@@ -42,10 +42,10 @@ const fschema = {
 				{
 					property: 'type',
 					required: false,
-					type: 'select',
-					label: 'Type', // __('admin.reports.cmdhistory.type'),
-					options: 'users', // TODOMSF: trocar para string
-					size: { md: 4 }
+					type: 'string',
+					max: 50,
+					label: 'global.type', /*TODOMSR create message*/
+					size: { sm: 4 }
 				},
 				{
 					property: 'adminUnitId',
@@ -98,7 +98,7 @@ export default class CommandHistory extends React.Component {
 			endDate: this.state.doc.endDate,
 			action: this.state.doc.action,
 			userId: this.state.doc.userId,
-			type: this.state.doc.type, // TODOMSF: Pensar sobr euma solução para gerar a lista de opções
+			type: this.state.doc.type, // TODOMS: Pensar sobr euma solução para gerar a lista de opções
 			adminUnitId: this.state.doc.adminUnitId,
 			searchKey: this.state.doc.searchKey
 		};
@@ -148,6 +148,7 @@ export default class CommandHistory extends React.Component {
 
 		var vals = null;
 		if (item.detail.items || item.detail.diffs) {
+		//TODOMS ICON IS NOT SHOWING on diff list WHEN TYPE IS CREATE
 		vals = (<Col sm={12}>
 					<dl className="dl-horizontal text-muted">
 					{item.detail.diffs && item.detail.diffs.map(diff => 	<div>
@@ -174,7 +175,7 @@ export default class CommandHistory extends React.Component {
 				</Col>);
 		}
 
-		return (<Row><div className="margin-2x">{text}{vals}</div></Row>);
+		return (<Row><div className="margin-2x">{text} {vals}</div></Row>);
 	}
 
 	render() {

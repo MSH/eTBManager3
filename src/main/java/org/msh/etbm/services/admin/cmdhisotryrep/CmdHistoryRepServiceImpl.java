@@ -6,10 +6,16 @@ import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.commons.commands.details.CommandLogDiff;
 import org.msh.etbm.commons.commands.details.CommandLogItem;
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.CommandHistory;
+import org.msh.etbm.db.repositories.AdminUnitRepository;
+import org.msh.etbm.services.admin.admunits.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.AdminUnitService;
+import org.msh.etbm.services.admin.units.TypedUnit;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +31,8 @@ import java.util.List;
 @Service
 public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    @Autowired
+    AdminUnitRepository adminUnitRepository;
 
     @Autowired
     UserRequestService userRequestService;
@@ -39,7 +45,13 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
     public QueryResult getResult(CmdHistoryRepQueryParams query) {
         if (query.getIniDate() == null) {
-            //TODOMSF: EntityValidationException
+            throw new EntityValidationException(query, "iniDate", "javax.validation.constraints.NotNull.message", null);
+        }
+
+        AdministrativeUnit adminUnit = null;
+
+        if (query.getAdminUnitId() != null ){
+            adminUnit = adminUnitRepository.findOne(query.getAdminUnitId());
         }
 
         QueryResult<CmdHistoryRepData> ret = new QueryResult();
@@ -50,10 +62,14 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.execDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
         qry.addRestriction("a.action = :action", query.getAction());
         qry.addRestriction("a.user.id = :userId", query.getUserId());
-        qry.addRestriction("a.type like :type", query.getType());
-        //qry.addRestriction("a.type = :type", query.getAdminUnitId()); TODOMSF
-        //qry.addRestriction("(a.type like :type or a.type like :type)", query.getSearchKey()); TODOMSF
-
+        qry.addLikeRestriction("a.type", query.getType());
+        if (adminUnit != null) {
+            qry.addRestriction("a.unit.address.adminUnit.code like :code", adminUnit.getCode() + "%");
+        }
+        if (query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
+            qry.addRestriction("(a.data like :searchKey or a.entityName like :searchKey)", "%" + query.getSearchKey() + "%", "%" + query.getSearchKey() + "%");
+        }
+        
         List<CommandHistory> list = qry.getResultList();
         ret.setList(new ArrayList<>());
         ret.setCount(list.size());

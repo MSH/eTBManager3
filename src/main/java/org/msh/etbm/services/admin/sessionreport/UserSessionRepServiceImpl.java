@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.sessionreport;
 
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -36,7 +37,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
 
     public QueryResult getResultByDay(UserSessionRepQueryParams query) {
         if (query.getIniDate() == null) {
-            //TODOMSF: EntityValidationException
+            throw new EntityValidationException(query, "iniDate", "javax.validation.constraints.NotNull.message", null);
         }
 
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
@@ -50,7 +51,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
     public QueryResult getResult(UserSessionRepQueryParams query) {
 
         if (query.getIniDate() == null) {
-            //TODOMSF: EntityValidationException
+            throw new EntityValidationException(query, "iniDate", "javax.validation.constraints.NotNull.message", null);
         }
 
         QueryBuilder qry = queryBuilderFactory.createQueryBuilder(UserLogin.class, "a");
