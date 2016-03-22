@@ -81,6 +81,18 @@ export default class ReactTable extends React.Component {
 		return null;
 	}
 
+	getItem(item, field) {
+		const subfields = field.split('.');
+		var ret = item;
+		var i;
+
+		for (i = 0; i < subfields.length; i++) {
+			ret = ret[subfields[i]];
+		}
+
+		return ret;
+	}
+
 	contentRender() {
 		const lst = this.props.values;
 		if (!lst) {
@@ -93,7 +105,7 @@ export default class ReactTable extends React.Component {
 			<Row key={index} className="tbl-row" onClick={clickable ? this.rowClick(item) : null}>
 			{
 				this.props.columns.map((c, ind2) => {
-					const content = isFunction(c.content) ? c.content(item, index) : item[c.content];
+					const content = isFunction(c.content) ? c.content(item, index) : this.getItem(item, c.content);
 					return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
 				})
 			}

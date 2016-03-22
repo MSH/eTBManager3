@@ -44,7 +44,7 @@ const fschema = {
 					required: false,
 					type: 'string',
 					max: 50,
-					label: 'global.type', /*TODOMSR create message*/
+					label: __('admin.reports.cmdhistory.cmdevent'),
 					size: { sm: 4 }
 				},
 				{
@@ -120,6 +120,7 @@ export default class CommandHistory extends React.Component {
 			const result = { count: res.count, list: res.list };
 			// set state
 			self.setState({ values: result });
+			/*amigo estou aqui*/
 		});
 	}
 
@@ -148,7 +149,7 @@ export default class CommandHistory extends React.Component {
 
 		var vals = null;
 		if (item.detail.items || item.detail.diffs) {
-		//TODOMS ICON IS NOT SHOWING on diff list WHEN TYPE IS CREATE
+
 		vals = (<Col sm={12}>
 					<dl className="dl-horizontal text-muted">
 					{item.detail.diffs && item.detail.diffs.map(diff => 	<div>
@@ -178,22 +179,26 @@ export default class CommandHistory extends React.Component {
 		return (<Row><div className="margin-2x">{text} {vals}</div></Row>);
 	}
 
+	profileSubtitleRender(item) {
+		return (<div>{item.unitName} <br/> {item.adminUnitName} </div>);
+	}
+
 	render() {
 		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
 		const tschema = [
 		{
 			title: __('User'),
-			content: item => <Profile size="small" title={item.userName} type="user" subtitle={item.unitName + ' ' + item.adminUnitName} />,
+			content: item => <Profile size="small" title={item.userName} type="user" subtitle={this.profileSubtitleRender(item)} />,
 			size: { sm: 3 }
 		},
 		{
 			title: __('datetime.date'),
 			content: item => new Date(item.execDate).toString(),
-			size: { sm: 2 }
+			size: { sm: 2 } /*TODOMS formatar essa data quando tiver o momentsjs*/
 		},
 		{
-			title: 'Type',
+			title: __('admin.reports.cmdhistory.cmdevent'),
 			content: 'type',
 			size: { sm: 2 }
 		},

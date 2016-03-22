@@ -119,6 +119,7 @@ public class CommandInterceptor {
         if (userRequestService.isAuthenticated()) {
             in.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
             in.setUserId(userRequestService.getUserSession().getUserId());
+            in.setUnitId(userRequestService.getUserSession().getUnitId());
         }
 
         // call handler of the log

@@ -25,7 +25,10 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -175,10 +178,21 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     }
 
     private String processDateValue(String s){
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS");
+
+        try{
+            date.setTime(sdf.parse(s));
+        } catch (ParseException e){
+            return s;
+        }
+
+        // TODOMS waiting for a form that saves date insto JSON field, so I can test it
         return s;
     }
 
     private String processNumberValue(String s){
+        // TODOMS waiting for a form that saves number into JSON field, so I can test it
         return s;
     }
 
