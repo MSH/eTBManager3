@@ -11,6 +11,7 @@ import Regimens from './tables/regimens';
 import Tags from './tables/tags';
 import UserProfiles from './tables/user-profiles';
 import UsersWs from './tables/users-ws';
+import AgeRanges from './tables/ageranges';
 
 /**
  * List of all items displayed in the left side box
@@ -62,8 +63,15 @@ const menu = [
 		title: __('admin.tags'),
 		perm: 'TAGS',
 		icon: 'tags',
-        path: '/tags',
-        view: Tags
+		path: '/tags',
+		view: Tags
+	},
+	{
+		title: __('admin.ageranges'),
+		perm: 'AGERANGES',
+		icon: 'signal',
+		path: '/ageranges',
+		view: AgeRanges
 	},
 	{
 		separator: true

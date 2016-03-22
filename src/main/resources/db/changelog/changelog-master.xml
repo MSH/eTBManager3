@@ -72,9 +72,6 @@
             <column name="iniAge" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="name" type="${type.name}">
-                <constraints nullable="false" />
-            </column>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false" />
             </column>
