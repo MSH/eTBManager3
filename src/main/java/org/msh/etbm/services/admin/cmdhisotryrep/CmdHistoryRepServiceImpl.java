@@ -58,7 +58,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         AdministrativeUnit adminUnit = null;
 
-        if (query.getAdminUnitId() != null ){
+        if (query.getAdminUnitId() != null ) {
             adminUnit = entityManager.find(AdministrativeUnit.class, query.getAdminUnitId());
         }
 
@@ -131,7 +131,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         String ret = s.toString();
 
-        for (String c : TITLE_IGNORE_CHARACTERS){
+        for (String c : TITLE_IGNORE_CHARACTERS) {
             s = s.replace(c, "");
         }
 
@@ -167,23 +167,23 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         return s;
     }
 
-    private String processBooleanValue(String s){
+    private String processBooleanValue(String s) {
         if (s.equals("B0")) {
             return messages.get("global.no");
-        } else if (s.equals("B1")){
+        } else if (s.equals("B1")) {
             return messages.get("global.yes");
         }
 
         return s;
     }
 
-    private String processDateValue(String s){
+    private String processDateValue(String s) {
         Calendar date = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss.SSS");
 
-        try{
+        try {
             date.setTime(sdf.parse(s));
-        } catch (ParseException e){
+        } catch (ParseException e) {
             return s;
         }
 
@@ -191,7 +191,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         return s;
     }
 
-    private String processNumberValue(String s){
+    private String processNumberValue(String s) {
         // TODOMS waiting for a form that saves number into JSON field, so I can test it
         return s;
     }

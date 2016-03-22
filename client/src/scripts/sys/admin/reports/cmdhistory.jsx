@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Row, Col, Button, Badge } from 'react-bootstrap';
+import { Row, Col, Button, Badge, Label } from 'react-bootstrap';
 import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
@@ -204,7 +204,26 @@ export default class CommandHistory extends React.Component {
 		},
 		{
 			title: __('form.action'),
-			content: 'action.name',
+			content: item => {
+				var c = null;
+				switch (item.action.id) {
+				case 'EXEC':
+					c = 'default';
+					break;
+				case 'CREATE':
+					c = 'success';
+					break;
+				case 'UPDATE':
+					c = 'warning';
+					break;
+				case 'DELETE':
+					c = 'danger';
+					break;
+				default:
+					c = 'default';
+				}
+				return (<Label bsStyle={c}>{item.action.name}</Label>);
+			},
 			size: { sm: 1 }
 		},
 		{
