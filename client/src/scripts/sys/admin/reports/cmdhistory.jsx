@@ -199,7 +199,7 @@ export default class CommandHistory extends React.Component {
 		},
 		{
 			title: __('form.action'),
-			content: 'action',
+			content: 'action.name',
 			size: { sm: 1 }
 		},
 		{

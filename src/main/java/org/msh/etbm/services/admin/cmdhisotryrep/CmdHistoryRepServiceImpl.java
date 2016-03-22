@@ -1,7 +1,9 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.commons.commands.details.CommandLogDiff;
 import org.msh.etbm.commons.commands.details.CommandLogItem;
@@ -14,6 +16,7 @@ import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.CommandHistory;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.admunits.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.AdminUnitDetailedData;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.units.TypedUnit;
 import org.msh.etbm.services.usersession.UserRequestService;
@@ -31,8 +34,8 @@ import java.util.List;
 @Service
 public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
-    @Autowired
-    AdminUnitRepository adminUnitRepository;
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Autowired
     UserRequestService userRequestService;
@@ -43,6 +46,8 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     @Autowired
     Messages messages;
 
+    private static final String[] TITLE_IGNORE_CHARACTERS = {"+", "-"};
+
     public QueryResult getResult(CmdHistoryRepQueryParams query) {
         if (query.getIniDate() == null) {
             throw new EntityValidationException(query, "iniDate", "javax.validation.constraints.NotNull.message", null);
@@ -51,7 +56,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         AdministrativeUnit adminUnit = null;
 
         if (query.getAdminUnitId() != null ){
-            adminUnit = adminUnitRepository.findOne(query.getAdminUnitId());
+            adminUnit = entityManager.find(AdministrativeUnit.class, query.getAdminUnitId());
         }
 
         QueryResult<CmdHistoryRepData> ret = new QueryResult();
@@ -69,7 +74,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         if (query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
             qry.addRestriction("(a.data like :searchKey or a.entityName like :searchKey)", "%" + query.getSearchKey() + "%", "%" + query.getSearchKey() + "%");
         }
-        
+
         List<CommandHistory> list = qry.getResultList();
         ret.setList(new ArrayList<>());
         ret.setCount(list.size());
@@ -79,7 +84,14 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String unitName = c.getUnit() != null ? c.getUnit().getName() : null;
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
-            ret.getList().add(new CmdHistoryRepData(c.getType(), c.getAction(), c.getExecDate(), c.getEntityName(), userName, unitName, adminUnitName, processJsonData(c.getData())));
+            ret.getList().add(new CmdHistoryRepData(c.getType(),
+                                                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
+                                                    c.getExecDate(),
+                                                    c.getEntityName(),
+                                                    userName,
+                                                    unitName,
+                                                    adminUnitName,
+                                                    processJsonData(c.getData())));
         }
 
         return ret;
@@ -91,7 +103,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return null;
         }
 
-        if (c.getItems() != null ) {
+        if (c.getItems() != null) {
             for (CommandLogItem i : c.getItems()) {
                 i.setTitle(processTitleToDisplay(i.getTitle()));
                 i.setValue(processValueToDisplay(i.getValue()));
@@ -114,20 +126,13 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return null;
         }
 
-        String ret;
+        String ret = s.toString();
 
-        if (s.contains("action.added")) {
-            ret = "+";
-            s = s.replace(" ($action.added)", "");
-        } else if (s.contains("action.removed")) {
-            ret = "-";
-            s = s.replace(" ($action.removed)", "");
-        } else {
-            ret = "";
+        for (String c : TITLE_IGNORE_CHARACTERS){
+            s = s.replace(c, "");
         }
 
-        String[] msgs = s.replace("(","").replace(")", "").split(" ");
-        ret = ret + s;
+        String[] msgs = s.split(" ");
 
         for (String msg : msgs) {
             ret = ret.replace(msg, messages.get(msg.substring(1, msg.length())));
@@ -152,7 +157,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
                 break;
             case CommandLogDetail.TYPE_NUMBER :  s = processNumberValue(s);
                 break;
-            case CommandLogDetail.TYPE_TEMPLATE :  s = processTemplateValue(s);
+            case CommandLogDetail.TYPE_TEMPLATE :  s = messages.get(s.substring(2, s.length()));
                 break;
         }
 
@@ -174,10 +179,6 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     }
 
     private String processNumberValue(String s){
-        return s;
-    }
-
-    private String processTemplateValue(String s){
         return s;
     }
 

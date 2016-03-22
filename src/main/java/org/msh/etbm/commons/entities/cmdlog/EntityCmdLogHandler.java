@@ -99,11 +99,11 @@ public class EntityCmdLogHandler implements CommandLogHandler {
 
     private void handleCollectionUpdate(CommandHistoryInput in, String key, DiffValue diffValue) {
         if (diffValue.getAddedItems() != null) {
-            in.addItem(key + " ($action.added)", diffValue.getAddedItems());
+            in.addItem("+" + key, diffValue.getAddedItems());
         }
 
         if (diffValue.getRemovedItems() != null) {
-            in.addItem(key + " ($action.removed)", diffValue.getRemovedItems());
+            in.addItem("-" + key, diffValue.getRemovedItems());
         }
 
         if (diffValue.getChangedItems() != null) {
