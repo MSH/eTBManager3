@@ -2,7 +2,6 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagFormData;
 import org.msh.etbm.services.admin.tags.TagQueryParams;
@@ -27,9 +26,6 @@ public class TagsREST {
 
     @Autowired
     TagService service;
-
-    @Autowired
-    FormService formService;
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
     @Authenticated()

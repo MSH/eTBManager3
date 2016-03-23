@@ -5,7 +5,7 @@ import java.util.UUID;
 /**
  * Created by rmemoria on 6/1/16.
  */
-public class MedicineRegimenRequest {
+public class MedicineRegimenFormData {
     private UUID medicine;
     private Integer defaultDoseUnit;
     private Integer defaultFrequency;
