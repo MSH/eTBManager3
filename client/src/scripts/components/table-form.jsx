@@ -104,13 +104,15 @@ export default class TableForm extends React.Component {
 			this.props.errorsarr.push({});
 		}
 
-		return 	(<Row key={key}>
+		return 	(
 					<Form ref="form"
 						schema={this.props.fschema}
+						key={key}
 						doc={this.props.docs[key]}
 						onChange={this.onChangeDoc}
-						errors={this.props.errorsarr[key]} />
-				</Row>);
+						errors={this.props.errorsarr[key]}
+						nodetype={this.props.nodetype} />
+				);
 	}
 
 	render() {
@@ -121,7 +123,7 @@ export default class TableForm extends React.Component {
 		}
 
 		return (
-			<Grid fluid className={classes.join(' ')}>
+			<div>
 				{
 					this.titleRender()
 				}
@@ -136,7 +138,7 @@ export default class TableForm extends React.Component {
 						</ButtonToolbar>
 					</Col>
 				</Row>
-			</Grid>
+			</div>
 			);
 	}
 }
@@ -149,5 +151,6 @@ TableForm.propTypes = {
 	errorsarr: React.PropTypes.array,
 	addRow: React.PropTypes.func,
 	remRow: React.PropTypes.func,
-	fschema: React.PropTypes.object
+	fschema: React.PropTypes.object,
+	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
 };

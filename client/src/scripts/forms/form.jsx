@@ -180,7 +180,15 @@ export default class Form extends React.Component {
 	 */
 	render() {
 		const form = formRender(this);
-		return <Grid fluid>{form}{this.props.children}</Grid>;
+		var ret = null;
+
+		switch (this.props.nodetype) {
+            case 'fluid': ret = <Grid fluid>{form}{this.props.children}</Grid>; break;
+            case 'div': ret = <div>{form}{this.props.children}</div>; break;
+            default: ret = <Grid fluid>{form}{this.props.children}</Grid>;
+        }
+
+		return ret;
 	}
 }
 
@@ -193,7 +201,8 @@ Form.propTypes = {
 	crud: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	readOnly: React.PropTypes.bool,
-	children: React.PropTypes.node
+	children: React.PropTypes.node,
+	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
 };
 
 /**

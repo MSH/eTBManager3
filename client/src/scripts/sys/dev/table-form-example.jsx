@@ -96,7 +96,7 @@ export default class TableFormExample extends React.Component {
 				<Card title="Form Table">
 					<Row>
 						<Col md={12}>
-							<TableForm 
+							<TableForm
 								fschema={fschema}
 								rowsQuantity={this.state.rowsQuantity}
 								addRow={this.addRow}
