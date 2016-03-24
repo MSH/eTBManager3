@@ -180,7 +180,7 @@ export default class Form extends React.Component {
 	 */
 	render() {
 		const form = formRender(this);
-		return <Grid fluid>{form}</Grid>;
+		return <Grid fluid>{form}{this.props.children}</Grid>;
 	}
 }
 
@@ -192,7 +192,8 @@ Form.propTypes = {
 	onReady: React.PropTypes.func,
 	crud: React.PropTypes.object,
 	onChange: React.PropTypes.func,
-	readOnly: React.PropTypes.bool
+	readOnly: React.PropTypes.bool,
+	children: React.PropTypes.node
 };
 
 /**
