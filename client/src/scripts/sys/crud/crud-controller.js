@@ -51,6 +51,14 @@ export default class CrudController {
 	}
 
 	/**
+	 * Return true if the form is read-only
+	 * @return {Boolean} [description]
+	 */
+	isReadOnly() {
+		return !!this.options.readOnly;
+	}
+
+	/**
 	 * Refresh the list
 	 * @return {[type]} [description]
 	 */
@@ -58,6 +66,10 @@ export default class CrudController {
 		this.gotoPage(this.getPage());
 	}
 
+	/**
+	 * Generate events to open a new form
+	 * @return {[type]} [description]
+	 */
 	openNewForm() {
 		this.newFormOpen = true;
 		this._raise(Events.newForm);

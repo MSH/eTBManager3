@@ -22,10 +22,6 @@ export default class Contacts extends React.Component {
 			</Card>);
 	}
 
-	contactsRender(contacts) {
-		return <GridTable values={contacts} onCellRender={this.cellRender} />;
-	}
-
 	render() {
 		const tbcase = this.props.tbcase;
 
@@ -34,7 +30,7 @@ export default class Contacts extends React.Component {
 				tbcase={tbcase} group="contacts">
 			{
 				tbcase.contacts ?
-					this.contactsRender(tbcase.contacts) :
+					<GridTable values={tbcase.contacts} onCellRender={this.cellRender} /> :
 					<Alert bsStyle="warning">{'No record found'}</Alert>
 			}
 			</CardWithComments>

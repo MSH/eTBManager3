@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col, Collapse } from 'react-bootstrap';
 import { isFunction } from '../commons/utils';
+import ReactRow from './react-row';
 
 
 export default class ReactTable extends React.Component {
@@ -62,16 +63,14 @@ export default class ReactTable extends React.Component {
 	 * @param  {[type]} item [description]
 	 * @return {[type]}      [description]
 	 */
-	rowClick(item) {
-		return () => {
-			if (this.props.onClick) {
-				this.props.onClick(item);
-			}
-			if (this.props.collapseRender) {
-				item.iscollapsed = item.iscollapsed ? !item.iscollapsed : true;
-				this.forceUpdate();
-			}
-		};
+	rowClick(item, row) {
+		if (this.props.onClick) {
+			this.props.onClick(item);
+		}
+		if (this.props.collapseRender) {
+			item.iscollapsed = !item.iscollapsed;
+			row.forceUpdate();
+		}
 	}
 
 	collapseRender(item) {
@@ -89,21 +88,33 @@ export default class ReactTable extends React.Component {
 
 		const clickable = !!this.props.onClick || !!this.props.collapseRender;
 
-		return lst.map((item, index) =>
-			<Row key={index} className="tbl-row" onClick={clickable ? this.rowClick(item) : null}>
-			{
-				this.props.columns.map((c, ind2) => {
-					const content = isFunction(c.content) ? c.content(item, index) : item[c.content];
-					return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
-				})
-			}
-			{this.props.collapseRender &&
-			<Col sm={12}>
-				<Collapse in={item.iscollapsed}>
-					<div>{this.collapseRender(item)}</div>
-				</Collapse>
-			</Col>}
-			</Row>
+		return lst.map((item, index) => {
+
+			const rowRender = () => (
+				<div>
+					{
+						this.props.columns.map((c, ind2) => {
+							const content = isFunction(c.content) ? c.content(item, index) : item[c.content];
+							return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
+						})
+					}
+					{this.props.collapseRender &&
+					<Col sm={12}>
+						<Collapse in={item.iscollapsed}>
+							<div>{this.collapseRender(item)}</div>
+						</Collapse>
+					</Col>}
+				</div>
+				);
+
+			return (
+				<ReactRow key={'id' in item ? item.id : index}
+					className="row tbl-row"
+					value={item}
+					onRender={rowRender}
+					onClick={clickable ? this.rowClick : null} />
+				);
+		}
 		);
 	}
 
@@ -135,11 +146,6 @@ ReactTable.propTypes = {
 	columns: React.PropTypes.array,
 	values: React.PropTypes.array,
 	onClick: React.PropTypes.func,
-	mode: React.PropTypes.oneOf(['click', 'single-sel', 'multi-sel']),
 	className: React.PropTypes.string,
-	showCounter: React.PropTypes.bool,
-	onChangePage: React.PropTypes.func,
-	page: React.PropTypes.number,
-	maxPage: React.PropTypes.number,
 	collapseRender: React.PropTypes.func
 };

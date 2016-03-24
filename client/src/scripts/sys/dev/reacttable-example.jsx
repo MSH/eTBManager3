@@ -17,38 +17,31 @@ export default class ReacttableExample extends React.Component {
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
-			const lst = [];
-			for (var i = 0; i < 15; i++) {
-				const res = generateName();
-				lst.push({
-					name: res.name,
-					gender: res.gender,
-					status: 'Status of ' + res.name,
-					quantity: Math.random() * 1000 + 1000
-				});
-			}
-			this.setState({ values: lst });
-		}, 800);
-	}
-
-	rowClick(item) {
-		alert(item.name);
+		const lst = [];
+		for (var i = 0; i < 15; i++) {
+			const res = generateName();
+			lst.push({
+				name: res.name,
+				gender: res.gender,
+				status: 'Status of ' + res.name,
+				quantity: Math.random() * 1000 + 1000
+			});
+		}
+		this.setState({ values: lst });
 	}
 
 	collapseRender(item) {
-		return (<div>
-					<hr/>
-						<dl className="text-small dl-horizontal text-muted">
-							<dt>{'Patient: '}</dt>
-							<dd>{item.name}</dd>
-							<dt>{'Status: '}</dt>
-							<dd>{item.status}</dd>
-							<dt>{'Quantity: '}</dt>
-							<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
-						</dl>
-					<hr/>
-				</div>);
+		return (
+			<div>
+				<dl className="text-small dl-horizontal text-muted">
+					<dt>{'Patient: '}</dt>
+					<dd>{item.name}</dd>
+					<dt>{'Status: '}</dt>
+					<dd>{item.status}</dd>
+					<dt>{'Quantity: '}</dt>
+					<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
+				</dl>
+			</div>);
 	}
 
 	render() {
