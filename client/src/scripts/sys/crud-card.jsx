@@ -1,8 +1,8 @@
 
 import React from 'react';
 import { Button, Row, Col, Alert, Badge, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Card, WaitIcon, Fa, GridTable } from '../../components/index';
-import { objEqual } from '../../commons/utils';
+import { Card, WaitIcon, Fa, GridTable } from '../components/index';
+import { objEqual } from '../commons/utils';
 
 
 /**
@@ -189,7 +189,7 @@ export default class CrudCard extends React.Component {
 
 
 		return (
-			<Card header={header}>
+			<Card header={header} padding={this.props.combine ? 'combine' : null}>
 				{content}
 			</Card>
 			);
@@ -211,7 +211,9 @@ CrudCard.propTypes = {
 	// event fired when user clicks on the new button
 	onEvent: React.PropTypes.func,
 	// list of key / label to display in a new drop down
-	newDropDown: React.PropTypes.array
+	newDropDown: React.PropTypes.array,
+	// if true, card will have no bottom margin
+	combine: React.PropTypes.bool
 };
 
 CrudCard.defaultProps = {

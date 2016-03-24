@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud-view';
 import CRUD from '../../../commons/crud';
 
 const crud = new CRUD('regimen');

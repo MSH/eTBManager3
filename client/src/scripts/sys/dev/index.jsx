@@ -8,6 +8,7 @@ import Home from './home';
 import DatePickerExamples from './date-picker-examples';
 import ReacttableExample from './reacttable-example';
 import FormExample from './form-example';
+import CrudExample from './crud-example';
 
 
 const sidebar = [
@@ -34,6 +35,12 @@ const sidebar = [
 		view: FormExample,
 		path: '/form-example',
 		icon: 'reddit-alien'
+	},
+	{
+		title: 'CRUD',
+		view: CrudExample,
+		path: '/crud-example',
+		icon: 'ship'
 	}
 ];
 

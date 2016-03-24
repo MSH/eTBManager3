@@ -23,6 +23,10 @@ export function generateCaseNumber() {
 }
 
 
+export function mockCrud() {
+	return new MockCrud();
+}
+
 function randonIndex(size) {
 	return Math.round(Math.random() * size);
 }
@@ -361,3 +365,44 @@ const lastNames = [
 ];
 
 
+/**
+ * Mock class to simulate a crud object
+ */
+class MockCrud {
+	on(func) {
+		this.handler = func;
+	}
+
+	_event(evt, data, defaultRes) {
+		return new Promise(resolve => {
+			const res = this.handler(evt, data);
+			setTimeout(() => {
+				if (res) {
+					resolve(res);
+				} else {
+					resolve(defaultRes);
+				}
+			}, 500);
+		});
+	}
+
+	get(id) {
+		return this._event('get', id);
+	}
+
+	getEdit(id) {
+		return this._event('get-edit', id);
+	}
+
+	create(req) {
+		return this._event('create', req, { success: true, result: '123456' });
+	}
+
+	update(id) {
+		return this._event('update', id);
+	}
+
+	query(qry) {
+		return this._event('query', qry);
+	}
+}

@@ -5,9 +5,9 @@
 
 import React from 'react';
 import { Collapse, Alert, Button, ButtonToolbar } from 'react-bootstrap';
-import FormDialog from '../../components/form-dialog';
-import { hasPerm } from '../session';
-import { MessageDlg, CollapseCard, AsyncButton } from '../../components/index';
+import FormDialog from '../components/form-dialog';
+import { hasPerm } from './session';
+import { MessageDlg, CollapseCard, AsyncButton } from '../components/index';
 import CrudCard from './crud-card';
 
 
@@ -368,7 +368,9 @@ CrudView.propTypes = {
 	crud: React.PropTypes.object,
 	search: React.PropTypes.bool,
 	paging: React.PropTypes.bool,
-	queryFilters: React.PropTypes.object
+	queryFilters: React.PropTypes.object,
+	// if true, the card will have no bottom margin
+	combine: React.PropTypes.bool
 };
 
 CrudView.defaultProps = {

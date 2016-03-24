@@ -32,12 +32,6 @@ export default class Card extends React.Component {
             header = <div className="card-header">{header}</div>;
         }
 
-        const contentClass = 'card-content';
-
-        const children = React.Children.map(this.props.children, function(item) {
-            return <div className={contentClass}>{item}</div>;
-        });
-
         const cn = this.props.className;
         const className = 'card' + this.borderClass() + (cn ? ' ' + cn : '') +
             (this.props.highlight ? ' highlight' : '');
@@ -51,7 +45,9 @@ export default class Card extends React.Component {
                     </a>
                 }
                 {header}
-                {children}
+                <div className="card-content">
+                    {this.props.children}
+                </div>
             </div>
         );
     }

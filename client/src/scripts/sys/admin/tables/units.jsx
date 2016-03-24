@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CRUD from '../../../commons/crud';
-import CrudView from '../crud-view';
+import CrudView from '../../crud-view';
 import Profile from '../../../components/profile';
 import Form from '../../../forms/form';
 

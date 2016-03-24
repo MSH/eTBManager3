@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
 import { app } from '../../../core/app';

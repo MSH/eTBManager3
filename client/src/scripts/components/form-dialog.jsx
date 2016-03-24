@@ -27,7 +27,7 @@ export default class FormDialog extends React.Component {
 	/**
 	 * Called when the user clicks on the confirm button
 	 */
-	confirmClick(evt) {
+	confirmClick() {
 		const errors = this.refs.form.validate();
 
 		// there are validation errors?
@@ -41,7 +41,7 @@ export default class FormDialog extends React.Component {
 		// the promise to be called when confirming
 		let prom;
 		if (this.props.onConfirm) {
-			prom = this.props.onConfirm(evt);
+			prom = this.props.onConfirm(this.props.doc);
 		}
 
 		// it is expected that a promise is returned, in order to be informed about errors
@@ -83,16 +83,16 @@ export default class FormDialog extends React.Component {
 						onInit={this.props.onInit}
 						doc={doc} errors={errors}
 						resources={this.props.resources} />
+					<ButtonToolbar>
+						<AsyncButton fetching={this.state.fetching} faIcon="check"
+							bsStyle="primary"
+							onClick={this.confirmClick}>{this.props.confirmCaption}
+						</AsyncButton>
+						<Button onClick={this.props.onCancel}>
+							<i className="fa fa-times fa-fw"/>{__('action.cancel')}
+						</Button>
+					</ButtonToolbar>
 				</div>
-				<ButtonToolbar>
-					<AsyncButton fetching={this.state.fetching} faIcon="check"
-						bsStyle="primary"
-						onClick={this.confirmClick}>{this.props.confirmCaption}
-					</AsyncButton>
-					<Button onClick={this.props.onCancel}>
-						<i className="fa fa-times fa-fw"/>{__('action.cancel')}
-					</Button>
-				</ButtonToolbar>
 			</Card>
 			);
 	}
@@ -110,7 +110,7 @@ FormDialog.propTypes = {
 };
 
 FormDialog.defaultProps = {
-	dataModel: {},
+	doc: {},
 	cardWrap: true,
 	highlight: false,
 	confirmCaption: __('action.save')

@@ -137,78 +137,77 @@ export default class CommentsBox extends React.Component {
 		return (
 			<Card className="comment-box">
 				<div>
-				{
-					comments && comments.map(it =>
-						<div key={it.id} className="media">
-							<div className="media-left">
-								<Profile size="small" type="user"/>
-							</div>
-							<div className="media-body">
-								<div className="pull-right">
-									<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
-									<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-										<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
-									</OverlayTrigger>
-								</div>
-								<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
-								{it.comment.split('\n').map((item, index) =>
-									<span key={index}>
-										{item}
-										<br/>
-									</span>
-									)
-								}
-							</div>
-						</div>
-						)
-				}
-				<div className="media">
-					<div className="media-left">
-						<Profile size="small" type="user" />
-					</div>
-					<div className="media-body">
-						<div className="form-group no-margin-bottom">
-							<AutoheightInput ref="input"
-								onChange={this.textChange} />
-							<Button bsStyle="primary"
-								disabled={this.state.disabled}
-								onClick={this.addComment}
-								bsSize="small"
-								style={{ marginTop: '6px' }}>
-								{__('action.add')}
-							</Button>
-						</div>
-					</div>
-				</div>
-				</div>
-				<Modal show={!!this.state.edtitem} onHide={this.modalClose}>
-					<Modal.Header closeButton>
-						<Modal.Title>{'Edit comment'}</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
 					{
-						this.state.edtitem &&
-
-						<div className="form-group">
-							<AutoheightInput defaultValue={this.state.edtitem.comment}
-								onChange={this.editTextChange}
-								ref="edtinput" />
-						</div>
+						comments && comments.map(it =>
+							<div key={it.id} className="media">
+								<div className="media-left">
+									<Profile size="small" type="user"/>
+								</div>
+								<div className="media-body">
+									<div className="pull-right">
+										<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
+										<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+											<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
+										</OverlayTrigger>
+									</div>
+									<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
+									{it.comment.split('\n').map((item, index) =>
+										<span key={index}>
+											{item}
+											<br/>
+										</span>
+										)
+									}
+								</div>
+							</div>
+							)
 					}
-					<ButtonToolbar>
-						<Button disabled={this.state.edtdisabled}
-							bsStyle="primary"
-							onClick={this.editConfirm}>{__('action.save')}</Button>
-						<Button bsStyle="link" onClick={this.modalClose}>{__('action.cancel')}</Button>
-					</ButtonToolbar>
-					</Modal.Body>
-				</Modal>
-				<MessageDlg show={this.state.showRemoveConf}
-					title={__('action.delete')}
-					message={__('form.confirm_remove')}
-					type="YesNo"
-					onClose={this.closeRemoveConfDlg}
-					/>
+					<div className="media">
+						<div className="media-left">
+							<Profile size="small" type="user" />
+						</div>
+						<div className="media-body">
+							<div className="form-group no-margin-bottom">
+								<AutoheightInput ref="input"
+									onChange={this.textChange} />
+								<Button bsStyle="primary"
+									disabled={this.state.disabled}
+									onClick={this.addComment}
+									bsSize="small"
+									style={{ marginTop: '6px' }}>
+									{__('action.add')}
+								</Button>
+							</div>
+						</div>
+					</div>
+					<Modal show={!!this.state.edtitem} onHide={this.modalClose}>
+						<Modal.Header closeButton>
+							<Modal.Title>{'Edit comment'}</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+						{
+							this.state.edtitem &&
+
+							<div className="form-group">
+								<AutoheightInput defaultValue={this.state.edtitem.comment}
+									onChange={this.editTextChange}
+									ref="edtinput" />
+							</div>
+						}
+						<ButtonToolbar>
+							<Button disabled={this.state.edtdisabled}
+								bsStyle="primary"
+								onClick={this.editConfirm}>{__('action.save')}</Button>
+							<Button bsStyle="link" onClick={this.modalClose}>{__('action.cancel')}</Button>
+						</ButtonToolbar>
+						</Modal.Body>
+					</Modal>
+					<MessageDlg show={this.state.showRemoveConf}
+						title={__('action.delete')}
+						message={__('form.confirm_remove')}
+						type="YesNo"
+						onClose={this.closeRemoveConfDlg} />
+				</div>
 			</Card>
 			);
 	}
