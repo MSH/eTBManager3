@@ -34,10 +34,11 @@ const editorDef = {
 				},
 				{
 					property: 'active',
-					type: 'bool',
+					type: 'yesNo',
+					required: true,
 					label: __('EntityState.ACTIVE'),
 					defaultValue: true,
-					required: true
+					size: { sm: 6 }
 				},
 				{
 					property: 'customId',

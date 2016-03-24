@@ -22,6 +22,7 @@ import DatePicker from './date-picker';
 import ReactTable from './react-table';
 import AutoheightInput from './autoheight-input';
 import LinkTooltip from './link-tooltip';
+import TableForm from './table-form';
 
 export { Callout,
 	AsyncButton,
@@ -42,5 +43,6 @@ export { Callout,
 	CollapseRow,
 	ReactTable,
 	AutoheightInput,
-	LinkTooltip
+	LinkTooltip,
+	TableForm
 };

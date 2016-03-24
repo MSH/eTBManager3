@@ -9,6 +9,7 @@ import DatePickerExamples from './date-picker-examples';
 import ReacttableExample from './reacttable-example';
 import FormExample from './form-example';
 import CrudExample from './crud-example';
+import TableFormExample from './table-form-example';
 
 
 const sidebar = [
@@ -25,9 +26,15 @@ const sidebar = [
 		icon: 'calendar'
 	},
 	{
-		title: 'Reactive table',
+		title: 'React Table',
 		view: ReacttableExample,
 		path: '/reacttable',
+		icon: 'table'
+	},
+	{
+		title: 'Table Form',
+		view: TableFormExample,
+		path: '/tableform',
 		icon: 'table'
 	},
 	{

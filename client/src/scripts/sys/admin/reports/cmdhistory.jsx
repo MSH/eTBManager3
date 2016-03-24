@@ -120,7 +120,6 @@ export default class CommandHistory extends React.Component {
 			const result = { count: res.count, list: res.list };
 			// set state
 			self.setState({ values: result });
-			/*amigo estou aqui*/
 		});
 	}
 

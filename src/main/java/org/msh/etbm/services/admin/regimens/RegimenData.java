@@ -2,16 +2,27 @@ package org.msh.etbm.services.admin.regimens;
 
 import org.msh.etbm.db.enums.CaseClassification;
 
+import java.util.UUID;
+
 /**
  * Regimen information to be returned from the service to the client
  *
  * Created by rmemoria on 6/1/16.
  */
 public class RegimenData {
+    private UUID id;
     private String name;
     private CaseClassification caseClassification;
     private String customId;
     private boolean active;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

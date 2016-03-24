@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * Created by rmemoria on 6/1/16.
  */
-public class RegimenRequest {
+public class RegimenFormData {
     private Optional<String> name;
 
     private Optional<CaseClassification> classification;

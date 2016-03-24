@@ -7,7 +7,7 @@
 
 
     <mapping>
-        <class-a>org.msh.etbm.services.admin.regimens.RegimenRequest</class-a>
+        <class-a>org.msh.etbm.services.admin.regimens.RegimenFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Regimen</class-b>
     </mapping>
 
