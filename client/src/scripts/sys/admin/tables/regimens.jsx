@@ -4,8 +4,7 @@ import CrudView from '../../crud-view';
 import CRUD from '../../../commons/crud';
 import { app } from '../../../core/app';
 import Profile from '../../../components/profile';
-import { Row, Col } from 'react-bootstrap';
-import { Card, TableForm } from '../../../components/index';
+import { TableForm } from '../../../components/index';
 
 const crud = new CRUD('regimen');
 
@@ -50,35 +49,41 @@ const editorDef = {
 const tfschema = {
 			layout: [
 				{
-					property: 'iniDate',
+					property: 'medicineId',
 					required: true,
-					type: 'date',
-					label: __('Period.iniDate'),
-					size: { md: 3 }
-				},
-				{
-					property: 'action',
-					required: false,
 					type: 'select',
-					label: __('form.action'),
-					options: app.getState().app.lists.CommandAction,
-					size: { md: 3 }
+					label: __('Medicine'),
+					options: 'medicines',
+					size: { md: 4 }
 				},
 				{
-					property: 'userId',
-					required: false,
+					property: 'defaultDoseUnit',
+					required: true,
+					type: 'number',
+					label: __('Regimen.doseunit'),
+					size: { sm: 2 }
+				},
+				{
+					property: 'defaultFrequency',
+					required: true,
 					type: 'select',
-					label: __('User'),
-					options: 'users',
-					size: { md: 3 }
+					label: __('Regimen.frequency'),
+					options: { from: 1, to: 7 },
+					size: { sm: 2 }
 				},
 				{
-					property: 'type',
-					required: false,
-					type: 'string',
-					max: 50,
-					label: __('admin.reports.cmdhistory.cmdevent'),
-					size: { sm: 3 }
+					property: 'iniDay',
+					required: true,
+					type: 'number',
+					label: __('Regimen.doseunit'),
+					size: { sm: 2 }
+				},
+				{
+					property: 'days',
+					required: true,
+					type: 'number',
+					label: __('Regimen.days'),
+					size: { sm: 2 }
 				}
 			]
 		};
@@ -106,8 +111,10 @@ export default class Regimens extends React.Component {
 	}
 
 	remRow() {
-		var quantity = this.state.rowsQuantity - 1;
-		this.setState({ rowsQuantity: quantity });
+		if (this.state.rowsQuantity > 1) {
+			var quantity = this.state.rowsQuantity - 1;
+			this.setState({ rowsQuantity: quantity });
+		}
 	}
 
 	render() {
@@ -121,16 +128,14 @@ export default class Regimens extends React.Component {
 				editorDef={editorDef}
 				perm={data.perm}>
 
-
-							<TableForm
-								fschema={tfschema}
-								rowsQuantity={this.state.rowsQuantity}
-								addRow={this.addRow}
-								remRow={this.remRow}
-								docs={this.state.tfdocs}
-								errorsarr={this.state.tferrorsarr}
-								nodetype={'div'} />
-
+				<TableForm
+					fschema={tfschema}
+					rowsQuantity={this.state.rowsQuantity}
+					addRow={this.addRow}
+					remRow={this.remRow}
+					docs={this.state.tfdocs}
+					errorsarr={this.state.tferrorsarr}
+					nodetype={'div'} />
 
 			</CrudView>
 			);

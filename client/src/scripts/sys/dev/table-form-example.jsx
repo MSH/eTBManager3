@@ -1,10 +1,8 @@
 
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { Card, TableForm } from '../../components/index';
 import { app } from '../../core/app';
-
-import { generateName } from '../mock-data';
 
 const fschema = {
 			layout: [
@@ -50,9 +48,10 @@ export default class TableFormExample extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { rowsQuantity: 1, docs: [], errorsarr: [] };
+		this.state = { rowsQuantity: 1, docs: [] };
 		this.addRow = this.addRow.bind(this);
 		this.remRow = this.remRow.bind(this);
+		this.doSomething = this.doSomething.bind(this);
 	}
 
 	addRow() {
@@ -63,6 +62,18 @@ export default class TableFormExample extends React.Component {
 	remRow() {
 		var quantity = this.state.rowsQuantity - 1;
 		this.setState({ rowsQuantity: quantity });
+	}
+
+	doSomething() {
+		alert('I will try to do something, but first will validate the form');
+
+		const valid = this.refs.tableform.isValid();
+		if (valid !== true) {
+			alert('Ouch! Form is invalid');
+			return;
+		}
+
+		alert('Form is Valid, what I have to do?');
 	}
 
 	render() {
@@ -96,13 +107,18 @@ export default class TableFormExample extends React.Component {
 				<Card title="Form Table">
 					<Row>
 						<Col md={12}>
-							<TableForm
+							<TableForm ctitles={ctitles}
 								fschema={fschema}
 								rowsQuantity={this.state.rowsQuantity}
 								addRow={this.addRow}
 								remRow={this.remRow}
 								docs={this.state.docs}
-								errorsarr={this.state.errorsarr} />
+								ref="tableform" />
+						</Col>
+					</Row>
+					<Row className="mtop-2x">
+						<Col md={12}>
+							<Button onClick={this.doSomething} bsStyle="primary">{'Validate'}</Button>
 						</Col>
 					</Row>
 				</Card>
