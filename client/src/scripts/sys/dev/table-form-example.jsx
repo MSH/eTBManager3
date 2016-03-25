@@ -60,8 +60,10 @@ export default class TableFormExample extends React.Component {
 	}
 
 	remRow() {
-		var quantity = this.state.rowsQuantity - 1;
-		this.setState({ rowsQuantity: quantity });
+		if (this.state.rowsQuantity > 1) {
+			var quantity = this.state.rowsQuantity - 1;
+			this.setState({ rowsQuantity: quantity });
+		}
 	}
 
 	doSomething() {
@@ -116,7 +118,7 @@ export default class TableFormExample extends React.Component {
 								ref="tableform" />
 						</Col>
 					</Row>
-					<Row className="mtop-2x">
+					<Row>
 						<Col md={12}>
 							<Button onClick={this.doSomething} bsStyle="primary">{'Validate'}</Button>
 						</Col>
