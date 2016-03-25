@@ -78,7 +78,7 @@ const tfschema = {
 					property: 'iniDay',
 					required: true,
 					type: 'number',
-					label: __('Regimen.doseunit'),
+					label: __('Regimen.iniday'),
 					size: { sm: 2 }
 				},
 				{
@@ -129,7 +129,7 @@ export default class Regimens extends React.Component {
 		// get information about the route of this page
 		const data = this.props.route.data;
 
-		editorDef.defaultProperties.medicines = this.getMedicines; // TODOMSR poderia fazer no component will mount???
+		editorDef.defaultProperties.medicines = this.getMedicines; // TODOMSR poderia fazer no component will mount??? pODERIA SER COM UMA FUNÇÃO DE UMA LINHA?
 
 		return (
 			<CrudView crud={crud}
