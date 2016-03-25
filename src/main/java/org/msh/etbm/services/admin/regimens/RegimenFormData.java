@@ -18,7 +18,7 @@ public class RegimenFormData {
 
     private Optional<Boolean> active;
 
-    private Optional<List<MedicineRegimen>> medicines;
+    private Optional<List<MedicineRegimen>> medicines; //TODOMSR: deveria fazer um formdata para MedicineRegimen?
 
     public Optional<String> getName() {
         return name;

@@ -122,6 +122,7 @@ export default class TableForm extends React.Component {
 				);
 	}
 
+	//TODOMSR verificar se deveria ficar aqui dentro do componente.
 	isValid() {
 		var i;
 		var valid = true;
@@ -146,6 +147,7 @@ export default class TableForm extends React.Component {
 
 		var buttons = null;
 
+		// TODOMSR ver se esse código, grande desse jeito tem problema
 		switch (this.props.nodetype) {
             case 'fluid': buttons = (<Grid fluid className="def-margin-bottom">
 										<Row>
