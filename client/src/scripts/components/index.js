@@ -23,7 +23,7 @@ import ReactTable from './react-table';
 import AutoheightInput from './autoheight-input';
 import LinkTooltip from './link-tooltip';
 import TableForm from './table-form';
-import ShortSelectionBox from './shortselection-box';
+import ListBox from './list-box';
 
 export { Callout,
 	AsyncButton,
@@ -46,5 +46,5 @@ export { Callout,
 	AutoheightInput,
 	LinkTooltip,
 	TableForm,
-	ShortSelectionBox
+	ListBox
 };
