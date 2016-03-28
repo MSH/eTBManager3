@@ -3,6 +3,7 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Card } from '../../components/index';
 import Form from '../../forms/form';
+import { app } from '../../core/app';
 
 
 /**
@@ -72,6 +73,24 @@ export default class ReacttableExample extends React.Component {
 					type: 'adminUnit',
 					label: 'Administrative unit',
 					size: { sm: 3, newLine: true }
+				},
+				{
+					property: 'action1',
+					required: true,
+					type: 'listBox',
+					label: __('form.action'),
+					options: app.getState().app.lists.CommandAction,
+					size: { md: 3 },
+					vertical: true,
+					textAlign: 'left'
+				},
+				{
+					property: 'action2',
+					required: false,
+					type: 'listBox',
+					label: __('form.action'),
+					options: app.getState().app.lists.CommandAction,
+					size: { md: 6 }
 				}
 			]
 		};

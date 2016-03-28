@@ -3,8 +3,9 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Card, TableForm } from '../../components/index';
 import { app } from '../../core/app';
+import Form from '../../forms/form';
 
-const fschema = {
+const tfschema = {
 			layout: [
 				{
 					property: 'iniDate',
@@ -40,6 +41,27 @@ const fschema = {
 			]
 		};
 
+const fschema = {
+			layout: [
+				{
+					property: 'action',
+					required: false,
+					type: 'select',
+					label: __('form.action'),
+					options: app.getState().app.lists.CommandAction,
+					size: { md: 6 }
+				},
+				{
+					property: 'type',
+					required: false,
+					type: 'string',
+					max: 50,
+					label: __('admin.reports.cmdhistory.cmdevent'),
+					size: { sm: 6 }
+				}
+			]
+		};
+
 /**
  * Initial page that declare all routes of the module
  */
@@ -48,10 +70,16 @@ export default class TableFormExample extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { rowsQuantity: 1, docs: [] };
+		this.state = { rowsQuantity: 1, doc: {} };
 		this.addRow = this.addRow.bind(this);
 		this.remRow = this.remRow.bind(this);
 		this.doSomething = this.doSomething.bind(this);
+	}
+
+	componentWillMount() {
+		const obj = {};
+		obj.formlist = [];
+		this.setState({ doc: obj });
 	}
 
 	addRow() {
@@ -109,12 +137,21 @@ export default class TableFormExample extends React.Component {
 				<Card title="Form Table">
 					<Row>
 						<Col md={12}>
+							<Form ref="form"
+								schema={fschema}
+								doc={this.state.doc}
+								onChange={this.onChangeDoc}
+								errors={this.state.errors} />
+						</Col>
+					</Row>
+					<Row>
+						<Col md={12}>
 							<TableForm ctitles={ctitles}
-								fschema={fschema}
+								fschema={tfschema}
 								rowsQuantity={this.state.rowsQuantity}
 								addRow={this.addRow}
 								remRow={this.remRow}
-								docs={this.state.docs}
+								docs={this.state.doc.formlist}
 								ref="tableform" />
 						</Col>
 					</Row>

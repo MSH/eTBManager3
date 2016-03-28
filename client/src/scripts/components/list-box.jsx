@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { ButtonGroup, Button } from 'react-bootstrap';
+import { ButtonGroup } from 'react-bootstrap';
 import { objEqual } from '../commons/utils';
 
-export default class ShortSelectionBox extends React.Component { //TODOMS: trocar para listbox
+export default class ListBox extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -176,7 +176,7 @@ export default class ShortSelectionBox extends React.Component { //TODOMS: troca
 	}
 }
 
-ShortSelectionBox.propTypes = {
+ListBox.propTypes = {
 	label: React.PropTypes.node,
 	optionDisplay: React.PropTypes.any, // TODOMS: testar se pode entrar um node, ou função e se funciona de boa
 	options: React.PropTypes.array,
@@ -189,7 +189,7 @@ ShortSelectionBox.propTypes = {
 	vertical: React.PropTypes.bool
 };
 
-ShortSelectionBox.defaultProps = {
+ListBox.defaultProps = {
 	textAlign: 'center',
 	vertical: false
 };
