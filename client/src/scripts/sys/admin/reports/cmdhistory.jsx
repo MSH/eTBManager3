@@ -253,7 +253,7 @@ export default class CommandHistory extends React.Component {
 							<Col md={12}>
 								<ReactTable columns={tschema}
 									values={this.state.values.list}
-									collapseRender={this.collapseRender} />
+									onCollapseRender={this.collapseRender} />
 							</Col>
 						</Row>
 					</Card>

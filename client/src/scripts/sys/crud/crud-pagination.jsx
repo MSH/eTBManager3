@@ -7,13 +7,20 @@ export default class CrudPagination extends React.Component {
 	constructor(props) {
 		super(props);
 		this.changePage = this.changePage.bind(this);
+	}
 
+	componentWillMount() {
 		const self = this;
-		this.props.controller.on(evt => {
+		const handler = this.props.controller.on(evt => {
 			if (evt === 'page' || evt === 'fetching-list') {
 				self.forceUpdate();
 			}
 		});
+		this.setState({ handler: handler });
+	}
+
+	componentWillUnmount() {
+		this.props.controller.removeListener(this.state.handler);
 	}
 
 	changePage(evt, data) {

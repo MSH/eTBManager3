@@ -9,6 +9,7 @@ export default class ReactRow extends React.Component {
 		super(props);
 
 		this._rowClick = this._rowClick.bind(this);
+		this.state = {};
 	}
 
 	/**
@@ -28,18 +29,18 @@ export default class ReactRow extends React.Component {
 
 	render() {
 		return (
-			<div onClick={this._rowClick} className={this.props.className}>
+			<div onClick={this._rowClick}>
 			{
-				this.props.onRender(this.props.value)
+				this.props.onRender(this.props.value, this)
 			}
 			</div>
-			);
+		);
 	}
 }
 
 ReactRow.propTypes = {
-	value: React.PropTypes.any,
-	onRender: React.PropTypes.func,
+	value: React.PropTypes.any.isRequired,
+	onRender: React.PropTypes.func.isRequired,
 	onClick: React.PropTypes.func,
-	className: React.PropTypes.string
+	index: React.PropTypes.number.isRequired
 };

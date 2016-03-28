@@ -7164,6 +7164,41 @@ button.close {
 .filter .form-control:hover {
   background-color: #f8f8f8;
 }
+.short-sel-box .short-sel-list-v {
+  display: block;
+  padding: 0px;
+  height: inherit;
+}
+.short-sel-box .short-sel-list-v .short-sel-item {
+  text-transform: none;
+}
+.short-sel-box .short-sel-list-v .short-sel-item-selected {
+  text-transform: none;
+  background-color: #1e9614;
+  color: #fff;
+}
+.short-sel-box .short-sel-list {
+  padding: 0px;
+  display: block;
+}
+.short-sel-box .short-sel-list .short-sel-item {
+  text-transform: none;
+  border: none;
+  height: 100%;
+  width: 50%;
+  margin: 0px;
+  border-radius: 0px;
+}
+.short-sel-box .short-sel-list .short-sel-item-selected {
+  text-transform: none;
+  border: none;
+  height: 100%;
+  background-color: #1e9614;
+  color: #fff;
+  width: 50%;
+  margin: 0px;
+  border-radius: 0px;
+}
 /** The toolbar */
 .navbar-brand {
   padding: 8px;
@@ -7558,7 +7593,7 @@ button.close {
 .tag-warn {
   border-left-color: #1f69ad;
 }
-.tbl-hover > .tbl-row:hover {
+.tbl-hover .tbl-row:hover {
   background-color: #f8f8f8;
   cursor: pointer;
 }
@@ -7594,6 +7629,15 @@ button.close {
 .col-right {
   display: inline-block;
   text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
 }
 .alert {
   border-left-width: 10px;

@@ -76,8 +76,7 @@ export default class FormDialog extends React.Component {
 		// get validation errors, if any available
 		const errors = this.state ? this.state.errors : null;
 
-		return (
-			<Card title={title} highlight={this.props.highlight}>
+		const content = (
 				<div>
 					<Form ref="form" schema={schema}
 						onInit={this.props.onInit}
@@ -95,8 +94,13 @@ export default class FormDialog extends React.Component {
 						</Button>
 					</ButtonToolbar>
 				</div>
-			</Card>
-			);
+				);
+
+		return this.props.cardWrap ?
+			<Card title={title} highlight={this.props.highlight}>
+				{content}
+			</Card> :
+			content;
 	}
 }
 
@@ -109,13 +113,13 @@ FormDialog.propTypes = {
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
+	cardWrap: React.PropTypes.bool,
 	children: React.PropTypes.node
 };
 
 FormDialog.defaultProps = {
-	doc: {},
-	cardWrap: true,
 	highlight: false,
-	confirmCaption: __('action.save')
+	confirmCaption: __('action.save'),
+	cardWrap: true
 };
 

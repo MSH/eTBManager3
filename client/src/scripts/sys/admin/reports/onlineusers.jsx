@@ -100,7 +100,7 @@ export default class OnlineUsers extends React.Component {
 							<Col md={12}>
 								<ReactTable columns={colschema}
 									values={this.state.values.list}
-									collapseRender={this.collapseRender} />
+									onCollapseRender={this.collapseRender} />
 							</Col>
 						</Row>
 					</Card>
