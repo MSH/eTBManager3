@@ -71,8 +71,9 @@ export default class CrudView extends React.Component {
 						highlight
 						resources={this.context.resources}
 						onConfirm={item.context.saveForm}
-						onCancel={item.context.cancelForm}
-						/>
+						onCancel={item.context.cancelForm}>
+						{this.props.children}
+					</FormDialog>
 					</div>
 				</Collapse>
 				);
@@ -308,7 +309,9 @@ export default class CrudView extends React.Component {
 						<FormDialog schema={newform.editor}
 							onConfirm={newform.saveForm}
 							onCancel={newform.cancelForm}
-							doc={newform.doc} />
+							doc={newform.doc}>
+								{this.props.children}
+						</FormDialog>
 					</div>
 				</Collapse>
 			);
@@ -370,7 +373,8 @@ CrudView.propTypes = {
 	paging: React.PropTypes.bool,
 	queryFilters: React.PropTypes.object,
 	// if true, the card will have no bottom margin
-	combine: React.PropTypes.bool
+	combine: React.PropTypes.bool,
+	children: React.PropTypes.node
 };
 
 CrudView.defaultProps = {

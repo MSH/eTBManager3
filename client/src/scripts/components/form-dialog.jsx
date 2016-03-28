@@ -81,7 +81,9 @@ export default class FormDialog extends React.Component {
 					<Form ref="form" schema={schema}
 						onInit={this.props.onInit}
 						doc={doc} errors={errors}
-						resources={this.props.resources} />
+						resources={this.props.resources}>
+						{this.props.children}
+					</Form>
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
 							bsStyle="primary"
@@ -111,7 +113,8 @@ FormDialog.propTypes = {
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
-	cardWrap: React.PropTypes.bool
+	cardWrap: React.PropTypes.bool,
+	children: React.PropTypes.node
 };
 
 FormDialog.defaultProps = {

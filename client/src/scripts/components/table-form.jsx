@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
+import { Row, Col, ButtonToolbar, Button, Grid } from 'react-bootstrap';
 import Form from '../forms/form';
 import Fa from '../components/fa';
 
@@ -24,6 +24,8 @@ export default class TableForm extends React.Component {
 		}
 
 		this.onChangeDoc = this.onChangeDoc.bind(this);
+		this.validate = this.validate.bind(this);
+		this.state = { errorsarr: [] };
 	}
 
 	onChangeDoc() {
@@ -73,15 +75,16 @@ export default class TableForm extends React.Component {
 		var i;
 
 		// Clean docs array to have the same quantity as rows
-		if (rowsQuantity < this.props.docs.length) {
+		if (rowsQuantity < this.props.docs.length && this.props.docs.length > 1) {
 			i = rowsQuantity + 1;
 			while (rowsQuantity !== this.props.docs.length) {
 				this.props.docs.pop();
+				this.state.errorsarr.pop();
 			}
 		}
 
 
-		if (!rowsQuantity || rowsQuantity === 0) {
+		if (!rowsQuantity || rowsQuantity < 1) {
 			rowsQuantity = 1;
 		}
 
@@ -94,23 +97,44 @@ export default class TableForm extends React.Component {
 	}
 
 	getNewRow(key) {
+		if (key < 0) {
+			return null;
+		}
+
 		// add a new doc if don't exists to have the same docs quantity as rows
 		if (!this.props.docs[key]) {
 			this.props.docs.push({});
 		}
 
 		// add a new erros if don't exists to have the same errors quantity as rows
-		if (!this.props.errorsarr[key]) {
-			this.props.errorsarr.push({});
+		if (!this.state.errorsarr[key]) {
+			this.state.errorsarr.push({});
 		}
 
-		return 	(<Row key={key}>
-					<Form ref="form"
+		return 	(
+					<Form ref={'form' + key}
 						schema={this.props.fschema}
+						key={key}
 						doc={this.props.docs[key]}
 						onChange={this.onChangeDoc}
-						errors={this.props.errorsarr[key]} />
-				</Row>);
+						errors={this.state.errorsarr[key]}
+						nodetype={this.props.nodetype} />
+				);
+	}
+
+	validate() {
+		var i;
+		var valid = true;
+		for (i = 0; i < this.props.rowsQuantity; i++) {
+			const e = this.state.errorsarr;
+			e[i] = this.refs['form' + i].validate();
+			if (e[i]) {
+				valid = false;
+			}
+		}
+
+		this.forceUpdate();
+		return valid;
 	}
 
 	render() {
@@ -120,23 +144,54 @@ export default class TableForm extends React.Component {
 			classes.push(this.props.className);
 		}
 
+		var buttons = null;
+
+		// TODOMSR ver se esse código, grande desse jeito tem problema
+		switch (this.props.nodetype) {
+            case 'fluid': buttons = (<Grid fluid className="def-margin-bottom">
+										<Row>
+											<Col sm={12}>
+												<ButtonToolbar>
+													<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
+													<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
+												</ButtonToolbar>
+											</Col>
+										</Row>
+									</Grid>); break;
+
+            case 'div': buttons = (<Row className="def-margin-bottom">
+										<Col sm={12}>
+											<ButtonToolbar>
+												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
+												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
+											</ButtonToolbar>
+										</Col>
+									</Row>); break;
+
+            default: buttons = (<Grid fluid className="def-margin-bottom">
+									<Row>
+										<Col sm={12}>
+											<ButtonToolbar>
+												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
+												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
+											</ButtonToolbar>
+										</Col>
+									</Row>
+								</Grid>); break;
+        }
+
 		return (
-			<Grid fluid className={classes.join(' ')}>
+			<div>
 				{
 					this.titleRender()
 				}
 				{
 					this.contentRender()
 				}
-				<Row className="tbl-title">
-					<Col sm={12}>
-						<ButtonToolbar>
-							<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
-							<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
-						</ButtonToolbar>
-					</Col>
-				</Row>
-			</Grid>
+				{
+					buttons
+				}
+			</div>
 			);
 	}
 }
@@ -146,8 +201,8 @@ TableForm.propTypes = {
 	rowsQuantity: React.PropTypes.number,
 	className: React.PropTypes.string,
 	docs: React.PropTypes.array,
-	errorsarr: React.PropTypes.array,
 	addRow: React.PropTypes.func,
 	remRow: React.PropTypes.func,
-	fschema: React.PropTypes.object
+	fschema: React.PropTypes.object,
+	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
 };
