@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, MenuItem, Button } from 'react-bootstrap';
-import { Card, Popup, SelectionBox } from '../../components/index';
+import { Card, Popup, SelectionBox, ShortSelectionBox } from '../../components/index';
 
 
 const options = [
@@ -22,6 +22,11 @@ const options2 = [
 	'Caxambu',
 	'Búzios',
 	'New Orleans'
+];
+
+const options3 = [
+	'Yes',
+	'No'
 ];
 
 
@@ -53,6 +58,7 @@ export default class StuffExamples extends React.Component {
 	onChange(ref) {
 		const self = this;
 		return (evt, val) => {
+			/*amigo estou aqui*/
 			const obj = {};
 			obj[ref] = val;
 			self.setState(obj);
@@ -103,6 +109,35 @@ export default class StuffExamples extends React.Component {
 						</Col>
 						<Col sm={6}>
 							{this.state.selBox1 && this.state.selBox2}
+						</Col>
+					</Row>
+				</Card>
+				<Card>
+					<Row>
+						<Col sm={6}>
+							<ShortSelectionBox ref="selBox3"
+								mode="single"
+								label="Items:"
+								help="This is a simple help message"
+								onChange={this.onChange('selBox3')}
+								options={options2}
+								vertical />
+						</Col>
+						<Col sm={6}>
+							<ShortSelectionBox ref="selBox4" bsStyle="error"
+								mode="single"
+								label="Items:"
+								help="This is a simple help message"
+								onChange={this.onChange('selBox4')}
+								options={options3} />
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={6}>
+							{this.state.selBox3}
+						</Col>
+						<Col sm={6}>
+							{this.state.selBox4}
 						</Col>
 					</Row>
 				</Card>
