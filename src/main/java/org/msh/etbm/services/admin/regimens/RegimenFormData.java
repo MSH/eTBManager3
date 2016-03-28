@@ -18,7 +18,7 @@ public class RegimenFormData {
 
     private Optional<Boolean> active;
 
-    private Optional<List<MedicineRegimen>> medicines; //TODOMSR: deveria fazer um formdata para MedicineRegimen?
+    private Optional<List<MedicineRegimen>> medicines; //TODOMSR: deveria fazer um formdata para MedicineRegimen? R: YESSSSS
 
     public Optional<String> getName() {
         return name;

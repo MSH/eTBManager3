@@ -69,7 +69,7 @@ export default class TableFormExample extends React.Component {
 	doSomething() {
 		alert('I will try to do something, but first will validate the form');
 
-		const valid = this.refs.tableform.isValid();
+		const valid = this.refs.tableform.validate();
 		if (valid !== true) {
 			alert('Ouch! Form is invalid');
 			return;

@@ -24,7 +24,7 @@ export default class TableForm extends React.Component {
 		}
 
 		this.onChangeDoc = this.onChangeDoc.bind(this);
-		this.isValid = this.isValid.bind(this);
+		this.validate = this.validate.bind(this);
 		this.state = { errorsarr: [] };
 	}
 
@@ -122,8 +122,7 @@ export default class TableForm extends React.Component {
 				);
 	}
 
-	//TODOMSR verificar se deveria ficar aqui dentro do componente.
-	isValid() {
+	validate() {
 		var i;
 		var valid = true;
 		for (i = 0; i < this.props.rowsQuantity; i++) {

@@ -129,7 +129,7 @@ export default class ShortSelectionBox extends React.Component { //TODOMS: troca
 		if (this.props.vertical === true && opts.length > 0) {
 			ret = <ButtonGroup vertical className={controlClass}>{opts}</ButtonGroup>;
 		} else if (opts.length > 0) {
-			ret = <ButtonGroup className={controlClass}>{opts}</ButtonGroup>;
+			ret = <ButtonGroup justified className={controlClass}>{opts}</ButtonGroup>;
 		}
 
 		return ret;

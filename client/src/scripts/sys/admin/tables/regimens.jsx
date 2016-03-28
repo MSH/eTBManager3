@@ -11,7 +11,7 @@ const crud = new CRUD('regimen');
 // definition of the form fields to edit medicine regimens
 const editorDef = {
 	defaultProperties: {
-		medicines: null //TODOMSR ver se´essa é a maneira correta de passar os medicines.
+		medicines: null //TODOMSR ver se´essa é a maneira correta de passar os medicines. R: deixar de ser preguçoso e colocar como control padrao
 	},
 	layout: [
 		{
@@ -43,7 +43,7 @@ const editorDef = {
 			required: true,
 			label: __('EntityState.ACTIVE'),
 			defaultValue: true,
-			size: { sm: 4 } //TODOMSR: pq esse trem n ocupa a col toda? vi que ele esta com um width de 33% whyyyy????
+			size: { sm: 4 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.regimens.edt') : __('admin.regimens.new')
@@ -129,7 +129,7 @@ export default class Regimens extends React.Component {
 		// get information about the route of this page
 		const data = this.props.route.data;
 
-		editorDef.defaultProperties.medicines = this.getMedicines; // TODOMSR poderia fazer no component will mount??? pODERIA SER COM UMA FUNÇÃO DE UMA LINHA?
+		editorDef.defaultProperties.medicines = this.getMedicines; // TODOMSR poderia fazer no component will mount??? R: sim
 
 		return (
 			<CrudView crud={crud}
@@ -137,7 +137,6 @@ export default class Regimens extends React.Component {
 				onCellRender={this.cellRender}
 				editorDef={editorDef}
 				perm={data.perm}>
-				//TODOMSR como passar a função idValid do TableForm, pra ser executada antes de o formulario salvar?
 				<TableForm
 					fschema={tfschema}
 					rowsQuantity={this.state.rowsQuantity}
