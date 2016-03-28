@@ -8,23 +8,25 @@ const Events = {
 	page: 'page',
 	// fetching the list
 	fetchingList: 'fetching-list',
-	// open the new form
-	newForm: 'new-form',
-	closeNewForm: 'close-new-form',
 	// display a message on the screen
-	showMsg: 'show-msg'
+	showMsg: 'show-msg',
+	// Open a form
+	openForm: 'open-form',
+	// Close the opened form
+	closeForm: 'close-form'
 };
 
 export default class CrudController {
 
 	constructor(crud, options) {
-		this.openNewForm = this.openNewForm.bind(this);
-		this.cancelNewForm = this.cancelNewForm.bind(this);
+		this.openForm = this.openForm.bind(this);
+		this.closeForm = this.closeForm.bind(this);
 
 		this.listeners = [];
 		this.crud = crud;
 		this.options = options || {};
 		this.state = null;
+		this.formOpen = false;
 	}
 
 	/**
@@ -34,6 +36,12 @@ export default class CrudController {
 	 */
 	on(listener) {
 		this.listeners.push(listener);
+		return listener;
+	}
+
+	removeListener(listener) {
+		const index = this.listeners.indexOf(listener);
+		this.listeners.splice(index, 1);
 	}
 
 	/**
@@ -70,32 +78,101 @@ export default class CrudController {
 	 * Generate events to open a new form
 	 * @return {[type]} [description]
 	 */
-	openNewForm() {
-		this.newFormOpen = true;
-		this._raise(Events.newForm);
-	}
+	openForm(item) {
+		if (this.isFormOpen()) {
+			return null;
+		}
 
-	cancelNewForm() {
-		this._closeNewForm();
-	}
+		// information about the document being edited in the form
+		const formInfo = {
+			doc: null,
+			fetching: false,
+			id: null,
+			item: item
+		};
 
-	isNewFormOpen() {
-		return this.newFormOpen;
-	}
+		// store information in the controller about the doc being edited
+		this.formInfo = formInfo;
 
-	saveNewForm(doc) {
+		// is a new doc ?
+		if (!item) {
+			// create a new document to be saved
+			formInfo.doc = {};
+			// notify by event
+			this._raise(Events.openForm);
+			// return the document as a promise
+			return Promise.resolve(formInfo);
+		}
+
+		// EXISTING DOC
+		formInfo.fetching = true;
+		// the default key is the ID of the item
+		formInfo.id = item.id;
+
 		const self = this;
-		return this.crud.create(doc)
+		// get the data to edit from the crud object and return as a promise
+		return this.crud.getEdit(formInfo.id)
 		.then(res => {
-			self._raise(Events.showMsg, __('default.entity_created'));
-			self._closeNewForm();
-			return res.id;
+			formInfo.fetching = false;
+			formInfo.doc = res;
+			// raise the event to notify the form to open
+			self._raise(Events.openForm);
+			// return the doc and id in the a promise
+			return formInfo;
 		});
 	}
 
-	_closeNewForm() {
-		this.newFormOpen = false;
-		this._raise(Events.closeNewForm);
+	/**
+	 * Send message to close the current form
+	 * @return {[type]} [description]
+	 */
+	closeForm() {
+		this._raise(Events.closeForm);
+		delete this.formInfo;
+	}
+
+	/**
+	 * Save the document and close the form
+	 * @param  {Obejct} doc The document to save
+	 * @param  {string} id  The id of the document, null if it is a new document
+	 * @return {Prmise}     The promise to be evaluated
+	 */
+	saveAndClose() {
+		const fi = this.formInfo;
+		if (__DEV__) {
+			if (!fi) {
+				throw new Error('There is no open form to be saved');
+			}
+		}
+		const prom = fi.id ? this.crud.update(fi.id, fi.doc) : this.crud.create(fi.doc);
+
+		const self = this;
+		return prom.then(res => {
+			self._raise(Events.closeForm);
+			if (fi.id) {
+				self._raise(Events.showMsg, __('default.entity_updated'));
+			}
+			else {
+				self._raise(Events.showMsg, __('default.entity_created'));
+			}
+			return res;
+		});
+	}
+
+	/**
+	 * Return true if there is a form open
+	 * @return {Boolean} [description]
+	 */
+	isFormOpen() {
+		return !!this.formInfo;
+	}
+
+	/**
+	 * Return true if is a new document being edited
+	 * @return {Boolean} [description]
+	 */
+	isNewForm() {
+		return !(this.formInfo && this.formInfo.item);
 	}
 
 	/**
@@ -139,6 +216,14 @@ export default class CrudController {
 		return this.result && this.result.count;
 	}
 
+	/**
+	 * Return the list stored by the controller
+	 * @return {Array} List of items
+	 */
+	getList() {
+		return this.result && this.result.list;
+	}
+
 	isFetching() {
 		return this.state === Events.fetchingList;
 	}
@@ -171,12 +256,10 @@ export default class CrudController {
 		return this.crud.query(qry)
 		.then(res => {
 			const paging = !!this.options.pageSize;
-			// wrap itens inside a controller object
-			const list = res.list.map(item => ({ data: item, state: 'ok' }));
 			// generate new result
 			const result = {
 				count: res.count,
-				list: list,
+				list: res.list,
 				pageCount: paging ? Math.ceil(res.count / this.options.pageSize) : null,
 				page: qry.page,
 				query: qry

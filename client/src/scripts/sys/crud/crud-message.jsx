@@ -12,12 +12,16 @@ export default class CrudMessage extends React.Component {
 	componentWillMount() {
 		const self = this;
 
-		this.props.controller.on((evt, data) => {
+		const handler = this.props.controller.on((evt, data) => {
 			if (evt === 'show-msg') {
 				self.setState({ msg: data });
 			}
 		});
-		self.setState({ msg: null });
+		self.setState({ handler: handler, msg: null });
+	}
+
+	componentWillUnmount() {
+		this.props.controller.removeListener(this.state.handler);
 	}
 
 	hideMessage() {

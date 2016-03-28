@@ -399,7 +399,7 @@ class MockCrud {
 	}
 
 	update(id) {
-		return this._event('update', id);
+		return this._event('update', id, { success: true, result: '123123' });
 	}
 
 	query(qry) {

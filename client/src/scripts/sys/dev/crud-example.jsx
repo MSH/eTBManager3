@@ -11,37 +11,29 @@ import { generateName, mockCrud } from '../mock-data';
 const editorDef = {
 	layout: [
 		{
-			property: 'shortName',
+			property: 'name',
 			required: true,
 			type: 'string',
 			max: 20,
 			label: __('form.shortName'),
-			size: { sm: 3 }
-		},
-		{
-			property: 'name',
-			required: true,
-			type: 'string',
-			max: 200,
-			label: __('form.name'),
 			size: { sm: 6 }
 		},
 		{
-			property: 'customId',
-			type: 'string',
-			max: 20,
-			label: __('form.customId'),
+			property: 'status',
+			required: true,
+			type: 'select',
+			label: 'Status',
+			options: 'substances',
 			size: { sm: 3 }
 		},
 		{
-			property: 'active',
-			type: 'yesNo',
-			label: __('EntityState.ACTIVE'),
-			size: { sm: 5 },
-			defaultValue: true
+			property: 'quantity',
+			type: 'number',
+			label: 'Quantity',
+			size: { sm: 3 }
 		}
 	],
-	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')
+	title: doc => doc && doc.id ? 'Editing record' : 'New record'
 };
 
 
@@ -52,6 +44,8 @@ export default class CrudExample extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.openNewForm = this.openNewForm.bind(this);
 
 		this.state = { };
 	}
@@ -76,6 +70,7 @@ export default class CrudExample extends React.Component {
 			for (var i = 0; i < 20; i++) {
 				const res = generateName();
 				lst.push({
+					id: '12345-' + i,
 					name: res.name,
 					gender: res.gender,
 					status: 'Status of ' + res.name,
@@ -86,7 +81,12 @@ export default class CrudExample extends React.Component {
 		}
 
 		if (evt === 'get-edit') {
-			return null;
+			return {
+				name: 'Teste',
+				gender: 'MALE',
+				status: 'test',
+				quantity: 10
+			};
 		}
 		return null;
 	}
@@ -94,19 +94,20 @@ export default class CrudExample extends React.Component {
 
 	collapseRender(item) {
 		return (<div>
-					<hr/>
-						<dl className="text-small dl-horizontal text-muted">
-							<dt>{'Patient: '}</dt>
-							<dd>{item.name}</dd>
-							<dt>{'Status: '}</dt>
-							<dd>{item.status}</dd>
-							<dt>{'Quantity: '}</dt>
-							<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
-						</dl>
-					<hr/>
+					<dl className="dl-horizontal">
+						<dt>{'Patient: '}</dt>
+						<dd>{item.name}</dd>
+						<dt>{'Status: '}</dt>
+						<dd>{item.status}</dd>
+						<dt>{'Quantity: '}</dt>
+						<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
+					</dl>
 				</div>);
 	}
 
+	openNewForm() {
+		this.state.controller.openForm();
+	}
 
 	render() {
 		// the columns of the table
@@ -134,16 +135,19 @@ export default class CrudExample extends React.Component {
 
 		return (
 			<div>
-				<CrudForm controller={controller} schema={editorDef} />
+				<CrudForm controller={controller} schema={editorDef} openOnNew />
 				<Card title="CRUD Table">
-					<Button className="pull-right" onClick={controller.openNewForm}>
+					<Button className="pull-right" onClick={this.openNewForm}>
 						{__('action.add')}
 					</Button>
 					<Row>
 						<Col md={12}>
 							<CrudMessage controller={controller} />
 							<CrudPagination controller={controller} showCounter />
-							<CrudTable columns={columns} controller={controller} />
+							<CrudTable columns={columns}
+								editorSchema={editorDef}
+								controller={controller}
+								onCollapseRender={this.collapseRender} />
 							<CrudPagination controller={controller} />
 						</Col>
 					</Row>

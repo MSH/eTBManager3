@@ -74,7 +74,7 @@ export default class ReacttableExample extends React.Component {
 						<Col md={12}>
 							<ReactTable columns={columns}
 								values={this.state.values}
-								collapseRender={this.collapseRender} />
+								onCollapseRender={this.collapseRender} />
 						</Col>
 					</Row>
 				</Card>

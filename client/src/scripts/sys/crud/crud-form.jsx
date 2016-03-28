@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FormDialog } from '../../components';
+import { FormDialog, WaitIcon } from '../../components';
 
 export default class CrudForm extends React.Component {
 
@@ -12,34 +12,65 @@ export default class CrudForm extends React.Component {
 
 	componentWillMount() {
 		const self = this;
-		this.props.controller.on(evt => {
-			if (evt === 'new-form') {
-				self.setState({ doc: {} });
-			}
-
-			if (evt === 'close-new-form') {
-				self.forceUpdate();
+		const handler = this.props.controller.on(evt => {
+			if (evt === 'open-form' || evt === 'close-form') {
+				// check if this form should handle events
+				if (!self.isFormVisible()) {
+					return;
+				}
+				self.setState({ visible: evt === 'open-form' });
 			}
 		});
+		this.setState({ handler: handler, visible: self.isFormVisible() });
 	}
 
-	saveForm(doc) {
-		return this.props.controller.saveNewForm(doc);
+	componentWillUnmount() {
+		this.props.controller.removeListener(this.state.handler);
+	}
+
+	saveForm() {
+		return this.props.controller.saveAndClose(this.state.doc, this.state.id);
+	}
+
+	closeForm() {
+		this.props.controller.closeForm();
+	}
+
+	/**
+	 * Return true if form is visible
+	 * @return {Boolean} [description]
+	 */
+	isFormVisible() {
+		const ctrl = this.props.controller;
+		return ctrl.isFormOpen() &&
+			((ctrl.isNewForm() && this.props.openOnNew) || (!ctrl.isNewForm() && this.props.openOnEdit));
 	}
 
 	render() {
+		if (!this.state.visible) {
+			return null;
+		}
+
 		const controller = this.props.controller;
 
-		return controller.isNewFormOpen() ?
+		return controller.formInfo.fetching ?
+			<WaitIcon type="card" /> :
 			<FormDialog schema={this.props.schema}
-				doc={this.state.doc}
+				doc={controller.formInfo.doc}
 				onConfirm={this.saveForm}
-				onCancel={controller.cancelNewForm}/> :
-			null;
+				cardWrap={this.props.cardWrap}
+				onCancel={controller.closeForm}/>;
 	}
 }
 
 CrudForm.propTypes = {
 	schema: React.PropTypes.object,
-	controller: React.PropTypes.object.isRequired
+	controller: React.PropTypes.object.isRequired,
+	openOnNew: React.PropTypes.bool,
+	openOnEdit: React.PropTypes.bool,
+	cardWrap: React.PropTypes.bool
+};
+
+CrudForm.defaultProps = {
+	cardWrap: true
 };

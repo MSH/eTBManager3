@@ -7558,7 +7558,7 @@ button.close {
 .tag-warn {
   border-left-color: #1f69ad;
 }
-.tbl-hover > .tbl-row:hover {
+.tbl-hover .tbl-row:hover {
   background-color: #f8f8f8;
   cursor: pointer;
 }
