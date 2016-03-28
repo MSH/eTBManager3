@@ -76,7 +76,7 @@ class TableFormControl extends React.Component {
 				remRow={this.remRow}
 				docs={this.state.docs}
 				ref="tableform"
-				nodetype={'fluid'}
+				nodetype={'div'}
 				onChange={this.onChange} />
 		);
 	}

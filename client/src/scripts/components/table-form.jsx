@@ -108,6 +108,7 @@ export default class TableForm extends React.Component {
 		}
 
 		return 	(
+					<Col sm={12}>
 					<Form ref={'form' + key}
 						schema={this.props.fschema}
 						key={key}
@@ -115,6 +116,7 @@ export default class TableForm extends React.Component {
 						onChange={this.onFormChange}
 						errors={this.state.errorsarr[key]}
 						nodetype={this.props.nodetype} />
+					</Col>
 				);
 	}
 
@@ -163,10 +165,12 @@ export default class TableForm extends React.Component {
 
             case 'div': buttons = (<Row className="def-margin-bottom">
 										<Col sm={12}>
+											<Col sm={12}>
 											<ButtonToolbar>
 												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
 												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
 											</ButtonToolbar>
+											</Col>
 										</Col>
 									</Row>); break;
 

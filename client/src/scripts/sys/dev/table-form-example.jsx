@@ -41,10 +41,7 @@ export default class TableFormExample extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const obj = {};
-		obj.formlist = [];
-
-		this.state = { doc: obj };
+		this.state = { doc: {} };
 		this.validate = this.validate.bind(this);
 		this.clearIt = this.clearIt.bind(this);
 		this.onChangeDoc = this.onChangeDoc.bind(this);
