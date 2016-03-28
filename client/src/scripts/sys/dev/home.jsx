@@ -58,7 +58,6 @@ export default class StuffExamples extends React.Component {
 	onChange(ref) {
 		const self = this;
 		return (evt, val) => {
-			/*amigo estou aqui*/
 			const obj = {};
 			obj[ref] = val;
 			self.setState(obj);

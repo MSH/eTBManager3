@@ -23,13 +23,9 @@ export default class TableForm extends React.Component {
 			}
 		}
 
-		this.onChangeDoc = this.onChangeDoc.bind(this);
+		this.onFormChange = this.onFormChange.bind(this);
 		this.validate = this.validate.bind(this);
 		this.state = { errorsarr: [] };
-	}
-
-	onChangeDoc() {
-		this.forceUpdate();
 	}
 
 	/**
@@ -116,7 +112,7 @@ export default class TableForm extends React.Component {
 						schema={this.props.fschema}
 						key={key}
 						doc={this.props.docs[key]}
-						onChange={this.onChangeDoc}
+						onChange={this.onFormChange}
 						errors={this.state.errorsarr[key]}
 						nodetype={this.props.nodetype} />
 				);
@@ -124,17 +120,23 @@ export default class TableForm extends React.Component {
 
 	validate() {
 		var i;
-		var valid = true;
+		var errors = null;
 		for (i = 0; i < this.props.rowsQuantity; i++) {
 			const e = this.state.errorsarr;
 			e[i] = this.refs['form' + i].validate();
 			if (e[i]) {
-				valid = false;
+				errors = e[i];
 			}
 		}
 
 		this.forceUpdate();
-		return valid;
+		return errors;
+	}
+
+	onFormChange() {
+		if (this.props.onChange) {
+			this.props.onChange();
+		}
 	}
 
 	render() {
@@ -204,5 +206,6 @@ TableForm.propTypes = {
 	addRow: React.PropTypes.func,
 	remRow: React.PropTypes.func,
 	fschema: React.PropTypes.object,
-	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
+	nodetype: React.PropTypes.oneOf(['fluid', 'div']),
+	onChange: React.PropTypes.func
 };

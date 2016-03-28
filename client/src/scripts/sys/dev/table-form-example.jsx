@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Card, TableForm } from '../../components/index';
+import { Card } from '../../components/index';
 import { app } from '../../core/app';
 import Form from '../../forms/form';
 
@@ -12,23 +12,15 @@ const tfschema = {
 					required: true,
 					type: 'date',
 					label: __('Period.iniDate'),
-					size: { md: 3 }
+					size: { md: 4 }
 				},
 				{
 					property: 'action',
 					required: false,
-					type: 'select',
+					type: 'listBox',
 					label: __('form.action'),
 					options: app.getState().app.lists.CommandAction,
-					size: { md: 3 }
-				},
-				{
-					property: 'userId',
-					required: false,
-					type: 'select',
-					label: __('User'),
-					options: 'users',
-					size: { md: 3 }
+					size: { md: 4 }
 				},
 				{
 					property: 'type',
@@ -36,28 +28,7 @@ const tfschema = {
 					type: 'string',
 					max: 50,
 					label: __('admin.reports.cmdhistory.cmdevent'),
-					size: { sm: 3 }
-				}
-			]
-		};
-
-const fschema = {
-			layout: [
-				{
-					property: 'action',
-					required: false,
-					type: 'select',
-					label: __('form.action'),
-					options: app.getState().app.lists.CommandAction,
-					size: { md: 6 }
-				},
-				{
-					property: 'type',
-					required: false,
-					type: 'string',
-					max: 50,
-					label: __('admin.reports.cmdhistory.cmdevent'),
-					size: { sm: 6 }
+					size: { md: 4 }
 				}
 			]
 		};
@@ -70,40 +41,36 @@ export default class TableFormExample extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { rowsQuantity: 1, doc: {} };
-		this.addRow = this.addRow.bind(this);
-		this.remRow = this.remRow.bind(this);
-		this.doSomething = this.doSomething.bind(this);
-	}
-
-	componentWillMount() {
 		const obj = {};
 		obj.formlist = [];
-		this.setState({ doc: obj });
+
+		this.state = { doc: obj };
+		this.validate = this.validate.bind(this);
+		this.clearIt = this.clearIt.bind(this);
+		this.onChangeDoc = this.onChangeDoc.bind(this);
 	}
 
-	addRow() {
-		var quantity = this.state.rowsQuantity + 1;
-		this.setState({ rowsQuantity: quantity });
-	}
+	validate() {
+		const self = this;
 
-	remRow() {
-		if (this.state.rowsQuantity > 1) {
-			var quantity = this.state.rowsQuantity - 1;
-			this.setState({ rowsQuantity: quantity });
-		}
-	}
-
-	doSomething() {
-		alert('I will try to do something, but first will validate the form');
-
-		const valid = this.refs.tableform.validate();
-		if (valid !== true) {
-			alert('Ouch! Form is invalid');
+		const errors = self.refs.form.validate();
+		this.setState({ errors: errors });
+		if (errors) {
 			return;
 		}
 
-		alert('Form is Valid, what I have to do?');
+		alert('form is valid');
+	}
+
+	clearIt() {
+		this.setState({ doc: {} });
+		this.forceUpdate();
+	}
+
+	onChangeDoc(doc) {
+		this.forceUpdate();
+		// display object in the console
+		console.log(doc);
 	}
 
 	render() {
@@ -132,6 +99,28 @@ export default class TableFormExample extends React.Component {
 			}
 		];
 
+
+		const fschema = {
+					layout: [
+						{
+							property: 'type',
+							required: false,
+							type: 'string',
+							max: 50,
+							label: __('admin.reports.cmdhistory.cmdevent'),
+							size: { sm: 6 }
+						},
+						{
+							property: 'formlist',
+							type: 'tableform',
+							fschema: tfschema,
+							ctitles: ctitles,
+							iniRowsQtt: 2,
+							size: { sm: 12 }
+						}
+					]
+				};
+
 		return (
 			<div>
 				<Card title="Form Table">
@@ -146,21 +135,22 @@ export default class TableFormExample extends React.Component {
 					</Row>
 					<Row>
 						<Col md={12}>
-							<TableForm ctitles={ctitles}
-								fschema={tfschema}
-								rowsQuantity={this.state.rowsQuantity}
-								addRow={this.addRow}
-								remRow={this.remRow}
-								docs={this.state.doc.formlist}
-								ref="tableform" />
-						</Col>
-					</Row>
-					<Row>
-						<Col md={12}>
-							<Button onClick={this.doSomething} bsStyle="primary">{'Validate'}</Button>
+							<Button onClick={this.validate} bsStyle="primary">{'Validate'}</Button>
 						</Col>
 					</Row>
 				</Card>
+				<Card title="Document">
+					<div>
+					{JSON.stringify(this.state.doc, null, '    ')}
+					</div>
+					<Button onClick={this.clearIt}>{'Clear it'}</Button>
+				</Card>
+				{
+					this.state.errors ?
+					<Card title="Errors">
+						{JSON.stringify(this.state.errors, null, '    ')}
+					</Card> : null
+				}
 			</div>
 			);
 	}

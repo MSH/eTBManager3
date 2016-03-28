@@ -86,7 +86,7 @@ class ListBoxControl extends React.Component {
 }
 
 ListBoxControl.propTypes = {
-	value: React.PropTypes.bool,
+	value: React.PropTypes.string,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
 	schema: React.PropTypes.object,
