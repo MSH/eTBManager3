@@ -111,18 +111,18 @@ export default class ShortSelectionBox extends React.Component { //TODOMS: troca
 		const opts = options
 			.map(item => {
 				const aliClass = this.getTxtAlignClass();
-				const btnClass = aliClass + (item === this.getValue() ? ' short-sel-item-selected' : ' short-sel-item');
+				const btnClass = aliClass + (item === this.getValue() ? ' list-box-item-selected' : ' list-box-item') + ' btn btn-default';
 				return (
-					<Button className={btnClass}
+					<a className={btnClass} role="button"
 						key={this.props.options.indexOf(item)}
 						onClick={this.itemClick(item)}>
 						{this.getOptionDisplay(item)}
-					</Button>
+					</a>
 				);
 			});
 
 		const ctrlClass = this.props.wrapperClassName;
-		const controlClass = (this.props.vertical === true ? 'short-sel-list-v' : 'short-sel-list') + ' form-control' + (ctrlClass ? ' ' + ctrlClass : '');
+		const controlClass = (this.props.vertical === true ? 'list-box-v' : 'list-box-h') + ' form-control' + (ctrlClass ? ' ' + ctrlClass : '');
 
 		var ret = null;
 
@@ -164,7 +164,7 @@ export default class ShortSelectionBox extends React.Component { //TODOMS: troca
 		const helpBlock = this.props.help ? (
 				<div className="help-block">{this.props.help}</div>
 			) : null;
-		const clazz = 'short-sel-box' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
+		const clazz = 'list-box' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
 
 		return (
 			<div className={clazz}>
