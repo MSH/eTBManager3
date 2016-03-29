@@ -11,13 +11,13 @@ class TableFormControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		this.state = { rowsQuantity: (props.iniRowsQtt ? props.iniRowsQtt : 1), docs: [] };
+		this.state = { rowsQuantity: 1 };
 		this.addRow = this.addRow.bind(this);
 		this.remRow = this.remRow.bind(this);
 	}
 
 	componentWillMount() {
-
+		this.setState({ rowsQuantity: (this.props.schema.iniRowsQtt ? this.props.schema.iniRowsQtt : 1) });
 	}
 
 	/**
@@ -26,7 +26,7 @@ class TableFormControl extends React.Component {
 	 */
 	onChange() {
 		const sc = this.props.schema;
-		const value = this.state.docs;
+		const value = this.props.value;
 
 		this.props.onChange({ schema: sc, value: value });
 	}
@@ -74,7 +74,7 @@ class TableFormControl extends React.Component {
 				rowsQuantity={this.state.rowsQuantity}
 				addRow={this.addRow}
 				remRow={this.remRow}
-				docs={this.state.docs}
+				docs={this.props.value}
 				ref="tableform"
 				nodetype={'div'}
 				onChange={this.onChange} />
@@ -88,8 +88,7 @@ TableFormControl.propTypes = {
 	schema: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	resources: React.PropTypes.any,
-	ctitles: React.PropTypes.array,
-	iniRowsQtt: React.PropTypes.number
+	ctitles: React.PropTypes.array
 };
 
 TableFormControl.options = {

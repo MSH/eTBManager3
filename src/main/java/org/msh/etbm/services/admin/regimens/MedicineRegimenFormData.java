@@ -6,18 +6,18 @@ import java.util.UUID;
  * Created by rmemoria on 6/1/16.
  */
 public class MedicineRegimenFormData {
-    private UUID medicine;
+    private UUID medicineId;
     private Integer defaultDoseUnit;
     private Integer defaultFrequency;
     private int iniDay;
     private int days;
 
-    public UUID getMedicine() {
-        return medicine;
+    public UUID getMedicineId() {
+        return medicineId;
     }
 
-    public void setMedicine(UUID medicine) {
-        this.medicine = medicine;
+    public void setMedicineId(UUID medicineId) {
+        this.medicineId = medicineId;
     }
 
     public Integer getDefaultDoseUnit() {

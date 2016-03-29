@@ -98,6 +98,9 @@ export default class TableFormExample extends React.Component {
 
 
 		const fschema = {
+					defaultProperties: {
+						formlist: []
+					},
 					layout: [
 						{
 							property: 'type',
