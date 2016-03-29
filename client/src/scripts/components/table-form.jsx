@@ -23,13 +23,9 @@ export default class TableForm extends React.Component {
 			}
 		}
 
-		this.onChangeDoc = this.onChangeDoc.bind(this);
+		this.onFormChange = this.onFormChange.bind(this);
 		this.validate = this.validate.bind(this);
 		this.state = { errorsarr: [] };
-	}
-
-	onChangeDoc() {
-		this.forceUpdate();
 	}
 
 	/**
@@ -112,29 +108,37 @@ export default class TableForm extends React.Component {
 		}
 
 		return 	(
+					<Col sm={12}>
 					<Form ref={'form' + key}
 						schema={this.props.fschema}
 						key={key}
 						doc={this.props.docs[key]}
-						onChange={this.onChangeDoc}
+						onChange={this.onFormChange}
 						errors={this.state.errorsarr[key]}
 						nodetype={this.props.nodetype} />
+					</Col>
 				);
 	}
 
 	validate() {
 		var i;
-		var valid = true;
+		var errors = null;
 		for (i = 0; i < this.props.rowsQuantity; i++) {
 			const e = this.state.errorsarr;
 			e[i] = this.refs['form' + i].validate();
 			if (e[i]) {
-				valid = false;
+				errors = e[i];
 			}
 		}
 
 		this.forceUpdate();
-		return valid;
+		return errors;
+	}
+
+	onFormChange() {
+		if (this.props.onChange) {
+			this.props.onChange();
+		}
 	}
 
 	render() {
@@ -161,10 +165,12 @@ export default class TableForm extends React.Component {
 
             case 'div': buttons = (<Row className="def-margin-bottom">
 										<Col sm={12}>
+											<Col sm={12}>
 											<ButtonToolbar>
 												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
 												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
 											</ButtonToolbar>
+											</Col>
 										</Col>
 									</Row>); break;
 
@@ -204,5 +210,6 @@ TableForm.propTypes = {
 	addRow: React.PropTypes.func,
 	remRow: React.PropTypes.func,
 	fschema: React.PropTypes.object,
-	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
+	nodetype: React.PropTypes.oneOf(['fluid', 'div']),
+	onChange: React.PropTypes.func
 };

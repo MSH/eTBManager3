@@ -7164,38 +7164,37 @@ button.close {
 .filter .form-control:hover {
   background-color: #f8f8f8;
 }
-.short-sel-box .short-sel-list-v {
+.list-box .list-box-v {
   display: block;
   padding: 0px;
   height: inherit;
 }
-.short-sel-box .short-sel-list-v .short-sel-item {
+.list-box .list-box-v .list-box-item {
   text-transform: none;
+  border: none;
 }
-.short-sel-box .short-sel-list-v .short-sel-item-selected {
+.list-box .list-box-v .list-box-item-selected {
   text-transform: none;
   background-color: #1e9614;
   color: #fff;
+  border: none;
 }
-.short-sel-box .short-sel-list {
+.list-box .list-box-h {
   padding: 0px;
-  display: block;
 }
-.short-sel-box .short-sel-list .short-sel-item {
+.list-box .list-box-h .list-box-item {
   text-transform: none;
   border: none;
   height: 100%;
-  width: 50%;
   margin: 0px;
   border-radius: 0px;
 }
-.short-sel-box .short-sel-list .short-sel-item-selected {
+.list-box .list-box-h .list-box-item-selected {
   text-transform: none;
   border: none;
   height: 100%;
   background-color: #1e9614;
   color: #fff;
-  width: 50%;
   margin: 0px;
   border-radius: 0px;
 }
