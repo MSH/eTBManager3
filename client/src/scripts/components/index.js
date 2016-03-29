@@ -24,6 +24,7 @@ import AutoheightInput from './autoheight-input';
 import LinkTooltip from './link-tooltip';
 import TableForm from './table-form';
 import ShortSelectionBox from './shortselection-box';
+import ReactGrid from './react-grid';
 
 export { Callout,
 	AsyncButton,
@@ -46,5 +47,6 @@ export { Callout,
 	AutoheightInput,
 	LinkTooltip,
 	TableForm,
-	ShortSelectionBox
+	ShortSelectionBox,
+	ReactGrid
 };

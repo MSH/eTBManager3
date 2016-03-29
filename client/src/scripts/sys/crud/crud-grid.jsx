@@ -1,10 +1,10 @@
 import React from 'react';
 import { ButtonToolbar, Button, Collapse } from 'react-bootstrap';
-import { ReactTable, WaitIcon, AsyncButton } from '../../components';
+import { GridTable, WaitIcon, AsyncButton } from '../../components';
 import CrudForm from './crud-form';
 
 
-export default class CrudTable extends React.Component {
+export default class CrudGrid extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -122,16 +122,16 @@ export default class CrudTable extends React.Component {
 
 		return controller.isFetching() ?
 			<WaitIcon type="card" /> :
-			<ReactTable columns={this.props.columns}
+			<GridTable
 				values={controller.getList()}
-				onExpandRender={this.expandRender}
-				onRowRender={this.rowRender} />;
+				onCellRender={this.props.onRender}
+				onExpandRender={this.expandRender} />;
 	}
 }
 
-CrudTable.propTypes = {
+CrudGrid.propTypes = {
 	controller: React.PropTypes.object,
-	columns: React.PropTypes.array,
+	onRender: React.PropTypes.func,
 	onExpandRender: React.PropTypes.func,
 	editorSchema: React.PropTypes.object
 };

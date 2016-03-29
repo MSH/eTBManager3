@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { Card, Profile } from '../../components/index';
 
-import { CrudController, CrudTable, CrudPagination, CrudForm, CrudMessage } from '../crud';
+import { CrudController, CrudTable, CrudPagination, CrudForm, CrudMessage, CrudGrid } from '../crud';
 
 import { generateName, mockCrud } from '../mock-data';
 
@@ -56,8 +56,10 @@ export default class CrudExample extends React.Component {
 
 		const controller = new CrudController(crud, { pageSize: 20 });
 		controller.initList();
+		const controller2 = new CrudController(crud, { pageSize: 20 });
+		controller2.initList();
 
-		this.setState({ controller: controller });
+		this.setState({ controller: controller, controller2: controller2 });
 	}
 
 	rowClick(item) {
@@ -92,7 +94,7 @@ export default class CrudExample extends React.Component {
 	}
 
 
-	collapseRender(item) {
+	expandRender(item) {
 		return (<div>
 					<dl className="dl-horizontal">
 						<dt>{'Patient: '}</dt>
@@ -132,6 +134,7 @@ export default class CrudExample extends React.Component {
 		];
 
 		const controller = this.state.controller;
+		const ctrl2 = this.state.controller2;
 
 		return (
 			<div>
@@ -140,17 +143,18 @@ export default class CrudExample extends React.Component {
 					<Button className="pull-right" onClick={this.openNewForm}>
 						{__('action.add')}
 					</Button>
-					<Row>
-						<Col md={12}>
-							<CrudMessage controller={controller} />
-							<CrudPagination controller={controller} showCounter />
-							<CrudTable columns={columns}
-								editorSchema={editorDef}
-								controller={controller}
-								onCollapseRender={this.collapseRender} />
-							<CrudPagination controller={controller} />
-						</Col>
-					</Row>
+					<CrudMessage controller={controller} />
+					<CrudPagination controller={controller} showCounter />
+					<CrudTable columns={columns}
+						editorSchema={editorDef}
+						controller={controller}
+						onExpandRender={this.expandRender} />
+					<CrudPagination controller={controller} />
+				</Card>
+
+				<Card title="CRUD grid">
+					<CrudGrid controller={ctrl2}
+						onRender={this.gridCellRender} />
 				</Card>
 			</div>
 			);

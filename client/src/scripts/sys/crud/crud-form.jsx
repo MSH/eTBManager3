@@ -6,8 +6,6 @@ export default class CrudForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.saveForm = this.saveForm.bind(this);
 	}
 
 	componentWillMount() {
@@ -26,14 +24,6 @@ export default class CrudForm extends React.Component {
 
 	componentWillUnmount() {
 		this.props.controller.removeListener(this.state.handler);
-	}
-
-	saveForm() {
-		return this.props.controller.saveAndClose(this.state.doc, this.state.id);
-	}
-
-	closeForm() {
-		this.props.controller.closeForm();
 	}
 
 	/**
@@ -57,7 +47,7 @@ export default class CrudForm extends React.Component {
 			<WaitIcon type="card" /> :
 			<FormDialog schema={this.props.schema}
 				doc={controller.formInfo.doc}
-				onConfirm={this.saveForm}
+				onConfirm={controller.saveAndClose}
 				cardWrap={this.props.cardWrap}
 				onCancel={controller.closeForm}/>;
 	}

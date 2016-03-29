@@ -1,7 +1,8 @@
 import React from 'react';
-import { Grid, Row, Col, Collapse } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { isFunction } from '../commons/utils';
 import ReactRow from './react-row';
+import Expandable from './expandable';
 
 /**
  * Display a reactive table just using the Twitter Bootstrap grid system
@@ -23,7 +24,6 @@ export default class ReactTable extends React.Component {
 			});
 		}
 
-		this.rowClick = this.rowClick.bind(this);
 		this.rowRender = this.rowRender.bind(this);
 	}
 
@@ -62,28 +62,6 @@ export default class ReactTable extends React.Component {
 	}
 
 	/**
-	 * Called when user clicks on the row
-	 * @param  {[type]} item [description]
-	 * @return {[type]}      [description]
-	 */
-	rowClick(item, row) {
-		if (this.props.onClick) {
-			this.props.onClick(item, row);
-		}
-		if (this.props.onCollapseRender) {
-			item.iscollapsed = !item.iscollapsed;
-			row.forceUpdate();
-		}
-	}
-
-	collapseRender(item, row) {
-		if (this.props.onCollapseRender) {
-			return this.props.onCollapseRender(item, row);
-		}
-		return null;
-	}
-
-	/**
 	 * Table content render - rows and its values
 	 * @return {React.Component} Return the component to be displayed
 	 */
@@ -93,7 +71,7 @@ export default class ReactTable extends React.Component {
 			return null;
 		}
 
-		const clickable = !!this.props.onClick || !!this.props.onCollapseRender;
+		const clickable = !!this.props.onClick || !!this.props.onExpandRender;
 
 		return lst.map((item, index) => {
 			// return the row
@@ -102,7 +80,7 @@ export default class ReactTable extends React.Component {
 					index={index}
 					value={item}
 					onRender={this.rowRender}
-					onClick={clickable ? this.rowClick : null} />
+					onClick={clickable ? this.props.onClick : null} />
 				);
 		}, this);
 	}
@@ -125,22 +103,33 @@ export default class ReactTable extends React.Component {
 			}
 		}
 
+		// columns render
+		const cols = this.props.columns.map((c, ind2) => {
+						// get cell content
+						const content = isFunction(c.content) ? c.content(item, row) : item[c.content];
+						return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
+					});
+
+		if (!this.props.onExpandRender) {
+			return <div className="row tbl-row">{cols}</div>;
+		}
+
 		const self = this;
+		const onExpand = it => {
+			return self.props.onExpandRender(it, row);
+		};
+
 		return (
 			<div className="row tbl-row">
+			<Expandable onExpandRender={onExpand} value={item} expandClassName="col-sm-12">
 				{
-					self.props.columns.map((c, ind2) => {
+					this.props.columns.map((c, ind2) => {
 						// get cell content
 						const content = isFunction(c.content) ? c.content(item, row) : item[c.content];
 						return <Col key={ind2} {...c.size} className={this.alignClass(c)}>{content}</Col>;
 					})
 				}
-				{this.props.onCollapseRender &&
-				<Col sm={12}>
-					<Collapse in={item.iscollapsed}>
-						<div>{this.collapseRender(item, row)}</div>
-					</Collapse>
-				</Col>}
+			</Expandable>
 			</div>
 		);
 	}
@@ -152,7 +141,7 @@ export default class ReactTable extends React.Component {
 			classes.push(this.props.className);
 		}
 
-		if (this.props.onClick || this.props.onCollapseRender) {
+		if (this.props.onClick || this.props.onExpandRender) {
 			classes.push('tbl-hover');
 		}
 
@@ -174,6 +163,6 @@ ReactTable.propTypes = {
 	values: React.PropTypes.array,
 	onClick: React.PropTypes.func,
 	className: React.PropTypes.string,
-	onCollapseRender: React.PropTypes.func,
+	onExpandRender: React.PropTypes.func,
 	onRowRender: React.PropTypes.func
 };

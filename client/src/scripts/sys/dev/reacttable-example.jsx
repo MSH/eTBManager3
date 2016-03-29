@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { Card, ReactTable, Profile } from '../../components/index';
+import { Card, ReactTable, ReactGrid, Profile } from '../../components/index';
 
 import { generateName } from '../mock-data';
 
@@ -30,10 +30,10 @@ export default class ReacttableExample extends React.Component {
 		this.setState({ values: lst });
 	}
 
-	collapseRender(item) {
+	expandRender(item) {
 		return (
 			<div>
-				<dl className="text-small dl-horizontal text-muted">
+				<dl className="dl-horizontal">
 					<dt>{'Patient: '}</dt>
 					<dd>{item.name}</dd>
 					<dt>{'Status: '}</dt>
@@ -42,6 +42,10 @@ export default class ReacttableExample extends React.Component {
 					<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
 				</dl>
 			</div>);
+	}
+
+	gridCellRender(item) {
+		return <Profile size="small" title={item.name} type="user" />;
 	}
 
 	render() {
@@ -74,9 +78,15 @@ export default class ReacttableExample extends React.Component {
 						<Col md={12}>
 							<ReactTable columns={columns}
 								values={this.state.values}
-								onCollapseRender={this.collapseRender} />
+								onExpandRender={this.expandRender} />
 						</Col>
 					</Row>
+				</Card>
+
+				<Card title="Reactive grid">
+					<ReactGrid values={this.state.values}
+						onCollapseRender={this.gridCellRender}
+						onExpandRender={this.expandRender} />
 				</Card>
 			</div>
 			);

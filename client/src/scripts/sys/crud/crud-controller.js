@@ -13,7 +13,9 @@ const Events = {
 	// Open a form
 	openForm: 'open-form',
 	// Close the opened form
-	closeForm: 'close-form'
+	closeForm: 'close-form',
+	// confirm delete
+	confirmDelete: 'confirm-delete'
 };
 
 export default class CrudController {
@@ -21,6 +23,7 @@ export default class CrudController {
 	constructor(crud, options) {
 		this.openForm = this.openForm.bind(this);
 		this.closeForm = this.closeForm.bind(this);
+		this.saveAndClose = this.saveAndClose.bind(this);
 
 		this.listeners = [];
 		this.crud = crud;
@@ -127,6 +130,7 @@ export default class CrudController {
 	 * @return {[type]} [description]
 	 */
 	closeForm() {
+		this.formInfo.closing = true;
 		this._raise(Events.closeForm);
 		delete this.formInfo;
 	}
@@ -148,13 +152,9 @@ export default class CrudController {
 
 		const self = this;
 		return prom.then(res => {
-			self._raise(Events.closeForm);
-			if (fi.id) {
-				self._raise(Events.showMsg, __('default.entity_updated'));
-			}
-			else {
-				self._raise(Events.showMsg, __('default.entity_created'));
-			}
+			self.closeForm();
+			const msg = fi.id ? __('default.entity_updated') : __('default.entity_created');
+			self._raise(Events.showMsg, msg);
 			return res;
 		});
 	}
@@ -173,6 +173,34 @@ export default class CrudController {
 	 */
 	isNewForm() {
 		return !(this.formInfo && this.formInfo.item);
+	}
+
+	/**
+	 * Init the deleting of the document represented by the item in teh list
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	initDelete(item) {
+		this.item = item;
+		const data = {
+			item: item,
+			title: __('action.delete'),
+			msg: __('form.confirm_remove')
+		};
+
+		this._raise(Events.confirmDelete, data);
+	}
+
+	confirmDelete() {
+		if (__DEV__) {
+			if (!this.item) {
+				throw new Error('No item to be deleted');
+			}
+		}
+
+		const self = this;
+		return this.crud.delete(this.item.id)
+			.then(() => self.refreshList());
 	}
 
 	/**
