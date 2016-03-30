@@ -6,6 +6,8 @@ import PatientPanel from '../commons/patient-panel';
 import CaseData from './case-data';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
+import CaseClose from './case-close';
+import CaseMove from './case-move';
 
 import { generateName } from '../../mock-data';
 
@@ -77,8 +79,10 @@ export default class Details extends React.Component {
 	constructor(props) {
 		super(props);
 		this.selectTab = this.selectTab.bind(this);
-		this.deleteClick = this.deleteClick.bind(this);
+		this.showModal = this.showModal.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
+		this.closeCase = this.closeCase.bind(this);
+		this.moveCase = this.moveCase.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -128,15 +132,13 @@ export default class Details extends React.Component {
 		this.setState({ selTab: key });
 	}
 
-	/**
-	 * Called when user clicks on the delete case event
-	 * @return {[type]}     [description]
-	 */
-	deleteClick() {
-		// show the confirm delete dialog
-		this.setState({
-			showDelConfirm: true
-		});
+	showModal(mdl) {
+		const self = this;
+		return () => {
+			const obj = {};
+			obj[mdl] = true;
+			self.setState(obj);
+		};
 	}
 
 	deleteConfirm(action) {
@@ -144,7 +146,27 @@ export default class Details extends React.Component {
 			alert('TODOMS: delete this item on DB');
 		}
 
-		this.setState({ showDelConfirm: false, doc: null, message: null });
+		this.setState({ showDelConfirm: false });
+	}
+
+	closeCase(action) {
+		var showMdl = false;
+
+		if (action === 'custom') {
+			showMdl = this.refs.close.closeCase();
+		}
+
+		this.setState({ showCloseCase: showMdl });
+	}
+
+	moveCase(action) {
+		var showMdl = false;
+
+		if (action === 'custom') {
+			showMdl = this.refs.move.moveCase();
+		}
+
+		this.setState({ showMoveCase: showMdl });
 	}
 
 	render() {
@@ -173,9 +195,9 @@ export default class Details extends React.Component {
 					<Row className="mtop">
 						<Col sm={3}>
 							<DropdownButton id="ddcase" bsStyle="danger" title={__('form.options')} >
-								<MenuItem eventKey={1} onSelect={this.deleteClick}>{__('cases.delete')}</MenuItem>
-								<MenuItem eventKey={1}>{__('cases.close')}</MenuItem>
-								<MenuItem eventKey={1}>{__('cases.move')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.showModal('showDelConfirm')}>{__('cases.delete')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.showModal('showCloseCase')}>{__('cases.close')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.showModal('showMoveCase')}>{__('cases.move')}</MenuItem>
 							</DropdownButton>
 							<Card className="mtop" title="Tags">
 							{
@@ -192,10 +214,15 @@ export default class Details extends React.Component {
 						</Col>
 					</Row>
 				</Grid>
+
 				<MessageDlg show={this.state.showDelConfirm}
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<CaseClose ref="close" show={this.state.showCloseCase} onClose={this.closeCase}/>
+
+				<CaseMove ref="move" show={this.state.showMoveCase} onClose={this.moveCase}/>
 			</div>
 			);
 	}

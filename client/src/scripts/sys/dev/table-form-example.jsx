@@ -99,7 +99,7 @@ export default class TableFormExample extends React.Component {
 
 		const fschema = {
 					defaultProperties: {
-						formlist: []
+						formlist: [] //TODOMSR: tem como fazer isso dentro do control?
 					},
 					layout: [
 						{
