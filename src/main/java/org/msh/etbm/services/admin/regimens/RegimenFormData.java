@@ -18,7 +18,7 @@ public class RegimenFormData {
 
     private Optional<Boolean> active;
 
-    private Optional<List<MedicineRegimen>> medicines; //TODOMSR: deveria fazer um formdata para MedicineRegimen? R: YESSSSS
+    private List<MedicineRegimenFormData> medicines;
 
     public Optional<String> getName() {
         return name;
@@ -52,11 +52,11 @@ public class RegimenFormData {
         this.active = active;
     }
 
-    public Optional<List<MedicineRegimen>> getMedicines() {
+    public List<MedicineRegimenFormData> getMedicines() {
         return medicines;
     }
 
-    public void setMedicines(Optional<List<MedicineRegimen>> medicines) {
+    public void setMedicines(List<MedicineRegimenFormData> medicines) {
         this.medicines = medicines;
     }
 }

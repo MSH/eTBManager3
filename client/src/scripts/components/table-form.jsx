@@ -142,12 +142,6 @@ export default class TableForm extends React.Component {
 	}
 
 	render() {
-		// prepare the element class
-		const classes = [];
-		if (this.props.className) {
-			classes.push(this.props.className);
-		}
-
 		var buttons = null;
 
 		// TODOMSR ver se esse código, grande desse jeito tem problema
@@ -166,10 +160,10 @@ export default class TableForm extends React.Component {
             case 'div': buttons = (<Row className="def-margin-bottom">
 										<Col sm={12}>
 											<Col sm={12}>
-											<ButtonToolbar>
-												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
-												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
-											</ButtonToolbar>
+												<ButtonToolbar>
+													<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
+													<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
+												</ButtonToolbar>
 											</Col>
 										</Col>
 									</Row>); break;
