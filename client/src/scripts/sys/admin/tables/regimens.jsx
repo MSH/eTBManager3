@@ -52,7 +52,7 @@ const tfschema = {
 // definition of the form fields to edit medicine regimens
 const editorDef = {
 	defaultProperties: {
-		medicines: []
+		medicines: [] //TODOMSR: tem como fazer isso dentro do control?
 	},
 	layout: [
 		{

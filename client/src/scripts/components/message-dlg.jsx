@@ -75,7 +75,7 @@ export default class MessageDlg extends React.Component {
 		}
 
 		return (
-			<Modal show={this.props.show} onHide={this.onCancel} bsSize={this.props.size}>
+			<Modal show={this.props.show} onHide={this.cancelClick} bsSize={this.props.size}>
 				<Modal.Header closeButton>
 					<Modal.Title>
 						{this.props.title}
