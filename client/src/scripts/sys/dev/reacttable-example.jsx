@@ -13,6 +13,8 @@ export default class ReacttableExample extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.gridCellRender = this.gridCellRender.bind(this);
+
 		this.state = { };
 	}
 
@@ -44,8 +46,24 @@ export default class ReacttableExample extends React.Component {
 			</div>);
 	}
 
-	gridCellRender(item) {
-		return <Profile size="small" title={item.name} type="user" />;
+	toggleSize(cell) {
+		return () => {
+			if (cell.getSize()) {
+				cell.setSize(null);
+			}
+			else {
+				cell.setSize({ sm: 12 });
+			}
+		};
+	}
+
+	gridCellRender(item, cell) {
+		return (
+			<div>
+				<Profile size="small" title={item.name} type="user" />
+				<a onClick={this.toggleSize(cell)}>{'Click me'}</a>
+			</div>
+			);
 	}
 
 	render() {

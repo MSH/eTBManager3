@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import ReactRow from './react-row';
+import { Grid, Row } from 'react-bootstrap';
+import ReactGridRow from './react-grid-cell';
 import Expandable from './expandable';
 import { Size } from '../commons/grid-utils';
 
@@ -28,9 +28,10 @@ export default class ReactGrid extends React.Component {
 
 			// rend cell
 			const cell = (
-				<Col {...cellSize} key={index}>
-					<ReactRow value={item} onRender={this.cellRender} index={index} />
-				</Col>
+				<ReactGridRow key={index} initialSize={cellSize}
+					value={item}
+					onRender={this.cellRender}
+					index={index} />
 			);
 
 			cells.push(cell);
@@ -51,25 +52,33 @@ export default class ReactGrid extends React.Component {
 		return rows;
 	}
 
-	cellRender(item, row) {
+	cellRender(item, cell) {
 		// check if there is a row render defined
 		if (this.props.onCellRender) {
-			const content = this.props.onCellRender(item, row);
+			const content = this.props.onCellRender(item, cell);
 			// render returned any content ?
 			if (content) {
 				return content;
 			}
 		}
 
-		const collapsed = this.props.onCollapseRender ? this.props.onCollapseRender(item, row) : null;
+		const collapsed = this.props.onCollapseRender ? this.props.onCollapseRender(item, cell) : null;
 
-		const clickable = !!this.props.onCollapseRender;
+		const clickable = !!this.props.onExpandRender;
+
+		const self = this;
+		const expandRender = it => {
+			if (self.props.onExpandRender) {
+				return self.props.onExpandRender(it, cell);
+			}
+			return null;
+		};
 
 		return (
 			<div className="card card-small tbl-row">
 			{
 				clickable ?
-				<Expandable ref="exp" onExpandRender={this.props.onExpandRender} value={item} className="card-content">
+				<Expandable ref="exp" onExpandRender={expandRender} value={item} className="card-content">
 					{collapsed}
 				</Expandable> :
 				collapsed

@@ -7638,6 +7638,10 @@ button.close {
 .text-center {
   text-align: center;
 }
+.tx-width {
+  transition: width 0.4s ease-out;
+  -webkit-transition: width 0.4s ease-out;
+}
 .alert {
   border-left-width: 10px;
 }

@@ -111,6 +111,12 @@ export default class CrudExample extends React.Component {
 		this.state.controller.openForm();
 	}
 
+	gridCellRender(item) {
+		return (
+			<Profile size="small" title={item.name} type="user" />
+			);
+	}
+
 	render() {
 		// the columns of the table
 		const columns = [
@@ -153,8 +159,13 @@ export default class CrudExample extends React.Component {
 				</Card>
 
 				<Card title="CRUD grid">
+					<CrudMessage controller={ctrl2} />
+					<CrudPagination controller={ctrl2} showCounter />
 					<CrudGrid controller={ctrl2}
-						onRender={this.gridCellRender} />
+						onRender={this.gridCellRender}
+						onExpandRender={this.expandRender}
+						editorSchema={editorDef} />
+					<CrudPagination controller={ctrl2} />
 				</Card>
 			</div>
 			);
