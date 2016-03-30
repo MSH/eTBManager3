@@ -2,10 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.Synchronizable;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,6 +14,10 @@ public class MedicineRegimen extends Synchronizable {
 	@JoinColumn(name = "MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
+
+    @ManyToOne
+    @JoinColumn(name = "REGIMEN_ID")
+    private Regimen regimen;
 
     @NotNull
 	private int defaultDoseUnit;
@@ -73,5 +74,13 @@ public class MedicineRegimen extends Synchronizable {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public Regimen getRegimen() {
+        return regimen;
+    }
+
+    public void setRegimen(Regimen regimen) {
+        this.regimen = regimen;
     }
 }

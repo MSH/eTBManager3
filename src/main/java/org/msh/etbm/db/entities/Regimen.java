@@ -20,8 +20,7 @@ public class Regimen extends WorkspaceEntity {
 	
 	private CaseClassification classification;
 
-	@OneToMany(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "REGIMEN_ID")
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "regimen", orphanRemoval = true)
 	private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
 
 	@Column(length = 50)

@@ -10,9 +10,11 @@
         <class-a>org.msh.etbm.db.entities.Regimen</class-a>
         <class-b>org.msh.etbm.services.admin.regimens.RegimenFormData</class-b>
 
-        <field custom-converter-id="entity-id" custom-converter-param="org.msh.etbm.db.entities.MedicineRegimen">
+        <field>
             <a>medicines</a>
             <b>medicines</b>
+            <a-hint>org.msh.etbm.db.entities.MedicineRegimen</a-hint>
+            <b-hint>org.msh.etbm.services.admin.regimens.MedicineRegimenFormData</b-hint>
         </field>
     </mapping>
 

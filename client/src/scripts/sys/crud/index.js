@@ -5,6 +5,7 @@ import CrudPagination from './crud-pagination';
 import CrudTable from './crud-table';
 import CrudForm from './crud-form';
 import CrudGrid from './crud-grid';
+import CrudView from './crud-view';
 
 export {
 	CrudController,
@@ -12,5 +13,6 @@ export {
 	CrudPagination,
 	CrudTable,
 	CrudMessage,
-	CrudGrid
+	CrudGrid,
+	CrudView
 };
