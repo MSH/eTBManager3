@@ -144,7 +144,7 @@ export default class TableForm extends React.Component {
 	render() {
 		var buttons = null;
 
-		// TODOMSR ver se esse código, grande desse jeito tem problema
+		// TODOMSR ver se esse código, grande desse jeito tem problema - implementar com if
 		switch (this.props.nodetype) {
             case 'fluid': buttons = (<Grid fluid className="def-margin-bottom">
 										<Row>
@@ -156,7 +156,7 @@ export default class TableForm extends React.Component {
 											</Col>
 										</Row>
 									</Grid>); break;
-
+			//TODOMSR TOMA VERGONHA NA CARA RAPAZ
             case 'div': buttons = (<Row className="def-margin-bottom">
 										<Col sm={12}>
 											<Col sm={12}>

@@ -19,7 +19,7 @@ const tfschema = {
 					required: false,
 					type: 'listBox',
 					label: __('form.action'),
-					options: app.getState().app.lists.CommandAction,
+					options: app.getState().app.lists.CommandAction, //TODOMS se fosse lista dinamica, o table-form vai fazer a quantidade de linhas em requisições para preencher, enquanto era necessária apenas uma
 					size: { md: 4 }
 				},
 				{
@@ -99,7 +99,7 @@ export default class TableFormExample extends React.Component {
 
 		const fschema = {
 					defaultProperties: {
-						formlist: [] //TODOMSR: tem como fazer isso dentro do control?
+						formlist: [] //TODOMSR: vide regimens.jsx
 					},
 					layout: [
 						{
