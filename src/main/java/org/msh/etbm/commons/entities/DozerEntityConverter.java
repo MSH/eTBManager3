@@ -23,17 +23,13 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
     private String param;
 
     @Override
-    public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
-        if (source == null) {
+    public Object convert(Object dest, Object sourceVal, Class<?> destClass, Class<?> sourceClass) {
+        if (sourceVal == null) {
             return null;
         }
 
         // check if source is an optional value
-        if (source instanceof Optional) {
-            // unwrap value from optional
-            Optional sourceOpt = (Optional)source;
-            source = sourceOpt.isPresent() ? sourceOpt.get() : null;
-        }
+        Object source = sourceVal instanceof Optional ? ((Optional) sourceVal).get() : sourceVal;
 
         if (source instanceof Collection) {
             return handleCollection(dest, (Collection)source, destClass, sourceClass);
