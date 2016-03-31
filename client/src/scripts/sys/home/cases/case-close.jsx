@@ -18,7 +18,13 @@ const fschema = {
 					required: true,
 					type: 'listBox',
 					label: __('form.action'),
-					options: app.getState().app.lists.CaseState, //TODOMSR: como pegar somente os outcomes?
+					options: [
+						{ id: 'CURED', name: 'Cured' },
+						{ id: 'TREAT_COMPLETED', name: 'Treatment completed' },
+						{ id: 'DIED', name: 'Died' },
+						{ id: 'LOST_FOLLOWUP', name: 'Lost follow-up' },
+						{ id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' }
+					],
 					vertical: true,
 					textAlign: 'left'
 				},
@@ -72,7 +78,7 @@ export default class CaseClose extends React.Component {
 				errors={this.state.errors} />
 		);
 
-		//TODOMSR: as observações dos campos estão aparecendo atras do modal
+		//TODOMSR: as observações dos campos estão aparecendo atras do modal - verificar no themes.less componente tooltip
 		return (
 			<FormModal
 				show={this.props.show}

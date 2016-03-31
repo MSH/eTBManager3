@@ -68,10 +68,10 @@ class TableFormControl extends React.Component {
 		}
 
 		// rend the selection box
-		return (
+		return ( // TODOMSR fundir o table form control e o table form
 			<TableForm ctitles={this.props.ctitles}
 				fschema={sc.fschema}
-				rowsQuantity={this.state.rowsQuantity}
+				rowsQuantity={this.state.rowsQuantity} //todomsr o array de docs ja sabe quantas linhas essa info é redundante
 				addRow={this.addRow}
 				remRow={this.remRow}
 				docs={this.props.value}
@@ -84,7 +84,7 @@ class TableFormControl extends React.Component {
 }
 
 TableFormControl.propTypes = {
-	value: React.PropTypes.any,
+	value: React.PropTypes.array,
 	schema: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	resources: React.PropTypes.any,

@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 
-export default class FormModal extends React.Component { //TODOMSR: como chamo esse componente, ele pode ter varias utilidades alem de apenas conter um form
+export default class FormModal extends React.Component { //TODOMSR: destruir este componente e colocar esse contexto dentro do form-dialog
 
 	constructor(props) {
 		super(props);
