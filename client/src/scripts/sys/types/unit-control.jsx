@@ -7,17 +7,34 @@ import FormUtils from '../../forms/form-utils';
 import Form from '../../forms/form';
 
 const crud = new CRUD('unit');
-const crudAU = new CRUD('adminunit');
+//const crudAU = new CRUD('adminunit');
 
+/**
+ * Field control used in the form lib for displaying and selection of a unit
+ */
 class UnitControl extends React.Component {
 
-	static getServerRequest(schema, val) {
+	static serverRequest(schema, val) {
+		// check if workspaceId property was defined but no value in the current state
+		if ('workspaceId' in schema && !schema.workspaceId) {
+			return null;
+		}
+
 		return schema.readOnly ?
 			null :
 			{
 				cmd: 'unit',
-				params: { value: val }
+				params: {
+					value: val,
+					workspaceId: schema.workspaceId
+				}
 			};
+	}
+
+	static snapshot(schema, doc) {
+		if (schema.workspaceId) {
+			FormUtils.propEval(schema, 'workspaceId', doc);
+		}
 	}
 
 	constructor(props) {
@@ -42,24 +59,19 @@ class UnitControl extends React.Component {
 
 		// root was loaded ?
 		if (!this.state.adminUnits) {
-			// create the query
-			const qry = {
-				rootUnits: true
-			};
+			const req = UnitControl.serverRequest(this.props.schema, this.props.value);
+			if (!req) {
+				return;
+			}
 
 			const self = this;
 
-			// query the root items
-			crudAU.query(qry)
-			.then(res => self.setState({
-				adminUnits: res.list
-			}));
+			FormUtils.serverRequest(req)
+				.then(res => {
+					self.setState(res);
+				});
 		}
 	}
-
-	// static isServerInitRequired(schema) {
-	// 	return !schema.readOnly;
-	// }
 
 	/**
 	 * Called when user changes the administrative unit select box
@@ -73,9 +85,25 @@ class UnitControl extends React.Component {
 			return;
 		}
 
+		const req = {
+			cmd: 'unit',
+			params: {
+				// the workspace in use
+				workspaceId: this.props.schema.workspaceId,
+				// just the list of units
+				units: true,
+				// the selected admin unit
+				adminUnitId: admUnit
+			}
+		};
+
+		console.log('req = ', req);
+
 		const self = this;
-		crud.query({ adminUnitId: admUnit, includeSubunits: true })
-		.then(res => self.setState({ units: res.list }));
+		FormUtils.serverRequest(req)
+			.then(res => self.setState({ units: res.units }));
+		// crud.query({ adminUnitId: admUnit, includeSubunits: true })
+		// .then(res => self.setState({ units: res.list }));
 
 		this.setState({ units: null });
 	}

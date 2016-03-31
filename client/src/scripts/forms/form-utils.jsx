@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
-import { isFunction } from '../commons/utils';
+import { isFunction, getValue } from '../commons/utils';
 import Form from './form';
 
 const requiredTooltip = (
@@ -59,8 +59,23 @@ export default class FormUtils {
 			return { cmd: req };
 		}
 
-		return typeof req === 'object' && Object.keys(req).length <= 2 && 'cmd' in req ?
-			req : null;
+		if (!req || !req.cmd) {
+			return null;
+		}
+
+		let params = req.params;
+		// are there properties to be sent with the request ?
+		if (req.propertyParams) {
+			// mount the list of params to send to the server
+			const p = {};
+			for (var k in req.propertyParams) {
+				p[k] = getValue(doc, k);
+			}
+			// include it in the params
+			params = Object.assign({}, params, p);
+		}
+
+		return { cmd: req.cmd, params: params };
 	}
 
 	/**
@@ -142,5 +157,25 @@ export default class FormUtils {
 			}
 		}
 		return typeof schema.type === 'string' ? Form.types[schema.type] : schema.type;
+	}
+
+	/**
+	 * Evaluate a property. If property is a function, the function is evaluated in the context
+	 * of the give document
+	 * @param  {Object} sc       Schema to evaluate the properthy
+	 * @param  {string} property The property name
+	 * @param  {Object} doc      The document to be used as context of the property
+	 * @return {any}             The property value
+	 */
+	static propEval(sc, property, doc) {
+		const val = sc[property];
+		// property value is a function ?
+		if (!isFunction(val)) {
+			return;
+		}
+
+		// evaluate the function in the context of the document and usign the doc as argument
+		const res = val.call(doc, doc);
+		sc[property] = res;
 	}
 }

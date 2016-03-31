@@ -1,5 +1,6 @@
 
 import React from 'react';
+import FormUtils from '../form-utils';
 
 
 export default function fieldControlWrapper(Component) {
@@ -10,8 +11,16 @@ export default function fieldControlWrapper(Component) {
 			return Component.displayText ? Component.displayText(value) : value;
 		}
 
-		static getServerRequest(schema, val, doc) {
-			return Component.getServerRequest ? Component.getServerRequest(schema, val, doc) : false;
+		/**
+		 * Create the request that will be sent to the server. This function is called when the
+		 * form is initialized, or when the field must be updated by a change in the form.
+		 * @param  {Object} snapshot     The current control schema snapshot
+		 * @param  {[type]} val          The field value
+		 * @param  {[type]} prevSnapshot The previous snapshot, if available
+		 * @return {[type]}              The server request data, or null if no request is necessary
+		 */
+		static serverRequest(snapshot, val, prevSnapshot) {
+			return Component.serverRequest ? Component.serverRequest(snapshot, val, prevSnapshot) : false;
 		}
 
 		/**
@@ -28,8 +37,36 @@ export default function fieldControlWrapper(Component) {
 			return Component.options.supportedTypes;
 		}
 
+		/**
+		 * Return the default value of the field being edited. This default value is defined by
+		 * the control. This value will be used only if no default value is defined in the document
+		 * schema.
+		 * @return {any} The default value of the field to be edited
+		 */
 		static defaultValue() {
 			return Component.options.defaultValue;
+		}
+
+		/**
+		 * Create an object representing a snapshot of the current schema.
+		 * A snapshot is the state of the schema based on the values of the document
+		 * @param  {[type]} schema [description]
+		 * @param  {[type]} doc    [description]
+		 * @return {[type]}        [description]
+		 */
+		static snapshot(schema, doc) {
+			// properties to be evaluated
+			const evalProps = [
+				'readOnly', 'visible', 'label', 'required', 'disabled'
+			];
+
+			// evaluate the properties
+			evalProps.forEach(prop => FormUtils.propEval(schema, prop, doc));
+
+			// check if component defined a snapshot function
+			if (Component.snapshot) {
+				Component.snapshot(schema, doc);
+			}
 		}
 
 		constructor(props) {

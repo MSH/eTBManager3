@@ -1,5 +1,9 @@
 package org.msh.etbm.commons.commands.details;
 
+import org.msh.etbm.commons.commands.impl.CommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,6 +15,9 @@ import java.util.Date;
  * Created by rmemoria on 7/3/16.
  */
 public class StringConverter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringConverter.class);
+
 
     public static String intToString(Integer val) {
         return (val == null ? "" : val.toString());
@@ -99,8 +106,8 @@ public class StringConverter {
             }
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error("StringToEnum convertion error: " + e.getMessage());
+            throw new CommandException(e);
         }
 
         return value;
@@ -112,9 +119,9 @@ public class StringConverter {
      * @param val
      * @return
      */
-    public static Boolean stringToBool(String val) {
+    public static boolean stringToBool(String val) {
         if ((val == null) || (val.isEmpty())) {
-            return null;
+            return false;
         }
 
         if ("0".equals(val)) {
@@ -125,7 +132,7 @@ public class StringConverter {
             return Boolean.FALSE;
         }
 
-        return null;
+        return false;
     }
 
 
@@ -187,8 +194,8 @@ public class StringConverter {
         try {
             return df.parse(s).doubleValue();
         } catch (ParseException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error("stringToDouble convertion error: " + e.getMessage());
+            throw new CommandException(e);
         }
     }
 }

@@ -1,12 +1,5 @@
 
-import { isFunction } from '../../commons/utils';
-
-/**
- * properties to evaluate during spanshot creation
- */
-const evalProps = [
-	'readOnly', 'visible', 'label', 'required', 'disabled'
-];
+import FormUtils from '../form-utils';
 
 /**
  * Create an snapshot of the form, based on the form schema and the document assigned to it.
@@ -25,14 +18,8 @@ export default function createSnapshot(schema, doc, readOnly) {
 			{ id: elem.property ? elem.property + index : 'elem' + index },
 			elem);
 
-		// replace functions by properties values
-		evalProps.forEach(prop => {
-			const val = state[prop];
-			if (isFunction(val)) {
-				const res = val.call(doc, doc);
-				state[prop] = res;
-			}
-		});
+		const comp = FormUtils.getComponent(state);
+		comp.snapshot(state, doc);
 
 		if (readOnly) {
 			state.readOnly = true;

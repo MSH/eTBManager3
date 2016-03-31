@@ -39,7 +39,7 @@ class AdminUnitControl extends React.Component {
 	}
 
 
-	static getServerRequest(sc, val) {
+	static serverRequest(sc, val) {
 		return {
 			cmd: 'adminUnit',
 			params: { value: val }

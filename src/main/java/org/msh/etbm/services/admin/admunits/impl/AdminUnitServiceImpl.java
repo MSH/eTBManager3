@@ -75,6 +75,10 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
         qry.initialize(q);
 
+        if (q.getWorkspaceId() != null) {
+            qry.setWorkspaceId(q.getWorkspaceId());
+        }
+
         // filter by the key
         qry.addLikeRestriction("a.name", q.getKey());
 
