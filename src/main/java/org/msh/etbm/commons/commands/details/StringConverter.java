@@ -18,9 +18,16 @@ public class StringConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StringConverter.class);
 
+    /**
+     * Since it is all componsed of static classes, include a private constructor to avoid
+     * creation of objects of this class
+     */
+    private StringConverter() {
+        super();
+    }
 
     public static String intToString(Integer val) {
-        return (val == null ? "" : val.toString());
+        return val == null ? "" : val.toString();
     }
 
     public static String floatToString(Double val) {
@@ -37,7 +44,7 @@ public class StringConverter {
 
 
     public static String longToString(Long val) {
-        return (val == null ? "" : val.toString());
+        return val == null ? "" : val.toString();
     }
 
     /**
@@ -65,7 +72,7 @@ public class StringConverter {
      * @return
      */
     public static String boolToString(Boolean b) {
-        return (b == null ? "" : (b.equals(Boolean.TRUE) ? "1" : "0"));
+        return b == null ? "" : (b.equals(Boolean.TRUE) ? "1" : "0");
     }
 
 

@@ -2,8 +2,6 @@ package org.msh.etbm.commons.commands;
 
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.commons.commands.details.DetailWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
@@ -13,11 +11,6 @@ import java.util.UUID;
  * Created by Ricardo Memoria on 17/10/15.
  */
 public class CommandHistoryInput {
-
-    /**
-     * For operation log
-     */
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * The method source that generated the command

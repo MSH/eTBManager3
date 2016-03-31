@@ -1,6 +1,5 @@
 package org.msh.etbm.services.admin.regimens;
 
-import org.msh.etbm.db.entities.MedicineRegimen;
 import org.msh.etbm.db.enums.CaseClassification;
 
 import java.util.List;

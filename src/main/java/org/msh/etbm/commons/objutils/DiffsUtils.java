@@ -1,11 +1,7 @@
 package org.msh.etbm.commons.objutils;
 
-import org.apache.commons.beanutils.PropertyUtils;
-
-import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Compare objects, generate differences between them

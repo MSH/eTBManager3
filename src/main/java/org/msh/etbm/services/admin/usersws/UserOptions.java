@@ -1,15 +1,10 @@
 package org.msh.etbm.services.admin.usersws;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
-import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.usersession.UserRequestService;
-import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 10/2/16.

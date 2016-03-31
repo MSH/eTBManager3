@@ -2,7 +2,6 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepData;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepQueryParams;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepService;
 import org.msh.etbm.services.permissions.Permissions;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by msantos on 15/3/16.

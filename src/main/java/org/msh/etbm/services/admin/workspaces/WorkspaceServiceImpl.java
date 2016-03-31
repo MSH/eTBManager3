@@ -1,12 +1,10 @@
 package org.msh.etbm.services.admin.workspaces;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.entities.Workspace;
 import org.springframework.stereotype.Service;
 

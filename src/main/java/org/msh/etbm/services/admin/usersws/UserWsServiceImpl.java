@@ -1,6 +1,5 @@
 package org.msh.etbm.services.admin.usersws;
 
-import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.UserWorkspace;
