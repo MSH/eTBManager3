@@ -56,16 +56,13 @@ export default class CaseClose extends React.Component {
 
 	}
 
-	closeCase() {
-		const self = this;
+	/**
+	 * [closeCase description]
+	 * @return {boolean} if the case was closed with success
+	 */
+	closeCase(doc) {
+		alert('TODOMS: go to server and close this case!' + doc);
 
-		const errors = self.refs.form.validate();
-		this.setState({ errors: errors });
-		if (errors) {
-			return true;
-		}
-
-		alert('TODOMS: go to server and close this case!');
 		return false;
 	}
 

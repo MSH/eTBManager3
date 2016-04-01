@@ -131,11 +131,11 @@ export default class Details extends React.Component {
 		this.setState({ selTab: key });
 	}
 
-	showModal(mdl) {
+	show(cpt, show) {
 		const self = this;
 		return () => {
 			const obj = {};
-			obj[mdl] = true;
+			obj[cpt] = show;
 			self.setState(obj);
 		};
 	}
@@ -146,26 +146,6 @@ export default class Details extends React.Component {
 		}
 
 		this.setState({ showDelConfirm: false });
-	}
-
-	closeCase(action) {
-		var showMdl = false;
-
-		if (action === 'custom') {
-			showMdl = this.refs.close.closeCase();
-		}
-
-		this.setState({ showCloseCase: showMdl });
-	}
-
-	moveCase(action) {
-		var showMdl = false;
-
-		if (action === 'custom') {
-			showMdl = this.refs.move.moveCase();
-		}
-
-		this.setState({ showMoveCase: showMdl });
 	}
 
 	render() {
@@ -194,9 +174,9 @@ export default class Details extends React.Component {
 					<Row className="mtop">
 						<Col sm={3}>
 							<DropdownButton id="ddcase" bsStyle="danger" title={__('form.options')} >
-								<MenuItem eventKey={1} onSelect={this.showModal('showDelConfirm')}>{__('cases.delete')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.showModal('showCloseCase')}>{__('cases.close')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.showModal('showMoveCase')}>{__('cases.move')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.show('showDelConfirm', true)}>{__('cases.delete')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
+								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
 							</DropdownButton>
 							<Card className="mtop" title="Tags">
 							{
