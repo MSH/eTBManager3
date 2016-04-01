@@ -51,7 +51,6 @@ export default class FormDialog extends React.Component {
 			// wait for the end of the promise
 			prom.then(() => self.mounted && self.setState({ fetching: false }))
 				.catch(res => self.mounted && self.setState({ errors: res, fetching: false }));
-			}
 		}
 	}
 
