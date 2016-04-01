@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FormModal } from '../../../components/index';
+import { FormDialog } from '../../../components/index';
 import Form from '../../../forms/form';
 
 const fschema = {
@@ -59,7 +59,7 @@ export default class CaseMove extends React.Component {
 
 		//TODOMSR: as observações dos campos estão aparecendo atras do modal
 		return (
-			<FormModal
+			<FormDialog
 				show={this.props.show}
 				title={__('cases.move') + ' - TODOMS CONCATENAR NOME DO PACIENTE'}
 				type={'CustomCancel'}

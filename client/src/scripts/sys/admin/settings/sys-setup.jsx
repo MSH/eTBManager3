@@ -72,7 +72,7 @@ export default class SysSetup extends React.Component {
 						<Col sm={8}>
 			<Card title={this.props.route.data.title}>
 							<FormDialog
-								cardWrap={false}
+								wrapType={'none'}
 								schema={this.state.schema}
 								doc={{}}
 							/>

@@ -1,8 +1,7 @@
 
 import React from 'react';
-import { FormModal } from '../../../components/index';
+import { FormDialog } from '../../../components/index';
 import Form from '../../../forms/form';
-import { app } from '../../../core/app';
 
 const fschema = {
 			layout: [
@@ -81,7 +80,7 @@ export default class CaseClose extends React.Component {
 
 		//TODOMSR: as observações dos campos estão aparecendo atras do modal - verificar no themes.less componente tooltip
 		return (
-			<FormModal
+			<FormDialog
 				show={this.props.show}
 				title={__('cases.close') + ' - TODOMS CONCATENAR NOME DO PACIENTE'}
 				type={'CustomCancel'}
