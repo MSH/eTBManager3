@@ -1,16 +1,12 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
-import org.msh.etbm.commons.Displayable;
-import org.msh.etbm.commons.models.props.Property;
-import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.commons.objutils.PropertyValue;
 import org.msh.etbm.db.Synchronizable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 
 /**

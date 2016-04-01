@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.units;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 import java.util.UUID;
@@ -52,6 +53,13 @@ public class UnitQueryParams extends EntityQueryParams {
     private Boolean performMicroscopy;
     private Boolean performDst;
     private Boolean performXpert;
+
+    /**
+     * The workspace to filter units from. It is just available inside the system, because it
+     * may expose a vulnerability, by allowing a user to get the list of units from another workspace
+     */
+    @JsonIgnore
+    private UUID workspaceId;
 
     public UnitType getType() {
         return type;
@@ -163,5 +171,13 @@ public class UnitQueryParams extends EntityQueryParams {
 
     public void setIncludeDisabled(boolean includeDisabled) {
         this.includeDisabled = includeDisabled;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

@@ -1,5 +1,9 @@
 package org.msh.etbm.commons.commands.details;
 
+import org.msh.etbm.commons.commands.impl.CommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,8 +16,18 @@ import java.util.Date;
  */
 public class StringConverter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringConverter.class);
+
+    /**
+     * Since it is all componsed of static classes, include a private constructor to avoid
+     * creation of objects of this class
+     */
+    private StringConverter() {
+        super();
+    }
+
     public static String intToString(Integer val) {
-        return (val == null ? "" : val.toString());
+        return val == null ? "" : val.toString();
     }
 
     public static String floatToString(Double val) {
@@ -30,7 +44,7 @@ public class StringConverter {
 
 
     public static String longToString(Long val) {
-        return (val == null ? "" : val.toString());
+        return val == null ? "" : val.toString();
     }
 
     /**
@@ -58,7 +72,7 @@ public class StringConverter {
      * @return
      */
     public static String boolToString(Boolean b) {
-        return (b == null ? "" : (b.equals(Boolean.TRUE) ? "1" : "0"));
+        return b == null ? "" : (b.equals(Boolean.TRUE) ? "1" : "0");
     }
 
 
@@ -99,8 +113,8 @@ public class StringConverter {
             }
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error("StringToEnum convertion error: " + e.getMessage());
+            throw new CommandException(e);
         }
 
         return value;
@@ -112,9 +126,9 @@ public class StringConverter {
      * @param val
      * @return
      */
-    public static Boolean stringToBool(String val) {
+    public static boolean stringToBool(String val) {
         if ((val == null) || (val.isEmpty())) {
-            return null;
+            return false;
         }
 
         if ("0".equals(val)) {
@@ -125,7 +139,7 @@ public class StringConverter {
             return Boolean.FALSE;
         }
 
-        return null;
+        return false;
     }
 
 
@@ -187,8 +201,8 @@ public class StringConverter {
         try {
             return df.parse(s).doubleValue();
         } catch (ParseException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error("stringToDouble convertion error: " + e.getMessage());
+            throw new CommandException(e);
         }
     }
 }

@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.objutils;
 
-import org.msh.etbm.commons.objutils.DiffValue;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

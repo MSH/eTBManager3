@@ -126,7 +126,8 @@ export default class CrudGrid extends React.Component {
 				values={controller.getList()}
 				onCellRender={this.cellRender}
 				onCollapseRender={this.props.onRender}
-				onExpandRender={this.expandRender} />;
+				onExpandRender={this.expandRender}
+				cellSize={this.props.cellSize} />;
 	}
 }
 
@@ -134,5 +135,6 @@ CrudGrid.propTypes = {
 	controller: React.PropTypes.object,
 	onRender: React.PropTypes.func,
 	onExpandRender: React.PropTypes.func,
-	editorSchema: React.PropTypes.object
+	editorSchema: React.PropTypes.object,
+	cellSize: React.PropTypes.object
 };

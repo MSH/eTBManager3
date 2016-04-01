@@ -55,11 +55,8 @@ class InputControl extends React.Component {
 		if (!value) {
 			value = null;
 		}
-		else if (this.isNumericType()) {
-			// if is a number, convert to number
-			if (!isNaN(value)) {
-				value = Number(value);
-			}
+		else if (this.isNumericType() && !isNaN(value)) {
+			value = Number(value);
 		}
 
 		this.props.onChange({ schema: sc, value: value });
@@ -78,7 +75,7 @@ class InputControl extends React.Component {
 
 		const ctype = sc.password ? 'password' : 'text';
 
-		return	(
+		return (
 			<Input ref="input"
 				label={FormUtils.labelRender(sc.label, sc.required)}
 				type={ctype}

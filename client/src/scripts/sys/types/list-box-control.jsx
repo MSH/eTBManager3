@@ -16,7 +16,8 @@ class ListBoxControl extends React.Component {
 	 * @param  {[type]} schema [description]
 	 * @return {[type]}        [description]
 	 */
-	static getServerRequest(schema, val, doc) {
+	static serverRequest(schema, val, doc) {
+		// TODOMS Ricardo: O que faz isso???
 		return FormUtils.optionsRequest(schema, doc);
 	}
 

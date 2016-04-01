@@ -102,6 +102,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      */
     private boolean countOnly;
 
+    /**
+     * The ID of the workspace to use in the query. Entity must be of type {@link org.msh.etbm.db.Synchronizable}
+     */
+    private UUID workspaceId;
+
     private EntityManager entityManager;
 
     private PlatformTransactionManager transactionManager;
@@ -197,18 +202,31 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         hql.append("order by " + field);
     }
 
-    protected void addHQLRestrictions(StringBuilder hql) {
-        boolean bWhere = false;
-        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequestService.isAuthenticated()) {
-            hql.append("where ");
-            if (entityAlias != null) {
-                hql.append(entityAlias);
-                hql.append('.');
-            }
-            hql.append("workspace.id = :wsid\n");
-            setParameter("wsid", userRequestService.getUserSession().getWorkspaceId());
-            bWhere = true;
+
+    /**
+     * Add workspace restriction in the query
+     * @param hql
+     * @return
+     */
+    private boolean addWorkspaceRestriction(StringBuilder hql) {
+        // criteria to include the workspace restriction
+        if (!WorkspaceEntity.class.isAssignableFrom(entityClass) || workspaceId == null) {
+            return false;
         }
+
+        hql.append("where ");
+        if (entityAlias != null) {
+            hql.append(entityAlias);
+            hql.append('.');
+        }
+        hql.append("workspace.id = :wsid\n");
+        setParameter("wsid", workspaceId);
+
+        return true;
+    }
+
+    protected void addHQLRestrictions(StringBuilder hql) {
+        boolean bWhere = addWorkspaceRestriction(hql);
 
         if (restrictions != null) {
             for (String restr: restrictions) {
@@ -527,5 +545,13 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void setEntityAlias(String alias) {
         this.entityAlias = alias;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

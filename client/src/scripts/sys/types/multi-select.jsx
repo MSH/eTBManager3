@@ -11,17 +11,11 @@ import { isString } from '../../commons/utils';
  */
 class MultiSelect extends React.Component {
 
-	static getServerRequest(sc) {
+	static serverRequest(sc) {
 		return isString(sc.options) ?
 			{ cmd: sc.options } :
 			null;
 	}
-
-	// static getInitParams(sc) {
-	// 	return {
-	// 		options: sc.options
-	// 	};
-	// }
 
 	constructor(props) {
 		super(props);

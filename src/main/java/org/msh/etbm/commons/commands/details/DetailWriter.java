@@ -14,7 +14,7 @@ import java.util.List;
  * Created by rmemoria on 7/3/16.
  */
 public class DetailWriter {
-    public CommandLogDetail detail = new CommandLogDetail();
+    private CommandLogDetail detail = new CommandLogDetail();
 
 
     public DetailWriter setText(String title) {

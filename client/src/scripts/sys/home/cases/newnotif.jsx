@@ -1,8 +1,5 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Profile, Fluidbar } from '../../../components/index';
-import { app } from '../../../core/app';
 import SearchPatient from './new-searchpatient';
 import NotifForm from './new-notifform';
 import UnitPanel from '../commons/unit-panel';

@@ -3,9 +3,9 @@ package org.msh.etbm.commons.entities.cmdlog;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.objutils.DiffValue;
 import org.msh.etbm.commons.objutils.ObjectValues;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.objutils.PropertyValue;
 import org.springframework.stereotype.Component;
 

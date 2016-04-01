@@ -5,7 +5,9 @@ import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -5,7 +5,6 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
 import org.msh.etbm.services.usersession.UserRequestService;
@@ -14,11 +13,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by msantos on 9/3/16.

@@ -4,7 +4,6 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.db.entities.Medicine;
-import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

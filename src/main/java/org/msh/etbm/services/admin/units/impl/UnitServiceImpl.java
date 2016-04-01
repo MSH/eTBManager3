@@ -57,6 +57,11 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
 
+        // check if workspace was set
+        if (queryParams.getWorkspaceId() != null) {
+            builder.setWorkspaceId(queryParams.getWorkspaceId());
+        }
+
         // add the restrictions
         builder.addLikeRestriction("a.name", queryParams.getKey());
 
@@ -72,7 +77,9 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
             // include children?
             if (queryParams.isIncludeSubunits()) {
                 AdministrativeUnit au = adminUnitRepository.findOne(queryParams.getAdminUnitId());
-                if (au == null || !au.getWorkspace().getId().equals(getWorkspaceId())) {
+
+                // check if admin unit is of same workspace
+                if (au == null || !au.getWorkspace().getId().equals(builder.getWorkspaceId())) {
                     rejectFieldException(queryParams, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units

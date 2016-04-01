@@ -1,8 +1,9 @@
 
 import React from 'react';
 import PageContent from './page-content';
-import { app } from '../../core/app';
 
+import SysSetup from './settings/sys-setup';
+import Workspaces from './settings/workspaces';
 
 /**
  * Settings page of the administration module
@@ -16,19 +17,15 @@ export default class Settings extends React.Component {
 				title: __('admin.workspaces'),
 				perm: 'WORKSPACES',
 				icon: 'globe',
-				path: '/workspaces'
+				path: '/workspaces',
+				view: Workspaces
 			},
 			{
 				title: __('admin.syssetup'),
 				perm: 'SYSSETUP',
 				icon: 'wrench',
-				path: '/syssetup'
-			},
-			{
-				title: __('admin.setup') + ' ' + app.getState().session.workspaceName,
-				perm: 'WORKSPACE_EDT',
-				icon: 'cog',
-				path: '/wssetup'
+				path: '/syssetup',
+				view: SysSetup
 			}
 		];
 	}
@@ -38,7 +35,7 @@ export default class Settings extends React.Component {
 			<PageContent route={this.props.route}
 				menu={this.menu}
 				title={__('admin.config')}
-				path="/sys/admin/tables" />
+				path="/sys/admin/settings" />
 			);
 	}
 }

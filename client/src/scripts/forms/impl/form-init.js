@@ -118,7 +118,7 @@ function getFieldsRequest(snapshot, doc, lst) {
  * @param  {object} doc The document being edited in the form
  * @return {object}     The request to be sent to the server, or null if no request is necessary
  */
-export function schemaRequest(sc, doc) {
+export function schemaRequest(sc, doc, prevSchema) {
 	if (sc.el !== 'field') {
 		return null;
 	}
@@ -129,7 +129,7 @@ export function schemaRequest(sc, doc) {
 	const val = getValue(doc, sc.property);
 
 	// get server request, if any
-	const req = Comp.getServerRequest ? Comp.getServerRequest(sc, val, doc) : null;
+	const req = Comp.serverRequest ? Comp.serverRequest(sc, val, prevSchema) : null;
 
 	return req ? {
 		id: sc.id,
