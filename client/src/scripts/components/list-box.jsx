@@ -164,7 +164,7 @@ export default class ListBox extends React.Component {
 		const helpBlock = this.props.help ? (
 				<div className="help-block">{this.props.help}</div>
 			) : null;
-		const clazz = 'list-box' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
+		const clazz = 'form-group list-box' + (this.props.bsStyle ? ' has-' + this.props.bsStyle : '');
 
 		return (
 			<div className={clazz}>

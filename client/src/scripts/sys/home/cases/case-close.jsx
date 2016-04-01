@@ -23,7 +23,8 @@ const fschema = {
 						{ id: 'TREAT_COMPLETED', name: 'Treatment completed' },
 						{ id: 'DIED', name: 'Died' },
 						{ id: 'LOST_FOLLOWUP', name: 'Lost follow-up' },
-						{ id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' }
+						{ id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' },
+						{ id: 'OTHER', name: 'Other' }
 					],
 					vertical: true,
 					textAlign: 'left'
