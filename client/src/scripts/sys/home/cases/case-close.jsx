@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
-import Form from '../../../forms/form';
 
 const fschema = {
 			layout: [
@@ -71,22 +70,17 @@ export default class CaseClose extends React.Component {
 	}
 
 	render() {
-		const content = (
-			<Form ref="form"
-				schema={fschema}
-				doc={this.state.doc}
-				errors={this.state.errors} />
-		);
-
 		//TODOMSR: as observações dos campos estão aparecendo atras do modal - verificar no themes.less componente tooltip
 		return (
 			<FormDialog
-				show={this.props.show}
-				title={__('cases.close') + ' - TODOMS CONCATENAR NOME DO PACIENTE'}
-				type={'CustomCancel'}
-				onClose={this.props.onClose}
-				customBtnLbl={__('cases.close')}
-				content={content} />
+				schema={fschema}
+				doc={this.state.doc}
+				onConfirm={this.closeCase}
+				onCancel={this.props.onCancel}
+				confirmCaption={__('cases.close')}
+				wrapType={'modal'}
+				modalTitle={__('cases.close') + ' - ' + this.props.tbcase.patient.name}
+				modalShow={this.props.show}/>
 		);
 	}
 }
@@ -94,5 +88,5 @@ export default class CaseClose extends React.Component {
 CaseClose.propTypes = {
 	tbcase: React.PropTypes.object,
 	show: React.PropTypes.bool,
-	onClose: React.PropTypes.func
+	onCancel: React.PropTypes.func
 };

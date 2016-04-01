@@ -109,7 +109,7 @@ export default class FormDialog extends React.Component {
 					<Modal show={this.props.modalShow} onHide={this.cancelClick} bsSize={this.props.modalBsSize}>
 						<Modal.Header closeButton>
 							<Modal.Title>
-								{this.props.modalTitle}
+								{title}
 							</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
@@ -121,7 +121,7 @@ export default class FormDialog extends React.Component {
 					</Modal>
 				);
 			default: return (
-					<div>{form}{buttons}<div>
+					<div>{form}{buttons}</div>
 				);
 		}
 	}
@@ -138,7 +138,6 @@ FormDialog.propTypes = {
 	resources: React.PropTypes.object,
 	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
 
-	modalTitle: React.PropTypes.string,
 	modalShow: React.PropTypes.bool,
 	modalBsSize: React.PropTypes.string
 };

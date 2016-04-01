@@ -7,8 +7,6 @@ import PatientPanel from '../commons/patient-panel';
 import CaseData from './case-data';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
-import CaseClose from './case-close';
-import CaseMove from './case-move';
 
 import { generateName } from '../../mock-data';
 
@@ -220,10 +218,6 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
-
-				<CaseClose ref="close" show={this.state.showCloseCase} onClose={this.closeCase}/>
-
-				<CaseMove ref="move" show={this.state.showMoveCase} onClose={this.moveCase}/>
 			</div>
 			);
 	}
