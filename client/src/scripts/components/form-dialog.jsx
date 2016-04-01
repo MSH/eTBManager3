@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { ButtonToolbar, Button, Modal } from 'react-bootstrap';
 import Card from './card';
 import Form from '../forms/form';
 import AsyncButton from './async-button';
@@ -76,14 +76,17 @@ export default class FormDialog extends React.Component {
 		// get validation errors, if any available
 		const errors = this.state ? this.state.errors : null;
 
-		const content = (
+		const form = (
 				<div>
 					<Form ref="form" schema={schema}
 						onInit={this.props.onInit}
 						doc={doc} errors={errors}
-						resources={this.props.resources}>
-						{this.props.children}
-					</Form>
+						resources={this.props.resources}/>
+				</div>
+				);
+
+			const buttons = (
+				<div>
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
 							bsStyle="primary"
@@ -96,11 +99,31 @@ export default class FormDialog extends React.Component {
 				</div>
 				);
 
-		return this.props.cardWrap ?
-			<Card title={title} highlight={this.props.highlight}>
-				{content}
-			</Card> :
-			content;
+		switch (this.props.wrapType) {
+			case 'card': return (
+					<Card title={title} highlight={this.props.highlight}>
+						{form}{buttons}
+					</Card>
+				);
+			case 'modal': return (
+					<Modal show={this.props.modalShow} onHide={this.cancelClick} bsSize={this.props.modalBsSize}>
+						<Modal.Header closeButton>
+							<Modal.Title>
+								{title}
+							</Modal.Title>
+						</Modal.Header>
+						<Modal.Body>
+							{form}
+						</Modal.Body>
+						<Modal.Footer>
+							{buttons}
+						</Modal.Footer>
+					</Modal>
+				);
+			default: return (
+					<div>{form}{buttons}</div>
+				);
+		}
 	}
 }
 
@@ -113,13 +136,15 @@ FormDialog.propTypes = {
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
-	cardWrap: React.PropTypes.bool,
-	children: React.PropTypes.node
+	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
+
+	modalShow: React.PropTypes.bool,
+	modalBsSize: React.PropTypes.string
 };
 
 FormDialog.defaultProps = {
 	highlight: false,
 	confirmCaption: __('action.save'),
-	cardWrap: true
+	wrapType: 'none'
 };
 

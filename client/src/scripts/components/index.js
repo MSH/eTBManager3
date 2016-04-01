@@ -25,7 +25,6 @@ import LinkTooltip from './link-tooltip';
 import TableForm from './table-form';
 import ReactGrid from './react-grid';
 import ListBox from './list-box';
-import FormModal from './form-modal';
 
 export { Callout,
 	AsyncButton,
@@ -49,6 +48,5 @@ export { Callout,
 	LinkTooltip,
 	TableForm,
 	ReactGrid,
-	ListBox,
-	FormModal
+	ListBox
 };

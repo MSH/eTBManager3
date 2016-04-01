@@ -107,7 +107,7 @@ export default class CrudTable extends React.Component {
 			<Collapse in transitionAppear>
 				<div className="row card-content highlight">
 				<CrudForm schema={this.props.editorSchema}
-					controller={controller} openOnEdit cardWrap={false} />
+					controller={controller} openOnEdit wrapType={'none'} />
 				</div>
 			</Collapse>
 			);

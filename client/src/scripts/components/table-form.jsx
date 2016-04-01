@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, ButtonToolbar, Button, Grid } from 'react-bootstrap';
+import { Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
 import Form from '../forms/form';
 import Fa from '../components/fa';
 
@@ -107,16 +107,16 @@ export default class TableForm extends React.Component {
 			this.state.errorsarr.push({});
 		}
 
-		return 	(
+		return 	(<Row>
 					<Col sm={12}>
-					<Form ref={'form' + key}
-						schema={this.props.fschema}
-						key={key}
-						doc={this.props.docs[key]}
-						onChange={this.onFormChange}
-						errors={this.state.errorsarr[key]}
-						nodetype={this.props.nodetype} />
+						<Form ref={'form' + key}
+							schema={this.props.fschema}
+							key={key}
+							doc={this.props.docs[key]}
+							onChange={this.onFormChange}
+							errors={this.state.errorsarr[key]} />
 					</Col>
+				</Row>
 				);
 	}
 
@@ -142,43 +142,10 @@ export default class TableForm extends React.Component {
 	}
 
 	render() {
-		var buttons = null;
-
-		// TODOMSR ver se esse código, grande desse jeito tem problema - implementar com if
-		switch (this.props.nodetype) {
-            case 'fluid': buttons = (<Grid fluid className="def-margin-bottom">
-										<Row>
-											<Col sm={12}>
-												<ButtonToolbar>
-													<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
-													<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
-												</ButtonToolbar>
-											</Col>
-										</Row>
-									</Grid>); break;
-			//TODOMSR TOMA VERGONHA NA CARA RAPAZ
-            case 'div': buttons = (<Row className="def-margin-bottom">
-										<Col sm={12}>
-											<Col sm={12}>
-												<ButtonToolbar>
-													<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
-													<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
-												</ButtonToolbar>
-											</Col>
-										</Col>
-									</Row>); break;
-
-            default: buttons = (<Grid fluid className="def-margin-bottom">
-									<Row>
-										<Col sm={12}>
-											<ButtonToolbar>
-												<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
-												<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
-											</ButtonToolbar>
-										</Col>
-									</Row>
-								</Grid>); break;
-        }
+	var buttons =	(<ButtonToolbar className={'def-margin-bottom'}>
+						<Button onClick={this.props.addRow}><Fa icon={'plus'}/></Button>
+						<Button onClick={this.props.remRow}><Fa icon={'minus'}/></Button>
+					</ButtonToolbar>);
 
 		return (
 			<div>
@@ -204,6 +171,5 @@ TableForm.propTypes = {
 	addRow: React.PropTypes.func,
 	remRow: React.PropTypes.func,
 	fschema: React.PropTypes.object,
-	nodetype: React.PropTypes.oneOf(['fluid', 'div']),
 	onChange: React.PropTypes.func
 };

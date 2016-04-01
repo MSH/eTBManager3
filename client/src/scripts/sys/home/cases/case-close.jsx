@@ -1,8 +1,6 @@
 
 import React from 'react';
-import { FormModal } from '../../../components/index';
-import Form from '../../../forms/form';
-import { app } from '../../../core/app';
+import { FormDialog } from '../../../components/index';
 
 const fschema = {
 			layout: [
@@ -23,7 +21,8 @@ const fschema = {
 						{ id: 'TREAT_COMPLETED', name: 'Treatment completed' },
 						{ id: 'DIED', name: 'Died' },
 						{ id: 'LOST_FOLLOWUP', name: 'Lost follow-up' },
-						{ id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' }
+						{ id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' },
+						{ id: 'OTHER', name: 'Other' }
 					],
 					vertical: true,
 					textAlign: 'left'
@@ -57,36 +56,28 @@ export default class CaseClose extends React.Component {
 
 	}
 
-	closeCase() {
-		const self = this;
+	/**
+	 * [closeCase description]
+	 * @return {boolean} if the case was closed with success
+	 */
+	closeCase(doc) {
+		alert('TODOMS: go to server and close this case!' + doc);
 
-		const errors = self.refs.form.validate();
-		this.setState({ errors: errors });
-		if (errors) {
-			return true;
-		}
-
-		alert('TODOMS: go to server and close this case!');
 		return false;
 	}
 
 	render() {
-		const content = (
-			<Form ref="form"
-				schema={fschema}
-				doc={this.state.doc}
-				errors={this.state.errors} />
-		);
-
 		//TODOMSR: as observações dos campos estão aparecendo atras do modal - verificar no themes.less componente tooltip
 		return (
-			<FormModal
-				show={this.props.show}
-				title={__('cases.close') + ' - TODOMS CONCATENAR NOME DO PACIENTE'}
-				type={'CustomCancel'}
-				onClose={this.props.onClose}
-				customBtnLbl={__('cases.close')}
-				content={content} />
+			<FormDialog
+				schema={fschema}
+				doc={this.state.doc}
+				onConfirm={this.closeCase}
+				onCancel={this.props.onCancel}
+				confirmCaption={__('cases.close')}
+				wrapType={'modal'}
+				modalTitle={__('cases.close') + ' - ' + this.props.tbcase.patient.name}
+				modalShow={this.props.show}/>
 		);
 	}
 }
@@ -94,5 +85,5 @@ export default class CaseClose extends React.Component {
 CaseClose.propTypes = {
 	tbcase: React.PropTypes.object,
 	show: React.PropTypes.bool,
-	onClose: React.PropTypes.func
+	onCancel: React.PropTypes.func
 };

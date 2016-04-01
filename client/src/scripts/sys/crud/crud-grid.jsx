@@ -107,7 +107,7 @@ export default class CrudGrid extends React.Component {
 			<Collapse in transitionAppear>
 				<Card highlight>
 					<CrudForm schema={this.props.editorSchema}
-						controller={controller} openOnEdit cardWrap={false} />
+						controller={controller} openOnEdit wrapType={'none'} />
 				</Card>
 			</Collapse>
 			);
