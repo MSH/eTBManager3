@@ -11,95 +11,95 @@ import { stringValidator, numberValidator } from '../impl/validators';
 class InputControl extends React.Component {
 
 
-    constructor(props) {
-        super(props);
-        this.onChange = this.onChange.bind(this);
-        this.focus = this.focus.bind(this);
-    }
+	constructor(props) {
+		super(props);
+		this.onChange = this.onChange.bind(this);
+		this.focus = this.focus.bind(this);
+	}
 
-    validate() {
-        const schema = this.props.schema;
-        const value = this.refs.input.getValue();
+	validate() {
+		const schema = this.props.schema;
+		const value = this.refs.input.getValue();
 
-        return schema.type === 'string' ?
-            stringValidator(schema, value) :
-            numberValidator(schema, value);
-    }
-
-
-    /**
-     * Set the component focus
-     * @return {[type]} [description]
-     */
-    focus() {
-        this.refs.input.getInputDOMNode().focus();
-    }
-
-    /**
-     * Check if type being handled in a number
-     * @return {Boolean} True if type is supposed to be a number
-     */
-    isNumericType() {
-        return ['number', 'int', 'float'].indexOf(this.props.schema.type) >= 0;
-    }
-
-    /**
-     * Called when user changes the value in the control
-     * @return {[type]} [description]
-     */
-    onChange() {
-        const sc = this.props.schema;
-        let value = this.refs.input.getValue();
-
-        // if it is an empty string, so return null
-        if (!value) {
-            value = null;
-        }
-        else if (this.isNumericType() && !isNaN(value)) {
-            value = Number(value);
-        }
-
-        this.props.onChange({ schema: sc, value: value });
-    }
+		return schema.type === 'string' ?
+			stringValidator(schema, value) :
+			numberValidator(schema, value);
+	}
 
 
-    render() {
-        const sc = this.props.schema;
-        if (sc.readOnly) {
-            return FormUtils.readOnlyRender(this.props.value, sc.label);
-        }
+	/**
+	 * Set the component focus
+	 * @return {[type]} [description]
+	 */
+	focus() {
+		this.refs.input.getInputDOMNode().focus();
+	}
 
-        const errors = this.props.errors;
+	/**
+	 * Check if type being handled in a number
+	 * @return {Boolean} True if type is supposed to be a number
+	 */
+	isNumericType() {
+		return ['number', 'int', 'float'].indexOf(this.props.schema.type) >= 0;
+	}
 
-        const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
+	/**
+	 * Called when user changes the value in the control
+	 * @return {[type]} [description]
+	 */
+	onChange() {
+		const sc = this.props.schema;
+		let value = this.refs.input.getValue();
 
-        const ctype = sc.password ? 'password' : 'text';
+		// if it is an empty string, so return null
+		if (!value) {
+			value = null;
+		}
+		else if (this.isNumericType() && !isNaN(value)) {
+			value = Number(value);
+		}
 
-        return  (
-            <Input ref="input"
-                label={FormUtils.labelRender(sc.label, sc.required)}
-                type={ctype}
-                onChange={this.onChange}
-                value={this.props.value}
-                help={errors}
-                wrapperClassName={wrapperClazz}
-                bsStyle={errors ? 'error' : null} />
-            );
-    }
+		this.props.onChange({ schema: sc, value: value });
+	}
+
+
+	render() {
+		const sc = this.props.schema;
+		if (sc.readOnly) {
+			return FormUtils.readOnlyRender(this.props.value, sc.label);
+		}
+
+		const errors = this.props.errors;
+
+		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
+
+		const ctype = sc.password ? 'password' : 'text';
+
+		return (
+			<Input ref="input"
+				label={FormUtils.labelRender(sc.label, sc.required)}
+				type={ctype}
+				onChange={this.onChange}
+				value={this.props.value}
+				help={errors}
+				wrapperClassName={wrapperClazz}
+				bsStyle={errors ? 'error' : null} />
+			);
+	}
 
 }
 
 InputControl.options = {
-    supportedTypes: ['string', 'number', 'int', 'float']
+	supportedTypes: ['string', 'number', 'int', 'float']
 };
 
 
 InputControl.propTypes = {
-    value: React.PropTypes.any,
-    schema: React.PropTypes.object,
-    onChange: React.PropTypes.func,
-    errors: React.PropTypes.any,
-    resources: React.PropTypes.any
+	value: React.PropTypes.any,
+	schema: React.PropTypes.object,
+	onChange: React.PropTypes.func,
+	errors: React.PropTypes.any,
+	resources: React.PropTypes.any
 };
 
 export default fieldControlWrapper(InputControl);
