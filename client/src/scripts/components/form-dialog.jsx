@@ -81,9 +81,7 @@ export default class FormDialog extends React.Component {
 					<Form ref="form" schema={schema}
 						onInit={this.props.onInit}
 						doc={doc} errors={errors}
-						resources={this.props.resources}>
-						{this.props.children}
-					</Form>
+						resources={this.props.resources}/>
 				</div>
 				);
 
@@ -108,10 +106,10 @@ export default class FormDialog extends React.Component {
 					</Card>
 				);
 			case 'modal': return (
-					<Modal show={this.props.show} onHide={this.cancelClick} bsSize={this.props.size}>
+					<Modal show={this.props.modalShow} onHide={this.cancelClick} bsSize={this.props.modalBsSize}>
 						<Modal.Header closeButton>
 							<Modal.Title>
-								{this.props.title}
+								{this.props.modalTitle}
 							</Modal.Title>
 						</Modal.Header>
 						<Modal.Body>
@@ -123,7 +121,7 @@ export default class FormDialog extends React.Component {
 					</Modal>
 				);
 			default: return (
-					{ content }
+					{form}{buttons}
 				);
 		}
 	}
@@ -138,8 +136,11 @@ FormDialog.propTypes = {
 	confirmCaption: React.PropTypes.any,
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
-	children: React.PropTypes.node,
-	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none'])
+	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
+
+	modalTitle: React.PropTypes.string,
+	modalShow: React.PropTypes.bool,
+	modalBsSize: React.PropTypes.string
 };
 
 FormDialog.defaultProps = {
