@@ -121,7 +121,7 @@ export default class FormDialog extends React.Component {
 					</Modal>
 				);
 			default: return (
-					{form}{buttons}
+					<div>{form}{buttons}<div>
 				);
 		}
 	}
