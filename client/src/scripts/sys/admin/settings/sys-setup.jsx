@@ -45,20 +45,23 @@ export default class SysSetup extends React.Component {
 						size: { sm: 12 }
 					},
 					{
-						property: 'workspaceId',
+						property: 'workspace',
 						label: __('Workspace'),
 						type: 'select',
 						options: 'workspaces',
 						visible: doc => doc.allowRegPage,
-						size: { sm: 7 }
+						size: { sm: 12 },
+						refreshOnChange: 'unit',
+						onChange: doc => { doc.unit = null; }
 					},
 					{
-						property: 'tbunit',
+						id: 'unit',
+						property: 'unit',
 						label: __('Unit'),
 						type: 'unit',
 						workspaceId: doc => doc.workspaceId,
 						visible: doc => !!doc.workspaceId,
-						size: { sm: 7 }
+						size: { sm: 12 }
 					}
 				]
 			}
@@ -71,11 +74,11 @@ export default class SysSetup extends React.Component {
 					<Row>
 						<Col sm={8}>
 			<Card title={this.props.route.data.title}>
-							<FormDialog
-								wrapType={'none'}
-								schema={this.state.schema}
-								doc={{}}
-							/>
+				<FormDialog
+					wrapType={'none'}
+					schema={this.state.schema}
+					doc={{}}
+				/>
 			</Card>
 						</Col>
 					</Row>

@@ -1,13 +1,10 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import CRUD from '../../commons/crud';
 import { WaitIcon, SelectionBox } from '../../components/index';
 import FormUtils from '../../forms/form-utils';
 import Form from '../../forms/form';
 
-const crud = new CRUD('unit');
-//const crudAU = new CRUD('adminunit');
 
 /**
  * Field control used in the form lib for displaying and selection of a unit
@@ -73,6 +70,21 @@ class UnitControl extends React.Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const res = nextProps.resources;
+
+		// check if resources changed
+		if (res && this.props.resources !== res) {
+			console.log('4. new properties ', res);
+			this.setState({
+				adminUnits: res.adminUnits,
+				units: res.units,
+				adminUnitId: res.adminUnitId,
+				unit: null
+			});
+		}
+	}
+
 	/**
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]
@@ -97,15 +109,12 @@ class UnitControl extends React.Component {
 			}
 		};
 
-		console.log('req = ', req);
-
+		// request list of units to the server
 		const self = this;
 		FormUtils.serverRequest(req)
 			.then(res => self.setState({ units: res.units }));
-		// crud.query({ adminUnitId: admUnit, includeSubunits: true })
-		// .then(res => self.setState({ units: res.list }));
 
-		this.setState({ units: null });
+		this.setState({ units: null, adminUnitId: admUnit });
 	}
 
 	/**
@@ -119,7 +128,7 @@ class UnitControl extends React.Component {
 		if (this.props.onChange) {
 			this.props.onChange({ schema: this.props.schema, value: id });
 		}
-		this.setState({ unit: id });
+//		this.setState({ unit: id });
 	}
 
 	createAdmUnitList() {
