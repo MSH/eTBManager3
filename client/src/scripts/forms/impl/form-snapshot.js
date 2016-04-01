@@ -23,7 +23,9 @@ export default function createSnapshot(schema, doc, readOnly) {
 			elem);
 
 		const comp = FormUtils.getComponent(state);
-		comp.snapshot(state, doc);
+		if (comp.snapshot) {
+			comp.snapshot(state, doc);
+		}
 
 		if (readOnly) {
 			state.readOnly = true;

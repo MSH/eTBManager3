@@ -152,11 +152,16 @@ export default class FormUtils {
 	 */
 	static getComponent(schema) {
 		if (__DEV__) {
-			if (!schema.type) {
-				throw new Error('No control type defined for property ' + schema.property);
+			if (!schema.type && !schema.el) {
+				throw new Error('No control type or element defined for property ' + schema.property);
 			}
 		}
-		return typeof schema.type === 'string' ? Form.types[schema.type] : schema.type;
+
+		if (schema.type) {
+			return typeof schema.type === 'string' ? Form.types[schema.type] : schema.type;
+		}
+
+		return Form.elements[schema.el];
 	}
 
 	/**

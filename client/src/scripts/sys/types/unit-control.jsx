@@ -143,7 +143,6 @@ class UnitControl extends React.Component {
 		// get the selected item
 		const id = this.state.adminUnitId;
 		const value = id ? this.state.adminUnits.find(item => item.id === id) : null;
-		console.log('5. Rendering adminunits value = ', value);
 
 		return (
 				<SelectionBox ref="admunit" value={value}

@@ -17,6 +17,34 @@ import FormUtils from './form-utils';
  */
 export default class Form extends React.Component {
 
+	/**
+	 * Register a new type to be supported by the forms
+	 * @param  {[type]} Comp [description]
+	 */
+	static registerType(Comp) {
+		if (Comp.constructor.name === 'Array') {
+			Comp.forEach(item => Form.registerType(item));
+			return;
+		}
+
+		const name = Comp.supportedTypes();
+
+		if (name.constructor.name === 'Array') {
+			name.forEach(k => { Form.types[k] = Comp; });
+		}
+
+		Form.types[name] = Comp;
+	}
+
+	/**
+	 * Register a new element to be supported by the form
+	 * @param  {React.Component} Comp The component element
+	 */
+	static registerElement(Comp) {
+		const name = Comp.elementName();
+		Form.elements[name] = Comp;
+	}
+
 	constructor(props) {
 		super(props);
 		this._onChange = this._onChange.bind(this);
@@ -131,8 +159,6 @@ export default class Form extends React.Component {
 			schema.onChange.call(this.props.doc, this.props.doc);
 		}
 
-		console.log('0. doc = ', this.props.doc);
-
 		// notify parent about changes
 		if (this.props.onChange) {
 			this.props.onChange(this.props.doc, schema, value);
@@ -148,6 +174,11 @@ export default class Form extends React.Component {
 		this.forceUpdate();
 	}
 
+	/**
+	 * Refresh the elements by the given ids and snapshot list
+	 * @param  {[type]} ids       array of IDs
+	 * @param  {[type]} snapshots If the new snapshot list is not yet in the state, this one can be used instead
+	 */
 	_refreshElems(ids, snapshots) {
 		const lst = snapshots ? snapshots : this.state.snapshot;
 		const reqs = [];
@@ -162,12 +193,12 @@ export default class Form extends React.Component {
 				}
 			});
 
-		const self = this;
+		// check if there is any request
 		if (reqs.length > 0) {
-			console.log('2. request = ', reqs);
+			// post request to the server
+			const self = this;
 			FormUtils.serverRequest(reqs)
 			.then(res => {
-				console.log('3. req response = ', res);
 				const newres = Object.assign({}, this.state.resources, res);
 				self.setState({ resources: newres });
 			});
@@ -217,31 +248,13 @@ Form.propTypes = {
 	nodetype: React.PropTypes.oneOf(['fluid', 'div'])
 };
 
-/**
- * Register a new type to be supported by the forms
- * @param  {[type]} Comp [description]
- * @return {[type]}      [description]
- */
-Form.registerType = function(Comp) {
-	if (Comp.constructor.name === 'Array') {
-		Comp.forEach(item => Form.registerType(item));
-		return;
-	}
-
-	const name = Comp.supportedTypes();
-
-	if (name.constructor.name === 'Array') {
-		name.forEach(k => { Form.types[k] = Comp; });
-	}
-
-	Form.types[name] = Comp;
-};
 
 /**
- * List of supported types
+ * List of supported types and elements
  * @type {Object}
  */
 Form.types = {};
+Form.elements = {};
 
 Form.typeWrapper = fieldControlWrapper;
 
@@ -256,3 +269,7 @@ import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
 
 Form.registerType([InputControl, BoolControl, TextControl, SelectControl, DateControl]);
+
+import Subtitle from './controls/subtitle';
+
+Form.registerElement(Subtitle);
