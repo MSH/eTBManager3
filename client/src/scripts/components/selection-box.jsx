@@ -19,8 +19,8 @@ export default class SelectionBox extends React.Component {
 	}
 
 	componentWillMount() {
-		const value = this.props.value !== undefined ? this.props.value : null;
-		this.setState({ value: value });
+		// const value = this.props.value !== undefined ? this.props.value : null;
+		// this.setState({ value: value });
 	}
 
 
@@ -36,7 +36,7 @@ export default class SelectionBox extends React.Component {
 	notifyChange(value, evt) {
 		this._value = value;
 
-		this.setState({ value: value });
+//		this.setState({ value: value });
 		if (this.props.onChange) {
 			this.props.onChange(evt, value);
 		}
@@ -192,7 +192,7 @@ export default class SelectionBox extends React.Component {
 	 * @return {React.Component} The component to be displayed inside the control
 	 */
 	contentRender() {
-		const value = this.state.value;
+		const value = this.props.value;
 		if (value === null || value === undefined) {
 			return null;
 		}
@@ -203,7 +203,7 @@ export default class SelectionBox extends React.Component {
 			return this.getOptionDisplay(value);
 		}
 
-		const lst = this.state.value;
+		const lst = this.props.value;
 		// create the list of selected values
 		const items = lst.map(item =>
 			<span key={lst.indexOf(item)} className="sel-box-item">

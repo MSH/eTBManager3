@@ -51,6 +51,7 @@ class SelectControl extends React.Component {
 	onChange() {
 		const sc = this.props.schema;
 		const value = this.refs.sel.getValue();
+		console.log('1. change = ', value);
 
 		this.props.onChange({ schema: sc, value: value ? value.id : null });
 	}

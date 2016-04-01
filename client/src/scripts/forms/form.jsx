@@ -126,25 +126,35 @@ export default class Form extends React.Component {
 		const value = evt.value;
 		setValue(this.props.doc, schema.property, value, true);
 
+		// check if schema is mapping changes
+		if (schema.onChange) {
+			schema.onChange.call(this.props.doc, this.props.doc);
+		}
+
+		console.log('0. doc = ', this.props.doc);
+
+		// notify parent about changes
 		if (this.props.onChange) {
 			this.props.onChange(this.props.doc, schema, value);
 		}
 
+		const snapshots = this.updateSnapshot();
+
 		if (schema.refreshOnChange) {
-			this._refreshElems(schema.refreshOnChange);
+			this._refreshElems(schema.refreshOnChange, snapshots);
 		}
 
-		this.updateSnapshot();
 		// force update, in case snapshot remains the same
 		this.forceUpdate();
 	}
 
-	_refreshElems(ids) {
+	_refreshElems(ids, snapshots) {
+		const lst = snapshots ? snapshots : this.state.snapshot;
 		const reqs = [];
 
 		const ids2 = Array.isArray(ids) ? ids : [ids];
 
-		this.state.snapshot.filter(sc => ids2.indexOf(sc.id) >= 0)
+		lst.filter(sc => ids2.indexOf(sc.id) >= 0)
 			.forEach(sc => {
 				const req = schemaRequest(sc, this.props.doc);
 				if (req) {
@@ -154,8 +164,10 @@ export default class Form extends React.Component {
 
 		const self = this;
 		if (reqs.length > 0) {
+			console.log('2. request = ', reqs);
 			FormUtils.serverRequest(reqs)
 			.then(res => {
+				console.log('3. req response = ', res);
 				const newres = Object.assign({}, this.state.resources, res);
 				self.setState({ resources: newres });
 			});

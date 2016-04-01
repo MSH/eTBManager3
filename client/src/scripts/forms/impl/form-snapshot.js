@@ -15,7 +15,11 @@ export default function createSnapshot(schema, doc, readOnly) {
 	const lst = schema.layout.map((elem, index) => {
 		// create element state
 		const state = Object.assign({ el: 'field' },
-			{ id: elem.property ? elem.property + index : 'elem' + index },
+			{
+				id: elem.property ? elem.property + index : 'elem' + index,
+				// pointer to the original schema
+				$: schema
+			},
 			elem);
 
 		const comp = FormUtils.getComponent(state);
