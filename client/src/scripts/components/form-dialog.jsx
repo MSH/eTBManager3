@@ -77,12 +77,10 @@ export default class FormDialog extends React.Component {
 		const errors = this.state ? this.state.errors : null;
 
 		const form = (
-				<div>
-					<Form ref="form" schema={schema}
-						onInit={this.props.onInit}
-						doc={doc} errors={errors}
-						resources={this.props.resources}/>
-				</div>
+				<Form ref="form" schema={schema}
+					onInit={this.props.onInit}
+					doc={doc} errors={errors}
+					resources={this.props.resources}/>
 				);
 
 			const buttons = (
@@ -147,4 +145,3 @@ FormDialog.defaultProps = {
 	confirmCaption: __('action.save'),
 	wrapType: 'none'
 };
-

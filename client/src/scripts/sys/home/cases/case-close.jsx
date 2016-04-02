@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import { server } from '../../../commons/server';
 
 const fschema = {
 			layout: [
@@ -56,14 +57,8 @@ export default class CaseClose extends React.Component {
 
 	}
 
-	/**
-	 * [closeCase description]
-	 * @return {boolean} if the case was closed with success
-	 */
-	closeCase(doc) {
-		alert('TODOMS: go to server and close this case!' + doc);
+	closeCase() {
 
-		return false;
 	}
 
 	render() {
@@ -76,7 +71,7 @@ export default class CaseClose extends React.Component {
 				onCancel={this.props.onCancel}
 				confirmCaption={__('cases.close')}
 				wrapType={'modal'}
-				modalTitle={__('cases.close') + ' - ' + this.props.tbcase.patient.name}
+				modalTitle={__('cases.close') + ' - this.props.tbcase.patient.name'}
 				modalShow={this.props.show}/>
 		);
 	}

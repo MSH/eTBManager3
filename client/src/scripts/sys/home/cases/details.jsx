@@ -7,6 +7,7 @@ import PatientPanel from '../commons/patient-panel';
 import CaseData from './case-data';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
+import CaseClose from './case-close';
 
 import { generateName } from '../../mock-data';
 
@@ -78,10 +79,8 @@ export default class Details extends React.Component {
 	constructor(props) {
 		super(props);
 		this.selectTab = this.selectTab.bind(this);
-		this.showModal = this.showModal.bind(this);
+		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
-		this.closeCase = this.closeCase.bind(this);
-		this.moveCase = this.moveCase.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -198,6 +197,8 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<CaseClose show={this.state.showCloseCase} />
 			</div>
 			);
 	}
