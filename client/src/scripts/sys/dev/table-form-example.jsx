@@ -21,20 +21,6 @@ const tfschema = {
 					label: __('User'),
 					options: 'users',
 					size: { md: 4 }
-				},
-				{
-					property: 'line',
-					type: 'select',
-					required: true,
-					options: app.getState().app.lists.MedicineLine,
-					label: __('MedicineLine'),
-					size: { sm: 4 }
-				},
-				{
-					property: 'substances',
-					label: __('Medicine.components'),
-					type: 'multiSelect',
-					options: 'substances'
 				}
 			]
 		};
@@ -137,7 +123,7 @@ export default class TableFormExample extends React.Component {
 								schema={fschema}
 								doc={this.state.doc}
 								onChange={this.onChangeDoc}
-								errors={this.state.errors} />
+								errors={this.state.errors}/>
 						</Col>
 					</Row>
 					<Row>
