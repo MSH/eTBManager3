@@ -100,11 +100,11 @@ export default class FormDialog extends React.Component {
 		switch (this.props.wrapType) {
 			case 'card': return (
 					<Card title={title} highlight={this.props.highlight}>
-						{form}{buttons}
+						{form} {buttons}
 					</Card>
 				);
 			case 'modal': return (
-					<Modal show={this.props.modalShow} onHide={this.cancelClick} bsSize={this.props.modalBsSize}>
+					<Modal show={this.props.modalShow} onHide={this.props.onCancel} bsSize={this.props.modalBsSize}>
 						<Modal.Header closeButton>
 							<Modal.Title>
 								{title}
@@ -119,7 +119,7 @@ export default class FormDialog extends React.Component {
 					</Modal>
 				);
 			default: return (
-					<div>{form}{buttons}</div>
+					<div>{form} {buttons}</div>
 				);
 		}
 	}

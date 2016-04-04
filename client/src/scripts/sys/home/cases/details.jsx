@@ -198,7 +198,6 @@ export default class Details extends React.Component {
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
 
-				<CaseClose show={this.state.showCloseCase} />
 			</div>
 			);
 	}
