@@ -15,20 +15,26 @@ const tfschema = {
 					size: { md: 4 }
 				},
 				{
-					property: 'action',
+					property: 'userId',
 					required: false,
-					type: 'listBox',
-					label: __('form.action'),
-					options: app.getState().app.lists.CommandAction, //TODOMS se fosse lista dinamica, o table-form vai fazer a quantidade de linhas em requisições para preencher, enquanto era necessária apenas uma
+					type: 'select',
+					label: __('User'),
+					options: 'users',
 					size: { md: 4 }
 				},
 				{
-					property: 'type',
-					required: false,
-					type: 'string',
-					max: 50,
-					label: __('admin.reports.cmdhistory.cmdevent'),
-					size: { md: 4 }
+					property: 'line',
+					type: 'select',
+					required: true,
+					options: app.getState().app.lists.MedicineLine,
+					label: __('MedicineLine'),
+					size: { sm: 4 }
+				},
+				{
+					property: 'substances',
+					label: __('Medicine.components'),
+					type: 'multiSelect',
+					options: 'substances'
 				}
 			]
 		};
@@ -99,7 +105,7 @@ export default class TableFormExample extends React.Component {
 
 		const fschema = {
 					defaultProperties: {
-						formlist: [{ iniDate: new Date() }, {}]
+						formList: [{ iniDate: new Date() }, {}]
 					},
 					layout: [
 						{
@@ -111,8 +117,8 @@ export default class TableFormExample extends React.Component {
 							size: { sm: 6 }
 						},
 						{
-							property: 'formlist',
-							type: 'tableform',
+							property: 'formList',
+							type: 'tableForm',
 							fschema: tfschema,
 							ctitles: ctitles,
 							min: 2,

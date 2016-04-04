@@ -88,7 +88,7 @@ const editorDef = {
 		},
 		{
 			property: 'medicines',
-			type: 'tableform',
+			type: 'tableForm',
 			fschema: tfschema,
 			min: 1,
 			size: { sm: 12 }

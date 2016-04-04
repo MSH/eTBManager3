@@ -28,7 +28,7 @@ const fschema = {
 					textAlign: 'left'
 				},
 				{
-				el: 'group',
+					type: 'group',
 					visible: value => value.outcome === 'OTHER',
 					layout: [
 						{
@@ -38,7 +38,8 @@ const fschema = {
 						}
 					]
 				}
-			]
+			],
+			title: __('cases.close')
 		};
 
 /**
