@@ -1,6 +1,6 @@
 
 import React from 'react';
-import fieldControlWrapper from './field-control';
+import formControl from './form-control';
 import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from '../impl/validators';
@@ -10,6 +10,9 @@ import { stringValidator, numberValidator } from '../impl/validators';
  */
 class InputControl extends React.Component {
 
+	static typeName() {
+		return ['string', 'number', 'int', 'float'];
+	}
 
 	constructor(props) {
 		super(props);
@@ -102,4 +105,4 @@ InputControl.propTypes = {
 	resources: React.PropTypes.any
 };
 
-export default fieldControlWrapper(InputControl);
+export default formControl(InputControl);

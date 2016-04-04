@@ -8,6 +8,10 @@ import { TableForm } from '../../components/index';
  */
 class TableFormControl extends React.Component {
 
+	static typeName() {
+		return 'tableForm';
+	}
+
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
@@ -91,8 +95,4 @@ TableFormControl.propTypes = {
 	ctitles: React.PropTypes.array
 };
 
-TableFormControl.options = {
-	supportedTypes: 'tableform'
-};
-
-export default Form.typeWrapper(TableFormControl);
+export default Form.control(TableFormControl);

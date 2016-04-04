@@ -11,6 +11,10 @@ import Form from '../../forms/form';
  */
 class UnitControl extends React.Component {
 
+	static typeName() {
+		return 'unit';
+	}
+
 	static serverRequest(schema, val) {
 		// check if workspaceId property was defined but no value in the current state
 		if ('workspaceId' in schema && !schema.workspaceId) {
@@ -212,8 +216,4 @@ UnitControl.propTypes = {
 	resources: React.PropTypes.object
 };
 
-UnitControl.options = {
-	supportedTypes: 'unit'
-};
-
-export default Form.typeWrapper(UnitControl);
+export default Form.control(UnitControl);

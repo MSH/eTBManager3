@@ -1,9 +1,13 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import fieldControlWrapper from './field-control';
+import formControl from './form-control';
 
 class TextControl extends React.Component {
+
+	static typeName() {
+		return 'text';
+	}
 
 	constructor(props) {
 		super(props);
@@ -33,11 +37,6 @@ class TextControl extends React.Component {
 }
 
 
-TextControl.options = {
-	supportedTypes: 'text'
-};
-
-
 TextControl.propTypes = {
 	value: React.PropTypes.string,
 	schema: React.PropTypes.object,
@@ -45,4 +44,4 @@ TextControl.propTypes = {
 	errors: React.PropTypes.any
 };
 
-export default fieldControlWrapper(TextControl);
+export default formControl(TextControl);
