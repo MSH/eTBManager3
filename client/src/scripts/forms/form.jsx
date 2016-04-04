@@ -188,7 +188,7 @@ import BoolControl from './controls/bool-control';
 import TextControl from './controls/text-control';
 import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
-import Subtitle from './controls/subtitle';
+import SubtitleControl from './controls/subtitle-control';
 import GroupControl from './controls/group-control';
 
 Form.registerType([
@@ -197,6 +197,6 @@ Form.registerType([
 	TextControl,
 	SelectControl,
 	DateControl,
-	Subtitle,
+	SubtitleControl,
 	GroupControl
 ]);
