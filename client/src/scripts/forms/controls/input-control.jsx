@@ -1,6 +1,5 @@
 
 import React from 'react';
-import formControl from './form-control';
 import { Input } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from '../impl/validators';
@@ -8,7 +7,7 @@ import { stringValidator, numberValidator } from '../impl/validators';
 /**
  * Used in the Form library. Provide input data of string and number types
  */
-class InputControl extends React.Component {
+export default class InputControl extends React.Component {
 
 	static typeName() {
 		return ['string', 'number', 'int', 'float'];
@@ -92,11 +91,6 @@ class InputControl extends React.Component {
 
 }
 
-InputControl.options = {
-	supportedTypes: ['string', 'number', 'int', 'float']
-};
-
-
 InputControl.propTypes = {
 	value: React.PropTypes.any,
 	schema: React.PropTypes.object,
@@ -104,5 +98,3 @@ InputControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.any
 };
-
-export default formControl(InputControl);

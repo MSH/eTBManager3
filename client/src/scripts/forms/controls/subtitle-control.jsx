@@ -1,7 +1,6 @@
 import React from 'react';
-import formControl from './form-control';
 
-class SubtitleControl extends React.Component {
+export default class SubtitleControl extends React.Component {
 
 	static typeName() {
 		return 'subtitle';
@@ -15,5 +14,3 @@ class SubtitleControl extends React.Component {
 SubtitleControl.propTypes = {
 	schema: React.PropTypes.object.isRequired
 };
-
-export default formControl(SubtitleControl);

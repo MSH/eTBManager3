@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import formControl from './form-control';
 
-class BoolControl extends React.Component {
+export default class BoolControl extends React.Component {
 
 	static typeName() {
 		return 'bool';
@@ -47,5 +46,3 @@ BoolControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.any
 };
-
-export default formControl(BoolControl);

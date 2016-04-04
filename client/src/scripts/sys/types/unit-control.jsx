@@ -9,13 +9,17 @@ import Form from '../../forms/form';
 /**
  * Field control used in the form lib for displaying and selection of a unit
  */
-class UnitControl extends React.Component {
+export default class UnitControl extends React.Component {
 
 	static typeName() {
 		return 'unit';
 	}
 
-	static serverRequest(schema, val) {
+	static serverRequest(schema, val, prev) {
+		if (prev && prev.workspaceId === schema.workspaceId) {
+			return null;
+		}
+
 		// check if workspaceId property was defined but no value in the current state
 		if ('workspaceId' in schema && !schema.workspaceId) {
 			return null;
@@ -79,7 +83,6 @@ class UnitControl extends React.Component {
 
 		// check if resources changed
 		if (res && this.props.resources !== res) {
-			console.log('4. new properties ', res);
 			this.setState({
 				adminUnits: res.adminUnits,
 				units: res.units,
@@ -215,5 +218,3 @@ UnitControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.object
 };
-
-export default Form.control(UnitControl);

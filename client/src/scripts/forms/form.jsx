@@ -37,10 +37,10 @@ export default class Form extends React.Component {
 		}
 
 		if (name.constructor.name === 'Array') {
-			name.forEach(k => { Form.types[k] = Comp; });
+			name.forEach(k => { Form.types[k] = formControl(Comp); });
 		}
 
-		Form.types[name] = Comp;
+		Form.types[name] = formControl(Comp);
 	}
 
 	constructor(props) {
@@ -139,9 +139,9 @@ export default class Form extends React.Component {
 
 		const snapshots = this.updateSnapshot();
 
-		if (schema.refreshOnChange) {
-			this._refreshElems(schema.refreshOnChange, snapshots);
-		}
+		// if (schema.refreshOnChange) {
+		// 	this._refreshElems(schema.refreshOnChange, snapshots);
+		// }
 
 		const self = this;
 		// request the server

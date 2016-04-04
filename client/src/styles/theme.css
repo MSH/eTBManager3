@@ -5959,7 +5959,7 @@ button.close {
 }
 .tooltip {
   position: absolute;
-  z-index: 1030;
+  z-index: 1050;
   display: block;
   font-family: OpenSans;
   font-style: normal;

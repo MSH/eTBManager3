@@ -13,7 +13,7 @@ const crud = new CRUD('adminunit');
 /**
  * Field control to be used in forms to allow the user to select an administrative unit
  */
-class AdminUnitControl extends React.Component {
+export default class AdminUnitControl extends React.Component {
 
 	static typeName() {
 		return 'adminUnit';
@@ -43,7 +43,11 @@ class AdminUnitControl extends React.Component {
 	}
 
 
-	static serverRequest(sc, val) {
+	static serverRequest(sc, val, prev) {
+		if (prev && sc.readOnly === prev.readOnly) {
+			return null;
+		}
+
 		return {
 			cmd: 'adminUnit',
 			params: { value: val }
@@ -176,7 +180,7 @@ class AdminUnitControl extends React.Component {
 
 	readOnlyRender(schema) {
 		const value = this.props.value;
-		const s = Form.types.adminUnit.displayText(value);
+		const s = Form.types.adminUnit.controlClass().displayText(value);
 
 		return (
 			<Input
@@ -219,6 +223,3 @@ AdminUnitControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.array
 };
-
-export default Form.control(AdminUnitControl);
-

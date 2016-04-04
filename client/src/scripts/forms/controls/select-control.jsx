@@ -1,6 +1,5 @@
 
 import React from 'react';
-import formControl from './form-control';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
 import { isPromise, isString } from '../../commons/utils';
@@ -8,7 +7,7 @@ import { isPromise, isString } from '../../commons/utils';
 /**
  * Used in the Form library. Provide input data of string and number types
  */
-class SelectControl extends React.Component {
+export default class SelectControl extends React.Component {
 
 	static typeName() {
 		return 'select';
@@ -120,5 +119,3 @@ SelectControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.any
 };
-
-export default formControl(SelectControl);

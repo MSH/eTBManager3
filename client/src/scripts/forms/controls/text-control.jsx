@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import formControl from './form-control';
 
-class TextControl extends React.Component {
+export default class TextControl extends React.Component {
 
 	static typeName() {
 		return 'text';
@@ -43,5 +42,3 @@ TextControl.propTypes = {
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any
 };
-
-export default formControl(TextControl);

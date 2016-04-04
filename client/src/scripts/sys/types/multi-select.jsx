@@ -9,13 +9,17 @@ import { isString } from '../../commons/utils';
 /**
  * Field component to handle an array as value to select multiple options
  */
-class MultiSelect extends React.Component {
+export default class MultiSelect extends React.Component {
 
 	static typeName() {
 		return 'multiSelect';
 	}
 
-	static serverRequest(sc) {
+	static serverRequest(sc, val, prev) {
+		if (prev) {
+			return null;
+		}
+
 		return isString(sc.options) ?
 			{ cmd: sc.options } :
 			null;
@@ -87,6 +91,3 @@ MultiSelect.propTypes = {
 	resources: React.PropTypes.array,
 	noForm: React.PropTypes.bool
 };
-
-
-export default Form.control(MultiSelect);
