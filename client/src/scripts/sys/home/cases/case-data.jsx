@@ -9,42 +9,42 @@ import Contacts from './contacts';
 const data = {
 	layout: [
 	{
+		type: 'date',
 		label: 'Date entered in SL treatment TB register',
 		property: 'registrationDate',
-		type: 'date',
 		required: true,
 		size: { sm: 4 }
 	},
 	{
+		type: 'string',
 		label: 'BMU TB register number',
 		property: 'registrationCode',
-		type: 'string',
 		max: 100,
 		size: { sm: 4 }
 	},
 	{
+		type: 'date',
 		label: 'Date entered in BMU TB register',
 		property: 'registrationDate2',
-		type: 'date',
 		size: { sm: 4 }
 	},
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: 'Patient data',
 		size: { sm: 12 }
 	},
 	{
+		type: 'string',
 		property: 'name',
 		label: 'Patient name',
-		type: 'string',
 		required: true,
 		size: { sm: 6 }
 	},
 	{
+		type: 'select',
 		property: 'gender',
 		label: __('Gender'),
 		required: true,
-		type: 'select',
 		options: [
 			{ id: 'MALE', name: __('Gender.MALE') },
 			{ id: 'FEMALE', name: __('Gender.FEMALE') }
@@ -52,22 +52,22 @@ const data = {
 		size: { sm: 4 }
 	},
 	{
+		type: 'date',
 		property: 'birthDate',
 		label: __('Patient.birthDate'),
-		type: 'date',
 		size: { sm: 4, newLine: true }
 	},
 	{
+		type: 'number',
 		property: 'age',
 		label: __('TbCase.age'),
 		required: true,
-		type: 'number',
 		size: { sm: 2 }
 	},
 	{
+		type: 'select',
 		property: 'nationality',
 		label: __('Nationality'),
-		type: 'select',
 		options: [
 			{ id: 'NATIVE', name: 'Native' },
 			{ id: 'FOREIGN', name: 'Foreign' }
@@ -75,79 +75,79 @@ const data = {
 		size: { sm: 4 }
 	},
 	{
+		type: 'string',
 		property: 'motherName',
 		label: __('Patient.motherName'),
-		type: 'string',
 		size: { sm: 6 }
 	},
 
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: __('cases.details.addressnotif'),
 		size: { sm: 12 }
 	},
 	{
-		property: 'notifAddress.address',
 		type: 'string',
+		property: 'notifAddress.address',
 		required: true,
 		label: __('Address.address'),
 		size: { sm: 6 }
 	},
 	{
-		property: 'notifAddress.complement',
 		type: 'string',
+		property: 'notifAddress.complement',
 		label: __('Address.complement'),
 		size: { sm: 6, newLine: true }
 	},
 	{
-		property: 'notifAddress.adminUnit',
 		type: 'adminUnit',
+		property: 'notifAddress.adminUnit',
 		size: { sm: 6, newLine: true }
 	},
 	{
+		type: 'string',
 		property: 'notifAddress.zipCode',
 		label: __('Address.zipCode'),
-		type: 'string',
 		max: 20,
 		size: { sm: 4, newLine: true }
 	},
 	{
+		type: 'string',
 		property: 'phoneNumber',
 		label: __('TbCase.phoneNumber'),
-		type: 'string',
 		max: 20,
 		size: { sm: 4, newLine: true }
 	},
 	{
+		type: 'string',
 		property: 'mobileNumber',
 		label: __('TbCase.mobileNumber'),
-		type: 'string',
 		max: 20,
 		size: { sm: 4, smOffset: 2 }
 	},
 
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: __('cases.details.case'),
 		size: { sm: 12 }
 	},
 	{
+		type: 'unit',
 		property: 'notificationUnit',
 		label: __('TbCase.notificationUnit'),
-		type: 'unit',
 		size: { sm: 6 }
 	},
 	{
+		type: 'date',
 		label: __('TbCase.diagnosisDate'),
 		property: 'diagnosisDate',
-		type: 'date',
 		required: true,
 		size: { sm: 4, newLine: true }
 	},
 	{
+		type: 'select',
 		label: __('DrugResistanceType'),
 		property: 'drugResistanceType',
-		type: 'select',
 		options: [
 			{ id: 'EXTENSIVEDRUG_RESISTANCE', name: __('DrugResistanceType.EXTENSIVEDRUG_RESISTANCE') },
 			{ id: 'MONO_RESISTANCE', name: __('DrugResistanceType.MONO_RESISTANCE') },
@@ -160,9 +160,9 @@ const data = {
 		size: { sm: 6, newLine: true }
 	},
 	{
+		type: 'select',
 		label: 'Registration group',
 		property: 'registrationGroup',
-		type: 'select',
 		options: [
 			{ id: 'NEW', name: 'New' },
 			{ id: 'RELAPSE', name: 'Relapse' },
@@ -174,30 +174,30 @@ const data = {
 		size: { sm: 6 }
 	},
 	{
+		type: 'select',
 		label: __('InfectionSite'),
 		property: 'infectionSite',
-		type: 'select',
 		size: { sm: 6 }
 	},
 	{
+		type: 'select',
 		label: __('TbField.PULMONARY_TYPES'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'PULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
 		size: { sm: 6 }
 	},
 	{
+		type: 'select',
 		label: __('TbField.EXTRAPULMONARY_TYPES'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
 		size: { sm: 6 }
 	},
 	{
+		type: 'select',
 		label: __('TbField.EXTRAPULMONARY_TYPES') + ' (2)',
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
 		size: { sm: 6 }
 	}]
 };
