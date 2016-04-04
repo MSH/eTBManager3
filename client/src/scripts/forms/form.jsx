@@ -62,11 +62,7 @@ export default class Form extends React.Component {
 			// validate the schema
 			if (schema.layout) {
 				schema.layout
-				.filter(elem => elem.el === 'field' || !elem.el)
 				.forEach(elem => {
-					if (!elem.property) {
-						throw new Error('Property must be informed in field schema');
-					}
 					if (!elem.type) {
 						throw new Error('Element type not defined for ' + elem.property);
 					}
@@ -117,7 +113,7 @@ export default class Form extends React.Component {
 	 */
 	updateSnapshot() {
 		const lst = createSnapshot(this);
-		this.setState({ snapshot: lst });
+		this.setState({ snapshots: lst });
 		return lst;
 	}
 
@@ -193,6 +189,7 @@ import TextControl from './controls/text-control';
 import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
 import Subtitle from './controls/subtitle';
+import GroupControl from './controls/group-control';
 
 Form.registerType([
 	InputControl,
@@ -200,5 +197,6 @@ Form.registerType([
 	TextControl,
 	SelectControl,
 	DateControl,
-	Subtitle
+	Subtitle,
+	GroupControl
 ]);

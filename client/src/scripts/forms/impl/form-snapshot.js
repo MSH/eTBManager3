@@ -45,6 +45,7 @@ class SnapshotCreator {
 
 	_traverse(schemas, parent, pref) {
 		const doc = this.form.props.doc;
+		const self = this;
 
 		schemas.forEach((schema, index) => {
 			const comp = FormUtils.getComponent(schema);

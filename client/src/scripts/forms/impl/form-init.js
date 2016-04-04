@@ -26,7 +26,7 @@ export function initDefaultValues(form) {
 
 	// set the default properties of the controls
 	schema.layout
-		.filter(elem => elem.el === 'field' || !elem.el)
+		.filter(elem => !!elem.property)
 		.forEach(elem => {
 			const type = FormUtils.getComponent(elem);
 

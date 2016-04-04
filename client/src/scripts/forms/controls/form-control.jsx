@@ -79,7 +79,7 @@ export default function formControl(Component) {
 		 * @return {Array} An array of schemas
 		 */
 		static children(schema) {
-			return Component.children(schema) ? Component.children(schema) : null;
+			return Component.children ? Component.children(schema) : null;
 		}
 
 		// constructor(props) {

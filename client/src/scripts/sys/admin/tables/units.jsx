@@ -35,7 +35,7 @@ const editorDef = {
 						size: { sm: 4 }
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Unit address',
 						size: { sm: 12 }
 					},
@@ -96,7 +96,7 @@ const editorDef = {
 						label: __('Tbunit.notificationUnit')
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Medicine order settings',
 						size: { sm: 12 }
 					},
@@ -147,7 +147,7 @@ const editorDef = {
 						size: { sm: 4 }
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Unit address',
 						size: { sm: 12 }
 					},
@@ -208,7 +208,7 @@ const editorDef = {
 						label: __('Unit.receiveFromManufacturer')
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Medicine order settings',
 						size: { sm: 12 }
 					},
@@ -246,7 +246,7 @@ const editorDef = {
 export default class Units extends React.Component {
 
 	cellRender(item) {
-		const auname = Form.types.adminUnit.displayText(item.adminUnit);
+		const auname = Form.types.adminUnit.controlClass().displayText(item.adminUnit);
 
 		return (
 			<Profile type={item.type.toLowerCase()}
