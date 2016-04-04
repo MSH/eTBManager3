@@ -112,7 +112,7 @@ export default class TableFormExample extends React.Component {
 						},
 						{
 							property: 'formlist',
-							type: 'tableform',
+							type: 'tableForm',
 							fschema: tfschema,
 							ctitles: ctitles,
 							min: 2,
