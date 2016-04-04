@@ -2,6 +2,7 @@
 import React from 'react';
 import { Row, Col, MenuItem, Button } from 'react-bootstrap';
 import { Card, Popup, SelectionBox, ListBox } from '../../components/index';
+import FormModalExample from './form-modal-example';
 
 
 const options = [
@@ -64,6 +65,15 @@ export default class StuffExamples extends React.Component {
 		};
 	}
 
+	show(cpt, show) {
+		const self = this;
+		return () => {
+			const obj = {};
+			obj[cpt] = show;
+			self.setState(obj);
+		};
+	}
+
 
 	render() {
 		return (
@@ -77,6 +87,7 @@ export default class StuffExamples extends React.Component {
 					</Popup>
 					</div>
 				</Card>
+
 				<Card>
 					<Row>
 						<Col sm={6}>
@@ -111,6 +122,7 @@ export default class StuffExamples extends React.Component {
 						</Col>
 					</Row>
 				</Card>
+
 				<Card>
 					<Row>
 						<Col sm={6}>
@@ -137,6 +149,15 @@ export default class StuffExamples extends React.Component {
 						</Col>
 						<Col sm={6}>
 							{this.state.selBox4}
+						</Col>
+					</Row>
+				</Card>
+
+				<Card>
+					<Row>
+						<Col sm={12}>
+							<Button onClick={this.show('showFormModal', true)}>{'Show Form Modal'}</Button>
+							<FormModalExample show={this.state.showFormModal} onClose={this.show('showFormModal', false)} />
 						</Col>
 					</Row>
 				</Card>

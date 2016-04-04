@@ -133,7 +133,7 @@ export default class Tags extends React.Component {
 				onDetailRender={this.collapseCellRender}
 				editorDef={editorDef}
 				perm={data.perm}
-				queryFilters = {queryFilters} />
+				queryFilters={queryFilters} />
 			);
 	}
 }
