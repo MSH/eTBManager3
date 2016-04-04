@@ -1,15 +1,10 @@
 import React from 'react';
-import FormUtils from '../form-utils';
 import formControl from './form-control';
 
-class Subtitle extends React.Component {
+class SubtitleControl extends React.Component {
 
 	static typeName() {
 		return 'subtitle';
-	}
-
-	static snapshot(snapshot, doc) {
-		FormUtils.propEval(snapshot, 'label', doc);
 	}
 
 	render() {
@@ -17,8 +12,8 @@ class Subtitle extends React.Component {
 	}
 }
 
-Subtitle.propTypes = {
+SubtitleControl.propTypes = {
 	schema: React.PropTypes.object.isRequired
 };
 
-export default formControl(Subtitle);
+export default formControl(SubtitleControl);

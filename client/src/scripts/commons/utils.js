@@ -32,7 +32,7 @@ export function getValue(obj, prop) {
             value = value[k];
         }
         else {
-            return null;
+            return undefined;
         }
     }
     return value;
