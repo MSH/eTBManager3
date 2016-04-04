@@ -57,7 +57,6 @@ export default class CaseMove extends React.Component {
 				errors={this.state.errors} />
 		);
 
-		//TODOMSR: as observações dos campos estão aparecendo atras do modal
 		return (
 			<FormDialog
 				show={this.props.show}

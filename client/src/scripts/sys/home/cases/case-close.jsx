@@ -35,7 +35,7 @@ const fschema = {
 						{
 							property: 'otherOutcome',
 							type: 'string',
-							label: __('CaseState.OTHER') //todomsr: TA SAINDO MUITO JUNTO DO CAMPO ACIMA
+							label: __('CaseState.OTHER')
 						}
 					]
 				}
@@ -62,7 +62,6 @@ export default class CaseClose extends React.Component {
 	}
 
 	render() {
-		//TODOMSR: as observações dos campos estão aparecendo atras do modal - verificar no themes.less componente tooltip
 		return (
 			<FormDialog
 				schema={fschema}
