@@ -15,6 +15,10 @@ const crud = new CRUD('adminunit');
  */
 class AdminUnitControl extends React.Component {
 
+	static typeName() {
+		return 'adminUnit';
+	}
+
 	/**
 	 * Display representation of the administrative unit
 	 * @param  {[type]} value [description]
@@ -207,10 +211,6 @@ class AdminUnitControl extends React.Component {
 	}
 }
 
-AdminUnitControl.options = {
-	supportedTypes: 'adminUnit'
-};
-
 
 AdminUnitControl.propTypes = {
 	value: React.PropTypes.any,
@@ -220,5 +220,5 @@ AdminUnitControl.propTypes = {
 	resources: React.PropTypes.array
 };
 
-export default Form.typeWrapper(AdminUnitControl);
+export default Form.control(AdminUnitControl);
 

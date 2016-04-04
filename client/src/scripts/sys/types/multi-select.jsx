@@ -11,6 +11,10 @@ import { isString } from '../../commons/utils';
  */
 class MultiSelect extends React.Component {
 
+	static typeName() {
+		return 'multiSelect';
+	}
+
 	static serverRequest(sc) {
 		return isString(sc.options) ?
 			{ cmd: sc.options } :
@@ -84,8 +88,5 @@ MultiSelect.propTypes = {
 	noForm: React.PropTypes.bool
 };
 
-MultiSelect.options = {
-	supportedTypes: 'multi-select'
-};
 
-export default Form.typeWrapper(MultiSelect);
+export default Form.control(MultiSelect);

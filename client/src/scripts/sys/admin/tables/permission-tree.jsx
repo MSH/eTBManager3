@@ -82,9 +82,6 @@ class PermissionTree extends React.Component {
 }
 
 
-PermissionTree.options = { };
-
-
 PermissionTree.propTypes = {
 	value: React.PropTypes.array,
 	schema: React.PropTypes.object,
@@ -93,4 +90,4 @@ PermissionTree.propTypes = {
 	resources: React.PropTypes.array
 };
 
-export default Form.typeWrapper(PermissionTree);
+export default Form.control(PermissionTree);

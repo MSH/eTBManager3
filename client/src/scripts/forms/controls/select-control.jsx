@@ -1,22 +1,39 @@
 
 import React from 'react';
-import fieldControlWrapper from './field-control';
+import formControl from './form-control';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
-import { isPromise } from '../../commons/utils';
+import { isPromise, isString } from '../../commons/utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
  */
 class SelectControl extends React.Component {
 
+	static typeName() {
+		return 'select';
+	}
+
 	/**
-	 * Return request to be sent to server, if necessary
-	 * @param  {[type]} schema [description]
-	 * @return {[type]}        [description]
+	 * Prepare request data to be sent to the server, if necessary
+	 * @param  {Object} snapshot The current snapshot
+	 * @param  {Object} prev     The previous snapshot, if available
+	 * @return {Object}          The request, or null if no request must be sent
 	 */
-	static serverRequest(schema, val, doc) {
-		return FormUtils.optionsRequest(schema, doc);
+	static serverRequest(snapshot, prev) {
+		const opts = snapshot.options;
+		// is the options the name of the list in the server
+		if (!isString(opts)) {
+			return null;
+		}
+
+		// if previous options is equals the current, doesn't need to
+		// perform a new request to get the same data
+		if (prev && prev.options === opts) {
+			return null;
+		}
+
+		return { cmd: opts };
 	}
 
 	constructor(props) {
@@ -95,10 +112,6 @@ class SelectControl extends React.Component {
 
 }
 
-SelectControl.options = {
-	supportedTypes: 'select'
-};
-
 
 SelectControl.propTypes = {
 	value: React.PropTypes.any,
@@ -108,4 +121,4 @@ SelectControl.propTypes = {
 	resources: React.PropTypes.any
 };
 
-export default fieldControlWrapper(SelectControl);
+export default formControl(SelectControl);

@@ -17,6 +17,11 @@ export function format(fmtstr) {
  * @return {[type]}      [description]
  */
 export function getValue(obj, prop) {
+    if (__DEV__) {
+        if (!prop) {
+            throw new Error('Property not defined');
+        }
+    }
 	let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
@@ -44,6 +49,12 @@ export function getValue(obj, prop) {
  *                            If false and one of the nested properties doesn't exist an exception will be thrown
  */
 export function setValue(obj, prop, val, autoCreate) {
+    if (__DEV__) {
+        if (!prop) {
+            throw new Error('Property not defined');
+        }
+    }
+
 	let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot

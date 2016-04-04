@@ -302,6 +302,7 @@ export default class CrudView extends React.Component {
 			return null;
 		}
 
+		console.log('new-form');
 		return (
 				<Collapse in transitionAppear>
 					<div>

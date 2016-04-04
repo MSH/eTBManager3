@@ -11,6 +11,10 @@ import { isPromise } from '../../commons/utils';
  */
 class ListBoxControl extends React.Component {
 
+	static typeName() {
+		return 'listBox';
+	}
+
 	/**
 	 * Return request to be sent to server, if necessary
 	 * @param  {[type]} schema [description]
@@ -97,8 +101,5 @@ ListBoxControl.propTypes = {
 	textAlign: React.PropTypes.oneOf(['right', 'left', 'center'])
 };
 
-ListBoxControl.options = {
-	supportedTypes: 'listBox'
-};
 
-export default Form.typeWrapper(ListBoxControl);
+export default Form.control(ListBoxControl);

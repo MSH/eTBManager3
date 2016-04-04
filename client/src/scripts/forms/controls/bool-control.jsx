@@ -1,9 +1,17 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import fieldControlWrapper from './field-control';
+import formControl from './form-control';
 
 class BoolControl extends React.Component {
+
+	static typeName() {
+		return 'bool';
+	}
+
+	static defaultValue() {
+		return false;
+	}
 
 	constructor(props) {
 		super(props);
@@ -32,12 +40,6 @@ class BoolControl extends React.Component {
 }
 
 
-BoolControl.options = {
-	supportedTypes: 'bool',
-	defaultValue: false
-};
-
-
 BoolControl.propTypes = {
 	value: React.PropTypes.bool,
 	schema: React.PropTypes.object,
@@ -46,4 +48,4 @@ BoolControl.propTypes = {
 	resources: React.PropTypes.any
 };
 
-export default fieldControlWrapper(BoolControl);
+export default formControl(BoolControl);

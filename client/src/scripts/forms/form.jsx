@@ -4,11 +4,12 @@
 import React from 'react';
 import { Grid } from 'react-bootstrap';
 import validateForm from './impl/form-validate';
-import { setValue, objEqual } from '../commons/utils';
+import { setValue } from '../commons/utils';
 import formRender from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
-import fieldControlWrapper from './controls/field-control';
-import { initDefaultValues, initForm, schemaRequest } from './impl/form-init';
+import formControl from './controls/form-control';
+import { initDefaultValues } from './impl/form-init';
+import { requestServer } from './impl/form-request';
 import FormUtils from './form-utils';
 
 
@@ -27,22 +28,19 @@ export default class Form extends React.Component {
 			return;
 		}
 
-		const name = Comp.supportedTypes();
+		const name = Comp.typeName();
+
+		if (__DEV__) {
+			if (!name) {
+				console.log('No name defined for ' + (Comp.typeName ? Comp.typeName() : Comp) + '.typeName()');
+			}
+		}
 
 		if (name.constructor.name === 'Array') {
 			name.forEach(k => { Form.types[k] = Comp; });
 		}
 
 		Form.types[name] = Comp;
-	}
-
-	/**
-	 * Register a new element to be supported by the form
-	 * @param  {React.Component} Comp The component element
-	 */
-	static registerElement(Comp) {
-		const name = Comp.elementName();
-		Form.elements[name] = Comp;
 	}
 
 	constructor(props) {
@@ -64,11 +62,7 @@ export default class Form extends React.Component {
 			// validate the schema
 			if (schema.layout) {
 				schema.layout
-				.filter(elem => elem.el === 'field' || !elem.el)
 				.forEach(elem => {
-					if (!elem.property) {
-						throw new Error('Property must be informed in field schema');
-					}
 					if (!elem.type) {
 						throw new Error('Element type not defined for ' + elem.property);
 					}
@@ -85,12 +79,12 @@ export default class Form extends React.Component {
 	componentWillMount() {
 		initDefaultValues(this);
 
-		const snapshot = this.updateSnapshot();
+		const snapshots = this.updateSnapshot();
 
 		// check if there is any element to set focus on
-		if (!snapshot.find(item => item.autoFocus)) {
+		if (!snapshots.find(item => item.autoFocus)) {
 			// find first field element to set autofocus
-			const el = snapshot.find(item => item.el === 'field');
+			const el = snapshots.find(item => !!item.property);
 			if (el) {
 				el.autoFocus = true;
 			}
@@ -99,7 +93,8 @@ export default class Form extends React.Component {
 
 		const self = this;
 
-		initForm(this, snapshot)
+		// request the server
+		requestServer(snapshots)
 		.then(res => self.setState({ resources: res }));
 	}
 
@@ -117,30 +112,8 @@ export default class Form extends React.Component {
 	 * @return {Array} List of element states
 	 */
 	updateSnapshot() {
-		const lst = createSnapshot(this.props.schema, this.props.doc, this.props.readOnly);
-
-		const oldlst = this.state ? this.state.snapshot : null;
-
-		let updated = oldlst === null;
-
-		// there is a previous snapshot ?
-		if (oldlst) {
-			// compare the items of previous snapshot with the new one
-			for (var i = 0; i < lst.length; i++) {
-				const old = oldlst[i];
-				const cur = lst[i];
-				if (objEqual(old, cur)) {
-					lst[i] = old;
-					updated = true;
-				}
-			}
-		}
-
-		// check if snapshot should be updated
-		if (updated || !this.state.snapshot) {
-			this.setState({ snapshot: lst });
-		}
-
+		const lst = createSnapshot(this);
+		this.setState({ snapshots: lst });
 		return lst;
 	}
 
@@ -170,52 +143,12 @@ export default class Form extends React.Component {
 			this._refreshElems(schema.refreshOnChange, snapshots);
 		}
 
-		// force update, in case snapshot remains the same
-		this.forceUpdate();
+		const self = this;
+		// request the server
+		requestServer(snapshots)
+		.then(res => self.setState({ resources: res }));
 	}
 
-	/**
-	 * Refresh the elements by the given ids and snapshot list
-	 * @param  {[type]} ids       array of IDs
-	 * @param  {[type]} snapshots If the new snapshot list is not yet in the state, this one can be used instead
-	 */
-	_refreshElems(ids, snapshots) {
-		const lst = snapshots ? snapshots : this.state.snapshot;
-		const reqs = [];
-
-		const ids2 = Array.isArray(ids) ? ids : [ids];
-
-		lst.filter(sc => ids2.indexOf(sc.id) >= 0)
-			.forEach(sc => {
-				const req = schemaRequest(sc, this.props.doc);
-				if (req) {
-					reqs.push(req);
-				}
-			});
-
-		// check if there is any request
-		if (reqs.length > 0) {
-			// post request to the server
-			const self = this;
-			FormUtils.serverRequest(reqs)
-			.then(res => {
-				const newres = Object.assign({}, this.state.resources, res);
-				self.setState({ resources: newres });
-			});
-		}
-	}
-
-	/**
-	 * Called when form initialization is done and field resources are available
-	 * @param  {object} resources List of field resources
-	 * @return {[type]}           [description]
-	 */
-	notifyReady(resources) {
-		this.setState({ resources: resources });
-		if (this.props.onReady) {
-			this.props.onReady();
-		}
-	}
 
 	/**
 	 * Rend form
@@ -232,8 +165,6 @@ Form.propTypes = {
 	doc: React.PropTypes.object,
 	errors: React.PropTypes.object,
 	resources: React.PropTypes.object,
-	onReady: React.PropTypes.func,
-	crud: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	readOnly: React.PropTypes.bool,
 	className: React.PropTypes.string
@@ -241,13 +172,12 @@ Form.propTypes = {
 
 
 /**
- * List of supported types and elements
+ * List of supported types
  * @type {Object}
  */
 Form.types = {};
-Form.elements = {};
 
-Form.typeWrapper = fieldControlWrapper;
+Form.control = formControl;
 
 /**
  * Automatically register common controls
@@ -258,9 +188,15 @@ import BoolControl from './controls/bool-control';
 import TextControl from './controls/text-control';
 import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
-
-Form.registerType([InputControl, BoolControl, TextControl, SelectControl, DateControl]);
-
 import Subtitle from './controls/subtitle';
+import GroupControl from './controls/group-control';
 
-Form.registerElement(Subtitle);
+Form.registerType([
+	InputControl,
+	BoolControl,
+	TextControl,
+	SelectControl,
+	DateControl,
+	Subtitle,
+	GroupControl
+]);
