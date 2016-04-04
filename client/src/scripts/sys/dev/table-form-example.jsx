@@ -99,7 +99,7 @@ export default class TableFormExample extends React.Component {
 
 		const fschema = {
 					defaultProperties: {
-						formlist: [] //TODOMSR: vide regimens.jsx
+						formlist: [{ iniDate: new Date() }, {}]
 					},
 					layout: [
 						{
@@ -115,7 +115,8 @@ export default class TableFormExample extends React.Component {
 							type: 'tableform',
 							fschema: tfschema,
 							ctitles: ctitles,
-							iniRowsQtt: 2,
+							min: 2,
+							max: 5,
 							size: { sm: 12 }
 						}
 					]

@@ -71,7 +71,8 @@ export default class CrudView extends React.Component {
 						highlight
 						resources={this.context.resources}
 						onConfirm={item.context.saveForm}
-						onCancel={item.context.cancelForm}/>
+						onCancel={item.context.cancelForm}
+						wrapType={'card'} />
 					</div>
 				</Collapse>
 				);
@@ -308,7 +309,8 @@ export default class CrudView extends React.Component {
 						<FormDialog schema={newform.editor}
 							onConfirm={newform.saveForm}
 							onCancel={newform.cancelForm}
-							doc={newform.doc}/>
+							doc={newform.doc}
+							wrapType={'card'}/>
 					</div>
 				</Collapse>
 			);

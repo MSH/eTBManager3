@@ -22,7 +22,6 @@ import DatePicker from './date-picker';
 import ReactTable from './react-table';
 import AutoheightInput from './autoheight-input';
 import LinkTooltip from './link-tooltip';
-import TableForm from './table-form';
 import ReactGrid from './react-grid';
 import ListBox from './list-box';
 
@@ -46,7 +45,6 @@ export { Callout,
 	ReactTable,
 	AutoheightInput,
 	LinkTooltip,
-	TableForm,
 	ReactGrid,
 	ListBox
 };

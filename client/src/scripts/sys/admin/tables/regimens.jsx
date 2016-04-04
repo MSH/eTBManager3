@@ -52,7 +52,7 @@ const tfschema = {
 // definition of the form fields to edit medicine regimens
 const editorDef = {
 	defaultProperties: {
-		medicines: [] //TODOMSR: tem como fazer isso dentro do control? Inicializa array apenas se houver interação do usuario nesse sentido
+		medicines: [{}, {}]
 	},
 	layout: [
 		{
@@ -90,7 +90,8 @@ const editorDef = {
 			property: 'medicines',
 			type: 'tableform',
 			fschema: tfschema,
-			size: { sm: 12 } //TODOMSR criar props min e max para validação de quantidade de objetos no array.
+			min: 1,
+			size: { sm: 12 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.regimens.edt') : __('admin.regimens.new')

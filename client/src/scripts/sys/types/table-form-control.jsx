@@ -1,7 +1,9 @@
 
 import React from 'react';
 import Form from '../../forms/form';
-import { TableForm } from '../../components/index';
+import { Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
+import Fa from '../../components/fa';
+import msgs from '../../commons/messages';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -15,13 +17,9 @@ class TableFormControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		this.state = { rowsQuantity: 1 };
+		this.state = { errorsarr: [] };
 		this.addRow = this.addRow.bind(this);
 		this.remRow = this.remRow.bind(this);
-	}
-
-	componentWillMount() {
-		this.setState({ rowsQuantity: (this.props.schema.iniRowsQtt ? this.props.schema.iniRowsQtt : 1) });
 	}
 
 	/**
@@ -43,21 +41,89 @@ class TableFormControl extends React.Component {
 
 	}
 
+	validate() {
+		const sc = this.props.schema;
+		const values = this.props.value;
+
+		if (sc.min && values.length < sc.min) {
+			const msg = msgs.minListQtt(sc.min);
+			this.setState({ qttError: msg });
+			return msg;
+		}
+
+		if (sc.max && values.length > sc.max) {
+			const msg = msgs.maxListQtt(sc.max);
+			this.setState({ qttError: msg });
+			return msg;
+		}
+
+		this.setState({ qttError: null });
+
+		var i;
+		var errors = null;
+		for (i = 0; i < this.props.value.length; i++) {
+			const e = this.state.errorsarr;
+			e[i] = this.refs['form' + i].validate();
+			if (e[i]) {
+				errors = e[i];
+			}
+		}
+
+		this.forceUpdate();
+		return errors;
+	}
 
 	addRow() {
-		var quantity = this.state.rowsQuantity + 1;
-		this.setState({ rowsQuantity: quantity });
+		const sc = this.props.schema;
+
+		const values = this.props.value ? this.props.value.slice(0) : [];
+		values.push({});
+
+		this.props.onChange({ schema: sc, value: values });
 	}
 
 	remRow() {
-		if (this.state.rowsQuantity > 1) {
-			var quantity = this.state.rowsQuantity - 1;
-			this.setState({ rowsQuantity: quantity });
+		if (!this.props.value) {
+			return;
 		}
+
+		const sc = this.props.schema;
+		const values = this.props.value.slice(0);
+		values.pop();
+
+		this.props.onChange({ schema: sc, value: values });
 	}
 
-	validate() {
-		return this.refs.tableform.validate();
+	contentRender() {
+		var rowsQuantity = this.props.value ? this.props.value.length : 0;
+		var i;
+
+		var rows = [];
+		for (i = 0; i < rowsQuantity; i++) {
+			rows[i] = this.getNewRow(i);
+		}
+
+		return (<div>{rows.map(row => row)}</div>);
+	}
+
+	getNewRow(key) {
+		const sc = this.props.schema;
+
+		if (key < 0) {
+			return null;
+		}
+
+		return 	(<Row>
+					<Col sm={12}>
+						<Form ref={'form' + key}
+							schema={sc.fschema}
+							key={key}
+							doc={this.props.value[key]}
+							onChange={this.onChange}
+							errors={this.state.errorsarr[key]} />
+					</Col>
+				</Row>
+				);
 	}
 
 	render() {
@@ -71,18 +137,33 @@ class TableFormControl extends React.Component {
 			return null;
 		}
 
-		// rend the selection box
-		return ( // TODOMSR fundir o table form control e o table form
-			<TableForm ctitles={this.props.ctitles}
-				fschema={sc.fschema}
-				rowsQuantity={this.state.rowsQuantity} //todomsr o array de docs ja sabe quantas linhas essa info é redundante
-				addRow={this.addRow}
-				remRow={this.remRow}
-				docs={this.props.value}
-				ref="tableform"
-				nodetype={'div'}
-				onChange={this.onChange} />
-		);
+		var buttons =	(<ButtonToolbar className={'def-margin-bottom'}>
+							<Button onClick={this.addRow}
+								bsStyle={this.state.qttError ? 'danger' : 'default'} >
+									<Fa icon={'plus'}/>
+							</Button>
+
+							<Button onClick={this.remRow} bsStyle={this.state.qttError ? 'danger' : 'default'}
+								disabled={!this.props.value || this.props.value.length <= 0}>
+									<Fa icon={'minus'}/>
+							</Button>
+						</ButtonToolbar>);
+
+		return (
+			<div>
+				{
+					this.contentRender()
+				}
+				{
+					<div className="form-group has-error">
+						<div className="help-block">{this.state.qttError}</div>
+					</div>
+				}
+				{
+					buttons
+				}
+			</div>
+			);
 	}
 
 }
@@ -92,7 +173,8 @@ TableFormControl.propTypes = {
 	schema: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	resources: React.PropTypes.any,
-	ctitles: React.PropTypes.array
+	ctitles: React.PropTypes.array,
+	errors: React.PropTypes.any
 };
 
 export default Form.control(TableFormControl);
