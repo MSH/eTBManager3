@@ -29,7 +29,15 @@ const tfschema = {
 					required: true,
 					type: 'select',
 					label: __('Regimen.frequency'),
-					options: { from: 1, to: 7 },
+					options: [
+						{ id: 1, name: '1/7' },
+						{ id: 2, name: '2/7' },
+						{ id: 3, name: '3/7' },
+						{ id: 4, name: '4/7' },
+						{ id: 5, name: '5/7' },
+						{ id: 6, name: '6/7' },
+						{ id: 7, name: '7/7' }
+					],
 					size: { sm: 2 }
 				},
 				{
@@ -52,7 +60,7 @@ const tfschema = {
 // definition of the form fields to edit medicine regimens
 const editorDef = {
 	defaultProperties: {
-		medicines: [{}, {}]
+		medicines: [{}]
 	},
 	layout: [
 		{
