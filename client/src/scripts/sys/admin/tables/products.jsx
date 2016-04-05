@@ -105,7 +105,7 @@ const editorDef = {
 				{
 					property: 'substances',
 					label: __('Medicine.components'),
-					type: 'multi-select',
+					type: 'multiSelect',
 					options: 'substances'
 				}
 			],

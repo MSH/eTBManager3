@@ -31,8 +31,8 @@ class TableFormControl extends React.Component {
 		});
 
 		//como nomear a lista pra ser usada pelo form?
-		const res = { users: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
-		this.setState({ resources: res });
+		const res = { ctrl1: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
+		this.setState({ resources: null });
 	}
 
 	/**
@@ -126,7 +126,7 @@ class TableFormControl extends React.Component {
 			return null;
 		}
 
-		return 	(<Row>
+		return 	(<Row key={key}>
 					<Col sm={12}>
 						<Form ref={'form' + key}
 							schema={sc.fschema}
