@@ -68,14 +68,15 @@ export default class AdminUnitControl extends React.Component {
 			const self = this;
 
 			// request field initialization from server
-			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+//			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+			FormUtils.serverRequest({ cmd: 'adminUnit',  params: { value: this.props.value } })
 				.then(res => self.setState({ list: res.v }));
 		}
 	}
 
 	serverRequest(nextSchema, nextValue) {
 		const res = nextSchema.resources;
-		const val = nextValue.value;
+		const val = nextValue ? nextValue.value : null;
 
 		if (res) {
 			if (!val) {
