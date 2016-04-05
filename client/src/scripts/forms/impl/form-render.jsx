@@ -92,8 +92,13 @@ function createElement(form, item, value, errors) {
 	}
 
 	return (
-		<Comp ref={item.id} schema={snapshot} value={value} resources={res}
-			onChange={form._onChange} errors={err} />
+		<Comp ref={item.id}
+			schema={snapshot}
+			value={value}
+			resources={res}
+			onChange={form._onChange}
+			errors={err}
+			onRequest={form._onRequest} />
 		);
 }
 

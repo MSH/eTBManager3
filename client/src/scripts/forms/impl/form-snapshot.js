@@ -48,7 +48,7 @@ class SnapshotCreator {
 		const self = this;
 
 		schemas.forEach((schema, index) => {
-			const comp = FormUtils.getComponent(schema);
+			const comp = FormUtils.getControl(schema);
 			// create new snapshot, using the parent to overwrite common properties
 			const snapshot = Object.assign({}, comp.snapshot(schema, doc), parent);
 

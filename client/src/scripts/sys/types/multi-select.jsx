@@ -15,16 +15,6 @@ export default class MultiSelect extends React.Component {
 		return 'multiSelect';
 	}
 
-	static serverRequest(sc, val, prev) {
-		if (prev) {
-			return null;
-		}
-
-		return isString(sc.options) ?
-			{ cmd: sc.options } :
-			null;
-	}
-
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
@@ -32,6 +22,16 @@ export default class MultiSelect extends React.Component {
 
 	componentWillMount() {
 		this.setState({ resources: this.props.resources ? this.props.resources : null });
+	}
+
+	serverRequest(nextSchema) {
+		if (this.props.resources && nextSchema.options === this.props.schema.options) {
+			return null;
+		}
+
+		return isString(nextSchema.options) ?
+			{ cmd: nextSchema.options } :
+			null;
 	}
 
 	/**

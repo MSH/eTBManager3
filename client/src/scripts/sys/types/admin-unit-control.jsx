@@ -43,18 +43,6 @@ export default class AdminUnitControl extends React.Component {
 	}
 
 
-	static serverRequest(sc, val, prev) {
-		if (prev && sc.readOnly === prev.readOnly) {
-			return null;
-		}
-
-		return {
-			cmd: 'adminUnit',
-			params: { value: val }
-		};
-	}
-
-
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
@@ -84,6 +72,29 @@ export default class AdminUnitControl extends React.Component {
 				.then(res => self.setState({ list: res.v }));
 		}
 	}
+
+	serverRequest(nextSchema, nextValue) {
+		const res = nextSchema.resources;
+		const val = nextValue.value;
+
+		if (res) {
+			if (!val) {
+				return null;
+			}
+
+			const item = res.list[res.list.length - 1];
+			const sel = item.options.find(opt => opt.id === item.id);
+			if (sel) {
+				return null;
+			}
+		}
+
+		return {
+			cmd: 'adminUnit',
+			params: { value: this.props.value }
+		};
+	}
+
 
 	/**
 	 * Called when the user changes the item selected
