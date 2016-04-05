@@ -51,6 +51,7 @@ export default class FormModalExample extends React.Component {
 		super(props);
 
 		this.state = { doc: {} };
+		this.doSomething = this.doSomething.bind(this);
 	}
 
 	doSomething() {

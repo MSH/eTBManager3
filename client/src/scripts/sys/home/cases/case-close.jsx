@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
-import { server } from '../../../commons/server';
 
 const fschema = {
+			title: __('cases.close'),
 			layout: [
 				{
 					property: 'date',
@@ -29,7 +29,7 @@ const fschema = {
 					textAlign: 'left'
 				},
 				{
-				el: 'group',
+					type: 'group',
 					visible: value => value.outcome === 'OTHER',
 					layout: [
 						{
@@ -38,6 +38,7 @@ const fschema = {
 							label: __('CaseState.OTHER')
 						}
 					]
+
 				}
 			]
 		};
@@ -53,24 +54,20 @@ export default class CaseClose extends React.Component {
 		this.state = { doc: {} };
 	}
 
-	componentWillMount() {
-
-	}
-
 	closeCase() {
-
+		console.log('go to server and close this case! Dont forget to return a promise');
 	}
 
 	render() {
+		fschema.title = __('cases.close') + ' - ' + this.props.tbcase.patient.name;
 		return (
 			<FormDialog
 				schema={fschema}
 				doc={this.state.doc}
 				onConfirm={this.closeCase}
-				onCancel={this.props.onCancel}
+				onCancel={this.props.onClose}
 				confirmCaption={__('cases.close')}
 				wrapType={'modal'}
-				modalTitle={__('cases.close') + ' - this.props.tbcase.patient.name'}
 				modalShow={this.props.show}/>
 		);
 	}
@@ -79,5 +76,5 @@ export default class CaseClose extends React.Component {
 CaseClose.propTypes = {
 	tbcase: React.PropTypes.object,
 	show: React.PropTypes.bool,
-	onCancel: React.PropTypes.func
+	onClose: React.PropTypes.func
 };
