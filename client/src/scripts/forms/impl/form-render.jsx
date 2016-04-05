@@ -71,7 +71,7 @@ export default function formRender(form) {
 function createElement(form, item, value, errors) {
 	const snapshot = item.snapshot;
 	// get any resource that came from the object
-	const res = form.state.resources[item.id];
+	const res = form.state.resources[snapshot.id];
 
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
@@ -92,7 +92,7 @@ function createElement(form, item, value, errors) {
 	}
 
 	return (
-		<Comp ref={item.id}
+		<Comp ref={snapshot.id}
 			schema={snapshot}
 			value={value}
 			resources={res}

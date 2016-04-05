@@ -132,6 +132,10 @@ export default function formControl(Component) {
 		 * @return {[type]} [description]
 		 */
 		_checkServerRequest(nextProps) {
+			// check if resources are already available
+			if (nextProps.resources) {
+				return;
+			}
 			// get reference to the child function to create a possible server request
 			const comp = this.refs.input;
 			if (!comp || !comp.serverRequest) {

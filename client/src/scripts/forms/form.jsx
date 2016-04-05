@@ -220,7 +220,6 @@ export default class Form extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	render() {
-		console.log('Form.render()');
 		// render the form
 		const form = formRender(this);
 		return <Grid fluid className={this.props.className}>{form}</Grid>;

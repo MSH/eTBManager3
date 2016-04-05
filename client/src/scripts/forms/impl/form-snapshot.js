@@ -58,23 +58,22 @@ class SnapshotCreator {
 			}
 
 			// the id of the element, composed with the parent name
-			const id = (pref ? pref + ':' : '') +
-				(schemas.property ? schemas.property + index : 'ctrl' + index);
+			snapshot.id = (pref ? pref + ':' : '') +
+				(schema.property ? schema.property + index : 'ctrl' + index);
+
 			// list of children elements
 			const children = comp.children(schema);
 
 			// there is any children ?
 			if (children) {
-				self._traverse(children, snapshot, id);
+				self._traverse(children, snapshot, snapshot.id);
 			}
 			else {
 				const data = {
-					id: id,
 					// pointer to the original schema
 					schema: schema,
 					comp: comp,
-					snapshot: Object.assign({}, snapshot, parent),
-					prev: self._findPrev(id)
+					snapshot: Object.assign({}, snapshot, parent)
 				};
 				self.list.push(data);
 			}
@@ -82,21 +81,5 @@ class SnapshotCreator {
 		});
 	}
 
-	/**
-	 * Find previous snapshot by id the schema ID
-	 * @param  {string} id The schema ID
-	 * @return {Object}    The data containing the snapshot
-	 */
-	_findPrev(id) {
-		// get the list of snapshots in the form state
-		const lst = this.form.state.snapshots;
-		if (!lst) {
-			return null;
-		}
-
-		// search for previous snapshot in the list
-		const res = lst.find(item => item.id === id);
-		return res ? res.snapshot : null;
-	}
 
 }
