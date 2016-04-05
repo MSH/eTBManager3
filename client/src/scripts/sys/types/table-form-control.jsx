@@ -8,7 +8,7 @@ import msgs from '../../commons/messages';
 /**
  * Used in the Form library. Provide input data of string and number types
  */
-class TableFormControl extends React.Component {
+export default class TableFormControl extends React.Component {
 
 	static typeName() {
 		return 'tableForm';
@@ -190,5 +190,3 @@ TableFormControl.propTypes = {
 	ctitles: React.PropTypes.array,
 	errors: React.PropTypes.any
 };
-
-export default Form.control(TableFormControl);

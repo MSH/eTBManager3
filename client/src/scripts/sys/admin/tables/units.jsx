@@ -15,7 +15,8 @@ const editorDef = {
 			label: __('Tbunit'),
 			// the default properties that the document must contain (set on initialization)
 			defaultProperties: {
-				type: 'TBUNIT'
+				type: 'TBUNIT',
+				active: true
 			},
 			layout: [
 					{
@@ -127,7 +128,8 @@ const editorDef = {
 			label: __('Laboratory'),
 			// the default properties that the document must contain (set on initialization)
 			defaultProperties: {
-				type: 'LAB'
+				type: 'LAB',
+				active: true
 			},
 			layout: [
 					{

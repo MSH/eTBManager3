@@ -56,7 +56,7 @@ function initFromControls(schema, doc) {
 	schema.layout
 		.filter(elem => !!elem.property && getValue(doc, elem.property) === undefined)
 		.forEach(elem => {
-			const control = FormUtils.getComponent(elem);
+			const control = FormUtils.getControl(elem);
 			const val = control.defaultValue();
 
 			if (val) {

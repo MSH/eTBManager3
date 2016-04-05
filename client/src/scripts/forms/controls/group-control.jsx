@@ -1,7 +1,7 @@
 import React from 'react';
 import formControl from './form-control';
 
-class GroupControl extends React.Component {
+export default class GroupControl extends React.Component {
 
 	static typeName() {
 		return 'group';
@@ -20,5 +20,3 @@ class GroupControl extends React.Component {
 GroupControl.propTypes = {
 	schema: React.PropTypes.object.isRequired
 };
-
-export default formControl(GroupControl);

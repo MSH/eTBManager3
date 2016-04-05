@@ -92,10 +92,24 @@ export function setValue(obj, prop, val, autoCreate) {
  * @return {boolean}     True if both object are the same
  */
 export function objEqual(obj1, obj2) {
+    const empty1 = isEmpty(obj1);
+    const empty2 = isEmpty(obj2);
+    // check if objects exist
+    if (empty1 && empty2) {
+        return true;
+    }
+
+    // if just one is empty, so they are different
+    if (empty1 || empty2) {
+        return false;
+    }
+
+    // check if number of properties are the same
     if (Object.keys(obj1).length !== Object.keys(obj2).length) {
         return false;
     }
 
+    // finally check the object properties
     for (var k in obj1) {
         if (obj1[k] !== obj2[k]) {
             return false;

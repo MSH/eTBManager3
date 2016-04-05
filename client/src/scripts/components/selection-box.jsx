@@ -93,7 +93,7 @@ export default class SelectionBox extends React.Component {
 			return null;
 		}
 
-		const values = this.state.value;
+		const values = this.props.value;
 		if (this.props.mode === 'single' || !values) {
 			return options;
 		}
@@ -139,7 +139,7 @@ export default class SelectionBox extends React.Component {
 	btnCloseClick(item) {
 		const self = this;
 		return evt => {
-			const values = self.state.value;
+			const values = self.props.value;
 			const index = values.indexOf(item);
 			values.splice(index, 1);
 			this.notifyChange(values, evt);
@@ -171,7 +171,7 @@ export default class SelectionBox extends React.Component {
 				return;
 			}
 
-			const values = this.state.value ? this.state.value : [];
+			const values = this.props.value ? this.props.value : [];
 			values.push(item);
 			self.notifyChange(values.slice(0), evt);
 			self.refs.popup.preventHide();

@@ -4,7 +4,6 @@ import { Alert } from 'react-bootstrap';
 import WaitIcon from '../../components/wait-icon';
 import { getValue } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
-import FormUtils from '../form-utils';
 
 
 /**
@@ -72,7 +71,7 @@ export default function formRender(form) {
 function createElement(form, item, value, errors) {
 	const snapshot = item.snapshot;
 	// get any resource that came from the object
-	const res = form.state.resources[item.id];
+	const res = form.state.resources[snapshot.id];
 
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
@@ -93,8 +92,13 @@ function createElement(form, item, value, errors) {
 	}
 
 	return (
-		<Comp ref={item.id} schema={snapshot} value={value} resources={res}
-			onChange={form._onChange} errors={err} />
+		<Comp ref={snapshot.id}
+			schema={snapshot}
+			value={value}
+			resources={res}
+			onChange={form._onChange}
+			errors={err}
+			onRequest={form._onRequest} />
 		);
 }
 

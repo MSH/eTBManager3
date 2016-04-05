@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { SelectionBox } from '../../components/index';
-import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
 import { isString } from '../../commons/utils';
 
@@ -9,16 +8,10 @@ import { isString } from '../../commons/utils';
 /**
  * Field component to handle an array as value to select multiple options
  */
-class MultiSelect extends React.Component {
+export default class MultiSelect extends React.Component {
 
 	static typeName() {
 		return 'multiSelect';
-	}
-
-	static serverRequest(sc) {
-		return isString(sc.options) ?
-			{ cmd: sc.options } :
-			null;
 	}
 
 	constructor(props) {
@@ -27,7 +20,17 @@ class MultiSelect extends React.Component {
 	}
 
 	componentWillMount() {
-		this.setState({ resources: this.props.resources ? this.props.resources : null });
+//		this.setState({ resources: this.props.resources ? this.props.resources : null });
+	}
+
+	serverRequest(nextSchema) {
+		if (this.props.resources && nextSchema.options === this.props.schema.options) {
+			return null;
+		}
+
+		return isString(nextSchema.options) ?
+			{ cmd: nextSchema.options } :
+			null;
 	}
 
 	/**
@@ -39,6 +42,8 @@ class MultiSelect extends React.Component {
 			.getValue()
 			.map(item => item.id);
 
+			console.log(vals);
+
 		this.props.onChange({ schema: this.props.schema, value: vals });
 	}
 
@@ -48,7 +53,7 @@ class MultiSelect extends React.Component {
 	 */
 	adjustValues() {
 		const vals = this.props.value;
-		const options = this.state.resources;
+		const options = this.props.resources;
 		if (!vals || !options) {
 			return null;
 		}
@@ -73,7 +78,7 @@ class MultiSelect extends React.Component {
 				label={label}
 				optionDisplay="name"
 				mode="multiple"
-				options={this.state.resources}
+				options={this.props.resources}
 				onChange={this.onChange} />
 			);
 	}
@@ -87,6 +92,3 @@ MultiSelect.propTypes = {
 	resources: React.PropTypes.array,
 	noForm: React.PropTypes.bool
 };
-
-
-export default Form.control(MultiSelect);

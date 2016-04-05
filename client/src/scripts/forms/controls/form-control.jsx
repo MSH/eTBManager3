@@ -1,5 +1,6 @@
 import React from 'react';
 import FormUtils from '../form-utils';
+import { objEqual } from '../../commons/utils';
 
 
 export default function formControl(Component) {
@@ -82,10 +83,6 @@ export default function formControl(Component) {
 			return Component.children ? Component.children(schema) : null;
 		}
 
-		// constructor(props) {
-		// 	super('FieldControl', props);
-		// }
-
 		componentDidMount() {
 			if (!this.refs.input) {
 				return;
@@ -107,6 +104,10 @@ export default function formControl(Component) {
 					focusFunc();
 				}, 50);
 			}
+
+//			console.log('FormControl.componentDidMount()');
+			// check if child control must request the server
+			this._checkServerRequest(this.props);
 		}
 
 		/**
@@ -116,14 +117,41 @@ export default function formControl(Component) {
 		 */
 		shouldComponentUpdate(nextProps) {
 			// component should update only if element or doc is changed
-			var update = nextProps.schema !== this.props.schema ||
+			var update = !objEqual(nextProps.schema, this.props.schema) ||
 						nextProps.resources !== this.props.resources ||
 						nextProps.value !== this.props.value ||
 						nextProps.errors !== this.props.errors;
 
+			this._checkServerRequest(nextProps);
 			return update;
 		}
 
+		/**
+		 * Check if request must be performed to the server
+		 * @param {object} props The next properties
+		 * @return {[type]} [description]
+		 */
+		_checkServerRequest(nextProps) {
+			// check if resources are already available
+			if (nextProps.resources) {
+				return;
+			}
+			// get reference to the child function to create a possible server request
+			const comp = this.refs.input;
+			if (!comp || !comp.serverRequest) {
+				return;
+			}
+
+			// get request data
+			const req = comp.serverRequest(nextProps.schema, nextProps.value);
+			// no request? so exit
+			if (!req) {
+				return;
+			}
+
+			// ask the form to request the server
+			this.props.onRequest(this.props.schema, req);
+		}
 
 		/**
 		 * Validate the control. In case of failure, return a string or a complex error structure
@@ -141,6 +169,7 @@ export default function formControl(Component) {
 		render() {
 			const sc = this.props.schema;
 
+			console.log('FormControl.render');
 			// if component is not visible, doesn't render it
 			if (sc && 'visible' in sc && !sc.visible) {
 				return null;
@@ -155,7 +184,8 @@ export default function formControl(Component) {
 		schema: React.PropTypes.object,
 		onChange: React.PropTypes.func,
 		errors: React.PropTypes.any,
-		resources: React.PropTypes.any
+		resources: React.PropTypes.any,
+		onRequest: React.PropTypes.func
 	};
 
 	return FormControl;

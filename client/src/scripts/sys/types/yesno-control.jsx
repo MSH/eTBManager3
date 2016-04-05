@@ -9,7 +9,7 @@ import { Fa, SelectionBox } from '../../components/index';
 /**
  * Control for yes-no selection
  */
-class YesNoControl extends React.Component {
+export default class YesNoControl extends React.Component {
 
 	static typeName() {
 		return 'yesNo';
@@ -77,5 +77,3 @@ YesNoControl.propTypes = {
 	schema: React.PropTypes.object,
 	noForm: React.PropTypes.bool
 };
-
-export default Form.control(YesNoControl);

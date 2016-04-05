@@ -150,7 +150,7 @@ export default class FormUtils {
 	 * @param  {[type]} schema [description]
 	 * @return {[type]}        [description]
 	 */
-	static getComponent(schema) {
+	static getControl(schema) {
 		if (__DEV__) {
 			if (!schema.type) {
 				throw new Error('No control type defined for property ' + schema.property);

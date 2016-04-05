@@ -13,7 +13,7 @@ const crud = new CRUD('adminunit');
 /**
  * Field control to be used in forms to allow the user to select an administrative unit
  */
-class AdminUnitControl extends React.Component {
+export default class AdminUnitControl extends React.Component {
 
 	static typeName() {
 		return 'adminUnit';
@@ -43,14 +43,6 @@ class AdminUnitControl extends React.Component {
 	}
 
 
-	static serverRequest(sc, val) {
-		return {
-			cmd: 'adminUnit',
-			params: { value: val }
-		};
-	}
-
-
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
@@ -76,10 +68,34 @@ class AdminUnitControl extends React.Component {
 			const self = this;
 
 			// request field initialization from server
-			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+//			FormUtils.initFields([{ id: 'v', type: 'adminUnit', value: this.props.value }])
+			FormUtils.serverRequest({ cmd: 'adminUnit',  params: { value: this.props.value } })
 				.then(res => self.setState({ list: res.v }));
 		}
 	}
+
+	serverRequest(nextSchema, nextValue) {
+		const res = nextSchema.resources;
+		const val = nextValue ? nextValue.value : null;
+
+		if (res) {
+			if (!val) {
+				return null;
+			}
+
+			const item = res.list[res.list.length - 1];
+			const sel = item.options.find(opt => opt.id === item.id);
+			if (sel) {
+				return null;
+			}
+		}
+
+		return {
+			cmd: 'adminUnit',
+			params: { value: this.props.value }
+		};
+	}
+
 
 	/**
 	 * Called when the user changes the item selected
@@ -176,7 +192,7 @@ class AdminUnitControl extends React.Component {
 
 	readOnlyRender(schema) {
 		const value = this.props.value;
-		const s = Form.types.adminUnit.displayText(value);
+		const s = Form.types.adminUnit.controlClass().displayText(value);
 
 		return (
 			<Input
@@ -219,6 +235,3 @@ AdminUnitControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.array
 };
-
-export default Form.control(AdminUnitControl);
-

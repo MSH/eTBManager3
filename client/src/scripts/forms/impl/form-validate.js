@@ -15,11 +15,11 @@ import msgs from '../../commons/messages';
 export default function validateForm(form) {
 	let errors = null;
 
-	const snapshot = form.state.snapshot;
+	const snapshots = form.state.snapshots;
 	const doc = form.props.doc;
 
 	// browse all fields
-	snapshot.filter(el => el.el === 'field')
+	snapshots.filter(el => el.el === 'field')
 	.forEach(elem => {
 		const value = getValue(doc, elem.property);
 

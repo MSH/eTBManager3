@@ -1,6 +1,5 @@
 
 import React from 'react';
-import formControl from './form-control';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
 import { isPromise, isString } from '../../commons/utils';
@@ -8,38 +7,17 @@ import { isPromise, isString } from '../../commons/utils';
 /**
  * Used in the Form library. Provide input data of string and number types
  */
-class SelectControl extends React.Component {
+export default class SelectControl extends React.Component {
 
 	static typeName() {
 		return 'select';
-	}
-
-	/**
-	 * Prepare request data to be sent to the server, if necessary
-	 * @param  {Object} snapshot The current snapshot
-	 * @param  {Object} prev     The previous snapshot, if available
-	 * @return {Object}          The request, or null if no request must be sent
-	 */
-	static serverRequest(snapshot, prev) {
-		const opts = snapshot.options;
-		// is the options the name of the list in the server
-		if (!isString(opts)) {
-			return null;
-		}
-
-		// if previous options is equals the current, doesn't need to
-		// perform a new request to get the same data
-		if (prev && prev.options === opts) {
-			return null;
-		}
-
-		return { cmd: opts };
 	}
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.focus = this.focus.bind(this);
+
 		this.state = {};
 	}
 
@@ -50,6 +28,25 @@ class SelectControl extends React.Component {
 				this.setState({ options: options });
 			}
 		}
+	}
+
+	/**
+	 * Prepare request data to be sent to the server, if necessary
+	 * @param  {Object} snapshot The current snapshot
+	 * @param  {Object} prev     The previous snapshot, if available
+	 * @return {Object}          The request, or null if no request must be sent
+	 */
+	serverRequest(nextSchema) {
+		if (this.props.resources && this.props.schema.options === nextSchema.options) {
+			return null;
+		}
+
+		const options = nextSchema.options;
+		if (!isString(options)) {
+			return null;
+		}
+
+		return { cmd: options };
 	}
 
 
@@ -120,5 +117,3 @@ SelectControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.any
 };
-
-export default formControl(SelectControl);

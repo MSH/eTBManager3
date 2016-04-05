@@ -1,13 +1,12 @@
 
 import React from 'react';
 import DatePicker from '../../components/date-picker';
-import formControl from './form-control';
 import FormUtils from '../form-utils';
 
 /**
  * Control to support date types
  */
-class DateControl extends React.Component {
+export default class DateControl extends React.Component {
 
 	static typeName() {
 		return 'date';
@@ -59,5 +58,3 @@ DateControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.any
 };
-
-export default formControl(DateControl);

@@ -9,7 +9,7 @@ import { isPromise } from '../../commons/utils';
 /**
  * Control for yes-no selection
  */
-class ListBoxControl extends React.Component {
+export default class ListBoxControl extends React.Component {
 
 	static typeName() {
 		return 'listBox';
@@ -100,6 +100,3 @@ ListBoxControl.propTypes = {
 	vertical: React.PropTypes.bool,
 	textAlign: React.PropTypes.oneOf(['right', 'left', 'center'])
 };
-
-
-export default Form.control(ListBoxControl);

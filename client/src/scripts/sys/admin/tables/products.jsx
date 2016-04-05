@@ -13,7 +13,8 @@ const editorDef = {
 		'PRODUCT': {
 			label: __('Product'),
 			defaultProperties: {
-				type: 'PRODUCT'
+				type: 'PRODUCT',
+				active: true
 			},
 			layout: [
 				{
@@ -52,7 +53,8 @@ const editorDef = {
 		'MEDICINE': {
 			label: __('Medicine'),
 			defaultProperties: {
-				type: 'MEDICINE'
+				type: 'MEDICINE',
+				active: true
 			},
 			layout: [
 				{

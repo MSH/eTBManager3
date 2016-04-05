@@ -9,27 +9,10 @@ import Form from '../../forms/form';
 /**
  * Field control used in the form lib for displaying and selection of a unit
  */
-class UnitControl extends React.Component {
+export default class UnitControl extends React.Component {
 
 	static typeName() {
 		return 'unit';
-	}
-
-	static serverRequest(schema, val) {
-		// check if workspaceId property was defined but no value in the current state
-		if ('workspaceId' in schema && !schema.workspaceId) {
-			return null;
-		}
-
-		return schema.readOnly ?
-			null :
-			{
-				cmd: 'unit',
-				params: {
-					value: val,
-					workspaceId: schema.workspaceId
-				}
-			};
 	}
 
 	static snapshot(schema, doc) {
@@ -79,7 +62,6 @@ class UnitControl extends React.Component {
 
 		// check if resources changed
 		if (res && this.props.resources !== res) {
-			console.log('4. new properties ', res);
 			this.setState({
 				adminUnits: res.adminUnits,
 				units: res.units,
@@ -87,6 +69,45 @@ class UnitControl extends React.Component {
 				unit: null
 			});
 		}
+	}
+
+	/**
+	 * Check if a server request is required
+	 * @param  {Object} nextSchema The next schema
+	 * @param  {Object} nextValue  The next value
+	 * @return {boolean}           return true if server request is required
+	 */
+	_requestRequired(nextSchema, nextValue) {
+		const s = this.props.schema;
+		// parameters have changed ?
+		if (nextSchema.workspaceId !== s.workspaceId) {
+			return true;
+		}
+
+		// no resources in both old and new props ?
+		if (!nextSchema.resources && !s.resources) {
+			return true;
+		}
+
+		const res = nextSchema.resources ? nextSchema.resources : s.resources;
+		const it = res.units.find(opt => opt.id === nextValue);
+		return !it;
+	}
+
+	serverRequest(nextSchema, nextValue) {
+		if (!this._requestRequired(nextSchema, nextValue)) {
+			return null;
+		}
+
+		return nextSchema.readOnly ?
+			null :
+			{
+				cmd: 'unit',
+				params: {
+					value: nextValue,
+					workspaceId: nextSchema.workspaceId
+				}
+			};
 	}
 
 	/**
@@ -215,5 +236,3 @@ UnitControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.object
 };
-
-export default Form.control(UnitControl);

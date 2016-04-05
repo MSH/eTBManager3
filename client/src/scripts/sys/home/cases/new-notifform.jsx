@@ -28,7 +28,7 @@ const notifForm = {
 		size: { sm: 4 }
 	},
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: 'Patient data',
 		size: { sm: 12 }
 	},
@@ -81,7 +81,7 @@ const notifForm = {
 	},
 
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: __('cases.details.addressnotif'),
 		size: { sm: 12 }
 	},
@@ -126,7 +126,7 @@ const notifForm = {
 	},
 
 	{
-		el: 'subtitle',
+		type: 'subtitle',
 		label: __('cases.details.case'),
 		size: { sm: 12 }
 	},

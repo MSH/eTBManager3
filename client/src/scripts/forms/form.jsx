@@ -37,15 +37,16 @@ export default class Form extends React.Component {
 		}
 
 		if (name.constructor.name === 'Array') {
-			name.forEach(k => { Form.types[k] = Comp; });
+			name.forEach(k => { Form.types[k] = formControl(Comp); });
 		}
 
-		Form.types[name] = Comp;
+		Form.types[name] = formControl(Comp);
 	}
 
 	constructor(props) {
 		super(props);
 		this._onChange = this._onChange.bind(this);
+		this._onRequest = this._onRequest.bind(this);
 		this.state = {};
 
 		// this code block is just available in development mode
@@ -67,7 +68,7 @@ export default class Form extends React.Component {
 						throw new Error('Element type not defined for ' + elem.property);
 					}
 
-					const comp = FormUtils.getComponent(elem);
+					const comp = FormUtils.getControl(elem);
 					if (!comp) {
 						throw new Error('Component type not found: ' + elem.type);
 					}
@@ -90,12 +91,29 @@ export default class Form extends React.Component {
 			}
 		}
 
+		// start recording any request made by the children
+		this.recordRequests();
 
-		const self = this;
+
+		// const self = this;
 
 		// request the server
-		requestServer(snapshots)
-		.then(res => self.setState({ resources: res }));
+		// requestServer(snapshots)
+		// .then(res => self.setState({ resources: res }));
+	}
+
+	componentDidMount() {
+		// called first time the form is mounted
+		this.applyRequests();
+	}
+
+	componentWillUpdate() {
+		this.applyRequests();
+	}
+
+	componentDidUpdate() {
+		// called on every consecutive render (except the first render)
+		this.applyRequests();
 	}
 
 	/**
@@ -137,24 +155,72 @@ export default class Form extends React.Component {
 			this.props.onChange(this.props.doc, schema, value);
 		}
 
-		const snapshots = this.updateSnapshot();
+		this.updateSnapshot();
 
-		if (schema.refreshOnChange) {
-			this._refreshElems(schema.refreshOnChange, snapshots);
-		}
+		// const snapshots = this.updateSnapshot();
 
-		const self = this;
+		// if (schema.refreshOnChange) {
+		// 	this._refreshElems(schema.refreshOnChange, snapshots);
+		// }
+
+		// const self = this;
 		// request the server
-		requestServer(snapshots)
-		.then(res => self.setState({ resources: res }));
+		// requestServer(snapshots)
+		// .then(res => self.setState({ resources: res }));
 	}
 
+	/**
+	 * Receive a request from a control to be dispatched to the server
+	 * @param  {[type]} schema [description]
+	 * @param  {[type]} req    [description]
+	 * @return {[type]}        [description]
+	 */
+	_onRequest(schema, req) {
+		if (this.reqs) {
+			this.reqs.push({ schema: schema, req: req });
+		}
+		else {
+			this.recordRequests();
+			this.reqs.push({ schema: schema, req: req });
+			this.applyRequests();
+		}
+	}
+
+	recordRequests() {
+		this.reqs = [];
+	}
+
+	applyRequests() {
+		// check if there is any request to be dispatched
+		if (!this.reqs || this.reqs.length === 0) {
+			if (!this.state.resources) {
+				this.setState({ resources: [] });
+			}
+			return;
+		}
+
+		// mount request list
+		const req = this.reqs.map(it => ({
+			id: it.schema.id, cmd: it.req.cmd, params: it.req.params
+		}));
+
+		const self = this;
+
+		// request the server all the requests that came from the children
+		FormUtils
+			.serverRequest(req)
+			.then(res => self.setState({ resources: res }));
+
+		// clean up the requests
+		delete this.reqs;
+	}
 
 	/**
 	 * Rend form
 	 * @return {[type]} [description]
 	 */
 	render() {
+		// render the form
 		const form = formRender(this);
 		return <Grid fluid className={this.props.className}>{form}</Grid>;
 	}
