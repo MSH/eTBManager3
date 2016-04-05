@@ -22,6 +22,19 @@ export default class TableFormControl extends React.Component {
 		this.remRow = this.remRow.bind(this);
 	}
 
+	componentWillMount() {
+		const sc = this.props.schema;
+		sc.fschema.layout.forEach(item => {
+			if (item.options) {
+				alert(item.property);
+			}
+		});
+
+		//como nomear a lista pra ser usada pelo form?
+		const res = { users: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
+		this.setState({ resources: res });
+	}
+
 	/**
 	 * Called when user changes the value in the control
 	 * @return {[type]} [description]
@@ -120,7 +133,8 @@ export default class TableFormControl extends React.Component {
 							key={key}
 							doc={this.props.value[key]}
 							onChange={this.onChange}
-							errors={this.state.errorsarr[key]} />
+							errors={this.state.errorsarr[key]}
+							resources={this.state.resources} />
 					</Col>
 				</Row>
 				);
