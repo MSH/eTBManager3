@@ -2,7 +2,6 @@
 import React from 'react';
 import { SelectionBox } from '../../components/index';
 import FormUtils from '../../forms/form-utils';
-import { isString } from '../../commons/utils';
 
 
 /**
@@ -19,18 +18,8 @@ export default class MultiSelect extends React.Component {
 		this.onChange = this.onChange.bind(this);
 	}
 
-	componentWillMount() {
-//		this.setState({ resources: this.props.resources ? this.props.resources : null });
-	}
-
-	serverRequest(nextSchema) {
-		if (this.props.resources && nextSchema.options === this.props.schema.options) {
-			return null;
-		}
-
-		return isString(nextSchema.options) ?
-			{ cmd: nextSchema.options } :
-			null;
+	serverRequest(nextSchema, nextValue, nextResources) {
+		return FormUtils.optionsRequest(this.props, nextSchema, nextValue, nextResources);
 	}
 
 	/**
@@ -41,8 +30,6 @@ export default class MultiSelect extends React.Component {
 		const vals = this.refs.selbox
 			.getValue()
 			.map(item => item.id);
-
-			console.log(vals);
 
 		this.props.onChange({ schema: this.props.schema, value: vals });
 	}

@@ -121,7 +121,11 @@ export default function formControl(Component) {
 						nextProps.value !== this.props.value ||
 						nextProps.errors !== this.props.errors;
 
-			this._checkServerRequest(nextProps);
+			if (update) {
+				// just check server request if component changed (protection to avoid eternal loop)
+				this._checkServerRequest(nextProps);
+			}
+
 			return update;
 		}
 

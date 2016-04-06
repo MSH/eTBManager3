@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
 import { ListBox } from '../../components/index';
 import { isPromise } from '../../commons/utils';
@@ -13,16 +12,6 @@ export default class ListBoxControl extends React.Component {
 
 	static typeName() {
 		return 'listBox';
-	}
-
-	/**
-	 * Return request to be sent to server, if necessary
-	 * @param  {[type]} schema [description]
-	 * @return {[type]}        [description]
-	 */
-	static serverRequest(schema, val, doc) {
-		// TODOMS Ricardo: O que faz isso???
-		return FormUtils.optionsRequest(schema, doc);
 	}
 
 	constructor(props) {
@@ -39,6 +28,16 @@ export default class ListBoxControl extends React.Component {
 			}
 		}
 	}
+
+	/**
+	 * Return request to be sent to server, if necessary
+	 * @param  {[type]} schema [description]
+	 * @return {[type]}        [description]
+	 */
+	serverRequest(nextSchema, nextValue, nextResources) {
+		return FormUtils.optionsRequest(this.props, nextSchema, nextValue, nextResources);
+	}
+
 
 	/**
 	 * Called when user changes the value in the control

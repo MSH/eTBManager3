@@ -155,17 +155,6 @@ export default class Form extends React.Component {
 		}
 
 		this.updateSnapshot();
-
-		// const snapshots = this.updateSnapshot();
-
-		// if (schema.refreshOnChange) {
-		// 	this._refreshElems(schema.refreshOnChange, snapshots);
-		// }
-
-		// const self = this;
-		// request the server
-		// requestServer(snapshots)
-		// .then(res => self.setState({ resources: res }));
 	}
 
 	/**
@@ -189,6 +178,11 @@ export default class Form extends React.Component {
 		this.reqs = [];
 	}
 
+	/**
+	 * Apply the requests made by the controls during the render phase. If there are
+	 * requests made by the client using the onRequest event, these requests are
+	 * gathered together and sent once to the server
+	 */
 	applyRequests() {
 		// check if there is any request to be dispatched
 		if (!this.reqs || this.reqs.length === 0) {
@@ -208,7 +202,7 @@ export default class Form extends React.Component {
 		// request the server all the requests that came from the children
 		FormUtils
 			.serverRequest(req)
-			.then(res => self.setState({ resources: res }));
+			.then(res => self.setState({ resources: Object.assign({}, this.state.resources, res) }));
 
 		// clean up the requests
 		delete this.reqs;
