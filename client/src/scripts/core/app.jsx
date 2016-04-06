@@ -6,7 +6,7 @@ import { server, onRequestError } from '../commons/server';
 import Storage from './storage';
 import { ERROR } from './actions';
 import { router } from '../components/router';
-import selectMomentJSLocale from '../locales/locale-selector';
+import moment from 'moment';
 
 /**
  * Reference to the application
@@ -75,7 +75,7 @@ export class App {
 		const self = this;
 
 		// set right locale in moment lib
-		selectMomentJSLocale(window.app.getLang().toLowerCase().replace('_', '-'));
+		moment.locale(window.app.getLang());
 
 		// call server to get system status
 		server.post('/api/sys/info?list=1', {})
