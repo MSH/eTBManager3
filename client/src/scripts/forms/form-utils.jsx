@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
-import { isFunction, getValue } from '../commons/utils';
+import { isFunction, isString } from '../commons/utils';
 import Form from './form';
 
 const requiredTooltip = (
@@ -42,40 +42,21 @@ export default class FormUtils {
 			);
 	}
 
+
 	/**
 	 * Return the server request of the options, if available
 	 * @param  {[type]} schema The element schema
 	 * @param  {[type]} doc    The document of the form
 	 * @return {[type]}        [description]
 	 */
-	static optionsRequest(schema, doc) {
-		const options = schema.options;
-		if (!options) {
-			return null;
-		}
-		const req = isFunction(options) ? options(doc) : options;
+	static optionsRequest(props, nextSchema, nextValue, nextResources) {
+		const options = nextSchema.options;
 
-		if (typeof req === 'string') {
-			return { cmd: req };
-		}
-
-		if (!req || !req.cmd) {
+		if ((props.resources || nextResources) && props.schema.options === options) {
 			return null;
 		}
 
-		let params = req.params;
-		// are there properties to be sent with the request ?
-		if (req.propertyParams) {
-			// mount the list of params to send to the server
-			const p = {};
-			for (var k in req.propertyParams) {
-				p[k] = getValue(doc, k);
-			}
-			// include it in the params
-			params = Object.assign({}, params, p);
-		}
-
-		return { cmd: req.cmd, params: params };
+		return isString(options) ? { cmd: options } : null;
 	}
 
 	/**

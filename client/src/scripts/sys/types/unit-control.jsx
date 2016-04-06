@@ -48,50 +48,13 @@ export default class UnitControl extends React.Component {
 		}
 
 		// update the selected admin unit ID
-		this.setState({ auId: resources.adminUnitId, units: resources.units });
+		if (this.units) {
+			this.setState({ auId: resources.adminUnitId, units: resources.units });
+		}
+		else {
+			this.setState({ auId: resources.adminUnitId });
+		}
 	}
-
-	// componentWillMount() {
-	// 	// resources are available to initialize the field ?
-	// 	const resources = this.props.resources;
-	// 	if (resources) {
-	// 		this.setState({
-	// 			adminUnits: resources.adminUnits,
-	// 			units: resources.units,
-	// 			adminUnitId: resources.adminUnitId
-	// 		});
-	// 		return;
-	// 	}
-
-	// 	// root was loaded ?
-	// 	if (!this.state.adminUnits) {
-	// 		const req = UnitControl.serverRequest(this.props.schema, this.props.value);
-	// 		if (!req) {
-	// 			return;
-	// 		}
-
-	// 		const self = this;
-
-	// 		FormUtils.serverRequest(req)
-	// 			.then(res => {
-	// 				self.setState(res);
-	// 			});
-	// 	}
-	// }
-
-	// componentWillReceiveProps(nextProps) {
-	// 	const res = nextProps.resources;
-
-	// 	// check if resources changed
-	// 	if (res && this.props.resources !== res) {
-	// 		this.setState({
-	// 			adminUnits: res.adminUnits,
-	// 			units: res.units,
-	// 			adminUnitId: res.adminUnitId,
-	// 			unit: null
-	// 		});
-	// 	}
-	// }
 
 	/**
 	 * Check if a server request is required
@@ -107,17 +70,18 @@ export default class UnitControl extends React.Component {
 		}
 
 		// no resources in both old and new props ?
-		if (!nextResource && !s.resources) {
+		if (!nextResource && !this.props.resources) {
 			return true;
 		}
 
-		const res = nextResource ? nextResource : this.props.resources;
-		return this.props.value !== nextValue && !res;
+		return false;
+//		return this.props.value !== nextValue && !res;
 //		const it = res.units.find(opt => opt.id === nextValue);
 //		return !it;
 	}
 
 	serverRequest(nextSchema, nextValue, nextResource) {
+		console.log('hi');
 		if (!this._requestRequired(nextSchema, nextValue, nextResource)) {
 			return null;
 		}
@@ -163,6 +127,7 @@ export default class UnitControl extends React.Component {
 			.then(res => self.setState({ units: res.units }));
 
 		this.setState({ units: null, adminUnitId: admUnit });
+		this.onUnitChange(null, null);
 	}
 
 	/**
@@ -176,7 +141,6 @@ export default class UnitControl extends React.Component {
 		if (this.props.onChange) {
 			this.props.onChange({ schema: this.props.schema, value: id });
 		}
-//		this.setState({ unit: id });
 	}
 
 	createAdmUnitList() {
@@ -195,7 +159,9 @@ export default class UnitControl extends React.Component {
 
 		return (
 				<SelectionBox ref="admunit" value={value}
-					type="select" label={label} onChange={this.onAuChange}
+					type="select"
+					label={label}
+					onChange={this.onAuChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
 					options={res.adminUnits} />
@@ -203,7 +169,6 @@ export default class UnitControl extends React.Component {
 	}
 
 	createUnitList() {
-		console.log('hi');
 		if (!this.state.units) {
 			return null;
 		}
@@ -213,8 +178,10 @@ export default class UnitControl extends React.Component {
 		const value = id ? this.state.units.find(item => item.id === id) : null;
 
 		return (
-				<SelectionBox ref="unit" value={value}
-					type="select" onChange={this.onUnitChange}
+				<SelectionBox ref="unit"
+					value={value}
+					type="select"
+					onChange={this.onUnitChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
 					options={this.state.units} />

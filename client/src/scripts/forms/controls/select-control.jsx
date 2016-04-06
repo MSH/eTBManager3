@@ -2,7 +2,7 @@
 import React from 'react';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
-import { isPromise, isString } from '../../commons/utils';
+import { isPromise } from '../../commons/utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -36,17 +36,8 @@ export default class SelectControl extends React.Component {
 	 * @param  {Object} prev     The previous snapshot, if available
 	 * @return {Object}          The request, or null if no request must be sent
 	 */
-	serverRequest(nextSchema) {
-		if (this.props.resources && this.props.schema.options === nextSchema.options) {
-			return null;
-		}
-
-		const options = nextSchema.options;
-		if (!isString(options)) {
-			return null;
-		}
-
-		return { cmd: options };
+	serverRequest(nextSchema, nextValue, nextResources) {
+		return FormUtils.optionsRequest(this.props, nextSchema, nextValue, nextResources);
 	}
 
 
