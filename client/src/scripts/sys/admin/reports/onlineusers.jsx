@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, Row, Badge } from 'react-bootstrap';
 import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import { server } from '../../../commons/server';
+import moment from 'moment';
 
 /**
  * The page controller of the public module
@@ -83,7 +84,7 @@ export default class OnlineUsers extends React.Component {
 			},
 			{
 				title: __('UserLogin.loginDate'),
-				content: item => new Date(item.loginDate).toString(),
+				content: item => moment(item.loginDate).format('L'),
 				size: { sm: 4 }
 			},
 			{
