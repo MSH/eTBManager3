@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
-import Form from '../../../forms/form';
 
 const fschema = {
+			title: __('cases.move'),
 			layout: [
 				{
 					property: 'date',
@@ -32,39 +32,21 @@ export default class CaseMove extends React.Component {
 		this.state = { doc: {} };
 	}
 
-	componentWillMount() {
-
-	}
-
 	moveCase() {
-		const self = this;
-
-		const errors = self.refs.form.validate();
-		this.setState({ errors: errors });
-		if (errors) {
-			return true;
-		}
-
-		alert('TODOMS: go to server and close this case!');
-		return false;
+		console.log('go to server and transfer this case! Dont forget to return a promise');
 	}
 
 	render() {
-		const content = (
-			<Form ref="form"
-				schema={fschema}
-				doc={this.state.doc}
-				errors={this.state.errors} />
-		);
-
+		fschema.title = __('cases.move') + ' - ' + this.props.tbcase.patient.name;
 		return (
 			<FormDialog
-				show={this.props.show}
-				title={__('cases.move') + ' - TODOMS CONCATENAR NOME DO PACIENTE'}
-				type={'CustomCancel'}
-				onClose={this.props.onClose}
-				customBtnLbl={__('cases.move')}
-				content={content} />
+				schema={fschema}
+				doc={this.state.doc}
+				onConfirm={this.closeCase}
+				onCancel={this.props.onClose}
+				confirmCaption={__('cases.move')}
+				wrapType={'modal'}
+				modalShow={this.props.show}/>
 		);
 	}
 }

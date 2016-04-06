@@ -54,7 +54,6 @@ export default class FormDialog extends React.Component {
 		}
 	}
 
-
 	render() {
 		const schema = this.props.schema;
 		if (!schema) {
@@ -90,7 +89,7 @@ export default class FormDialog extends React.Component {
 							bsStyle="primary"
 							onClick={this.confirmClick}>{this.props.confirmCaption}
 						</AsyncButton>
-						<Button onClick={this.props.onCancel}>
+						<Button onClick={this.props.onCancel} disabled={this.state.fetching}>
 							<i className="fa fa-times fa-fw"/>{__('action.cancel')}
 						</Button>
 					</ButtonToolbar>
@@ -104,8 +103,8 @@ export default class FormDialog extends React.Component {
 					</Card>
 				);
 			case 'modal': return (
-					<Modal show={this.props.modalShow} onHide={this.props.onCancel} bsSize={this.props.modalBsSize}>
-						<Modal.Header closeButton>
+					<Modal show={this.props.modalShow} bsSize={this.props.modalBsSize}>
+						<Modal.Header>
 							<Modal.Title>
 								{title}
 							</Modal.Title>

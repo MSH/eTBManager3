@@ -26,13 +26,13 @@ export default class TableFormControl extends React.Component {
 		const sc = this.props.schema;
 		sc.fschema.layout.forEach(item => {
 			if (item.options) {
-				alert(item.property);
+				console.log(item.property);
 			}
 		});
 
-		//como nomear a lista pra ser usada pelo form?
-		const res = { users: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
-		this.setState({ resources: res });
+		//TODOMSR: como nomear a lista pra ser usada pelo form?
+		const res = { userId1: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
+		this.setState({ resources: null });
 	}
 
 	/**
@@ -126,7 +126,7 @@ export default class TableFormControl extends React.Component {
 			return null;
 		}
 
-		return 	(<Row>
+		return 	(<Row key={key}>
 					<Col sm={12}>
 						<Form ref={'form' + key}
 							schema={sc.fschema}

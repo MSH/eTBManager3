@@ -8,6 +8,7 @@ import CaseData from './case-data';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
+import CaseMove from './case-move';
 
 import { generateName } from '../../mock-data';
 
@@ -197,6 +198,10 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
+
+				<CaseMove show={this.state.showMoveCase} onClose={this.show('showMoveCase', false)} tbcase={tbcase}/>
 
 			</div>
 			);
