@@ -44,7 +44,7 @@ export default class OnlineUsers extends React.Component {
 		return (
 			<Row>
 				<Col sm={12}>
-					<h4>{__('admin.websessions')} {countHTML} {'TODOMS: Rever regras de criação/destruição de user session'}</h4>
+					<h4>{__('admin.websessions')} {countHTML}</h4>
 				</Col>
 			</Row>
 			);
@@ -60,7 +60,7 @@ export default class OnlineUsers extends React.Component {
 						<Col sm={4}>
 							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
 							<dd>
-								{moment(item.lastAccess).format('L LT')}
+								{moment(item.lastAccess).format('L LT') + ' ' + moment(item.lastAccess).fromNow()}
 							</dd>
 						</Col>
 						<Col sm={4}>
@@ -72,6 +72,7 @@ export default class OnlineUsers extends React.Component {
 	}
 
 	render() {
+		//TODOMS: terminar configuração das datas
 		if (!this.state || !this.state.values) {
 			return <WaitIcon type="card" />;
 		}
