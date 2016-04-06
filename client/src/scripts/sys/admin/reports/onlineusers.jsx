@@ -60,12 +60,12 @@ export default class OnlineUsers extends React.Component {
 						<Col sm={4}>
 							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
 							<dd>
-								{new Date(item.lastAccess).toString()}
+								{moment(item.lastAccess).format('L LT')}
 							</dd>
 						</Col>
 						<Col sm={4}>
 							<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
-							<dd>{'TODOMS: CALC VALUE BASED ON loginDate. Aguardando momentsjs'}</dd>
+							<dd>{moment(item.loginDate).fromNow()}</dd>
 						</Col>
 					</dl>
 				</div>);
@@ -84,12 +84,12 @@ export default class OnlineUsers extends React.Component {
 			},
 			{
 				title: __('UserLogin.loginDate'),
-				content: item => moment(item.loginDate).format('L'),
+				content: item => moment(item.loginDate).format('L LT'),
 				size: { sm: 4 }
 			},
 			{
-				title: __('admin.websessions.idletime') + ' TODOMS: CALC with momentsjs',
-				content: item => new Date(item.loginDate).toString(),
+				title: __('admin.websessions.idletime'),
+				content: item => moment(item.lastAccess).fromNow(),
 				size: { sm: 4 }
 			}
 		];
@@ -101,7 +101,7 @@ export default class OnlineUsers extends React.Component {
 							<Col md={12}>
 								<ReactTable columns={colschema}
 									values={this.state.values.list}
-									onCollapseRender={this.collapseRender} />
+									onExpandRender={this.collapseRender} />
 							</Col>
 						</Row>
 					</Card>
