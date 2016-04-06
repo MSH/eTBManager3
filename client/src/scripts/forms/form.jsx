@@ -9,7 +9,6 @@ import formRender from './impl/form-render';
 import createSnapshot from './impl/form-snapshot';
 import formControl from './controls/form-control';
 import { initDefaultValues } from './impl/form-init';
-import { requestServer } from './impl/form-request';
 import FormUtils from './form-utils';
 
 

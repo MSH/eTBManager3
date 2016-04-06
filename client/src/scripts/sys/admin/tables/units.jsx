@@ -102,14 +102,14 @@ const editorDef = {
 						size: { sm: 12 }
 					},
 					{
-						property: 'supplierId',
 						type: 'unit',
+						property: 'supplierId',
 						label: __('Unit.supplier'),
 						size: { sm: 6 }
 					},
 					{
-						property: 'authorizerId',
 						type: 'unit',
+						property: 'authorizerId',
 						label: __('Unit.authorizer'),
 						size: { sm: 6 }
 					},

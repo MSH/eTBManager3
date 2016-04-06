@@ -105,7 +105,6 @@ export default function formControl(Component) {
 				}, 50);
 			}
 
-//			console.log('FormControl.componentDidMount()');
 			// check if child control must request the server
 			this._checkServerRequest(this.props);
 		}
@@ -116,9 +115,6 @@ export default function formControl(Component) {
 		 * @return {[type]}           [description]
 		 */
 		shouldComponentUpdate(nextProps) {
-			if (Component.name === 'AdminUnitControl') {
-				console.log('hi');
-			}
 			// component should update only if element or doc is changed
 			var update = !objEqual(nextProps.schema, this.props.schema) ||
 						nextProps.resources !== this.props.resources ||
@@ -168,7 +164,6 @@ export default function formControl(Component) {
 		render() {
 			const sc = this.props.schema;
 
-			console.log('FormControl.render');
 			// if component is not visible, doesn't render it
 			if (sc && 'visible' in sc && !sc.visible) {
 				return null;

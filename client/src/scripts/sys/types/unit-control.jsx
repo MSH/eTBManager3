@@ -3,7 +3,6 @@ import React from 'react';
 import { Input } from 'react-bootstrap';
 import { WaitIcon, SelectionBox } from '../../components/index';
 import FormUtils from '../../forms/form-utils';
-import Form from '../../forms/form';
 
 
 /**
@@ -19,6 +18,7 @@ export default class UnitControl extends React.Component {
 		if (schema.workspaceId) {
 			FormUtils.propEval(schema, 'workspaceId', doc);
 		}
+		return schema;
 	}
 
 	constructor(props) {
@@ -30,46 +30,68 @@ export default class UnitControl extends React.Component {
 	}
 
 	componentWillMount() {
-		// resources are available to initialize the field ?
-		const resources = this.props.resources;
-		if (resources) {
-			this.setState({
-				adminUnits: resources.adminUnits,
-				units: resources.units,
-				adminUnitId: resources.adminUnitId
-			});
+		this.updateState(this.props.resources);
+	}
+
+	componentWillReceiveProps(props) {
+		this.updateState(props.resources);
+	}
+
+	/**
+	 * Update the state based on the resources sent from the parent
+	 * @param  {[type]} resources [description]
+	 * @return {[type]}           [description]
+	 */
+	updateState(resources) {
+		if (!resources) {
 			return;
 		}
 
-		// root was loaded ?
-		if (!this.state.adminUnits) {
-			const req = UnitControl.serverRequest(this.props.schema, this.props.value);
-			if (!req) {
-				return;
-			}
-
-			const self = this;
-
-			FormUtils.serverRequest(req)
-				.then(res => {
-					self.setState(res);
-				});
-		}
+		// update the selected admin unit ID
+		this.setState({ auId: resources.adminUnitId, units: resources.units });
 	}
 
-	componentWillReceiveProps(nextProps) {
-		const res = nextProps.resources;
+	// componentWillMount() {
+	// 	// resources are available to initialize the field ?
+	// 	const resources = this.props.resources;
+	// 	if (resources) {
+	// 		this.setState({
+	// 			adminUnits: resources.adminUnits,
+	// 			units: resources.units,
+	// 			adminUnitId: resources.adminUnitId
+	// 		});
+	// 		return;
+	// 	}
 
-		// check if resources changed
-		if (res && this.props.resources !== res) {
-			this.setState({
-				adminUnits: res.adminUnits,
-				units: res.units,
-				adminUnitId: res.adminUnitId,
-				unit: null
-			});
-		}
-	}
+	// 	// root was loaded ?
+	// 	if (!this.state.adminUnits) {
+	// 		const req = UnitControl.serverRequest(this.props.schema, this.props.value);
+	// 		if (!req) {
+	// 			return;
+	// 		}
+
+	// 		const self = this;
+
+	// 		FormUtils.serverRequest(req)
+	// 			.then(res => {
+	// 				self.setState(res);
+	// 			});
+	// 	}
+	// }
+
+	// componentWillReceiveProps(nextProps) {
+	// 	const res = nextProps.resources;
+
+	// 	// check if resources changed
+	// 	if (res && this.props.resources !== res) {
+	// 		this.setState({
+	// 			adminUnits: res.adminUnits,
+	// 			units: res.units,
+	// 			adminUnitId: res.adminUnitId,
+	// 			unit: null
+	// 		});
+	// 	}
+	// }
 
 	/**
 	 * Check if a server request is required
@@ -77,7 +99,7 @@ export default class UnitControl extends React.Component {
 	 * @param  {Object} nextValue  The next value
 	 * @return {boolean}           return true if server request is required
 	 */
-	_requestRequired(nextSchema, nextValue) {
+	_requestRequired(nextSchema, nextValue, nextResource) {
 		const s = this.props.schema;
 		// parameters have changed ?
 		if (nextSchema.workspaceId !== s.workspaceId) {
@@ -85,17 +107,18 @@ export default class UnitControl extends React.Component {
 		}
 
 		// no resources in both old and new props ?
-		if (!nextSchema.resources && !s.resources) {
+		if (!nextResource && !s.resources) {
 			return true;
 		}
 
-		const res = nextSchema.resources ? nextSchema.resources : s.resources;
-		const it = res.units.find(opt => opt.id === nextValue);
-		return !it;
+		const res = nextResource ? nextResource : this.props.resources;
+		return this.props.value !== nextValue && !res;
+//		const it = res.units.find(opt => opt.id === nextValue);
+//		return !it;
 	}
 
-	serverRequest(nextSchema, nextValue) {
-		if (!this._requestRequired(nextSchema, nextValue)) {
+	serverRequest(nextSchema, nextValue, nextResource) {
+		if (!this._requestRequired(nextSchema, nextValue, nextResource)) {
 			return null;
 		}
 
@@ -157,8 +180,9 @@ export default class UnitControl extends React.Component {
 	}
 
 	createAdmUnitList() {
+		const res = this.props.resources;
 		// admin unit is being loaded ?
-		if (!this.state.adminUnits) {
+		if (!res || !res.adminUnits) {
 			return <WaitIcon type="field" />;
 		}
 
@@ -167,18 +191,19 @@ export default class UnitControl extends React.Component {
 
 		// get the selected item
 		const id = this.state.adminUnitId;
-		const value = id ? this.state.adminUnits.find(item => item.id === id) : null;
+		const value = id ? res.adminUnits.find(item => item.id === id) : null;
 
 		return (
 				<SelectionBox ref="admunit" value={value}
 					type="select" label={label} onChange={this.onAuChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
-					options={this.state.adminUnits} />
+					options={res.adminUnits} />
 				);
 	}
 
 	createUnitList() {
+		console.log('hi');
 		if (!this.state.units) {
 			return null;
 		}
