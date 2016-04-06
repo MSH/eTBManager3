@@ -19,6 +19,7 @@ module.exports = config.languages.dev.map( function(lang) {
 
     // get list of messages for the given language
     var messages = require('../messages/messages_' + lang + '.json');
+    var momentLocExpr = new RegExp('^\.\/(' + lang.toLowerCase().replace('_', '-') + ')$');
 
     return {
         name: lang,
@@ -108,7 +109,8 @@ module.exports = config.languages.dev.map( function(lang) {
             new I18nPlugin(messages),
             new webpack.DefinePlugin({
                 __DEV__: true
-            })
+            }),
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, momentLocExpr)
         ]
     }
 });
