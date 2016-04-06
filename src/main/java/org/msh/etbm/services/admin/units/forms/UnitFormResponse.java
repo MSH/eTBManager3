@@ -20,6 +20,8 @@ public class UnitFormResponse {
 
     private UUID adminUnitId;
 
+    private UUID workspaceId;
+
     /**
      * List of administrative units to fill a select box
      */
@@ -56,5 +58,13 @@ public class UnitFormResponse {
 
     public void setAdminUnitId(UUID adminUnitId) {
         this.adminUnitId = adminUnitId;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

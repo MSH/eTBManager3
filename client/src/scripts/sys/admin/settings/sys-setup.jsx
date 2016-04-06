@@ -51,7 +51,6 @@ export default class SysSetup extends React.Component {
 						options: 'workspaces',
 						visible: doc => doc.allowRegPage,
 						size: { sm: 12 },
-						refreshOnChange: 'unit',
 						onChange: doc => { doc.unit = null; }
 					},
 					{
@@ -59,8 +58,8 @@ export default class SysSetup extends React.Component {
 						property: 'unit',
 						label: __('Unit'),
 						type: 'unit',
-						workspaceId: doc => doc.workspaceId,
-						visible: doc => !!doc.workspaceId,
+						workspaceId: doc => doc.workspace,
+						visible: doc => !!doc.workspace,
 						size: { sm: 12 }
 					}
 				]

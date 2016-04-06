@@ -48,8 +48,8 @@ export default class UnitControl extends React.Component {
 		}
 
 		// update the selected admin unit ID
-		if (this.units) {
-			this.setState({ auId: resources.adminUnitId, units: resources.units });
+		if (resources.units || resources.workspaceId !== this.state.wsId) {
+			this.setState({ auId: resources.adminUnitId, units: resources.units, wsId: resources.workspaceId });
 		}
 		else {
 			this.setState({ auId: resources.adminUnitId });
@@ -75,13 +75,9 @@ export default class UnitControl extends React.Component {
 		}
 
 		return false;
-//		return this.props.value !== nextValue && !res;
-//		const it = res.units.find(opt => opt.id === nextValue);
-//		return !it;
 	}
 
 	serverRequest(nextSchema, nextValue, nextResource) {
-		console.log('hi');
 		if (!this._requestRequired(nextSchema, nextValue, nextResource)) {
 			return null;
 		}

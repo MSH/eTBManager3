@@ -60,6 +60,8 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
 
         res.setUnits(units);
 
+        res.setWorkspaceId(wsId);
+
         return res;
     }
 
@@ -87,6 +89,8 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
 
         res.setAdminUnits(qr.getList());
+
+        res.setWorkspaceId(wsId);
 
         // if there is no ID, then just return the root list
         if (unitId == null) {
