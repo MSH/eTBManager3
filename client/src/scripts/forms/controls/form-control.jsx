@@ -116,6 +116,9 @@ export default function formControl(Component) {
 		 * @return {[type]}           [description]
 		 */
 		shouldComponentUpdate(nextProps) {
+			if (Component.name === 'AdminUnitControl') {
+				console.log('hi');
+			}
 			// component should update only if element or doc is changed
 			var update = !objEqual(nextProps.schema, this.props.schema) ||
 						nextProps.resources !== this.props.resources ||
@@ -132,10 +135,6 @@ export default function formControl(Component) {
 		 * @return {[type]} [description]
 		 */
 		_checkServerRequest(nextProps) {
-			// check if resources are already available
-			if (nextProps.resources) {
-				return;
-			}
 			// get reference to the child function to create a possible server request
 			const comp = this.refs.input;
 			if (!comp || !comp.serverRequest) {
@@ -143,7 +142,7 @@ export default function formControl(Component) {
 			}
 
 			// get request data
-			const req = comp.serverRequest(nextProps.schema, nextProps.value);
+			const req = comp.serverRequest(nextProps.schema, nextProps.value, nextProps.resources);
 			// no request? so exit
 			if (!req) {
 				return;
