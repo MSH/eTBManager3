@@ -18,6 +18,7 @@ module.exports = config.languages.prod.map( function(lang) {
 
     // get list of messages for the given language
     var messages = require('./messages/messages_' + lang + '.json');
+    var momentLocExpr = new RegExp('^\.\/(' + lang.toLowerCase().replace('_', '-') + ')$');
 
     // return the configuration to be used in production mode
     return {
@@ -92,7 +93,8 @@ module.exports = config.languages.prod.map( function(lang) {
             }),
 //            new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'../vendor.js'),
             new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
-            new I18nPlugin(messages)
+            new I18nPlugin(messages),
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, momentLocExpr)
         ]
     }
 });
