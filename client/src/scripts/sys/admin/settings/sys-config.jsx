@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { Card, FormDialog } from '../../../components';
 
-export default class SysSetup extends React.Component {
+export default class SysConfig extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -38,10 +38,15 @@ export default class SysSetup extends React.Component {
 						size: { sm: 12 }
 					},
 					{
+						property: 'ulaActive',
+						label: __('SystemConfig.ulaActive'),
+						type: 'bool',
+						size: { sm: 12 }
+					},
+					{
 						property: 'allowRegPage',
 						label: __('SystemConfig.allowRegPage'),
 						type: 'bool',
-						max: 200,
 						size: { sm: 12 }
 					},
 					{
@@ -51,14 +56,24 @@ export default class SysSetup extends React.Component {
 						options: 'workspaces',
 						visible: doc => doc.allowRegPage,
 						size: { sm: 12 },
-						onChange: doc => { doc.unit = null; }
+						onChange: doc => { doc.unit = null; doc.userProfile = null; }
 					},
 					{
-						id: 'unit',
 						property: 'unit',
 						label: __('Unit'),
 						type: 'unit',
 						workspaceId: doc => doc.workspace,
+						visible: doc => !!doc.workspace,
+						size: { sm: 12 }
+					},
+					{
+						property: 'userProfile',
+						label: __('UserProfile'),
+						type: 'select',
+						options: 'profiles',
+						params: {
+							workspaceId: doc => doc.workspace
+						},
 						visible: doc => !!doc.workspace,
 						size: { sm: 12 }
 					}
@@ -86,6 +101,6 @@ export default class SysSetup extends React.Component {
 	}
 }
 
-SysSetup.propTypes = {
+SysConfig.propTypes = {
 	route: React.PropTypes.object
 };

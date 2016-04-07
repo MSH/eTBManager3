@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <!-- Mapping of basic administrative unit data -->
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.SystemConfig</class-a>
+        <class-b>org.msh.etbm.services.admin.sysconfig.SysConfigFormData</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>workspace</a>
+            <b>workspace</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>userProfile</a>
+            <b>userProfile</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>unit</a>
+            <b>unit</b>
+        </field>
+    </mapping>
+
+</mappings>

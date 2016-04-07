@@ -70,6 +70,14 @@ export default function formControl(Component) {
 				ss.visible = true;
 			}
 
+			// check if there are parameters to be evaluated
+			if ('params' in ss) {
+				ss.params = Object.assign({}, schema.params);
+				for (var k in ss.params) {
+					FormUtils.propEval(ss.params, k, doc);
+				}
+			}
+
 			// check if component defined a snapshot function
 			return Component.snapshot ? Component.snapshot(ss, doc) : ss;
 		}
