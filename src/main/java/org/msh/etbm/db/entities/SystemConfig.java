@@ -150,7 +150,7 @@ public class SystemConfig {
     /**
 	 * @return the adminMail
 	 */
-	public String getAdminMail() {
+    public String getAdminMail() {
 		return adminMail;
 	}
 
