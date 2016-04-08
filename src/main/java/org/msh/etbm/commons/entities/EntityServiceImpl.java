@@ -46,9 +46,6 @@ import java.util.UUID;
 public abstract class EntityServiceImpl<E extends Synchronizable, Q extends EntityQueryParams> implements EntityService<Q> {
 
     @Autowired
-    ApplicationContext applicationContext;
-
-    @Autowired
     UserRequestService userRequestService;
 
     @Autowired
@@ -115,7 +112,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     /**
      * Validate the entity
      * @param entity the entity to be validated
-     * @return instance of BindingResult to receive the validation errors;
+     * @param bindingResult Instance of BindingResult to receive the validation errors;
      */
     private void validateEntity(E entity, BindingResult bindingResult) {
         validator.validate(entity, bindingResult);
