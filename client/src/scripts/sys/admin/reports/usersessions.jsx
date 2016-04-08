@@ -5,6 +5,7 @@ import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
+import moment from 'moment';
 
 const fschema = {
 			layout: [
@@ -127,12 +128,12 @@ export default class UserSessions extends React.Component {
 			},
 			{
 				title: __('UserLogin.loginDate'),
-				content: item => new Date(item.loginDate).toString(),
+				content: item => moment(item.loginDate).format('L LT'),
 				size: { sm: 4 }
 			},
 			{
-				title: __('admin.websessions.idletime') + ' TODOMS: CALC with momentsjs',
-				content: item => new Date(item.loginDate).toString(),
+				title: __('admin.websessions.sessiontime'),
+				content: item => item.logoutDate ? moment(item.loginDate).from(moment(item.logoutDate)) : moment(item.loginDate).fromNow(true),
 				size: { sm: 4 }
 			}
 		];
@@ -143,7 +144,7 @@ export default class UserSessions extends React.Component {
 						<Col md={12}>
 							<ReactTable columns={colschema}
 								values={this.state.values.list}
-								collapseRender={this.collapseRender} />
+								onExpandRender={this.collapseRender} />
 						</Col>
 					</Row>
 				</div>
@@ -159,7 +160,7 @@ export default class UserSessions extends React.Component {
 						</Col>
 						<Col sm={4}>
 							<dt>{__('UserLogin.logoutDate') + ':'}</dt>
-							<dd>{new Date(item.logoutDate).toString()}</dd>
+							<dd>{item.logoutDate ? moment(item.logoutDate).format('L LT') : __('admin.reports.usersession.online')}</dd>
 						</Col>
 						<Col sm={4}>
 							<dt>{__('UserLogin.ipAddress') + ':'}</dt>

@@ -5,6 +5,7 @@ import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/ind
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
 import { app } from '../../../core/app';
+import moment from 'moment';
 
 const fschema = {
 			layout: [
@@ -193,8 +194,8 @@ export default class CommandHistory extends React.Component {
 		},
 		{
 			title: __('datetime.date'),
-			content: item => new Date(item.execDate).toString(),
-			size: { sm: 2 } /*TODOMS formatar essa data quando tiver o momentsjs*/
+			content: item => moment(item.execDate).format('L LTS'),
+			size: { sm: 2 }
 		},
 		{
 			title: __('admin.reports.cmdhistory.cmdevent'),
@@ -253,7 +254,7 @@ export default class CommandHistory extends React.Component {
 							<Col md={12}>
 								<ReactTable columns={tschema}
 									values={this.state.values.list}
-									onCollapseRender={this.collapseRender} />
+									onExpandRender={this.collapseRender} />
 							</Col>
 						</Row>
 					</Card>

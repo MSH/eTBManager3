@@ -3,6 +3,7 @@ import React from 'react';
 import { Col, Row, Badge } from 'react-bootstrap';
 import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import { server } from '../../../commons/server';
+import moment from 'moment';
 
 /**
  * The page controller of the public module
@@ -50,7 +51,6 @@ export default class OnlineUsers extends React.Component {
 	}
 
 	collapseRender(item) {
-		var moment = require('moment');
 		return (<div className="text-small">
 					<dl>
 						<Col sm={4}>
@@ -60,21 +60,18 @@ export default class OnlineUsers extends React.Component {
 						<Col sm={4}>
 							<dt>{__('admin.websessions.lastrequest') + ':'}</dt>
 							<dd>
-								{moment(item.lastAccess).format('L LT') + ' ' + moment(item.lastAccess).fromNow()}
+								{moment(item.lastAccess).format('L LT')}
 							</dd>
 						</Col>
 						<Col sm={4}>
 							<dt>{__('admin.websessions.sessiontime') + ':'}</dt>
-							<dd>{moment(item.loginDate).fromNow()}</dd>
+							<dd>{moment(item.loginDate).fromNow(true)}</dd>
 						</Col>
 					</dl>
 				</div>);
 	}
 
 	render() {
-		var moment = require('moment');
-		
-		//TODOMS: terminar configuração das datas
 		if (!this.state || !this.state.values) {
 			return <WaitIcon type="card" />;
 		}
@@ -92,7 +89,7 @@ export default class OnlineUsers extends React.Component {
 			},
 			{
 				title: __('admin.websessions.idletime'),
-				content: item => moment(item.lastAccess).fromNow(),
+				content: item => moment(item.lastAccess).fromNow(true),
 				size: { sm: 4 }
 			}
 		];
