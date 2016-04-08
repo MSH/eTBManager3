@@ -38,11 +38,6 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     @Override
-    protected void saveEntity(Workspace entity) {
-        super.saveEntity(entity);
-    }
-
-    @Override
     public String getFormCommandName() {
         return "workspaces";
     }

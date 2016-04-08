@@ -11,6 +11,7 @@ import org.msh.etbm.db.entities.AgeRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import java.util.List;
 
@@ -42,24 +43,22 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     }
 
     @Override
-    protected void prepareToSave(AgeRange entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        if (bindingResult.hasErrors()) {
+    protected void beforeSave(AgeRange entity, Errors errors) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (entity.getIniAge() < 0) {
-            bindingResult.rejectValue("iniDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("iniDate", ErrorMessages.NOT_VALID);
         }
 
         if (entity.getEndAge() < 0) {
-            bindingResult.rejectValue("endDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("endDate", ErrorMessages.NOT_VALID);
         }
 
         // check ranges
         if (entity.getIniAge() != 0 && entity.getEndAge() != 0 && entity.getIniAge() >= entity.getEndAge()) {
-            bindingResult.reject("admin.ageranges.msgerror1");
+            errors.reject("admin.ageranges.msgerror1");
             return;
         }
 
@@ -68,7 +67,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
             if ((age != entity) &&
                     (age.getIniAge() == entity.getIniAge()) &&
                     (age.getEndAge() == entity.getEndAge())) {
-                bindingResult.reject("admin.ageranges.msgerror2");
+                errors.reject("admin.ageranges.msgerror2");
                 return;
             }
         }

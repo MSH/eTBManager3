@@ -7,6 +7,7 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Source;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 /**
  * Service component to handle CRUD operations in Medicine Sources
@@ -32,19 +33,17 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
 
 
     @Override
-    protected void prepareToSave(Source entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        if (bindingResult.hasErrors()) {
+    protected void beforeSave(Source entity, Errors errors) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (!checkUnique(entity, "name", null)) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         if (!checkUnique(entity, "shortName", null)) {
-            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

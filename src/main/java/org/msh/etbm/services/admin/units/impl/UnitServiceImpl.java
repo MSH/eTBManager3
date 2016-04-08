@@ -20,6 +20,7 @@ import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 /**
  * CRUD service to handle units (laboratories and TB units)
@@ -122,13 +123,11 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void prepareToSave(Unit entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
+    protected void beforeSave(Unit entity, Errors errors) {
         if (entity.getAddress() == null) {
-            bindingResult.rejectValue("address", ErrorMessages.REQUIRED);
+            errors.rejectValue("address", ErrorMessages.REQUIRED);
         } else if (entity.getAddress().getAdminUnit() == null) {
-            bindingResult.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
+            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
         }
     }
 }

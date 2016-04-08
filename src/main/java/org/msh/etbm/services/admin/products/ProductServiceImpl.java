@@ -7,6 +7,7 @@ import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import java.util.Optional;
 
@@ -58,19 +59,17 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
-    protected void prepareToSave(Product entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        if (bindingResult.hasErrors()) {
+    protected void beforeSave(Product entity, Errors errors) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (!checkUnique(entity, "name")) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         if (!checkUnique(entity, "shortName")) {
-            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

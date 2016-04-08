@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -14,6 +15,7 @@ import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -127,10 +129,27 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void saveEntity(AdministrativeUnit entity) {
-        boolean isNew = entity.getId() == null;
+    protected void beforeSave(AdministrativeUnit entity, Errors errors) {
+        if (errors.hasErrors()) {
+            return;
+        }
 
-        super.saveEntity(entity);
+        if (entity.getCountryStructure() == null) {
+            errors.rejectValue("csId", ErrorMessages.REQUIRED);
+            return;
+        }
+
+        validateParent(entity);
+
+        if (!isUnique(entity)) {
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        }
+
+        if (errors.hasErrors()) {
+            return;
+        }
+
+        boolean isNew = entity.getId() == null;
 
         // update number of children in the parent administrative unit
         if (isNew && entity.getParent() != null) {
@@ -141,9 +160,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void deleteEntity(AdministrativeUnit entity) {
-        super.deleteEntity(entity);
-
+    protected void afterDelete(AdministrativeUnit entity) {
         // update number of children in the parent administrative unit
         if (entity.getParent() != null) {
             entityManager.createQuery("update AdministrativeUnit set unitsCount = unitsCount - 1 where id = :id")
@@ -185,25 +202,6 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         }
     }
 
-
-    @Override
-    protected void prepareToSave(AdministrativeUnit entity, BindingResult errors) throws EntityValidationException {
-        super.prepareToSave(entity, errors);
-        if (errors.hasErrors()) {
-            return;
-        }
-
-        if (entity.getCountryStructure() == null) {
-            errors.rejectValue("csId", ErrorMessages.REQUIRED);
-            return;
-        }
-
-        validateParent(entity);
-
-        if (!isUnique(entity)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
-        }
-    }
 
     /**
      * Check if administrative unit is unique

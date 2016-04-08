@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.admunits.impl;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -9,6 +10,7 @@ import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 
 /**
@@ -41,16 +43,14 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void prepareToSave(CountryStructure entity, BindingResult bindingResult) throws EntityValidationException {
-        super.prepareToSave(entity, bindingResult);
-
+    protected void beforeSave(CountryStructure entity, Errors errors) throws EntityValidationException {
         // there are error messages ?
-        if (bindingResult.hasErrors()) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (!checkUnique(entity, "name", "level = " + entity.getLevel())) {
-            bindingResult.rejectValue("name", "NotUnique");
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
     }
 

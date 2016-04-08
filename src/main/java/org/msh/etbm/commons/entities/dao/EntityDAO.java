@@ -10,6 +10,7 @@ import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -91,7 +92,7 @@ public class EntityDAO<E> {
             // load the entity
             entity = (E)entityManager.find(getEntityClass(), id);
             if (entity == null) {
-                throw new EntityNotFoundException("Not found entity of " + entityClass.getSimpleName() + " with id = " + id);
+                throw new EntityNotFoundException("Entity of class " + entityClass.getSimpleName() + " not found with id = " + id);
             }
         }
         clearValidationErrors();
@@ -134,8 +135,18 @@ public class EntityDAO<E> {
      * Copy the values of the given object properties to the entity using Dozer mapping
      * @param data the object to copy property values from
      */
-    public void map(Object data) {
+    public void mapToEntity(Object data) {
         mapper.map(data, getEntity());
+    }
+
+    /**
+     * Map the values of the managed entity to a new instance of the given class
+     * @param classData the class of an object that will be created and will receive property values from entity object
+     * @param <E>
+     * @return The instance of the class data
+     */
+    public <E> E mapFromEntity(Class<E> classData) {
+        return mapper.map(getEntity(), classData);
     }
 
     /**
@@ -148,6 +159,15 @@ public class EntityDAO<E> {
         }
 
         return entity;
+    }
+
+    /**
+     * Change the entity being managed by the DAO
+     * @param entity the new entity to be replaced
+     */
+    public void setEntity(E entity) {
+        this.entity = entity;
+        clearValidationErrors();
     }
 
     /**
@@ -189,7 +209,7 @@ public class EntityDAO<E> {
      * BindingResult object
      * @return instance of BindingResult
      */
-    public BindingResult getErrors() {
+    public Errors getErrors() {
         if (errors == null) {
             errors = new BeanPropertyBindingResult(entity, entityClass.getSimpleName());
         }
@@ -217,9 +237,6 @@ public class EntityDAO<E> {
             raiseValidationError();
         }
 
-        // fill the workspace, if not done yet
-        checkWorkspace();
-
         // save the entity
         entityManager.persist(entity);
         entityManager.flush();
@@ -232,10 +249,29 @@ public class EntityDAO<E> {
         if (isNew()) {
             throw new RuntimeException("Cannot delete an entity that doesn't exist");
         }
+
+        checkWorkspace();
+
         entityManager.remove(entity);
         entityManager.flush();
     }
 
+
+    /**
+     * Check if the entity workspace is the same as the current workspace. If not, an error is added
+     */
+    protected void checkSameWorkspace() {
+        if (!(entity instanceof WorkspaceEntity)) {
+            return;
+        }
+        WorkspaceEntity wsent = (WorkspaceEntity)entity;
+
+        UUID id = userRequestService.getUserSession().getWorkspaceId();
+
+        if (!wsent.getWorkspace().getId().equals(id)) {
+            addError("workspace", ErrorMessages.NOT_VALID_WORKSPACE);
+        }
+    }
 
     /**
      * Check if entity is segmented by workspaces. If so, set the user workspace if none was specified
@@ -249,14 +285,18 @@ public class EntityDAO<E> {
         // workspace was already set ?
         WorkspaceEntity wsent = (WorkspaceEntity)entity;
         if (wsent.getWorkspace() != null) {
+            // check if is the same workspace
+            checkSameWorkspace();
             return;
         }
 
         // get the current selected workspace
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
+
         if (wsid == null) {
             return;
         }
+
 
         // set workspace in the entity
         Workspace ws = entityManager.find(Workspace.class, wsid);

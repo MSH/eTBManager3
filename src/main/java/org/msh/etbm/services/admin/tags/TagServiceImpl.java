@@ -4,11 +4,13 @@ import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import javax.persistence.PersistenceException;
 
@@ -37,28 +39,25 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void saveEntity(Tag entity) {
-        super.saveEntity(entity);
+    protected void afterSave(Tag entity) {
         tagsCasesService.updateCases(entity);
     }
 
     @Override
-    protected void prepareToSave(Tag entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
+    protected void beforeSave(Tag entity, Errors errors) {
         // there are error messages ?
-        if (bindingResult.hasErrors()) {
+        if (errors.hasErrors()) {
             return;
         }
 
         if (!checkUnique(entity, "name", null)) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         String sqlTestMessage = testTagCondition(entity);
 
         if (sqlTestMessage != null) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
     }

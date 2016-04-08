@@ -8,6 +8,8 @@ import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
+import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -24,10 +26,10 @@ import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -48,24 +50,14 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     @Autowired
     UserRequestService userRequestService;
 
-    @Autowired
-    DozerBeanMapper mapper;
-
-    @Autowired
-    WorkspaceRepository workspaceRepository;
-
-    @Autowired
-    MessageKeyResolver messageKeyResolver;
-
     @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
-    Validator validator;
-
-    @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
+    @Autowired
+    EntityDAOFactory entityDAOFactory;
 
     /**
      * The entity class
@@ -85,20 +77,20 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // create a new instance of the entity
         E entity = createEntityInstance(req);
 
+        EntityDAO<E> dao = createEntityDAO();
+
+        dao.setEntity(entity);
+
         // set values from request to entity object (must ignore null values)
-        mapRequest(req, entity);
+        mapRequest(req, dao.getEntity());
 
-        BindingResult bindingResult = createBindingResult(entity);
-
+        dao.validate();
         // prepare entity to be saved
-        prepareToSave(entity, bindingResult);
+        beforeSave(dao.getEntity(), dao.getErrors());
 
-        // validation errors?
-        if (bindingResult.hasErrors()) {
-            throw new EntityValidationException(bindingResult);
-        }
+        dao.save();
 
-        saveEntity(entity);
+        afterSave(dao.getEntity());
 
         // create the result of the service
         ServiceResult res = createResult(entity);
@@ -107,15 +99,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
         return res;
-    }
-
-    /**
-     * Validate the entity
-     * @param entity the entity to be validated
-     * @param bindingResult Instance of BindingResult to receive the validation errors;
-     */
-    private void validateEntity(E entity, BindingResult bindingResult) {
-        validator.validate(entity, bindingResult);
     }
 
 
@@ -130,14 +113,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
 
     /**
-     * Raise entity not found exception passing the ID of the entity
-     * @param id
-     */
-    protected void raiseEntityNotFoundException(UUID id) {
-        throw new  EntityNotFoundException("Entity not found " + getEntityClass().getSimpleName() + " with ID = " + id);
-    }
-
-    /**
      * Update the values of the entity
      * @param id the entity ID
      * @param req the object request with information about fields to be updated
@@ -147,42 +122,36 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     @CommandLog(type = EntityCmdLogHandler.UPDATE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult update(UUID id, Object req) {
-        E entity = findEntity(id);
+        EntityDAO<E> dao = createEntityDAO();
 
-        if (entity == null) {
-            raiseEntityNotFoundException(id);
-        }
+        dao.setId(id);
 
         // get initial state
-        ObjectValues prevVals = createValuesToLog(entity, Operation.EDIT);
+        ObjectValues prevVals = createValuesToLog(dao.getEntity(), Operation.EDIT);
 
         // set the values to the entity
-        mapRequest(req, entity);
+        mapRequest(req, dao.getEntity());
 
         // create diff list
-        ObjectValues newVals = createValuesToLog(entity, Operation.EDIT);
+        ObjectValues newVals = createValuesToLog(dao.getEntity(), Operation.EDIT);
         Diffs diffs = createDiffs(prevVals, newVals);
 
         // is there anything to save?
         if (diffs.getValues().size() == 0) {
-            return createResult(entity);
+            return createResult(dao.getEntity());
         }
 
-        BindingResult bindingResult = createBindingResult(entity);
+        // validate before to feed the errors property
+        dao.validate();
 
         // prepare object to save
-        prepareToSave(entity, bindingResult);
-
-        // validation errors?
-        if (bindingResult.hasErrors()) {
-            throw new EntityValidationException(bindingResult);
-        }
+        beforeSave(dao.getEntity(), dao.getErrors());
 
         // save the entity
-        saveEntity(entity);
+        dao.save();
 
         // create result object
-        ServiceResult res = createResult(entity);
+        ServiceResult res = createResult(dao.getEntity());
         // generate the result
         res.setLogDiffs(diffs);
 
@@ -193,23 +162,23 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
     public ServiceResult delete(UUID id) {
-        E entity = findEntity(id);
-        if (entity == null) {
-            raiseEntityNotFoundException(id);
-        }
+        EntityDAO<E> dao = createEntityDAO();
+
+        dao.setId(id);
 
         // create result to be sent back to the client
-        ServiceResult res = createResult(entity);
+        ServiceResult res = createResult(dao.getEntity());
 
-        BindingResult bindingResult = createBindingResult(entity);
         // prepare entity to be deleted
-        prepareToDelete(entity, bindingResult);
+        beforeDelete(dao.getEntity(), dao.getErrors());
 
         // delete the entity
-        deleteEntity(entity);
+        dao.delete();
+
+        afterDelete(dao.getEntity());
 
         // generate the values to log
-        res.setLogValues(createValuesToLog(entity, Operation.DELETE));
+        res.setLogValues(createValuesToLog(dao.getEntity(), Operation.DELETE));
 
         return res;
     }
@@ -272,21 +241,29 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
 
     /**
-     * Prepare entity for saving, checking its workspace and if the entity is unique
-     * @param entity
-     * @param bindingResult the list of possible validation errors along the preparation
+     * Prepare entity for saving, making any custom transformation and validation in the entity
+     * @param entity the entity to be saved
+     * @param errors the list of possible validation errors along the preparation
      */
-    protected void prepareToSave(E entity, BindingResult bindingResult) {
-        checkWorkspace(entity, bindingResult);
-        validateEntity(entity, bindingResult);
+    protected void beforeSave(E entity, Errors errors) {
+        // do nothing... To be implemented in the child class
+    }
+
+    protected void afterSave(E entity) {
+
     }
 
     /**
      * Make any preparation before deleting the entity
      * @param entity the entity to be deleted
+     * @param errors the list of possible validation errors
      */
-    protected void prepareToDelete(E entity, BindingResult bindingResult) {
-        checkWorkspace(entity, bindingResult);
+    protected void beforeDelete(E entity, Errors errors) {
+        // do nothing... To be implemented in the child class
+    }
+
+    protected void afterDelete(E entity) {
+
     }
 
     /**
@@ -295,7 +272,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @param entity
      */
     protected void mapRequest(Object request, E entity) {
-        mapper.map(request, entity);
+        EntityDAO<E> dao = createEntityDAO();
+        dao.setEntity(entity);
+        dao.mapToEntity(request);
     }
 
     /**
@@ -306,8 +285,22 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return instance of the response data
      */
     protected <K> K mapResponse(E entity, Class<K> resultClass) {
-        return mapper.map(entity, resultClass);
+        EntityDAO<E> dao = createEntityDAO();
+
+        dao.setEntity(entity);
+
+        return dao.mapFromEntity(resultClass);
     }
+
+
+    /**
+     * Create new DAO to handle CRUD operations
+     * @return instance of {@link EntityDAO}
+     */
+    protected EntityDAO<E> createEntityDAO() {
+        return entityDAOFactory.newDAO(getEntityClass());
+    }
+
 
     /**
      * Search for an entity by its ID
@@ -318,12 +311,11 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     @Override
     @Transactional
     public <K> K findOne(UUID id, Class<K> resultClass) {
-        E ent = findEntity(id);
-        if (ent == null) {
-            raiseEntityNotFoundException(id);
-        }
+        EntityDAO<E> dao = createEntityDAO();
 
-        return mapResponse(ent, resultClass);
+        dao.setId(id);
+
+        return dao.mapFromEntity(resultClass);
     }
 
     /**
@@ -347,6 +339,14 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         return DiffsUtils.generateDiffsFromValues(prevVals, newVals);
     }
 
+
+    /**
+     * Return the current workspace ID
+     * @return instance of UUID
+     */
+    protected UUID getWorkspaceId() {
+        return userRequestService.getUserSession().getWorkspaceId();
+    }
 
     /**
      * Create the result to be returned by the create, update or delete operation
@@ -384,9 +384,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * Create the list of messages for validation error messages
      * @return instance of MessageList object
      */
-    protected MessageList createMessageList() {
-        return messageKeyResolver.createMessageList();
-    }
+//    protected MessageList createMessageList() {
+//        return messageKeyResolver.createMessageList();
+//    }
 
     /**
      * Raise exception of a required field not present
@@ -408,58 +408,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         BindingResult res = createBindingResult(obj);
         res.rejectValue(field, msg);
         throw new EntityValidationException(res);
-    }
-
-    /**
-     * Simple method to intercept the moment before saving the entity
-     * @param entity
-     */
-    protected void saveEntity(E entity) {
-        entityManager.persist(entity);
-    }
-
-
-    /**
-     * Simple method to intercept the moment before deleting the entity
-     * @param entity
-     */
-    protected void deleteEntity(E entity) {
-        entityManager.remove(entity);
-        entityManager.flush();
-    }
-
-
-    /**
-     * Check the workspace in use by the entity. If no workspace is set, the workspace of the current
-     * user is set. If the workspace is set and it is different of the current user workspace, an exception
-     * is thrown indicating it is an invalid workspace
-     * @param entity
-     * @param bindingResult
-     */
-    protected void checkWorkspace(E entity, BindingResult bindingResult) {
-        if (!(entity instanceof WorkspaceEntity)) {
-            return;
-        }
-
-        WorkspaceEntity wsdata = (WorkspaceEntity)entity;
-        UUID wsid = getWorkspaceId();
-
-        if (wsdata.getWorkspace() != null) {
-            if (!wsdata.getWorkspace().getId().equals(wsid)) {
-                bindingResult.rejectValue("id", "Invalid workspace");
-            }
-        } else {
-            Workspace ws = workspaceRepository.findOne(wsid);
-            wsdata.setWorkspace(ws);
-        }
-    }
-
-    /**
-     * Return the ID of the workspace in use by the current user
-     * @return
-     */
-    protected UUID getWorkspaceId() {
-        return userRequestService.getUserSession().getWorkspaceId();
     }
 
 

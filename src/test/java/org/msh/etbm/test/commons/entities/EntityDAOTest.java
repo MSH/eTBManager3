@@ -41,7 +41,7 @@ public class EntityDAOTest extends AuthenticatedTest {
         data.setActive(Optional.of(true));
         data.setShortName(Optional.of("Short name " + System.currentTimeMillis()));
 
-        dao.map(data);
+        dao.mapToEntity(data);
 
         // check if mapping was done
         assertNotNull(dao.getEntity());
