@@ -380,13 +380,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         }
     }
 
-    /**
-     * Create the list of messages for validation error messages
-     * @return instance of MessageList object
-     */
-//    protected MessageList createMessageList() {
-//        return messageKeyResolver.createMessageList();
-//    }
 
     /**
      * Raise exception of a required field not present
