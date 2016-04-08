@@ -3,7 +3,6 @@ import React from 'react';
 import { Col, Row, Badge } from 'react-bootstrap';
 import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import { server } from '../../../commons/server';
-import moment from 'moment';
 
 /**
  * The page controller of the public module
@@ -51,6 +50,7 @@ export default class OnlineUsers extends React.Component {
 	}
 
 	collapseRender(item) {
+		var moment = require('moment');
 		return (<div className="text-small">
 					<dl>
 						<Col sm={4}>
@@ -72,6 +72,8 @@ export default class OnlineUsers extends React.Component {
 	}
 
 	render() {
+		var moment = require('moment');
+		
 		//TODOMS: terminar configuração das datas
 		if (!this.state || !this.state.values) {
 			return <WaitIcon type="card" />;
