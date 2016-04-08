@@ -11,6 +11,7 @@ import org.msh.etbm.db.entities.UserProfile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Implementation of the User profile service for CRUD operations
@@ -32,6 +33,10 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
 
         // add order by
         builder.addDefaultOrderByMap(UserProfileQueryParams.ORDERBY_NAME, "name");
+
+        if (queryParams.getWorkspaceId() != null) {
+            builder.setWorkspaceId(queryParams.getWorkspaceId());
+        }
     }
 
 
@@ -45,6 +50,10 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
     public List<Item> execFormRequest(FormRequest req) {
         UserProfileQueryParams qry = new UserProfileQueryParams();
         qry.setProfile(UserProfileQueryParams.PROFILE_ITEM);
+
+        UUID wsId = req.getIdParam("workspaceId");
+        qry.setWorkspaceId(wsId);
+
         QueryResult res = findMany(qry);
         return res.getList();
     }

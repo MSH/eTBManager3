@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "systemconfig")
 public class SystemConfig {
 
+    public static final int PRIMARY_KEY = 1;
+
 	@Id
 	private Integer id;
 
@@ -35,7 +37,7 @@ public class SystemConfig {
 	
 	@ManyToOne
 	@JoinColumn(name = "UNIT_ID")
-	private Tbunit tbunit;
+	private Unit unit;
 	
 	@Column(length = 100)
 	private String adminMail;
@@ -137,24 +139,18 @@ public class SystemConfig {
 		this.userProfile = userProfile;
 	}
 
-	/**
-	 * @return the tbunit
-	 */
-	public Tbunit getTbunit() {
-		return tbunit;
-	}
+    public Unit getUnit() {
+        return unit;
+    }
 
-	/**
-	 * @param tbunit the tbunit to set
-	 */
-	public void setTbunit(Tbunit tbunit) {
-		this.tbunit = tbunit;
-	}
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 
-	/**
+    /**
 	 * @return the adminMail
 	 */
-	public String getAdminMail() {
+    public String getAdminMail() {
 		return adminMail;
 	}
 

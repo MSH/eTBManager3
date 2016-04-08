@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
-import { isFunction, isString } from '../commons/utils';
+import { isFunction, isString, objEqual } from '../commons/utils';
 import Form from './form';
 
 const requiredTooltip = (
@@ -52,11 +52,15 @@ export default class FormUtils {
 	static optionsRequest(props, nextSchema, nextValue, nextResources) {
 		const options = nextSchema.options;
 
-		if ((props.resources || nextResources) && props.schema.options === options) {
+		const params = props.schema ? props.schema.params : null;
+
+		if ((props.resources || nextResources) &&
+			props.schema.options === options &&
+			objEqual(params, nextSchema.params)) {
 			return null;
 		}
 
-		return isString(options) ? { cmd: options } : null;
+		return isString(options) ? { cmd: options, params: nextSchema.params } : null;
 	}
 
 	/**

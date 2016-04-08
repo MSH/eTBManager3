@@ -83,6 +83,8 @@ export default class SelectControl extends React.Component {
 		// get the value according to the option
 		value = options.find(item => item.id.toString() === value);
 
+		console.log('schema = ', this.props.schema);
+
 		// rend the selection box
 		return (
 			<SelectionBox ref="sel"

@@ -107,7 +107,7 @@ export default class Form extends React.Component {
 	}
 
 	componentWillUpdate() {
-		this.applyRequests();
+		this.recordRequests();
 	}
 
 	componentDidUpdate() {
