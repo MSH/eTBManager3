@@ -55,8 +55,8 @@ export default class CrudController {
 	initList(qry) {
 		// check if query is paged
 		const q = this.options.pageSize ?
-			Object.assign(qry || {}, { pageSize: this.options.pageSize, page: 0 }) :
-			qry;
+			Object.assign({}, qry, { pageSize: this.options.pageSize, page: 0 }) :
+			qry || {};
 
 		return this._queryList(q);
 	}

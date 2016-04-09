@@ -19,7 +19,10 @@ export default class CrudView extends React.Component {
 			readOnly: !hasPerm(this.props.perm)
 		};
 
-		this.setState({ controller: new CrudController(this.props.crud, opts) });
+		const controller = new CrudController(this.props.crud, opts);
+		controller.initList();
+
+		this.setState({ controller: controller });
 	}
 
 	render() {
@@ -31,12 +34,18 @@ export default class CrudView extends React.Component {
 					{__('action.add')}
 				</Button>
 				<CrudMessage controller={controller} />
-				<CrudPagination controller={controller} showCounter />
+				{
+					this.props.pageSize &&
+					<CrudPagination controller={controller} showCounter />
+				}
 				<CrudGrid controller={controller}
 					onRender={this.props.onCellRender}
 					onExpandRender={this.props.onDetailRender}
 					editorSchema={this.props.editorDef} />
-				<CrudPagination controller={controller} />
+				{
+					this.props.pageSize &&
+					<CrudPagination controller={controller} />
+				}
 			</Card>
 			);
 	}
