@@ -1,11 +1,16 @@
 import React from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
-import { Card, FormDialog } from '../../../components';
+import ReactDom from 'react-dom';
+import { Grid, Col, Row, Alert } from 'react-bootstrap';
+import { Card, FormDialog, WaitIcon } from '../../../components';
+import { server } from '../../../commons/server';
 
 export default class SysConfig extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.saveConfig = this.saveConfig.bind(this);
+
 		this.state = {
 			schema: {
 				layout: [
@@ -14,6 +19,7 @@ export default class SysConfig extends React.Component {
 						label: __('SystemConfig.systemURL'),
 						type: 'string',
 						max: 200,
+						required: true,
 						size: { sm: 12 }
 					},
 					{
@@ -21,13 +27,7 @@ export default class SysConfig extends React.Component {
 						label: __('SystemConfig.pageRootURL'),
 						type: 'string',
 						max: 200,
-						size: { sm: 12 }
-					},
-					{
-						property: 'systemMail',
-						label: __('SystemConfig.systemMail'),
-						type: 'string',
-						max: 200,
+						required: true,
 						size: { sm: 12 }
 					},
 					{
@@ -35,12 +35,14 @@ export default class SysConfig extends React.Component {
 						label: __('SystemConfig.adminMail'),
 						type: 'string',
 						max: 200,
+						required: true,
 						size: { sm: 12 }
 					},
 					{
 						property: 'ulaActive',
 						label: __('SystemConfig.ulaActive'),
 						type: 'bool',
+						required: true,
 						size: { sm: 12 }
 					},
 					{
@@ -55,6 +57,7 @@ export default class SysConfig extends React.Component {
 						type: 'select',
 						options: 'workspaces',
 						visible: doc => doc.allowRegPage,
+						required: doc => doc.allowRegPage,
 						size: { sm: 12 },
 						onChange: doc => { doc.unit = null; doc.userProfile = null; }
 					},
@@ -62,6 +65,7 @@ export default class SysConfig extends React.Component {
 						property: 'unit',
 						label: __('Unit'),
 						type: 'unit',
+						required: doc => !!doc.workspace,
 						workspaceId: doc => doc.workspace,
 						visible: doc => !!doc.workspace,
 						size: { sm: 12 }
@@ -70,6 +74,7 @@ export default class SysConfig extends React.Component {
 						property: 'userProfile',
 						label: __('UserProfile'),
 						type: 'select',
+						required: doc => !!doc.workspace,
 						options: 'profiles',
 						params: {
 							workspaceId: doc => doc.workspace
@@ -82,21 +87,52 @@ export default class SysConfig extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+		const self = this;
+		server.get('/api/admin/sysconfig')
+		.then(res => self.setState({ doc: res }));
+	}
+
+	saveConfig(doc) {
+		this.setState({ msg: null });
+
+		const self = this;
+		return server.post('/api/admin/sysconfig', doc)
+		.then(() => {
+			self.setState({ msg: __('admin.syssetup.success') });
+//			ReactDom.findDOMNode(self).scrollIntoView(true);
+		});
+	}
+
 	render() {
+		const doc = this.state.doc;
+
 		return (
-				<Grid fluid>
-					<Row>
-						<Col sm={8}>
-			<Card title={this.props.route.data.title}>
-				<FormDialog
-					wrapType={'none'}
-					schema={this.state.schema}
-					doc={{}}
-				/>
-			</Card>
-						</Col>
-					</Row>
-				</Grid>
+			<Grid fluid>
+				<Row>
+					<Col sm={8}>
+						<Card title={this.props.route.data.title}>
+							{
+								doc ?
+								<FormDialog
+									wrapType={'none'}
+									schema={this.state.schema}
+									doc={doc}
+									onConfirm={this.saveConfig}
+									hideCancel
+								/> :
+								<WaitIcon type="card" />
+							}
+							{
+								this.state.msg &&
+								<div className="mtop">
+									<Alert>{this.state.msg}</Alert>
+								</div>
+							}
+						</Card>
+					</Col>
+				</Row>
+			</Grid>
 			);
 	}
 }

@@ -21,9 +21,6 @@ public class SystemConfig {
 	
 	@Column(length = 200)
 	private String pageRootURL;
-
-	@Column(length = 100)
-	private String systemMail;
 	
 	private boolean allowRegPage;
 	
@@ -81,20 +78,6 @@ public class SystemConfig {
 	 */
 	public void setSystemURL(String systemURL) {
 		this.systemURL = systemURL;
-	}
-
-	/**
-	 * @return the systemMail
-	 */
-	public String getSystemMail() {
-		return systemMail;
-	}
-
-	/**
-	 * @param systemMail the systemMail to set
-	 */
-	public void setSystemMail(String systemMail) {
-		this.systemMail = systemMail;
 	}
 
 	/**

@@ -89,9 +89,12 @@ export default class FormDialog extends React.Component {
 							bsStyle="primary"
 							onClick={this.confirmClick}>{this.props.confirmCaption}
 						</AsyncButton>
-						<Button onClick={this.props.onCancel} disabled={this.state.fetching}>
-							<i className="fa fa-times fa-fw"/>{__('action.cancel')}
-						</Button>
+						{
+							!this.props.hideCancel &&
+							<Button onClick={this.props.onCancel} disabled={this.state.fetching}>
+								<i className="fa fa-times fa-fw"/>{__('action.cancel')}
+							</Button>
+						}
 					</ButtonToolbar>
 				</div>
 				);
@@ -134,6 +137,7 @@ FormDialog.propTypes = {
 	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
 	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
+	hideCancel: React.PropTypes.bool,
 
 	modalShow: React.PropTypes.bool,
 	modalBsSize: React.PropTypes.string

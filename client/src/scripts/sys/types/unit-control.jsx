@@ -150,7 +150,7 @@ export default class UnitControl extends React.Component {
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		// get the selected item
-		const id = this.state.adminUnitId;
+		const id = this.state.auId;
 		const value = id ? res.adminUnits.find(item => item.id === id) : null;
 
 		return (

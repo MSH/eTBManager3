@@ -29,7 +29,16 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         // check if source is an optional value
-        Object source = sourceVal instanceof Optional ? ((Optional) sourceVal).get() : sourceVal;
+        Object source;
+        if (sourceVal instanceof Optional) {
+            source = ((Optional) sourceVal).isPresent() ? ((Optional) sourceVal).get() : null;
+        } else {
+            source = sourceVal;
+        }
+
+        if (source == null) {
+            return null;
+        }
 
         if (source instanceof Collection) {
             return handleCollection(dest, (Collection)source, destClass, sourceClass);

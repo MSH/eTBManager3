@@ -1,18 +1,15 @@
 package org.msh.etbm.services.admin.sysconfig;
 
-import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
+import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.db.entities.SystemConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
 
 /**
  * Service to recover and change system configuration
@@ -25,50 +22,39 @@ public class SysConfigService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysConfigService.class);
 
     @Autowired
-    DozerBeanMapper mapper;
+    EntityDAOFactory entityDAOFactory;
 
-    @Autowired
-    Validator validator;
 
-    @PersistenceContext
-    EntityManager entityManager;
+    /**
+     * Load the system configuration
+     * @return instance of {@link SysConfigFormData} containing system configuration
+     */
+    public SysConfigFormData loadConfig() {
+        EntityDAO<SystemConfig> dao = entityDAOFactory.newDAO(SystemConfig.class);
+
+        dao.setIdIfExists(SystemConfig.PRIMARY_KEY);
+
+        return dao.mapFromEntity(SysConfigFormData.class);
+    }
 
     /**
      * Update system configuration based on give data
      * @param data instance of {@link SysConfigFormData} containing the configuration data to be updated
      */
+    @Transactional
     public void updateConfig(SysConfigFormData data) {
-        SystemConfig conf = loadConfig();
-        mapper.map(data, conf);
-        BindingResult bindingResult = new BeanPropertyBindingResult(conf, SystemConfig.class.getSimpleName());
+        EntityDAO<SystemConfig> dao = entityDAOFactory.newDAO(SystemConfig.class);
 
-        validator.validate(data, bindingResult);
-
-    }
-
-    /**
-     * Read the configuration of the system
-     * @return instance of {@link SysConfigFormData}
-     */
-    public SysConfigFormData readConfig() {
-        SystemConfig conf = loadConfig();
-
-        SysConfigFormData data = mapper.map(conf, SysConfigFormData.class);
-        return data;
-    }
-
-
-    /**
-     * Load the system configuration
-     * @return
-     */
-    private SystemConfig loadConfig() {
-        try {
-            return entityManager.find(SystemConfig.class, SystemConfig.PRIMARY_KEY);
-        } catch (EntityNotFoundException e) {
-            LOGGER.warn("System configuration not found");
-            return new SystemConfig();
+        // load config if exists
+        if (!dao.setIdIfExists(1)) {
+            // if config doesn't exist, set the primary key for the new config
+            dao.getEntity().setId(SystemConfig.PRIMARY_KEY);
         }
+
+        dao.mapToEntity(data);
+
+        dao.save();
     }
+
 
 }

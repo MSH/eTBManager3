@@ -4,15 +4,15 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.db.dto.SystemConfigDTO;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.repositories.*;
+import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.init.InitializationException;
 import org.msh.etbm.services.init.RegisterWorkspaceRequest;
 import org.msh.etbm.services.init.RegisterWorkspaceService;
 import org.msh.etbm.services.permissions.Permission;
 import org.msh.etbm.services.permissions.Permissions;
-import org.msh.etbm.services.sys.ConfigurationService;
 import org.msh.etbm.services.users.UserUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +25,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Register a new workspace. Only valid during initialization of the system, and no other workspace should be available
@@ -43,7 +40,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     DozerBeanMapper mapper;
 
     @Autowired
-    ConfigurationService configurationService;
+    SysConfigService sysConfigService;
 
     @Autowired
     WorkspaceRepository workspaceRepository;
@@ -357,9 +354,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
 
     protected void updateConfiguration(RegisterWorkspaceRequest form) {
-        SystemConfigDTO cfg = configurationService.systemConfig();
-        cfg.setAdminMail(form.getAdminEmail());
+        SysConfigFormData cfg = sysConfigService.loadConfig();
+        cfg.setAdminMail(Optional.of(form.getAdminEmail()));
 
-        configurationService.updateConfiguration();
+        sysConfigService.updateConfig(cfg);
     }
 }
