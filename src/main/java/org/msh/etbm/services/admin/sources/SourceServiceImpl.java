@@ -6,7 +6,6 @@ import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Source;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 /**

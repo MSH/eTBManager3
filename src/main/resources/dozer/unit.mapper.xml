@@ -5,18 +5,6 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
 
-    <!-- Mapping of basic Unit data -->
-    <mapping>
-        <class-a>org.msh.etbm.db.entities.Unit</class-a>
-        <class-b>org.msh.etbm.db.dto.UnitDTO</class-b>
-
-        <field>
-            <a>address.adminUnit</a>
-            <b>adminUnit</b>
-        </field>
-    </mapping>
-
-
     <mapping bean-factory="org.msh.etbm.services.admin.units.impl.UnitBeanFactory">
         <class-a>org.msh.etbm.services.admin.units.data.UnitFormData</class-a>
         <class-b>org.msh.etbm.db.entities.Unit</class-b>

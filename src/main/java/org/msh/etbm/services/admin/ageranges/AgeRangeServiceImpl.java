@@ -10,7 +10,6 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AgeRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import java.util.List;

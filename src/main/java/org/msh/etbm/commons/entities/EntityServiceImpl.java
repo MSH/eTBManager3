@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.entities;
 
-import org.dozer.DozerBeanMapper;
 import org.hibernate.Hibernate;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.ErrorMessages;
@@ -14,23 +13,17 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.messages.MessageKeyResolver;
-import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.db.Synchronizable;
-import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.db.entities.Workspace;
-import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -161,6 +154,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
     @Transactional
     @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
+    @Override
     public ServiceResult delete(UUID id) {
         EntityDAO<E> dao = createEntityDAO();
 
@@ -325,8 +319,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return
      */
     protected ObjectValues createValuesToLog(E entity, Operation oper) {
-        Class entityClass = Hibernate.getClass(entity);
-        return PropertyLogUtils.generateLog(entity, entityClass, oper);
+        Class pureClass = Hibernate.getClass(entity);
+        return PropertyLogUtils.generateLog(entity, pureClass, oper);
     }
 
     /**

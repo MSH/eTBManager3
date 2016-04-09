@@ -9,7 +9,6 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.db.entities.Substance;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import java.util.ArrayList;

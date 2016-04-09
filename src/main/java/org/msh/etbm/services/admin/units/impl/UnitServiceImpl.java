@@ -19,7 +19,6 @@ import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 /**

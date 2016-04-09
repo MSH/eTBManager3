@@ -4,12 +4,10 @@ import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import javax.persistence.PersistenceException;

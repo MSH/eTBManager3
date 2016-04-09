@@ -6,7 +6,6 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import java.util.Optional;

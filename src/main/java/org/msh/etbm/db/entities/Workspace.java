@@ -169,8 +169,6 @@ public class Workspace extends Synchronizable implements Displayable {
 		this.users = users;
 	}
 
-
-
 	/**
 	 * @return the patientNameComposition
 	 */

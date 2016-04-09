@@ -9,7 +9,6 @@ import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 

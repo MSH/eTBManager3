@@ -3,7 +3,6 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -14,7 +13,6 @@ import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import javax.persistence.EntityManager;
