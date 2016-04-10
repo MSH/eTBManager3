@@ -3,18 +3,20 @@ import { Profile } from '../../../components';
 import { CrudView } from '../../crud';
 import CRUD from '../../../commons/crud';
 
-export default class SysSetup extends React.Component {
+export default class Workspaces extends React.Component {
 
 	componentWillMount() {
 		const editor = {
 			layout: [
 			{
 				type: 'string',
+				label: __('form.name'),
 				property: 'name',
 				size: { sm: 6 },
 				required: true
 			}
-			]
+			],
+			title: doc => doc.id ? __('admin.workspaces.edt') : __('admin.workspaces.new')
 		};
 
 		this.setState({ crud: new CRUD('workspace'), editor: editor });
@@ -36,6 +38,6 @@ export default class SysSetup extends React.Component {
 	}
 }
 
-SysSetup.propTypes = {
+Workspaces.propTypes = {
 	route: React.PropTypes.object
 };

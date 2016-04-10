@@ -48,8 +48,10 @@ export default class CrudForm extends React.Component {
 			<FormDialog schema={this.props.schema}
 				doc={controller.formInfo.doc}
 				onConfirm={controller.saveAndClose}
-				wrapType={this.props.cardWrap}
-				onCancel={controller.closeForm}/>;
+				wrapType={this.props.wrapType}
+				onCancel={controller.closeForm}
+				className={this.props.className}
+				/>;
 	}
 }
 
@@ -58,7 +60,8 @@ CrudForm.propTypes = {
 	controller: React.PropTypes.object.isRequired,
 	openOnNew: React.PropTypes.bool,
 	openOnEdit: React.PropTypes.bool,
-	wrapType: React.PropTypes.bool
+	wrapType: React.PropTypes.string,
+	className: React.PropTypes.string
 };
 
 CrudForm.defaultProps = {

@@ -116,6 +116,8 @@ export default class CrudController {
 		// get the data to edit from the crud object and return as a promise
 		return this.crud.getEdit(formInfo.id)
 		.then(res => {
+			// set the id just to know if it is a new form
+			res.id = formInfo.id;
 			formInfo.fetching = false;
 			formInfo.doc = res;
 			// raise the event to notify the form to open
@@ -148,6 +150,12 @@ export default class CrudController {
 				throw new Error('There is no open form to be saved');
 			}
 		}
+
+		// remove the id of the document passed before
+		if (fi.id) {
+			delete fi.doc.id;
+		}
+
 		const prom = fi.id ? this.crud.update(fi.id, fi.doc) : this.crud.create(fi.doc);
 
 		const self = this;

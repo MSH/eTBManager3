@@ -1,16 +1,22 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Grid, Row, Col } from 'react-bootstrap';
 import { Card } from '../../components';
 import { hasPerm } from '../session';
 import CrudMessage from './crud-message';
 import CrudPagination from './crud-pagination';
 import CrudGrid from './crud-grid';
 import CrudController from './crud-controller';
+import CrudForm from './crud-form';
 
 /**
  * Aggregate all crud component offering a full stack crud editor
  */
 export default class CrudView extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.openNewForm = this.openNewForm.bind(this);
+	}
 
 	componentWillMount() {
 		// the controller options
@@ -25,28 +31,44 @@ export default class CrudView extends React.Component {
 		this.setState({ controller: controller });
 	}
 
+	openNewForm() {
+		this.state.controller.openForm();
+	}
+
 	render() {
 		const controller = this.state.controller;
 
 		return (
-			<Card title={this.props.title}>
-				<Button className="pull-right" onClick={this.openNewForm}>
-					{__('action.add')}
-				</Button>
-				<CrudMessage controller={controller} />
-				{
-					this.props.pageSize &&
-					<CrudPagination controller={controller} showCounter />
-				}
-				<CrudGrid controller={controller}
-					onRender={this.props.onCellRender}
-					onExpandRender={this.props.onDetailRender}
-					editorSchema={this.props.editorDef} />
-				{
-					this.props.pageSize &&
-					<CrudPagination controller={controller} />
-				}
-			</Card>
+			<div>
+				<CrudForm controller={controller}
+					schema={this.props.editorSchema} openOnNew />
+				<Card title={this.props.title}>
+					<Grid fluid>
+						<Row>
+							<Col sm={12}>
+								<Button className="pull-right" onClick={this.openNewForm}>
+									{__('action.add')}
+								</Button>
+							</Col>
+						</Row>
+					</Grid>
+					<div className="mtop">
+					<CrudMessage controller={controller} />
+					{
+						this.props.pageSize &&
+						<CrudPagination controller={controller} showCounter />
+					}
+					<CrudGrid controller={controller}
+						onRender={this.props.onCellRender}
+						onExpandRender={this.props.onDetailRender}
+						editorSchema={this.props.editorSchema} />
+					{
+						this.props.pageSize &&
+						<CrudPagination controller={controller} />
+					}
+					</div>
+				</Card>
+			</div>
 			);
 	}
 }
@@ -54,7 +76,7 @@ export default class CrudView extends React.Component {
 
 CrudView.propTypes = {
 	title: React.PropTypes.string,
-	editorDef: React.PropTypes.object,
+	editorSchema: React.PropTypes.object,
 	onCellRender: React.PropTypes.func,
 	onDetailRender: React.PropTypes.func,
 	beforeEdit: React.PropTypes.func,

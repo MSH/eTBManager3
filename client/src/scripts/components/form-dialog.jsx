@@ -3,6 +3,7 @@ import React from 'react';
 import { ButtonToolbar, Button, Modal } from 'react-bootstrap';
 import Card from './card';
 import Form from '../forms/form';
+import { isFunction } from '../commons/utils';
 import AsyncButton from './async-button';
 
 /**
@@ -64,13 +65,7 @@ export default class FormDialog extends React.Component {
 		const doc = this.props.doc;
 
 		// get the title of the form
-		let title;
-		if (typeof schema.title === 'function') {
-			title = schema.title(doc);
-		}
-		else {
-			title = schema.title;
-		}
+		const title = isFunction(schema.title) ? schema.title(doc) : schema.title;
 
 		// get validation errors, if any available
 		const errors = this.state ? this.state.errors : null;
@@ -101,7 +96,7 @@ export default class FormDialog extends React.Component {
 
 		switch (this.props.wrapType) {
 			case 'card': return (
-					<Card title={title} highlight={this.props.highlight}>
+					<Card title={title} className={this.props.className}>
 						{form} {buttons}
 					</Card>
 				);
@@ -121,7 +116,12 @@ export default class FormDialog extends React.Component {
 					</Modal>
 				);
 			default: return (
-					<div>{form} {buttons}</div>
+					<div className={this.props.className}>
+						{
+							title && <h3>{title}</h3>
+						}
+						{form} {buttons}
+					</div>
 				);
 		}
 	}
@@ -134,10 +134,10 @@ FormDialog.propTypes = {
 	onCancel: React.PropTypes.func,
 	onInit: React.PropTypes.func,
 	confirmCaption: React.PropTypes.any,
-	highlight: React.PropTypes.bool,
 	resources: React.PropTypes.object,
 	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
 	hideCancel: React.PropTypes.bool,
+	className: React.PropTypes.string,
 
 	modalShow: React.PropTypes.bool,
 	modalBsSize: React.PropTypes.string

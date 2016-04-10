@@ -2,10 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.workspaces.WorkspaceDetailData;
-import org.msh.etbm.services.admin.workspaces.WorkspaceQueryParams;
-import org.msh.etbm.services.admin.workspaces.WorkspaceRequest;
-import org.msh.etbm.services.admin.workspaces.WorkspaceService;
+import org.msh.etbm.services.admin.workspaces.*;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -33,6 +30,12 @@ public class WorkspacesREST {
     @Authenticated()
     public WorkspaceDetailData get(@PathVariable UUID id) {
         return service.findOne(id, WorkspaceDetailData.class);
+    }
+
+    @RequestMapping(value = "/workspace/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public WorkspaceFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, WorkspaceFormData.class);
     }
 
     @RequestMapping(value = "/workspace", method = RequestMethod.POST)
