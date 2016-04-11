@@ -1,16 +1,15 @@
 import React from 'react';
-import { ButtonToolbar, Button, Collapse } from 'react-bootstrap';
-import { ReactGrid, WaitIcon, AsyncButton, Card } from '../../components';
-import CrudForm from './crud-form';
+import { ReactGrid, WaitIcon } from '../../components';
+import CrudCell from './crud-cell';
 
 
 export default class CrudGrid extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.expandRender = this.expandRender.bind(this);
-		this.editClick = this.editClick.bind(this);
-		this.deleteClick = this.deleteClick.bind(this);
+		// this.expandRender = this.expandRender.bind(this);
+		// this.editClick = this.editClick.bind(this);
+		// this.deleteClick = this.deleteClick.bind(this);
 		this.cellRender = this.cellRender.bind(this);
 	}
 
@@ -29,85 +28,17 @@ export default class CrudGrid extends React.Component {
 		this.props.controller.removeListener(this.state.handler);
 	}
 
-	/**
-	 * Called when user clicks on the edit button
-	 */
-	editClick(item, cell) {
-		return evt => {
-			evt.preventDefault();
-
-			if (this.edtitem) {
-				return;
-			}
-
-			const controller = this.props.controller;
-
-			controller
-				.openForm(item)
-				.then(() => {
-					cell.setSize({ sm: 12 });
-
-					const handler = controller.on(e => {
-						if (e === 'close-form') {
-							controller.removeListener(handler);
-							cell.setSize(null);
-						}
-					});
-				})
-				.catch(() => cell.forceUpdate());
-
-			cell.forceUpdate();
-		};
-	}
-
-
-	/**
-	 * Called when user clicks on the delete button
-	 */
-	deleteClick(item) {
-		return evt => {
-			evt.preventDefault();
-			this.props.controller.initDelete(item);
-		};
-	}
-
-	expandRender(item, cell) {
-		const content = this.props.onExpandRender ? this.props.onExpandRender(item, cell) : null;
+	cellRender(item, cell) {
 		const controller = this.props.controller;
+		const id = controller.resolveId(item);
 
 		return (
-			<div>
-				{content}
-				<ButtonToolbar className="mtop">
-					<AsyncButton bsStyle="primary"
-						fetching={controller.formInfo && controller.formInfo.fetching}
-						onClick={this.editClick(item, cell)}>
-						{__('action.edit')}
-					</AsyncButton>
-					<Button bsStyle="link"
-						onClick={this.deleteClick(item, cell)}>
-						{__('action.delete')}
-					</Button>
-				</ButtonToolbar>
-			</div>
-			);
-	}
-
-	cellRender(item) {
-		const controller = this.props.controller;
-		const fi = controller.formInfo;
-
-		// item is being edited ?
-		if (!fi || fi.item !== item || fi.fetching || fi.closing) {
-			return null;
-		}
-
-		// display cell for editing
-		return (
-			<Collapse in transitionAppear>
-				<CrudForm schema={this.props.editorSchema} className="highlight"
-					controller={controller} openOnEdit wrapType="card" />
-			</Collapse>
+			<CrudCell cell={cell}
+				id={id}
+				controller={controller}
+				onRender={this.props.onRender}
+				onExpandRender={this.props.onExpandRender}
+				editorSchema={this.props.editorSchema} />
 			);
 	}
 
@@ -123,8 +54,6 @@ export default class CrudGrid extends React.Component {
 			<ReactGrid
 				values={controller.getList()}
 				onCellRender={this.cellRender}
-				onCollapseRender={this.props.onRender}
-				onExpandRender={this.expandRender}
 				cellSize={this.props.cellSize} />;
 	}
 }

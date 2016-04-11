@@ -24,6 +24,7 @@ import AutoheightInput from './autoheight-input';
 import LinkTooltip from './link-tooltip';
 import ReactGrid from './react-grid';
 import ListBox from './list-box';
+import Expandable from './expandable';
 
 export { Callout,
 	AsyncButton,
@@ -46,5 +47,6 @@ export { Callout,
 	AutoheightInput,
 	LinkTooltip,
 	ReactGrid,
-	ListBox
+	ListBox,
+	Expandable
 };

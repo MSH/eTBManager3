@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row } from 'react-bootstrap';
-import ReactGridRow from './react-grid-cell';
+import ReactGridCell from './react-grid-cell';
 import Expandable from './expandable';
 import { Size } from '../commons/grid-utils';
 
@@ -28,7 +28,7 @@ export default class ReactGrid extends React.Component {
 
 			// rend cell
 			const cell = (
-				<ReactGridRow key={index} initialSize={cellSize}
+				<ReactGridCell key={index} initialSize={cellSize}
 					value={item}
 					onRender={this.cellRender}
 					index={index} />
@@ -39,7 +39,7 @@ export default class ReactGrid extends React.Component {
 			size.add(cellSize);
 
 			// check if next cell fits in ermaining size or if it is the last item
-			if (!size.fitInSize(cellSize) || index === vals.length) {
+			if (!size.fitInSize(cellSize) || index === vals.length - 1) {
 				// add cells to the row
 				rows.push(<Row key={index}>{cells}</Row>);
 				// empty the left size

@@ -6,7 +6,7 @@ import { Collapse } from 'react-bootstrap';
  * A simple row component with support for additional content that is
  * expanded or collapsed on users click
  */
-export default class CollapseRow extends React.Component {
+export default class Expandable extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -43,7 +43,7 @@ export default class CollapseRow extends React.Component {
 }
 
 
-CollapseRow.propTypes = {
+Expandable.propTypes = {
 	children: React.PropTypes.any,
 	onExpandRender: React.PropTypes.func,
 	value: React.PropTypes.object,
@@ -51,6 +51,6 @@ CollapseRow.propTypes = {
 	expandClassName: React.PropTypes.string
 };
 
-CollapseRow.defaultProps = {
+Expandable.defaultProps = {
 	collapse: true
 };

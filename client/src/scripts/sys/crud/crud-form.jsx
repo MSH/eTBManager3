@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FormDialog, WaitIcon } from '../../components';
+import { FormDialog } from '../../components';
 
 export default class CrudForm extends React.Component {
 
@@ -13,13 +13,12 @@ export default class CrudForm extends React.Component {
 		const handler = this.props.controller.on(evt => {
 			if (evt === 'open-form' || evt === 'close-form') {
 				// check if this form should handle events
-				if (!self.isFormVisible()) {
-					return;
+				if (self.isFormVisible() && this.props.openOnNew) {
+					self.forceUpdate();
 				}
-				self.setState({ visible: evt === 'open-form' });
 			}
 		});
-		this.setState({ handler: handler, visible: self.isFormVisible() });
+		this.setState({ handler: handler });
 	}
 
 	componentWillUnmount() {
@@ -37,21 +36,21 @@ export default class CrudForm extends React.Component {
 	}
 
 	render() {
-		if (!this.state.visible) {
+		if (!this.isFormVisible()) {
 			return null;
 		}
 
 		const controller = this.props.controller;
 
-		return controller.formInfo.fetching ?
-			<WaitIcon type="card" /> :
+		return (
 			<FormDialog schema={this.props.schema}
-				doc={controller.formInfo.doc}
+				doc={controller.frm.doc}
 				onConfirm={controller.saveAndClose}
 				wrapType={this.props.wrapType}
 				onCancel={controller.closeForm}
 				className={this.props.className}
-				/>;
+				/>
+			);
 	}
 }
 

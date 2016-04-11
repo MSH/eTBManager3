@@ -14,6 +14,10 @@ const Events = {
 	openForm: 'open-form',
 	// Close the opened form
 	closeForm: 'close-form',
+	// after a editing, the item is being reloaded from server
+	fetchingItem: 'fetching-item',
+	// when item data is updated after a fetching
+	itemUpdated: 'item-updated',
 	// confirm delete
 	confirmDelete: 'confirm-delete'
 };
@@ -62,6 +66,26 @@ export default class CrudController {
 	}
 
 	/**
+	 * Given an item from the list, return its id
+	 * @param  {object} item Item from the list returned from the CRUD object
+	 * @return {string}      The ID of the item
+	 */
+	resolveId(item) {
+		// temporary
+		return item.id;
+	}
+
+	/**
+	 * Search for an item from the list by its ID
+	 * @param  {string} id The ID of an item in the list
+	 * @return {object}    The item that matches the ID, or undefined if item with ID is not found
+	 */
+	itemById(id) {
+		const self = this;
+		return this.result.list.find(item => id === self.resolveId(item));
+	}
+
+	/**
 	 * Return true if the form is read-only
 	 * @return {Boolean} [description]
 	 */
@@ -89,20 +113,20 @@ export default class CrudController {
 		// information about the document being edited in the form
 		const formInfo = {
 			doc: null,
-			fetching: false,
 			id: null,
+			fetching: true,
 			item: item
 		};
 
 		// store information in the controller about the doc being edited
-		this.formInfo = formInfo;
+		this.frm = formInfo;
 
 		// is a new doc ?
 		if (!item) {
 			// create a new document to be saved
 			formInfo.doc = {};
 			// notify by event
-			this._raise(Events.openForm);
+			this._raise(Events.openForm, formInfo);
 			// return the document as a promise
 			return Promise.resolve(formInfo);
 		}
@@ -110,7 +134,7 @@ export default class CrudController {
 		// EXISTING DOC
 		formInfo.fetching = true;
 		// the default key is the ID of the item
-		formInfo.id = item.id;
+		formInfo.id = this.resolveId(item);
 
 		const self = this;
 		// get the data to edit from the crud object and return as a promise
@@ -120,8 +144,9 @@ export default class CrudController {
 			res.id = formInfo.id;
 			formInfo.fetching = false;
 			formInfo.doc = res;
+
 			// raise the event to notify the form to open
-			self._raise(Events.openForm);
+			self._raise(Events.openForm, formInfo);
 			// return the doc and id in the a promise
 			return formInfo;
 		});
@@ -132,9 +157,9 @@ export default class CrudController {
 	 * @return {[type]} [description]
 	 */
 	closeForm() {
-		this.formInfo.closing = true;
-		this._raise(Events.closeForm);
-		delete this.formInfo;
+		this.frm.closing = true;
+		this._raise(Events.closeForm, this.frm);
+		delete this.frm;
 	}
 
 	/**
@@ -144,7 +169,7 @@ export default class CrudController {
 	 * @return {Prmise}     The promise to be evaluated
 	 */
 	saveAndClose() {
-		const fi = this.formInfo;
+		const fi = this.frm;
 		if (__DEV__) {
 			if (!fi) {
 				throw new Error('There is no open form to be saved');
@@ -158,12 +183,59 @@ export default class CrudController {
 
 		const prom = fi.id ? this.crud.update(fi.id, fi.doc) : this.crud.create(fi.doc);
 
+		const isNew = !fi.id;
+
 		const self = this;
 		return prom.then(res => {
 			self.closeForm();
+
+			const id = isNew ? res.id : fi.id;
+
+			// remove information about open form
+			delete self.frm;
+
+			// informing that the item is being loaded
+			if (id) {
+				self._raise(Events.fetchingItem, id);
+			}
+
+			// reload the item in order to be displayed again
+			return this.crud.query({ id: id });
+		})
+		.then(res => {
+			// the new item that will replace the current item
+			const newitem = res.list[0];
+
+			// create a copy of the list to be updated
+			const lst = this.result.list.slice(0);
+			this.result.list = lst;
+
+			// is a new item ?
+			if (isNew) {
+				// add a new item in the list and remove the last one
+				lst.pop();
+				lst.push(newitem);
+				this.result.list = lst;
+				self._raise(Events.list, this.result);
+			}
+			else {
+				// search for the position of the item in the list
+				const index = lst.findIndex(item => fi.id === self.resolveId(item));
+				if (__DEV__) {
+					// if item was not found, raise an error
+					if (index === -1) {
+						throw new Error('Item not found in the list');
+					}
+				}
+				// replace item
+				lst[index] = newitem;
+
+				// generate event to update the item being displayed
+				self._raise(Events.itemUpdated, { id: fi.id, item: newitem });
+			}
+
 			const msg = fi.id ? __('default.entity_updated') : __('default.entity_created');
 			self._raise(Events.showMsg, msg);
-			return res;
 		});
 	}
 
@@ -172,7 +244,7 @@ export default class CrudController {
 	 * @return {Boolean} [description]
 	 */
 	isFormOpen() {
-		return !!this.formInfo;
+		return !!this.frm;
 	}
 
 	/**
@@ -180,7 +252,15 @@ export default class CrudController {
 	 * @return {Boolean} [description]
 	 */
 	isNewForm() {
-		return !(this.formInfo && this.formInfo.item);
+		return !(this.frm && this.frm.item);
+	}
+
+	/**
+	 * Get the ID of the item being edited
+	 * @return {String} The ID of the document being edited
+	 */
+	getFormItemId() {
+		return this.frm ? this.frm.id : null;
 	}
 
 	/**

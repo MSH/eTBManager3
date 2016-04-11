@@ -4,7 +4,7 @@ import java.util.Optional;
 
 /**
  * Data to be used in a form editor in the client side
- * 
+ *
  * Created by rmemoria on 9/4/16.
  */
 public class WorkspaceFormData {
