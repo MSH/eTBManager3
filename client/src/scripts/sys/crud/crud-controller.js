@@ -98,7 +98,7 @@ export default class CrudController {
 	 * @return {[type]} [description]
 	 */
 	refreshList() {
-		this.gotoPage(this.getPage());
+		return this.gotoPage(this.getPage());
 	}
 
 	/**
@@ -147,6 +147,8 @@ export default class CrudController {
 
 			// raise the event to notify the form to open
 			self._raise(Events.openForm, formInfo);
+
+			self.hideMessage();
 			// return the doc and id in the a promise
 			return formInfo;
 		});
@@ -159,6 +161,7 @@ export default class CrudController {
 	closeForm() {
 		this.frm.closing = true;
 		this._raise(Events.closeForm, this.frm);
+		this.hideMessage();
 		delete this.frm;
 	}
 
@@ -239,8 +242,16 @@ export default class CrudController {
 			}
 
 			const msg = fi.id ? __('default.entity_updated') : __('default.entity_created');
-			self._raise(Events.showMsg, msg);
+			self.showMessage(msg);
 		});
+	}
+
+	showMessage(msg) {
+		this._raise(Events.showMsg, msg);
+	}
+
+	hideMessage() {
+		this.showMessage(null);
 	}
 
 	/**
@@ -280,6 +291,7 @@ export default class CrudController {
 			msg: __('form.confirm_remove')
 		};
 
+		this.hideMessage();
 		this._raise(Events.confirmDelete, data);
 	}
 
@@ -292,7 +304,9 @@ export default class CrudController {
 
 		const self = this;
 		return this.crud.delete(this.item.id)
-			.then(() => self.refreshList());
+			.then(() => self.refreshList())
+			.then(() => self.showMessage(__('default.entity_updated')));
+
 	}
 
 	/**
@@ -393,6 +407,7 @@ export default class CrudController {
 				self._raise(Events.page, result);
 			}
 			self._raise(Events.list, result);
+			self.hideMessage();
 
 			// return to the promise
 			return result;
