@@ -7,6 +7,8 @@ import CrudPagination from './crud-pagination';
 import CrudGrid from './crud-grid';
 import CrudController from './crud-controller';
 import CrudForm from './crud-form';
+import CrudCounter from './crud-counter';
+import CrudAddButton from './crud-add-button';
 
 /**
  * Aggregate all crud component offering a full stack crud editor
@@ -46,27 +48,30 @@ export default class CrudView extends React.Component {
 					<Grid fluid>
 						<Row>
 							<Col sm={12}>
-								<Button className="pull-right" onClick={this.openNewForm}>
-									{__('action.add')}
-								</Button>
+								<CrudAddButton controller={controller} />
+								<CrudCounter controller={controller} />
+							</Col>
+						</Row>
+						<Row>
+							<Col sm={12}>
+								<div className="mtop">
+								<CrudMessage controller={controller} />
+								{
+									this.props.pageSize &&
+									<CrudPagination controller={controller} />
+								}
+								<CrudGrid controller={controller}
+									onRender={this.props.onCellRender}
+									onExpandRender={this.props.onDetailRender}
+									editorSchema={this.props.editorSchema} />
+								{
+									this.props.pageSize &&
+									<CrudPagination controller={controller} />
+								}
+								</div>
 							</Col>
 						</Row>
 					</Grid>
-					<div className="mtop">
-					<CrudMessage controller={controller} />
-					{
-						this.props.pageSize &&
-						<CrudPagination controller={controller} showCounter />
-					}
-					<CrudGrid controller={controller}
-						onRender={this.props.onCellRender}
-						onExpandRender={this.props.onDetailRender}
-						editorSchema={this.props.editorSchema} />
-					{
-						this.props.pageSize &&
-						<CrudPagination controller={controller} />
-					}
-					</div>
 				</Card>
 			</div>
 			);

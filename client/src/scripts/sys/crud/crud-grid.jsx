@@ -1,31 +1,20 @@
 import React from 'react';
 import { ReactGrid, WaitIcon } from '../../components';
 import CrudCell from './crud-cell';
+import controlWrapper from './crud-control-wrapper';
 
 
-export default class CrudGrid extends React.Component {
+class CrudGrid extends React.Component {
 	constructor(props) {
 		super(props);
 
-		// this.expandRender = this.expandRender.bind(this);
-		// this.editClick = this.editClick.bind(this);
-		// this.deleteClick = this.deleteClick.bind(this);
 		this.cellRender = this.cellRender.bind(this);
 	}
 
-	componentWillMount() {
-		const self = this;
-		const handler = this.props.controller.on((evt) => {
-			if (evt === 'list' || evt === 'fetching-list') {
-				self.forceUpdate();
-			}
-		});
-
-		this.setState({ values: null, handler: handler });
-	}
-
-	componentWillUnmount() {
-		this.props.controller.removeListener(this.state.handler);
+	eventHandler(evt) {
+		if (evt === 'list' || evt === 'fetching-list') {
+			this.forceUpdate();
+		}
 	}
 
 	cellRender(item, cell) {
@@ -45,16 +34,20 @@ export default class CrudGrid extends React.Component {
 	render() {
 		const controller = this.props.controller;
 
+		if (controller.isFetching()) {
+			return <WaitIcon type="card" />;
+		}
+
 		if (!controller.getList()) {
 			return null;
 		}
 
-		return controller.isFetching() ?
-			<WaitIcon type="card" /> :
+		return (
 			<ReactGrid
 				values={controller.getList()}
 				onCellRender={this.cellRender}
-				cellSize={this.props.cellSize} />;
+				cellSize={this.props.cellSize} />
+			);
 	}
 }
 
@@ -65,3 +58,6 @@ CrudGrid.propTypes = {
 	editorSchema: React.PropTypes.object,
 	cellSize: React.PropTypes.object
 };
+
+export default controlWrapper(CrudGrid);
+

@@ -431,7 +431,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void initialize(EntityQueryParams qry) {
         this.page = qry.getPage();
-        this.recordsPerPage = qry.getRecordsPerPage();
+        this.recordsPerPage = qry.getPageSize();
         this.orderByKey = qry.getOrderBy();
         this.orderByDescending = qry.isOrderByDescending();
         this.countOnly = qry.isCountOnly();

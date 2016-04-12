@@ -17,10 +17,9 @@ public class EntityQueryParams {
     private Integer page;
 
     /**
-     * Number of records per page. If page number is defined and recordsPerPage is null, the default value is 50
+     * Number of records per page. If page number is defined and pageSize is null, the default value is 50
      */
-    @JsonProperty("rpp")
-    private Integer recordsPerPage;
+    private Integer pageSize;
 
     /**
      * Criteria to order list
@@ -63,12 +62,12 @@ public class EntityQueryParams {
         this.page = page;
     }
 
-    public Integer getRecordsPerPage() {
-        return recordsPerPage;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setRecordsPerPage(Integer recordsPerPage) {
-        this.recordsPerPage = recordsPerPage;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public String getOrderBy() {

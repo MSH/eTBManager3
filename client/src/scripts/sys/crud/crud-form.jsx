@@ -1,30 +1,27 @@
 
 import React from 'react';
 import { FormDialog } from '../../components';
+import controlWrapper from './crud-control-wrapper';
 
-export default class CrudForm extends React.Component {
+class CrudForm extends React.Component {
 
 	componentWillMount() {
-		const self = this;
-		const handler = this.props.controller.on((evt, data) => {
-			if (evt !== 'open-form' && evt !== 'close-form') {
-				return;
-			}
-
-			const onnew = this.props.openOnNew;
-
-			// ignore events if not on new forms
-			if (!onnew || (onnew && data && data.id)) {
-				return;
-			}
-
-			self.setState({ visible: evt === 'open-form' });
-		});
-		this.setState({ handler: handler, visible: this.props.controller.isFormOpen() });
+		this.setState({ visible: this.props.controller.isFormOpen() });
 	}
 
-	componentWillUnmount() {
-		this.props.controller.removeListener(this.state.handler);
+	eventHandler(evt, data) {
+		if (evt !== 'open-form' && evt !== 'close-form') {
+			return;
+		}
+
+		const onnew = this.props.openOnNew;
+
+		// ignore events if not on new forms
+		if (!onnew || (onnew && data && data.id)) {
+			return;
+		}
+
+		this.setState({ visible: evt === 'open-form' });
 	}
 
 
@@ -59,3 +56,5 @@ CrudForm.propTypes = {
 CrudForm.defaultProps = {
 	wrapType: 'card'
 };
+
+export default controlWrapper(CrudForm);

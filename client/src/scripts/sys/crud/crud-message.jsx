@@ -1,37 +1,34 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { MessageDlg } from '../../components';
+import controlWrapper from './crud-control-wrapper';
 
-export default class CrudMessage extends React.Component {
+class CrudMessage extends React.Component {
 
 	constructor(props) {
 		super(props);
 
 		this.hideMessage = this.hideMessage.bind(this);
 		this.confirmDlgClose = this.confirmDlgClose.bind(this);
+
+		this.state = { msg: null };
 	}
 
-	componentWillMount() {
-		const self = this;
+	eventHandler(evt, data) {
+		if (evt === 'show-msg') {
+			this.setState({ msg: data });
+			return;
+		}
 
-		const handler = this.props.controller.on((evt, data) => {
-			if (evt === 'show-msg') {
-				self.setState({ msg: data });
-				return;
-			}
-
-			if (evt === 'confirm-delete') {
-				self.setState({ confirm: data });
-				return;
-			}
-		});
-		self.setState({ handler: handler });
+		if (evt === 'confirm-delete') {
+			this.setState({ confirm: data });
+			return;
+		}
 	}
 
-	componentWillUnmount() {
-		this.props.controller.removeListener(this.state.handler);
-	}
-
+	/**
+	 * Hide the alert box displaying the message
+	 */
 	hideMessage() {
 		this.setState({ msg: null });
 	}
@@ -75,3 +72,5 @@ export default class CrudMessage extends React.Component {
 CrudMessage.propTypes = {
 	controller: React.PropTypes.object.isRequired
 };
+
+export default controlWrapper(CrudMessage);

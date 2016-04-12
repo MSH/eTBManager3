@@ -62,7 +62,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         // get one unit for testing
         UnitQueryParams p = new UnitQueryParams();
         p.setPage(0);
-        p.setRecordsPerPage(1);
+        p.setPageSize(1);
         p.setProfile(UnitQueryParams.PROFILE_DEFAULT);
 
         QueryResult<UnitData> units = unitService.findMany(p);

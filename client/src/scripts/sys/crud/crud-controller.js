@@ -246,10 +246,17 @@ export default class CrudController {
 		});
 	}
 
+	/**
+	 * Raise an event to display a message
+	 * @param  {String} msg The message to be displayed
+	 */
 	showMessage(msg) {
 		this._raise(Events.showMsg, msg);
 	}
 
+	/**
+	 * Raise an event to hide any message displayed
+	 */
 	hideMessage() {
 		this.showMessage(null);
 	}
@@ -327,6 +334,14 @@ export default class CrudController {
 	}
 
 	/**
+	 * Check if paging is enabled
+	 * @return {Boolean} Return true if paging is enabled
+	 */
+	isPaging() {
+		return !!this.options.pageSize;
+	}
+
+	/**
 	 * Get the current page
 	 * @return {[type]} [description]
 	 */
@@ -374,7 +389,12 @@ export default class CrudController {
 	 */
 	_raise(event, data) {
 		this.state = event;
-		this.listeners.forEach(listener => listener(event, data));
+		try {
+			this.listeners.forEach(listener => listener(event, data));
+		}
+		catch (err) {
+			console.error(err);
+		}
 	}
 
 	/**
