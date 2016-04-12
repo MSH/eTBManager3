@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.entities;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.ErrorMessages;
@@ -18,6 +19,8 @@ import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.db.Synchronizable;
+import org.msh.etbm.db.WorkspaceEntity;
+import org.msh.etbm.services.admin.workspaces.WorkspaceData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +34,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -197,25 +202,38 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return true if the entity is unique
      */
     protected boolean checkUnique(E entity, String field, String restriction) {
-        String hql = "select count(*) from " + getEntityClass().getSimpleName() + " where workspace.id = :wsid ";
+        String hql = "select count(*) from " + getEntityClass().getSimpleName();
+
+        List<String> criterias = new ArrayList<>();
+
+        if (entity instanceof WorkspaceEntity) {
+            criterias.add("workspace.id = :wsid");
+        }
 
         String[] fields = field.split(",");
         for (String f: fields) {
-            hql += " and " + f + " = :" + f;
+            criterias.add(f + " = :" + f);
         }
 
         if (entity.getId() != null) {
-            hql += " and id <> :id";
+            criterias.add("id <> :id");
         }
 
         // any restriction available
         if (restriction != null) {
-            hql += " and " + restriction;
+            criterias.add(restriction);
+        }
+
+        if (criterias.size() > 0) {
+            hql += " where " + StringUtils.join(criterias, " and ");
         }
 
         Query qry = entityManager
-                .createQuery(hql)
-                .setParameter("wsid", getWorkspaceId());
+                .createQuery(hql);
+
+        if (entity instanceof WorkspaceEntity) {
+            qry.setParameter("wsid", getWorkspaceId());
+        }
 
         if (entity.getId() != null) {
             qry.setParameter("id", entity.getId());

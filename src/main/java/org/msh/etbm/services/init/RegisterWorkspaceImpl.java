@@ -106,32 +106,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         entityManager.flush();
 
         workspaceCreator.addUserToWorkspace(user.getId(), ws.getId());
-
-//        // get TB unit
-//        List<Unit> units = entityManager
-//                .createQuery("from Unit where workspace.id = :id")
-//                .setParameter("id", ws.getId())
-//                .setMaxResults(1)
-//                .getResultList();
-//
-//        if (units.isEmpty()) {
-//            throw new RuntimeException("No unit found");
-//        }
-//        Unit unit = units.get(0);
-//
-//        Workspace workspace = entityManager.find(Workspace.class, ws.getId());
-//
-//        UserWorkspace uw = new UserWorkspace();
-//        uw.setUser(user);
-//        uw.setUnit(unit);
-//        uw.setWorkspace(workspace);
-//        uw.setView(UserView.COUNTRY);
-//        uw.setAdministrator(true);
-//        uw.setPlayOtherUnits(true);
-//        uw.setAdminUnit(unit.getAddress().getAdminUnit());
-//
-//        entityManager.persist(uw);
-//        entityManager.flush();
     }
 
 

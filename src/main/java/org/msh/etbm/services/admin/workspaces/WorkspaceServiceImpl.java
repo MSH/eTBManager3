@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.workspaces;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
@@ -69,6 +70,11 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
             raiseRequiredFieldException(frmdata, "name");
         }
 
+        // check if workspace name is unique
+        Workspace ws = new Workspace();
+        ws.setName(frmdata.getName().get());
+        checkUniqueWorkspaceName(ws);
+
         // create a new workspace using the template file
         WorkspaceData data = workspaceCreator.create(frmdata.getName().get());
 
@@ -87,6 +93,16 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     /**
+     * Check if the workspace name is unique in the system
+     * @param ws the Workspace to check the name
+     */
+    private void checkUniqueWorkspaceName(Workspace ws) {
+        if (!checkUnique(ws, "name")) {
+            rejectFieldException(ws, "name", ErrorMessages.NOT_UNIQUE);
+        }
+    }
+
+    /**
      * Add the current user to the new workspace, so he will be able to enter there
      * @param workspace the new workspace
      */
@@ -96,6 +112,12 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         UUID userId = userRequestService.getUserSession().getUserId();
 
         workspaceCreator.addUserToWorkspace(userId, workspace.getId());
+    }
+
+    @Override
+    protected void beforeSave(Workspace ws, Errors errors) {
+        checkUniqueWorkspaceName(ws);
+        super.beforeSave(ws, errors);
     }
 
     @Override
