@@ -189,7 +189,7 @@ export default class CrudController {
 		return prom.then(res => {
 			self.closeForm();
 
-			const id = isNew ? res.id : fi.id;
+			const id = isNew ? res : fi.id;
 
 			// remove information about open form
 			delete self.frm;
@@ -212,9 +212,13 @@ export default class CrudController {
 
 			// is a new item ?
 			if (isNew) {
-				// add a new item in the list and remove the last one
-				lst.pop();
-				lst.push(newitem);
+				// add a new item in the list
+				lst.unshift(newitem);
+				// if list size is bigger than the page size, remove the last item
+				if (this.options.pageSize && lst.length > this.options.pageSize) {
+					lst.pop();
+				}
+				// update the new list
 				this.result.list = lst;
 				self._raise(Events.list, this.result);
 			}

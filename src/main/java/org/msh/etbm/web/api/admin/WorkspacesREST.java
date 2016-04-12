@@ -39,7 +39,7 @@ public class WorkspacesREST {
     }
 
     @RequestMapping(value = "/workspace", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody WorkspaceRequest req) {
+    public StandardResult create(@Valid @NotNull @RequestBody WorkspaceFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }

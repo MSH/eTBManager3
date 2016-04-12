@@ -4,39 +4,32 @@ import { FormDialog } from '../../components';
 
 export default class CrudForm extends React.Component {
 
-	constructor(props) {
-		super(props);
-	}
-
 	componentWillMount() {
 		const self = this;
-		const handler = this.props.controller.on(evt => {
-			if (evt === 'open-form' || evt === 'close-form') {
-				// check if this form should handle events
-				if (self.isFormVisible() && this.props.openOnNew) {
-					self.forceUpdate();
-				}
+		const handler = this.props.controller.on((evt, data) => {
+			if (evt !== 'open-form' && evt !== 'close-form') {
+				return;
 			}
+
+			const onnew = this.props.openOnNew;
+
+			// ignore events if not on new forms
+			if (!onnew || (onnew && data && data.id)) {
+				return;
+			}
+
+			self.setState({ visible: evt === 'open-form' });
 		});
-		this.setState({ handler: handler });
+		this.setState({ handler: handler, visible: this.props.controller.isFormOpen() });
 	}
 
 	componentWillUnmount() {
 		this.props.controller.removeListener(this.state.handler);
 	}
 
-	/**
-	 * Return true if form is visible
-	 * @return {Boolean} [description]
-	 */
-	isFormVisible() {
-		const ctrl = this.props.controller;
-		return ctrl.isFormOpen() &&
-			((ctrl.isNewForm() && this.props.openOnNew) || (!ctrl.isNewForm() && this.props.openOnEdit));
-	}
 
 	render() {
-		if (!this.isFormVisible()) {
+		if (!this.state.visible) {
 			return null;
 		}
 

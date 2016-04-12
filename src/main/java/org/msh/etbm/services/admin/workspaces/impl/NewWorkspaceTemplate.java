@@ -1,4 +1,4 @@
-package org.msh.etbm.services.init.impl;
+package org.msh.etbm.services.admin.workspaces.impl;
 
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.db.entities.Workspace;
@@ -10,7 +10,6 @@ import org.msh.etbm.db.entities.Workspace;
  */
 public class NewWorkspaceTemplate {
     private Workspace workspace;
-    private UserWorkspaceTemplate userWorkspace;
     private CountryStructure[] countryStructures;
     private AdminUnitTemplate[] adminUnits;
     private TbunitTemplate[] tbunits;
@@ -22,14 +21,6 @@ public class NewWorkspaceTemplate {
 
     public void setWorkspace(Workspace workspace) {
         this.workspace = workspace;
-    }
-
-    public UserWorkspaceTemplate getUser() {
-        return userWorkspace;
-    }
-
-    public void setUserWorkspace(UserWorkspaceTemplate user) {
-        this.userWorkspace = user;
     }
 
     public CountryStructure[] getCountryStructures() {

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.init.impl;
+package org.msh.etbm.services.admin.workspaces.impl;
 
 import org.msh.etbm.db.entities.Tbunit;
 

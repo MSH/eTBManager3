@@ -21,22 +21,6 @@
     "maxStockOnHand": 6,
     "treatMonitoringInput": "SIMPLE"
   },
-  "userWorkspace": {
-    "user": {
-      "login": "ADMIN",
-      "name": "Administrator",
-      "state": "PASSWD_EXPIRED",
-      "comments": "System Administrator",
-      "sendSystemMessages": true,
-      "ulaAccepted": false
-    },
-    "unitName": "Working unit",
-    "profiles": [
-      "Administrator"
-    ],
-    "userView": "COUNTRY",
-    "playOtherUnits": true
-  },
   "countryStructures": [
     {
       "name": "Region",

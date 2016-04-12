@@ -1,4 +1,4 @@
-package org.msh.etbm.services.init.impl;
+package org.msh.etbm.services.admin.workspaces.impl;
 
 /**
  * Store information of a user that comes from a json template

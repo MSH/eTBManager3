@@ -1,4 +1,4 @@
-package org.msh.etbm.services.init.impl;
+package org.msh.etbm.services.admin.workspaces.impl;
 
 /**
  * Store information about an administrative unit that comes from a json template
