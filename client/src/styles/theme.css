@@ -6810,10 +6810,6 @@ button.close {
 .card .card-pad-sm {
   padding: 8px;
 }
-.card div[class*="col-"] {
-  padding-left: 8px;
-  padding-right: 8px;
-}
 .card div[class*="col-"] .card {
   border: 1px solid #e8e8e8;
 }
@@ -7660,4 +7656,3 @@ button.close {
   background-color: #f6f6f6;
   color: #404040;
 }
-/* Small devices (tablets, 768px and up) */

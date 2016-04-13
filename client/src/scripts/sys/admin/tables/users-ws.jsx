@@ -99,6 +99,31 @@ const editorDef = {
  */
 export default class UsersWs extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.execOption = this.execOption.bind(this);
+		this.state = {
+			options: [
+				{
+					label: 'Send new password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Change password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Block user',
+					onClick: this.execOption
+				}
+			]
+		};
+	}
+
+	execOption(index) {
+		alert('Not implemented: ' + index);
+	}
+
 	cellRender(item) {
 		const sub = (
 			<div>
@@ -118,6 +143,7 @@ export default class UsersWs extends React.Component {
 		return (
 			<CrudView crud={crud}
 				pageSize={50}
+				options={this.state.options}
 				title={data.title}
 				editorSchema={editorDef}
 				onCellRender={this.cellRender}

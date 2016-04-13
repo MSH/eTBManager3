@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Card } from '../../components';
 import { hasPerm } from '../session';
 import CrudMessage from './crud-message';
@@ -45,33 +45,33 @@ export default class CrudView extends React.Component {
 				<CrudForm controller={controller}
 					schema={this.props.editorSchema} openOnNew />
 				<Card title={this.props.title}>
-					<Grid fluid>
-						<Row>
-							<Col sm={12}>
-								<CrudAddButton controller={controller} />
-								<CrudCounter controller={controller} />
-							</Col>
-						</Row>
-						<Row>
-							<Col sm={12}>
-								<div className="mtop">
-								<CrudMessage controller={controller} />
-								{
-									this.props.pageSize &&
-									<CrudPagination controller={controller} />
-								}
-								<CrudGrid controller={controller}
-									onRender={this.props.onCellRender}
-									onExpandRender={this.props.onDetailRender}
-									editorSchema={this.props.editorSchema} />
-								{
-									this.props.pageSize &&
-									<CrudPagination controller={controller} />
-								}
-								</div>
-							</Col>
-						</Row>
-					</Grid>
+					<Row>
+						<Col sm={12}>
+							<CrudAddButton controller={controller} />
+							<CrudCounter controller={controller} />
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12}>
+							<div className="mtop">
+							<CrudMessage controller={controller} />
+							{
+								this.props.pageSize &&
+								<CrudPagination controller={controller} />
+							}
+							<CrudGrid controller={controller}
+								cellSize={this.props.cellSize}
+								options={this.props.options}
+								onRender={this.props.onCellRender}
+								onExpandRender={this.props.onDetailRender}
+								editorSchema={this.props.editorSchema} />
+							{
+								this.props.pageSize &&
+								<CrudPagination controller={controller} />
+							}
+							</div>
+						</Col>
+					</Row>
 				</Card>
 			</div>
 			);
@@ -91,6 +91,7 @@ CrudView.propTypes = {
 	search: React.PropTypes.bool,
 	pageSize: React.PropTypes.number,
 	queryFilters: React.PropTypes.object,
+	options: React.PropTypes.array,
 	// if true, the card will have no bottom margin
 	combine: React.PropTypes.bool,
 	children: React.PropTypes.node

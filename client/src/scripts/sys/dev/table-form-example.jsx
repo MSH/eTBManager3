@@ -2,7 +2,6 @@
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Card } from '../../components/index';
-import { app } from '../../core/app';
 import Form from '../../forms/form';
 
 const tfschema = {
