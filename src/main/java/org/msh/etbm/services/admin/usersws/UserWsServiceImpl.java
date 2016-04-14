@@ -2,8 +2,10 @@ package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 
 /**
  * Implementation of the {@link UserWsService} to handle CRUD operations for User workspace
@@ -30,4 +32,16 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         builder.setHqlJoin("join fetch a.user u join fetch a.unit un");
     }
 
+    @Override
+    protected void beforeSave(UserWorkspace entity, Errors errors) {
+        super.beforeSave(entity, errors);
+
+        if (errors.hasErrors()) {
+            return;
+        }
+
+        if (entity.getAdminUnit() == null) {
+            entity.setAdminUnit(entity.getUnit().getAddress().getAdminUnit());
+        }
+    }
 }

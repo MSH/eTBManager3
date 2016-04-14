@@ -24,6 +24,11 @@
             <b>user.email</b>
         </field>
 
+        <field>
+            <a>sendSystemMessages</a>
+            <b>user.sendSystemMessages</b>
+        </field>
+
         <field custom-converter-id="entity-id">
             <a>unitId</a>
             <b>unit</b>

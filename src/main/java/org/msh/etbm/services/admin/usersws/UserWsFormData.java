@@ -23,6 +23,7 @@ public class UserWsFormData {
     private Optional<Boolean> playOtherUnits;
     private List<UUID> profiles;
     private UserViewData view;
+    private Optional<Boolean> sendSystemMessages;
 
 
     public Optional<String> getName() {
@@ -114,5 +115,13 @@ public class UserWsFormData {
 
     public void setView(UserViewData view) {
         this.view = view;
+    }
+
+    public Optional<Boolean> getSendSystemMessages() {
+        return sendSystemMessages;
+    }
+
+    public void setSendSystemMessages(Optional<Boolean> sendSystemMessages) {
+        this.sendSystemMessages = sendSystemMessages;
     }
 }

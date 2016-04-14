@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Input } from 'react-bootstrap';
-import { WaitIcon, SelectionBox } from '../../components/index';
+import { WaitIcon, SelectionBox } from '../../components';
 import FormUtils from '../../forms/form-utils';
 
 
@@ -47,13 +47,29 @@ export default class UnitControl extends React.Component {
 			return;
 		}
 
+		const newstate = {
+			auId: null
+		};
+
+		// check the selected unit
+		if (this.state.auId) {
+			if (resources.adminUnitId) {
+				newstate.auId = resources.adminUnitId;
+			}
+			else {
+				const aux = resources.adminUnits.find(item => item.id === this.state.auId);
+				newstate.auId = aux ? this.state.auId : resources.adminUnitId;
+			}
+		}
+
 		// update the selected admin unit ID
 		if (resources.units || resources.workspaceId !== this.state.wsId) {
-			this.setState({ auId: resources.adminUnitId, units: resources.units, wsId: resources.workspaceId });
+			newstate.units = resources.units;
+			newstate.wsId = resources.workspaceId;
 		}
-		else {
-			this.setState({ auId: resources.adminUnitId });
-		}
+
+		console.log(newstate);
+		this.setState(newstate);
 	}
 
 	/**
@@ -101,7 +117,7 @@ export default class UnitControl extends React.Component {
 		const admUnit = item ? item.id : null;
 
 		if (admUnit === '-') {
-			this.setState({ units: null });
+			this.setState({ units: null, auId: null });
 			return;
 		}
 
@@ -122,7 +138,7 @@ export default class UnitControl extends React.Component {
 		FormUtils.serverRequest(req)
 			.then(res => self.setState({ units: res.units }));
 
-		this.setState({ units: null, adminUnitId: admUnit });
+		this.setState({ units: null, auId: admUnit });
 		this.onUnitChange(null, null);
 	}
 
@@ -134,7 +150,9 @@ export default class UnitControl extends React.Component {
 	 */
 	onUnitChange(evt, item) {
 		const id = item ? item.id : null;
-		if (this.props.onChange) {
+		const val = this.props.value ? this.props.value : null;
+
+		if (val !== id && this.props.onChange) {
 			this.props.onChange({ schema: this.props.schema, value: id });
 		}
 	}
