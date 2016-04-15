@@ -17,6 +17,11 @@ export default class BoolControl extends React.Component {
 		this.onChange = this.onChange.bind(this);
 	}
 
+	focus() {
+		this.refs.input.focus();
+		return true;
+	}
+
 	onChange() {
 		const value = this.refs.input.getChecked();
 

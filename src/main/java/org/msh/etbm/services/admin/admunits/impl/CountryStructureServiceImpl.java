@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
@@ -42,15 +43,17 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void beforeSave(CountryStructure entity, Errors errors) throws EntityValidationException {
+    protected void beforeSave(EntityDAO<CountryStructure> dao) {
+        super.beforeSave(dao);
+
         // there are error messages ?
-        if (errors.hasErrors()) {
+        if (dao.hasErrors()) {
             return;
         }
 
-        if (!checkUnique(entity, "name", "level = " + entity.getLevel())) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        CountryStructure cs = dao.getEntity();
+        if (!checkUnique(cs, "name", "level = " + cs.getLevel())) {
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
     }
-
 }

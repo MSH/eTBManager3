@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -127,23 +128,25 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void beforeSave(AdministrativeUnit entity, Errors errors) {
-        if (errors.hasErrors()) {
+    protected void beforeSave(EntityDAO<AdministrativeUnit> dao) {
+        if (dao.hasErrors()) {
             return;
         }
 
+        AdministrativeUnit entity = dao.getEntity();
+
         if (entity.getCountryStructure() == null) {
-            errors.rejectValue("csId", ErrorMessages.REQUIRED);
+            dao.addError("csId", ErrorMessages.REQUIRED);
             return;
         }
 
         validateParent(entity);
 
         if (!isUnique(entity)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        if (errors.hasErrors()) {
+        if (dao.hasErrors()) {
             return;
         }
 

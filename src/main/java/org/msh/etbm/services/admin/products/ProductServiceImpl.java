@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.products;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
@@ -58,17 +59,19 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
-    protected void beforeSave(Product entity, Errors errors) {
-        if (errors.hasErrors()) {
+    protected void beforeSave(EntityDAO<Product> dao) {
+        if (dao.hasErrors()) {
             return;
         }
 
+        Product entity = dao.getEntity();
+
         if (!checkUnique(entity, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
 
         if (!checkUnique(entity, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

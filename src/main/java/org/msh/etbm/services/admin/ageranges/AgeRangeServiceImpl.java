@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.ageranges;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -42,22 +43,26 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     }
 
     @Override
-    protected void beforeSave(AgeRange entity, Errors errors) {
-        if (errors.hasErrors()) {
+    protected void beforeSave(EntityDAO<AgeRange> dao) {
+        super.beforeSave(dao);
+
+        if (dao.hasErrors()) {
             return;
         }
 
+        AgeRange entity = dao.getEntity();
+
         if (entity.getIniAge() < 0) {
-            errors.rejectValue("iniDate", ErrorMessages.NOT_VALID);
+            dao.addError("iniDate", ErrorMessages.NOT_VALID);
         }
 
         if (entity.getEndAge() < 0) {
-            errors.rejectValue("endDate", ErrorMessages.NOT_VALID);
+            dao.addError("endDate", ErrorMessages.NOT_VALID);
         }
 
         // check ranges
         if (entity.getIniAge() != 0 && entity.getEndAge() != 0 && entity.getIniAge() >= entity.getEndAge()) {
-            errors.reject("admin.ageranges.msgerror1");
+            dao.addError("admin.ageranges.msgerror1");
             return;
         }
 
@@ -66,7 +71,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
             if ((age != entity) &&
                     (age.getIniAge() == entity.getIniAge()) &&
                     (age.getEndAge() == entity.getEndAge())) {
-                errors.reject("admin.ageranges.msgerror2");
+                dao.addError("admin.ageranges.msgerror2");
                 return;
             }
         }

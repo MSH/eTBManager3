@@ -28,6 +28,7 @@ export default class DateControl extends React.Component {
 	 */
 	focus() {
 		this.refs.input.focus();
+		return true;
 	}
 
 	render() {

@@ -82,9 +82,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // set values from request to entity object (must ignore null values)
         mapRequest(req, dao.getEntity());
 
-        dao.validate();
         // prepare entity to be saved
-        beforeSave(dao.getEntity(), dao.getErrors());
+        beforeSave(dao);
 
         dao.save();
 
@@ -143,7 +142,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         dao.validate();
 
         // prepare object to save
-        beforeSave(dao.getEntity(), dao.getErrors());
+        beforeSave(dao);
 
         // save the entity
         dao.save();
@@ -254,10 +253,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
     /**
      * Prepare entity for saving, making any custom transformation and validation in the entity
-     * @param entity the entity to be saved
-     * @param errors the list of possible validation errors along the preparation
+     * @param dao The instance of {@link EntityDAO} containing the entity to be saved
      */
-    protected void beforeSave(E entity, Errors errors) {
+    protected void beforeSave(EntityDAO<E> dao) {
         // do nothing... To be implemented in the child class
     }
 

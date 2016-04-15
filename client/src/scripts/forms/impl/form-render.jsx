@@ -30,6 +30,7 @@ export default function formRender(form) {
 
 	const snapshots = form.state.snapshots;
 
+	// create the list of components and its size
 	const items = snapshots.map(item => {
 		const snapshot = item.snapshot;
 		const compErrors = snapshot.property ? propertyErrors(snapshot.property, errors, handledErrors) : null;

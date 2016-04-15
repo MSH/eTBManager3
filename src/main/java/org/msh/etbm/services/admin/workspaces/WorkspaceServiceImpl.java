@@ -7,6 +7,7 @@ import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
@@ -115,9 +116,9 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     @Override
-    protected void beforeSave(Workspace ws, Errors errors) {
-        checkUniqueWorkspaceName(ws);
-        super.beforeSave(ws, errors);
+    protected void beforeSave(EntityDAO<Workspace> dao) {
+        checkUniqueWorkspaceName(dao.getEntity());
+        super.beforeSave(dao);
     }
 
     @Override

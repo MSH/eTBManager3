@@ -35,6 +35,7 @@ export default class InputControl extends React.Component {
 	 */
 	focus() {
 		this.refs.input.getInputDOMNode().focus();
+		return true;
 	}
 
 	/**

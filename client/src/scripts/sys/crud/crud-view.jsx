@@ -81,10 +81,9 @@ export default class CrudView extends React.Component {
 
 CrudView.propTypes = {
 	title: React.PropTypes.string,
-	editorSchema: React.PropTypes.object,
-	onCellRender: React.PropTypes.func,
+	editorSchema: React.PropTypes.object.isRequired,
+	onCellRender: React.PropTypes.func.isRequired,
 	onDetailRender: React.PropTypes.func,
-	beforeEdit: React.PropTypes.func,
 	cellSize: React.PropTypes.object,
 	perm: React.PropTypes.string,
 	crud: React.PropTypes.object.isRequired,

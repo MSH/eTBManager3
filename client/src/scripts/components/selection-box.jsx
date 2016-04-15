@@ -4,6 +4,10 @@ import { MenuItem } from 'react-bootstrap';
 import Popup from './popup';
 import { objEqual } from '../commons/utils';
 
+/**
+ * A component that allows use to select a single or multiple elements from a drop down
+ * selection box.
+ */
 export default class SelectionBox extends React.Component {
 
 	constructor(props) {
@@ -18,12 +22,6 @@ export default class SelectionBox extends React.Component {
 		this.state = { };
 	}
 
-	componentWillMount() {
-		// const value = this.props.value !== undefined ? this.props.value : null;
-		// this.setState({ value: value });
-	}
-
-
 	shouldComponentUpdate(nextProps, nextState) {
 		return !objEqual(nextProps, this.props) || !objEqual(nextState, this.state);
 	}
@@ -36,7 +34,6 @@ export default class SelectionBox extends React.Component {
 	notifyChange(value, evt) {
 		this._value = value;
 
-//		this.setState({ value: value });
 		if (this.props.onChange) {
 			this.props.onChange(evt, value);
 		}

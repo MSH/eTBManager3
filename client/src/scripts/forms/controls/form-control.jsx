@@ -91,26 +91,10 @@ export default function formControl(Component) {
 			return Component.children ? Component.children(schema) : null;
 		}
 
+
 		componentDidMount() {
 			if (!this.refs.input) {
 				return;
-			}
-
-			const sc = this.props.schema;
-			if (sc && sc.autoFocus && !sc.readOnly) {
-				// set the focus
-				// it seems that, because form is displayed through an animation, the focus must
-				// be set after a while
-				setTimeout(() => {
-					const focusFunc = this.refs.input.focus;
-					if (__DEV__) {
-						if (!focusFunc) {
-							/* eslint no-console: 0 */
-							console.warn('No focus function implemented for component ' + this.refs.input);
-						}
-					}
-					focusFunc();
-				}, 50);
 			}
 
 			// check if child control must request the server
@@ -158,6 +142,15 @@ export default function formControl(Component) {
 
 			// ask the form to request the server
 			this.props.onRequest(this.props.schema, req);
+		}
+
+		/**
+		 * Set the focus to the control, if available
+		 * @return {boolean} True if focus was set, or false is focus is not available for the control
+		 */
+		focus() {
+			const comp = this.refs.input;
+			return comp.focus ? comp.focus() : false;
 		}
 
 		/**

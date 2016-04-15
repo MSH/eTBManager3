@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.units.impl;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Laboratory;
@@ -122,11 +123,13 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void beforeSave(Unit entity, Errors errors) {
+    protected void beforeSave(EntityDAO<Unit> dao) {
+        Unit entity = dao.getEntity();
+
         if (entity.getAddress() == null) {
-            errors.rejectValue("address", ErrorMessages.REQUIRED);
+            dao.addError("address", ErrorMessages.REQUIRED);
         } else if (entity.getAddress().getAdminUnit() == null) {
-            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
+            dao.addError("address.adminUnit", ErrorMessages.REQUIRED);
         }
     }
 }

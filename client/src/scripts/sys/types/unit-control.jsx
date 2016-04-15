@@ -68,7 +68,6 @@ export default class UnitControl extends React.Component {
 			newstate.wsId = resources.workspaceId;
 		}
 
-		console.log(newstate);
 		this.setState(newstate);
 	}
 

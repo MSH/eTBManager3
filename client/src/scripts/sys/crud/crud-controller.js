@@ -389,12 +389,7 @@ export default class CrudController {
 	 */
 	_raise(event, data) {
 		this.state = event;
-		try {
-			this.listeners.forEach(listener => listener(event, data));
-		}
-		catch (err) {
-			console.error(err);
-		}
+		this.listeners.forEach(listener => listener(event, data));
 	}
 
 	/**

@@ -2,19 +2,23 @@
 import React from 'react';
 import { Input, Row, Col } from 'react-bootstrap';
 import Form from '../../../forms/form';
-import { TreeView } from '../../../components';
+import { TreeView, WaitIcon } from '../../../components';
 
+/**
+ * A custom control used in the user profile editing page. It displays the permissions
+ * in a tree and allows user to change it
+ */
 class PermissionTree extends React.Component {
-
-	static getServerRequest() {
-		return { cmd: 'perms-tree' };
-	}
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
+	}
+
+	serverRequest() {
+		return this.props.resources ? null : { cmd: 'perms-tree' };
 	}
 
 	onChange() {
@@ -68,9 +72,14 @@ class PermissionTree extends React.Component {
 			</Row>
 			);
 
+		if (!this.props.resources) {
+			return <WaitIcon type="card" />;
+		}
+
 		return	(
 			<TreeView ref="tree"
-				root={this.props.resources} onGetNodes={this.getNodes}
+				root={this.props.resources}
+				onGetNodes={this.getNodes}
 				innerRender={this.innerRender}
 				nodeRender={this.nodeRender}
 				nodeInfo={this.nodeInfo}

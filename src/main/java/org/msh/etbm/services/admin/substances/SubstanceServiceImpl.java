@@ -4,6 +4,7 @@ import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
@@ -50,20 +51,21 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
 
     @Override
-    protected void beforeSave(Substance entity, Errors errors) {
+    protected void beforeSave(EntityDAO<Substance> dao) {
         // there is any validation error ?
-        if (errors.hasErrors()) {
+        if (dao.hasErrors()) {
             return;
         }
 
+        Substance sub = dao.getEntity();
         // check if name is unique
-        if (!checkUnique(entity, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(sub, "name")) {
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
 
         // check if short name is unique
-        if (!checkUnique(entity, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(sub, "shortName")) {
+            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 

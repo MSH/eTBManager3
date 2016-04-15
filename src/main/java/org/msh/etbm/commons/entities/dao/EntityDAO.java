@@ -189,6 +189,14 @@ public class EntityDAO<E> {
     }
 
     /**
+     * Check if there is any validation error
+     * @return true if there are validation errors, or false if there is no error by now
+     */
+    public boolean hasErrors() {
+        return errors != null ? errors.hasErrors() : false;
+    }
+
+    /**
      * Return true if the entity is valid. An entity is valid if there is no validation error message
      * @return true if it is a valid object, or false if there are validation error messages
      */
@@ -318,5 +326,13 @@ public class EntityDAO<E> {
      */
     public void addError(String field, String msg) {
         getErrors().rejectValue(field, msg);
+    }
+
+    /**
+     * Add a global validation error message
+     * @param msg the key message to add
+     */
+    public void addError(String msg) {
+        getErrors().reject(msg);
     }
 }

@@ -25,6 +25,14 @@ export default class TreeView extends React.Component {
 		}
 	}
 
+	componentWillMount() {
+		if (!this.props.root) {
+			const self = this;
+			this.loadNodes()
+				.then(res => self.setState({ root: res }));
+		}
+	}
+
 	componentDidMount() {
 		this.mounted = true;
 		if (this.props.onInit) {
@@ -438,9 +446,6 @@ export default class TreeView extends React.Component {
 		const root = this.getRoots();
 
 		if (!root) {
-			const self = this;
-			this.loadNodes()
-				.then(res => self.setState({ root: res }));
 			return null;
 		}
 

@@ -79,31 +79,21 @@ export default class Form extends React.Component {
 	componentWillMount() {
 		initDefaultValues(this);
 
-		const snapshots = this.updateSnapshot();
-
-		// check if there is any element to set focus on
-		if (!snapshots.find(item => item.autoFocus)) {
-			// find first field element to set autofocus
-			const el = snapshots.find(item => !!item.property);
-			if (el) {
-				el.autoFocus = true;
-			}
-		}
+		this.updateSnapshot();
 
 		// start recording any request made by the children
 		this.recordRequests();
-
-
-		// const self = this;
-
-		// request the server
-		// requestServer(snapshots)
-		// .then(res => self.setState({ resources: res }));
 	}
 
 	componentDidMount() {
+		const self = this;
 		// called first time the form is mounted
-		this.applyRequests();
+		this.applyRequests()
+		.then(res => {
+			// once the form is ready, set the focus
+			self.focus();
+			return res;
+		});
 	}
 
 	componentWillUpdate() {
@@ -123,6 +113,14 @@ export default class Form extends React.Component {
 		return validateForm(this);
 	}
 
+	/**
+	 * Set the focus on the first available control
+	 * @return {[type]} [description]
+	 */
+	focus() {
+		// set focus on the first control that supports it
+		this.state.snapshots.find(it => this.refs[it.snapshot.id].focus());
+	}
 
 	/**
 	 * Update element state list. Element state is just update if it has changed
@@ -189,7 +187,7 @@ export default class Form extends React.Component {
 			if (!this.state.resources) {
 				this.setState({ resources: [] });
 			}
-			return;
+			return Promise.resolve([]);
 		}
 
 		// mount request list
@@ -200,12 +198,15 @@ export default class Form extends React.Component {
 		const self = this;
 
 		// request the server all the requests that came from the children
-		FormUtils
+		const prom = FormUtils
 			.serverRequest(req)
 			.then(res => self.setState({ resources: Object.assign({}, this.state.resources, res) }));
 
 		// clean up the requests
 		delete this.reqs;
+
+		// return the promise to fullfill the request
+		return prom;
 	}
 
 	/**

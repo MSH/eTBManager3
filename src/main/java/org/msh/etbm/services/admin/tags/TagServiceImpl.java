@@ -4,6 +4,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,22 +43,24 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void beforeSave(Tag entity, Errors errors) {
+    protected void beforeSave(EntityDAO<Tag> dao) {
+        super.beforeSave(dao);
+
         // there are error messages ?
-        if (errors.hasErrors()) {
+        if (dao.hasErrors()) {
             return;
         }
 
-        if (!checkUnique(entity, "name", null)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        Tag tag = dao.getEntity();
+        if (!checkUnique(tag, "name", null)) {
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        String sqlTestMessage = testTagCondition(entity);
+        String sqlTestMessage = testTagCondition(tag);
 
         if (sqlTestMessage != null) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
-
     }
 
     /**

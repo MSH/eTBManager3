@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.sources;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Source;
 import org.springframework.stereotype.Service;
@@ -32,17 +33,19 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
 
 
     @Override
-    protected void beforeSave(Source entity, Errors errors) {
-        if (errors.hasErrors()) {
+    protected void beforeSave(EntityDAO<Source> dao) {
+        if (dao.hasErrors()) {
             return;
         }
 
-        if (!checkUnique(entity, "name", null)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        Source source = dao.getEntity();
+
+        if (!checkUnique(source, "name", null)) {
+            dao.addError("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        if (!checkUnique(entity, "shortName", null)) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(source, "shortName", null)) {
+            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }
