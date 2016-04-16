@@ -128,7 +128,9 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void beforeSave(EntityDAO<AdministrativeUnit> dao) {
+    protected void beforeSave(EntityDAO<AdministrativeUnit> dao, Object req) {
+        super.beforeSave(dao, req);
+
         if (dao.hasErrors()) {
             return;
         }

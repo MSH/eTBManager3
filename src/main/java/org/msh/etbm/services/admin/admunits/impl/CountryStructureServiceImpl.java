@@ -43,8 +43,8 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void beforeSave(EntityDAO<CountryStructure> dao) {
-        super.beforeSave(dao);
+    protected void beforeSave(EntityDAO<CountryStructure> dao, Object request) {
+        super.beforeSave(dao, request);
 
         // there are error messages ?
         if (dao.hasErrors()) {

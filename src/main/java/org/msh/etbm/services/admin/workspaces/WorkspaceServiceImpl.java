@@ -116,9 +116,9 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     @Override
-    protected void beforeSave(EntityDAO<Workspace> dao) {
+    protected void beforeSave(EntityDAO<Workspace> dao, Object request) {
+        super.beforeSave(dao, request);
         checkUniqueWorkspaceName(dao.getEntity());
-        super.beforeSave(dao);
     }
 
     @Override

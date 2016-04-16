@@ -59,7 +59,9 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
-    protected void beforeSave(EntityDAO<Product> dao) {
+    protected void beforeSave(EntityDAO<Product> dao, Object req) {
+        super.beforeSave(dao, req);
+
         if (dao.hasErrors()) {
             return;
         }

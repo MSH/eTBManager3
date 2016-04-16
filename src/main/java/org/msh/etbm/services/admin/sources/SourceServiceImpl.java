@@ -33,7 +33,7 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
 
 
     @Override
-    protected void beforeSave(EntityDAO<Source> dao) {
+    protected void beforeSave(EntityDAO<Source> dao, Object request) {
         if (dao.hasErrors()) {
             return;
         }

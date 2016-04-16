@@ -45,7 +45,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeSave(EntityDAO<UserWorkspace> dao) {
+    protected void beforeSave(EntityDAO<UserWorkspace> dao, Object request) {
         UserWorkspace uw = dao.getEntity();
 
         if (uw.getAdminUnit() == null && uw.getUnit() != null) {

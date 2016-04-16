@@ -83,7 +83,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         mapRequest(req, dao.getEntity());
 
         // prepare entity to be saved
-        beforeSave(dao);
+        beforeSave(dao, req);
 
         dao.save();
 
@@ -139,7 +139,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         }
 
         // prepare object to save
-        beforeSave(dao);
+        beforeSave(dao, req);
 
         // save the entity
         dao.save();
@@ -251,8 +251,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     /**
      * Prepare entity for saving, making any custom transformation and validation in the entity
      * @param dao The instance of {@link EntityDAO} containing the entity to be saved
+     * @param request the request object used in the call to create or update
      */
-    protected void beforeSave(EntityDAO<E> dao) {
+    protected void beforeSave(EntityDAO<E> dao, Object request) {
         dao.validate();
     }
 

@@ -43,8 +43,8 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void beforeSave(EntityDAO<Tag> dao) {
-        super.beforeSave(dao);
+    protected void beforeSave(EntityDAO<Tag> dao, Object request) {
+        super.beforeSave(dao, request);
 
         // there are error messages ?
         if (dao.hasErrors()) {

@@ -51,7 +51,9 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
 
     @Override
-    protected void beforeSave(EntityDAO<Substance> dao) {
+    protected void beforeSave(EntityDAO<Substance> dao, Object request) {
+        super.beforeSave(dao, request);
+
         // there is any validation error ?
         if (dao.hasErrors()) {
             return;

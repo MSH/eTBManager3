@@ -43,8 +43,8 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     }
 
     @Override
-    protected void beforeSave(EntityDAO<AgeRange> dao) {
-        super.beforeSave(dao);
+    protected void beforeSave(EntityDAO<AgeRange> dao, Object request) {
+        super.beforeSave(dao, request);
 
         if (dao.hasErrors()) {
             return;
