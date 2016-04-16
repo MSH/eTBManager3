@@ -138,9 +138,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
             return createResult(dao.getEntity());
         }
 
-        // validate before to feed the errors property
-        dao.validate();
-
         // prepare object to save
         beforeSave(dao);
 
@@ -256,7 +253,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @param dao The instance of {@link EntityDAO} containing the entity to be saved
      */
     protected void beforeSave(EntityDAO<E> dao) {
-        // do nothing... To be implemented in the child class
+        dao.validate();
     }
 
     protected void afterSave(E entity) {
