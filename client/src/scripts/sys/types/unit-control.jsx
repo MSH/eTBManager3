@@ -25,50 +25,6 @@ export default class UnitControl extends React.Component {
 		super(props);
 		this.onAuChange = this.onAuChange.bind(this);
 		this.onUnitChange = this.onUnitChange.bind(this);
-
-		this.state = {};
-	}
-
-	componentWillMount() {
-		this.updateState(this.props.resources);
-	}
-
-	componentWillReceiveProps(props) {
-		this.updateState(props.resources);
-	}
-
-	/**
-	 * Update the state based on the resources sent from the parent
-	 * @param  {[type]} resources [description]
-	 * @return {[type]}           [description]
-	 */
-	updateState(resources) {
-		if (!resources) {
-			return;
-		}
-
-		const newstate = {
-			auId: null
-		};
-
-		// check the selected unit
-		if (this.state.auId) {
-			if (resources.adminUnitId) {
-				newstate.auId = resources.adminUnitId;
-			}
-			else {
-				const aux = resources.adminUnits.find(item => item.id === this.state.auId);
-				newstate.auId = aux ? this.state.auId : resources.adminUnitId;
-			}
-		}
-
-		// update the selected admin unit ID
-		if (resources.units || resources.workspaceId !== this.state.wsId) {
-			newstate.units = resources.units;
-			newstate.wsId = resources.workspaceId;
-		}
-
-		this.setState(newstate);
 	}
 
 	/**
@@ -79,7 +35,7 @@ export default class UnitControl extends React.Component {
 	 */
 	_requestRequired(nextSchema, nextValue, nextResource) {
 		const s = this.props.schema;
-		// parameters have changed ?
+		// workspace has changed ?
 		if (nextSchema.workspaceId !== s.workspaceId) {
 			return true;
 		}
@@ -114,9 +70,15 @@ export default class UnitControl extends React.Component {
 	 */
 	onAuChange(evt, item) {
 		const admUnit = item ? item.id : null;
+		const resources = this.props.resources;
 
+		resources.adminUnitId = admUnit === '-' ? null : admUnit;
+
+		// no admin unit selected ?
 		if (admUnit === '-') {
-			this.setState({ units: null, auId: null });
+			resources.units = null;
+			this.forceUpdate();
+			this.onUnitChange(null, null);
 			return;
 		}
 
@@ -135,9 +97,13 @@ export default class UnitControl extends React.Component {
 		// request list of units to the server
 		const self = this;
 		FormUtils.serverRequest(req)
-			.then(res => self.setState({ units: res.units }));
+			.then(res => {
+				resources.units = res.units;
+				self.forceUpdate();
+			});
 
-		this.setState({ units: null, auId: admUnit });
+		resources.units = null;
+		resources.adminUnitId = admUnit;
 		this.onUnitChange(null, null);
 	}
 
@@ -167,7 +133,7 @@ export default class UnitControl extends React.Component {
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		// get the selected item
-		const id = this.state.auId;
+		const id = res.adminUnitId;
 		const value = id ? res.adminUnits.find(item => item.id === id) : null;
 
 		return (
@@ -182,13 +148,18 @@ export default class UnitControl extends React.Component {
 	}
 
 	createUnitList() {
-		if (!this.state.units) {
+		const resources = this.props.resources;
+		if (!resources) {
+			return <WaitIcon type="field" />;
+		}
+
+		if (!resources.units) {
 			return null;
 		}
 
 		// get the selected item
 		const id = this.props.value;
-		const value = id ? this.state.units.find(item => item.id === id) : null;
+		const value = id ? resources.units.find(item => item.id === id) : null;
 
 		return (
 				<SelectionBox ref="unit"
@@ -197,7 +168,7 @@ export default class UnitControl extends React.Component {
 					onChange={this.onUnitChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
-					options={this.state.units} />
+					options={resources.units} />
 				);
 	}
 
