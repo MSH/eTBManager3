@@ -27,6 +27,7 @@ public class SysConfigService {
      * Load the system configuration
      * @return instance of {@link SysConfigFormData} containing system configuration
      */
+    @Transactional
     public SysConfigFormData loadConfig() {
         EntityDAO<SystemConfig> dao = entityDAOFactory.newDAO(SystemConfig.class);
 

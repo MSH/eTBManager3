@@ -1170,7 +1170,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="password" type="VARCHAR(32)">
-                <constraints nullable="false"/>
             </column>
             <column name="registrationDate" type="${type.datetime}">
                 <constraints nullable="false"/>

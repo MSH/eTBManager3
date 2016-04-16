@@ -36,6 +36,14 @@ class CrudCell extends React.Component {
 		this.setState({ item: props.controller.itemById(props.id) });
 	}
 
+	/**
+	 * Called when clicking in the drop down menu to prevent the cell to collapse
+	 * @param  {MouseSyntheticEvent} evt The information about the event
+	 */
+	optionsClick(evt) {
+		evt.preventDefault();
+	}
+
 	eventHandler(evt, data) {
 		if (data && data.id !== this.props.id) {
 			return;

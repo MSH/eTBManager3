@@ -170,13 +170,13 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // prepare entity to be deleted
         beforeDelete(dao.getEntity(), dao.getErrors());
 
+        // generate the values to log
+        res.setLogValues(createValuesToLog(dao.getEntity(), Operation.DELETE));
+
         // delete the entity
         dao.delete();
 
         afterDelete(dao.getEntity());
-
-        // generate the values to log
-        res.setLogValues(createValuesToLog(dao.getEntity(), Operation.DELETE));
 
         return res;
     }
@@ -311,6 +311,15 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         return entityDAOFactory.newDAO(getEntityClass());
     }
 
+    /**
+     * Create a new instance of {@link EntityDAO} for a given entity class
+     * @param entityClass the class to create an EntityDAO for
+     * @param <K> the generic class to be used
+     * @return instance of {@link EntityDAO}
+     */
+    protected <K> EntityDAO<K> createEntityDAO(Class<K> entityClass) {
+        return entityDAOFactory.newDAO(entityClass);
+    }
 
     /**
      * Search for an entity by its ID
@@ -442,9 +451,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     public QueryResult findMany(Q qryParams) {
         QueryBuilder<E> builder = queryBuilderFactory.createQueryBuilder( getEntityClass() );
 
-        builder.initialize(qryParams);
-
         buildQuery(builder, qryParams);
+
+        builder.initialize(qryParams);
 
         return builder.createQueryResult();
     }

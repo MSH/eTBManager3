@@ -438,7 +438,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         // an ID was set in the search query ?
         if (qry.getId() != null) {
-            addRestriction("id = :id");
+
+            addRestriction(getEntityAlias() + ".id = :id");
             setParameter("id", qry.getId());
         }
 
@@ -529,7 +530,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.profile = profile;
     }
 
-    public String getentityAlias() {
+    public String getEntityAlias() {
         return entityAlias;
     }
 

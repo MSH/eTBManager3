@@ -4,6 +4,8 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -34,6 +36,7 @@ public class EntityDAOFactory {
      * @param <E> The generic class of the entity (the same used in entityClass)
      * @return instance of {@link EntityDAO}
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     public <E> EntityDAO<E> newDAO(Class<E> entityClass) {
         EntityDAO<E> dao = new EntityDAO<>(entityClass, entityManager, mapper, validator, userRequestService);
         return dao;

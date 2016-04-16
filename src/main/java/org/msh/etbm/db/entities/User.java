@@ -49,7 +49,6 @@ public class User implements Displayable {
     private String name;
 
     @Column(length = 32)
-	@NotNull
 	@PropertyLog(ignore = true)
     private String password;
     

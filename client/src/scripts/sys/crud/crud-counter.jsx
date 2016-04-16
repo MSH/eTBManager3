@@ -26,12 +26,14 @@ class CrudCounter extends React.Component {
 			return <Alert bsStyle="warning">{__('form.norecordfound')}</Alert>;
 		}
 
+		const msg = ' ' + __('form.resultlist');
+
 		// is paging enabled ?
-		if (controller.isPaging()) {
+		if (controller.isPaging() && controller.getCount() > controller.options.pageSize) {
 			return (
 				<div className="text-muted">
 					<b>{controller.getPageIni() + 1}</b>{' - '}<b>{controller.getPageEnd() + 1}</b>{' of '}
-					<b>{controller.getCount()}</b>{' records found'}
+					<b>{controller.getCount()}</b>{msg}
 				</div>
 				);
 		}
@@ -39,7 +41,7 @@ class CrudCounter extends React.Component {
 		// render simple counter
 		return (
 				<span className="text-muted">
-					<b>{controller.getCount()}</b>{' records found'}
+					<b>{controller.getCount()}</b>{msg}
 				</span>
 			);
 	}

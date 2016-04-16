@@ -7,6 +7,7 @@ import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.enums.UserView;
+import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.msh.etbm.services.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;

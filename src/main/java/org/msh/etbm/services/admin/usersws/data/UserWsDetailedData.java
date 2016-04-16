@@ -1,6 +1,7 @@
-package org.msh.etbm.services.admin.usersws;
+package org.msh.etbm.services.admin.usersws.data;
 
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.services.admin.usersws.data.UserWsData;
 
 import java.util.List;
 

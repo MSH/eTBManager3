@@ -6,7 +6,7 @@
 
 
     <mapping>
-        <class-a>org.msh.etbm.services.admin.usersws.UserWsFormData</class-a>
+        <class-a>org.msh.etbm.services.admin.usersws.data.UserWsFormData</class-a>
         <class-b>org.msh.etbm.db.entities.UserWorkspace</class-b>
 
         <field>
@@ -52,7 +52,7 @@
 
     <mapping>
         <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
-        <class-b>org.msh.etbm.services.admin.usersws.UserWsItemData</class-b>
+        <class-b>org.msh.etbm.services.admin.usersws.data.UserWsItemData</class-b>
 
         <field>
             <a>user.name</a>
@@ -67,7 +67,7 @@
 
     <mapping>
         <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
-        <class-b>org.msh.etbm.services.admin.usersws.UserWsData</class-b>
+        <class-b>org.msh.etbm.services.admin.usersws.data.UserWsData</class-b>
 
         <field>
             <a>user.name</a>

@@ -10,7 +10,7 @@ import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.admin.usersws.UserViewData;
+import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.services.admin.usersws.UserViewOptions;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;

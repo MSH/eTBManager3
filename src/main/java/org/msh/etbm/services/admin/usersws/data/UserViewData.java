@@ -1,4 +1,4 @@
-package org.msh.etbm.services.admin.usersws;
+package org.msh.etbm.services.admin.usersws.data;
 
 import org.msh.etbm.db.enums.UserView;
 

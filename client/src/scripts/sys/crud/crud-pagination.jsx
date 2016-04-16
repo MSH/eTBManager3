@@ -25,7 +25,7 @@ class CrudPagination extends React.Component {
 	render() {
 		const controller = this.props.controller;
 
-		if (!controller.isPaging()) {
+		if (!controller.isPaging() || controller.getCount() < controller.options.pageSize) {
 			return null;
 		}
 
