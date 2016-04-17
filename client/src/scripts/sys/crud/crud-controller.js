@@ -312,7 +312,7 @@ export default class CrudController {
 		const self = this;
 		return this.crud.delete(this.item.id)
 			.then(() => self.refreshList())
-			.then(() => self.showMessage(__('default.entity_updated')));
+			.then(() => self.showMessage(__('default.entity_deleted')));
 
 	}
 

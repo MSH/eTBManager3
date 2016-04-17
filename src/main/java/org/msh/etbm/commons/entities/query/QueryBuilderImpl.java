@@ -439,7 +439,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         // an ID was set in the search query ?
         if (qry.getId() != null) {
 
-            addRestriction(getEntityAlias() + ".id = :id");
+            String s = getEntityAlias() != null ? getEntityAlias() + "." : "";
+            addRestriction(s + "id = :id");
             setParameter("id", qry.getId());
         }
 
