@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Input, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Form from '../../../forms/form';
 import { TreeView, WaitIcon } from '../../../components';
 
@@ -12,46 +12,50 @@ class PermissionTree extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onChange = this.onChange.bind(this);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
 		this.nodeInfo = this.nodeInfo.bind(this);
+	}
+
+	componentWillMount() {
+		this._updateResources(this.props);
+	}
+
+	componentWillReceiveProps(newprops) {
+		this._updateResources(newprops);
 	}
 
 	serverRequest(nextSchema, value, nextResources) {
 		return this.props.resources || nextResources ? null : { cmd: 'perms-tree' };
 	}
 
-	onChange() {
-		const value = this.refs.input.getChecked();
-
-		this.props.onChange({ schema: this.props.schema, value: value });
-	}
-
+	/**
+	 * Return the children nodes of the given item
+	 * @param  {object} item Data associated with the node
+	 * @return {Array}       Array of object representing the children, or null if there is no children
+	 */
 	getNodes(item) {
 		return item.children;
 	}
 
 	nodeInfo(item) {
-		const sel = this._isItemSelected(item);
-		return { leaf: !item.children, expanded: sel };
+		return { leaf: !item.children, expanded: item.checked };
 	}
 
 	checkboxClick(item) {
 		const self = this;
 		return () => {
-			const vals = self.props.value ? self.props.value.slice(0) : [];
+			item.checked = !item.checked;
+			// create the list of values
+			const vals = self._createValues();
 
 			// get a reference to the tree
 			const tree = self.refs.tree;
 
-			const index = vals.findIndex(p => p.permission === item.id);
-			if (index === -1) {
-				vals.push({ permission: item.id, canChange: false });
+			if (item.checked) {
 				tree.expand(item);
 			}
 			else {
-				vals.splice(index, 1);
 				tree.collapse(item);
 			}
 
@@ -59,37 +63,116 @@ class PermissionTree extends React.Component {
 		};
 	}
 
-	nodeRender(item) {
-		const checked = this._isItemSelected(item);
+	canChangeClick(item) {
+		const self = this;
 
+		return () => {
+			item.canChange = !item.canChange;
+			const vals = self._createValues();
+
+			self.props.onChange({ schema: self.props.schema, value: vals });
+		};
+	}
+
+	/**
+	 * Create the list of selected permissions based on the values of the tree
+	 * @return {[type]} [description]
+	 */
+	_createValues() {
+		const self = this;
+		const vals = [];
+		this.props.resources.forEach(item => self._addSelItem(vals, item));
+
+		return vals;
+	}
+
+	/**
+	 * Check if item is selected, and recursivelly search its children
+	 * @param {[type]} vals [description]
+	 * @param {[type]} item [description]
+	 */
+	_addSelItem(vals, item) {
+		if (!item.checked) {
+			return;
+		}
+
+		vals.push({ permission: item.id, canChange: item.canChange });
+		if (item.children) {
+			const self = this;
+			item.children.forEach(c => self._addSelItem(vals, c));
+		}
+	}
+
+	/**
+	 * Update the resources based on the state of the values, including information
+	 * about node selection
+	 */
+	_updateResources(props) {
+		// get the resources given from the parent
+		const resources = props.resources;
+
+		if (!resources) {
+			return;
+		}
+
+		const vals = props.value;
+
+		// local recursive function to traverse the tree and set selections
+		const traverse = function(item) {
+			const v = vals ? vals.find(p => p.permission === item.id) : null;
+			item.checked = !!v;
+			item.canChange = !!v && v.canChange;
+
+			// browse the children
+			if (item.children) {
+				item.children.forEach(c => traverse(c));
+			}
+		};
+
+		resources.forEach(it => traverse(it));
+	}
+
+	nodeRender(item) {
+		const noBorder = { margin: '4px 0 0 0' };
 		return (
 			<Row key={item.id} className="tbl-row">
 				<Col sm={7}>
-					<div className="checkbox" style={{ margin: '4px 0 0 0' }}>
+					<div className="checkbox" style={noBorder}>
 						<label>
 							<input type="checkbox"
-								checked={checked}
-								onChange={this.checkboxClick(item)}/>{item.name}
+								checked={item.checked}
+								onChange={this.checkboxClick(item)}/>
+							{item.name}
 						</label>
 					</div>
 				</Col>
 				<Col sm={5}>
-					{item.changeable &&	<Input type="checkbox"/>}
+					{
+						item.changeable &&
+						<div className="checkbox" style={noBorder}	>
+							<label>
+								<input
+									type="checkbox"
+									checked={item.canChange}
+									onChange={this.canChangeClick(item)} />
+								{'Can modify?'}
+							</label>
+						</div>
+					}
 				</Col>
 			</Row>
 			);
 	}
 
-	_isItemSelected(item) {
-		const val = this.props.value;
-		return val ? !!val.find(p => p.permission === item.id) : false;
-	}
+	// _isItemSelected(item) {
+	// 	const val = this.props.value;
+	// 	return val ? !!val.find(p => p.permission === item.id) : false;
+	// }
 
 	render() {
 		const title = (
 			<Row key="title">
-				<Col sm={7}>{'Permissions'}</Col>
-				<Col sm={5}>{'Can modify ?'}</Col>
+				<Col sm={12}>{'Permissions'}</Col>
 			</Row>
 			);
 
