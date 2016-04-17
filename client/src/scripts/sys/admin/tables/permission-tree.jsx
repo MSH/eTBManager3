@@ -15,10 +15,11 @@ class PermissionTree extends React.Component {
 		this.onChange = this.onChange.bind(this);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
+		this.nodeInfo = this.nodeInfo.bind(this);
 	}
 
-	serverRequest() {
-		return this.props.resources ? null : { cmd: 'perms-tree' };
+	serverRequest(nextSchema, value, nextResources) {
+		return this.props.resources || nextResources ? null : { cmd: 'perms-tree' };
 	}
 
 	onChange() {
@@ -32,36 +33,56 @@ class PermissionTree extends React.Component {
 	}
 
 	nodeInfo(item) {
-		return { leaf: !item.children };
+		const sel = this._isItemSelected(item);
+		return { leaf: !item.children, expanded: sel };
 	}
 
 	checkboxClick(item) {
 		const self = this;
-		return (evt) => {
-			const checked = evt.target.checked;
+		return () => {
+			const vals = self.props.value ? self.props.value.slice(0) : [];
+
+			// get a reference to the tree
 			const tree = self.refs.tree;
-			if (checked) {
+
+			const index = vals.findIndex(p => p.permission === item.id);
+			if (index === -1) {
+				vals.push({ permission: item.id, canChange: false });
 				tree.expand(item);
 			}
 			else {
+				vals.splice(index, 1);
 				tree.collapse(item);
 			}
+
+			self.props.onChange({ schema: self.props.schema, value: vals });
 		};
 	}
 
 	nodeRender(item) {
+		const checked = this._isItemSelected(item);
+
 		return (
-			<Row key={item.id}>
+			<Row key={item.id} className="tbl-row">
 				<Col sm={7}>
 					<div className="checkbox" style={{ margin: '4px 0 0 0' }}>
-						<label><input type="checkbox" onChange={this.checkboxClick(item)}/>{item.name}</label>
+						<label>
+							<input type="checkbox"
+								checked={checked}
+								onChange={this.checkboxClick(item)}/>{item.name}
+						</label>
 					</div>
 				</Col>
 				<Col sm={5}>
-				{item.changeable &&	<Input type="checkbox"/>}
+					{item.changeable &&	<Input type="checkbox"/>}
 				</Col>
 			</Row>
 			);
+	}
+
+	_isItemSelected(item) {
+		const val = this.props.value;
+		return val ? !!val.find(p => p.permission === item.id) : false;
 	}
 
 	render() {
@@ -77,15 +98,18 @@ class PermissionTree extends React.Component {
 		}
 
 		return	(
-			<TreeView ref="tree"
-				root={this.props.resources}
-				onGetNodes={this.getNodes}
-				innerRender={this.innerRender}
-				nodeRender={this.nodeRender}
-				nodeInfo={this.nodeInfo}
-				iconLeaf="angle-right"
-				title={title}
-				/>
+			<div className="tbl-hover form-group">
+				<TreeView ref="tree"
+					className="tbl-hover form-group"
+					root={this.props.resources}
+					onGetNodes={this.getNodes}
+					innerRender={this.innerRender}
+					nodeRender={this.nodeRender}
+					nodeInfo={this.nodeInfo}
+					iconLeaf="angle-right"
+					title={title}
+					/>
+			</div>
 			);
 	}
 }

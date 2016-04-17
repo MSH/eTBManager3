@@ -43,17 +43,9 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void beforeSave(EntityDAO<CountryStructure> dao, Object request) {
-        super.beforeSave(dao, request);
-
-        // there are error messages ?
-        if (dao.hasErrors()) {
-            return;
-        }
-
-        CountryStructure cs = dao.getEntity();
+    protected void beforeSave(CountryStructure cs, Errors errors) {
         if (!checkUnique(cs, "name", "level = " + cs.getLevel())) {
-            dao.addError("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

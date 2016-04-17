@@ -328,6 +328,11 @@ export default class CrudController {
 			}
 		}
 
+		// check if there is any open form
+		if (this.frm) {
+			this.closeForm();
+		}
+
 		const qry = Object.assign(this.result.query, { pageSize: this.options.pageSize, page: page });
 
 		return this._queryList(qry);

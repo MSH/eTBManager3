@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -128,27 +129,14 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void beforeSave(EntityDAO<AdministrativeUnit> dao, Object req) {
-        super.beforeSave(dao, req);
-
-        if (dao.hasErrors()) {
-            return;
-        }
-
-        AdministrativeUnit entity = dao.getEntity();
-
-        if (entity.getCountryStructure() == null) {
-            dao.addError("csId", ErrorMessages.REQUIRED);
-            return;
-        }
-
+    protected void beforeSave(AdministrativeUnit entity, Errors errors) {
         validateParent(entity);
 
         if (!isUnique(entity)) {
-            dao.addError("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        if (dao.hasErrors()) {
+        if (errors.hasErrors()) {
             return;
         }
 
@@ -163,7 +151,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
     @Override
-    protected void afterDelete(AdministrativeUnit entity) {
+    protected void afterDelete(AdministrativeUnit entity, ServiceResult res) {
         // update number of children in the parent administrative unit
         if (entity.getParent() != null) {
             entityManager.createQuery("update AdministrativeUnit set unitsCount = unitsCount - 1 where id = :id")

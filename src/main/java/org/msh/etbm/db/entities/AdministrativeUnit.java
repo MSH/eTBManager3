@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COUNTRYSTRUCTURE_ID")
 	@PropertyLog(operations = {Operation.ALL})
+    @NotNull
 	private CountryStructure countryStructure;
 	
 

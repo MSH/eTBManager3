@@ -82,12 +82,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // set values from request to entity object (must ignore null values)
         mapRequest(req, dao.getEntity());
 
-        // prepare entity to be saved
-        beforeSave(dao, req);
-
-        dao.save();
-
-        afterSave(dao.getEntity());
+        validateAndSave(dao, req);
 
         // create the result of the service
         ServiceResult res = createResult(entity);
@@ -95,17 +90,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
+        afterSave(dao.getEntity(), res);
+
         return res;
-    }
-
-
-    /**
-     * Create a binding result to store validation error messages
-     * @param entity the entity assgined to the binding result
-     * @return instance of {@link BindingResult}
-     */
-    protected BindingResult createBindingResult(Object entity) {
-        return new BeanPropertyBindingResult(entity, getEntityClass().getSimpleName());
     }
 
 
@@ -138,16 +125,14 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
             return createResult(dao.getEntity());
         }
 
-        // prepare object to save
-        beforeSave(dao, req);
-
-        // save the entity
-        dao.save();
+        validateAndSave(dao, req);
 
         // create result object
         ServiceResult res = createResult(dao.getEntity());
         // generate the result
         res.setLogDiffs(diffs);
+
+        afterSave(dao.getEntity(), res);
 
         return res;
     }
@@ -173,7 +158,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // delete the entity
         dao.delete();
 
-        afterDelete(dao.getEntity());
+        afterDelete(dao.getEntity(), res);
 
         return res;
     }
@@ -247,18 +232,50 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         return count.intValue() == 0;
     }
 
+    protected void validateAndSave(EntityDAO<E> dao, Object req) {
+        beforeValidate(dao.getEntity(), req);
 
-    /**
-     * Prepare entity for saving, making any custom transformation and validation in the entity
-     * @param dao The instance of {@link EntityDAO} containing the entity to be saved
-     * @param request the request object used in the call to create or update
-     */
-    protected void beforeSave(EntityDAO<E> dao, Object request) {
-        dao.validate();
+        // validate entity data
+        if (!dao.validate()) {
+            dao.raiseValidationError();
+        }
+
+        // prepare entity to be saved
+        beforeSave(dao.getEntity(), dao.getErrors());
+
+        if (dao.hasErrors()) {
+            dao.raiseValidationError();
+        }
+
+        // save the entity
+        dao.save();
     }
 
-    protected void afterSave(E entity) {
+    /**
+     * Method that must be override in order to make any initialization before validation
+     * @param entity
+     * @param request
+     */
+    protected void beforeValidate(E entity, Object request) {
+        // do nothing... To be implemented in the child class
+    }
 
+    /**
+     * Prepare entity for saving, called right after the validation
+     * @param entity the instance of the entity to be saved
+     * @param errors a container to receive any validation error found during the method call
+     */
+    protected void beforeSave(E entity, Errors errors) {
+        // do nothing... To be implemented in the child class
+    }
+
+    /**
+     * Called after the entity is saved
+     * @param entity the saved entity
+     * @param res the result to be returned to the caller
+     */
+    protected void afterSave(E entity, ServiceResult res) {
+        // do nothing... To be implemented in the child class
     }
 
     /**
@@ -270,8 +287,13 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // do nothing... To be implemented in the child class
     }
 
-    protected void afterDelete(E entity) {
-
+    /**
+     * Called after the entity is deleted
+     * @param entity the deleted entity
+     * @param res the data to be returned to the caller
+     */
+    protected void afterDelete(E entity, ServiceResult res) {
+        // do nothing... To be implemented in the child class
     }
 
     /**
@@ -395,6 +417,16 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         } catch (EntityNotFoundException e) {
             return null;
         }
+    }
+
+
+    /**
+     * Create a binding result to store validation error messages
+     * @param entity the entity assgined to the binding result
+     * @return instance of {@link BindingResult}
+     */
+    protected BindingResult createBindingResult(Object entity) {
+        return new BeanPropertyBindingResult(entity, getEntityClass().getSimpleName());
     }
 
 

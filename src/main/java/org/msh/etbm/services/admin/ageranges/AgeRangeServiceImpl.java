@@ -43,26 +43,18 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     }
 
     @Override
-    protected void beforeSave(EntityDAO<AgeRange> dao, Object request) {
-        super.beforeSave(dao, request);
-
-        if (dao.hasErrors()) {
-            return;
-        }
-
-        AgeRange entity = dao.getEntity();
-
+    protected void beforeSave(AgeRange entity, Errors errors) {
         if (entity.getIniAge() < 0) {
-            dao.addError("iniDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("iniDate", ErrorMessages.NOT_VALID);
         }
 
         if (entity.getEndAge() < 0) {
-            dao.addError("endDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("endDate", ErrorMessages.NOT_VALID);
         }
 
         // check ranges
         if (entity.getIniAge() != 0 && entity.getEndAge() != 0 && entity.getIniAge() >= entity.getEndAge()) {
-            dao.addError("admin.ageranges.msgerror1");
+            errors.reject("admin.ageranges.msgerror1");
             return;
         }
 
@@ -71,7 +63,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
             if ((age != entity) &&
                     (age.getIniAge() == entity.getIniAge()) &&
                     (age.getEndAge() == entity.getEndAge())) {
-                dao.addError("admin.ageranges.msgerror2");
+                errors.reject("admin.ageranges.msgerror2");
                 return;
             }
         }

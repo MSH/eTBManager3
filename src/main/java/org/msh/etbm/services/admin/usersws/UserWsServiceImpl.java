@@ -12,6 +12,7 @@ import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.Errors;
 
 import java.util.Date;
 import java.util.UUID;
@@ -45,19 +46,15 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeSave(EntityDAO<UserWorkspace> dao, Object request) {
-        UserWorkspace uw = dao.getEntity();
-
+    protected void beforeValidate(UserWorkspace uw, Object request) {
         if (uw.getAdminUnit() == null && uw.getUnit() != null) {
             uw.setAdminUnit(uw.getUnit().getAddress().getAdminUnit());
         }
+    }
 
-        // check if there is any validation error
-        if (!dao.validate()) {
-            return;
-        }
-
-        initNewUser(dao.getEntity().getUser());
+    @Override
+    protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
+        initNewUser(userWorkspace.getUser());
     }
 
     /**

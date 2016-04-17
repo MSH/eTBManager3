@@ -51,23 +51,15 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
 
     @Override
-    protected void beforeSave(EntityDAO<Substance> dao, Object request) {
-        super.beforeSave(dao, request);
-
-        // there is any validation error ?
-        if (dao.hasErrors()) {
-            return;
-        }
-
-        Substance sub = dao.getEntity();
+    protected void beforeSave(Substance sub, Errors errors) {
         // check if name is unique
         if (!checkUnique(sub, "name")) {
-            dao.addError("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         // check if short name is unique
         if (!checkUnique(sub, "shortName")) {
-            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 

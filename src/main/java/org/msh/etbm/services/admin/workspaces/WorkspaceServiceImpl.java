@@ -94,16 +94,6 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     /**
-     * Check if the workspace name is unique in the system
-     * @param ws the Workspace to check the name
-     */
-    private void checkUniqueWorkspaceName(Workspace ws) {
-        if (!checkUnique(ws, "name")) {
-            rejectFieldException(ws, "name", ErrorMessages.NOT_UNIQUE);
-        }
-    }
-
-    /**
      * Add the current user to the new workspace, so he will be able to enter there
      * @param workspace the new workspace
      */
@@ -115,10 +105,15 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         workspaceCreator.addUserToWorkspace(userId, workspace.getId());
     }
 
+    private void checkUniqueWorkspaceName(Workspace ws) {
+        if (!checkUnique(ws, "name")) {
+            rejectFieldException(ws, "name", ErrorMessages.NOT_UNIQUE);
+        }
+    }
+
     @Override
-    protected void beforeSave(EntityDAO<Workspace> dao, Object request) {
-        super.beforeSave(dao, request);
-        checkUniqueWorkspaceName(dao.getEntity());
+    protected void beforeSave(Workspace ws, Errors errors) {
+        checkUniqueWorkspaceName(ws);
     }
 
     @Override

@@ -59,21 +59,13 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
-    protected void beforeSave(EntityDAO<Product> dao, Object req) {
-        super.beforeSave(dao, req);
-
-        if (dao.hasErrors()) {
-            return;
+    protected void beforeSave(Product product, Errors errors) {
+        if (!checkUnique(product, "name")) {
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        Product entity = dao.getEntity();
-
-        if (!checkUnique(entity, "name")) {
-            dao.addError("name", ErrorMessages.NOT_UNIQUE);
-        }
-
-        if (!checkUnique(entity, "shortName")) {
-            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(product, "shortName")) {
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

@@ -33,19 +33,13 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
 
 
     @Override
-    protected void beforeSave(EntityDAO<Source> dao, Object request) {
-        if (dao.hasErrors()) {
-            return;
-        }
-
-        Source source = dao.getEntity();
-
+    protected void beforeSave(Source source, Errors errors) {
         if (!checkUnique(source, "name", null)) {
-            dao.addError("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         if (!checkUnique(source, "shortName", null)) {
-            dao.addError("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

@@ -123,13 +123,9 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void beforeSave(EntityDAO<Unit> dao, Object request) {
-        super.beforeSave(dao, request);
-
-        Unit entity = dao.getEntity();
-
-        if (entity.getAddress().getAdminUnit() == null) {
-            dao.addError("address.adminUnit", ErrorMessages.REQUIRED);
+    protected void beforeSave(Unit unit, Errors errors) {
+        if (unit.getAddress().getAdminUnit() == null) {
+            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
         }
     }
 }
