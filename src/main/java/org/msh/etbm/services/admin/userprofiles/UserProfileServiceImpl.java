@@ -97,13 +97,6 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
 
             index++;
         }
-
-//        // is there any validation error ?
-//        if (errors.hasErrors()) {
-//            return;
-//        }
-//
-//        removeOldPermissions(entity);
     }
 
 
