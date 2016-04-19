@@ -8,16 +8,15 @@ import { isPromise } from '../../commons/utils';
 /**
  * Control for yes-no selection
  */
-export default class ListBoxControl extends React.Component {
+export default class MultiListBoxControl extends React.Component {
 
 	static typeName() {
-		return 'listBox';
+		return 'multiListBox';
 	}
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-		this.state = {};
 	}
 
 	componentWillMount() {
@@ -29,69 +28,54 @@ export default class ListBoxControl extends React.Component {
 		}
 	}
 
-	/**
-	 * Return request to be sent to server, if necessary
-	 * @param  {[type]} schema [description]
-	 * @return {[type]}        [description]
-	 */
 	serverRequest(nextSchema, nextValue, nextResources) {
 		return FormUtils.optionsRequest(this.props, nextSchema, nextValue, nextResources);
 	}
 
-
 	/**
-	 * Called when user changes the value in the control
+	 * Called when user selects an item in the drop down box
 	 * @return {[type]} [description]
 	 */
 	onChange() {
-		const sc = this.props.schema;
-		const value = this.refs.sel.getValue();
+		const vals = this.refs.selbox
+			.getValue()
+			.map(item => item.id);
 
-		this.props.onChange({ schema: sc, value: value ? value.id : null });
+		this.props.onChange({ schema: this.props.schema, value: vals });
 	}
 
 	render() {
-		const sc = this.props.schema;
-
-		if (sc.readOnly) {
-			const val = this.props.value ? this.props.value.item : null;
-			return FormUtils.readOnlyRender(val, sc.label);
-		}
-
-		const errors = this.props.errors;
-
-		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
+		// get the schema passed by the parent
+		const sc = this.props.schema || {};
 
 		const options = this.props.resources || this.state.options;
 		if (!options) {
 			return null;
 		}
 
-		let value = this.props.value ? this.props.value.toString() : null;
-
-		// get the value according to the option
-		value = options.find(item => item.id.toString() === value);
+		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
 
 		// rend the selection box
 		return (
-			<ListBox ref="sel"
+			<ListBox ref="selbox"
 				options={options}
 				optionDisplay="name"
 				label={FormUtils.labelRender(sc.label, sc.required)}
 				onChange={this.onChange}
-				value={value}
-				help={errors}
+				value={this.props.value}
+				help={this.props.errors}
 				wrapperClassName={wrapperClazz}
-				bsStyle={errors ? 'error' : null}
+				bsStyle={this.props.errors ? 'error' : null}
 				vertical={sc.vertical}
 				textAlign={sc.textAlign}
+				mode="multiple"
 				maxHeight={sc.maxHeight} />
 		);
 	}
 }
 
-ListBoxControl.propTypes = {
-	value: React.PropTypes.string,
+MultiListBoxControl.propTypes = {
+	value: React.PropTypes.array,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
 	schema: React.PropTypes.object,

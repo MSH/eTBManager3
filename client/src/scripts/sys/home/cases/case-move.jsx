@@ -42,7 +42,7 @@ export default class CaseMove extends React.Component {
 			<FormDialog
 				schema={fschema}
 				doc={this.state.doc}
-				onConfirm={this.closeCase}
+				onConfirm={this.moveCase}
 				onCancel={this.props.onClose}
 				confirmCaption={__('cases.move')}
 				wrapType={'modal'}
