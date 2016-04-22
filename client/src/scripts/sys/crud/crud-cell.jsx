@@ -177,7 +177,9 @@ class CrudCell extends React.Component {
 			return (
 				<Collapse in transitionAppear>
 					<CrudForm schema={this.props.editorSchema} className="highlight"
-						controller={controller} openOnEdit wrapType="card" />
+						modalShow
+						wrapType={this.props.modal ? 'modal' : 'card'}
+						controller={controller} openOnEdit />
 				</Collapse>
 				);
 		}
@@ -200,7 +202,9 @@ CrudCell.propTypes = {
 	onRender: React.PropTypes.func,
 	onExpandRender: React.PropTypes.func,
 	editorSchema: React.PropTypes.object,
-	options: React.PropTypes.array
+	options: React.PropTypes.array,
+	// if true, editor will be displayed in a modal dialog
+	modal: React.PropTypes.bool
 };
 
 export default controlWrapper(CrudCell);

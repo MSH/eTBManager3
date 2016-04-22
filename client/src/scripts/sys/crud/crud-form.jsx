@@ -34,6 +34,7 @@ class CrudForm extends React.Component {
 
 		return (
 			<FormDialog schema={this.props.schema}
+				modalShow
 				doc={controller.frm.doc}
 				onConfirm={controller.saveAndClose}
 				wrapType={this.props.wrapType}
@@ -49,7 +50,7 @@ CrudForm.propTypes = {
 	controller: React.PropTypes.object.isRequired,
 	openOnNew: React.PropTypes.bool,
 	openOnEdit: React.PropTypes.bool,
-	wrapType: React.PropTypes.string,
+	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
 	className: React.PropTypes.string
 };
 

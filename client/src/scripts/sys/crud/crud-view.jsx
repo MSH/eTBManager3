@@ -43,7 +43,8 @@ export default class CrudView extends React.Component {
 		return (
 			<div>
 				<CrudForm controller={controller}
-					schema={this.props.editorSchema} openOnNew />
+					schema={this.props.editorSchema} openOnNew
+					wrapType={this.props.modal ? 'modal' : 'card'} />
 				<Card title={this.props.title}>
 					<Row>
 						<Col sm={12}>
@@ -64,7 +65,8 @@ export default class CrudView extends React.Component {
 								options={this.props.options}
 								onRender={this.props.onCellRender}
 								onExpandRender={this.props.onDetailRender}
-								editorSchema={this.props.editorSchema} />
+								editorSchema={this.props.editorSchema}
+								modal={this.props.modal} />
 							{
 								this.props.pageSize &&
 								<CrudPagination controller={controller} />
@@ -91,6 +93,7 @@ CrudView.propTypes = {
 	pageSize: React.PropTypes.number,
 	queryFilters: React.PropTypes.object,
 	options: React.PropTypes.array,
+	modal: React.PropTypes.modal,
 	// if true, the card will have no bottom margin
 	combine: React.PropTypes.bool,
 	children: React.PropTypes.node
@@ -98,6 +101,7 @@ CrudView.propTypes = {
 
 CrudView.defaultProps = {
 	search: false,
+	modal: false,
 	paging: false,
 	cellSize: { md: 6 }
 };
