@@ -93,6 +93,7 @@ export default class Details extends React.Component {
 			for (var i = 0; i < 5; i++) {
 				const res = generateName();
 				contacts.push({
+					id: res.id,
 					name: res.name,
 					gender: res.gender,
 					age: res.age

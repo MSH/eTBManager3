@@ -45,7 +45,7 @@ export default class CrudView extends React.Component {
 				<CrudForm controller={controller}
 					schema={this.props.editorSchema} openOnNew
 					wrapType={this.props.modal ? 'modal' : 'card'} />
-				<Card title={this.props.title}>
+				<Card title={this.props.title} padding={this.props.combine ? 'combine' : 'default'}>
 					<Row>
 						<Col sm={12}>
 							<CrudAddButton controller={controller} />
@@ -83,7 +83,7 @@ export default class CrudView extends React.Component {
 
 CrudView.propTypes = {
 	title: React.PropTypes.string,
-	editorSchema: React.PropTypes.object.isRequired,
+	editorSchema: React.PropTypes.object,
 	onCellRender: React.PropTypes.func.isRequired,
 	onDetailRender: React.PropTypes.func,
 	cellSize: React.PropTypes.object,
@@ -93,7 +93,7 @@ CrudView.propTypes = {
 	pageSize: React.PropTypes.number,
 	queryFilters: React.PropTypes.object,
 	options: React.PropTypes.array,
-	modal: React.PropTypes.modal,
+	modal: React.PropTypes.bool,
 	// if true, the card will have no bottom margin
 	combine: React.PropTypes.bool,
 	children: React.PropTypes.node
