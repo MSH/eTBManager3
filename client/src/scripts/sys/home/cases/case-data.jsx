@@ -1,9 +1,12 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
+import { Card } from '../../../components';
 import Form from '../../../forms/form';
 import CardWithComments from './card-with-comments';
 
 import Contacts from './contacts';
+import CaseAdvReacts from './case-adv-reacts';
+import CaseComments from './case-comments';
 
 
 const data = {
@@ -209,12 +212,15 @@ export default class CaseData extends React.Component {
 
 		return (
 			<div>
-				<CardWithComments title="Case data" tbcase={tbcase} group="data">
-					<Form schema={data} doc={tbcase} readOnly/>
-				</CardWithComments>
+				<CaseComments title="Case data" tbcase={tbcase} group="data">
+					<Card title="Case data" padding="combine">
+						<Form schema={data} doc={tbcase} readOnly/>
+					</Card>
+				</CaseComments>
 
 				<Contacts tbcase={this.props.tbcase} />
-				<CardWithComments title={__('cases.sideeffects')} tbcase={tbcase} group="adv-reactions">
+				<CaseAdvReacts tbcase={this.props.tbcase} />
+				<CardWithComments title={__('cases.sideeffects')} tbcase={tbcase} group="adv-reacts">
 					<Alert bsStyle="warning">{'No record found'}</Alert>
 				</CardWithComments>
 				<CardWithComments title={__('TbField.COMORBIDITY')} tbcase={tbcase} group="comorbidities">

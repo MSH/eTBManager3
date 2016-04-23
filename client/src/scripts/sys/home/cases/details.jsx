@@ -9,6 +9,7 @@ import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
 import CaseMove from './case-move';
+import CaseIssues from './case-issues';
 
 import { generateName } from '../../mock-data';
 
@@ -51,6 +52,26 @@ const caseMockData = {
 	},
 	diagnosisDate: new Date(2016, 5, 1),
 	tags: tags,
+	adverseReactions: [
+		{
+			id: '4848484-1',
+			adverseReaction: { id: 1, name: 'Adverse Reaction 1' },
+			medicine: 'Terizidon',
+			month: 2
+		},
+		{
+			id: '4848484-2',
+			adverseReaction: { id: 2, name: 'Adverse Reaction 2' },
+			medicine: 'Isoniazid',
+			month: 5
+		},
+		{
+			id: '4848484-3',
+			adverseReaction: { id: 1, name: 'Adverse Reaction 3' },
+			medicine: 'Amicacin',
+			month: 8
+		}
+	],
 	comments: [
 		{
 			id: '123456-12',
@@ -163,8 +184,9 @@ export default class Details extends React.Component {
 				onSelect={this.selectTab}
 				className="app-tabs">
 				<NavItem key={0} eventKey={0}>{'Data'}</NavItem>
-				<NavItem key={1} eventKey={1}>{'Exams'}</NavItem>
+				<NavItem key={1} eventKey={1}>{'Follow-up'}</NavItem>
 				<NavItem key={2} eventKey={2}>{'Treatment'}</NavItem>
+				<NavItem key={3} eventKey={3}>{'Issues'}</NavItem>
 			</Nav>
 			);
 
@@ -191,6 +213,7 @@ export default class Details extends React.Component {
 							{seltab === 0 && <CaseData tbcase={tbcase} />}
 							{seltab === 1 && <CaseExams tbcase={tbcase} />}
 							{seltab === 2 && <CaseTreatment tbcase={tbcase} />}
+							{seltab === 3 && <CaseIssues tbcase={tbcase} />}
 						</Col>
 					</Row>
 				</Grid>

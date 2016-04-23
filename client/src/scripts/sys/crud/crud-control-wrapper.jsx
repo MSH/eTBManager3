@@ -7,7 +7,9 @@ export default function controlWrapper(Component) {
 		componentWillMount() {
 			// register the handler
 			const self = this;
-			const handler = this.props.controller.on((evt, data) => self.refs.ctrl.eventHandler(evt, data));
+			const handler = this.props.controller.on((evt, data) => {
+				self.refs.ctrl.eventHandler(evt, data);
+			});
 			this.setState({ handler: handler });
 		}
 

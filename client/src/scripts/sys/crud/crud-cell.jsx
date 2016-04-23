@@ -111,6 +111,17 @@ class CrudCell extends React.Component {
 		item.onClick();
 	}
 
+	_expandRenderEvt(item, cell) {
+		try {
+			return this.props.onExpandRender ? this.props.onExpandRender(item, cell) : null;
+		} catch (err) {
+			if (__DEV__) {
+				console.error('Error calling event onExpandRender in CrudCell ', err);
+			}
+			return null;
+		}
+	}
+
 	/**
 	 * Render the content of the expandable area when user clicks on the cell
 	 * @return {React.Component} The content of the expandable area
@@ -119,7 +130,7 @@ class CrudCell extends React.Component {
 		const item = this.state.item;
 		const cell = this.props.cell;
 
-		const content = this.props.onExpandRender ? this.props.onExpandRender(item, cell) : null;
+		const content = this._expandRenderEvt(item, cell);
 		const controller = this.props.controller;
 
 		const options = this.props.options;
@@ -169,6 +180,18 @@ class CrudCell extends React.Component {
 	}
 
 
+	cellRender(item) {
+		try {
+			return this.props.onRender(item);
+		} catch (err) {
+			if (__DEV__) {
+				console.error('CrudCell - Error calling onRender: ', err);
+			}
+			return null;
+		}
+
+	}
+
 	render() {
 		const controller = this.props.controller;
 
@@ -188,7 +211,9 @@ class CrudCell extends React.Component {
 		return (
 			<Card className="collapse-card" padding="small">
 				<Expandable onExpandRender={this.expandRender}>
-					{this.props.onRender(this.state.item)}
+				{
+					this.cellRender(this.state.item)
+				}
 				</Expandable>
 			</Card>
 			);
