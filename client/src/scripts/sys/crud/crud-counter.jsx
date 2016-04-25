@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Badge } from 'react-bootstrap';
 import controlWrapper from './crud-control-wrapper';
 
 /**
@@ -21,17 +21,22 @@ class CrudCounter extends React.Component {
 			return null;
 		}
 
+		if (this.props.counterOnly) {
+			return <Badge className="tbl-counter">{controller.getCount() > 0 ? controller.getCount() : '-'}</Badge>;
+		}
+
 		// any result found ?
 		if (!controller.getCount()) {
 			return <Alert bsStyle="warning">{__('form.norecordfound')}</Alert>;
 		}
 
 		const msg = ' ' + __('form.resultlist');
+		const className = this.props.className ? this.props.className : 'text-muted';
 
 		// is paging enabled ?
 		if (controller.isPaging() && controller.getCount() > controller.options.pageSize) {
 			return (
-				<div className="text-muted">
+				<div className={className}>
 					<b>{controller.getPageIni() + 1}</b>{' - '}<b>{controller.getPageEnd() + 1}</b>{' of '}
 					<b>{controller.getCount()}</b>{msg}
 				</div>
@@ -40,7 +45,7 @@ class CrudCounter extends React.Component {
 
 		// render simple counter
 		return (
-				<span className="text-muted">
+				<span className={className}>
 					<b>{controller.getCount()}</b>{msg}
 				</span>
 			);
@@ -48,7 +53,9 @@ class CrudCounter extends React.Component {
 }
 
 CrudCounter.propTypes = {
-	controller: React.PropTypes.object.isRequired
+	controller: React.PropTypes.object.isRequired,
+	counterOnly: React.PropTypes.bool,
+	className: React.PropTypes.string
 };
 
 export default controlWrapper(CrudCounter);

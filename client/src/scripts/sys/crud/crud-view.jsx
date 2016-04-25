@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Badge } from 'react-bootstrap';
 import { Card } from '../../components';
 import { hasPerm } from '../session';
 import CrudMessage from './crud-message';
@@ -37,28 +37,51 @@ export default class CrudView extends React.Component {
 		this.state.controller.openForm();
 	}
 
+	headerRender() {
+		const controller = this.state.controller;
+		let size = 12;
+
+		let btn;
+		if (!controller.isReadOnly()) {
+			btn = <CrudAddButton controller={controller} />;
+			size = 10;
+		}
+		else {
+			btn = null;
+		}
+
+		return (
+			<Row>
+				<Col sm={size}>
+					{this.props.title} <CrudCounter controller={controller} counterOnly />
+				</Col>
+				{
+					btn && <Col sm={2}>{btn}</Col>
+				}
+			</Row>
+			);
+	}
+
 	render() {
 		const controller = this.state.controller;
+
 
 		return (
 			<div>
 				<CrudForm controller={controller}
 					schema={this.props.editorSchema} openOnNew
 					wrapType={this.props.modal ? 'modal' : 'card'} />
-				<Card title={this.props.title} padding={this.props.combine ? 'combine' : 'default'}>
+				<Card header={this.headerRender()} padding={this.props.combine ? 'combine' : 'default'}>
 					<Row>
 						<Col sm={12}>
-							<CrudAddButton controller={controller} />
-							<CrudCounter controller={controller} />
-						</Col>
-					</Row>
-					<Row>
-						<Col sm={12}>
-							<div className="mtop">
+							<div>
 							<CrudMessage controller={controller} />
 							{
 								this.props.pageSize &&
-								<CrudPagination controller={controller} />
+								<span>
+									<CrudCounter controller={controller} className="pull-right"/>
+									<CrudPagination controller={controller} />
+								</span>
 							}
 							<CrudGrid controller={controller}
 								cellSize={this.props.cellSize}
