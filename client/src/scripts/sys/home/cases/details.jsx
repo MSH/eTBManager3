@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg, Fa } from '../../../components';
+import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem } from 'react-bootstrap';
+import { Card, WaitIcon, MessageDlg } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 
 import CaseData from './case-data';
@@ -10,6 +10,7 @@ import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
 import CaseMove from './case-move';
 import CaseTags from './case-tags';
+import CaseIssues from './case-issues';
 
 import { generateName } from '../../mock-data';
 
@@ -116,19 +117,6 @@ export default class Details extends React.Component {
 
 		return (
 			<div>
-				<div className="tag-subtitle">
-					<span className="mright">{'Manually assigned Tags'}</span>
-					<Button bsSize="sm" onClick={this.show('showTagsEdt', true)}><Fa icon="pencil" /></Button>
-				</div>
-				{
-					!lst ? <WaitIcon type="card" /> :
-					lst.map(item => (
-						<a key={item.id} className={'tag-link tag-' + item.type}>
-							<div className="tag-title">{item.name}</div>
-						</a>
-					))
-				}
-				<div className="tag-subtitle">{'Auto-generated Tags'}</div>
 				{
 					!lst ? <WaitIcon type="card" /> :
 					lst.map(item => (
@@ -192,7 +180,7 @@ export default class Details extends React.Component {
 								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
 								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
 							</DropdownButton>
-							<Card className="mtop" title={'Tags'}>
+							<Card className="mtop" title="Tags">
 							{
 								this.tagsRender()
 							}
@@ -216,8 +204,6 @@ export default class Details extends React.Component {
 				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 
 				<CaseMove show={this.state.showMoveCase} onClose={this.show('showMoveCase', false)} tbcase={tbcase}/>
-
-				<CaseTags show={this.state.showTagsEdt} onClose={this.show('showTagsEdt', false)} tbcase={tbcase}/>
 
 			</div>
 			);

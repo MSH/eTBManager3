@@ -24,6 +24,7 @@ class CrudGrid extends React.Component {
 		return (
 			<CrudCell cell={cell}
 				options={this.props.options}
+				modal={this.props.modal}
 				id={id}
 				controller={controller}
 				onRender={this.props.onRender}
@@ -58,7 +59,8 @@ CrudGrid.propTypes = {
 	onExpandRender: React.PropTypes.func,
 	editorSchema: React.PropTypes.object,
 	cellSize: React.PropTypes.object,
-	options: React.PropTypes.array
+	options: React.PropTypes.array,
+	modal: React.PropTypes.bool
 };
 
 export default controlWrapper(CrudGrid);

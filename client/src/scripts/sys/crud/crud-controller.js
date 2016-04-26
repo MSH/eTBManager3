@@ -409,7 +409,7 @@ export default class CrudController {
 
 		return this.crud.query(qry)
 		.then(res => {
-			const paging = !!this.options.pageSize;
+			const paging = !!self.options.pageSize;
 			// generate new result
 			const result = {
 				count: res.count,

@@ -14,7 +14,12 @@ export function generateName() {
 
 	const age = Math.round((Math.random() * 40) + 10);
 
-	return { name: name, gender: gender, age: age };
+	return {
+		name: name,
+		gender: gender,
+		age: age,
+		id: Math.round(Math.random() * 10000000)
+	};
 }
 
 
@@ -371,6 +376,7 @@ const lastNames = [
 class MockCrud {
 	on(func) {
 		this.handler = func;
+		return this;
 	}
 
 	_event(evt, data, defaultRes) {

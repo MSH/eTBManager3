@@ -17,6 +17,7 @@ export default class SelectionBox extends React.Component {
 		this.btnCloseClick = this.btnCloseClick.bind(this);
 		this.notifyChange = this.notifyChange.bind(this);
 		this.noSelClick = this.noSelClick.bind(this);
+		this.btnKeyPress = this.btnKeyPress.bind(this);
 
 		// initialize an empty list of values
 		this.state = { };
@@ -214,6 +215,14 @@ export default class SelectionBox extends React.Component {
 		return <div className="sel-box-items">{items}</div>;
 	}
 
+	btnKeyPress(evt) {
+		// check if it is arrow down
+		if (evt.keyCode === 40) {
+			evt.preventDefault();
+			this.controlClick(evt);
+		}
+	}
+
 	/**
 	 * Component rendering
 	 * @return {React.Component} Component to display
@@ -231,7 +240,8 @@ export default class SelectionBox extends React.Component {
 		return (
 			<div className={clazz}>
 				{this.labelRender()}
-				<button className={controlClass} onClick={this.controlClick}>
+				<button className={controlClass} onClick={this.controlClick}
+					onKeyDown={this.btnKeyPress}>
 					<div className="btn-dd">
 						<i className="fa fa-chevron-down" />
 					</div>

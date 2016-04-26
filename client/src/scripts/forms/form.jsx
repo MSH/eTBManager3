@@ -119,7 +119,7 @@ export default class Form extends React.Component {
 	 */
 	focus() {
 		// set focus on the first control that supports it
-		this.state.snapshots.find(it => this.refs[it.snapshot.id].focus());
+		this.state.snapshots.find(it => it.snapshot.readOnly ? false : this.refs[it.snapshot.id].focus());
 	}
 
 	/**
