@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg } from '../../../components';
+import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
+import { Card, WaitIcon, MessageDlg, Fa } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 
 import CaseData from './case-data';
@@ -9,8 +9,8 @@ import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
 import CaseMove from './case-move';
-import CaseTags from './case-tags';
 import CaseIssues from './case-issues';
+import CaseTags from './case-tags';
 
 import { generateName } from '../../mock-data';
 
@@ -53,6 +53,26 @@ const caseMockData = {
 	},
 	diagnosisDate: new Date(2016, 5, 1),
 	tags: tags,
+	adverseReactions: [
+		{
+			id: '4848484-1',
+			adverseReaction: { id: 1, name: 'Adverse Reaction 1' },
+			medicine: 'Terizidon',
+			month: 2
+		},
+		{
+			id: '4848484-2',
+			adverseReaction: { id: 2, name: 'Adverse Reaction 2' },
+			medicine: 'Isoniazid',
+			month: 5
+		},
+		{
+			id: '4848484-3',
+			adverseReaction: { id: 1, name: 'Adverse Reaction 3' },
+			medicine: 'Amicacin',
+			month: 8
+		}
+	],
 	comments: [
 		{
 			id: '123456-12',
@@ -95,6 +115,7 @@ export default class Details extends React.Component {
 			for (var i = 0; i < 5; i++) {
 				const res = generateName();
 				contacts.push({
+					id: res.id,
 					name: res.name,
 					gender: res.gender,
 					age: res.age
@@ -164,10 +185,20 @@ export default class Details extends React.Component {
 				onSelect={this.selectTab}
 				className="app-tabs">
 				<NavItem key={0} eventKey={0}>{'Data'}</NavItem>
-				<NavItem key={1} eventKey={1}>{'Exams'}</NavItem>
+				<NavItem key={1} eventKey={1}>{'Follow-up'}</NavItem>
 				<NavItem key={2} eventKey={2}>{'Treatment'}</NavItem>
+				<NavItem key={3} eventKey={3}>{'Issues'}</NavItem>
 			</Nav>
 			);
+
+		const tagh = (<span>
+						<h4 className="inlineb mright">
+							{'Tags'}
+						</h4>
+						<Button onClick={this.show('showTagEdt', true)} bsSize="small">
+							<Fa icon="pencil"/>
+						</Button>
+					</span>);
 
 		return (
 			<div>
@@ -180,7 +211,7 @@ export default class Details extends React.Component {
 								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
 								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
 							</DropdownButton>
-							<Card className="mtop" title="Tags">
+							<Card className="mtop" header={tagh}>
 							{
 								this.tagsRender()
 							}
@@ -192,6 +223,7 @@ export default class Details extends React.Component {
 							{seltab === 0 && <CaseData tbcase={tbcase} />}
 							{seltab === 1 && <CaseExams tbcase={tbcase} />}
 							{seltab === 2 && <CaseTreatment tbcase={tbcase} />}
+							{seltab === 3 && <CaseIssues tbcase={tbcase} />}
 						</Col>
 					</Row>
 				</Grid>
@@ -204,6 +236,8 @@ export default class Details extends React.Component {
 				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 
 				<CaseMove show={this.state.showMoveCase} onClose={this.show('showMoveCase', false)} tbcase={tbcase}/>
+
+				<CaseTags show={this.state.showTagEdt} onClose={this.show('showTagEdt', false)} tbcase={tbcase}/>
 
 			</div>
 			);
