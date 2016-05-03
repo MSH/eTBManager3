@@ -204,6 +204,10 @@
 	margin-top:10px;
 }
 
+.mright {
+	margin-right:10px;
+}
+
 .mtop-2x {
 	margin-top:20px;
 }
@@ -474,7 +478,7 @@
   background: #f0f0f0;
 }
 
-.tag-danger, .tag-userdef, .tag-warn {
+.tag-danger, .tag-userdef, .tag-warn, .tag-subtitle {
   display: block;
   color: #909090;
   margin-top:2px;
@@ -496,10 +500,17 @@
 .tag-userdef {
   border-left-color: @brand-primary;
 }
+
 .tag-warn {
   border-left-color: @brand-success;
 }
 
+.tag-subtitle {
+  border-left-color: #909090;
+  font-weight: bold;
+  padding-left:10px;
+  margin-left: -5px;
+}
 
 .tbl-hover .tbl-row:hover {
 	background-color: @row-hover;
@@ -560,4 +571,8 @@
 .tx-width {
 	transition: width 0.4s ease-out;
 	-webkit-transition: width 0.4s ease-out;
+}
+
+.inlineb {
+	display: inline-block;
 }

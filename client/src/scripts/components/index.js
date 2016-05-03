@@ -25,6 +25,7 @@ import LinkTooltip from './link-tooltip';
 import ReactGrid from './react-grid';
 import ListBox from './list-box';
 import Expandable from './expandable';
+import MaskedInput from './masked-input';
 
 export { Callout,
 	AsyncButton,
@@ -48,5 +49,6 @@ export { Callout,
 	LinkTooltip,
 	ReactGrid,
 	ListBox,
-	Expandable
+	Expandable,
+	MaskedInput
 };

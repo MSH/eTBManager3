@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, MenuItem, Button } from 'react-bootstrap';
-import { Card, Popup, SelectionBox, ListBox } from '../../components/index';
+import { Card, Popup, SelectionBox, ListBox, MaskedInput } from '../../components/index';
 import FormModalExample from './form-modal-example';
 
 
@@ -22,7 +22,17 @@ const options2 = [
 	'Boa Vista',
 	'Caxambu',
 	'Búzios',
-	'New Orleans'
+	'New Orleans',
+	'Finlandia',
+	'Duque de Caxias',
+	'Blumenau',
+	'Dhaka',
+	'Namibia',
+	'Nigeria',
+	'Russia',
+	'Caxias',
+	'Jd. 25 de Agosto',
+	'Santa Cruz da Serra'
 ];
 
 const options3 = [
@@ -155,9 +165,46 @@ export default class StuffExamples extends React.Component {
 
 				<Card>
 					<Row>
+						<Col sm={6}>
+							<ListBox ref="selBox5"
+								mode="multiple"
+								label="Items:"
+								help="This is a simple help message"
+								onChange={this.onChange('selBox5')}
+								options={options2}
+								vertical
+								maxHeight={130} />
+						</Col>
+						<Col sm={6}>
+							{this.state.selBox5 &&
+									this.state.selBox5.map(item => <li key={item}>{item}</li>)
+							}
+						</Col>
+					</Row>
+				</Card>
+
+				<Card>
+					<Row>
 						<Col sm={12}>
 							<Button onClick={this.show('showFormModal', true)}>{'Show Form Modal'}</Button>
 							<FormModalExample show={this.state.showFormModal} onClose={this.show('showFormModal', false)} />
+						</Col>
+					</Row>
+				</Card>
+
+				<Card>
+					<Row>
+						<Col sm={6}>
+							<MaskedInput ref="maskedInput1"
+								label="Masked Input:"
+								help="This is a simple help message"
+								onChange={this.onChange('selBox3')}
+								bsStyle="error" />
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={6}>
+							{this.state.selBox3}
 						</Col>
 					</Row>
 				</Card>
