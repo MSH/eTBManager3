@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Badge } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Card } from '../../components';
 import { hasPerm } from '../session';
 import CrudMessage from './crud-message';
