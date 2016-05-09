@@ -27,7 +27,7 @@ module.exports = config.languages.prod.map( function(lang) {
         output: {
             filename: 'app.js',
             path: path.join( outPath, 'scripts', lang),
-            publicPath: '/scripts/' + lang + '/'
+            publicPath: 'scripts/' + lang + '/'
         },
 
         cache: true,
