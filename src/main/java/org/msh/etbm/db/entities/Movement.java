@@ -55,9 +55,8 @@ public class Movement  {
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "movement")
 	private List<BatchMovement> batches = new ArrayList<BatchMovement>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ADJUSTMENT_ID")
-	private FieldValue adjustmentType;
+	@Column(length = 50)
+	private String adjustmentType;
 
 
     /**
@@ -100,11 +99,11 @@ public class Movement  {
      * Returns adjustment type of the transaction
      * @return a FieldValue representing the adjustment type
      */
-    public FieldValue getAdjustmentType() {
+    public String getAdjustmentType() {
         return adjustmentType;
     }
 
-	public void setAdjustmentType(FieldValue adjustmentType) {
+	public void setAdjustmentType(String adjustmentType) {
 		this.adjustmentType = adjustmentType;
 	}
 	

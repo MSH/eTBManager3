@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
 public class CaseSideEffect extends CaseEntity {
 
 	@Embedded
-	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "SIDEEFFECT_ID")) })
-	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")) })
+	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")),
+			@AttributeOverride(name = "value", column = @Column(name = "sideeffect")) })
 	@NotNull
 	private FieldValueComponent sideEffect;
 

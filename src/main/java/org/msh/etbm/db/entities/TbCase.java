@@ -127,21 +127,15 @@ public class TbCase extends WorkspaceEntity {
 	
 	@PropertyLog(messageKey = "InfectionSite", operations = {Operation.NEW})
 	private InfectionSite infectionSite;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PULMONARY_ID")
-	@PropertyLog(messageKey = "TbField.PULMONARY_TYPES")
-	private FieldValue pulmonaryType;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "EXTRAPULMONARY_ID")
-	@PropertyLog(messageKey = "TbField.EXTRAPULMONARY_TYPES")
-	private FieldValue extrapulmonaryType;
+	@Column(length = 50)
+	private String pulmonaryType;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "EXTRAPULMONARY2_ID")
-	@PropertyLog(messageKey = "TbField.EXTRAPULMONARY_TYPES")
-	private FieldValue extrapulmonaryType2;
+	@Column(length = 50)
+	private String extrapulmonaryType;
+
+	@Column(length = 50)
+	private String extrapulmonaryType2;
 	
 	@Column(length = 100)
 	private String patientTypeOther;
@@ -379,7 +373,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @param sideEffect - FieldValue object representing the side effect
 	 * @return - CaseSideEffect instance containing side effect data of the case, or null if there is no side effect data
 	 */
-	public CaseSideEffect findSideEffectData(FieldValue sideEffect) {
+	public CaseSideEffect findSideEffectData(String sideEffect) {
 		for (CaseSideEffect se: getSideEffects()) {
 			if (se.getSideEffect().getValue().equals(sideEffect)) {
                 return se;
@@ -858,7 +852,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the pulmonaryType
 	 */
-	public FieldValue getPulmonaryType() {
+	public String getPulmonaryType() {
 		return pulmonaryType;
 	}
 
@@ -866,7 +860,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param pulmonaryType the pulmonaryType to set
 	 */
-	public void setPulmonaryType(FieldValue pulmonaryType) {
+	public void setPulmonaryType(String pulmonaryType) {
 		this.pulmonaryType = pulmonaryType;
 	}
 
@@ -874,7 +868,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the extrapulmonaryType
 	 */
-	public FieldValue getExtrapulmonaryType() {
+	public String getExtrapulmonaryType() {
 		return extrapulmonaryType;
 	}
 
@@ -882,7 +876,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param extrapulmonaryType the extrapulmonaryType to set
 	 */
-	public void setExtrapulmonaryType(FieldValue extrapulmonaryType) {
+	public void setExtrapulmonaryType(String extrapulmonaryType) {
 		this.extrapulmonaryType = extrapulmonaryType;
 	}
 
@@ -890,7 +884,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the extrapulmonaryType2
 	 */
-	public FieldValue getExtrapulmonaryType2() {
+	public String getExtrapulmonaryType2() {
 		return extrapulmonaryType2;
 	}
 
@@ -898,7 +892,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param extrapulmonaryType2 the extrapulmonaryType2 to set
 	 */
-	public void setExtrapulmonaryType2(FieldValue extrapulmonaryType2) {
+	public void setExtrapulmonaryType2(String extrapulmonaryType2) {
 		this.extrapulmonaryType2 = extrapulmonaryType2;
 	}
 

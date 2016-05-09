@@ -30,11 +30,9 @@ public class ExamXRay extends CaseEvent {
 	private XRayBaseline baseline;
 	
 	private Boolean destruction;
-	
-	@ManyToOne
-	@JoinColumn(name = "PRESENTATION_ID")
-	@PropertyLog(operations = {Operation.NEW}, messageKey = "TbField.XRAYPRESENTATION")
-	private FieldValue presentation;
+
+	@Column(length = 50)
+	private String presentation;
 
 	/**
 	 * @return the baseline
@@ -83,14 +81,14 @@ public class ExamXRay extends CaseEvent {
 	/**
 	 * @param presentation the presentation to set
 	 */
-	public void setPresentation(FieldValue presentation) {
+	public void setPresentation(String presentation) {
 		this.presentation = presentation;
 	}
 
 	/**
 	 * @return the presentation
 	 */
-	public FieldValue getPresentation() {
+	public String getPresentation() {
 		return presentation;
 	}
 

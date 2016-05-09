@@ -24,17 +24,14 @@ public class TbContact extends CaseEntity {
 	
 	//VR: adding 'date of examination'
 	private Date dateOfExamination;
-	
-	@ManyToOne
-	@JoinColumn(name = "CONTACTTYPE_ID")
-	@PropertyLog(operations = {Operation.NEW})
-	private FieldValue contactType;
+
+	@Column(length = 50)
+	private String contactType;
 	
 	private boolean examinated;
-	
-	@ManyToOne
-	@JoinColumn(name = "CONDUCT_ID")
-	private FieldValue conduct;
+
+	@Column(length = 50)
+	private String conduct;
 
 	@Lob
 	@PropertyLog(messageKey = "global.comments")
@@ -106,14 +103,14 @@ public class TbContact extends CaseEntity {
 	/**
 	 * @return the contactType
 	 */
-	public FieldValue getContactType() {
+	public String getContactType() {
 		return contactType;
 	}
 
 	/**
 	 * @param contactType the contactType to set
 	 */
-	public void setContactType(FieldValue contactType) {
+	public void setContactType(String contactType) {
 		this.contactType = contactType;
 	}
 
@@ -134,14 +131,14 @@ public class TbContact extends CaseEntity {
 	/**
 	 * @return the conduct
 	 */
-	public FieldValue getConduct() {
+	public String getConduct() {
 		return conduct;
 	}
 
 	/**
 	 * @param conduct the conduct to set
 	 */
-	public void setConduct(FieldValue conduct) {
+	public void setConduct(String conduct) {
 		this.conduct = conduct;
 	}
 

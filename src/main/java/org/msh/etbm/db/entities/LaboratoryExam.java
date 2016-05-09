@@ -49,11 +49,9 @@ public abstract class LaboratoryExam extends CaseEntity {
 	@PropertyLog(messageKey = "cases.exams.dateRelease", operations = {Operation.NEW})
 	@Past
 	private Date dateRelease;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "METHOD_ID")
-	@PropertyLog(messageKey = "cases.exams.method", operations = {Operation.NEW})
-	private FieldValue method;
+
+	@Column(length = 50)
+	private String method;
 	
 
 	@Transient
@@ -218,14 +216,14 @@ public abstract class LaboratoryExam extends CaseEntity {
 	/**
 	 * @return the method
 	 */
-	public FieldValue getMethod() {
+	public String getMethod() {
 		return method;
 	}
 
 	/**
 	 * @param method the method to set
 	 */
-	public void setMethod(FieldValue method) {
+	public void setMethod(String method) {
 		this.method = method;
 	}
 
