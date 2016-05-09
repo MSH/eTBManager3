@@ -184,7 +184,7 @@ const notifForm = {
 		size: { sm: 6 }
 	},
 	{
-		label: __('TbField.PULMONARY_TYPES'),
+		label: __('TbCase.pulmonaryType'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'PULMONARY' || doc.infectionSite === 'BOTH',
 		type: 'select',
@@ -200,7 +200,7 @@ const notifForm = {
 		size: { sm: 6 }
 	},
 	{
-		label: __('TbField.EXTRAPULMONARY_TYPES'),
+		label: __('TbCase.extrapulmonaryType'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
 		type: 'select',
@@ -219,7 +219,7 @@ const notifForm = {
 		size: { sm: 6 }
 	},
 	{
-		label: __('TbField.EXTRAPULMONARY_TYPES') + ' (2)',
+		label: __('TbCase.extrapulmonaryType2'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
 		type: 'select',

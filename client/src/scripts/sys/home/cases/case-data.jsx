@@ -184,21 +184,21 @@ const data = {
 	},
 	{
 		type: 'select',
-		label: __('TbField.PULMONARY_TYPES'),
+		label: __('TbCase.pulmonaryType'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'PULMONARY' || doc.infectionSite === 'BOTH',
 		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		label: __('TbField.EXTRAPULMONARY_TYPES'),
+		label: __('TbCase.extrapulmonaryType'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
 		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		label: __('TbField.EXTRAPULMONARY_TYPES') + ' (2)',
+		label: __('TbCase.extrapulmonaryType2'),
 		property: 'pulmonaryType',
 		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
 		size: { sm: 6 }
@@ -219,10 +219,9 @@ export default class CaseData extends React.Component {
 				</CaseComments>
 
 				<Contacts tbcase={this.props.tbcase} />
+
 				<CaseAdvReacts tbcase={this.props.tbcase} />
-				<CardWithComments title={__('cases.sideeffects')} tbcase={tbcase} group="adv-reacts">
-					<Alert bsStyle="warning">{'No record found'}</Alert>
-				</CardWithComments>
+
 				<CardWithComments title={__('TbField.COMORBIDITY')} tbcase={tbcase} group="comorbidities">
 					<Alert bsStyle="warning">{'No record found'}</Alert>
 				</CardWithComments>
