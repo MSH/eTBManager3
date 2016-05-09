@@ -93,9 +93,9 @@ export default class CaseIssues extends React.Component {
 									<a className="lnk-muted" onClick={this.removeClick(issue)}><Fa icon="remove"/></a>
 								</OverlayTrigger>
 							</div>
-							<div className="pull-left status-box bg-primary">
+							<span className="status-box bg-primary">
 								{'Open'}
-							</div>
+							</span>
 							<div className="text-muted"><b>{issue.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
 							{issue.text.split('\n').map((item, i) =>
 								<span key={i}>
