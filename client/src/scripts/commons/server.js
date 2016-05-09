@@ -23,7 +23,7 @@ class ServerRequest {
 	 * @return {Request}    Request object
 	 */
 	get(url) {
-		return this.promiseRequest(Request.get(url));
+		return this.promiseRequest(Request.get(this.checkContext(url)));
 	}
 
 
@@ -34,7 +34,7 @@ class ServerRequest {
 	 */
 	post(url, data) {
 		return this.promiseRequest(Request
-			.post(url)
+			.post(this.checkContext(url))
 			.send(data));
 	}
 
@@ -46,7 +46,11 @@ class ServerRequest {
 	 */
 	delete(url) {
 		return this.promiseRequest(Request
-			.del(url));
+			.del(this.checkContext(url)));
+	}
+
+	checkContext(path) {
+		return window.app.contextPath ? window.app.contextPath + path : path;
 	}
 
 	promiseRequest(request) {

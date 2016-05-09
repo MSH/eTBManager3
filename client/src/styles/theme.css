@@ -7341,6 +7341,9 @@ button.close {
 .mtop {
   margin-top: 10px;
 }
+.mright {
+  margin-right: 10px;
+}
 .mtop-2x {
   margin-top: 20px;
 }
@@ -7565,7 +7568,8 @@ button.close {
 }
 .tag-danger,
 .tag-userdef,
-.tag-warn {
+.tag-warn,
+.tag-subtitle {
   display: block;
   color: #909090;
   margin-top: 2px;
@@ -7587,6 +7591,12 @@ button.close {
 }
 .tag-warn {
   border-left-color: #1f69ad;
+}
+.tag-subtitle {
+  border-left-color: #909090;
+  font-weight: bold;
+  padding-left: 10px;
+  margin-left: -5px;
 }
 .tbl-hover .tbl-row:hover {
   background-color: #f8f8f8;
@@ -7637,6 +7647,9 @@ button.close {
 .tx-width {
   transition: width 0.4s ease-out;
   -webkit-transition: width 0.4s ease-out;
+}
+.inlineb {
+  display: inline-block;
 }
 .alert {
   border-left-width: 10px;
