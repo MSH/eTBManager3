@@ -176,7 +176,7 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="comment" type="VARCHAR(200)"/>
+            <column name="comment" type="${type.text}"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>

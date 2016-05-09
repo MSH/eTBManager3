@@ -16,7 +16,7 @@ public class CaseComorbidity extends CaseEntity {
 	@Column(length = 100)
 	private String duration;
 	
-	@Column(length = 200)
+	@Lob
 	private String comment;
 	
 
