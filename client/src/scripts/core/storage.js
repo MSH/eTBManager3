@@ -74,4 +74,14 @@ export default class Storage {
 	getState() {
 		return this.state;
 	}
+
+	/**
+	 * Merge the given state with the actual state
+	 */
+	setState(st) {
+		for (var k in st) {
+			const val = st[k];
+			this.state[k] = val;
+		}
+	}
 }

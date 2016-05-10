@@ -23,13 +23,13 @@ import javax.validation.constraints.NotNull;
 public abstract class WorkspaceEntity extends Synchronizable  implements Displayable {
 
     /**
-	 * The workspace of this entity
-	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="WORKSPACE_ID")
-	@NotNull
-	@PropertyLog(ignore=true)
-	private Workspace workspace;
+     * The workspace of this entity
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKSPACE_ID")
+    @NotNull
+    @PropertyLog(ignore = true)
+    private Workspace workspace;
 
 
 	/**

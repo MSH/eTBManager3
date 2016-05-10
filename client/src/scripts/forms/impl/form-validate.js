@@ -15,34 +15,34 @@ import msgs from '../../commons/messages';
 export default function validateForm(form) {
 	let errors = null;
 
-	const snapshot = form.state.snapshot;
+	const snapshots = form.state.snapshots;
 	const doc = form.props.doc;
 
 	// browse all fields
-	snapshot.filter(el => el.el === 'field')
-	.forEach(elem => {
-		const value = getValue(doc, elem.property);
+	snapshots.forEach(elem => {
+		const snapshot = elem.snapshot;
+		const value = getValue(doc, snapshot.property);
 
 		let msg;
 		// no value informed ?
 		if (isEmpty(value)) {
 			// value is required ?
-			if (elem.required) {
+			if (snapshot.required) {
 				// if required and empty, so show required message
 				msg = msgs.NotNull;
 			}
 		}
 		else {
 			// validate value
-			const comp = form.refs[elem.id];
-			msg = comp.validate(elem, value, doc);
+			const comp = form.refs[snapshot.id];
+			msg = comp.validate(snapshot, value, doc);
 		}
 
 		if (msg) {
 			if (!errors) {
 				errors = {};
 			}
-			errors[elem.property] = msg;
+			errors[snapshot.property] = msg;
 		}
 	});
 

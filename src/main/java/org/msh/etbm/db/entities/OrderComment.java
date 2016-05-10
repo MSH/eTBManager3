@@ -13,7 +13,7 @@ import java.util.Date;
 public class OrderComment extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="ORDER_ID")
+	@JoinColumn(name = "ORDER_ID")
 	@NotNull
 	private Order order;
 	
@@ -21,7 +21,7 @@ public class OrderComment extends Synchronizable {
 	private String comment;
 	
 	@ManyToOne
-	@JoinColumn(name="USER_CREATOR_ID")
+	@JoinColumn(name = "USER_CREATOR_ID")
 	@NotNull
 	private User user;
 	

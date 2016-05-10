@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(name="transferbatch")
+@Table(name = "transferbatch")
 public class TransferBatch {
 
 	@Id
@@ -16,12 +16,12 @@ public class TransferBatch {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name="BATCH_ID")
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 	
 	@ManyToOne
-	@JoinColumn(name="TRANSFERITEM_ID")
+	@JoinColumn(name = "TRANSFERITEM_ID")
 	@NotNull
 	private TransferItem transferItem;
 
@@ -30,15 +30,15 @@ public class TransferBatch {
 	private Integer quantityReceived;
 
 	public float getUnitPrice() {
-		return (getBatch() == null? 0: (float)batch.getUnitPrice());
+		return (getBatch() == null ? 0 : (float)batch.getUnitPrice());
 	}
 	
 	public float getTotalPrice() {
-		return (getBatch() == null? 0: quantity * (float)batch.getUnitPrice());
+		return (getBatch() == null ? 0 : quantity * (float)batch.getUnitPrice());
 	}
 	
 	public float getTotalPriceReceived() {
-		return (getBatch() == null? 0: quantityReceived * (float)batch.getUnitPrice());
+		return (getBatch() == null ? 0 : quantityReceived * (float)batch.getUnitPrice());
 	}
 	
 	public Integer getQuantityReceived() {
@@ -81,7 +81,4 @@ public class TransferBatch {
 		this.transferItem = transferItem;
 	}
 
-	public void setNumContainersRec(int numContainersRec){
-		return;
-	}
 }

@@ -10,30 +10,30 @@ import java.util.List;
 
 
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="prevtbtreatment")
+@Inheritance(strategy =  InheritanceType.JOINED)
+@Table(name = "prevtbtreatment")
 public class PrevTBTreatment extends CaseEntity {
 
 
-	@Column(name="TREATMENT_MONTH")
+	@Column(name = "TREATMENT_MONTH")
 	private Integer month;
 	
-	@Column(name="TREATMENT_YEAR")
+	@Column(name = "TREATMENT_YEAR")
 	private int year;
 	
-	@Column(name="OUTCOME_MONTH")
+	@Column(name = "OUTCOME_MONTH")
 	private Integer outcomeMonth;
 	
-	@Column(name="OUTCOME_YEAR")
+	@Column(name = "OUTCOME_YEAR")
 	private Integer outcomeYear;
 	
 	@NotNull
 	private PrevTBTreatmentOutcome outcome;
 
 	@ManyToMany
-	@JoinTable(name="res_prevtbtreatment",
-			joinColumns={@JoinColumn(name="PREVTBTREATMENT_ID")},
-			inverseJoinColumns={@JoinColumn(name="SUBSTANCE_ID")})
+	@JoinTable(name = "res_prevtbtreatment",
+			joinColumns = {@JoinColumn(name = "PREVTBTREATMENT_ID")},
+			inverseJoinColumns = {@JoinColumn(name = "SUBSTANCE_ID")})
 	private List<Substance> substances = new ArrayList<Substance>();
 
 
@@ -97,10 +97,9 @@ public class PrevTBTreatment extends CaseEntity {
 	public void setOutcomeYear(Integer outcomeYear) {
 		this.outcomeYear = outcomeYear;
 	}
-	public boolean hasOutcomeDate(){
-		if(getOutcomeMonth() != null && getOutcomeYear() != 0)
-			return true;
-		return false;
+
+	public boolean hasOutcomeDate() {
+        return getOutcomeMonth() != null && getOutcomeYear() != null;
 	}
 	
 }

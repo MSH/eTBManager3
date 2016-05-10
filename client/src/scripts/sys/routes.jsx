@@ -31,16 +31,14 @@ export default class Routes extends React.Component {
 
 	_onAppChange(action) {
 		if (action === WORKSPACE_CHANGING) {
-			return this.setState({ changing: true });
+			this.setState({ changing: true });
+			return;
 		}
 
 		if (action === WORKSPACE_CHANGE) {
-			return this.setState({ changing: false });
+			this.setState({ changing: false });
+			return;
 		}
-
-		// if (action === LOGOUT) {
-		// 	return app.dispatch(TB_SET, { toolbarContent: null });
-		// }
 	}
 
 	openHome() {
@@ -70,8 +68,8 @@ export default class Routes extends React.Component {
 
 		// playground for dev is available just in dev module
 		if (__DEV__) {
-			const TempRoutes = require('./dev/routes');
-			routesInfo.push({ path: '/dev', view: TempRoutes.default });
+			const DevIndex = require('./dev/index');
+			routesInfo.push({ path: '/dev', view: DevIndex.default, title: 'Developers playground' });
 		}
 
 		const routes = RouteView.createRoutes(routesInfo);

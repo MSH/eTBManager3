@@ -40,7 +40,6 @@ public class PermissionTreeOptionsTest extends AuthenticatedTest {
     }
 
     protected void assertItem(PermissionItem item) {
-        System.out.println(item.getId() + " = " + item.getName());
         assertNotNull(item.getId());
         assertNotNull(item.getName());
     }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -84,10 +85,9 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         // get the authentication token in the request
         String stoken = request.getHeader(Constants.AUTH_TOKEN_HEADERNAME);
 
-        if (stoken == null &&
-                request.getQueryString() != null &&
-                request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME))
-        {
+        if (stoken == null
+                && request.getQueryString() != null
+                && request.getQueryString().contains(Constants.AUTH_TOKEN_HEADERNAME)) {
             stoken = request.getParameter(Constants.AUTH_TOKEN_HEADERNAME);
         }
 
@@ -99,8 +99,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         UUID authToken;
         try {
             authToken = UUID.fromString(stoken);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error("Invalid token format for UUID " + stoken, e);
             authToken = null;
         }
@@ -131,7 +130,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
      * @param userSession information about the user session
      * @return true if user has the permissions necessary to continue
      */
-    private boolean checkAuthorized(String perms[], UserSession userSession) {
+    private boolean checkAuthorized(String[] perms, UserSession userSession) {
         if (perms == null || perms.length == 0) {
             return true;
         }
@@ -144,4 +143,10 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         return true;
     }
 
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (userRequestService.isAuthenticated()) {
+            userRequestService.updateLastAccess();
+        }
+    }
 }

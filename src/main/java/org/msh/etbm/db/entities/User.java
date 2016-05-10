@@ -29,75 +29,79 @@ import java.util.UUID;
  * @author Ricardo Memoria
  */
 @Entity
-@Table(name="sys_user")
+@Table(name = "sys_user")
 public class User implements Displayable {
 
 	@Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
     @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @PropertyLog(ignore = true)
     private UUID id;
     
-    @Column(length=30)
+    @Column(length = 30)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private String login;
     
-    @Column(length=80)
+    @Column(length = 80)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private String name;
 
-    @Column(length=32)
-	@NotNull
-	@PropertyLog(ignore=true)
+    @Column(length = 32)
+	@PropertyLog(ignore = true)
     private String password;
     
-    @Column(nullable=false, length=80)
-	@PropertyLog(operations={Operation.NEW})
+    @Column(nullable = false, length = 80)
+	@PropertyLog(operations = {Operation.NEW})
     @Email
     private String email;
     
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
     private UserState state;
 	
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="DEFAULTWORKSPACE_ID")
-	@PropertyLog(operations={Operation.NEW})
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "DEFAULTWORKSPACE_ID")
+	@PropertyLog(operations = {Operation.NEW})
     private UserWorkspace defaultWorkspace;
     
-    @Column(length=50)
+    @Column(length = 50)
     private String timeZone;
 
-	@OneToMany(mappedBy="user", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @PropertyLog(ignore = true)
 	private List<UserWorkspace> workspaces = new ArrayList<UserWorkspace>();
 	
-	@Column(length=200)
+	@Column(length = 200)
+    @PropertyLog(messageKey = "global.comments")
 	private String comments;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PARENTUSER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PARENTUSER_ID")
 	private User parentUser;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+    @PropertyLog(ignore = true)
 	private Date registrationDate;
 
-	@Column(length=30)
-	@PropertyLog(messageKey="global.customId")
+	@Column(length = 30)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
     /**
      * If true, user will receive system messages to his e-mail address
      */
-	private boolean sendSystemMessages;
+    private boolean sendSystemMessages;
 
     /**
      * Indicate if the ULA was accepted or not
      */
-	private boolean ulaAccepted;
+    private boolean ulaAccepted;
 
     /**
      * The request token used by the user to change its password when using the forgot password process
      */
+    @PropertyLog(ignore = true)
     private String pwdChangeRequest;
 	
 	/**
@@ -285,11 +289,11 @@ public class User implements Displayable {
     }
 
     /**
-	 * @return the sendSystemMessages
-	 */
-	public boolean isSendSystemMessages() {
-		return sendSystemMessages;
-	}
+     * @return the sendSystemMessages
+     */
+    public boolean isSendSystemMessages() {
+        return sendSystemMessages;
+    }
 
 
 	/**

@@ -53,16 +53,15 @@ public class SystemRest {
             // convert authentication token to UUID
             UUID uuidToken;
             try {
-                uuidToken = authToken != null? UUID.fromString(authToken) : null;
-            }
-            catch (IllegalArgumentException e) {
+                uuidToken = authToken != null ? UUID.fromString(authToken) : null;
+            } catch (IllegalArgumentException e) {
                 LOGGER.error("Invalid token UUID format : " + authToken, e);
                 uuidToken = null;
             }
 
             // check if authentication is required
-            boolean authRequired = uuidToken == null ||
-                    userSessionService.recoverSession(uuidToken) == null;
+            boolean authRequired = uuidToken == null
+                    || userSessionService.recoverSession(uuidToken) == null;
 
             if (authRequired) {
                 inf.setState(SystemState.AUTH_REQUIRED);

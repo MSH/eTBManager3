@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api.sys;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.db.enums.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +32,15 @@ public class GlobalListsService {
             MedicineCategory.class,
             CaseClassification.class,
             CaseState.class,
-            UserState.class
+            UserState.class,
+            CommandAction.class
     };
 
     /**
      * Return the options of all lists supported by the system
      * @return
      */
-    public Map<String, Map<String, String> > getLists() {
+    public Map<String, Map<String, String>> getLists() {
         Map<String, Map<String, String>> res = new HashMap<>();
 
         for (Class clazz: lists) {

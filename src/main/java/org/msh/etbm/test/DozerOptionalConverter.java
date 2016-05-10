@@ -37,14 +37,12 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
             // source and dest are from different classes ?
             if (!destClass.isPrimitive() && !destClass.isAssignableFrom(objSource.getClass())) {
                 return mapper.map(objSource, destClass);
-            }
-            else {
+            } else {
                 return objSource;
             }
-        }
-        else {
+        } else {
             // dest must be optional
-            return source == null? Optional.empty() : Optional.of(source);
+            return source == null ? Optional.empty() : Optional.of(source);
         }
     }
 

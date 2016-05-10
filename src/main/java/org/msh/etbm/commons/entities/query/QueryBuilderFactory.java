@@ -35,19 +35,14 @@ public class QueryBuilderFactory {
      * @return instance of the {@link QueryBuilder}
      */
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass) {
-        QueryBuilderImpl<E> builder = new QueryBuilderImpl(entityClass, null);
-        builder.setEntityManager(entityManager);
-        builder.setTransactionManager(transactionManager);
-        builder.setUserRequestService(userRequestService);
-        builder.setMapper(mapper);
-
-        return builder;
+        return createQueryBuilder(entityClass, null);
     }
 
 
     /**
      * Create a query builder
      * @param entityClass the entity class to be queried
+     * @param path the alias used as the table path in the query
      * @return instance of the {@link QueryBuilder}
      */
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass, String path) {
@@ -55,6 +50,9 @@ public class QueryBuilderFactory {
         builder.setEntityManager(entityManager);
         builder.setTransactionManager(transactionManager);
         builder.setUserRequestService(userRequestService);
+        if (userRequestService.isAuthenticated()) {
+            builder.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
+        }
         builder.setMapper(mapper);
 
         return builder;

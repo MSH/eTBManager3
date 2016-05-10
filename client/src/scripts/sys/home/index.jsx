@@ -1,27 +1,44 @@
 
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Profile, Card, Fluidbar, WaitIcon } from '../../components/index';
+import { Profile, Fluidbar, WaitIcon } from '../../components/index';
 import { app } from '../../core/app';
+import SidebarContent from '../sidebar-content';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
+
+import Dashboard from './index-dashboard';
+import MyActivities from './index-my-activities';
+
+
+const menu = [
+	{
+		title: 'Dashboard',
+		icon: 'dashboard',
+		default: true,
+		path: '/dashboard',
+		view: Dashboard
+	},
+	{
+		title: 'My activities',
+		icon: 'history',
+		path: '/myactivities',
+		view: MyActivities
+	}
+];
 
 
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
+export default class Index extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.toggleCard = this.toggleCard.bind(this);
-		this.editClick = this.editClick.bind(this);
-		this.itemClick = this.itemClick.bind(this);
-//		this.createCell = this.createCell.bind(this);
-
 		this._appEvent = this._appEvent.bind(this);
 
 		this.state = { session: app.getState().session };
 	}
+
 
 	componentDidMount() {
 		// set handler to receive information about actions
@@ -34,30 +51,14 @@ export default class Home extends React.Component {
 
 	_appEvent(action, data) {
 		if (action === WORKSPACE_CHANGE) {
-			return this.setState({ session: data.session });
+			this.setState({ session: data.session });
+			return;
 		}
 
 		if (action === WORKSPACE_CHANGING) {
-			return this.setState({ session: null });
+			this.setState({ session: null });
+			return;
 		}
-	}
-
-	toggleCard() {
-		var show = this.state.show;
-		this.setState({ show: !show });
-	}
-
-	editClick(evt) {
-		evt.stopPropagation();
-	}
-
-	cellSize(item) {
-		return item === 3 ? { md: 12 } : { md: 6 };
-	}
-
-	itemClick(evt) {
-		console.log(evt);
-		this.refs.pop1.preventHide();
 	}
 
 	render() {
@@ -81,13 +82,11 @@ export default class Home extends React.Component {
 		});
 
 		const subtitle = (
-			<div><a href="#">{session.unitName}</a>
+			<div><a href="#/sys/home/unit">{session.unitName}</a>
 			<div>{aus}</div>
 			<a href="#">{session.workspaceName}</a>
 			</div>
 		);
-
-		const unitName = 'Centro de Referência Professor Hélio Fraga';
 
 		// create temporary cells
 		var lst2 = [];
@@ -112,41 +111,12 @@ export default class Home extends React.Component {
 						</Row>
 					</Grid>
 				</Fluidbar>
-
-				<Grid className="mtop-2x">
-					<Row>
-						<Col md={8} mdOffset={2}>
-						<Card>
-							<Profile title={unitName}
-								subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="large"
-								imgClass="prof-tbunit"
-								/>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="medium"/>
-							<Profile title={unitName} subtitle="Rio de Janeiro, RJ" fa="hospital-o" size="small"/>
-						</Card>
-						</Col>
-					</Row>
-					<Row>
-						<Col md={8} mdOffset={2}>
-							<Card>
-								<Profile title="Male" subtitle="A male example" type="male"/>
-							</Card>
-							<Card>
-								<Profile title="Female" subtitle="A female example" type="female"/>
-							</Card>
-							<Card>
-								<Profile title="TB unit" subtitle="The location of the hospital" type="tbunit"/>
-							</Card>
-							<Card>
-								<Profile title="Laboratory" subtitle="The location of the laboratory" type="lab" />
-							</Card>
-							<Card>
-								<Profile title="Workspace" subtitle="The location of the workspace" type="ws"/>
-							</Card>
-						</Col>
-					</Row>
-				</Grid>
+				<SidebarContent menu={menu} path="/sys/home/index" route={this.props.route} />
 			</div>
 			);
 	}
 }
+
+Index.propTypes = {
+	route: React.PropTypes.object
+};

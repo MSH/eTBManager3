@@ -14,7 +14,7 @@ export function validateForm(comp, model) {
     const data = {};
 
     // create field data
-    Object.keys(model).forEach(field => data[field] = comp.refs[field].getValue());
+    Object.keys(model).forEach(field => { data[field] = comp.refs[field].getValue(); });
 
     // validate all fields
     Object.keys(model).forEach(field => {
@@ -55,13 +55,7 @@ function validateValue(value, model, data) {
     }
 
     if (typeof value === 'string') {
-        if (model.min && value.length < model.min) {
-            return msgs.minValue(model.min);
-        }
-
-        if (model.max && value.length > model.max) {
-            return msgs.maxValue(model.max);
-        }
+        return validateString(value, model);
     }
 
     // check for valid e-mail address
@@ -70,7 +64,10 @@ function validateValue(value, model, data) {
     }
 
     if (model.password && !passwordPattern.test(value)) {
-        return msgs.NotValidPassword;
+        const res = msgs.NotValidPassword;
+        if (res) {
+            return res;
+        }
     }
 
     if (model.validate) {
@@ -79,4 +76,17 @@ function validateValue(value, model, data) {
             return res;
         }
     }
+    return null;
+}
+
+function validateString(value, model) {
+    if (model.min && value.length < model.min) {
+        return msgs.minValue(model.min);
+    }
+
+    if (model.max && value.length > model.max) {
+        return msgs.maxValue(model.max);
+    }
+
+    return null;
 }

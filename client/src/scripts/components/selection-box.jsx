@@ -4,6 +4,10 @@ import { MenuItem } from 'react-bootstrap';
 import Popup from './popup';
 import { objEqual } from '../commons/utils';
 
+/**
+ * A component that allows use to select a single or multiple elements from a drop down
+ * selection box.
+ */
 export default class SelectionBox extends React.Component {
 
 	constructor(props) {
@@ -13,16 +17,11 @@ export default class SelectionBox extends React.Component {
 		this.btnCloseClick = this.btnCloseClick.bind(this);
 		this.notifyChange = this.notifyChange.bind(this);
 		this.noSelClick = this.noSelClick.bind(this);
+		this.btnKeyPress = this.btnKeyPress.bind(this);
 
 		// initialize an empty list of values
 		this.state = { };
 	}
-
-	componentWillMount() {
-		const value = this.props.value ? this.props.value : null;
-		this.setState({ value: value });
-	}
-
 
 	shouldComponentUpdate(nextProps, nextState) {
 		return !objEqual(nextProps, this.props) || !objEqual(nextState, this.state);
@@ -36,7 +35,6 @@ export default class SelectionBox extends React.Component {
 	notifyChange(value, evt) {
 		this._value = value;
 
-		this.setState({ value: value });
 		if (this.props.onChange) {
 			this.props.onChange(evt, value);
 		}
@@ -93,7 +91,7 @@ export default class SelectionBox extends React.Component {
 			return null;
 		}
 
-		const values = this.state.value;
+		const values = this.props.value;
 		if (this.props.mode === 'single' || !values) {
 			return options;
 		}
@@ -139,7 +137,7 @@ export default class SelectionBox extends React.Component {
 	btnCloseClick(item) {
 		const self = this;
 		return evt => {
-			const values = self.state.value;
+			const values = self.props.value;
 			const index = values.indexOf(item);
 			values.splice(index, 1);
 			this.notifyChange(values, evt);
@@ -167,10 +165,11 @@ export default class SelectionBox extends React.Component {
 		const self = this;
 		return evt => {
 			if (self.props.mode === 'single') {
-				return self.notifyChange(item, evt);
+				self.notifyChange(item, evt);
+				return;
 			}
 
-			const values = this.state.value ? this.state.value : [];
+			const values = this.props.value ? this.props.value : [];
 			values.push(item);
 			self.notifyChange(values.slice(0), evt);
 			self.refs.popup.preventHide();
@@ -191,7 +190,7 @@ export default class SelectionBox extends React.Component {
 	 * @return {React.Component} The component to be displayed inside the control
 	 */
 	contentRender() {
-		const value = this.state.value;
+		const value = this.props.value;
 		if (value === null || value === undefined) {
 			return null;
 		}
@@ -202,7 +201,7 @@ export default class SelectionBox extends React.Component {
 			return this.getOptionDisplay(value);
 		}
 
-		const lst = this.state.value;
+		const lst = this.props.value;
 		// create the list of selected values
 		const items = lst.map(item =>
 			<span key={lst.indexOf(item)} className="sel-box-item">
@@ -214,6 +213,14 @@ export default class SelectionBox extends React.Component {
 		);
 
 		return <div className="sel-box-items">{items}</div>;
+	}
+
+	btnKeyPress(evt) {
+		// check if it is arrow down
+		if (evt.keyCode === 40) {
+			evt.preventDefault();
+			this.controlClick(evt);
+		}
 	}
 
 	/**
@@ -233,7 +240,8 @@ export default class SelectionBox extends React.Component {
 		return (
 			<div className={clazz}>
 				{this.labelRender()}
-				<button className={controlClass} onClick={this.controlClick}>
+				<button className={controlClass} onClick={this.controlClick}
+					onKeyDown={this.btnKeyPress}>
 					<div className="btn-dd">
 						<i className="fa fa-chevron-down" />
 					</div>

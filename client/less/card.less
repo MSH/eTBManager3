@@ -1,8 +1,9 @@
+@card-border-color: #e8e8e8;
+
 
 .card {
-	background-color:white;
+	background-color: #fff;
 	margin-top:0px;
-	border:1px solid #e8e8e8;
 	border-radius: 2px;
 
 	/** Style of the title */
@@ -17,8 +18,11 @@
 		}
 	}
 
+	.card-btn-close {
+		font-size: 1.4em;
+	}
+
 	.card-content {
-		border-bottom:1px solid @btn-default-border;
 
 		hr {
 			margin-top:10px;
@@ -35,16 +39,21 @@
 	}
 
 	div[class*="col-"] {
-		padding-left:8px;
-		padding-right:8px;
+//		padding-left:8px;
+//		padding-right:8px;
+
+		.card {
+			border: 1px solid @card-border-color;
+		}
 	}
 }
+
 
 .card-default {
 	margin-bottom:20px;
 
 	.card-content {
-		padding:20px;
+		padding:10px 20px;
 	}
 }
 
@@ -53,6 +62,14 @@
 
 	.card-content {
 		padding:8px;
+	}
+}
+
+.card-combine {
+	margin-bottom:0;
+
+	.card-content {
+		padding: 20px;
 	}
 }
 
@@ -75,3 +92,31 @@
 		padding-right:6px;
 	}
 }
+
+.card-indicator {
+	color: #909090;
+	margin-bottom:1px;
+
+	.card-header {
+		padding-bottom: 1px;
+		h4 {
+			text-transform: uppercase;
+			font-size:16px;
+		}
+	}
+
+	.card-content {
+		padding: 0 15px 20px 15px;
+
+		.ind-value {
+			font-size: 36px;
+			font-weight: bold;
+		}
+
+		> div.row {
+			padding-left:10px;
+			padding-right:10px;
+		}
+	}
+}
+

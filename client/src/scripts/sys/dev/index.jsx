@@ -1,127 +1,82 @@
 
 import React from 'react';
-import { Grid, Row, Col, MenuItem, Button } from 'react-bootstrap';
-import { Profile, Card, Fluidbar } from '../../components/index';
-import Popup from '../../components/popup';
+import { Profile, Fluidbar } from '../../components/index';
+import SidebarContent from '../sidebar-content';
 
-import SelectionBox from '../../components/selection-box';
+/** Pages of the public module */
+import Home from './home';
+import DatePickerExamples from './date-picker-examples';
+import ReacttableExample from './reacttable-example';
+import FormExample from './form-example';
+import CrudExample from './crud-example';
+import TableFormExample from './table-form-example';
 
-const options = [
-	{ value: 1, label: 'banana', color: '#395BFF' },
-	{ value: 2, label: 'apple', color: '#FF3A54' },
-	{ value: 3, label: 'strawberry', color: '#3B873B' },
-	{ value: 4, label: 'orange', color: '#348787' },
-	{ value: 5, label: 'Rio de Janeiro', color: '#EB0030' },
-	{ value: 6, label: 'São Paulo', color: '#ABCCA4' },
-	{ value: 7, label: 'Arlington', color: '#06987B' }
-];
 
-const options2 = [
-	'Rio de Janeiro',
-	'Arlington',
-	'São Paulo',
-	'Boa Vista',
-	'Caxambu',
-	'Búzios',
-	'New Orleans'
+const sidebar = [
+	{
+		title: 'Developers playground',
+		icon: 'sitemap',
+        path: '/index',
+        view: Home
+	},
+	{
+		title: 'Calendar',
+		view: DatePickerExamples,
+		path: '/calendar',
+		icon: 'calendar'
+	},
+	{
+		title: 'React Table',
+		view: ReacttableExample,
+		path: '/reacttable',
+		icon: 'table'
+	},
+	{
+		title: 'Table Form',
+		view: TableFormExample,
+		path: '/tableform',
+		icon: 'table'
+	},
+	{
+		title: 'Forms',
+		view: FormExample,
+		path: '/form-example',
+		icon: 'reddit-alien'
+	},
+	{
+		title: 'CRUD',
+		view: CrudExample,
+		path: '/crud-example',
+		icon: 'ship'
+	}
 ];
 
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
-
-	constructor(props) {
-		super(props);
-
-		this.popupClick = this.popupClick.bind(this);
-		this.onChange = this.onChange.bind(this);
-		this.state = { selBox1: [options[1], options[2], options[5]] };
-	}
-
-	popupClick() {
-		this.refs.pop1.show();
-	}
-
-	onChange(ref) {
-		const self = this;
-		return (evt, val) => {
-			const obj = {};
-			obj[ref] = val;
-			self.setState(obj);
-		};
-	}
-
-
-	itemDisplay(item) {
-		return <span style={{ color: item.color }}>{item.label}</span>;
-	}
+export default class Index extends React.Component {
 
 	render() {
 		return (
 			<div>
 				<Fluidbar>
 					<div className="margin-2x">
-						<Profile size="large" title="Developers playground"
+						<Profile size="large"
+							title="Developers playground"
 							subtitle="Your place to test new stuff"
 							imgClass="prof-male"
 							fa="laptop" />
 					</div>
 				</Fluidbar>
-				<Grid className="mtop-2x">
-					<Row>
-						<Col md={8} mdOffset={2}>
-						<Card>
-							<div>
-							<Button onClick={this.popupClick}>{'Open'}</Button>
-							<Popup ref="pop1">
-								<MenuItem>{'Test 1'}</MenuItem>
-								<MenuItem>{'Test 2'}</MenuItem>
-							</Popup>
-							</div>
-						</Card>
-						</Col>
-					</Row>
-					<Row>
-						<Col md={8} mdOffset={2}>
-						<Card>
-							<Row>
-								<Col sm={6}>
-									<SelectionBox ref="selBox1"
-										value={this.state.selBox1}
-										mode="multiple"
-										optionDisplay={this.itemDisplay}
-										label="Items:"
-										onChange={this.onChange('selBox1')}
-										options={options}/>
-								</Col>
-								<Col sm={6}>
-									<SelectionBox ref="selBox2"
-										mode="single"
-										label="Items:"
-										help="This is a simple help message"
-										onChange={this.onChange('selBox2')}
-										options={options2}
-										noSelectionLabel="-" />
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={6}>
-									<ul>
-										{this.state.selBox1 &&
-											this.state.selBox1.map(item => <li key={item.value}>{item.label}</li>)
-										}
-									</ul>
-								</Col>
-								<Col sm={6}>
-									{this.state.selBox2 && this.state.selBox2}
-								</Col>
-							</Row>
-						</Card>
-						</Col>
-					</Row>
-				</Grid>
+				<SidebarContent menu={sidebar} path="/sys/dev" route={this.props.route} />
 			</div>
 			);
 	}
 }
+
+Index.propTypes = {
+	// the route object given from the route lib
+	route: React.PropTypes.object,
+	// the main path of the pages in the admin menu
+	path: React.PropTypes.string
+};

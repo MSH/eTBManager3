@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import PermissionTree from './permission-tree';
 
@@ -47,7 +47,7 @@ export default class UserProfiles extends React.Component {
 		return (
 			<CrudView crud={crud}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);

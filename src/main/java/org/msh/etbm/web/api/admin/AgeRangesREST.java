@@ -3,6 +3,7 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.ageranges.AgeRangeData;
+import org.msh.etbm.services.admin.ageranges.AgeRangeFormData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeRequest;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
 import org.msh.etbm.services.permissions.Permissions;
@@ -56,6 +57,11 @@ public class AgeRangesREST {
     @Authenticated()
     public QueryResult query() {
         return service.findMany(null);
+    }
+
+    @RequestMapping(value = "/agerange/form/{id}", method = RequestMethod.GET)
+    public AgeRangeFormData getForm(@PathVariable UUID id) {
+        return service.findOne(id, AgeRangeFormData.class);
     }
 
 }

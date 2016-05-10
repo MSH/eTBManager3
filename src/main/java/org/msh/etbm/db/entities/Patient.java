@@ -17,95 +17,49 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="patient")
+@Table(name = "patient")
 public class Patient extends WorkspaceEntity {
 
-	@Column(length=100)
+	@Column(length = 100)
 	@NotNull
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String name;
 	
-	@Column(length=100)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 100)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String middleName;
 	
-	@Column(length=100)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 100)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String lastName;
 	
-	@Column(length=50)
+	@Column(length = 50)
 	private String securityNumber;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String motherName;
 	
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Date birthDate;
 
 	private Integer recordNumber;
 
 	@NotNull
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Gender gender;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@OneToMany(mappedBy="patient")
+	@OneToMany(mappedBy = "patient")
+    @PropertyLog(ignore = true)
 	private List<TbCase> cases = new ArrayList<TbCase>();
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String fatherName;
 	
-
-
-/*
-	public String getFullName() {
-		Workspace ws;
-		if (getWorkspace() != null)
-			 ws = getWorkspace();
-		else ws = (Workspace)Component.getInstance("defaultWorkspace", true);
-		return compoundName(ws);
-	}
-*/
-
-/*
-	public String compoundName(Workspace ws) {
-		NameComposition comp = ws.getPatientNameComposition();
-
-		String result;
-		switch (comp) {
-		case FIRST_MIDDLE_LASTNAME:
-			   result = (name != null? name: "") + (middleName != null? " " + middleName: "") + (lastName != null? " " + lastName: "");
-			   break;
-
-		case FULLNAME:
-			result = name;
-			break;
-		
-		case FIRSTSURNAME:
-			result = (name != null? name: "") + (lastName != null? ", " + lastName: "");
-			break;
-			
-		case LAST_FIRST_MIDDLENAME:
-			result = (lastName != null? lastName + ", ": "") + (name != null? name: "") + ((middleName != null) && (!middleName.isEmpty())? ", " + middleName: "");
-			break;
-		case LAST_FIRST_MIDDLENAME_WITHOUT_COMMAS:
-			result = (lastName != null? lastName + " ": "") + (name != null? name: "") + ((middleName != null) && (!middleName.isEmpty())? " " + middleName: "");
-			break;
-			
-		case SURNAME_FIRSTNAME:
-			result = (middleName != null? middleName + ", ":"") + (name != null? name: "");
-			break;
-		default:
-		   result = (name != null? name: "") + (middleName != null? " " + middleName: "") + (lastName != null? " " + lastName: "");
-		}
-		
-		return result.trim();
-	}
-*/
 
 	public Gender getGender() {
 		return gender;
@@ -164,11 +118,11 @@ public class Patient extends WorkspaceEntity {
     }
 
     /**
-	 * @return the middleName
-	 */
-	public String getMiddleName() {
-		return middleName;
-	}
+     * @return the middleName
+     */
+    public String getMiddleName() {
+        return middleName;
+    }
 
 	/**
 	 * @param middleName the middleName to set
@@ -216,7 +170,7 @@ public class Patient extends WorkspaceEntity {
     @Override
     public String getDisplayString() {
         return name +
-                (middleName != null && !middleName.isEmpty()? " " + middleName + " ": "") +
-                (lastName != null && !lastName.isEmpty()? " " + lastName + " ": "");
+                (middleName != null && !middleName.isEmpty() ? " " + middleName + " " : "") +
+                (lastName != null && !lastName.isEmpty() ? " " + lastName + " " : "");
     }
 }

@@ -12,13 +12,13 @@ import javax.persistence.Table;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(name="examculture")
+@Table(name = "examculture")
 public class ExamCulture extends LaboratoryExam {
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private CultureResult result;
 
-	@PropertyLog(operations={Operation.NEW})
+	@PropertyLog(operations = {Operation.NEW})
 	private Integer numberOfColonies;
 
 	private SampleType sampleType;

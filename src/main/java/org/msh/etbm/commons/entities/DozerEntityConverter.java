@@ -23,20 +23,15 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
     private String param;
 
     @Override
-    public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
+    public Object convert(Object dest, Object sourceVal, Class<?> destClass, Class<?> sourceClass) {
+        Object source = handleOptional(sourceVal);
+
         if (source == null) {
             return null;
         }
 
         if (source instanceof Collection) {
-            return handleCollection(dest, (Collection)source, destClass, sourceClass);
-        }
-
-        // check if source is an optional value
-        if (source instanceof Optional) {
-            // unwrap value from optional
-            Optional sourceOpt = (Optional)source;
-            source = sourceOpt.isPresent() ? sourceOpt.get() : null;
+            return handleCollection(dest, (Collection)source, destClass);
         }
 
         // is an entity ID ?
@@ -52,6 +47,24 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         throw new EntityConverterException(dest, source, "Invalid source type used in entity conversion: " + source.getClass());
+    }
+
+    /**
+     * Check if given value is wrapped in an Optional object. If so, return its value inside the optional object
+     * @param value The object to check if is wrapped inside an Optional type
+     * @return the value, or if it is an Optional, the value inside it
+     */
+    protected Object handleOptional(Object value) {
+        if (value == null) {
+            return null;
+        }
+
+        // check if source is an optional value
+        if (value instanceof Optional) {
+            return ((Optional) value).isPresent() ? ((Optional) value).get() : null;
+        }
+
+        return value;
     }
 
     /**
@@ -86,11 +99,12 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
      * @param dest the destination object
      * @param source the source object
      * @param destClass the destination class
-     * @param sourceClass the source class
      * @return Collection with the mapped objects
      */
-    private Collection handleCollection(Object dest, Collection source, Class<?> destClass, Class<?> sourceClass) {
-        if (!Collection.class.isAssignableFrom(destClass)) {
+    private Object handleCollection(Object dest, Collection source, Class<?> destClass) {
+        boolean optional = destClass == Optional.class;
+
+        if (!optional && !Collection.class.isAssignableFrom(destClass)) {
             throw new EntityConverterException(source, dest, "When a source is a collection, destination object must be a collection");
         }
 
@@ -103,20 +117,32 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         Class entityClass = ObjectUtils.forClass(param);
-        Class destType = null; // ObjectUtils.getGenericType(destClass, 0);
-        Class sourceType = null; // ObjectUtils.getGenericType(sourceClass, 0);
 
+        convertCollection(source, list, entityClass);
+
+        return optional ? Optional.of(list) : list;
+    }
+
+    /**
+     * Convert the items from one collection to another. <code>entityClass</code> is the class that objects will
+     * be converted from or to, depending on the items in source. If source contains UUID instances, so entityClass
+     * will be used as the destination class, otherwise, entityClass will be used to convert from the items
+     * in source to UUID. The conversion is done using the method {@link DozerEntityConverter#convert(Object, Object, Class, Class)}
+     *
+     * @param source the source collection where items to be converted are
+     * @param dest the destination collection, where converted items will be included
+     * @param entityClass the entity class to convert or be converted from source
+     */
+    private void convertCollection(Collection source, Collection dest, Class entityClass) {
         for (Object obj: source) {
             Object result = obj instanceof UUID ?
                     convert(null, obj, entityClass, UUID.class) :
                     convert(null, obj, UUID.class, entityClass);
 
             if (result != null) {
-                list.add(result);
+                dest.add(result);
             }
         }
-
-        return list;
     }
 
     @Override

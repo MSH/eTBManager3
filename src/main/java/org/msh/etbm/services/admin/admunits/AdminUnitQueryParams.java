@@ -1,5 +1,6 @@
 package org.msh.etbm.services.admin.admunits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 import java.util.UUID;
@@ -45,6 +46,13 @@ public class AdminUnitQueryParams extends EntityQueryParams {
      * If true, the country structure list will be included in the result list
      */
     private boolean fetchCountryStructure;
+
+    /**
+     * The workspace ID to be used in the query. This parameter is just available inside the system,
+     * and it will be ignored when parsing from JSON
+     */
+    @JsonIgnore
+    private UUID workspaceId;
 
 
 
@@ -94,5 +102,13 @@ public class AdminUnitQueryParams extends EntityQueryParams {
 
     public void setFetchCountryStructure(boolean fetchCountryStructure) {
         this.fetchCountryStructure = fetchCountryStructure;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

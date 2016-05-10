@@ -14,10 +14,18 @@ import java.util.UUID;
 public class UnitFormResponse {
 
     /**
+     * The workspace in use to fill the results (or null if it is the current workspace)
+     */
+    private UUID workspaceId;
+
+    /**
      * List of administrative units to fill a select box
      */
     private List<AdminUnitItemData> adminUnits;
 
+    /**
+     * The selected administrative unit
+     */
     private UUID adminUnitId;
 
     /**
@@ -56,5 +64,13 @@ public class UnitFormResponse {
 
     public void setAdminUnitId(UUID adminUnitId) {
         this.adminUnitId = adminUnitId;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

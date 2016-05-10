@@ -13,18 +13,18 @@ import javax.persistence.ManyToOne;
  *
  */
 //@Entity
-//@Table(name="medicinecomponent")
+//@Table(name = "medicinecomponent")
 public class MedicineComponent extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="SUBSTANCE_ID")
+	@JoinColumn(name = "SUBSTANCE_ID")
 	private Substance substance;
 
 	private Integer strength;
 	
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name = "MEDICINE_ID")
 	private Medicine medicine;
 
 
@@ -60,7 +60,7 @@ public class MedicineComponent extends Synchronizable {
 	 */
 	@Override
 	public String toString() {
-		return ((substance != null) && (medicine != null)? substance.getShortName() + " " + strength + medicine.toString(): super.toString());
+		return ((substance != null) && (medicine != null) ? substance.getShortName() + " " + strength + medicine.toString() : super.toString());
 	}
 
 

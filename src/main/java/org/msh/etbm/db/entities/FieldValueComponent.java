@@ -6,17 +6,16 @@ import javax.persistence.*;
 @Embeddable
 public class FieldValueComponent {
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="FIELDVALUE_ID")
-	private FieldValue value;
+	@Column(length = 50)
+	private String value;
 
-	@Column(name="Complement", length=100)
+	@Column(name = "Complement", length = 100)
 	private String complement;
 
 
 	@Override
 	public String toString() {
-		return (value != null? value.toString(): null);
+		return (value != null ? value.toString() : null);
 	}
 	
 	/**
@@ -38,16 +37,17 @@ public class FieldValueComponent {
 	/**
 	 * @return the value
 	 */
-	public FieldValue getValue() {
+	public String getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(FieldValue value) {
-		if (value != null)
-			complement = null;
+	public void setValue(String value) {
+		if (value != null) {
+            complement = null;
+        }
 		this.value = value;
 	}
 

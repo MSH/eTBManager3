@@ -92,7 +92,6 @@ public class UserSessionService {
         UserWorkspace uw = getUserWorkspace(login.getUser(), login.getWorkspace());
 
         if (uw == null) {
-//            System.out.println("User workspace not found. user=" + login.getUser().toString() + ", workspace=" + login.getWorkspace().toString());
             return null;
         }
 
@@ -199,9 +198,9 @@ public class UserSessionService {
      * @return instance of the {@link UserWorkspace} object
      */
     private UserWorkspace getUserWorkspace(User user, Workspace workspace) {
-        List<UserWorkspace> lst = entityManager.createQuery("from UserWorkspace uw " +
-                "join fetch uw.user join fetch uw.workspace where uw.user.id = :userid " +
-                "and uw.workspace.id = :wsid")
+        List<UserWorkspace> lst = entityManager.createQuery("from UserWorkspace uw "
+                + "join fetch uw.user join fetch uw.workspace where uw.user.id = :userid "
+                + "and uw.workspace.id = :wsid")
                 .setParameter("userid", user.getId())
                 .setParameter("wsid", workspace.getId())
                 .getResultList();

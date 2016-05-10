@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 
 const crud = new CRUD('source');
@@ -35,7 +35,8 @@ const editorDef = {
 			property: 'active',
 			type: 'yesNo',
 			label: __('EntityState.ACTIVE'),
-			size: { sm: 5 }
+			size: { sm: 5 },
+			defaultValue: true
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')
@@ -64,7 +65,7 @@ export default class Sources extends React.Component {
 		return (
 			<CrudView crud={crud}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);

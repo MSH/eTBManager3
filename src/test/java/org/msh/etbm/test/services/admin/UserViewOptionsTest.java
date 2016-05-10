@@ -10,7 +10,7 @@ import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.admin.usersws.UserViewData;
+import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.services.admin.usersws.UserViewOptions;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         assert(item.getId() instanceof UserViewData);
 
         UserViewData uv = (UserViewData)item.getId();
-        assertEquals(uv.getView(), UserView.COUNTRY);
+        assertEquals(uv.getView().get(), UserView.COUNTRY);
         assertNull(uv.getAdminUnitId());
     }
 
@@ -62,7 +62,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         // get one unit for testing
         UnitQueryParams p = new UnitQueryParams();
         p.setPage(0);
-        p.setRecordsPerPage(1);
+        p.setPageSize(1);
         p.setProfile(UnitQueryParams.PROFILE_DEFAULT);
 
         QueryResult<UnitData> units = unitService.findMany(p);
@@ -89,26 +89,26 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         // check country option
         Item<UserViewData> item = items.get(0);
         UserViewData id = item.getId();
-        assertEquals(id.getView(), UserView.COUNTRY);
+        assertEquals(id.getView().get(), UserView.COUNTRY);
         assertNull(id.getAdminUnitId());
 
         // check select unit option
         item = items.get(items.size() - 1);
         id = item.getId();
-        assertEquals(id.getView(), UserView.SELECTEDUNITS);
+        assertEquals(id.getView().get(), UserView.SELECTEDUNITS);
         assertNull(id.getAdminUnitId());
 
         // check unit
         item = items.get(items.size() - 2);
         id = item.getId();
-        assertEquals(id.getView(), UserView.TBUNIT);
+        assertEquals(id.getView().get(), UserView.TBUNIT);
         assertNull(id.getAdminUnitId());
 
 
         // check select unit option
         item = items.get(items.size() - 3);
         id = item.getId();
-        assertEquals(id.getView(), UserView.ADMINUNIT);
+        assertEquals(id.getView().get(), UserView.ADMINUNIT);
         assertNotNull(id.getAdminUnitId());
     }
 

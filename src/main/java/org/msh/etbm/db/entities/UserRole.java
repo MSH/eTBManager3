@@ -20,17 +20,17 @@ import javax.validation.constraints.NotNull;
  */
 
 //@Entity
-//@Table(name="userrole")
+//@Table(name = "userrole")
 public class UserRole {
 
 	@Id
     private Integer id;
 
-    @Column(length=80)
+    @Column(length = 80)
     @NotNull
     private String name;
 
-    @Column(length=50)
+    @Column(length = 50)
     private String code;
     
     /**
@@ -60,9 +60,10 @@ public class UserRole {
      */
     public boolean isChildOf(UserRole role) {
     	int parentLevel = role.getLevel();
-    	if ((parentLevel >= getLevel()) || (parentLevel == 0))
-    		return false;
-    	
+    	if ((parentLevel >= getLevel()) || (parentLevel == 0)) {
+            return false;
+        }
+
     	String parentCode = role.getCode().substring(0, parentLevel * 2);
     	return code.startsWith(parentCode);
     }
@@ -73,36 +74,20 @@ public class UserRole {
      * @return
      */
     public int getLevel() {
-		if ((code == null) || (code.isEmpty()))
-			 return 0;
-		
-		if (code.endsWith("0000"))
-			 return 1;
-		else
-		if (code.endsWith("00"))
-			 return 2;
-		else
-		if (code.length() == 6)
-			return 3;
-		else return 0;
+		if ((code == null) || (code.isEmpty())) {
+            return 0;
+        }
+
+		if (code.endsWith("0000")) {
+            return 1;
+        }
+
+		if (code.endsWith("00")) {
+            return 2;
+        }
+
+        return code.length() == 6 ? 3 : 0;
 	}
-
-
-    /**
-     * Return the text to be displayed to the user
-     * @return
-     */
-/*
-    public String getDisplayName() {
-    	String msg;
-    	
-    	if ((messageKey != null) && (!messageKey.isEmpty()))
-    		 msg = messageKey;
-    	else msg = "userrole." + name;
-
-    	return Messages.instance().get(msg);
-    }
-*/
 
 
     public Integer getId() {

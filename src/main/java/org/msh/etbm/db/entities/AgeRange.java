@@ -13,7 +13,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "agerange")
 public class AgeRange extends WorkspaceEntity {
-	private static final long serialVersionUID = -9151429225415780966L;
 
 	private int iniAge;
 	private int endAge;
@@ -24,10 +23,13 @@ public class AgeRange extends WorkspaceEntity {
 	 */
 	@Override
 	public String toString() {
-		if (iniAge == 0)
-			return "<= " + Integer.toString(endAge);
-		if ((endAge == 0) || (endAge > 150))
-			return ">= " + Integer.toString(iniAge);
+		if (iniAge == 0) {
+            return "<= " + Integer.toString(endAge);
+        }
+
+		if ((endAge == 0) || (endAge > 150)) {
+            return ">= " + Integer.toString(iniAge);
+        }
 
 		return Integer.toString(iniAge) + " - " + Integer.toString(endAge);
 	}

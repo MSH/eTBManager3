@@ -35,8 +35,7 @@ public class WeeklyFrequency {
 
 		if (val) {
 			value |= n;			
-		}
-		else {
+		} else {
 			if ((value & n) != 0) {
 				value ^= n;
 			}
@@ -65,7 +64,7 @@ public class WeeklyFrequency {
 			Calendar c = Calendar.getInstance();
 			c.setTime(p.getIniDate());
 			int wd = c.get(Calendar.DAY_OF_WEEK);
-			return (getDay(wd)? 1: 0);
+			return getDay(wd) ? 1 : 0;
 		}
 		
 		// get number of days between dates (+ 1 <= include the last day)
@@ -74,15 +73,17 @@ public class WeeklyFrequency {
 		int res;
 		// number of days is bigger than a week
 		if (nd > 7) {
-			// calculate number of weeks
-			int n = nd / 7;
-			// calculate the number of days for the weeks
-			res = n * getDaysInAWeek();
-			
-			if (nd % 7 == 0) 
-				return res;
-		}
-		else res = 0;
+            // calculate number of weeks
+            int n = nd / 7;
+            // calculate the number of days for the weeks
+            res = n * getDaysInAWeek();
+
+            if (nd % 7 == 0) {
+                return res;
+            }
+        } else {
+            res = 0;
+        }
 		
 		Calendar c = Calendar.getInstance();
 		c.setTime(p.getIniDate());
@@ -93,17 +94,21 @@ public class WeeklyFrequency {
 		
 		// include days of the last week
 		while (wd1 != wd2) {
-			if (getDay(wd1))
-				res++;
+			if (getDay(wd1)) {
+                res++;
+            }
+
 			wd1++;
-			if (wd1 > 7)
-				wd1 = 1;
+			if (wd1 > 7) {
+                wd1 = 1;
+            }
 		}
 		
 		// adjust to include the last day in the check
-		if (getDay(wd1))
-			res++;
-		
+		if (getDay(wd1)) {
+            res++;
+        }
+
 		return res;
 	}
 	
@@ -113,7 +118,7 @@ public class WeeklyFrequency {
 	 * @return true - the week day is set to have dispensing
 	 */
 	public boolean getDay(int day) {
-		return ((value >> (day-1)) & 1) != 0;
+		return ((value >> (day - 1)) & 1) != 0;
 	}
 
 	/**
@@ -123,9 +128,11 @@ public class WeeklyFrequency {
 	public String getDisplayName() {
 		int num = getDaysInAWeek();
 		
-		if (num == 0)
-			 return "";
-		else return Integer.toString(num) + "/7";
+		if (num == 0) {
+            return "";
+        } else {
+            return Integer.toString(num) + "/7";
+        }
 	}
 	
 	/**
@@ -133,14 +140,16 @@ public class WeeklyFrequency {
 	 * @return
 	 */
 	public int getDaysInAWeek() {
-		if (value == 0)
-			return 0;
-		
+		if (value == 0) {
+            return 0;
+        }
+
 		int mask = 1;
 		int num = 0;
 		for (int i = 1; i <= 7; i++) {
-			if ((value & mask) != 0)
-				num++;
+			if ((value & mask) != 0) {
+                num++;
+            }
 			mask *= 2;
 		}
 		return num;
@@ -158,8 +167,9 @@ public class WeeklyFrequency {
 	public void setWeekMask(Boolean[] vals) {
 		int i = 1;
 		for (Boolean b: vals) {
-			if (b != null)
-				setDay(i, b);
+			if (b != null) {
+                setDay(i, b);
+            }
 			i++;
 		}
 	}
@@ -190,15 +200,24 @@ public class WeeklyFrequency {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) {
+            return true;
+        }
+
+		if (obj == null) {
+            return false;
+        }
+
+		if (getClass() != obj.getClass()) {
+            return false;
+        }
+
 		WeeklyFrequency other = (WeeklyFrequency) obj;
-		if (value != other.value)
-			return false;
-		return true;
+
+		if (value != other.value) {
+            return false;
+        }
+
+        return true;
 	}
 }

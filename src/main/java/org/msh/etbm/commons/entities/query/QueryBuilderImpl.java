@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
-    private static final Pattern PARAM_PATTERN =Pattern.compile("\\:([_a-zA-Z]+)");
+    private static final Pattern PARAM_PATTERN = Pattern.compile("\\:([_a-zA-Z]+)");
 
     /**
      * Default number of entities per page
@@ -101,6 +101,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      * If true, just count operation will be performed
      */
     private boolean countOnly;
+
+    /**
+     * The ID of the workspace to use in the query. Entity must be of type {@link org.msh.etbm.db.Synchronizable}
+     */
+    private UUID workspaceId;
 
     private EntityManager entityManager;
 
@@ -186,8 +191,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
                     field += " desc";
                 }
             }
-        }
-        else {
+        } else {
             field = orderByMap.get(orderByKey);
         }
 
@@ -198,25 +202,37 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         hql.append("order by " + field);
     }
 
-    protected void addHQLRestrictions(StringBuilder hql) {
-        boolean bWhere = false;
-        if (WorkspaceEntity.class.isAssignableFrom(entityClass) && userRequestService.isAuthenticated()) {
-            hql.append("where ");
-            if (entityAlias != null) {
-                hql.append(entityAlias);
-                hql.append('.');
-            }
-            hql.append("workspace.id = :wsid\n");
-            setParameter("wsid", userRequestService.getUserSession().getWorkspaceId());
-            bWhere = true;
+
+    /**
+     * Add workspace restriction in the query
+     * @param hql
+     * @return
+     */
+    private boolean addWorkspaceRestriction(StringBuilder hql) {
+        // criteria to include the workspace restriction
+        if (!WorkspaceEntity.class.isAssignableFrom(entityClass) || workspaceId == null) {
+            return false;
         }
+
+        hql.append("where ");
+        if (entityAlias != null) {
+            hql.append(entityAlias);
+            hql.append('.');
+        }
+        hql.append("workspace.id = :wsid\n");
+        setParameter("wsid", workspaceId);
+
+        return true;
+    }
+
+    protected void addHQLRestrictions(StringBuilder hql) {
+        boolean bWhere = addWorkspaceRestriction(hql);
 
         if (restrictions != null) {
             for (String restr: restrictions) {
                 if (bWhere) {
                     hql.append(" and ");
-                }
-                else {
+                } else {
                     hql.append(" where ");
                     bWhere = true;
                 }
@@ -339,7 +355,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         // setup paging
         if (page != null) {
-            int maxResult = recordsPerPage != null? recordsPerPage: DEFAULT_RECORDS_PER_PAGE;
+            int maxResult = recordsPerPage != null ? recordsPerPage : DEFAULT_RECORDS_PER_PAGE;
             int firstResult = page * maxResult;
 
             qry.setMaxResults(maxResult).setFirstResult(firstResult);
@@ -381,8 +397,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
             // is paging enabled or count only ?
             if (page != null || countOnly) {
                 res.setCount(getCount());
-            }
-            else {
+            } else {
                 // if there is no paging, avoid unnecessary database query
                 res.setCount(res.getList().size());
             }
@@ -393,7 +408,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     @Override
     public QueryResult createQueryResult() {
-        Class dataClass = profile != null? profiles.get(profile): null;
+        Class dataClass = profile != null ? profiles.get(profile) : null;
 
         if (profile != null && dataClass == null) {
             throw new InvalidArgumentException("profile", null, "NotValid");
@@ -416,14 +431,16 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void initialize(EntityQueryParams qry) {
         this.page = qry.getPage();
-        this.recordsPerPage = qry.getRecordsPerPage();
+        this.recordsPerPage = qry.getPageSize();
         this.orderByKey = qry.getOrderBy();
         this.orderByDescending = qry.isOrderByDescending();
         this.countOnly = qry.isCountOnly();
 
         // an ID was set in the search query ?
         if (qry.getId() != null) {
-            addRestriction("id = :id");
+
+            String s = getEntityAlias() != null ? getEntityAlias() + "." : "";
+            addRestriction(s + "id = :id");
             setParameter("id", qry.getId());
         }
 
@@ -514,7 +531,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         this.profile = profile;
     }
 
-    public String getentityAlias() {
+    public String getEntityAlias() {
         return entityAlias;
     }
 
@@ -530,5 +547,13 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public void setEntityAlias(String alias) {
         this.entityAlias = alias;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

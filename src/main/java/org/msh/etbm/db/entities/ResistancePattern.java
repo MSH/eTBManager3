@@ -13,25 +13,25 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="resistancepattern")
+@Table(name = "resistancepattern")
 public class ResistancePattern extends WorkspaceEntity {
 
     /**
-	 * Criteria to compound the resistance pattern. It may be an exact match or
-	 * the match may be part of the pattern in the case
-	 * 
-	 * @author Ricardo Memoria
-	 *
-	 */
-	public enum PatternCriteria {
-		EXACT_RESISTANT, ANY_RESISTANT, EXACT_SUSCEPTIBLE, ANY_SUSCEPTIBLE;
-	}
+     * Criteria to compound the resistance pattern. It may be an exact match or
+     * the match may be part of the pattern in the case
+     *
+     * @author Ricardo Memoria
+     *
+     */
+    public enum PatternCriteria {
+        EXACT_RESISTANT, ANY_RESISTANT, EXACT_SUSCEPTIBLE, ANY_SUSCEPTIBLE;
+    }
 
-	@Column(length=100, name="PATTERN_NAME")
+	@Column(length = 100, name = "PATTERN_NAME")
 	private String name;
 
 	@ManyToMany
-	@JoinTable(name="substances_resistpattern")
+	@JoinTable(name = "substances_resistpattern")
 	private List<Substance> substances = new ArrayList<Substance>();
 
     @Override

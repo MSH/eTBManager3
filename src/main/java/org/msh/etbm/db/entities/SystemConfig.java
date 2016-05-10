@@ -8,36 +8,35 @@ import javax.persistence.*;
  *
  */
 @Entity
-@Table(name="systemconfig")
+@Table(name = "systemconfig")
 public class SystemConfig {
+
+    public static final int PRIMARY_KEY = 1;
 
 	@Id
 	private Integer id;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String systemURL;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String pageRootURL;
-
-	@Column(length=100)
-	private String systemMail;
 	
 	private boolean allowRegPage;
 	
 	@ManyToOne
-	@JoinColumn(name="WORKSPACE_ID")
+	@JoinColumn(name = "WORKSPACE_ID")
 	private Workspace workspace;
 	
 	@ManyToOne
-	@JoinColumn(name="USERPROFILE_ID")
+	@JoinColumn(name = "USERPROFILE_ID")
 	private UserProfile userProfile;
 	
 	@ManyToOne
-	@JoinColumn(name="UNIT_ID")
-	private Tbunit tbunit;
+	@JoinColumn(name = "UNIT_ID")
+	private Unit unit;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String adminMail;
 
 
@@ -45,7 +44,7 @@ public class SystemConfig {
     private String updateSite;
 
     @ManyToOne
-    @JoinColumn(name="PUBDS_WORKSPACE_ID")
+    @JoinColumn(name = "PUBDS_WORKSPACE_ID")
     private Workspace pubDashboardWorkspace;
 
     /**
@@ -79,20 +78,6 @@ public class SystemConfig {
 	 */
 	public void setSystemURL(String systemURL) {
 		this.systemURL = systemURL;
-	}
-
-	/**
-	 * @return the systemMail
-	 */
-	public String getSystemMail() {
-		return systemMail;
-	}
-
-	/**
-	 * @param systemMail the systemMail to set
-	 */
-	public void setSystemMail(String systemMail) {
-		this.systemMail = systemMail;
 	}
 
 	/**
@@ -137,24 +122,18 @@ public class SystemConfig {
 		this.userProfile = userProfile;
 	}
 
-	/**
-	 * @return the tbunit
-	 */
-	public Tbunit getTbunit() {
-		return tbunit;
-	}
+    public Unit getUnit() {
+        return unit;
+    }
 
-	/**
-	 * @param tbunit the tbunit to set
-	 */
-	public void setTbunit(Tbunit tbunit) {
-		this.tbunit = tbunit;
-	}
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
 
-	/**
+    /**
 	 * @return the adminMail
 	 */
-	public String getAdminMail() {
+    public String getAdminMail() {
 		return adminMail;
 	}
 

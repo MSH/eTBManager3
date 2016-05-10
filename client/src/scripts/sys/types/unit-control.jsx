@@ -1,62 +1,66 @@
 
-
 import React from 'react';
-import CRUD from '../../commons/crud';
-import { WaitIcon, SelectionBox } from '../../components/index';
+import { Input } from 'react-bootstrap';
+import { WaitIcon, SelectionBox } from '../../components';
 import FormUtils from '../../forms/form-utils';
-import Form from '../../forms/form';
 
-const crud = new CRUD('unit');
-const crudAU = new CRUD('adminunit');
 
-class UnitControl extends React.Component {
+/**
+ * Field control used in the form lib for displaying and selection of a unit
+ */
+export default class UnitControl extends React.Component {
+
+	static typeName() {
+		return 'unit';
+	}
+
+	static snapshot(schema, doc) {
+		if (schema.workspaceId) {
+			FormUtils.propEval(schema, 'workspaceId', doc);
+		}
+		return schema;
+	}
 
 	constructor(props) {
 		super(props);
 		this.onAuChange = this.onAuChange.bind(this);
 		this.onUnitChange = this.onUnitChange.bind(this);
-
-		this.state = {};
 	}
 
-	componentWillMount() {
-		// resources are available to initialize the field ?
-		const resources = this.props.resources;
-		if (resources) {
-			return this.setState({
-				adminUnits: resources.adminUnits,
-				units: resources.units,
-				adminUnitId: resources.adminUnitId
-			});
+	/**
+	 * Check if a server request is required
+	 * @param  {Object} nextSchema The next schema
+	 * @param  {Object} nextValue  The next value
+	 * @return {boolean}           return true if server request is required
+	 */
+	_requestRequired(nextSchema, nextValue, nextResource) {
+		const s = this.props.schema;
+		// workspace has changed ?
+		if (nextSchema.workspaceId !== s.workspaceId) {
+			return true;
 		}
 
-		// root was loaded ?
-		if (!this.state.adminUnits) {
-			// create the query
-			const qry = {
-				rootUnits: true
-			};
-
-			const self = this;
-
-			// query the root items
-			crudAU.query(qry)
-			.then(res => self.setState({
-				adminUnits: res.list
-			}));
+		// no resources in both old and new props ?
+		if (!nextResource && !this.props.resources) {
+			return true;
 		}
+
+		return false;
 	}
 
-	// static isServerInitRequired(schema) {
-	// 	return !schema.readOnly;
-	// }
+	serverRequest(nextSchema, nextValue, nextResource) {
+		if (!this._requestRequired(nextSchema, nextValue, nextResource)) {
+			return null;
+		}
 
-	static getServerRequest(schema, val) {
-		return schema.readOnly ?
+		return nextSchema.readOnly ?
 			null :
 			{
 				cmd: 'unit',
-				params: { value: val }
+				params: {
+					value: nextValue,
+					workspaceId: nextSchema.workspaceId
+				}
 			};
 	}
 
@@ -66,16 +70,41 @@ class UnitControl extends React.Component {
 	 */
 	onAuChange(evt, item) {
 		const admUnit = item ? item.id : null;
+		const resources = this.props.resources;
 
+		resources.adminUnitId = admUnit === '-' ? null : admUnit;
+
+		// no admin unit selected ?
 		if (admUnit === '-') {
-			return this.setState({ units: null });
+			resources.units = null;
+			this.forceUpdate();
+			this.onUnitChange(null, null);
+			return;
 		}
 
-		const self = this;
-		crud.query({ adminUnitId: admUnit, includeSubunits: true })
-		.then(res => self.setState({ units: res.list }));
+		const req = {
+			cmd: 'unit',
+			params: {
+				// the workspace in use
+				workspaceId: this.props.schema.workspaceId,
+				// just the list of units
+				units: true,
+				// the selected admin unit
+				adminUnitId: admUnit
+			}
+		};
 
-		this.setState({ units: null });
+		// request list of units to the server
+		const self = this;
+		FormUtils.serverRequest(req)
+			.then(res => {
+				resources.units = res.units;
+				self.forceUpdate();
+			});
+
+		resources.units = null;
+		resources.adminUnitId = admUnit;
+		this.onUnitChange(null, null);
 	}
 
 	/**
@@ -86,15 +115,17 @@ class UnitControl extends React.Component {
 	 */
 	onUnitChange(evt, item) {
 		const id = item ? item.id : null;
-		if (this.props.onChange) {
+		const val = this.props.value ? this.props.value : null;
+
+		if (val !== id && this.props.onChange) {
 			this.props.onChange({ schema: this.props.schema, value: id });
 		}
-		this.setState({ unit: id });
 	}
 
 	createAdmUnitList() {
+		const res = this.props.resources;
 		// admin unit is being loaded ?
-		if (!this.state.adminUnits) {
+		if (!res || !res.adminUnits) {
 			return <WaitIcon type="field" />;
 		}
 
@@ -102,33 +133,42 @@ class UnitControl extends React.Component {
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
 		// get the selected item
-		const id = this.state.adminUnitId;
-		const value = id ? this.state.adminUnits.find(item => item.id === id) : null;
+		const id = res.adminUnitId;
+		const value = id ? res.adminUnits.find(item => item.id === id) : null;
 
 		return (
 				<SelectionBox ref="admunit" value={value}
-					type="select" label={label} onChange={this.onAuChange}
+					type="select"
+					label={label}
+					onChange={this.onAuChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
-					options={this.state.adminUnits} />
+					options={res.adminUnits} />
 				);
 	}
 
 	createUnitList() {
-		if (!this.state.units) {
+		const resources = this.props.resources;
+		if (!resources) {
+			return <WaitIcon type="field" />;
+		}
+
+		if (!resources.units) {
 			return null;
 		}
 
 		// get the selected item
 		const id = this.props.value;
-		const value = id ? this.state.units.find(item => item.id === id) : null;
+		const value = id ? resources.units.find(item => item.id === id) : null;
 
 		return (
-				<SelectionBox ref="unit" value={value}
-					type="select" onChange={this.onUnitChange}
+				<SelectionBox ref="unit"
+					value={value}
+					type="select"
+					onChange={this.onUnitChange}
 					noSelectionLabel="-"
 					optionDisplay="name"
-					options={this.state.units} />
+					options={resources.units} />
 				);
 	}
 
@@ -136,7 +176,7 @@ class UnitControl extends React.Component {
 	 * Create the editor control to enter or change an unit
 	 * @return {[type]} [description]
 	 */
-	editorRender(schema) {
+	editorRender() {
 		const aulist = this.createAdmUnitList();
 
 		const unitlist = this.createUnitList();
@@ -172,9 +212,3 @@ UnitControl.propTypes = {
 	errors: React.PropTypes.any,
 	resources: React.PropTypes.object
 };
-
-UnitControl.options = {
-	supportedTypes: 'unit'
-};
-
-export default Form.typeWrapper(UnitControl);

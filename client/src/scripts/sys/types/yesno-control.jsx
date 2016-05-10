@@ -9,15 +9,19 @@ import { Fa, SelectionBox } from '../../components/index';
 /**
  * Control for yes-no selection
  */
-class YesNoControl extends React.Component {
+export default class YesNoControl extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.onChange = this.onChange.bind(this);
+	static typeName() {
+		return 'yesNo';
 	}
 
 	static displayText(value) {
 		return value ? __('global.yes') : __('global.no');
+	}
+
+	constructor(props) {
+		super(props);
+		this.onChange = this.onChange.bind(this);
 	}
 
 	readOnlyRender(schema) {
@@ -57,7 +61,7 @@ class YesNoControl extends React.Component {
 	render() {
 		// if there is no form, just display an icon
 		if (this.props.noForm) {
-			return this.props.value ? <Fa icon="check" className="text-primary" /> : <span>{'-'}</span>;
+			return this.props.value ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />;
 		}
 
 		const schema = this.props.schema || {};
@@ -73,9 +77,3 @@ YesNoControl.propTypes = {
 	schema: React.PropTypes.object,
 	noForm: React.PropTypes.bool
 };
-
-YesNoControl.options = {
-	supportedTypes: 'yesNo'
-};
-
-export default Form.typeWrapper(YesNoControl);

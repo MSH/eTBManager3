@@ -4,7 +4,6 @@ import { Alert } from 'react-bootstrap';
 import WaitIcon from '../../components/wait-icon';
 import { getValue } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
-import FormUtils from '../form-utils';
 
 
 /**
@@ -12,7 +11,7 @@ import FormUtils from '../form-utils';
  * @param  {Form} form The form component
  * @return {React.Component} The rendered form content
  */
-export default function createForm(form) {
+export default function formRender(form) {
 	if (!form.state.resources) {
 		return <WaitIcon type="card" />;
 	}
@@ -29,17 +28,17 @@ export default function createForm(form) {
 		errors = null;
 	}
 
-	const sslist = [];
-	// create list of components to render
-	getCompList(form.state.snapshot, sslist);
+	const snapshots = form.state.snapshots;
 
-	const items = sslist.map(elem => {
-		const compErrors = elem.property ? propertyErrors(elem.property, errors, handledErrors) : null;
-		const value = elem.el === 'field' ? getValue(form.props.doc, elem.property) : null;
+	// create the list of components and its size
+	const items = snapshots.map(item => {
+		const snapshot = item.snapshot;
+		const compErrors = snapshot.property ? propertyErrors(snapshot.property, errors, handledErrors) : null;
+		const value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
 
-		const comp = createElement(form, elem, value, compErrors);
+		const comp = createElement(form, item, value, compErrors);
 
-		const size = elem.size ? elem.size : { sm: 12 };
+		const size = snapshot.size ? snapshot.size : { sm: 12 };
 		return { size: size, content: comp };
 	});
 
@@ -64,72 +63,43 @@ export default function createForm(form) {
 }
 
 /**
- * Create an array with all elements including recursivelly all that are inside a group
- * @param  {[type]} snapshot [description]
- * @param  {[type]} lst      [description]
- * @return {[type]}          [description]
- */
-function getCompList(snapshot, lst) {
-	snapshot.forEach(elem => {
-		if (elem.el === 'group') {
-			if ('visible' in elem && elem.visible) {
-				getCompList(elem.layout, lst);
-			}
-		}
-		else {
-			lst.push(elem);
-		}
-	});
-}
-
-/**
  * Create the component of a given schema
  * @param  {[type]} schema [description]
  * @param  {[type]} value  [description]
  * @param  {[type]} errors [description]
  * @return {[type]}        [description]
  */
-function createElement(form, schema, value, errors) {
-	if (schema.el === 'subtitle') {
-		return <div className="subtitle">{schema.label}</div>;
-	}
-
-	if (__DEV__) {
-		// check if property was defined
-		if (!schema.property) {
-			throw new Error('Property not defined in schema');
-		}
-
-		// check if type was defined
-		if (!schema.type) {
-			throw new Error('Type not defined. Property ' + schema.property);
-		}
-	}
-
+function createElement(form, item, value, errors) {
+	const snapshot = item.snapshot;
 	// get any resource that came from the object
-	const res = form.state.resources[schema.id];
+	const res = form.state.resources[snapshot.id];
 
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
 	let err;
-	if (errors && Object.keys(errors).length === 1 && schema && errors[schema.property]) {
-		err = errors[schema.property];
+	if (errors && Object.keys(errors).length === 1 && snapshot && errors[snapshot.property]) {
+		err = errors[snapshot.property];
 	}
 	else {
 		err = errors;
 	}
 
-	const Comp = FormUtils.getComponent(schema);
+	const Comp = item.comp;
 
 	if (__DEV__) {
 		if (!Comp) {
-			throw new Error('Invalid type: ' + schema.type);
+			throw new Error('Invalid type: ' + snapshot.type);
 		}
 	}
 
 	return (
-		<Comp ref={schema.id} schema={schema} value={value} resources={res}
-			onChange={form._onChange} errors={err} />
+		<Comp ref={snapshot.id}
+			schema={snapshot}
+			value={value}
+			resources={res}
+			onChange={form._onChange}
+			errors={err}
+			onRequest={form._onRequest} />
 		);
 }
 

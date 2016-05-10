@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="productorder")
+@Table(name = "productorder")
 public class Order extends WorkspaceEntity {
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -32,54 +32,54 @@ public class Order extends WorkspaceEntity {
 	private Integer numDays;
 	
 	@ManyToOne
-	@JoinColumn(name="UNIT_FROM_ID")
+	@JoinColumn(name = "UNIT_FROM_ID")
 	@NotNull
 	private Tbunit unitFrom;
 
 	@ManyToOne
-	@JoinColumn(name="UNIT_TO_ID")
+	@JoinColumn(name = "UNIT_TO_ID")
 	@NotNull
 	private Tbunit unitTo;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String cancelReason;
 	
 	@ManyToOne
-	@JoinColumn(name="USER_CREATOR_ID")
+	@JoinColumn(name = "USER_CREATOR_ID")
 	@NotNull
 	private User userCreator;
 
 	@ManyToOne
-	@JoinColumn(name="AUTHORIZER_UNIT_ID")
+	@JoinColumn(name = "AUTHORIZER_UNIT_ID")
 	private Tbunit authorizer;
 	
-	@OneToMany(mappedBy="order", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
 	private List<OrderItem> items = new ArrayList<OrderItem>();
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String shipAddress;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String shipAddressCont;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String shipContactName;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String shipContactPhone;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SHIP_ADMINUNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SHIP_ADMINUNIT_ID")
 	private AdministrativeUnit shipAdminUnit;
 	
-	@Column(length=50)
+	@Column(length = 50)
 	private String shipZipCode;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String shipInstitutionName;
 	
 
@@ -206,11 +206,11 @@ public class Order extends WorkspaceEntity {
     }
 
     /**
-	 * @return the shipAddress
-	 */
-	public String getShipAddress() {
-		return shipAddress;
-	}
+     * @return the shipAddress
+     */
+    public String getShipAddress() {
+        return shipAddress;
+    }
 
 	/**
 	 * @param shipAddress the shipAddress to set

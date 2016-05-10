@@ -11,16 +11,16 @@ public class BatchDispensing extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="DISPENSING_ID")
+	@JoinColumn(name = "DISPENSING_ID")
 	private MedicineDispensing dispensing;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="BATCH_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SOURCE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 

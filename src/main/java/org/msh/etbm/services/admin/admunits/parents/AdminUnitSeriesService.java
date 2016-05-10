@@ -34,15 +34,15 @@ public class AdminUnitSeriesService {
         }
 
         Object[] vals = (Object[])entityManager
-                .createQuery("select a.id, a.name, b.id, b.name, " +
-                        "c.id, c.name, d.id, d.name, " +
-                        "e.id, e.name " +
-                        "from AdministrativeUnit a " +
-                        "left JOIN a.parent b " +
-                        "left JOIN b.parent c " +
-                        "LEFT JOIN c.parent d " +
-                        "LEFT JOIN d.parent e " +
-                        "WHERE a.id=:id")
+                .createQuery("select a.id, a.name, b.id, b.name, "
+                        + "c.id, c.name, d.id, d.name, "
+                        + "e.id, e.name "
+                        + "from AdministrativeUnit a "
+                        + "left JOIN a.parent b "
+                        + "left JOIN b.parent c "
+                        + "LEFT JOIN c.parent d "
+                        + "LEFT JOIN d.parent e "
+                        + "WHERE a.id=:id")
                 .setParameter("id", adminUnitID)
                 .getSingleResult();
 

@@ -10,6 +10,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * Annotation that gives extra information about the field being logged. By default all fields in the entity
  * will be logged if changed, but additional information may be included depending on the situation
+ *
  * @author Ricardo Memoria
  *
  */
@@ -32,7 +33,13 @@ public @interface PropertyLog {
 
 	/**
 	 * Indicate the operations that the field will be logged
-	 * @return
+	 * @return array of supported operations
 	 */
 	Operation[] operations() default { Operation.EDIT };
+
+    /**
+     * Include properties of the given object to the log, if the case. Default is false
+     * @return true to add the properties of the object
+     */
+    boolean addProperties() default false;
 }

@@ -7,6 +7,7 @@ import org.msh.etbm.services.admin.substances.SubstanceData;
 import org.msh.etbm.services.admin.substances.SubstanceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
+import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -45,15 +46,15 @@ public class SubstanceTest extends CommonEntityServiceTests {
         lst.add("name");
         lst.add("shortName");
 
-        UUID id = testCreateAndFindOne(props, lst);
+        TestResult result = testCreateAndFindOne(props, lst, null);
 
         // test update
         props.clear();
         props.put("name", "Rifampicin 2");
 
-        testUpdate(id, props);
+        testUpdate(result.getId(), props);
 
         // test delete
-        testDelete(id);
+        testDelete(result.getId());
     }
 }

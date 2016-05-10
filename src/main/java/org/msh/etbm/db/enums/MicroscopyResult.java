@@ -47,8 +47,9 @@ public enum MicroscopyResult {
 	static public MicroscopyResult[] getPositiveResults() {
 		int num = 0;
 		for (MicroscopyResult res: values()) {
-			if (res.isPositive())
-				num++;
+			if (res.isPositive()) {
+                num++;
+            }
 		}
 		
 		MicroscopyResult[] lst = new MicroscopyResult[num];
@@ -70,8 +71,9 @@ public enum MicroscopyResult {
 	static public MicroscopyResult[] getNegativeResults() {
 		int num = 0;
 		for (MicroscopyResult res: values()) {
-			if (res.isNegative())
-				num++;
+			if (res.isNegative()) {
+                num++;
+            }
 		}
 		
 		MicroscopyResult[] lst = new MicroscopyResult[num];

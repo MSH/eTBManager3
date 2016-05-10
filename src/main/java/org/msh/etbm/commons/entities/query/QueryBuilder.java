@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.entities.query;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Class to help construction of queries to return entities
@@ -155,4 +156,17 @@ public interface QueryBuilder<E> {
      * @param alias the entity alias
      */
     void setEntityAlias(String alias);
+
+
+    /**
+     * Set the ID of the workspace to be used to restrict the query result
+     * @param wsid the UUID
+     */
+    void setWorkspaceId(UUID wsid);
+
+    /**
+     * Get the ID of the workspace to be used to restrict the query result
+     * @return instance of UUID
+     */
+    UUID getWorkspaceId();
 }

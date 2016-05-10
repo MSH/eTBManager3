@@ -11,14 +11,14 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="substance")
+@Table(name = "substance")
 public class Substance extends WorkspaceEntity {
 
 	@NotNull
-	@PropertyLog(messageKey="form.name")
+	@PropertyLog(messageKey = "form.name")
 	private String name;
 	
-	@PropertyLog(messageKey= "form.shortName")
+	@PropertyLog(messageKey = "form.shortName")
     @NotNull
 	private String shortName;
 
@@ -31,11 +31,11 @@ public class Substance extends WorkspaceEntity {
 
     private boolean active = true;
 
-	@PropertyLog(messageKey="form.displayorder")
+	@PropertyLog(messageKey = "form.displayorder")
 	private Integer displayOrder;
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
 	public void setLine(MedicineLine line) {
@@ -83,11 +83,11 @@ public class Substance extends WorkspaceEntity {
     }
 
     /**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
 	/**
 	 * @param name the name to set
@@ -114,7 +114,7 @@ public class Substance extends WorkspaceEntity {
 
     @Override
     public String getDisplayString() {
-        return name;
+        return "(" + shortName + ") " + name;
     }
 
     public boolean isActive() {

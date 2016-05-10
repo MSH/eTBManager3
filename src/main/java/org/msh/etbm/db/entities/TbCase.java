@@ -23,31 +23,32 @@ import java.util.List;
  *
  */
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="tbcase")
+@Inheritance(strategy =  InheritanceType.JOINED)
+@Table(name = "tbcase")
 public class TbCase extends WorkspaceEntity {
 
 	@Version
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private Integer version;
-	
+
+    @PropertyLog(messageKey = "DisplayCaseNumber.CASE_ID")
 	private Integer caseNumber;
 
 	// specific suspect information
-	@Column(length=50)
+	@Column(length = 50)
 	private String suspectRegistrationCode;
 
-	@PropertyLog(messageKey="CaseClassification")
+	@PropertyLog(messageKey = "CaseClassification")
 	private CaseClassification suspectClassification;
 	
-	@Column(length=50)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 50)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String registrationCode;
 
 	private Integer daysTreatPlanned;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PATIENT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PATIENT_ID")
 	@NotNull
 	@PropertyLog(operations = {Operation.ALL})
 	private Patient patient;
@@ -56,11 +57,11 @@ public class TbCase extends WorkspaceEntity {
 
 	@NotNull
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date registrationDate;
 	
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date diagnosisDate;
 	
 	@Temporal(TemporalType.DATE)
@@ -69,34 +70,34 @@ public class TbCase extends WorkspaceEntity {
 	// Treatment information
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="iniDate", column=@Column(name="iniTreatmentDate")),
-		@AttributeOverride(name="endDate", column=@Column(name="endTreatmentDate"))
+		@AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
+		@AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
 	})
-	@PropertyLog(operations = {Operation.ALL})
+	@PropertyLog(operations = {Operation.ALL}, addProperties = true)
 	private Period treatmentPeriod = new Period();
 	
 	@Temporal(TemporalType.DATE)
 	private Date endIntensivePhase;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="REGIMEN_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "REGIMEN_ID")
 	private Regimen regimen;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="REGIMEN_INI_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "REGIMEN_INI_ID")
 	private Regimen regimenIni;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="OWNER_UNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "OWNER_UNIT_ID")
 	@NotNull
 	private Tbunit ownerUnit ;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
-	@PropertyLog(ignore=true)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+	@PropertyLog(ignore = true)
 	private List<TreatmentHealthUnit> healthUnits = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase")
-	@PropertyLog(ignore=true)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+	@PropertyLog(ignore = true)
 	private List<PrescribedMedicine> prescribedMedicines = new ArrayList<>();
 
 	@NotNull
@@ -105,58 +106,52 @@ public class TbCase extends WorkspaceEntity {
 	@NotNull
 	private ValidationState validationState;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private PatientType patientType;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private PatientType previouslyTreatedType;
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private CaseDefinition caseDefinition;
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private DiagnosisType diagnosisType;
 	
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private DrugResistanceType drugResistanceType;
 
 	@NotNull
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private CaseClassification classification;
 	
-	@PropertyLog(messageKey="InfectionSite", operations={Operation.NEW})
+	@PropertyLog(messageKey = "InfectionSite", operations = {Operation.NEW})
 	private InfectionSite infectionSite;
-	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="PULMONARY_ID")
-	@PropertyLog(messageKey="TbField.PULMONARY_TYPES")
-	private FieldValue pulmonaryType;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="EXTRAPULMONARY_ID")
-	@PropertyLog(messageKey="TbField.EXTRAPULMONARY_TYPES")
-	private FieldValue extrapulmonaryType;
+	@Column(length = 50)
+	private String pulmonaryType;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="EXTRAPULMONARY2_ID")
-	@PropertyLog(messageKey="TbField.EXTRAPULMONARY_TYPES")
-	private FieldValue extrapulmonaryType2;
+	@Column(length = 50)
+	private String extrapulmonaryType;
+
+	@Column(length = 50)
+	private String extrapulmonaryType2;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String patientTypeOther;
 
 	private Nationality nationality;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String otherOutcome;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="NOTIFICATION_UNIT_ID")
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "NOTIFICATION_UNIT_ID")
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Tbunit notificationUnit;
 	
 	private boolean notifAddressChanged;
@@ -167,125 +162,120 @@ public class TbCase extends WorkspaceEntity {
 
     private boolean movedSecondLineTreatment;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String patientContactName;
 	
 	@Lob
+    @PropertyLog(messageKey = "global.comments")
 	private String comments;
 	
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="address", column=@Column(name="NOTIF_ADDRESS")),
-		@AttributeOverride(name="complement", column=@Column(name="NOTIF_COMPLEMENT")),
-		@AttributeOverride(name="localityType", column=@Column(name="NOTIF_LOCALITYTYPE")),
-		@AttributeOverride(name="zipCode", column=@Column(name="NOTIF_ZIPCODE")),
+		@AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
+		@AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
+		@AttributeOverride(name = "localityType", column = @Column(name = "NOTIF_LOCALITYTYPE")),
+		@AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
 	})
 	@AssociationOverrides({
-		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="NOTIF_ADMINUNIT_ID"))
+		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
 	})
-	@PropertyLog(messageKey="cases.details.addressnotif", operations={Operation.NEW})
+	@PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
 	private Address notifAddress;
 	
 	@Embedded
 	@AttributeOverrides({
-		@AttributeOverride(name="address", column=@Column(name="CURR_ADDRESS")),
-		@AttributeOverride(name="complement", column=@Column(name="CURR_COMPLEMENT")),
-		@AttributeOverride(name="localityType", column=@Column(name="CURR_LOCALITYTYPE")),
-		@AttributeOverride(name="zipCode", column=@Column(name="CURR_ZIPCODE")),
+		@AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
+		@AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
+		@AttributeOverride(name = "localityType", column = @Column(name = "CURR_LOCALITYTYPE")),
+		@AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
 	})
 	@AssociationOverrides({
-		@AssociationOverride(name="adminUnit", joinColumns=@JoinColumn(name="CURR_ADMINUNIT_ID"))
+		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
 	})
-	@PropertyLog(messageKey="cases.details.addresscurr")
+	@PropertyLog(messageKey = "cases.details.addresscurr")
 	private Address currentAddress;
 
-    @Column(name="NOTIF_LOCALITYTYPE")
+    @Column(name = "NOTIF_LOCALITYTYPE")
     private LocalityType localityType;
 
-    @Column(name="CURR_LOCALITYTYPE")
+    @Column(name = "CURR_LOCALITYTYPE")
     private LocalityType currLocalityType;
 
-    @Column(length=50)
+    @Column(length = 50)
 	private String phoneNumber;
 	
-	@Column(length=50)
+	@Column(length = 50)
 	private String mobileNumber;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<CaseSideEffect> sideEffects = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<CaseComorbidity> comorbidities = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
 	@OrderBy("date desc")
+    @PropertyLog(ignore = true)
 	private List<MedicalExamination> examinations = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamXRay> resXRay = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(messageKey = "cases.contacts")
 	private List<TbContact> contacts = new ArrayList<>();
 	
-	@OneToMany(cascade={CascadeType.MERGE, CascadeType.PERSIST}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 	
 
 	/* EXAMS */
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamHIV> resHIV = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamCulture> examsCulture = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
 	private List<ExamDST> examsDST = new ArrayList<>();
 
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy="tbcase", fetch= FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
     private List<ExamXpert> examsXpert = new ArrayList<>();
 
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(ignore = true)
     private SecDrugsReceived secDrugsReceived;
 
+    @PropertyLog(ignore = true)
 	private int issueCounter;
 
     @Temporal(TemporalType.DATE)
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Date lastBmuDateTbRegister;
 
-    @Column(length=50)
-    @PropertyLog(operations={Operation.NEW, Operation.DELETE})
+    @Column(length = 50)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
 	
-	@Transient
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	private Integer clientId;
-	
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
-
 	/**
 	 * Tags of this case
 	 */
-	@ManyToMany(fetch= FetchType.LAZY)
-	@JoinTable(name="tags_case",
-			joinColumns={@JoinColumn(name="CASE_ID")},
-			inverseJoinColumns={@JoinColumn(name="TAG_ID")})
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "tags_case",
+			joinColumns = {@JoinColumn(name = "CASE_ID")},
+			inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
+    @PropertyLog(ignore = true)
 	private List<Tag> tags = new ArrayList<>();
 
 
@@ -295,12 +285,14 @@ public class TbCase extends WorkspaceEntity {
 	 * @return
 	 */
 	public boolean isInitialRegimenChanged() {
-		if (regimen == regimenIni) 
-			return false;
-		
-		if ((regimen == null) || (regimenIni == null))
-			return true;
-		
+		if (regimen == regimenIni) {
+            return false;
+        }
+
+		if ((regimen == null) || (regimenIni == null)) {
+            return true;
+        }
+
 		return regimen.getId().equals(regimenIni.getId());
 	}
 
@@ -311,28 +303,30 @@ public class TbCase extends WorkspaceEntity {
 	 * @return
 	 */
 	public int getMonthTreatment(Date date) {
-		if ((treatmentPeriod == null) || (date == null))
-			return -1;
-		
+		if ((treatmentPeriod == null) || (date == null)) {
+            return -1;
+        }
+
 		Date dtTreat = getTreatmentPeriod().getIniDate();
-		if ((dtTreat == null) || (date.before(dtTreat)))
-			return -1;
+		if ((dtTreat == null) || (date.before(dtTreat))) {
+            return -1;
+        }
 
 		return DateUtils.monthsBetween(date, dtTreat) + 1;
 	}
-	
 
-	/**
-	 * Return list of treatment health units sorted by period
-	 * @return
-	 */
-	public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
-		// sort the periods
+
+    /**
+     * Return list of treatment health units sorted by period
+     * @return
+     */
+    public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
+        // sort the periods
         Collections.sort(healthUnits, (o1, o2) -> o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate()));
 
-		return healthUnits;
-	}
-	
+        return healthUnits;
+    }
+
 	
 	/**
 	 * Return list of prescribed medicines sorted by medicine name and initial date of the period
@@ -379,10 +373,11 @@ public class TbCase extends WorkspaceEntity {
 	 * @param sideEffect - FieldValue object representing the side effect
 	 * @return - CaseSideEffect instance containing side effect data of the case, or null if there is no side effect data
 	 */
-	public CaseSideEffect findSideEffectData(FieldValue sideEffect) {
+	public CaseSideEffect findSideEffectData(String sideEffect) {
 		for (CaseSideEffect se: getSideEffects()) {
-			if (se.getSideEffect().getValue().equals(sideEffect))
-				return se;
+			if (se.getSideEffect().getValue().equals(sideEffect)) {
+                return se;
+            }
 		}
 		return null;
 	}
@@ -393,7 +388,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out 
 	 */
 	public TreatmentHealthUnit getTransferInUnit() {
-		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size()-1): null;
+		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size() - 1) : null;
 	}
 	
 	
@@ -402,7 +397,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in 
 	 */
 	public TreatmentHealthUnit getTransferOutUnit() {
-		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size()-2): null;
+		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size() - 2) : null;
 	}
 	
 	
@@ -432,9 +427,7 @@ public class TbCase extends WorkspaceEntity {
 		DecimalFormat df = new DecimalFormat("000");
 		String s = df.format(patientNumber);
 
-		if (caseNumber > 1)
-			 return s + "-" + Integer.toString(caseNumber);
-		else return s;		
+        return caseNumber > 1 ? s + "-" + Integer.toString(caseNumber) : s;
 	}
 
 	
@@ -460,12 +453,13 @@ public class TbCase extends WorkspaceEntity {
 	 * @return
 	 */
 	public Period getIntensivePhasePeriod() {
-		if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty()))
-			return null;
+		if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty())) {
+            return null;
+        }
 
-		if (endIntensivePhase != null)
-			 return new Period(treatmentPeriod.getIniDate(), endIntensivePhase);
-		else return new Period(treatmentPeriod);
+        return endIntensivePhase != null ?
+                new Period(treatmentPeriod.getIniDate(), endIntensivePhase) :
+                new Period(treatmentPeriod);
 	}
 
 	/**
@@ -473,20 +467,26 @@ public class TbCase extends WorkspaceEntity {
 	 * @return
 	 */
 	public int getPatientAge() {
-		if (age != null)
-			return age;
-		
+		if (age != null) {
+            return age;
+        }
+
 		Patient p = getPatient();
-		if (p == null)
-			return 0;
-		
+		if (p == null) {
+            return 0;
+        }
+
 		Date dt = p.getBirthDate();
 		Date dt2 = diagnosisDate;
 		
-		if (dt == null)
-			return 0;
-		if (dt2 == null)
-			dt2 = new Date();
+		if (dt == null) {
+            return 0;
+        }
+
+		if (dt2 == null) {
+            dt2 = new Date();
+        }
+
 		return DateUtils.yearsBetween(dt, dt2);
 	}
 
@@ -566,8 +566,10 @@ public class TbCase extends WorkspaceEntity {
 
 
 	public Address getNotifAddress() {
-		if (notifAddress == null)
-			notifAddress = new Address();
+		if (notifAddress == null) {
+            notifAddress = new Address();
+        }
+
 		return notifAddress;
 	}
 
@@ -578,8 +580,10 @@ public class TbCase extends WorkspaceEntity {
 
 
 	public Address getCurrentAddress() {
-		if (currentAddress == null)
-			currentAddress = new Address();
+		if (currentAddress == null) {
+            currentAddress = new Address();
+        }
+
 		return currentAddress;
 	}
 
@@ -848,7 +852,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the pulmonaryType
 	 */
-	public FieldValue getPulmonaryType() {
+	public String getPulmonaryType() {
 		return pulmonaryType;
 	}
 
@@ -856,7 +860,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param pulmonaryType the pulmonaryType to set
 	 */
-	public void setPulmonaryType(FieldValue pulmonaryType) {
+	public void setPulmonaryType(String pulmonaryType) {
 		this.pulmonaryType = pulmonaryType;
 	}
 
@@ -864,7 +868,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the extrapulmonaryType
 	 */
-	public FieldValue getExtrapulmonaryType() {
+	public String getExtrapulmonaryType() {
 		return extrapulmonaryType;
 	}
 
@@ -872,7 +876,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param extrapulmonaryType the extrapulmonaryType to set
 	 */
-	public void setExtrapulmonaryType(FieldValue extrapulmonaryType) {
+	public void setExtrapulmonaryType(String extrapulmonaryType) {
 		this.extrapulmonaryType = extrapulmonaryType;
 	}
 
@@ -880,7 +884,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @return the extrapulmonaryType2
 	 */
-	public FieldValue getExtrapulmonaryType2() {
+	public String getExtrapulmonaryType2() {
 		return extrapulmonaryType2;
 	}
 
@@ -888,7 +892,7 @@ public class TbCase extends WorkspaceEntity {
 	/**
 	 * @param extrapulmonaryType2 the extrapulmonaryType2 to set
 	 */
-	public void setExtrapulmonaryType2(FieldValue extrapulmonaryType2) {
+	public void setExtrapulmonaryType2(String extrapulmonaryType2) {
 		this.extrapulmonaryType2 = extrapulmonaryType2;
 	}
 
@@ -1170,9 +1174,13 @@ public class TbCase extends WorkspaceEntity {
         this.examsXpert = examsXpert;
     }
 
-    public void setSecDrugsReceived(SecDrugsReceived secDrugsReceived) {this.secDrugsReceived = secDrugsReceived;}
+    public void setSecDrugsReceived(SecDrugsReceived secDrugsReceived) {
+        this.secDrugsReceived = secDrugsReceived;
+    }
 
-    public SecDrugsReceived getSecDrugsReceived(){return this.secDrugsReceived;}
+    public SecDrugsReceived getSecDrugsReceived() {
+        return this.secDrugsReceived;
+    }
 
     public boolean isRifampcinResistance() {
         return rifampcinResistance;

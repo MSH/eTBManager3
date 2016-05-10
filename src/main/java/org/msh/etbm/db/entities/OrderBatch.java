@@ -7,16 +7,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="orderbatch")
+@Table(name = "orderbatch")
 public class OrderBatch extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="ORDERITEM_ID")
+	@JoinColumn(name = "ORDERITEM_ID")
 	@NotNull
 	private OrderItem orderItem;
 	
 	@ManyToOne
-	@JoinColumn(name="BATCH_ID")
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 
@@ -25,27 +25,31 @@ public class OrderBatch extends Synchronizable {
 
 	@Transient
 	public float getTotalPrice() {
-		float qtd = (receivedQuantity != null? receivedQuantity: quantity);
-		return (batch != null? (float)batch.getUnitPrice() * qtd: 0);
+		float qtd = (receivedQuantity != null ? receivedQuantity : quantity);
+		return batch != null ? (float)batch.getUnitPrice() * qtd : 0;
 	}
 	
 	public Integer getReceivedQuantity() {
 		return receivedQuantity;
 	}
-	public void setReceivedQuantity(Integer receivedQuantity) {
+
+    public void setReceivedQuantity(Integer receivedQuantity) {
 		this.receivedQuantity = receivedQuantity;
 	}
-	public Batch getBatch() {
+
+    public Batch getBatch() {
 		return batch;
 	}
-	public void setBatch(Batch batch) {
+
+    public void setBatch(Batch batch) {
 		this.batch = batch;
 	}
 
 	public int getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+
+    public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
@@ -57,8 +61,4 @@ public class OrderBatch extends Synchronizable {
 		this.orderItem = orderItem;
 	}
 	
-
-	public void setNumContainersRec(int numContainersRec){
-		return;
-	}
 }

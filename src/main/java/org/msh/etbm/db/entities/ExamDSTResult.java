@@ -9,16 +9,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="examdstresult")
+@Table(name = "examdstresult")
 public class ExamDSTResult extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="SUBSTANCE_ID")
+	@JoinColumn(name = "SUBSTANCE_ID")
 	private Substance substance;
 	
 	@ManyToOne
-	@JoinColumn(name="EXAM_ID")
+	@JoinColumn(name = "EXAM_ID")
 	private ExamDST exam;
 	
 	private DstResult result;

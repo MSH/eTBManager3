@@ -24,7 +24,7 @@ public class ProductFormData {
     private Optional<MedicineCategory> category;
     private Optional<MedicineLine> line;
 
-    private List<UUID> substances;
+    private Optional<List<UUID>> substances;
 
 
     public Optional<ProductType> getType() {
@@ -75,11 +75,11 @@ public class ProductFormData {
         this.line = line;
     }
 
-    public List<UUID> getSubstances() {
+    public Optional<List<UUID>> getSubstances() {
         return substances;
     }
 
-    public void setSubstances(List<UUID> substances) {
+    public void setSubstances(Optional<List<UUID>> substances) {
         this.substances = substances;
     }
 

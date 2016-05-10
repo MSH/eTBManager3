@@ -60,14 +60,13 @@ public class CodeRef {
         String val = code;
         if (val.length() > 3) {
             int len = val.length();
-            val = val.substring(len-3, len);
+            val = val.substring(len - 3, len);
         }
         val = CodeUtils.incCode(val);
 
         if (code.length() > 3) {
             code = code.substring(0, code.length() - 3) + val;
-        }
-        else {
+        } else {
             code = val;
         }
 

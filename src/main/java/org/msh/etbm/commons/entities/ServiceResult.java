@@ -1,5 +1,8 @@
 package org.msh.etbm.commons.entities;
 
+import org.msh.etbm.commons.objutils.Diffs;
+import org.msh.etbm.commons.objutils.ObjectValues;
+
 import java.util.UUID;
 
 /**

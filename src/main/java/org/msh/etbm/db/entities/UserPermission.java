@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Table(name="userpermission")
+@Table(name = "userpermission")
 public class UserPermission  {
 
 	@Id
@@ -19,31 +19,14 @@ public class UserPermission  {
 	private String permission;
 
 	@ManyToOne
-	@JoinColumn(name="PROFILE_ID")
+	@JoinColumn(name = "PROFILE_ID")
 	@NotNull
 	private UserProfile userProfile;
 
-	private boolean canExecute;
 	private boolean canChange;
 
 
-/*
-	@Override
-	public String toString() {
-		Map<String, String> msgs = Messages.instance();
 
-		String s = "";
-		if (!userRole.getName().equals("-"))
-			s = userRole.getDisplayName();
-		
-		if ((caseClassification != null) && (userRole.isByCaseClassification())) {
-			s = msgs.get(caseClassification.getKey()) + " - " + s;
-		}
-		return s;
-	}
-*/
-
-	
 	public UUID getId() {
 		return id;
 	}
@@ -69,33 +52,17 @@ public class UserPermission  {
     }
 
     /**
-	 * @return the canChange
-	 */
-	public boolean isCanChange() {
-		return canChange;
-	}
+     * @return the canChange
+     */
+    public boolean isCanChange() {
+        return canChange;
+    }
 
-	/**
-	 * @param canChange the canChange to set
-	 */
-	public void setCanChange(boolean canChange) {
-		this.canChange = canChange;
-	}
-
-
-	/**
-	 * @return the canExecute
-	 */
-	public boolean isCanExecute() {
-		return canExecute;
-	}
-
-
-	/**
-	 * @param canExecute the canExecute to set
-	 */
-	public void setCanExecute(boolean canExecute) {
-		this.canExecute = canExecute;
-	}
+    /**
+     * @param canChange the canChange to set
+     */
+    public void setCanChange(boolean canChange) {
+        this.canChange = canChange;
+    }
 
 }

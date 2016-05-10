@@ -32,6 +32,7 @@ const form = {
             if (this.pwd2 !== this.pwd) {
                 return __('validation.pwdNotSame');
             }
+            return null;
         }
     }
 };

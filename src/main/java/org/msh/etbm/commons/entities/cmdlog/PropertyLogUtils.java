@@ -1,13 +1,13 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
-import org.msh.etbm.commons.Displayable;
-import org.msh.etbm.commons.entities.ObjectValues;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
+import org.msh.etbm.commons.objutils.PropertyValue;
+import org.msh.etbm.db.Synchronizable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.Map;
 
 /**
  * Utilities to generate log values of an object based on its property log information and the operation
@@ -35,18 +35,24 @@ public class PropertyLogUtils {
      * @param oper
      */
     protected void generateLogValues(ObjectValues vals, Object obj, Class clazz, Operation oper) {
-        Field[] fields = clazz.getDeclaredFields();
+        Class objClass = clazz;
 
-        for (Field field: fields) {
-            analyseProperty(vals, obj, field, oper);
+        while (objClass != Object.class && objClass != null) {
+            Field[] fields = objClass.getDeclaredFields();
+
+            for (Field field: fields) {
+                analyseProperty(vals, obj, field, oper);
+            }
+
+            objClass = objClass.getSuperclass();
         }
     }
 
     /**
      * Return true if the field must be logged
-     * @param field
-     * @param oper
-     * @return
+     * @param field the field to be analysed
+     * @param oper the log operation (new, edit or delete)
+     * @return true if the field must be logged, otherwise false if the field should not be logged
      */
     protected boolean isFieldLogged(Field field, Operation oper) {
         PropertyLog propertyLog = field.getAnnotation(PropertyLog.class);
@@ -57,16 +63,19 @@ public class PropertyLogUtils {
             }
             Operation[] opers = propertyLog.operations();
 
+            // just to make testing easier
+            if (oper == Operation.ALL) {
+                return true;
+            }
+
             // if operation is not supported, exit
             if ((Arrays.binarySearch(opers, oper) == -1) && (Arrays.binarySearch(opers, Operation.ALL) == -1)) {
                 return false;
             }
+        } else if (oper != Operation.EDIT && oper != Operation.ALL) {
+            // if is not an edit operation (or a log to return all items), so the field shall not be logged
+            return false;
         }
-        else
-            // the default operation is EDIT or type is a collection ?
-            if (oper != Operation.EDIT || classImplementsInterface(field.getType(), Collection.class)) {
-                return false;
-            }
 
         return true;
     }
@@ -80,14 +89,21 @@ public class PropertyLogUtils {
     protected String getMessageKey(Field field) {
         PropertyLog log = field.getAnnotation(PropertyLog.class);
         if (log == null || log.messageKey().isEmpty()) {
-            if (!field.getType().isPrimitive()) {
-                return field.getDeclaringClass().getSimpleName() + "." + field.getName();
-            }
-            else {
+
+            // is an enum type ?
+            if (field.getType().isEnum()) {
+                // so return the enum class name
                 return field.getType().getSimpleName();
             }
-        }
-        else {
+
+            // is an entity class from the system ?
+            if (Synchronizable.class.isAssignableFrom(field.getType())) {
+                return field.getType().getSimpleName();
+            }
+
+            // is a primitive type ?
+            return field.getDeclaringClass().getSimpleName() + "." + field.getName();
+        } else {
             return log.messageKey();
         }
     }
@@ -104,24 +120,26 @@ public class PropertyLogUtils {
             return;
         }
 
+        // check how log is done (whole object or its properties)
+        PropertyLog log = field.getAnnotation(PropertyLog.class);
+
+        // get key ready to be formatted
+        String key = "$" + getMessageKey(field);
+
+        // get single property of the object
         Object val = ObjectUtils.getProperty(obj, field.getName());
 
-        if (val == null) {
-            return;
-        }
+        // must add properties of the field object ?
+        if (val != null && log != null && log.addProperties() && !field.getType().isPrimitive()) {
+            // scan properties of the linked object
+            ObjectValues fieldVals = generateLog(val, field.getType(), oper);
 
-        if (!val.getClass().isPrimitive() && !(val instanceof Date)) {
-            if (val instanceof Displayable) {
-                val = ((Displayable)val).getDisplayString();
+            for (Map.Entry<String, PropertyValue> entry: fieldVals.getValues().entrySet()) {
+                vals.putPropertyValue(key + " - " + entry.getKey(), entry.getValue());
             }
-            else {
-                val = val.toString();
-            }
+        } else {
+            vals.put(key, val);
         }
-
-        String key = getMessageKey(field);
-
-        vals.put(key, val);
     }
 
     /**
@@ -130,24 +148,28 @@ public class PropertyLogUtils {
      * @return
      */
     private boolean classImplementsInterface(Class clazz, Class interf) {
-        if (clazz.isInterface())
+        if (clazz.isInterface()) {
             return isInterfaceImplemented(clazz, interf);
+        }
 
-        if (clazz.isPrimitive())
+        if (clazz.isPrimitive()) {
             return false;
+        }
 
         Class[] ints = clazz.getInterfaces();
 
         if (ints != null) {
             for (Class intf: clazz.getInterfaces()) {
-                if (isInterfaceImplemented(intf, interf))
+                if (isInterfaceImplemented(intf, interf)) {
                     return true;
+                }
             }
         }
 
         Class parent = clazz.getSuperclass();
-        if (parent == Object.class)
+        if (parent == Object.class) {
             return false;
+        }
 
         return classImplementsInterface(parent, interf);
     }
@@ -160,13 +182,16 @@ public class PropertyLogUtils {
      * @return
      */
     private boolean isInterfaceImplemented(Class clazz, Class interf) {
-        if (clazz == interf)
+        if (clazz == interf) {
             return true;
+        }
 
         Class[] lst = clazz.getInterfaces();
-        for (Class aux: lst)
-            if (isInterfaceImplemented(aux, interf))
+        for (Class aux: lst) {
+            if (isInterfaceImplemented(aux, interf)) {
                 return true;
+            }
+        }
 
         return false;
     }

@@ -11,21 +11,20 @@ import java.util.List;
 
 
 @Entity
-@Table(name="regimen")
+@Table(name = "regimen")
 public class Regimen extends WorkspaceEntity {
 
-	@Column(length=100)
+	@Column(length = 100)
     @NotNull
 	private String name;
 	
 	private CaseClassification classification;
 
-	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="REGIMEN_ID")
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "regimen", orphanRemoval = true)
 	private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId")
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId")
 	private String customId;
 
     private boolean active;
@@ -36,7 +35,7 @@ public class Regimen extends WorkspaceEntity {
 	 */
 	@Override
 	public String toString() {
-		return (name != null? name: super.toString());
+		return (name != null ? name : super.toString());
 	}
 
 	/**

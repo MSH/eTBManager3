@@ -2,11 +2,12 @@ package org.msh.etbm.services.admin.products;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
 
     @Override
     protected void buildQuery(QueryBuilder<Product> builder, ProductQueryParams queryParams) {
-        Class clazz = queryParams.getType() == ProductType.MEDICINE? Medicine.class: Product.class;
+        Class clazz = queryParams.getType() == ProductType.MEDICINE ? Medicine.class : Product.class;
 
         // order by options
         builder.addDefaultOrderByMap(ProductQueryParams.ORDERBY_NAME, "name");
@@ -47,11 +48,10 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     protected Product createEntityInstance(Object req) {
         if (req instanceof ProductFormData) {
             Optional<ProductType> optype = ((ProductFormData) req).getType();
-            ProductType type = optype == null? null: optype.get();
+            ProductType type = optype == null ? null : optype.get();
             if (type == ProductType.MEDICINE) {
                 return new Medicine();
-            }
-            else {
+            } else {
                 return new Product();
             }
         }
@@ -59,19 +59,13 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
-    protected void prepareToSave(Product entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return;
+    protected void beforeSave(Product product, Errors errors) {
+        if (!checkUnique(product, "name")) {
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
-        if (!checkUnique(entity, "name")) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
-        }
-
-        if (!checkUnique(entity, "shortName")) {
-            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(product, "shortName")) {
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
 }

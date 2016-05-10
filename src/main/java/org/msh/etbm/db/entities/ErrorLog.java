@@ -6,26 +6,26 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name="errorlog")
+@Table(name = "errorlog")
 public class ErrorLog {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date errorDate;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String exceptionClass;
 	
-	@Column(length=500)
+	@Column(length = 500)
 	private String exceptionMessage;
 	
-	@Column(length=150)
+	@Column(length = 150)
 	private String url;
 
-	@Column(length=100)
+	@Column(length = 100)
 	private String userName;
 	
 	private UUID userId;
@@ -33,7 +33,7 @@ public class ErrorLog {
 	@Lob
 	private String stackTrace;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String workspace;
 
 	@Lob

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 @SpringBootApplication
 @PropertySource("file:./etbmanager.properties")
-@EnableJpaRepositories(value="org.msh.etbm.db.repositories")
+@EnableJpaRepositories(value = "org.msh.etbm.db.repositories")
 @EnableCaching
 public class Application {
 
@@ -57,6 +57,8 @@ public class Application {
         lst.add("dozer/substance.mapper.xml");
         lst.add("dozer/workspace.mapper.xml");
         lst.add("dozer/userws.mapper.xml");
+        lst.add("dozer/regimen.mapper.xml");
+        lst.add("dozer/sysconfig.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();
@@ -74,5 +76,4 @@ public class Application {
         builder.modulesToInstall(Jdk8Module.class);
         return builder;
     }
-
 }

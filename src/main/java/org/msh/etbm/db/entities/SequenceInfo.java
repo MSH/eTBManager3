@@ -7,11 +7,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="sequenceinfo")
+@Table(name = "sequenceinfo")
 public class SequenceInfo extends Synchronizable {
 
 
-	@Column(name="seq_name", length=50)
+	@Column(name = "seq_name", length = 50)
 	@NotNull
 	private String sequence;
 	
@@ -20,10 +20,10 @@ public class SequenceInfo extends Synchronizable {
 	/**
 	 * The workspace of this entity
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="WORKSPACE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "WORKSPACE_ID")
 	@NotNull
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private Workspace workspace;
 
 	public int getNumber() {

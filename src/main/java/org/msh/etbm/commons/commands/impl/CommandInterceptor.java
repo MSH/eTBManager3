@@ -52,8 +52,7 @@ public class CommandInterceptor {
         userRequestService.setCommandExecuting(true);
         try {
             return executeAndLog(pjp);
-        }
-        finally {
+        } finally {
             userRequestService.setCommandExecuting(false);
         }
     }
@@ -99,15 +98,6 @@ public class CommandInterceptor {
         }
 
         throw new CommandException("Annotated method not found: " + method.getName());
-//            System.out.println(pjp.getTarget().getClass());
-//            for (Method met: pjp.getTarget().getClass().getDeclaredMethods()) {
-//                System.out.println(met);
-//            }
-//            metAnnot = pjp.getTarget().getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
-//        }
-//        else {
-//            metAnnot = method;
-//        }
     }
 
     /**
@@ -129,12 +119,13 @@ public class CommandInterceptor {
         if (userRequestService.isAuthenticated()) {
             in.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
             in.setUserId(userRequestService.getUserSession().getUserId());
+            in.setUnitId(userRequestService.getUserSession().getUnitId());
         }
 
         // call handler of the log
         if (handlerClass != null) {
             CommandLogHandler handler = (CommandLogHandler) applicationContext.getBean(handlerClass);
-            Object p = args.length == 1? args[0]: args;
+            Object p = args.length == 1 ? args[0] : args;
             handler.prepareLog(in, p, result);
         }
 

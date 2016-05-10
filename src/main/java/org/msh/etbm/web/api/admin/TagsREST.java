@@ -2,7 +2,6 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagFormData;
 import org.msh.etbm.services.admin.tags.TagQueryParams;
@@ -27,10 +26,6 @@ public class TagsREST {
 
     @Autowired
     TagService service;
-
-    @Autowired
-    FormService formService;
-
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
     @Authenticated()
@@ -59,6 +54,11 @@ public class TagsREST {
     @Authenticated()
     public QueryResult query(@Valid @RequestBody TagQueryParams query) {
         return service.findMany(query);
+    }
+
+    @RequestMapping(value = "/tag/form/{id}", method = RequestMethod.GET)
+    public TagFormData getForm(@PathVariable UUID id) {
+        return service.findOne(id, TagFormData.class);
     }
 
 }

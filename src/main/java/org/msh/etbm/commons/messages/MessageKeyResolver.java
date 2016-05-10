@@ -56,6 +56,6 @@ public class MessageKeyResolver {
 
     protected String translate(String key) {
         Locale locale = LocaleContextHolder.getLocale();
-        return messageSource != null? messageSource.getMessage(key, null, locale): key;
+        return messageSource != null ? messageSource.getMessage(key, null, locale) : key;
     }
 }

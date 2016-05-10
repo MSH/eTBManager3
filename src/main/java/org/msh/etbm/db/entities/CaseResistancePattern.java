@@ -12,25 +12,25 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name="caseresistancepattern")
+@Table(name = "caseresistancepattern")
 public class CaseResistancePattern {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
 	/**
 	 * The TB case 
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="case_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "case_id")
 	private TbCase tbcase;
 
 	/**
 	 * The resistance pattern of the case
 	 */
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="resistpattern_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "resistpattern_id")
 	@NotNull
 	private ResistancePattern resistancePattern;
 
@@ -46,30 +46,35 @@ public class CaseResistancePattern {
 	public TbCase getTbcase() {
 		return tbcase;
 	}
+
 	/**
 	 * @param tbcase the tbcase to set
 	 */
 	public void setTbcase(TbCase tbcase) {
 		this.tbcase = tbcase;
 	}
+
 	/**
 	 * @return the resistancePattern
 	 */
 	public ResistancePattern getResistancePattern() {
 		return resistancePattern;
 	}
+
 	/**
 	 * @param resistancePattern the resistancePattern to set
 	 */
 	public void setResistancePattern(ResistancePattern resistancePattern) {
 		this.resistancePattern = resistancePattern;
 	}
+
 	/**
 	 * @return the diagnostic
 	 */
 	public boolean isDiagnosis() {
 		return diagnosis;
 	}
+
 	/**
 	 * @param diagnosis set the diagnosis
 	 */

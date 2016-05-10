@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CRUD from '../../../commons/crud';
-import CrudView from '../crud-view';
+import CrudView from '../../crud-view';
 import Profile from '../../../components/profile';
 import Form from '../../../forms/form';
 
@@ -15,7 +15,8 @@ const editorDef = {
 			label: __('Tbunit'),
 			// the default properties that the document must contain (set on initialization)
 			defaultProperties: {
-				type: 'TBUNIT'
+				type: 'TBUNIT',
+				active: true
 			},
 			layout: [
 					{
@@ -35,7 +36,7 @@ const editorDef = {
 						size: { sm: 4 }
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Unit address',
 						size: { sm: 12 }
 					},
@@ -96,19 +97,19 @@ const editorDef = {
 						label: __('Tbunit.notificationUnit')
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Medicine order settings',
 						size: { sm: 12 }
 					},
 					{
-						property: 'supplierId',
 						type: 'unit',
+						property: 'supplierId',
 						label: __('Unit.supplier'),
 						size: { sm: 6 }
 					},
 					{
-						property: 'authorizerId',
 						type: 'unit',
+						property: 'authorizerId',
 						label: __('Unit.authorizer'),
 						size: { sm: 6 }
 					},
@@ -127,7 +128,8 @@ const editorDef = {
 			label: __('Laboratory'),
 			// the default properties that the document must contain (set on initialization)
 			defaultProperties: {
-				type: 'LAB'
+				type: 'LAB',
+				active: true
 			},
 			layout: [
 					{
@@ -147,7 +149,7 @@ const editorDef = {
 						size: { sm: 4 }
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Unit address',
 						size: { sm: 12 }
 					},
@@ -208,7 +210,7 @@ const editorDef = {
 						label: __('Unit.receiveFromManufacturer')
 					},
 					{
-						el: 'subtitle',
+						type: 'subtitle',
 						label: 'Medicine order settings',
 						size: { sm: 12 }
 					},
@@ -246,7 +248,7 @@ const editorDef = {
 export default class Units extends React.Component {
 
 	cellRender(item) {
-		const auname = Form.types.adminUnit.displayText(item.adminUnit);
+		const auname = Form.types.adminUnit.controlClass().displayText(item.adminUnit);
 
 		return (
 			<Profile type={item.type.toLowerCase()}

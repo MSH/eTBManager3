@@ -9,10 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="examxpert")
+@Table(name = "examxpert")
 public class ExamXpert extends LaboratoryExam  {
 
-    @PropertyLog(operations={Operation.ALL})
+    @PropertyLog(operations = {Operation.ALL})
 	private XpertResult result;
 	
 	private XpertRifResult rifResult;
@@ -23,7 +23,7 @@ public class ExamXpert extends LaboratoryExam  {
             return ExamResult.UNDEFINED;
         }
 
-        return result == XpertResult.TB_DETECTED? ExamResult.POSITIVE: ExamResult.NEGATIVE;
+        return result == XpertResult.TB_DETECTED ? ExamResult.POSITIVE : ExamResult.NEGATIVE;
     }
 
 	public XpertResult getResult() {

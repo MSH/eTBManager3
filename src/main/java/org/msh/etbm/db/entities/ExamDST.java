@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="examdst")
+@Table(name = "examdst")
 public class ExamDST extends LaboratoryExam {
 
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy="exam")
+	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "exam")
 	private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numResistant;
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numSusceptible;
 
-	@PropertyLog(ignore=true)
+	@PropertyLog(ignore = true)
 	private int numContaminated;
 
     @Override
@@ -42,18 +42,18 @@ public class ExamDST extends LaboratoryExam {
     }
 
     /**
-	 * Search for a result by the substance 
-	 * @param sub - Substance to be used to search result
-	 * @return - Susceptibility result
-	 */
-	public ExamDSTResult findResultBySubstance(Substance sub) {
-		for (ExamDSTResult res: results) {
-			if (res.getSubstance().equals(sub)) {
-				return res;
-			}
-		}
-		return null;
-	}
+     * Search for a result by the substance
+     * @param sub - Substance to be used to search result
+     * @return - Susceptibility result
+     */
+    public ExamDSTResult findResultBySubstance(Substance sub) {
+        for (ExamDSTResult res: results) {
+            if (res.getSubstance().equals(sub)) {
+                return res;
+            }
+        }
+        return null;
+    }
 
 	public List<ExamDSTResult> getResults() {
 		return results;

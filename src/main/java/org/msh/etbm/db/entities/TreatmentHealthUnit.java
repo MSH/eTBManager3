@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="treatmenthealthunit")
+@Table(name = "treatmenthealthunit")
 public class TreatmentHealthUnit extends CaseEntity {
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="UNIT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UNIT_ID")
 	@NotNull
 	private Tbunit tbunit;
 

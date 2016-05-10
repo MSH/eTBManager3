@@ -20,7 +20,7 @@ public class WorkspaceDetailData extends WorkspaceData {
     private Integer weekFreq6;
     private Integer weekFreq7;
 
-        /**
+    /**
      * Setup the patient name composition to be used in data entry forms and displaying
      */
     private NameComposition patientNameComposition;

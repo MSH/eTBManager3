@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
 import { app } from '../../../core/app';
@@ -13,7 +13,8 @@ const editorDef = {
 		'PRODUCT': {
 			label: __('Product'),
 			defaultProperties: {
-				type: 'PRODUCT'
+				type: 'PRODUCT',
+				active: true
 			},
 			layout: [
 				{
@@ -34,10 +35,11 @@ const editorDef = {
 				},
 				{
 					property: 'active',
-					type: 'bool',
+					type: 'yesNo',
+					required: true,
 					label: __('EntityState.ACTIVE'),
 					defaultValue: true,
-					required: true
+					size: { sm: 6 }
 				},
 				{
 					property: 'customId',
@@ -51,7 +53,8 @@ const editorDef = {
 		'MEDICINE': {
 			label: __('Medicine'),
 			defaultProperties: {
-				type: 'MEDICINE'
+				type: 'MEDICINE',
+				active: true
 			},
 			layout: [
 				{
@@ -104,7 +107,7 @@ const editorDef = {
 				{
 					property: 'substances',
 					label: __('Medicine.components'),
-					type: 'multi-select',
+					type: 'multiSelect',
 					options: 'substances'
 				}
 			],

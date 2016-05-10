@@ -7,9 +7,25 @@
 
 
     <mapping>
-        <class-a>org.msh.etbm.services.admin.regimens.RegimenRequest</class-a>
-        <class-b>org.msh.etbm.db.entities.Regimen</class-b>
+        <class-a>org.msh.etbm.db.entities.Regimen</class-a>
+        <class-b>org.msh.etbm.services.admin.regimens.RegimenFormData</class-b>
+
+        <field>
+            <a>medicines</a>
+            <b>medicines</b>
+            <a-hint>org.msh.etbm.db.entities.MedicineRegimen</a-hint>
+            <b-hint>org.msh.etbm.services.admin.regimens.MedicineRegimenFormData</b-hint>
+        </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.MedicineRegimen</class-a>
+        <class-b>org.msh.etbm.services.admin.regimens.MedicineRegimenFormData</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>medicine</a>
+            <b>medicineId</b>
+        </field>
+    </mapping>
 
 </mappings>

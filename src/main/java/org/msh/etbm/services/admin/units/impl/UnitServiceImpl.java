@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.units.impl;
 
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Laboratory;
@@ -19,7 +20,7 @@ import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 /**
  * CRUD service to handle units (laboratories and TB units)
@@ -40,9 +41,8 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         // determine the class to be used in the query
         Class clazz;
         if (queryParams.getType() != null) {
-            clazz = queryParams.getType() == UnitType.TBUNIT? Tbunit.class : Laboratory.class;
-        }
-        else {
+            clazz = queryParams.getType() == UnitType.TBUNIT ? Tbunit.class : Laboratory.class;
+        } else {
             clazz = Unit.class;
         }
         builder.setEntityClass(clazz);
@@ -57,6 +57,11 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         builder.addDefaultOrderByMap(UnitQueryParams.ORDERBY_NAME, "a.name");
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT, "a.adminUnit.name, a.name");
         builder.addOrderByMap(UnitQueryParams.ORDERBY_ADMINUNIT + " desc", "a.adminUnit.name desc, a.name desc");
+
+        // check if workspace was set
+        if (queryParams.getWorkspaceId() != null) {
+            builder.setWorkspaceId(queryParams.getWorkspaceId());
+        }
 
         // add the restrictions
         builder.addLikeRestriction("a.name", queryParams.getKey());
@@ -73,13 +78,14 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
             // include children?
             if (queryParams.isIncludeSubunits()) {
                 AdministrativeUnit au = adminUnitRepository.findOne(queryParams.getAdminUnitId());
-                if (au == null || !au.getWorkspace().getId().equals(getWorkspaceId())) {
+
+                // check if admin unit is of same workspace
+                if (au == null || !au.getWorkspace().getId().equals(builder.getWorkspaceId())) {
                     rejectFieldException(queryParams, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
                 builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
-            }
-            else {
+            } else {
                 // search for units directly registered in this administrative unit
                 builder.addRestriction("a.address.adminUnit.id = :auid", queryParams.getAdminUnitId());
             }
@@ -117,16 +123,9 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void prepareToSave(Unit entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        if (entity.getAddress() == null) {
-            bindingResult.rejectValue("address", ErrorMessages.REQUIRED);
-        }
-        else {
-            if (entity.getAddress().getAdminUnit() == null) {
-                bindingResult.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
-            }
+    protected void beforeSave(Unit unit, Errors errors) {
+        if (unit.getAddress().getAdminUnit() == null) {
+            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
         }
     }
 }

@@ -42,8 +42,9 @@ public class Synchronizable {
             return false;
         }
 
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
         if (!(obj instanceof Synchronizable)) {
             return false;
@@ -51,15 +52,16 @@ public class Synchronizable {
 
         UUID objId = ((Synchronizable)obj).getId();
 
-        if (objId == null)
+        if (objId == null) {
             return false;
+        }
 
         return objId.equals(getId());
     }
 
     @Override
     public int hashCode() {
-        return id != null? id.hashCode() : super.hashCode();
+        return id != null ? id.hashCode() : super.hashCode();
     }
 
     @Override

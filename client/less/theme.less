@@ -314,7 +314,7 @@
 @zindex-navbar: 1000;
 @zindex-dropdown: 1000;
 @zindex-popover: 1010;
-@zindex-tooltip: 1030;
+@zindex-tooltip: 1050;
 @zindex-navbar-fixed: 1030;
 @zindex-modal-background: 1040;
 @zindex-modal: 1050;
@@ -451,7 +451,8 @@
 @pre-color: @gray-dark;
 @pre-border-color: #ccc;
 @pre-scrollable-max-height: 340px;
-@text-muted: @gray-light;
+//@text-muted: @gray-light;
+@text-muted: #a0a0a0;
 @abbr-border-color: @gray-light;
 @headings-small-color: @gray-light;
 @blockquote-small-color: @gray-light;
@@ -470,12 +471,6 @@
 @control-label-color: #808080;
 
 @import "app.less";
-@import "callout.less";
-@import "card.less";
-@import "profile.less";
-@import "fluidbar.less";
-@import "collapse-card.less";
-@import "selection-box.less";
 
 
 .alert {
@@ -495,19 +490,8 @@
 	color: @control-label-color;
 }
 
-/* Small devices (tablets, 768px and up) */
-// @media (max-width: @screen-xs-max)  {
-// .row {
-//   margin-right: (@grid-gutter-width / 2) * -1;
-//   margin-left: (@grid-gutter-width / 2) * -1;
-
-//   > [class*="col-"] {
-//     padding-right: 4px;
-//     padding-left: 4px;
-//   }
-
-//   > [class*="col-"]:first-child {
-//   	padding-left: @grid-gutter-width / 2;
-//   }
-// }
-// }
+.form-control-static {
+	padding:4px 8px !important;
+	background-color: #f6f6f6;
+	color: #404040;
+}

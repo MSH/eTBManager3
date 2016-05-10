@@ -14,30 +14,30 @@ import java.util.List;
  *
  */
 @Entity
-@Table(name="orderitem")
+@Table(name = "orderitem")
 public class OrderItem extends Synchronizable {
 
-	@ManyToOne(cascade={CascadeType.ALL})
-	@JoinColumn(name="ORDER_ID")
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "ORDER_ID")
 	@NotNull
 	private Order order;
 	
 	@ManyToOne
-	@JoinColumn(name="PRODUCT_ID")
+	@JoinColumn(name = "PRODUCT_ID")
 	@NotNull
 	private Product product;
 	
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="MOVEMENT_IN_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MOVEMENT_IN_ID")
 	private Movement MovementIn;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="MOVEMENT_OUT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "MOVEMENT_OUT_ID")
 	private Movement MovementOut;
 	
 	private int estimatedQuantity;
@@ -50,13 +50,13 @@ public class OrderItem extends Synchronizable {
 	
 	private Integer numPatients;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String comment;
 
-	@OneToMany(mappedBy="orderItem", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "orderItem", cascade = {CascadeType.ALL})
 	private List<OrderBatch> batches = new ArrayList<OrderBatch>();
 
-	@OneToMany(mappedBy="item", cascade={CascadeType.ALL})
+	@OneToMany(mappedBy = "item", cascade = {CascadeType.ALL})
 	private List<OrderCase> cases = new ArrayList<OrderCase>();
 
 	/**
@@ -72,7 +72,7 @@ public class OrderItem extends Synchronizable {
 	 * @return
 	 */
 	public Integer getQuantityToShip() {
-		return (approvedQuantity != null? approvedQuantity: requestedQuantity);
+		return (approvedQuantity != null ? approvedQuantity : requestedQuantity);
 	}
 
 
@@ -98,12 +98,12 @@ public class OrderItem extends Synchronizable {
 		float total = 0;
 		float qtd = 0;
 		for (OrderBatch b: batches) {
-			int aux = (b.getReceivedQuantity() != null? b.getReceivedQuantity(): b.getQuantity()); 
+			int aux = (b.getReceivedQuantity() != null ? b.getReceivedQuantity() : b.getQuantity());
 			qtd += aux;
 			total += b.getBatch().getUnitPrice() * aux;
 		}
 		
-		return (qtd > 0? total/qtd: 0);
+		return qtd > 0 ? total / qtd : 0;
 	}
 
 
@@ -137,8 +137,9 @@ public class OrderItem extends Synchronizable {
 	 */
 	public OrderBatch findOrderBatchByBatch(Batch batch) {
 		for (OrderBatch ob: batches) {
-			if (ob.getBatch().equals(batch))
-				return ob;
+			if (ob.getBatch().equals(batch)) {
+                return ob;
+            }
 		}
 		return null;
 	}
@@ -146,68 +147,88 @@ public class OrderItem extends Synchronizable {
 	public Integer getApprovedQuantity() {
 		return approvedQuantity;
 	}
-	public void setApprovedQuantity(Integer approvedQuantity) {
+
+    public void setApprovedQuantity(Integer approvedQuantity) {
 		this.approvedQuantity = approvedQuantity;
 	}
 
 	public int getRequestedQuantity() {
 		return requestedQuantity;
 	}
+
 	public void setRequestedQuantity(int requestedQuantity) {
 		this.requestedQuantity = requestedQuantity;
 	}
-	public Integer getReceivedQuantity() {
+
+    public Integer getReceivedQuantity() {
 		return receivedQuantity;
 	}
-	public void setReceivedQuantity(Integer receivedQuantity) {
+
+    public void setReceivedQuantity(Integer receivedQuantity) {
 		this.receivedQuantity = receivedQuantity;
 	}
-	public Source getSource() {
+
+    public Source getSource() {
 		return source;
 	}
-	public void setSource(Source source) {
+
+    public void setSource(Source source) {
 		this.source = source;
 	}
-	public Movement getMovementIn() {
+
+    public Movement getMovementIn() {
 		return MovementIn;
 	}
-	public void setMovementIn(Movement movementIn) {
+
+    public void setMovementIn(Movement movementIn) {
 		MovementIn = movementIn;
 	}
-	public Movement getMovementOut() {
+
+    public Movement getMovementOut() {
 		return MovementOut;
 	}
-	public void setMovementOut(Movement movementOut) {
+
+    public void setMovementOut(Movement movementOut) {
 		MovementOut = movementOut;
 	}
-	public List<OrderBatch> getBatches() {
+
+    public List<OrderBatch> getBatches() {
 		return batches;
 	}
-	public void setBatches(List<OrderBatch> batches) {
+
+    public void setBatches(List<OrderBatch> batches) {
 		this.batches = batches;
 	}
-	public Order getOrder() {
+
+    public Order getOrder() {
 		return order;
 	}
-	public void setOrder(Order order) {
+
+    public void setOrder(Order order) {
 		this.order = order;
 	}
-	public int getEstimatedQuantity() {
+
+    public int getEstimatedQuantity() {
 		return estimatedQuantity;
 	}
-	public void setEstimatedQuantity(int estimatedQuantity) {
+
+    public void setEstimatedQuantity(int estimatedQuantity) {
 		this.estimatedQuantity = estimatedQuantity;
 	}
-	public Integer getShippedQuantity() {
+
+    public Integer getShippedQuantity() {
 		return shippedQuantity;
 	}
-	public void setShippedQuantity(Integer shippedQuantity) {
+
+    public void setShippedQuantity(Integer shippedQuantity) {
 		this.shippedQuantity = shippedQuantity;
 	}
-	public String getComment() {
+
+    public String getComment() {
 		return comment;
 	}
-	public void setComment(String comment) {
+
+    public void setComment(String comment) {
 		this.comment = comment;
 	}
 

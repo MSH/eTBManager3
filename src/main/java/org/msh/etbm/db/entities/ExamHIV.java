@@ -13,10 +13,10 @@ import java.util.Date;
  * Records information about an HIV result during the treatment
  */
 @Entity
-@Table(name="examhiv")
+@Table(name = "examhiv")
 public class ExamHIV extends CaseEvent {
 
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private HIVResult result;
 	
 	@Temporal(TemporalType.DATE)
@@ -25,8 +25,8 @@ public class ExamHIV extends CaseEvent {
 	@Temporal(TemporalType.DATE)
 	private Date startedCPTdate;
 	
-	@Column(length=100)
-	@PropertyLog(operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 100)
+	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String laboratory;
 
 
@@ -40,13 +40,15 @@ public class ExamHIV extends CaseEvent {
 	}
 	
 	public void setCPTstarted(boolean value) {
-		if (!value)
-			startedCPTdate = null;
+		if (!value) {
+            startedCPTdate = null;
+        }
 	}
 	
 	public void setARTstarted(boolean value) {
-		if (!value)
-			startedARTdate = null;
+		if (!value) {
+            startedARTdate = null;
+        }
 	}
 	
 	public String getLaboratory() {

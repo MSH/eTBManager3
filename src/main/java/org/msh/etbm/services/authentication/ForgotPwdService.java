@@ -66,7 +66,7 @@ public class ForgotPwdService {
     public void changePassword(String reqId, String newpwd) {
         if (!UserUtils.isValidPassword(newpwd)) {
             throw new IllegalArgumentException("Invalid password");
-        };
+        }
 
         List<User> lst = entityManager.createQuery("from User where pwdChangeRequest = :req")
                 .setParameter("req", reqId)

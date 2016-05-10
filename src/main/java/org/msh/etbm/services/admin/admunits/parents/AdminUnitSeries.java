@@ -77,11 +77,11 @@ public class AdminUnitSeries {
     @JsonIgnore
     public int getLevel() {
         int level = 5;
-        return 5 - (p5 == null? 1: 0) -
-                (p4 == null? 1: 0) -
-                (p3 == null? 1: 0) -
-                (p2 == null? 1: 0) -
-                (p1 == null? 1: 0);
+        return 5 - (p5 == null ? 1 : 0)
+                - (p4 == null ? 1 : 0)
+                - (p3 == null ? 1 : 0)
+                - (p2 == null ? 1 : 0)
+                - (p1 == null ? 1 : 0);
     }
 
     public SynchronizableItem getP5() {

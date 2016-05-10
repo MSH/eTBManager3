@@ -20,13 +20,13 @@ public class Medicine extends Product {
 	private MedicineLine line;
 
     @ManyToMany
-    @JoinTable(name="medicine_substances",
-            joinColumns={@JoinColumn(name="MEDICINE_ID")},
-            inverseJoinColumns={@JoinColumn(name="SUBSTANCE_ID")})
+    @JoinTable(name = "medicine_substances",
+            joinColumns = {@JoinColumn(name = "MEDICINE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "SUBSTANCE_ID")})
     private List<Substance> substances = new ArrayList<>();
 
 	public String getTbInfoKey() {
-		return line != null? line.getKey(): null;
+		return line != null ? line.getKey() : null;
 	}
 
 

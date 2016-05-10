@@ -12,28 +12,28 @@ import javax.validation.constraints.NotNull;
  *
  */
 @Entity
-@Table(name="casesideeffect")
+@Table(name = "casesideeffect")
 public class CaseSideEffect extends CaseEntity {
 
 	@Embedded
-	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "SIDEEFFECT_ID")) })
-	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")) })
+	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")),
+			@AttributeOverride(name = "value", column = @Column(name = "sideeffect")) })
 	@NotNull
 	private FieldValueComponent sideEffect;
 
 	private String medicines;
 	
-	@Column(name="SE_MONTH")
+	@Column(name = "SE_MONTH")
 	private int month;
 	
 	private YesNoType resolved;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SUBSTANCE_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SUBSTANCE_ID")
 	private Substance substance;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="SUBSTANCE2_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SUBSTANCE2_ID")
 	private Substance substance2;
 	
 	@Lob
@@ -72,8 +72,10 @@ public class CaseSideEffect extends CaseEntity {
 	 * @return the sideEffect
 	 */
 	public FieldValueComponent getSideEffect() {
-		if (sideEffect == null)
-			sideEffect = new FieldValueComponent();
+		if (sideEffect == null) {
+            sideEffect = new FieldValueComponent();
+        }
+
 		return sideEffect;
 	}
 

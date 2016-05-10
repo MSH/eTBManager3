@@ -17,13 +17,13 @@ import java.util.Date;
 @Table(name = "casecomment")
 public class CaseComment extends CaseEntity {
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
 	@NotNull
 	private User user;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="comment_date")
+	@Column(name = "comment_date")
 	@NotNull
 	private Date date;
 	
@@ -77,17 +77,17 @@ public class CaseComment extends CaseEntity {
 		this.comment = comment;
 	}
 
-	/**
-	 * @return the view
-	 */
+    /**
+     * @return the view
+     */
     public CaseView getView() {
 		return view;
 	}
 
 
-	/**
-	 * @param view the view to set
-	 */
+    /**
+     * @param view the view to set
+     */
     public void setView(CaseView view) {
 		this.view = view;
 	}

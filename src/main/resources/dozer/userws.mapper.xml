@@ -6,7 +6,7 @@
 
 
     <mapping>
-        <class-a>org.msh.etbm.services.admin.usersws.UserWsFormData</class-a>
+        <class-a>org.msh.etbm.services.admin.usersws.data.UserWsFormData</class-a>
         <class-b>org.msh.etbm.db.entities.UserWorkspace</class-b>
 
         <field>
@@ -22,6 +22,11 @@
         <field>
             <a>email</a>
             <b>user.email</b>
+        </field>
+
+        <field>
+            <a>sendSystemMessages</a>
+            <b>user.sendSystemMessages</b>
         </field>
 
         <field custom-converter-id="entity-id">
@@ -45,10 +50,24 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
+        <class-b>org.msh.etbm.services.admin.usersws.data.UserWsItemData</class-b>
+
+        <field>
+            <a>user.name</a>
+            <b>name</b>
+        </field>
+
+        <field>
+            <a>user.id</a>
+            <b>userId</b>
+        </field>
+    </mapping>
 
     <mapping>
         <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
-        <class-b>org.msh.etbm.services.admin.usersws.UserWsData</class-b>
+        <class-b>org.msh.etbm.services.admin.usersws.data.UserWsData</class-b>
 
         <field>
             <a>user.name</a>

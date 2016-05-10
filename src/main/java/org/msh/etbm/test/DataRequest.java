@@ -12,9 +12,12 @@ import java.util.Optional;
 public class DataRequest {
     @NotNull
     private Optional<String> name;
+
     @NotNull
     private Optional<Integer> age;
+
     private Optional<AddressRequest> address;
+
     private Optional<Date> birthDate;
 
     public Optional<String> getName() {

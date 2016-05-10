@@ -9,14 +9,18 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="medicineregimen")
+@Table(name = "medicineregimen")
 public class MedicineRegimen extends Synchronizable {
 
 
 	@ManyToOne
-	@JoinColumn(name="MEDICINE_ID")
+	@JoinColumn(name = "MEDICINE_ID")
 	@NotNull
 	private Medicine medicine;
+
+    @ManyToOne
+    @JoinColumn(name = "REGIMEN_ID")
+    private Regimen regimen;
 
     @NotNull
 	private int defaultDoseUnit;
@@ -32,8 +36,8 @@ public class MedicineRegimen extends Synchronizable {
     /**
      * Number of days of treatment for this medicine
      */
-	private int days;
-	
+    private int days;
+
 
 	public Medicine getMedicine() {
 		return medicine;
@@ -73,5 +77,13 @@ public class MedicineRegimen extends Synchronizable {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public Regimen getRegimen() {
+        return regimen;
+    }
+
+    public void setRegimen(Regimen regimen) {
+        this.regimen = regimen;
     }
 }

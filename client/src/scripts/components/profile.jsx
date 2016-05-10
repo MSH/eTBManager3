@@ -10,8 +10,9 @@ export default class Profile extends React.Component {
 	getIconType() {
 		switch (this.props.type) {
 			case 'male':
+				return 'male';
 			case 'female':
-				return 'user';
+				return 'female';
 			case 'tbunit':
 				return 'hospital-o';
 			case 'lab':
@@ -52,8 +53,12 @@ export default class Profile extends React.Component {
 				<div className={imgClass}>
 					<i className={icon} />
 				</div>
-				<div className="profile-title">{this.props.title}</div>
-				<div className="profile-subtitle">{this.props.subtitle}</div>
+				{
+					this.props.title && <div className="profile-title">{this.props.title}</div>
+				}
+				{
+					this.props.subtitle && <div className="profile-subtitle">{this.props.subtitle}</div>
+				}
 			</div>
 		);
 	}

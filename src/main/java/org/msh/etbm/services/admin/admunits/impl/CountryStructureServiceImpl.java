@@ -1,14 +1,16 @@
 package org.msh.etbm.services.admin.admunits.impl;
 
+import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 
 /**
@@ -41,17 +43,9 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void prepareToSave(CountryStructure entity, BindingResult bindingResult) throws EntityValidationException {
-        super.prepareToSave(entity, bindingResult);
-
-        // there are error messages ?
-        if (bindingResult.hasErrors()) {
-            return;
-        }
-
-        if (!checkUnique(entity, "name", "level = " + entity.getLevel())) {
-            bindingResult.rejectValue("name", "NotUnique");
+    protected void beforeSave(CountryStructure cs, Errors errors) {
+        if (!checkUnique(cs, "name", "level = " + cs.getLevel())) {
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
     }
-
 }

@@ -4,6 +4,7 @@ package org.msh.etbm.services.admin.regimens;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.db.entities.MedicineRegimen;
 import org.msh.etbm.db.entities.Regimen;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,20 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
 
         if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
+        }
+    }
+
+    @Override
+    protected void mapRequest(Object request, Regimen regimen) {
+        // clear previous regimens
+        regimen.getMedicines().clear();
+
+        // run default mapping
+        super.mapRequest(request, regimen);
+
+        // manually set the parent regimen, since it cannot be done by dozer
+        for (MedicineRegimen mr: regimen.getMedicines()) {
+            mr.setRegimen(regimen);
         }
     }
 }

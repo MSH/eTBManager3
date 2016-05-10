@@ -90,8 +90,7 @@ public class FormRequest {
 
         try {
             return UUID.fromString((String)value);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new InvalidArgumentException(name, "Not a valid UUID", null);
         }
     }

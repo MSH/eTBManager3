@@ -11,22 +11,23 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="source")
+@Table(name = "source")
 public class Source extends WorkspaceEntity {
 
-	@PropertyLog(messageKey="form.name", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "form.name", operations = {Operation.NEW, Operation.DELETE})
     @Column(length = 100)
     @NotNull
 	private String name;
 
-	@PropertyLog(messageKey= "form.shortName", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "form.shortName", operations = {Operation.NEW, Operation.DELETE})
     @NotNull
 	private String shortName;
 
-	@Column(length=50)
-	@PropertyLog(messageKey="form.customId", operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 50)
+	@PropertyLog(messageKey = "form.customId", operations = {Operation.NEW, Operation.DELETE})
 	private String customId;
 
+    @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active = true;
 
 

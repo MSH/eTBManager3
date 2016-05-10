@@ -32,6 +32,11 @@ public class ObjectAccessException extends RuntimeException {
         this.property = null;
     }
 
+    ObjectAccessException(String msg) {
+        super(msg);
+        this.property = null;
+    }
+
     public Object getObject() {
         return object;
     }

@@ -4,12 +4,13 @@ import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.db.entities.Substance;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,24 +51,18 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
 
     @Override
-    protected void prepareToSave(Substance entity, BindingResult bindingResult) {
-        super.prepareToSave(entity, bindingResult);
-
-        // there is any validation error ?
-        if (bindingResult.hasErrors()) {
-            return;
-        }
-
+    protected void beforeSave(Substance sub, Errors errors) {
         // check if name is unique
-        if (!checkUnique(entity, "name")) {
-            bindingResult.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(sub, "name")) {
+            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
         }
 
         // check if short name is unique
-        if (!checkUnique(entity, "shortName")) {
-            bindingResult.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+        if (!checkUnique(sub, "shortName")) {
+            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
         }
     }
+
 
     @Override
     public String getFormCommandName() {

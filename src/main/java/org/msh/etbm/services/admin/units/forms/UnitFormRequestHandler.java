@@ -13,6 +13,7 @@ import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,17 +35,62 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
 
     @Override
     public UnitFormResponse execFormRequest(FormRequest req) {
-        String val = req.getStringParam("value");
-        UUID unitId = val != null && !val.isEmpty() ? UUID.fromString(val) : null;
+        boolean unitsOnly = req.getBoolParam("units");
+
+        return unitsOnly ? unitsResponse(req) : initResponse(req);
+    }
+
+
+    /**
+     * Called when field needs to update the list of units
+     * @param req the request data
+     * @return instance of {@link UnitFormResponse} containing the list of units
+     */
+    protected UnitFormResponse unitsResponse(FormRequest req) {
+        // what will be sent back to the client
+        UnitFormResponse res = new UnitFormResponse();
+
+        // get the workspace ID (not required)
+        UUID wsId = req.getIdParam("workspaceId");
+
+        // get the selected administrative unit ID
+        UUID auId = req.getIdParam("adminUnitId");
+
+        List<UnitItemData> units = getUnits(auId, wsId);
+
+        res.setUnits(units);
+
+        res.setWorkspaceId(wsId);
+
+        return res;
+    }
+
+    /**
+     * Basic response, called when field control is being initialized
+     * @return instance of {@link UnitFormResponse} containing the data to initialize the field
+     */
+    protected UnitFormResponse initResponse(FormRequest req) {
+        // get the selected unit ID, if any
+        UUID unitId = req.getIdParam("value");
+
+        // what will be sent back to the client
+        UnitFormResponse res = new UnitFormResponse();
 
         // return the root list
         AdminUnitQueryParams qry = new AdminUnitQueryParams();
+
+        // check if there is any workspace specified
+        UUID wsId = req.getIdParam("workspaceId");
+        if (wsId != null) {
+            qry.setWorkspaceId(wsId);
+        }
         qry.setRootUnits(true);
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
 
-        UnitFormResponse res = new UnitFormResponse();
         res.setAdminUnits(qr.getList());
+
+        res.setWorkspaceId(wsId);
 
         // if there is no ID, then just return the root list
         if (unitId == null) {
@@ -57,16 +103,30 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         // get selected administrative unit
         res.setAdminUnitId( unit.getAdminUnit().getSelected().getId() );
 
+        // get the list of units to be displayed
+        res.setUnits( getUnits(unit.getAdminUnit().getSelected().getId(), wsId) );
+
+        return res;
+    }
+
+    /**
+     * Return the list of units for the give admin unit and workspace
+     * @param adminUnitId the administrative unit to get units from
+     * @param workspaceId the workspace ID that admin unit belongs to (not required if it is the same of the
+     *                    user session)
+     * @return list of units
+     */
+    protected List<UnitItemData> getUnits(UUID adminUnitId, UUID workspaceId) {
         // query the units of administrative unit as parent
         UnitQueryParams uqry = new UnitQueryParams();
-        uqry.setAdminUnitId(unit.getAdminUnit().getSelected().getId());
+        uqry.setAdminUnitId(adminUnitId);
+        if (workspaceId != null) {
+            uqry.setWorkspaceId(workspaceId);
+        }
         uqry.setIncludeSubunits(true);
         uqry.setProfile(UnitQueryParams.PROFILE_ITEM);
         QueryResult<UnitItemData> unitRes = unitService.findMany(uqry);
-
-        res.setUnits(unitRes.getList());
-
-        return res;
+        return unitRes.getList();
     }
 
     @Override

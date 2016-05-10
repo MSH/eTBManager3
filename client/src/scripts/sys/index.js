@@ -8,7 +8,7 @@ var view;
 export function init() {
 
 	return view || new Promise(resolve => {
-		require.ensure(['./routes', './toolbar-content', './types/init'], function(require) {
+		require.ensure(['./routes', './toolbar-content', './types/init'], require => {
 			var Routes = require('./routes');
 			var Types = require('./types/init');
 
@@ -26,7 +26,7 @@ export function init() {
 			}
 
 			// authenticate the user with the server
-			authenticate()
+			return authenticate()
 			.then(() => {
 				// set the content of the toolbar
 				const ToolbarContent = require('./toolbar-content');

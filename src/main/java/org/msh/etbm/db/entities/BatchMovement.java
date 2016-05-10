@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class BatchMovement extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="BATCH_ID")
+	@JoinColumn(name = "BATCH_ID")
 	@NotNull
 	private Batch batch;
 	
@@ -23,7 +23,7 @@ public class BatchMovement extends Synchronizable {
     private int availableQuantity;
 
     @ManyToOne
-    @JoinColumn(name="MOVEMENT_ID")
+    @JoinColumn(name = "MOVEMENT_ID")
     @NotNull
     private Movement movement;
 
@@ -50,7 +50,7 @@ public class BatchMovement extends Synchronizable {
 	}
 	
 	public float getTotalPrice() {
-		return (getBatch( )!= null? quantity * (float)batch.getUnitPrice(): 0);
+		return getBatch( ) != null ? quantity * (float)batch.getUnitPrice() : 0;
 	}
 	
 

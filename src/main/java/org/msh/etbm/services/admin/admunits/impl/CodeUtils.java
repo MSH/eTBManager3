@@ -20,22 +20,25 @@ public class CodeUtils {
 
         String newCode = intToCode(value);
 
-        if (newCode.length() > 3)
+        if (newCode.length() > 3) {
             throw new RuntimeException("incCode cannot generate value bigger than 3 digits");
+        }
 
         return newCode;
     }
 
     static public int codeToInt(String code) {
-        int index = code.length()-1;
+        int index = code.length() - 1;
         int value = 0;
         int mult = 1;
         for (int i = index; i >= 0; i--) {
             char c = code.charAt(i);
             int val = 0;
-            if ((c >= '0') && (c <= '9'))
+            if ((c >= '0') && (c <= '9')) {
                 val = ((int)c) - 48;
-            else val = ((int)c) - 65 + 10;
+            } else {
+                val = ((int)c) - 65 + 10;
+            }
 
             value += val * mult;
             mult *= 36;
@@ -55,12 +58,15 @@ public class CodeUtils {
             char c;
             int digit = val % 36;
             val = val / 36;
-            if (digit <= 9)
+            if (digit <= 9) {
                 c = Integer.toString(digit).charAt(0);
-            else c = (char)(digit + 65 - 10);
+            } else {
+                c = (char)(digit + 65 - 10);
+            }
             result = c + result;
-            if (val == 0)
+            if (val == 0) {
                 break;
+            }
         }
 
         result = "000" + result;

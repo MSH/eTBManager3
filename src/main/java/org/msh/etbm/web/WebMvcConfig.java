@@ -57,15 +57,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Interceptor to get the language
-     * @return instance of the LocaleChangeInterceptor
-     */
-//    @Bean
-//    public LocaleRequestInterceptor localeChangeInterceptor() {
-//        return new LocaleRequestInterceptor();
-//    }
-
-    /**
      * Indicate the validator to use the same resource as the app uses
      * @return instance of Validator class
      */

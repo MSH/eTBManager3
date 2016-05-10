@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 
 const crud = new CRUD('countrystructure');
@@ -48,7 +48,7 @@ export default class CountryStructures extends React.Component {
 			<CrudView crud={crud}
 				title={__('admin.auorg')}
 				onCellRender={this.cellRender}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				cellSize={{ md: 12 }}
 				perm="ADMINUNIT_ED" />
 			);

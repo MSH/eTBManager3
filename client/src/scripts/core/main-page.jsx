@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { RouteView, router } from '../components/router';
+import { RouteView } from '../components/router';
 import PageNotFound from './page-not-found';
 
 import Toolbar from './toolbar';
@@ -47,8 +47,7 @@ export default class MainPage extends React.Component {
 		var routers = RouteView.createRoutes([
 			{ path: '/pub', viewResolver: this.openPublic },
 			{ path: '/init', viewResolver: this.openInit },
-			{ path: '/sys', viewResolver: this.openApp },
-			{ path: '/pagenotfound', view: PageNotFound }
+			{ path: '/sys', viewResolver: this.openApp }
 		]);
 
 		return (
@@ -58,7 +57,7 @@ export default class MainPage extends React.Component {
 					<RouteView key={1}
 						routes={routers}
 						loadingView={<WaitIcon/>}
-						errorPath="/pagenotfound"/>
+						pageNotFoundView={PageNotFound} />
 
 				</div>
 				<Footer />

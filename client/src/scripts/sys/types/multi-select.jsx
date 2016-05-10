@@ -1,35 +1,25 @@
 
 import React from 'react';
 import { SelectionBox } from '../../components/index';
-import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
-import { isString } from '../../commons/utils';
 
 
 /**
  * Field component to handle an array as value to select multiple options
  */
-class MultiSelect extends React.Component {
+export default class MultiSelect extends React.Component {
+
+	static typeName() {
+		return 'multiSelect';
+	}
 
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 	}
 
-	componentWillMount() {
-		this.setState({ resources: this.props.resources ? this.props.resources : null });
-	}
-
-	static getServerRequest(sc) {
-		return isString(sc.options) ?
-			{ cmd: sc.options } :
-			null;
-	}
-
-	static getInitParams(sc) {
-		return {
-			options: sc.options
-		};
+	serverRequest(nextSchema, nextValue, nextResources) {
+		return FormUtils.optionsRequest(this.props, nextSchema, nextValue, nextResources);
 	}
 
 	/**
@@ -50,7 +40,7 @@ class MultiSelect extends React.Component {
 	 */
 	adjustValues() {
 		const vals = this.props.value;
-		const options = this.state.resources;
+		const options = this.props.resources;
 		if (!vals || !options) {
 			return null;
 		}
@@ -75,7 +65,7 @@ class MultiSelect extends React.Component {
 				label={label}
 				optionDisplay="name"
 				mode="multiple"
-				options={this.state.resources}
+				options={this.props.resources}
 				onChange={this.onChange} />
 			);
 	}
@@ -89,9 +79,3 @@ MultiSelect.propTypes = {
 	resources: React.PropTypes.array,
 	noForm: React.PropTypes.bool
 };
-
-MultiSelect.options = {
-	supportedTypes: 'multi-select'
-};
-
-export default Form.typeWrapper(MultiSelect);

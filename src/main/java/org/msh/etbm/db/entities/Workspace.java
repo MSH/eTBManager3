@@ -12,29 +12,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="workspace")
+@Table(name = "workspace")
 public class Workspace extends Synchronizable implements Displayable {
 
-	@PropertyLog(messageKey="form.name")
+	@PropertyLog(messageKey = "form.name")
     @NotNull
     @Size(min = 2, max = 50)
 	private String name;
 
-	@OneToMany(mappedBy="workspace", cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-	@PropertyLog(ignore=true)
+	@OneToMany(mappedBy = "workspace", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@PropertyLog(ignore = true)
 	private List<UserWorkspace> users = new ArrayList<>();
 
-	// frequency of doses in a weekly basis
+    /**
+     * frequency of doses in a weekly basis
+     */
+    @PropertyLog(ignore = true)
 	private Integer weekFreq1;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq2;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq3;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq4;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq5;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq6;
+
+    @PropertyLog(ignore = true)
 	private Integer weekFreq7;
 
-	@OneToOne(cascade={CascadeType.REMOVE}, fetch= FetchType.LAZY)
+	@OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
+    @PropertyLog(ignore = true)
 	private WorkspaceView view;
 
 	/**
@@ -101,6 +117,7 @@ public class Workspace extends Synchronizable implements Displayable {
 	 */
 	private TreatMonitoringInput treatMonitoringInput;
 
+    @PropertyLog(messageKey = "form.customId")
     private String customId;
 
 
@@ -151,8 +168,6 @@ public class Workspace extends Synchronizable implements Displayable {
 	public void setUsers(List<UserWorkspace> users) {
 		this.users = users;
 	}
-
-
 
 	/**
 	 * @return the patientNameComposition

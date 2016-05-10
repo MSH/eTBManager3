@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  */
 @Entity
-@Table(name="workspaceview")
+@Table(name = "workspaceview")
 public class WorkspaceView {
 
 	@Id
@@ -20,16 +20,16 @@ public class WorkspaceView {
 	private UUID id;
 	
 	// specific information by country
-	@OneToOne(mappedBy="view")
+	@OneToOne(mappedBy = "view")
 	private Workspace workspace;
 	
 	@Lob
 	private byte[] picture;
 
-	@Column(length=200)
+	@Column(length = 200)
 	private String logoImage;
 	
-	@Column(length=20)
+	@Column(length = 20)
 	private String pictureContentType;
 
 
@@ -106,18 +106,27 @@ public class WorkspaceView {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		if (this == obj) {
+            return true;
+        }
+
+		if (obj == null) {
+            return false;
+        }
+
+		if (getClass() != obj.getClass()) {
+            return false;
+        }
+
 		WorkspaceView other = (WorkspaceView) obj;
 		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
+			if (other.id != null) {
+                return false;
+            }
+		} else if (!id.equals(other.id)) {
+            return false;
+        }
+
 		return true;
 	}
 
@@ -135,27 +144,4 @@ public class WorkspaceView {
 		this.pictureContentType = pictureContentType;
 	}
 
-	/**
-	 * Change the content type according to the image type
-	 * @param extension
-	 * @return
-	 */
-	public boolean setPictureContentTypeByFileExtension(String extension) {
-		if (extension == null)
-			return false;
-		
-		String ext = extension.toLowerCase();
-		
-		if (".gif".equals(ext))
-			pictureContentType = "image/gif";
-		else
-		if ((".jpg".equals(ext)) || (".jpeg".equals(ext)) || (".jpe".equals(ext)))
-			pictureContentType = "image/jpeg";
-		else
-		if ("png".equals(ext))
-			pictureContentType = "image/x-png";
-		else return false;
-		
-		return true;
-	}
 }

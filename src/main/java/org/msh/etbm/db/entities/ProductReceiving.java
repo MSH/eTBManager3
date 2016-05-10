@@ -11,11 +11,11 @@ import java.util.List;
 
 
 @Entity
-@Table(name="productreceiving")
+@Table(name = "productreceiving")
 public class ProductReceiving extends Synchronizable {
 
 	@ManyToOne
-	@JoinColumn(name="UNIT_ID")
+	@JoinColumn(name = "UNIT_ID")
 	@NotNull
 	private Tbunit tbunit;
 	
@@ -24,7 +24,7 @@ public class ProductReceiving extends Synchronizable {
 	private Date receivingDate;
 	
 	@ManyToOne
-	@JoinColumn(name="SOURCE_ID")
+	@JoinColumn(name = "SOURCE_ID")
 	@NotNull
 	private Source source;
 
@@ -34,9 +34,9 @@ public class ProductReceiving extends Synchronizable {
 	private double totalPrice;
 	
 	@ManyToMany
-	@JoinTable(name="movements_receiving",
-			joinColumns={@JoinColumn(name="RECEIVING_ID")},
-			inverseJoinColumns={@JoinColumn(name="MOVEMENT_ID")})
+	@JoinTable(name = "movements_receiving",
+			joinColumns = {@JoinColumn(name = "RECEIVING_ID")},
+			inverseJoinColumns = {@JoinColumn(name = "MOVEMENT_ID")})
 	private List<Movement> movements = new ArrayList<Movement>();
 
 	
@@ -47,8 +47,9 @@ public class ProductReceiving extends Synchronizable {
 	 */
 	public Movement movementByProduct(Product prod) {
 		for (Movement mov: movements) {
-			if (mov.getProduct().equals(prod))
-				return mov;
+			if (mov.getProduct().equals(prod)) {
+                return mov;
+            }
 		}
 		return null;
 	}
@@ -58,7 +59,7 @@ public class ProductReceiving extends Synchronizable {
 	 */
 	@Override
 	public String toString() {
-		return (source != null? source.toString() + " - " + DateUtils.formatDate(receivingDate, "dd-MMM-yyyy"): super.toString());
+		return (source != null ? source.toString() + " - " + DateUtils.formatDate(receivingDate, "dd-MMM-yyyy") : super.toString());
 	}
 
 

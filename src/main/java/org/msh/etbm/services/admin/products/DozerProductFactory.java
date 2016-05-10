@@ -22,8 +22,7 @@ public class DozerProductFactory implements BeanFactory {
             Optional<ProductType> opt = ((ProductFormData) source).getType();
             if (opt != null && opt.get() == ProductType.MEDICINE) {
                 return new Medicine();
-            }
-            else {
+            } else {
                 return new Product();
             }
         }
@@ -36,7 +35,7 @@ public class DozerProductFactory implements BeanFactory {
         // target is a request?
         if (clazz == ProductFormData.class) {
             ProductFormData req = new ProductFormData();
-            req.setType(Optional.of(isMed ? ProductType.MEDICINE: ProductType.PRODUCT));
+            req.setType(Optional.of(isMed ? ProductType.MEDICINE : ProductType.PRODUCT));
             return req;
         }
 

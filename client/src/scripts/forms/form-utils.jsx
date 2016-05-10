@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { server } from '../commons/server';
-import { isFunction } from '../commons/utils';
+import { isFunction, isString, objEqual } from '../commons/utils';
 import Form from './form';
 
 const requiredTooltip = (
@@ -30,6 +30,18 @@ export default class FormUtils {
 			txt;
 	}
 
+	static readOnlyRender(content, label) {
+		const labelelem = label ? <label className="control-label">{FormUtils.labelRender(label)}</label> : null;
+		return (
+			<div className="form-group">
+				{labelelem}
+				<div className="form-control-static">
+					{content ? content : '-'}
+				</div>
+			</div>
+			);
+	}
+
 
 	/**
 	 * Return the server request of the options, if available
@@ -37,19 +49,18 @@ export default class FormUtils {
 	 * @param  {[type]} doc    The document of the form
 	 * @return {[type]}        [description]
 	 */
-	static optionsRequest(schema, doc) {
-		const options = schema.options;
-		if (!options) {
+	static optionsRequest(props, nextSchema, nextValue, nextResources) {
+		const options = nextSchema.options;
+
+		const params = props.schema ? props.schema.params : null;
+
+		if ((props.resources || nextResources) &&
+			props.schema.options === options &&
+			objEqual(params, nextSchema.params)) {
 			return null;
 		}
-		const req = isFunction(options) ? options(doc) : options;
 
-		if (typeof req === 'string') {
-			return { cmd: req };
-		}
-
-		return typeof req === 'object' && Object.keys(req).length <= 2 && 'cmd' in req ?
-			req : null;
+		return isString(options) ? { cmd: options, params: nextSchema.params } : null;
 	}
 
 	/**
@@ -64,7 +75,7 @@ export default class FormUtils {
 
 		// if options is a string, so it was (probably) resolved before,
 		// so return the resources instead
-		const lst = typeof options === 'string' ? resources : null;
+		const lst = typeof options === 'string' ? resources : options;
 
 		if (!lst) {
 			return null;
@@ -124,12 +135,32 @@ export default class FormUtils {
 	 * @param  {[type]} schema [description]
 	 * @return {[type]}        [description]
 	 */
-	static getComponent(schema) {
+	static getControl(schema) {
 		if (__DEV__) {
 			if (!schema.type) {
 				throw new Error('No control type defined for property ' + schema.property);
 			}
 		}
 		return typeof schema.type === 'string' ? Form.types[schema.type] : schema.type;
+	}
+
+	/**
+	 * Evaluate a property. If property is a function, the function is evaluated in the context
+	 * of the give document
+	 * @param  {Object} sc       Schema to evaluate the properthy
+	 * @param  {string} property The property name
+	 * @param  {Object} doc      The document to be used as context of the property
+	 * @return {any}             The property value
+	 */
+	static propEval(sc, property, doc) {
+		const val = sc[property];
+		// property value is a function ?
+		if (!isFunction(val)) {
+			return;
+		}
+
+		// evaluate the function in the context of the document and usign the doc as argument
+		const res = val.call(doc, doc);
+		sc[property] = res;
 	}
 }

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import Fa from './fa';
 
 /**
  * Define a page title
@@ -10,6 +11,7 @@ export default class Card extends React.Component {
         switch (this.props.padding) {
             case 'none': return '';
             case 'small': return ' card-small';
+            case 'combine': return ' card-combine';
             default: return ' card-default';
         }
     }
@@ -30,20 +32,22 @@ export default class Card extends React.Component {
             header = <div className="card-header">{header}</div>;
         }
 
-        const contentClass = 'card-content';
-
-        const children = React.Children.map(this.props.children, function(item) {
-            return <div className={contentClass}>{item}</div>;
-        });
-
         const cn = this.props.className;
         const className = 'card' + this.borderClass() + (cn ? ' ' + cn : '') +
             (this.props.highlight ? ' highlight' : '');
 
         return (
             <div className={className} style={this.props.style} onClick={this.props.onClick}>
+                {
+                    this.props.closeBtn &&
+                    <a className="lnk-muted pull-right card-btn-close" onClick={this.props.onClose}>
+                        <Fa icon="close"/>
+                    </a>
+                }
                 {header}
-                {children}
+                <div className="card-content">
+                    {this.props.children}
+                </div>
             </div>
         );
     }
@@ -56,8 +60,10 @@ Card.propTypes = {
     style: React.PropTypes.object,
     onClick: React.PropTypes.func,
     className: React.PropTypes.string,
-    padding: React.PropTypes.oneOf(['none', 'small', 'default']),
-    highlight: React.PropTypes.bool
+    padding: React.PropTypes.oneOf(['none', 'small', 'default', 'combine']),
+    highlight: React.PropTypes.bool,
+    closeBtn: React.PropTypes.bool,
+    onClose: React.PropTypes.func
 };
 
 Card.defaulProps = {

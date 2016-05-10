@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.Synchronizable;
@@ -17,20 +14,20 @@ import java.util.Date;
  *
  */
 @Entity
-@Table(name="issuefollowup")
+@Table(name = "issuefollowup")
 public class IssueFollowup extends Synchronizable {
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="issue_id")
+	@JoinColumn(name = "issue_id")
 	private Issue issue;
 
 	@Lob
 	@NotNull
 	private String text;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	@NotNull
 	private User user;
 
@@ -38,8 +35,8 @@ public class IssueFollowup extends Synchronizable {
 	@NotNull
 	private Date followupDate;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="unit_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "unit_id")
 	@NotNull
 	private Tbunit unit;
 

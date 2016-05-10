@@ -9,14 +9,14 @@ import javax.persistence.*;
 public class CaseComorbidity extends CaseEntity {
 
 	@Embedded
-	@AssociationOverrides({ @AssociationOverride(name = "value", joinColumns = @JoinColumn(name = "COMORB_ID")) })
-	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherCaseComorbidity")) })
+	@AttributeOverrides({ @AttributeOverride(name = "complement", column = @Column(name = "otherCaseComorbidity")),
+			@AttributeOverride(name = "value", column = @Column(name = "comorbidity")) })
 	private FieldValueComponent comorbidity;
 	
-	@Column(length=100)
+	@Column(length = 100)
 	private String duration;
 	
-	@Column(length=200)
+	@Lob
 	private String comment;
 	
 

@@ -45,6 +45,17 @@ public class UserProfileREST {
         return service.findOne(id, UserProfileDetailedData.class);
     }
 
+    /**
+     * Return displayable information about a user profile
+     * @param id the ID of the profile
+     * @return
+     */
+    @RequestMapping(value = "/userprofile/form/{id}", method = RequestMethod.GET)
+    @Authenticated()
+    public UserProfileFormData getFormData(@PathVariable UUID id) {
+        return service.findOne(id, UserProfileFormData.class);
+    }
+
     @RequestMapping(value = "/userprofile", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody UserProfileFormData data) throws BindException {
         ServiceResult res = service.create(data);

@@ -1,29 +1,40 @@
 
 import React from 'react';
-import { Input, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import Form from '../../../forms/form';
-import { TreeView } from '../../../components';
+import { TreeView, WaitIcon } from '../../../components';
 
+/**
+ * A custom control used in the user profile editing page. It displays the permissions
+ * in a tree and allows user to change it
+ */
 class PermissionTree extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onChange = this.onChange.bind(this);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
 		this.getNodes = this.getNodes.bind(this);
+		this.nodeInfo = this.nodeInfo.bind(this);
 	}
 
-	static getServerRequest() {
-		return { cmd: 'perms-tree' };
+	componentWillMount() {
+		this._updateResources(this.props);
 	}
 
-	onChange() {
-		const value = this.refs.input.getChecked();
-
-		this.props.onChange({ schema: this.props.schema, value: value });
+	componentWillReceiveProps(newprops) {
+		this._updateResources(newprops);
 	}
 
+	serverRequest(nextSchema, value, nextResources) {
+		return this.props.resources || nextResources ? null : { cmd: 'perms-tree' };
+	}
+
+	/**
+	 * Return the children nodes of the given item
+	 * @param  {object} item Data associated with the node
+	 * @return {Array}       Array of object representing the children, or null if there is no children
+	 */
 	getNodes(item) {
 		return this.adjustNodes(item.children);
 	}
@@ -45,37 +56,97 @@ class PermissionTree extends React.Component {
 	}
 
 	nodeInfo(item) {
-		return { leaf: !item.children, expanded: !!item.value };
+		return { leaf: !item.children, expanded: item.checked };
 	}
 
 	checkboxClick(item) {
 		const self = this;
-		return (evt) => {
-			let values = this.props.value ? this.props.value : [];
+		return () => {
+			item.checked = !item.checked;
+			// create the list of values
+			const vals = self._createValues();
 
-			const checked = evt.target.checked;
-			if (checked) {
-				// includ a new item in te list
-				item.value = { permission: item.id, canChange: false };
-				values.push(item.value);
-				// create a copy of the array
-				values = values.slice(0);
-			}
-			else {
-				// remove a item of the list
-				self.removeChildren(item, values);
-			}
-
-			console.log(values);
-			self.props.onChange({ value: values, schema: self.props.schema });
+			// get a reference to the tree
 			const tree = self.refs.tree;
-			if (checked) {
+
+			if (item.checked) {
 				tree.expand(item);
 			}
 			else {
 				tree.collapse(item);
 			}
+
+			self.props.onChange({ schema: self.props.schema, value: vals });
 		};
+	}
+
+	canChangeClick(item) {
+		const self = this;
+
+		return () => {
+			item.canChange = !item.canChange;
+			const vals = self._createValues();
+
+			self.props.onChange({ schema: self.props.schema, value: vals });
+		};
+	}
+
+	/**
+	 * Create the list of selected permissions based on the values of the tree
+	 * @return {[type]} [description]
+	 */
+	_createValues() {
+		const self = this;
+		const vals = [];
+		this.props.resources.forEach(item => self._addSelItem(vals, item));
+
+		return vals;
+	}
+
+	/**
+	 * Check if item is selected, and recursivelly search its children
+	 * @param {[type]} vals [description]
+	 * @param {[type]} item [description]
+	 */
+	_addSelItem(vals, item) {
+		if (!item.checked) {
+			return;
+		}
+
+		vals.push({ permission: item.id, canChange: item.canChange });
+		if (item.children) {
+			const self = this;
+			item.children.forEach(c => self._addSelItem(vals, c));
+		}
+	}
+
+	/**
+	 * Update the resources based on the state of the values, including information
+	 * about node selection
+	 */
+	_updateResources(props) {
+		// get the resources given from the parent
+		const resources = props.resources;
+
+		if (!resources) {
+			return;
+		}
+
+		const vals = props.value;
+
+		// local recursive function to traverse the tree and set selections
+		const traverse = function(item) {
+			const v = vals ? vals.find(p => p.permission === item.id) : null;
+			item.checked = !!v;
+			item.canChange = !!v && v.canChange;
+
+			// browse the children
+			if (item.children) {
+				item.children.forEach(c => traverse(c));
+			}
+		};
+
+		resources.forEach(it => traverse(it));
 	}
 
 	/**
@@ -108,18 +179,32 @@ class PermissionTree extends React.Component {
 	 * @return {[type]}      [description]
 	 */
 	nodeRender(item) {
+		const noBorder = { margin: '4px 0 0 0' };
 		return (
-			<Row key={item.id} className="tbl-cell">
+			<Row key={item.id} className="tbl-row">
 				<Col sm={7}>
-					<div className="checkbox" style={{ margin: '4px 0 0 0' }}>
+					<div className="checkbox" style={noBorder}>
 						<label>
-							<input type="checkbox" checked={!!item.value}
-								onChange={this.checkboxClick(item)}/>{item.name}
+							<input type="checkbox"
+								checked={item.checked}
+								onChange={this.checkboxClick(item)}/>
+							{item.name}
 						</label>
 					</div>
 				</Col>
 				<Col sm={5}>
-				{item.changeable &&	<Input type="checkbox"/>}
+					{
+						item.changeable &&
+						<div className="checkbox" style={noBorder}	>
+							<label>
+								<input
+									type="checkbox"
+									checked={item.canChange}
+									onChange={this.canChangeClick(item)} />
+								{'Can modify?'}
+							</label>
+						</div>
+					}
 				</Col>
 			</Row>
 			);
@@ -127,27 +212,31 @@ class PermissionTree extends React.Component {
 
 	render() {
 		const title = (
-			<Row key="title" className="title">
-				<Col sm={7}>{'Permissions'}</Col>
-				<Col sm={5}>{'Can modify ?'}</Col>
+			<Row key="title">
+				<Col sm={12}>{'Permissions'}</Col>
 			</Row>
 			);
 
+		if (!this.props.resources) {
+			return <WaitIcon type="card" />;
+		}
+
 		return	(
-			<TreeView ref="tree"
-				root={this.adjustNodes(this.props.resources)}
-				onGetNodes={this.getNodes}
-				nodeRender={this.nodeRender}
-				nodeInfo={this.nodeInfo}
-				iconLeaf="angle-right"
-				title={title}
-				/>
+			<div className="tbl-hover form-group">
+				<TreeView ref="tree"
+					className="tbl-hover form-group"
+					root={this.props.resources}
+					onGetNodes={this.getNodes}
+					innerRender={this.innerRender}
+					nodeRender={this.nodeRender}
+					nodeInfo={this.nodeInfo}
+					iconLeaf="angle-right"
+					title={title}
+					/>
+			</div>
 			);
 	}
 }
-
-
-PermissionTree.options = { };
 
 
 PermissionTree.propTypes = {
@@ -158,4 +247,4 @@ PermissionTree.propTypes = {
 	resources: React.PropTypes.array
 };
 
-export default Form.typeWrapper(PermissionTree);
+export default Form.control(PermissionTree);

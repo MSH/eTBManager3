@@ -1,26 +1,16 @@
 package org.msh.etbm.commons.commands;
 
-import org.msh.etbm.commons.commands.data.CommandData;
-import org.msh.etbm.commons.commands.data.DiffLogData;
-import org.msh.etbm.commons.commands.data.ListLogData;
-import org.msh.etbm.commons.commands.data.TextLogData;
-import org.msh.etbm.commons.commands.impl.CommandException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.msh.etbm.commons.commands.details.CommandLogDetail;
+import org.msh.etbm.commons.commands.details.DetailWriter;
 
 import java.lang.reflect.Method;
 import java.util.UUID;
 
 /**
  * Data to be used to save a command in the command history
- * Created by rmemoria on 17/10/15.
+ * Created by Ricardo Memoria on 17/10/15.
  */
 public class CommandHistoryInput {
-
-    /**
-     * For operation log
-     */
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * The method source that generated the command
@@ -53,9 +43,9 @@ public class CommandHistoryInput {
     private String entityName;
 
     /**
-     * The data to be stored by the command history
+     * The details about the command
      */
-    private CommandData data;
+    private DetailWriter detail;
 
     private UUID workspaceId;
 
@@ -77,49 +67,40 @@ public class CommandHistoryInput {
         canceled = true;
     }
 
-    /**
-     * Initialize the detail log to store a list of key, previous value and new value
-     * @return
-     */
-    public DiffLogData beginDiffLog() {
-        checkDataClass(DiffLogData.class);
-        return (DiffLogData)data;
+
+    public CommandHistoryInput setDetailText(String text) {
+        getDetail().setText(text);
+        return this;
+    }
+
+
+    public CommandHistoryInput addItem(String text, Object value) {
+        getDetail().addItem(text, value);
+        return this;
+    }
+
+    public CommandHistoryInput addDiff(String text, Object oldValue, Object newValue) {
+        getDetail().addDiff(text, oldValue, newValue);
+        return this;
     }
 
     /**
-     * Initialize the detail log to store a list of values
-     * @return
+     * Return the detail writer object in use internally by the system
+     * @return instance of DetailWriter class
      */
-    public ListLogData beginListLog() {
-        checkDataClass(ListLogData.class);
-        return (ListLogData)data;
-    }
-
-    /**
-     * Initialize the detail log to store a text
-     * @return
-     */
-    public TextLogData beginTextLog() {
-        checkDataClass(TextLogData.class);
-        return (TextLogData)data;
-    }
-
-    /**
-     * Check if data was already created with the given data class
-     * @param clazz the class to check from
-     */
-    private void checkDataClass(Class clazz) {
-        if (data != null && clazz.isAssignableFrom(data.getClass())) {
-            throw new CommandException("Log details was already initialized");
+    private DetailWriter getDetail() {
+        if (detail == null) {
+            detail = new DetailWriter();
         }
-        else {
-            try {
-                data = (CommandData)clazz.newInstance();
-            } catch (Exception e) {
-                log.error("Not possible to create an instance of " + data.getClass(), e);
-                throw new CommandException(e);
-            }
-        }
+        return detail;
+    }
+
+    /**
+     * Return the detail data stored in the command
+     * @return
+     */
+    public CommandLogDetail getDetailData() {
+        return detail != null ? detail.getDetail() : null;
     }
 
     public Method getMethod() {
@@ -162,13 +143,6 @@ public class CommandHistoryInput {
         this.entityName = entityName;
     }
 
-    public CommandData getData() {
-        return data;
-    }
-
-    public void setData(CommandData data) {
-        this.data = data;
-    }
 
     public UUID getWorkspaceId() {
         return workspaceId;

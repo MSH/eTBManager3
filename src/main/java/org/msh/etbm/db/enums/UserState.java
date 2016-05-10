@@ -18,11 +18,28 @@ package org.msh.etbm.db.enums;
  */
 
 public enum UserState {
-	ACTIVE,
-	BLOCKED,
-	PASSWD_EXPIRED;
-	
-	public String getKey() {
+    /**
+     * User is ready to enter in the system
+     */
+    ACTIVE,
+    /**
+     * User is blocked and cannot enter in the system
+     */
+    BLOCKED,
+    /**
+     * User must change password next time he logs into the system
+     */
+    PASSWD_EXPIRED,
+    /**
+     * New user that must validate the e-mail address by confirming the link received from the system
+     */
+    VALIDATE_EMAIL;
+
+    /**
+     * The message key to display the content in the selected language
+     * @return String value containing the key to use in resource bundle
+     */
+    public String getKey() {
 		return getClass().getSimpleName().concat("." + name());
 	}
 }

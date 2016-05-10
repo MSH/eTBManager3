@@ -9,10 +9,7 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.test.AuthenticatedTest;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;
@@ -62,9 +59,10 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
      * so they are automatically set by reflection when creating the form data
      * @param props the properties and its values to create the form data request
      * @param uniqueProps the list of unique property names to check if unique validation is working
+     * @param ignorePropsOnCheck the list of properties to ignore when checking if data is returned
      * @return the ID created for the entity
      */
-    protected UUID testCreateAndFindOne(Map<String, Object> props, List<String> uniqueProps) {
+    protected TestResult testCreateAndFindOne(Map<String, Object> props, List<String> uniqueProps, String ignorePropsOnCheck) {
         Object req = createFormData();
 
         // set the property values
@@ -78,29 +76,31 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
         // assert result
         assertNotNull(res);
         assertNotNull(res.getId());
-        assertEquals(res.getEntityClass(), entityClass);
+        assertTrue(res.getEntityClass().isAssignableFrom(entityClass));
         assertNull(res.getLogDiffs());
         assertNotNull(res.getLogValues());
 
         // search for item
-        Object data = service.findOne(res.getId(), dataClass);
+        Object data = service.findOne(res.getId(), formDataClass);
+
+
+        String[] propsToIgnore = ignorePropsOnCheck != null ? ignorePropsOnCheck.split(",") : new String[0];
+
+        assertObjectProperties(data, props, ignorePropsOnCheck);
+
+        if (uniqueProps != null) {
+            testUnique(req, uniqueProps);
+        }
+
+        // return the data to be tested by the caller
+        data = service.findOne(res.getId(), dataClass);
 
         // compare returned ID
         UUID id = (UUID)ObjectUtils.getProperty(data, "id");
 
         assertEquals(id, res.getId());
 
-        // compare the given properties
-        for (String prop: props.keySet()) {
-            Object val = ObjectUtils.getProperty(data, prop);
-            assertEquals(val, props.get(prop));
-        }
-
-        if (uniqueProps != null) {
-            testUnique(req, uniqueProps);
-        }
-
-        return id;
+        return new TestResult(id, data);
     }
 
 
@@ -126,17 +126,52 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
         assertNotNull(res.getId());
         assertNull(res.getLogValues());
         assertNotNull(res.getLogDiffs());
-        assertEquals(res.getEntityClass(), entityClass);
+        assertTrue(res.getEntityClass().isAssignableFrom(entityClass));
         assertNotNull(res.getEntityName());
 
         // get the value again
-        Object data = service.findOne(id, dataClass);
+        Object data = service.findOne(id, formDataClass);
+
+        assertObjectProperties(data, props, null);
+    }
+
+
+    /**
+     * Assert data of the object to given property values
+     * @param data the object data
+     * @param props the property values to assert to
+     */
+    protected void assertObjectProperties(Object data, Map<String, Object> props, String propsToIgnore) {
+        String[] ignoreList = propsToIgnore != null ? propsToIgnore.split(",") : new String[0];
 
         // compare with values set
         for (String prop: props.keySet()) {
+            if (Arrays.binarySearch(ignoreList, prop) >= 0) {
+                continue;
+            }
+
             Object val = props.get(prop);
-            Object newval = ObjectUtils.getProperty(data, prop);
-            assertEquals(val, newval);
+
+            Object val2 = ObjectUtils.getProperty(data, prop);
+            if (val2 instanceof Optional) {
+                val2 = ((Optional) val2).get();
+            }
+
+            // values are collections ?
+            if (val instanceof Collection) {
+                // get the collections
+                Collection lst1 = (Collection)val;
+                Collection lst2 = (Collection)val2;
+                // check if collections have the same number of elements
+                assertEquals(lst1.size(), lst2.size());
+                // compare items
+                for (Object it: lst1) {
+                    assertTrue(lst2.contains(it));
+                }
+            } else {
+                // not a collection, so compare a single value
+                assertEquals(val, val2);
+            }
         }
     }
 
@@ -155,7 +190,7 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
         assertNotNull(res.getId());
         assertNotNull(res.getLogValues());
         assertNull(res.getLogDiffs());
-        assertEquals(res.getEntityClass(), entityClass);
+        assertTrue(res.getEntityClass().isAssignableFrom(entityClass));
         assertNotNull(res.getEntityName());
 
         // check if entity was really deleted, trying to load it again

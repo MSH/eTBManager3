@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
 
@@ -72,7 +72,7 @@ const editorDef = {
 		},
 		{
 			property: 'profiles',
-			type: 'multi-select',
+			type: 'multiSelect',
 			options: 'profiles',
 			label: __('UserWorkspace.profiles'),
 			size: { sm: 12 },
@@ -82,8 +82,11 @@ const editorDef = {
 			id: 'view',
 			property: 'view',
 			type: 'select',
-			options: doc => ({ cmd: 'userViews', params: { unitId: doc.unitId } }),
+			options: 'userViews',
 			label: __('UserView'),
+			params: {
+				unitId: doc => doc.unitId
+			},
 			required: true
 		}
 	],
@@ -95,6 +98,31 @@ const editorDef = {
  * The page controller of the public module
  */
 export default class UsersWs extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.execOption = this.execOption.bind(this);
+		this.state = {
+			options: [
+				{
+					label: 'Send new password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Change password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Block user',
+					onClick: this.execOption
+				}
+			]
+		};
+	}
+
+	execOption(index) {
+		alert('Not implemented: ' + index);
+	}
 
 	cellRender(item) {
 		const sub = (
@@ -114,8 +142,10 @@ export default class UsersWs extends React.Component {
 
 		return (
 			<CrudView crud={crud}
+				pageSize={50}
+				options={this.state.options}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);

@@ -24,36 +24,34 @@ public abstract class LaboratoryExam extends CaseEntity {
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	@Past
-	@PropertyLog(messageKey="PatientSample.dateCollected", operations={Operation.NEW, Operation.DELETE})
+	@PropertyLog(messageKey = "PatientSample.dateCollected", operations = {Operation.NEW, Operation.DELETE})
 	private Date dateCollected;
 	
-	@Column(length=50)
-	@PropertyLog(messageKey="PatientSample.sampleNumber", operations={Operation.NEW, Operation.DELETE})
+	@Column(length = 50)
+	@PropertyLog(messageKey = "PatientSample.sampleNumber", operations = {Operation.NEW, Operation.DELETE})
 	private String sampleNumber;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="request_id")
+    @JoinColumn(name = "request_id")
     private ExamRequest request;
 
 	@Lob
-	@PropertyLog(messageKey="global.comments")
+	@PropertyLog(messageKey = "global.comments")
 	private String comments;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="LABORATORY_ID")
-	@PropertyLog(messageKey="Laboratory", operations={Operation.NEW, Operation.DELETE})
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "LABORATORY_ID")
+	@PropertyLog(messageKey = "Laboratory", operations = {Operation.NEW, Operation.DELETE})
 	private Laboratory laboratory;
 
 	@Temporal(TemporalType.DATE)
-	@PropertyLog(messageKey="cases.exams.dateRelease", operations={Operation.NEW})
+	@PropertyLog(messageKey = "cases.exams.dateRelease", operations = {Operation.NEW})
 	@Past
 	private Date dateRelease;
-	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="METHOD_ID")
-	@PropertyLog(messageKey="cases.exams.method", operations={Operation.NEW})
-	private FieldValue method;
+
+	@Column(length = 50)
+	private String method;
 	
 
 	@Transient
@@ -122,8 +120,9 @@ public abstract class LaboratoryExam extends CaseEntity {
 	public Integer getMonthTreatment() {
 		Date dt = getDateCollected();
 		
-		if (getTbcase() == null)
-			return null;
+		if (getTbcase() == null) {
+            return null;
+        }
 
 		return getTbcase().getMonthTreatment(dt);
 	}
@@ -134,8 +133,8 @@ public abstract class LaboratoryExam extends CaseEntity {
 	 */
 	public String getMonthDisplay() {
 		throw new RuntimeException("Not implemented");
-//		WorkspaceCustomizationService wsservice = WorkspaceCustomizationService.instance();
-//		return wsservice.getExamControl().getMonthDisplay(tbcase, getDateCollected());
+        //		WorkspaceCustomizationService wsservice = WorkspaceCustomizationService.instance();
+        //		return wsservice.getExamControl().getMonthDisplay(tbcase, getDateCollected());
 	}
 
     /**
@@ -217,63 +216,18 @@ public abstract class LaboratoryExam extends CaseEntity {
 	/**
 	 * @return the method
 	 */
-	public FieldValue getMethod() {
+	public String getMethod() {
 		return method;
 	}
 
 	/**
 	 * @param method the method to set
 	 */
-	public void setMethod(FieldValue method) {
+	public void setMethod(String method) {
 		this.method = method;
 	}
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-/*
-	@Override
-	public String toString() {
-		Date dt = getDateCollected();
-		TbCase tbcase = getTbcase();
-		String s = tbcase != null? tbcase.getPatient().getFullName() : null;
-
-		if (s == null) {
-			return super.toString();
-		}
-
-		if (dt != null) {
-			Locale locale = LocaleSelector.instance().getLocale();
-			DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, locale);
-			s = dateFormat.format(dt) + " - " + s;
-		}
-
-		return s;
-	}
-*/
-
-/*
-	pub Date getDateCollected() {
-		return dateCollected;
-	}
-
-	pub void setDateCollected(Date dateCollected) {
-		this.dateCollected = dateCollected;
-	}
-
-	pub String getSampleNumber() {
-		return sampleNumber;
-	}
-
-	pub void setSampleNumber(String sampleNumber) {
-		this.sampleNumber = sampleNumber;
-	}
-*/
-
-	/* (non-Javadoc)
-	 * @see org.msh.tb.entities.Transactional#getLastTransaction()
-	 */
 
     public ExamStatus getStatus() {
         return status;

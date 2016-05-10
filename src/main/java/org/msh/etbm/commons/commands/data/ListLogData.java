@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.commands.data;
 
-import org.msh.etbm.commons.entities.ObjectValues;
+import org.msh.etbm.commons.objutils.ObjectValues;
 
 import java.util.HashMap;
 import java.util.Map;

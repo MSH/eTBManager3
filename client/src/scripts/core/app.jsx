@@ -6,6 +6,7 @@ import { server, onRequestError } from '../commons/server';
 import Storage from './storage';
 import { ERROR } from './actions';
 import { router } from '../components/router';
+import moment from 'moment';
 
 /**
  * Reference to the application
@@ -32,6 +33,10 @@ export class App {
 	 */
 	getState() {
 		return this.storage.getState();
+	}
+
+	setState(state) {
+		this.storage.setState(state);
 	}
 
 	/**
@@ -68,6 +73,9 @@ export class App {
 	run() {
 
 		const self = this;
+
+		// set right locale in moment lib
+		moment.locale(window.app.getLang());
 
 		// call server to get system status
 		server.post('/api/sys/info?list=1', {})

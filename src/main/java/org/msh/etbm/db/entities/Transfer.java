@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
-@Table(name="transfer")
+@Inheritance(strategy =  InheritanceType.JOINED)
+@Table(name = "transfer")
 public class Transfer  {
 
 	@Id
@@ -30,23 +30,23 @@ public class Transfer  {
 	@NotNull
 	private TransferStatus status;
 
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="UNIT_ID_FROM")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UNIT_ID_FROM")
 	@NotNull
 	private Tbunit unitFrom;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="UNIT_ID_TO")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "UNIT_ID_TO")
 	@NotNull
 	private Tbunit unitTo;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="USER_FROM_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_FROM_ID")
 	@NotNull
 	private User userFrom;
 	
-	@ManyToOne(fetch= FetchType.LAZY)
-	@JoinColumn(name="USER_TO_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_TO_ID")
 	private User userTo;
 
 	@Lob
@@ -55,18 +55,18 @@ public class Transfer  {
 	@Lob
 	private String commentsTo;
 	
-	@Column(length=200)
+	@Column(length = 200)
 	private String cancelReason;
 	
-	@OneToMany(cascade={CascadeType.ALL})
-	@JoinColumn(name="TRANSFER_ID")
+	@OneToMany(cascade = {CascadeType.ALL})
+	@JoinColumn(name = "TRANSFER_ID")
 	private List<TransferItem> items = new ArrayList<TransferItem>();
 
 	private String consignmentNumber;
 	
 	@Override
 	public String toString() {
-		return (id != null? id.toString() : super.toString());
+		return (id != null ? id.toString() : super.toString());
 	}
 
 	public UUID getId() {
