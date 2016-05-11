@@ -21,11 +21,21 @@
     </parent>
 
     <properties>
+        <dist.project.id>eTBM3</dist.project.id>
+        <dist.project.name>eTB Manager 3</dist.project.name>
+        <dist.project.description>
+            e-TB Manager system version 3
+        </dist.project.description>
+
         <java.version>1.8</java.version>
         <mainClass>org.msh.etbm.Application</mainClass>
         <sonar.sources>target/client,src/main/java</sonar.sources>
         <test.workingDirectory>target/test</test.workingDirectory>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+        <dist.dir>${project.build.directory}/dist</dist.dir>
+
+        <dist.start.class>org.msh.etbm.Application</dist.start.class>
+        <dist.jmx.port>50201</dist.jmx.port>
     </properties>
 
     <scm>
@@ -139,23 +149,25 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Preparing the application to be deployed as a daemon (Linux) or a service (Windows) -->
+        <dependency>
+            <groupId>commons-daemon</groupId>
+            <artifactId>commons-daemon</artifactId>
+            <version>1.0.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.winsw</groupId>
+            <artifactId>winsw</artifactId>
+            <version>1.18</version>
+            <classifier>bin</classifier>
+            <type>exe</type>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.2.7.RELEASE</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- Copy the resources necessary for building and testing -->
             <plugin>
@@ -170,8 +182,12 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target</outputDirectory>
+                            <outputDirectory>${dist.dir}</outputDirectory>
                             <resources>
+                                <resource>
+                                    <directory>src/main/dist</directory>
+                                    <filtering>true</filtering>
+                                </resource>
                                 <resource>
                                     <directory>resources</directory>
                                     <filtering>true</filtering>
@@ -246,7 +262,7 @@
                     </archive>
                     <finalName>${project.build.finalName}</finalName>
                 </configuration>
-            </plugin>
+                </plugin>
 
             <!-- run e-TB Manager from the maven using mvn exec:exec -->
             <plugin>
@@ -271,60 +287,47 @@
                 </executions>
             </plugin>
 
-            <!-- Install node and npm and run gulp -->
             <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>0.0.27</version>
-                <configuration>
-                    <!-- <workingDirectory>src/main/client</workingDirectory>-->
-                    <nodeVersion>v5.2.0</nodeVersion>
-                    <npmVersion>3.3.12</npmVersion>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
                 <executions>
                     <execution>
-                        <id>Install node and npm</id>
+                        <id>copy</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>install-node-and-npm</goal>
+                            <goal>copy</goal>
                         </goals>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>gulp build</id>
-                        <goals>
-                            <goal>gulp</goal>
-                        </goals>
-                        <!-- optional: the default phase is "generate-resources" -->
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <!-- optional: if not specified, it will run gulp's default
-                            task (and you can remove this whole <configuration>section.) -->
-                            <arguments>build</arguments>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sun.winsw</groupId>
+                                    <artifactId>winsw</artifactId>
+                                    <classifier>bin</classifier>
+                                    <type>exe</type>
+                                    <destFileName>service.exe</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${dist.dir}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-
             <!-- Generate package to be available for downloading -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>2.5.5</version>
                 <configuration>
-                    <descriptor>src/assembly/bin.xml</descriptor>
+                    <descriptors>
+                        <descriptor>src/main/assembly/unix.xml</descriptor>
+                        <descriptor>src/main/assembly/windows.xml</descriptor>
+                    </descriptors>
                 </configuration>
                 <executions>
                     <execution>
+                        <id>assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
@@ -371,6 +374,14 @@
         <repository>
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>jenkins</id>
+            <name>Jenkins Repository</name>
+            <url>http://repo.jenkins-ci.org/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
