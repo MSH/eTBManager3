@@ -64,10 +64,12 @@ export default class CaseTags extends React.Component {
 		super(props);
 
 		this.state = { doc: {} };
+		this.saveTags = this.saveTags.bind(this);
 	}
 
 	saveTags() {
 		console.log('go to server and save this case tags! Dont forget to return a promise');
+		this.props.onClose();
 	}
 
 	render() {
