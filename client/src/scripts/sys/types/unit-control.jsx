@@ -190,7 +190,11 @@ export default class UnitControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		const text = this.props.value ? this.props.value.name : null;
+		const unit = this.props.value;
+		var text = unit ? unit.name : null;
+		if (unit && unit.adminUnit) {
+			text = <div><div>{text}</div><div>{AdminUnitControl.displayText(unit.adminUnit)}</div></div>;
+		}
 		return FormUtils.readOnlyRender(text, schema.label);
 	}
 
@@ -201,7 +205,7 @@ export default class UnitControl extends React.Component {
 }
 
 UnitControl.propTypes = {
-	value: React.PropTypes.string,
+	value: React.PropTypes.any,
 	onChange: React.PropTypes.func,
 	schema: React.PropTypes.object,
 	errors: React.PropTypes.any,
