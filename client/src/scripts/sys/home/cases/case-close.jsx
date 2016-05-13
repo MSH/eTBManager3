@@ -52,10 +52,12 @@ export default class CaseClose extends React.Component {
 		super(props);
 
 		this.state = { doc: {} };
+		this.closeCase = this.closeCase.bind(this);
 	}
 
 	closeCase() {
 		console.log('go to server and close this case! Dont forget to return a promise');
+		this.props.onClose();
 	}
 
 	render() {

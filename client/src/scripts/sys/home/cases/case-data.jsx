@@ -38,14 +38,14 @@ const data = {
 	},
 	{
 		type: 'string',
-		property: 'name',
+		property: 'patient.name',
 		label: 'Patient name',
 		required: true,
 		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		property: 'gender',
+		property: 'patient.gender',
 		label: __('Gender'),
 		required: true,
 		options: [
@@ -56,7 +56,7 @@ const data = {
 	},
 	{
 		type: 'date',
-		property: 'birthDate',
+		property: 'patient.birthDate',
 		label: __('Patient.birthDate'),
 		size: { sm: 4, newLine: true }
 	},
@@ -79,7 +79,7 @@ const data = {
 	},
 	{
 		type: 'string',
-		property: 'motherName',
+		property: 'patient.motherName',
 		label: __('Patient.motherName'),
 		size: { sm: 6 }
 	},
@@ -209,6 +209,8 @@ export default class CaseData extends React.Component {
 
 	render() {
 		const tbcase = this.props.tbcase;
+
+		console.log(tbcase);
 
 		return (
 			<div>
