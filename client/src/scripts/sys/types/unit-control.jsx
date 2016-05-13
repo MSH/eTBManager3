@@ -1,8 +1,8 @@
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
 import { WaitIcon, SelectionBox } from '../../components';
 import FormUtils from '../../forms/form-utils';
+import AdminUnitControl from './admin-unit-control';
 
 
 /**
@@ -190,13 +190,8 @@ export default class UnitControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		return (
-			<Input
-				label={schema.label}
-				type="text"
-				disabled
-				value={this.props.value} />
-			);
+		const text = this.props.value ? this.props.value.name : null;
+		return FormUtils.readOnlyRender(text, schema.label);
 	}
 
 	render() {

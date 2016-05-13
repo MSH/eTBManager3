@@ -52,6 +52,15 @@ const caseMockData = {
 		motherName: 'Maria Morrison'
 	},
 	diagnosisDate: new Date(2016, 5, 1),
+	age: 35,
+	notificationUnit: {
+		id: '123456-123355',
+		name: 'Centro de Referência Prof Hélio Fraga',
+		adminUnit: {
+			id: '1234-1234',
+			name: 'Rio de Janeiro, RJ'
+		}
+	},
 	tags: tags,
 	adverseReactions: [
 		{
