@@ -29,7 +29,7 @@ public class JsonParser {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(in, type);
         } catch (Exception e) {
-            log. error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -47,7 +47,7 @@ public class JsonParser {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(jsonString, type);
         } catch (Exception e) {
-            log. error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -63,7 +63,7 @@ public class JsonParser {
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
-            log. error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

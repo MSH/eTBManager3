@@ -188,7 +188,7 @@ gulp.task('less', function() {
  */
 gulp.task('entry-point', function() {
     return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
-        .pipe(uglify())
+        .pipe(uglify({ output: { quote_style: 3 } }))
         .pipe(gulp.dest('src/main/resources/templates'));
 });
 
