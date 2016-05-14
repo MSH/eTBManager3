@@ -53,7 +53,7 @@ export function hasPerm(perm) {
  * @return {Promise} Promise that will be resolved when logout is finished
  */
 export function logout() {
-	const autk = window.app.getCookie('autk');
+	const autk = app.getCookie('autk');
 
 	// inform server to register logout of the authentication token
 	if (autk) {
@@ -61,7 +61,7 @@ export function logout() {
 		return server.get('/api/auth/logout?tk=' + autk)
 		.then(() => {
 			// clear authentication token in the cookies
-			window.app.setCookie('autk', null);
+			app.setCookie('autk', null);
 
 			// inform the system about the logout
 			app.dispatch(LOGOUT);
@@ -94,7 +94,7 @@ export function changeWorkspace(wsid) {
 	return server.post('/api/sys/changews/' + wsid)
 	.then(res => {
 		const authToken = res.authToken;
-		window.app.setCookie('autk', authToken);
+		app.setCookie('autk', authToken);
 		app.dispatch(WORKSPACE_CHANGE, { session: res.session });
 	});
 }

@@ -27,6 +27,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     AuthenticatorInterceptor authenticatorInterceptor;
 
     @Autowired
+    LocaleRequestInterceptor localeRequestInterceptor;
+
+    @Autowired
     MessageSource messageSource;
 
 
@@ -36,8 +39,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(authenticatorInterceptor);
 
         // add interceptor to set the current language
-        LocaleRequestInterceptor loc = new LocaleRequestInterceptor();
-        registry.addInterceptor(loc);
+        registry.addInterceptor(localeRequestInterceptor);
 
         super.addInterceptors(registry);
     }
