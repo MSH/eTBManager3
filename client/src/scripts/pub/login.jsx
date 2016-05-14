@@ -78,7 +78,7 @@ export default class Login extends React.Component {
 
 			// register the authentication token in the cookies
 			const authToken = data.authToken;
-			window.app.setCookie('autk', authToken);
+			app.setCookie('autk', authToken);
 			return authToken;
 		});
 	}

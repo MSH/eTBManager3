@@ -28,7 +28,7 @@ export default class Welcome extends React.Component {
     langChange() {
         const elem = this.refs.langs.getInputDOMNode();
         const lang = elem.options[elem.selectedIndex].value;
-        window.app.setLang(lang);
+        app.setLang(lang);
         window.location.reload(true);
     }
 
@@ -37,7 +37,7 @@ export default class Welcome extends React.Component {
      */
 	render() {
 		const langs = app.getState().app.languages;
-		const lg = window.app.getLang();
+		const lg = app.getLang();
 
 		return (
             <Fade in transitionAppear>
@@ -48,8 +48,7 @@ export default class Welcome extends React.Component {
                             <p className="text-muted">{__('init.welcome.msg1')}</p>
                         </Col>
                         <Col md={6} mdOffset={3}>
-                            <Input type="select" ref="langs" size={8} multiple autoFocus
-                                bsSize="large" value={[lg]} onChange={this.langChange}>
+                            <Input type="select" ref="langs" size={8} multiple autoFocus bsSize="large" value={[lg]} onChange={this.langChange}>
                                 {langs.map((lang) =>
                                         <option key={lang.id} value={lang.id}>{lang.name}</option>
                                 )

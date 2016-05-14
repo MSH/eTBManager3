@@ -12,7 +12,6 @@
  */
 
 (function() {
-
     var LANG_KEY = 'lang',
         AUTHTOKEN_KEY = 'autk';
 
@@ -20,7 +19,7 @@
      * Information exposed to the main page, necessary to start the client side
      */
     var data = {
-        languages: '${languages}',
+        languages: JSON.parse('${languages}'),
         contextPath: '${path}',
         defaultLanguage: '${defaultLanguage}',
         /**
@@ -89,7 +88,7 @@
     /**
      * Check if navigator language matches one of the available languages
      */
-    if (data.languages.indexOf(navlang) > 0) {
+    if (data.languages[navlang]) {
         lang = navlang;
     }
 
@@ -99,7 +98,7 @@
         // check if language is in the format language-country
         if (navlang.indexOf('-') > 0) {
             var mainlang = navlang.split('=').shift();
-            if (data.languages.indexOf(mainlang) >= 0) {
+            if (data.languages[mainlang]) {
                 lang = mainlang;
             }
         }
@@ -125,7 +124,9 @@
      * Load the main script based on the selected language
      */
     var jsElem = document.createElement("script");
+    // get the language file name
+    var jsfile = data.languages[lang];
     jsElem.type = "application/javascript";
-    jsElem.src = data.contextPath + "/scripts/" + lang + "/app.js";
+    jsElem.src = data.contextPath + "/scripts/" + lang + '/' + jsfile;
     document.body.appendChild(jsElem);
 })();

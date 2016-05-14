@@ -37,7 +37,7 @@ gulp.task('build', function() {
     return runSequence(
         'clean',
         'client-lint',
-        ['client-msgs', 'bootstrap-fonts', 'entry-point', 'client-copy', 'less'],
+        ['client-msgs', 'bootstrap-fonts', 'client-copy', 'less'],
         'webpack-prod',
         // transpile is being called in order to be analysed by sonar
         'transpile');
@@ -51,7 +51,7 @@ gulp.task('run', function() {
     return runSequence(
         'clean',
        /* 'client-jshint', */
-        ['client-msgs', 'entry-point-dev', 'bootstrap-fonts', 'less'],
+        ['client-msgs', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',
         'open'
@@ -184,25 +184,6 @@ gulp.task('less', function() {
 
 
 /**
- * Copy the unglified version of the entrypoint.js file to the server resources dir
- */
-gulp.task('entry-point', function() {
-    return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('src/main/resources/templates'));
-});
-
-
-/**
- * During development, just copy the java script entry point without unglifying it
- */
-gulp.task('entry-point-dev', function() {
-    return gulp.src( path.join(clientPath, 'src/entrypoint.js'))
-        .pipe(gulp.dest('src/main/resources/templates'));
-});
-
-
-/**
  * Generate message files from the message files in server side
  */
 gulp.task('client-msgs', function(cb) {
@@ -238,7 +219,6 @@ gulp.task('client-msgs', function(cb) {
  **/
 gulp.task('watches', function() {
     gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
-    gulp.watch( path.join(clientPath, 'src/entrypoint.js') , ['entry-point-dev']);
     gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
     gulp.watch( 'src/main/resources/messages*.properties', ['client-msgs', 'proxy-server']);
     gulp.watch( 'gulpfile.js', ['run']);
