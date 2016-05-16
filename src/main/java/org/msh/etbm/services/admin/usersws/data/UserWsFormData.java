@@ -1,7 +1,6 @@
 package org.msh.etbm.services.admin.usersws.data;
 
 import org.msh.etbm.db.enums.UserState;
-import org.msh.etbm.services.admin.usersws.data.UserViewData;
 
 import java.util.List;
 import java.util.Optional;

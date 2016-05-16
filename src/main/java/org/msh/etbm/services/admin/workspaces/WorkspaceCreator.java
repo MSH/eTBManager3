@@ -4,7 +4,6 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.workspaces.WorkspaceData;
 import org.msh.etbm.services.admin.workspaces.impl.AdminUnitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.NewWorkspaceTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.TbunitTemplate;

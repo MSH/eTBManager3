@@ -9,6 +9,7 @@ import { app } from '../core/app';
 import HomeRoutes from './home/routes';
 import ReportRoutes from './reports/routes';
 import AdminRoutes from './admin/routes';
+import UserSettings from './others/user-settings';
 
 
 /**
@@ -41,18 +42,6 @@ export default class Routes extends React.Component {
 		}
 	}
 
-	openHome() {
-		return HomeRoutes;
-	}
-
-	openReports() {
-		return ReportRoutes;
-	}
-
-	openAdmin() {
-		return AdminRoutes;
-	}
-
 	render() {
 
 		const changing = this.state && this.state.changing;
@@ -63,7 +52,8 @@ export default class Routes extends React.Component {
 		const routesInfo = [
 			{ path: '/home', view: HomeRoutes },
 			{ path: '/reports', view: ReportRoutes },
-			{ path: '/admin', view: AdminRoutes }
+			{ path: '/admin', view: AdminRoutes },
+			{ path: '/usersettings', view: UserSettings }
 			];
 
 		// playground for dev is available just in dev module

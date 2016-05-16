@@ -1,7 +1,8 @@
 package org.msh.etbm.db.entities;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class FieldValueComponent {

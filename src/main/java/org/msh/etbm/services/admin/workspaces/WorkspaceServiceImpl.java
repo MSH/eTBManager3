@@ -7,18 +7,14 @@ import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import javax.persistence.EntityManager;

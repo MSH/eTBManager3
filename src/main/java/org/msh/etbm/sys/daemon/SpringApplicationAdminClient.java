@@ -1,19 +1,13 @@
 package org.msh.etbm.sys.daemon;
 
 
-import java.io.IOException;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
+import org.springframework.jmx.JmxException;
+
+import javax.management.*;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
-
-import org.springframework.jmx.JmxException;
+import java.io.IOException;
 
 /**
  * A JMX client for the {@code SpringApplicationAdmin} MBean. Permits to obtain

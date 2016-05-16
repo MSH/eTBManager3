@@ -2,14 +2,13 @@ package org.msh.etbm.services.init;
 
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.db.entities.UserLog;
 import org.msh.etbm.db.enums.UserState;
-import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
-import org.msh.etbm.services.admin.workspaces.WorkspaceData;
-import org.msh.etbm.services.admin.workspaces.impl.RegisterWorkspaceLog;
 import org.msh.etbm.services.admin.workspaces.WorkspaceCreator;
+import org.msh.etbm.services.admin.workspaces.WorkspaceData;
 import org.msh.etbm.services.users.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

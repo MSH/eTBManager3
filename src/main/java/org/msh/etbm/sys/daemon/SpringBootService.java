@@ -1,14 +1,13 @@
 package org.msh.etbm.sys.daemon;
 
 
-import java.io.IOException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.util.ClassUtils;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.util.ClassUtils;
+import java.io.IOException;
 
 /**
  * Basic daemon implementation for a Spring Boot app.

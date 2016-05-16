@@ -1,13 +1,12 @@
 package org.msh.etbm.sys.daemon;
 
-import java.util.Arrays;
-
 import org.apache.commons.daemon.Daemon;
 import org.apache.commons.daemon.DaemonContext;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
+
+import java.util.Arrays;
 
 /**
  * Basic {@link Daemon} implementation for a Spring Boot app. Only for demonstration

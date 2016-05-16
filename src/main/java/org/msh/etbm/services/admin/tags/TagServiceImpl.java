@@ -5,7 +5,6 @@ import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

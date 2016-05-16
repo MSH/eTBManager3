@@ -1161,6 +1161,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="pwdChangeRequest" type="varchar(100)" />
+            <column name="mobile" type="varchar(100)" />
         </createTable>
     </changeSet>
 

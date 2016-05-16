@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
 import SearchBox from './search-box';
 import { hasPerm, logout, changeWorkspace } from './session';
@@ -30,6 +30,12 @@ function adminClick(evt, key) {
 
 function wsChange(evt, key) {
     changeWorkspace(key);
+}
+
+function userMenuSel(evt, key) {
+    if (key === 'prof') {
+        app.goto('/sys/usersettings');
+    }
 }
 
 /**
@@ -91,9 +97,9 @@ export default function(session) {
                             </MenuItem>)
                     }
                 </NavDropdown>
-                <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon">
-                    <MenuItem eventKey="1">{'User profile...'}</MenuItem>
-                    <MenuItem eventKey="2">{__('changepwd') + '...'}</MenuItem>
+                <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon" onSelect={userMenuSel} >
+                    <MenuItem eventKey="prof">{__('usersettings')}</MenuItem>
+                    <MenuItem eventKey="pwd">{__('changepwd')}</MenuItem>
                     <MenuItem divider />
                     <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
                 </NavDropdown>

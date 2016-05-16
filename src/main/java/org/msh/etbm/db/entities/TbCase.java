@@ -205,6 +205,7 @@ public class TbCase extends WorkspaceEntity {
 	private String phoneNumber;
 	
 	@Column(length = 50)
+    @PropertyLog(messageKey = "global.mobile")
 	private String mobileNumber;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)

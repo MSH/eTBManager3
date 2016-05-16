@@ -282,6 +282,7 @@
                                 <argument>-classpath</argument>
                                 <classpath/>
                                 <argument>${dist.start.class}</argument>
+                                <argument>--development=true</argument>
                             </arguments>
                         </configuration>
                     </execution>

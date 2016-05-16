@@ -18,6 +18,7 @@ import org.msh.etbm.db.enums.UserState;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -103,7 +104,14 @@ public class User implements Displayable {
      */
     @PropertyLog(ignore = true)
     private String pwdChangeRequest;
-	
+
+    /**
+     * The user mobile number
+     */
+    @PropertyLog(messageKey = "global.mobile")
+    @Pattern(regexp = "(^$|[0-9]{6,14})")
+    private String mobile;
+
 	/**
 	 * Check if password has expired
 	 * @return
@@ -322,5 +330,13 @@ public class User implements Displayable {
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

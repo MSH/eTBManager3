@@ -3,7 +3,6 @@ package org.msh.etbm.services.admin.ageranges;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;

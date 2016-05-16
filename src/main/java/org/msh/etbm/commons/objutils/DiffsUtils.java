@@ -14,6 +14,14 @@ public class DiffsUtils {
         super();
     }
 
+    /**
+     * Generate a list of object values. The list of object values can be used to compare to other values
+     * @param obj
+     * @return
+     */
+    public static ObjectValues generateValues(Object obj) {
+        return new ObjectValues(obj);
+    }
 
     /**
      * Compare if objects are the same. It checks if references point to the same object.

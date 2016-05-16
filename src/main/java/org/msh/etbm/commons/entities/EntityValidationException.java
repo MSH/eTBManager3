@@ -39,4 +39,12 @@ public class EntityValidationException extends RuntimeException {
         return bindingResult;
     }
 
+    @Override
+    public String getMessage() {
+        if (bindingResult == null) {
+            return super.getMessage();
+        }
+
+        return bindingResult.toString();
+    }
 }

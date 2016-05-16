@@ -1,6 +1,5 @@
 package org.msh.etbm.web.templates;
 
-import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
