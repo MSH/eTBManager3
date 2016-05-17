@@ -19,7 +19,7 @@ function gotoReports() {
     app.goto('/sys/reports/index');
 }
 
-function adminClick(evt, key) {
+function adminClick(key) {
     switch (key) {
         case 31: return app.goto('/sys/admin/tables');
         case 32: return app.goto('/sys/admin/reports');
@@ -28,13 +28,18 @@ function adminClick(evt, key) {
     }
 }
 
-function wsChange(evt, key) {
+function wsChange(key) {
     changeWorkspace(key);
 }
 
-function userMenuSel(evt, key) {
-    if (key === 'prof') {
-        app.goto('/sys/usersettings');
+function userMenuSel(key) {
+    switch (key) {
+        case 'prof': app.goto('/sys/usersettings');
+            break;
+        case 'lang': app.dispatch('change-lang');
+            break;
+        default:
+            break;
     }
 }
 
@@ -87,7 +92,7 @@ export default function(session) {
                     </NavDropdown>
                 }
             </Nav>
-            <Nav pullRight>
+            <Nav pullRight >
                 <NavDropdown id="ddWs" eventKey={3}
                     title={workspace} className="nav-item-icon scrollable-menu" onSelect={wsChange}>
                     {
@@ -100,6 +105,7 @@ export default function(session) {
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon" onSelect={userMenuSel} >
                     <MenuItem eventKey="prof">{__('usersettings')}</MenuItem>
                     <MenuItem eventKey="pwd">{__('changepwd')}</MenuItem>
+                    <MenuItem eventKey="lang">{__('changelang')}</MenuItem>
                     <MenuItem divider />
                     <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
                 </NavDropdown>

@@ -535,7 +535,7 @@
 </style>
 <body>
 <script type="text/javascript">
-window.app = { contextPath: '${path}' };
+window.app = { contextPath: '${path}', language: '${language}' };
 </script>
 <!--[if lt IE 8]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -547,7 +547,9 @@ window.app = { contextPath: '${path}' };
         <i></i>
     </div>
 </div>
+<#if !development>
 <script src="scripts/${vendor}"></script>
+</#if>
 <script src="scripts/${app}"></script>
 </body>
 </html>

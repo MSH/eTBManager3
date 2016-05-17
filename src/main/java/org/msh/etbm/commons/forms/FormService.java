@@ -23,12 +23,19 @@ public class FormService {
      * @param handler the request handler to be registered
      */
     public void registerRequestHandler(FormRequestHandler handler) {
-        String name = handler.getFormCommandName();
-        if (handlers.containsKey(name)) {
-            throw new FormException("There is already a form request handler to the name " + name);
+        String cmdName = handler.getFormCommandName();
+        if (handlers.containsKey(cmdName)) {
+            throw new FormException("There is already a form request handler to the name " + cmdName);
         }
 
-        handlers.put(name, handler);
+        // more than one name can be registered to the same handle using ; or , as separators
+        String delimiters = ",\\s*|\\;\\s*";
+        String[] names = cmdName.split(delimiters);
+
+        // register each name
+        for (String name: names) {
+            handlers.put(name, handler);
+        }
     }
 
 

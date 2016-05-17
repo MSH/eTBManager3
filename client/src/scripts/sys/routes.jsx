@@ -4,6 +4,7 @@ import { RouteView } from '../components/router';
 import WaitIcon from '../components/wait-icon';
 import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
 import { app } from '../core/app';
+import LanguageSel from './others/language-sel';
 
 /** Pages of the public module */
 import HomeRoutes from './home/routes';
@@ -65,7 +66,10 @@ export default class Routes extends React.Component {
 		const routes = RouteView.createRoutes(routesInfo);
 
 		return (
-			<RouteView id="routes-index" routes={routes} />
+			<div>
+				<RouteView id="routes-index" routes={routes} />
+				<LanguageSel />
+			</div>
 			);
 	}
 }

@@ -98,7 +98,7 @@ export default class Login extends React.Component {
 		return (
 			<Fade in transitionAppear>
 				<div className="container central-container-md">
-					<Card title={__('login.enter_system')}>
+					<Card title={__('login.enter_system')} className="mtop-2x">
 						<div>
 							<Row>
 								<Col sm={12}>

@@ -149,12 +149,22 @@ export class App {
         document.cookie = s;
     }
 
+    /**
+     * Return the current language
+     * @return {[type]} [description]
+     */
     getLang() {
-        return this.getCookie(LANG_KEY);
+        const lang = this.getCookie(LANG_KEY);
+        return lang ? lang : window.app.language;
     }
 
+    /**
+     * Change the current language
+     * @param {[type]} value [description]
+     */
     setLang(value) {
         this.setCookie(LANG_KEY, value);
+        window.location.reload();
     }
 
     /**

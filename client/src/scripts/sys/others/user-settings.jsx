@@ -1,11 +1,54 @@
 
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
-import { Card, FormDialog } from '../../components';
+import { Grid, Row, Col, Alert } from 'react-bootstrap';
+import { Card, FormDialog, WaitIcon } from '../../components';
+import { server } from '../../commons/server';
 
 
 export default class UserSettings extends React.Component {
+
+	constructor(props) {
+		super(props);
+
+		this.saveSettings = this.saveSettings.bind(this);
+	}
+
+	componentWillMount() {
+		const self = this;
+
+		// get user settings
+		server.get('/api/sys/usersettings')
+		.then(res => {
+			self.setState({ doc: res });
+		});
+
+		this.setState({ doc: null });
+	}
+
+
+	saveSettings() {
+		// hide any message, if displayed
+		this.setState({ msg: null });
+
+		// save preferences
+		const self = this;
+
+		return server.post('/api/sys/usersettings', this.state.doc)
+		.then(res => {
+			if (res) {
+				return Promise.reject(res.errors);
+			}
+			return self.setState({ msg: 1 });
+		});
+	}
+
 	render() {
+		const doc = this.state.doc;
+
+		if (!doc) {
+			return <WaitIcon type="card" />;
+		}
+
 		const schema = {
 			layout: [
 				{
@@ -24,7 +67,7 @@ export default class UserSettings extends React.Component {
 				},
 				{
 					property: 'email',
-					label: __('user.email'),
+					label: __('User.email'),
 					type: 'string',
 					required: true,
 					size: { md: 12, newLine: true }
@@ -33,23 +76,23 @@ export default class UserSettings extends React.Component {
 					property: 'timeZone',
 					label: __('User.timeZone'),
 					type: 'select',
-					options: [
-						{ id: '1', name: 'Value 1' },
-						{ id: '2', name: 'Value 2' },
-						{ id: '3', name: 'Value 3' }
-					]
+					options: 'timeZones'
 				}
 			]
 		};
-
-		const doc = {};
 
 		return (
 			<Grid fluid>
 				<Row className="mtop-2x">
 					<Col md={5} mdOffset={3}>
 						<Card title={__('usersettings')}>
-							<FormDialog schema={schema} doc={doc} hideCancel />
+							{
+								this.state.msg &&
+								<Alert bsStyle="success">{__('usersettings.savemsg')}</Alert>
+							}
+							<FormDialog schema={schema} doc={doc}
+								hideCancel
+								onConfirm={this.saveSettings} />
 						</Card>
 					</Col>
 				</Row>

@@ -124,7 +124,7 @@ const data = {
 	{
 		type: 'string',
 		property: 'mobileNumber',
-		label: __('TbCase.mobileNumber'),
+		label: __('global.mobile'),
 		max: 20,
 		size: { sm: 4, smOffset: 2 }
 	},

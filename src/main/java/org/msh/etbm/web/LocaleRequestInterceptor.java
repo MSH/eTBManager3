@@ -96,10 +96,12 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
 
         // search for selected language in cookies
         Cookie[] cookies = request.getCookies();
-        for (Cookie c: cookies) {
-            if (c.getName().equals(Constants.LANG_TOKEN_COOKIE)) {
-                newLocale = c.getValue();
-                break;
+        if (cookies != null) {
+            for (Cookie c: cookies) {
+                if (c.getName().equals(Constants.LANG_TOKEN_COOKIE)) {
+                    newLocale = c.getValue();
+                    break;
+                }
             }
         }
 
