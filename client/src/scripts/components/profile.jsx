@@ -7,7 +7,7 @@ export default class Profile extends React.Component {
 	 * Get the icon to display accoring to the type
 	 * @return {string} name of the icon in the font awesome library
 	 */
-	getIconType() {
+	getIconType() { // TODOMSR: devo fazer assim ou passar o nome do icone direto?
 		switch (this.props.type) {
 			case 'male':
 				return 'male';
@@ -25,6 +25,10 @@ export default class Profile extends React.Component {
 				return 'product-hunt';
 			case 'user':
 				return 'user';
+			case 'medexam':
+				return 'stethoscope';
+			case 'exam':
+				return 'file-text';
 			default:
 				return 'exclamation-triangle';
 		}
@@ -59,6 +63,9 @@ export default class Profile extends React.Component {
 				{
 					this.props.subtitle && <div className="profile-subtitle">{this.props.subtitle}</div>
 				}
+				{
+					this.props.bottomline && <hr/>
+				}
 			</div>
 		);
 	}
@@ -71,6 +78,7 @@ Profile.propTypes = {
 	subtitle: React.PropTypes.any,
 	size: React.PropTypes.string,
 	imgClass: React.PropTypes.string,
-	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user'])
+	bottomline: React.PropTypes.bool,
+	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user', 'medexam', 'exam'])
 };
 
