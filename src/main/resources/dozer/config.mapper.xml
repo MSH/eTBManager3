@@ -11,6 +11,11 @@
                 <class-a>java.util.Optional</class-a>
                 <class-b>java.lang.Object</class-b>
             </converter>
+
+            <converter type="org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter">
+                <class-a>org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries</class-a>
+                <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
+            </converter>
         </custom-converters>
 
         <copy-by-references>

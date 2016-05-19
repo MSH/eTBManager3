@@ -30,7 +30,7 @@ export default class CrudCard extends React.Component {
 		this.raiseEvent({ type: 'new' });
 	}
 
-	newMenuClick(evt, key) {
+	newMenuClick(key) {
 		this.raiseEvent({ type: 'new', key: key });
 	}
 

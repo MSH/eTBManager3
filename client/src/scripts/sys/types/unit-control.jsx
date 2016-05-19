@@ -68,7 +68,7 @@ export default class UnitControl extends React.Component {
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]
 	 */
-	onAuChange(evt, item) {
+	onAuChange(item) {
 		const admUnit = item ? item.id : null;
 		const resources = this.props.resources;
 
@@ -113,7 +113,7 @@ export default class UnitControl extends React.Component {
 	 * @param  {[type]} item [description]
 	 * @return {[type]}      [description]
 	 */
-	onUnitChange(evt, item) {
+	onUnitChange(item) {
 		const id = item ? item.id : null;
 		const val = this.props.value ? this.props.value : null;
 

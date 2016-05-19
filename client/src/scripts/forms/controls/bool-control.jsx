@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
+import { FormGroup, HelpBlock, Checkbox } from 'react-bootstrap';
+
 
 export default class BoolControl extends React.Component {
 
@@ -22,23 +23,29 @@ export default class BoolControl extends React.Component {
 		return true;
 	}
 
-	onChange() {
-		const value = this.refs.input.getChecked();
-
+	onChange(evt) {
+		const value = evt.target.checked;
 		this.props.onChange({ schema: this.props.schema, value: value });
 	}
 
 	render() {
 		const sc = this.props.schema;
+		const errors = this.props.errors;
+		const value = !!this.props.value;
 
-		return	(
-			<Input ref="input"
-				label={sc.label}
-				type="checkbox"
-				onChange={this.onChange}
-				help={sc.errors}
-				checked={this.props.value}
-				bsStyle={sc.errors ? 'error' : null} />
+		return (
+			<FormGroup validationState={errors ? 'error' : null}>
+				<Checkbox ref="chk"
+					value={value}
+					onChange={this.onChange}>
+					{
+						sc.label
+					}
+				</Checkbox>
+				{
+					errors && <HelpBlock>{errors}</HelpBlock>
+				}
+			</FormGroup>
 			);
 	}
 }
