@@ -56,6 +56,319 @@ const tags = [
 	}
 ];
 
+const followUp = [
+	{
+		type: {
+			id: 'MEDEXAM',
+			name: 'Medical Examination'
+		},
+		data: {
+				id: '123-123-12-3123',
+				date: new Date(2016, 1, 5),
+				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+				weight: 90.00,
+				height: 1.80,
+				appointmentType: {
+					id: 'SCHEDULLED',
+					name: 'Schedulled'
+				},
+				usingPrescMedicines: {
+					id: 'YES',
+					name: 'Yes'
+				},
+				reasonNotUsingPrescMedicines: '',
+				responsible: 'Mauricio Jesus dos Santos',
+				positionResponsible: 'Doctor'
+		}
+	},
+	{
+		type: {
+			id: 'MICROSCOPY',
+			name: 'Exam Microscopy'
+		},
+		data: {
+				id: '34-534-5-345',
+				// lab exam fields
+				dateCollected: new Date(2016, 2, 1),
+				sampleNumber: 'MIC020395474',
+				comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
+				laboratory: {
+					id: '12-123123-123-12-312',
+					name: 'Lab Ana Neri'
+				},
+				dateRelease: new Date(2016, 3, 1),
+				status: {
+					id: 'PERFORMED',
+					name: 'Performed'
+				},
+				// Specific fields
+				result: {
+					id: 'NEGATIVE',
+					name: 'Negative'
+				},
+				numberOfAFB: 5,
+				sampleType: {
+					id: 'SPUTUM',
+					name: 'Sputum'
+				},
+				otherSampleType: null,
+				visualAppearance: {
+					id: 'MUCOPURULENT',
+					name: 'Mucupurulent'
+				}
+		}
+	},
+	{
+		type: {
+			id: 'CULTURE',
+			name: 'Exam Culture'
+		},
+		data: {
+				id: '334-5-3453-4',
+				// lab exam fields
+				dateCollected: new Date(2016, 2, 1),
+				sampleNumber: 'CUL2342345645',
+				comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações.',
+				laboratory: {
+								id: '12-123123-123-12-312',
+								name: 'Lab Ana Neri'
+							},
+				dateRelease: new Date(2016, 4, 1),
+				method: 'METHODCULT2',
+				status: {
+					id: 'ONGOING',
+					name: 'On going'
+				},
+				// Specific fields
+				result: null,
+				numberOfColonies: 2,
+				sampleType: {
+					id: 'OTHER',
+					name: 'Other'
+				}
+		}
+	},
+	{
+		type: {
+			id: 'MEDEXAM',
+			name: 'Medical Examination'
+		},
+		data: {
+				id: '3-123-123-12-3123',
+				date: new Date(2016, 1, 2),
+				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+				weight: 85.00,
+				height: 1.82,
+				appointmentType: {
+					id: 'SCHEDULLED',
+					name: 'Schedulled'
+				},
+				usingPrescMedicines: {
+					id: 'NO',
+					name: 'No'
+				},
+				reasonNotUsingPrescMedicines: 'No money for the transportation',
+				responsible: 'Mauricio Jesus dos Santos',
+				positionResponsible: 'Doctor'
+		}
+	},
+	{
+		type: {
+			id: 'XPERT',
+			name: 'Exam Xpert'
+		},
+		data: {
+				id: '234-23-4-23',
+				// lab exam fields
+				dateCollected: new Date(2016, 2, 2),
+				sampleNumber: 'XPERT67257',
+				comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações e de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização',
+				laboratory: {
+								id: '12-123123-123-12-312',
+								name: 'Lab Ana Neri'
+							},
+				dateRelease: new Date(2016, 4, 2),
+				status: {
+					id: 'PERFORMED',
+					name: 'Performed'
+				},
+				// Specific fields
+				result: {
+					id: 'TB_NOT_DETECTED',
+					name: 'TB not detected'
+				},
+				rifResult: {
+					id: 'RIF_NOT_DETECTED',
+					name: 'Rif nor detected'
+				}
+		}
+	},
+	{
+		type: {
+			id: 'MICROSCOPY',
+			name: 'Exam Microscopy'
+		},
+		data: {
+				id: '35-34-53-4-3-5',
+				// lab exam fields
+				dateCollected: new Date(2016, 6, 2),
+				sampleNumber: 'MIC020395474',
+				comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
+				laboratory: {
+					id: '12-123123-123-12-312',
+					name: 'Lab Ana Neri'
+				},
+				dateRelease: new Date(2016, 6, 2),
+				method: 'METHODMIC2',
+				status: {
+					id: 'PERFORMED',
+					name: 'Performed'
+				},
+				// Specific fields
+				result: {
+					id: 'NEGATIVE',
+					name: 'Negative'
+				},
+				numberOfAFB: null,
+				sampleType: {
+					id: 'OTHER',
+					name: 'Other'
+				},
+				otherSampleType: 'skin',
+				visualAppearance: {
+					id: 'SALIVA',
+					name: 'Saliva'
+				}
+		}
+	},
+	{
+		type: {
+			id: 'DST',
+			name: 'Exam DST'
+		},
+		data: {
+				id: '34-5-345-3',
+				// lab exam fields
+				dateCollected: new Date(2016, 18, 3),
+				sampleNumber: 'DST0395474',
+				comments: null,
+				laboratory: {
+					id: '12-123123-123-12-312',
+					name: 'Lab Ana Neri'
+				},
+				dateRelease: new Date(2016, 25, 3),
+				method: 'METHOD2',
+				status: {
+					id: 'PERFORMED',
+					name: 'Performed'
+				},
+				// Specific fields
+				result: [
+					{
+						substance: {
+							id: '89273-23423-4234',
+							name: 'Am',
+							shortName: 'Amikacin'
+						},
+						result: {
+							id: 'RESISTANT',
+							name: 'Resistant'
+						}
+					},
+					{
+						substance: {
+							id: '89273-23423-4234',
+							name: 'Cs',
+							shortName: 'Cycloserine'
+						},
+						result: {
+							id: 'RESISTANT',
+							name: 'Resistant'
+						}
+					},
+					{
+						substance: {
+							id: '89273-23423-4234',
+							name: 'E',
+							shortName: 'Ethambutol'
+						},
+						result: {
+							id: 'RESISTANT',
+							name: 'Resistant'
+						}
+					},
+					{
+						substance: {
+							id: '89273-23423-4234',
+							name: 'H',
+							shortName: 'Isoniazid'
+						},
+						result: {
+							id: 'RESISTANT',
+							name: 'Resistant'
+						}
+					},
+					{
+						substance: {
+							id: '89273-23423-4234',
+							name: 'Km',
+							shortName: 'Kanamycin'
+						},
+						result: {
+							id: 'RESISTANT',
+							name: 'Resistant'
+						}
+					}
+				]
+		}
+	},
+	{
+		type: {
+			id: 'XRAY',
+			name: 'Exam Xray'
+		},
+		data: {
+				id: '546-565',
+				date: new Date(2016, 10, 4),
+				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+				// Specific fields
+				result: {
+					id: 'STABILIZED',
+					name: 'Stabilized'
+				},
+				evolution: {
+					id: 'PROGRESSED',
+					name: 'Progressed'
+				},
+				baseline: {
+					id: 'CAVITARY',
+					name: 'Cavitary'
+				},
+				destruction: true,
+				presentation: 'PRESENTATION039'
+		}
+	},
+	{
+		type: {
+			id: 'HIV',
+			name: 'Exam Hiv'
+		},
+		data: {
+				id: '345-345-34-5-345',
+				date: new Date(2016, 10, 4),
+				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+				// Specific fields
+				result: {
+					id: 'POSITIVE',
+					name: 'Positive'
+				},
+				startedARTdate: new Date(2016, 4, 10),
+				startedCPTdate: new Date(2016, 4, 10),
+				laboratory: 'Ana neri'
+		}
+	}
+];
+
 
 // TEMPORARY -> CASE DATA USED FOR PROTOTYPING
 const mockTbCase = {
@@ -135,7 +448,8 @@ const mockTbCase = {
 			date: new Date(),
 			comment: 'Contact Rubens Smith refused interview and moved out to another address'
 		}
-	]
+	],
+	followUp: followUp
 };
 
 
