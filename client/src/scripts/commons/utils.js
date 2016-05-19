@@ -9,6 +9,14 @@ export function format(fmtstr) {
   });
 }
 
+
+export function formatDoc(fmtstr, doc) {
+    return fmtstr.replace(/\{([\w\.]+)\}/g, function(match) {
+        const prop = match.substring(1, match.length - 1);
+        return getValue(doc, prop);
+    });
+}
+
 /**
  * Return a property value from an object. The property name supports nested properties
  * (p1.p2.p3, for example) and indexed property as well (p[1] for example)
@@ -22,6 +30,11 @@ export function getValue(obj, prop) {
             throw new Error('Property not defined');
         }
     }
+
+    if (prop.indexOf('{') >= 0) {
+        return formatDoc(prop, obj);
+    }
+
 	let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot

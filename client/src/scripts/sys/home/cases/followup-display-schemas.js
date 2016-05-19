@@ -44,7 +44,7 @@ const medexam = {
 	},
 	{
 		type: 'number',
-		property: 'weight',
+		property: '{weight} Kg',
 		label: __('MedicalExamination.weight'),
 		required: true,
 		size: { sm: 3 }
@@ -52,7 +52,7 @@ const medexam = {
 	{
 		type: 'number',
 		label: __('MedicalExamination.height'),
-		property: 'height',
+		property: '{height} cm',
 		required: true,
 		size: { sm: 3 }
 	},
