@@ -190,7 +190,7 @@ e-TB Manager client side (browser code) uses `npm` and `gulp` as the building to
 
 Although not required, a group of tasks are available in `gulp` to make client side development easier. They are implemented in the `gulpfile.js` . The main command lines are:
 
-**`gulp run`** - Prepare and run the client side on a proxy web server. This proxy web-server has the following features:
+**`npm run run`** - Prepare and run the client side on a proxy web server using gulp (the same as running `gulp run`). This proxy web-server has the following features:
 
 * Provides client files (js, html, css, etc);
 * Automatically update browser window when a file is changed;

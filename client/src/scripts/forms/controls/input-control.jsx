@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
+import ReactDOM from 'react-dom';
+import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 import FormUtils from '../form-utils';
 import { stringValidator, numberValidator } from '../impl/validators';
 
@@ -21,7 +22,7 @@ export default class InputControl extends React.Component {
 
 	validate() {
 		const schema = this.props.schema;
-		const value = this.refs.input.getValue();
+		const value = ReactDOM.findDOMNode(this.refs.input).value;
 
 		return schema.type === 'string' ?
 			stringValidator(schema, value) :
@@ -34,7 +35,7 @@ export default class InputControl extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	focus() {
-		this.refs.input.getInputDOMNode().focus();
+		ReactDOM.findDOMNode(this.refs.input).focus();
 		return true;
 	}
 
@@ -50,9 +51,9 @@ export default class InputControl extends React.Component {
 	 * Called when user changes the value in the control
 	 * @return {[type]} [description]
 	 */
-	onChange() {
+	onChange(evt) {
 		const sc = this.props.schema;
-		let value = this.refs.input.getValue();
+		let value = evt.target.value;
 
 		// if it is an empty string, so return null
 		if (!value) {
@@ -74,19 +75,26 @@ export default class InputControl extends React.Component {
 
 		const errors = this.props.errors;
 
-		const wrapperClazz = sc.controlSize ? 'size-' + sc.controlSize : null;
-
 		const ctype = sc.password ? 'password' : 'text';
 
+		const label = FormUtils.labelRender(sc.label, sc.required);
+		const val = this.props.value ? this.props.value : '';
+
 		return (
-			<Input ref="input"
-				label={FormUtils.labelRender(sc.label, sc.required)}
-				type={ctype}
-				onChange={this.onChange}
-				value={this.props.value}
-				help={errors}
-				wrapperClassName={wrapperClazz}
-				bsStyle={errors ? 'error' : null} />
+			<FormGroup validationState={errors ? 'error' : null}>
+				{
+					label &&
+					<ControlLabel>{label}</ControlLabel>
+				}
+				<FormControl ref="input"
+					type={ctype}
+					value={val}
+					onChange={this.onChange}
+					/>
+				{
+					errors && <HelpBlock>{errors}</HelpBlock>
+				}
+			</FormGroup>
 			);
 	}
 

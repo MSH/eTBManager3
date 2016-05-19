@@ -36,7 +36,17 @@
 
         <dist.start.class>org.msh.etbm.Application</dist.start.class>
         <dist.jmx.port>50201</dist.jmx.port>
+        <app.development>false</app.development>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>development</id>
+            <properties>
+                <app.development>true</app.development>
+            </properties>
+        </profile>
+    </profiles>
 
     <scm>
         <connection>scm:git:https://bitbucket.org/etbmanager/etbm3.git</connection>
@@ -282,7 +292,7 @@
                                 <argument>-classpath</argument>
                                 <classpath/>
                                 <argument>${dist.start.class}</argument>
-                                <argument>--development=true</argument>
+                                <argument>--development=${app.development}</argument>
                             </arguments>
                         </configuration>
                     </execution>

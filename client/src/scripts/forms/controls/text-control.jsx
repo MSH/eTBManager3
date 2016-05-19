@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
+import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
+import FormUtils from '../form-utils';
 
 export default class TextControl extends React.Component {
 
@@ -18,8 +19,9 @@ export default class TextControl extends React.Component {
 		return true;
 	}
 
-	onChange() {
-		const value = this.refs.input.getValue();
+	onChange(evt) {
+//		const value = this.refs.input.getValue();
+		const value = evt.target.value;
 
 		this.props.onChange({ schema: this.props.schema, value: value });
 	}
@@ -27,15 +29,25 @@ export default class TextControl extends React.Component {
 	render() {
 		const sc = this.props.schema;
 
-		return	(
-			<Input ref="input"
-				label={sc.label}
-				type="textarea"
-				onChange={this.onChange}
-				help={sc.errors}
-				value={this.props.value}
-				style={{ minHeight: '100px' }}
-				bsStyle={sc.errors ? 'error' : null} />
+		const label = FormUtils.labelRender(sc.label, sc.required);
+
+		const errors = this.props.errors;
+
+		return (
+			<FormGroup validationState={errors ? 'error' : null}>
+				{
+					label &&
+					<ControlLabel>{label}</ControlLabel>
+				}
+				<FormControl ref="input"
+					componentClass="textarea"
+					value={this.props.value}
+					onChange={this.onChange}
+					/>
+				{
+					errors && <HelpBlock>{errors}</HelpBlock>
+				}
+			</FormGroup>
 			);
 	}
 }

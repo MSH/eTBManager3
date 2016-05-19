@@ -331,14 +331,14 @@ export default class AdmUnits extends React.Component {
 					type: 'string',
 					max: 200,
 					label: __('form.name'),
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'parents',
 					type: 'adminUnit',
 					label: __('admin.adminunits.parentunit'),
 					readOnly: true,
-					size: { sm: 6, newLine: true }
+					size: { md: 6 }
 				},
 				{
 					property: 'csId',
@@ -346,14 +346,14 @@ export default class AdmUnits extends React.Component {
 					label: __('admin.adminunits.countrystructure'),
 					options: this.getCsOptions(this.state.level),
 					required: true,
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'customId',
 					type: 'string',
 					max: 50,
 					label: __('form.customId'),
-					size: { sm: 6 }
+					size: { md: 6 }
 				}
 			],
 			title: doc => doc && doc.id ? __('admin.adminunits.edt') : __('admin.adminunits.new')
@@ -403,7 +403,8 @@ export default class AdmUnits extends React.Component {
 							<FormDialog schema={this.getEditorDef()}
 								onConfirm={this.onSave}
 								onCancel={this.onCancelEditor}
-								doc={this.state.doc} />
+								doc={this.state.doc}
+								wrapType="card" />
 						</div>
 						</Collapse>
 				}
