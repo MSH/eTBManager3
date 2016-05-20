@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
 import { app } from '../../../core/app';
@@ -136,7 +136,7 @@ export default class Products extends React.Component {
 		return (
 			<CrudView crud={crud}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);

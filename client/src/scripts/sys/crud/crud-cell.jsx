@@ -78,7 +78,7 @@ class CrudCell extends React.Component {
 		const controller = this.props.controller;
 
 		controller
-			.openForm(item)
+			.openEditForm(item)
 			.then(() => {
 				cell.setSize({ md: 12 });
 			})
@@ -198,12 +198,10 @@ class CrudCell extends React.Component {
 		// get the form id being edited
 		if (controller.getFormItemId() === this.props.id && !controller.frm.fetching) {
 			return (
-				<Collapse in transitionAppear>
-					<CrudForm schema={this.props.editorSchema} className="highlight"
-						modalShow
-						wrapType={this.props.modal ? 'modal' : 'card'}
-						controller={controller} openOnEdit />
-				</Collapse>
+				<CrudForm schema={this.props.editorSchema} className="highlight"
+					modalShow
+					wrapType={this.props.modal ? 'modal' : 'card'}
+					controller={controller} openOnEdit />
 				);
 		}
 

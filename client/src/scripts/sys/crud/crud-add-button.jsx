@@ -14,8 +14,8 @@ export default class CrudAddButton extends React.Component {
 		this.openNewForm = this.openNewForm.bind(this);
 	}
 
-	openNewForm() {
-		this.props.controller.openForm();
+	openNewForm(key) {
+		this.props.controller.openNewForm(key);
 	}
 
 	getBtnTitle() {
@@ -27,28 +27,25 @@ export default class CrudAddButton extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	popupMenu() {
-		const sc = this.props.schema;
+		const controller = this.props.controller;
+
+		const lst = controller.getEditors();
 
 		// if it is a single editor, return null
-		if (!sc || !sc.editors) {
+		if (!lst) {
 			return null;
 		}
 
 		// return the list of menu options
-		const options = Object.keys(sc.editors).map(key => {
-			// get title to be displayed
-			const title = sc.editors[key].title;
-
-			return (
-				<MenuItem key={key} eventKey={key}>
-					{title ? title : key}
+		const options = lst.map(item =>
+				<MenuItem key={item.key} eventKey={item.key} onSelect={this.openNewForm}>
+					{item.label}
 				</MenuItem>
 				);
-		});
 
 		return (
-			<DropdownButton id="optMenu" bsSize="small" pullRight
-				title={this.getTitle()}
+			<DropdownButton id="optMenu"
+				title={this.getBtnTitle()}
 				onSelect={this.newMenuClick}>
 				{
 					options
@@ -77,8 +74,7 @@ export default class CrudAddButton extends React.Component {
 }
 
 CrudAddButton.propTypes = {
-	controller: React.PropTypes.object.isRequired,
-	schema: React.PropTypes.object
+	controller: React.PropTypes.object.isRequired
 };
 
 CrudAddButton.defaultProps = {

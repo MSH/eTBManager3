@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CRUD from '../../../commons/crud';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import { app } from '../../../core/app';
 import Form from '../../../forms/form';
 
@@ -17,7 +17,7 @@ const editorDef = {
 			type: 'string',
 			max: 20,
 			label: __('form.shortName'),
-			size: { sm: 3 }
+			size: { md: 3 }
 		},
 		{
 			property: 'name',
@@ -25,7 +25,7 @@ const editorDef = {
 			type: 'string',
 			max: 200,
 			label: __('form.name'),
-			size: { sm: 6 }
+			size: { md: 6 }
 		},
 		{
 			property: 'line',
@@ -33,13 +33,13 @@ const editorDef = {
 			type: 'select',
 			options: app.getState().app.lists.MedicineLine,
 			label: __('MedicineLine'),
-			size: { sm: 6 }
+			size: { md: 6 }
 		},
 		{
 			property: 'dstResultForm',
 			type: 'yesNo',
 			label: __('Substance.dstResultForm'),
-			size: { newLine: true, sm: 4 },
+			size: { newLine: true, md: 4 },
 			required: true,
 			defaultValue: true
 		},
@@ -47,7 +47,7 @@ const editorDef = {
 			property: 'prevTreatmentForm',
 			type: 'yesNo',
 			label: __('Substance.prevTreatmentForm'),
-			size: { sm: 4 },
+			size: { md: 4 },
 			required: true,
 			defaultValue: true
 		},
@@ -57,13 +57,13 @@ const editorDef = {
 			label: __('EntityState.ACTIVE'),
 			defaultValue: true,
 			required: true,
-			size: { sm: 4 }
+			size: { md: 4 }
 		},
 		{
 			property: 'customId',
 			type: 'string',
 			label: __('form.customId'),
-			size: { sm: 3 }
+			size: { md: 3 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.substances.edt') : __('admin.substances.new')
@@ -133,7 +133,7 @@ export default class Substances extends React.Component {
 				title={data.title}
 				onCellRender={this.cellRender}
 				onDetailRender={this.collapseCellRender}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				perm={data.perm} />
 			);
 	}

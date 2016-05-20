@@ -24,7 +24,8 @@ export default class CrudView extends React.Component {
 		// the controller options
 		const opts = {
 			pageSize: this.props.pageSize,
-			readOnly: !hasPerm(this.props.perm)
+			readOnly: !hasPerm(this.props.perm),
+			editorSchema: this.props.editorSchema
 		};
 
 		const controller = new CrudController(this.props.crud, opts);
@@ -56,7 +57,7 @@ export default class CrudView extends React.Component {
 					{this.props.title} <CrudCounter controller={controller} counterOnly />
 				</Col>
 				{
-					btn && <Col sm={2}>{btn}</Col>
+					btn && <Col sm={2}><div className="pull-right">{btn}</div></Col>
 				}
 			</Row>
 			);
@@ -68,7 +69,7 @@ export default class CrudView extends React.Component {
 		return (
 			<div>
 				<CrudForm controller={controller}
-					schema={this.props.editorSchema} openOnNew
+					openOnNew
 					wrapType={this.props.modal ? 'modal' : 'card'} />
 				<Card header={this.headerRender()} padding={this.props.combine ? 'combine' : 'default'}>
 					<Row>
@@ -87,7 +88,6 @@ export default class CrudView extends React.Component {
 								options={this.props.options}
 								onRender={this.props.onCellRender}
 								onExpandRender={this.props.onDetailRender}
-								editorSchema={this.props.editorSchema}
 								modal={this.props.modal} />
 							{
 								this.props.pageSize &&

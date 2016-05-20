@@ -25,7 +25,13 @@ const Events = {
 export default class CrudController {
 
 	constructor(crud, options) {
-		this.openForm = this.openForm.bind(this);
+		if (__DEV__) {
+			if (!options || !options.editorSchema) {
+				throw new Error('editorSchema must be specified in CrudController options');
+			}
+		}
+		this.openNewForm = this.openNewForm.bind(this);
+		this.openEditForm = this.openEditForm.bind(this);
 		this.closeForm = this.closeForm.bind(this);
 		this.saveAndClose = this.saveAndClose.bind(this);
 
@@ -102,12 +108,61 @@ export default class CrudController {
 	}
 
 	/**
+	 * Return the available schema editor keys and its title. Used to create a popup menu
+	 * @return {[type]} [description]
+	 */
+	getEditors() {
+		const schema = this.options.editorSchema;
+		if (!schema.editors) {
+			return null;
+		}
+
+		return Object.keys(schema.editors).map(key => ({ key: key, label: schema.editors[key].label }));
+	}
+
+	/**
+	 * Generate an event to create a new form and optionally passes the editor schema key, if it
+	 * is a mulit schema
+	 * @param  {[type]} key [description]
+	 * @return {[type]}     [description]
+	 */
+	openNewForm(key) {
+		return this._openForm(null, key);
+	}
+
+	/**
+	 * Generate an event to open an edit form based on its document to edit
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	openEditForm(item) {
+		return this._openForm(item);
+	}
+
+	/**
 	 * Generate events to open a new form
 	 * @return {[type]} [description]
 	 */
-	openForm(item) {
+	_openForm(item, key) {
 		if (this.isFormOpen()) {
 			return null;
+		}
+
+		// select the schema to be used in the form
+		const se = this.options.editorSchema;
+		var schema = null;
+		// is mulit schema ?
+		if (se.editors) {
+			if (__DEV__) {
+				if (!item && !key) {
+					throw new Error('CrudController: In a multi schema, either the item or the schema key must be informed');
+				}
+			}
+			// select the schema by its item or by the key
+			schema = se.editors[key ? key : se.select(item)];
+		}
+		else {
+			schema = se;
 		}
 
 		// information about the document being edited in the form
@@ -115,7 +170,8 @@ export default class CrudController {
 			doc: null,
 			id: null,
 			fetching: true,
-			item: item
+			item: item,
+			schema: schema
 		};
 
 		// store information in the controller about the doc being edited
@@ -283,6 +339,10 @@ export default class CrudController {
 	 */
 	getFormItemId() {
 		return this.frm ? this.frm.id : null;
+	}
+
+	getFormSchema() {
+		return this.frm ? this.frm.schema : null;
 	}
 
 	/**

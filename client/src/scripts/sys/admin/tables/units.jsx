@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CRUD from '../../../commons/crud';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import Profile from '../../../components/profile';
 import Form from '../../../forms/form';
 
@@ -266,7 +266,7 @@ export default class Units extends React.Component {
 			<CrudView title={data.title}
 				crud={crud}
 				onCellRender={this.cellRender}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				perm={data.perm} />
 			);
 	}

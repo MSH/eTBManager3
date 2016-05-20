@@ -1,7 +1,7 @@
 
 import React from 'react';
 import CRUD from '../../../commons/crud';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import Profile from '../../../components/profile';
 import Form from '../../../forms/form';
 
@@ -135,7 +135,7 @@ export default class Tags extends React.Component {
 				title={data.title}
 				onCellRender={this.cellRender}
 				onDetailRender={this.collapseCellRender}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				perm={data.perm}
 				queryFilters={queryFilters} />
 			);
