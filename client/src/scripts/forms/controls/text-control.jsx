@@ -2,6 +2,7 @@
 import React from 'react';
 import { FormGroup, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 import FormUtils from '../form-utils';
+import { textToComp } from '../../commons/utils';
 
 export default class TextControl extends React.Component {
 
@@ -20,14 +21,28 @@ export default class TextControl extends React.Component {
 	}
 
 	onChange(evt) {
-//		const value = this.refs.input.getValue();
 		const value = evt.target.value;
 
 		this.props.onChange({ schema: this.props.schema, value: value });
 	}
 
+	/**
+	 * Render a read-only text
+	 * @param  {[type]} sc [description]
+	 * @return {[type]}    [description]
+	 */
+	readOnlyRender(sc) {
+		const value = this.props.value;
+		const txt = value ? textToComp(value) : '';
+
+		return FormUtils.readOnlyRender(txt, sc.label);
+	}
+
 	render() {
 		const sc = this.props.schema;
+		if (sc.readOnly) {
+			return this.readOnlyRender(sc);
+		}
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
