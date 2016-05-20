@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Grid } from 'react-bootstrap';
 import WaitIcon from '../../components/wait-icon';
 import { getValue } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';

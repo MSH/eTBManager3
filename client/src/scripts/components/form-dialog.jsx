@@ -70,7 +70,7 @@ export default class FormDialog extends React.Component {
 				);
 
 			const buttons = (
-				<div>
+				<div className="mtop">
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
 							bsStyle="primary"
