@@ -124,7 +124,7 @@ export default class Details extends React.Component {
 				<Grid fluid>
 					<Row className="mtop">
 						<Col sm={3}>
-							<DropdownButton id="ddcase" bsStyle="danger" title={__('form.options')} >
+							<DropdownButton id="ddcase" bsStyle="default" title={<span><Fa icon="bars"/>{__('form.options')}</span>} >
 								<MenuItem eventKey={1} onSelect={this.show('showDelConfirm', true)}>{__('cases.delete')}</MenuItem>
 								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
 								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
