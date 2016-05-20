@@ -1,17 +1,17 @@
 import React from 'react';
 import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
-import { ListBox } from '../../../components';
+import { SelectionBox } from '../../../components';
 
 import FollowupDisplay from './followup-display';
 
 const options = [
-	{ id: 'MEDEXAM', name: 'Medical Consultation' },
-	{ id: 'MICROSCOPY', name: 'Exam Microscopy' },
-	{ id: 'CULTURE', name: 'Exam Culture' },
-	{ id: 'XPERT', name: 'Exam Xpert' },
-	{ id: 'DST', name: 'Exam DST' },
-	{ id: 'XRAY', name: 'Exam Xray' },
-	{ id: 'HIV', name: 'Exam HIV' }
+	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM') },
+	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY') },
+	{ id: 'CULTURE', name: __('FollowUpType.CULTURE') },
+	{ id: 'XPERT', name: __('FollowUpType.XPERT') },
+	{ id: 'DST', name: __('FollowUpType.DST') },
+	{ id: 'XRAY', name: __('FollowUpType.XRAY') },
+	{ id: 'HIV', name: __('FollowUpType.HIV') }
 ];
 
 export default class CaseExams extends React.Component {
@@ -20,6 +20,7 @@ export default class CaseExams extends React.Component {
 		super(props);
 
 		this.onFilterChange = this.onFilterChange.bind(this);
+		this.state = { filter: options.slice() };
 	}
 
 	onFilterChange() {
@@ -71,22 +72,25 @@ export default class CaseExams extends React.Component {
 	render() {
 		return (
 			<div>
-				<DropdownButton bsStyle="primary" title={'New Follow-up'} id="newfollowup" className="def-margin-bottom">
-					<MenuItem eventKey={1} >{'Medical Consultation'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam Microscopy'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam Culture'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam Xpert'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam DST'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam HIV'}</MenuItem>
-					<MenuItem eventKey={1} >{'Exam Xray'}</MenuItem>
-				</DropdownButton>
-
-				<ListBox ref="filter"
-					mode="multiple"
-					onChange={this.onFilterChange()}
-					options={options}
-					optionDisplay="name" />
-
+				<Row>
+					<Col sm={1}>
+						<DropdownButton id="newFollowUp" bsStyle="primary" title={'New'}>
+							{
+								options.map((item, index) => (
+									<MenuItem eventKey={index} >{item.name}</MenuItem>
+								))
+							}
+						</DropdownButton>
+					</Col>
+					<Col sm={11}>
+						<SelectionBox ref="filter"
+							value={this.state.filter}
+							mode="multiple"
+							optionDisplay={'name'}
+							onChange={this.onFilterChange()}
+							options={options}/>
+					</Col>
+				</Row>
 				{this.contentRender(this.props.tbcase.followUp)}
 			</div>);
 	}

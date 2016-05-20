@@ -60,7 +60,7 @@ const followUp = [
 	{
 		type: {
 			id: 'MEDEXAM',
-			name: 'Medical Examination'
+			name: __('FollowUpType.MEDEXAM')
 		},
 		data: {
 				id: '123-123-12-3123',
@@ -68,15 +68,9 @@ const followUp = [
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				weight: 90.00,
 				height: 1.80,
-				appointmentType: {
-					id: 'SCHEDULLED',
-					name: 'Schedulled'
-				},
-				usingPrescMedicines: {
-					id: 'YES',
-					name: 'Yes'
-				},
-				reasonNotUsingPrescMedicines: '',
+				appointmentType: 'SCHEDULLED',
+				usingPrescMedicines: 'NO',
+				reasonNotUsingPrescMedicines: 'No money for the transportation',
 				responsible: 'Mauricio Jesus dos Santos',
 				positionResponsible: 'Doctor'
 		}
@@ -84,7 +78,7 @@ const followUp = [
 	{
 		type: {
 			id: 'MICROSCOPY',
-			name: 'Exam Microscopy'
+			name: __('FollowUpType.MICROSCOPY')
 		},
 		data: {
 				id: '34-534-5-345',
@@ -97,31 +91,19 @@ const followUp = [
 					name: 'Lab Ana Neri'
 				},
 				dateRelease: new Date(2016, 3, 1),
-				status: {
-					id: 'PERFORMED',
-					name: 'Performed'
-				},
+				status: 'PERFORMED',
 				// Specific fields
-				result: {
-					id: 'NEGATIVE',
-					name: 'Negative'
-				},
+				result: 'NEGATIVE',
 				numberOfAFB: 5,
-				sampleType: {
-					id: 'SPUTUM',
-					name: 'Sputum'
-				},
+				sampleType: 'SPUTUM',
 				otherSampleType: null,
-				visualAppearance: {
-					id: 'MUCOPURULENT',
-					name: 'Mucupurulent'
-				}
+				visualAppearance: 'MUCOPURULENT'
 		}
 	},
 	{
 		type: {
 			id: 'CULTURE',
-			name: 'Exam Culture'
+			name: __('FollowUpType.CULTURE')
 		},
 		data: {
 				id: '334-5-3453-4',
@@ -135,23 +117,16 @@ const followUp = [
 							},
 				dateRelease: new Date(2016, 4, 1),
 				method: 'METHODCULT2',
-				status: {
-					id: 'ONGOING',
-					name: 'On going'
-				},
+				status: 'ONGOING',
 				// Specific fields
-				result: null,
-				numberOfColonies: 2,
-				sampleType: {
-					id: 'OTHER',
-					name: 'Other'
-				}
+				result: 'POSITIVE',
+				numberOfColonies: 2
 		}
 	},
 	{
 		type: {
 			id: 'MEDEXAM',
-			name: 'Medical Examination'
+			name: __('FollowUpType.MEDEXAM')
 		},
 		data: {
 				id: '3-123-123-12-3123',
@@ -159,15 +134,9 @@ const followUp = [
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				weight: 85.00,
 				height: 1.82,
-				appointmentType: {
-					id: 'SCHEDULLED',
-					name: 'Schedulled'
-				},
-				usingPrescMedicines: {
-					id: 'NO',
-					name: 'No'
-				},
-				reasonNotUsingPrescMedicines: 'No money for the transportation',
+				appointmentType: 'SCHEDULLED',
+				usingPrescMedicines: 'NO',
+				reasonNotUsingPrescMedicines: null,
 				responsible: 'Mauricio Jesus dos Santos',
 				positionResponsible: 'Doctor'
 		}
@@ -175,7 +144,7 @@ const followUp = [
 	{
 		type: {
 			id: 'XPERT',
-			name: 'Exam Xpert'
+			name: __('FollowUpType.XPERT')
 		},
 		data: {
 				id: '234-23-4-23',
@@ -188,25 +157,16 @@ const followUp = [
 								name: 'Lab Ana Neri'
 							},
 				dateRelease: new Date(2016, 4, 2),
-				status: {
-					id: 'PERFORMED',
-					name: 'Performed'
-				},
+				status: 'PERFORMED',
 				// Specific fields
-				result: {
-					id: 'TB_NOT_DETECTED',
-					name: 'TB not detected'
-				},
-				rifResult: {
-					id: 'RIF_NOT_DETECTED',
-					name: 'Rif nor detected'
-				}
+				result: 'TB_NOT_DETECTED',
+				rifResult: 'RIF_NOT_DETECTED'
 		}
 	},
 	{
 		type: {
 			id: 'MICROSCOPY',
-			name: 'Exam Microscopy'
+			name: __('FollowUpType.MICROSCOPY')
 		},
 		data: {
 				id: '35-34-53-4-3-5',
@@ -220,31 +180,19 @@ const followUp = [
 				},
 				dateRelease: new Date(2016, 6, 2),
 				method: 'METHODMIC2',
-				status: {
-					id: 'PERFORMED',
-					name: 'Performed'
-				},
+				status: 'PERFORMED',
 				// Specific fields
-				result: {
-					id: 'NEGATIVE',
-					name: 'Negative'
-				},
+				result: 'NEGATIVE',
 				numberOfAFB: null,
-				sampleType: {
-					id: 'OTHER',
-					name: 'Other'
-				},
+				sampleType: 'OTHER',
 				otherSampleType: 'skin',
-				visualAppearance: {
-					id: 'SALIVA',
-					name: 'Saliva'
-				}
+				visualAppearance: 'SALIVA'
 		}
 	},
 	{
 		type: {
 			id: 'DST',
-			name: 'Exam DST'
+			name: __('FollowUpType.DST')
 		},
 		data: {
 				id: '34-5-345-3',
@@ -325,43 +273,28 @@ const followUp = [
 	{
 		type: {
 			id: 'XRAY',
-			name: 'Exam Xray'
+			name: __('FollowUpType.XRAY')
 		},
 		data: {
 				id: '546-565',
 				date: new Date(2016, 10, 4),
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				// Specific fields
-				result: {
-					id: 'STABILIZED',
-					name: 'Stabilized'
-				},
-				evolution: {
-					id: 'PROGRESSED',
-					name: 'Progressed'
-				},
-				baseline: {
-					id: 'CAVITARY',
-					name: 'Cavitary'
-				},
-				destruction: true,
+				evolution: 'PROGRESSED',
 				presentation: 'PRESENTATION039'
 		}
 	},
 	{
 		type: {
 			id: 'HIV',
-			name: 'Exam Hiv'
+			name: __('FollowUpType.HIV')
 		},
 		data: {
 				id: '345-345-34-5-345',
 				date: new Date(2016, 10, 4),
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				// Specific fields
-				result: {
-					id: 'POSITIVE',
-					name: 'Positive'
-				},
+				result: 'POSITIVE',
 				startedARTdate: new Date(2016, 4, 10),
 				startedCPTdate: new Date(2016, 4, 10),
 				laboratory: 'Ana neri'

@@ -33,7 +33,18 @@ public class GlobalListsService {
             CaseClassification.class,
             CaseState.class,
             UserState.class,
-            CommandAction.class
+            CommandAction.class,
+            FollowUpType.class,
+            MedAppointmentType.class,
+            YesNoType.class,
+            VisualAppearance.class,
+            SampleType.class,
+            MicroscopyResult.class,
+            CultureResult.class,
+            XpertRifResult.class,
+            XpertResult.class,
+            XRayEvolution.class,
+            HIVResult.class
     };
 
     /**
