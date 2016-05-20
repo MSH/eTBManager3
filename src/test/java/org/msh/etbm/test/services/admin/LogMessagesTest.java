@@ -3,14 +3,11 @@ package org.msh.etbm.test.services.admin;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.msh.etbm.Application;
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.ObjectValues;
-import org.msh.etbm.commons.objutils.PropertyValue;
 import org.msh.etbm.db.entities.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -22,7 +19,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 
 /**

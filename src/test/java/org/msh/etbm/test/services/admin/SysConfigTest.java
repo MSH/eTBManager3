@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;
 
 /**

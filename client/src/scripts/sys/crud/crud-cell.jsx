@@ -80,7 +80,7 @@ class CrudCell extends React.Component {
 		controller
 			.openForm(item)
 			.then(() => {
-				cell.setSize({ sm: 12 });
+				cell.setSize({ md: 12 });
 			})
 			.catch(() => cell.forceUpdate());
 

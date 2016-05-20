@@ -65,7 +65,6 @@ export default class CrudView extends React.Component {
 	render() {
 		const controller = this.state.controller;
 
-
 		return (
 			<div>
 				<CrudForm controller={controller}

@@ -1,7 +1,6 @@
 package org.msh.etbm;
 
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.google.common.collect.Lists;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.DozerEntityConverter;

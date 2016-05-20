@@ -4,7 +4,6 @@ import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.services.init.RegisterWorkspaceRequest;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;

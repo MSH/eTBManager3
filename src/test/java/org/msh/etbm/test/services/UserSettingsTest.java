@@ -6,9 +6,7 @@ import org.msh.etbm.services.usersettings.UserSettingsFormData;
 import org.msh.etbm.services.usersettings.UserSettingsService;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.ObjectError;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.isA;

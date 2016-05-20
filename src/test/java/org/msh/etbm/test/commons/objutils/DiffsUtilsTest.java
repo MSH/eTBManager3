@@ -1,11 +1,18 @@
 package org.msh.etbm.test.commons.objutils;
 
 import org.junit.Test;
-import org.msh.etbm.commons.objutils.*;
+import org.msh.etbm.commons.objutils.DiffValue;
+import org.msh.etbm.commons.objutils.Diffs;
+import org.msh.etbm.commons.objutils.DiffsUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test ObjectDiffs class

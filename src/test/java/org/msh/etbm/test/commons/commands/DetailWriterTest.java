@@ -6,7 +6,8 @@ import org.msh.etbm.commons.commands.details.DetailWriter;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by rmemoria on 7/3/16.

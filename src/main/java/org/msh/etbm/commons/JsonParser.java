@@ -9,11 +9,20 @@ import org.springframework.core.io.ClassPathResource;
 import java.io.InputStream;
 
 /**
+ * Class with utilities to help working with JSON files, data and serialization
+ *
  * Created by rmemoria on 2/9/15.
  */
 public class JsonParser {
 
     private final static Logger log = LoggerFactory.getLogger(JsonParser.class);
+
+    /**
+     * Avoid instantiation of this class
+     */
+    private JsonParser() {
+        super();
+    }
 
     /**
      * Read a json file from the application resources and convert it to a given Java type
