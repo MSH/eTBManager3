@@ -8,8 +8,6 @@ import { app } from '../../../core/app';
 // TODOMS: listar os resultados de dst
 // TODOMS: microscopy: other sample type, como coloco aqui aproveitando o mesmo campo?
 // TODOMS: definir oq sera feito do campo exam status
-// TODOMS: o exam xpert tem um campo para result e outro para rifresult, modificar labels
-// TODOMS: inclui sim/nao no hiv art e cpt
 
 const medexam = {
 	layout: [
@@ -196,7 +194,7 @@ const xpert = {
 	},
 	{
 		type: 'select',
-		label: __('cases.details.result'),
+		label: __('XpertResult.rifresult'),
 		property: 'rifResult',
 		options: app.getState().app.lists.XpertRifResult,
 		size: { sm: 4 }
@@ -250,30 +248,46 @@ const dst = {
 };
 
 const hiv = {
+	defaultProperties: {
+		startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
+		startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
+	},
 	layout: [
 	{
 		type: 'string',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		size: { sm: 3 }
+		size: { sm: 6 }
 	},
 	{
 		type: 'select',
 		label: __('cases.details.result'),
 		property: 'result',
 		options: app.getState().app.lists.HIVResult,
+		size: { sm: 6 }
+	},
+	{
+		type: 'string',
+		label: __('cases.examhiv.art'),
+		property: 'startedART',
 		size: { sm: 3 }
 	},
 	{
 		type: 'date',
 		label: __('cases.examhiv.art'),
-		property: 'startedCPTdate',
+		property: 'startedARTdate',
+		size: { sm: 3 }
+	},
+	{
+		type: 'string',
+		label: __('cases.examhiv.cpt'),
+		property: 'startedCPT',
 		size: { sm: 3 }
 	},
 	{
 		type: 'date',
 		label: __('cases.examhiv.cpt'),
-		property: 'startedARTdate',
+		property: 'startedCPTdate',
 		size: { sm: 3 }
 	},
 	{

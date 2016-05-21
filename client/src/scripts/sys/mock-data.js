@@ -60,11 +60,12 @@ const followUp = [
 	{
 		type: {
 			id: 'MEDEXAM',
-			name: __('FollowUpType.MEDEXAM')
+			name: __('FollowUpType.MEDEXAM'),
+			monthOfTreatment: 'Before TB Diagnosis'
 		},
 		data: {
 				id: '123-123-12-3123',
-				date: new Date(2016, 1, 5),
+				date: new Date(2016, 1, 1),
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				weight: 90.00,
 				height: 1.80,
@@ -78,12 +79,13 @@ const followUp = [
 	{
 		type: {
 			id: 'MICROSCOPY',
-			name: __('FollowUpType.MICROSCOPY')
+			name: __('FollowUpType.MICROSCOPY'),
+			monthOfTreatment: 'Month of Diagnosis'
 		},
 		data: {
 				id: '34-534-5-345',
 				// lab exam fields
-				dateCollected: new Date(2016, 2, 1),
+				dateCollected: new Date(2016, 1, 3),
 				sampleNumber: 'MIC020395474',
 				comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
 				laboratory: {
@@ -103,12 +105,13 @@ const followUp = [
 	{
 		type: {
 			id: 'CULTURE',
-			name: __('FollowUpType.CULTURE')
+			name: __('FollowUpType.CULTURE'),
+			monthOfTreatment: '1st month'
 		},
 		data: {
 				id: '334-5-3453-4',
 				// lab exam fields
-				dateCollected: new Date(2016, 2, 1),
+				dateCollected: new Date(2016, 2, 14),
 				sampleNumber: 'CUL2342345645',
 				comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações.',
 				laboratory: {
@@ -126,11 +129,12 @@ const followUp = [
 	{
 		type: {
 			id: 'MEDEXAM',
-			name: __('FollowUpType.MEDEXAM')
+			name: __('FollowUpType.MEDEXAM'),
+			monthOfTreatment: '2nd month'
 		},
 		data: {
 				id: '3-123-123-12-3123',
-				date: new Date(2016, 1, 2),
+				date: new Date(2016, 2, 16),
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				weight: 85.00,
 				height: 1.82,
@@ -144,12 +148,13 @@ const followUp = [
 	{
 		type: {
 			id: 'XPERT',
-			name: __('FollowUpType.XPERT')
+			name: __('FollowUpType.XPERT'),
+			monthOfTreatment: '3rd month'
 		},
 		data: {
 				id: '234-23-4-23',
 				// lab exam fields
-				dateCollected: new Date(2016, 2, 2),
+				dateCollected: new Date(2016, 4, 2),
 				sampleNumber: 'XPERT67257',
 				comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações e de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização',
 				laboratory: {
@@ -166,7 +171,8 @@ const followUp = [
 	{
 		type: {
 			id: 'MICROSCOPY',
-			name: __('FollowUpType.MICROSCOPY')
+			name: __('FollowUpType.MICROSCOPY'),
+			monthOfTreatment: '4th month'
 		},
 		data: {
 				id: '35-34-53-4-3-5',
@@ -192,12 +198,13 @@ const followUp = [
 	{
 		type: {
 			id: 'DST',
-			name: __('FollowUpType.DST')
+			name: __('FollowUpType.DST'),
+			monthOfTreatment: '4th month'
 		},
 		data: {
 				id: '34-5-345-3',
 				// lab exam fields
-				dateCollected: new Date(2016, 18, 3),
+				dateCollected: new Date(2016, 6, 12),
 				sampleNumber: 'DST0395474',
 				comments: null,
 				laboratory: {
@@ -273,11 +280,12 @@ const followUp = [
 	{
 		type: {
 			id: 'XRAY',
-			name: __('FollowUpType.XRAY')
+			name: __('FollowUpType.XRAY'),
+			monthOfTreatment: '4th month'
 		},
 		data: {
 				id: '546-565',
-				date: new Date(2016, 10, 4),
+				date: new Date(2016, 8, 14),
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				// Specific fields
 				evolution: 'PROGRESSED',
@@ -287,7 +295,8 @@ const followUp = [
 	{
 		type: {
 			id: 'HIV',
-			name: __('FollowUpType.HIV')
+			name: __('FollowUpType.HIV'),
+			monthOfTreatment: '4th month'
 		},
 		data: {
 				id: '345-345-34-5-345',
@@ -295,7 +304,7 @@ const followUp = [
 				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
 				// Specific fields
 				result: 'POSITIVE',
-				startedARTdate: new Date(2016, 4, 10),
+				startedARTdate: null,
 				startedCPTdate: new Date(2016, 4, 10),
 				laboratory: 'Ana neri'
 		}

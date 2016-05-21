@@ -7,7 +7,7 @@ export default class Profile extends React.Component {
 	 * Get the icon to display accoring to the type
 	 * @return {string} name of the icon in the font awesome library
 	 */
-	getIconType() { // TODOMSR: devo fazer assim ou passar o nome do icone direto?
+	getIconType() {
 		switch (this.props.type) {
 			case 'male':
 				return 'male';

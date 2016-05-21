@@ -77,7 +77,7 @@ export default class CaseExams extends React.Component {
 						<DropdownButton id="newFollowUp" bsStyle="primary" title={'New'}>
 							{
 								options.map((item, index) => (
-									<MenuItem eventKey={index} >{item.name}</MenuItem>
+									<MenuItem key={index} eventKey={index} >{item.name}</MenuItem>
 								))
 							}
 						</DropdownButton>
