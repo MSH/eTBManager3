@@ -3,7 +3,7 @@ import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
 import SearchBox from './search-box';
-import { hasPerm, logout, changeWorkspace } from './session';
+import { hasPerm, logout } from './session';
 import { Fa } from '../components';
 
 // logs the user out of the system
@@ -29,9 +29,6 @@ function adminClick(key) {
     }
 }
 
-function wsChange(key) {
-    changeWorkspace(key);
-}
 
 function userMenuSel(key) {
     switch (key) {
@@ -58,17 +55,17 @@ function userMenuSel(key) {
  */
 export default function(session) {
     // the workspace menu
-    const workspace = (
-        <span className="header-ws">
-            <span className="fa fa-stack">
-                <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
-                <i className="fa fa-globe fa-stack-2x"></i>
-            </span>
-            <span className="ws-text visible-lg-inline visible-md-inline visible-xs-inline">
-            {session.workspaceName}
-            </span>
-        </span>
-    );
+    // const workspace = (
+    //     <span className="header-ws">
+    //         <span className="fa fa-stack">
+    //             <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
+    //             <i className="fa fa-globe fa-stack-2x"></i>
+    //         </span>
+    //         <span className="ws-text visible-lg-inline visible-md-inline visible-xs-inline">
+    //         {session.workspaceName}
+    //         </span>
+    //     </span>
+    // );
 
     // the user data
     const user = (

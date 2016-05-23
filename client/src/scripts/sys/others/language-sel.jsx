@@ -51,14 +51,15 @@ export default class LanguageSel extends React.Component {
 					<Modal.Title id="contained-modal-title">{__('changelang')}</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Nav bsStyle="pills" stacked>
+					<Nav bsStyle="pills" stacked className="nav-select">
 						{
 							langs.map(lang => (
-								<NavItem bsStyle="pills" key={lang.id} onClick={this.changeLang(lang)} >
+								<NavItem bsStyle="pills"
+									key={lang.id}
+									onClick={this.changeLang(lang)}
+									active={lang.id === sellang}>
 								<Fa icon={lang.id === sellang ? 'chevron-right' : ''} className="text-success"/>
-								<span className={'text-big ' + (lang.id === sellang ? 'text-success' : 'text-muted')}>
 								{lang.name}
-								</span>
 								</NavItem>
 							))
 						}
