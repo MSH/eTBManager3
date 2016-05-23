@@ -96,7 +96,7 @@ export default class Details extends React.Component {
 			return <WaitIcon type="page" />;
 		}
 
-		const seltab = this.state.selTab;
+		const seltab = 1;
 
 		const tabs = (
 			<Nav bsStyle="tabs" activeKey={seltab}

@@ -21,6 +21,17 @@ export default class CaseExams extends React.Component {
 
 		this.onFilterChange = this.onFilterChange.bind(this);
 		this.state = { filter: options.slice() };
+
+		this.renderEditDlg = this.renderEditDlg.bind(this);
+		this.confirmDelMessage = this.confirmDelMessage.bind(this);
+	}
+
+	renderEditDlg() {
+		window.alert('edit');
+	}
+
+	confirmDelMessage() {
+		window.alert('delete');
 	}
 
 	onFilterChange() {
@@ -30,6 +41,20 @@ export default class CaseExams extends React.Component {
 			obj.filter = val;
 			self.setState(obj);
 		};
+	}
+
+	isSelected(item) {
+		if (!this.state || !this.state.filter || this.state.filter.length === 0) {
+			return true;
+		}
+
+		for (var i = 0; i < this.state.filter.length; i++) {
+			if (this.state.filter[i].id === item.type.id) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -47,26 +72,12 @@ export default class CaseExams extends React.Component {
 			{
 				followup.map((item) => (
 					<div key={item.data.id}>
-						{this.isSelected(item) && <FollowupDisplay followup={item}/>}
+						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.renderEditDlg} onDelete={this.confirmDelMessage}/>}
 					</div>
 				))
 			}
 			</div>
 			);
-	}
-
-	isSelected(item) {
-		if (!this.state || !this.state.filter || this.state.filter.length === 0) {
-			return true;
-		}
-
-		for (var i = 0; i < this.state.filter.length; i++) {
-			if (this.state.filter[i].id === item.type.id) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	render() {
