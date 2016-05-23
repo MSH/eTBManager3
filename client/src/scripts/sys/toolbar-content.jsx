@@ -4,6 +4,7 @@ import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
 import SearchBox from './search-box';
 import { hasPerm, logout, changeWorkspace } from './session';
+import { Fa } from '../components';
 
 // logs the user out of the system
 function cmdLogout() {
@@ -37,6 +38,8 @@ function userMenuSel(key) {
         case 'prof': app.goto('/sys/usersettings');
             break;
         case 'lang': app.dispatch('change-lang');
+            break;
+        case 'ws': app.dispatch('open-ws-sel');
             break;
         default:
             break;
@@ -75,6 +78,8 @@ export default function(session) {
         </span>
     );
 
+    const langName = app.getState().app.languages.find(item => item.id === app.getLang()).name;
+
 	return (
         <Navbar.Collapse>
             <Nav>
@@ -93,21 +98,46 @@ export default function(session) {
                 }
             </Nav>
             <Nav pullRight >
-                <NavDropdown id="ddWs" eventKey={3}
-                    title={workspace} className="nav-item-icon scrollable-menu" onSelect={wsChange}>
-                    {
-                        session.workspaces.map(ws =>
-                            <MenuItem key={ws.id} eventKey={ws.id}>
-                                {ws.name}
-                            </MenuItem>)
-                    }
-                </NavDropdown>
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon" onSelect={userMenuSel} >
-                    <MenuItem eventKey="prof">{__('usersettings')}</MenuItem>
-                    <MenuItem eventKey="pwd">{__('changepwd')}</MenuItem>
-                    <MenuItem eventKey="lang">{__('changelang')}</MenuItem>
+                    <MenuItem eventKey="prof">
+                        <div>
+                            <Fa icon="cog" />
+                            {__('usersettings')}
+                        </div>
+                    </MenuItem>
+                    <MenuItem eventKey="pwd">
+                        <div>
+                            <Fa icon="key" />
+                            {__('changepwd')}
+                        </div>
+                    </MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
+                    <MenuItem eventKey="lang">
+                        <div>
+                        {__('changelang')}
+                        <div className="text-muted">
+                            <Fa icon="angle-right" />
+                            {langName}
+                        </div>
+                        </div>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem eventKey="ws">
+                        <div>
+                        {__('changews')}
+                        <div className="text-muted">
+                            <Fa icon="globe" />
+                            {session.workspaceName}
+                        </div>
+                        </div>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem eventKey="4" onClick={cmdLogout}>
+                        <div>
+                            <Fa icon="sign-out" />
+                            {__('action.logout')}
+                        </div>
+                    </MenuItem>
                 </NavDropdown>
             </Nav>
             <Navbar.Form pullRight>

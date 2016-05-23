@@ -54,9 +54,9 @@ export default class LanguageSel extends React.Component {
 					<Nav bsStyle="pills" stacked>
 						{
 							langs.map(lang => (
-								<NavItem bsStyle="pills" key={lang.id} onClick={this.changeLang(lang)}>
-								<Fa icon={lang.id === sellang ? 'circle' : ''} className="text-success"/>
-								<span className={lang.id === sellang ? 'text-success' : 'text-muted'}>
+								<NavItem bsStyle="pills" key={lang.id} onClick={this.changeLang(lang)} >
+								<Fa icon={lang.id === sellang ? 'chevron-right' : ''} className="text-success"/>
+								<span className={'text-big ' + (lang.id === sellang ? 'text-success' : 'text-muted')}>
 								{lang.name}
 								</span>
 								</NavItem>

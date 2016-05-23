@@ -25,7 +25,7 @@ const editorDef = {
 						type: 'string',
 						max: 200,
 						label: __('form.name'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'active',
@@ -33,43 +33,43 @@ const editorDef = {
 						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
 						defaultValue: true,
-						size: { sm: 4 }
+						size: { md: 4 }
 					},
 					{
 						type: 'subtitle',
 						label: 'Unit address',
-						size: { sm: 12 }
+						size: { md: 12 }
 					},
 					{
 						property: 'address.address',
 						label: __('Address.address'),
 						type: 'string',
-						size: { newLine: true, sm: 6 }
+						size: { newLine: true, md: 6 }
 					},
 					{
 						property: 'address.complement',
 						label: __('Address.complement'),
 						type: 'string',
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'address.adminUnitId',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
 						required: true,
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'address.zipCode',
 						label: __('Address.zipCode'),
 						type: 'string',
-						size: { sm: 3 }
+						size: { md: 3 }
 					},
 					{
 						property: 'customId',
 						type: 'string',
 						label: __('form.customId'),
-						size: { sm: 3 }
+						size: { md: 3 }
 					},
 					{
 						property: 'receiveFromManufacturer',
@@ -99,26 +99,26 @@ const editorDef = {
 					{
 						type: 'subtitle',
 						label: 'Medicine order settings',
-						size: { sm: 12 }
+						size: { md: 12 }
 					},
 					{
 						type: 'unit',
 						property: 'supplierId',
 						label: __('Unit.supplier'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						type: 'unit',
 						property: 'authorizerId',
 						label: __('Unit.authorizer'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'numDaysOrder',
 						type: 'number',
 						label: __('Tbunit.numDaysOrder'),
 						defaultValue: 120,
-						size: { sm: 8 },
+						size: { md: 8 },
 						controlSize: 4
 					}
 			],
@@ -138,7 +138,7 @@ const editorDef = {
 						type: 'string',
 						max: 200,
 						label: __('form.name'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'active',
@@ -146,43 +146,43 @@ const editorDef = {
 						type: 'yesNo',
 						label: __('EntityState.ACTIVE'),
 						defaultValue: true,
-						size: { sm: 4 }
+						size: { md: 4 }
 					},
 					{
 						type: 'subtitle',
 						label: 'Unit address',
-						size: { sm: 12 }
+						size: { md: 12 }
 					},
 					{
 						property: 'address.address',
 						label: __('Address.address'),
 						type: 'string',
-						size: { newLine: true, sm: 6 }
+						size: { newLine: true, md: 6 }
 					},
 					{
 						property: 'address.complement',
 						label: __('Address.complement'),
 						type: 'string',
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'address.adminUnitId',
 						label: __('AdministrativeUnit'),
 						type: 'adminUnit',
 						required: true,
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'address.zipCode',
 						label: __('Address.zipCode'),
 						type: 'string',
-						size: { sm: 3 }
+						size: { md: 3 }
 					},
 					{
 						property: 'customId',
 						type: 'string',
 						label: __('form.customId'),
-						size: { sm: 3 }
+						size: { md: 3 }
 					},
 					{
 						property: 'performMicroscopy',
@@ -212,26 +212,26 @@ const editorDef = {
 					{
 						type: 'subtitle',
 						label: 'Medicine order settings',
-						size: { sm: 12 }
+						size: { md: 12 }
 					},
 					{
 						property: 'supplierId',
 						type: 'unit',
 						label: __('Unit.supplier'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'authorizerId',
 						type: 'unit',
 						label: __('Unit.authorizer'),
-						size: { sm: 6 }
+						size: { md: 6 }
 					},
 					{
 						property: 'numDaysOrder',
 						type: 'number',
 						label: __('Tbunit.numDaysOrder'),
 						defaultValue: 120,
-						size: { sm: 8 },
+						size: { md: 8 },
 						controlSize: 4
 					}
 			],

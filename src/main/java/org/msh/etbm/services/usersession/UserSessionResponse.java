@@ -17,7 +17,7 @@ public class UserSessionResponse {
     private UUID userId;
 
     // information about the workspace
-    private UUID workspaceId;
+    private UUID userWorkspaceId;
     private String workspaceName;
 
     // information about the user unit
@@ -57,12 +57,12 @@ public class UserSessionResponse {
         this.userId = userId;
     }
 
-    public UUID getWorkspaceId() {
-        return workspaceId;
+    public UUID getUserWorkspaceId() {
+        return userWorkspaceId;
     }
 
-    public void setWorkspaceId(UUID workspaceId) {
-        this.workspaceId = workspaceId;
+    public void setUserWorkspaceId(UUID userWorkspaceId) {
+        this.userWorkspaceId = userWorkspaceId;
     }
 
     public String getWorkspaceName() {

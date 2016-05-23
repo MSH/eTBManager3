@@ -154,8 +154,7 @@ export class App {
      * @return {[type]} [description]
      */
     getLang() {
-        const lang = this.getCookie(LANG_KEY);
-        return lang ? lang : window.app.language;
+        return window.app.language;
     }
 
     /**

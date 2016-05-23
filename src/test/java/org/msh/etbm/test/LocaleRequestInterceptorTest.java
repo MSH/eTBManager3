@@ -52,6 +52,9 @@ public class LocaleRequestInterceptorTest {
         assertLocale("de", defaultLanguage);
         assertLocale("fr", defaultLanguage);
         assertLocale("fr_CA", defaultLanguage);
+
+        assertLocale("invalid-locale-code", defaultLanguage);
+        assertLocale("another-invalid-locale-code", defaultLanguage);
     }
 
     protected void assertLocale(String sourceLocale, String targetLocale) {

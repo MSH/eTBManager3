@@ -285,6 +285,10 @@
 	font-size: 0.8em;
 }
 
+.text-big {
+	font-size: 1.2em;
+}
+
 .status-box {
 	padding:2px 4px;
 	border-radius: 2px;
@@ -574,4 +578,22 @@
 
 .inlineb {
 	display: inline-block;
+}
+
+.nav-select {
+	li {
+		border-bottom: 1px solid #e5e5e5;
+		margin-top: 0 !important;
+
+		a {
+			color: @text-color;
+		}
+	}
+
+	li.active, li:hover, li.active:hover {
+		a {
+			background-color: #e5e5e5;
+			color: @text-color;
+		}
+	}
 }

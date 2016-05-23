@@ -7406,6 +7406,9 @@ button.close {
 .text-small {
   font-size: 0.8em;
 }
+.text-big {
+  font-size: 1.2em;
+}
 .status-box {
   padding: 2px 4px;
   border-radius: 2px;
@@ -7649,6 +7652,19 @@ button.close {
 }
 .inlineb {
   display: inline-block;
+}
+.nav-select li {
+  border-bottom: 1px solid #e5e5e5;
+  margin-top: 0 !important;
+}
+.nav-select li a {
+  color: #303030;
+}
+.nav-select li.active a,
+.nav-select li:hover a,
+.nav-select li.active:hover a {
+  background-color: #e5e5e5;
+  color: #303030;
 }
 .alert {
   border-left-width: 10px;
