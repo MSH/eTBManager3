@@ -2,6 +2,7 @@ package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.CacheConfiguration;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.permissions.Permission;
@@ -27,7 +28,6 @@ import java.util.UUID;
  * Created by rmemoria on 30/9/15.
  */
 @Service
-@Configuration
 public class UserSessionService {
 
     @PersistenceContext
@@ -38,6 +38,9 @@ public class UserSessionService {
 
     @Autowired
     Permissions permissions;
+
+    @Autowired
+    UserRequestService userRequestService;
 
 
     /**
@@ -140,14 +143,33 @@ public class UserSessionService {
     }
 
 
+    /**
+     * Return the client response to be sent back to the client with information about the user session
+     * @return instance of {@link UserSessionResponse}
+     */
     @Transactional
-    public UserSessionResponse createClientResponse(UserSession userSession) {
+    public UserSessionResponse createClientResponse() {
+        UserSession userSession = userRequestService.getUserSession();
+
         UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
+
+        resp.setWorkspaces(getUserWorkspaces());
+
+        return resp;
+    }
+
+    /**
+     * Return the list of workspaces available for the user
+     * @return List of {@link SynchronizableItem} containing id and name of the workspace
+     */
+    @Transactional
+    public List<SynchronizableItem> getUserWorkspaces() {
+        UserSession session = userRequestService.getUserSession();
 
         List<Object[]> lst = entityManager
                 .createQuery("select uw.id, uw.workspace.name from UserWorkspace uw where uw.user.id = :id " +
                         "order by uw.workspace.name")
-                .setParameter("id", userSession.getUserId())
+                .setParameter("id", session.getUserId())
                 .getResultList();
 
         List<SynchronizableItem> workspaces = new ArrayList<>();
@@ -157,9 +179,7 @@ public class UserSessionService {
             workspaces.add(new SynchronizableItem(id, name));
         }
 
-        resp.setWorkspaces(workspaces);
-
-        return resp;
+        return workspaces;
     }
 
     /**

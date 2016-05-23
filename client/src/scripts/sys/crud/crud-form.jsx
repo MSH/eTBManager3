@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Collapse } from 'react-bootstrap';
 import { FormDialog } from '../../components';
 import controlWrapper from './crud-control-wrapper';
 
@@ -31,9 +32,10 @@ class CrudForm extends React.Component {
 		}
 
 		const controller = this.props.controller;
+		const schema = controller.getFormSchema();
 
-		return (
-			<FormDialog schema={this.props.schema}
+		const frm = (
+			<FormDialog schema={schema}
 				modalShow
 				doc={controller.frm.doc}
 				onConfirm={controller.saveAndClose}
@@ -42,6 +44,12 @@ class CrudForm extends React.Component {
 				className={this.props.className}
 				/>
 			);
+
+		return this.props.animate ?
+			<Collapse in transitionAppear>
+				{frm}
+			</Collapse> :
+			frm;
 	}
 }
 
@@ -51,11 +59,13 @@ CrudForm.propTypes = {
 	openOnNew: React.PropTypes.bool,
 	openOnEdit: React.PropTypes.bool,
 	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
-	className: React.PropTypes.string
+	className: React.PropTypes.string,
+	animate: React.PropTypes.bool
 };
 
 CrudForm.defaultProps = {
-	wrapType: 'card'
+	wrapType: 'card',
+	animate: true
 };
 
 export default controlWrapper(CrudForm);

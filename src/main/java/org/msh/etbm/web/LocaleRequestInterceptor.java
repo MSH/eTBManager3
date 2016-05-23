@@ -115,6 +115,11 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
             return null;
         }
 
-        return StringUtils.parseLocaleString(newLocale);
+        try {
+            return StringUtils.parseLocaleString(newLocale);
+        } catch (IllegalArgumentException e) {
+            // if locale passed by the browser is invalid, return null
+            return null;
+        }
     }
 }

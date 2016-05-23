@@ -216,7 +216,7 @@ export default class Form extends React.Component {
 	render() {
 		// render the form
 		const form = formRender(this);
-		return <Grid fluid className={this.props.className}>{form}</Grid>;
+		return <div className={this.props.className}>{form}</div>;
 	}
 }
 

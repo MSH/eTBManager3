@@ -6817,7 +6817,7 @@ button.close {
   margin-bottom: 20px;
 }
 .card-default .card-content {
-  padding: 10px 20px;
+  padding: 0 20px 20px 20px;
 }
 .card-small {
   margin-bottom: 10px;
@@ -7215,9 +7215,9 @@ button.close {
 .header-search .search-input {
   padding: 2px;
   background-color: #abc1b3;
-  border-radius: 4px;
+  border-radius: 2px;
   color: #606060;
-  height: 28px;
+  height: 32px;
   margin-top: 2px;
 }
 .header-search .search-input input {
@@ -7226,6 +7226,7 @@ button.close {
   background-color: #abc1b3;
   color: #000;
   float: left;
+  font-size: 1.2em;
 }
 .header-search .search-input input::-moz-placeholder {
   color: #303e3c;
@@ -7275,12 +7276,12 @@ button.close {
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .header-search input {
-    width: 150px;
+    width: 180px;
   }
 }
 @media (min-width: 1200px) {
   .header-search input {
-    min-width: 200px;
+    min-width: 250px;
   }
 }
 /** nav item in the toolbar with an icon */
@@ -7405,6 +7406,9 @@ button.close {
 }
 .text-small {
   font-size: 0.8em;
+}
+.text-big {
+  font-size: 1.2em;
 }
 .status-box {
   padding: 2px 4px;
@@ -7649,6 +7653,25 @@ button.close {
 }
 .inlineb {
   display: inline-block;
+}
+.nav-select li {
+  border-bottom: 1px solid #e5e5e5;
+  margin-top: 0 !important;
+}
+.nav-select li a {
+  color: #303030;
+}
+.nav-select li.active a,
+.nav-select li.active:hover a {
+  background-color: #e0e0e0;
+  color: #303030;
+}
+.nav-select li:hover a {
+  background-color: #f6f6f6;
+  color: #636363;
+}
+.nav-select li:last-child {
+  border-bottom: none;
 }
 .alert {
   border-left-width: 10px;

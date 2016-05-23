@@ -53,7 +53,7 @@ export default class UserSettings extends React.Component {
 			layout: [
 				{
 					property: 'name',
-					label: 'Name',
+					label: __('User.name'),
 					type: 'string',
 					required: true,
 					size: { md: 12 }

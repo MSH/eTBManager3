@@ -2,6 +2,8 @@
  * Set of utility functions used throughout the application
  */
 
+import React from 'react';
+
 export function format(fmtstr) {
   var args = Array.prototype.slice.call(arguments, 1);
   return fmtstr.replace(/\{(\d+)\}/g, function(match, index) {
@@ -183,4 +185,21 @@ export function isFunction(obj) {
  */
 export function isString(obj) {
     return typeof obj === 'string';
+}
+
+/**
+ * Convert a text string to a react component replacing line breaks by html tags
+ * @param  {[type]} text [description]
+ * @return {[type]}      [description]
+ */
+export function textToComp(text) {
+    const txt = text.split('\n').map((item, index) =>
+        (
+        <span key={index}>
+            {item}
+            <br/>
+        </span>
+        ));
+
+    return <div>{txt}</div>;
 }

@@ -13,7 +13,10 @@ import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.FieldError;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 

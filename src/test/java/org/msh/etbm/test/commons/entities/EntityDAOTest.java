@@ -13,7 +13,6 @@ import org.springframework.validation.FieldError;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;

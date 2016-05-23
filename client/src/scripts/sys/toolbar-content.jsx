@@ -3,7 +3,8 @@ import React from 'react';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import { app } from '../core/app';
 import SearchBox from './search-box';
-import { hasPerm, logout, changeWorkspace } from './session';
+import { hasPerm, logout } from './session';
+import { Fa } from '../components';
 
 // logs the user out of the system
 function cmdLogout() {
@@ -28,15 +29,14 @@ function adminClick(key) {
     }
 }
 
-function wsChange(key) {
-    changeWorkspace(key);
-}
 
 function userMenuSel(key) {
     switch (key) {
         case 'prof': app.goto('/sys/usersettings');
             break;
         case 'lang': app.dispatch('change-lang');
+            break;
+        case 'ws': app.dispatch('open-ws-sel');
             break;
         default:
             break;
@@ -55,17 +55,17 @@ function userMenuSel(key) {
  */
 export default function(session) {
     // the workspace menu
-    const workspace = (
-        <span className="header-ws">
-            <span className="fa fa-stack">
-                <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
-                <i className="fa fa-globe fa-stack-2x"></i>
-            </span>
-            <span className="ws-text visible-lg-inline visible-md-inline visible-xs-inline">
-            {session.workspaceName}
-            </span>
-        </span>
-    );
+    // const workspace = (
+    //     <span className="header-ws">
+    //         <span className="fa fa-stack">
+    //             <i className="fa fa-circle fa-stack-2x fa-inverse"></i>
+    //             <i className="fa fa-globe fa-stack-2x"></i>
+    //         </span>
+    //         <span className="ws-text visible-lg-inline visible-md-inline visible-xs-inline">
+    //         {session.workspaceName}
+    //         </span>
+    //     </span>
+    // );
 
     // the user data
     const user = (
@@ -74,6 +74,8 @@ export default function(session) {
             <i className="fa fa-user fa-stack-1x fa-inverse"></i>
         </span>
     );
+
+    const langName = app.getState().app.languages.find(item => item.id === app.getLang()).name;
 
 	return (
         <Navbar.Collapse>
@@ -93,21 +95,46 @@ export default function(session) {
                 }
             </Nav>
             <Nav pullRight >
-                <NavDropdown id="ddWs" eventKey={3}
-                    title={workspace} className="nav-item-icon scrollable-menu" onSelect={wsChange}>
-                    {
-                        session.workspaces.map(ws =>
-                            <MenuItem key={ws.id} eventKey={ws.id}>
-                                {ws.name}
-                            </MenuItem>)
-                    }
-                </NavDropdown>
                 <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon" onSelect={userMenuSel} >
-                    <MenuItem eventKey="prof">{__('usersettings')}</MenuItem>
-                    <MenuItem eventKey="pwd">{__('changepwd')}</MenuItem>
-                    <MenuItem eventKey="lang">{__('changelang')}</MenuItem>
+                    <MenuItem eventKey="prof">
+                        <div>
+                            <Fa icon="cog" />
+                            {__('usersettings')}
+                        </div>
+                    </MenuItem>
+                    <MenuItem eventKey="pwd">
+                        <div>
+                            <Fa icon="key" />
+                            {__('changepwd')}
+                        </div>
+                    </MenuItem>
                     <MenuItem divider />
-                    <MenuItem eventKey="4" onClick={cmdLogout}>{__('action.logout')}</MenuItem>
+                    <MenuItem eventKey="lang">
+                        <div>
+                        {__('changelang')}
+                        <div className="text-muted">
+                            <Fa icon="angle-right" />
+                            {langName}
+                        </div>
+                        </div>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem eventKey="ws">
+                        <div>
+                        {__('changews')}
+                        <div className="text-muted">
+                            <Fa icon="globe" />
+                            {session.workspaceName}
+                        </div>
+                        </div>
+                    </MenuItem>
+                    <MenuItem divider />
+                    <MenuItem eventKey="4" onClick={cmdLogout}>
+                        <div>
+                            <Fa icon="sign-out" />
+                            {__('action.logout')}
+                        </div>
+                    </MenuItem>
                 </NavDropdown>
             </Nav>
             <Navbar.Form pullRight>

@@ -1,5 +1,7 @@
 package org.msh.etbm.web.api.usersession;
 
+import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.services.usersession.*;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,9 +22,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/sys")
 public class UserSessionRest {
-
-    @Autowired
-    UserRequestService userRequestService;
 
     @Autowired
     UserSessionService userSessionService;
@@ -37,18 +37,15 @@ public class UserSessionRest {
     @Authenticated
     @RequestMapping(value = "/session", method = RequestMethod.POST)
     public UserSessionResponse getUserSession(HttpServletRequest request) {
-
-        UserSession session = userRequestService.getUserSession();
-
-        UserSessionResponse res = userSessionService.createClientResponse(session);
+        UserSessionResponse res = userSessionService.createClientResponse();
 
         return res;
     }
 
     /**
      * Change the current user workspace
-     * @param request
-     * @param userwsId
+     * @param request object containing information about the HTTP request
+     * @param userwsId the ID of the selected workspace
      * @return
      */
     @Authenticated
@@ -60,13 +57,21 @@ public class UserSessionRest {
         // change the workspace
         UUID newAuthToken = changeWorkspaceService.changeTo(userwsId, ipAddr, app);
 
-        // get the new session
-        UserSession session = userRequestService.getUserSession();
-
         // convert it to a client response
-        UserSessionResponse res = userSessionService.createClientResponse(session);
+        UserSessionResponse res = userSessionService.createClientResponse();
 
         // send it back to the client
         return new ChangeWsResponse(newAuthToken, res);
+    }
+
+
+    /**
+     * Return the list of user workspaces
+     * @return list of workspaces
+     */
+    @Authenticated
+    @RequestMapping(value = "/workspaces", method = RequestMethod.POST)
+    public List<SynchronizableItem> getUserWorkspaces() {
+        return userSessionService.getUserWorkspaces();
     }
 }

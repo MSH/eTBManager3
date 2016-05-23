@@ -1,7 +1,5 @@
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
-import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
 import { Fa, SelectionBox } from '../../components/index';
 
@@ -25,7 +23,7 @@ export default class YesNoControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		return <Input disabled value={this.props.value} label={schema.label} type="text" />;
+		return FormUtils.readOnlyRender(this.props.value, schema.label);
 	}
 
 	onChange() {
@@ -53,7 +51,7 @@ export default class YesNoControl extends React.Component {
 				onChange={this.onChange}
 				options={options}
 				optionDisplay={this.optionRender}
-				wrapperClassName="size-3"
+				wrapperClassName="size-2"
 				bsStyle={err ? 'error' : null} value={this.props.value} />
 			);
 	}

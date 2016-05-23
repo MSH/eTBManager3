@@ -22,9 +22,9 @@ export default class IndexDashboard extends React.Component {
 						size="small"
 						type="tbunit"
 						/>
-					<Row className="mtop-2x">
-						<Col sm={6}>
-							<Card title="Cases" className="card-indicator collapse-card"
+					<Row>
+						<Col md={6}>
+							<Card title="Cases" className="card-indicator collapse-card mtop-2x"
 								onClick={() => router.goto('/sys/home/unit/cases')}>
 								<Row>
 									<Col xs={6}>
@@ -38,8 +38,8 @@ export default class IndexDashboard extends React.Component {
 								</Row>
 							</Card>
 						</Col>
-						<Col sm={6}>
-							<Card title="Inventory" className="card-indicator collapse-card"
+						<Col md={6}>
+							<Card title="Inventory" className="card-indicator collapse-card mtop-2x"
 								onClick={() => router.goto('/sys/home/unit/cases')}>
 								<Row>
 									<Col xs={6}>

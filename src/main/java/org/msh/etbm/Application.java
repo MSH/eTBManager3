@@ -47,6 +47,10 @@ public class Application {
     public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitSeriesConverter admconv) {
         DozerBeanMapper m = new DozerBeanMapper();
 
+        List<CustomConverter> customConverters = new ArrayList<>();
+        customConverters.add(admconv);
+        m.setCustomConverters(customConverters);
+
         List<String> lst = new ArrayList<>();
         lst.add("dozer/config.mapper.xml");
         lst.add("dozer/global.mapper.xml");

@@ -68,6 +68,15 @@ export default class StuffExamples extends React.Component {
 
 	onChange(ref) {
 		const self = this;
+		return (val) => {
+			const obj = {};
+			obj[ref] = val;
+			self.setState(obj);
+		};
+	}
+
+	onChange2(ref) {
+		const self = this;
 		return (evt, val) => {
 			const obj = {};
 			obj[ref] = val;
@@ -140,7 +149,7 @@ export default class StuffExamples extends React.Component {
 								mode="single"
 								label="Items:"
 								help="This is a simple help message"
-								onChange={this.onChange('selBox3')}
+								onChange={this.onChange2('selBox3')}
 								options={options2}
 								vertical />
 						</Col>
@@ -149,7 +158,7 @@ export default class StuffExamples extends React.Component {
 								mode="single"
 								label="Items:"
 								help="This is a simple help message"
-								onChange={this.onChange('selBox4')}
+								onChange={this.onChange2('selBox4')}
 								options={options3} />
 						</Col>
 					</Row>

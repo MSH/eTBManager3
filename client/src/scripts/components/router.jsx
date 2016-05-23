@@ -130,15 +130,15 @@ export class RouteView extends React.Component {
 	 */
 	render() {
 		let View = this.state.view;
+		const route = this.state.route;
 
 		// no view resolved?
 		if (!View) {
-			const loadingView = this.state.loadingView;
+			const loadingView = this.props.loadingView;
 			// is resolving view, i.e, route != null ?
 			return route && loadingView ? loadingView : null;
 		}
 
-		const route = this.state.route;
 		const params = this.state.params;
 		const path = this._currentPath();
 		const forpath = path.replace(route.pathExp, '');
