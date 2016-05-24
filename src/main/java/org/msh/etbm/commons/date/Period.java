@@ -90,30 +90,30 @@ public class Period {
 		}
 	}
 	
-	/**
-	 * Return the number of days in the period
-	 * @return
-	 */
+    /**
+     * Return the number of days in the period
+     * @return
+     */
     @JsonIgnore
 	public int getDays() {
 		return (iniDate != null) && (endDate != null) ? DateUtils.daysBetween(iniDate, endDate) : 0;
 	}
 
 	
-	/**
-	 * Return number of months in the period
-	 * @return
-	 */
+    /**
+     * Return number of months in the period
+     * @return
+     */
     @JsonIgnore
 	public int getMonths() {
 		return (iniDate != null) && (endDate != null) ? DateUtils.monthsBetween(iniDate, DateUtils.incDays(endDate, 1)) : 0;
 	}
 
 
-	/**
-	 * Return number of years in the period
-	 * @return
-	 */
+    /**
+     * Return number of years in the period
+     * @return
+     */
     @JsonIgnore
 	public int getYears() {
 		return (iniDate != null) && (endDate != null) ? DateUtils.yearsBetween(iniDate, DateUtils.incDays(endDate, 1)) : 0;
@@ -139,10 +139,10 @@ public class Period {
 	}
 
 	
-	/**
-	 * Check if a period is empty, i.e, if either the initial or the final date was not defined
-	 * @return true if period is empty, otherwise false
-	 */
+    /**
+     * Check if a period is empty, i.e, if either the initial or the final date was not defined
+     * @return true if period is empty, otherwise false
+     */
     @JsonIgnore
 	public boolean isEmpty() {
 		return (iniDate == null) || (endDate == null);
