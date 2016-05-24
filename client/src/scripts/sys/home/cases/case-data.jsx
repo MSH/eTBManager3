@@ -20,26 +20,26 @@ const data = {
 	},
 	{
 		type: 'string',
-		label: 'BMU TB register number',
+		label: __('TbCase.registrationCode'),
 		property: 'registrationCode',
 		max: 100,
 		size: { sm: 4 }
 	},
 	{
 		type: 'date',
-		label: 'Date entered in BMU TB register',
+		label: __('TbCase.registrationDate.TB'),
 		property: 'registrationDate2',
 		size: { sm: 4 }
 	},
 	{
 		type: 'subtitle',
-		label: 'Patient data',
+		label: __('cases.patientdata'),
 		size: { sm: 12 }
 	},
 	{
 		type: 'string',
 		property: 'patient.name',
-		label: 'Patient name',
+		label: __('Patient.name'),
 		required: true,
 		size: { sm: 6 }
 	},
@@ -210,12 +210,10 @@ export default class CaseData extends React.Component {
 	render() {
 		const tbcase = this.props.tbcase;
 
-		console.log(tbcase);
-
 		return (
 			<div>
-				<CaseComments title="Case data" tbcase={tbcase} group="data">
-					<Card title="Case data" padding="combine">
+				<CaseComments tbcase={tbcase} group="data">
+					<Card padding="combine">
 						<Form schema={data} doc={tbcase} readOnly/>
 					</Card>
 				</CaseComments>

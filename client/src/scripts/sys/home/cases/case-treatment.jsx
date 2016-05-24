@@ -1,27 +1,10 @@
 import React from 'react';
-import { Card } from '../../../components';
+import { Grid, Col, Row } from 'react-bootstrap';
+import { Card, WaitIcon } from '../../../components';
 import Form from '../../../forms/form';
+import { server } from '../../../commons/server';
+import TreatProgress from './treat-progress';
 
-
-const mockTreat = {
-	category: {
-		id: 'FIRST_LINE',
-		name: 'Initial regimen with first line drugs'
-	},
-	iniRegimen: {
-		id: '123123123',
-		name: 'Category IV standard regimen'
-	},
-	regimen: {
-		id: '123123123-2',
-		name: 'Category IV-2 standard regimen'
-	},
-	period: {
-		ini: '2015-01-01',
-		end: '2016-01-01'
-	},
-	progress: 38
-};
 
 export default class CaseTreatment extends React.Component {
 
@@ -40,9 +23,15 @@ export default class CaseTreatment extends React.Component {
 					},
 					{
 						type: 'text',
-						property: '{regimen.name}\nStarted as {iniRegimen.name}',
+						property: 'Started as {iniRegimen.name}\n{regimen.name}',
 						label: 'Regimen',
 						visible: doc => doc.regimen.id !== doc.iniRegimen.id,
+						size: { md: 12 }
+					},
+					{
+						type: 'text',
+						property: '{period.ini} to {period.end}',
+						label: __('cases.treat'),
 						size: { md: 12 }
 					}
 				]
@@ -50,15 +39,42 @@ export default class CaseTreatment extends React.Component {
 		};
 	}
 
+	componentWillMount() {
+		const self = this;
+		server.get('/api/cases/treatment/c0a80169-54de-12c2-8154-de6e55500002')
+		.then(res => {
+			console.log('treatment = ', res);
+			self.setState({ data: res });
+		});
+	}
+
 	render() {
+		const data = this.state.data;
+
+		if (!data) {
+			return <WaitIcon type="card" />;
+		}
 
 		return (
 			<div>
-				<Card title={__('cases.details.treatment')}>
-					<Form doc={mockTreat} schema={this.state.sc1} readOnly />
-				</Card>
-				<Card title={__('cases.details.treatment.medintake')}>
-				</Card>
+			<Card title={__('cases.details.treatment')}>
+				<Grid fluid>
+					<Row>
+						<Col md={6}>
+							<Form doc={data} schema={this.state.sc1} readOnly />
+						</Col>
+						<Col md={6}>
+							<TreatProgress value={data.progress}/>
+						</Col>
+					</Row>
+				</Grid>
+			</Card>
+
+			<Card title="Prescribed medicines">
+			</Card>
+
+			<Card title={__('cases.details.treatment.medintake')}>
+			</Card>
 			</div>
 			);
 	}

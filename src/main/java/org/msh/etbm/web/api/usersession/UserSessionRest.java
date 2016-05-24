@@ -1,8 +1,9 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.services.usersession.*;
+import org.msh.etbm.services.usersession.ChangeWorkspaceService;
+import org.msh.etbm.services.usersession.UserSessionResponse;
+import org.msh.etbm.services.usersession.UserSessionService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

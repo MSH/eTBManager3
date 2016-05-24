@@ -100,7 +100,7 @@ export default class Cases extends React.Component {
 					},
 					infectionSite: {
 						id: 'PULMONARY',
-						name: 'Pulmonary'
+						name: __('InfectionSite.PULMONARY')
 					},
 					recordDate: 'jan 20th, 2016',
 					iniTreatmentDate: 'Jan 31th, 2016',
@@ -156,15 +156,15 @@ export default class Cases extends React.Component {
 				onSelect={this.tabSelect}>
 				<NavItem key={0} eventKey={0}>
 					{this.listCount(this.state.presumptives)}
-					{'Presumptive'}
+					{__('cases.presumptives')}
 				</NavItem>
 				<NavItem key={1} eventKey={1}>
 					{this.listCount(this.state.tbCases)}
-					{'TB Cases'}
+					{__('cases.tb')}
 				</NavItem>
 				<NavItem key={2} eventKey={2}>
 					{this.listCount(this.state.drtbCases)}
-					{'DR-TB Cases'}
+					{__('cases.drtb')}
 				</NavItem>
 			</Nav>
 			);

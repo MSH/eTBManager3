@@ -2,6 +2,9 @@
 import React from 'react';
 import DatePicker from '../../components/date-picker';
 import FormUtils from '../form-utils';
+import { isString } from '../../commons/utils';
+import moment from 'moment';
+
 
 /**
  * Control to support date types
@@ -31,11 +34,16 @@ export default class DateControl extends React.Component {
 		return true;
 	}
 
+	displayText(val) {
+		const dt = isString(val) ? Date.parse(val) : val;
+		return moment(dt).format('LL');
+	}
+
 	render() {
 		const sc = this.props.schema;
 
 		if (sc.readOnly) {
-			return FormUtils.readOnlyRender('TO BE IMPLEMENTED', sc.label);
+			return FormUtils.readOnlyRender(this.displayText(this.props.value), sc.label);
 		}
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
