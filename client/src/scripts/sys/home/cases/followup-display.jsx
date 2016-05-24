@@ -4,9 +4,13 @@ import { Card, Fa } from '../../../components';
 import { OverlayTrigger, Tooltip, Col, Row } from 'react-bootstrap';
 
 import moment from 'moment';
-import { getSchema } from './followup-display-schemas';
+import { getDisplaySchema } from './followup-display-schemas';
 
 export default class FollowupDisplay extends React.Component {
+
+	constructor(props) {
+		super(props);
+	}
 
 	renderButtons() {
 		return (<div className="mtop-2x">
@@ -20,7 +24,7 @@ export default class FollowupDisplay extends React.Component {
 	renderHeader() {
 		const followup = this.props.followup;
 
-		const schema = getSchema(followup.type.id.toLowerCase());
+		const schema = getDisplaySchema(followup.type);
 		const doc = followup.data;
 
 		if (!schema || !doc) {
@@ -28,28 +32,28 @@ export default class FollowupDisplay extends React.Component {
 		}
 
 		var datefield = 'dateCollected';
-		if (followup.type.id === 'MEDEXAM' || followup.type.id === 'HIV' || followup.type.id === 'XRAY') {
+		if (followup.type === 'MEDEXAM' || followup.type === 'HIV' || followup.type === 'XRAY') {
 			datefield = 'date';
 		}
 
 		var month = ' - ';
-		month = month + followup.type.monthOfTreatment;
+		month = month + followup.monthOfTreatment;
 
 		const subtitle = (<div>
 							{
 								moment(doc[datefield]).format('ll')
 							}
 							{
-								followup.type.monthOfTreatment && <span>{month}</span>
+								followup.monthOfTreatment && <span>{month}</span>
 							}
 						</div>);
 
 		const header = (<Row className="profile profile-medium">
 							<Col sm={10}>
 								<div className="profile-image">
-									<Fa icon={followup.type.id === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />
+									<Fa icon={followup.type === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />
 								</div>
-								<div className="profile-title">{followup.type.name}</div>
+								<div className="profile-title">{followup.name}</div>
 								<div className="profile-subtitle">{subtitle}</div>
 							</Col>
 							<Col sm={2}>
@@ -67,7 +71,7 @@ export default class FollowupDisplay extends React.Component {
 	render() {
 		const followup = this.props.followup;
 
-		const schema = getSchema(followup.type.id.toLowerCase());
+		const schema = getDisplaySchema(followup.type.toLowerCase());
 		const doc = followup.data;
 
 		if (!schema || !doc) {

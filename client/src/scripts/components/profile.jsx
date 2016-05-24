@@ -25,10 +25,6 @@ export default class Profile extends React.Component {
 				return 'product-hunt';
 			case 'user':
 				return 'user';
-			case 'medexam':
-				return 'stethoscope';
-			case 'exam':
-				return 'file-text';
 			default:
 				return 'exclamation-triangle';
 		}
@@ -79,6 +75,6 @@ Profile.propTypes = {
 	size: React.PropTypes.string,
 	imgClass: React.PropTypes.string,
 	bottomline: React.PropTypes.bool,
-	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user', 'medexam', 'exam'])
+	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user'])
 };
 

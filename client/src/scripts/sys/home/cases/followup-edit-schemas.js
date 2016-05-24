@@ -4,10 +4,13 @@ import { app } from '../../../core/app';
  * Return schemas to display followup results
  * @return {[type]} [description]
  */
-// TODOMS: colocar os laboratories para funcionar
-// TODOMS: listar os resultados de dst
-// TODOMS: microscopy: other sample type, como coloco aqui aproveitando o mesmo campo?
-// TODOMS: exibir campo exam status
+// TODOMS: configurar medexams
+// TODOMS: configurar microscopy
+// TODOMS: configurar culture
+// TODOMS: configurar xpert
+// TODOMS: configurar dst
+// TODOMS: configurar hiv
+// TODOMS: configurar xray
 
 const medexam = {
 	layout: [
@@ -321,7 +324,7 @@ const xray = {
 	}]
 };
 
-export function getDisplaySchema(followupType) {
+export function getEditSchema(followupType) {
 	switch (followupType.toLowerCase()) {
 		case 'medexam':
 			return medexam;
