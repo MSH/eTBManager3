@@ -2,7 +2,6 @@ package org.msh.etbm.services.usersession;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.CacheConfiguration;
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.permissions.Permission;
@@ -10,7 +9,6 @@ import org.msh.etbm.services.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

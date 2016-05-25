@@ -73,11 +73,4 @@ public class Application {
 
         return m;
     }
-
-    @Bean
-    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.modulesToInstall(Jdk8Module.class);
-        return builder;
-    }
 }

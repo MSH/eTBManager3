@@ -55,7 +55,7 @@ public class SystemRest {
             try {
                 uuidToken = authToken != null ? UUID.fromString(authToken) : null;
             } catch (IllegalArgumentException e) {
-                LOGGER.error("Invalid token UUID format : " + authToken, e);
+                LOGGER.error("Invalid token UUID format : " + authToken);
                 uuidToken = null;
             }
 

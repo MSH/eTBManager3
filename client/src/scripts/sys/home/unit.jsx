@@ -13,18 +13,18 @@ import Inventory from './unit/inventory';
 
 const routes = RouteView.createRoutes([
 	{
-		title: 'General',
+		title: __('general'),
 		path: '/general',
 		view: General,
 		default: true
 	},
 	{
-		title: 'Cases',
+		title: __('cases'),
 		path: '/cases',
 		view: Cases
 	},
 	{
-		title: 'Inventory',
+		title: __('meds.inventory'),
 		path: '/inventory',
 		view: Inventory
 	}

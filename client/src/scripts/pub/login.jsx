@@ -60,6 +60,10 @@ export default class Login extends React.Component {
 			else {
 				self.setState({ fetching: false, invalid: true });
 			}
+		})
+		.catch(err => {
+			self.setState({ fetching: false });
+			return Promise.reject(err);
 		});
 	}
 

@@ -103,16 +103,16 @@ export default class Details extends React.Component {
 			<Nav bsStyle="tabs" activeKey={seltab}
 				onSelect={this.selectTab}
 				className="app-tabs">
-				<NavItem key={0} eventKey={0}>{'Data'}</NavItem>
-				<NavItem key={1} eventKey={1}>{'Follow-up'}</NavItem>
-				<NavItem key={2} eventKey={2}>{'Treatment'}</NavItem>
-				<NavItem key={3} eventKey={3}>{'Issues'}</NavItem>
+				<NavItem key={0} eventKey={0}>{__('cases.details.case')}</NavItem>
+				<NavItem key={1} eventKey={1}>{__('cases.details.followup')}</NavItem>
+				<NavItem key={2} eventKey={2}>{__('cases.details.treatment')}</NavItem>
+				<NavItem key={3} eventKey={3}>{__('cases.issues')}</NavItem>
 			</Nav>
 			);
 
 		const tagh = (<span>
 						<h4 className="inlineb mright">
-							{'Tags'}
+							{__('admin.tags')}
 						</h4>
 						<Button onClick={this.show('showTagEdt', true)} bsSize="small">
 							<Fa icon="pencil"/>
