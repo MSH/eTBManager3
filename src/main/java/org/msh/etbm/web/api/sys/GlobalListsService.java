@@ -44,7 +44,9 @@ public class GlobalListsService {
             XpertRifResult.class,
             XpertResult.class,
             XRayEvolution.class,
-            HIVResult.class
+            HIVResult.class,
+            ExamStatus.class,
+            DstResult.class
     };
 
     /**

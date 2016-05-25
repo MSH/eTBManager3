@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FormDialog } from '../../../components/index';
+import { FormDialog, Fa } from '../../../components/index';
 import moment from 'moment';
 
 import { getEditSchema } from './followup-edit-schemas';
@@ -36,7 +36,7 @@ export default class FollowupModal extends React.Component {
 			title = __('cases.details.newresult') + ' ' + this.props.followUpName;
 		}
 
-		return title;
+		return (<span><Fa icon={this.props.followUpType === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />{title}</span>);
 	}
 
 	render() {

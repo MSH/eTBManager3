@@ -84,10 +84,7 @@ const followUp = [
 			dateCollected: new Date(2016, 1, 3),
 			sampleNumber: 'MIC020395474',
 			comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
-			laboratory: {
-				id: '12-123123-123-12-312',
-				name: 'Lab Ana Neri'
-			},
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
 			dateRelease: new Date(2016, 3, 1),
 			status: 'PERFORMED',
 			// Specific fields
@@ -108,10 +105,7 @@ const followUp = [
 			dateCollected: new Date(2016, 2, 14),
 			sampleNumber: 'CUL2342345645',
 			comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações.',
-			laboratory: {
-							id: '12-123123-123-12-312',
-							name: 'Lab Ana Neri'
-						},
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
 			dateRelease: new Date(2016, 4, 1),
 			method: 'METHODCULT2',
 			status: 'ONGOING',
@@ -147,10 +141,7 @@ const followUp = [
 			dateCollected: new Date(2016, 4, 2),
 			sampleNumber: 'XPERT67257',
 			comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações e de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização',
-			laboratory: {
-							id: '12-123123-123-12-312',
-							name: 'Lab Ana Neri'
-						},
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
 			dateRelease: new Date(2016, 4, 2),
 			status: 'PERFORMED',
 			// Specific fields
@@ -168,10 +159,7 @@ const followUp = [
 			dateCollected: new Date(2016, 6, 2),
 			sampleNumber: 'MIC020395474',
 			comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
-			laboratory: {
-				id: '12-123123-123-12-312',
-				name: 'Lab Ana Neri'
-			},
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
 			dateRelease: new Date(2016, 6, 2),
 			method: 'METHODMIC2',
 			status: 'PERFORMED',
@@ -193,72 +181,31 @@ const followUp = [
 				dateCollected: new Date(2016, 6, 12),
 				sampleNumber: 'DST0395474',
 				comments: null,
-				laboratory: {
-					id: '12-123123-123-12-312',
-					name: 'Lab Ana Neri'
-				},
+				laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
 				dateRelease: new Date(2016, 25, 3),
 				method: 'METHOD2',
-				status: {
-					id: 'PERFORMED',
-					name: 'Performed'
-				},
+				status: 'PERFORMED',
 				// Specific fields
-				result: [
+				results: [
 					{
-						substance: {
-							id: '89273-23423-4234',
-							name: 'Am',
-							shortName: 'Amikacin'
-						},
-						result: {
-							id: 'RESISTANT',
-							name: 'Resistant'
-						}
+						substance: '024fadc0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
 					},
 					{
-						substance: {
-							id: '89273-23423-4234',
-							name: 'Cs',
-							shortName: 'Cycloserine'
-						},
-						result: {
-							id: 'RESISTANT',
-							name: 'Resistant'
-						}
+						substance: '024fadc2-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
 					},
 					{
-						substance: {
-							id: '89273-23423-4234',
-							name: 'E',
-							shortName: 'Ethambutol'
-						},
-						result: {
-							id: 'RESISTANT',
-							name: 'Resistant'
-						}
+						substance: '00bd4df0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
 					},
 					{
-						substance: {
-							id: '89273-23423-4234',
-							name: 'H',
-							shortName: 'Isoniazid'
-						},
-						result: {
-							id: 'RESISTANT',
-							name: 'Resistant'
-						}
+						substance: '024fadc4-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
 					},
 					{
-						substance: {
-							id: '89273-23423-4234',
-							name: 'Km',
-							shortName: 'Kanamycin'
-						},
-						result: {
-							id: 'RESISTANT',
-							name: 'Resistant'
-						}
+						substance: '0173f3c0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
 					}
 				]
 		}

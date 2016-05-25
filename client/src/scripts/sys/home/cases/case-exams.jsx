@@ -36,11 +36,11 @@ export default class CaseExams extends React.Component {
 
 	/**
 	 * Insert on state values that will control the operation in progress
-	 * @param  {[type]} opTypeP       New, edit or delete
+	 * @param  {[type]} opTypeP       New(new), edit(edt) or delete(del)
 	 * @param  {[type]} followUpTypeP Alias of followup to identify the schema
-	 * @param  {[type]} followUpNameP name of followup for title
+	 * @param  {[type]} followUpNameP Name of followup for title
 	 * @param  {[type]} docP          Data of followup used on delete and edit operation
-	 * @return {[type]}               nothing
+	 * @return {[type]}               function that create the operation object on the state of this component
 	 */
 	startOperation(opTypeP, followUpTypeP, followUpNameP, docP) {
 		const self = this;

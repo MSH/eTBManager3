@@ -3,7 +3,9 @@ import React from 'react';
 import Form from '../../forms/form';
 import { Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
 import Fa from '../../components/fa';
+import ReactTable from '../../components/react-table';
 import msgs from '../../commons/messages';
+import FormUtils from '../form-utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -30,8 +32,6 @@ export default class TableFormControl extends React.Component {
 			}
 		});
 
-		//TODOMSR: como nomear a lista pra ser usada pelo form?
-		const res = { userId1: [{ id: 1, name: 'Mauricio' }, { id: 2, name: 'Jesus' }, { id: 3, name: 'Santos' }] };
 		this.setState({ resources: null });
 	}
 
@@ -143,8 +143,21 @@ export default class TableFormControl extends React.Component {
 	render() {
 		const sc = this.props.schema;
 
+		// TODOMS: improve this
 		if (sc.readOnly) {
-			return <div>{'TODOMS: usar reactTable'}</div>;
+			if (!sc.readOnlyColumns || !this.props.value) {
+				return null;
+			}
+
+			const labelelem = sc.label ? <label className="control-label">{FormUtils.labelRender(sc.label)}</label> : null;
+			const content = this.props.value ? <ReactTable columns={sc.readOnlyColumns} values={this.props.value} /> : null;
+
+			return (<div className="form-group">
+						{labelelem}
+						<div className="form-control-static">
+							{content ? content : '-'}
+						</div>
+					</div>);
 		}
 
 		if (!sc.fschema) {

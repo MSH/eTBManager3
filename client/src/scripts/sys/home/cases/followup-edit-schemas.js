@@ -72,13 +72,21 @@ const microscopy = {
 		type: 'string',
 		label: __('PatientSample.sampleNumber'),
 		property: 'sampleNumber',
-		size: { sm: 6 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		size: { sm: 6 }
+		options: 'laboratories',
+		size: { sm: 4 }
+	},
+	{
+		type: 'select',
+		label: __('ExamStatus'),
+		property: 'status',
+		options: app.getState().app.lists.ExamStatus,
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
@@ -136,6 +144,13 @@ const culture = {
 		size: { sm: 4 }
 	},
 	{
+		type: 'select',
+		label: __('ExamStatus'),
+		property: 'status',
+		options: app.getState().app.lists.ExamStatus,
+		size: { sm: 4 }
+	},
+	{
 		type: 'string',
 		label: __('cases.exams.media'),
 		property: 'method',
@@ -164,7 +179,7 @@ const culture = {
 		type: 'string',
 		label: __('global.comments'),
 		property: 'comments',
-		size: { sm: 12 }
+		size: { sm: 8 }
 	}]
 };
 
@@ -174,13 +189,20 @@ const xpert = {
 		type: 'string',
 		label: __('PatientSample.sampleNumber'),
 		property: 'sampleNumber',
-		size: { sm: 6 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		size: { sm: 6 }
+		size: { sm: 4 }
+	},
+	{
+		type: 'select',
+		label: __('ExamStatus'),
+		property: 'status',
+		options: app.getState().app.lists.ExamStatus,
+		size: { sm: 4 }
 	},
 	{
 		type: 'date',
@@ -210,37 +232,66 @@ const xpert = {
 	}]
 };
 
+
+const dstresultschema = {
+	layout: [
+		{
+			property: 'substance',
+			type: 'select',
+			label: __('Medicine.substances'),
+			options: 'substances',
+			size: { md: 6 }
+		},
+		{
+			property: 'result',
+			type: 'select',
+			label: __('cases.details.result'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 6 }
+		}
+	]
+	};
+
 const dst = {
 	layout: [
 	{
 		type: 'string',
 		label: __('PatientSample.sampleNumber'),
 		property: 'sampleNumber',
-		size: { sm: 3 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		size: { sm: 3 }
+		options: 'laboratories',
+		size: { sm: 4 }
+	},
+	{
+		type: 'select',
+		label: __('ExamStatus'),
+		property: 'status',
+		options: app.getState().app.lists.ExamStatus,
+		size: { sm: 4 }
 	},
 	{
 		type: 'date',
 		label: __('cases.exams.dateRelease'),
 		property: 'dateRelease',
-		size: { sm: 3 }
+		size: { sm: 2 }
 	},
 	{
 		type: 'string',
 		label: __('cases.exams.method'),
 		property: 'method',
-		size: { sm: 3 }
+		size: { sm: 2 }
 	},
 	{
-		type: 'select',
+		property: 'results',
+		type: 'tableForm',
+		fschema: dstresultschema,
 		label: __('cases.details.result'),
-		property: 'result',
-		size: { sm: 12 }
+		size: { sm: 8 }
 	},
 	{
 		type: 'string',
