@@ -5,7 +5,7 @@ import { Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
 import Fa from '../../components/fa';
 import ReactTable from '../../components/react-table';
 import msgs from '../../commons/messages';
-import FormUtils from '../form-utils';
+import FormUtils from '../../forms/form-utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
