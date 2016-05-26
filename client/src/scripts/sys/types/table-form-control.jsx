@@ -154,9 +154,7 @@ export default class TableFormControl extends React.Component {
 
 			return (<div className="form-group">
 						{labelelem}
-						<div className="form-control-static">
-							{content ? content : '-'}
-						</div>
+						{content ? content : '-'}
 					</div>);
 		}
 

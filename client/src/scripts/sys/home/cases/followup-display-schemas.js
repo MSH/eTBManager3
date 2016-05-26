@@ -4,10 +4,18 @@ import { app } from '../../../core/app';
  * Return schemas to display followup results
  * @return {[type]} [description]
  */
-// TODOMS: microscopy: other sample type, como coloco aqui aproveitando o mesmo campo?
+
+// TODOMS: o campo other (string) de campos principai como specimen type seriam melhor exibidos se ao lado do campo principal.
 
 const medexam = {
 	layout: [
+	{
+		type: 'select',
+		label: __('MedAppointmentType'),
+		property: 'appointmentType',
+		options: app.getState().app.lists.MedAppointmentType,
+		size: { sm: 4 }
+	},
 	{
 		type: 'string',
 		label: __('MedicalExamination.responsible'),
@@ -18,13 +26,6 @@ const medexam = {
 		type: 'string',
 		label: 'positionResponsible',
 		property: 'positionResponsible',
-		size: { sm: 4 }
-	},
-	{
-		type: 'select',
-		label: __('MedAppointmentType'),
-		property: 'appointmentType',
-		options: app.getState().app.lists.MedAppointmentType,
 		size: { sm: 4 }
 	},
 	{
@@ -63,9 +64,29 @@ const medexam = {
 const microscopy = {
 	layout: [
 	{
+		type: 'select',
+		label: __('SpecimenType'),
+		property: 'sampleType',
+		options: app.getState().app.lists.SampleType,
+		size: { sm: 4 }
+	},
+	{
+		type: 'string',
+		label: __('SampleType.OTHER'),
+		property: 'otherSampleType',
+		size: { sm: 4 }
+	},
+	{
 		type: 'string',
 		label: __('PatientSample.sampleNumber'),
 		property: 'sampleNumber',
+		size: { sm: 4 }
+	},
+	{
+		type: 'select',
+		label: __('VisualAppearance'),
+		property: 'visualAppearance',
+		options: app.getState().app.lists.VisualAppearance,
 		size: { sm: 4 }
 	},
 	{
@@ -80,20 +101,6 @@ const microscopy = {
 		label: __('ExamStatus'),
 		property: 'status',
 		options: app.getState().app.lists.ExamStatus,
-		size: { sm: 4 }
-	},
-	{
-		type: 'select',
-		label: __('SpecimenType'),
-		property: 'sampleType',
-		options: app.getState().app.lists.SampleType,
-		size: { sm: 4 }
-	},
-	{
-		type: 'select',
-		label: __('VisualAppearance'),
-		property: 'visualAppearance',
-		options: app.getState().app.lists.VisualAppearance,
 		size: { sm: 4 }
 	},
 	{
@@ -119,7 +126,7 @@ const microscopy = {
 		type: 'string',
 		label: __('global.comments'),
 		property: 'comments',
-		size: { sm: 4 }
+		size: { sm: 12 }
 	}]
 };
 
@@ -146,12 +153,6 @@ const culture = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'string',
-		label: __('cases.exams.media'),
-		property: 'method',
-		size: { sm: 4 }
-	},
-	{
 		type: 'date',
 		label: __('cases.exams.dateRelease'),
 		property: 'dateRelease',
@@ -168,6 +169,12 @@ const culture = {
 		type: 'number',
 		label: __('ExamCulture.numberOfColonies'),
 		property: 'numberOfColonies',
+		size: { sm: 4 }
+	},
+	{
+		type: 'string',
+		label: __('cases.exams.media'),
+		property: 'method',
 		size: { sm: 4 }
 	},
 	{
@@ -249,12 +256,10 @@ const dstresultschema = {
 
 const dstROcolumns = [
 			{
-				title: 'Substance',
 				content: 'substance',
 				size: { sm: 6 }
 			},
 			{
-				title: 'Result',
 				content: 'result',
 				size: { sm: 6 }
 			}
@@ -286,13 +291,19 @@ const dst = {
 		type: 'date',
 		label: __('cases.exams.dateRelease'),
 		property: 'dateRelease',
-		size: { sm: 2 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'string',
 		label: __('cases.exams.method'),
 		property: 'method',
-		size: { sm: 2 }
+		size: { sm: 4 }
+	},
+	{
+		type: 'string',
+		label: __('global.comments'),
+		property: 'comments',
+		size: { sm: 4 }
 	},
 	{
 		property: 'results',
@@ -300,12 +311,6 @@ const dst = {
 		fschema: dstresultschema,
 		readOnlyColumns: dstROcolumns,
 		label: __('cases.details.result'),
-		size: { sm: 8 }
-	},
-	{
-		type: 'string',
-		label: __('global.comments'),
-		property: 'comments',
 		size: { sm: 12 }
 	}]
 };
