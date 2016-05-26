@@ -46,7 +46,8 @@
     "supertest": "^1.2.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "webpack-manifest-plugin": "^1.0.1"
   },
   "dependencies": {
     "awesome-bootstrap-checkbox": "^1.0.0-alpha.3",

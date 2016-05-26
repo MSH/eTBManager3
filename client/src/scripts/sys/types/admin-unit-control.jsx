@@ -1,9 +1,7 @@
 
 
 import React from 'react';
-import { Input } from 'react-bootstrap';
 import { WaitIcon, SelectionBox } from '../../components';
-import Form from '../../forms/form';
 import FormUtils from '../../forms/form-utils';
 
 
@@ -49,7 +47,8 @@ export default class AdminUnitControl extends React.Component {
 
 	serverRequest(nextSchema, nextValue, nextResources) {
 		// is request necessary ?
-		if (nextValue === this.props.value && (this.props.resources || nextResources)) {
+		if (this.props.schema.readOnly ||
+			(nextValue === this.props.value && (this.props.resources || nextResources))) {
 			return null;
 		}
 
@@ -106,15 +105,9 @@ export default class AdminUnitControl extends React.Component {
 
 	readOnlyRender(schema) {
 		const value = this.props.value;
-		const s = Form.types.adminUnit.controlClass().displayText(value);
+		const s = AdminUnitControl.displayText(value);
 
-		return (
-			<Input
-				label={schema.label}
-				type="text"
-				disabled
-				value={s} />
-			);
+		return FormUtils.readOnlyRender(s, schema.label);
 	}
 
 

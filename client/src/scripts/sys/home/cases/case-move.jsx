@@ -30,10 +30,12 @@ export default class CaseMove extends React.Component {
 		super(props);
 
 		this.state = { doc: {} };
+		this.moveCase = this.moveCase.bind(this);
 	}
 
 	moveCase() {
 		console.log('go to server and transfer this case! Dont forget to return a promise');
+		this.props.onClose();
 	}
 
 	render() {

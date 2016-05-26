@@ -12,90 +12,8 @@ import CaseMove from './case-move';
 import CaseIssues from './case-issues';
 import CaseTags from './case-tags';
 
-import { generateName } from '../../mock-data';
+import { generateName, mockTbCase } from '../../mock-data';
 
-const tags = [
-	{
-		id: '123456-1',
-		name: 'Not on treatment',
-		type: 'userdef'
-	},
-	{
-		id: '123456-2',
-		name: 'On treatment',
-		type: 'userdef'
-	},
-	{
-		id: '123456-3',
-		name: 'Closed cases',
-		type: 'warn'
-	},
-	{
-		id: '123456-4',
-		name: 'DR-TB with no resistance',
-		type: 'danger'
-	},
-	{
-		id: '123456-5',
-		name: 'TB with resistance',
-		type: 'danger'
-	}
-];
-
-
-// TEMPORARY -> CASE DATA USED FOR PROTOTYPING
-const caseMockData = {
-	patient: {
-		name: 'Jim Morrison',
-		gender: 'MALE',
-		birthDate: new Date(1970, 1, 1),
-		motherName: 'Maria Morrison'
-	},
-	diagnosisDate: new Date(2016, 5, 1),
-	tags: tags,
-	adverseReactions: [
-		{
-			id: '4848484-1',
-			adverseReaction: { id: 1, name: 'Adverse Reaction 1' },
-			medicine: 'Terizidon',
-			month: 2
-		},
-		{
-			id: '4848484-2',
-			adverseReaction: { id: 2, name: 'Adverse Reaction 2' },
-			medicine: 'Isoniazid',
-			month: 5
-		},
-		{
-			id: '4848484-3',
-			adverseReaction: { id: 1, name: 'Adverse Reaction 3' },
-			medicine: 'Amicacin',
-			month: 8
-		}
-	],
-	comments: [
-		{
-			id: '123456-12',
-			user: {
-				id: '12312312',
-				name: 'Bruce Dickinson'
-			},
-			group: 'contacts',
-			date: new Date(),
-			comment: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'
-		},
-		{
-			id: '123456-11',
-			user: {
-				id: '12312312',
-				name: 'Iron Maiden'
-			},
-			group: 'contacts',
-			date: new Date(),
-			comment: 'Contact Rubens Smith refused interview and moved out to another address'
-		}
-	]
-};
 
 export default class Details extends React.Component {
 
@@ -121,7 +39,7 @@ export default class Details extends React.Component {
 					age: res.age
 				});
 			}
-			const data = Object.assign({}, caseMockData, { contacts: contacts });
+			const data = Object.assign({}, mockTbCase, { contacts: contacts });
 
 			this.setState({
 				tbcase: data

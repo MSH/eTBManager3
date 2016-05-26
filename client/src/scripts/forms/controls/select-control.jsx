@@ -60,13 +60,22 @@ export default class SelectControl extends React.Component {
 		this.props.onChange({ schema: sc, value: value ? value.id : null });
 	}
 
+	/**
+	 * Return the option by its ID
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
+	optionById(id) {
+		const options = this.props.resources || this.state.options;
+		return options ? options.find(item => item.id === id) : null;
+	}
 
 	render() {
 		const sc = this.props.schema;
 
 		if (sc.readOnly) {
-			const val = this.props.value ? this.props.value.item : null;
-			return FormUtils.readOnlyRender(val, sc.label);
+			const val = this.optionById(this.props.value);
+			return FormUtils.readOnlyRender(val ? val.name : null, sc.label);
 		}
 
 		const errors = this.props.errors;

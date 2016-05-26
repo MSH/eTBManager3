@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button, OverlayTrigger, Tooltip, Badge } from 'react-bootstrap';
+import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Card, Profile, Fa } from '../../../components';
 
 const mockIssues = [

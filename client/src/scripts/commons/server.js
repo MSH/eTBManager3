@@ -3,6 +3,7 @@
  */
 
 import Request from 'superagent';
+import { app } from '../core/app';
 
 /**
  * Custom error handler, defined by the application
@@ -77,7 +78,7 @@ export { server };
 
 function auth(req) {
 	// authentication token is available ?
-	var authToken = window.app.getAuthToken();
+	var authToken = app.getAuthToken();
 	if (authToken) {
 		req.set('X-Auth-Token', authToken);
 	}

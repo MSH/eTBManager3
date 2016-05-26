@@ -12,8 +12,12 @@ import moment from 'moment';
  * Reference to the application
  */
 var app;
+var LANG_KEY = 'lang';
+var AUTHTOKEN_KEY = 'autk';
+
 
 export { app };
+
 
 export function init(customApp) {
 	app = customApp;
@@ -75,7 +79,7 @@ export class App {
 		const self = this;
 
 		// set right locale in moment lib
-		moment.locale(window.app.getLang());
+		moment.locale(this.getLang());
 
 		// call server to get system status
 		server.post('/api/sys/info?list=1', {})
@@ -124,6 +128,46 @@ export class App {
 			this.dispatch(ERROR, { error: err.message });
 		}
 	}
+
+	getCookie(cname) {
+        var name = cname + '=';
+        var s = '; ' + document.cookie;
+        var vals = s.split('; ' + name);
+        if (vals.length === 2) {
+            return vals.pop().split(';').shift();
+        }
+        return null;
+    }
+
+    setCookie(name, value, days) {
+        var s = name + '=' + value;
+        if (days) {
+            var d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            s += '; expires=' + d.toUTCString();
+        }
+        document.cookie = s;
+    }
+
+    getLang() {
+        return this.getCookie(LANG_KEY);
+    }
+
+    setLang(value) {
+        this.setCookie(LANG_KEY, value);
+    }
+
+    /**
+     * Get authentication token to be sent to the client
+     * @returns {*}
+     */
+    getAuthToken() {
+        return this.getCookie(AUTHTOKEN_KEY);
+    }
+
+    setAuthToken(value) {
+        this.setCookie(AUTHTOKEN_KEY, value);
+    }
 }
 
 

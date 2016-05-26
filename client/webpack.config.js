@@ -7,7 +7,8 @@
 var webpack = require('webpack'),
     path = require('path'),
     config = require('./config'),
-    I18nPlugin = require('i18n-webpack-plugin');
+    I18nPlugin = require('i18n-webpack-plugin'),
+    ManifestPlugin = require('webpack-manifest-plugin');
 
 
 var contextPath = path.join( __dirname, config.clientSrc),
@@ -25,7 +26,7 @@ module.exports = config.languages.prod.map( function(lang) {
         context: contextPath,
 
         output: {
-            filename: 'app.js',
+            filename: '[name].[chunkhash].js',
             path: path.join( outPath, 'scripts', lang),
             publicPath: 'scripts/' + lang + '/'
         },
@@ -33,9 +34,11 @@ module.exports = config.languages.prod.map( function(lang) {
         cache: true,
         debug: true,
         devtool: false,
-        entry: [
-            path.join(contextPath, 'scripts', config.mainScript),
-        ],
+        entry: {
+            app: path.join(contextPath, 'scripts', config.mainScript),
+            vendor: ['react', 'react-bootstrap', 'superagent', 'moment']
+        }
+        ,
 
         stats: {
             colors: true,
@@ -91,10 +94,13 @@ module.exports = config.languages.prod.map( function(lang) {
                 __DEV__: false,
                 'process.env.NODE_ENV': '"production"'
             }),
-//            new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'../vendor.js'),
+            new webpack.optimize.CommonsChunkPlugin(/* chunkName= */'vendor', /* filename= */'vendor.[chunkhash].js'),
             new webpack.optimize.UglifyJsPlugin({sourceMap: false}),
             new I18nPlugin(messages),
-            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, momentLocExpr)
+            new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, momentLocExpr),
+            new ManifestPlugin({
+                fileName: 'manifest.json'
+            })
         ]
     }
 });
