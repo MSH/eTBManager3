@@ -28,12 +28,6 @@ const medexam = {
 		size: { sm: 12 }
 	},
 	{
-		type: 'string',
-		label: 'positionResponsible',
-		property: 'positionResponsible',
-		size: { sm: 12 }
-	},
-	{
 		type: 'select',
 		label: __('MedicalExamination.usingPrescMedicines'),
 		property: 'usingPrescMedicines',

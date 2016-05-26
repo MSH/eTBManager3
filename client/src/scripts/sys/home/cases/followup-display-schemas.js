@@ -23,12 +23,6 @@ const medexam = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'string',
-		label: 'positionResponsible',
-		property: 'positionResponsible',
-		size: { sm: 4 }
-	},
-	{
 		type: 'select',
 		label: __('MedicalExamination.usingPrescMedicines'),
 		property: 'usingPrescMedicines',
@@ -45,13 +39,13 @@ const medexam = {
 		type: 'number',
 		property: '{weight} Kg',
 		label: __('MedicalExamination.weight'),
-		size: { sm: 2 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'number',
 		label: __('MedicalExamination.height'),
 		property: '{height} cm',
-		size: { sm: 2 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'string',
