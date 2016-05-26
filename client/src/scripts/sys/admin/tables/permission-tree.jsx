@@ -51,7 +51,9 @@ class PermissionTree extends React.Component {
 
 		const vals = this.props.value ? this.props.value : [];
 		// includes an extra property that indicates the state of the node (user value)
-		lst.forEach(p => p.value = vals.find(item => item.permission === p.id));
+		lst.forEach(p => {
+			p.value = vals.find(item => item.permission === p.id);
+		});
 		return lst;
 	}
 
