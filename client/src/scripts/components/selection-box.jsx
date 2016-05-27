@@ -171,7 +171,7 @@ export default class SelectionBox extends React.Component {
 
 			const values = this.props.value ? this.props.value : [];
 			values.push(item);
-			self.notifyChange(values.slice(0), evt);
+			self.notifyChange(values.slice(0));
 			self.refs.popup.preventHide();
 		};
 	}
@@ -219,7 +219,7 @@ export default class SelectionBox extends React.Component {
 		// check if it is arrow down
 		if (evt.keyCode === 40) {
 			evt.preventDefault();
-			this.controlClick(evt);
+			this.controlClick();
 		}
 	}
 

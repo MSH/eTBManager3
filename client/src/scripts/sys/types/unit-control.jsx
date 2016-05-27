@@ -78,7 +78,7 @@ export default class UnitControl extends React.Component {
 		if (admUnit === '-') {
 			resources.units = null;
 			this.forceUpdate();
-			this.onUnitChange(null, null);
+			this.onUnitChange(null);
 			return;
 		}
 
@@ -104,7 +104,7 @@ export default class UnitControl extends React.Component {
 
 		resources.units = null;
 		resources.adminUnitId = admUnit;
-		this.onUnitChange(null, null);
+		this.onUnitChange(null);
 	}
 
 	/**
@@ -200,7 +200,7 @@ export default class UnitControl extends React.Component {
 
 	render() {
 		const schema = this.props.schema || {};
-		return schema.readOnly ? this.readOnlyRender(schema) : this.editorRender(schema);
+		return schema.readOnly ? this.readOnlyRender(schema) : this.editorRender();
 	}
 }
 

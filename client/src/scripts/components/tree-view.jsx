@@ -242,8 +242,6 @@ export default class TreeView extends React.Component {
 	 */
 	createNodesView() {
 		const self = this;
-		// get the item being expanded (for animation)
-		const expitem = this.state && this.state.expitem;
 
 		// recursive function to create the expanded tree in a list
 		const mountList = function(nlist, level, parentkey) {
@@ -449,7 +447,7 @@ export default class TreeView extends React.Component {
 			return null;
 		}
 
-		return <div className="tree-view">{this.createNodesView(root)}</div>;
+		return <div className="tree-view">{this.createNodesView()}</div>;
 	}
 }
 

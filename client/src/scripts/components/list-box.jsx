@@ -103,7 +103,7 @@ export default class ListBox extends React.Component {
 		}
 
 		// create the components
-		var opts = null;
+		var opts;
 
 		if (this.props.mode === 'single') {
 			opts = options

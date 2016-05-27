@@ -8,6 +8,13 @@ package org.msh.etbm.sys.daemon;
  */
 public class StartSpringBootService {
 
+    /**
+     * Private constructor to avoid instantiation of this class by mistake
+     */
+    private StartSpringBootService() {
+
+    }
+
     public static void main(String[] args) throws Exception {
         new SpringBootService().start(args);
     }
