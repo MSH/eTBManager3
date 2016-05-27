@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
-import { SelectionBox, MessageDlg } from '../../../components';
+import { SelectionBox, MessageDlg, Fa } from '../../../components';
 import moment from 'moment';
 
 import FollowupDisplay from './followup-display';
@@ -140,7 +140,7 @@ export default class CaseExams extends React.Component {
 			<div>
 				<Row>
 					<Col sm={1}>
-						<DropdownButton id="newFollowUp" bsStyle="primary" title={'New'}>
+						<DropdownButton id="newFollowUp" bsStyle="default" title={<span><Fa icon="plus-circle"/>{__('action.add')}</span>}>
 							{
 								options.map((item, index) => (
 									<MenuItem key={index} eventKey={index} onSelect={this.startOperation('new', item.id, item.name, {})} >{item.name}</MenuItem>
