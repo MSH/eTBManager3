@@ -91,7 +91,7 @@ const followUp = [
 			result: 'NEGATIVE',
 			numberOfAFB: 5,
 			sampleType: 'SPUTUM',
-			otherSampleType: null,
+			otherSampleType: 'asdasdasd',
 			visualAppearance: 'MUCOPURULENT'
 		}
 	},
