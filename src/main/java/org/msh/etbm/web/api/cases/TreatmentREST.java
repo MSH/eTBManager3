@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.services.cases.treatment.TreatmentData;
+import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;

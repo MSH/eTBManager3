@@ -23,7 +23,7 @@ export default class Details extends React.Component {
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 
-		this.state = { selTab: 0 };
+		this.state = { selTab: 2 };
 	}
 
 	componentWillMount() {
@@ -96,8 +96,7 @@ export default class Details extends React.Component {
 			return <WaitIcon type="page" />;
 		}
 
-		// const seltab = this.state.selTab;
-		const seltab = 1;
+		const seltab = this.state.selTab;
 
 		const tabs = (
 			<Nav bsStyle="tabs" activeKey={seltab}

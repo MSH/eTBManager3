@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.treatment;
+package org.msh.etbm.services.cases.treatment.data;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
@@ -7,20 +7,44 @@ import org.msh.etbm.commons.date.Period;
 import java.util.List;
 
 /**
+ * Treatment data information to be sent to the client
  * Created by rmemoria on 23/5/16.
  */
 public class TreatmentData {
+    /**
+     * The treatment period
+     */
     private Period period;
 
+    /**
+     * The current regimen in use
+     */
     private SynchronizableItem regimen;
 
+    /**
+     * The initial regimen, in case it was moved to an individualized
+     */
     private SynchronizableItem iniRegimen;
 
+    /**
+     * The treatment category
+     */
     private Item<String> category;
 
+    /**
+     * The treatment progress according to the current date, from 0 to 100
+     */
     private int progress;
 
-    private List<PrescribedMedicineData> prescribedMedicines;
+    /**
+     * List of products prescribed to the patient
+     */
+    private List<PrescriptionData> prescriptions;
+
+    /**
+     * List of treatment units that the patient has passed through
+     */
+    private List<TreatmentUnitData> treatmenUnits;
 
     public Period getPeriod() {
         return period;
@@ -62,11 +86,19 @@ public class TreatmentData {
         this.progress = progress;
     }
 
-    public List<PrescribedMedicineData> getPrescribedMedicines() {
-        return prescribedMedicines;
+    public List<PrescriptionData> getPrescriptions() {
+        return prescriptions;
     }
 
-    public void setPrescribedMedicines(List<PrescribedMedicineData> prescribedMedicines) {
-        this.prescribedMedicines = prescribedMedicines;
+    public void setPrescriptions(List<PrescriptionData> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
+    public List<TreatmentUnitData> getTreatmenUnits() {
+        return treatmenUnits;
+    }
+
+    public void setTreatmenUnits(List<TreatmentUnitData> treatmenUnits) {
+        this.treatmenUnits = treatmenUnits;
     }
 }

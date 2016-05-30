@@ -7268,7 +7268,7 @@ button.close {
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .header-search input {
-    width: 100px;
+    width: 150px !important;
   }
   .navbar-inverse .navbar-nav > li > a {
     padding-left: 5px;
@@ -7276,7 +7276,7 @@ button.close {
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .header-search input {
-    width: 180px;
+    width: 150px;
   }
 }
 @media (min-width: 1200px) {

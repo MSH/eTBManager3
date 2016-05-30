@@ -205,7 +205,7 @@ export default class CommandHistory extends React.Component {
 		{
 			title: __('form.action'),
 			content: item => {
-				var c = null;
+				var c;
 				switch (item.action.id) {
 				case 'EXEC':
 					c = 'default';

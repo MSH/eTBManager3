@@ -150,7 +150,7 @@ export default class CrudController {
 
 		// select the schema to be used in the form
 		const se = this.options.editorSchema;
-		var schema = null;
+		var schema;
 		// is mulit schema ?
 		if (se.editors) {
 			if (__DEV__) {
