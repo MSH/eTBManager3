@@ -8,6 +8,7 @@ import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
+import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,10 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         // get the selected administrative unit ID
         UUID auId = req.getIdParam("adminUnitId");
 
-        List<UnitItemData> units = getUnits(auId, wsId);
+        // get the selected type of unit
+        String unitType = req.getStringParam("type");
+
+        List<UnitItemData> units = getUnits(auId, wsId, unitType);
 
         res.setUnits(units);
 
@@ -103,8 +107,11 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         // get selected administrative unit
         res.setAdminUnitId( unit.getAdminUnit().getSelected().getId() );
 
+        // get the selected type of unit
+        String unitType = req.getStringParam("type");
+
         // get the list of units to be displayed
-        res.setUnits( getUnits(unit.getAdminUnit().getSelected().getId(), wsId) );
+        res.setUnits( getUnits(unit.getAdminUnit().getSelected().getId(), wsId, unitType) );
 
         return res;
     }
@@ -116,12 +123,15 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
      *                    user session)
      * @return list of units
      */
-    protected List<UnitItemData> getUnits(UUID adminUnitId, UUID workspaceId) {
+    protected List<UnitItemData> getUnits(UUID adminUnitId, UUID workspaceId, String unitType) {
         // query the units of administrative unit as parent
         UnitQueryParams uqry = new UnitQueryParams();
         uqry.setAdminUnitId(adminUnitId);
         if (workspaceId != null) {
             uqry.setWorkspaceId(workspaceId);
+        }
+        if (unitType != null) {
+            uqry.setType(UnitType.valueOf(unitType));
         }
         uqry.setIncludeSubunits(true);
         uqry.setProfile(UnitQueryParams.PROFILE_ITEM);
