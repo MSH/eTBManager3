@@ -45,173 +45,101 @@ const tags = [{
 	type: 'danger'
 }];
 
-const followUp = [{
-	type: 'MEDEXAM',
-	name: __('FollowUpType.MEDEXAM'),
-	monthOfTreatment: 'Before TB Diagnosis',
-	data: {
-		id: '123-123-12-3123',
-		date: new Date(2016, 1, 1),
-		comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
-		weight: 90.00,
-		height: 1.80,
-		appointmentType: 'SCHEDULLED',
-		usingPrescMedicines: 'NO',
-		reasonNotUsingPrescMedicines: 'No money for the transportation',
-		responsible: 'Mauricio Jesus dos Santos',
-		positionResponsible: 'Doctor'
+
+const followUp = [
+	{
+		type: 'MEDEXAM',
+		name: __('FollowUpType.MEDEXAM'),
+		monthOfTreatment: 'Before TB Diagnosis',
+		data: {
+			id: '123-123-12-3123',
+			date: new Date(2016, 1, 1),
+			comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+			weight: 90.00,
+			height: 1.80,
+			appointmentType: 'SCHEDULLED',
+			usingPrescMedicines: 'NO',
+			reasonNotUsingPrescMedicines: 'No money for the transportation',
+			responsible: 'Mauricio Jesus dos Santos',
+			positionResponsible: 'Doctor'
+		}
+	},
+	{
+		type: 'MICROSCOPY',
+		name: __('FollowUpType.MICROSCOPY'),
+		monthOfTreatment: 'Month of Diagnosis',
+		data: {
+			id: '34-534-5-345',
+			// lab exam fields
+			dateCollected: new Date(2016, 1, 3),
+			sampleNumber: 'MIC020395474',
+			comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
+			dateRelease: new Date(2016, 3, 1),
+			status: 'PERFORMED',
+			// Specific fields
+			result: 'NEGATIVE',
+			numberOfAFB: 5,
+			sampleType: 'SPUTUM',
+			otherSampleType: 'asdasdasd',
+			visualAppearance: 'MUCOPURULENT'
+		}
+	},
+	{
+		type: 'CULTURE',
+		name: __('FollowUpType.CULTURE'),
+		monthOfTreatment: '1st month',
+		data: {
+			id: '334-5-3453-4',
+			// lab exam fields
+			dateCollected: new Date(2016, 2, 14),
+			sampleNumber: 'CUL2342345645',
+			comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações.',
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
+			dateRelease: new Date(2016, 4, 1),
+			method: 'METHODCULT2',
+			status: 'ONGOING',
+			// Specific fields
+			result: 'POSITIVE',
+			numberOfColonies: 2
+		}
+	},
+	{
+		type: 'MEDEXAM',
+		name: __('FollowUpType.MEDEXAM'),
+		monthOfTreatment: '2nd month',
+		data: {
+				id: '3-123-123-12-3123',
+				date: new Date(2016, 2, 16),
+				comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+				weight: 85.00,
+				height: 1.82,
+				appointmentType: 'SCHEDULLED',
+				usingPrescMedicines: 'NO',
+				reasonNotUsingPrescMedicines: null,
+				responsible: 'Mauricio Jesus dos Santos',
+				positionResponsible: 'Doctor'
+		}
+	},
+	{
+		type: 'XPERT',
+		name: __('FollowUpType.XPERT'),
+		monthOfTreatment: '3rd month',
+		data: {
+			id: '234-23-4-23',
+			// lab exam fields
+			dateCollected: new Date(2016, 4, 2),
+			sampleNumber: 'XPERT67257',
+			comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações e de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização',
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
+			dateRelease: new Date(2016, 4, 2),
+			status: 'PERFORMED',
+			// Specific fields
+			result: 'TB_NOT_DETECTED',
+			rifResult: 'RIF_NOT_DETECTED'
+		}
 	}
-}, {
-	type: 'MICROSCOPY',
-	name: __('FollowUpType.MICROSCOPY'),
-	monthOfTreatment: 'Month of Diagnosis',
-	data: {
-		id: '34-534-5-345',
-		// lab exam fields
-		dateCollected: new Date(2016, 1, 3),
-		sampleNumber: 'MIC020395474',
-		comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
-		laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
-		dateRelease: new Date(2016, 3, 1),
-		status: 'PERFORMED',
-		// Specific fields
-		result: 'NEGATIVE',
-		numberOfAFB: 5,
-		sampleType: 'SPUTUM',
-		otherSampleType: null,
-		visualAppearance: 'MUCOPURULENT'
-	}
-}, {
-	type: 'CULTURE',
-	name: __('FollowUpType.CULTURE'),
-	monthOfTreatment: '1st month',
-	data: {
-		id: '334-5-3453-4',
-		// lab exam fields
-		dateCollected: new Date(2016, 2, 14),
-		sampleNumber: 'CUL2342345645',
-		comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações.',
-		laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
-		dateRelease: new Date(2016, 4, 1),
-		method: 'METHODCULT2',
-		status: 'ONGOING',
-		// Specific fields
-		result: 'POSITIVE',
-		numberOfColonies: 2
-	}
-}, {
-	type: 'MEDEXAM',
-	name: __('FollowUpType.MEDEXAM'),
-	monthOfTreatment: '2nd month',
-	data: {
-		id: '3-123-123-12-3123',
-		date: new Date(2016, 2, 16),
-		comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
-		weight: 85.00,
-		height: 1.82,
-		appointmentType: 'SCHEDULLED',
-		usingPrescMedicines: 'NO',
-		reasonNotUsingPrescMedicines: null,
-		responsible: 'Mauricio Jesus dos Santos',
-		positionResponsible: 'Doctor'
-	}
-}, {
-	type: 'XPERT',
-	name: __('FollowUpType.XPERT'),
-	monthOfTreatment: '3rd month',
-	data: {
-		id: '234-23-4-23',
-		// lab exam fields
-		dateCollected: new Date(2016, 4, 2),
-		sampleNumber: 'XPERT67257',
-		comments: 'É importante questionar o quanto o início da atividade geral de formação de atitudes nos obriga à análise do fluxo de informações e de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização',
-		laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
-		dateRelease: new Date(2016, 4, 2),
-		status: 'PERFORMED',
-		// Specific fields
-		result: 'TB_NOT_DETECTED',
-		rifResult: 'RIF_NOT_DETECTED'
-	}
-}, {
-	type: 'MICROSCOPY',
-	name: __('FollowUpType.MICROSCOPY'),
-	monthOfTreatment: '4th month',
-	data: {
-		id: '35-34-53-4-3-5',
-		// lab exam fields
-		dateCollected: new Date(2016, 6, 2),
-		sampleNumber: 'MIC020395474',
-		comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
-		laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
-		dateRelease: new Date(2016, 6, 2),
-		method: 'METHODMIC2',
-		status: 'PERFORMED',
-		// Specific fields
-		result: 'NEGATIVE',
-		numberOfAFB: null,
-		sampleType: 'OTHER',
-		otherSampleType: 'skin',
-		visualAppearance: 'SALIVA'
-	}
-}, {
-	type: 'DST',
-	name: __('FollowUpType.DST'),
-	monthOfTreatment: '4th month',
-	data: {
-		id: '34-5-345-3',
-		// lab exam fields
-		dateCollected: new Date(2016, 6, 12),
-		sampleNumber: 'DST0395474',
-		comments: null,
-		laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
-		dateRelease: new Date(2016, 25, 3),
-		method: 'METHOD2',
-		status: 'PERFORMED',
-		// Specific fields
-		results: [{
-			substance: '024fadc0-1c4b-11e6-9ef7-4b7adf2d41c0',
-			result: 'RESISTANT'
-		}, {
-			substance: '024fadc2-1c4b-11e6-9ef7-4b7adf2d41c0',
-			result: 'RESISTANT'
-		}, {
-			substance: '00bd4df0-1c4b-11e6-9ef7-4b7adf2d41c0',
-			result: 'RESISTANT'
-		}, {
-			substance: '024fadc4-1c4b-11e6-9ef7-4b7adf2d41c0',
-			result: 'RESISTANT'
-		}, {
-			substance: '0173f3c0-1c4b-11e6-9ef7-4b7adf2d41c0',
-			result: 'RESISTANT'
-		}]
-	}
-}, {
-	type: 'XRAY',
-	name: __('FollowUpType.XRAY'),
-	monthOfTreatment: '4th month',
-	data: {
-		id: '546-565',
-		date: new Date(2016, 8, 14),
-		comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
-		// Specific fields
-		evolution: 'PROGRESSED',
-		presentation: 'PRESENTATION039'
-	}
-}, {
-	type: 'HIV',
-	name: __('FollowUpType.HIV'),
-	monthOfTreatment: '4th month',
-	data: {
-		id: '345-345-34-5-345',
-		date: new Date(2016, 10, 4),
-		comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
-		// Specific fields
-		result: 'POSITIVE',
-		startedARTdate: null,
-		startedCPTdate: new Date(2016, 4, 10),
-		laboratory: 'Ana neri'
-	}
-}];
+];
 
 /**
  * Mock data of a treatment
