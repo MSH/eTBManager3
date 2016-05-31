@@ -59,7 +59,8 @@ export default class UnitControl extends React.Component {
 				cmd: 'unit',
 				params: {
 					value: nextValue,
-					workspaceId: nextSchema.workspaceId
+					workspaceId: nextSchema.workspaceId,
+					type: nextSchema.unitType
 				}
 			};
 	}
@@ -87,6 +88,8 @@ export default class UnitControl extends React.Component {
 			params: {
 				// the workspace in use
 				workspaceId: this.props.schema.workspaceId,
+				// the workspace in use
+				type: this.props.schema.unitType,
 				// just the list of units
 				units: true,
 				// the selected admin unit
