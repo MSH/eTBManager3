@@ -24,8 +24,7 @@ public class SpringBootService {
                 SpringBootService.class.getClassLoader());
         System.out.println("Starting Spring Boot application [" + springBootApp.getName() + "]");
         SpringApplication
-                .run(springBootApp)
-                .close();
+                .run(springBootApp);
     }
 
     public void stop(String[] args) throws IOException {

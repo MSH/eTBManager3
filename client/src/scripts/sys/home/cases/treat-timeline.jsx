@@ -15,6 +15,12 @@ export default class TreatTimeline extends React.Component {
 		this.barClick = this.barClick.bind(this);
 	}
 
+	componentWillMount() {
+		this.setState({ ini: true });
+		const self = this;
+		setTimeout(() => self.setState({ ini: false }), 100);
+	}
+
 	renderHeader(period) {
 		const f = 'MMM-YYYY';
 
@@ -58,10 +64,16 @@ export default class TreatTimeline extends React.Component {
 	renderBar(pos, period) {
 		const color = period.color ? period.color : '#48AA8A';
 
+		// animation of the bars
+		const props = Object.assign({}, pos);
+		if (this.state.ini) {
+			props.width = 0;
+		}
+
 		return (
 				<rect key={period.ini} className="tm-column"
 					fill={color}
-					{...pos}
+					{...props}
 					onClick={this.barClick(period)}
 					rx="1" ry="1"/>
 			);
