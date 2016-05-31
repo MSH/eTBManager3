@@ -5,8 +5,6 @@ import { app } from '../../../core/app';
  * @return {[type]} [description]
  */
 
-// TODOMS: o campo other (string) de campos principai como specimen type seriam melhor exibidos se ao lado do campo principal.
-
 const medexam = {
 	layout: [
 	{
@@ -58,10 +56,17 @@ const medexam = {
 const microscopy = {
 	layout: [
 	{
-		type: 'select',
+		type: 'string',
+		visible: value => value.otherSampleType !== null && value.otherSampleType !== '',
+		label: __('SpecimenType'),
+		property: '{sampleType} - {otherSampleType}',
+		size: { sm: 4 }
+	},
+	{
+		type: 'string',
+		visible: value => value.otherSampleType === null || value.otherSampleType === '',
 		label: __('SpecimenType'),
 		property: 'sampleType',
-		options: app.getState().app.lists.SampleType,
 		size: { sm: 4 }
 	},
 	{
@@ -84,10 +89,9 @@ const microscopy = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'select',
+		type: 'string',
 		label: __('Laboratory'),
-		property: 'laboratory',
-		options: 'laboratories',
+		property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
 		size: { sm: 4 }
 	},
 	{
@@ -133,10 +137,9 @@ const culture = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'select',
+		type: 'string',
 		label: __('Laboratory'),
-		property: 'laboratory',
-		options: 'laboratories',
+		property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
 		size: { sm: 4 }
 	},
 	{
@@ -188,10 +191,9 @@ const xpert = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'select',
+		type: 'string',
 		label: __('Laboratory'),
-		property: 'laboratory',
-		options: 'laboratories',
+		property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
 		size: { sm: 4 }
 	},
 	{
@@ -232,10 +234,9 @@ const xpert = {
 const dstresultschema = {
 	layout: [
 		{
-			property: 'substance',
-			type: 'select',
+			property: 'substance', // TODOMS: use 'substance.name' when not using mockData anymore.
+			type: 'string',
 			label: __('Medicine.substances'),
-			options: 'substances',
 			size: { md: 6 }
 		},
 		{
@@ -268,10 +269,9 @@ const dst = {
 		size: { sm: 4 }
 	},
 	{
-		type: 'select',
+		type: 'string',
 		label: __('Laboratory'),
-		property: 'laboratory',
-		options: 'laboratories',
+		property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
 		size: { sm: 4 }
 	},
 	{

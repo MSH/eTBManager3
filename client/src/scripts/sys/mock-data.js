@@ -138,6 +138,95 @@ const followUp = [
 			result: 'TB_NOT_DETECTED',
 			rifResult: 'RIF_NOT_DETECTED'
 		}
+	},
+	{
+		type: 'MICROSCOPY',
+		name: __('FollowUpType.MICROSCOPY'),
+		monthOfTreatment: '4th month',
+		data: {
+			id: '35-34-53-4-3-5',
+			// lab exam fields
+			dateCollected: new Date(2016, 6, 2),
+			sampleNumber: 'MIC020395474',
+			comments: 'A prática cotidiana prova que a adoção de políticas descentralizadoras nos obriga à análise dos relacionamentos verticais entre as hierarquias.',
+			laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
+			dateRelease: new Date(2016, 6, 2),
+			method: 'METHODMIC2',
+			status: 'PERFORMED',
+			// Specific fields
+			result: 'NEGATIVE',
+			numberOfAFB: null,
+			sampleType: 'OTHER',
+			otherSampleType: 'skin',
+			visualAppearance: 'SALIVA'
+		}
+	},
+	{
+		type: 'DST',
+		name: __('FollowUpType.DST'),
+		monthOfTreatment: '4th month',
+		data: {
+				id: '34-5-345-3',
+				// lab exam fields
+				dateCollected: new Date(2016, 6, 12),
+				sampleNumber: 'DST0395474',
+				comments: null,
+				laboratory: 'da9ca1e1-1c48-11e6-9ef7-4b7adf2d41c0',
+				dateRelease: new Date(2016, 25, 3),
+				method: 'METHOD2',
+				status: 'PERFORMED',
+				// Specific fields
+				results: [
+					{
+						substance: '024fadc0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
+					},
+					{
+						substance: '024fadc2-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
+					},
+					{
+						substance: '00bd4df0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
+					},
+					{
+						substance: '024fadc4-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
+					},
+					{
+						substance: '0173f3c0-1c4b-11e6-9ef7-4b7adf2d41c0',
+						result: 'RESISTANT'
+					}
+				]
+		}
+	},
+	{
+		type: 'XRAY',
+		name: __('FollowUpType.XRAY'),
+		monthOfTreatment: '4th month',
+		data: {
+			id: '546-565',
+			date: new Date(2016, 8, 14),
+			comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+			// Specific fields
+			evolution: 'PROGRESSED',
+			presentation: 'PRESENTATION039'
+		}
+	},
+	{
+		type: 'HIV',
+		name: __('FollowUpType.HIV'),
+		monthOfTreatment: '4th month',
+		data: {
+			id: '345-345-34-5-345',
+			date: new Date(2016, 10, 4),
+			comments: 'Gostaria de enfatizar que o fenômeno da Internet acarreta um processo de reformulação e modernização das novas proposições.',
+			// Specific fields
+			result: 'POSITIVE',
+			startedARTdate: null,
+			startedCPTdate: new Date(2016, 4, 10),
+			laboratory: 'Ana neri'
+		}
 	}
 ];
 

@@ -12,6 +12,7 @@ const medexam = {
 		type: 'date',
 		label: __('cases.details.date'),
 		property: 'date',
+		required: true,
 		size: { sm: 6 }
 	},
 	{
@@ -32,6 +33,7 @@ const medexam = {
 		label: __('MedicalExamination.usingPrescMedicines'),
 		property: 'usingPrescMedicines',
 		options: app.getState().app.lists.YesNoType,
+		required: true,
 		size: { sm: 12 }
 	},
 	{
@@ -42,24 +44,26 @@ const medexam = {
 				type: 'string',
 				label: __('MedicalExamination.reasonNotUsingPrescMedicines'),
 				property: 'reasonNotUsingPrescMedicines',
+				required: true,
 				size: { sm: 12 }
 			}
 		]
 	},
 	{
 		type: 'number',
-		property: '{weight} Kg',
+		property: 'weight',
 		label: __('MedicalExamination.weight'),
+		required: true,
 		size: { sm: 6 }
 	},
 	{
 		type: 'number',
 		label: __('MedicalExamination.height'),
-		property: '{height} cm',
+		property: 'height',
 		size: { sm: 6 }
 	},
 	{
-		type: 'string',
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
@@ -72,7 +76,8 @@ const microscopy = {
 		type: 'date',
 		label: __('cases.exams.date'),
 		property: 'dateCollected',
-		size: { sm: 6 }
+		required: true,
+		size: { sm: 12 }
 	},
 	{
 		type: 'select',
@@ -89,7 +94,7 @@ const microscopy = {
 				type: 'string',
 				label: __('SampleType.OTHER'),
 				property: 'otherSampleType',
-				size: { sm: 12 }
+				size: { sm: 6 }
 			}
 		]
 	},
@@ -97,7 +102,7 @@ const microscopy = {
 		type: 'string',
 		label: __('PatientSample.sampleNumber'),
 		property: 'sampleNumber',
-		size: { sm: 6 }
+		size: { sm: 6, newLine: true }
 	},
 	{
 		type: 'select',
@@ -107,52 +112,42 @@ const microscopy = {
 		size: { sm: 6 }
 	},
 	{
-		type: 'select',
+		type: 'unit',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		options: 'laboratories',
-		size: { sm: 12 }
+		unitType: 'LAB',
+		required: true,
+		size: { sm: 6 }
+	},
+	{
+		type: 'date',
+		label: __('cases.exams.dateRelease'),
+		property: 'dateRelease',
+		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		label: __('ExamStatus'),
-		property: 'status',
-		options: app.getState().app.lists.ExamStatus,
-		size: { sm: 12 }
+		label: __('cases.details.result'),
+		property: 'result',
+		options: app.getState().app.lists.MicroscopyResult,
+		required: true,
+		size: { sm: 6 }
 	},
 	{
 		type: 'group',
-		visible: value => value.status === 'PERFORMED',
+		visible: value => value.result === 'POSITIVE',
 		layout: [
 			{
-				type: 'date',
-				label: __('cases.exams.dateRelease'),
-				property: 'dateRelease',
-				size: { sm: 12 }
-			},
-			{
 				type: 'select',
-				label: __('cases.details.result'),
-				property: 'result',
-				options: app.getState().app.lists.MicroscopyResult,
-				size: { sm: 12 }
-			},
-			{
-				type: 'group',
-				visible: value => value.result === 'POSITIVE',
-				layout: [
-					{
-						type: 'number',
-						label: __('cases.exams.afb'),
-						property: 'numberOfAFB',
-						size: { sm: 12 }
-					}
-				]
+				label: __('cases.exams.afb'),
+				property: 'numberOfAFB',
+				options: { from: 1, to: 9 },
+				size: { sm: 6 }
 			}
 		]
 	},
 	{
-		type: 'string',
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
@@ -165,6 +160,7 @@ const culture = {
 		type: 'date',
 		label: __('cases.exams.date'),
 		property: 'dateCollected',
+		required: true,
 		size: { sm: 6 }
 	},
 	{
@@ -174,58 +170,48 @@ const culture = {
 		size: { sm: 6 }
 	},
 	{
-		type: 'select',
+		type: 'unit',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		options: 'laboratories',
-		size: { sm: 12 }
+		unitType: 'LAB',
+		required: true,
+		size: { sm: 6 }
+	},
+	{
+		type: 'date',
+		label: __('cases.exams.dateRelease'),
+		property: 'dateRelease',
+		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		label: __('ExamStatus'),
-		property: 'status',
-		options: app.getState().app.lists.ExamStatus,
-		size: { sm: 12 }
+		label: __('cases.details.result'),
+		property: 'result',
+		options: app.getState().app.lists.CultureResult,
+		required: true,
+		size: { sm: 6 }
 	},
 	{
 		type: 'group',
-		visible: value => value.status === 'PERFORMED',
+		visible: value => value.result === 'POSITIVE',
 		layout: [
 			{
-				type: 'date',
-				label: __('cases.exams.dateRelease'),
-				property: 'dateRelease',
-				size: { sm: 12 }
-			},
-			{
+				property: 'numberOfColonies',
 				type: 'select',
-				label: __('cases.details.result'),
-				property: 'result',
-				options: app.getState().app.lists.CultureResult,
-				size: { sm: 12 }
-			},
-			{
-				type: 'group',
-				visible: value => value.result === 'POSITIVE',
-				layout: [
-					{
-						type: 'number',
-						label: __('ExamCulture.numberOfColonies'),
-						property: 'numberOfColonies',
-						size: { sm: 12 }
-					}
-				]
-			},
-			{
-				type: 'string',
-				label: __('cases.exams.media'),
-				property: 'method',
-				size: { sm: 12 }
+				label: __('ExamCulture.numberOfColonies'),
+				options: { from: 1, to: 9 },
+				size: { sm: 6 }
 			}
 		]
 	},
 	{
 		type: 'string',
+		label: __('cases.exams.media'),
+		property: 'method',
+		size: { sm: 12, newLine: true }
+	},
+	{
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
@@ -238,6 +224,7 @@ const xpert = {
 		type: 'date',
 		label: __('cases.exams.date'),
 		property: 'dateCollected',
+		required: true,
 		size: { sm: 6 }
 	},
 	{
@@ -247,54 +234,43 @@ const xpert = {
 		size: { sm: 6 }
 	},
 	{
-		type: 'select',
+		type: 'unit',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		options: 'laboratories',
-		size: { sm: 12 }
+		unitType: 'LAB',
+		required: true,
+		size: { sm: 6 }
+	},
+	{
+		type: 'date',
+		label: __('cases.exams.dateRelease'),
+		property: 'dateRelease',
+		size: { sm: 6 }
 	},
 	{
 		type: 'select',
-		label: __('ExamStatus'),
-		property: 'status',
-		options: app.getState().app.lists.ExamStatus,
-		size: { sm: 12 }
+		label: __('cases.details.result'),
+		property: 'result',
+		options: app.getState().app.lists.XpertResult,
+		required: true,
+		size: { sm: 6 }
 	},
-
 	{
 		type: 'group',
-		visible: value => value.status === 'PERFORMED',
+		visible: value => value.result === 'TB_DETECTED',
 		layout: [
 			{
-				type: 'date',
-				label: __('cases.exams.dateRelease'),
-				property: 'dateRelease',
-				size: { sm: 6 }
-			},
-			{
 				type: 'select',
-				label: __('cases.details.result'),
-				property: 'result',
-				options: app.getState().app.lists.XpertResult,
+				label: __('XpertResult.rifresult'),
+				property: 'rifResult',
+				options: app.getState().app.lists.XpertRifResult,
+				required: true,
 				size: { sm: 6 }
-			},
-			{
-				type: 'group',
-				visible: value => value.result === 'TB_DETECTED',
-				layout: [
-					{
-						type: 'select',
-						label: __('XpertResult.rifresult'),
-						property: 'rifResult',
-						options: app.getState().app.lists.XpertRifResult,
-						size: { sm: 12 }
-					}
-				]
 			}
 		]
 	},
 	{
-		type: 'string',
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
@@ -326,6 +302,7 @@ const dst = {
 		type: 'date',
 		label: __('cases.exams.date'),
 		property: 'dateCollected',
+		required: true,
 		size: { sm: 6 }
 	},
 	{
@@ -335,76 +312,63 @@ const dst = {
 		size: { sm: 6 }
 	},
 	{
-		type: 'select',
+		type: 'unit',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		options: 'laboratories',
+		required: true,
+		unitType: 'LAB',
 		size: { sm: 12 }
 	},
 	{
-		type: 'select',
-		label: __('ExamStatus'),
-		property: 'status',
-		options: app.getState().app.lists.ExamStatus,
+		type: 'date',
+		label: __('cases.exams.dateRelease'),
+		property: 'dateRelease',
+		size: { sm: 6 }
+	},
+	{
+		type: 'string',
+		label: __('cases.exams.method'),
+		property: 'method',
+		size: { sm: 6 }
+	},
+	{
+		property: 'results',
+		type: 'tableForm',
+		fschema: dstresultschema,
+		label: __('cases.details.result'),
+		min: 1,
 		size: { sm: 12 }
 	},
 	{
-		type: 'group',
-		visible: value => value.status === 'PERFORMED',
-		layout: [
-			{
-				type: 'date',
-				label: __('cases.exams.dateRelease'),
-				property: 'dateRelease',
-				size: { sm: 6 }
-			},
-			{
-				type: 'string',
-				label: __('cases.exams.method'),
-				property: 'method',
-				size: { sm: 6 }
-			},
-			{
-				type: 'string',
-				label: __('global.comments'),
-				property: 'comments',
-				size: { sm: 12 }
-			},
-			{
-				property: 'results',
-				type: 'tableForm',
-				fschema: dstresultschema,
-				label: __('cases.details.result'),
-				size: { sm: 12 }
-			}
-		]
+		type: 'text',
+		label: __('global.comments'),
+		property: 'comments',
+		size: { sm: 12 }
 	}]
 };
 
 const hiv = {
-	defaultProperties: {
-		startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
-		startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
-	},
 	layout: [
 	{
 		type: 'date',
 		label: __('cases.details.date'),
 		property: 'date',
-		size: { sm: 6 }
+		required: true,
+		size: { sm: 4 }
 	},
 	{
 		type: 'string',
 		label: __('Laboratory'),
 		property: 'laboratory',
-		size: { sm: 6 }
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
 		label: __('cases.details.result'),
 		property: 'result',
 		options: app.getState().app.lists.HIVResult,
-		size: { sm: 12 }
+		required: true,
+		size: { sm: 4 }
 	},
 	{
 		type: 'group',
@@ -425,7 +389,7 @@ const hiv = {
 		]
 	},
 	{
-		type: 'string',
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
@@ -438,23 +402,25 @@ const xray = {
 		type: 'date',
 		label: __('cases.details.date'),
 		property: 'date',
-		size: { sm: 12 }
+		required: true,
+		size: { sm: 4 }
 	},
 	{
 		type: 'string',
 		label: __('TbField.XRAYPRESENTATION'),
 		property: 'presentation',
-		size: { sm: 6 }
+		required: true,
+		size: { sm: 4 }
 	},
 	{
 		type: 'select',
 		label: __('XRayEvolution'),
 		property: 'evolution',
 		options: app.getState().app.lists.XRayEvolution,
-		size: { sm: 6 }
+		size: { sm: 4 }
 	},
 	{
-		type: 'string',
+		type: 'text',
 		label: __('global.comments'),
 		property: 'comments',
 		size: { sm: 12 }
