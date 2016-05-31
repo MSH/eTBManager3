@@ -299,6 +299,27 @@ const mockTreatment = {
 					doseUnit: 2
 				}
 			]
+		},
+		{
+			medicine: {
+				id: '123123123-4',
+				name: 'Etionamid 250mg',
+				shortName: 'E 250mg'
+			},
+			periods: [
+				{
+					ini: '2015-03-01',
+					end: '2015-04-01',
+					frequency: 5,
+					doseUnit: 2
+				},
+				{
+					ini: '2015-09-01',
+					end: '2016-10-01',
+					frequency: 5,
+					doseUnit: 2
+				}
+			]
 		}
 	],
 	units: [

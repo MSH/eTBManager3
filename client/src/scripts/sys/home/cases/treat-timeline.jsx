@@ -2,12 +2,24 @@ import React from 'react';
 import moment from 'moment';
 import { Grid, Row, Col } from 'react-bootstrap';
 
+import './treat-timeline.less';
 
 function SVG(props) {
 	return <svg width="100%" viewBox="0 0 100 4">{props.children}</svg>;
 }
 
 export default class TreatTimeline extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.barClick = this.barClick.bind(this);
+	}
+
+	componentWillMount() {
+		this.setState({ ini: true });
+		const self = this;
+		setTimeout(() => self.setState({ ini: false }), 100);
+	}
 
 	renderHeader(period) {
 		const f = 'MMM-YYYY';
@@ -30,19 +42,40 @@ export default class TreatTimeline extends React.Component {
 			);
 	}
 
-	renderBar(treat, period) {
+
+	barClick(period) {
+		return evt => {
+			console.log(period, evt);
+		};
+	}
+
+	calcRect(treat, period) {
 		const ini = moment(period.ini);
 		const end = moment(period.end);
 
-		const x = ini.diff(treat.ini, 'days') / treat.days * 100;
-		const width = end.diff(ini, 'days') / treat.days * 100;
+		return {
+			x: ini.diff(treat.ini, 'days') / treat.days * 100,
+			y: 0,
+			width: end.diff(ini, 'days') / treat.days * 100,
+			height: 4
+		};
+	}
 
+	renderBar(pos, period) {
 		const color = period.color ? period.color : '#48AA8A';
 
+		// animation of the bars
+		const props = Object.assign({}, pos);
+		if (this.state.ini) {
+			props.width = 0;
+		}
+
 		return (
-				<rect key={period.ini}
-					x={x} y="0" width={width} height="4"
-					fill={color} rx="1" ry="1"/>
+				<rect key={period.ini} className="tm-column"
+					fill={color}
+					{...props}
+					onClick={this.barClick(period)}
+					rx="1" ry="1"/>
 			);
 	}
 
@@ -50,14 +83,36 @@ export default class TreatTimeline extends React.Component {
 	renderColumn(treat, periods) {
 		const self = this;
 
+		const comps = [];
+		// render for each period
+		periods.forEach((p, index) => {
+			// calculate the position
+			const pos = self.calcRect(treat, p);
+			// add the bar
+			comps.push(self.renderBar(pos, p));
+
+			// is there any custom text
+			if (p.text) {
+				comps.push(<svg key={'t' + index} {...pos}><text x="1" y="2.6" fontSize="2" fill="white">{p.text}</text></svg>);
+			}
+		});
+
 		return (
 			<SVG>
 				<rect x="0" y="0" width="100" height="4" fill="#e8e8e8" rx="1" ry="1"/>
-				{
-					periods.map(p => self.renderBar(treat, p))
-				}
+				{comps}
 			</SVG>
 			);
+	}
+
+	renderPrescColumn(treat, periods) {
+		const lst = periods.map(p => ({
+			ini: p.ini,
+			end: p.end,
+			text: p.doseUnit + ' (' + p.frequency + '/7)'
+		}));
+
+		return this.renderColumn(treat, lst);
 	}
 
 
@@ -76,23 +131,17 @@ export default class TreatTimeline extends React.Component {
 
 		period.days = period.end.diff(period.ini, 'days');
 
-		// current unit under treatment
-		const unitName = treat.units[treat.units.length - 1].unit.name;
-
 		// prescribed medicines
 		const prescs = this.props.treatment.prescriptions;
 
 		const titleSize = { md: 3 };
 		const barSize = { md: 9 };
 
-		const colors = [
-			'#2980b9', '#2C3E50', '#E67E22'
-		];
-
-		const units = treat.units.map((it, index) => ({
+		const units = treat.units.map(it => ({
 			ini: it.ini,
 			end: it.end,
-			color: colors[index % 3]
+			text: it.unit.name,
+			color: '#E67E22' // '#2980b9'
 		}));
 
 		return (
@@ -105,9 +154,11 @@ export default class TreatTimeline extends React.Component {
 				</Row>
 				<Row>
 					<Col {...titleSize}>
+						<b>
 						{
-							unitName
+							__('TbCase.healthUnits')
 						}
+						</b>
 					</Col>
 					<Col {...barSize}>
 						{this.renderColumn(period, units)}
@@ -123,7 +174,7 @@ export default class TreatTimeline extends React.Component {
 							</Col>
 							<Col {...barSize}>
 								<SVG>
-								{this.renderColumn(period, it.periods)}
+								{this.renderPrescColumn(period, it.periods)}
 								</SVG>
 							</Col>
 						</Row>
