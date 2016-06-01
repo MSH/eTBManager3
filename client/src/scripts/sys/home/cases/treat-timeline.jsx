@@ -1,28 +1,34 @@
 import React from 'react';
 import moment from 'moment';
 import { Grid, Row, Col } from 'react-bootstrap';
+import TreatPopup from './treat-popup';
+import { durationDisplay } from '../../../commons/utils';
+
 
 import './treat-timeline.less';
 
-function SVG(props) {
-	return <svg width="100%" viewBox="0 0 100 4">{props.children}</svg>;
-}
 
 export default class TreatTimeline extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.barClick = this.barClick.bind(this);
+		this._popupHide = this._popupHide.bind(this);
 	}
 
 	componentWillMount() {
-		this.setState({ ini: true });
+		this.setState({ ini: true, ppshow: false });
 		const self = this;
 		setTimeout(() => self.setState({ ini: false }), 100);
 	}
 
+	SVG(props) {
+		return <svg width="100%" viewBox="0 0 100 4">{props.children}</svg>;
+	}
+
 	renderHeader(period) {
 		const f = 'MMM-YYYY';
+		const SVG = this.SVG;
 
 		return (
 			<SVG>
@@ -33,7 +39,7 @@ export default class TreatTimeline extends React.Component {
 					{period.ini.format(f)}
 				</text>
 				<text x="50" y="2.2" fontSize="2.5" textAnchor="middle">
-					{moment.duration(period.days, 'days').humanize()}
+					{durationDisplay(period.ini, period.end)}
 				</text>
 				<line x1="0" y1="3.2" x2="100" y2="3.2" stroke="#a0a0a0" strokeWidth="0.1"/>
 				<line x1="0" y1="2" x2="0" y2="4" stroke="#a0a0a0" strokeWidth="0.1" />
@@ -44,14 +50,27 @@ export default class TreatTimeline extends React.Component {
 
 
 	barClick(period) {
+		const self = this;
 		return evt => {
-			console.log(period, evt);
+			const target = evt.target;
+			const show = self.state.pptarget !== target;
+			setTimeout(() =>
+				self.setState({
+					pptarget: show ? target : null,
+					data: period,
+					ppshow: show
+				})
+			, 100);
 		};
 	}
 
+	_popupHide() {
+		this.setState({ ppshow: false, target: null });
+	}
+
 	calcRect(treat, period) {
-		const ini = moment(period.ini);
-		const end = moment(period.end);
+		const ini = period.ini;
+		const end = period.end;
 
 		return {
 			x: ini.diff(treat.ini, 'days') / treat.days * 100,
@@ -71,10 +90,9 @@ export default class TreatTimeline extends React.Component {
 		}
 
 		return (
-				<rect key={period.ini} className="tm-column"
+				<rect key={period.ini}
 					fill={color}
 					{...props}
-					onClick={this.barClick(period)}
 					rx="1" ry="1"/>
 			);
 	}
@@ -88,15 +106,25 @@ export default class TreatTimeline extends React.Component {
 		periods.forEach((p, index) => {
 			// calculate the position
 			const pos = self.calcRect(treat, p);
+
+			pos.onClick = self.barClick(p);
+			pos.className = 'tm-column';
 			// add the bar
 			comps.push(self.renderBar(pos, p));
 
 			// is there any custom text
 			if (p.text) {
-				comps.push(<svg key={'t' + index} {...pos}><text x="1" y="2.6" fontSize="2" fill="white">{p.text}</text></svg>);
+				comps.push(
+					<svg key={'t' + index} {...pos}>
+						<text x="1" y="2.6" fontSize="2" fill="white">
+							{p.text}
+						</text>
+					</svg>
+				);
 			}
 		});
 
+		const SVG = this.SVG;
 		return (
 			<SVG>
 				<rect x="0" y="0" width="100" height="4" fill="#e8e8e8" rx="1" ry="1"/>
@@ -105,11 +133,13 @@ export default class TreatTimeline extends React.Component {
 			);
 	}
 
-	renderPrescColumn(treat, periods) {
+	renderPrescColumn(treat, periods, presc) {
 		const lst = periods.map(p => ({
-			ini: p.ini,
-			end: p.end,
-			text: p.doseUnit + ' (' + p.frequency + '/7)'
+			ini: moment(p.ini),
+			end: moment(p.end),
+			text: p.doseUnit + ' (' + p.frequency + '/7)',
+			data: p,
+			presc: presc
 		}));
 
 		return this.renderColumn(treat, lst);
@@ -138,11 +168,14 @@ export default class TreatTimeline extends React.Component {
 		const barSize = { md: 9 };
 
 		const units = treat.units.map(it => ({
-			ini: it.ini,
-			end: it.end,
+			ini: moment(it.ini),
+			end: moment(it.end),
 			text: it.unit.name,
+			data: it,
 			color: '#E67E22' // '#2980b9'
 		}));
+
+		const SVG = this.SVG;
 
 		return (
 			<Grid fluid>
@@ -166,20 +199,25 @@ export default class TreatTimeline extends React.Component {
 				</Row>
 				{
 					prescs.map(it => (
-						<Row key={it.medicine.id} className="tbl-row">
+						<Row key={it.product.id} className="tbl-row">
 							<Col {...titleSize}>
 								{
-									it.medicine.name
+									it.product.name
 								}
 							</Col>
 							<Col {...barSize}>
 								<SVG>
-								{this.renderPrescColumn(period, it.periods)}
+								{this.renderPrescColumn(period, it.periods, it)}
 								</SVG>
 							</Col>
 						</Row>
 						))
 				}
+				<TreatPopup ref="popup"
+					data={this.state.data}
+					show={this.state.ppshow}
+					onHide={this._popupHide}
+					target={this.state.pptarget} />
 			</Grid>
 			);
 	}

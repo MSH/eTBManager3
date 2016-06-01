@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, Col, Row } from 'react-bootstrap';
-import { Card, WaitIcon } from '../../../components';
+import { Grid, Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Card, WaitIcon, Fa } from '../../../components';
 import Form from '../../../forms/form';
 import { server } from '../../../commons/server';
 import TreatProgress from './treat-progress';
@@ -56,6 +56,15 @@ export default class CaseTreatment extends React.Component {
 			return <WaitIcon type="card" />;
 		}
 
+		const optionsBtn = (
+			<DropdownButton className="lnk-muted" bsStyle="link"
+				title={<Fa icon="cog" />} id="ttmenu" pullRight>
+				<MenuItem>{__('Regimen.add')}</MenuItem>
+				<MenuItem>{__('cases.regimens.change')}</MenuItem>
+				<MenuItem>{__('cases.treat.undo')}</MenuItem>
+			</DropdownButton>
+			);
+
 		return (
 			<div>
 				<Card title={__('cases.details.treatment')}>
@@ -71,7 +80,7 @@ export default class CaseTreatment extends React.Component {
 					</Grid>
 				</Card>
 
-				<Card title="Prescribed medicines">
+				<Card title={__('cases.details.treatment.prescmeds')} headerRight={optionsBtn}>
 					<TreatTimeline treatment={data} />
 				</Card>
 

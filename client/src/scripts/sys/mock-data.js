@@ -161,7 +161,7 @@ const mockTreatment = {
 	},
 	prescriptions: [
 		{
-			medicine: {
+			product: {
 				id: '123123123',
 				name: 'Terizidon 250mg',
 				shortName: 'T 250mg'
@@ -182,7 +182,7 @@ const mockTreatment = {
 			]
 		},
 		{
-			medicine: {
+			product: {
 				id: '123123123-2',
 				name: 'Etambutol 250mg',
 				shortName: 'E 250mg'
@@ -197,7 +197,7 @@ const mockTreatment = {
 			]
 		},
 		{
-			medicine: {
+			product: {
 				id: '123123123-3',
 				name: 'Isoniazid 250mg',
 				shortName: 'H 250mg'
@@ -212,7 +212,7 @@ const mockTreatment = {
 			]
 		},
 		{
-			medicine: {
+			product: {
 				id: '123123123-4',
 				name: 'Etionamid 250mg',
 				shortName: 'E 250mg'
