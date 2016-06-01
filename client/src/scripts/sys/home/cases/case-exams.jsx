@@ -1,25 +1,19 @@
 import React from 'react';
-import { Alert, DropdownButton, MenuItem, Row, Col, Grid } from 'react-bootstrap';
+import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
 import { SelectionBox, MessageDlg, Fa } from '../../../components';
 import moment from 'moment';
 
 import FollowupDisplay from './followup-display';
 import FollowupModal from './followup-modal';
 
-const options = [
-	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM') },
-	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY') },
-	{ id: 'CULTURE', name: __('FollowUpType.CULTURE') },
-	{ id: 'XPERT', name: __('FollowUpType.XPERT') },
-	{ id: 'DST', name: __('FollowUpType.DST') },
-	{ id: 'XRAY', name: __('FollowUpType.XRAY') },
-	{ id: 'HIV', name: __('FollowUpType.HIV') }
-];
+import { getFollowUpTypes, getFollowUpType } from './followup-utils';
 
 export default class CaseExams extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		const options = getFollowUpTypes();
 
 		this.onFilterChange = this.onFilterChange.bind(this);
 		this.startOperation = this.startOperation.bind(this);
@@ -37,24 +31,26 @@ export default class CaseExams extends React.Component {
 	/**
 	 * Insert on state values that will control the operation in progress
 	 * @param  {[type]} opTypeP       New(new), edit(edt) or delete(del)
-	 * @param  {[type]} followUpTypeP Alias of followup to identify the schema
-	 * @param  {[type]} followUpNameP Name of followup for title
+	 * @param  {[type]} followUpTypeP object with the details of followUp type
 	 * @param  {[type]} docP          Data of followup used on delete and edit operation
 	 * @return {[type]}               function that create the operation object on the state of this component
 	 */
-	startOperation(opTypeP, followUpTypeP, followUpNameP, docP) {
+	startOperation(opTypeP, followUpTypeP, docP) {
 		const self = this;
 
 		return () => {
 			const op = {};
 			op.opType = opTypeP;
 			op.followUpType = followUpTypeP;
-			op.followUpName = followUpNameP;
 			op.doc = docP;
 			self.setState({ operation: op });
 		};
 	}
 
+	/**
+	 * Clear operation object to end any kind of operation
+	 * @return {[type]} [description]
+	 */
 	endOperation() {
 		const self = this;
 
@@ -62,31 +58,10 @@ export default class CaseExams extends React.Component {
 			const op = {
 				opType: null,
 				followUpType: null,
-				followUpName: null,
 				doc: null
 			};
 			self.setState({ operation: op });
 		};
-	}
-
-	renderDelTitle() {
-		const op = this.state.operation;
-
-		if (!op.doc) {
-			return null;
-		}
-
-		var datefield = 'dateCollected';
-		if (op.followUpType === 'MEDEXAM' || op.followUpType === 'HIV' || op.followUpType === 'XRAY') {
-			datefield = 'date';
-		}
-
-		var delTitle = __('action.delete') + ' - ';
-		delTitle = delTitle + op.followUpName + ' ';
-		delTitle = delTitle + moment(op.doc[datefield]).format('ll');
-
-
-		return delTitle;
 	}
 
 	onFilterChange() {
@@ -112,6 +87,21 @@ export default class CaseExams extends React.Component {
 		return false;
 	}
 
+	renderDelTitle() {
+		const op = this.state.operation;
+
+		if (!op.doc) {
+			return null;
+		}
+
+		var delTitle = __('action.delete') + ' - ';
+		delTitle = delTitle + op.followUpName + ' ';
+		delTitle = delTitle + moment(op.doc[op.followUpType.dateField]).format('ll');
+
+
+		return delTitle;
+	}
+
 	/**
 	 * Render the exams and medical consultations to be displayed
 	 * @param  {[type]} issues [description]
@@ -127,7 +117,7 @@ export default class CaseExams extends React.Component {
 			{
 				followup.map((item) => (
 					<div key={item.data.id}>
-						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', item.type, item.name, item.data)} onDelete={this.startOperation('del', item.type, item.name, item.data)}/>}
+						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', getFollowUpType(item.type), item.data)} onDelete={this.startOperation('del', getFollowUpType(item.type), item.data)}/>}
 					</div>
 				))
 			}
@@ -136,6 +126,8 @@ export default class CaseExams extends React.Component {
 	}
 
 	render() {
+		const options = getFollowUpTypes();
+
 		return (
 			<div>
 				<Row>
@@ -143,7 +135,7 @@ export default class CaseExams extends React.Component {
 						<DropdownButton id="newFollowUp" bsStyle="default" title={<span><Fa icon="plus-circle"/>{__('action.add')}</span>}>
 							{
 								options.map((item, index) => (
-									<MenuItem key={index} eventKey={index} onSelect={this.startOperation('new', item.id, item.name, {})} >{item.name}</MenuItem>
+									<MenuItem key={index} eventKey={index} onSelect={this.startOperation('new', getFollowUpType(item.id), {})} >{item.name}</MenuItem>
 								))
 							}
 						</DropdownButton>
@@ -173,7 +165,6 @@ export default class CaseExams extends React.Component {
 					onClose={this.endOperation()}
 					opType={this.state.operation.opType}
 					followUpType={this.state.operation.followUpType}
-					followUpName={this.state.operation.followUpName}
 					doc={this.state.operation.doc} />
 
 			</div>);

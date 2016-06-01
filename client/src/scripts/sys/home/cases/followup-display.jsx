@@ -4,7 +4,7 @@ import { Card, Fa } from '../../../components';
 import { OverlayTrigger, Tooltip, Col, Row } from 'react-bootstrap';
 
 import moment from 'moment';
-import { getDisplaySchema } from './followup-display-schemas';
+import { getDisplaySchema, getFollowUpType } from './followup-utils';
 
 export default class FollowupDisplay extends React.Component {
 
@@ -13,12 +13,6 @@ export default class FollowupDisplay extends React.Component {
 	}
 
 	renderButtons() {
-		/* return (<div className="mtop-2x">
-					<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
-					<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-						<a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
-					</OverlayTrigger>
-				</div>); */
 		return (<div className="pull-right">
 								<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
 								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
@@ -29,6 +23,7 @@ export default class FollowupDisplay extends React.Component {
 
 	renderHeader() {
 		const followup = this.props.followup;
+		const followUpType = getFollowUpType(followup.type);
 
 		const schema = getDisplaySchema(followup.type);
 		const doc = followup.data;
@@ -37,17 +32,12 @@ export default class FollowupDisplay extends React.Component {
 			return null;
 		}
 
-		var datefield = 'dateCollected';
-		if (followup.type === 'MEDEXAM' || followup.type === 'HIV' || followup.type === 'XRAY') {
-			datefield = 'date';
-		}
-
 		var month = ' - ';
 		month = month + followup.monthOfTreatment;
 
 		const subtitle = (<div>
 							{
-								moment(doc[datefield]).format('ll')
+								moment(doc[followUpType.dateField]).format('ll')
 							}
 							{
 								followup.monthOfTreatment && <span>{month}</span>
@@ -57,7 +47,7 @@ export default class FollowupDisplay extends React.Component {
 		const header = (<Row className="profile profile-medium">
 							<Col sm={10}>
 								<div className="profile-image">
-									<Fa icon={followup.type === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />
+									<Fa icon={followUpType.icon} />
 								</div>
 								<div className="profile-title">{followup.name}</div>
 								<div className="profile-subtitle">{subtitle}</div>
@@ -77,7 +67,7 @@ export default class FollowupDisplay extends React.Component {
 	render() {
 		const followup = this.props.followup;
 
-		const schema = getDisplaySchema(followup.type.toLowerCase());
+		const schema = getDisplaySchema(followup.type);
 		const doc = followup.data;
 
 		if (!schema || !doc) {
