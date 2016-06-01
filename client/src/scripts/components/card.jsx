@@ -29,7 +29,17 @@ export default class Card extends React.Component {
         }
 
         if (header) {
-            header = <div className="card-header">{header}</div>;
+            header = (
+                <div className="card-header">
+                    {
+                        this.props.headerRight &&
+                        <div className="pull-right">
+                            {this.props.headerRight}
+                        </div>
+                    }
+                    {header}
+                </div>
+                );
         }
 
         const cn = this.props.className;
@@ -63,7 +73,9 @@ Card.propTypes = {
     padding: React.PropTypes.oneOf(['none', 'small', 'default', 'combine']),
     highlight: React.PropTypes.bool,
     closeBtn: React.PropTypes.bool,
-    onClose: React.PropTypes.func
+    onClose: React.PropTypes.func,
+    // anything (usually buttons) that must be included in the right side of the header
+    headerRight: React.PropTypes.node
 };
 
 Card.defaulProps = {

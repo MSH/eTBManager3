@@ -3,6 +3,7 @@
  */
 
 import React from 'react';
+import moment from 'moment';
 
 export function format(fmtstr) {
   var args = Array.prototype.slice.call(arguments, 1);
@@ -202,4 +203,44 @@ export function textToComp(text) {
         ));
 
     return <div>{txt}</div>;
+}
+
+/**
+ * Return the difference between two lines in a friendly format to be displayed
+ * @param  {[type]} dtini The initial date, in string or momentum format
+ * @param  {[type]} dtend The final date, in string or momentum format
+ * @return {[type]}       String containing the time difference between the two dates
+ */
+export function durationDisplay(dtini, dtend) {
+    const ini = moment(dtini);
+    const end = moment(dtend);
+
+    const days = end.diff(ini, 'd');
+
+    var res = [];
+
+    // check years
+    let val = moment.duration(days, 'd').asYears();
+    var n = Math.floor(val);
+    if (n > 0) {
+        res.push(n + ' ' + (n === 1 ? __('datetime.year') : __('datetime.years')));
+        val -= n;
+    }
+
+    // check months
+    val = moment.duration(val, 'y').asMonths();
+    n = Math.floor(val);
+    if (n > 0) {
+        res.push(n + ' ' + (n === 1 ? __('datetime.month') : __('datetime.months')));
+        val -= n;
+    }
+
+    // check days
+    val = moment.duration(val, 'M').asDays();
+    n = Math.floor(val);
+    if (n > 0) {
+        res.push(n + ' ' + (n === 1 ? __('datetime.day') : __('datetime.days')));
+    }
+
+    return res.join(', ');
 }
