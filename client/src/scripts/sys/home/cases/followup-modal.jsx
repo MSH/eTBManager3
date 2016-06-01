@@ -13,6 +13,8 @@ export default class FollowupModal extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.save = this.save.bind(this);
+
 		this.state = { doc: {} };
 	}
 
@@ -39,6 +41,11 @@ export default class FollowupModal extends React.Component {
 		return (<span><Fa icon={this.props.followUpType === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />{title}</span>);
 	}
 
+	save() {
+		console.log('go to server and save it! Dont forget to return a promise');
+		this.props.onClose();
+	}
+
 	render() {
 		if (!this.props.opType || this.props.opType === 'del') {
 			return null;
@@ -52,6 +59,7 @@ export default class FollowupModal extends React.Component {
 				schema={fschema}
 				doc={this.props.doc}
 				onCancel={this.props.onClose}
+				onConfirm={this.save}
 				wrapType={'modal'}
 				modalShow={this.props.show}/>
 		);

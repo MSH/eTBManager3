@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
+import { Alert, DropdownButton, MenuItem, Row, Col, Grid } from 'react-bootstrap';
 import { SelectionBox, MessageDlg, Fa } from '../../../components';
 import moment from 'moment';
 
@@ -139,7 +139,7 @@ export default class CaseExams extends React.Component {
 		return (
 			<div>
 				<Row>
-					<Col sm={1}>
+					<Col sm={12}>
 						<DropdownButton id="newFollowUp" bsStyle="default" title={<span><Fa icon="plus-circle"/>{__('action.add')}</span>}>
 							{
 								options.map((item, index) => (
@@ -148,7 +148,9 @@ export default class CaseExams extends React.Component {
 							}
 						</DropdownButton>
 					</Col>
-					<Col sm={11}>
+				</Row>
+				<Row className="mtop">
+					<Col sm={12}>
 						<SelectionBox ref="filter"
 							value={this.state.filter}
 							mode="multiple"

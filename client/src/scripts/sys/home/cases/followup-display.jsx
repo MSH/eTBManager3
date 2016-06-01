@@ -13,12 +13,18 @@ export default class FollowupDisplay extends React.Component {
 	}
 
 	renderButtons() {
-		return (<div className="mtop-2x">
+		/* return (<div className="mtop-2x">
 					<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
 					<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
 						<a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
 					</OverlayTrigger>
-				</div>);
+				</div>); */
+		return (<div className="pull-right">
+								<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
+								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+									<a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
+								</OverlayTrigger>
+							</div>);
 	}
 
 	renderHeader() {
