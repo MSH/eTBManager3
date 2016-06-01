@@ -6,6 +6,7 @@ import { server } from '../../../commons/server';
 import TreatProgress from './treat-progress';
 import TreatTimeline from './treat-timeline';
 import { mockTreatment } from '../../mock-data';
+import AddMedicine from './treat/add-medicine';
 
 
 export default class CaseTreatment extends React.Component {
@@ -39,6 +40,9 @@ export default class CaseTreatment extends React.Component {
 				]
 			}
 		};
+
+		this.menuClick = this.menuClick.bind(this);
+		this.closeDlg = this.closeDlg.bind(this);
 	}
 
 	componentWillMount() {
@@ -47,6 +51,17 @@ export default class CaseTreatment extends React.Component {
 		.then(() => {
 			self.setState({ data: mockTreatment });
 		});
+	}
+
+	menuClick(key) {
+		if (key === 1) {
+			this.setState({ show: 'add-med' });
+			return;
+		}
+	}
+
+	closeDlg() {
+		this.setState({ show: null });
 	}
 
 	render() {
@@ -58,10 +73,11 @@ export default class CaseTreatment extends React.Component {
 
 		const optionsBtn = (
 			<DropdownButton className="lnk-muted" bsStyle="link"
-				title={<Fa icon="cog" />} id="ttmenu" pullRight>
-				<MenuItem>{__('Regimen.add')}</MenuItem>
-				<MenuItem>{__('cases.regimens.change')}</MenuItem>
-				<MenuItem>{__('cases.treat.undo')}</MenuItem>
+				title={<Fa icon="cog" />} id="ttmenu" pullRight
+				onSelect={this.menuClick}>
+				<MenuItem eventKey={1}>{__('Regimen.add')}</MenuItem>
+				<MenuItem eventKey={2}>{__('cases.regimens.change')}</MenuItem>
+				<MenuItem eventKey={3}>{__('cases.treat.undo')}</MenuItem>
 			</DropdownButton>
 			);
 
@@ -86,6 +102,9 @@ export default class CaseTreatment extends React.Component {
 
 				<Card title={__('cases.details.treatment.medintake')}>
 				</Card>
+				{
+					this.state.show === 'add-med' && <AddMedicine doc={{}} onClose={this.closeDlg}/>
+				}
 			</div>
 			);
 	}
