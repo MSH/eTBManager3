@@ -792,13 +792,13 @@ const editSchemas = {
 };
 
 const folloupTypes = [
-	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM'), dateField: 'date', icon: 'stethoscope' },
-	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY'), dateField: 'dateCollected', icon: 'file-text' },
-	{ id: 'CULTURE', name: __('FollowUpType.CULTURE'), dateField: 'dateCollected', icon: 'file-text' },
-	{ id: 'XPERT', name: __('FollowUpType.XPERT'), dateField: 'dateCollected', icon: 'file-text' },
-	{ id: 'DST', name: __('FollowUpType.DST'), dateField: 'dateCollected', icon: 'file-text' },
-	{ id: 'XRAY', name: __('FollowUpType.XRAY'), dateField: 'date', icon: 'file-text' },
-	{ id: 'HIV', name: __('FollowUpType.HIV'), dateField: 'date', icon: 'file-text' }
+	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM'), dateField: 'date', icon: 'stethoscope', permission: 'CASE_MED_EXAM' },
+	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_MICROSCOPY' },
+	{ id: 'CULTURE', name: __('FollowUpType.CULTURE'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_CULTURE' },
+	{ id: 'XPERT', name: __('FollowUpType.XPERT'), dateField: 'dateCollected', icon: 'file-text', permission: 'permision' },
+	{ id: 'DST', name: __('FollowUpType.DST'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_DST' },
+	{ id: 'XRAY', name: __('FollowUpType.XRAY'), dateField: 'date', icon: 'file-text', permission: 'EXAM_XRAY' },
+	{ id: 'HIV', name: __('FollowUpType.HIV'), dateField: 'date', icon: 'file-text', permission: 'EXAM_HIV' }
 ];
 
 export function getFollowUpTypes() {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
 import { SelectionBox, MessageDlg, Fa } from '../../../components';
-import moment from 'moment';
 
 import FollowupDisplay from './followup-display';
 import FollowupModal from './followup-modal';
 
+import moment from 'moment';
 import { getFollowUpTypes, getFollowUpType } from './followup-utils';
 
 export default class CaseExams extends React.Component {
@@ -97,7 +97,6 @@ export default class CaseExams extends React.Component {
 		var delTitle = __('action.delete') + ' - ';
 		delTitle = delTitle + op.followUpName + ' ';
 		delTitle = delTitle + moment(op.doc[op.followUpType.dateField]).format('ll');
-
 
 		return delTitle;
 	}
