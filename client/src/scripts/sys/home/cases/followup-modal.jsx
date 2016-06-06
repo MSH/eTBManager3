@@ -3,7 +3,7 @@ import React from 'react';
 import { FormDialog, Fa } from '../../../components/index';
 import moment from 'moment';
 
-import { getEditSchema } from './followup-edit-schemas';
+import { getEditSchema } from './followup-utils';
 
 /**
  * The page controller of the public module
@@ -18,6 +18,11 @@ export default class FollowupModal extends React.Component {
 		this.state = { doc: {} };
 	}
 
+	save() {
+		console.log('go to server and save it! Dont forget to return a promise');
+		this.props.onClose();
+	}
+
 	renderTitle() {
 		var title;
 
@@ -26,24 +31,14 @@ export default class FollowupModal extends React.Component {
 				return null;
 			}
 
-			var datefield = 'dateCollected';
-			if (this.props.followUpType === 'MEDEXAM' || this.props.followUpType.type === 'HIV' || this.props.followUpType.type === 'XRAY') {
-				datefield = 'date';
-			}
-
 			title = __('action.edit') + ' ';
-			title = title + this.props.followUpName + ' ';
-			title = title + moment(this.props.doc[datefield]).format('ll');
+			title = title + this.props.followUpType.name + ' ';
+			title = title + moment(this.props.doc[this.props.followUpType.dateField]).format('ll');
 		} else if (this.props.opType === 'new') {
-			title = __('cases.details.newresult') + ' ' + this.props.followUpName;
+			title = __('cases.details.newresult') + ' ' + this.props.followUpType.name;
 		}
 
-		return (<span><Fa icon={this.props.followUpType === 'MEDEXAM' ? 'stethoscope' : 'file-text'} />{title}</span>);
-	}
-
-	save() {
-		console.log('go to server and save it! Dont forget to return a promise');
-		this.props.onClose();
+		return (<span><Fa icon={this.props.followUpType.icon} />{title}</span>);
 	}
 
 	render() {
@@ -51,7 +46,7 @@ export default class FollowupModal extends React.Component {
 			return null;
 		}
 
-		const fschema = getEditSchema(this.props.followUpType);
+		const fschema = getEditSchema(this.props.followUpType.id);
 		fschema.title = this.renderTitle();
 
 		return (
@@ -70,7 +65,6 @@ FollowupModal.propTypes = {
 	show: React.PropTypes.bool,
 	onClose: React.PropTypes.func,
 	opType: React.PropTypes.oneOf(['new', 'edt', 'del']),
-	followUpType: React.PropTypes.string,
-	followUpName: React.PropTypes.string,
+	followUpType: React.PropTypes.object.isRequired,
 	doc: React.PropTypes.object
 };
