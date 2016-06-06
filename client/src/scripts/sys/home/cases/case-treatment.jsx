@@ -3,8 +3,8 @@ import { Grid, Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card, WaitIcon, Fa } from '../../../components';
 import Form from '../../../forms/form';
 import { server } from '../../../commons/server';
-import TreatProgress from './treat-progress';
-import TreatTimeline from './treat-timeline';
+import TreatProgress from './treat/treat-progress';
+import TreatTimeline from './treat/treat-timeline';
 import { mockTreatment } from '../../mock-data';
 import AddMedicine from './treat/add-medicine';
 

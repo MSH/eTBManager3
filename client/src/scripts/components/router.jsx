@@ -222,7 +222,7 @@ export class Route {
 		this.data = data;
 
 		// create pattern to make it easier to identify routes
-		const p = '^' + data.path.replace(/\//g, '\\\/').replace(/{\w+}/g, '(\\w+)');
+		const p = '^' + data.path.replace(/\//g, '\\\/').replace(/{\w+}/g, '([\\w\-]+)');
 		this.pathExp = new RegExp(p);
 
 		// get the list of params without the { }
@@ -270,6 +270,7 @@ export class Route {
 			return this._resPromise;
 		}
 
+
 		this._resPromise = new Promise((resolve, reject) => {
 			if (data.view) {
 				return resolve(data.view);
@@ -279,6 +280,12 @@ export class Route {
 				return resolve(data.viewResolver(data.path, this));
 			}
 			return reject('No view or viewResolver');
+		});
+
+		const self = this;
+		this._resPromise.then(res => {
+			delete self._resPromise;
+			return res;
 		});
 
 		return this._resPromise;

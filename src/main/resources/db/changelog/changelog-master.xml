@@ -1258,8 +1258,8 @@
             </column>
             <column name="otherOutcome" type="VARCHAR(100)"/>
             <column name="outcomeDate" type="date"/>
-            <column name="patientType" type="INT"/>
-            <column name="patientTypeOther" type="VARCHAR(100)"/>
+            <column name="registrationGroup" type="VARCHAR(100)"/>
+            <column name="registrationGroupOther" type="VARCHAR(100)"/>
             <column name="registrationDate" type="date">
                 <constraints nullable="false"/>
             </column>
@@ -1292,7 +1292,6 @@
             <column name="suspectRegistrationCode" type="VARCHAR(50)"/>
             <column name="suspectClassification" type="INT"/>
             <column name="secDrugsReceived" type="INT"/>
-            <column name="rifampcinResistance" type="${type.boolean}"/>
             <column name="previouslytreatedtype" type="INT"/>
             <column name="caseDefinition" type="INT"/>
             <column name="lastBmuDateTbRegister" type="date"/>
@@ -1808,6 +1807,8 @@
             <column name="unit_id" type="${type.id}" />
         </createTable>
     </changeSet>
+
+
 
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>

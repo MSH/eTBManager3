@@ -156,7 +156,7 @@ export default class ReactTable extends React.Component {
 		}
 
 		return (
-			<Grid className={classes.join(' ')}>
+			<Grid className={classes.join(' ')} fluid>
 				{
 					this.titleRender()
 				}

@@ -82,7 +82,7 @@ export default class Index extends React.Component {
 		});
 
 		const subtitle = (
-			<div><a href="#/sys/home/unit">{session.unitName}</a>
+			<div><a href={'#/sys/home/unit/' + session.unitId}>{session.unitName}</a>
 			<div>{aus}</div>
 			<a href="#">{session.workspaceName}</a>
 			</div>

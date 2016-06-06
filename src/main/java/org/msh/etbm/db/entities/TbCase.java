@@ -107,7 +107,7 @@ public class TbCase extends WorkspaceEntity {
 	private ValidationState validationState;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private PatientType patientType;
+    private String registrationGroup;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private PatientType previouslyTreatedType;
@@ -138,7 +138,7 @@ public class TbCase extends WorkspaceEntity {
 	private String extrapulmonaryType2;
 	
 	@Column(length = 100)
-	private String patientTypeOther;
+	private String registrationGroupOther;
 
 	private Nationality nationality;
 	
@@ -157,8 +157,6 @@ public class TbCase extends WorkspaceEntity {
 	private boolean notifAddressChanged;
 
     private boolean tbContact;
-
-    private boolean rifampcinResistance;
 
     private boolean movedSecondLineTreatment;
 	
@@ -613,18 +611,15 @@ public class TbCase extends WorkspaceEntity {
 		this.otherOutcome = otherOutcome;
 	}
 
+    public String getRegistrationGroup() {
+        return registrationGroup;
+    }
 
-	public PatientType getPatientType() {
-		return patientType;
-	}
+    public void setRegistrationGroup(String registrationGroup) {
+        this.registrationGroup = registrationGroup;
+    }
 
-
-	public void setPatientType(PatientType patientType) {
-		this.patientType = patientType;
-	}
-
-
-	public Nationality getNationality() {
+    public Nationality getNationality() {
 		return nationality;
 	}
 
@@ -663,21 +658,18 @@ public class TbCase extends WorkspaceEntity {
 		this.outcomeDate = outcomeDate;
 	}
 
+    public String getRegistrationGroupOther() {
+        return registrationGroupOther;
+    }
 
-	public String getPatientTypeOther() {
-		return patientTypeOther;
-	}
+    public void setRegistrationGroupOther(String registrationGroupOther) {
+        this.registrationGroupOther = registrationGroupOther;
+    }
 
-
-	public void setPatientTypeOther(String patientTypeOther) {
-		this.patientTypeOther = patientTypeOther;
-	}
-
-
-	/**
-	 * @return the resXRay
-	 */
-	public List<ExamXRay> getResXRay() {
+    /**
+     * @return the resXRay
+     */
+    public List<ExamXRay> getResXRay() {
 		return resXRay;
 	}
 
@@ -1181,14 +1173,6 @@ public class TbCase extends WorkspaceEntity {
 
     public SecDrugsReceived getSecDrugsReceived() {
         return this.secDrugsReceived;
-    }
-
-    public boolean isRifampcinResistance() {
-        return rifampcinResistance;
-    }
-
-    public void setRifampcinResistance(boolean rifampcinResistance) {
-        this.rifampcinResistance = rifampcinResistance;
     }
 
    public PatientType getPreviouslyTreatedType() {

@@ -20,7 +20,7 @@ const routes = RouteView.createRoutes([
 	},
 	{
 		title: __('cases'),
-		path: '/cases',
+		path: '/cases/{id}',
 		view: Cases
 	},
 	{

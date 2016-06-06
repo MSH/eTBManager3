@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Grid, Row, Col } from 'react-bootstrap';
 import TreatPopup from './treat-popup';
-import { durationDisplay } from '../../../commons/utils';
+import { durationDisplay } from '../../../../commons/utils';
 
 
 import './treat-timeline.less';
