@@ -11,7 +11,7 @@ import ForgotPwd from './forgot-pwd.jsx';
 /**
  * The page controller of the public module
  */
-export default class Home extends React.Component {
+export default class Routes extends React.Component {
 
 	render() {
 		const routes = RouteView.createRoutes([

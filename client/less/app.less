@@ -225,9 +225,16 @@
 	margin-bottom: 20px;
 }
 
-.borderless {
+.borderless, .group-borderless input {
 	border:none;
-	box-shadow: none;
+	box-shadow: none !important;
+}
+
+.group-borderless {
+	.input-group-addon {
+		background-color: transparent !important;
+		border: none;
+	}
 }
 
 .sub-text {

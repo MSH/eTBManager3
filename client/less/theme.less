@@ -90,7 +90,7 @@
 @padding-large-horizontal: 16px;
 @padding-small-vertical: 3px;
 @padding-small-horizontal: 10px;
-@border-radius-base: 2px;
+@border-radius-base: 3px;
 @border-radius-large: 2px;
 @border-radius-small: 1px;
 @line-height-large: 1.33;
@@ -163,7 +163,7 @@
 @input-color: @gray;
 @input-border: #d9dbda;
 @input-border-radius: @border-radius-base;
-@input-color-placeholder: @gray-light;
+@input-color-placeholder: lighten(@gray-light, 15%);
 @input-height-base: (@line-height-computed + (@padding-base-vertical * 2) + 2);
 @input-height-large: (floor(@font-size-large * @line-height-large) + (@padding-large-vertical * 2) + 2);
 @input-height-small: (floor(@font-size-small * @line-height-small) + (@padding-small-vertical * 2) + 2);

@@ -1,5 +1,6 @@
 
 import msgs from './messages';
+import ReactDOM from 'react-dom';
 
 const emailPattern = /^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
 const passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
@@ -14,7 +15,7 @@ export function validateForm(comp, model) {
     const data = {};
 
     // create field data
-    Object.keys(model).forEach(field => { data[field] = comp.refs[field].getValue(); });
+    Object.keys(model).forEach(field => { data[field] = ReactDOM.findDOMNode(comp.refs[field]).value; });
 
     // validate all fields
     Object.keys(model).forEach(field => {
