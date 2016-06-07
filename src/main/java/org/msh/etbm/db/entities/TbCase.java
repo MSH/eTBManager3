@@ -109,7 +109,7 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String registrationGroup;
 
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE}, messageKey = "TbCase.previouslyTreatedType")
     private PatientType previouslyTreatedType;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
