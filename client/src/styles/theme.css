@@ -6722,12 +6722,6 @@ button.close {
     display: none !important;
   }
 }
-@font-face {
-  font-family: 'OpenSans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
-}
 /**
  * Callout definition
  */
@@ -7680,6 +7674,12 @@ button.close {
 }
 .nav-select li:last-child {
   border-bottom: none;
+}
+@font-face {
+  font-family: 'OpenSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url("../fonts/OpenSans-Regular.woff") format('woff');
 }
 .alert {
   border-left-width: 10px;

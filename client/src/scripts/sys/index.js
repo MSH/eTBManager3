@@ -4,7 +4,7 @@ import { authenticate, isAuthenticated, initSession } from './session';
 export function init() {
 
 	return new Promise(resolve => {
-		require.ensure(['./routes', './toolbar-content', './types/init'], require => {
+		require.ensure(['./routes', './types/init'], require => {
 			var Routes = require('./routes');
 			var Types = require('./types/init');
 

@@ -34,6 +34,10 @@ export default class Toolbar extends React.Component {
         app.add(this._onAppChange);
     }
 
+    shouldComponentUpdate() {
+        return false;
+    }
+
     componentWillUmount() {
         app.remove(this._onAppChange);
     }

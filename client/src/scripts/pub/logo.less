@@ -1,3 +1,5 @@
+@import "../../../less/variables.less";
+
 .logo {
 	font-size: 1.2em;
 	.title {
@@ -7,5 +9,20 @@
 		text-transform: uppercase;
 		text-shadow: 0px 2px 3px #fff;
 	}
+}
 
+@media (min-width: @screen-xs-max)  {
+	.logo {
+		.title {
+			font-size: 3.2em;
+		}
+	}
+}
+
+@media (max-width: @screen-xs-max)  {
+	.logo {
+		.title {
+			font-size: 2.2em;
+		}
+	}
 }

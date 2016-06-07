@@ -29,6 +29,10 @@ export default class WorkspaceSel extends React.Component {
 		this.state = { handler: handler };
 	}
 
+	shouldComponentUpdate() {
+		return false;
+	}
+
 	componentWillUnmount() {
 		app.remove(this.state.handler);
 	}
