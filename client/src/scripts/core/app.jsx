@@ -61,6 +61,7 @@ export class App {
 	 */
 	add(listener) {
 		this.storage.addListener(listener);
+		return listener;
 	}
 
 	/**

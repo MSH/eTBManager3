@@ -10,7 +10,7 @@ export default function Logo(props) {
 
     return (
         <div className="logo container central-container-md">
-            <div className="text-center mtop-2x">
+            <div className="text-center">
                 <img src={path + 'etbm_icon_128x128.png'}/>
                 <div className="title">{'eTB Manager'}</div>
             </div>

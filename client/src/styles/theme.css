@@ -7210,6 +7210,9 @@ button.close {
   background-color: #E6EEEE;
   min-height: 500px;
   padding-bottom: 10px;
+  overflow: auto;
+}
+.tb-margin {
   margin-top: 50px;
 }
 .header-search .search-input {

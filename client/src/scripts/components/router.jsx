@@ -118,10 +118,15 @@ export class RouteView extends React.Component {
 		}
 
 		const self = this;
-		route.resolveView(path)
-		.then(view => self.setState({ view: view, route: route, path: path, params: params }));
+		const res = route.resolveView(path);
 
-		this.setState({ view: null, route: route, path: path, params: params });
+		// result is a promise ?
+		if (res.then) {
+			res.then(view => self.setState({ view: view, route: route, path: path, params: params }));
+			return;
+		}
+
+		this.setState({ view: res, route: route, path: path, params: params });
 	}
 
 	/**
@@ -270,25 +275,46 @@ export class Route {
 			return this._resPromise;
 		}
 
+		// check if view is available
+		if (data.view) {
+			return data.view;
+		}
 
-		this._resPromise = new Promise((resolve, reject) => {
-			if (data.view) {
-				return resolve(data.view);
+		// check if resolver is defined
+		if (data.viewResolver) {
+			const res = data.viewResolver(data.path, this);
+
+			const self = this;
+			if (res.then) {
+				this._resPromise = res;
+				res.then(ret => {
+					delete self._resPromise;
+					return ret;
+				});
 			}
-
-			if (data.viewResolver) {
-				return resolve(data.viewResolver(data.path, this));
-			}
-			return reject('No view or viewResolver');
-		});
-
-		const self = this;
-		this._resPromise.then(res => {
-			delete self._resPromise;
 			return res;
-		});
+		}
 
-		return this._resPromise;
+		return null;
+
+		// this._resPromise = new Promise((resolve, reject) => {
+		// 	if (data.view) {
+		// 		return resolve(data.view);
+		// 	}
+
+		// 	if (data.viewResolver) {
+		// 		return resolve(data.viewResolver(data.path, this));
+		// 	}
+		// 	return reject('No view or viewResolver');
+		// });
+
+		// const self = this;
+		// this._resPromise.then(res => {
+		// 	delete self._resPromise;
+		// 	return res;
+		// });
+
+		// return this._resPromise;
 	}
 }
 

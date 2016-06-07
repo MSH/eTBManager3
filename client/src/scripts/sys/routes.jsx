@@ -6,6 +6,7 @@ import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
 import { app } from '../core/app';
 import LanguageSel from './others/language-sel';
 import WorkspaceSel from './others/workspace-sel';
+import Toolbar from './toolbar';
 
 /** Pages of the public module */
 import HomeRoutes from './home/routes';
@@ -68,7 +69,10 @@ export default class Routes extends React.Component {
 
 		return (
 			<div>
-				<RouteView id="routes-index" routes={routes} />
+				<Toolbar />
+				<div className="tb-margin">
+					<RouteView id="routes-index" routes={routes} />
+				</div>
 				<LanguageSel />
 				<WorkspaceSel />
 			</div>

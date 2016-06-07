@@ -46,7 +46,7 @@ export default class LanguageSel extends React.Component {
 		const sellang = app.getLang();
 
 		return (
-			<Modal show={this.state.show} >
+			<Modal show={this.state.show} onHide={this.close}>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title">{__('changelang')}</Modal.Title>
 				</Modal.Header>

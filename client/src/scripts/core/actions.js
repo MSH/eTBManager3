@@ -7,10 +7,6 @@ export const WORKSPACE_CHANGE = 'ws-change';
 export const CHANGE_LANG = 'change-lang';
 export const ERROR = 'error';
 
-// used to set the content of the toolbar after login
-export const TB_SET = 'tb-reg';
-export const TB_CLEAR = 'tb-clear';
-
 // called when a crud view starts or ends
 export const CRUD_BEGIN = 'crud-begin';
 export const CRUD_END = 'crud-end';
