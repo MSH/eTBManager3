@@ -178,8 +178,6 @@
 }
 
 .footer {
- // border-top:1px solid #d0d0d0;
-//  background-color: #e0e0e0;
 	background-color: @body-bg;
 	border-top:1px solid @btn-default-border;
 	padding: 30px;
@@ -191,18 +189,10 @@
 
 
 @media screen and (min-width:550px) {
-	.central-container-sm {
-		margin: 30px auto 20px;
-		max-width:300px;
-	}
-	.central-container-md {
-		margin: 30px auto 20px;
-		max-width:450px;
-	}
-	.central-container-lg {
-		margin: 30px auto 20px;
-		max-width:700px;
-	}
+.central-container-md {
+	margin: 30px auto 20px;
+	max-width:450px;
+}
 }
 
 .mtop {
@@ -493,7 +483,7 @@
   background: #f0f0f0;
 }
 
-.tag-danger, .tag-userdef, .tag-warn, .tag-subtitle {
+.tag-autodanger, .tag-manual, .tag-auto, .tag-subtitle {
   display: block;
   color: #909090;
   margin-top:2px;
@@ -507,16 +497,16 @@
   font-size: 13px;
 }
 
-.tag-danger {
+.tag-autodanger {
   border-left-color: @brand-danger;
   font-weight: bold;
 }
 
-.tag-userdef {
+.tag-manual {
   border-left-color: @brand-primary;
 }
 
-.tag-warn {
+.tag-auto {
   border-left-color: @brand-success;
 }
 

@@ -80,10 +80,10 @@ export default class Tags extends React.Component {
 		let type;
 
 		if (item.sqlCondition) {
-			type = item.consistencyCheck ? 'danger' : 'warn';
+			type = item.consistencyCheck ? 'auto_danger' : 'auto';
 		}
 		else {
-			type = 'userdef';
+			type = 'manual';
 		}
 
 		type = 'prof-tag-' + type;

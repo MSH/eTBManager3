@@ -59,7 +59,7 @@ export class RouteView extends React.Component {
 		if (this.context.path) {
 			const s = hash.split('?');
 			hash = s.shift();
-			const params = s.shift();
+			// const params = s.shift();
 
 			// check if the context is beyond hash (using default views in routes)
 			if (this.context.path.startsWith(hash)) {
@@ -69,7 +69,7 @@ export class RouteView extends React.Component {
 				hash = hash.replace(this.context.path, '');
 			}
 
-			hash += params ? '?' + params : '';
+		//	hash += params ? '?' + params : '';
 		}
 		return hash;
 	}
@@ -155,7 +155,8 @@ export class RouteView extends React.Component {
 			params: params ? params : {},
 			path: route.data.path,
 			forpath: forpath,
-			data: route.data
+			data: route.data,
+			queryParam: getParameterByName
 		};
 
 		if (typeof View === 'object' && View.default) {
@@ -372,10 +373,9 @@ class Router {
 	/**
 	 * Navigate to a given path
 	 * @param  {String} path   The path to go to
-	 * @param  {object} queryParams The query params
 	 * @return {[type]}        [description]
 	 */
-	goto(path, queryParams) {
+	goto(path) {
 		location.href = '#' + path;
 	}
 
@@ -395,5 +395,22 @@ class Router {
 }
 
 const router = new Router();
+
+function getParameterByName(pname) {
+    const url = window.location.href;
+
+    const name = pname.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+
+    if (!results) {
+		return null;
+    }
+
+    if (!results[2]) {
+		return '';
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 export { router };

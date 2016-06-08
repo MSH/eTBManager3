@@ -6951,15 +6951,15 @@ button.close {
   color: #DEE8E3;
   background-color: #819A92;
 }
-.prof-tag-userdef {
+.prof-tag-manual {
   color: #FFFFFF;
   background-color: #3E6DC1;
 }
-.prof-tag-danger {
+.prof-tag-autodanger {
   color: #FFFFFF;
   background-color: #FF0000;
 }
-.prof-tag-warn {
+.prof-tag-auto {
   color: #FFFFFF;
   background-color: #DEAE00;
 }
@@ -7323,17 +7323,9 @@ button.close {
   margin-bottom: 40px;
 }
 @media screen and (min-width: 550px) {
-  .central-container-sm {
-    margin: 30px auto 20px;
-    max-width: 300px;
-  }
   .central-container-md {
     margin: 30px auto 20px;
     max-width: 450px;
-  }
-  .central-container-lg {
-    margin: 30px auto 20px;
-    max-width: 700px;
   }
 }
 .mtop {
@@ -7571,9 +7563,9 @@ button.close {
 .tag-link:hover {
   background: #f0f0f0;
 }
-.tag-danger,
-.tag-userdef,
-.tag-warn,
+.tag-autodanger,
+.tag-manual,
+.tag-auto,
 .tag-subtitle {
   display: block;
   color: #909090;
@@ -7587,14 +7579,14 @@ button.close {
   margin-bottom: 4px;
   font-size: 13px;
 }
-.tag-danger {
+.tag-autodanger {
   border-left-color: #d9534f;
   font-weight: bold;
 }
-.tag-userdef {
+.tag-manual {
   border-left-color: #1e9614;
 }
-.tag-warn {
+.tag-auto {
   border-left-color: #1f69ad;
 }
 .tag-subtitle {

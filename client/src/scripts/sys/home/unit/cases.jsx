@@ -4,42 +4,7 @@ import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
 import AdvancedSearch from '../cases/advanced-search';
 import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
-
-import { generateName, generateCaseNumber } from '../../mock-data';
-
-
-const tags = [
-	{
-		id: '123456-1',
-		name: 'Not on treatment',
-		type: 'userdef',
-		count: 14
-	},
-	{
-		id: '123456-2',
-		name: 'On treatment',
-		type: 'userdef',
-		count: 120
-	},
-	{
-		id: '123456-3',
-		name: 'Closed cases',
-		type: 'warn',
-		count: 243
-	},
-	{
-		id: '123456-4',
-		name: 'DR-TB with no resistance with a long name that someone included',
-		type: 'danger',
-		count: 5
-	},
-	{
-		id: '123456-5',
-		name: 'TB with resistance',
-		type: 'danger',
-		count: 8
-	}
-];
+import moment from 'moment';
 
 
 export default class Cases extends React.Component {
@@ -224,19 +189,21 @@ export default class Cases extends React.Component {
 		return (
 			<ReactTable columns={
 				[{
-					title: 'Patient',
+					title: __('Patient'),
 					size: { sm: 4 },
 					content: item =>
 							<Profile type={item.gender.toLowerCase()} size="small"
 								title={item.name} subtitle={item.recordNumber} />
 				},
 				{
-					title: 'Registration date',
+					title: __('TbCase.registrationDate'),
 					size: { sm: 3 },
-					content: item =>
-						<div>{item.registrationDate}
-							<div className="sub-text">{'30 days ago'}</div>
-						</div>,
+					content: item => {
+						const dt = moment(item.registrationDate);
+						return (<div>{dt.format('L')}
+							<div className="sub-text">{dt.fromNow()}</div>
+						</div>);
+					},
 					align: 'center'
 				},
 				{
@@ -280,7 +247,6 @@ export default class Cases extends React.Component {
 	}
 
 	render() {
-
 		const caseSearch = app.getState().caseSearch;
 
 		const popup = (
@@ -310,7 +276,7 @@ export default class Cases extends React.Component {
 								{
 									!this.state.tags ? <WaitIcon type="card" /> :
 									this.state.tags.map(item => (
-										<a key={item.id} className={'tag-link tag-' + item.type}>
+										<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()}>
 											<Badge pullRight>{item.count}</Badge>
 											<div className="tag-title">{item.name}</div>
 										</a>

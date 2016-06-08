@@ -1,13 +1,12 @@
 package org.msh.etbm.services.cases.unitview;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Patient;
+import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.*;
-import org.msh.etbm.services.admin.tags.TagData;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -133,7 +132,39 @@ public class UnitViewService {
     private void loadTags(UUID unitId, UnitViewData data) {
         List<CaseTagData> tags = new ArrayList<>();
 
+        String sql = "select t.id, t.name, t.sqlCondition is null, t.consistencyCheck, count(*) " +
+                "from tags_case tc " +
+                "inner join tag t on t.id = tc.tag_id " +
+                "inner join tbcase c on c.id = tc.case_id " +
+                " where c.owner_unit_id = :id and t.active = true " +
+                " group by t.id, t.name order by t.name";
+
+        List<Object[]> lst = entityManager
+                .createNativeQuery(sql)
+                .setParameter("id", unitId)
+                .getResultList();
+
+        for (Object[] vals: lst) {
+            Tag.TagType type = null;
+            if ((Integer)vals[2] == 1) {
+                type = Tag.TagType.MANUAL;
+            } else {
+                type = (Boolean)vals[3] == Boolean.TRUE ? Tag.TagType.AUTODANGER : Tag.TagType.AUTO;
+            }
+
+            int count = ((Number)vals[4]).intValue();
+            UUID id = UUID.nameUUIDFromBytes((byte[])vals[0]);
+
+            CaseTagData tag = new CaseTagData();
+            tag.setId(id);
+            tag.setName(vals[1].toString());
+            tag.setType(type);
+            tag.setCount(count);
+            tags.add(tag);
+        }
+
         if (tags.size() > 0) {
+            tags.sort((it1, it2) -> it1.getType().compareTo(it2.getType()));
             data.setTags(tags);
         }
     }

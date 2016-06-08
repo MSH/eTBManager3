@@ -34,7 +34,7 @@ export default class HomeRoutes extends React.Component {
 				title: __('cases.newnotif')
 			},
 			{
-				path: '/cases/details/{id}',
+				path: '/cases/details',
 				view: Details,
 				title: __('cases.details')
 			}

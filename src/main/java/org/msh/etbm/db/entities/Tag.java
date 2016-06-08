@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tag")
 public class Tag extends WorkspaceEntity {
 
-    public enum TagType { MANUAL, AUTOGEN, AUTOGEN_CONSISTENCY	}
+    public enum TagType { MANUAL, AUTO, AUTODANGER}
 
 	@Column(length = 100)
 	@NotNull
@@ -62,7 +62,7 @@ public class Tag extends WorkspaceEntity {
             return TagType.MANUAL;
         }
 
-		return consistencyCheck ? TagType.AUTOGEN_CONSISTENCY : TagType.AUTOGEN;
+		return consistencyCheck ? TagType.AUTODANGER : TagType.AUTO;
 	}
 
 	/**
