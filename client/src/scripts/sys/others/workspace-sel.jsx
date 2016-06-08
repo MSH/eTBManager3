@@ -29,8 +29,8 @@ export default class WorkspaceSel extends React.Component {
 		this.state = { handler: handler };
 	}
 
-	shouldComponentUpdate() {
-		return false;
+	shouldComponentUpdate(np, newState) {
+		return newState.show;
 	}
 
 	componentWillUnmount() {
@@ -39,6 +39,7 @@ export default class WorkspaceSel extends React.Component {
 
 	close() {
 		this.setState({ show: null });
+		this.forceUpdate();
 	}
 
 	changeWs(ws) {
