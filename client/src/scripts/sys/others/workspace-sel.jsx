@@ -30,7 +30,7 @@ export default class WorkspaceSel extends React.Component {
 	}
 
 	shouldComponentUpdate(np, newState) {
-		return newState.show;
+		return !!newState.show;
 	}
 
 	componentWillUnmount() {

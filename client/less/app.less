@@ -40,12 +40,6 @@
 	padding-left:4px;
 }
 
-.placeholder(@color) {
-	::-webkit-input-placeholder {color: @color}
-	::-moz-placeholder {color: @color}
-	:-ms-input-placeholder {color: @color}
-}
-
 
 .app-content {
 	background-color: @content-bgcolor;
@@ -59,112 +53,6 @@
 }
 
 
-
-.header-search {
-	.search-input {
-		padding:2px;
-		background-color: @header-search-bg;
-		border-radius: 2px;
-		color: #606060;
-		height:32px;
-		margin-top:2px;
-
-		input {
-			border:none;
-			width:auto;
-			background-color: @header-search-bg;
-			color: #000;
-			float:left;
-			font-size: 1.2em;
-
-			.placeholder(@navbar-inverse-bg);
-		}
-		input:focus {
-			box-shadow: none;
-			outline:0;
-		}
-		button {
-			float:right;
-			background-color: @header-search-bg;
-			border:none;
-		}
-	}
-
-	.dropdown-menu > li > a {
-		white-space: normal !important;
-		width: 300px;
-	}
-
-}
-
-
-@media (max-width: @screen-xs-max)  {
-	.header-search {
-		input {
-			width:80%;
-			padding:1px 0 0 4px;
-		}
-	}
-}
-@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-	.header-search {
-		input {
-			width: 150px !important;
-		}
-	}
-	.navbar-inverse .navbar-nav > li > a {
-    	padding-left:5px;
-	}
-}
-@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
-	.header-search {
-		input {
-			width: 150px;
-		}
-	}
-}
-@media (min-width: @screen-lg-min) {
-	.header-search {
-		input {
-			min-width:250px;
-		}
-	}
-}
-
-/** nav item in the toolbar with an icon */
-.nav-item-icon {
-	a {
-		padding-top: 11px !important;
-		padding-bottom:10px !important;
-	}
-}
-
-/**
-* Decorate the workspace label in the page header
-**/
-.header-ws {
-	max-width: 100px;
-
-	.ws-text {
-		font-size: 0.9em;
-	}
-
-	.fa-inverse {
-		color:#f0f0f0;
-	}
-}
-
-
-/** The header style */
-.header {
-		box-shadow: #a0a0a0 0 4px 6px;
-
-		// small padding for nav items
-		.hsmall {
-				padding-top: 2px;
-				padding-bottom:4px;
-		}
-}
 
 .dropdown {
 	.fa-inverse {
@@ -188,11 +76,9 @@
 }
 
 
-@media screen and (min-width:550px) {
 .central-container-md {
-	margin: 30px auto 20px;
+	margin: 20px auto 20px;
 	max-width:450px;
-}
 }
 
 .mtop {

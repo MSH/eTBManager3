@@ -35,10 +35,11 @@ export default class UserSettings extends React.Component {
 
 		return server.post('/api/sys/usersettings', this.state.doc)
 		.then(res => {
-			if (res) {
+			if (res && res.errors) {
 				return Promise.reject(res.errors);
 			}
-			return self.setState({ msg: 1 });
+			self.setState({ msg: 1 });
+			return true;
 		});
 	}
 

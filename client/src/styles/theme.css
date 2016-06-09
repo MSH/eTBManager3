@@ -7209,103 +7209,6 @@ button.close {
 .tb-margin {
   margin-top: 50px;
 }
-.header-search .search-input {
-  padding: 2px;
-  background-color: #abc1b3;
-  border-radius: 2px;
-  color: #606060;
-  height: 32px;
-  margin-top: 2px;
-}
-.header-search .search-input input {
-  border: none;
-  width: auto;
-  background-color: #abc1b3;
-  color: #000;
-  float: left;
-  font-size: 1.2em;
-}
-.header-search .search-input input::-moz-placeholder {
-  color: #303e3c;
-  opacity: 1;
-}
-.header-search .search-input input:-ms-input-placeholder {
-  color: #303e3c;
-}
-.header-search .search-input input::-webkit-input-placeholder {
-  color: #303e3c;
-}
-.header-search .search-input input ::-webkit-input-placeholder {
-  color: #303e3c;
-}
-.header-search .search-input input ::-moz-placeholder {
-  color: #303e3c;
-}
-.header-search .search-input input :-ms-input-placeholder {
-  color: #303e3c;
-}
-.header-search .search-input input:focus {
-  box-shadow: none;
-  outline: 0;
-}
-.header-search .search-input button {
-  float: right;
-  background-color: #abc1b3;
-  border: none;
-}
-.header-search .dropdown-menu > li > a {
-  white-space: normal !important;
-  width: 300px;
-}
-@media (max-width: 767px) {
-  .header-search input {
-    width: 80%;
-    padding: 1px 0 0 4px;
-  }
-}
-@media (min-width: 768px) and (max-width: 991px) {
-  .header-search input {
-    width: 150px !important;
-  }
-  .navbar-inverse .navbar-nav > li > a {
-    padding-left: 5px;
-  }
-}
-@media (min-width: 992px) and (max-width: 1199px) {
-  .header-search input {
-    width: 150px;
-  }
-}
-@media (min-width: 1200px) {
-  .header-search input {
-    min-width: 250px;
-  }
-}
-/** nav item in the toolbar with an icon */
-.nav-item-icon a {
-  padding-top: 11px !important;
-  padding-bottom: 10px !important;
-}
-/**
-* Decorate the workspace label in the page header
-**/
-.header-ws {
-  max-width: 100px;
-}
-.header-ws .ws-text {
-  font-size: 0.9em;
-}
-.header-ws .fa-inverse {
-  color: #f0f0f0;
-}
-/** The header style */
-.header {
-  box-shadow: #a0a0a0 0 4px 6px;
-}
-.header .hsmall {
-  padding-top: 2px;
-  padding-bottom: 4px;
-}
 .dropdown .fa-inverse {
   color: #f8f8f8;
 }
@@ -7322,11 +7225,9 @@ button.close {
 .footer img {
   margin-bottom: 40px;
 }
-@media screen and (min-width: 550px) {
-  .central-container-md {
-    margin: 30px auto 20px;
-    max-width: 450px;
-  }
+.central-container-md {
+  margin: 20px auto 20px;
+  max-width: 450px;
 }
 .mtop {
   margin-top: 10px;

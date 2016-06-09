@@ -95,7 +95,9 @@ export function changeWorkspace(wsid) {
 	.then(res => {
 		const authToken = res.authToken;
 		app.setCookie('autk', authToken);
-		app.dispatch(WORKSPACE_CHANGE, { session: res.session });
+		const state = { session: res.session };
+		app.setState(state);
+		app.dispatch(WORKSPACE_CHANGE, state);
 	});
 }
 

@@ -1,0 +1,74 @@
+@import '../../../less/variables.less';
+// app variables
+@header-search-bg: #abc1b3;
+
+
+/** The header style */
+.toolbar {
+		box-shadow: #a0a0a0 0 4px 6px;
+}
+
+
+.tb-user {
+
+	a {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding-bottom: 0 !important;
+		outline: none;
+	}
+}
+
+.tb-icon {
+	display: block;
+	width: 28px;
+	height: 28px;
+	border-radius: 14px;
+	background-color: @gray-light;
+	float: left;
+	margin-right: 4px;
+	position: relative;
+	top: -4px;
+
+	i {
+		width: 28px;
+		text-align: center;
+		font-size: 1.2em;
+		padding-top: 5px;
+		color: #fff;
+	}
+}
+
+.navbar-nav a:hover {
+	.tb-icon {
+		background-color: #f0f0f0;
+
+		i {
+			color: @gray-light;
+		}
+	}
+}
+
+
+@media (max-width: @screen-xs-max)  {
+	.tb-user {
+		max-idth: 100%;
+	}
+}
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+	.tb-user {
+		max-width: 150px;
+	}
+}
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+	.tb-user {
+		max-width: 200px;
+	}
+}
+
+@media (min-width: @screen-lg-min) {
+	.tb-user {
+		max-width: 250px;
+	}
+}

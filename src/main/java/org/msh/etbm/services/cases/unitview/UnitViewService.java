@@ -164,7 +164,7 @@ public class UnitViewService {
         }
 
         if (tags.size() > 0) {
-            tags.sort((it1, it2) -> it1.getType().compareTo(it2.getType()));
+            tags.sort((it1, it2) -> -it1.getType().compareTo(it2.getType()));
             data.setTags(tags);
         }
     }

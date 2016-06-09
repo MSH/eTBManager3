@@ -45,7 +45,7 @@ export default class Index extends React.Component {
 		app.add(this._appEvent);
 	}
 
-	componentWillUmount() {
+	componentWillUnmount() {
 		app.remove(this._appEvent);
 	}
 

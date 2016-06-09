@@ -1,8 +1,10 @@
 import React from 'react';
-import { MenuItem } from 'react-bootstrap';
-import { Popup, Profile } from '../components';
+import { MenuItem, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Popup, Profile, Fa } from '../components';
 
 import { generateName, generateCaseNumber } from './mock-data';
+
+import './search-box.less';
 
 const items = [
 {
@@ -68,8 +70,8 @@ export default class SearchBox extends React.Component {
 		this.refs.popup.hide();
 	}
 
-	keyPressed() {
-		const txt = this.refs.input.value;
+	keyPressed(evt) {
+		const txt = evt.target.value;
 		if (txt) {
 			this.refs.popup.show();
 		} else {
@@ -82,17 +84,25 @@ export default class SearchBox extends React.Component {
 	render() {
 		let index = 0;
 
-		const key = this.state.key ? this.state.key.toLowerCase() : null;
+		const key = this.state.key ? this.state.key.toLowerCase() : '';
 		const res = key ? this.state.items.filter(it => it.title.toLowerCase().indexOf(key) > -1).slice(0, 15) : items;
 
 		return (
-			<div className="header-search">
-				<div className="search-input">
-					<input ref="input" type="search"
-						value={this.state.key}
-						placeholder="Search..." onChange={this.keyPressed} />
-					<button onClick={this.clearKey}><i className="fa fa-remove"></i></button>
-				</div>
+			<div className="tb-search">
+			<FormGroup bsClass="form-group">
+				<InputGroup>
+					<FormControl type="text"
+						value={key}
+						placeholder={__('action.search') + '...'}
+						onChange={this.keyPressed}/>
+					<InputGroup.Addon>
+					{
+						key ?
+						<a onClick={this.clearKey} className="clearbtn"><Fa icon="close"/></a> :
+						<i className="fa fa-search" />
+					}
+					</InputGroup.Addon>
+				</InputGroup>
 				<Popup ref="popup" >
 					{
 						res.map(it =>
@@ -104,6 +114,7 @@ export default class SearchBox extends React.Component {
 							</MenuItem>)
 					}
 				</Popup>
+			</FormGroup>
 			</div>
 			);
 	}

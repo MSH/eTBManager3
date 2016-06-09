@@ -5,7 +5,9 @@ import { app } from '../core/app';
 import SearchBox from './search-box';
 import { hasPerm, logout } from './session';
 import { Fa } from '../components';
-import { WORKSPACE_CHANGE, LOGOUT } from '../core/actions';
+import { WORKSPACE_CHANGE } from '../core/actions';
+
+import './toolbar.less';
 
 
 function userMenuSel(key) {
@@ -38,17 +40,13 @@ export default class Toolbar extends React.Component {
         return false;
     }
 
-    componentWillUmount() {
+    componentWillUnmount() {
         app.remove(this._onAppChange);
     }
 
-    _onAppChange(action, data) {
-        if (action === LOGOUT) {
-            this.setState({ toolbarContent: null, session: null });
-        }
-
+    _onAppChange(action) {
         if (action === WORKSPACE_CHANGE) {
-            this.setState({ session: data.session });
+            this.forceUpdate();
         }
         return null;
     }
@@ -64,20 +62,18 @@ export default class Toolbar extends React.Component {
             </a>
         );
 
-        // the user data
-        const user = (
-            <span className="fa fa-stack">
-                <i className="fa fa-circle fa-stack-2x"></i>
-                <i className="fa fa-user fa-stack-1x fa-inverse"></i>
+        const session = app.getState().session;
+
+        const settings = (
+            <span className="tb-icon">
+                <i className="fa fa-cogs"></i>
             </span>
         );
 
         const langName = app.getState().app.languages.find(item => item.id === app.getLang()).name;
 
-        const session = app.getState().session;
-
         return (
-            <Navbar className="header" fixedTop inverse>
+            <Navbar className="toolbar" fixedTop inverse>
                 <Navbar.Header>
                     <Navbar.Brand>
                         {Logo}
@@ -88,20 +84,22 @@ export default class Toolbar extends React.Component {
                     <Nav>
                         <NavItem href="#/sys/home/index">{__('home')}</NavItem>
                         {
-                            hasPerm('REPORTS') &&
-                            <NavItem href="#/sys/reports/index">{__('reports')}</NavItem>
-                        }
-                        {
                             hasPerm('ADMIN') &&
-                            <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
-                                <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
-                                <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>
-                                <MenuItem href="#/sys/admin/settings">{__('admin.config')}</MenuItem>
-                            </NavDropdown>
+                                <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
+                                    <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
+                                    <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>
+                                    <MenuItem href="#/sys/admin/settings">{__('admin.config')}</MenuItem>
+                                </NavDropdown>
                         }
                     </Nav>
                     <Nav pullRight >
-                        <NavDropdown id="ddUser" eventKey={3} title={user} className="nav-item-icon" onSelect={userMenuSel} >
+                        <NavItem className="tb-user">
+                            <div className="tb-icon">
+                                <i className="fa fa-user fa-inverse" />
+                            </div>
+                            {session.userName}
+                        </NavItem>
+                        <NavDropdown id="ddUser" eventKey={3} title={settings} onSelect={userMenuSel} >
                             <MenuItem href="#/sys/usersettings">
                                 <div>
                                     <Fa icon="cog" />
@@ -143,7 +141,7 @@ export default class Toolbar extends React.Component {
                             </MenuItem>
                         </NavDropdown>
                     </Nav>
-                    <Navbar.Form pullRight>
+                    <Navbar.Form>
                         <SearchBox />
                     </Navbar.Form>
                 </Navbar.Collapse>

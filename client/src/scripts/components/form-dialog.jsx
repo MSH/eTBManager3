@@ -42,7 +42,9 @@ export default class FormDialog extends React.Component {
 			const self = this;
 
 			// wait for the end of the promise
-			prom.catch(res => self.setState({ errors: res, fetching: false }));
+			prom
+				.then(() => self.setState({ fetching: false }))
+				.catch(res => self.setState({ errors: res, fetching: false }));
 		}
 	}
 
