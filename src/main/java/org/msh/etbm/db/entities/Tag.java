@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tag")
 public class Tag extends WorkspaceEntity {
 
-    public enum TagType { MANUAL, AUTO, AUTODANGER}
+    public enum TagType { MANUAL, AUTO, AUTODANGER }
 
 	@Column(length = 100)
 	@NotNull

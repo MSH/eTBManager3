@@ -37,9 +37,9 @@ public class TbCase extends WorkspaceEntity {
     /**
      * The code of the patient at the moment of registration (presumptive code)
      */
-	@Column(length = 50)
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private String registrationCode;
+    @Column(length = 50)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private String registrationCode;
 
     private String caseCode;
 
@@ -57,11 +57,11 @@ public class TbCase extends WorkspaceEntity {
      * The date the patient was registered in the unit. If before the diagnosis date, this period
      * between this date and the diagnosis date is considered the period the patient was a suspect
      */
-	@NotNull
-	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private Date registrationDate;
-	
+    @NotNull
+    @Temporal(TemporalType.DATE)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private Date registrationDate;
+
 	@Temporal(TemporalType.DATE)
 	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private Date diagnosisDate;
@@ -1115,11 +1115,11 @@ public class TbCase extends WorkspaceEntity {
     }
 
     /**
-	 * @return the suspectClassification
-	 */
-	public CaseClassification getSuspectClassification() {
-		return suspectClassification;
-	}
+     * @return the suspectClassification
+     */
+    public CaseClassification getSuspectClassification() {
+        return suspectClassification;
+    }
 
 
 	/**
