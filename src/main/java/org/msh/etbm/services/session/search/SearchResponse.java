@@ -1,5 +1,7 @@
 package org.msh.etbm.services.session.search;
 
+import org.msh.etbm.db.enums.SearchableType;
+
 import java.util.UUID;
 
 /**
@@ -16,7 +18,7 @@ public class SearchResponse {
     /**
      * The type of information returned in this item (unit, case, suspect, etc)
      */
-    private SearchResponseType type;
+    private SearchableType type;
 
     /**
      * The title to be displayed about this item
@@ -36,11 +38,11 @@ public class SearchResponse {
         this.id = id;
     }
 
-    public SearchResponseType getType() {
+    public SearchableType getType() {
         return type;
     }
 
-    public void setType(SearchResponseType type) {
+    public void setType(SearchableType type) {
         this.type = type;
     }
 

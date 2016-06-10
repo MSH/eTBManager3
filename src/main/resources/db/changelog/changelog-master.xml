@@ -1232,16 +1232,23 @@
             <column name="age" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="caseNumber" type="INT"/>
-            <column name="category" type="INT"/>
             <column name="classification" type="INT">
                 <constraints nullable="false"/>
             </column>
+            <column name="state" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registrationCode" type="VARCHAR(50)"/>
+            <column name="registrationDate" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="caseCode" type="VARCHAR(50)"/>
+            <column name="diagnosisDate" type="date"/>
+            <column name="category" type="INT"/>
             <column name="CURR_ADDRESS" type="VARCHAR(255)"/>
             <column name="CURR_COMPLEMENT" type="VARCHAR(255)"/>
             <column name="CURR_LOCALITYTYPE" type="INT"/>
             <column name="CURR_ZIPCODE" type="VARCHAR(255)"/>
-            <column name="diagnosisDate" type="date"/>
             <column name="endTreatmentDate" type="date"/>
             <column name="infectionSite" type="INT"/>
             <column name="iniTreatmentDate" type="date"/>
@@ -1256,16 +1263,11 @@
             <column name="notifAddressChanged" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="outcome" type="varchar(100)" />
             <column name="otherOutcome" type="VARCHAR(100)"/>
             <column name="outcomeDate" type="date"/>
             <column name="registrationGroup" type="VARCHAR(100)"/>
             <column name="registrationGroupOther" type="VARCHAR(100)"/>
-            <column name="registrationDate" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="state" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="CURR_ADMINUNIT_ID" type="${type.id}"/>
             <column name="NOTIF_ADMINUNIT_ID" type="${type.id}"/>
             <column name="NOTIFICATION_UNIT_ID" type="${type.id}"/>
@@ -1273,7 +1275,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="diagnosisType" type="INT"/>
-            <column name="registrationCode" type="VARCHAR(50)"/>
             <column name="drugResistanceType" type="INT"/>
             <column name="comments" type="${type.text}"/>
             <column name="patientContactName" type="VARCHAR(100)"/>
@@ -1657,28 +1658,6 @@
     </changeSet>
 
 
-    <!--
-    <changeSet author="rmemoria" id="1433264274749-74">
-        <createTable tableName="userrole">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-            <column name="changeable" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="code" type="VARCHAR(50)"/>
-            <column name="name" type="${type.name}">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="internalUse" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="messageKey" type="VARCHAR(100)"/>
-        </createTable>
-    </changeSet>
-    -->
-
-
     <changeSet author="rmemoria" id="1433264274749-75">
         <createTable tableName="userworkspace">
             <column name="id" type="${type.id}">
@@ -1769,6 +1748,10 @@
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
             </column>
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_id" type="${type.id}" />
         </createTable>
     </changeSet>
 
@@ -1809,11 +1792,31 @@
     </changeSet>
 
 
+    <changeSet id="rmemoria" author="searchable-1">
+        <createTable tableName="searchable">
+            <column name="id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="subtitle" type="varchar(200)" />
+            <column name="type" type="int" />
+            <column name="unit_id" type="${type.id}"/>
+            <column name="workspace_id" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
 
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>
     </changeSet>
 
+    <changeSet author="rmemoria" id="searchable-2">
+        <addPrimaryKey columnNames="id" constraintName="PKSEARCHABLE" tableName="searchable"/>
+    </changeSet>
 
     <changeSet author="rmemoria" id="1433264274749-80">
         <addPrimaryKey columnNames="id" constraintName="PKAGERANGE" tableName="agerange"/>
@@ -2530,5 +2533,16 @@
                                  referencedColumnNames="id" referencedTableName="unit"/>
     </changeSet>
 
+    <changeSet author="rmemoria" id="searchable-3">
+        <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="searchable" constraintName="FKSEARCH_UNIT"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="unit"/>
+    </changeSet>
+
+    <changeSet author="rmemoria" id="searchable-4">
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="searchable" constraintName="FKSEARCH_WS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="workspace"/>
+    </changeSet>
 
 </databaseChangeLog>

@@ -31,19 +31,17 @@ public class TbCase extends WorkspaceEntity {
 	@PropertyLog(ignore = true)
 	private Integer version;
 
-    @PropertyLog(messageKey = "DisplayCaseNumber.CASE_ID")
-	private Integer caseNumber;
-
-	// specific suspect information
-	@Column(length = 50)
-	private String suspectRegistrationCode;
-
 	@PropertyLog(messageKey = "CaseClassification")
 	private CaseClassification suspectClassification;
-	
+
+    /**
+     * The code of the patient at the moment of registration (presumptive code)
+     */
 	@Column(length = 50)
 	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
 	private String registrationCode;
+
+    private String caseCode;
 
 	private Integer daysTreatPlanned;
 	
@@ -55,6 +53,10 @@ public class TbCase extends WorkspaceEntity {
 	
 	private Integer age;
 
+    /**
+     * The date the patient was registered in the unit. If before the diagnosis date, this period
+     * between this date and the diagnosis date is considered the period the patient was a suspect
+     */
 	@NotNull
 	@Temporal(TemporalType.DATE)
 	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
@@ -171,7 +173,6 @@ public class TbCase extends WorkspaceEntity {
 	@AttributeOverrides({
 		@AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
 		@AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
-		@AttributeOverride(name = "localityType", column = @Column(name = "NOTIF_LOCALITYTYPE")),
 		@AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
 	})
 	@AssociationOverrides({
@@ -184,7 +185,6 @@ public class TbCase extends WorkspaceEntity {
 	@AttributeOverrides({
 		@AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
 		@AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
-		@AttributeOverride(name = "localityType", column = @Column(name = "CURR_LOCALITYTYPE")),
 		@AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
 	})
 	@AssociationOverrides({
@@ -489,14 +489,6 @@ public class TbCase extends WorkspaceEntity {
 		return DateUtils.yearsBetween(dt, dt2);
 	}
 
-
-	public Integer getCaseNumber() {
-		return caseNumber;
-	}
-
-	public void setCaseNumber(Integer caseNumber) {
-		this.caseNumber = caseNumber;
-	}
 
 	public Patient getPatient() {
 		return patient;
@@ -1112,25 +1104,17 @@ public class TbCase extends WorkspaceEntity {
 	public void setRegimenIni(Regimen regimenIni) {
 		this.regimenIni = regimenIni;
 	}
-	
-
-	/**
-	 * @return the suspectRegistrationCode
-	 */
-	public String getSuspectRegistrationCode() {
-		return suspectRegistrationCode;
-	}
 
 
-	/**
-	 * @param suspectRegistrationCode the suspectRegistrationCode to set
-	 */
-	public void setSuspectRegistrationCode(String suspectRegistrationCode) {
-		this.suspectRegistrationCode = suspectRegistrationCode;
-	}
+    public String getCaseCode() {
+        return caseCode;
+    }
 
+    public void setCaseCode(String caseCode) {
+        this.caseCode = caseCode;
+    }
 
-	/**
+    /**
 	 * @return the suspectClassification
 	 */
 	public CaseClassification getSuspectClassification() {

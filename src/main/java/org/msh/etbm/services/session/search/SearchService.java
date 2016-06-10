@@ -21,7 +21,7 @@ public class SearchService {
      */
     public List<SearchResponse> searchByKey(String key, Integer maxResult) {
         List<SearchResponse> lst = new ArrayList<>();
-        
+
         return lst;
     }
 }
