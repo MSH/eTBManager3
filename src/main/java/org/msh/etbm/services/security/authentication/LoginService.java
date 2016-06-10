@@ -1,12 +1,12 @@
-package org.msh.etbm.services.authentication;
+package org.msh.etbm.services.security.authentication;
 
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserState;
-import org.msh.etbm.services.users.UserUtils;
-import org.msh.etbm.services.usersession.UserRequestService;
-import org.msh.etbm.services.usersession.UserSession;
-import org.msh.etbm.services.usersession.UserSessionService;
+import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
+import org.msh.etbm.services.session.usersession.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

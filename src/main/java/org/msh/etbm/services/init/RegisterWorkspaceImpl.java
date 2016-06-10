@@ -9,7 +9,7 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.admin.workspaces.WorkspaceCreator;
 import org.msh.etbm.services.admin.workspaces.WorkspaceData;
-import org.msh.etbm.services.users.UserUtils;
+import org.msh.etbm.services.security.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

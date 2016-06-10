@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sys;
+package org.msh.etbm.services.sys.info;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;

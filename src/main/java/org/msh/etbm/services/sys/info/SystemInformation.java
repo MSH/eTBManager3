@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sys;
+package org.msh.etbm.services.sys.info;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.Item;

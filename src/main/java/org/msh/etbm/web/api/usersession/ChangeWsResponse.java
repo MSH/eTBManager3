@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.usersession;
 
-import org.msh.etbm.services.usersession.UserSessionResponse;
+import org.msh.etbm.services.session.usersession.UserSessionResponse;
 
 import java.util.UUID;
 

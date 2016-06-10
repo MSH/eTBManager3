@@ -27,6 +27,11 @@ public class UnitViewService {
     @PersistenceContext
     EntityManager entityManager;
 
+    /**
+     * Get data related to the unit view of the cases module
+     * @param unitId the unit ID to get information from
+     * @return instance of {@link UnitViewData} containing the unit data
+     */
     @Transactional
     public UnitViewData getUnitView(UUID unitId) {
         UnitViewData data = new UnitViewData();
@@ -94,6 +99,7 @@ public class UnitViewService {
 
         Date ini = tbcase.getTreatmentPeriod().getIniDate();
 
+        // is case on treatment ?
         if (ini != null) {
             data.setIniTreatmentDate(tbcase.getTreatmentPeriod().getIniDate());
 
@@ -115,6 +121,14 @@ public class UnitViewService {
         return data;
     }
 
+    /**
+     * Presumptive and confirmed share common information. This method creates the data object
+     * to store data about a confirmed or a presumptive case
+     * @param tbcase the TB case data
+     * @param clazz data class to be instantiated, inherited from {@link CommonCaseData}
+     * @param <K>
+     * @return the instance of the data class, with common data filled
+     */
     private <K extends CommonCaseData> K createCaseData(TbCase tbcase, Class<K> clazz) {
         K data =  ObjectUtils.newInstance(clazz);
 
@@ -129,6 +143,11 @@ public class UnitViewService {
     }
 
 
+    /**
+     * Load the tags and its total of cases for the given unit
+     * @param unitId the unit ID to load tags from
+     * @param data the view to include the results
+     */
     private void loadTags(UUID unitId, UnitViewData data) {
         List<CaseTagData> tags = new ArrayList<>();
 

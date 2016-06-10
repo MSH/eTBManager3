@@ -3,7 +3,7 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.sessionreport.UserSessionRepQueryParams;
 import org.msh.etbm.services.admin.sessionreport.UserSessionRepService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

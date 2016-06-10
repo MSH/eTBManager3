@@ -1,4 +1,4 @@
-package org.msh.etbm.services.usersettings;
+package org.msh.etbm.services.session.usersettings;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.commands.CommandLog;
@@ -7,7 +7,7 @@ import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.ObjectDiffGenerator;
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.dao;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;

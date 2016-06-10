@@ -1,11 +1,11 @@
-package org.msh.etbm.services.usersession;
+package org.msh.etbm.services.session.usersession;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.CacheConfiguration;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.services.permissions.Permission;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permission;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;

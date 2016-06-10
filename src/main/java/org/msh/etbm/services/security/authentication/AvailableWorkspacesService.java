@@ -1,4 +1,4 @@
-package org.msh.etbm.services.authentication;
+package org.msh.etbm.services.security.authentication;
 
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.springframework.beans.factory.annotation.Autowired;

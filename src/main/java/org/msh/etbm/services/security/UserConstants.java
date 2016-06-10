@@ -1,4 +1,4 @@
-package org.msh.etbm.services.users;
+package org.msh.etbm.services.security;
 
 /**
  * Constants used for user handling

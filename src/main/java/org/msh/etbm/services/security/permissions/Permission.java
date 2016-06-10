@@ -1,4 +1,4 @@
-package org.msh.etbm.services.permissions;
+package org.msh.etbm.services.security.permissions;
 
 import java.util.ArrayList;
 import java.util.List;

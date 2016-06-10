@@ -1,4 +1,4 @@
-package org.msh.etbm.services.usersession;
+package org.msh.etbm.services.session.usersession;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.UserView;

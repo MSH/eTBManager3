@@ -2,8 +2,8 @@ package org.msh.etbm.test.services;
 
 import org.junit.Test;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.services.usersettings.UserSettingsFormData;
-import org.msh.etbm.services.usersettings.UserSettingsService;
+import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
+import org.msh.etbm.services.session.usersettings.UserSettingsService;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 

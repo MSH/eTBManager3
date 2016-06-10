@@ -1,4 +1,4 @@
-package org.msh.etbm.services.authentication;
+package org.msh.etbm.services.security.authentication;
 
 import java.util.UUID;
 

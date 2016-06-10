@@ -3,8 +3,8 @@ package org.msh.etbm.services.admin.userprofiles.perms;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
-import org.msh.etbm.services.permissions.Permission;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permission;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

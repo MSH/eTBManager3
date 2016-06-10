@@ -1,8 +1,8 @@
-package org.msh.etbm.services.authentication;
+package org.msh.etbm.services.security.authentication;
 
 import com.fasterxml.uuid.Generators;
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.services.users.UserUtils;
+import org.msh.etbm.services.security.UserUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

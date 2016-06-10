@@ -1,37 +1,43 @@
 import React from 'react';
-import { MenuItem, FormGroup, FormControl, InputGroup, Button } from 'react-bootstrap';
+import { MenuItem, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import { Popup, Profile, Fa } from '../components';
 
 import { generateName, generateCaseNumber } from './mock-data';
 
 import './search-box.less';
 
-const items = [
+const mockItems = [
 {
 	type: 'ws',
-	title: 'MSH Demo'
+	title: 'MSH Demo',
+	id: '123344-1'
 },
 {
+	id: '1231231-2',
 	type: 'tbunit',
 	title: 'Health Unit 1',
 	subtitle: 'Region 1'
 },
 {
+	id: '1231231-3',
 	type: 'tbunit',
 	title: 'Health Unit 2',
 	subtitle: 'Region 1'
 },
 {
+	id: '1231231-4',
 	type: 'tbunit',
 	title: 'NTP',
 	subtitle: 'Region 2'
 },
 {
+	id: '1231231-5',
 	type: 'lab',
 	title: 'Laboratory 1',
 	subtitle: 'Region 1'
 },
 {
+	id: '1231231-6',
 	type: 'lab',
 	title: 'Laboratory 2',
 	subtitle: 'Region 2'
@@ -45,11 +51,13 @@ export default class SearchBox extends React.Component {
 
 		this.keyPressed = this.keyPressed.bind(this);
 		this.clearKey = this.clearKey.bind(this);
+		this.keyDown = this.keyDown.bind(this);
+		this.select = this.select.bind(this);
 		this.state = {};
 	}
 
 	componentWillMount() {
-		const lst = items.slice(0);
+		const lst = mockItems.slice(0);
 
 		// generate mock data
 		for (var i = 0; i < 100; i++) {
@@ -57,16 +65,17 @@ export default class SearchBox extends React.Component {
 			lst.push({
 				type: res.gender.toLowerCase(),
 				title: res.name,
+				id: '112233-2233-4444-' + i,
 				subtitle: generateCaseNumber()
 			});
 		}
 
-		this.setState({ items: lst });
+		this.setState({ db: lst, items: [] });
 	}
 
 
 	clearKey() {
-		this.setState({ key: null });
+		this.setState({ key: null, sel: null });
 		this.refs.popup.hide();
 	}
 
@@ -78,14 +87,61 @@ export default class SearchBox extends React.Component {
 			this.refs.popup.hide();
 		}
 
-		this.setState({ key: txt });
+		const res = txt ?
+			this.state.db.filter(it => it.title.toLowerCase().indexOf(txt.toLowerCase()) > -1).slice(0, 15) :
+			[];
+
+		this.setState({
+			key: txt,
+			items: res,
+			sel: res.length > 0 ? res[0] : null
+		});
+	}
+
+
+	keyDown(evt) {
+		const lst = this.state.items;
+		if (!lst || lst.length === 0) {
+			return;
+		}
+
+		const index = this.state.sel ? lst.indexOf(this.state.sel) : -1;
+
+		switch (evt.keyCode) {
+			// UP key
+			case 38:
+				if (index > 0) {
+					this.setState({ sel: lst[index - 1] });
+				}
+				evt.preventDefault();
+				return;
+			// DOWN key
+			case 40:
+				if (index < lst.length - 1) {
+					this.setState({ sel: lst[index + 1] });
+				}
+				evt.preventDefault();
+				return;
+			// ESC key
+			case 27:
+				this.clearKey();
+				return;
+			// Enter key
+			case 13:
+				this.select(this.state.sel);
+				return;
+			default: return;
+		}
+	}
+
+	select(item) {
+		console.log('search for ', item);
+		this.clearKey();
 	}
 
 	render() {
-		let index = 0;
-
-		const key = this.state.key ? this.state.key.toLowerCase() : '';
-		const res = key ? this.state.items.filter(it => it.title.toLowerCase().indexOf(key) > -1).slice(0, 15) : items;
+		const key = this.state.key ? this.state.key : '';
+		const items = this.state.items;
 
 		return (
 			<div className="tb-search">
@@ -94,7 +150,9 @@ export default class SearchBox extends React.Component {
 					<FormControl type="text"
 						value={key}
 						placeholder={__('action.search') + '...'}
-						onChange={this.keyPressed}/>
+						onChange={this.keyPressed}
+						onKeyDown={this.keyDown}
+						/>
 					<InputGroup.Addon>
 					{
 						key ?
@@ -105,13 +163,20 @@ export default class SearchBox extends React.Component {
 				</InputGroup>
 				<Popup ref="popup" >
 					{
-						res.map(it =>
-							<MenuItem key={++index}>
+						items.length > 0 ?
+						items.map(it =>
+							<MenuItem key={it.id}
+								eventKey={it}
+								active={this.state.sel === it}
+								onSelect={this.select}>
 								<Profile size="small"
 									type={it.type}
 									title={it.title}
 									subtitle={it.subtitle} />
-							</MenuItem>)
+							</MenuItem>) :
+						<MenuItem disabled>
+							<div className="text-warning">{__('form.norecordfound')}</div>
+						</MenuItem>
 					}
 				</Popup>
 			</FormGroup>

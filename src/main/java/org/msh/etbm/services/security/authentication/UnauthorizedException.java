@@ -1,4 +1,4 @@
-package org.msh.etbm.services.authentication;
+package org.msh.etbm.services.security.authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

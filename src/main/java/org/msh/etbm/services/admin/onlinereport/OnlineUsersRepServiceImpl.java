@@ -2,7 +2,7 @@ package org.msh.etbm.services.admin.onlinereport;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.db.entities.UserLogin;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

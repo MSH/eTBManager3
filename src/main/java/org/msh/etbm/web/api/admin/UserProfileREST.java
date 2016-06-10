@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.userprofiles.UserProfileDetailedData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileFormData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileQueryParams;
 import org.msh.etbm.services.admin.userprofiles.UserProfileService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;

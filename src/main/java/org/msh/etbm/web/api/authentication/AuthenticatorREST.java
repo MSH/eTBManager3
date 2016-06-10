@@ -1,8 +1,8 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.services.authentication.AvailableWorkspacesService;
-import org.msh.etbm.services.authentication.LoginService;
-import org.msh.etbm.services.authentication.WorkspaceInfo;
+import org.msh.etbm.services.security.authentication.AvailableWorkspacesService;
+import org.msh.etbm.services.security.authentication.LoginService;
+import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

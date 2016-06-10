@@ -1,8 +1,8 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.services.usersession.UserRequestService;
-import org.msh.etbm.services.usersession.UserSession;
-import org.msh.etbm.services.usersession.UserSessionService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
+import org.msh.etbm.services.session.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

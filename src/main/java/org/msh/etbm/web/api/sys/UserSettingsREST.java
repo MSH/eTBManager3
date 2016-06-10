@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.services.usersettings.UserSettingsFormData;
-import org.msh.etbm.services.usersettings.UserSettingsService;
+import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
+import org.msh.etbm.services.session.usersettings.UserSettingsService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

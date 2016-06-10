@@ -1,4 +1,4 @@
-package org.msh.etbm.services.usersession;
+package org.msh.etbm.services.session.usersession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

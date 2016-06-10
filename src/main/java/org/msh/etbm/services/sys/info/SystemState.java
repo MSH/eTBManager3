@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sys;
+package org.msh.etbm.services.sys.info;
 
 /**
  * Possible system states

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.usersettings;
+package org.msh.etbm.services.session.usersettings;
 
 import java.util.Optional;
 

@@ -6,7 +6,7 @@ import org.msh.etbm.services.admin.ageranges.AgeRangeData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeFormData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeRequest;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;

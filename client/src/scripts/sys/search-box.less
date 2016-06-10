@@ -21,9 +21,15 @@
 		}
 	}
 
-	.dropdown-menu > li > a {
-		white-space: normal !important;
-		min-width: 300px;
+	.dropdown-menu  {
+		> li.active > a {
+			background-color: darken(@gray-lighter, 10%);
+		}
+
+		> li > a {
+			white-space: normal !important;
+			min-width: 300px;
+		}
 	}
 
 }
