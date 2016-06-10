@@ -1748,9 +1748,6 @@
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
             </column>
-            <column name="WORKSPACE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
             <column name="unit_id" type="${type.id}" />
         </createTable>
     </changeSet>

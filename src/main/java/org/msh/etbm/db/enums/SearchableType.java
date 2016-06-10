@@ -8,7 +8,5 @@ public enum SearchableType {
     TBUNIT,
     LAB,
     CASE_MAN,
-    CASE_WOMAN,
-    PRESUMPTIVE_MAN,
-    PRESUMPTIVE_WOMAN
+    CASE_WOMAN
 }
