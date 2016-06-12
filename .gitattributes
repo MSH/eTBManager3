@@ -1,6 +1,14 @@
-* text=lf
+* text eol=lf
 
 *.xml text
 *.java text
 *.js text
 *.jsx text
+
+*.jpg binary
+*.png binary
+*.ico binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
