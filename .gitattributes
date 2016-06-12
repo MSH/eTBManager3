@@ -12,3 +12,5 @@
 *.ttf binary
 *.woff binary
 *.woff2 binary
+*.idraw binary
+*.pxm binary
