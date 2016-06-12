@@ -1,9 +1,9 @@
 package org.msh.etbm.web.api.sys;
 
+import org.msh.etbm.services.session.usersession.UserSessionService;
 import org.msh.etbm.services.sys.info.SystemInfoService;
 import org.msh.etbm.services.sys.info.SystemInformation;
 import org.msh.etbm.services.sys.info.SystemState;
-import org.msh.etbm.services.session.usersession.UserSessionService;
 import org.msh.etbm.web.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

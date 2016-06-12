@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.usersession;
+package org.msh.etbm.web.api.session;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.services.session.usersession.ChangeWorkspaceService;
@@ -22,6 +22,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("api/sys")
+@Authenticated
 public class UserSessionRest {
 
     @Autowired
@@ -35,7 +36,6 @@ public class UserSessionRest {
      * @param request object representing the client request
      * @return the session data
      */
-    @Authenticated
     @RequestMapping(value = "/session", method = RequestMethod.POST)
     public UserSessionResponse getUserSession(HttpServletRequest request) {
         UserSessionResponse res = userSessionService.createClientResponse();
@@ -49,7 +49,6 @@ public class UserSessionRest {
      * @param userwsId the ID of the selected workspace
      * @return
      */
-    @Authenticated
     @RequestMapping(value = "/changews/{userwsId}", method = RequestMethod.POST)
     public ChangeWsResponse changeWorkspace(HttpServletRequest request, @PathVariable UUID userwsId) {
         String ipAddr = request.getRemoteAddr();
@@ -70,7 +69,6 @@ public class UserSessionRest {
      * Return the list of user workspaces
      * @return list of workspaces
      */
-    @Authenticated
     @RequestMapping(value = "/workspaces", method = RequestMethod.POST)
     public List<SynchronizableItem> getUserWorkspaces() {
         return userSessionService.getUserWorkspaces();

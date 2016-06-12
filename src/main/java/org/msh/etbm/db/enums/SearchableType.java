@@ -5,6 +5,7 @@ package org.msh.etbm.db.enums;
  */
 public enum SearchableType {
     WORKSPACE,
+    ADMINUNIT,
     TBUNIT,
     LAB,
     CASE_MAN,

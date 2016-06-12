@@ -1,10 +1,10 @@
+@import '../../../less/variables.less';
 
 @profile-circlesize: 1.5em;
 
 @profile-small-imgsize: 1.5em;
 @profile-medium-imgsize: 2.6em;
 @profile-large-imgsize: 4em;
-
 
 
 .profile {
@@ -84,6 +84,18 @@
 	}
 }
 
+@media (max-width: @screen-xs-max)  {
+	.profile-large {
+		text-align: center;
+
+		.profile-image {
+			display: inline-block;
+			float: none;
+		}
+	}
+}
+
+
 .profile-img-default {
 	color: #808080;
 	background-color: #e8e8e8;
@@ -143,4 +155,9 @@
 .prof-tag-auto {
 	color: #FFFFFF;
     background-color: #DEAE00;
+}
+
+.prof-place {
+	color: #3F889A;
+	background-color: #f8f8f8;
 }

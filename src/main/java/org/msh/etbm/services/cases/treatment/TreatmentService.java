@@ -4,13 +4,9 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**

@@ -1,12 +1,9 @@
 package org.msh.etbm.services.cases.unitview;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.db.enums.CaseClassification;
-import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.InfectionSite;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Store information about a case (TB or DR-TB)

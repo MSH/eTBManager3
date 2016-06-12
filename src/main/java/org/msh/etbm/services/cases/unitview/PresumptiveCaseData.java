@@ -1,12 +1,7 @@
 package org.msh.etbm.services.cases.unitview;
 
-import org.msh.etbm.db.enums.CaseClassification;
-import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.XpertResult;
-
-import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 2/6/16.

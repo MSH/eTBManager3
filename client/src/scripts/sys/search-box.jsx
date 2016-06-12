@@ -1,48 +1,24 @@
 import React from 'react';
 import { MenuItem, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import { Popup, Profile, Fa } from '../components';
-
-import { generateName, generateCaseNumber } from './mock-data';
+import { server } from '../commons/server';
 
 import './search-box.less';
 
-const mockItems = [
-{
-	type: 'ws',
-	title: 'MSH Demo',
-	id: '123344-1'
-},
-{
-	id: '1231231-2',
-	type: 'tbunit',
-	title: 'Health Unit 1',
-	subtitle: 'Region 1'
-},
-{
-	id: '1231231-3',
-	type: 'tbunit',
-	title: 'Health Unit 2',
-	subtitle: 'Region 1'
-},
-{
-	id: '1231231-4',
-	type: 'tbunit',
-	title: 'NTP',
-	subtitle: 'Region 2'
-},
-{
-	id: '1231231-5',
-	type: 'lab',
-	title: 'Laboratory 1',
-	subtitle: 'Region 1'
-},
-{
-	id: '1231231-6',
-	type: 'lab',
-	title: 'Laboratory 2',
-	subtitle: 'Region 2'
-}
-];
+
+/**
+ * Object map to convert the type returned by the server to the corresponding
+ * in the Profile component
+ * @type {Object}
+ */
+const profileMap = {
+	WORKSPACE: 'ws',
+	ADMINUNIT: 'place',
+	TBUNIT: 'tbunit',
+	LAB: 'lab',
+	CASE_MAN: 'male',
+	CASE_WOMAN: 'female'
+};
 
 export default class SearchBox extends React.Component {
 
@@ -53,26 +29,8 @@ export default class SearchBox extends React.Component {
 		this.clearKey = this.clearKey.bind(this);
 		this.keyDown = this.keyDown.bind(this);
 		this.select = this.select.bind(this);
-		this.state = {};
+		this.state = { };
 	}
-
-	componentWillMount() {
-		const lst = mockItems.slice(0);
-
-		// generate mock data
-		for (var i = 0; i < 100; i++) {
-			const res = generateName();
-			lst.push({
-				type: res.gender.toLowerCase(),
-				title: res.name,
-				id: '112233-2233-4444-' + i,
-				subtitle: generateCaseNumber()
-			});
-		}
-
-		this.setState({ db: lst, items: [] });
-	}
-
 
 	clearKey() {
 		this.setState({ key: null, sel: null });
@@ -81,24 +39,36 @@ export default class SearchBox extends React.Component {
 
 	keyPressed(evt) {
 		const txt = evt.target.value;
-		if (txt) {
+		const searching = txt.length > 1;
+
+		if (searching) {
 			this.refs.popup.show();
 		} else {
 			this.refs.popup.hide();
 		}
 
-		const res = txt ?
-			this.state.db.filter(it => it.title.toLowerCase().indexOf(txt.toLowerCase()) > -1).slice(0, 15) :
-			[];
+		const self = this;
+		// check if there are more than 2 chars
+		if (searching) {
+			// call the server for items that match the key
+			server.post('/api/session/search', { key: txt, maxResults: 10 })
+			.then(res => {
+				self.setState({
+					items: res,
+					sel: res.length > 0 ? res[0] : null
+				});
+			});
+		}
 
-		this.setState({
-			key: txt,
-			items: res,
-			sel: res.length > 0 ? res[0] : null
-		});
+		this.setState({ key: txt });
 	}
 
 
+	/**
+	 * Keyboard support for the search input box
+	 * @param  {[type]} evt [description]
+	 * @return {[type]}     [description]
+	 */
 	keyDown(evt) {
 		const lst = this.state.items;
 		if (!lst || lst.length === 0) {
@@ -139,9 +109,47 @@ export default class SearchBox extends React.Component {
 		this.clearKey();
 	}
 
+	renderPopup() {
+		const items = this.state.items;
+
+		if (!items) {
+			return null;
+		}
+
+		if (items.length === 0) {
+			return (
+				<MenuItem header>
+					<div className="text-warning">{__('form.norecordfound')}</div>
+				</MenuItem>
+				);
+		}
+
+		const lst = [];
+
+		items.forEach((it, index) => {
+			// check if should include a divider
+			if (index > 0 && it.type !== items[index - 1].type) {
+				lst.push(<MenuItem key={'s' + it.id} divider />);
+			}
+
+			// add menu item
+			lst.push(
+				<MenuItem key={it.id}
+					eventKey={it}
+					active={this.state.sel === it}
+					onSelect={this.select}>
+					<Profile size="small"
+						type={profileMap[it.type]}
+						title={it.title}
+						subtitle={it.subtitle} />
+				</MenuItem>);
+		});
+
+		return lst;
+	}
+
 	render() {
 		const key = this.state.key ? this.state.key : '';
-		const items = this.state.items;
 
 		return (
 			<div className="tb-search">
@@ -162,22 +170,7 @@ export default class SearchBox extends React.Component {
 					</InputGroup.Addon>
 				</InputGroup>
 				<Popup ref="popup" >
-					{
-						items.length > 0 ?
-						items.map(it =>
-							<MenuItem key={it.id}
-								eventKey={it}
-								active={this.state.sel === it}
-								onSelect={this.select}>
-								<Profile size="small"
-									type={it.type}
-									title={it.title}
-									subtitle={it.subtitle} />
-							</MenuItem>) :
-						<MenuItem disabled>
-							<div className="text-warning">{__('form.norecordfound')}</div>
-						</MenuItem>
-					}
+					{this.renderPopup()}
 				</Popup>
 			</FormGroup>
 			</div>

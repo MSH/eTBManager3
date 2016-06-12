@@ -1,7 +1,5 @@
 package org.msh.etbm.services.security;
 
-import org.msh.etbm.services.security.UserConstants;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;

@@ -1,7 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.enums.SearchableType;
 
 import javax.persistence.*;

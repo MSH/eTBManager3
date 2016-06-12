@@ -1,6 +1,9 @@
 
 import React from 'react';
 
+import './profile.less';
+
+
 export default class Profile extends React.Component {
 
 	/**
@@ -9,6 +12,8 @@ export default class Profile extends React.Component {
 	 */
 	getIconType() {
 		switch (this.props.type) {
+			case 'place':
+				return 'map-marker';
 			case 'male':
 				return 'male';
 			case 'female':
@@ -75,6 +80,6 @@ Profile.propTypes = {
 	size: React.PropTypes.string,
 	imgClass: React.PropTypes.string,
 	bottomline: React.PropTypes.bool,
-	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user'])
+	type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user', 'place'])
 };
 

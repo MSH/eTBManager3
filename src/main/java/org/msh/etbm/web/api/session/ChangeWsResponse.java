@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.usersession;
+package org.msh.etbm.web.api.session;
 
 import org.msh.etbm.services.session.usersession.UserSessionResponse;
 

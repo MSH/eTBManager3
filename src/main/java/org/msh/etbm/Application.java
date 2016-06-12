@@ -1,6 +1,5 @@
 package org.msh.etbm;
 
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.DozerEntityConverter;
@@ -11,7 +10,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
