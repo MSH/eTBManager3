@@ -21,11 +21,6 @@ public class SearchRequest {
      */
     private Integer maxResults;
 
-    /**
-     * The type of information to return. If not informed, it will return all types
-     */
-    private SearchableType type;
-
 
     public String getKey() {
         return key;
@@ -41,13 +36,5 @@ public class SearchRequest {
 
     public void setMaxResults(Integer maxResults) {
         this.maxResults = maxResults;
-    }
-
-    public SearchableType getType() {
-        return type;
-    }
-
-    public void setType(SearchableType type) {
-        this.type = type;
     }
 }
