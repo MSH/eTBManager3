@@ -1,6 +1,6 @@
 import React from 'react';
 import { MenuItem, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
-import { Popup, Profile, Fa } from '../components';
+import { Popup, Profile, Fa, WaitIcon } from '../components';
 import { server } from '../commons/server';
 
 import './search-box.less';
@@ -27,6 +27,7 @@ export default class SearchBox extends React.Component {
 
 		this.keyPressed = this.keyPressed.bind(this);
 		this.clearKey = this.clearKey.bind(this);
+		this._popupHide = this._popupHide.bind(this);
 		this.keyDown = this.keyDown.bind(this);
 		this.select = this.select.bind(this);
 		this.state = { };
@@ -37,9 +38,13 @@ export default class SearchBox extends React.Component {
 		this.refs.popup.hide();
 	}
 
+	_popupHide() {
+		this.setState({ key: null, sel: null });
+	}
+
 	keyPressed(evt) {
 		const txt = evt.target.value;
-		const searching = txt.length > 1;
+		const searching = txt.length > 0;
 
 		if (searching) {
 			this.refs.popup.show();
@@ -55,12 +60,14 @@ export default class SearchBox extends React.Component {
 			.then(res => {
 				self.setState({
 					items: res,
+					fetching: false,
 					sel: res.length > 0 ? res[0] : null
 				});
-			});
+			})
+			.catch(() => self.clearKey());
 		}
 
-		this.setState({ key: txt });
+		this.setState({ key: txt, fetching: true });
 	}
 
 
@@ -109,10 +116,17 @@ export default class SearchBox extends React.Component {
 		this.clearKey();
 	}
 
+	/**
+	 * Render the popup panel to display the autocomplete options
+	 * @return {[type]} [description]
+	 */
 	renderPopup() {
 		const items = this.state.items;
 
 		if (!items) {
+			if (this.state.fetching) {
+				return <WaitIcon type="field" />;
+			}
 			return null;
 		}
 
@@ -128,7 +142,9 @@ export default class SearchBox extends React.Component {
 
 		items.forEach((it, index) => {
 			// check if should include a divider
-			if (index > 0 && it.type !== items[index - 1].type) {
+			const caseType = it.type.startsWith('CASE');
+			const prevCaseType = index > 0 && items[index - 1].type.startsWith('CASE');
+			if (index > 0 && caseType !== prevCaseType) {
 				lst.push(<MenuItem key={'s' + it.id} divider />);
 			}
 
@@ -147,6 +163,7 @@ export default class SearchBox extends React.Component {
 
 		return lst;
 	}
+
 
 	render() {
 		const key = this.state.key ? this.state.key : '';
@@ -169,7 +186,7 @@ export default class SearchBox extends React.Component {
 					}
 					</InputGroup.Addon>
 				</InputGroup>
-				<Popup ref="popup" >
+				<Popup ref="popup" onHide={this._popupHide}>
 					{this.renderPopup()}
 				</Popup>
 			</FormGroup>

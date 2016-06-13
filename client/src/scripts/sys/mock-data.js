@@ -26,23 +26,23 @@ export function generateCaseNumber() {
 const tags = [{
 	id: '123456-1',
 	name: 'Not on treatment',
-	type: 'userdef'
+	type: 'manual'
 }, {
 	id: '123456-2',
 	name: 'On treatment',
-	type: 'userdef'
+	type: 'manual'
 }, {
 	id: '123456-3',
 	name: 'Closed cases',
-	type: 'warn'
+	type: 'auto'
 }, {
 	id: '123456-4',
 	name: 'DR-TB with no resistance',
-	type: 'danger'
+	type: 'autodanger'
 }, {
 	id: '123456-5',
 	name: 'TB with resistance',
-	type: 'danger'
+	type: 'autodanger'
 }];
 
 

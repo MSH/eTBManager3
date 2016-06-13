@@ -84,11 +84,10 @@ public class SearchService {
      * @return Result list of searchable items
      */
     private List<Searchable> loadResult(SearchRequest req, boolean casesOnly) {
-        String hql = "from Searchable where upper(title) like :key and workspace.id = :wsid ";
+        String hql = "from Searchable where workspace.id = :wsid ";
 
-        hql += casesOnly ? " and type in (:c1, :c2)" : " and type < :c3";
-
-        hql += "\norder by type, title";
+        hql += casesOnly ? " and type in (:c1, :c2) and (upper(title) like :key or upper(subtitle) like :key) order by title" :
+                " and upper(title) like :key and type < :c3 order by type, title";
 
         Query qry = entityManager.createQuery(hql)
                 .setParameter("wsid", userRequestService.getUserSession().getWorkspaceId())
