@@ -1,6 +1,9 @@
 import React from 'react';
-import { Grid, Row, Col, Button, FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
+import { Row, Col, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
 import Logo from './logo';
+import AsyncButton from '../components/async-button';
+import Card from '../components/card';
+import { server } from '../commons/server';
 
 
 /**
@@ -8,46 +11,85 @@ import Logo from './logo';
  */
 export default class ForgotPwd extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.submit = this.submit.bind(this);
-        this.state = {};
-    }
+	constructor(props) {
+		super(props);
+		this.submit = this.submit.bind(this);
+		this.inputChange = this.inputChange.bind(this);
+		this.state = {};
+	}
 
-    submit() {
-        console.log('hi');
-    }
+	submit() {
+		const self = this;
+		server.post('/api/pub/forgotpwd?id=' + this.state.value)
+		.then(res => {
+			self.setState({ fetching: null, requested: true, success: res.success });
+		})
+		.catch(() => self.setState({ fetching: null, requested: false }));
 
-    /**
-     * Render the component
-     */
-    render() {
-        const err = this.state.err;
+		this.setState({ fetching: true });
+	}
 
-        return (
-            <Logo backLink>
-                <Row>
-                    <Col md={12} className="text-center">
-                        <h3>{__('forgotpwd')}</h3>
+	inputChange(evt) {
+		this.setState({ value: evt.target.value });
+	}
 
-                        <p className="text-muted">
-                            {__('forgotpwd.msg')}
-                        </p>
+	/**
+	 * Render the component
+	 */
+	render() {
+		const err = this.state.err;
+		const val = this.state.value ? this.state.value : '';
 
-                        <FormGroup validationState={err ? 'error' : undefined} bsSize="large">
-                            <FormControl type="text" ref="email" placeholder={__('forgotpwd.emailuser')} autoFocus />
-                            {err && <HelpBlock>{err}</HelpBlock>}
-                        </FormGroup>
-                    </Col>
-                </Row>
-                <Row className="mtop-2x">
-                    <Col md={12}>
-                        <Button block bsStyle="primary" bsSize="large" onClick={this.submit}>
-                        {__('action.submit')}
-                        </Button>
-                    </Col>
-                </Row>
-            </Logo>
-        );
-    }
+		return (
+			<Logo backLink>
+				{
+					!this.state.success ?
+					<div>
+						<Row>
+							<Col md={12} className="text-center">
+								<h3>{__('forgotpwd')}</h3>
+
+								<p className="text-muted">
+									{__('forgotpwd.msg')}
+								</p>
+
+								<FormGroup validationState={err ? 'error' : undefined} bsSize="large">
+									<FormControl type="text" ref="email"
+										value={val}
+										onChange={this.inputChange}
+										placeholder={__('forgotpwd.emailuser')}
+										autoFocus />
+									{err && <HelpBlock>{err}</HelpBlock>}
+								</FormGroup>
+								{
+									this.state.requested &&
+									<Alert bsStyle="danger">{__('forgotpwd.invalid')}</Alert>
+								}
+							</Col>
+						</Row>
+						<Row className="mtop-2x">
+							<Col md={12}>
+								<AsyncButton block bsStyle="primary" bsSize="large"
+									onClick={this.submit}
+									disabled={val.length < 4}
+									fetching={this.state.fetching}>
+								{__('action.submit')}
+								</AsyncButton>
+							</Col>
+						</Row>
+					</div> :
+					<div>
+						<Card>
+							<div className="text-center">
+								<h1>{__('forgotpwd.success')}</h1>
+								<p>
+									{__('forgotpwd.success.1')}
+								</p>
+							</div>
+						</Card>
+					</div>
+				}
+			</Logo>
+		);
+	}
 }

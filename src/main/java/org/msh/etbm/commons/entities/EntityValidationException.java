@@ -23,7 +23,11 @@ public class EntityValidationException extends RuntimeException {
         super(message);
 
         this.bindingResult = new BeanPropertyBindingResult(entity, entity.getClass().getSimpleName());
-        this.bindingResult.rejectValue(field, code);
+        if (message != null) {
+            this.bindingResult.reject(field, message);
+        } else {
+            this.bindingResult.rejectValue(field, code);
+        }
     }
 
     /**

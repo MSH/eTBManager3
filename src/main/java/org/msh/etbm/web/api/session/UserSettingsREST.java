@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.sys;
+package org.msh.etbm.web.api.session;
 
 import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.msh.etbm.services.session.usersettings.UserSettingsService;

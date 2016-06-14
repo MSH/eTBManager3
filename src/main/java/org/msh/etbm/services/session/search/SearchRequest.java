@@ -1,7 +1,5 @@
 package org.msh.etbm.services.session.search;
 
-import org.msh.etbm.db.enums.SearchableType;
-
 import javax.validation.constraints.NotNull;
 
 /**

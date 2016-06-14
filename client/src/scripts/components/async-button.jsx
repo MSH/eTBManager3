@@ -21,7 +21,10 @@ export default class AsyncButton extends React.Component {
 
         const btnProps = Object.assign({},
             this.props,
-            { disabled: fetching, bsStyle: props.bsStyle ? props.bsStyle : 'primary' });
+            {
+                disabled: fetching || this.props.disabled,
+                bsStyle: props.bsStyle ? props.bsStyle : 'primary'
+            });
 
         delete btnProps.fetching;
 
@@ -45,7 +48,8 @@ AsyncButton.propTypes = {
     fetching: React.PropTypes.bool,
     fetchMsg: React.PropTypes.string,
     children: React.PropTypes.any,
-    faIcon: React.PropTypes.string
+    faIcon: React.PropTypes.string,
+    disabled: React.PropTypes.bool
 };
 
 AsyncButton.defaultProps = {

@@ -10,9 +10,6 @@ import Logo from './logo';
 import BorderlessForm from './borderless-form';
 
 
-import './login.less';
-
-
 /**
  * Values to be validated
  */
@@ -99,7 +96,7 @@ export default class Login extends React.Component {
 
 		return (
 				<Logo>
-					<div className="login">
+					<div>
 					<Row>
 						<Col md={12}>
 							<div className="text-center">

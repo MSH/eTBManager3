@@ -103,7 +103,7 @@ public class User implements Displayable {
      * The request token used by the user to change its password when using the forgot password process
      */
     @PropertyLog(ignore = true)
-    private String pwdChangeRequest;
+    private String passwordResetToken;
 
     /**
      * The user mobile number
@@ -319,12 +319,12 @@ public class User implements Displayable {
 		this.ulaAccepted = ulaAccepted;
 	}
 
-    public String getPwdChangeRequest() {
-        return pwdChangeRequest;
+    public String getPasswordResetToken() {
+        return passwordResetToken;
     }
 
-    public void setPwdChangeRequest(String pwdChangeRequest) {
-        this.pwdChangeRequest = pwdChangeRequest;
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
     }
 
     @Override

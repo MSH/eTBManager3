@@ -4,6 +4,8 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.msh.etbm.Messages;
+import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class MailServiceImpl implements MailService {
 
     @Value("${mail.host:}")
     String mailHost;
+
+    @Autowired
+    SysConfigService sysConfigService;
 
     @Autowired
     JavaMailSender javaMailSender;
@@ -65,7 +70,7 @@ public class MailServiceImpl implements MailService {
         }
 
         try {
-            String txt = loadMessageFromTemplate(template, model);
+            String txt = loadMessageFromTemplate(template, subject, model);
 
             MimeMessage msg = javaMailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(msg, true, "UTF-8");
@@ -89,16 +94,26 @@ public class MailServiceImpl implements MailService {
      * Process the template and return the content in a string format. Mail templates are loaded
      * from the templates/mail folder
      * @param templateFile the template file name
+     * @param subject the message subject
      * @param model the data model with dynamic data to be replaced in the template and used by freemarker
      * @return the message in string format
      */
-    protected String loadMessageFromTemplate(String templateFile, Map<String, Object> model) {
+    protected String loadMessageFromTemplate(String templateFile, String subject, Map<String, Object> model) {
         try {
             Template templ = configuration.getTemplate("mail/template.html");
 
+            // get system URL
+            SysConfigFormData cfg = sysConfigService.loadConfig();
+            String url = cfg.getPageRootURL().isPresent() ? cfg.getPageRootURL().get() : "";
+            if (url.length() > 0 && !url.endsWith("/")) {
+                url += "/";
+            }
+
             Map<String, Object> data = new HashMap<>(model);
+            data.put("subject", subject);
             data.put("msg", createMessageResolver());
             data.put("content", templateFile);
+            data.put("url", url);
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(templ, data);
 

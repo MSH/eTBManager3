@@ -56,7 +56,10 @@ function validateValue(value, model, data) {
     }
 
     if (typeof value === 'string') {
-        return validateString(value, model);
+        const err = validateString(value, model);
+        if (err) {
+            return err;
+        }
     }
 
     // check for valid e-mail address
@@ -72,7 +75,7 @@ function validateValue(value, model, data) {
     }
 
     if (model.validate) {
-        const res = model.validate.call(data);
+        const res = model.validate.call(data, data);
         if (res) {
             return res;
         }

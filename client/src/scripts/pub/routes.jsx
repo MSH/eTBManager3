@@ -6,6 +6,7 @@ import { RouteView } from '../components/router.jsx';
 import Login from './login.jsx';
 import UserReg from './user-reg.jsx';
 import ForgotPwd from './forgot-pwd.jsx';
+import ResetPwd from './reset-pwd.jsx';
 
 
 /**
@@ -17,7 +18,8 @@ export default class Routes extends React.Component {
 		const routes = RouteView.createRoutes([
 			{ path: '/login', view: Login },
             { path: '/forgotpwd', view: ForgotPwd },
-            { path: '/userreg', view: UserReg }
+            { path: '/userreg', view: UserReg },
+            { path: '/resetpwd/{id}', view: ResetPwd }
 		]);
 
 		return <RouteView routes={routes} />;

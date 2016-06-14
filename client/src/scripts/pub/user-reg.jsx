@@ -30,7 +30,7 @@ export default class UserReg extends React.Component {
 
 		return (
 			<Logo backLink>
-				<div className="login">
+				<div>
 				<Row>
 					<Col md={12}>
 						<div className="text-center">

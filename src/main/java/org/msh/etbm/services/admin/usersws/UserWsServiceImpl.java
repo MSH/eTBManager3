@@ -71,7 +71,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
         // generate new UUID token to change password
         UUID id = UUID.randomUUID();
-        user.setPwdChangeRequest(id.toString());
+        user.setPasswordResetToken(id.toString());
 
         // set the date and time user was registered
         user.setRegistrationDate(new Date());
