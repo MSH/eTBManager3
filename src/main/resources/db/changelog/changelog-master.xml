@@ -1160,7 +1160,7 @@
             <column name="ulaAccepted" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="passwordResetRequest" type="varchar(100)" />
+            <column name="passwordResetToken" type="varchar(100)" />
             <column name="mobile" type="varchar(100)" />
         </createTable>
     </changeSet>
