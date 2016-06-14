@@ -1,12 +1,15 @@
 package org.msh.etbm.test.services.pub;
 
 import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.msh.etbm.Application;
+import org.msh.etbm.services.init.RegisterWorkspaceImpl;
 import org.msh.etbm.services.pub.ForgotPwdService;
+import org.msh.etbm.services.pub.PwdResetTokenResponse;
 import org.msh.etbm.test.TestSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,8 +17,13 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
 
+import javax.mail.Address;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import static org.junit.Assert.*;
@@ -28,6 +36,8 @@ import static org.junit.Assert.*;
 @SpringApplicationConfiguration(Application.class)
 @WebAppConfiguration
 public class ForgotPwdTest {
+
+    private GreenMail mailServer;
 
     @Autowired
     ForgotPwdService forgotPwdService;
@@ -44,12 +54,29 @@ public class ForgotPwdTest {
         testSetup.checkSystemInitialization();
     }
 
+    /**
+     * Test "forgot password" process
+     * @throws Exception
+     */
     @Test
-    public void testRequest() throws Exception {
-        GreenMail mailServer = new GreenMail(ServerSetupTest.SMTP);
+    public void testForgotPwd() throws Exception {
+        mailServer = new GreenMail(ServerSetupTest.SMTP);
 
         mailServer.start();
+        try {
+            testRequest();
+        } finally {
+            mailServer.stop();
+        }
+    }
 
+    /**
+     * Test the request
+     * @return
+     * @throws MessagingException
+     * @throws IOException
+     */
+    private String testRequest() throws MessagingException, IOException {
         String res = forgotPwdService.requestPasswordReset(TestSetup.ADMIN_EMAIL);
         assertNotNull(res);
 
@@ -62,9 +89,27 @@ public class ForgotPwdTest {
         MimeMessage msg = msgs[0];
         assertEquals(1, msg.getFrom().length);
 
-        assertEquals(mailFrom, msg.getFrom()[0]);
-        assertEquals(TestSetup.ADMIN_EMAIL, msg.getAllRecipients()[0]);
+        assertEquals(mailFrom, getEmail(msg.getFrom()[0]));
+        assertEquals(TestSetup.ADMIN_EMAIL, getEmail(msg.getAllRecipients()[0]));
 
-        mailServer.stop();
+        // check if the message contains the token to be used
+        String txt = GreenMailUtil.getBody(msg);
+        assertTrue(txt.contains(res));
+
+        return res;
+    }
+
+    private void testRequestToken(String token) {
+        PwdResetTokenResponse resp = forgotPwdService.getUserInfoByPasswordResetToken(token);
+        assertNotNull(resp);
+        assertEquals(resp.getName(), RegisterWorkspaceImpl.ADMIN_NAME);
+    }
+
+    private String getEmail(Address addr) {
+        if (addr instanceof InternetAddress) {
+            return ((InternetAddress) addr).getAddress();
+        }
+
+        return addr.toString();
     }
 }

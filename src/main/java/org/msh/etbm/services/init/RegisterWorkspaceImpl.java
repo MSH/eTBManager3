@@ -29,6 +29,8 @@ import java.util.UUID;
 @Service
 public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
+    public static final String ADMIN_NAME = "Administrator";
+    public static final String ADMIN_LOGIN = "ADMIN";
 
     @Autowired
     SysConfigService sysConfigService;
@@ -84,8 +86,8 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      */
     private void createAdminUser(RegisterWorkspaceRequest form, WorkspaceData ws) {
         User user = new User();
-        user.setLogin("ADMIN");
-        user.setName("Administrator");
+        user.setLogin(ADMIN_LOGIN);
+        user.setName(ADMIN_NAME);
         user.setSendSystemMessages(true);
         user.setState(UserState.ACTIVE);
         user.setUlaAccepted(false);
