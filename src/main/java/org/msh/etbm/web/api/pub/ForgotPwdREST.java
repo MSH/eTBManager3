@@ -24,7 +24,7 @@ public class ForgotPwdREST {
 
     @RequestMapping(value = "/forgotpwd", method = RequestMethod.POST)
     public StandardResult requestNewPwd(@RequestParam(value = "id") String id) {
-        String res = service.initPasswordChange(id);
+        String res = service.requestPasswordReset(id);
 
         return new StandardResult(null, null, res != null);
     }

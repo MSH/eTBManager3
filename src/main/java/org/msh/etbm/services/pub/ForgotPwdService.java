@@ -40,7 +40,7 @@ public class ForgotPwdService {
      * @return the ID to be informed to the user in order to change its password
      */
     @Transactional
-    public String initPasswordChange(String userid) {
+    public String requestPasswordReset(String userid) {
         List<User> lst = entityManager.createQuery("from User where email = :userid or login = :userid")
                 .setParameter("userid", userid)
                 .getResultList();
@@ -101,7 +101,7 @@ public class ForgotPwdService {
 
         String subject = messages.get("mail.forgotpwd");
 
-        mailService.send(user.getEmail(), subject, "forgotpwd.html", model);
+        mailService.send(user.getEmail(), subject, "forgotpwd.ftl", model);
     }
 
 

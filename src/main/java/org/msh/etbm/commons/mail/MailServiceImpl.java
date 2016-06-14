@@ -100,7 +100,7 @@ public class MailServiceImpl implements MailService {
      */
     protected String loadMessageFromTemplate(String templateFile, String subject, Map<String, Object> model) {
         try {
-            Template templ = configuration.getTemplate("mail/template.html");
+            Template templ = configuration.getTemplate("mail/lib/template.ftl");
 
             // get system URL
             SysConfigFormData cfg = sysConfigService.loadConfig();
@@ -112,7 +112,7 @@ public class MailServiceImpl implements MailService {
             Map<String, Object> data = new HashMap<>(model);
             data.put("subject", subject);
             data.put("msg", createMessageResolver());
-            data.put("content", templateFile);
+            data.put("content", "../" + templateFile);
             data.put("url", url);
 
             return FreeMarkerTemplateUtils.processTemplateIntoString(templ, data);

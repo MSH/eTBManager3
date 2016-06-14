@@ -2542,4 +2542,12 @@
                                  referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
 
+    <changeSet id="searchable-5" author="rmemoria">
+        <createIndex tableName="searchable" indexName="idx_search">
+            <column name="workspace_id" />
+            <column name="type" />
+            <column name="title" />
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>
