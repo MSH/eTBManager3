@@ -32,7 +32,7 @@ export default class Cases extends React.Component {
 	loadCases() {
 		const self = this;
 
-		const unitId = this.props.route.params.id;
+		const unitId = this.props.route.queryParam('id');
 
 		// get data from the server
 		server.post('/api/cases/unit/' + unitId, {})

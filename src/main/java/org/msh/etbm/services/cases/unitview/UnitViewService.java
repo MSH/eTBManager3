@@ -51,7 +51,8 @@ public class UnitViewService {
     private void loadCases(UUID unitId, UnitViewData data) {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
                 "join fetch c.patient where c.ownerUnit.id = :unitId " +
-                "and c.state in (:st1, :st2)")
+                "and c.state in (:st1, :st2) " +
+                "order by c.patient.name")
                 .setParameter("unitId", unitId)
                 .setParameter("st1", CaseState.ONTREATMENT)
                 .setParameter("st2", CaseState.WAITING_TREATMENT)

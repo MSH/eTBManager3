@@ -25,7 +25,7 @@ export default class IndexDashboard extends React.Component {
 					<Row>
 						<Col md={6}>
 							<Card title="Cases" className="card-indicator collapse-card mtop-2x"
-								onClick={() => router.goto('/sys/home/unit/cases/' + session.unitId)}>
+								onClick={() => router.goto('/sys/home/unit/cases?id=' + session.unitId)}>
 								<Row>
 									<Col xs={6}>
 										<div className="ind-value text-primary">{121}</div>

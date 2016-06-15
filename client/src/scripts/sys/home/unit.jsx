@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { app } from '../../core/app';
 import { RouteView, router } from '../../components/router';
 import UnitPanel from './commons/unit-panel';
 
@@ -20,7 +19,7 @@ const routes = RouteView.createRoutes([
 	},
 	{
 		title: __('cases'),
-		path: '/cases/{id}',
+		path: '/cases',
 		view: Cases
 	},
 	{
