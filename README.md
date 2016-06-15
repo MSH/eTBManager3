@@ -10,7 +10,7 @@ e-TB Manager is a web-based tool for managing all the information needed by nati
 
 In order to build e-TB Manager from the source code, you will need the following programs installed:
 
-* Java JDK 1.8
+* Java JDK 1.8+
 * Maven 3+
 
 In order to work with client side development, it is highly recommended that you also install the following programs:
