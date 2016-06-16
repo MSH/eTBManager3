@@ -1,7 +1,7 @@
 package org.msh.etbm.test.services.admin;
 
 import org.junit.Test;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.CountryStructure;
@@ -91,7 +91,7 @@ public class CountryStructureTest extends CommonEntityServiceTests {
             assertNotNull(lst);
             // assert error
             assertEquals(lst.size(), 1);
-            assertEquals(lst.get(0).getCode(), ErrorMessages.NOT_UNIQUE);
+            assertEquals(lst.get(0).getCode(), Messages.NOT_UNIQUE);
         }
 
         service.delete(res.getId());

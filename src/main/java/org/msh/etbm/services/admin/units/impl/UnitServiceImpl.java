@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.units.impl;
 
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
@@ -124,7 +124,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     @Override
     protected void beforeSave(Unit unit, Errors errors) {
         if (unit.getAddress().getAdminUnit() == null) {
-            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
+            errors.rejectValue("address.adminUnit", Messages.REQUIRED);
         }
     }
 }

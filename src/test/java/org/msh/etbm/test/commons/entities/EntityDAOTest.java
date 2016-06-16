@@ -1,7 +1,7 @@
 package org.msh.etbm.test.commons.entities;
 
 import org.junit.Test;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.db.entities.Source;
@@ -124,7 +124,7 @@ public class EntityDAOTest extends AuthenticatedTest {
         assertEquals(dao.getErrors().getErrorCount(), 3);
 
         FieldError fe = dao.getErrors().getFieldError("shortName");
-        assertEquals(fe.getCode(), ErrorMessages.REQUIRED);
+        assertEquals(fe.getCode(), Messages.REQUIRED);
 
         source.setShortName("Name");
         assertTrue(dao.validate());

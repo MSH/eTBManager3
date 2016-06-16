@@ -1,4 +1,4 @@
-package org.msh.etbm.services.security.authentication;
+package org.msh.etbm.services.security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by rmemoria on 29/5/15.
  */
 @ResponseStatus(HttpStatus.UNAUTHORIZED)
-public class UnauthorizedException extends RuntimeException {
+public class ForbiddenException extends RuntimeException {
 
     /**
      * Constructor where a message can be specified
      * @param msg
      */
-    public UnauthorizedException(String msg) {
+    public ForbiddenException(String msg) {
         super(msg);
     }
 
     /**
      * Default constructor
      */
-    public UnauthorizedException() {
+    public ForbiddenException() {
         super();
     }
 }

@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.admunits.impl;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
@@ -132,7 +132,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         validateParent(entity);
 
         if (!isUnique(entity)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         if (errors.hasErrors()) {

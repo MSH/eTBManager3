@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.tags;
 
 import org.hibernate.exception.SQLGrammarException;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
@@ -45,13 +45,13 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     @Override
     protected void beforeSave(Tag tag, Errors errors) {
         if (!checkUnique(tag, "name", null)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         String sqlTestMessage = testTagCondition(tag);
 
         if (sqlTestMessage != null) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
     }
 

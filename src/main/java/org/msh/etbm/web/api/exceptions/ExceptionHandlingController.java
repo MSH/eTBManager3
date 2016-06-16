@@ -3,6 +3,7 @@ package org.msh.etbm.web.api.exceptions;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,15 @@ public class ExceptionHandlingController {
     @Autowired
     Messages messages;
 
+
+    /**
+     * When a service call is not authorized by the current user
+     */
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public void forbiddenException() {
+        // nothing to do
+    }
 
     /**
      * Handle errors when the entity was not found in the database

@@ -1,6 +1,7 @@
 package org.msh.etbm.services.security.authentication;
 
 import org.msh.etbm.db.entities.UserWorkspace;
+import org.msh.etbm.services.security.ForbiddenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class AvailableWorkspacesService {
 
         // if not valid, throw an exception
         if (userWorkspace == null) {
-            throw new UnauthorizedException("Invalid username/password");
+            throw new ForbiddenException("Invalid username/password");
         }
 
         // return the list of

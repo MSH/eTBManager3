@@ -2,8 +2,8 @@ package org.msh.etbm.commons.entities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Displayable;
-import org.msh.etbm.commons.ErrorMessages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
@@ -14,6 +14,7 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
@@ -435,7 +436,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @param field the name of the field
      */
     protected void raiseRequiredFieldException(Object obj, String field) {
-        rejectFieldException(obj, field, ErrorMessages.REQUIRED);
+        rejectFieldException(obj, field, Messages.REQUIRED);
     }
 
     /**

@@ -68,4 +68,8 @@ public class StandardResult {
     public void setErrors(Map<String, Message> errors) {
         this.errors = errors;
     }
+
+    public static StandardResult createSuccessResult() {
+        return new StandardResult(null, null, true);
+    }
 }

@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.dao;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
@@ -277,7 +277,7 @@ public class EntityDAO<E> {
         UUID id = userRequestService.getUserSession().getWorkspaceId();
 
         if (!wsent.getWorkspace().getId().equals(id)) {
-            addError("workspace", ErrorMessages.NOT_VALID_WORKSPACE);
+            addError("workspace", Messages.NOT_VALID_WORKSPACE);
         }
     }
 
@@ -316,7 +316,7 @@ public class EntityDAO<E> {
      * @param field
      */
     public void addNotNullError(String field) {
-        getErrors().reject(field, ErrorMessages.REQUIRED);
+        getErrors().reject(field, Messages.REQUIRED);
     }
 
     /**

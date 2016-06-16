@@ -57,8 +57,7 @@ public class ForgotPwdService {
         }
 
         // create a new password change request ID
-        UUID id = Generators.timeBasedGenerator().generate();
-        String val = id.toString().replace("-", "");
+        String val = UserUtils.generatePasswordToken();
 
         user.setPasswordResetToken(val);
         entityManager.persist(user);

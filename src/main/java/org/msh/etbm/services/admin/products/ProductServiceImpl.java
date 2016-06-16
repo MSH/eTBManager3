@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.products;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Medicine;
@@ -60,11 +60,11 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     @Override
     protected void beforeSave(Product product, Errors errors) {
         if (!checkUnique(product, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         if (!checkUnique(product, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", Messages.NOT_UNIQUE);
         }
     }
 }

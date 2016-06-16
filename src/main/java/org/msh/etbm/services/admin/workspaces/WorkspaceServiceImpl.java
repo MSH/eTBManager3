@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.workspaces;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
@@ -103,7 +103,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
     private void checkUniqueWorkspaceName(Workspace ws) {
         if (!checkUnique(ws, "name")) {
-            rejectFieldException(ws, "name", ErrorMessages.NOT_UNIQUE);
+            rejectFieldException(ws, "name", Messages.NOT_UNIQUE);
         }
     }
 

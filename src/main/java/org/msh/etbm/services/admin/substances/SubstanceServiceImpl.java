@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.substances;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
@@ -53,12 +53,12 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
     protected void beforeSave(Substance sub, Errors errors) {
         // check if name is unique
         if (!checkUnique(sub, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         // check if short name is unique
         if (!checkUnique(sub, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", Messages.NOT_UNIQUE);
         }
     }
 
