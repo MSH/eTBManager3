@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.msh.etbm.Application;
 import org.msh.etbm.services.init.RegisterWorkspaceImpl;
 import org.msh.etbm.services.pub.ForgotPwdService;
+import org.msh.etbm.services.pub.PasswordUpdateService;
 import org.msh.etbm.services.pub.PwdResetTokenResponse;
 import org.msh.etbm.test.TestSetup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
 import javax.mail.Address;
 import javax.mail.MessagingException;
@@ -41,6 +41,9 @@ public class ForgotPwdTest {
 
     @Autowired
     ForgotPwdService forgotPwdService;
+
+    @Autowired
+    PasswordUpdateService passwordUpdateService;
 
     @Autowired
     TestSetup testSetup;
@@ -100,7 +103,7 @@ public class ForgotPwdTest {
     }
 
     private void testRequestToken(String token) {
-        PwdResetTokenResponse resp = forgotPwdService.getUserInfoByPasswordResetToken(token);
+        PwdResetTokenResponse resp = passwordUpdateService.getUserInfoByPasswordResetToken(token);
         assertNotNull(resp);
         assertEquals(resp.getName(), RegisterWorkspaceImpl.ADMIN_NAME);
     }

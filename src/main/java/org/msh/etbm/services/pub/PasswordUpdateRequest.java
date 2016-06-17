@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
  * Request sent from the client to change user's password
  * Created by rmemoria on 13/6/16.
  */
-public class PwdUpdateRequest {
+public class PasswordUpdateRequest {
 
     /**
      * The password reset request token
@@ -24,12 +24,12 @@ public class PwdUpdateRequest {
     @Pattern(regexp = UserConstants.PASSWORD_PATTERN)
     private String password;
 
-    public PwdUpdateRequest(String token, String password) {
+    public PasswordUpdateRequest(String token, String password) {
         this.token = token;
         this.password = password;
     }
 
-    public PwdUpdateRequest() {
+    public PasswordUpdateRequest() {
         super();
     }
 

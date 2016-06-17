@@ -14,7 +14,6 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;

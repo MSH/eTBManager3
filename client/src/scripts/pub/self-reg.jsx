@@ -1,9 +1,31 @@
 import React from 'react';
-import { Row, Col, FormGroup, FormControl, HelpBlock, ControlLabel } from 'react-bootstrap';
+import { Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import AsyncButton from '../components/async-button';
+import Card from '../components/card';
+import Error from '../components/error';
+import Fa from '../components/fa';
 import Logo from './logo';
 import BorderlessForm from './borderless-form';
+import { validateForm } from '../commons/validator';
+import { server } from '../commons/server';
 
+/**
+ * Values to be validated
+ */
+const formModel = {
+	name: {
+		required: true
+	},
+	login: {
+		required: true
+	},
+	email: {
+		required: true,
+		email: true
+	},
+	organization: {
+	}
+};
 
 /**
  * Wellcome page - First page displayed under e-TB Manager first time execution
@@ -12,24 +34,69 @@ export default class UserReg extends React.Component {
 	constructor(props) {
 		super(props);
 		this.submit = this.submit.bind(this);
+		this.state = {};
 	}
 
 	/**
 	 * Called when user clicks on the continue button
 	 */
 	submit() {
-		navigator.goto('/init/initoptions');
+		const res = validateForm(this, formModel);
+
+		// is there any validation error ?
+		if (res.errors) {
+			this.setState({ errors: res.errors });
+			return;
+		}
+
+		// clear error messages
+		this.setState({ errors: null, fetching: true });
+
+		const self = this;
+		server.post('/api/pub/selfreg', res.value)
+		.then(resp => {
+			if (!resp.success) {
+				self.setState({ errors: resp.errors });
+			}
+
+			self.setState({ success: true, 	fetching: false });
+		})
+		.catch(() => self.setState({ fetching: false }));
 	}
+
+	/**
+	 * Render message when user successfully register himself
+	 * @return {[type]} [description]
+	 */
+	renderSuccess() {
+		return (
+			<Card>
+				<div className="text-center">
+					<div className="text-primary">
+					<Fa icon="check-circle" size={3} />
+					<h1>{__('global.success')}</h1>
+					</div>
+					<p>
+						{__('userreg.success.1')}
+					</p>
+				</div>
+			</Card>
+			);
+	}
+
 
 	/**
 	 * Render the component
 	 */
 	render() {
-		const err = {};
-		const fetching = false;
+		const err = this.state.errors ? this.state.errors : {};
+		const fetching = !!this.state.fetching;
+		const success = !!this.state.success;
 
 		return (
 			<Logo backLink>
+			{
+				success ? this.renderSuccess() :
 				<div>
 				<Row>
 					<Col md={12}>
@@ -42,15 +109,15 @@ export default class UserReg extends React.Component {
 								<FormControl type="text"
 									ref="name"
 									placeholder="Ex.: Ricardo Memoria" autoFocus />
-								{err.name && <HelpBlock>{err.name}</HelpBlock>}
+								<Error msg={err.name} />
 							</FormGroup>
 
-							<FormGroup validationState={err.user ? 'error' : undefined} >
+							<FormGroup validationState={err.login ? 'error' : undefined} >
 								<ControlLabel>{__('User.login') + ':'}</ControlLabel>
 								<FormControl type="text"
 									ref="login"
 									placeholder="Ex.: RMEMORIA" />
-								{err.user && <HelpBlock>{err.user}</HelpBlock>}
+								<Error msg={err.login} />
 							</FormGroup>
 
 							<FormGroup validationState={err.email ? 'error' : undefined} >
@@ -58,7 +125,7 @@ export default class UserReg extends React.Component {
 								<FormControl type="email"
 									ref="email"
 									placeholder="Ex.: rmemoria@teste.com" />
-								{err.email && <HelpBlock>{err.email}</HelpBlock>}
+								<Error msg={err.email} />
 							</FormGroup>
 
 							<FormGroup validationState={err.organization ? 'error' : undefined} >
@@ -66,7 +133,7 @@ export default class UserReg extends React.Component {
 								<FormControl type="text"
 									ref="organization"
 									placeholder="Ex.: MSH" />
-								{err.organization && <HelpBlock>{err.organization}</HelpBlock>}
+								<Error msg={err.organization} />
 							</FormGroup>
 						</BorderlessForm>
 					</Col>
@@ -81,6 +148,7 @@ export default class UserReg extends React.Component {
 					</Col>
 				</Row>
 				</div>
+			}
 			</Logo>
 		);
 	}

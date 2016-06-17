@@ -12,7 +12,8 @@ export default class ConfirmEmail extends React.Component {
 
 		return (
 			<SetPassword
-				title={__('changepwd')}
+				title={__('action.enterpwd')}
+				comments={__('changepwd.msg.1')}
 				token={token}
 			/>);
 	}

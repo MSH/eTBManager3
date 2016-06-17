@@ -1,12 +1,13 @@
 
 import React from 'react';
-import { RouteView } from '../components/router.jsx';
+import { RouteView } from '../components/router';
 
 /** Pages of the public module */
-import Login from './login.jsx';
-import UserReg from './user-reg.jsx';
-import ForgotPwd from './forgot-pwd.jsx';
-import ResetPwd from './reset-pwd.jsx';
+import Login from './login';
+import SelfReg from './self-reg';
+import ForgotPwd from './forgot-pwd';
+import ResetPwd from './reset-pwd';
+import ConfirmEmail from './confirm-email';
 
 
 /**
@@ -18,8 +19,9 @@ export default class Routes extends React.Component {
 		const routes = RouteView.createRoutes([
 			{ path: '/login', view: Login },
             { path: '/forgotpwd', view: ForgotPwd },
-            { path: '/userreg', view: UserReg },
-            { path: '/resetpwd/{id}', view: ResetPwd }
+            { path: '/selfreg', view: SelfReg },
+            { path: '/resetpwd/{id}', view: ResetPwd },
+            { path: '/confirmemail/{id}', view: ConfirmEmail }
 		]);
 
 		return <RouteView routes={routes} />;

@@ -3,8 +3,6 @@ package org.msh.etbm.services.pub;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.commons.messages.Message;
-import org.msh.etbm.commons.messages.MessageList;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.db.enums.UserView;
@@ -12,8 +10,6 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.security.UserUtils;
-import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.web.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 
@@ -166,11 +161,11 @@ public class SelfRegistrationService {
 
         // check if e-mail is already registered
         if (req.getEmail().equals(user.getEmail())) {
-            throw new EntityValidationException(req, "email", null, Messages.NOT_UNIQUE);
+            throw new EntityValidationException(req, "email", null, Messages.NOT_UNIQUE_USER);
         }
 
-        if (req.getLogin().equals(user.getLogin())) {
-            throw new EntityValidationException(req, "login", null, Messages.NOT_UNIQUE);
+        if (req.getLogin().compareToIgnoreCase(user.getLogin()) == 0) {
+            throw new EntityValidationException(req, "login", null, Messages.NOT_UNIQUE_USER);
         }
     }
 }

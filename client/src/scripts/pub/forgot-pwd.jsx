@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, FormGroup, FormControl, HelpBlock, Alert } from 'react-bootstrap';
 import Logo from './logo';
 import AsyncButton from '../components/async-button';
+import Fa from '../components/fa';
 import Card from '../components/card';
 import { server } from '../commons/server';
 
@@ -15,7 +16,7 @@ export default class ForgotPwd extends React.Component {
 		super(props);
 		this.submit = this.submit.bind(this);
 		this.inputChange = this.inputChange.bind(this);
-		this.state = {};
+		this.state = { };
 	}
 
 	submit() {
@@ -39,6 +40,7 @@ export default class ForgotPwd extends React.Component {
 	render() {
 		const err = this.state.err;
 		const val = this.state.value ? this.state.value : '';
+		const title = __('forgotpwd');
 
 		return (
 			<Logo backLink>
@@ -47,7 +49,7 @@ export default class ForgotPwd extends React.Component {
 					<div>
 						<Row>
 							<Col md={12} className="text-center">
-								<h3>{__('forgotpwd')}</h3>
+								<h3>{title}</h3>
 
 								<p className="text-muted">
 									{__('forgotpwd.msg')}
@@ -79,9 +81,12 @@ export default class ForgotPwd extends React.Component {
 						</Row>
 					</div> :
 					<div>
-						<Card>
+						<Card title={title}>
 							<div className="text-center">
-								<h1>{__('forgotpwd.success')}</h1>
+								<div className="text-primary">
+									<Fa icon="check-circle" size={3} />
+									<h1>{__('global.success')}</h1>
+								</div>
 								<p>
 									{__('forgotpwd.success.1')}
 								</p>

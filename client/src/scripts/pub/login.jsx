@@ -1,8 +1,9 @@
 
 import React from 'react';
-import { Row, Col, Alert, FormGroup, FormControl, InputGroup, HelpBlock, Checkbox } from 'react-bootstrap';
+import { Row, Col, Alert, FormGroup, FormControl, InputGroup, Checkbox } from 'react-bootstrap';
 import AsyncButton from '../components/async-button';
 import Fa from '../components/fa';
+import Error from '../components/error';
 import { validateForm } from '../commons/validator';
 import { app } from '../core/app';
 import { server } from '../commons/server';
@@ -93,6 +94,7 @@ export default class Login extends React.Component {
 		const st = this.state;
 		const err = st && st.errors || {};
 		const fetching = st && st.fetching;
+		const login = app.getState().login || '';
 
 		return (
 				<Logo>
@@ -110,10 +112,11 @@ export default class Login extends React.Component {
 										</InputGroup.Addon>
 										<FormControl type="text"
 											ref="user"
-											placeholder={__('User.login')} autoFocus
+											placeholder={__('User.login')} autoFocus={!login}
+											defaultValue={login}
 											/>
 									</InputGroup>
-									{err.user && <HelpBlock>{err.user}</HelpBlock>}
+									<Error msg={err.user} />
 								</FormGroup>
 
 								<FormGroup validationState={err.pwd ? 'error' : undefined} >
@@ -122,11 +125,12 @@ export default class Login extends React.Component {
 											<Fa icon="key" />
 										</InputGroup.Addon>
 										<FormControl type="password"
+											autoFocus={!!login}
 											ref="pwd"
 											placeholder={__('User.password')}
 											/>
 									</InputGroup>
-									{err.pwd && <HelpBlock>{err.pwd}</HelpBlock>}
+									<Error msg={err.pwd} />
 								</FormGroup>
 							</BorderlessForm>
 						</Col>
@@ -161,7 +165,7 @@ export default class Login extends React.Component {
 					</Row>
 					<Row>
 						<Col sm={12} className="mtop-2x">
-							<a className="btn btn-block btn-lg btn-default" href="#/pub/userreg">
+							<a className="btn btn-block btn-lg btn-default" href="#/pub/selfreg">
 								{__('userreg')}
 							</a>
 						</Col>
