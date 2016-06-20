@@ -2,6 +2,8 @@ import React from 'react';
 import { MenuItem, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
 import { Popup, Profile, Fa, WaitIcon } from '../components';
 import { server } from '../commons/server';
+import { app } from '../core/app';
+import SessionUtils from './session-utils';
 
 import './search-box.less';
 
@@ -112,8 +114,20 @@ export default class SearchBox extends React.Component {
 	}
 
 	select(item) {
-		console.log('search for ', item);
+		window.location.hash = this.getHash(item);
 		this.clearKey();
+	}
+
+	getHash(item) {
+		switch (item.type) {
+			case 'WORKSPACE': return SessionUtils.workspaceHash();
+			case 'ADMINUNIT': return SessionUtils.adminUnitHash(item.id);
+			case 'TBUNIT':
+			case 'LAB': return SessionUtils.unitHash(item.id);
+			case 'CASE_WOMAN':
+			case 'CASE_MAN': return SessionUtils.caseHash(item.id);
+			default: return null;
+		}
 	}
 
 	/**

@@ -44,7 +44,6 @@
 	background-color: @content-bgcolor;
 	min-height: 500px;
 	padding-bottom:10px;
-	overflow: auto;
 }
 
 .tb-margin {
@@ -229,6 +228,15 @@
 
 .lnk-circle:hover {
 	border-color: darken(@link-muted-color, 20%);
+}
+
+.lnk-label {
+	color: @text-color;
+	padding: 2px;
+}
+
+.lnk-label:hover {
+	text-decoration: underline;
 }
 
 .input-btn-group {

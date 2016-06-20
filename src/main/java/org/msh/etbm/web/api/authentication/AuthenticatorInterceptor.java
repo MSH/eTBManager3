@@ -100,7 +100,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
         try {
             authToken = UUID.fromString(stoken);
         } catch (IllegalArgumentException e) {
-            LOGGER.error("Invalid token format for UUID " + stoken, e);
+            LOGGER.info("Invalid token format for UUID " + stoken);
             authToken = null;
         }
 

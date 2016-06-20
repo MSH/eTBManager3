@@ -2,10 +2,9 @@ import React from 'react';
 import UnderConstruction from '../under-construction';
 
 
-export default class Inventory extends React.Component {
+export default class General extends React.Component {
+
 	render() {
-		return (
-			<UnderConstruction />
-			);
+		return <UnderConstruction />;
 	}
 }

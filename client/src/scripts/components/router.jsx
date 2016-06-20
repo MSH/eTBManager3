@@ -151,9 +151,8 @@ export class RouteView extends React.Component {
 		// set the properties to be passed to the view that will be rendered
 		const viewProps = Object.assign({}, this.props.viewProps);
 		viewProps.route = {
-			hash: router.hash(),
 			params: params ? params : {},
-			path: route.data.path,
+			path: this.context.path + route.data.path,
 			forpath: forpath,
 			data: route.data,
 			queryParam: getParameterByName

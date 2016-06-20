@@ -5,6 +5,7 @@ import { Profile, Fluidbar, WaitIcon } from '../../components/index';
 import { app } from '../../core/app';
 import SidebarContent from '../sidebar-content';
 import { WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../../core/actions';
+import SessionUtils from '../session-utils';
 
 import Dashboard from './index-dashboard';
 import MyActivities from './index-my-activities';
@@ -82,9 +83,9 @@ export default class Index extends React.Component {
 		});
 
 		const subtitle = (
-			<div><a href={'#/sys/home/unit/' + session.unitId}>{session.unitName}</a>
-			<div>{aus}</div>
-			<a href="#">{session.workspaceName}</a>
+			<div>
+				<a href={SessionUtils.unitHash()}>{session.unitName}</a>
+				{SessionUtils.adminUnitDisplay(session.adminUnit, true)}
 			</div>
 		);
 

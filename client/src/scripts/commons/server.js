@@ -36,7 +36,7 @@ class ServerRequest {
 	post(url, data) {
 		return this.promiseRequest(Request
 			.post(this.checkContext(url))
-			.send(data));
+			.send(data ? data : {}));
 	}
 
 

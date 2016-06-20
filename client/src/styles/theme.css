@@ -6777,7 +6777,6 @@ button.close {
   background-color: #fff;
   margin-top: 0px;
   border-radius: 2px;
-  overflow: auto;
   /** Style of the title */
 }
 .card .card-header {
@@ -7105,7 +7104,6 @@ button.close {
   background-color: #E6EEEE;
   min-height: 500px;
   padding-bottom: 10px;
-  overflow: auto;
 }
 .tb-margin {
   margin-top: 50px;
@@ -7251,6 +7249,13 @@ button.close {
 }
 .lnk-circle:hover {
   border-color: #959595;
+}
+.lnk-label {
+  color: #303030;
+  padding: 2px;
+}
+.lnk-label:hover {
+  text-decoration: underline;
 }
 .input-btn-group {
   position: relative;

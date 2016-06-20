@@ -2,6 +2,7 @@
 import { server } from '../commons/server';
 import { LOGOUT, AUTHENTICATED, WORKSPACE_CHANGE, WORKSPACE_CHANGING } from '../core/actions';
 import { app } from '../core/app';
+import SessionUtils from './session-utils';
 
 /**
  * Initialize the session module by wiring the session to the app action dispatcher
@@ -21,7 +22,7 @@ function actionHandler(act, data) {
 	}
 
 	if (act === WORKSPACE_CHANGE) {
-		app.goto('/sys/home/index');
+		SessionUtils.gotoHome();
 		return data;
 	}
 

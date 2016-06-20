@@ -88,7 +88,7 @@ export default class Cases extends React.Component {
 				onSelect={this.tabSelect}>
 				<NavItem key={0} eventKey={0}>
 					{this.listCount(this.state.presumptives)}
-					{__('cases.presumptives')}
+					{__('cases.suspects')}
 				</NavItem>
 				<NavItem key={1} eventKey={1}>
 					{this.listCount(this.state.tbCases)}

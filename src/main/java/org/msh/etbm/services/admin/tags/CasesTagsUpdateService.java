@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class TagsCasesService {
+public class CasesTagsUpdateService {
 
 	//TODOMS: create a method/class that updates the daily updated tags
 

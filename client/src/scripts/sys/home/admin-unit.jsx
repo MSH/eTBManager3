@@ -1,37 +1,33 @@
-
 import React from 'react';
 import FrontPage from './commons/front-page';
+import { app } from '../../core/app';
 import { server } from '../../commons/server';
 import { WaitIcon } from '../../components';
 import SessionUtils from '../session-utils';
 
-
-import General from './unit/general';
-import Cases from './unit/cases';
-import Inventory from './unit/inventory';
+import UnderConstruction from './under-construction';
 
 
 const views = [
 	{
 		title: __('general'),
 		path: '/general',
-		view: General,
+		view: UnderConstruction,
 		default: true
 	},
 	{
 		title: __('cases'),
 		path: '/cases',
-		view: Cases
+		view: UnderConstruction
 	},
 	{
 		title: __('meds.inventory'),
 		path: '/inventory',
-		view: Inventory
+		view: UnderConstruction
 	}
 ];
 
-
-export default class Unit extends React.Component {
+export default class AdminUnit extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -47,29 +43,29 @@ export default class Unit extends React.Component {
 		const self = this;
 
 		// get data of the unit
-		server.get('/api/tbl/unit/' + id)
+		server.get('/api/tbl/adminunit/' + id)
 		.then(res => self.setState({ data: res }));
 	}
 
 	render() {
-		const unit = this.state.data;
+		const au = this.state.data;
 
-		if (!unit) {
+		if (!au) {
 			return <WaitIcon />;
 		}
 
 		return (
 			<FrontPage
-				title={unit.name}
-				subtitle={SessionUtils.adminUnitDisplay(unit.address.adminUnit, true)}
-				type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
+				title={au.name}
+				subtitle={SessionUtils.adminUnitDisplay(au.parents, true)}
+				type="place"
 				views={views}
 				route={this.props.route}
-				/>
+			/>
 			);
 	}
 }
 
-Unit.propTypes = {
+AdminUnit.propTypes = {
 	route: React.PropTypes.object
 };

@@ -3,8 +3,10 @@ import React from 'react';
 import { RouteView } from '../../components/router';
 
 /** Pages of the public module */
+import Workspace from './workspace';
 import Index from './index';
 import Unit from './unit';
+import AdminUnit from './admin-unit';
 
 import NewNotif from './cases/newnotif';
 import Details from './cases/details';
@@ -37,6 +39,16 @@ export default class HomeRoutes extends React.Component {
 				path: '/cases/details',
 				view: Details,
 				title: __('cases.details')
+			},
+			{
+				path: '/workspace',
+				view: Workspace,
+				title: __('Workspace')
+			},
+			{
+				path: '/adminunit',
+				view: AdminUnit,
+				title: __('AdministrativeUnit')
 			}
 		]);
 

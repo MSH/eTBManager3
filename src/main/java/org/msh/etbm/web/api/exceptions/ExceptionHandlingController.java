@@ -41,8 +41,9 @@ public class ExceptionHandlingController {
      */
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
-    public void forbiddenException() {
-        // nothing to do
+    @ResponseBody
+    public String forbiddenException(ForbiddenException e) {
+        return e.getMessage();
     }
 
     /**

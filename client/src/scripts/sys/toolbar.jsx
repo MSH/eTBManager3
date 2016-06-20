@@ -6,6 +6,7 @@ import SearchBox from './search-box';
 import { hasPerm, logout } from './session';
 import { Fa } from '../components';
 import { WORKSPACE_CHANGE } from '../core/actions';
+import SessionUtils from './session-utils';
 
 import './toolbar.less';
 
@@ -82,7 +83,7 @@ export default class Toolbar extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem href="#/sys/home/index">{__('home')}</NavItem>
+                        <NavItem href={SessionUtils.homeHash()}>{__('home')}</NavItem>
                         {
                             hasPerm('ADMIN') &&
                                 <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
@@ -93,7 +94,7 @@ export default class Toolbar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight >
-                        <NavItem className="tb-user">
+                        <NavItem className="tb-user" href="#/sys/home/index">
                             <div className="tb-icon">
                                 <i className="fa fa-user fa-inverse" />
                             </div>

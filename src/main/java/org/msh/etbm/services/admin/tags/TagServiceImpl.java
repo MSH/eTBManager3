@@ -20,7 +20,7 @@ import javax.persistence.PersistenceException;
 public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> implements TagService {
 
     @Autowired
-    TagsCasesService tagsCasesService;
+    CasesTagsUpdateService casesTagsUpdateService;
 
     @Override
     protected void buildQuery(QueryBuilder<Tag> builder, TagQueryParams queryParams) {
@@ -39,7 +39,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
 
     @Override
     protected void afterSave(Tag entity, ServiceResult res) {
-        tagsCasesService.updateCases(entity);
+        casesTagsUpdateService.updateCases(entity);
     }
 
     @Override

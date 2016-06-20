@@ -309,7 +309,7 @@ export default class TreeView extends React.Component {
 		}
 
 		if (typeof icon === 'string') {
-			icon = <Fa icon={icon} size={p.size} spin={waiting} />;
+			icon = <Fa icon={icon} size={p.iconSize} spin={waiting} />;
 		}
 
 		return icon;
