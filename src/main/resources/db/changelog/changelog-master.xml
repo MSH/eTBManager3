@@ -2324,7 +2324,7 @@
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="source" constraintName="FKCA90681BB3B1717" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-274.2">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="tbcase" constraintName="FKCASEWS" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="workspace"/>
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="tbcase" constraintName="FKCASEWS" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-275" dbms="mysql">
         <addForeignKeyConstraint baseColumnNames="CURR_ADMINUNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29E3352AF69" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
@@ -2339,13 +2339,13 @@
         <addForeignKeyConstraint baseColumnNames="PATIENT_ID" baseTableName="tbcase" constraintName="FKCB85A29E8B5B7C57" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="patient"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-281">
-        <addForeignKeyConstraint baseColumnNames="REGIMEN_INI_ID" baseTableName="tbcase" constraintName="FKCB85A29ECEBEE212" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
+        <addForeignKeyConstraint baseColumnNames="REGIMEN_INI_ID" baseTableName="tbcase" constraintName="FKCB85A29ECEBEE212" deferrable="false" onDelete="CASCADE" onUpdate="CASCADE" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-282">
         <addForeignKeyConstraint baseColumnNames="NOTIF_ADMINUNIT_ID" baseTableName="tbcase" constraintName="FKCB85A29ED14A332B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="administrativeunit"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-283">
-        <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="tbcase" constraintName="FKCB85A29EFB9ECED7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
+        <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="tbcase" constraintName="FKCB85A29EFB9ECED7" deferrable="false" onDelete="CASCADE" onUpdate="CASCADE" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="regimen"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-286" >
         <addForeignKeyConstraint baseColumnNames="AUTHORIZERUNIT_ID" baseTableName="unit" constraintName="FKCB8E00F2A96C5482" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="unit" onDelete="SET NULL"/>
