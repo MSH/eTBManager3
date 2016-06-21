@@ -7106,6 +7106,8 @@ button.close {
   padding-bottom: 10px;
   margin-top: -1px;
   padding-top: 1px;
+  background: -webkit-linear-gradient(to left, #4CA1AF, #C4E0E5);
+  background: linear-gradient(to left, #bbced2, #e8f1f3);
 }
 .tb-margin {
   margin-top: 50px;
@@ -7477,7 +7479,7 @@ button.close {
   border-bottom: none;
 }
 .cmd-bar {
-  background-color: #91a9a6;
+  background-color: #9fb5b2;
   margin-bottom: 20px;
 }
 .cmd-bar .title {
@@ -7485,13 +7487,13 @@ button.close {
   color: #fff;
   padding: 4px;
   font-weight: bold;
-  border-bottom: 1px solid #7b7b7b;
+  border-bottom: 1px solid #829e9a;
 }
 .cmd-bar a {
   color: #000000;
   text-transform: none !important;
-  border-top: 1px solid #cad6d4 !important;
-  border-bottom: 1px solid #5d7774;
+  border-top: 1px solid #bccbc9 !important;
+  border-bottom: 1px solid #829e9a;
   border-left: none;
   border-right: none;
   padding: 6px 6px !important;
@@ -7499,16 +7501,17 @@ button.close {
 .cmd-bar a .fa {
   width: 32px;
   padding: 6px 2px;
-  background-color: #465b58;
+  background-color: #516966;
   margin-right: 8px;
   color: #fff;
+  border-radius: 4px;
 }
 .cmd-bar a:hover,
 .cmd-bar a:focus {
   background-color: #1a2120 !important;
   color: #fff;
-  border-bottom: 1px solid #cad6d4 !important;
-  border-top: 1px solid #5d7774 !important;
+  border-bottom: 1px solid #bccbc9 !important;
+  border-top: 1px solid #829e9a !important;
 }
 .cmd-bar a:first-child {
   border-top: none;
