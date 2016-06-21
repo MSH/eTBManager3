@@ -26,6 +26,7 @@ import ReactGrid from './react-grid';
 import ListBox from './list-box';
 import Expandable from './expandable';
 import MaskedInput from './masked-input';
+import CommandBar from './command-bar';
 
 export { Callout,
 	AsyncButton,
@@ -50,5 +51,6 @@ export { Callout,
 	ReactGrid,
 	ListBox,
 	Expandable,
-	MaskedInput
+	MaskedInput,
+	CommandBar
 };

@@ -16,7 +16,7 @@ import java.util.UUID;
  * Created by rmemoria on 23/5/16.
  */
 @RestController
-@RequestMapping("/api/cases")
+@RequestMapping("/api/cases/case")
 @Authenticated(permissions = {Permissions.CASES})
 public class TreatmentREST {
 
@@ -26,7 +26,7 @@ public class TreatmentREST {
     @RequestMapping(value = "/treatment/{caseId}", method = RequestMethod.GET)
     @Authenticated
     public TreatmentData get(@PathVariable UUID caseId) {
-        return service.get(caseId);
+        return service.getData(caseId);
     }
 
 }

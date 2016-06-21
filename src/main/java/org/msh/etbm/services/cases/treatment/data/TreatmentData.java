@@ -24,7 +24,7 @@ public class TreatmentData {
     /**
      * The initial regimen, in case it was moved to an individualized
      */
-    private SynchronizableItem iniRegimen;
+    private SynchronizableItem regimenIni;
 
     /**
      * The treatment category
@@ -44,7 +44,7 @@ public class TreatmentData {
     /**
      * List of treatment units that the patient has passed through
      */
-    private List<TreatmentUnitData> treatmenUnits;
+    private List<TreatmentUnitData> units;
 
     public Period getPeriod() {
         return period;
@@ -62,12 +62,12 @@ public class TreatmentData {
         this.regimen = regimen;
     }
 
-    public SynchronizableItem getIniRegimen() {
-        return iniRegimen;
+    public SynchronizableItem getRegimenIni() {
+        return regimenIni;
     }
 
-    public void setIniRegimen(SynchronizableItem iniRegimen) {
-        this.iniRegimen = iniRegimen;
+    public void setRegimenIni(SynchronizableItem regimenIni) {
+        this.regimenIni = regimenIni;
     }
 
     public Item<String> getCategory() {
@@ -94,11 +94,11 @@ public class TreatmentData {
         this.prescriptions = prescriptions;
     }
 
-    public List<TreatmentUnitData> getTreatmenUnits() {
-        return treatmenUnits;
+    public List<TreatmentUnitData> getUnits() {
+        return units;
     }
 
-    public void setTreatmenUnits(List<TreatmentUnitData> treatmenUnits) {
-        this.treatmenUnits = treatmenUnits;
+    public void setUnits(List<TreatmentUnitData> units) {
+        this.units = units;
     }
 }

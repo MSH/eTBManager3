@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
-import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
+import { Card, Profile, WaitIcon, ReactTable, Fa, CommandBar } from '../../../components';
 import AdvancedSearch from '../cases/advanced-search';
 import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
 import moment from 'moment';
+import SessionUtils from '../../session-utils';
 
 
 export default class Cases extends React.Component {
@@ -66,7 +67,7 @@ export default class Cases extends React.Component {
 	 * @return {[type]}    [description]
 	 */
 	caseClick(item) {
-		app.goto('/sys/home/cases/details/' + item.id);
+		window.location.hash = SessionUtils.caseHash(item.id);
 	}
 
 	tabSelect(evt) {
@@ -259,16 +260,27 @@ export default class Cases extends React.Component {
 				</Popover>
 			);
 
+		const commands = [
+			{
+				node: (
+					<OverlayTrigger key="pp" trigger="click" placement="right"
+						overlay={popup} rootClose>
+						<NavItem><Fa icon="coffee" />{'New notification'}</NavItem>
+					</OverlayTrigger>
+					)
+			},
+			{
+				label: __('cases.advancedsearch'),
+				icon: 'feed',
+				onClick: this.toggleSearch
+			}
+		];
+
 		return (
 			<Grid fluid>
 			<Row className="mtop">
 				<Col sm={3}>
-					<OverlayTrigger trigger="click" placement="right"
-						overlay={popup} rootClose>
-						<Button bsStyle="danger" block style={{ padding: '8px 40px' }}>{'Notify'}</Button>
-					</OverlayTrigger>
-					<Button block onClick={this.toggleSearch}>{__('cases.advancedsearch')}</Button>
-
+					<CommandBar commands={commands} />
 					{
 						this.state.tags &&
 						<Card className="mtop" title="Tags">

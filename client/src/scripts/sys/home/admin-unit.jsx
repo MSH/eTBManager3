@@ -39,6 +39,15 @@ export default class AdminUnit extends React.Component {
 		this.fetchData(id);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		// check if page must be updated
+		const id = nextProps.route.queryParam('id');
+		const oldId = this.state.data ? this.state.data.id : null;
+		if (id !== oldId) {
+			this.fetchData(id);
+		}
+	}
+
 	fetchData(id) {
 		const self = this;
 

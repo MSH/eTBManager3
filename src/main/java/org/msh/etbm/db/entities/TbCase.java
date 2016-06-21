@@ -96,11 +96,11 @@ public class TbCase extends WorkspaceEntity {
 	
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
 	@PropertyLog(ignore = true)
-	private List<TreatmentHealthUnit> healthUnits = new ArrayList<>();
+	private List<TreatmentHealthUnit> treatmentUnits = new ArrayList<>();
 
 	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
 	@PropertyLog(ignore = true)
-	private List<PrescribedMedicine> prescribedMedicines = new ArrayList<>();
+	private List<PrescribedMedicine> prescriptions = new ArrayList<>();
 
 	@NotNull
 	private CaseState state;
@@ -315,33 +315,6 @@ public class TbCase extends WorkspaceEntity {
 	}
 
 
-    /**
-     * Return list of treatment health units sorted by period
-     * @return
-     */
-    public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
-        // sort the periods
-        Collections.sort(healthUnits, (o1, o2) -> o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate()));
-
-        return healthUnits;
-    }
-
-	
-	/**
-	 * Return list of prescribed medicines sorted by medicine name and initial date of the period
-	 * @return
-	 */
-	public List<PrescribedMedicine> getSortedPrescribedMedicines() {
-		// sort the periods
-		Collections.sort(prescribedMedicines, (pm1, pm2) -> {
-            int val = pm1.getProduct().getShortName().compareTo(pm2.getProduct().getShortName());
-            return val != 0 ? val : pm1.getPeriod().getIniDate().compareTo(pm2.getPeriod().getEndDate());
-        });
-		
-		return prescribedMedicines;
-	}
-	
-
 	/**
 	 * Returns if the case is validated or not
 	 * @return true - if the case is validated, false - otherwise
@@ -387,7 +360,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out 
 	 */
 	public TreatmentHealthUnit getTransferInUnit() {
-		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size() - 1) : null;
+		return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 1) : null;
 	}
 	
 	
@@ -396,7 +369,7 @@ public class TbCase extends WorkspaceEntity {
 	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in 
 	 */
 	public TreatmentHealthUnit getTransferOutUnit() {
-		return (state == CaseState.TRANSFERRING) && (healthUnits.size() > 1) ? healthUnits.get(healthUnits.size() - 2) : null;
+		return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 2) : null;
 	}
 	
 	
@@ -506,17 +479,15 @@ public class TbCase extends WorkspaceEntity {
 		this.state = state;
 	}
 
-	public List<TreatmentHealthUnit> getHealthUnits() {
-		return healthUnits;
-	}
+    public List<TreatmentHealthUnit> getTreatmentUnits() {
+        return treatmentUnits;
+    }
 
-	public void setHealthUnits(List<TreatmentHealthUnit> healthUnits) {
-		this.healthUnits = healthUnits;
-	}
+    public void setTreatmentUnits(List<TreatmentHealthUnit> treatmentUnits) {
+        this.treatmentUnits = treatmentUnits;
+    }
 
-
-
-	public List<ExamHIV> getResHIV() {
+    public List<ExamHIV> getResHIV() {
 		return resHIV;
 	}
 
@@ -965,18 +936,15 @@ public class TbCase extends WorkspaceEntity {
 		issueCounter++;
 	}
 
+    public List<PrescribedMedicine> getPrescriptions() {
+        return prescriptions;
+    }
 
-	public void setPrescribedMedicines(List<PrescribedMedicine> prescribedMedicines) {
-		this.prescribedMedicines = prescribedMedicines;
-	}
+    public void setPrescriptions(List<PrescribedMedicine> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
 
-
-	public List<PrescribedMedicine> getPrescribedMedicines() {
-		return prescribedMedicines;
-	}
-
-
-	public Period getTreatmentPeriod() {
+    public Period getTreatmentPeriod() {
 		return treatmentPeriod;
 	}
 

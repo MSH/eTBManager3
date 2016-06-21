@@ -104,8 +104,8 @@ public class WorkspaceViewService {
                 "group by a.id, a.name, k.diagnosisType, k.classification\n" +
                 "order by a.name";
 
-        System.out.println(userRequestService.getUserSession().getWorkspaceId());
-        Query qry = entityManager.createNativeQuery(sql)
+        Query qry = entityManager
+                .createNativeQuery(sql)
                 .setParameter("wsid",  userRequestService.getUserSession().getWorkspaceId());
 
         if (admunitId != null) {

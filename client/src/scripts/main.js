@@ -3,7 +3,7 @@
  */
 
 // include babel modules
-import 'babel-core/register';
+import 'babel-polyfill';
 
 // application main component
 import { App, init, app } from './core/app';

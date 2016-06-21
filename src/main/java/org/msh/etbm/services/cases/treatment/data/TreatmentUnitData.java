@@ -3,12 +3,15 @@ package org.msh.etbm.services.cases.treatment.data;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
+import java.util.Date;
+
 /**
  * Created by rmemoria on 23/5/16.
  */
 public class TreatmentUnitData {
     private UnitData unit;
-    private Period period;
+    private Date ini;
+    private Date end;
 
     public UnitData getUnit() {
         return unit;
@@ -18,11 +21,19 @@ public class TreatmentUnitData {
         this.unit = unit;
     }
 
-    public Period getPeriod() {
-        return period;
+    public Date getIni() {
+        return ini;
     }
 
-    public void setPeriod(Period period) {
-        this.period = period;
+    public void setIni(Date ini) {
+        this.ini = ini;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }

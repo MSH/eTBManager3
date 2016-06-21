@@ -5,7 +5,6 @@ import Form from '../../../forms/form';
 import { server } from '../../../commons/server';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
-import { mockTreatment } from '../../mock-data';
 import AddMedicine from './treat/add-medicine';
 
 
@@ -21,14 +20,14 @@ export default class CaseTreatment extends React.Component {
 						property: 'regimen.name',
 						type: 'string',
 						label: 'Regimen',
-						visible: doc => doc.regimen.id === doc.iniRegimen.id,
+						visible: doc => !!doc.regimenIni,
 						size: { md: 12 }
 					},
 					{
 						type: 'text',
 						property: 'Started as {iniRegimen.name}\n{regimen.name}',
 						label: 'Regimen',
-						visible: doc => doc.regimen.id !== doc.iniRegimen.id,
+						visible: doc => !doc.regimenIni,
 						size: { md: 12 }
 					},
 					{
@@ -47,10 +46,10 @@ export default class CaseTreatment extends React.Component {
 
 	componentWillMount() {
 		const self = this;
-		server.get('/api/cases/treatment/c0a80169-54de-12c2-8154-de6e55500002')
-		.then(() => {
-			self.setState({ data: mockTreatment });
-		});
+		const id = this.props.tbcase.id;
+
+		server.get('/api/cases/case/treatment/' + id)
+			.then(res => self.setState({ data: res }));
 	}
 
 	menuClick(key) {
@@ -70,6 +69,8 @@ export default class CaseTreatment extends React.Component {
 		if (!data) {
 			return <WaitIcon type="card" />;
 		}
+
+		console.log(data);
 
 		const optionsBtn = (
 			<DropdownButton className="lnk-muted" bsStyle="link"

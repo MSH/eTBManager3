@@ -7104,6 +7104,8 @@ button.close {
   background-color: #E6EEEE;
   min-height: 500px;
   padding-bottom: 10px;
+  margin-top: -1px;
+  padding-top: 1px;
 }
 .tb-margin {
   margin-top: 50px;
@@ -7473,6 +7475,43 @@ button.close {
 }
 .nav-select li:last-child {
   border-bottom: none;
+}
+.cmd-bar {
+  background-color: #91a9a6;
+  margin-bottom: 20px;
+}
+.cmd-bar .title {
+  text-align: center;
+  color: #fff;
+  padding: 4px;
+  font-weight: bold;
+  border-bottom: 1px solid #7b7b7b;
+}
+.cmd-bar a {
+  color: #000000;
+  text-transform: none !important;
+  border-top: 1px solid #cad6d4 !important;
+  border-bottom: 1px solid #5d7774;
+  border-left: none;
+  border-right: none;
+  padding: 6px 6px !important;
+}
+.cmd-bar a .fa {
+  width: 32px;
+  padding: 6px 2px;
+  background-color: #465b58;
+  margin-right: 8px;
+  color: #fff;
+}
+.cmd-bar a:hover,
+.cmd-bar a:focus {
+  background-color: #1a2120 !important;
+  color: #fff;
+  border-bottom: 1px solid #cad6d4 !important;
+  border-top: 1px solid #5d7774 !important;
+}
+.cmd-bar a:first-child {
+  border-top: none;
 }
 @font-face {
   font-family: 'OpenSans';

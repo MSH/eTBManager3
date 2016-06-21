@@ -104,14 +104,12 @@ public class UnitViewService {
         data.setInfectionSite(tbcase.getInfectionSite());
         data.setRegistrationGroup(new Item<String>(tbcase.getRegistrationGroup(), tbcase.getRegistrationGroup()));
 
-        Date ini = tbcase.getTreatmentPeriod().getIniDate();
-
         // is case on treatment ?
-        if (ini != null) {
+        if (tbcase.isOnTreatment()) {
             data.setIniTreatmentDate(tbcase.getTreatmentPeriod().getIniDate());
 
             // calculate the treatment progress based on the current date
-            Period p = new Period(ini, new Date());
+            Period p = new Period(tbcase.getTreatmentPeriod().getIniDate(), new Date());
 
             int daysTreatment = tbcase.getTreatmentPeriod().getDays();
 

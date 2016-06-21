@@ -36,7 +36,7 @@ export default class TreatTimeline extends React.Component {
 					{period.ini.format(f)}
 				</text>
 				<text x="99" y="2.2" fontSize="2.5" textAnchor="end">
-					{period.ini.format(f)}
+					{period.end.format(f)}
 				</text>
 				<text x="50" y="2.2" fontSize="2.5" textAnchor="middle">
 					{durationDisplay(period.ini, period.end)}
@@ -162,7 +162,7 @@ export default class TreatTimeline extends React.Component {
 		period.days = period.end.diff(period.ini, 'days');
 
 		// prescribed medicines
-		const prescs = this.props.treatment.prescriptions;
+		const prescs = treat.prescriptions;
 
 		const titleSize = { md: 3 };
 		const barSize = { md: 9 };

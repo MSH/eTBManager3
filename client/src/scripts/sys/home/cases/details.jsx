@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg, Fa } from '../../../components';
+import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
+import { server } from '../../../commons/server';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -27,8 +28,24 @@ export default class Details extends React.Component {
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
-			// contatos
+		const id = this.props.route.queryParam('id');
+		this.fetchData(id);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		// check if page must be updated
+		const id = nextProps.route.queryParam('id');
+		const oldId = this.state.tbcase ? this.state.tbcase.id : null;
+		if (id !== oldId) {
+			this.fetchData(id);
+		}
+	}
+
+
+	fetchData(id) {
+		const self = this;
+		server.get('/api/cases/case/' + id)
+		.then(tbcase => {
 			const contacts = [];
 			for (var i = 0; i < 5; i++) {
 				const res = generateName();
@@ -39,12 +56,14 @@ export default class Details extends React.Component {
 					age: res.age
 				});
 			}
-			const data = Object.assign({}, mockTbCase, { contacts: contacts });
+			const data = Object.assign({}, mockTbCase, { contacts: contacts }, tbcase);
 
-			this.setState({
+			self.setState({
 				tbcase: data
 			});
-		}, 100);
+		});
+
+		this.setState({ tbcase: null });
 	}
 
 	tagsRender() {
@@ -118,17 +137,31 @@ export default class Details extends React.Component {
 						</Button>
 					</span>);
 
+		const commands = [
+		{
+			label: __('cases.delete'),
+			onClick: this.show('showDelConfirm', true),
+			icon: 'remove'
+		},
+		{
+			label: __('cases.close'),
+			onClick: this.show('showCloseCase', true),
+			icon: 'power-off'
+		},
+		{
+			label: __('cases.move'),
+			onClick: this.show('showMoveCase', true),
+			icon: 'toggle-right'
+		}
+		];
+
 		return (
 			<div>
 				<PatientPanel patient={tbcase.patient} recordNumber={tbcase.recordNumber} />
 				<Grid fluid>
 					<Row className="mtop">
 						<Col sm={3}>
-							<DropdownButton id="ddcase" bsStyle="default" title={<span><Fa icon="bars"/>{__('form.options')}</span>} >
-								<MenuItem eventKey={1} onSelect={this.show('showDelConfirm', true)}>{__('cases.delete')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
-							</DropdownButton>
+							<CommandBar commands={commands} />
 							<Card className="mtop" header={tagh}>
 							{
 								this.tagsRender()
@@ -161,3 +194,8 @@ export default class Details extends React.Component {
 			);
 	}
 }
+
+
+Details.propTypes = {
+	route: React.PropTypes.object
+};

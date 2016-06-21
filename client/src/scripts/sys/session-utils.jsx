@@ -39,7 +39,7 @@ export default class SessionUtils {
 	}
 
 	static caseHash(caseId) {
-		return '#/sys/home/cases/details/' + caseId;
+		return '#/sys/home/cases/details?id=' + caseId;
 	}
 
 	/**

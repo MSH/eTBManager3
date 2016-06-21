@@ -61,7 +61,7 @@ export default class DateControl extends React.Component {
 
 
 DateControl.propTypes = {
-	value: React.PropTypes.instanceOf(Date),
+	value: React.PropTypes.any,
 	schema: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
