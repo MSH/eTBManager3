@@ -130,7 +130,7 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
         }
 
         UserSession userSession = userRequestService.getUserSession();
-        if(userSession != null && newLocale != null && !newLocale.equals(userSession.getLanguage())) {
+        if (userSession != null && newLocale != null && !newLocale.equals(userSession.getLanguage())) {
             userSessionService.updateUserPrefLanguage(userSession, newLocale);
         }
 

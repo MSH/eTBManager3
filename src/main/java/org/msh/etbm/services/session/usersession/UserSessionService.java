@@ -231,7 +231,7 @@ public class UserSessionService {
     }
 
     @Transactional
-    public void updateUserPrefLanguage(UserSession userSession, String newLocale){
+    public void updateUserPrefLanguage(UserSession userSession, String newLocale) {
         User user = entityManager.find(User.class, userSession.getUserId());
 
         if (newLocale != null && !newLocale.equals(user.getLanguage())) {
