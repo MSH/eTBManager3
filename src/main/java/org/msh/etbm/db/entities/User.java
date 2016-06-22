@@ -115,7 +115,7 @@ public class User implements Displayable {
     /**
      * The preferred language, used to remember whitch
      */
-    @Column(length=10)
+    @Column(length = 10)
     private String language;
 
 	/**
