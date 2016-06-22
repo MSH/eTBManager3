@@ -112,6 +112,12 @@ public class User implements Displayable {
     @Pattern(regexp = "(^$|[0-9]{6,14})")
     private String mobile;
 
+    /**
+     * The preferred language, used to remember whitch
+     */
+    @Column(length=10)
+    private String language;
+
 	/**
 	 * Check if password has expired
 	 * @return
@@ -338,5 +344,13 @@ public class User implements Displayable {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

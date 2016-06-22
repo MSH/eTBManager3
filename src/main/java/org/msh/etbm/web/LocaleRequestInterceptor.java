@@ -1,12 +1,20 @@
 package org.msh.etbm.web;
 
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
+import org.msh.etbm.services.session.usersession.UserSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +28,12 @@ import java.util.Locale;
  */
 @Component
 public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
+
+    @Autowired
+    UserSessionService userSessionService;
+
+    @Autowired
+    UserRequestService userRequestService;
 
     @Value("${app.default-language}")
     String defaultLanguage;
@@ -113,6 +127,11 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
         // no locale selected by the user? return null
         if (newLocale == null) {
             return null;
+        }
+
+        UserSession userSession = userRequestService.getUserSession();
+        if(userSession != null && newLocale != null && !newLocale.equals(userSession.getLanguage())) {
+            userSessionService.updateUserPrefLanguage(userSession, newLocale);
         }
 
         try {

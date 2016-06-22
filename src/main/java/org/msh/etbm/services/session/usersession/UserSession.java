@@ -42,6 +42,8 @@ public class UserSession {
     // list of permissions granted to the user
     private List<String> permissions;
 
+    private String language;
+
     /**
      * Return true if the given permission is granted to the user
      * @param perm the permission to check
@@ -154,5 +156,13 @@ public class UserSession {
 
     public void setAdminUnit(AdminUnitSeries adminUnit) {
         this.adminUnit = adminUnit;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

@@ -1162,6 +1162,7 @@
             </column>
             <column name="passwordResetToken" type="varchar(100)" />
             <column name="mobile" type="varchar(100)" />
+            <column name="language" type="varchar(10)" />
         </createTable>
     </changeSet>
 
