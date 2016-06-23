@@ -76,7 +76,6 @@ export class App {
 	 * Run the application
 	 */
 	run() {
-
 		const self = this;
 
 		// set right locale in moment lib
@@ -88,18 +87,21 @@ export class App {
 			// create storage that will keep application state
 			self.storage = new Storage({ app: res });
 
-			// according to app state, go to specific module
-			switch (res.state) {
-				// if it is a new instance, go to the initialization module
-				case 'NEW': gotoModule('/init', '/welcome');
-					break;
-				// if ready, go to the home page
-				case 'READY':
+			// if system is not initialized yet, so there is no other way to go
+			if (res.state === 'NEW') {
+				gotoModule('/init', '/welcome');
+			}
+
+			// there is no page pointed in the url ?
+			if (!window.location.hash) {
+				// if ready, go to the main page
+				if (res.state === 'READY') {
 					gotoModule('/sys', '/home/index');
-					break;
-				// default module is the login page
-				default:
+				}
+				else {
+					// if not, go to the login page
 					gotoModule('/pub', '/login');
+				}
 			}
 
 			// render the main page

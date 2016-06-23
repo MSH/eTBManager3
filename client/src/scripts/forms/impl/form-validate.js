@@ -19,7 +19,9 @@ export default function validateForm(form) {
 	const doc = form.props.doc;
 
 	// browse all fields
-	snapshots.forEach(elem => {
+	snapshots
+		.filter(it => !!it.snapshot.property)
+		.forEach(elem => {
 		const snapshot = elem.snapshot;
 		const value = getValue(doc, snapshot.property);
 

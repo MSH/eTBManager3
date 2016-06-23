@@ -38,7 +38,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void afterSave(Tag entity, ServiceResult res) {
+    protected void afterSave(Tag entity, ServiceResult res, boolean isNew) {
         casesTagsUpdateService.updateCases(entity.getId());
     }
 

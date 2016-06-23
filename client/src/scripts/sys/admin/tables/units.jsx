@@ -265,6 +265,7 @@ export default class Units extends React.Component {
 		return (
 			<CrudView title={data.title}
 				crud={crud}
+				pageSize={50}
 				onCellRender={this.cellRender}
 				editorSchema={editorDef}
 				perm={data.perm} />

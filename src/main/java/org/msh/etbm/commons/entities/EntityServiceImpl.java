@@ -89,7 +89,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
-        afterSave(dao.getEntity(), res);
+        afterSave(dao.getEntity(), res, true);
 
         return res;
     }
@@ -131,7 +131,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // generate the result
         res.setLogDiffs(diffs);
 
-        afterSave(dao.getEntity(), res);
+        afterSave(dao.getEntity(), res, false);
 
         return res;
     }
@@ -272,8 +272,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * Called after the entity is saved
      * @param entity the saved entity
      * @param res the result to be returned to the caller
+     * @param isNew indicate if a new entity was saved, or if it is an update
      */
-    protected void afterSave(E entity, ServiceResult res) {
+    protected void afterSave(E entity, ServiceResult res, boolean isNew) {
         // do nothing... To be implemented in the child class
     }
 

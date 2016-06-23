@@ -7,6 +7,9 @@ const crud = new CRUD('source');
 
 // definition of the form fields to edit substances
 const editorDef = {
+	defaultProperties: {
+		active: true
+	},
 	layout: [
 		{
 			property: 'shortName',
@@ -35,8 +38,7 @@ const editorDef = {
 			property: 'active',
 			type: 'yesNo',
 			label: __('EntityState.ACTIVE'),
-			size: { md: 5 },
-			defaultValue: true
+			size: { md: 5 }
 		}
 	],
 	title: doc => doc && doc.id ? __('admin.sources.edit') : __('admin.sources.new')

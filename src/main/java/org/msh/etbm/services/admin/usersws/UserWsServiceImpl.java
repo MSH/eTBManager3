@@ -1,20 +1,27 @@
 package org.msh.etbm.services.admin.usersws;
 
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
+import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -27,6 +34,12 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    Messages messages;
 
     @Override
     protected void buildQuery(QueryBuilder<UserWorkspace> builder, UserWsQueryParams queryParams) {
@@ -47,6 +60,12 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Override
     protected void beforeValidate(UserWorkspace uw, Object request) {
+        // set login to lower case
+        User user = uw.getUser();
+        if (user != null && user.getLogin() != null) {
+            uw.getUser().setLogin(uw.getUser().getLogin().toLowerCase());
+        }
+
         if (uw.getAdminUnit() == null && uw.getUnit() != null) {
             uw.setAdminUnit(uw.getUnit().getAddress().getAdminUnit());
         }
@@ -55,6 +74,28 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     @Override
     protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
         initNewUser(userWorkspace.getUser());
+    }
+
+    @Override
+    protected void afterSave(UserWorkspace entity, ServiceResult res, boolean isNew) {
+        if (isNew) {
+            sendMessageToNewUser(entity);
+        }
+    }
+
+
+    /**
+     * Send an e-mail message to the user informing about its registration and link to change the password
+     * @param uw
+     */
+    protected void sendMessageToNewUser(UserWorkspace uw) {
+        User user = uw.getUser();
+        // send a message informing
+        Map<String, Object> model = new HashMap<>();
+        model.put("user", user);
+        model.put("name", user.getName());
+        mailService.send(uw.getUser().getEmail(), messages.get("mail.newuser"), "new-user.ftl", model);
+
     }
 
     /**
@@ -70,8 +111,8 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         user.setState(UserState.VALIDATE_EMAIL);
 
         // generate new UUID token to change password
-        UUID id = UUID.randomUUID();
-        user.setPasswordResetToken(id.toString());
+        String token = UserUtils.generatePasswordToken();
+        user.setPasswordResetToken(token);
 
         // set the date and time user was registered
         user.setRegistrationDate(new Date());
