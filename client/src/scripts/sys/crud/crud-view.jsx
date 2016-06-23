@@ -114,7 +114,7 @@ CrudView.propTypes = {
 	search: React.PropTypes.bool,
 	pageSize: React.PropTypes.number,
 	queryFilters: React.PropTypes.object,
-	options: React.PropTypes.array,
+	options: React.PropTypes.any,
 	modal: React.PropTypes.bool,
 	// if true, the card will have no bottom margin
 	combine: React.PropTypes.bool,

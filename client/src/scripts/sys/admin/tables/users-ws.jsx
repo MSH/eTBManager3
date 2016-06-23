@@ -101,7 +101,9 @@ export default class UsersWs extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.options = this.options.bind(this);
 		this.execOption = this.execOption.bind(this);
+		this.blockUnblockUser = this.blockUnblockUser.bind(this);
 		this.state = {
 			options: [
 				{
@@ -113,15 +115,37 @@ export default class UsersWs extends React.Component {
 					onClick: this.execOption
 				},
 				{
-					label: 'Block user',
-					onClick: this.execOption
+					label: 'Block/Unblock user',
+					onClick: this.blockUnblockUser
 				}
 			]
 		};
 	}
 
+	blockUnblockUser(index, item) {
+		const doc = { state: true };
+		crud.update(item.id, doc);
+	}
+
 	execOption(index) {
 		alert('Not implemented: ' + index);
+	}
+
+	options(item) {
+		return [
+				{
+					label: 'Send new password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Change password',
+					onClick: this.execOption
+				},
+				{
+					label: 'Block/Unblock user',
+					onClick: this.blockUnblockUser
+				}
+			];
 	}
 
 	cellRender(item) {
@@ -143,7 +167,7 @@ export default class UsersWs extends React.Component {
 		return (
 			<CrudView crud={crud}
 				pageSize={50}
-				options={this.state.options}
+				options={this.options}
 				title={data.title}
 				editorSchema={editorDef}
 				onCellRender={this.cellRender}
