@@ -2,10 +2,8 @@ package org.msh.etbm.services.admin.ageranges;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AgeRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,7 @@ import java.util.List;
  * Created by rmemoria on 6/1/16.
  */
 @Service
-public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQueryParams>
+public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQueryParams>
     implements AgeRangeService {
 
     @Autowired
@@ -26,18 +24,12 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     @Autowired
     Messages messages;
 
-    /**
-     * Return the list of age ranges
-     * @return
-     */
     @Override
-    public QueryResult findMany(EntityQueryParams params) {
-        QueryBuilder<AgeRange> builder = queryBuilderFactory.createQueryBuilder(AgeRange.class);
+    protected void buildQuery(QueryBuilder<AgeRange> builder, AgeRangesQueryParams queryParams) {
+        builder.addDefaultProfile(AgeRangesQueryParams.PROFILE_DEFAULT, AgeRangeData.class);
 
-        builder.addDefaultOrderByMap("age", "iniAge");
-        builder.setOrderByKey("age");
-
-        return builder.createQueryResult(AgeRangeData.class);
+        builder.addDefaultOrderByMap(AgeRangesQueryParams.ORDERBY_AGE, "iniAge");
+        builder.setOrderByKey(AgeRangesQueryParams.PROFILE_DEFAULT);
     }
 
     @Override

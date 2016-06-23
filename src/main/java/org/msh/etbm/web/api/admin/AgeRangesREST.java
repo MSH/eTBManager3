@@ -2,10 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.admin.ageranges.AgeRangeData;
-import org.msh.etbm.services.admin.ageranges.AgeRangeFormData;
-import org.msh.etbm.services.admin.ageranges.AgeRangeRequest;
-import org.msh.etbm.services.admin.ageranges.AgeRangeService;
+import org.msh.etbm.services.admin.ageranges.*;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -55,8 +52,8 @@ public class AgeRangesREST {
 
     @RequestMapping(value = "/agerange/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query() {
-        return service.findMany(null);
+    public QueryResult query(@Valid @RequestBody AgeRangesQueryParams query) {
+        return service.findMany(query);
     }
 
     @RequestMapping(value = "/agerange/form/{id}", method = RequestMethod.GET)
