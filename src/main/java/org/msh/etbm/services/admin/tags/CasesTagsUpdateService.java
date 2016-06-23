@@ -61,7 +61,8 @@ public class CasesTagsUpdateService {
 
 		// get tags
 		List<Tag> tags = entityManager.createQuery("from Tag t where t.active = true \n" +
-											"and t.sqlCondition is not null and t.workspace.id = '" + wsid + "'")
+											"and t.sqlCondition is not null and t.workspace.id = :wId")
+											.setParameter("wId", wsid)
 											.getResultList();
 
 		if (tags.isEmpty()) {
@@ -82,12 +83,12 @@ public class CasesTagsUpdateService {
 				sql += "select a.id, " + tag.getId() +
 						" from tbcase a join patient p on p.id=a.patient_id " +
 						" and p.workspace_id = '" + wsid + "'" +
-						" and a.id = '" + tbcaseId + "'" +
+						" and a.id = :tbcaseId " +
 						" and " + tag.getSqlCondition();
 			}
 		}
 		sql = "insert into tags_case (case_id, tag_id) " + sql;
-		entityManager.createNativeQuery(sql).executeUpdate();
+		entityManager.createNativeQuery(sql).setParameter("tbcaseId", tbcaseId).executeUpdate();
 	}
 
 	/**
