@@ -54,7 +54,7 @@ export default class Login extends React.Component {
 		this.login(val.user, val.pwd)
 		.then(data => {
 			if (data) {
-				app.goto('/sys/home/index');
+				app.goto('/sys/home/workspace/cases');
 			}
 			else {
 				self.setState({ fetching: false, invalid: true });

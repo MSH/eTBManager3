@@ -31,9 +31,8 @@ class SnapshotCreator {
 	create(form) {
 		this.form = form;
 		const schema = form.props.schema;
-		const formSnapshot = {
-			readOnly: form.props.readOnly
-		};
+		const formSnapshot = form.props.readOnly ?
+			{ readOnly: form.props.readOnly } : { };
 
 		this.form = form;
 		this.list = [];
