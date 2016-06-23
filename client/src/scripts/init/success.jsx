@@ -16,6 +16,7 @@ export default class Success extends React.Component {
      * Called when user clicks on the continue button
      */
     contClick() {
+        app.setState({ login: 'admin' });
         app.goto('/pub/login');
     }
 

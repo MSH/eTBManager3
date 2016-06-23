@@ -2,7 +2,6 @@
  * Generate and maintain a form based on a given layout (in object structure) and a data model
  */
 import React from 'react';
-import { Grid } from 'react-bootstrap';
 import validateForm from './impl/form-validate';
 import { setValue } from '../commons/utils';
 import formRender from './impl/form-render';

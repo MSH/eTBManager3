@@ -95,14 +95,14 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUPPLIER_ID")
-    private Tbunit supplier;
+    private Unit supplier;
 
     /**
      * The authorizer for orders
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHORIZERUNIT_ID")
-    private Tbunit authorizer;
+    private Unit authorizer;
 
     /**
      * Indicate if the unit can register commodities received from manufacturer
@@ -202,19 +202,19 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
         this.shipAddress = shipAddress;
     }
 
-    public Tbunit getSupplier() {
+    public Unit getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Tbunit supplier) {
+    public void setSupplier(Unit supplier) {
         this.supplier = supplier;
     }
 
-    public Tbunit getAuthorizer() {
+    public Unit getAuthorizer() {
         return authorizer;
     }
 
-    public void setAuthorizer(Tbunit authorizer) {
+    public void setAuthorizer(Unit authorizer) {
         this.authorizer = authorizer;
     }
 

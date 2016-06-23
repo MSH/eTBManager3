@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import { Grid, Col, Row, Alert } from 'react-bootstrap';
 import { Card, FormDialog, WaitIcon } from '../../../components';
 import { server } from '../../../commons/server';
@@ -100,7 +99,6 @@ export default class SysConfig extends React.Component {
 		return server.post('/api/admin/sysconfig', doc)
 		.then(() => {
 			self.setState({ msg: __('admin.syssetup.success') });
-//			ReactDom.findDOMNode(self).scrollIntoView(true);
 		});
 	}
 

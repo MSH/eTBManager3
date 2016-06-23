@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col, Input, Fade } from 'react-bootstrap';
+import { Grid, Row, Col, Input, Fade, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import Success from './success';
@@ -99,11 +99,15 @@ export default class NewWorkspace extends React.Component {
             content = (
                 <Grid fluid>
                     <Col sm={8} smOffset={2} lg={8} lgOffset={2} >
-                        <Card title={__('init.ws.create')}>
+                        <Card title={__('init.ws.create')} className="mtop-2x">
                             <div>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="text" ref="wsname" label={__('init.ws.name') + ':'} autoFocus help={err.wsname} bsStyle={err.wsname ? 'error' : undefined} />
+                                        <FormGroup validationState={err.wsname ? 'error' : undefined}>
+                                            <ControlLabel>{__('init.ws.name') + ':'}</ControlLabel>
+                                            <FormControl type="text" ref="wsname" autoFocus />
+                                            <HelpBlock>{err.wsname}</HelpBlock>
+                                        </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -117,18 +121,33 @@ export default class NewWorkspace extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="text" label={__('init.ws.adminname') + ':'} value="Admin" disabled />
+                                        <FormGroup>
+                                            <ControlLabel>{__('init.ws.adminname') + ':'}</ControlLabel>
+                                            <FormControl type="text" disabled value="ADMIN" />
+                                        </FormGroup>
                                     </Col>
                                     <Col sm={6}>
-                                        <Input type="text" ref="email" label={__('init.ws.adminemail') + ':'} help={err.email} bsStyle={err.email ? 'error' : undefined} />
+                                        <FormGroup validationState={err.email ? 'error' : undefined}>
+                                            <ControlLabel>{__('init.ws.adminemail') + ':'}</ControlLabel>
+                                            <FormControl type="text" ref="email" />
+                                            <HelpBlock>{err.email}</HelpBlock>
+                                        </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col sm={6}>
-                                        <Input type="password" ref="pwd" label={__('init.ws.adminpwd') + ':'} help={err.pwd} bsStyle={err.pwd ? 'error' : undefined} />
+                                        <FormGroup validationState={err.pwd ? 'error' : undefined}>
+                                            <ControlLabel>{__('init.ws.adminpwd') + ':'}</ControlLabel>
+                                            <FormControl type="password" ref="pwd" />
+                                            <HelpBlock>{err.pwd}</HelpBlock>
+                                        </FormGroup>
                                     </Col>
                                     <Col sm={6}>
-                                        <Input type="password" ref="pwd2" label={__('init.ws.adminpwd2') + ':'} help={err.pwd2} bsStyle={err.pwd2 ? 'error' : undefined} />
+                                        <FormGroup validationState={err.pwd2 ? 'error' : undefined}>
+                                            <ControlLabel>{__('init.ws.adminpwd2') + ':'}</ControlLabel>
+                                            <FormControl type="password" ref="pwd2" />
+                                            <HelpBlock>{err.pwd2}</HelpBlock>
+                                        </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row>
