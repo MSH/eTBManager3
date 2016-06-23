@@ -39,7 +39,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
 
     @Override
     protected void afterSave(Tag entity, ServiceResult res) {
-        casesTagsUpdateService.updateCases(entity);
+        casesTagsUpdateService.updateCases(entity.getId());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         String sqlTestMessage = testTagCondition(tag);
 
         if (sqlTestMessage != null) {
-            errors.rejectValue("name", Messages.NOT_UNIQUE);
+            errors.rejectValue("sqlCondition", Messages.NOT_VALID);
         }
     }
 

@@ -76,5 +76,10 @@
             <a>unit.name</a>
             <b>unitName</b>
         </field>
+
+        <field>
+            <a>user.language</a>
+            <b>language</b>
+        </field>
     </mapping>
 </mappings>
