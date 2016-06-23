@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Row, Col, DropdownButton, MenuItem, Button, Collapse } from 'react-bootstrap';
+import { Grid, Row, Col, DropdownButton, MenuItem, Button, Collapse } from 'react-bootstrap';
 import { Card, Fa, MessageDlg, FormDialog } from '../../../components/index';
 import CRUD from '../../../commons/crud';
 import TreeView from '../../../components/tree-view';
@@ -135,7 +135,7 @@ export default class AdmUnits extends React.Component {
 			parent: this.state.root });
 	}
 
-	onMenuSel(evt, key) {
+	onMenuSel(key) {
 		switch (key.evt) {
 			case 'edit': return this.cmdEdit(key.item);
 			case 'del': return this.cmdDelete(key.item);
@@ -274,7 +274,8 @@ export default class AdmUnits extends React.Component {
 		const req = {
 			name: doc.name,
 			parentId: doc.parents && doc.parents.p0 ? doc.parents.p0.id : null,
-			csId: doc.csId
+			csId: doc.csId,
+			customId: doc.customId
 		};
 
 		let prom;
@@ -338,7 +339,8 @@ export default class AdmUnits extends React.Component {
 					type: 'adminUnit',
 					label: __('admin.adminunits.parentunit'),
 					readOnly: true,
-					size: { md: 6 }
+					size: { md: 6 },
+					visible: doc => !!doc.parents
 				},
 				{
 					property: 'csId',
@@ -346,7 +348,7 @@ export default class AdmUnits extends React.Component {
 					label: __('admin.adminunits.countrystructure'),
 					options: this.getCsOptions(this.state.level),
 					required: true,
-					size: { md: 6 }
+					size: { md: 6, newLine: true }
 				},
 				{
 					property: 'customId',
@@ -409,6 +411,7 @@ export default class AdmUnits extends React.Component {
 						</Collapse>
 				}
 				<Card header={header}>
+					<Grid fluid>
 					<TreeView key={state.root ? state.root.key : -1}
 						onGetNodes={this.loadNodes}
 						root={[state.root]}
@@ -418,6 +421,7 @@ export default class AdmUnits extends React.Component {
 						onInit={this.onInitTree}
 						title={title}
 					/>
+					</Grid>
 				</Card>
 				<MessageDlg show={state.confirm}
 					onClose={this.deleteItem}
