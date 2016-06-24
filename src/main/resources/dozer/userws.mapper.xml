@@ -73,6 +73,12 @@
             <a>user.name</a>
             <b>name</b>
         </field>
+
+        <field>
+            <a>user.state</a>
+            <b>state</b>
+        </field>
+
     </mapping>
 
 
