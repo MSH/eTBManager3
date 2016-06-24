@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Exception handlers to display friendly and standard messages to the client
@@ -88,20 +87,25 @@ public class ExceptionHandlingController {
             return new StandardResult(null, null, false);
         }
 
-        Map<String, Message> errors = new HashMap<>();
-        List<FieldError> lst1 = res.getFieldErrors();
-        for (FieldError fld: lst1) {
-            String message = messages.get(fld);
-            errors.put(fld.getField(), new Message(message, fld.getCode()));
+        List<Message> msgs = new ArrayList<>();
+
+        // add local error messages
+        if (res.getFieldErrorCount() > 0) {
+            // add local error messages
+            for (FieldError fld: res.getFieldErrors()) {
+                String message = messages.get(fld);
+                msgs.add(new Message(fld.getField(), message, fld.getCode()));
+            }
         }
 
-        List<ObjectError> lst2 = res.getGlobalErrors();
-        for (ObjectError fld: lst2) {
-            String message = messages.get(fld);
-            errors.put("global", new Message(message, fld.getCode())); //TODOMS: melhorar para permitir mais de uma mensagem global, o key nao pode ser repetido
+        // add global error messages
+        if (res.getGlobalErrorCount() > 0) {
+            for (ObjectError err: res.getGlobalErrors()) {
+                msgs.add(new Message(messages.get(err), err.getCode()));
+            }
         }
 
-        return new StandardResult(null, errors, false);
+        return new StandardResult(null, msgs, false);
     }
 
 
@@ -110,10 +114,10 @@ public class ExceptionHandlingController {
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Object methodValidationError(MethodArgumentNotValidException e) {
-        Map<String, Message> errors = new HashMap<>();
+        List<Message> errors = new ArrayList<>();
 
         for (FieldError fld: e.getBindingResult().getFieldErrors()) {
-            errors.put(fld.getField(), new Message(fld.getDefaultMessage(), null));
+            errors.add(new Message(fld.getField(), messages.get(fld), fld.getCode()));
         }
 
         StandardResult res = new StandardResult(null, errors, false);

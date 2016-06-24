@@ -9,6 +9,7 @@
 </#macro>
 
 
+<#-- Displays a content inside a simple panel -->
 <#macro panel>
 	<p style="background:#f8f8f8;border-radius: 4px;border:1px solid #f0f0f0;padding:8px;">
 		<#nested>

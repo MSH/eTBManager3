@@ -128,4 +128,14 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         List<SynchronizableItem> lst = res.getList();
         return lst;
     }
+
+    @Override
+    protected void beforeDelete(Workspace entity, Errors errors) {
+        UUID wsid = userRequestService.getUserSession().getWorkspaceId();
+
+        if (wsid.equals(entity.getId())) {
+            errors.reject("admin.workspaces.delerror1");
+        }
+        super.beforeDelete(entity, errors);
+    }
 }

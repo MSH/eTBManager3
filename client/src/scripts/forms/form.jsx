@@ -222,7 +222,7 @@ export default class Form extends React.Component {
 Form.propTypes = {
 	schema: React.PropTypes.object,
 	doc: React.PropTypes.object,
-	errors: React.PropTypes.object,
+	errors: React.PropTypes.array,
 	resources: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	readOnly: React.PropTypes.bool,

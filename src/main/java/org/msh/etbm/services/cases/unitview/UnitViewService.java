@@ -4,7 +4,6 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Patient;
-import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.admin.tags.CasesTagsReportItem;

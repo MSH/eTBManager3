@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Alert } from 'react-bootstrap';
-import WaitIcon from '../../components/wait-icon';
+import { WaitIcon, Errors } from '../../components';
 import { getValue } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
 
@@ -46,7 +46,7 @@ export default function formRender(form) {
 
 	// called after the elements loop to search for unhandled messages
 	if (!globalMsg) {
-		globalMsg = createGlobalMsgs(errors, globalMsg, handledErrors);
+		globalMsg = createGlobalMsgs(errors, handledErrors);
 	}
 
 	// is there a global message
@@ -77,8 +77,8 @@ function createElement(form, item, value, errors) {
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
 	let err;
-	if (errors && Object.keys(errors).length === 1 && snapshot && errors[snapshot.property]) {
-		err = errors[snapshot.property];
+	if (errors && errors.length === 1 && snapshot && errors[0].field === snapshot.property) {
+		err = errors[0].msg;
 	}
 	else {
 		err = errors;
@@ -114,17 +114,15 @@ function propertyErrors(propname, errors, handledErrors) {
 		return null;
 	}
 
-	const keys = Object.keys(errors);
-	const res = {};
-	keys.forEach(key => {
-		if (key.startsWith(propname)) {
-			const error = errors[key];
-			res[key] = error.msg ? error.msg : error;
-			// add error messages that are handled
-			handledErrors.push(key);
+	const res = errors.filter(msg => {
+		if (msg.field && msg.field.startsWith(propname)) {
+			handledErrors.push(msg.field);
+			return true;
 		}
+		return false;
 	});
-	return Object.keys(res).length === 0 ? null : res;
+
+	return res.length === 0 ? null : res;
 }
 
 
@@ -132,24 +130,12 @@ function propertyErrors(propname, errors, handledErrors) {
  * Create a list of global messages based on unhandled messages by the fields
  * @return {[type]} [description]
  */
-function createGlobalMsgs(errors, msg, handledErrors) {
+function createGlobalMsgs(errors, handledErrors) {
 	if (!errors) {
 		return null;
 	}
 
-	const keys = Object.keys(errors);
-	const lst = [];
+	const lst = errors.filter(msg => handledErrors.indexOf(msg.field) === -1);
 
-	if (msg) {
-		lst.push(msg);
-	}
-
-	keys.forEach(key => {
-		if (handledErrors.indexOf(key) < 0) {
-			const err = errors[key];
-			lst.push(<li key={key}>{key + ': ' + (err.msg ? err.msg : err)}</li>);
-		}
-	});
-
-	return lst.length > 0 ? <ul>{lst}</ul> : null;
+	return lst.length > 0 ? <Errors messages={lst} /> : null;
 }

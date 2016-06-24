@@ -5,8 +5,10 @@ import org.apache.commons.beanutils.PropertyUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * General utility functions involving an object

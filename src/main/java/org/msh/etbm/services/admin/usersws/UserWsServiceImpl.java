@@ -2,7 +2,6 @@ package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -22,7 +21,6 @@ import org.springframework.validation.Errors;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Implementation of the {@link UserWsService} to handle CRUD operations for User workspace

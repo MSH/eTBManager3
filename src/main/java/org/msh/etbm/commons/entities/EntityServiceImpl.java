@@ -151,6 +151,11 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // prepare entity to be deleted
         beforeDelete(dao.getEntity(), dao.getErrors());
 
+        // check if there is any error
+        if (dao.hasErrors()) {
+            dao.raiseValidationError();
+        }
+
         // generate the values to log
         res.setLogValues(createValuesToLog(dao.getEntity(), Operation.DELETE));
 

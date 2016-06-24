@@ -4,7 +4,6 @@ import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.Gender;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Patient information returned as a response from client request

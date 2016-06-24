@@ -22,31 +22,31 @@ export default function validateForm(form) {
 	snapshots
 		.filter(it => !!it.snapshot.property)
 		.forEach(elem => {
-		const snapshot = elem.snapshot;
-		const value = getValue(doc, snapshot.property);
+			const snapshot = elem.snapshot;
+			const value = getValue(doc, snapshot.property);
 
-		let msg;
-		// no value informed ?
-		if (isEmpty(value)) {
-			// value is required ?
-			if (snapshot.required) {
-				// if required and empty, so show required message
-				msg = msgs.NotNull;
+			let msg;
+			// no value informed ?
+			if (isEmpty(value)) {
+				// value is required ?
+				if (snapshot.required) {
+					// if required and empty, so show required message
+					msg = msgs.NotNull;
+				}
 			}
-		}
-		else {
-			// validate value
-			const comp = form.refs[snapshot.id];
-			msg = comp.validate(snapshot, value, doc);
-		}
+			else {
+				// validate value
+				const comp = form.refs[snapshot.id];
+				msg = comp.validate(snapshot, value, doc);
+			}
 
-		if (msg) {
-			if (!errors) {
-				errors = {};
+			if (msg) {
+				if (!errors) {
+					errors = [];
+				}
+				errors.push({ field: snapshot.property, msg: msg });
 			}
-			errors[snapshot.property] = msg;
-		}
-	});
+		});
 
 	return errors;
 }

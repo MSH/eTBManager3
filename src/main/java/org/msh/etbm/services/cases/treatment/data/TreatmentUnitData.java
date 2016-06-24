@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.treatment.data;
 
-import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
 import java.util.Date;

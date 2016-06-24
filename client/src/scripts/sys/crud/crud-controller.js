@@ -306,8 +306,8 @@ export default class CrudController {
 	 * Raise an event to display a message
 	 * @param  {String} msg The message to be displayed
 	 */
-	showMessage(msg) {
-		this._raise(Events.showMsg, msg);
+	showMessage(msg, type) {
+		this._raise(Events.showMsg, { msg: msg, type: type });
 	}
 
 	/**
@@ -371,9 +371,14 @@ export default class CrudController {
 
 		const self = this;
 		return this.crud.delete(this.item.id)
-			.then(() => self.refreshList())
-			.then(() => self.showMessage(__('default.entity_deleted')));
+			.then(res => {
+				if (!res.errors) {
+					return self.refreshList()
+					.then(() => self.showMessage(__('default.entity_deleted')));
+				}
 
+				return self.showMessage(res.errors, 'error');
+			});
 	}
 
 	/**
