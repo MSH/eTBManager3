@@ -3,6 +3,7 @@ import React from 'react';
 import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
+import { Label } from 'react-bootstrap';
 
 
 const crud = new CRUD('userws');
@@ -122,17 +123,8 @@ export default class UsersWs extends React.Component {
 		};
 	}
 
-	blockUnblockUser(index, item) {
-		const doc = { state: true };
-		crud.update(item.id, doc);
-	}
-
-	execOption(index) {
-		alert('Not implemented: ' + index);
-	}
-
 	options(item) {
-		return [
+		const options = [
 				{
 					label: 'Send new password',
 					onClick: this.execOption
@@ -140,23 +132,53 @@ export default class UsersWs extends React.Component {
 				{
 					label: 'Change password',
 					onClick: this.execOption
-				},
-				{
-					label: 'Block/Unblock user',
-					onClick: this.blockUnblockUser
 				}
 			];
+
+		if (item.state === 'BLOCKED' || item.state === 'ACTIVE') {
+			options.push({
+					label: item.state === 'BLOCKED' ? 'Unblock user' : 'Block user',
+					onClick: this.blockUnblockUser
+				});
+		}
+
+		return options;
+	}
+
+	blockUnblockUser(index, item) {
+		const newState = item.state === 'ACTIVE' ? 1 : 0;
+		const doc = { state: newState };
+		crud.update(item.id, doc);
+	}
+
+	execOption(index) {
+		alert('Not implemented: ' + index);
 	}
 
 	cellRender(item) {
 		const sub = (
 			<div>
-				{item.unit.name}
+				<div>
+					{item.unit.name}
+				</div>
 			</div>
 			);
 
 		return (
-			<Profile type="user" title={item.name} subtitle={sub} size="small"/>
+			<div>
+				<div className="pull-right">
+					{
+						item.state === 'BLOCKED' && <Label bsStyle="danger">{'Blocked'}</Label>
+					}
+					{
+						item.state === 'PASSWD_EXPIRED' && <Label bsStyle="warning">{'Password Expired'}</Label>
+					}
+					{
+						item.state === 'VALIDATE_EMAIL' && <Label bsStyle="warning">{'Waiting E-mail Validation'}</Label>
+					}
+				</div>
+				<Profile type="user" title={item.name} subtitle={sub} size="small"/>
+			</div>
 			);
 	}
 
