@@ -46,7 +46,8 @@ export default class AgeRanges extends React.Component {
 				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				cellSize={{ md: 12 }}
-				perm={data.perm} />
+				perm={data.perm}
+				refreshAll />
 			);
 	}
 }

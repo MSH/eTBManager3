@@ -253,14 +253,29 @@ export default class CrudController {
 			// remove information about open form
 			delete self.frm;
 
-			// informing that the item is being loaded
-			if (id) {
-				self._raise(Events.fetchingItem, id);
+			if (this.options.refreshAll) {
+				return this.refreshList();
 			}
 
-			// reload the item in order to be displayed again
-			return this.crud.query({ id: id });
-		})
+			return this._updateItem(id, isNew);
+		});
+	}
+
+	/**
+	 * Called by function saveAndClose to update the item that was edited or inserted
+	 * @param  {[type]}  id    [description]
+	 * @param  {Boolean} isNew [description]
+	 * @return {[type]}        [description]
+	 */
+	_updateItem(id, isNew) {
+		// informing that the item is being loaded
+		if (id) {
+			this._raise(Events.fetchingItem, id);
+		}
+
+		const self = this;
+		// reload the item in order to be displayed again
+		return this.crud.query({ id: id })
 		.then(res => {
 			// the new item that will replace the current item
 			const newitem = res.list[0];
@@ -283,7 +298,7 @@ export default class CrudController {
 			}
 			else {
 				// search for the position of the item in the list
-				const index = lst.findIndex(item => fi.id === self.resolveId(item));
+				const index = lst.findIndex(item => id === self.resolveId(item));
 				if (__DEV__) {
 					// if item was not found, raise an error
 					if (index === -1) {
@@ -294,10 +309,10 @@ export default class CrudController {
 				lst[index] = newitem;
 
 				// generate event to update the item being displayed
-				self._raise(Events.itemUpdated, { id: fi.id, item: newitem });
+				self._raise(Events.itemUpdated, { id: id, item: newitem });
 			}
 
-			const msg = fi.id ? __('default.entity_updated') : __('default.entity_created');
+			const msg = id ? __('default.entity_updated') : __('default.entity_created');
 			self.showMessage(msg);
 		});
 	}

@@ -98,6 +98,6 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQu
     }
 
     private List<AgeRange> findAll() {
-        return getEntityManager().createQuery("from AgeRange").getResultList();
+        return getEntityManager().createQuery("from AgeRange order by iniAge").getResultList();
     }
 }

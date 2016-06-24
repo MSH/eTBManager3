@@ -25,7 +25,8 @@ export default class CrudView extends React.Component {
 		const opts = {
 			pageSize: this.props.pageSize,
 			readOnly: !hasPerm(this.props.perm),
-			editorSchema: this.props.editorSchema
+			editorSchema: this.props.editorSchema,
+			refreshAll: !!this.props.refreshAll
 		};
 
 		const controller = new CrudController(this.props.crud, opts);
@@ -118,7 +119,9 @@ CrudView.propTypes = {
 	modal: React.PropTypes.bool,
 	// if true, the card will have no bottom margin
 	combine: React.PropTypes.bool,
-	children: React.PropTypes.node
+	children: React.PropTypes.node,
+	// refresh all list on a CUD operation
+	refreshAll: React.PropTypes.bool
 };
 
 CrudView.defaultProps = {
