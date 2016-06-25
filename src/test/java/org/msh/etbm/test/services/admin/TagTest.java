@@ -66,7 +66,8 @@ public class TagTest extends CommonEntityServiceTests {
         // test create and find one
         Map<String, Object> props = new HashMap<>();
         props.put("name", "My tag3");
-        props.put("sqlCondition", "a.statee > 2");
+        // THERE IS AN ERROR, BUT IT'S PART OF THE TEST
+        props.put("sqlCondition", "a.invalidFIELD > 2");
         props.put("consistencyCheck", false);
         props.put("active", true);
         props.put("dailyUpdate", false);

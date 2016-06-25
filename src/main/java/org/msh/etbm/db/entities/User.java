@@ -50,6 +50,7 @@ public class User extends Synchronizable implements Displayable {
     @Email
     private String email;
 
+    @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active;
 
     private boolean passwordExpired;

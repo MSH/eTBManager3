@@ -1,8 +1,12 @@
 package org.msh.etbm.services.session.usersession;
 
+import org.msh.etbm.db.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.UUID;
 
 /**
@@ -19,10 +23,14 @@ public class ChangeWorkspaceService {
     @Autowired
     UserRequestService userRequestService;
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     /**
      * Change the user workspace to another workspace
      * @param wsuserId the ID of the user workspace
      */
+    @Transactional
     public UUID changeTo(UUID wsuserId, String ipAddr, String appName) {
         // start a new session
         UUID newAuthToken = userSessionService.beginSession(wsuserId, ipAddr, appName);
@@ -34,7 +42,20 @@ public class ChangeWorkspaceService {
         // end current session
         userSessionService.endSession(userRequestService.getAuthToken());
 
+        updateDefaultWorkspace(session);
+
         // return new token
         return newAuthToken;
+    }
+
+    /**
+     * Update the default workspace in use by the user
+     * @param session the current user session
+     */
+    private void updateDefaultWorkspace(UserSession session) {
+        entityManager.createQuery("update User set defaultWorkspace.id = :wsid where id = :id")
+                .setParameter("wsid", session.getUserWorkspaceId())
+                .setParameter("id", session.getUserId())
+                .executeUpdate();
     }
 }
