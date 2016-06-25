@@ -54,6 +54,21 @@ public class ObjectUtils {
     }
 
     /**
+     * Return property type of the given property in the given object
+     * @param obj the object to have its property type returned
+     * @param property the name of the property in the object
+     * @return the property type
+     */
+    public static Class getPropertyType(Object obj, String property) {
+        try {
+            return PropertyUtils.getPropertyType(obj, property);
+        } catch (Exception e) {
+            throw new ObjectAccessException(obj, property,
+                    "Error getting type of property " + property, e);
+        }
+    }
+
+    /**
      * Create a new instance of a given class. The class must implement a constructor with
      * no arguments, otherwise a {@link ObjectAccessException} will be thrown
      * @param clazz The class to create an instance from

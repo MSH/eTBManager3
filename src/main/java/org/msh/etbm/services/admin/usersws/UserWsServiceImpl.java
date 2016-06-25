@@ -8,7 +8,6 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
-import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
@@ -71,6 +70,14 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Override
     protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
+        if (!checkUnique(User.class, userWorkspace.getUser(), "login", null)) {
+            errors.rejectValue("login", Messages.NOT_UNIQUE);
+        }
+
+        if (!checkUnique(User.class, userWorkspace.getUser(), "email", null)) {
+            errors.rejectValue("email", Messages.NOT_UNIQUE);
+        }
+
         initNewUser(userWorkspace.getUser());
     }
 
@@ -106,7 +113,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
             return;
         }
 
-        user.setState(UserState.VALIDATE_EMAIL);
+        user.setEmailConfirmed(false);
 
         // generate new UUID token to change password
         String token = UserUtils.generatePasswordToken();

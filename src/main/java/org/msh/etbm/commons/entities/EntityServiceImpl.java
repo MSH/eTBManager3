@@ -178,16 +178,17 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         return checkUnique(entity, field, null);
     }
 
-
     /**
-     * Check if the given entity is unique by searching by the given field
-     * @param entity the entity to check unique values
-     * @param field the field (or comma separated list of fields) to check uniqueness
-     * @param restriction an optional restriction to be included in the HQL WHERE clause
-     * @return true if the entity is unique
+     * Check if a given entity for a given class is unique. THis is a generic way of checking unique entities
+     * that are not related to the entity class of this service
+     * @param entityClass The entity class to check from
+     * @param entity The entity to evaluate the values
+     * @param field The field to check uniqueness
+     * @param restriction Any optional restriction to the method
+     * @return true if entity is unique
      */
-    protected boolean checkUnique(E entity, String field, String restriction) {
-        String hql = "select count(*) from " + getEntityClass().getSimpleName();
+    protected boolean checkUnique(Class<? extends Synchronizable> entityClass, Synchronizable entity, String field, String restriction) {
+        String hql = "select count(*) from " + entityClass.getSimpleName();
 
         List<String> criterias = new ArrayList<>();
 
@@ -234,6 +235,17 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         Number count = (Number)qry.getSingleResult();
 
         return count.intValue() == 0;
+    }
+
+    /**
+     * Check if the given entity is unique by searching by the given field
+     * @param entity the entity to check unique values
+     * @param field the field (or comma separated list of fields) to check uniqueness
+     * @param restriction an optional restriction to be included in the HQL WHERE clause
+     * @return true if the entity is unique
+     */
+    protected boolean checkUnique(E entity, String field, String restriction) {
+        return checkUnique((Class<Synchronizable>)getEntityClass(), entity, field, restriction);
     }
 
     protected void validateAndSave(EntityDAO<E> dao, Object req) {

@@ -9,12 +9,11 @@
 
 package org.msh.etbm.db.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.enums.UserState;
+import org.msh.etbm.db.Synchronizable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,7 +21,6 @@ import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 /**
@@ -31,14 +29,8 @@ import java.util.UUID;
  */
 @Entity
 @Table(name = "sys_user")
-public class User implements Displayable {
+public class User extends Synchronizable implements Displayable {
 
-	@Id
-    @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-    @PropertyLog(ignore = true)
-    private UUID id;
-    
     @Column(length = 30)
 	@NotNull
 	@PropertyLog(operations = {Operation.NEW})
@@ -57,9 +49,12 @@ public class User implements Displayable {
 	@PropertyLog(operations = {Operation.NEW})
     @Email
     private String email;
-    
-	@PropertyLog(operations = {Operation.NEW})
-    private UserState state;
+
+    private boolean active;
+
+    private boolean passwordExpired;
+
+    private boolean emailConfirmed;
 	
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULTWORKSPACE_ID")
@@ -118,14 +113,6 @@ public class User implements Displayable {
     @Column(length = 10)
     private String language;
 
-	/**
-	 * Check if password has expired
-	 * @return
-	 */
-	public boolean isPasswordExpired() {
-		return state == UserState.PASSWD_EXPIRED;
-	}
-	
 
 	/**
 	 * Search the user workspace by the workspace
@@ -146,23 +133,6 @@ public class User implements Displayable {
 	public String toString() {
 		return login + " - " + name;
 	}
-
-    /**
-     * Return the user ID
-     * @return user ID
-     */
-    public UUID getId() {
-        return id;
-    }
-
-    
-    /**
-     * Set the user id
-     * @param id new user id
-     */
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     /**
      * Return the user login. The login is used to enter in the system
@@ -220,15 +190,31 @@ public class User implements Displayable {
         this.email = email;
     }
 
-    public UserState getState() {
-        return state;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setState(UserState state) {
-        this.state = state;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
-	public UserWorkspace getDefaultWorkspace() {
+    public boolean isPasswordExpired() {
+        return passwordExpired;
+    }
+
+    public void setPasswordExpired(boolean passwordExpired) {
+        this.passwordExpired = passwordExpired;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public UserWorkspace getDefaultWorkspace() {
 		return defaultWorkspace;
 	}
 

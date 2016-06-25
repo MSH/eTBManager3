@@ -4,7 +4,6 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
@@ -77,7 +76,7 @@ public class SelfRegistrationService {
         // register a new user
         User user = new User();
         user.setName(req.getName());
-        user.setState(UserState.VALIDATE_EMAIL);
+        user.setEmailConfirmed(false);
         user.setRegistrationDate(new Date());
         user.setComments(req.getOrganization());
         user.setEmail(req.getEmail());

@@ -1,7 +1,6 @@
 package org.msh.etbm.services.admin.usersws.data;
 
 import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 
@@ -15,7 +14,9 @@ public class UserWsData extends SynchronizableItem {
     private UnitItemData unit;
     private AdminUnitSeries adminUnit;
 
-    private UserState state;
+    private boolean active;
+    private boolean emailConfirmed;
+    private boolean passwordExpired;
     private boolean administrator;
 
 
@@ -35,19 +36,35 @@ public class UserWsData extends SynchronizableItem {
         this.adminUnit = adminUnit;
     }
 
-    public UserState getState() {
-        return state;
-    }
-
-    public void setState(UserState state) {
-        this.state = state;
-    }
-
     public boolean isAdministrator() {
         return administrator;
     }
 
     public void setAdministrator(boolean administrator) {
         this.administrator = administrator;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isEmailConfirmed() {
+        return emailConfirmed;
+    }
+
+    public void setEmailConfirmed(boolean emailConfirmed) {
+        this.emailConfirmed = emailConfirmed;
+    }
+
+    public boolean isPasswordExpired() {
+        return passwordExpired;
+    }
+
+    public void setPasswordExpired(boolean passwordExpired) {
+        this.passwordExpired = passwordExpired;
     }
 }

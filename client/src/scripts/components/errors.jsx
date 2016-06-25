@@ -45,25 +45,6 @@ Errors.format = function(messages) {
 		msg.msg);
 };
 
-/**
- * Remove the messages that are from a specific field
- * @param  {[type]} field [description]
- * @return {[type]}       [description]
- */
-Errors.remove = function(messages, field) {
-	const res = [];
-	return messages.filter(msg => {
-		const isField = msg.field === field;
-
-		if (isField) {
-			res.push(msg);
-		}
-
-		return isField;
-	});
-};
-
-
 Errors.propTypes = {
 	messages: React.PropTypes.any
 };

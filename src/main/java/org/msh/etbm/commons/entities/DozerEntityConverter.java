@@ -24,7 +24,20 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
 
     @Override
     public Object convert(Object dest, Object sourceVal, Class<?> destClass, Class<?> sourceClass) {
-        Object source = handleOptional(sourceVal);
+        Object source;
+        if (Optional.class.isAssignableFrom(sourceClass)) {
+            // if source is a null pointer of an optional, so it is considered that
+            // the value was not informed. So return the dest value in order not to change
+            // the destination value
+            if (sourceVal == null) {
+                return dest;
+            }
+
+            // unwrap optional
+            source = ((Optional) sourceVal).isPresent() ? ((Optional) sourceVal).get() : null;
+        } else {
+            source = sourceVal;
+        }
 
         if (source == null) {
             return null;
@@ -54,18 +67,18 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
      * @param value The object to check if is wrapped inside an Optional type
      * @return the value, or if it is an Optional, the value inside it
      */
-    protected Object handleOptional(Object value) {
-        if (value == null) {
-            return null;
-        }
-
-        // check if source is an optional value
-        if (value instanceof Optional) {
-            return ((Optional) value).isPresent() ? ((Optional) value).get() : null;
-        }
-
-        return value;
-    }
+//    protected Object handleOptional(Object value) {
+//        if (value == null) {
+//            return null;
+//        }
+//
+//        // check if source is an optional value
+//        if (value instanceof Optional) {
+//            return ((Optional) value).isPresent() ? ((Optional) value).get() : null;
+//        }
+//
+//        return value;
+//    }
 
     /**
      * Convert from ID to entity object

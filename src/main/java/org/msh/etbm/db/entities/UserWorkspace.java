@@ -119,4 +119,11 @@ public class UserWorkspace extends WorkspaceEntity {
         return user.getDisplayString() + " - " + getWorkspace().getDisplayString();
     }
 
+    public String getLogin() {
+        return user != null ? user.getLogin() : null;
+    }
+
+    public String getEmail() {
+        return user != null ? user.getEmail() : null;
+    }
 }

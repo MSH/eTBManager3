@@ -48,6 +48,11 @@
             <a>view.adminUnitId</a>
             <b>adminUnit</b>
         </field>
+
+        <field>
+            <a>active</a>
+            <b>user.active</b>
+        </field>
     </mapping>
 
     <mapping>
@@ -75,11 +80,24 @@
         </field>
 
         <field>
-            <a>user.state</a>
-            <b>state</b>
+            <a>user.active</a>
+            <b>active</b>
         </field>
 
-    </mapping>
+        <field>
+            <a>user.active</a>
+            <b>active</b>
+        </field>
 
+        <field>
+            <a>user.emailConfirmed</a>
+            <b>emailConfirmed</b>
+        </field>
+
+        <field>
+            <a>user.passwordExpired</a>
+            <b>passwordExpired</b>
+        </field>
+    </mapping>
 
 </mappings>

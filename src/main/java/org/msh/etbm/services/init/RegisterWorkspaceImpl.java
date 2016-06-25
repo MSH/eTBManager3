@@ -4,7 +4,6 @@ import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserLog;
-import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.admin.workspaces.WorkspaceCreator;
@@ -89,7 +88,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         user.setLogin(ADMIN_LOGIN);
         user.setName(ADMIN_NAME);
         user.setSendSystemMessages(true);
-        user.setState(UserState.ACTIVE);
+        user.setActive(true);
         user.setUlaAccepted(false);
         user.setPassword(UserUtils.hashPassword(form.getAdminPassword()));
         user.setEmail(form.getAdminEmail());

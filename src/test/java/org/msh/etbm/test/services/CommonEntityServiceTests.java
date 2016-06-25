@@ -67,7 +67,12 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
 
         // set the property values
         for (String prop: props.keySet()) {
-            ObjectUtils.setProperty(req, prop, Optional.of(props.get(prop)));
+            Class type = ObjectUtils.getPropertyType(req, prop);
+            if (Optional.class.isAssignableFrom(type)) {
+                ObjectUtils.setProperty(req, prop, Optional.of(props.get(prop)));
+            } else {
+                ObjectUtils.setProperty(req, prop, props.get(prop));
+            }
         }
 
         // create a new entity
@@ -143,6 +148,10 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
      */
     protected void assertObjectProperties(Object data, Map<String, Object> props, String propsToIgnore) {
         String[] ignoreList = propsToIgnore != null ? propsToIgnore.split(",") : new String[0];
+
+        if (ignoreList != null) {
+            Arrays.sort(ignoreList);
+        }
 
         // compare with values set
         for (String prop: props.keySet()) {

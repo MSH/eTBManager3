@@ -1,7 +1,5 @@
 package org.msh.etbm.services.admin.usersws.data;
 
-import org.msh.etbm.db.enums.UserState;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -16,12 +14,12 @@ public class UserWsFormData {
     private Optional<String> login;
     private Optional<String> email;
     private Optional<UUID> unitId;
-    private Optional<UserState> state;
+    private Optional<Boolean> active;
     private Optional<Boolean> administrator;
     private Optional<String> comments;
     private Optional<String> customId;
     private Optional<Boolean> playOtherUnits;
-    private List<UUID> profiles;
+    private Optional<List<UUID>> profiles;
     private UserViewData view;
     private Optional<Boolean> sendSystemMessages;
 
@@ -58,12 +56,12 @@ public class UserWsFormData {
         this.unitId = unitId;
     }
 
-    public Optional<UserState> getState() {
-        return state;
+    public Optional<Boolean> getActive() {
+        return active;
     }
 
-    public void setState(Optional<UserState> state) {
-        this.state = state;
+    public void setActive(Optional<Boolean> active) {
+        this.active = active;
     }
 
     public Optional<Boolean> getAdministrator() {
@@ -98,11 +96,11 @@ public class UserWsFormData {
         this.playOtherUnits = playOtherUnits;
     }
 
-    public List<UUID> getProfiles() {
+    public Optional<List<UUID>> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(List<UUID> profiles) {
+    public void setProfiles(Optional<List<UUID>> profiles) {
         this.profiles = profiles;
     }
 

@@ -2,7 +2,6 @@ package org.msh.etbm.services.security.authentication;
 
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
-import org.msh.etbm.db.enums.UserState;
 import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
@@ -93,10 +92,9 @@ public class LoginService {
         if (workspaceId == null) {
             // authenticate user and password
             List<User> lst = entityManager.createQuery("from User u where u.login = :login " +
-                    "and upper(u.password) = :pwd and u.state <> :blockstate")
+                    "and upper(u.password) = :pwd and u.active = true")
                     .setParameter("login", username.toUpperCase())
                     .setParameter("pwd", pwdhash.toUpperCase())
-                    .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
             if (lst.isEmpty()) {
@@ -112,12 +110,11 @@ public class LoginService {
                     "join fetch uw.workspace w " +
                     "where u.login = :login " +
                     "and upper(u.password) = :pwd " +
-                    "and u.state <> :blockstate " +
+                    "and u.active = true " +
                     "and w.id = :wsid")
                     .setParameter("login", username.toUpperCase())
                     .setParameter("pwd", pwdhash.toUpperCase())
                     .setParameter("wsid", workspaceId)
-                    .setParameter("blockstate", UserState.BLOCKED)
                     .getResultList();
 
             if (lst.isEmpty()) {

@@ -1147,7 +1147,13 @@
             <column name="registrationDate" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="state" type="INT">
+            <column name="active" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="passwordExpired" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="emailConfirmed" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
             <column name="timeZone" type="VARCHAR(50)"/>
