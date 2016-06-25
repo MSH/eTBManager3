@@ -62,23 +62,6 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         throw new EntityConverterException(dest, source, "Invalid source type used in entity conversion: " + source.getClass());
     }
 
-    /**
-     * Check if given value is wrapped in an Optional object. If so, return its value inside the optional object
-     * @param value The object to check if is wrapped inside an Optional type
-     * @return the value, or if it is an Optional, the value inside it
-     */
-//    protected Object handleOptional(Object value) {
-//        if (value == null) {
-//            return null;
-//        }
-//
-//        // check if source is an optional value
-//        if (value instanceof Optional) {
-//            return ((Optional) value).isPresent() ? ((Optional) value).get() : null;
-//        }
-//
-//        return value;
-//    }
 
     /**
      * Convert from ID to entity object
