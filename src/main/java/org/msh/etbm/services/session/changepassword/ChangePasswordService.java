@@ -51,7 +51,7 @@ public class ChangePasswordService {
         User user = lst.get(0);
         String hashPwd = UserUtils.hashPassword(data.getPassword());
 
-        if (!user.getPassword().equals(hashPwd)){
+        if (!user.getPassword().equals(hashPwd)) {
             throw new EntityValidationException(data.getPassword(), "password", "changepwd.wrongpass", "changepwd.wrongpassword");
         }
 
