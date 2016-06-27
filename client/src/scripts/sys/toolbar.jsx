@@ -107,7 +107,7 @@ export default class Toolbar extends React.Component {
                                     {__('usersettings')}
                                 </div>
                             </MenuItem>
-                            <MenuItem eventKey="pwd">
+                            <MenuItem href="#/sys/changepassword">
                                 <div>
                                     <Fa icon="key" />
                                     {__('changepwd')}

@@ -13,6 +13,7 @@ import HomeRoutes from './home/routes';
 import ReportRoutes from './reports/routes';
 import AdminRoutes from './admin/routes';
 import UserSettings from './others/user-settings';
+import ChangePassword from './others/change-password.jsx';
 
 
 /**
@@ -56,7 +57,8 @@ export default class Routes extends React.Component {
 			{ path: '/home', view: HomeRoutes },
 			{ path: '/reports', view: ReportRoutes },
 			{ path: '/admin', view: AdminRoutes },
-			{ path: '/usersettings', view: UserSettings }
+			{ path: '/usersettings', view: UserSettings },
+			{ path: '/changepassword', view: ChangePassword }
 			];
 
 		// playground for dev is available just in dev module
