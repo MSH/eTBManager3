@@ -53,7 +53,7 @@ export default class ChangePassword extends React.Component {
 			return Promise.reject([{ field: 'repeatNewPassword', msg: __('changepwd.wrongpass2') }]);
 		}
 
-		// save preferences
+		// save new password
 		const self = this;
 
 		return server.post('/api/sys/changepassword', this.state.doc)

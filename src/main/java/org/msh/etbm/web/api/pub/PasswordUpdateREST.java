@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.pub;
 
-import org.msh.etbm.services.pub.PasswordUpdateRequest;
-import org.msh.etbm.services.pub.PasswordUpdateService;
+import org.msh.etbm.services.security.password.PasswordUpdateRequest;
+import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.pub.PwdResetTokenResponse;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
