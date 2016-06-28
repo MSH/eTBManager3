@@ -58,8 +58,9 @@ public class CountryStructureREST {
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException  {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException  {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)

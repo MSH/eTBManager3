@@ -37,7 +37,7 @@ const editorDef = {
 					},
 					{
 						type: 'subtitle',
-						label: 'Unit address',
+						label: __('Address'),
 						size: { md: 12 }
 					},
 					{
@@ -105,6 +105,7 @@ const editorDef = {
 						type: 'unit',
 						property: 'supplierId',
 						label: __('Unit.supplier'),
+						unitType: 'TBUNIT',
 						size: { md: 6 }
 					},
 					{
@@ -150,7 +151,7 @@ const editorDef = {
 					},
 					{
 						type: 'subtitle',
-						label: 'Unit address',
+						label: __('Address'),
 						size: { md: 12 }
 					},
 					{
@@ -217,6 +218,7 @@ const editorDef = {
 					{
 						property: 'supplierId',
 						type: 'unit',
+						unitType: 'LAB',
 						label: __('Unit.supplier'),
 						size: { md: 6 }
 					},

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -76,6 +77,7 @@ public class TestSetup {
      * Check if user is authenticated, if not, a login will be performed using the standard user name and password
      * @throws MalformedURLException
      */
+    @Transactional
     public void checkAuthenticated() throws MalformedURLException {
         checkSystemInitialization();
 
@@ -83,6 +85,11 @@ public class TestSetup {
         if (userRequestService.isAuthenticated()) {
             return;
         }
+
+        // just guarantee that admin is active
+        entityManager.createQuery("update User set active = true where login = :login")
+                .setParameter("login", ADMIN_LOGIN)
+                .executeUpdate();
 
         UUID authToken = loginService.login(ADMIN_LOGIN, ADMIN_PWD, null, CLIENT_IP, CLIENT_APP);
         assertNotNull(authToken);

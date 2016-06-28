@@ -13,6 +13,7 @@ import java.util.UUID;
  */
 public interface EntityService<Q extends EntityQueryParams> {
 
+
     /**
      * Create a new entity based on the given request object. The request object depends on the implementation
      * and contains the values to create a new entity

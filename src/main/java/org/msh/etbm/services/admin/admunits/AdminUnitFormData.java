@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.admunits;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -9,45 +10,44 @@ import java.util.UUID;
  */
 public class AdminUnitFormData {
 
-    @NotNull
-    private String name;
+    private Optional<String> name;
 
-    private UUID parentId;
+    private Optional<UUID> parentId;
 
-    @NotNull
-    private UUID csId;
+    private Optional<UUID> csId;
 
-    private String customId;
+    private Optional<String> customId;
 
-    public String getName() {
+
+    public Optional<String> getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Optional<String> name) {
         this.name = name;
     }
 
-    public UUID getParentId() {
+    public Optional<UUID> getParentId() {
         return parentId;
     }
 
-    public void setParentId(UUID parentId) {
+    public void setParentId(Optional<UUID> parentId) {
         this.parentId = parentId;
     }
 
-    public UUID getCsId() {
+    public Optional<UUID> getCsId() {
         return csId;
     }
 
-    public void setCsId(UUID csId) {
+    public void setCsId(Optional<UUID> csId) {
         this.csId = csId;
     }
 
-    public String getCustomId() {
+    public Optional<String> getCustomId() {
         return customId;
     }
 
-    public void setCustomId(String customId) {
+    public void setCustomId(Optional<String> customId) {
         this.customId = customId;
     }
 }

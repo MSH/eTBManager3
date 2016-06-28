@@ -76,14 +76,19 @@ public class CodeGeneratorService {
         Object[] args = pjp.getArgs();
         AdminUnitFormData req = (AdminUnitFormData) args[0];
 
-        return aroundCall(req.getParentId(), pjp);
+        UUID pid = req.getParentId() != null && req.getParentId().isPresent() ? req.getParentId().get() : null;
+
+        return aroundCall(pid, pjp);
     }
 
     @Around("execution(public * org.msh.etbm.commons.entities.EntityServiceImpl.update(..)) && target(org.msh.etbm.services.admin.admunits.impl.AdminUnitServiceImpl))")
     public Object adminUnitUpdateInterceptor(ProceedingJoinPoint pjp) throws Throwable {
         Object[] args = pjp.getArgs();
         AdminUnitFormData req = (AdminUnitFormData) args[1];
-        return aroundCall(req.getParentId(), pjp);
+
+        UUID pid = req.getParentId() != null && req.getParentId().isPresent() ? req.getParentId().get() : null;
+
+        return aroundCall(pid, pjp);
     }
 
     /**

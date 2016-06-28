@@ -73,7 +73,7 @@ public class UserViewOptions implements FormRequestHandler<List<Item>> {
             );
         }
 
-        options.add(new Item<UserViewData>(new UserViewData(UserView.TBUNIT), unit.getName()));
+        options.add(new Item<UserViewData>(new UserViewData(UserView.UNIT), unit.getName()));
 
         options.add(new Item(new UserViewData(UserView.SELECTEDUNITS), messages.get(UserView.SELECTEDUNITS.getKey())));
 

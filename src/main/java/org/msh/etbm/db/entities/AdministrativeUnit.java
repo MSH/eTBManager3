@@ -15,6 +15,7 @@ import java.util.List;
 public class AdministrativeUnit extends WorkspaceEntity {
 
 	@PropertyLog(messageKey = "form.name", operations = {Operation.NEW, Operation.DELETE})
+    @NotNull
     private String name;
 
 	@ManyToOne

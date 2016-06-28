@@ -1,5 +1,3 @@
-
-
 var request = require('supertest'),
 	Promise = require('bluebird');
 

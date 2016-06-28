@@ -101,7 +101,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         // check unit
         item = items.get(items.size() - 2);
         id = item.getId();
-        assertEquals(id.getView().get(), UserView.TBUNIT);
+        assertEquals(id.getView().get(), UserView.UNIT);
         assertNull(id.getAdminUnitId());
 
 

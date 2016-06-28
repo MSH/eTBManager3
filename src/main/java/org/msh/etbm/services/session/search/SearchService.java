@@ -3,7 +3,9 @@ package org.msh.etbm.services.session.search;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
+import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +86,16 @@ public class SearchService {
      * @return Result list of searchable items
      */
     private List<Searchable> loadResult(SearchRequest req, boolean casesOnly) {
+        UserSession session = userRequestService.getUserSession();
+
         String hql = "from Searchable where workspace.id = :wsid ";
+
+        // include query restriction
+        switch (session.getView()) {
+            case UNIT: hql += "and unit.id = " + session.getUnitId();
+                break;
+            case ADMINUNIT: hql += "and unit.adminUnit.code like (select concat(code, '%') from AdministrativeUnit where a.id=:auid) ";
+        }
 
         hql += casesOnly ? " and type in (:c1, :c2) and (upper(title) like :key or upper(subtitle) like :key) order by title" :
                 " and upper(title) like :key and type < :c3 order by type, title";
@@ -92,6 +103,11 @@ public class SearchService {
         Query qry = entityManager.createQuery(hql)
                 .setParameter("wsid", userRequestService.getUserSession().getWorkspaceId())
                 .setParameter("key", req.getKey().toUpperCase() + "%");
+
+        // set parameter if view is per admin unit
+        if (session.getView() == UserView.ADMINUNIT) {
+            qry.setParameter("auid", session.getAdminUnit().getSelected().getId());
+        }
 
         // just load cases ?
         if (casesOnly) {
