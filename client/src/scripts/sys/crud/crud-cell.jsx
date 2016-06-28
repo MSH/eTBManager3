@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonToolbar, Button, Collapse, DropdownButton, MenuItem } from 'react-bootstrap';
+import { ButtonToolbar, Button, DropdownButton, MenuItem } from 'react-bootstrap';
 import CrudController from './crud-controller';
 import CrudForm from './crud-form';
 import { Card, Expandable, AsyncButton, Fa } from '../../components';
@@ -115,7 +115,7 @@ class CrudCell extends React.Component {
 		}
 
 		const item = options[key];
-		item.onClick(key, this.state.item);
+		item.onClick(key, this.state.item, this);
 	}
 
 	_expandRenderEvt(item, cell) {

@@ -105,22 +105,6 @@ export default class UsersWs extends React.Component {
 		this.options = this.options.bind(this);
 		this.execOption = this.execOption.bind(this);
 		this.blockUnblockUser = this.blockUnblockUser.bind(this);
-		this.state = {
-			options: [
-				{
-					label: 'Send new password',
-					onClick: this.execOption
-				},
-				{
-					label: 'Change password',
-					onClick: this.execOption
-				},
-				{
-					label: 'Block/Unblock user',
-					onClick: this.blockUnblockUser
-				}
-			]
-		};
 	}
 
 	options(item) {
@@ -132,23 +116,24 @@ export default class UsersWs extends React.Component {
 				{
 					label: 'Change password',
 					onClick: this.execOption
+				},
+				{
+					label: item.active === false ? 'Unblock user' : 'Block user',
+					onClick: this.blockUnblockUser
 				}
 			];
-
-		if (item.state === 'BLOCKED' || item.state === 'ACTIVE') {
-			options.push({
-					label: item.state === 'BLOCKED' ? 'Unblock user' : 'Block user',
-					onClick: this.blockUnblockUser
-				});
-		}
 
 		return options;
 	}
 
-	blockUnblockUser(index, item) {
-		const newState = item.state === 'ACTIVE' ? 1 : 0;
-		const doc = { state: newState };
-		crud.update(item.id, doc);
+	blockUnblockUser(index, item, cell) {
+		const newState = !item.active;
+		const doc = { active: newState };
+		crud.update(item.id, doc)
+		.then(() => {
+				item.active = newState;
+				cell.forceUpdate();
+			});
 	}
 
 	execOption(index) {
@@ -168,13 +153,13 @@ export default class UsersWs extends React.Component {
 			<div>
 				<div className="pull-right">
 					{
-						item.state === 'BLOCKED' && <Label bsStyle="danger">{'Blocked'}</Label>
+						!item.active && <Label className="mright" bsStyle="danger">{'Blocked'}</Label>
 					}
 					{
-						item.state === 'PASSWD_EXPIRED' && <Label bsStyle="warning">{'Password Expired'}</Label>
+						item.passwordExpired && <Label className="mright" bsStyle="warning">{'Password Expired'}</Label>
 					}
 					{
-						item.state === 'VALIDATE_EMAIL' && <Label bsStyle="warning">{'Waiting E-mail Validation'}</Label>
+						!item.emailConfirmed && <Label className="mright" bsStyle="warning">{'Waiting E-mail Validation'}</Label>
 					}
 				</div>
 				<Profile type="user" title={item.name} subtitle={sub} size="small"/>
