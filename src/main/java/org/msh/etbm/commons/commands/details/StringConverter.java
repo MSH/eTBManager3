@@ -49,6 +49,7 @@ public class StringConverter {
 
     /**
      * Convert a date to a string
+     *
      * @param dt
      * @return
      */
@@ -68,6 +69,7 @@ public class StringConverter {
 
     /**
      * Convert a boolean to a string
+     *
      * @param b
      * @return
      */
@@ -78,6 +80,7 @@ public class StringConverter {
 
     /**
      * Convert a enumeration to a string
+     *
      * @param val
      * @return
      */
@@ -91,6 +94,7 @@ public class StringConverter {
 
     /**
      * Convert a string in the format <Enum class>.<EnumValue> to an enumeration
+     *
      * @param val
      * @return
      */
@@ -109,7 +113,7 @@ public class StringConverter {
         try {
             Class<?> clazz = Class.forName(cl);
             if (clazz.isEnum()) {
-                value = Enum.valueOf((Class<? extends Enum>)clazz, enumname);
+                value = Enum.valueOf((Class<? extends Enum>) clazz, enumname);
             }
 
         } catch (ClassNotFoundException e) {
@@ -123,6 +127,7 @@ public class StringConverter {
 
     /**
      * Convert a string to a boolean
+     *
      * @param val
      * @return
      */
@@ -145,6 +150,7 @@ public class StringConverter {
 
     /**
      * Convert a string to a date value
+     *
      * @param s
      */
     public static Date stringToDate(String s) {
@@ -169,6 +175,7 @@ public class StringConverter {
 
     /**
      * Convert a string to a long value
+     *
      * @param s
      * @return
      */

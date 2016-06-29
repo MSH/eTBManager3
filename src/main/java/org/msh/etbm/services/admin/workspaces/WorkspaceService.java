@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Service to handle CRUD operation in Workspaces
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public interface WorkspaceService extends EntityService<WorkspaceQueryParams>, FormRequestHandler<List<SynchronizableItem>> {

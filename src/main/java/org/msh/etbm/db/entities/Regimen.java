@@ -14,75 +14,76 @@ import java.util.List;
 @Table(name = "regimen")
 public class Regimen extends WorkspaceEntity {
 
-	@Column(length = 100)
+    @Column(length = 100)
     @NotNull
-	private String name;
-	
-	private CaseClassification classification;
+    private String name;
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "regimen", orphanRemoval = true)
-	private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
+    private CaseClassification classification;
 
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "regimen", orphanRemoval = true)
+    private List<MedicineRegimen> medicines = new ArrayList<MedicineRegimen>();
+
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
 
     private boolean active;
 
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return (name != null ? name : super.toString());
-	}
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return (name != null ? name : super.toString());
+    }
 
-	/**
-	 * Check if medicine is part of the regimen
-	 * @param med
-	 * @return
-	 */
-	public boolean isMedicineInRegimen(Medicine med) {
-		for (MedicineRegimen aux: getMedicines()) {
-			if (aux.getMedicine().equals(med)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Check if medicine is part of the regimen
+     *
+     * @param med
+     * @return
+     */
+    public boolean isMedicineInRegimen(Medicine med) {
+        for (MedicineRegimen aux : getMedicines()) {
+            if (aux.getMedicine().equals(med)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public List<MedicineRegimen> getMedicines() {
-		return medicines;
-	}
+    public List<MedicineRegimen> getMedicines() {
+        return medicines;
+    }
 
-	public void setMedicines(List<MedicineRegimen> medicines) {
-		this.medicines = medicines;
-	}
-
-
-	/**
-	 * @return the mdrTreatment
-	 */
-	public boolean isMdrTreatment() {
-		return CaseClassification.DRTB.equals(classification);
-	}
+    public void setMedicines(List<MedicineRegimen> medicines) {
+        this.medicines = medicines;
+    }
 
 
-	/**
-	 * @return the tbTreatment
-	 */
-	public boolean isTbTreatment() {
-		return CaseClassification.TB.equals(classification);
-	}
+    /**
+     * @return the mdrTreatment
+     */
+    public boolean isMdrTreatment() {
+        return CaseClassification.DRTB.equals(classification);
+    }
+
+
+    /**
+     * @return the tbTreatment
+     */
+    public boolean isTbTreatment() {
+        return CaseClassification.TB.equals(classification);
+    }
 
     public String getCustomId() {
         return customId;

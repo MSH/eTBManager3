@@ -44,9 +44,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     WorkspaceCreator workspaceCreator;
 
 
-
     /**
      * Register a new workspace during the initialization process
+     *
      * @param form contains information about the workspace to be registered
      */
     @Transactional
@@ -68,6 +68,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
     /**
      * Send an e-mail message to the user to inform him about the new workspace created
+     *
      * @param ws the created workspace
      */
     protected void sendSuccessMailMessage(WorkspaceData ws) {
@@ -77,7 +78,6 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         // mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
     }
-
 
 
     /**

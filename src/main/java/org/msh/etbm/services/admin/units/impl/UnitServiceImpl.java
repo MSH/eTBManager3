@@ -23,7 +23,7 @@ import org.springframework.validation.Errors;
 
 /**
  * CRUD service to handle units (laboratories and TB units)
- *
+ * <p>
  * Created by rmemoria on 31/10/15.
  */
 @Service
@@ -46,7 +46,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         }
         builder.setEntityClass(clazz);
         builder.setEntityAlias("a");
-        
+
         // add the available profiles
         builder.addProfile(UnitQueryParams.PROFILE_ITEM, UnitItemData.class);
         builder.addDefaultProfile(UnitQueryParams.PROFILE_DEFAULT, UnitData.class);
@@ -106,15 +106,17 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
 
     @Override
     protected Unit createEntityInstance(Object req) {
-        UnitFormData ureq = (UnitFormData)req;
+        UnitFormData ureq = (UnitFormData) req;
 
         if (ureq.getType() == null) {
             raiseRequiredFieldException(req, "type");
         }
 
         switch (ureq.getUnitType()) {
-            case LAB: return new Laboratory();
-            case TBUNIT: return new Tbunit();
+            case LAB:
+                return new Laboratory();
+            case TBUNIT:
+                return new Tbunit();
         }
 
         rejectFieldException(req, "type", "InvalidValue");

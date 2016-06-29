@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  * Store information about a command executed in the system
- *
+ * <p>
  * Created by rmemoria on 9/10/15.
  */
 @Entity

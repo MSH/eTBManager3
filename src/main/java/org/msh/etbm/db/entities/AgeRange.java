@@ -7,62 +7,61 @@ import javax.persistence.Table;
 
 /**
  * Represent an age range for the workspace
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "agerange")
 public class AgeRange extends WorkspaceEntity {
 
-	private int iniAge;
-	private int endAge;
-	
+    private int iniAge;
+    private int endAge;
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		if (iniAge == 0) {
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        if (iniAge == 0) {
             return "<= " + Integer.toString(endAge);
         }
 
-		if ((endAge == 0) || (endAge > 150)) {
+        if ((endAge == 0) || (endAge > 150)) {
             return ">= " + Integer.toString(iniAge);
         }
 
-		return Integer.toString(iniAge) + " - " + Integer.toString(endAge);
-	}
+        return Integer.toString(iniAge) + " - " + Integer.toString(endAge);
+    }
 
 
+    /**
+     * @return the iniAge
+     */
+    public int getIniAge() {
+        return iniAge;
+    }
 
-	/**
-	 * @return the iniAge
-	 */
-	public int getIniAge() {
-		return iniAge;
-	}
+    /**
+     * @param iniAge the iniAge to set
+     */
+    public void setIniAge(int iniAge) {
+        this.iniAge = iniAge;
+    }
 
-	/**
-	 * @param iniAge the iniAge to set
-	 */
-	public void setIniAge(int iniAge) {
-		this.iniAge = iniAge;
-	}
+    /**
+     * @param endAge the endAge to set
+     */
+    public void setEndAge(int endAge) {
+        this.endAge = endAge;
+    }
 
-	/**
-	 * @param endAge the endAge to set
-	 */
-	public void setEndAge(int endAge) {
-		this.endAge = endAge;
-	}
-
-	/**
-	 * @return the endAge
-	 */
-	public int getEndAge() {
-		return endAge;
-	}
+    /**
+     * @return the endAge
+     */
+    public int getEndAge() {
+        return endAge;
+    }
 
     public String getName() {
         return toString();

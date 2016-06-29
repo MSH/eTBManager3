@@ -31,20 +31,18 @@ public class Tbunit extends Unit {
     private Integer numDaysOrder;
 
 
-
-    
     @Override
     public String toString() {
-    	return getName().toString();
+        return getName().toString();
     }
 
-	public Integer getNumDaysOrder() {
-		return numDaysOrder;
-	}
+    public Integer getNumDaysOrder() {
+        return numDaysOrder;
+    }
 
-	public void setNumDaysOrder(Integer numDaysOrder) {
-		this.numDaysOrder = numDaysOrder;
-	}
+    public void setNumDaysOrder(Integer numDaysOrder) {
+        this.numDaysOrder = numDaysOrder;
+    }
 
 
     @Override

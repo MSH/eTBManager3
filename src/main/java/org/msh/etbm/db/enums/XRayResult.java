@@ -2,17 +2,17 @@ package org.msh.etbm.db.enums;
 
 /**
  * Possible results for X-Ray exams
- * @author Ricardo Lima
  *
+ * @author Ricardo Lima
  */
 public enum XRayResult {
-	POSITIVE,
-	NEGATIVE,
-	NO_CHANGE,
-	STABILIZED;
+    POSITIVE,
+    NEGATIVE,
+    NO_CHANGE,
+    STABILIZED;
 
-	public String getKey() {
-		return getClass().getSimpleName().concat("." + name());
-	}
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 
 }

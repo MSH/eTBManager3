@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Help creation of command history details
- *
+ * <p>
  * Created by rmemoria on 7/3/16.
  */
 public class DetailWriter {
@@ -25,7 +25,7 @@ public class DetailWriter {
     public DetailWriter addItem(String s, Object value) {
         CommandLogItem item = new CommandLogItem();
         item.setTitle(s);
-        item.setValue( convertToString(value) );
+        item.setValue(convertToString(value));
 
         List<CommandLogItem> items = detail.getItems();
         if (items == null) {
@@ -40,8 +40,8 @@ public class DetailWriter {
     public DetailWriter addDiff(String title, Object prevValue, Object newValue) {
         CommandLogDiff diff = new CommandLogDiff();
         diff.setTitle(title);
-        diff.setNewValue( convertToString(newValue) );
-        diff.setPrevValue( convertToString(prevValue) );
+        diff.setNewValue(convertToString(newValue));
+        diff.setPrevValue(convertToString(prevValue));
 
         List<CommandLogDiff> diffs = detail.getDiffs();
         if (diffs == null) {
@@ -56,6 +56,7 @@ public class DetailWriter {
 
     /**
      * Convert a value to a string representation
+     *
      * @param value
      * @return
      */
@@ -69,24 +70,24 @@ public class DetailWriter {
         }
 
         if (value instanceof Date) {
-            return CommandLogDetail.TYPE_DATETIME + StringConverter.dateToString((Date)value);
+            return CommandLogDetail.TYPE_DATETIME + StringConverter.dateToString((Date) value);
         }
 
         if (value instanceof Enum) {
-            return CommandLogDetail.TYPE_TEMPLATE + "$" + StringConverter.enumToString((Enum)value);
+            return CommandLogDetail.TYPE_TEMPLATE + "$" + StringConverter.enumToString((Enum) value);
         }
 
         if (value instanceof Number) {
-            Number num = (Number)value;
+            Number num = (Number) value;
             return CommandLogDetail.TYPE_NUMBER + StringConverter.floatToString(num.doubleValue());
         }
 
         if (value instanceof Boolean) {
-            return CommandLogDetail.TYPE_BOOLEAN + StringConverter.boolToString((Boolean)value);
+            return CommandLogDetail.TYPE_BOOLEAN + StringConverter.boolToString((Boolean) value);
         }
 
         if (value instanceof Collection) {
-            return convertCollection((Collection)value);
+            return convertCollection((Collection) value);
         }
 
         if (value instanceof Displayable) {
@@ -98,7 +99,7 @@ public class DetailWriter {
 
     private String convertCollection(Collection lst) {
         StringBuilder s = new StringBuilder();
-        for (Object obj: lst) {
+        for (Object obj : lst) {
             if (s.length() > 0) {
                 s.append(", ");
             }

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * Standard response of the login API call
- *
+ * <p>
  * Created by rmemoria on 29/9/15.
  */
 public class LoginResponse {
@@ -20,7 +20,8 @@ public class LoginResponse {
 
     /**
      * Constructor passing the success and authentication token
-     * @param success indicates if login was succeeded
+     *
+     * @param success   indicates if login was succeeded
      * @param authToken the authentication token
      */
     public LoginResponse(boolean success, UUID authToken) {

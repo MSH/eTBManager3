@@ -25,7 +25,6 @@ public class SubstanceTest extends CommonEntityServiceTests {
 
     /**
      * Single constructor passing the classes to be used during tests
-     *
      */
     public SubstanceTest() {
         super(Substance.class, SubstanceFormData.class, SubstanceData.class);

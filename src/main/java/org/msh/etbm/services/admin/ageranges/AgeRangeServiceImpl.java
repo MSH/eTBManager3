@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Service
 public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQueryParams>
-    implements AgeRangeService {
+        implements AgeRangeService {
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
@@ -49,7 +49,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQu
         }
 
         // check if exists a similar age range
-        for (AgeRange age: findAll()) {
+        for (AgeRange age : findAll()) {
             if ((age != entity) &&
                     (age.getIniAge() == entity.getIniAge()) &&
                     (age.getEndAge() == entity.getEndAge())) {
@@ -78,7 +78,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQu
                     ages.remove(range);
                     index--;
                 } else if ((range.getIniAge() < instance.getIniAge()) &&
-                            (range.getEndAge() > instance.getEndAge())) {
+                        (range.getEndAge() > instance.getEndAge())) {
                     int end = range.getEndAge();
                     range.setEndAge(instance.getIniAge() - 1);
                     AgeRange aux = new AgeRange();

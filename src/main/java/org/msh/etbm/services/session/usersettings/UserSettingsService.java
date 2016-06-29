@@ -37,6 +37,7 @@ public class UserSettingsService {
 
     /**
      * Recover the settings from the current user
+     *
      * @return instance of {@link UserSettingsFormData} containing the settings
      */
     @Transactional
@@ -51,6 +52,7 @@ public class UserSettingsService {
 
     /**
      * Update the settings of the current user
+     *
      * @param data instance of {@link UserSettingsFormData} containing the settings
      * @return The list of changed fields
      */
@@ -77,6 +79,7 @@ public class UserSettingsService {
 
     /**
      * Return the current user inside an EntityDAO instance
+     *
      * @return instance of {@link EntityDAO} object
      */
     protected EntityDAO<User> getCurrentUser() {

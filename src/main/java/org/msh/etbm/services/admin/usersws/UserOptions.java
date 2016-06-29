@@ -38,8 +38,8 @@ public class UserOptions implements FormRequestHandler<List<Item>> {
     public List<Item> execFormRequest(FormRequest req) {
         List<Item> options = new ArrayList<>();
         List<User> userList = entityManager.createQuery("select uw.user from UserWorkspace uw where uw.workspace.id = :wId order by uw.user.name")
-                                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
-                                .getResultList();
+                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
+                .getResultList();
 
         for (User u : userList) {
             options.add(new Item(u.getId(), u.getName()));

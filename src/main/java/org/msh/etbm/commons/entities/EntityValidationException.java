@@ -6,7 +6,7 @@ import org.springframework.validation.BindingResult;
 /**
  * Exception generated inside an entity to indicate that an error occured and operation
  * cannot continue
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class EntityValidationException extends RuntimeException {
@@ -15,6 +15,7 @@ public class EntityValidationException extends RuntimeException {
 
     /**
      * Constructor when there is just one single validation error message
+     *
      * @param field
      * @param message
      * @param code
@@ -32,6 +33,7 @@ public class EntityValidationException extends RuntimeException {
 
     /**
      * Constructor when validation messages are already in the binding result object
+     *
      * @param bindingResult instance of BindingResult object containing validation messages
      */
     public EntityValidationException(BindingResult bindingResult) {

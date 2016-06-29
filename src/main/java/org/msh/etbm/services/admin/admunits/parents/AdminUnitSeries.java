@@ -29,6 +29,7 @@ public class AdminUnitSeries {
     /**
      * Return the administrative unit represented by the series, i.e, the
      * unit in the lowest level
+     *
      * @return the administrative unit id and name
      */
     @JsonIgnore
@@ -54,6 +55,7 @@ public class AdminUnitSeries {
 
     /**
      * Return the administrative unit by the given level
+     *
      * @param level the administrative level, from 1 to 5
      * @return the administrative unit info at the given level, or null if no information found or invalid level
      */
@@ -61,17 +63,24 @@ public class AdminUnitSeries {
     public SynchronizableItem getAdminUnitLevel(int level) {
         int itemPos = getLevel() - level;
         switch (itemPos) {
-            case 0: return p1;
-            case 1: return p2;
-            case 2: return p3;
-            case 3: return p4;
-            case 4: return p5;
-            default: return null;
+            case 0:
+                return p1;
+            case 1:
+                return p2;
+            case 2:
+                return p3;
+            case 3:
+                return p4;
+            case 4:
+                return p5;
+            default:
+                return null;
         }
     }
 
     /**
      * Return the level of the administrative unit being referenced.
+     *
      * @return an integer value from 0 (no admin unit) until 5 (deepest level)
      */
     @JsonIgnore

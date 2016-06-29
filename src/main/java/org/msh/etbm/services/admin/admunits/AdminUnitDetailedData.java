@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Detailed data about an administrative unit to be returned by the admin unit service
- *
+ * <p>
  * Created by rmemoria on 31/10/15.
  */
 public class AdminUnitDetailedData extends AdminUnitItemData {

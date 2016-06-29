@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * REST API controller to expose CRUD operations in a product/medicine
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @RestController
@@ -71,5 +71,5 @@ public class ProductsREST {
     public QueryResult query(@Valid @RequestBody ProductQueryParams query) {
         return service.findMany(query);
     }
-    
+
 }

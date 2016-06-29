@@ -18,6 +18,7 @@ import java.util.UUID;
 
 /**
  * Store information about the user session
+ *
  * @author Ricardo
  */
 
@@ -25,37 +26,36 @@ import java.util.UUID;
 @Table(name = "userlogin")
 public class UserLogin {
 
-	@Id
+    @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
     private UUID id;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-	@NotNull
+    @NotNull
     private User user;
-    
+
     @Temporal(value = TemporalType.TIMESTAMP)
-	@NotNull
+    @NotNull
     private Date loginDate;
-    
+
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date logoutDate;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date lastAccess;
-    
+
     @Column(length = 200)
     private String Application;
-    
+
     @Column(length = 16)
     private String IpAddress;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WORKSPACE_ID")
-	@NotNull
+    @NotNull
     private Workspace workspace;
-
 
 
     public UUID getId() {

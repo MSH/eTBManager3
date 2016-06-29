@@ -38,9 +38,9 @@ public class MedicineOptions implements FormRequestHandler<List<Item>> {
     public List<Item> execFormRequest(FormRequest req) {
         List<Item> options = new ArrayList<>();
         List<Medicine> medList = entityManager.createQuery("from Medicine m " +
-                                        "where m.workspace.id = :wId and m.active = :true " +
-                                        "order by m.name")
-                                    .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
+                "where m.workspace.id = :wId and m.active = :true " +
+                "order by m.name")
+                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
                 .setParameter("true", true)
                 .getResultList();
 

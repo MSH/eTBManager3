@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Rest API that returns information about the user session, like user name, workspace, permissions, etc.
- *
+ * <p>
  * Created by rmemoria on 30/9/15.
  */
 @RestController
@@ -33,6 +33,7 @@ public class UserSessionRest {
 
     /**
      * Get information about the user session
+     *
      * @param request object representing the client request
      * @return the session data
      */
@@ -45,7 +46,8 @@ public class UserSessionRest {
 
     /**
      * Change the current user workspace
-     * @param request object containing information about the HTTP request
+     *
+     * @param request  object containing information about the HTTP request
      * @param userwsId the ID of the selected workspace
      * @return
      */
@@ -67,6 +69,7 @@ public class UserSessionRest {
 
     /**
      * Return the list of user workspaces
+     *
      * @return list of workspaces
      */
     @RequestMapping(value = "/workspaces", method = RequestMethod.POST)

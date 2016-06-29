@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Period of prescription of a product (medicine) with information about
  * the dosage unit, weekly frequency and user comments
- *
+ * <p>
  * Created by rmemoria on 29/5/16.
  */
 public class PrescriptionPeriod {

@@ -25,7 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Simple component to generate data for testing support
@@ -55,6 +58,7 @@ public class DataTestSupport {
 
     /**
      * Create an administrative unit
+     *
      * @param name
      * @param parentId
      * @return
@@ -71,18 +75,17 @@ public class DataTestSupport {
 
         int level;
         if (parentId != null) {
-            AdministrativeUnit parent = (AdministrativeUnit)entityManager
+            AdministrativeUnit parent = (AdministrativeUnit) entityManager
                     .createQuery("from AdministrativeUnit where id = :id")
                     .setParameter("id", parentId)
                     .getSingleResult();
             level = parent.getLevel() + 1;
-        }
-        else {
+        } else {
             level = 1;
         }
 
         CountryStructure cs = null;
-        for (CountryStructure item: cslist) {
+        for (CountryStructure item : cslist) {
             if (item.getLevel() == level) {
                 cs = item;
                 break;
@@ -130,7 +133,7 @@ public class DataTestSupport {
         p.setProfile(UserProfileQueryParams.PROFILE_DEFAULT);
         QueryResult<SynchronizableItem> res = userProfileService.findMany(p);
 
-        for (SynchronizableItem item: res.getList()) {
+        for (SynchronizableItem item : res.getList()) {
             if (item.getName().toUpperCase().startsWith("ADMIN")) {
                 return item;
             }

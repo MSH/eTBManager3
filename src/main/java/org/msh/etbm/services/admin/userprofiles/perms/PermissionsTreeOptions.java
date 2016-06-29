@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Form request handler to return the list of system permissions in a tree structure
- *
+ * <p>
  * Created by rmemoria on 11/2/16.
  */
 @Component
@@ -36,7 +36,7 @@ public class PermissionsTreeOptions implements FormRequestHandler<List<Permissio
     public List<PermissionItem> execFormRequest(FormRequest req) {
         List<PermissionItem> items = new ArrayList<>();
 
-        for (Permission perm: permissions.getList()) {
+        for (Permission perm : permissions.getList()) {
             items.add(createItem(perm));
         }
         return items;
@@ -44,6 +44,7 @@ public class PermissionsTreeOptions implements FormRequestHandler<List<Permissio
 
     /**
      * Create a permission and its children in a tree structure to return as a list of options
+     *
      * @param perm The system permission
      * @return instance of {@link PermissionItem}
      */
@@ -53,7 +54,7 @@ public class PermissionsTreeOptions implements FormRequestHandler<List<Permissio
         if (perm.getChildren() != null && !perm.getChildren().isEmpty()) {
             List<PermissionItem> lst = new ArrayList<>();
 
-            for (Permission child: perm.getChildren()) {
+            for (Permission child : perm.getChildren()) {
                 lst.add(createItem(child));
             }
 

@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * Service to reset user's password
- *
+ * <p>
  * Created by rmemoria on 29/9/15.
  */
 @Service
@@ -33,6 +33,7 @@ public class ForgotPwdService {
 
     /**
      * Start the process to change a password based on the user e-mail address
+     *
      * @param userid the user e-mail address or login
      * @return the ID to be informed to the user in order to change its password
      */

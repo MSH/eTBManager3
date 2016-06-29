@@ -14,7 +14,7 @@ import java.util.UUID;
 
 /**
  * REST api to provide data of a unit view in the case management module
- *
+ * <p>
  * Created by rmemoria on 3/6/16.
  */
 @RestController

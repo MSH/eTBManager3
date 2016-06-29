@@ -41,8 +41,6 @@ public class JarManifest {
     private String builtBy;
 
 
-
-
     public String getImplementationVersion() {
         return implementationVersion;
     }

@@ -21,12 +21,12 @@ import java.util.UUID;
 
 /**
  * Implementation of the User profile service for CRUD operations
- *
+ * <p>
  * Created by rmemoria on 26/1/16.
  */
 @Service
 public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserProfileQueryParams>
-    implements UserProfileService {
+        implements UserProfileService {
 
     private static final String CMD_NAME = "profiles";
 
@@ -102,6 +102,7 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
 
     /**
      * Delete the previous permissions of an user profile being edited
+     *
      * @param userProfile the user profile
      */
     protected void removeOldPermissions(UserProfile userProfile) {

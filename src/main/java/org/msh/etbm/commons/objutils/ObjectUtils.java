@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * General utility functions involving an object
- *
+ * <p>
  * Created by rmemoria on 28/1/16.
  */
 public class ObjectUtils {
@@ -26,7 +26,8 @@ public class ObjectUtils {
 
     /**
      * Read the property value of an object
-     * @param obj the object to have its property read
+     *
+     * @param obj      the object to have its property read
      * @param property the property name to read
      * @return the property value, or {@link ObjectAccessException} if any error occurs
      */
@@ -40,9 +41,10 @@ public class ObjectUtils {
 
     /**
      * Set a property value of an object
-     * @param obj the object to have its property value set
+     *
+     * @param obj      the object to have its property value set
      * @param property the property name to set its value
-     * @param value the value to set
+     * @param value    the value to set
      */
     public static void setProperty(Object obj, String property, Object value) {
         try {
@@ -55,7 +57,8 @@ public class ObjectUtils {
 
     /**
      * Return property type of the given property in the given object
-     * @param obj the object to have its property type returned
+     *
+     * @param obj      the object to have its property type returned
      * @param property the name of the property in the object
      * @return the property type
      */
@@ -71,6 +74,7 @@ public class ObjectUtils {
     /**
      * Create a new instance of a given class. The class must implement a constructor with
      * no arguments, otherwise a {@link ObjectAccessException} will be thrown
+     *
      * @param clazz The class to create an instance from
      * @return the object instance of the given class
      */
@@ -85,7 +89,8 @@ public class ObjectUtils {
 
     /**
      * Return the generic type assigned to the given class
-     * @param clazz the class to get the generic type assigned to
+     *
+     * @param clazz     the class to get the generic type assigned to
      * @param typeindex the index of the generic type, when there are more than one, but must be 0
      *                  if there is just one single generic type or you want the first generic type
      * @return the generic class type assigned to the class
@@ -95,7 +100,7 @@ public class ObjectUtils {
         if (type instanceof ParameterizedType) {
             ParameterizedType paramType = (ParameterizedType) type;
             if (paramType.getActualTypeArguments().length > 0) {
-                return (Class)paramType.getActualTypeArguments()[typeindex];
+                return (Class) paramType.getActualTypeArguments()[typeindex];
             }
         }
         return null;
@@ -104,6 +109,7 @@ public class ObjectUtils {
 
     /**
      * Get a class by its name
+     *
      * @param className the full qualified class name
      * @return The class
      */
@@ -118,19 +124,20 @@ public class ObjectUtils {
 
     /**
      * Generate a hash of the object, hashing every property value using the JDK Objects.hash function
+     *
      * @param obj
      * @return
      */
     public static int hash(Object obj) {
         if (obj == null || obj instanceof String || obj instanceof Number || obj instanceof Date ||
-            obj instanceof Collection || obj.getClass().isArray()) {
+                obj instanceof Collection || obj.getClass().isArray()) {
             return Objects.hash(obj);
         }
 
         Map<String, Object> values = describeProperties(obj);
         Object[] vals = new Object[values.size()];
         int index = 0;
-        for (Map.Entry<String, Object> prop: values.entrySet()) {
+        for (Map.Entry<String, Object> prop : values.entrySet()) {
             vals[index] = prop.getValue();
             index++;
         }
@@ -139,6 +146,7 @@ public class ObjectUtils {
 
     /**
      * Return a map containing the object property name and its values
+     *
      * @param obj
      * @return
      */
@@ -150,7 +158,7 @@ public class ObjectUtils {
             PropertyDescriptor[] props = PropertyUtils.getPropertyDescriptors(obj);
 
             // remove properties that don't have a get or a set
-            for (PropertyDescriptor prop: props) {
+            for (PropertyDescriptor prop : props) {
                 if (prop.getReadMethod() == null || prop.getWriteMethod() == null) {
                     values.remove(prop.getName());
                 }

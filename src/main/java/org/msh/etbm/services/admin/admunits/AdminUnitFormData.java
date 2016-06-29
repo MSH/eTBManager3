@@ -1,11 +1,9 @@
 package org.msh.etbm.services.admin.admunits;
 
-import javax.validation.constraints.NotNull;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
- *
  * Created by rmemoria on 21/10/15.
  */
 public class AdminUnitFormData {

@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * Implementation of the {@link UserWsService} to handle CRUD operations for User workspace
- *
+ * <p>
  * Created by rmemoria on 26/1/16.
  */
 @Service
@@ -91,6 +91,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     /**
      * Send an e-mail message to the user informing about its registration and link to change the password
+     *
      * @param uw
      */
     protected void sendMessageToNewUser(UserWorkspace uw) {
@@ -105,6 +106,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     /**
      * Initialize the variables for a new user
+     *
      * @param user the new user to be registered
      */
     protected void initNewUser(User user) {

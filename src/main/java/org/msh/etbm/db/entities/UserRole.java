@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Store information about a user role
+ *
  * @author Ricardo Memoria
  */
 
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
 //@Table(name = "userrole")
 public class UserRole {
 
-	@Id
+    @Id
     private Integer id;
 
     @Column(length = 80)
@@ -32,62 +33,68 @@ public class UserRole {
 
     @Column(length = 50)
     private String code;
-    
+
     /**
      * Indicate if this role contains operations of read-write, like, for instance, insert-update-delete commands
      */
     private boolean changeable;
 
-    
+
     /**
      * Return the parent code of the user role
+     *
      * @return
      */
     public String getParentCode() {
-    	int level = getLevel();
-    	switch (level) {
-    	case 2: return code.substring(0, 2).concat("0000");
-    	case 3: return code.substring(0, 4).concat("00");
-    	default: return null;
-    	}
+        int level = getLevel();
+        switch (level) {
+            case 2:
+                return code.substring(0, 2).concat("0000");
+            case 3:
+                return code.substring(0, 4).concat("00");
+            default:
+                return null;
+        }
     }
 
 
     /**
      * Check if user role is a child of the given role
+     *
      * @param role
      * @return
      */
     public boolean isChildOf(UserRole role) {
-    	int parentLevel = role.getLevel();
-    	if ((parentLevel >= getLevel()) || (parentLevel == 0)) {
+        int parentLevel = role.getLevel();
+        if ((parentLevel >= getLevel()) || (parentLevel == 0)) {
             return false;
         }
 
-    	String parentCode = role.getCode().substring(0, parentLevel * 2);
-    	return code.startsWith(parentCode);
+        String parentCode = role.getCode().substring(0, parentLevel * 2);
+        return code.startsWith(parentCode);
     }
 
-   
+
     /**
      * Return the level of the user role
+     *
      * @return
      */
     public int getLevel() {
-		if ((code == null) || (code.isEmpty())) {
+        if ((code == null) || (code.isEmpty())) {
             return 0;
         }
 
-		if (code.endsWith("0000")) {
+        if (code.endsWith("0000")) {
             return 1;
         }
 
-		if (code.endsWith("00")) {
+        if (code.endsWith("00")) {
             return 2;
         }
 
         return code.length() == 6 ? 3 : 0;
-	}
+    }
 
 
     public Integer getId() {
@@ -106,30 +113,30 @@ public class UserRole {
         this.name = name;
     }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public int compareTo(UserRole userRole) {
-		return code.compareTo(userRole.getCode());
-	}
+    public int compareTo(UserRole userRole) {
+        return code.compareTo(userRole.getCode());
+    }
 
-	/**
-	 * @return the changeable
-	 */
-	public boolean isChangeable() {
-		return changeable;
-	}
+    /**
+     * @return the changeable
+     */
+    public boolean isChangeable() {
+        return changeable;
+    }
 
-	/**
-	 * @param changeable the changeable to set
-	 */
-	public void setChangeable(boolean changeable) {
-		this.changeable = changeable;
-	}
+    /**
+     * @param changeable the changeable to set
+     */
+    public void setChangeable(boolean changeable) {
+        this.changeable = changeable;
+    }
 
 }

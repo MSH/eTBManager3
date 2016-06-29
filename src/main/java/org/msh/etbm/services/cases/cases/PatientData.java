@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * Patient information returned as a response from client request
- *
+ * <p>
  * Created by rmemoria on 20/6/16.
  */
 public class PatientData extends SynchronizableItem {

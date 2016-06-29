@@ -38,10 +38,10 @@ public class FormServiceTest extends AuthenticatedTest {
         assertNotNull(res);
         assertEquals(res.size(), 1);
         assertNotNull(res.get(ID));
-        assert(res.get(ID) instanceof List);
+        assert (res.get(ID) instanceof List);
 
-        List<Item> lst = (List<Item>)res.get(ID);
-        for (Item item: lst) {
+        List<Item> lst = (List<Item>) res.get(ID);
+        for (Item item : lst) {
             System.out.println(item);
         }
     }

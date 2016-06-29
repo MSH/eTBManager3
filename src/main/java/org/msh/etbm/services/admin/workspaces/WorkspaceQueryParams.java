@@ -4,7 +4,7 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Parameters to query workspaces
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class WorkspaceQueryParams extends EntityQueryParams {

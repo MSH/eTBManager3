@@ -8,40 +8,39 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "userpermission")
-public class UserPermission  {
+public class UserPermission {
 
-	@Id
+    @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
     private UUID id;
 
-	@NotNull
-	private String permission;
+    @NotNull
+    private String permission;
 
-	@ManyToOne
-	@JoinColumn(name = "PROFILE_ID")
-	@NotNull
-	private UserProfile userProfile;
+    @ManyToOne
+    @JoinColumn(name = "PROFILE_ID")
+    @NotNull
+    private UserProfile userProfile;
 
-	private boolean canChange;
+    private boolean canChange;
 
 
+    public UUID getId() {
+        return id;
+    }
 
-	public UUID getId() {
-		return id;
-	}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
 
-	public UserProfile getUserProfile() {
-		return userProfile;
-	}
-
-	public void setUserProfile(UserProfile userProfile) {
-		this.userProfile = userProfile;
-	}
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
 
     public String getPermission() {
         return permission;

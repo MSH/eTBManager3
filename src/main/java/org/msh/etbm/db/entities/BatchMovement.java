@@ -13,12 +13,12 @@ import javax.validation.constraints.NotNull;
 @Table(name = "batchmovement")
 public class BatchMovement extends Synchronizable {
 
-	@ManyToOne
-	@JoinColumn(name = "BATCH_ID")
-	@NotNull
-	private Batch batch;
-	
-	private int quantity;
+    @ManyToOne
+    @JoinColumn(name = "BATCH_ID")
+    @NotNull
+    private Batch batch;
+
+    private int quantity;
 
     private int availableQuantity;
 
@@ -45,36 +45,36 @@ public class BatchMovement extends Synchronizable {
         this.availableQuantity = availableQuantity;
     }
 
-	public int getQtdOperation() {
-		return getQuantity() * movement.getType().getOper();
-	}
-	
-	public float getTotalPrice() {
-		return getBatch( ) != null ? quantity * (float)batch.getUnitPrice() : 0;
-	}
-	
+    public int getQtdOperation() {
+        return getQuantity() * movement.getType().getOper();
+    }
 
-	public Batch getBatch() {
-		return batch;
-	}
+    public float getTotalPrice() {
+        return getBatch() != null ? quantity * (float) batch.getUnitPrice() : 0;
+    }
 
-	public void setBatch(Batch batch) {
-		this.batch = batch;
-	}
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public Batch getBatch() {
+        return batch;
+    }
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+    public void setBatch(Batch batch) {
+        this.batch = batch;
+    }
 
-	public Movement getMovement() {
-		return movement;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public void setMovement(Movement movement) {
-		this.movement = movement;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Movement getMovement() {
+        return movement;
+    }
+
+    public void setMovement(Movement movement) {
+        this.movement = movement;
+    }
 }

@@ -12,33 +12,36 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * will be logged if changed, but additional information may be included depending on the situation
  *
  * @author Ricardo Memoria
- *
  */
 @Target(ElementType.FIELD)
 @Retention(RUNTIME)
 @Documented
 public @interface PropertyLog {
 
-	/**
-	 * field value will be ignored and its value won't be logged
-	 * @return
-	 */
-	boolean ignore() default false;
+    /**
+     * field value will be ignored and its value won't be logged
+     *
+     * @return
+     */
+    boolean ignore() default false;
 
-	/**
-	 * Force log value to use this key when logging value. This key must match a key in the messages file
-	 * @return
-	 */
-	String messageKey() default "";
+    /**
+     * Force log value to use this key when logging value. This key must match a key in the messages file
+     *
+     * @return
+     */
+    String messageKey() default "";
 
-	/**
-	 * Indicate the operations that the field will be logged
-	 * @return array of supported operations
-	 */
-	Operation[] operations() default { Operation.EDIT };
+    /**
+     * Indicate the operations that the field will be logged
+     *
+     * @return array of supported operations
+     */
+    Operation[] operations() default {Operation.EDIT};
 
     /**
      * Include properties of the given object to the log, if the case. Default is false
+     *
      * @return true to add the properties of the object
      */
     boolean addProperties() default false;

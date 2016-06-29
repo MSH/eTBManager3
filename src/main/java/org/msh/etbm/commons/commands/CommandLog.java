@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * Annotation that must be included in every method call in order to register the command
  * execution in the command history
- *
+ * <p>
  * Created by rmemoria on 17/10/15.
  */
 @Retention(RetentionPolicy.RUNTIME)
@@ -16,6 +16,7 @@ import java.lang.annotation.Target;
 public @interface CommandLog {
     /**
      * The type of the log to register
+     *
      * @return
      */
     String type();
@@ -24,6 +25,7 @@ public @interface CommandLog {
     /**
      * Implementation of the CommandLogHandler that will convert the data
      * on how the command will be registered by the history
+     *
      * @return
      */
     Class<? extends CommandLogHandler> handler();

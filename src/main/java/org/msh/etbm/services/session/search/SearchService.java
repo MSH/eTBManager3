@@ -36,6 +36,7 @@ public class SearchService {
 
     /**
      * Search for data using a key
+     *
      * @param req Data requested to the search key
      * @return list of items found
      */
@@ -49,7 +50,7 @@ public class SearchService {
 
         // mount response to the client
         List<SearchResponse> lst = new ArrayList<>();
-        for (Searchable searchable: res) {
+        for (Searchable searchable : res) {
             SearchResponse it = mapper.map(searchable, SearchResponse.class);
             lst.add(it);
         }
@@ -68,8 +69,8 @@ public class SearchService {
 
         // check if lists must be clipped
         if (count > max) {
-            float perc = (float)max / (float)count;
-            end1 = (int)(perc * res1.size());
+            float perc = (float) max / (float) count;
+            end1 = (int) (perc * res1.size());
             end2 = max - end1;
         }
 
@@ -82,6 +83,7 @@ public class SearchService {
 
     /**
      * Create the query based on the request parameters
+     *
      * @param req the client request
      * @return Result list of searchable items
      */
@@ -92,9 +94,11 @@ public class SearchService {
 
         // include query restriction
         switch (session.getView()) {
-            case UNIT: hql += "and unit.id = " + session.getUnitId();
+            case UNIT:
+                hql += "and unit.id = " + session.getUnitId();
                 break;
-            case ADMINUNIT: hql += "and unit.adminUnit.code like (select concat(code, '%') from AdministrativeUnit where a.id=:auid) ";
+            case ADMINUNIT:
+                hql += "and unit.adminUnit.code like (select concat(code, '%') from AdministrativeUnit where a.id=:auid) ";
         }
 
         hql += casesOnly ? " and type in (:c1, :c2) and (upper(title) like :key or upper(subtitle) like :key) order by title" :
@@ -117,7 +121,7 @@ public class SearchService {
             qry.setParameter("c3", SearchableType.CASE_MAN);
         }
 
-        qry.setMaxResults( req.getMaxResults() != null ? req.getMaxResults() : DEFAULT_MAX_RESULTS );
+        qry.setMaxResults(req.getMaxResults() != null ? req.getMaxResults() : DEFAULT_MAX_RESULTS);
 
         return qry.getResultList();
     }

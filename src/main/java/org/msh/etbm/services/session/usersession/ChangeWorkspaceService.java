@@ -1,6 +1,5 @@
 package org.msh.etbm.services.session.usersession;
 
-import org.msh.etbm.db.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +10,7 @@ import java.util.UUID;
 
 /**
  * Service to change the user workspace
- * 
+ * <p>
  * Created by rmemoria on 31/12/15.
  */
 @Service
@@ -28,6 +27,7 @@ public class ChangeWorkspaceService {
 
     /**
      * Change the user workspace to another workspace
+     *
      * @param wsuserId the ID of the user workspace
      */
     @Transactional
@@ -50,6 +50,7 @@ public class ChangeWorkspaceService {
 
     /**
      * Update the default workspace in use by the user
+     *
      * @param session the current user session
      */
     private void updateDefaultWorkspace(UserSession session) {

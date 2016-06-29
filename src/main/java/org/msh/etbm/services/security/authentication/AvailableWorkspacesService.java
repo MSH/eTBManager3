@@ -26,8 +26,9 @@ public class AvailableWorkspacesService {
 
     /**
      * Return the list of workspaces for the given user
+     *
      * @param login the user login
-     * @param pwd the user password
+     * @param pwd   the user password
      * @return list of available workspaces
      */
     public List<WorkspaceInfo> getWorkspaces(String login, String pwd) {
@@ -47,10 +48,10 @@ public class AvailableWorkspacesService {
                 .getResultList();
 
         List<WorkspaceInfo> res = new ArrayList<WorkspaceInfo>();
-        for (Object[] vals: lst) {
-            res.add(new WorkspaceInfo((UUID)vals[0],
-                    (String)vals[1],
-                    (String)vals[2]));
+        for (Object[] vals : lst) {
+            res.add(new WorkspaceInfo((UUID) vals[0],
+                    (String) vals[1],
+                    (String) vals[2]));
         }
 
         return res;

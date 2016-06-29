@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Store in-memory information about a permission and its children to be returned by the {@link PermissionsTreeOptions}
  * component
- *
+ * <p>
  * Created by rmemoria on 11/2/16.
  */
 public class PermissionItem extends Item<String> {
@@ -28,6 +28,7 @@ public class PermissionItem extends Item<String> {
 
     /**
      * Constructor to pass the permission data
+     *
      * @param id
      * @param name
      * @param changeable

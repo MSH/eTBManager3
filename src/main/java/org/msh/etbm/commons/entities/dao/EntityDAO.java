@@ -21,14 +21,14 @@ import java.util.UUID;
  * Simple DAO for entities. Different from the others, this one retains entity state (the entity
  * and validation errors are stored inside the class) and supports validation, user workspace
  * and Dozer mapping.
- *
+ * <p>
  * This one is not intended to replace {@link org.msh.etbm.commons.entities.EntityService}, but as
  * a composition solution when simple CRUD operations are required without creating service inheritance.
- *
+ * <p>
  * EntityDAO is not a Spring component. Instances of EntityDAO must be created using the
  * {@link EntityDAOFactory#newDAO(Class)} method. {@link EntityDAOFactory} is a Spring component, and
  * can be easily injected in components
- *
+ * <p>
  * Created by rmemoria on 8/4/16.
  */
 public class EntityDAO<E> {
@@ -56,14 +56,15 @@ public class EntityDAO<E> {
 
     /**
      * The default constructor, used by {@link EntityDAOFactory}
-     * @param entityClass The class of the entity being managed
-     * @param entityManager instance of EntityManager to be injected by the factory class
-     * @param mapper used when copying data from DTO to the entity using Dozer
-     * @param validator used when validating the content of the object
+     *
+     * @param entityClass        The class of the entity being managed
+     * @param entityManager      instance of EntityManager to be injected by the factory class
+     * @param mapper             used when copying data from DTO to the entity using Dozer
+     * @param validator          used when validating the content of the object
      * @param userRequestService used when getting the workspace in use (just for {@link Synchronizable} objects)
      */
     protected EntityDAO(Class entityClass, EntityManager entityManager, DozerBeanMapper mapper,
-              Validator validator, UserRequestService userRequestService) {
+                        Validator validator, UserRequestService userRequestService) {
         this.entityClass = entityClass;
         this.entityManager = entityManager;
         this.mapper = mapper;
@@ -73,14 +74,16 @@ public class EntityDAO<E> {
 
     /**
      * Return the entity class being managed
+     *
      * @return Class of the entity being managed
      */
     public Class<E> getEntityClass() {
-        return (Class<E>)entityClass;
+        return (Class<E>) entityClass;
     }
 
     /**
      * Set the ID of the entity being managed. Force the entity to be reloaded
+     *
      * @param id the entity ID
      */
     public void setId(Object id) {
@@ -90,7 +93,7 @@ public class EntityDAO<E> {
             entity = null;
         } else {
             // load the entity
-            entity = (E)entityManager.find(getEntityClass(), id);
+            entity = (E) entityManager.find(getEntityClass(), id);
             if (entity == null) {
                 throw new EntityNotFoundException("Entity of class " + entityClass.getSimpleName() + " not found with id = " + id);
             }
@@ -100,6 +103,7 @@ public class EntityDAO<E> {
 
     /**
      * Return the ID of the entity being managed
+     *
      * @return the ID of the entity, or null if it is a new entity
      */
     public Object getId() {
@@ -109,6 +113,7 @@ public class EntityDAO<E> {
     /**
      * First check if the entity exists. If so, set the ID (and the entity) to the one loaded.
      * If entity doesn't exist, don't change the state and return false
+     *
      * @param id the ID of the entity to be loaded
      * @return true if entity was found, or false if entity was not found
      */
@@ -133,6 +138,7 @@ public class EntityDAO<E> {
 
     /**
      * Copy the values of the given object properties to the entity using Dozer mapping
+     *
      * @param data the object to copy property values from
      */
     public void mapToEntity(Object data) {
@@ -141,6 +147,7 @@ public class EntityDAO<E> {
 
     /**
      * Map the values of the managed entity to a new instance of the given class
+     *
      * @param classData the class of an object that will be created and will receive property values from entity object
      * @param <E>
      * @return The instance of the class data
@@ -151,11 +158,12 @@ public class EntityDAO<E> {
 
     /**
      * Return the entity being managed
+     *
      * @return instance of entity class
      */
     public E getEntity() {
         if (entity == null) {
-            entity = (E)ObjectUtils.newInstance(getEntityClass());
+            entity = (E) ObjectUtils.newInstance(getEntityClass());
         }
 
         return entity;
@@ -163,6 +171,7 @@ public class EntityDAO<E> {
 
     /**
      * Change the entity being managed by the DAO
+     *
      * @param entity the new entity to be replaced
      */
     public void setEntity(E entity) {
@@ -179,6 +188,7 @@ public class EntityDAO<E> {
 
     /**
      * Validate the entity being managed. Validation errors can be retrieved using {@link EntityDAO#getErrors()} method
+     *
      * @return true if there is no validation error
      */
     public boolean validate() {
@@ -190,6 +200,7 @@ public class EntityDAO<E> {
 
     /**
      * Check if there is any validation error
+     *
      * @return true if there are validation errors, or false if there is no error by now
      */
     public boolean hasErrors() {
@@ -198,6 +209,7 @@ public class EntityDAO<E> {
 
     /**
      * Return true if the entity is valid. An entity is valid if there is no validation error message
+     *
      * @return true if it is a valid object, or false if there are validation error messages
      */
     public boolean isValid() {
@@ -206,6 +218,7 @@ public class EntityDAO<E> {
 
     /**
      * Return true if it is a new entity, i.e, it doesn't exist in the database
+     *
      * @return true if it is a new entity, or false if this entity is managed by the entity manager
      */
     public boolean isNew() {
@@ -215,6 +228,7 @@ public class EntityDAO<E> {
     /**
      * Return the object containing all error messages of the entity. Messages are stored using Spring
      * BindingResult object
+     *
      * @return instance of BindingResult
      */
     public Errors getErrors() {
@@ -272,7 +286,7 @@ public class EntityDAO<E> {
         if (!(entity instanceof WorkspaceEntity)) {
             return;
         }
-        WorkspaceEntity wsent = (WorkspaceEntity)entity;
+        WorkspaceEntity wsent = (WorkspaceEntity) entity;
 
         UUID id = userRequestService.getUserSession().getWorkspaceId();
 
@@ -291,7 +305,7 @@ public class EntityDAO<E> {
         }
 
         // workspace was already set ?
-        WorkspaceEntity wsent = (WorkspaceEntity)entity;
+        WorkspaceEntity wsent = (WorkspaceEntity) entity;
         if (wsent.getWorkspace() != null) {
             // check if is the same workspace
             checkSameWorkspace();
@@ -313,6 +327,7 @@ public class EntityDAO<E> {
 
     /**
      * Add a 'Not null' standard message to the list of error messages to the given field
+     *
      * @param field
      */
     public void addNotNullError(String field) {
@@ -321,8 +336,9 @@ public class EntityDAO<E> {
 
     /**
      * Add an error message to a given field
+     *
      * @param field the field with an error
-     * @param msg the message with the validation error
+     * @param msg   the message with the validation error
      */
     public void addError(String field, String msg) {
         getErrors().rejectValue(field, msg);
@@ -330,6 +346,7 @@ public class EntityDAO<E> {
 
     /**
      * Add a global validation error message
+     *
      * @param msg the key message to add
      */
     public void addError(String msg) {

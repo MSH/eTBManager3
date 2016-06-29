@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Exception handlers to display friendly and standard messages to the client
- *
+ * <p>
  * Created by rmemoria on 22/8/15.
  */
 @ControllerAdvice
@@ -47,6 +47,7 @@ public class ExceptionHandlingController {
 
     /**
      * Handle errors when the entity was not found in the database
+     *
      * @param req
      */
     @ExceptionHandler(EntityNotFoundException.class)
@@ -79,6 +80,7 @@ public class ExceptionHandlingController {
     /**
      * Convert a list of error messages in the given bindingResult object to be serialized in a standard
      * way to the client
+     *
      * @param res list of error messages
      * @return instance of {@link StandardResult}
      */
@@ -92,7 +94,7 @@ public class ExceptionHandlingController {
         // add local error messages
         if (res.getFieldErrorCount() > 0) {
             // add local error messages
-            for (FieldError fld: res.getFieldErrors()) {
+            for (FieldError fld : res.getFieldErrors()) {
                 String message = messages.get(fld);
                 msgs.add(new Message(fld.getField(), message, fld.getCode()));
             }
@@ -100,7 +102,7 @@ public class ExceptionHandlingController {
 
         // add global error messages
         if (res.getGlobalErrorCount() > 0) {
-            for (ObjectError err: res.getGlobalErrors()) {
+            for (ObjectError err : res.getGlobalErrors()) {
                 msgs.add(new Message(messages.get(err), err.getCode()));
             }
         }
@@ -109,14 +111,13 @@ public class ExceptionHandlingController {
     }
 
 
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Object methodValidationError(MethodArgumentNotValidException e) {
         List<Message> errors = new ArrayList<>();
 
-        for (FieldError fld: e.getBindingResult().getFieldErrors()) {
+        for (FieldError fld : e.getBindingResult().getFieldErrors()) {
             errors.add(new Message(fld.getField(), messages.get(fld), fld.getCode()));
         }
 

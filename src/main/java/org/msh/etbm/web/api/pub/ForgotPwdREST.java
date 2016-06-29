@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST API to reset the user password when he forgot the one in use
- *
+ * <p>
  * Created by rmemoria on 13/6/16.
  */
 @RestController

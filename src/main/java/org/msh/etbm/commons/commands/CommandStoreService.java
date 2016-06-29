@@ -8,6 +8,7 @@ package org.msh.etbm.commons.commands;
 public interface CommandStoreService {
     /**
      * Create a new command history based on the given command parameters
+     *
      * @param cmd object containing information about the command
      * @return the ID of the command
      */

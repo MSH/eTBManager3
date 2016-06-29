@@ -14,188 +14,188 @@ import java.util.List;
 @Table(name = "productorder")
 public class Order extends WorkspaceEntity {
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date orderDate;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date approvingDate;
-	
-	@Temporal(TemporalType.DATE)
-	private Date shippingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date orderDate;
 
-	@Temporal(TemporalType.DATE)
-	private Date receivingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date approvingDate;
 
-	private OrderStatus status;
-	
-	private Integer numDays;
-	
-	@ManyToOne
-	@JoinColumn(name = "UNIT_FROM_ID")
-	@NotNull
-	private Tbunit unitFrom;
+    @Temporal(TemporalType.DATE)
+    private Date shippingDate;
 
-	@ManyToOne
-	@JoinColumn(name = "UNIT_TO_ID")
-	@NotNull
-	private Tbunit unitTo;
-	
-	@Column(length = 200)
-	private String cancelReason;
-	
-	@ManyToOne
-	@JoinColumn(name = "USER_CREATOR_ID")
-	@NotNull
-	private User userCreator;
+    @Temporal(TemporalType.DATE)
+    private Date receivingDate;
 
-	@ManyToOne
-	@JoinColumn(name = "AUTHORIZER_UNIT_ID")
-	private Tbunit authorizer;
-	
-	@OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
-	private List<OrderItem> items = new ArrayList<OrderItem>();
+    private OrderStatus status;
 
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
-	
-	@Column(length = 200)
-	private String shipAddress;
+    private Integer numDays;
 
-	@Column(length = 200)
-	private String shipAddressCont;
+    @ManyToOne
+    @JoinColumn(name = "UNIT_FROM_ID")
+    @NotNull
+    private Tbunit unitFrom;
 
-	@Column(length = 200)
-	private String shipContactName;
+    @ManyToOne
+    @JoinColumn(name = "UNIT_TO_ID")
+    @NotNull
+    private Tbunit unitTo;
 
-	@Column(length = 200)
-	private String shipContactPhone;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHIP_ADMINUNIT_ID")
-	private AdministrativeUnit shipAdminUnit;
-	
-	@Column(length = 50)
-	private String shipZipCode;
-	
-	@Column(length = 200)
-	private String shipInstitutionName;
-	
+    @Column(length = 200)
+    private String cancelReason;
 
-	@Transient
-	public float getTotalPrice() {
-		float tot = 0;
-		for (OrderItem it: items) {
-			tot += it.getTotalPrice();
-		}
-		return tot;
-	}
+    @ManyToOne
+    @JoinColumn(name = "USER_CREATOR_ID")
+    @NotNull
+    private User userCreator;
+
+    @ManyToOne
+    @JoinColumn(name = "AUTHORIZER_UNIT_ID")
+    private Tbunit authorizer;
+
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.ALL})
+    private List<OrderItem> items = new ArrayList<OrderItem>();
+
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
+
+    @Column(length = 200)
+    private String shipAddress;
+
+    @Column(length = 200)
+    private String shipAddressCont;
+
+    @Column(length = 200)
+    private String shipContactName;
+
+    @Column(length = 200)
+    private String shipContactPhone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SHIP_ADMINUNIT_ID")
+    private AdministrativeUnit shipAdminUnit;
+
+    @Column(length = 50)
+    private String shipZipCode;
+
+    @Column(length = 200)
+    private String shipInstitutionName;
 
 
-	public boolean isHasShipAddress() {
-		return (!checkEmpty(shipAddress)) || (!checkEmpty(shipZipCode));
-	}
-	
-	private boolean checkEmpty(String s) {
-		return (s == null) || (s.isEmpty());
-	}
-	
-	public Date getShippingDate() {
-		return shippingDate;
-	}
+    @Transient
+    public float getTotalPrice() {
+        float tot = 0;
+        for (OrderItem it : items) {
+            tot += it.getTotalPrice();
+        }
+        return tot;
+    }
 
-	public void setShippingDate(Date shippingDate) {
-		this.shippingDate = shippingDate;
-	}
 
-	public Date getOrderDate() {
-		return orderDate;
-	}
+    public boolean isHasShipAddress() {
+        return (!checkEmpty(shipAddress)) || (!checkEmpty(shipZipCode));
+    }
 
-	public void setOrderDate(Date orderDate) {
-		this.orderDate = orderDate;
-	}
+    private boolean checkEmpty(String s) {
+        return (s == null) || (s.isEmpty());
+    }
 
-	public Date getReceivingDate() {
-		return receivingDate;
-	}
+    public Date getShippingDate() {
+        return shippingDate;
+    }
 
-	public void setReceivingDate(Date receivingDate) {
-		this.receivingDate = receivingDate;
-	}
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
+    }
 
-	public OrderStatus getStatus() {
-		return status;
-	}
+    public Date getOrderDate() {
+        return orderDate;
+    }
 
-	public void setStatus(OrderStatus status) {
-		this.status = status;
-	}
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
 
-	public List<OrderItem> getItems() {
-		return items;
-	}
+    public Date getReceivingDate() {
+        return receivingDate;
+    }
 
-	public void setItems(List<OrderItem> items) {
-		this.items = items;
-	}
+    public void setReceivingDate(Date receivingDate) {
+        this.receivingDate = receivingDate;
+    }
 
-	public Date getApprovingDate() {
-		return approvingDate;
-	}
+    public OrderStatus getStatus() {
+        return status;
+    }
 
-	public void setApprovingDate(Date approvingDate) {
-		this.approvingDate = approvingDate;
-	}
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
-	public String getCancelReason() {
-		return cancelReason;
-	}
+    public List<OrderItem> getItems() {
+        return items;
+    }
 
-	public void setCancelReason(String cancelReason) {
-		this.cancelReason = cancelReason;
-	}
+    public void setItems(List<OrderItem> items) {
+        this.items = items;
+    }
 
-	public Tbunit getUnitFrom() {
-		return unitFrom;
-	}
+    public Date getApprovingDate() {
+        return approvingDate;
+    }
 
-	public void setUnitFrom(Tbunit unitFrom) {
-		this.unitFrom = unitFrom;
-	}
+    public void setApprovingDate(Date approvingDate) {
+        this.approvingDate = approvingDate;
+    }
 
-	public Tbunit getUnitTo() {
-		return unitTo;
-	}
+    public String getCancelReason() {
+        return cancelReason;
+    }
 
-	public void setUnitTo(Tbunit unitTo) {
-		this.unitTo = unitTo;
-	}
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
+    }
 
-	public Integer getNumDays() {
-		return numDays;
-	}
+    public Tbunit getUnitFrom() {
+        return unitFrom;
+    }
 
-	public void setNumDays(Integer numDays) {
-		this.numDays = numDays;
-	}
+    public void setUnitFrom(Tbunit unitFrom) {
+        this.unitFrom = unitFrom;
+    }
 
-	public User getUserCreator() {
-		return userCreator;
-	}
+    public Tbunit getUnitTo() {
+        return unitTo;
+    }
 
-	public void setUserCreator(User userCreator) {
-		this.userCreator = userCreator;
-	}
+    public void setUnitTo(Tbunit unitTo) {
+        this.unitTo = unitTo;
+    }
 
-	public Tbunit getAuthorizer() {
-		return authorizer;
-	}
+    public Integer getNumDays() {
+        return numDays;
+    }
 
-	public void setAuthorizer(Tbunit authorizer) {
-		this.authorizer = authorizer;
-	}
+    public void setNumDays(Integer numDays) {
+        this.numDays = numDays;
+    }
+
+    public User getUserCreator() {
+        return userCreator;
+    }
+
+    public void setUserCreator(User userCreator) {
+        this.userCreator = userCreator;
+    }
+
+    public Tbunit getAuthorizer() {
+        return authorizer;
+    }
+
+    public void setAuthorizer(Tbunit authorizer) {
+        this.authorizer = authorizer;
+    }
 
     public String getCustomId() {
         return customId;
@@ -212,96 +212,96 @@ public class Order extends WorkspaceEntity {
         return shipAddress;
     }
 
-	/**
-	 * @param shipAddress the shipAddress to set
-	 */
-	public void setShipAddress(String shipAddress) {
-		this.shipAddress = shipAddress;
-	}
+    /**
+     * @param shipAddress the shipAddress to set
+     */
+    public void setShipAddress(String shipAddress) {
+        this.shipAddress = shipAddress;
+    }
 
-	/**
-	 * @return the shipAddressCont
-	 */
-	public String getShipAddressCont() {
-		return shipAddressCont;
-	}
+    /**
+     * @return the shipAddressCont
+     */
+    public String getShipAddressCont() {
+        return shipAddressCont;
+    }
 
-	/**
-	 * @param shipAddressCont the shipAddressCont to set
-	 */
-	public void setShipAddressCont(String shipAddressCont) {
-		this.shipAddressCont = shipAddressCont;
-	}
+    /**
+     * @param shipAddressCont the shipAddressCont to set
+     */
+    public void setShipAddressCont(String shipAddressCont) {
+        this.shipAddressCont = shipAddressCont;
+    }
 
-	/**
-	 * @return the shipContactName
-	 */
-	public String getShipContactName() {
-		return shipContactName;
-	}
+    /**
+     * @return the shipContactName
+     */
+    public String getShipContactName() {
+        return shipContactName;
+    }
 
-	/**
-	 * @param shipContactName the shipContactName to set
-	 */
-	public void setShipContactName(String shipContactName) {
-		this.shipContactName = shipContactName;
-	}
+    /**
+     * @param shipContactName the shipContactName to set
+     */
+    public void setShipContactName(String shipContactName) {
+        this.shipContactName = shipContactName;
+    }
 
-	/**
-	 * @return the shipContactPhone
-	 */
-	public String getShipContactPhone() {
-		return shipContactPhone;
-	}
+    /**
+     * @return the shipContactPhone
+     */
+    public String getShipContactPhone() {
+        return shipContactPhone;
+    }
 
-	/**
-	 * @param shipContactPhone the shipContactPhone to set
-	 */
-	public void setShipContactPhone(String shipContactPhone) {
-		this.shipContactPhone = shipContactPhone;
-	}
+    /**
+     * @param shipContactPhone the shipContactPhone to set
+     */
+    public void setShipContactPhone(String shipContactPhone) {
+        this.shipContactPhone = shipContactPhone;
+    }
 
-	/**
-	 * @return the shipAdminUnit
-	 */
-	public AdministrativeUnit getShipAdminUnit() {
-		return shipAdminUnit;
-	}
+    /**
+     * @return the shipAdminUnit
+     */
+    public AdministrativeUnit getShipAdminUnit() {
+        return shipAdminUnit;
+    }
 
-	/**
-	 * @param shipAdminUnit the shipAdminUnit to set
-	 */
-	public void setShipAdminUnit(AdministrativeUnit shipAdminUnit) {
-		this.shipAdminUnit = shipAdminUnit;
-	}
+    /**
+     * @param shipAdminUnit the shipAdminUnit to set
+     */
+    public void setShipAdminUnit(AdministrativeUnit shipAdminUnit) {
+        this.shipAdminUnit = shipAdminUnit;
+    }
 
-	/**
-	 * @return the shipZipCode
-	 */
-	public String getShipZipCode() {
-		return shipZipCode;
-	}
+    /**
+     * @return the shipZipCode
+     */
+    public String getShipZipCode() {
+        return shipZipCode;
+    }
 
-	/**
-	 * @param shipZipCode the shipZipCode to set
-	 */
-	public void setShipZipCode(String shipZipCode) {
-		this.shipZipCode = shipZipCode;
-	}
+    /**
+     * @param shipZipCode the shipZipCode to set
+     */
+    public void setShipZipCode(String shipZipCode) {
+        this.shipZipCode = shipZipCode;
+    }
 
-	/**
-	 * @return the shipInstitutionName
-	 */
-	public String getShipInstitutionName() {
-		return shipInstitutionName;
-	}
+    /**
+     * @return the shipInstitutionName
+     */
+    public String getShipInstitutionName() {
+        return shipInstitutionName;
+    }
 
-	/**
-	 * @param shipInstitutionName the shipInstitutionName to set
-	 */
-	public void setShipInstitutionName(String shipInstitutionName) {
-		this.shipInstitutionName = shipInstitutionName;
-	}
+    /**
+     * @param shipInstitutionName the shipInstitutionName to set
+     */
+    public void setShipInstitutionName(String shipInstitutionName) {
+        this.shipInstitutionName = shipInstitutionName;
+    }
 
 
     @Override

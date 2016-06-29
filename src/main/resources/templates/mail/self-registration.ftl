@@ -6,16 +6,16 @@
 <p>
     <b>
 	${msg('init.welcome')}!
-	</b>
+    </b>
 </p>
 <p>
-	${msg('userreg.mail.1')}.
+${msg('userreg.mail.1')}.
 </p>
 
 <@u.button
-	label=msg('userreg.mail.confirm')
-	action="${url}#/pub/confirmemail/${user.passwordResetToken}" />
+label=msg('userreg.mail.confirm')
+action="${url}#/pub/confirmemail/${user.passwordResetToken}" />
 
 <p>
-    ${msg('userreg.mail.2')}.
+${msg('userreg.mail.2')}.
 </p>

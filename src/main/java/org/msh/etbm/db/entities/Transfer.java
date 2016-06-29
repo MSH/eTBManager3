@@ -11,165 +11,165 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Inheritance(strategy =  InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "transfer")
-public class Transfer  {
+public class Transfer {
 
-	@Id
+    @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
-	private UUID id;
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
+    private UUID id;
 
-	@Temporal(TemporalType.DATE)
-	@NotNull
-	private Date shippingDate;
-	
-	@Temporal(TemporalType.DATE)
-	private Date receivingDate;
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    private Date shippingDate;
 
-	@NotNull
-	private TransferStatus status;
+    @Temporal(TemporalType.DATE)
+    private Date receivingDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID_FROM")
-	@NotNull
-	private Tbunit unitFrom;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID_TO")
-	@NotNull
-	private Tbunit unitTo;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_FROM_ID")
-	@NotNull
-	private User userFrom;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_TO_ID")
-	private User userTo;
+    @NotNull
+    private TransferStatus status;
 
-	@Lob
-	private String commentsFrom;
-	
-	@Lob
-	private String commentsTo;
-	
-	@Column(length = 200)
-	private String cancelReason;
-	
-	@OneToMany(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "TRANSFER_ID")
-	private List<TransferItem> items = new ArrayList<TransferItem>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIT_ID_FROM")
+    @NotNull
+    private Tbunit unitFrom;
 
-	private String consignmentNumber;
-	
-	@Override
-	public String toString() {
-		return (id != null ? id.toString() : super.toString());
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIT_ID_TO")
+    @NotNull
+    private Tbunit unitTo;
 
-	public UUID getId() {
-		return id;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_FROM_ID")
+    @NotNull
+    private User userFrom;
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_TO_ID")
+    private User userTo;
 
-	public Date getShippingDate() {
-		return shippingDate;
-	}
+    @Lob
+    private String commentsFrom;
 
-	public void setShippingDate(Date shippingDate) {
-		this.shippingDate = shippingDate;
-	}
+    @Lob
+    private String commentsTo;
 
-	public Date getReceivingDate() {
-		return receivingDate;
-	}
+    @Column(length = 200)
+    private String cancelReason;
 
-	public void setReceivingDate(Date receivingDate) {
-		this.receivingDate = receivingDate;
-	}
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "TRANSFER_ID")
+    private List<TransferItem> items = new ArrayList<TransferItem>();
 
-	public Tbunit getUnitFrom() {
-		return unitFrom;
-	}
+    private String consignmentNumber;
 
-	public void setUnitFrom(Tbunit unitFrom) {
-		this.unitFrom = unitFrom;
-	}
+    @Override
+    public String toString() {
+        return (id != null ? id.toString() : super.toString());
+    }
 
-	public Tbunit getUnitTo() {
-		return unitTo;
-	}
+    public UUID getId() {
+        return id;
+    }
 
-	public void setUnitTo(Tbunit unitTo) {
-		this.unitTo = unitTo;
-	}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	public String getCommentsFrom() {
-		return commentsFrom;
-	}
+    public Date getShippingDate() {
+        return shippingDate;
+    }
 
-	public void setCommentsFrom(String commentsFrom) {
-		this.commentsFrom = commentsFrom;
-	}
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
+    }
 
-	public String getCommentsTo() {
-		return commentsTo;
-	}
+    public Date getReceivingDate() {
+        return receivingDate;
+    }
 
-	public void setCommentsTo(String commentsTo) {
-		this.commentsTo = commentsTo;
-	}
+    public void setReceivingDate(Date receivingDate) {
+        this.receivingDate = receivingDate;
+    }
 
-	public List<TransferItem> getItems() {
-		return items;
-	}
+    public Tbunit getUnitFrom() {
+        return unitFrom;
+    }
 
-	public void setItems(List<TransferItem> items) {
-		this.items = items;
-	}
+    public void setUnitFrom(Tbunit unitFrom) {
+        this.unitFrom = unitFrom;
+    }
 
-	public TransferStatus getStatus() {
-		return status;
-	}
+    public Tbunit getUnitTo() {
+        return unitTo;
+    }
 
-	public void setStatus(TransferStatus status) {
-		this.status = status;
-	}
+    public void setUnitTo(Tbunit unitTo) {
+        this.unitTo = unitTo;
+    }
 
-	public User getUserFrom() {
-		return userFrom;
-	}
+    public String getCommentsFrom() {
+        return commentsFrom;
+    }
 
-	public void setUserFrom(User userFrom) {
-		this.userFrom = userFrom;
-	}
+    public void setCommentsFrom(String commentsFrom) {
+        this.commentsFrom = commentsFrom;
+    }
 
-	public User getUserTo() {
-		return userTo;
-	}
+    public String getCommentsTo() {
+        return commentsTo;
+    }
 
-	public void setUserTo(User userTo) {
-		this.userTo = userTo;
-	}
+    public void setCommentsTo(String commentsTo) {
+        this.commentsTo = commentsTo;
+    }
 
-	public String getCancelReason() {
-		return cancelReason;
-	}
+    public List<TransferItem> getItems() {
+        return items;
+    }
 
-	public void setCancelReason(String cancelReason) {
-		this.cancelReason = cancelReason;
-	}
+    public void setItems(List<TransferItem> items) {
+        this.items = items;
+    }
 
-	public void setConsignmentNumber(String consignmentNumber) {
-		this.consignmentNumber = consignmentNumber;
-	}
+    public TransferStatus getStatus() {
+        return status;
+    }
 
-	public String getConsignmentNumber() {
-		return consignmentNumber;
-	}
+    public void setStatus(TransferStatus status) {
+        this.status = status;
+    }
+
+    public User getUserFrom() {
+        return userFrom;
+    }
+
+    public void setUserFrom(User userFrom) {
+        this.userFrom = userFrom;
+    }
+
+    public User getUserTo() {
+        return userTo;
+    }
+
+    public void setUserTo(User userTo) {
+        this.userTo = userTo;
+    }
+
+    public String getCancelReason() {
+        return cancelReason;
+    }
+
+    public void setCancelReason(String cancelReason) {
+        this.cancelReason = cancelReason;
+    }
+
+    public void setConsignmentNumber(String consignmentNumber) {
+        this.consignmentNumber = consignmentNumber;
+    }
+
+    public String getConsignmentNumber() {
+        return consignmentNumber;
+    }
 }

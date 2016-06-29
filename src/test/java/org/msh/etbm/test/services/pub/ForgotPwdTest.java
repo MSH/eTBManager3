@@ -59,6 +59,7 @@ public class ForgotPwdTest {
 
     /**
      * Test "forgot password" process
+     *
      * @throws Exception
      */
     @Test
@@ -75,6 +76,7 @@ public class ForgotPwdTest {
 
     /**
      * Test the request
+     *
      * @return
      * @throws MessagingException
      * @throws IOException

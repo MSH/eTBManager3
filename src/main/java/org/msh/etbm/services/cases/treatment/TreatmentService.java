@@ -34,6 +34,7 @@ public class TreatmentService {
 
     /**
      * Return information about a treatment of a given case
+     *
      * @param caseId the ID of the case
      * @return
      */
@@ -81,13 +82,14 @@ public class TreatmentService {
 
     /**
      * Create the list of treatment units as the response
+     *
      * @param lst
      * @return
      */
     private List<TreatmentUnitData> mountTreatmentUnits(List<TreatmentHealthUnit> lst) {
         List<TreatmentUnitData> res = new ArrayList<>();
 
-        for (TreatmentHealthUnit item: lst) {
+        for (TreatmentHealthUnit item : lst) {
             TreatmentUnitData data = new TreatmentUnitData();
             data.setIni(item.getPeriod().getIniDate());
             data.setEnd(item.getPeriod().getEndDate());
@@ -101,13 +103,14 @@ public class TreatmentService {
 
     /**
      * Mount the response about prescribed medicines
+     *
      * @param lst
      * @return
      */
     private List<PrescriptionData> mountPrescriptions(List<PrescribedMedicine> lst) {
         List<PrescriptionData> res = new ArrayList<>();
 
-        for (PrescribedMedicine pm: lst) {
+        for (PrescribedMedicine pm : lst) {
             Product prod = pm.getProduct();
             // search for prescription data based on the product
             Optional<PrescriptionData> opt = res.stream()
@@ -139,6 +142,7 @@ public class TreatmentService {
 
     /**
      * Calculate the treatment progress based on the today's date
+     *
      * @param period
      * @return
      */

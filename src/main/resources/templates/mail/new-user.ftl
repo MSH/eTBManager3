@@ -4,11 +4,11 @@
 <#import "lib/utils.ftl" as u>
 
 <p>
-   ${msg('mail.newuser.msg')}:
+${msg('mail.newuser.msg')}:
 </p>
 
 <@u.panel>
-	<b>User: </b>${user.login}
+<b>User: </b>${user.login}
 </@u.panel>
 
 <p>
@@ -16,8 +16,8 @@ ${msg('mail.newuser.msg1')}.
 </p>
 
 <@u.button
-	label=msg('userreg.mail.confirm')
-	action="${url}#/pub/confirmemail/${user.passwordResetToken}" />
+label=msg('userreg.mail.confirm')
+action="${url}#/pub/confirmemail/${user.passwordResetToken}" />
 
 <p>
 ${msg('userreg.mail.2')}.

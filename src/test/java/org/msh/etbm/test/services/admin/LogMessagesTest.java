@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Test if messages to be logged are available in the resources file
- *
+ * <p>
  * Created by rmemoria on 10/3/16.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,6 +63,7 @@ public class LogMessagesTest {
 
     /**
      * Test the messages of a given class
+     *
      * @param clazz the class to check property messages
      */
     protected void testObjectClas(Class clazz) {
@@ -70,7 +71,7 @@ public class LogMessagesTest {
 
         ObjectValues vals = PropertyLogUtils.generateLog(obj, clazz, Operation.ALL);
 
-        for (String props: vals.getValues().keySet()) {
+        for (String props : vals.getValues().keySet()) {
             if (!assertMessage(clazz, props)) {
                 result = false;
             }

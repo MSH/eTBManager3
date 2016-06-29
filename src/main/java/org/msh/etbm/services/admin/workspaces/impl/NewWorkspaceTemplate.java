@@ -5,7 +5,7 @@ import org.msh.etbm.db.entities.Workspace;
 
 /**
  * Template class that will be filled by the json file located in the resources folder
- *
+ * <p>
  * Created by rmemoria on 2/9/15.
  */
 public class NewWorkspaceTemplate {

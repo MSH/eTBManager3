@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Utility functions to handle common operations with passwords
- *
+ * <p>
  * Created by rmemoria on 1/9/15.
  */
 public class UserUtils {
@@ -27,6 +27,7 @@ public class UserUtils {
 
     /**
      * Aplica hash MD5 na senha informada
+     *
      * @param password
      * @return
      */
@@ -45,13 +46,14 @@ public class UserUtils {
             return ret.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException( e );
+            throw new RuntimeException(e);
         }
     }
 
 
     /**
      * Generate a randomly new password
+     *
      * @return the password
      */
     public static final String generateNewPassword() {
@@ -69,6 +71,7 @@ public class UserUtils {
 
     /**
      * Check if password is following the minimum requirements to be considered a good password
+     *
      * @param pwd the password to be tested
      * @return true if the given password is valid
      */
@@ -84,6 +87,7 @@ public class UserUtils {
 
     /**
      * Check if e-mail address is valid
+     *
      * @param email the e-mail address to be validated
      * @return true if e-mail is valid
      */
@@ -96,6 +100,7 @@ public class UserUtils {
     /**
      * Generate a new unique token to be used to reset password when user
      * must provide a new password
+     *
      * @return unique character sequence
      */
     public static final String generatePasswordToken() {

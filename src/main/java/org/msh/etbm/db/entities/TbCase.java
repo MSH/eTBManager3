@@ -18,20 +18,20 @@ import java.util.List;
 
 /**
  * Store information about a case (TB or DR-TB)
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
-@Inheritance(strategy =  InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "tbcase")
 public class TbCase extends WorkspaceEntity {
 
-	@Version
-	@PropertyLog(ignore = true)
-	private Integer version;
+    @Version
+    @PropertyLog(ignore = true)
+    private Integer version;
 
-	@PropertyLog(messageKey = "CaseClassification")
-	private CaseClassification suspectClassification;
+    @PropertyLog(messageKey = "CaseClassification")
+    private CaseClassification suspectClassification;
 
     /**
      * The code of the patient at the moment of registration (presumptive code)
@@ -42,15 +42,15 @@ public class TbCase extends WorkspaceEntity {
 
     private String caseCode;
 
-	private Integer daysTreatPlanned;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PATIENT_ID")
-	@NotNull
-	@PropertyLog(operations = {Operation.ALL})
-	private Patient patient;
-	
-	private Integer age;
+    private Integer daysTreatPlanned;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PATIENT_ID")
+    @NotNull
+    @PropertyLog(operations = {Operation.ALL})
+    private Patient patient;
+
+    private Integer age;
 
     /**
      * The date the patient was registered in the unit. If before the diagnosis date, this period
@@ -61,51 +61,51 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Date registrationDate;
 
-	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private Date diagnosisDate;
-	
-	@Temporal(TemporalType.DATE)
-	private Date outcomeDate;
+    @Temporal(TemporalType.DATE)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private Date diagnosisDate;
 
-	// Treatment information
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
-		@AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
-	})
-	@PropertyLog(operations = {Operation.ALL}, addProperties = true)
-	private Period treatmentPeriod = new Period();
-	
-	@Temporal(TemporalType.DATE)
-	private Date endIntensivePhase;
+    @Temporal(TemporalType.DATE)
+    private Date outcomeDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REGIMEN_ID")
-	private Regimen regimen;
+    // Treatment information
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
+            @AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
+    })
+    @PropertyLog(operations = {Operation.ALL}, addProperties = true)
+    private Period treatmentPeriod = new Period();
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REGIMEN_INI_ID")
-	private Regimen regimenIni;
+    @Temporal(TemporalType.DATE)
+    private Date endIntensivePhase;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "OWNER_UNIT_ID")
-	@NotNull
-	private Tbunit ownerUnit ;
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
-	@PropertyLog(ignore = true)
-	private List<TreatmentHealthUnit> treatmentUnits = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "REGIMEN_ID")
+    private Regimen regimen;
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
-	@PropertyLog(ignore = true)
-	private List<PrescribedMedicine> prescriptions = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "REGIMEN_INI_ID")
+    private Regimen regimenIni;
 
-	@NotNull
-	private CaseState state;
-	
-	@NotNull
-	private ValidationState validationState;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OWNER_UNIT_ID")
+    @NotNull
+    private Tbunit ownerUnit;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+    @PropertyLog(ignore = true)
+    private List<TreatmentHealthUnit> treatmentUnits = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
+    @PropertyLog(ignore = true)
+    private List<PrescribedMedicine> prescriptions = new ArrayList<>();
+
+    @NotNull
+    private CaseState state;
+
+    @NotNull
+    private ValidationState validationState;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String registrationGroup;
@@ -116,81 +116,81 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private CaseDefinition caseDefinition;
 
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private DiagnosisType diagnosisType;
-	
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private DrugResistanceType drugResistanceType;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private DiagnosisType diagnosisType;
 
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private CaseClassification classification;
-	
-	@PropertyLog(messageKey = "InfectionSite", operations = {Operation.NEW})
-	private InfectionSite infectionSite;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private DrugResistanceType drugResistanceType;
 
-	@Column(length = 50)
-	private String pulmonaryType;
+    @NotNull
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private CaseClassification classification;
 
-	@Column(length = 50)
-	private String extrapulmonaryType;
+    @PropertyLog(messageKey = "InfectionSite", operations = {Operation.NEW})
+    private InfectionSite infectionSite;
 
-	@Column(length = 50)
-	private String extrapulmonaryType2;
-	
-	@Column(length = 100)
-	private String registrationGroupOther;
+    @Column(length = 50)
+    private String pulmonaryType;
 
-	private Nationality nationality;
-	
-	@Column(length = 100)
-	private String otherOutcome;
-	
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "NOTIFICATION_UNIT_ID")
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private Tbunit notificationUnit;
-	
-	private boolean notifAddressChanged;
+    @Column(length = 50)
+    private String extrapulmonaryType;
+
+    @Column(length = 50)
+    private String extrapulmonaryType2;
+
+    @Column(length = 100)
+    private String registrationGroupOther;
+
+    private Nationality nationality;
+
+    @Column(length = 100)
+    private String otherOutcome;
+
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "NOTIFICATION_UNIT_ID")
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private Tbunit notificationUnit;
+
+    private boolean notifAddressChanged;
 
     private boolean tbContact;
 
     private boolean movedSecondLineTreatment;
-	
-	@Column(length = 100)
-	private String patientContactName;
-	
-	@Lob
+
+    @Column(length = 100)
+    private String patientContactName;
+
+    @Lob
     @PropertyLog(messageKey = "global.comments")
-	private String comments;
-	
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
-		@AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
-		@AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
-	})
-	@AssociationOverrides({
-		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
-	})
-	@PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
-	private Address notifAddress;
-	
-	@Embedded
-	@AttributeOverrides({
-		@AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
-		@AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
-		@AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
-	})
-	@AssociationOverrides({
-		@AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
-	})
-	@PropertyLog(messageKey = "cases.details.addresscurr")
-	private Address currentAddress;
+    private String comments;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
+            @AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
+    })
+    @AssociationOverrides({
+            @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
+    })
+    @PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
+    private Address notifAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
+            @AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
+            @AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
+    })
+    @AssociationOverrides({
+            @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
+    })
+    @PropertyLog(messageKey = "cases.details.addresscurr")
+    private Address currentAddress;
 
     @Column(name = "NOTIF_LOCALITYTYPE")
     private LocalityType localityType;
@@ -199,54 +199,54 @@ public class TbCase extends WorkspaceEntity {
     private LocalityType currLocalityType;
 
     @Column(length = 50)
-	private String phoneNumber;
-	
-	@Column(length = 50)
+    private String phoneNumber;
+
+    @Column(length = 50)
     @PropertyLog(messageKey = "global.mobile")
-	private String mobileNumber;
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
-    @PropertyLog(ignore = true)
-	private List<CaseSideEffect> sideEffects = new ArrayList<>();
+    private String mobileNumber;
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
-	private List<CaseComorbidity> comorbidities = new ArrayList<>();
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
-	@OrderBy("date desc")
+    private List<CaseSideEffect> sideEffects = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
-	private List<MedicalExamination> examinations = new ArrayList<>();
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    private List<CaseComorbidity> comorbidities = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @OrderBy("date desc")
     @PropertyLog(ignore = true)
-	private List<ExamXRay> resXRay = new ArrayList<>();
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    private List<MedicalExamination> examinations = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<ExamXRay> resXRay = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(messageKey = "cases.contacts")
-	private List<TbContact> contacts = new ArrayList<>();
-	
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
-    @PropertyLog(ignore = true)
-	private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
-	
+    private List<TbContact> contacts = new ArrayList<>();
 
-	/* EXAMS */
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
-	private List<ExamHIV> resHIV = new ArrayList<>();
+    private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
-    @PropertyLog(ignore = true)
-	private List<ExamCulture> examsCulture = new ArrayList<>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    /* EXAMS */
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
-	private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
+    private List<ExamHIV> resHIV = new ArrayList<>();
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
-	private List<ExamDST> examsDST = new ArrayList<>();
+    private List<ExamCulture> examsCulture = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<ExamDST> examsDST = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
@@ -256,7 +256,7 @@ public class TbCase extends WorkspaceEntity {
     private SecDrugsReceived secDrugsReceived;
 
     @PropertyLog(ignore = true)
-	private int issueCounter;
+    private int issueCounter;
 
     @Temporal(TemporalType.DATE)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
@@ -265,218 +265,230 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 50)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
-	
-	/**
-	 * Tags of this case
-	 */
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "tags_case",
-			joinColumns = {@JoinColumn(name = "CASE_ID")},
-			inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
+
+    /**
+     * Tags of this case
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "tags_case",
+            joinColumns = {@JoinColumn(name = "CASE_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
     @PropertyLog(ignore = true)
-	private List<Tag> tags = new ArrayList<>();
+    private List<Tag> tags = new ArrayList<>();
 
 
-
-	/**
-	 * Check if the regimen has changed compared to the initial regimen
-	 * @return
-	 */
-	public boolean isInitialRegimenChanged() {
-		if (regimen == regimenIni) {
+    /**
+     * Check if the regimen has changed compared to the initial regimen
+     *
+     * @return
+     */
+    public boolean isInitialRegimenChanged() {
+        if (regimen == regimenIni) {
             return false;
         }
 
-		if ((regimen == null) || (regimenIni == null)) {
+        if ((regimen == null) || (regimenIni == null)) {
             return true;
         }
 
-		return regimen.getId().equals(regimenIni.getId());
-	}
+        return regimen.getId().equals(regimenIni.getId());
+    }
 
 
-	/**
-	 * Return number of month of treatment based on the date 
-	 * @param date
-	 * @return
-	 */
-	public int getMonthTreatment(Date date) {
-		if ((treatmentPeriod == null) || (date == null)) {
+    /**
+     * Return number of month of treatment based on the date
+     *
+     * @param date
+     * @return
+     */
+    public int getMonthTreatment(Date date) {
+        if ((treatmentPeriod == null) || (date == null)) {
             return -1;
         }
 
-		Date dtTreat = getTreatmentPeriod().getIniDate();
-		if ((dtTreat == null) || (date.before(dtTreat))) {
+        Date dtTreat = getTreatmentPeriod().getIniDate();
+        if ((dtTreat == null) || (date.before(dtTreat))) {
             return -1;
         }
 
-		return DateUtils.monthsBetween(date, dtTreat) + 1;
-	}
+        return DateUtils.monthsBetween(date, dtTreat) + 1;
+    }
 
 
-	/**
-	 * Returns if the case is validated or not
-	 * @return true - if the case is validated, false - otherwise
-	 */
-	public boolean isValidated() {
-		return getValidationState() == ValidationState.VALIDATED;
-	}
-	
-	/**
-	 * Returns if the case is a pulmonary TB/MDRTB
-	 * @return - true if it is pulmonary or pulmonary/extrapulmonary
-	 */
-	public boolean isPulmonary() {
-		return (getInfectionSite() != null) && ((infectionSite == InfectionSite.PULMONARY) || (infectionSite == InfectionSite.BOTH));
-	}
+    /**
+     * Returns if the case is validated or not
+     *
+     * @return true - if the case is validated, false - otherwise
+     */
+    public boolean isValidated() {
+        return getValidationState() == ValidationState.VALIDATED;
+    }
 
-	
-	/**
-	 * Returns if the case is a extrapulmonary TB/MDRTB
-	 * @return - true if it is extrapulmonary or pulmonary/extrapulmonary
-	 */
-	public boolean isExtrapulmonary() {
-		return (getInfectionSite() != null) && ((infectionSite == InfectionSite.EXTRAPULMONARY) || (infectionSite == InfectionSite.BOTH));
-	}
-	
-	/**
-	 * Search for side effect data by the side effect
-	 * @param sideEffect - FieldValue object representing the side effect
-	 * @return - CaseSideEffect instance containing side effect data of the case, or null if there is no side effect data
-	 */
-	public CaseSideEffect findSideEffectData(String sideEffect) {
-		for (CaseSideEffect se: getSideEffects()) {
-			if (se.getSideEffect().getValue().equals(sideEffect)) {
+    /**
+     * Returns if the case is a pulmonary TB/MDRTB
+     *
+     * @return - true if it is pulmonary or pulmonary/extrapulmonary
+     */
+    public boolean isPulmonary() {
+        return (getInfectionSite() != null) && ((infectionSite == InfectionSite.PULMONARY) || (infectionSite == InfectionSite.BOTH));
+    }
+
+
+    /**
+     * Returns if the case is a extrapulmonary TB/MDRTB
+     *
+     * @return - true if it is extrapulmonary or pulmonary/extrapulmonary
+     */
+    public boolean isExtrapulmonary() {
+        return (getInfectionSite() != null) && ((infectionSite == InfectionSite.EXTRAPULMONARY) || (infectionSite == InfectionSite.BOTH));
+    }
+
+    /**
+     * Search for side effect data by the side effect
+     *
+     * @param sideEffect - FieldValue object representing the side effect
+     * @return - CaseSideEffect instance containing side effect data of the case, or null if there is no side effect data
+     */
+    public CaseSideEffect findSideEffectData(String sideEffect) {
+        for (CaseSideEffect se : getSideEffects()) {
+            if (se.getSideEffect().getValue().equals(sideEffect)) {
                 return se;
             }
-		}
-		return null;
-	}
-
-	
-	/**
-	 * Return the unit that transferred the case in
-	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out 
-	 */
-	public TreatmentHealthUnit getTransferInUnit() {
-		return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 1) : null;
-	}
-	
-	
-	/**
-	 * Return the unit that transferred the case out
-	 * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in 
-	 */
-	public TreatmentHealthUnit getTransferOutUnit() {
-		return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 2) : null;
-	}
-	
-	
-	/**
-	 * @return the sideEffects
-	 */
-	public List<CaseSideEffect> getSideEffects() {
-		return sideEffects;
-	}
+        }
+        return null;
+    }
 
 
-	/**
-	 * @param sideEffects the sideEffects to set
-	 */
-	public void setSideEffects(List<CaseSideEffect> sideEffects) {
-		this.sideEffects = sideEffects;
-	}
+    /**
+     * Return the unit that transferred the case in
+     *
+     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out
+     */
+    public TreatmentHealthUnit getTransferInUnit() {
+        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 1) : null;
+    }
 
 
-	/**
-	 * Formats the case number to be displayed to the user
-	 * @param patientNumber - patient record number
-	 * @param caseNumber - case number associated to the patient
-	 * @return - formated case number
-	 */
-	static public String formatCaseNumber(int patientNumber, int caseNumber) {
-		DecimalFormat df = new DecimalFormat("000");
-		String s = df.format(patientNumber);
+    /**
+     * Return the unit that transferred the case out
+     *
+     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in
+     */
+    public TreatmentHealthUnit getTransferOutUnit() {
+        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 2) : null;
+    }
+
+
+    /**
+     * @return the sideEffects
+     */
+    public List<CaseSideEffect> getSideEffects() {
+        return sideEffects;
+    }
+
+
+    /**
+     * @param sideEffects the sideEffects to set
+     */
+    public void setSideEffects(List<CaseSideEffect> sideEffects) {
+        this.sideEffects = sideEffects;
+    }
+
+
+    /**
+     * Formats the case number to be displayed to the user
+     *
+     * @param patientNumber - patient record number
+     * @param caseNumber    - case number associated to the patient
+     * @return - formated case number
+     */
+    static public String formatCaseNumber(int patientNumber, int caseNumber) {
+        DecimalFormat df = new DecimalFormat("000");
+        String s = df.format(patientNumber);
 
         return caseNumber > 1 ? s + "-" + Integer.toString(caseNumber) : s;
-	}
-
-	
-	/**
-	 * Check if the case is open
-	 * @return
-	 */
-	public boolean isOpen() {
-		return state != null ? state.ordinal() <=  CaseState.TRANSFERRING.ordinal() : false;
-	}
+    }
 
 
-	/**
-	 * Is case on treatment ?
-	 * @return
-	 */
-	public boolean isOnTreatment() {
-		return (state == CaseState.ONTREATMENT) || (state == CaseState.TRANSFERRING);
-	}
+    /**
+     * Check if the case is open
+     *
+     * @return
+     */
+    public boolean isOpen() {
+        return state != null ? state.ordinal() <= CaseState.TRANSFERRING.ordinal() : false;
+    }
 
-	/**
-	 * Return the treatment period of the intensive phase
-	 * @return
-	 */
-	public Period getIntensivePhasePeriod() {
-		if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty())) {
+
+    /**
+     * Is case on treatment ?
+     *
+     * @return
+     */
+    public boolean isOnTreatment() {
+        return (state == CaseState.ONTREATMENT) || (state == CaseState.TRANSFERRING);
+    }
+
+    /**
+     * Return the treatment period of the intensive phase
+     *
+     * @return
+     */
+    public Period getIntensivePhasePeriod() {
+        if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty())) {
             return null;
         }
 
         return endIntensivePhase != null ?
                 new Period(treatmentPeriod.getIniDate(), endIntensivePhase) :
                 new Period(treatmentPeriod);
-	}
+    }
 
-	/**
-	 * Returns patient age at the date of the notification
-	 * @return
-	 */
-	public int getPatientAge() {
-		if (age != null) {
+    /**
+     * Returns patient age at the date of the notification
+     *
+     * @return
+     */
+    public int getPatientAge() {
+        if (age != null) {
             return age;
         }
 
-		Patient p = getPatient();
-		if (p == null) {
+        Patient p = getPatient();
+        if (p == null) {
             return 0;
         }
 
-		Date dt = p.getBirthDate();
-		Date dt2 = diagnosisDate;
-		
-		if (dt == null) {
+        Date dt = p.getBirthDate();
+        Date dt2 = diagnosisDate;
+
+        if (dt == null) {
             return 0;
         }
 
-		if (dt2 == null) {
+        if (dt2 == null) {
             dt2 = new Date();
         }
 
-		return DateUtils.yearsBetween(dt, dt2);
-	}
+        return DateUtils.yearsBetween(dt, dt2);
+    }
 
 
-	public Patient getPatient() {
-		return patient;
-	}
+    public Patient getPatient() {
+        return patient;
+    }
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
 
-	public CaseState getState() {
-		return state;
-	}
+    public CaseState getState() {
+        return state;
+    }
 
-	public void setState(CaseState state) {
-		this.state = state;
-	}
+    public void setState(CaseState state) {
+        this.state = state;
+    }
 
     public List<TreatmentHealthUnit> getTreatmentUnits() {
         return treatmentUnits;
@@ -487,91 +499,91 @@ public class TbCase extends WorkspaceEntity {
     }
 
     public List<ExamHIV> getResHIV() {
-		return resHIV;
-	}
+        return resHIV;
+    }
 
 
-	public void setResHIV(List<ExamHIV> resHIV) {
-		this.resHIV = resHIV;
-	}
+    public void setResHIV(List<ExamHIV> resHIV) {
+        this.resHIV = resHIV;
+    }
 
 
-	public List<MedicalExamination> getExaminations() {
-		return examinations;
-	}
+    public List<MedicalExamination> getExaminations() {
+        return examinations;
+    }
 
 
-	public void setExaminations(List<MedicalExamination> examinations) {
-		this.examinations = examinations;
-	}
+    public void setExaminations(List<MedicalExamination> examinations) {
+        this.examinations = examinations;
+    }
 
 
-	public CaseClassification getClassification() {
-		return classification;
-	}
+    public CaseClassification getClassification() {
+        return classification;
+    }
 
 
-	public void setClassification(CaseClassification classification) {
-		this.classification = classification;
-	}
+    public void setClassification(CaseClassification classification) {
+        this.classification = classification;
+    }
 
 
-	public InfectionSite getInfectionSite() {
-		return infectionSite;
-	}
+    public InfectionSite getInfectionSite() {
+        return infectionSite;
+    }
 
 
-	public void setInfectionSite(InfectionSite infectionSite) {
-		this.infectionSite = infectionSite;
-	}
+    public void setInfectionSite(InfectionSite infectionSite) {
+        this.infectionSite = infectionSite;
+    }
 
 
-	public Address getNotifAddress() {
-		if (notifAddress == null) {
+    public Address getNotifAddress() {
+        if (notifAddress == null) {
             notifAddress = new Address();
         }
 
-		return notifAddress;
-	}
+        return notifAddress;
+    }
 
 
-	public void setNotifAddress(Address notifAddress) {
-		this.notifAddress = notifAddress;
-	}
+    public void setNotifAddress(Address notifAddress) {
+        this.notifAddress = notifAddress;
+    }
 
 
-	public Address getCurrentAddress() {
-		if (currentAddress == null) {
+    public Address getCurrentAddress() {
+        if (currentAddress == null) {
             currentAddress = new Address();
         }
 
-		return currentAddress;
-	}
+        return currentAddress;
+    }
 
 
-	public void setCurrentAddress(Address currentAddress) {
-		this.currentAddress = currentAddress;
-	}
+    public void setCurrentAddress(Address currentAddress) {
+        this.currentAddress = currentAddress;
+    }
 
 
-	public boolean isNotifAddressChanged() {
-		return notifAddressChanged;
-	}
+    public boolean isNotifAddressChanged() {
+        return notifAddressChanged;
+    }
 
 
-	public void setNotifAddressChanged(boolean notifAddressChanged) {
-		this.notifAddressChanged = notifAddressChanged;
-	}
+    public void setNotifAddressChanged(boolean notifAddressChanged) {
+        this.notifAddressChanged = notifAddressChanged;
+    }
 
 
-	public String getOtherOutcome() {
-		return otherOutcome;
-	}
+    public String getOtherOutcome() {
+        return otherOutcome;
+    }
 
 
-	public void setOtherOutcome(String otherOutcome) {
-		this.otherOutcome = otherOutcome;
-	}
+    public void setOtherOutcome(String otherOutcome) {
+        this.otherOutcome = otherOutcome;
+    }
 
     public String getRegistrationGroup() {
         return registrationGroup;
@@ -582,23 +594,23 @@ public class TbCase extends WorkspaceEntity {
     }
 
     public Nationality getNationality() {
-		return nationality;
-	}
+        return nationality;
+    }
 
 
-	public void setNationality(Nationality nationality) {
-		this.nationality = nationality;
-	}
+    public void setNationality(Nationality nationality) {
+        this.nationality = nationality;
+    }
 
 
-	public Tbunit getNotificationUnit() {
-		return notificationUnit;
-	}
+    public Tbunit getNotificationUnit() {
+        return notificationUnit;
+    }
 
 
-	public void setNotificationUnit(Tbunit notificationUnit) {
-		this.notificationUnit = notificationUnit;
-	}
+    public void setNotificationUnit(Tbunit notificationUnit) {
+        this.notificationUnit = notificationUnit;
+    }
 
 
     public Date getDiagnosisDate() {
@@ -606,19 +618,19 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-	public void setDiagnosisDate(Date diagnosisDate) {
-		this.diagnosisDate = diagnosisDate;
-	}
+    public void setDiagnosisDate(Date diagnosisDate) {
+        this.diagnosisDate = diagnosisDate;
+    }
 
 
-	public Date getOutcomeDate() {
-		return outcomeDate;
-	}
+    public Date getOutcomeDate() {
+        return outcomeDate;
+    }
 
 
-	public void setOutcomeDate(Date outcomeDate) {
-		this.outcomeDate = outcomeDate;
-	}
+    public void setOutcomeDate(Date outcomeDate) {
+        this.outcomeDate = outcomeDate;
+    }
 
     public String getRegistrationGroupOther() {
         return registrationGroupOther;
@@ -632,308 +644,307 @@ public class TbCase extends WorkspaceEntity {
      * @return the resXRay
      */
     public List<ExamXRay> getResXRay() {
-		return resXRay;
-	}
-
-
-	/**
-	 * @param resXRay the resXRay to set
-	 */
-	public void setResXRay(List<ExamXRay> resXRay) {
-		this.resXRay = resXRay;
-	}
-
-
-	/**
-	 * @return the comorbidities
-	 */
-	public List<CaseComorbidity> getComorbidities() {
-		return comorbidities;
-	}
-
-
-	/**
-	 * @param comorbidities the comorbidities to set
-	 */
-	public void setComorbidities(List<CaseComorbidity> comorbidities) {
-		this.comorbidities = comorbidities;
-	}
-
-
-	/**
-	 * @return the age
-	 */
-	public Integer getAge() {
-		return age;
-	}
-
-
-	/**
-	 * @param age the age to set
-	 */
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-
-
-	/**
-	 * @return the registrationDate
-	 */
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
-
-	/**
-	 * @param registrationDate the registrationDate to set
-	 */
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
-	}
-
-
-	/**
-	 * @param diagnosisType the diagnosisType to set
-	 */
-	public void setDiagnosisType(DiagnosisType diagnosisType) {
-		this.diagnosisType = diagnosisType;
-	}
-
-
-	/**
-	 * @return the diagnosisType
-	 */
-	public DiagnosisType getDiagnosisType() {
-		return diagnosisType;
-	}
-
-	
-	/**
-	 * @return the registrationCode
-	 */
-	public String getRegistrationCode() {
-		return registrationCode;
-	}
-
-
-	/**
-	 * @param registrationCode the registrationCode to set
-	 */
-	public void setRegistrationCode(String registrationCode) {
-		this.registrationCode = registrationCode;
-	}
-
-
-	/**
-	 * @return the drugResistanceType
-	 */
-	public DrugResistanceType getDrugResistanceType() {
-		return drugResistanceType;
-	}
-
-
-	/**
-	 * @param drugResistanceType the drugResistanceType to set
-	 */
-	public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
-		this.drugResistanceType = drugResistanceType;
-	}
-
-
-	/**
-	 * @return the comments
-	 */
-	public String getComments() {
-		return comments;
-	}
-
-
-	/**
-	 * @param comments the comments to set
-	 */
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
-
-
-	/**
-	 * @return the patientContactName
-	 */
-	public String getPatientContactName() {
-		return patientContactName;
-	}
-
-
-	/**
-	 * @param patientContactName the patientContactName to set
-	 */
-	public void setPatientContactName(String patientContactName) {
-		this.patientContactName = patientContactName;
-	}
-
-
-	/**
-	 * @param tbContact the tbContact to set
-	 */
-	public void setTbContact(boolean tbContact) {
-		this.tbContact = tbContact;
-	}
-
-
-	/**
-	 * @return the tbContact
-	 */
-	public boolean isTbContact() {
-		return tbContact;
-	}
-
-
-	/**
-	 * @return the contacts
-	 */
-	public List<TbContact> getContacts() {
-		return contacts;
-	}
-
-
-	/**
-	 * @param contacts the contacts to set
-	 */
-	public void setContacts(List<TbContact> contacts) {
-		this.contacts = contacts;
-	}
-
-
-	/**
-	 * @return the pulmonaryType
-	 */
-	public String getPulmonaryType() {
-		return pulmonaryType;
-	}
-
-
-	/**
-	 * @param pulmonaryType the pulmonaryType to set
-	 */
-	public void setPulmonaryType(String pulmonaryType) {
-		this.pulmonaryType = pulmonaryType;
-	}
-
-
-	/**
-	 * @return the extrapulmonaryType
-	 */
-	public String getExtrapulmonaryType() {
-		return extrapulmonaryType;
-	}
-
-
-	/**
-	 * @param extrapulmonaryType the extrapulmonaryType to set
-	 */
-	public void setExtrapulmonaryType(String extrapulmonaryType) {
-		this.extrapulmonaryType = extrapulmonaryType;
-	}
-
-
-	/**
-	 * @return the extrapulmonaryType2
-	 */
-	public String getExtrapulmonaryType2() {
-		return extrapulmonaryType2;
-	}
-
-
-	/**
-	 * @param extrapulmonaryType2 the extrapulmonaryType2 to set
-	 */
-	public void setExtrapulmonaryType2(String extrapulmonaryType2) {
-		this.extrapulmonaryType2 = extrapulmonaryType2;
-	}
-
-
-	/**
-	 * @return the daysTreatPlanned
-	 */
-	public Integer getDaysTreatPlanned() {
-		return daysTreatPlanned;
-	}
-
-
-	/**
-	 * @param daysTreatPlanned the daysTreatPlanned to set
-	 */
-	public void setDaysTreatPlanned(Integer daysTreatPlanned) {
-		this.daysTreatPlanned = daysTreatPlanned;
-	}
-
-
-	/**
-	 * @return the phoneNumber
-	 */
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-
-	/**
-	 * @param phoneNumber the phoneNumber to set
-	 */
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
-
-	/**
-	 * @return the mobileNumber
-	 */
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-
-
-	/**
-	 * @param mobileNumber the mobileNumber to set
-	 */
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-
-
-	/**
-	 * @return the validationState
-	 */
-	public ValidationState getValidationState() {
-		return validationState;
-	}
-
-
-	/**
-	 * @param validationState the validationState to set
-	 */
-	public void setValidationState(ValidationState validationState) {
-		this.validationState = validationState;
-	}
-
-
-	/**
-	 * @return the issueCounter
-	 */
-	public int getIssueCounter() {
-		return issueCounter;
-	}
-
-
-	/**
-	 * @param issueCount the issueCounter to set
-	 */
-	public void setIssueCounter(int issueCount) {
-		this.issueCounter = issueCount;
-	}
-
-	public void incIssueCounter() {
-		issueCounter++;
-	}
+        return resXRay;
+    }
+
+
+    /**
+     * @param resXRay the resXRay to set
+     */
+    public void setResXRay(List<ExamXRay> resXRay) {
+        this.resXRay = resXRay;
+    }
+
+
+    /**
+     * @return the comorbidities
+     */
+    public List<CaseComorbidity> getComorbidities() {
+        return comorbidities;
+    }
+
+
+    /**
+     * @param comorbidities the comorbidities to set
+     */
+    public void setComorbidities(List<CaseComorbidity> comorbidities) {
+        this.comorbidities = comorbidities;
+    }
+
+
+    /**
+     * @return the age
+     */
+    public Integer getAge() {
+        return age;
+    }
+
+
+    /**
+     * @param age the age to set
+     */
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+
+    /**
+     * @return the registrationDate
+     */
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    /**
+     * @param registrationDate the registrationDate to set
+     */
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+
+    /**
+     * @param diagnosisType the diagnosisType to set
+     */
+    public void setDiagnosisType(DiagnosisType diagnosisType) {
+        this.diagnosisType = diagnosisType;
+    }
+
+
+    /**
+     * @return the diagnosisType
+     */
+    public DiagnosisType getDiagnosisType() {
+        return diagnosisType;
+    }
+
+
+    /**
+     * @return the registrationCode
+     */
+    public String getRegistrationCode() {
+        return registrationCode;
+    }
+
+
+    /**
+     * @param registrationCode the registrationCode to set
+     */
+    public void setRegistrationCode(String registrationCode) {
+        this.registrationCode = registrationCode;
+    }
+
+
+    /**
+     * @return the drugResistanceType
+     */
+    public DrugResistanceType getDrugResistanceType() {
+        return drugResistanceType;
+    }
+
+
+    /**
+     * @param drugResistanceType the drugResistanceType to set
+     */
+    public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
+        this.drugResistanceType = drugResistanceType;
+    }
+
+
+    /**
+     * @return the comments
+     */
+    public String getComments() {
+        return comments;
+    }
+
+
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+
+    /**
+     * @return the patientContactName
+     */
+    public String getPatientContactName() {
+        return patientContactName;
+    }
+
+
+    /**
+     * @param patientContactName the patientContactName to set
+     */
+    public void setPatientContactName(String patientContactName) {
+        this.patientContactName = patientContactName;
+    }
+
+
+    /**
+     * @param tbContact the tbContact to set
+     */
+    public void setTbContact(boolean tbContact) {
+        this.tbContact = tbContact;
+    }
+
+
+    /**
+     * @return the tbContact
+     */
+    public boolean isTbContact() {
+        return tbContact;
+    }
+
+
+    /**
+     * @return the contacts
+     */
+    public List<TbContact> getContacts() {
+        return contacts;
+    }
+
+
+    /**
+     * @param contacts the contacts to set
+     */
+    public void setContacts(List<TbContact> contacts) {
+        this.contacts = contacts;
+    }
+
+
+    /**
+     * @return the pulmonaryType
+     */
+    public String getPulmonaryType() {
+        return pulmonaryType;
+    }
+
+
+    /**
+     * @param pulmonaryType the pulmonaryType to set
+     */
+    public void setPulmonaryType(String pulmonaryType) {
+        this.pulmonaryType = pulmonaryType;
+    }
+
+
+    /**
+     * @return the extrapulmonaryType
+     */
+    public String getExtrapulmonaryType() {
+        return extrapulmonaryType;
+    }
+
+
+    /**
+     * @param extrapulmonaryType the extrapulmonaryType to set
+     */
+    public void setExtrapulmonaryType(String extrapulmonaryType) {
+        this.extrapulmonaryType = extrapulmonaryType;
+    }
+
+
+    /**
+     * @return the extrapulmonaryType2
+     */
+    public String getExtrapulmonaryType2() {
+        return extrapulmonaryType2;
+    }
+
+
+    /**
+     * @param extrapulmonaryType2 the extrapulmonaryType2 to set
+     */
+    public void setExtrapulmonaryType2(String extrapulmonaryType2) {
+        this.extrapulmonaryType2 = extrapulmonaryType2;
+    }
+
+
+    /**
+     * @return the daysTreatPlanned
+     */
+    public Integer getDaysTreatPlanned() {
+        return daysTreatPlanned;
+    }
+
+
+    /**
+     * @param daysTreatPlanned the daysTreatPlanned to set
+     */
+    public void setDaysTreatPlanned(Integer daysTreatPlanned) {
+        this.daysTreatPlanned = daysTreatPlanned;
+    }
+
+
+    /**
+     * @return the phoneNumber
+     */
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+
+    /**
+     * @param phoneNumber the phoneNumber to set
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+
+    /**
+     * @return the mobileNumber
+     */
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+
+    /**
+     * @param mobileNumber the mobileNumber to set
+     */
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+
+    /**
+     * @return the validationState
+     */
+    public ValidationState getValidationState() {
+        return validationState;
+    }
+
+
+    /**
+     * @param validationState the validationState to set
+     */
+    public void setValidationState(ValidationState validationState) {
+        this.validationState = validationState;
+    }
+
+
+    /**
+     * @return the issueCounter
+     */
+    public int getIssueCounter() {
+        return issueCounter;
+    }
+
+
+    /**
+     * @param issueCount the issueCounter to set
+     */
+    public void setIssueCounter(int issueCount) {
+        this.issueCounter = issueCount;
+    }
+
+    public void incIssueCounter() {
+        issueCounter++;
+    }
 
     public List<PrescribedMedicine> getPrescriptions() {
         return prescriptions;
@@ -944,133 +955,133 @@ public class TbCase extends WorkspaceEntity {
     }
 
     public Period getTreatmentPeriod() {
-		return treatmentPeriod;
-	}
+        return treatmentPeriod;
+    }
 
 
-	public void setTreatmentPeriod(Period treatmentPeriod) {
-		this.treatmentPeriod = treatmentPeriod;
-	}
+    public void setTreatmentPeriod(Period treatmentPeriod) {
+        this.treatmentPeriod = treatmentPeriod;
+    }
 
 
-	public Integer getVersion() {
-		return version;
-	}
+    public Integer getVersion() {
+        return version;
+    }
 
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
 
-	public List<ExamCulture> getExamsCulture() {
-		return examsCulture;
-	}
+    public List<ExamCulture> getExamsCulture() {
+        return examsCulture;
+    }
 
 
-	public void setExamsCulture(List<ExamCulture> examsCulture) {
-		this.examsCulture = examsCulture;
-	}
+    public void setExamsCulture(List<ExamCulture> examsCulture) {
+        this.examsCulture = examsCulture;
+    }
 
 
-	public List<ExamMicroscopy> getExamsMicroscopy() {
-		return examsMicroscopy;
-	}
+    public List<ExamMicroscopy> getExamsMicroscopy() {
+        return examsMicroscopy;
+    }
 
 
-	public void setExamsMicroscopy(List<ExamMicroscopy> examsMicroscopy) {
-		this.examsMicroscopy = examsMicroscopy;
-	}
+    public void setExamsMicroscopy(List<ExamMicroscopy> examsMicroscopy) {
+        this.examsMicroscopy = examsMicroscopy;
+    }
 
 
-	public List<ExamDST> getExamsDST() {
-		return examsDST;
-	}
+    public List<ExamDST> getExamsDST() {
+        return examsDST;
+    }
 
 
-	public void setExamsDST(List<ExamDST> examsDST) {
-		this.examsDST = examsDST;
-	}
+    public void setExamsDST(List<ExamDST> examsDST) {
+        this.examsDST = examsDST;
+    }
 
 
-	/**
-	 * @return the endIntensivePhase
-	 */
-	public Date getEndIntensivePhase() {
-		return endIntensivePhase;
-	}
+    /**
+     * @return the endIntensivePhase
+     */
+    public Date getEndIntensivePhase() {
+        return endIntensivePhase;
+    }
 
 
-	/**
-	 * @param endIntensivePhase the endIntensivePhase to set
-	 */
-	public void setEndIntensivePhase(Date endIntensivePhase) {
-		this.endIntensivePhase = endIntensivePhase;
-	}
+    /**
+     * @param endIntensivePhase the endIntensivePhase to set
+     */
+    public void setEndIntensivePhase(Date endIntensivePhase) {
+        this.endIntensivePhase = endIntensivePhase;
+    }
 
 
-	/**
-	 * @return the regimen
-	 */
-	public Regimen getRegimen() {
-		return regimen;
-	}
+    /**
+     * @return the regimen
+     */
+    public Regimen getRegimen() {
+        return regimen;
+    }
 
 
-	/**
-	 * @param regimen the regimen to set
-	 */
-	public void setRegimen(Regimen regimen) {
-		this.regimen = regimen;
-	}
+    /**
+     * @param regimen the regimen to set
+     */
+    public void setRegimen(Regimen regimen) {
+        this.regimen = regimen;
+    }
 
 
-	/**
-	 * @return the ownerUnit
-	 */
-	public Tbunit getOwnerUnit() {
-		return ownerUnit;
-	}
-
-	
-	/**
-	 * @param ownerUnit the ownerUnit to set
-	 */
-	public void setOwnerUnit(Tbunit ownerUnit) {
-		this.ownerUnit = ownerUnit;
-	}
+    /**
+     * @return the ownerUnit
+     */
+    public Tbunit getOwnerUnit() {
+        return ownerUnit;
+    }
 
 
-	/**
-	 * @return the tags
-	 */
-	public List<Tag> getTags() {
-		return tags;
-	}
+    /**
+     * @param ownerUnit the ownerUnit to set
+     */
+    public void setOwnerUnit(Tbunit ownerUnit) {
+        this.ownerUnit = ownerUnit;
+    }
 
 
-	/**
-	 * @param tags the tags to set
-	 */
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
-	}
+    /**
+     * @return the tags
+     */
+    public List<Tag> getTags() {
+        return tags;
+    }
 
 
-	/**
-	 * @return the regimenIni
-	 */
-	public Regimen getRegimenIni() {
-		return regimenIni;
-	}
+    /**
+     * @param tags the tags to set
+     */
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
 
-	/**
-	 * @param regimenIni the regimenIni to set
-	 */
-	public void setRegimenIni(Regimen regimenIni) {
-		this.regimenIni = regimenIni;
-	}
+    /**
+     * @return the regimenIni
+     */
+    public Regimen getRegimenIni() {
+        return regimenIni;
+    }
+
+
+    /**
+     * @param regimenIni the regimenIni to set
+     */
+    public void setRegimenIni(Regimen regimenIni) {
+        this.regimenIni = regimenIni;
+    }
 
 
     public String getCaseCode() {
@@ -1089,26 +1100,26 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-	/**
-	 * @param suspectClassification the suspectClassification to set
-	 */
-	public void setSuspectClassification(CaseClassification suspectClassification) {
-		this.suspectClassification = suspectClassification;
-	}
+    /**
+     * @param suspectClassification the suspectClassification to set
+     */
+    public void setSuspectClassification(CaseClassification suspectClassification) {
+        this.suspectClassification = suspectClassification;
+    }
 
-	/**
-	 * @return the treatmentMonitoring
-	 */
-	public List<TreatmentMonitoring> getTreatmentMonitoring() {
-		return treatmentMonitoring;
-	}
+    /**
+     * @return the treatmentMonitoring
+     */
+    public List<TreatmentMonitoring> getTreatmentMonitoring() {
+        return treatmentMonitoring;
+    }
 
-	/**
-	 * @param treatmentMonitoring the treatmentMonitoring to set
-	 */
-	public void setTreatmentMonitoring(List<TreatmentMonitoring> treatmentMonitoring) {
-		this.treatmentMonitoring = treatmentMonitoring;
-	}
+    /**
+     * @param treatmentMonitoring the treatmentMonitoring to set
+     */
+    public void setTreatmentMonitoring(List<TreatmentMonitoring> treatmentMonitoring) {
+        this.treatmentMonitoring = treatmentMonitoring;
+    }
 
     public List<ExamXpert> getExamsXpert() {
         return examsXpert;
@@ -1126,7 +1137,7 @@ public class TbCase extends WorkspaceEntity {
         return this.secDrugsReceived;
     }
 
-   public PatientType getPreviouslyTreatedType() {
+    public PatientType getPreviouslyTreatedType() {
         return previouslyTreatedType;
     }
 

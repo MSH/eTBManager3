@@ -2,7 +2,7 @@ package org.msh.etbm.services.admin.workspaces.impl;
 
 /**
  * Store information of a user that comes from a json template
- *
+ * <p>
  * Created by rmemoria on 3/9/15.
  */
 public class UserProfileTemplate {

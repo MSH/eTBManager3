@@ -7,7 +7,7 @@ import java.util.UUID;
 
 /**
  * Specific criterias to query units in the system
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class UnitQueryParams extends EntityQueryParams {
@@ -42,13 +42,17 @@ public class UnitQueryParams extends EntityQueryParams {
      */
     private boolean includeSubunits;
 
-    /** used when filtering TB units **/
+    /**
+     * used when filtering TB units
+     **/
     private Boolean tbFacility;
     private Boolean mdrFacility;
     private Boolean ntmFacility;
     private Boolean notificationUnit;
 
-    /** used when filtering laboratories **/
+    /**
+     * used when filtering laboratories
+     **/
     private Boolean performCulture;
     private Boolean performMicroscopy;
     private Boolean performDst;

@@ -15,13 +15,13 @@ import javax.persistence.Table;
 @Table(name = "examculture")
 public class ExamCulture extends LaboratoryExam {
 
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private CultureResult result;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private CultureResult result;
 
-	@PropertyLog(operations = {Operation.NEW})
-	private Integer numberOfColonies;
+    @PropertyLog(operations = {Operation.NEW})
+    private Integer numberOfColonies;
 
-	private SampleType sampleType;
+    private SampleType sampleType;
 
     @Override
     public ExamResult getExamResult() {
@@ -41,39 +41,39 @@ public class ExamCulture extends LaboratoryExam {
     }
 
     public CultureResult getResult() {
-		return result;
-	}
+        return result;
+    }
 
-	public void setResult(CultureResult result) {
-		this.result = result;
-	}
+    public void setResult(CultureResult result) {
+        this.result = result;
+    }
 
-	/**
-	 * @return the numberOfColonies
-	 */
-	public Integer getNumberOfColonies() {
-		return numberOfColonies;
-	}
+    /**
+     * @return the numberOfColonies
+     */
+    public Integer getNumberOfColonies() {
+        return numberOfColonies;
+    }
 
-	/**
-	 * @param numberOfColonies the numberOfColonies to set
-	 */
-	public void setNumberOfColonies(Integer numberOfColonies) {
-		this.numberOfColonies = numberOfColonies;
-	}
+    /**
+     * @param numberOfColonies the numberOfColonies to set
+     */
+    public void setNumberOfColonies(Integer numberOfColonies) {
+        this.numberOfColonies = numberOfColonies;
+    }
 
 
-	/**
-	 * @return the sampleType
-	 */
-	public SampleType getSampleType() {
-		return sampleType;
-	}
+    /**
+     * @return the sampleType
+     */
+    public SampleType getSampleType() {
+        return sampleType;
+    }
 
-	/**
-	 * @param sampleType the sampleType to set
-	 */
-	public void setSampleType(SampleType sampleType) {
-		this.sampleType = sampleType;
-	}
+    /**
+     * @param sampleType the sampleType to set
+     */
+    public void setSampleType(SampleType sampleType) {
+        this.sampleType = sampleType;
+    }
 }

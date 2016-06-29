@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /**
  * REST API to handle administrative unit CRUD operations
- *
+ * <p>
  * Created by rmemoria on 21/10/15.
  */
 @RestController
@@ -47,7 +47,7 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req)  throws BindException {
+    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req) throws BindException {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }

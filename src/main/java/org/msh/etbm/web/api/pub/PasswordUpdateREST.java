@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 /**
  * REST API to update a user password using a password request token, usually
  * received by e-mail under a previous request to reset the password
- *
+ * <p>
  * Created by rmemoria on 16/6/16.
  */
 @RestController

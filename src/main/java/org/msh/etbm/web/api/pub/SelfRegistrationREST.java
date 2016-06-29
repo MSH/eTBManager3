@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Rest API to allow someone to self register himself
- *
+ * <p>
  * Created by rmemoria on 16/6/16.
  */
 @RestController

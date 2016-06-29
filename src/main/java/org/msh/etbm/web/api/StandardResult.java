@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Standard result structure for API requests. Not a rule, but used by many API functions to indicate the
  * result of a request
- *
+ * <p>
  * Created by rmemoria on 27/10/15.
  */
 public class StandardResult {

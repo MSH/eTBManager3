@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * API to handle general form initialization, avoid several requests to initialize fields
  * individually
- *
+ * <p>
  * Created by rmemoria on 18/1/16.
  */
 @RestController

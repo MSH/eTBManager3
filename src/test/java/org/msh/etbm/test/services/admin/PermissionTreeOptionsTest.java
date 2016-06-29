@@ -29,11 +29,11 @@ public class PermissionTreeOptionsTest extends AuthenticatedTest {
 
         assertNotNull(lst);
 
-        for (PermissionItem item: lst) {
+        for (PermissionItem item : lst) {
             assertItem(item);
             assertNotNull(item.getChildren());
 
-            for (PermissionItem child: item.getChildren()) {
+            for (PermissionItem child : item.getChildren()) {
                 assertItem(child);
             }
         }

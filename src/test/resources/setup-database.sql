@@ -4,8 +4,8 @@
  */
 
 /** Erase all workspaces and user, in order to force initialization */
-delete from workspace;
-delete from sys_user;
-delete from workspacelog;
-delete from userlog;
-delete from commandhistory;
+DELETE FROM workspace;
+DELETE FROM sys_user;
+DELETE FROM workspacelog;
+DELETE FROM userlog;
+DELETE FROM commandhistory;

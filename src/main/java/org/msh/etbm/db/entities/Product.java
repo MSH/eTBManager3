@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "product")
-@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 public class Product extends WorkspaceEntity {

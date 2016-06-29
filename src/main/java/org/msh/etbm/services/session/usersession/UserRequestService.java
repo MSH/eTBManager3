@@ -14,7 +14,7 @@ import java.util.UUID;
 
 /**
  * Basic information about the user session
- *
+ * <p>
  * Created by rmemoria on 30/9/15.
  */
 @Service
@@ -48,6 +48,7 @@ public class UserRequestService {
 
     /**
      * Check if the user was properly authenticated
+     *
      * @return true if the user is authenticated
      */
     public boolean isAuthenticated() {
@@ -56,6 +57,7 @@ public class UserRequestService {
 
     /**
      * Return a request data previously put in the <code>put</code>
+     *
      * @param key the data key
      * @return the data assigned to the key, or null if no data is available
      */
@@ -65,7 +67,8 @@ public class UserRequestService {
 
     /**
      * Set a request data to be used along the request
-     * @param key the data key
+     *
+     * @param key  the data key
      * @param data the data to be assigned to the key
      */
     public void put(String key, Object data) {
@@ -79,13 +82,14 @@ public class UserRequestService {
     @Transactional
     public void updateLastAccess() {
         entityManager.createNativeQuery("update userlogin set lastAccess = :lastAccess where id = :id")
-                        .setParameter("lastAccess", new Date())
-                        .setParameter("id", getUserSession().getUserLoginId())
-                        .executeUpdate();
+                .setParameter("lastAccess", new Date())
+                .setParameter("id", getUserSession().getUserLoginId())
+                .executeUpdate();
     }
 
     /**
      * Return true if the given permission is granted to the user
+     *
      * @param perm the permission to check
      * @return true if permission is granted
      */

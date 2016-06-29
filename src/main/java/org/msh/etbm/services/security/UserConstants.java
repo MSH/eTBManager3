@@ -2,7 +2,7 @@ package org.msh.etbm.services.security;
 
 /**
  * Constants used for user handling
- *
+ * <p>
  * Created by rmemoria on 1/9/15.
  */
 public class UserConstants {

@@ -19,7 +19,7 @@ import java.util.Locale;
 
 /**
  * Interceptor that gets the locale in the request and set it to the locale resolver
- *
+ * <p>
  * Created by rmemoria on 10/11/15.
  */
 @Component
@@ -55,6 +55,7 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * Return the application locale based on the request object.
+     *
      * @param request instance of the request made from the client side
      * @return the app locale, compatible with the locale in the request
      */
@@ -72,6 +73,7 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * Return the closest application locale based on the given locale.
+     *
      * @param locale the selected locale of the user
      * @return the compatible locale of the system
      */
@@ -79,14 +81,14 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
         String locCode = locale.toString();
 
         // search for locales with same language and country
-        for (String lang: languages) {
+        for (String lang : languages) {
             if (locCode.equals(lang)) {
                 return locale;
             }
         }
 
         // search for locales with same language
-        for (String lang: languages) {
+        for (String lang : languages) {
             if (lang.startsWith(locale.getLanguage())) {
                 return new Locale(lang);
             }
@@ -98,6 +100,7 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * Return the locale selected by the user
+     *
      * @param request
      * @return
      */
@@ -107,7 +110,7 @@ public class LocaleRequestInterceptor extends HandlerInterceptorAdapter {
         // search for selected language in cookies
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
-            for (Cookie c: cookies) {
+            for (Cookie c : cookies) {
                 if (c.getName().equals(Constants.LANG_TOKEN_COOKIE)) {
                     newLocale = c.getValue();
                     break;

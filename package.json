@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha --use_strict client/src/test/run.js --timeout 15000",
     "build": "gulp build",
-    "run": "gulp run"
+    "run": "gulp run",
+    "integration-test": "mocha --use_strict client/src/test/run.js -R xunit > target/test/mocha-report.xml"
   },
   "author": "MSH",
   "license": "ISC",
@@ -38,6 +39,7 @@
     "jsx-loader": "^0.13.2",
     "less-loader": "^2.2.3",
     "mocha": "^2.5.3",
+    "mocha-jenkins-reporter": "^0.2.2",
     "node-properties-parser": "0.0.2",
     "react-day-picker": "^2.2.0",
     "react-hot-loader": "^1.3.0",

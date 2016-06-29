@@ -2,12 +2,13 @@ package org.msh.etbm.services.admin.admunits.impl;
 
 /**
  * Simple utility functions to help on management of administrative unit codes
- *
+ * <p>
  * Created by rmemoria on 23/10/15.
  */
 public class CodeUtils {
     /**
      * Generate a new code from a given code incrementing its value
+     *
      * @param code
      * @return
      */
@@ -35,9 +36,9 @@ public class CodeUtils {
             char c = code.charAt(i);
             int val = 0;
             if ((c >= '0') && (c <= '9')) {
-                val = ((int)c) - 48;
+                val = ((int) c) - 48;
             } else {
-                val = ((int)c) - 65 + 10;
+                val = ((int) c) - 65 + 10;
             }
 
             value += val * mult;
@@ -49,6 +50,7 @@ public class CodeUtils {
 
     /**
      * Convert a code to an integer value
+     *
      * @param val
      * @return
      */
@@ -61,7 +63,7 @@ public class CodeUtils {
             if (digit <= 9) {
                 c = Integer.toString(digit).charAt(0);
             } else {
-                c = (char)(digit + 65 - 10);
+                c = (char) (digit + 65 - 10);
             }
             result = c + result;
             if (val == 0) {

@@ -10,12 +10,12 @@ import org.springframework.validation.Errors;
 
 /**
  * Service component to handle CRUD operations in Medicine Sources
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @Service
 public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryParams>
-    implements SourceService {
+        implements SourceService {
 
     @Override
     protected void buildQuery(QueryBuilder<Source> builder, SourceQueryParams queryParams) {

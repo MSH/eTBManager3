@@ -30,6 +30,7 @@ public class CasesTagsReportService {
 
     /**
      * Generate a report of quantity of cases per tag of the whole workspace
+     *
      * @return list of tags and its quantity of cases
      */
     @Transactional
@@ -52,6 +53,7 @@ public class CasesTagsReportService {
 
     /**
      * Generate e report of quantity of cases per tag for a unit
+     *
      * @param unitId the ID of the unit to generate the report from
      * @return list of tags and its quantity of cases
      */
@@ -76,16 +78,16 @@ public class CasesTagsReportService {
 
         List<Object[]> lst = qry.getResultList();
 
-        for (Object[] vals: lst) {
+        for (Object[] vals : lst) {
             Tag.TagType type = null;
-            if ((Integer)vals[2] == 1) {
+            if ((Integer) vals[2] == 1) {
                 type = Tag.TagType.MANUAL;
             } else {
-                type = (Boolean)vals[3] == Boolean.TRUE ? Tag.TagType.AUTODANGER : Tag.TagType.AUTO;
+                type = (Boolean) vals[3] == Boolean.TRUE ? Tag.TagType.AUTODANGER : Tag.TagType.AUTO;
             }
 
-            int count = ((Number)vals[4]).intValue();
-            UUID id = EntityUtils.bytesToUUID((byte[])vals[0]);
+            int count = ((Number) vals[4]).intValue();
+            UUID id = EntityUtils.bytesToUUID((byte[]) vals[0]);
 
             CasesTagsReportItem tag = new CasesTagsReportItem();
             tag.setId(id);

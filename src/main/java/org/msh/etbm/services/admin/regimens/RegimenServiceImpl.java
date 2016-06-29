@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * CRUD services for medicine regimens
- *
+ * <p>
  * Created by rmemoria on 6/1/16.
  */
 @Service
@@ -42,7 +42,7 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
         super.mapRequest(request, regimen);
 
         // manually set the parent regimen, since it cannot be done by dozer
-        for (MedicineRegimen mr: regimen.getMedicines()) {
+        for (MedicineRegimen mr : regimen.getMedicines()) {
             mr.setRegimen(regimen);
         }
     }

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * Service to support user login and logout
- *
+ * <p>
  * Created by rmemoria on 29/9/15.
  */
 @Service
@@ -34,8 +34,9 @@ public class LoginService {
 
     /**
      * Authenticate a user by its user name, password and workspace
-     * @param username the user name
-     * @param password the user password
+     *
+     * @param username    the user name
+     * @param password    the user password
      * @param workspaceId the workspace to log into
      * @return authentication token, to be reused in future requests, if the user was successfully authenticated
      */
@@ -77,11 +78,11 @@ public class LoginService {
     }
 
 
-
     /**
      * Authenticate the user and, in case of success, return the instance of the UserWorkspace related to it
-     * @param username the user login name
-     * @param password the user password
+     *
+     * @param username    the user login name
+     * @param password    the user password
      * @param workspaceId the workspace ID to log in. If not informed, system will automatically select the user workspace
      * @return instance of UserWorkspace
      */
@@ -128,6 +129,7 @@ public class LoginService {
 
     /**
      * Select the user workspace by the given user
+     *
      * @param user the user object to search the workspace from
      * @return instance of UserWorkspace
      */

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * Data to be sent to a client UI in order to initialize a unit field for editing
- *
+ * <p>
  * Created by rmemoria on 18/1/16.
  */
 public class UnitFormResponse {

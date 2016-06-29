@@ -75,6 +75,7 @@ public class TestSetup {
 
     /**
      * Check if user is authenticated, if not, a login will be performed using the standard user name and password
+     *
      * @throws MalformedURLException
      */
     @Transactional

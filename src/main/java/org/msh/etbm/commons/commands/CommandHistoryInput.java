@@ -55,7 +55,7 @@ public class CommandHistoryInput {
 
     /**
      * If true, command log registration is canceled
-      */
+     */
     private boolean canceled;
 
 
@@ -86,6 +86,7 @@ public class CommandHistoryInput {
 
     /**
      * Return the detail writer object in use internally by the system
+     *
      * @return instance of DetailWriter class
      */
     private DetailWriter getDetail() {
@@ -97,6 +98,7 @@ public class CommandHistoryInput {
 
     /**
      * Return the detail data stored in the command
+     *
      * @return
      */
     public CommandLogDetail getDetailData() {

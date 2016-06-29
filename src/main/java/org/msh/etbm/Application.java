@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * eTBM bootstrap and entry point class
- *
+ * <p>
  * Created by rmemoria on 7/5/15.
  */
 @SpringBootApplication
@@ -30,6 +30,7 @@ public class Application {
 
     /**
      * Application entry-point
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -39,6 +40,7 @@ public class Application {
 
     /**
      * Configure Dozer lib to be used in the application
+     *
      * @return instance of DozerBeanMapper
      */
     @Bean

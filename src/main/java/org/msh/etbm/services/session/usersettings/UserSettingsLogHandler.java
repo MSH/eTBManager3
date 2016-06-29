@@ -25,7 +25,7 @@ public class UserSettingsLogHandler implements CommandLogHandler<UserSettingsFor
     @Override
     public void prepareLog(CommandHistoryInput in, UserSettingsFormData request, Diffs response) {
         // mount the list of differences
-        for (Map.Entry<String, DiffValue> entry: response.getValues().entrySet()) {
+        for (Map.Entry<String, DiffValue> entry : response.getValues().entrySet()) {
             in.addDiff(entry.getKey(), entry.getValue().getPrevValue(), entry.getValue().getNewValue());
         }
 

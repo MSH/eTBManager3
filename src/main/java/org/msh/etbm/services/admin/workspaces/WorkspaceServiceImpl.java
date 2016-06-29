@@ -25,12 +25,12 @@ import java.util.UUID;
 
 /**
  * Service to handle CRUD operation in Workspaces
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 @Service
 public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, WorkspaceQueryParams>
-    implements WorkspaceService {
+        implements WorkspaceService {
 
     @Autowired
     WorkspaceCreator workspaceCreator;
@@ -59,7 +59,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
             return super.create(req);
         }
 
-        WorkspaceFormData frmdata = (WorkspaceFormData)req;
+        WorkspaceFormData frmdata = (WorkspaceFormData) req;
 
         // check if name is present in the request
         if (!frmdata.getName().isPresent()) {
@@ -82,7 +82,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
         // create the result of the service
         ServiceResult res = createResult(entity);
-        res.setId( entity.getId() );
+        res.setId(entity.getId());
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
@@ -91,6 +91,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
     /**
      * Add the current user to the new workspace, so he will be able to enter there
+     *
      * @param workspace the new workspace
      */
     private void addCurrentUser(Workspace workspace) {

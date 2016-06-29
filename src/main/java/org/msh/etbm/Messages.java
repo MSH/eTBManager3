@@ -13,7 +13,7 @@ import java.util.Locale;
 
 /**
  * Resolve message keys in the current locale, logging not existing messages
- *
+ * <p>
  * Created by rmemoria on 3/2/16.
  */
 @Component
@@ -34,6 +34,7 @@ public class Messages {
 
     /**
      * Get the message by its key
+     *
      * @param key the message key
      * @return the message to be displayed to the user
      */
@@ -49,6 +50,7 @@ public class Messages {
 
     /**
      * Get the message using a message source resolvable object
+     *
      * @param res instance of the MessageSourceResolvable interface containing the message
      * @return the string message
      */

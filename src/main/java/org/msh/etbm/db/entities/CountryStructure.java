@@ -19,14 +19,14 @@ public class CountryStructure extends WorkspaceEntity {
     @Column(length = 100)
     @PropertyLog(messageKey = "form.name")
     @NotNull
-	private String name;
-	
-	@Column(name = "STRUCTURE_LEVEL")
+    private String name;
+
+    @Column(name = "STRUCTURE_LEVEL")
     @Max(5)
     @Min(1)
     @PropertyLog(messageKey = "form.level", operations = {Operation.ALL})
     @NotNull
-	private Integer level;
+    private Integer level;
 
 
     public String getName() {
@@ -41,12 +41,12 @@ public class CountryStructure extends WorkspaceEntity {
      * @param level the level to set
      */
     public void setLevel(Integer level) {
-		this.level = level;
-	}
+        this.level = level;
+    }
 
-	public Integer getLevel() {
-		return level;
-	}
+    public Integer getLevel() {
+        return level;
+    }
 
     @Override
     public String toString() {

@@ -15,12 +15,11 @@ import javax.validation.constraints.NotNull;
  * Super entity class where all entities that support workspace must inherit from.
  * This class contains the workspace information and the transactions that created
  * the entity and update it for the last time
- * 
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @MappedSuperclass
-public abstract class WorkspaceEntity extends Synchronizable  implements Displayable {
+public abstract class WorkspaceEntity extends Synchronizable implements Displayable {
 
     /**
      * The workspace of this entity
@@ -32,19 +31,21 @@ public abstract class WorkspaceEntity extends Synchronizable  implements Display
     private Workspace workspace;
 
 
-	/**
-	 * Get the workspace that the entity belongs to
-	 * @return
-	 */
-	public Workspace getWorkspace() {
-		return workspace;
-	}
+    /**
+     * Get the workspace that the entity belongs to
+     *
+     * @return
+     */
+    public Workspace getWorkspace() {
+        return workspace;
+    }
 
-	/**
-	 * Set the entity workspace
-	 * @param workspace
-	 */
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
-	}
+    /**
+     * Set the entity workspace
+     *
+     * @param workspace
+     */
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
 }

@@ -10,12 +10,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "examxpert")
-public class ExamXpert extends LaboratoryExam  {
+public class ExamXpert extends LaboratoryExam {
 
     @PropertyLog(operations = {Operation.ALL})
-	private XpertResult result;
-	
-	private XpertRifResult rifResult;
+    private XpertResult result;
+
+    private XpertRifResult rifResult;
 
     @Override
     public ExamResult getExamResult() {
@@ -26,25 +26,25 @@ public class ExamXpert extends LaboratoryExam  {
         return result == XpertResult.TB_DETECTED ? ExamResult.POSITIVE : ExamResult.NEGATIVE;
     }
 
-	public XpertResult getResult() {
-		return result;
-	}
+    public XpertResult getResult() {
+        return result;
+    }
 
-	public void setResult(XpertResult result) {
-		this.result = result;
-	}
+    public void setResult(XpertResult result) {
+        this.result = result;
+    }
 
-	/**
-	 * @return the rifResult
-	 */
-	public XpertRifResult getRifResult() {
-		return rifResult;
-	}
+    /**
+     * @return the rifResult
+     */
+    public XpertRifResult getRifResult() {
+        return rifResult;
+    }
 
-	/**
-	 * @param rifResult the rifResult to set
-	 */
-	public void setRifResult(XpertRifResult rifResult) {
-		this.rifResult = rifResult;
-	}
+    /**
+     * @param rifResult the rifResult to set
+     */
+    public void setRifResult(XpertRifResult rifResult) {
+        this.rifResult = rifResult;
+    }
 }

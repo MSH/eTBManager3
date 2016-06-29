@@ -17,6 +17,7 @@ public abstract class Property {
 
     /**
      * Return the supported type for this property
+     *
      * @return
      */
     public abstract String getType();

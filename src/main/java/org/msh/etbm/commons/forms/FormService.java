@@ -20,6 +20,7 @@ public class FormService {
     /**
      * Register a new form request handler. The request handler will be called to generate response
      * of form requests based on the command issued
+     *
      * @param handler the request handler to be registered
      */
     public void registerRequestHandler(FormRequestHandler handler) {
@@ -33,7 +34,7 @@ public class FormService {
         String[] names = cmdName.split(delimiters);
 
         // register each name
-        for (String name: names) {
+        for (String name : names) {
             handlers.put(name, handler);
         }
     }
@@ -41,6 +42,7 @@ public class FormService {
 
     /**
      * Process form requests, invoking the specific handler for each request
+     *
      * @param reqs list of requests of a form
      * @return form response, in a map format
      */
@@ -51,7 +53,7 @@ public class FormService {
 
         Map<String, Object> resps = new HashMap<>();
 
-        for (FormRequest req: reqs) {
+        for (FormRequest req : reqs) {
             // get the handler for the given command
             FormRequestHandler handler = handlers.get(req.getCmd());
 

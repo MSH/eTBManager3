@@ -2,7 +2,7 @@ package org.msh.etbm.commons.entities;
 
 /**
  * Exception thrown when a problem occurs during entity mapping in the {@link DozerEntityConverter} class
- *
+ * <p>
  * Created by rmemoria on 2/2/16.
  */
 public class EntityConverterException extends RuntimeException {
@@ -17,6 +17,7 @@ public class EntityConverterException extends RuntimeException {
 
     /**
      * Get the source object used in the mapping
+     *
      * @return Object instance
      */
     public Object getSource() {
@@ -25,6 +26,7 @@ public class EntityConverterException extends RuntimeException {
 
     /**
      * Get the destination object used in the mapping
+     *
      * @return Object instance
      */
     public Object getDest() {

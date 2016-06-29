@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * Type handler for unit fields. Return the data necessary to initialize a unit field in the client side
- *
+ * <p>
  * Created by rmemoria on 18/1/16.
  */
 @Component
@@ -44,6 +44,7 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
 
     /**
      * Called when field needs to update the list of units
+     *
      * @param req the request data
      * @return instance of {@link UnitFormResponse} containing the list of units
      */
@@ -71,6 +72,7 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
 
     /**
      * Basic response, called when field control is being initialized
+     *
      * @return instance of {@link UnitFormResponse} containing the data to initialize the field
      */
     protected UnitFormResponse initResponse(FormRequest req) {
@@ -90,7 +92,7 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         }
         qry.setRootUnits(true);
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
-        AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
+        AdminUnitQueryResult qr = (AdminUnitQueryResult) adminUnitService.findMany(qry);
 
         res.setAdminUnits(qr.getList());
 
@@ -105,19 +107,20 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         UnitData unit = unitService.findOne(unitId, UnitData.class);
 
         // get selected administrative unit
-        res.setAdminUnitId( unit.getAdminUnit().getSelected().getId() );
+        res.setAdminUnitId(unit.getAdminUnit().getSelected().getId());
 
         // get the selected type of unit
         String unitType = req.getStringParam("type");
 
         // get the list of units to be displayed
-        res.setUnits( getUnits(unit.getAdminUnit().getSelected().getId(), wsId, unitType) );
+        res.setUnits(getUnits(unit.getAdminUnit().getSelected().getId(), wsId, unitType));
 
         return res;
     }
 
     /**
      * Return the list of units for the give admin unit and workspace
+     *
      * @param adminUnitId the administrative unit to get units from
      * @param workspaceId the workspace ID that admin unit belongs to (not required if it is the same of the
      *                    user session)

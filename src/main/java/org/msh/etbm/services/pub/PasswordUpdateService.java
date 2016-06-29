@@ -21,6 +21,7 @@ public class PasswordUpdateService {
 
     /**
      * Change the user password using the password request token sent by e-mail to him
+     *
      * @param req The client request containing password and the request token
      */
     @Transactional
@@ -52,6 +53,7 @@ public class PasswordUpdateService {
     /**
      * Return information about the user from the password request token provided when user
      * requested a password reset. This method is just to check if token is valid
+     *
      * @param token the password reset token
      * @return instance of {@link PwdResetTokenResponse} or null if token is not valid
      */

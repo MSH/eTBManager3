@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * REST API controller to expose CRUD operations in a medicine regimen
- *
+ * <p>
  * Created by rmemoria on Jan 6th, 2015.
  */
 @RestController

@@ -31,6 +31,7 @@ public class QueryBuilderFactory {
 
     /**
      * Create a query builder
+     *
      * @param entityClass the entity class to be queried
      * @return instance of the {@link QueryBuilder}
      */
@@ -41,8 +42,9 @@ public class QueryBuilderFactory {
 
     /**
      * Create a query builder
+     *
      * @param entityClass the entity class to be queried
-     * @param path the alias used as the table path in the query
+     * @param path        the alias used as the table path in the query
      * @return instance of the {@link QueryBuilder}
      */
     public <E> QueryBuilder<E> createQueryBuilder(Class<E> entityClass, String path) {

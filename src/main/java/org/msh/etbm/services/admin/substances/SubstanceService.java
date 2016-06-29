@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * CRUD service to handle substance operations
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public interface SubstanceService extends EntityService<SubstanceQueryParams>, FormRequestHandler<List<Item>> {

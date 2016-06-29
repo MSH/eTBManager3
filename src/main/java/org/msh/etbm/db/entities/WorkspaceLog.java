@@ -15,12 +15,12 @@ import java.util.UUID;
 @Table(name = "workspacelog")
 public class WorkspaceLog {
 
-	@Id
-	private UUID id;
+    @Id
+    private UUID id;
 
     @Column(length = 100)
     @NotNull
-	private String name;
+    private String name;
 
     @Override
     public String toString() {
@@ -37,24 +37,24 @@ public class WorkspaceLog {
         return id;
     }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

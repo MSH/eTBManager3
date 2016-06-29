@@ -82,8 +82,7 @@ public class CountryStructureTest extends CommonEntityServiceTests {
         try {
             service.create(req);
             fail("Should raise EntityValidationException");
-        }
-        catch (EntityValidationException e) {
+        } catch (EntityValidationException e) {
             assertEquals(e.getClass(), EntityValidationException.class);
 
             // get errors

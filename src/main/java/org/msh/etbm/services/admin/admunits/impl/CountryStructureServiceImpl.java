@@ -17,7 +17,7 @@ import org.springframework.validation.Errors;
  */
 @Service
 public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStructure, CountryStructureQueryParams>
-    implements CountryStructureService {
+        implements CountryStructureService {
 
     @Override
     protected void buildQuery(QueryBuilder<CountryStructure> builder, CountryStructureQueryParams queryParams) {

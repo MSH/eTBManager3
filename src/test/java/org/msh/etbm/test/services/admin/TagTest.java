@@ -60,7 +60,7 @@ public class TagTest extends CommonEntityServiceTests {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void testInvalidSqlCondition(){
+    public void testInvalidSqlCondition() {
         setEntityService(tagService);
 
         // test create and find one

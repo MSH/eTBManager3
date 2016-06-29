@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * Information about a substance returned by the SubstanceService component
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class SubstanceData extends Item<UUID> {

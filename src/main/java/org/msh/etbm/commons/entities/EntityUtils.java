@@ -14,6 +14,7 @@ public class EntityUtils {
 
     /**
      * Convert an array of bytes to an UUID object
+     *
      * @param val an array of bytes
      * @return instance of UUID
      */

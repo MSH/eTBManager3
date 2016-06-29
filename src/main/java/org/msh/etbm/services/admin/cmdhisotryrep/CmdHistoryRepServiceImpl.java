@@ -53,7 +53,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         AdministrativeUnit adminUnit = null;
 
-        if (query.getAdminUnitId() != null ) {
+        if (query.getAdminUnitId() != null) {
             adminUnit = entityManager.find(AdministrativeUnit.class, query.getAdminUnitId());
         }
 
@@ -83,13 +83,13 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
             ret.getList().add(new CmdHistoryRepData(c.getType(),
-                                                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
-                                                    c.getExecDate(),
-                                                    c.getEntityName(),
-                                                    userName,
-                                                    unitName,
-                                                    adminUnitName,
-                                                    processJsonData(c.getData())));
+                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
+                    c.getExecDate(),
+                    c.getEntityName(),
+                    userName,
+                    unitName,
+                    adminUnitName,
+                    processJsonData(c.getData())));
         }
 
         return ret;
@@ -144,18 +144,23 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return null;
         }
 
-        String type = s.substring(0,1);
+        String type = s.substring(0, 1);
 
         switch (type) {
-            case CommandLogDetail.TYPE_STRING :  s = s.substring(1, s.length());
+            case CommandLogDetail.TYPE_STRING:
+                s = s.substring(1, s.length());
                 break;
-            case CommandLogDetail.TYPE_BOOLEAN :  s = processBooleanValue(s);
+            case CommandLogDetail.TYPE_BOOLEAN:
+                s = processBooleanValue(s);
                 break;
-            case CommandLogDetail.TYPE_DATETIME :  s = processDateValue(s);
+            case CommandLogDetail.TYPE_DATETIME:
+                s = processDateValue(s);
                 break;
-            case CommandLogDetail.TYPE_NUMBER :  s = processNumberValue(s);
+            case CommandLogDetail.TYPE_NUMBER:
+                s = processNumberValue(s);
                 break;
-            case CommandLogDetail.TYPE_TEMPLATE :  s = messages.get(s.substring(2, s.length()));
+            case CommandLogDetail.TYPE_TEMPLATE:
+                s = messages.get(s.substring(2, s.length()));
                 break;
         }
 

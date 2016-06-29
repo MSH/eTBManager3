@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- *
  * Created by rmemoria on 15/5/16.
  */
 @Component
@@ -29,7 +28,7 @@ public class TimeZoneRequestHandler implements FormRequestHandler<List<Item>> {
         String[] timeZones = TimeZone.getAvailableIDs();
         List<Item> lst = new ArrayList<>();
 
-        for (String tzId: timeZones) {
+        for (String tzId : timeZones) {
             TimeZone tz = TimeZone.getTimeZone(tzId);
             String name = getGMTDisplay(tz);
 
@@ -44,6 +43,7 @@ public class TimeZoneRequestHandler implements FormRequestHandler<List<Item>> {
 
     /**
      * Return the display name of the time zone
+     *
      * @param tm instance of {@link TimeZone} object
      * @return the display name of the time zone
      */

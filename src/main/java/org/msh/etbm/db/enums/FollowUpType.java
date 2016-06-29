@@ -1,15 +1,15 @@
 package org.msh.etbm.db.enums;
 
 public enum FollowUpType {
-	MEDEXAM,
-	MICROSCOPY,
-	CULTURE,
-	XPERT,
-	DST,
-	XRAY,
-	HIV;
+    MEDEXAM,
+    MICROSCOPY,
+    CULTURE,
+    XPERT,
+    DST,
+    XRAY,
+    HIV;
 
-	public String getKey() {
-		return getClass().getSimpleName().concat("." + name());
-	}
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 }

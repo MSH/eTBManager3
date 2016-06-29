@@ -52,13 +52,13 @@ public class CountryStructureREST {
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException  {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.DELETE)
-    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException  {
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }

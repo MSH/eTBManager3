@@ -2,10 +2,10 @@ package org.msh.etbm.db.enums;
 
 public enum MedAppointmentType {
 
-	SCHEDULLED,
-	EXTRA;
+    SCHEDULLED,
+    EXTRA;
 
-	public String getKey() {
-		return getClass().getSimpleName().concat("." + name());
-	}
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 }

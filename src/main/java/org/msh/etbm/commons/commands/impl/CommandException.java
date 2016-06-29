@@ -15,6 +15,7 @@ public class CommandException extends RuntimeException {
 
     /**
      * Constructor passing a message to be displayed to the user
+     *
      * @param message
      */
     public CommandException(String message) {
@@ -23,8 +24,9 @@ public class CommandException extends RuntimeException {
 
     /**
      * Command exception created from another exception
+     *
      * @param message the message
-     * @param cause the cause
+     * @param cause   the cause
      */
     public CommandException(String message, Throwable cause) {
         super(message, cause);

@@ -50,6 +50,7 @@ public class SystemInfoService {
 
     /**
      * Return information about the system
+     *
      * @return
      */
     public SystemInformation getInformation(boolean includeLists) {
@@ -75,10 +76,11 @@ public class SystemInfoService {
 
     /**
      * Return the state of the system
+     *
      * @return SystemState instance
      */
     protected SystemState getState() {
-        Number num = (Number)entityManager.createQuery("select count(*) from Workspace").getSingleResult();
+        Number num = (Number) entityManager.createQuery("select count(*) from Workspace").getSingleResult();
         if (num.intValue() == 0) {
             return SystemState.NEW;
         }
@@ -89,20 +91,24 @@ public class SystemInfoService {
 
     /**
      * Return the list of available languages, with its display name
+     *
      * @return list of Item objects
      */
     protected List<Item<String>> getLanguages() {
         // create the list of languages
         List<Item<String>> lst = new ArrayList<>();
-        for (String lang: languages) {
+        for (String lang : languages) {
             Locale loc;
             String[] opts = lang.split("_");
             switch (opts.length) {
-                case 2: loc = new Locale(opts[0], opts[1]);
+                case 2:
+                    loc = new Locale(opts[0], opts[1]);
                     break;
-                case 3: loc = new Locale(opts[0], opts[1], opts[2]);
+                case 3:
+                    loc = new Locale(opts[0], opts[1], opts[2]);
                     break;
-                default: loc = new Locale(opts[0]);
+                default:
+                    loc = new Locale(opts[0]);
             }
             lst.add(new Item<String>(lang, loc.getDisplayName(loc)));
         }
@@ -138,6 +144,7 @@ public class SystemInfoService {
 
     /**
      * Get the manifest file declared in the application
+     *
      * @return instance of Manifest class
      */
     private Manifest getManifest() {
@@ -149,7 +156,7 @@ public class SystemInfoService {
             // get a list of all manifest files found in the jars loaded by the app
             resEnum = Thread.currentThread().getContextClassLoader().getResources(JarFile.MANIFEST_NAME);
             while (resEnum.hasMoreElements()) {
-                URL url = (URL)resEnum.nextElement();
+                URL url = (URL) resEnum.nextElement();
                 Manifest man = checkAppManifest(url, appManifestFileName);
                 if (man != null) {
                     return man;
@@ -163,6 +170,7 @@ public class SystemInfoService {
 
     /**
      * Check if the URL points to the application manifest file
+     *
      * @param url
      * @param appManifestFileName
      * @return

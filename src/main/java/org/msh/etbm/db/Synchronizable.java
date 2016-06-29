@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * Indicates that an entity can be synchronized with another database
- *
+ * <p>
  * Created by rmemoria on 11/10/15.
  */
 @MappedSuperclass
@@ -22,7 +22,7 @@ public class Synchronizable {
      */
     @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
     @PropertyLog(ignore = true)
     private UUID id;
 
@@ -50,7 +50,7 @@ public class Synchronizable {
             return false;
         }
 
-        UUID objId = ((Synchronizable)obj).getId();
+        UUID objId = ((Synchronizable) obj).getId();
 
         if (objId == null) {
             return false;

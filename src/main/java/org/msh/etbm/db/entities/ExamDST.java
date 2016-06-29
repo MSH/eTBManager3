@@ -14,17 +14,17 @@ import java.util.List;
 @Table(name = "examdst")
 public class ExamDST extends LaboratoryExam {
 
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "exam")
-	private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "exam")
+    private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();
 
-	@PropertyLog(ignore = true)
-	private int numResistant;
+    @PropertyLog(ignore = true)
+    private int numResistant;
 
-	@PropertyLog(ignore = true)
-	private int numSusceptible;
+    @PropertyLog(ignore = true)
+    private int numSusceptible;
 
-	@PropertyLog(ignore = true)
-	private int numContaminated;
+    @PropertyLog(ignore = true)
+    private int numContaminated;
 
     @Override
     public ExamResult getExamResult() {
@@ -32,7 +32,7 @@ public class ExamDST extends LaboratoryExam {
             return ExamResult.UNDEFINED;
         }
 
-        for (ExamDSTResult res: results) {
+        for (ExamDSTResult res : results) {
             if (res.getResult() == DstResult.RESISTANT) {
                 return ExamResult.POSITIVE;
             }
@@ -43,11 +43,12 @@ public class ExamDST extends LaboratoryExam {
 
     /**
      * Search for a result by the substance
+     *
      * @param sub - Substance to be used to search result
      * @return - Susceptibility result
      */
     public ExamDSTResult findResultBySubstance(Substance sub) {
-        for (ExamDSTResult res: results) {
+        for (ExamDSTResult res : results) {
             if (res.getSubstance().equals(sub)) {
                 return res;
             }
@@ -55,53 +56,53 @@ public class ExamDST extends LaboratoryExam {
         return null;
     }
 
-	public List<ExamDSTResult> getResults() {
-		return results;
-	}
+    public List<ExamDSTResult> getResults() {
+        return results;
+    }
 
-	public void setResults(List<ExamDSTResult> results) {
-		this.results = results;
-	}
+    public void setResults(List<ExamDSTResult> results) {
+        this.results = results;
+    }
 
-	/**
-	 * @param numResistant the numResistant to set
-	 */
-	public void setNumResistant(int numResistant) {
-		this.numResistant = numResistant;
-	}
+    /**
+     * @param numResistant the numResistant to set
+     */
+    public void setNumResistant(int numResistant) {
+        this.numResistant = numResistant;
+    }
 
-	/**
-	 * @return the numResistant
-	 */
-	public int getNumResistant() {
-		return numResistant;
-	}
+    /**
+     * @return the numResistant
+     */
+    public int getNumResistant() {
+        return numResistant;
+    }
 
-	/**
-	 * @return the numSusceptible
-	 */
-	public int getNumSusceptible() {
-		return numSusceptible;
-	}
+    /**
+     * @return the numSusceptible
+     */
+    public int getNumSusceptible() {
+        return numSusceptible;
+    }
 
-	/**
-	 * @param numSusceptible the numSusceptible to set
-	 */
-	public void setNumSusceptible(int numSusceptible) {
-		this.numSusceptible = numSusceptible;
-	}
+    /**
+     * @param numSusceptible the numSusceptible to set
+     */
+    public void setNumSusceptible(int numSusceptible) {
+        this.numSusceptible = numSusceptible;
+    }
 
-	/**
-	 * @return the numContaminated
-	 */
-	public int getNumContaminated() {
-		return numContaminated;
-	}
+    /**
+     * @return the numContaminated
+     */
+    public int getNumContaminated() {
+        return numContaminated;
+    }
 
-	/**
-	 * @param numContaminated the numContaminated to set
-	 */
-	public void setNumContaminated(int numContaminated) {
-		this.numContaminated = numContaminated;
-	}
+    /**
+     * @param numContaminated the numContaminated to set
+     */
+    public void setNumContaminated(int numContaminated) {
+        this.numContaminated = numContaminated;
+    }
 }

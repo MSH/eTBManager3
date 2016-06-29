@@ -62,7 +62,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
     private QueryResult createQueryResult(List<UserLogin> result) {
         QueryResult ret = new QueryResult<OnlineUsersRepData>();
         ret.setList(new ArrayList<UserSessionRepData>());
-        ret.setCount( (result == null ? 0 : result.size()) );
+        ret.setCount((result == null ? 0 : result.size()));
 
         for (UserLogin u : result) {
             ret.getList().add(new UserSessionRepData(u.getUser().getLogin(), u.getUser().getName(), u.getLoginDate(), u.getLogoutDate(), u.getIpAddress(), u.getApplication()));

@@ -12,82 +12,84 @@ import java.util.Date;
 
 
 /**
- * Base class to all laboratory exam results stored 
- * @author Ricardo Memoria
+ * Base class to all laboratory exam results stored
  *
+ * @author Ricardo Memoria
  */
 @MappedSuperclass
 public abstract class LaboratoryExam extends CaseEntity {
 
     public enum ExamResult { UNDEFINED, POSITIVE, NEGATIVE }
 
-	@Temporal(TemporalType.DATE)
-	@NotNull
-	@Past
-	@PropertyLog(messageKey = "PatientSample.dateCollected", operations = {Operation.NEW, Operation.DELETE})
-	private Date dateCollected;
-	
-	@Column(length = 50)
-	@PropertyLog(messageKey = "PatientSample.sampleNumber", operations = {Operation.NEW, Operation.DELETE})
-	private String sampleNumber;
+    @Temporal(TemporalType.DATE)
+    @NotNull
+    @Past
+    @PropertyLog(messageKey = "PatientSample.dateCollected", operations = {Operation.NEW, Operation.DELETE})
+    private Date dateCollected;
+
+    @Column(length = 50)
+    @PropertyLog(messageKey = "PatientSample.sampleNumber", operations = {Operation.NEW, Operation.DELETE})
+    private String sampleNumber;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "request_id")
     private ExamRequest request;
 
-	@Lob
-	@PropertyLog(messageKey = "global.comments")
-	private String comments;
+    @Lob
+    @PropertyLog(messageKey = "global.comments")
+    private String comments;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "LABORATORY_ID")
-	@PropertyLog(messageKey = "Laboratory", operations = {Operation.NEW, Operation.DELETE})
-	private Laboratory laboratory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LABORATORY_ID")
+    @PropertyLog(messageKey = "Laboratory", operations = {Operation.NEW, Operation.DELETE})
+    private Laboratory laboratory;
 
-	@Temporal(TemporalType.DATE)
-	@PropertyLog(messageKey = "cases.exams.dateRelease", operations = {Operation.NEW})
-	@Past
-	private Date dateRelease;
+    @Temporal(TemporalType.DATE)
+    @PropertyLog(messageKey = "cases.exams.dateRelease", operations = {Operation.NEW})
+    @Past
+    private Date dateRelease;
 
-	@Column(length = 50)
-	private String method;
-	
+    @Column(length = 50)
+    private String method;
 
-	@Transient
-	// Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-	// map an XML node to a property in the model
-	private Integer clientId;
+
+    @Transient
+    // Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
+    // map an XML node to a property in the model
+    private Integer clientId;
 
     private ExamStatus status;
 
 
     /**
      * Return a common way if the result is positive, negative or not informed
+     *
      * @return
      */
     public abstract ExamResult getExamResult();
 
-	/**
-	 * @return
-	 */
-	public Integer getClientId() {
-		return clientId;
-	}
-	
-	/**
-	 * @param clientId
-	 */
-	public void setClientId(Integer clientId) {
-		this.clientId = clientId;
-	}
+    /**
+     * @return
+     */
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    /**
+     * @param clientId
+     */
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
 
 
     /**
      * Check if the given date collected and sample number are the same as in the
      * exam data
+     *
      * @param dateCollected the date sample was collected
-     * @param sampleNumber the given number of the sample collected
+     * @param sampleNumber  the given number of the sample collected
      * @return true if its the same as in the exam
      */
     public boolean isSameSample(Date dateCollected, String sampleNumber) {
@@ -113,32 +115,35 @@ public abstract class LaboratoryExam extends CaseEntity {
     }
 
 
-	/**
-	 * Return month of treatment based on the start treatment date and the collected date
-	 * @return
-	 */
-	public Integer getMonthTreatment() {
-		Date dt = getDateCollected();
-		
-		if (getTbcase() == null) {
+    /**
+     * Return month of treatment based on the start treatment date and the collected date
+     *
+     * @return
+     */
+    public Integer getMonthTreatment() {
+        Date dt = getDateCollected();
+
+        if (getTbcase() == null) {
             return null;
         }
 
-		return getTbcase().getMonthTreatment(dt);
-	}
-	
-	/**
-	 * Returns a key related to the system messages to display the month
-	 * @return
-	 */
-	public String getMonthDisplay() {
-		throw new RuntimeException("Not implemented");
+        return getTbcase().getMonthTreatment(dt);
+    }
+
+    /**
+     * Returns a key related to the system messages to display the month
+     *
+     * @return
+     */
+    public String getMonthDisplay() {
+        throw new RuntimeException("Not implemented");
         //		WorkspaceCustomizationService wsservice = WorkspaceCustomizationService.instance();
         //		return wsservice.getExamControl().getMonthDisplay(tbcase, getDateCollected());
-	}
+    }
 
     /**
      * Return the date of sample collection
+     *
      * @return date value
      */
     public Date getDateCollected() {
@@ -148,6 +153,7 @@ public abstract class LaboratoryExam extends CaseEntity {
 
     /**
      * Set date collected
+     *
      * @param dt
      */
     public void setDateCollected(Date dt) {
@@ -156,6 +162,7 @@ public abstract class LaboratoryExam extends CaseEntity {
 
     /**
      * Return the patient sample number
+     *
      * @return
      */
     public String getSampleNumber() {
@@ -164,6 +171,7 @@ public abstract class LaboratoryExam extends CaseEntity {
 
     /**
      * Change the patient sample number
+     *
      * @param spnumber the sample number
      */
     public void setSampleNumber(String spnumber) {
@@ -171,62 +179,61 @@ public abstract class LaboratoryExam extends CaseEntity {
     }
 
 
-	/**
-	 * @return the comments
-	 */
-	public String getComments() {
-		return comments;
-	}
+    /**
+     * @return the comments
+     */
+    public String getComments() {
+        return comments;
+    }
 
-	/**
-	 * @param comments the comments to set
-	 */
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    /**
+     * @param comments the comments to set
+     */
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
-	/**
-	 * @return the laboratory
-	 */
-	public Laboratory getLaboratory() {
-		return laboratory;
-	}
+    /**
+     * @return the laboratory
+     */
+    public Laboratory getLaboratory() {
+        return laboratory;
+    }
 
-	/**
-	 * @param laboratory the laboratory to set
-	 */
-	public void setLaboratory(Laboratory laboratory) {
-		this.laboratory = laboratory;
-	}
+    /**
+     * @param laboratory the laboratory to set
+     */
+    public void setLaboratory(Laboratory laboratory) {
+        this.laboratory = laboratory;
+    }
 
-	/**
-	 * @return the dateRelease
-	 */
-	public Date getDateRelease() {
-		return dateRelease;
-	}
+    /**
+     * @return the dateRelease
+     */
+    public Date getDateRelease() {
+        return dateRelease;
+    }
 
-	/**
-	 * @param dateRelease the dateRelease to set
-	 */
-	public void setDateRelease(Date dateRelease) {
-		this.dateRelease = dateRelease;
-	}
+    /**
+     * @param dateRelease the dateRelease to set
+     */
+    public void setDateRelease(Date dateRelease) {
+        this.dateRelease = dateRelease;
+    }
 
-	/**
-	 * @return the method
-	 */
-	public String getMethod() {
-		return method;
-	}
+    /**
+     * @return the method
+     */
+    public String getMethod() {
+        return method;
+    }
 
-	/**
-	 * @param method the method to set
-	 */
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
+    /**
+     * @param method the method to set
+     */
+    public void setMethod(String method) {
+        this.method = method;
+    }
 
 
     public ExamStatus getStatus() {

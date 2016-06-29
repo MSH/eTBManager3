@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
  * Test of CRUD operations in {@link SourceService}
- *
+ * <p>
  * Created by rmemoria on 8/2/16.
  */
 public class SourceTest extends CommonEntityServiceTests {

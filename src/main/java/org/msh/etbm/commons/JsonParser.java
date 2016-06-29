@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 /**
  * Class with utilities to help working with JSON files, data and serialization
- *
+ * <p>
  * Created by rmemoria on 2/9/15.
  */
 public class JsonParser {
@@ -26,8 +26,9 @@ public class JsonParser {
 
     /**
      * Read a json file from the application resources and convert it to a given Java type
+     *
      * @param resource the full json file name of the resource in the system
-     * @param type the type to parse the file into
+     * @param type     the type to parse the file into
      * @param <T>
      * @return instance of the type T
      */
@@ -46,8 +47,9 @@ public class JsonParser {
 
     /**
      * Convert a json String to a given Java type
+     *
      * @param jsonString the json string
-     * @param type the type to parse the file into
+     * @param type       the type to parse the file into
      * @param <T>
      * @return instance of the type T
      */
@@ -64,6 +66,7 @@ public class JsonParser {
 
     /**
      * Convert an object to JSON string representation
+     *
      * @param obj object to serialize
      * @return JSON in string format
      */

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 /**
  * Substance request data used in CRUD operations to create a new one or update the data of an existing one
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class SubstanceFormData {

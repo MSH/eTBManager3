@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * Store information about the system, like status, build version and number and available languages
- *
+ * <p>
  * Created by rmemoria on 16/8/15.
  */
 public class SystemInformation {

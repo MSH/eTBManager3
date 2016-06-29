@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  * Test of CRUD operations in {@link org.msh.etbm.services.admin.products.ProductService}
- *
+ * <p>
  * Created by rmemoria on 9/3/16.
  */
 public class MedicineTest extends CommonEntityServiceTests {
@@ -34,7 +34,6 @@ public class MedicineTest extends CommonEntityServiceTests {
 
     /**
      * Single constructor passing the classes to be used during tests
-     *
      */
     public MedicineTest() {
         super(Medicine.class, ProductFormData.class, ProductDetailedData.class);

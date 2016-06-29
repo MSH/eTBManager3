@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * Service to generate a view of the workspace about the case management
- *
+ * <p>
  * Created by rmemoria on 17/6/16.
  */
 @Service
@@ -38,6 +38,7 @@ public class WorkspaceViewService {
     /**
      * Generate a report of the workspace about the consolidated cases by administrative units
      * and the quantity of tags by case
+     *
      * @return instance of {@link WorkspaceViewResponse} containing the report view
      */
     @Transactional
@@ -59,6 +60,7 @@ public class WorkspaceViewService {
     /**
      * Generate a report of the quantity of cases by administrative unit and units, using
      * as reference a given administrative unit
+     *
      * @param adminUnitId the ID of the administrative unit to generate the report from
      * @return
      */
@@ -105,7 +107,7 @@ public class WorkspaceViewService {
 
         Query qry = entityManager
                 .createNativeQuery(sql)
-                .setParameter("wsid",  userRequestService.getUserSession().getWorkspaceId());
+                .setParameter("wsid", userRequestService.getUserSession().getWorkspaceId());
 
         if (admunitId != null) {
             qry.setParameter("id", admunitId);
@@ -119,7 +121,8 @@ public class WorkspaceViewService {
 
     /**
      * Load case information about the units
-     * @param data the data to include information into
+     *
+     * @param data      the data to include information into
      * @param admunitId the administrative unit to get information from
      */
     private void loadUnits(List<PlaceData> data, UUID admunitId) {
@@ -144,20 +147,21 @@ public class WorkspaceViewService {
 
     /**
      * Mount the list of items from information retrieved from the database
-     * @param lst list of values (source of data)
+     *
+     * @param lst  list of values (source of data)
      * @param dest destination list to include information of place report
      * @param type the type of list (admin unit or TB unit)
      */
     protected void mountList(List<Object[]> lst, List<PlaceData> dest, PlaceData.PlaceType type) {
-        for (Object[] vals: lst) {
+        for (Object[] vals : lst) {
             // check if there is any value
-            long count = vals[5] != null ? ((Number)vals[5]).longValue() : 0;
+            long count = vals[5] != null ? ((Number) vals[5]).longValue() : 0;
             if (count == 0) {
                 continue;
             }
 
             UUID id = EntityUtils.bytesToUUID((byte[]) vals[0]);
-            String name = (String)vals[1];
+            String name = (String) vals[1];
 
             PlaceData item = findPlaceById(dest, id, type);
 
@@ -167,15 +171,15 @@ public class WorkspaceViewService {
                 item.setName(name);
                 item.setType(type);
 
-                int children = ((Number)vals[2]).intValue();
+                int children = ((Number) vals[2]).intValue();
                 item.setHasChildren(children > 0);
 
                 dest.add(item);
             }
 
             if (vals[3] != null && count > 0) {
-                DiagnosisType dtype = DiagnosisType.values()[(Integer)vals[3]];
-                CaseClassification cla = CaseClassification.values()[(Integer)vals[4]];
+                DiagnosisType dtype = DiagnosisType.values()[(Integer) vals[3]];
+                CaseClassification cla = CaseClassification.values()[(Integer) vals[4]];
 
                 // force item as a node if there are cases in an admin unit node
                 if (count > 0 && type == PlaceData.PlaceType.ADMINUNIT) {
@@ -186,11 +190,14 @@ public class WorkspaceViewService {
                     item.setSuspectCount(item.getSuspectCount() + count);
                 } else {
                     switch (cla) {
-                        case TB: item.setTbCount(count);
+                        case TB:
+                            item.setTbCount(count);
                             break;
-                        case DRTB: item.setDrtbCount(count);
+                        case DRTB:
+                            item.setDrtbCount(count);
                             break;
-                        case NTM: item.setNtmCount(count);
+                        case NTM:
+                            item.setNtmCount(count);
                             break;
                         default:
                             throw new RuntimeException("Value not supported");
@@ -202,7 +209,7 @@ public class WorkspaceViewService {
 
 
     private PlaceData findPlaceById(List<PlaceData> items, UUID id, PlaceData.PlaceType type) {
-        for (PlaceData it: items) {
+        for (PlaceData it : items) {
             if ((it.getId().equals(id)) && (it.getType() == type)) {
                 return it;
             }

@@ -61,6 +61,7 @@ public class CommandStoreImpl implements CommandStoreService {
 
     /**
      * Return the workspace to be used in log operations
+     *
      * @param in
      * @return
      */
@@ -89,6 +90,7 @@ public class CommandStoreImpl implements CommandStoreService {
 
     /**
      * Return the user to be used in log operation
+     *
      * @return
      */
     protected UserLog getUserLog(CommandHistoryInput in) {

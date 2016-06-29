@@ -18,7 +18,8 @@ public class DiffValue {
 
     /**
      * Constructor for collections
-     * @param addedItems the added items
+     *
+     * @param addedItems   the added items
      * @param removedItems the removed items
      * @param changedItems the changed items
      */
@@ -46,6 +47,7 @@ public class DiffValue {
 
     /**
      * Return true if the difference values are from a collection
+     *
      * @return
      */
     public boolean isCollection() {

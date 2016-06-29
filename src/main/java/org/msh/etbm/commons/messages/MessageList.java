@@ -29,6 +29,7 @@ public class MessageList {
 
     /**
      * Default constructor. Protected because it needs a message resolver
+     *
      * @param resolver
      */
     protected MessageList(MessageKeyResolver resolver) {
@@ -38,6 +39,7 @@ public class MessageList {
 
     /**
      * Add an error to an specific field
+     *
      * @param field
      * @param message
      */
@@ -47,9 +49,10 @@ public class MessageList {
 
     /**
      * Add a message
-     * @param field the name of the field
+     *
+     * @param field   the name of the field
      * @param message the message to be sent
-     * @param group the message group
+     * @param group   the message group
      */
     public void add(String field, String message, String group) {
         String msg = resolver.evaluateExpression(message);
@@ -58,6 +61,7 @@ public class MessageList {
 
     /**
      * Add a required message
+     *
      * @param field
      */
     public void addRequired(String field) {
@@ -66,6 +70,7 @@ public class MessageList {
 
     /**
      * Add a not unique message
+     *
      * @param field
      */
     public void addNotUnique(String field) {
@@ -74,6 +79,7 @@ public class MessageList {
 
     /**
      * Add a global error
+     *
      * @param message
      */
     public void addGlobalError(String message) {
@@ -81,6 +87,7 @@ public class MessageList {
 
     /**
      * Return the number of error messages
+     *
      * @return
      */
     public int size() {
@@ -96,10 +103,11 @@ public class MessageList {
 
     /**
      * Return the list of messages. The list cannot be modified
+     *
      * @return
      */
     public List<Message> getMessages() {
-        return Collections.unmodifiableList( messages );
+        return Collections.unmodifiableList(messages);
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Simple DTO object to return from the service information about an unit
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class UnitItemData {

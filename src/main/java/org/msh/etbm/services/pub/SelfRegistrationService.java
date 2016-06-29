@@ -42,6 +42,7 @@ public class SelfRegistrationService {
 
     /**
      * Register a new user and send an e-mail with instructions to enter a password
+     *
      * @param req the request with information about the user
      */
     @Transactional
@@ -68,6 +69,7 @@ public class SelfRegistrationService {
 
     /**
      * Register the user and include him/her in a workspace
+     *
      * @param req client request
      * @param cfg system configuration
      * @return object with information about the new user registered
@@ -143,6 +145,7 @@ public class SelfRegistrationService {
 
     /**
      * Check if there is any user already registered with the e-mail or login informed
+     *
      * @param req The request to register a new user
      */
     protected void checkUnique(SelfRegistrationRequest req) {

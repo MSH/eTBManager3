@@ -20,11 +20,11 @@ import java.util.UUID;
 
 /**
  * Authenticator interceptor, called when a call is made to check if the request requires authentication
- *
+ * <p>
  * Created by ricardo on 03/12/14.
  */
 @Component
-public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
+public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AuthenticatorInterceptor.class);
 
@@ -41,7 +41,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return true;
         }
 
-        HandlerMethod handlerMethod = (HandlerMethod)handler;
+        HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
 
         Authenticated auth = method.getAnnotation(Authenticated.class);
@@ -78,6 +78,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
 
     /**
      * Get the authentication token from the request sent from the client
+     *
      * @param request the object representing the request from the client
      * @return the authentication token in UUID format
      */
@@ -110,6 +111,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
 
     /**
      * Check if the user is authenticated to the system
+     *
      * @param authToken the authentication token sent from the client
      * @return information about the user session, or null if authentication is not valid
      */
@@ -126,7 +128,8 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
 
     /**
      * Check if user has permissions to go on with the request
-     * @param perms list of roles allowed for the request
+     *
+     * @param perms       list of roles allowed for the request
      * @param userSession information about the user session
      * @return true if user has the permissions necessary to continue
      */
@@ -135,7 +138,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter  {
             return true;
         }
 
-        for (String p: perms) {
+        for (String p : perms) {
             if (!userSession.isPermissionGranted(p)) {
                 return false;
             }

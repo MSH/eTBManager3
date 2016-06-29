@@ -58,10 +58,11 @@ public class MailServiceImpl implements MailService {
 
     /**
      * Send an e-mail message based on a template, to a given e-mail address
-     * @param to the destination e-mail address
-     * @param subject the subject of the e-mail
+     *
+     * @param to       the destination e-mail address
+     * @param subject  the subject of the e-mail
      * @param template the e-mail template in freeMarker style
-     * @param model the data to be used in the template
+     * @param model    the data to be used in the template
      */
     public void send(String to, String subject, String template, Map<String, Object> model) {
         if (mailFrom == null) {
@@ -93,9 +94,10 @@ public class MailServiceImpl implements MailService {
     /**
      * Process the template and return the content in a string format. Mail templates are loaded
      * from the templates/mail folder
+     *
      * @param templateFile the template file name
-     * @param subject the message subject
-     * @param model the data model with dynamic data to be replaced in the template and used by freemarker
+     * @param subject      the message subject
+     * @param model        the data model with dynamic data to be replaced in the template and used by freemarker
      * @return the message in string format
      */
     protected String loadMessageFromTemplate(String templateFile, String subject, Map<String, Object> model) {
@@ -130,6 +132,7 @@ public class MailServiceImpl implements MailService {
     /**
      * Create message resolver to support i18n in e-mail messages. The return value will be
      * passed to the freemarker template page
+     *
      * @return instance of {@link MessageResolverMethod}
      */
     protected MessageResolverMethod createMessageResolver() {

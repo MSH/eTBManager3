@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 /**
  * Store e-TB Manager configuration information. Id is always = 1
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "systemconfig")
@@ -13,31 +13,31 @@ public class SystemConfig {
 
     public static final int PRIMARY_KEY = 1;
 
-	@Id
-	private Integer id;
+    @Id
+    private Integer id;
 
-	@Column(length = 100)
-	private String systemURL;
-	
-	@Column(length = 200)
-	private String pageRootURL;
-	
-	private boolean allowRegPage;
-	
-	@ManyToOne
-	@JoinColumn(name = "WORKSPACE_ID")
-	private Workspace workspace;
-	
-	@ManyToOne
-	@JoinColumn(name = "USERPROFILE_ID")
-	private UserProfile userProfile;
-	
-	@ManyToOne
-	@JoinColumn(name = "UNIT_ID")
-	private Unit unit;
-	
-	@Column(length = 100)
-	private String adminMail;
+    @Column(length = 100)
+    private String systemURL;
+
+    @Column(length = 200)
+    private String pageRootURL;
+
+    private boolean allowRegPage;
+
+    @ManyToOne
+    @JoinColumn(name = "WORKSPACE_ID")
+    private Workspace workspace;
+
+    @ManyToOne
+    @JoinColumn(name = "USERPROFILE_ID")
+    private UserProfile userProfile;
+
+    @ManyToOne
+    @JoinColumn(name = "UNIT_ID")
+    private Unit unit;
+
+    @Column(length = 100)
+    private String adminMail;
 
 
     @Column(length = 250)
@@ -52,75 +52,75 @@ public class SystemConfig {
      */
     private boolean ulaActive;
 
-	/**
-	 * @return the id
-	 */
-	public Integer getId() {
-		return id;
-	}
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the systemURL
-	 */
-	public String getSystemURL() {
-		return systemURL;
-	}
+    /**
+     * @return the systemURL
+     */
+    public String getSystemURL() {
+        return systemURL;
+    }
 
-	/**
-	 * @param systemURL the systemURL to set
-	 */
-	public void setSystemURL(String systemURL) {
-		this.systemURL = systemURL;
-	}
+    /**
+     * @param systemURL the systemURL to set
+     */
+    public void setSystemURL(String systemURL) {
+        this.systemURL = systemURL;
+    }
 
-	/**
-	 * @return the allowRegPage
-	 */
-	public boolean isAllowRegPage() {
-		return allowRegPage;
-	}
+    /**
+     * @return the allowRegPage
+     */
+    public boolean isAllowRegPage() {
+        return allowRegPage;
+    }
 
-	/**
-	 * @param allowRegPage the allowRegPage to set
-	 */
-	public void setAllowRegPage(boolean allowRegPage) {
-		this.allowRegPage = allowRegPage;
-	}
+    /**
+     * @param allowRegPage the allowRegPage to set
+     */
+    public void setAllowRegPage(boolean allowRegPage) {
+        this.allowRegPage = allowRegPage;
+    }
 
-	/**
-	 * @return the workspace
-	 */
-	public Workspace getWorkspace() {
-		return workspace;
-	}
+    /**
+     * @return the workspace
+     */
+    public Workspace getWorkspace() {
+        return workspace;
+    }
 
-	/**
-	 * @param workspace the workspace to set
-	 */
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
-	}
+    /**
+     * @param workspace the workspace to set
+     */
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
 
-	/**
-	 * @return the userProfile
-	 */
-	public UserProfile getUserProfile() {
-		return userProfile;
-	}
+    /**
+     * @return the userProfile
+     */
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
 
-	/**
-	 * @param userProfile the userProfile to set
-	 */
-	public void setUserProfile(UserProfile userProfile) {
-		this.userProfile = userProfile;
-	}
+    /**
+     * @param userProfile the userProfile to set
+     */
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
 
     public Unit getUnit() {
         return unit;
@@ -131,33 +131,33 @@ public class SystemConfig {
     }
 
     /**
-	 * @return the adminMail
-	 */
+     * @return the adminMail
+     */
     public String getAdminMail() {
-		return adminMail;
-	}
+        return adminMail;
+    }
 
-	/**
-	 * @param adminMail the adminMail to set
-	 */
-	public void setAdminMail(String adminMail) {
-		this.adminMail = adminMail;
-	}
+    /**
+     * @param adminMail the adminMail to set
+     */
+    public void setAdminMail(String adminMail) {
+        this.adminMail = adminMail;
+    }
 
 
-	/**
-	 * @return the pageRootURL
-	 */
-	public String getPageRootURL() {
-		return pageRootURL;
-	}
+    /**
+     * @return the pageRootURL
+     */
+    public String getPageRootURL() {
+        return pageRootURL;
+    }
 
-	/**
-	 * @param pageRootURL the pageRootURL to set
-	 */
-	public void setPageRootURL(String pageRootURL) {
-		this.pageRootURL = pageRootURL;
-	}
+    /**
+     * @param pageRootURL the pageRootURL to set
+     */
+    public void setPageRootURL(String pageRootURL) {
+        this.pageRootURL = pageRootURL;
+    }
 
 
     public String getUpdateSite() {

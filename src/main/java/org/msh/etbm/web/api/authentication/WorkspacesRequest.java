@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Request used to return the list of workspaces of a given user
- *
+ * <p>
  * Created by rmemoria on 29/9/15.
  */
 public class WorkspacesRequest {

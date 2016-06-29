@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Store information about a user of the system
+ *
  * @author Ricardo Memoria
  */
 @Entity
@@ -32,21 +33,21 @@ import java.util.List;
 public class User extends Synchronizable implements Displayable {
 
     @Column(length = 30)
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW})
+    @NotNull
+    @PropertyLog(operations = {Operation.NEW})
     private String login;
-    
+
     @Column(length = 80)
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW})
+    @NotNull
+    @PropertyLog(operations = {Operation.NEW})
     private String name;
 
     @Column(length = 32)
-	@PropertyLog(ignore = true)
+    @PropertyLog(ignore = true)
     private String password;
-    
+
     @Column(nullable = false, length = 80)
-	@PropertyLog(operations = {Operation.NEW})
+    @PropertyLog(operations = {Operation.NEW})
     @Email
     private String email;
 
@@ -56,34 +57,34 @@ public class User extends Synchronizable implements Displayable {
     private boolean passwordExpired;
 
     private boolean emailConfirmed;
-	
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DEFAULTWORKSPACE_ID")
-	@PropertyLog(operations = {Operation.NEW})
+    @PropertyLog(operations = {Operation.NEW})
     private UserWorkspace defaultWorkspace;
-    
+
     @Column(length = 50)
     private String timeZone;
 
-	@OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     @PropertyLog(ignore = true)
-	private List<UserWorkspace> workspaces = new ArrayList<UserWorkspace>();
-	
-	@Column(length = 200)
-    @PropertyLog(messageKey = "global.comments")
-	private String comments;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PARENTUSER_ID")
-	private User parentUser;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-    @PropertyLog(ignore = true)
-	private Date registrationDate;
+    private List<UserWorkspace> workspaces = new ArrayList<UserWorkspace>();
 
-	@Column(length = 30)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
+    @Column(length = 200)
+    @PropertyLog(messageKey = "global.comments")
+    private String comments;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENTUSER_ID")
+    private User parentUser;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @PropertyLog(ignore = true)
+    private Date registrationDate;
+
+    @Column(length = 30)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
 
     /**
      * If true, user will receive system messages to his e-mail address
@@ -115,28 +116,30 @@ public class User extends Synchronizable implements Displayable {
     private String language;
 
 
-	/**
-	 * Search the user workspace by the workspace
-	 * @param workspace instance of the workspace to search for the user workspace
-	 * @return instance of {@link UserWorkspace}
-	 */
-	public UserWorkspace getUserWorkspaceByWorkspace(Workspace workspace) {
-		for (UserWorkspace ws: getWorkspaces()) {
-			if (ws.getWorkspace().equals(workspace)) {
-				return ws;
-			}
-		}
-		return null;
-	}
+    /**
+     * Search the user workspace by the workspace
+     *
+     * @param workspace instance of the workspace to search for the user workspace
+     * @return instance of {@link UserWorkspace}
+     */
+    public UserWorkspace getUserWorkspaceByWorkspace(Workspace workspace) {
+        for (UserWorkspace ws : getWorkspaces()) {
+            if (ws.getWorkspace().equals(workspace)) {
+                return ws;
+            }
+        }
+        return null;
+    }
 
 
-	@Override
-	public String toString() {
-		return login + " - " + name;
-	}
+    @Override
+    public String toString() {
+        return login + " - " + name;
+    }
 
     /**
      * Return the user login. The login is used to enter in the system
+     *
      * @return the user login
      */
     public String getLogin() {
@@ -145,14 +148,16 @@ public class User extends Synchronizable implements Displayable {
 
     /**
      * Set a new user login
+     *
      * @param login new user login
      */
     public void setLogin(String login) {
-    	this.login = login;
+        this.login = login;
     }
 
     /**
      * Return the user name
+     *
      * @return name of the user
      */
     public String getName() {
@@ -161,6 +166,7 @@ public class User extends Synchronizable implements Displayable {
 
     /**
      * Change the user name
+     *
      * @param name new name of the user
      */
     public void setName(String name) {
@@ -169,6 +175,7 @@ public class User extends Synchronizable implements Displayable {
 
     /**
      * Return the user password hashed using the MD5 algorithm
+     *
      * @return the user password
      */
     public String getPassword() {
@@ -177,9 +184,10 @@ public class User extends Synchronizable implements Displayable {
 
     /**
      * Set the user password hashed using the MD5 algorithm
+     *
      * @param password
      */
-    public  void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -216,70 +224,70 @@ public class User extends Synchronizable implements Displayable {
     }
 
     public UserWorkspace getDefaultWorkspace() {
-		return defaultWorkspace;
-	}
+        return defaultWorkspace;
+    }
 
-	public void setDefaultWorkspace(UserWorkspace defaultWorkspace) {
-		this.defaultWorkspace = defaultWorkspace;
-	}
+    public void setDefaultWorkspace(UserWorkspace defaultWorkspace) {
+        this.defaultWorkspace = defaultWorkspace;
+    }
 
-	public String getTimeZone() {
-		return timeZone;
-	}
+    public String getTimeZone() {
+        return timeZone;
+    }
 
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
-	}
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
-	public List<UserWorkspace> getWorkspaces() {
-		return workspaces;
-	}
+    public List<UserWorkspace> getWorkspaces() {
+        return workspaces;
+    }
 
-	public void setWorkspaces(List<UserWorkspace> workspaces) {
-		this.workspaces = workspaces;
-	}
+    public void setWorkspaces(List<UserWorkspace> workspaces) {
+        this.workspaces = workspaces;
+    }
 
-	/**
-	 * @param comment the comment to set
-	 */
-	public void setComments(String comment) {
-		this.comments = comment;
-	}
+    /**
+     * @param comment the comment to set
+     */
+    public void setComments(String comment) {
+        this.comments = comment;
+    }
 
-	/**
-	 * @return the comment
-	 */
-	public String getComments() {
-		return comments;
-	}
+    /**
+     * @return the comment
+     */
+    public String getComments() {
+        return comments;
+    }
 
-	/**
-	 * @param parentUser the parentUser to set
-	 */
-	public void setParentUser(User parentUser) {
-		this.parentUser = parentUser;
-	}
+    /**
+     * @param parentUser the parentUser to set
+     */
+    public void setParentUser(User parentUser) {
+        this.parentUser = parentUser;
+    }
 
-	/**
-	 * @return the parentUser
-	 */
-	public User getParentUser() {
-		return parentUser;
-	}
+    /**
+     * @return the parentUser
+     */
+    public User getParentUser() {
+        return parentUser;
+    }
 
-	/**
-	 * @param registrationDate the registrationDate to set
-	 */
-	public void setRegistrationDate(Date registrationDate) {
-		this.registrationDate = registrationDate;
-	}
+    /**
+     * @param registrationDate the registrationDate to set
+     */
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
 
-	/**
-	 * @return the registrationDate
-	 */
-	public Date getRegistrationDate() {
-		return registrationDate;
-	}
+    /**
+     * @return the registrationDate
+     */
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
 
     public String getCustomId() {
         return customId;
@@ -297,20 +305,20 @@ public class User extends Synchronizable implements Displayable {
     }
 
 
-	/**
-	 * @param sendSystemMessages the sendSystemMessages to set
-	 */
-	public void setSendSystemMessages(boolean sendSystemMessages) {
-		this.sendSystemMessages = sendSystemMessages;
-	}
+    /**
+     * @param sendSystemMessages the sendSystemMessages to set
+     */
+    public void setSendSystemMessages(boolean sendSystemMessages) {
+        this.sendSystemMessages = sendSystemMessages;
+    }
 
-	public boolean isUlaAccepted() {
-		return ulaAccepted;
-	}
+    public boolean isUlaAccepted() {
+        return ulaAccepted;
+    }
 
-	public void setUlaAccepted(boolean ulaAccepted) {
-		this.ulaAccepted = ulaAccepted;
-	}
+    public void setUlaAccepted(boolean ulaAccepted) {
+        this.ulaAccepted = ulaAccepted;
+    }
 
     public String getPasswordResetToken() {
         return passwordResetToken;

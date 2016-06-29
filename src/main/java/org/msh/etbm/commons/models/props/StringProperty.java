@@ -5,7 +5,9 @@ package org.msh.etbm.commons.models.props;
  */
 public class StringProperty extends Property {
 
-    /** String validators **/
+    /**
+     * String validators
+     **/
     private int maxLength;
     private int minLength;
     private String regExp;

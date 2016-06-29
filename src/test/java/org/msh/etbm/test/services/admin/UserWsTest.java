@@ -68,6 +68,7 @@ public class UserWsTest extends CommonEntityServiceTests {
 
     /**
      * Test the creation of a new user
+     *
      * @return
      */
     protected UUID createUser() {

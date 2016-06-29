@@ -32,8 +32,9 @@ public class EntityDAOFactory {
 
     /**
      * Create a new instance of {@link EntityDAO} for the given entity class
+     *
      * @param entityClass The entity class to be managed by the {@link EntityDAO}
-     * @param <E> The generic class of the entity (the same used in entityClass)
+     * @param <E>         The generic class of the entity (the same used in entityClass)
      * @return instance of {@link EntityDAO}
      */
     @Transactional(propagation = Propagation.REQUIRED)

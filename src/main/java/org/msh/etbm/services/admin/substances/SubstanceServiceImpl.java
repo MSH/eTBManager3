@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * CRUD service to handle substance operations
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 @Service
@@ -70,6 +70,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
     /**
      * Return the list of substances to a form from a from request
+     *
      * @param req the form request
      * @return list of substances
      */
@@ -82,7 +83,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
         // mount list to include the short name in the label
         List<Item> lst = new ArrayList<>();
-        for (SubstanceData sub: res.getList()) {
+        for (SubstanceData sub : res.getList()) {
             lst.add(new SynchronizableItem(sub.getId(), "(" + sub.getShortName() + ") " + sub.getName()));
         }
 

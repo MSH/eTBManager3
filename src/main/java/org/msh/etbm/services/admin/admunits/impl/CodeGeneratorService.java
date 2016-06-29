@@ -16,7 +16,7 @@ import java.util.UUID;
 /**
  * Service to manage the creation of new codes to updated or recently created administrative
  * units. This control is necessary due to the difficult to generate different codes in multi thread requests
- *
+ * <p>
  * Created by rmemoria on 31/10/15.
  */
 @Component
@@ -41,6 +41,7 @@ public class CodeGeneratorService {
 
     /**
      * Generate a new code for the given parent
+     *
      * @param parentId
      * @return
      */
@@ -93,6 +94,7 @@ public class CodeGeneratorService {
 
     /**
      * Called around the invoking of update and create methods in AdminUnitService service
+     *
      * @param parentId
      * @param pjp
      */
@@ -107,6 +109,7 @@ public class CodeGeneratorService {
 
     /**
      * Add a reference to a given parent ID being processed
+     *
      * @param parentId the ID of the parent admin unit
      */
     protected void addRef(UUID parentId) {
@@ -115,6 +118,7 @@ public class CodeGeneratorService {
 
     /**
      * Remove the reference of a parent ID being processed
+     *
      * @param parentId
      */
     protected void remRef(UUID parentId) {
@@ -124,6 +128,7 @@ public class CodeGeneratorService {
     /**
      * Toggle the number of references to a parent ID. This operation is synchronized to avoid that
      * double references or invalid removals are done
+     *
      * @param parentId
      * @param oper
      */
@@ -156,6 +161,7 @@ public class CodeGeneratorService {
 
     /**
      * Retrieve the code from the parent ID
+     *
      * @param parentId the parent ID to retrieve the code from
      * @return the code of the parent
      */
@@ -174,7 +180,7 @@ public class CodeGeneratorService {
             qry.setParameter("id", parentId);
         }
 
-        String code = (String)qry
+        String code = (String) qry
                 .getSingleResult();
 
         return code;
@@ -185,7 +191,7 @@ public class CodeGeneratorService {
             return "";
         }
 
-        String code = (String)entityManager
+        String code = (String) entityManager
                 .createQuery("select code from AdministrativeUnit  where id = :id")
                 .setParameter("id", id)
                 .getSingleResult();

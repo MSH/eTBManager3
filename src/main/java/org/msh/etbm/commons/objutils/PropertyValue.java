@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Store a property value
- *
+ * <p>
  * Created by rmemoria on 9/3/16.
  */
 public class PropertyValue {
@@ -31,7 +31,7 @@ public class PropertyValue {
         List lst = value.getClass().isArray() ? Arrays.asList(value) : (List) value;
 
         items = new ArrayList<>();
-        for (Object obj: lst) {
+        for (Object obj : lst) {
             int hash = ObjectUtils.hash(obj);
             items.add(new CollectionItem(obj, hash));
         }
@@ -39,6 +39,7 @@ public class PropertyValue {
 
     /**
      * Return the stored value
+     *
      * @return object
      */
     public Object get() {
@@ -47,13 +48,14 @@ public class PropertyValue {
 
     /**
      * If a property is a collection, search for the item in the collection by its value
+     *
      * @param value the value to search for inside the collection
      * @return the instance of {@link CollectionItem} assigned to the value, or null if none is found
      */
     public CollectionItem findItemByValue(Object value) {
         checkCollection();
 
-        for (CollectionItem item: items) {
+        for (CollectionItem item : items) {
             if (item.getValue().equals(value)) {
                 return item;
             }
@@ -72,6 +74,7 @@ public class PropertyValue {
 
     /**
      * If value is an array or collection, return the list of elements
+     *
      * @return
      */
     public List<CollectionItem> getItems() {
@@ -80,6 +83,7 @@ public class PropertyValue {
 
     /**
      * Check if the value is null
+     *
      * @return true if value is null
      */
     public boolean isNull() {
@@ -88,6 +92,7 @@ public class PropertyValue {
 
     /**
      * Check if value is a collection or an array of elements
+     *
      * @return
      */
     public boolean isCollection() {

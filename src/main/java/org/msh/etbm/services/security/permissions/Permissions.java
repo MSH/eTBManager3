@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Set of permission constants used to authorize a user to execute
  * system commands
- *
+ * <p>
  * Created by rmemoria on 22/10/15.
  */
 @Service
@@ -19,7 +19,7 @@ public class Permissions {
     public static final String ADMIN = "ADMIN";
 
     public static final String ADMIN_TABLES = "TABLES";
-    
+
     public static final String TABLE_USERS = "USERS";
     public static final String TABLE_USERS_EDT = "USERS_EDT";
 
@@ -140,6 +140,7 @@ public class Permissions {
 
     /**
      * Return the list of permissions in a structured way, i.e, group permissions
+     *
      * @return list of group permissions
      */
     public List<Permission> getList() {
@@ -151,11 +152,12 @@ public class Permissions {
 
     /**
      * Search for a permission by its ID
+     *
      * @param id the permission ID
      * @return instance of the permission
      */
     public Permission find(String id) {
-        for (Permission perm: getList()) {
+        for (Permission perm : getList()) {
             if (perm.getId().equals(id)) {
                 return perm;
             }
@@ -198,9 +200,9 @@ public class Permissions {
                 addChangeable(CASES_ADV_EFFECTS, "cases.sideeffects"),
                 add(CASES_MED_EXAM, "cases.details.medexam"),
                 add(CASES_ISSUES, "cases.issues",
-                    add(CASES_NEW_ISSUE, "cases.issues.new"),
-                    add(CASES_ANSWER_ISSUE),
-                    add(CASES_CLOSEDEL_ISSUE)));
+                        add(CASES_NEW_ISSUE, "cases.issues.new"),
+                        add(CASES_ANSWER_ISSUE),
+                        add(CASES_CLOSEDEL_ISSUE)));
 
         module(INVENTORY,
                 add(INVENTORY_INIT, "inventory.start"),
@@ -233,24 +235,24 @@ public class Permissions {
         // define permissions of the administration module
         module(ADMIN,
                 add(ADMIN_TABLES, "admin.tables",
-                    addChangeable(TABLE_ADMUNITS, "admin.adminunits"),
-                    addChangeable(TABLE_SOURCES, "admin.sources"),
-                    addChangeable(TABLE_UNITS, "admin.units"),
-                    addChangeable(TABLE_SUBSTANCES, "admin.substances"),
-                    addChangeable(TABLE_PRODUCTS, "admin.products"),
-                    addChangeable(TABLE_REGIMENS, "admin.regimens"),
-                    addChangeable(TABLE_AGERANGES, "admin.ageranges"),
-                    addChangeable(TABLE_USERPROFILES, "admin.profiles"),
-                    addChangeable(TABLE_TAGS, "admin.tags"),
-                    addChangeable(TABLE_USERS, "admin.users"),
-                    addChangeable(TABLE_WORKSPACES, "admin.workspaces")
+                        addChangeable(TABLE_ADMUNITS, "admin.adminunits"),
+                        addChangeable(TABLE_SOURCES, "admin.sources"),
+                        addChangeable(TABLE_UNITS, "admin.units"),
+                        addChangeable(TABLE_SUBSTANCES, "admin.substances"),
+                        addChangeable(TABLE_PRODUCTS, "admin.products"),
+                        addChangeable(TABLE_REGIMENS, "admin.regimens"),
+                        addChangeable(TABLE_AGERANGES, "admin.ageranges"),
+                        addChangeable(TABLE_USERPROFILES, "admin.profiles"),
+                        addChangeable(TABLE_TAGS, "admin.tags"),
+                        addChangeable(TABLE_USERS, "admin.users"),
+                        addChangeable(TABLE_WORKSPACES, "admin.workspaces")
                 ),
                 add(ADMIN_REPORTS, "admin.reports",
-                    add(ADMIN_REP_CMDHISTORY),
-                    add(ADMIN_REP_CMDSTATISTICS),
-                    add(ADMIN_REP_USERSONLINE),
-                    add(ADMIN_REP_USERSESSIONS, "admin.reports.usersession"),
-                    add(ADMIN_REP_ERRORLOG)
+                        add(ADMIN_REP_CMDHISTORY),
+                        add(ADMIN_REP_CMDSTATISTICS),
+                        add(ADMIN_REP_USERSONLINE),
+                        add(ADMIN_REP_USERSESSIONS, "admin.reports.usersession"),
+                        add(ADMIN_REP_ERRORLOG)
                 ),
                 add(ADMIN_SETUP_WORKSPACE),
                 add(ADMIN_SETUP_SYSTEM),
@@ -261,11 +263,12 @@ public class Permissions {
 
     /**
      * Add a root permission, i.e, a module of the system
+     *
      * @param id
      * @param children
      * @return
      */
-    protected Permission module(String id, Permission ...children) {
+    protected Permission module(String id, Permission... children) {
         if (list == null) {
             list = new ArrayList<>();
         }
@@ -276,14 +279,14 @@ public class Permissions {
         return perm;
     }
 
-    private Permission add(String id, Permission ...children) {
+    private Permission add(String id, Permission... children) {
         return add(id, "Permission." + id, children);
     }
 
-    private Permission add(String id, String messageKey, Permission ...children) {
+    private Permission add(String id, String messageKey, Permission... children) {
         Permission perm = new Permission(null, id, messageKey, false);
         if (children != null && children.length > 0) {
-            for (Permission child: children) {
+            for (Permission child : children) {
                 perm.addPermission(child);
             }
         }

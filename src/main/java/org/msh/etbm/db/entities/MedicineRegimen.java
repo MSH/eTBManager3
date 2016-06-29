@@ -13,20 +13,20 @@ import javax.validation.constraints.NotNull;
 public class MedicineRegimen extends Synchronizable {
 
 
-	@ManyToOne
-	@JoinColumn(name = "MEDICINE_ID")
-	@NotNull
-	private Medicine medicine;
+    @ManyToOne
+    @JoinColumn(name = "MEDICINE_ID")
+    @NotNull
+    private Medicine medicine;
 
     @ManyToOne
     @JoinColumn(name = "REGIMEN_ID")
     private Regimen regimen;
 
     @NotNull
-	private int defaultDoseUnit;
+    private int defaultDoseUnit;
 
     @NotNull
-	private int defaultFrequency;
+    private int defaultFrequency;
 
     /**
      * The initial day of the treatment for this medicine in the regimen
@@ -39,13 +39,13 @@ public class MedicineRegimen extends Synchronizable {
     private int days;
 
 
-	public Medicine getMedicine() {
-		return medicine;
-	}
+    public Medicine getMedicine() {
+        return medicine;
+    }
 
-	public void setMedicine(Medicine medicine) {
-		this.medicine = medicine;
-	}
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
 
     public int getDefaultDoseUnit() {
         return defaultDoseUnit;

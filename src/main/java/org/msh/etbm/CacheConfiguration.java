@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Configuration of the cache mechanism in the application. Executed during application bootstrap
- *
+ * <p>
  * Created by rmemoria on 14/11/15.
  */
 @Component
@@ -29,6 +29,7 @@ public class CacheConfiguration {
 
     /**
      * Configure the cache manager
+     *
      * @return
      */
     @Bean

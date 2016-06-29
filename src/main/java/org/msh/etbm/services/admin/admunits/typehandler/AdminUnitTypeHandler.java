@@ -16,7 +16,7 @@ import java.util.UUID;
 
 /**
  * Administrative unit type handler, for field initialization support in the client side
- *
+ * <p>
  * Created by rmemoria on 18/1/16.
  */
 @Component
@@ -33,7 +33,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
     protected String getLevelName(int level, List<CountryStructureData> lst) {
         String delim = "";
         String name = "";
-        for (CountryStructureData cs: lst) {
+        for (CountryStructureData cs : lst) {
             if (cs.getLevel() == level) {
                 name += delim + cs.getName();
                 delim = ", ";
@@ -53,11 +53,11 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
         qry.setRootUnits(true);
         qry.setProfile(AdminUnitQueryParams.QUERY_PROFILE_ITEM);
         qry.setFetchCountryStructure(true);
-        AdminUnitQueryResult qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
+        AdminUnitQueryResult qr = (AdminUnitQueryResult) adminUnitService.findMany(qry);
 
         // calc max level
         int level = 0;
-        for (CountryStructureData cs: qr.getCsList()) {
+        for (CountryStructureData cs : qr.getCsList()) {
             if (cs.getLevel() > level) {
                 level = cs.getLevel();
             }
@@ -74,7 +74,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
         }
 
         // set the root list
-        vals[0].setList( qr.getList() );
+        vals[0].setList(qr.getList());
 
         // if there is no ID, then just return the root list
         if (id == null) {
@@ -98,7 +98,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
 
             if (l < level) {
                 qry.setParentId(item.getId());
-                qr = (AdminUnitQueryResult)adminUnitService.findMany(qry);
+                qr = (AdminUnitQueryResult) adminUnitService.findMany(qry);
                 vals[l].setList(qr.getList());
             }
             l++;

@@ -27,7 +27,7 @@ import java.util.UUID;
  */
 @Service
 public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, AdminUnitQueryParams>
-    implements AdminUnitService {
+        implements AdminUnitService {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -52,6 +52,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
     /**
      * Query the administrative units
+     *
      * @param q the query parameters
      * @return the result list
      */
@@ -162,15 +163,16 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     /**
      * This method is override because calling 'generateNewMethod' from prepareToSave, an entityManager.flush()
      * is called internally
+     *
      * @param request the request object, argument in the create or update method
-     * @param entity the entity to be filled with values in the request
+     * @param entity  the entity to be filled with values in the request
      */
     @Override
     protected void mapRequest(Object request, AdministrativeUnit entity) {
-        AdminUnitFormData req = (AdminUnitFormData)request;
+        AdminUnitFormData req = (AdminUnitFormData) request;
 
         // check if parent has changed
-        UUID pid =  entity.getParent() != null ? entity.getParent().getId() : null;
+        UUID pid = entity.getParent() != null ? entity.getParent().getId() : null;
         UUID newpid = req.getParentId() != null && req.getParentId().isPresent() ? req.getParentId().get() : null;
         boolean parentChanged = entity.getId() == null || !DiffsUtils.compareEquals(newpid, pid);
 
@@ -196,6 +198,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
     /**
      * Check if administrative unit is unique
+     *
      * @param au the administrative unit to check if is unique
      * @return true if there is no other administrative unit with the same name in the branch
      */
@@ -228,14 +231,15 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
             qry.setParameter("id", au.getId());
         }
 
-        Number count = (Number)qry.getSingleResult();
+        Number count = (Number) qry.getSingleResult();
         return count.intValue() == 0;
     }
 
     /**
      * Update number of units under parent units
+     *
      * @param prevParent the previous parent unit
-     * @param newParent the new parent unit
+     * @param newParent  the new parent unit
      */
     protected void updateUnitsCount(AdministrativeUnit prevParent, AdministrativeUnit newParent) {
         if (prevParent == newParent) {
@@ -243,17 +247,18 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         }
 
         // adjust count of previous parent
-        prevParent.setUnitsCount( prevParent.getUnitsCount() - 1);
+        prevParent.setUnitsCount(prevParent.getUnitsCount() - 1);
 
         // adjust count of new parent
-        newParent.setUnitsCount( newParent.getUnitsCount() + 1);
+        newParent.setUnitsCount(newParent.getUnitsCount() + 1);
     }
 
 
     /**
      * Update the code of the child records. This method must be called when the parent
      * of the administrative unit is being changed
-     * @param id is the administrative unit ID being updated
+     *
+     * @param id      is the administrative unit ID being updated
      * @param oldCode the previous code of the administrative unit
      * @param newCode the new code of the administrative unit
      */
@@ -270,9 +275,9 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     }
 
 
-
     /**
      * Validate the administrative unit parent
+     *
      * @param au instance of AdministrativeUnit to be saved
      */
     protected void validateParent(AdministrativeUnit au) throws EntityValidationException {
@@ -291,7 +296,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
     @Override
     protected <K> K mapResponse(AdministrativeUnit entity, Class<K> resultClass) {
         if (AdminUnitSeries.class.isAssignableFrom(resultClass)) {
-            return (K)adminUnitSeriesService.getAdminUnitSeries(entity);
+            return (K) adminUnitSeriesService.getAdminUnitSeries(entity);
         }
 
         return super.mapResponse(entity, resultClass);

@@ -3,7 +3,7 @@ package org.msh.etbm.services.pub;
 /**
  * Data returned to the client from the {@link ForgotPwdService} to validate the
  * change request token
- *
+ * <p>
  * Created by rmemoria on 13/6/16.
  */
 public class PwdResetTokenResponse {

@@ -66,7 +66,7 @@ public class UserViewOptions implements FormRequestHandler<List<Item>> {
         List<AdministrativeUnit> lst = unit.getAddress().getAdminUnit().getParentsTreeList(true);
 
         // include the administrative units
-        for (AdministrativeUnit adm: lst) {
+        for (AdministrativeUnit adm : lst) {
             options.add(new Item<UserViewData>(
                             new UserViewData(UserView.ADMINUNIT, adm.getId()),
                             adm.getCountryStructure().getName() + ": " + adm.getName())

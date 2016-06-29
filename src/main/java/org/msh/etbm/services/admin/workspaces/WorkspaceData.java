@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Standard data to be returned to the client by the workspace service
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class WorkspaceData extends Item<UUID> {

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * REST API to handle system requests
- *
+ * <p>
  * Created by rmemoria on 16/8/15.
  */
 @RestController
@@ -38,6 +38,7 @@ public class SystemRest {
 
     /**
      * Return information about the system
+     *
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")

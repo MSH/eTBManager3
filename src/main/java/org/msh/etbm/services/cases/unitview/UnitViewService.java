@@ -34,6 +34,7 @@ public class UnitViewService {
 
     /**
      * Get data related to the unit view of the cases module
+     *
      * @param unitId the unit ID to get information from
      * @return instance of {@link UnitViewData} containing the unit data
      */
@@ -50,8 +51,9 @@ public class UnitViewService {
 
     /**
      * Load the cases to load into unit view
+     *
      * @param unitId the unit ID to get the cases from
-     * @param data the data to receive the cases
+     * @param data   the data to receive the cases
      */
     private void loadCases(UUID unitId, UnitViewData data) {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
@@ -68,7 +70,7 @@ public class UnitViewService {
         data.setDrtbCases(new ArrayList<>());
         data.setTbCases(new ArrayList<>());
 
-        for (TbCase tbcase: lst) {
+        for (TbCase tbcase : lst) {
 
             // is a case a presumptive one?
             if (tbcase.getDiagnosisType() == DiagnosisType.SUSPECT) {
@@ -79,9 +81,9 @@ public class UnitViewService {
 
                 // put case in the right list
                 if (tbcase.getClassification() == CaseClassification.TB) {
-                    data.getTbCases().add( caseData );
+                    data.getTbCases().add(caseData);
                 } else {
-                    data.getDrtbCases().add( caseData );
+                    data.getDrtbCases().add(caseData);
                 }
             }
         }
@@ -129,13 +131,14 @@ public class UnitViewService {
     /**
      * Presumptive and confirmed share common information. This method creates the data object
      * to store data about a confirmed or a presumptive case
+     *
      * @param tbcase the TB case data
-     * @param clazz data class to be instantiated, inherited from {@link CommonCaseData}
+     * @param clazz  data class to be instantiated, inherited from {@link CommonCaseData}
      * @param <K>
      * @return the instance of the data class, with common data filled
      */
     private <K extends CommonCaseData> K createCaseData(TbCase tbcase, Class<K> clazz) {
-        K data =  ObjectUtils.newInstance(clazz);
+        K data = ObjectUtils.newInstance(clazz);
 
         Patient p = tbcase.getPatient();
 
@@ -150,8 +153,9 @@ public class UnitViewService {
 
     /**
      * Load the tags and its total of cases for the given unit
+     *
      * @param unitId the unit ID to load tags from
-     * @param data the view to include the results
+     * @param data   the view to include the results
      */
     private void loadTags(UUID unitId, UnitViewData data) {
         List<CasesTagsReportItem> tags = casesTagsReportService.generateByUnit(unitId);

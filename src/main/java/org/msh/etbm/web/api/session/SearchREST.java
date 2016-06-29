@@ -28,6 +28,7 @@ public class SearchREST {
 
     /**
      * Get information about the user session
+     *
      * @param req object containing request parameters to search for
      * @return the list of items found
      */

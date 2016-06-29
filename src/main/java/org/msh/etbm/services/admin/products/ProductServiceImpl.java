@@ -12,12 +12,12 @@ import java.util.Optional;
 
 /**
  * Service component to handle CRUD operation on products and medicines
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @Service
 public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryParams>
-    implements ProductService {
+        implements ProductService {
 
 
     @Override

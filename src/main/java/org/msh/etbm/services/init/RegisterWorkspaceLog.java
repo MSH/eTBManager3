@@ -12,7 +12,7 @@ import java.util.UUID;
 
 /**
  * Register in the command log the initialization of the system by registering a new workspace
- *
+ * <p>
  * Created by rmemoria on 17/10/15.
  */
 @Component
@@ -27,7 +27,7 @@ public class RegisterWorkspaceLog implements CommandLogHandler<RegisterWorkspace
         in.setEntityName(request.getWorkspaceName());
         in.setEntityId(response);
 
-        User user = (User)entityManager.createQuery("from User where email = :email")
+        User user = (User) entityManager.createQuery("from User where email = :email")
                 .setParameter("email", request.getAdminEmail())
                 .getSingleResult();
 

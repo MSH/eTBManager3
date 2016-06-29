@@ -27,8 +27,9 @@ public class AuthenticatorREST {
 
     /**
      * API function to log user into the system
+     *
      * @param credentials information about user login, password and workspace
-     * @param request the HTTP client request information
+     * @param request     the HTTP client request information
      * @return Login response indicating if operation was successful or failed
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -48,6 +49,7 @@ public class AuthenticatorREST {
 
     /**
      * API to log user out of the system by its authentication token.
+     *
      * @param authToken a valid authentication token
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -58,6 +60,7 @@ public class AuthenticatorREST {
 
     /**
      * API to return the list of workspaces available for the given user
+     *
      * @param req contain the user credential to get information from
      * @return list of workspaces
      */

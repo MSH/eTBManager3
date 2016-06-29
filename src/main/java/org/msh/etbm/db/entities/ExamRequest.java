@@ -10,7 +10,7 @@ import java.util.UUID;
 
 /**
  * Store information about an exam request registered in the laboratory
- *
+ * <p>
  * Created by ricardo on 13/08/14.
  */
 @Entity

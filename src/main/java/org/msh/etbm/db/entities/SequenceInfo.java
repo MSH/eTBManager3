@@ -11,48 +11,48 @@ import javax.validation.constraints.NotNull;
 public class SequenceInfo extends Synchronizable {
 
 
-	@Column(name = "seq_name", length = 50)
-	@NotNull
-	private String sequence;
-	
-	private int number;
+    @Column(name = "seq_name", length = 50)
+    @NotNull
+    private String sequence;
 
-	/**
-	 * The workspace of this entity
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "WORKSPACE_ID")
-	@NotNull
-	@PropertyLog(ignore = true)
-	private Workspace workspace;
+    private int number;
 
-	public int getNumber() {
-		return number;
-	}
+    /**
+     * The workspace of this entity
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKSPACE_ID")
+    @NotNull
+    @PropertyLog(ignore = true)
+    private Workspace workspace;
 
-	public void setNumber(int number) {
-		this.number = number;
-	}
+    public int getNumber() {
+        return number;
+    }
 
-	public String getSequence() {
-		return sequence;
-	}
+    public void setNumber(int number) {
+        this.number = number;
+    }
 
-	public void setSequence(String sequence) {
-		this.sequence = sequence;
-	}
+    public String getSequence() {
+        return sequence;
+    }
 
-	/**
-	 * @return the workspace
-	 */
-	public Workspace getWorkspace() {
-		return workspace;
-	}
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
 
-	/**
-	 * @param workspace the workspace to set
-	 */
-	public void setWorkspace(Workspace workspace) {
-		this.workspace = workspace;
-	}
+    /**
+     * @return the workspace
+     */
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    /**
+     * @param workspace the workspace to set
+     */
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
+    }
 }

@@ -57,6 +57,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
 
     /**
      * Check if the SQL condition given to the tag is correct
+     *
      * @return null if no error is found or the error message.
      */
     public String testTagCondition(Tag tag) {
@@ -68,7 +69,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         } catch (PersistenceException e) {
             sqlErrorMessage = "error";
             if (e.getCause() instanceof SQLGrammarException) {
-                SQLGrammarException sqlerror = (SQLGrammarException)e.getCause();
+                SQLGrammarException sqlerror = (SQLGrammarException) e.getCause();
                 sqlErrorMessage = sqlerror.getSQLException().getMessage();
             }
         }

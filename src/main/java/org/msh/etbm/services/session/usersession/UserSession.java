@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * User session information to be use during request
- *
+ * <p>
  * Created by rmemoria on 14/11/15.
  */
 public class UserSession {
@@ -46,6 +46,7 @@ public class UserSession {
 
     /**
      * Return true if the given permission is granted to the user
+     *
      * @param perm the permission to check
      * @return true if permission is granted
      */

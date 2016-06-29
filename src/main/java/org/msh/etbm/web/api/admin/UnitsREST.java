@@ -35,6 +35,7 @@ public class UnitsREST {
 
     /**
      * Query units (labs or TB units) based on the request query
+     *
      * @param qry search criterias to query the database
      * @return lisat of units
      */
@@ -64,7 +65,7 @@ public class UnitsREST {
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitFormData req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitFormData req) throws BindException {
         ServiceResult res = unitService.update(id, req);
         return new StandardResult(res);
     }

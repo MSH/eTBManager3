@@ -17,7 +17,7 @@ public class DozerOptionalConverter implements CustomConverter, MapperAware {
     public Object convert(Object dest, Object source, Class<?> destClass, Class<?> sourceClass) {
         // source is optional ?
         if (Optional.class.isAssignableFrom(sourceClass)) {
-            Optional opt = (Optional)source;
+            Optional opt = (Optional) source;
             // if no optional is given, so dest should not be modified
             if (opt == null) {
                 return dest;

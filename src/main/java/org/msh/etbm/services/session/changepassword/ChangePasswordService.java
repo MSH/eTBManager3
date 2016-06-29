@@ -38,6 +38,7 @@ public class ChangePasswordService {
 
     /**
      * Update the settings of the current user
+     *
      * @param data instance of {@link UserSettingsFormData} containing the settings
      * @return The list of changed fields
      */

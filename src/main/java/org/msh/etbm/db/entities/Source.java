@@ -14,30 +14,30 @@ import javax.validation.constraints.NotNull;
 @Table(name = "source")
 public class Source extends WorkspaceEntity {
 
-	@PropertyLog(messageKey = "form.name", operations = {Operation.NEW, Operation.DELETE})
+    @PropertyLog(messageKey = "form.name", operations = {Operation.NEW, Operation.DELETE})
     @Column(length = 100)
     @NotNull
-	private String name;
+    private String name;
 
-	@PropertyLog(messageKey = "form.shortName", operations = {Operation.NEW, Operation.DELETE})
+    @PropertyLog(messageKey = "form.shortName", operations = {Operation.NEW, Operation.DELETE})
     @NotNull
-	private String shortName;
+    private String shortName;
 
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId", operations = {Operation.NEW, Operation.DELETE})
-	private String customId;
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId", operations = {Operation.NEW, Operation.DELETE})
+    private String customId;
 
     @PropertyLog(messageKey = "EntityState.ACTIVE")
     private boolean active = true;
 
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getShortName() {
         return shortName;

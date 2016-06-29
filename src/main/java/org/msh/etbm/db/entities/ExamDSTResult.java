@@ -13,44 +13,44 @@ import javax.persistence.Table;
 public class ExamDSTResult extends Synchronizable {
 
 
-	@ManyToOne
-	@JoinColumn(name = "SUBSTANCE_ID")
-	private Substance substance;
-	
-	@ManyToOne
-	@JoinColumn(name = "EXAM_ID")
-	private ExamDST exam;
-	
-	private DstResult result;
-	
+    @ManyToOne
+    @JoinColumn(name = "SUBSTANCE_ID")
+    private Substance substance;
 
-	public Substance getSubstance() {
-		return substance;
-	}
+    @ManyToOne
+    @JoinColumn(name = "EXAM_ID")
+    private ExamDST exam;
 
-	public void setSubstance(Substance substante) {
-		this.substance = substante;
-	}
+    private DstResult result;
 
-	public DstResult getResult() {
-		return result;
-	}
 
-	public void setResult(DstResult result) {
-		this.result = result;
-	}
+    public Substance getSubstance() {
+        return substance;
+    }
 
-	/**
-	 * @return the exam
-	 */
-	public ExamDST getExam() {
-		return exam;
-	}
+    public void setSubstance(Substance substante) {
+        this.substance = substante;
+    }
 
-	/**
-	 * @param exam the exam to set
-	 */
-	public void setExam(ExamDST exam) {
-		this.exam = exam;
-	}
+    public DstResult getResult() {
+        return result;
+    }
+
+    public void setResult(DstResult result) {
+        this.result = result;
+    }
+
+    /**
+     * @return the exam
+     */
+    public ExamDST getExam() {
+        return exam;
+    }
+
+    /**
+     * @param exam the exam to set
+     */
+    public void setExam(ExamDST exam) {
+        this.exam = exam;
+    }
 }

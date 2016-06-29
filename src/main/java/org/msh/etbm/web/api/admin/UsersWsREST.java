@@ -36,6 +36,7 @@ public class UsersWsREST {
 
     /**
      * Return displayable information about a user profile
+     *
      * @param id the ID of the profile
      * @return
      */
@@ -60,7 +61,7 @@ public class UsersWsREST {
     }
 
     @RequestMapping(value = PREFIX + "/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserWsFormData req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserWsFormData req) throws BindException {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }

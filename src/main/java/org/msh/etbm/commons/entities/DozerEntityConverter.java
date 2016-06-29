@@ -11,7 +11,7 @@ import java.util.*;
 
 /**
  * Dozer custom convert that simplify conversion from/to ID and entity object
- *
+ * <p>
  * Created by rmemoria on 25/10/15.
  */
 @Component
@@ -44,7 +44,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         if (source instanceof Collection) {
-            return handleCollection(dest, (Collection)source, destClass);
+            return handleCollection(dest, (Collection) source, destClass);
         }
 
         // is an entity ID ?
@@ -56,7 +56,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         // is the entity itself?
         if (source instanceof Synchronizable) {
             // get the ID from the entity
-            return convertToId((Synchronizable)source, destClass);
+            return convertToId((Synchronizable) source, destClass);
         }
 
         throw new EntityConverterException(dest, source, "Invalid source type used in entity conversion: " + source.getClass());
@@ -65,7 +65,8 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
 
     /**
      * Convert from ID to entity object
-     * @param id the ID of the entity
+     *
+     * @param id          the ID of the entity
      * @param entityClass the class of the entity
      * @return
      */
@@ -75,6 +76,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
 
     /**
      * Convert from entity to ID
+     *
      * @param source
      * @return
      */
@@ -92,8 +94,9 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
 
     /**
      * Handle mapping of entities in a collection
-     * @param dest the destination object
-     * @param source the source object
+     *
+     * @param dest      the destination object
+     * @param source    the source object
      * @param destClass the destination class
      * @return Collection with the mapped objects
      */
@@ -105,7 +108,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         // get the list that will receive mapped values
-        List list = dest != null ? (List)dest : new ArrayList();
+        List list = dest != null ? (List) dest : new ArrayList();
         list.clear();
 
         if (param == null) {
@@ -125,12 +128,12 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
      * will be used as the destination class, otherwise, entityClass will be used to convert from the items
      * in source to UUID. The conversion is done using the method {@link DozerEntityConverter#convert(Object, Object, Class, Class)}
      *
-     * @param source the source collection where items to be converted are
-     * @param dest the destination collection, where converted items will be included
+     * @param source      the source collection where items to be converted are
+     * @param dest        the destination collection, where converted items will be included
      * @param entityClass the entity class to convert or be converted from source
      */
     private void convertCollection(Collection source, Collection dest, Class entityClass) {
-        for (Object obj: source) {
+        for (Object obj : source) {
             Object result = obj instanceof UUID ?
                     convert(null, obj, entityClass, UUID.class) :
                     convert(null, obj, UUID.class, entityClass);
