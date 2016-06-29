@@ -28,8 +28,6 @@ const schema = {
 			type: 'string',
 			required: true,
 			password: true,
-			validate: doc => doc.newPassword !== doc.repeatNewPassword ? 'BIRRRL' : 'MUTANTE',
-			validateMessage: __('changepwd.wrongpass2'),
 			size: { md: 12 }
 		}
 	]
