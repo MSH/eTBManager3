@@ -14,6 +14,7 @@ import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsFormData;
+import org.msh.etbm.test.DataTestSupport;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
 import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;

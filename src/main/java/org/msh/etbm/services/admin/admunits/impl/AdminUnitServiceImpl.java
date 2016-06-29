@@ -171,11 +171,12 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
         // check if parent has changed
         UUID pid =  entity.getParent() != null ? entity.getParent().getId() : null;
-        boolean parentChanged = entity.getId() == null || !DiffsUtils.compareEquals(req.getParentId(), pid);
+        UUID newpid = req.getParentId() != null && req.getParentId().isPresent() ? req.getParentId().get() : null;
+        boolean parentChanged = entity.getId() == null || !DiffsUtils.compareEquals(newpid, pid);
 
         String newCode = null;
         if (parentChanged) {
-            newCode = codeGeneratorService.generateNewCode(req.getParentId());
+            newCode = codeGeneratorService.generateNewCode(newpid);
         }
 
         // call standard map

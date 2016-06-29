@@ -1,4 +1,4 @@
-package org.msh.etbm.test.services.admin;
+package org.msh.etbm.test;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.ServiceResult;
@@ -15,6 +15,9 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileQueryParams;
 import org.msh.etbm.services.admin.userprofiles.UserProfileService;
+import org.msh.etbm.services.admin.usersws.UserWsService;
+import org.msh.etbm.services.admin.usersws.data.UserWsData;
+import org.msh.etbm.services.admin.usersws.data.UserWsFormData;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,11 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
+ * Simple component to generate data for testing support
  * Created by rmemoria on 24/6/16.
  */
 @Component
@@ -46,6 +48,9 @@ public class DataTestSupport {
 
     @Autowired
     UserProfileService userProfileService;
+
+    @Autowired
+    UserWsService userWsService;
 
 
     /**
@@ -88,9 +93,9 @@ public class DataTestSupport {
             throw new RuntimeException("No country structure found to insert admin unit");
         }
 
-        au.setName(name);
-        au.setCsId(cs.getId());
-        au.setParentId(parentId);
+        au.setName(Optional.of(name));
+        au.setCsId(Optional.of(cs.getId()));
+        au.setParentId(parentId != null ? Optional.of(parentId) : Optional.<UUID>empty());
         ServiceResult res = adminUnitService.create(au);
 
         return adminUnitService.findOne(res.getId(), AdminUnitData.class);
@@ -132,5 +137,29 @@ public class DataTestSupport {
         }
 
         return null;
+    }
+
+    @Transactional
+    public UserWsData createUser(String login, String email, String name) {
+        UserWsFormData req = new UserWsFormData();
+        req.setActive(Optional.of(true));
+        req.setAdministrator(Optional.of(true));
+        req.setEmail(Optional.of(email));
+        req.setLogin(Optional.of(login));
+        req.setName(Optional.of(name));
+
+        List<UUID> profs = Arrays.asList(getAdminProfile().getId());
+        req.setProfiles(Optional.of(profs));
+        req.setPlayOtherUnits(Optional.of(true));
+        req.setSendSystemMessages(Optional.of(true));
+
+        AdminUnitData region = createAdminUnit("Region A", null);
+        AdminUnitData city = createAdminUnit("City A", region.getId());
+        UnitData unit = createTBUnit("Unit Test", city.getId());
+        req.setUnitId(Optional.of(unit.getId()));
+
+        ServiceResult res = userWsService.create(req);
+
+        return userWsService.findOne(res.getId(), UserWsData.class);
     }
 }

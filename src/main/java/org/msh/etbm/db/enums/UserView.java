@@ -3,7 +3,7 @@ package org.msh.etbm.db.enums;
 public enum UserView {
 	COUNTRY,
 	ADMINUNIT,
-	TBUNIT,
+    UNIT,
     SELECTEDUNITS;
 	
 	public String getKey() {

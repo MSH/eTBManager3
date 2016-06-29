@@ -61,8 +61,9 @@ public class SourcesREST {
     }
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)

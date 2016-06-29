@@ -70,7 +70,8 @@ public class UnitsREST {
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
-        return unitService.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        unitService.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 }

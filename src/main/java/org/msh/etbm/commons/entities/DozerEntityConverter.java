@@ -105,7 +105,7 @@ public class DozerEntityConverter implements ConfigurableCustomConverter {
         }
 
         // get the list that will receive mapped values
-        List list = dest != null ? (List)dest : new ArrayList<>();
+        List list = dest != null ? (List)dest : new ArrayList();
         list.clear();
 
         if (param == null) {

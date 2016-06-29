@@ -33,6 +33,7 @@
         <test.workingDirectory>target/test</test.workingDirectory>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
         <dist.dir>${project.build.directory}/dist</dist.dir>
+        <test.app-properties>resources/test/mysql</test.app-properties>
 
         <dist.start.class>org.msh.etbm.Application</dist.start.class>
         <dist.jmx.port>50201</dist.jmx.port>
@@ -44,6 +45,12 @@
             <id>development</id>
             <properties>
                 <app.development>true</app.development>
+            </properties>
+        </profile>
+        <profile>
+            <id>hsqldb</id>
+            <properties>
+                <test.app-properties>resources/test/hsqldb</test.app-properties>
             </properties>
         </profile>
     </profiles>
@@ -169,6 +176,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Used initially to start and stop app in integration tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>1.3.5.RELEASE</version>
+        </dependency>
+
         <!-- Preparing the application to be deployed as a daemon (Linux) or a service (Windows) -->
         <dependency>
             <groupId>commons-daemon</groupId>
@@ -187,6 +201,15 @@
 
     <build>
         <plugins>
+            <!-- Inform the compiler version to use -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
 
             <!-- Copy the resources necessary for building and testing -->
             <plugin>
@@ -330,7 +353,6 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
-                        <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
                             <arguments>install</arguments>
                         </configuration>
@@ -340,11 +362,19 @@
                         <goals>
                             <goal>gulp</goal>
                         </goals>
-                        <!-- optional: the default phase is "generate-resources" -->
                         <phase>generate-resources</phase>
                         <configuration>
-                            <!-- optional: if not specified, it will run gulp's default  task (and you can remove this whole <configuration>section.) -->
                             <arguments>build</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <arguments>test</arguments>
                         </configuration>
                     </execution>
                 </executions>
@@ -408,6 +438,64 @@
                 </configuration>
             </plugin>
 
+            <!-- Support for integration tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <workingDirectory>${test.workingDirectory}</workingDirectory>
+                    <basedir>${test.workingDirectory}</basedir>
+                    <parallel>true</parallel>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.3.5.RELEASE</version>
+                <configuration>
+                    <mainClass>${dist.start.class}</mainClass>
+                    <arguments>
+                        <argument>--app-property-file=${test.workingDirectory}/etbmanager.properties</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>${dist.start.class}</mainClass>
+                            <arguments>
+                                <argument>--app-property-file=${test.workingDirectory}/etbmanager.properties</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Checkstyle plugin to verify style during building -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -421,7 +509,6 @@
                             <encoding>UTF-8</encoding>
                             <consoleOutput>true</consoleOutput>
                             <failsOnError>true</failsOnError>
-                            <linkXRef>false</linkXRef>
                         </configuration>
                         <goals>
                             <goal>check</goal>
@@ -429,6 +516,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 
