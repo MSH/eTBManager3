@@ -159,7 +159,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     public Diffs changePassword(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
 
-        if (userws == null){
+        if (userws == null) {
             throw new RuntimeException("UserWs not found");
         }
 
