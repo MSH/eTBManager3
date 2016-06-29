@@ -84,7 +84,7 @@ public class PasswordUpdateService {
     public void updatePassword(UUID userId, String newPassword) {
         User user = entityManager.find(User.class, userId);
 
-        if (user == null){
+        if (user == null) {
             throw new RuntimeException("User not found");
         }
 

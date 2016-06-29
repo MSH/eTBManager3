@@ -22,7 +22,7 @@ public class PasswordLogHandler implements CommandLogHandler<Object, Diffs> {
 
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, Diffs response) {
-        switch(in.getType()){
+        switch (in.getType()) {
             case "userSessionChangePassword":
                 User user = entityManager.find(User.class, in.getUserId());
 
