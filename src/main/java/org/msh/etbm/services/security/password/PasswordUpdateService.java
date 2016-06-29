@@ -1,7 +1,8 @@
-package org.msh.etbm.services.pub;
+package org.msh.etbm.services.security.password;
 
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.User;
+import org.msh.etbm.services.pub.PwdResetTokenResponse;
 import org.msh.etbm.services.security.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 16/6/16.
@@ -49,7 +51,6 @@ public class PasswordUpdateService {
         entityManager.flush();
     }
 
-
     /**
      * Return information about the user from the password request token provided when user
      * requested a password reset. This method is just to check if token is valid
@@ -76,5 +77,27 @@ public class PasswordUpdateService {
         return resp;
     }
 
+    /**
+     * Change the user password using the user id
+     * @param userId The UUID of the user that will have its password updated
+     * @param newPassword The new password
+     */
+    @Transactional
+    public void updatePassword(UUID userId, String newPassword) {
+        User user = entityManager.find(User.class, userId);
 
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        if (!UserUtils.isValidPassword(newPassword)) {
+            throw new EntityValidationException(newPassword, "newPassword", null, "changepwd.invalidpassword");
+        }
+
+        String hashNewPwd = UserUtils.hashPassword(newPassword);
+        user.setPassword(hashNewPwd);
+
+        entityManager.persist(user);
+        entityManager.flush();
+    }
 }

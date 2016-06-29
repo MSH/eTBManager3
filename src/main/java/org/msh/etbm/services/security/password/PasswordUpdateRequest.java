@@ -1,4 +1,4 @@
-package org.msh.etbm.services.pub;
+package org.msh.etbm.services.security.password;
 
 import org.msh.etbm.services.security.UserConstants;
 

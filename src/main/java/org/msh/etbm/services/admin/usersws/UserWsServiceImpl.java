@@ -1,22 +1,31 @@
 package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.mail.MailService;
+import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
+import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
 import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.PasswordLogHandler;
+import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +46,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Autowired
     Messages messages;
+
+    @Autowired
+    PasswordUpdateService passwordUpdateService;
 
     @Override
     protected void buildQuery(QueryBuilder<UserWorkspace> builder, UserWsQueryParams queryParams) {
@@ -137,5 +149,27 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         dao.save();
 
         System.out.println(dao.getEntity().getId());
+    }
+
+    /**
+     * Update the settings of the current user
+     * @param data instance of {@link UserSettingsFormData} containing the settings
+     * @return The list of changed fields
+     */
+    @Transactional
+    @CommandLog(handler = PasswordLogHandler.class, type = "userWsChangePassword")
+    public Diffs changePassword(UserWsChangePwdFormData data) {
+        UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
+
+        if (userws == null) {
+            throw new RuntimeException("UserWs not found");
+        }
+
+        passwordUpdateService.updatePassword(userws.getUser().getId(), data.getNewPassword());
+
+        Diffs diff = new Diffs();
+        diff.put("userPwdChanged", null, userws.getUser().getId());
+
+        return diff;
     }
 }

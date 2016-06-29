@@ -3,9 +3,9 @@ import React from 'react';
 import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
-import { Label } from 'react-bootstrap';
+import { Label, Alert } from 'react-bootstrap';
 
-
+import UserWsChangePwd from './user-ws-changepwd';
 const crud = new CRUD('userws');
 
 // definition of the form fields to edit substances
@@ -102,9 +102,14 @@ export default class UsersWs extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = { userChangePwd: null };
+
 		this.options = this.options.bind(this);
 		this.execOption = this.execOption.bind(this);
+
 		this.blockUnblockUser = this.blockUnblockUser.bind(this);
+		this.openChangePassword = this.openChangePassword.bind(this);
+		this.closeChangePassword = this.closeChangePassword.bind(this);
 	}
 
 	options(item) {
@@ -115,7 +120,7 @@ export default class UsersWs extends React.Component {
 				},
 				{
 					label: 'Change password',
-					onClick: this.execOption
+					onClick: this.openChangePassword
 				},
 				{
 					label: item.active === false ? 'Unblock user' : 'Block user',
@@ -134,6 +139,17 @@ export default class UsersWs extends React.Component {
 				item.active = newState;
 				cell.forceUpdate();
 			});
+	}
+
+	openChangePassword(index, item) {
+		this.setState({ userChangePwd: item });
+	}
+
+	closeChangePassword(res) {
+		this.setState({ userChangePwd: null, successMsg: res });
+
+		const self = this;
+		setTimeout(a => { self.setState({ successMsg: null }); }, 4000);
 	}
 
 	execOption(index) {
@@ -172,13 +188,25 @@ export default class UsersWs extends React.Component {
 		const data = this.props.route.data;
 
 		return (
-			<CrudView crud={crud}
-				pageSize={50}
-				options={this.options}
-				title={data.title}
-				editorSchema={editorDef}
-				onCellRender={this.cellRender}
-				perm={data.perm} />
+			<div>
+
+				{
+					!!this.state.successMsg &&
+					<Alert bsStyle="success">{__('changepwd.success1')}</Alert>
+				}
+
+				<CrudView crud={crud}
+					pageSize={50}
+					options={this.options}
+					title={data.title}
+					editorSchema={editorDef}
+					onCellRender={this.cellRender}
+					perm={data.perm} />
+
+				<UserWsChangePwd userws={this.state.userChangePwd}
+					show={!!this.state.userChangePwd}
+					onClose={this.closeChangePassword} />
+			</div>
 			);
 	}
 }
