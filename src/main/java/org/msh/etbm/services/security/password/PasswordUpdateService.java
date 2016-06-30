@@ -78,7 +78,7 @@ public class PasswordUpdateService {
     }
 
     /**
-     * Change the user password using the user id
+     * Change the user password using the user UUID
      * @param userId The UUID of the user that will have its password updated
      * @param newPassword The new password
      */

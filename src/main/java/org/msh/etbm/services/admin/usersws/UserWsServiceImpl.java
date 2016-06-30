@@ -7,13 +7,13 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
+import org.msh.etbm.services.pub.ForgotPwdService;
 import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
 import org.msh.etbm.services.security.password.PasswordUpdateService;
@@ -24,11 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Implementation of the {@link UserWsService} to handle CRUD operations for User workspace
@@ -49,6 +45,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Autowired
     PasswordUpdateService passwordUpdateService;
+
+    @Autowired
+    ForgotPwdService forgotPwdService;
 
     @Override
     protected void buildQuery(QueryBuilder<UserWorkspace> builder, UserWsQueryParams queryParams) {
@@ -151,25 +150,44 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         System.out.println(dao.getEntity().getId());
     }
 
-    /**
-     * Update the settings of the current user
-     * @param data instance of {@link UserSettingsFormData} containing the settings
-     * @return The list of changed fields
-     */
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "userWsChangePassword")
-    public Diffs changePassword(UserWsChangePwdFormData data) {
+    public Map<String, Object> changePassword(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
 
         if (userws == null) {
             throw new RuntimeException("UserWs not found");
         }
 
+        // Update the user password on database
         passwordUpdateService.updatePassword(userws.getUser().getId(), data.getNewPassword());
 
-        Diffs diff = new Diffs();
-        diff.put("userPwdChanged", null, userws.getUser().getId());
+        // Send email notifying the user
+        Map<String, Object> model = new HashMap<>();
+        model.put("adminUserName", userRequestService.getUserSession().getUserName());
+        model.put("name", userws.getUser().getName());
+        String subject = messages.get("mail.pwdchanged.subject");
+        mailService.send(userws.getUser().getEmail(), subject, "userwschangepwd.ftl", model);
 
-        return diff;
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", userws.getUser().getName());
+        ret.put("userModifiedId", userws.getUser().getId());
+
+        return ret;
+    }
+
+    @Transactional
+    @CommandLog(handler = PasswordLogHandler.class, type = "pwdResetEmailSent")
+    public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
+        UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
+        forgotPwdService.requestPasswordReset(userws.getLogin());
+
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", userws.getUser().getName());
+        ret.put("userModifiedId", userws.getUser().getId());
+
+        return ret;
     }
 }

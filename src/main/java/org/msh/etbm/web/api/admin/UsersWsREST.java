@@ -84,4 +84,10 @@ public class UsersWsREST {
     public void updatePassword(@Valid @RequestBody UserWsChangePwdFormData data) {
         service.changePassword(data);
     }
+
+    @RequestMapping(value = PREFIX + "/resetpwd", method = RequestMethod.POST)
+    @Authenticated
+    public void resetPassword(@Valid @RequestBody UserWsChangePwdFormData data) {
+        service.sendPwdResetLink(data);
+    }
 }

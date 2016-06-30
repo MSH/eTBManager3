@@ -9,12 +9,12 @@ import java.util.UUID;
 public class UserWsChangePwdFormData {
 
     /**
-     * The user that will have its password modified
+     * The user id that will have its password modified
      */
     private UUID userWsId;
 
     /**
-     * The old password
+     * The new password
      */
     private String newPassword;
 

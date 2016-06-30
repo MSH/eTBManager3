@@ -6,6 +6,7 @@ import Profile from '../../../components/profile';
 import { Label, Alert } from 'react-bootstrap';
 
 import UserWsChangePwd from './user-ws-changepwd';
+import { server } from '../../../commons/server';
 const crud = new CRUD('userws');
 
 // definition of the form fields to edit substances
@@ -105,8 +106,8 @@ export default class UsersWs extends React.Component {
 		this.state = { userChangePwd: null };
 
 		this.options = this.options.bind(this);
-		this.execOption = this.execOption.bind(this);
 
+		this.sendNewPassword = this.sendNewPassword.bind(this);
 		this.blockUnblockUser = this.blockUnblockUser.bind(this);
 		this.openChangePassword = this.openChangePassword.bind(this);
 		this.closeChangePassword = this.closeChangePassword.bind(this);
@@ -116,7 +117,7 @@ export default class UsersWs extends React.Component {
 		const options = [
 				{
 					label: 'Send new password',
-					onClick: this.execOption
+					onClick: this.sendNewPassword
 				},
 				{
 					label: 'Change password',
@@ -129,6 +130,22 @@ export default class UsersWs extends React.Component {
 			];
 
 		return options;
+	}
+
+	sendNewPassword(index, item) {
+		const self = this;
+		const doc = {userWsId: item.id};
+		
+		return server.post('/api/tbl/userws/resetpwd', doc)
+		.then(res => {
+			if (res && res.errors) {
+				return Promise.reject(res.errors);
+			}
+			const msg = __('changepwd.emailsent') + ' ' + item.name;
+			self.setState({ infoMsg: msg });
+			setTimeout(() => { self.setState({ infoMsg: null }); }, 4000);
+			return true;
+		});
 	}
 
 	blockUnblockUser(index, item, cell) {
@@ -146,14 +163,10 @@ export default class UsersWs extends React.Component {
 	}
 
 	closeChangePassword(res) {
-		this.setState({ userChangePwd: null, successMsg: res });
+		this.setState({ userChangePwd: null, infoMsg: res });
 
 		const self = this;
-		setTimeout(a => { self.setState({ successMsg: null }); }, 4000);
-	}
-
-	execOption(index) {
-		alert('Not implemented: ' + index);
+		setTimeout(() => { self.setState({ infoMsg: null }); }, 4000);
 	}
 
 	cellRender(item) {
@@ -191,8 +204,8 @@ export default class UsersWs extends React.Component {
 			<div>
 
 				{
-					!!this.state.successMsg &&
-					<Alert bsStyle="success">{__('changepwd.success1')}</Alert>
+					!!this.state.infoMsg &&
+					<Alert bsStyle="success">{this.state.infoMsg}</Alert>
 				}
 
 				<CrudView crud={crud}

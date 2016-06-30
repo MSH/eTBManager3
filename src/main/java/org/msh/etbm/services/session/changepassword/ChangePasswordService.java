@@ -2,7 +2,6 @@ package org.msh.etbm.services.session.changepassword;
 
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
@@ -15,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Change users password
@@ -40,7 +41,7 @@ public class ChangePasswordService {
      */
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "userSessionChangePassword")
-    public Diffs changePassword(ChangePasswordFormData data) {
+    public Map<String, Object> changePassword(ChangePasswordFormData data) {
         User user = entityManager.find(User.class, userRequestService.getUserSession().getUserId());
         String hashPwd = UserUtils.hashPassword(data.getPassword());
 
@@ -50,6 +51,11 @@ public class ChangePasswordService {
 
         passwordUpdateService.updatePassword(user.getId(), data.getNewPassword());
 
-        return null;
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", user.getName());
+        ret.put("userModifiedId", user.getId());
+
+        return ret;
     }
 }

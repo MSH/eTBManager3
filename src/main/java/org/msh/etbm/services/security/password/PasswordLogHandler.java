@@ -3,43 +3,40 @@ package org.msh.etbm.services.security.password;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
-import org.msh.etbm.commons.objutils.Diffs;
-import org.msh.etbm.db.entities.User;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Register the changes in the user settings
  * Created by rmemoria on 15/5/16.
  */
 @Component
-public class PasswordLogHandler implements CommandLogHandler<Object, Diffs> {
+public class PasswordLogHandler implements CommandLogHandler<Object, Map<String, Object>> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
+    /**
+     * Register log for three functtionalities that changes the user password.
+     */
     @Override
-    public void prepareLog(CommandHistoryInput in, Object request, Diffs response) {
+    public void prepareLog(CommandHistoryInput in, Object request, Map<String, Object> data) {
+        String detailText = "";
+
         switch (in.getType()) {
             case "userSessionChangePassword":
-                User user = entityManager.find(User.class, in.getUserId());
-
-                in.setEntityId(in.getUserId());
-                in.setEntityName(user.getName());
-                in.setAction(CommandAction.EXEC);
-                in.setDetailText("User session Change Password");
+                detailText = "The user changed its own password.";
                 break;
-
             case "userWsChangePassword":
-                User userPwdChanged = entityManager.find(User.class, response.get("userPwdChanged").getNewValue());
-
-                in.setEntityId(userPwdChanged.getId());
-                in.setEntityName(userPwdChanged.getName());
-                in.setAction(CommandAction.EXEC);
-                in.setDetailText("User password changed");
+                detailText = "The user changed the password of another user throw administrative module.";
+                break;
+            case "pwdResetEmailSent":
+                detailText = "The user sent a reset password e-mail to another user throw administrative module.";
                 break;
         }
+
+        in.setEntityId((UUID)data.get("userModifiedId"));
+        in.setEntityName((String)data.get("userModifiedName"));
+        in.setAction(CommandAction.EXEC);
+        in.setDetailText(detailText);
     }
 }
