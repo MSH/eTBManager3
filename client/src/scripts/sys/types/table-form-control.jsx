@@ -152,7 +152,7 @@ export default class TableFormControl extends React.Component {
 				return 'ERROR! No column defined for readonly form.';
 			}
 			
-			return(<ReactTable columns={sc.readOnlyClomuns}
+			return (<ReactTable columns={sc.readOnlyClomuns}
 						values={this.props.value} />);
 
 		}
