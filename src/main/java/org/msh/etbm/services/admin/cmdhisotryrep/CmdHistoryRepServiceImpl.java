@@ -187,12 +187,10 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return s;
         }
 
-        // TODOMS waiting for a form that saves date insto JSON field, so I can test it
         return s;
     }
 
     private String processNumberValue(String s) {
-        // TODOMS waiting for a form that saves number into JSON field, so I can test it
         return s;
     }
 

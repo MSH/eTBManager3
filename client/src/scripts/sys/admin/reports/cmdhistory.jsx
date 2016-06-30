@@ -99,7 +99,7 @@ export default class CommandHistory extends React.Component {
 			endDate: this.state.doc.endDate,
 			action: this.state.doc.action,
 			userId: this.state.doc.userId,
-			type: this.state.doc.type, // TODOMS: Pensar sobr euma solução para gerar a lista de opções
+			type: this.state.doc.type,
 			adminUnitId: this.state.doc.adminUnitId,
 			searchKey: this.state.doc.searchKey
 		};

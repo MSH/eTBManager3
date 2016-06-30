@@ -164,7 +164,6 @@ export default class UsersWs extends React.Component {
 
 	closeChangePassword(res) {
 		this.setState({ userChangePwd: null, infoMsg: res });
-
 		const self = this;
 		setTimeout(() => { self.setState({ infoMsg: null }); }, 4000);
 	}

@@ -91,7 +91,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
+			property: 'laboratory',
 			size: { sm: 4 }
 		},
 		{
@@ -139,7 +139,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
+			property: 'laboratory',
 			size: { sm: 4 }
 		},
 		{
@@ -193,7 +193,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
+			property: 'laboratory',
 			size: { sm: 4 }
 		},
 		{
@@ -242,7 +242,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory', // TODOMS: use 'laboratory.name' when not using mockData anymore.
+			property: 'laboratory',
 			size: { sm: 4 }
 		},
 		{
@@ -276,7 +276,7 @@ const displaySchemas = {
 			fschema: {
 				layout: [
 					{
-						property: 'substance', // TODOMS: use 'substance.name' when not using mockData anymore.
+						property: 'substance',
 						type: 'string',
 						label: __('Medicine.substances'),
 						size: { md: 6 }
