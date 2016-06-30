@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
@@ -53,6 +54,11 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         builder.addOrderByMap(UserWsQueryParams.ORDERBY_ADMINUNIT, "adminUnit.name");
 
         builder.setHqlJoin("join fetch a.user u join fetch a.unit un");
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_USERS;
     }
 
     @Override

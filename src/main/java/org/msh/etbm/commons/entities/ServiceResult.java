@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.entities;
 
+import org.msh.etbm.commons.commands.CommandType;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.ObjectValues;
 
@@ -15,6 +17,8 @@ public class ServiceResult {
     private Class entityClass;
     private Diffs logDiffs;
     private ObjectValues logValues;
+    private Operation operation;
+    private CommandType commandType;
 
     public UUID getId() {
         return id;
@@ -54,5 +58,21 @@ public class ServiceResult {
 
     public void setLogValues(ObjectValues logValues) {
         this.logValues = logValues;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
+    }
+
+    public CommandType getCommandType() {
+        return commandType;
+    }
+
+    public void setCommandType(CommandType commandType) {
+        this.commandType = commandType;
     }
 }

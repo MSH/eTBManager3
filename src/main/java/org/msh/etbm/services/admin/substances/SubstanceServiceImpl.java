@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.substances;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -48,6 +49,11 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
         }
     }
 
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_SUBSTANCES;
+    }
 
     @Override
     protected void beforeSave(Substance sub, Errors errors) {

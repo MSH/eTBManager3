@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.commands.details;
 
 import org.msh.etbm.commons.Displayable;
-import org.msh.etbm.commons.commands.impl.CommandException;
+import org.msh.etbm.commons.commands.CommandException;
 
 import java.util.ArrayList;
 import java.util.Collection;

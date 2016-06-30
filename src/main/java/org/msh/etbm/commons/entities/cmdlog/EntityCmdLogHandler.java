@@ -1,8 +1,6 @@
 package org.msh.etbm.commons.entities.cmdlog;
 
-import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandLogHandler;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.objutils.DiffValue;
 import org.msh.etbm.commons.objutils.ObjectValues;
@@ -17,24 +15,18 @@ import java.util.Map;
  * Created by rmemoria on 25/10/15.
  */
 @Component
-public class EntityCmdLogHandler implements CommandLogHandler {
-    public static final String CREATE = "create";
-    public static final String UPDATE = "update";
-    public static final String DELETE = "delete";
+public class EntityCmdLogHandler implements CommandLogHandler<Object, ServiceResult> {
 
     @Override
-    public void prepareLog(CommandHistoryInput in, Object request, Object response) {
+    public void prepareLog(CommandHistoryInput in, Object request, ServiceResult result) {
         // any response ?
-        if (response == null) {
+        if (result == null) {
             in.cancelLog();
             return;
         }
 
-        String cmd = in.getType();
-
         // there were validation errors ?
-        ServiceResult result = (ServiceResult) response;
-        if (!DELETE.equals(cmd) && result.getLogDiffs() == null && result.getLogValues() == null) {
+        if (result.getOperation() != Operation.DELETE  && result.getLogDiffs() == null && result.getLogValues() == null) {
             in.cancelLog();
             return;
         }
@@ -46,24 +38,34 @@ public class EntityCmdLogHandler implements CommandLogHandler {
         in.setEntityId(result.getId());
         in.setEntityName(result.getEntityName());
 
-        if (CREATE.equals(cmd)) {
-            handleCreateCommand(in, result);
-            return;
-        }
+        CommandType cmd = resolveCommandType(result);
+        in.setType(cmd.getPath());
 
-        if (UPDATE.equals(cmd)) {
-            handleUpdateCommand(in, result);
-            return;
+        switch (result.getOperation()) {
+            case NEW:
+                handleCreateCommand(in, result);
+                return;
+            case EDIT:
+                handleUpdateCommand(in, result);
+                return;
+            case DELETE:
+                handleDeleteCommand(in, result);
+                return;
+            default:
+                throw new CommandException("Invalid log command operation");
         }
-
-        if (DELETE.equals(cmd)) {
-            handleDeleteCommand(in, result);
-            return;
-        }
-
-        throw new RuntimeException("Action to log command not supported");
     }
 
+
+    protected CommandType resolveCommandType(ServiceResult res) {
+        CommandType cmd = res.getCommandType();
+        switch (res.getOperation()) {
+            case NEW: return cmd.find(CommandTypes.CMD_CREATE);
+            case EDIT: return cmd.find(CommandTypes.CMD_UPDATE);
+            case DELETE: return cmd.find(CommandTypes.CMD_DELETE);
+            default: throw new CommandException("Invalid operation for log");
+        }
+    }
 
     /**
      * Handle command log when an entity is created

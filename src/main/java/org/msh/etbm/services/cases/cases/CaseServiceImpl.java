@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.cases;
 
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
@@ -35,4 +36,8 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         return ret;*/
     }
 
+    @Override
+    public String getCommandType() {
+        return CommandTypes.CASES_CASE;
+    }
 }

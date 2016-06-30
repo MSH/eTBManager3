@@ -6,6 +6,7 @@ import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
 import { app } from '../../../core/app';
 import moment from 'moment';
+import CommandTypeControl from './command-type-control';
 
 const fschema = {
 			layout: [
@@ -43,7 +44,7 @@ const fschema = {
 				{
 					property: 'type',
 					required: false,
-					type: 'string',
+					type: CommandTypeControl,
 					max: 50,
 					label: __('admin.reports.cmdhistory.cmdevent'),
 					size: { sm: 4 }

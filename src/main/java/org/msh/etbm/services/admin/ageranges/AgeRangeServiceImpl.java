@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.ageranges;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -30,6 +31,11 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQu
 
         builder.addDefaultOrderByMap(AgeRangesQueryParams.ORDERBY_AGE, "iniAge");
         builder.setOrderByKey(AgeRangesQueryParams.PROFILE_DEFAULT);
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_AGERANGES;
     }
 
     @Override

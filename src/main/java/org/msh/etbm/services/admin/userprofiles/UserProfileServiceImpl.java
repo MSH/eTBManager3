@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.userprofiles;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -56,6 +57,11 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
         }
 
         super.mapRequest(request, entity);
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_USERPROFILES;
     }
 
     @Override

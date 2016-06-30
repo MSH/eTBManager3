@@ -2,6 +2,7 @@ package org.msh.etbm.services.session.usersettings;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.commons.objutils.Diffs;
@@ -57,7 +58,7 @@ public class UserSettingsService {
      * @return The list of changed fields
      */
     @Transactional
-    @CommandLog(handler = UserSettingsLogHandler.class, type = "userSettings.update")
+    @CommandLog(handler = UserSettingsLogHandler.class, type = CommandTypes.SESSION_USER_SETTINGS)
     public Diffs update(UserSettingsFormData data) {
         EntityDAO<User> userDAO = getCurrentUser();
 

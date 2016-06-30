@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.units.impl;
 
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
@@ -121,6 +122,11 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
 
         rejectFieldException(req, "type", "InvalidValue");
         return null;
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_UNITS;
     }
 
     @Override
