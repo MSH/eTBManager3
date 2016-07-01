@@ -1,6 +1,7 @@
 package org.msh.etbm.services.init;
 
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserLog;
@@ -50,7 +51,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
      * @param form contains information about the workspace to be registered
      */
     @Transactional
-    @CommandLog(type = "init.regworkspace", handler = RegisterWorkspaceLog.class)
+    @CommandLog(type = CommandTypes.INIT_REGWORKSPACE, handler = RegisterWorkspaceLog.class)
     @Override
     public UUID run(@Valid @NotNull RegisterWorkspaceRequest form) {
 
@@ -60,23 +61,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
         updateConfiguration(form);
 
-        sendSuccessMailMessage(ws);
-
         return ws.getId();
-    }
-
-
-    /**
-     * Send an e-mail message to the user to inform him about the new workspace created
-     *
-     * @param ws the created workspace
-     */
-    protected void sendSuccessMailMessage(WorkspaceData ws) {
-        // TODO Implement e-mail delivery of successful workspace registration
-        // Map<String, Object> data = new HashMap<>();
-        // data.put("name", "Ricardo");
-
-        // mailService.send("ricardo@rmemoria.com.br", "Hello world", "test.ftl", data);
     }
 
 

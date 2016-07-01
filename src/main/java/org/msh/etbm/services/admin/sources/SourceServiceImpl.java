@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.sources;
 
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Source;
@@ -30,6 +31,11 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
         }
     }
 
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_SOURCES;
+    }
 
     @Override
     protected void beforeSave(Source source, Errors errors) {

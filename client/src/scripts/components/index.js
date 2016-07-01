@@ -28,6 +28,7 @@ import Expandable from './expandable';
 import MaskedInput from './masked-input';
 import CommandBar from './command-bar';
 import Errors from './errors';
+import PopupControl from './popup-control';
 
 export { Callout,
 	AsyncButton,
@@ -54,5 +55,6 @@ export { Callout,
 	Expandable,
 	MaskedInput,
 	CommandBar,
-	Errors
+	Errors,
+	PopupControl
 };

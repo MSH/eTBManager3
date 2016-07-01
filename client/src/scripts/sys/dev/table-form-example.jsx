@@ -1,28 +1,9 @@
 
 import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import { Card } from '../../components/index';
+import { Card, Profile } from '../../components/index';
 import Form from '../../forms/form';
-
-const tfschema = {
-			layout: [
-				{
-					property: 'iniDate',
-					required: true,
-					type: 'date',
-					label: __('Period.iniDate'),
-					size: { md: 4 }
-				},
-				{
-					property: 'userId',
-					required: false,
-					type: 'select',
-					label: __('User'),
-					options: 'users',
-					size: { md: 4 }
-				}
-			]
-		};
+import moment from 'moment';
 
 /**
  * Initial page that declare all routes of the module
@@ -64,33 +45,44 @@ export default class TableFormExample extends React.Component {
 	render() {
 
 		// the columns of the table
-		const ctitles = [
+		const readOnlyClomuns = [
 			{
-				title: __('Period.iniDate'),
-				size: { sm: 3 },
-				align: 'center'
+				title: 'iniDate',
+				content: item => <span>{moment(item.iniDate).format('L LT')}</span>,
+				size: { sm: 6 }
 			},
 			{
-				title: __('form.action'),
-				size: { sm: 3 },
-				align: 'center'
-			},
-			{
-				title: __('User'),
-				size: { sm: 3 },
-				align: 'center'
-			},
-			{
-				title: __('admin.reports.cmdhistory.cmdevent'),
-				size: { sm: 3 },
-				align: 'center'
+				title: 'userName',
+				content: item => <Profile size="small" title={item.userName} type="user" />,
+				size: { sm: 6 }
 			}
 		];
 
+		// The schema of table form
+		const tfschema = {
+			layout: [
+				{
+					property: 'iniDate',
+					required: true,
+					type: 'date',
+					label: __('Period.iniDate'),
+					size: { md: 4 }
+				},
+				{
+					property: 'userName',
+					required: false,
+					type: 'string',
+					label: __('User'),
+					size: { md: 4 }
+				}
+			]
+		};
 
+		// the form schema
 		const fschema = {
 					defaultProperties: {
-						formList: [{ iniDate: new Date() }, {}]
+						type: 'Type test default prop',
+						formList: [{ iniDate: new Date(), userName: 'Mauricio' }, { iniDate: new Date(), userName: 'Jesus' }, { iniDate: new Date(), userName: 'Santos' }]
 					},
 					layout: [
 						{
@@ -105,7 +97,7 @@ export default class TableFormExample extends React.Component {
 							property: 'formList',
 							type: 'tableForm',
 							fschema: tfschema,
-							ctitles: ctitles,
+							readOnlyClomuns: readOnlyClomuns,
 							min: 2,
 							max: 5,
 							size: { sm: 12 }
@@ -122,7 +114,18 @@ export default class TableFormExample extends React.Component {
 								schema={fschema}
 								doc={this.state.doc}
 								onChange={this.onChangeDoc}
-								errors={this.state.errors}/>
+								errors={this.state.errors} readOnly/>
+						</Col>
+					</Row>
+				</Card>
+				<Card title="Form Table">
+					<Row>
+						<Col md={12}>
+							<Form ref="form"
+								schema={fschema}
+								doc={this.state.doc}
+								onChange={this.onChangeDoc}
+								errors={this.state.errors} />
 						</Col>
 					</Row>
 					<Row>

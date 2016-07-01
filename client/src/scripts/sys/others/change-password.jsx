@@ -28,8 +28,6 @@ const schema = {
 			type: 'string',
 			required: true,
 			password: true,
-			validate: doc => doc.newPassword !== doc.repeatNewPassword ? 'BIRRRL' : 'MUTANTE',
-			validateMessage: __('changepwd.wrongpass2'),
 			size: { md: 12 }
 		}
 	]
@@ -53,7 +51,7 @@ export default class ChangePassword extends React.Component {
 			return Promise.reject([{ field: 'repeatNewPassword', msg: __('changepwd.wrongpass2') }]);
 		}
 
-		// save preferences
+		// save new password
 		const self = this;
 
 		return server.post('/api/sys/changepassword', this.state.doc)

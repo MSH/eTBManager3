@@ -86,7 +86,7 @@ export default class UserSettings extends React.Component {
 			<Grid fluid>
 				<Row className="mtop-2x">
 					<Col md={5} mdOffset={3}>
-						<Card title={__('usersettings')}>
+						<Card title={__('session.usersettings')}>
 							{
 								this.state.msg &&
 								<Alert bsStyle="success">{__('usersettings.savemsg')}</Alert>

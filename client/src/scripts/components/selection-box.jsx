@@ -163,7 +163,7 @@ export default class SelectionBox extends React.Component {
 	 */
 	itemClick(item) {
 		const self = this;
-		return evt => {
+		return () => {
 			if (self.props.mode === 'single') {
 				self.notifyChange(item);
 				return;

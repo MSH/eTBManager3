@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.commands.details;
 
-import org.msh.etbm.commons.commands.impl.CommandException;
+import org.msh.etbm.commons.commands.CommandException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

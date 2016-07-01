@@ -447,7 +447,11 @@ export default class TreeView extends React.Component {
 			return null;
 		}
 
-		return <div className="tree-view">{this.createNodesView()}</div>;
+		return (
+			<div className="tree-view" style={this.props.style}>
+				{this.createNodesView()}
+			</div>
+			);
 	}
 }
 
@@ -475,7 +479,8 @@ TreeView.propTypes = {
 	// the indentation of each node level, in pixels
 	indent: React.PropTypes.number,
 	// called when tree is mounted in order to parent interact with tree
-	onInit: React.PropTypes.func
+	onInit: React.PropTypes.func,
+	style: React.PropTypes.object
 };
 
 TreeView.defaultProps = {

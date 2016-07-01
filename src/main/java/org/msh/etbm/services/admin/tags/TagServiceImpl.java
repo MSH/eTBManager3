@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.tags;
 import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -40,6 +41,11 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     @Override
     protected void afterSave(Tag entity, ServiceResult res, boolean isNew) {
         casesTagsUpdateService.updateCases(entity.getId());
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_TAGS;
     }
 
     @Override

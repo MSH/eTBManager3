@@ -164,11 +164,6 @@ class PermissionTree extends React.Component {
 			);
 	}
 
-	// _isItemSelected(item) {
-	// 	const val = this.props.value;
-	// 	return val ? !!val.find(p => p.permission === item.id) : false;
-	// }
-
 	render() {
 		const title = (
 			<Row key="title">

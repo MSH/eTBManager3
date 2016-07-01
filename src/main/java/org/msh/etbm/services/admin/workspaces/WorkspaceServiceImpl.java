@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.workspaces;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
@@ -50,8 +51,13 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         builder.addDefaultOrderByMap(WorkspaceQueryParams.ORDERBY_NAME, "name");
     }
 
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_WORKSPACES;
+    }
+
     @Transactional
-    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
+    @CommandLog(type = CommandTypes.CMD_CREATE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult create(@Valid @NotNull Object req) {
         // keep other request classes being handled by the standard create method

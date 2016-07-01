@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.admin.usersws.UserWsQueryParams;
 import org.msh.etbm.services.admin.usersws.UserWsService;
+import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsFormData;
 import org.msh.etbm.services.security.permissions.Permissions;
@@ -78,4 +79,15 @@ public class UsersWsREST {
         return service.findMany(qry);
     }
 
+    @RequestMapping(value = PREFIX + "/updatepwd", method = RequestMethod.POST)
+    @Authenticated
+    public void updatePassword(@Valid @RequestBody UserWsChangePwdFormData data) {
+        service.changePassword(data);
+    }
+
+    @RequestMapping(value = PREFIX + "/resetpwd", method = RequestMethod.POST)
+    @Authenticated
+    public void resetPassword(@Valid @RequestBody UserWsChangePwdFormData data) {
+        service.sendPwdResetLink(data);
+    }
 }

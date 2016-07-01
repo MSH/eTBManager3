@@ -5,6 +5,8 @@ import org.hibernate.Hibernate;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandType;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
@@ -62,6 +64,12 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     private Class<E> entityClass;
 
     /**
+     * Return the command type used to register the entity service
+     * @return instance of the {@link CommandType}
+     */
+    public abstract String getCommandType();
+
+    /**
      * Create a new entity based on the given request object. The request object depends on the implementation
      * and contains the values to create a new entity
      *
@@ -69,7 +77,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return service result containing information about the new entity generated
      */
     @Transactional
-    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
+    @CommandLog(type = CommandTypes.CMD_CREATE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult create(@Valid @NotNull Object req) {
         // create a new instance of the entity
@@ -89,6 +97,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setId(entity.getId());
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
+        res.setOperation(Operation.NEW);
 
         afterSave(dao.getEntity(), res, true);
 
@@ -104,7 +113,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      * @return
      */
     @Transactional
-    @CommandLog(type = EntityCmdLogHandler.UPDATE, handler = EntityCmdLogHandler.class)
+    @CommandLog(type = CommandTypes.CMD_UPDATE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult update(UUID id, Object req) {
         EntityDAO<E> dao = createEntityDAO();
@@ -132,6 +141,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         ServiceResult res = createResult(dao.getEntity());
         // generate the result
         res.setLogDiffs(diffs);
+        res.setOperation(Operation.EDIT);
 
         afterSave(dao.getEntity(), res, false);
 
@@ -140,7 +150,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
 
     @Transactional
-    @CommandLog(type = EntityCmdLogHandler.DELETE, handler = EntityCmdLogHandler.class)
+    @CommandLog(type = CommandTypes.CMD_DELETE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult delete(UUID id) {
         EntityDAO<E> dao = createEntityDAO();
@@ -163,6 +173,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         // delete the entity
         dao.delete();
+
+        res.setOperation(Operation.DELETE);
 
         afterDelete(dao.getEntity(), res);
 
@@ -430,8 +442,13 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
      */
     protected ServiceResult createResult(E entity) {
         ServiceResult res = new ServiceResult();
+
         res.setId(entity.getId());
         res.setEntityClass(getEntityClass());
+
+        String cmdPath = getCommandType();
+        res.setCommandType(CommandTypes.get(cmdPath));
+
         if (entity instanceof Displayable) {
             res.setEntityName(((Displayable) entity).getDisplayString());
         } else {

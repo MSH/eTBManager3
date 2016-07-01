@@ -1,8 +1,7 @@
 package org.msh.etbm.commons.commands.impl;
 
 import org.msh.etbm.commons.JsonParser;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandStoreService;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.db.entities.*;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ public class CommandStoreImpl implements CommandStoreService {
     @Override
     @Transactional
     public Integer store(CommandHistoryInput in) {
+        checkCommandType(in.getType());
         CommandHistory cmd = new CommandHistory();
 
         cmd.setType(in.getType());
@@ -58,6 +58,22 @@ public class CommandStoreImpl implements CommandStoreService {
         return cmd.getId();
     }
 
+
+    /**
+     * Check if it is a valid command type
+     * @param type
+     */
+    public void checkCommandType(String type) {
+        CommandType cmd = CommandTypes.ROOT.find(type);
+
+        if (cmd == null) {
+            throw new CommandException("Command type not registered: " + type);
+        }
+
+        if (cmd.getChildCount() > 0) {
+            throw new CommandException("Cannot use a group command type: " + type);
+        }
+    }
 
     /**
      * Return the workspace to be used in log operations

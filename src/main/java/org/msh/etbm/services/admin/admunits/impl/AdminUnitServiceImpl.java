@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.admunits.impl;
 
 import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
@@ -126,6 +127,11 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         }
 
         return aures;
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_ADMINUNITS;
     }
 
     @Override
