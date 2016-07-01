@@ -102,7 +102,7 @@ export default class Details extends React.Component {
 
 	deleteConfirm(action) {
 		if (action === 'yes') {
-			alert('TODOMS: delete this item on DB');
+			alert('delete this item on DB');
 		}
 
 		this.setState({ showDelConfirm: false });

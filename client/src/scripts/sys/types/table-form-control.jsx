@@ -143,19 +143,18 @@ export default class TableFormControl extends React.Component {
 	render() {
 		const sc = this.props.schema;
 
-		// TODOMS: improve this
 		if (sc.readOnly) {
-			if (!sc.readOnlyColumns || !this.props.value) {
-				return null;
+			if (!this.props.value) {
+				return 'No results found';
 			}
 
-			const labelelem = sc.label ? <label className="control-label">{FormUtils.labelRender(sc.label)}</label> : null;
-			const content = this.props.value ? <ReactTable columns={sc.readOnlyColumns} values={this.props.value} /> : null;
+			if (!sc.readOnlyClomuns) {
+				return 'ERROR! No column defined for readonly form.';
+			}
+			
+			return (<ReactTable columns={sc.readOnlyClomuns}
+						values={this.props.value} />);
 
-			return (<div className="form-group">
-						{labelelem}
-						{content ? content : '-'}
-					</div>);
 		}
 
 		if (!sc.fschema) {

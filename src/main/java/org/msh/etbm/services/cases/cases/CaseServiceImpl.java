@@ -16,10 +16,10 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     @Autowired
     CasesTagsUpdateService casesTagsUpdateService;
 
-    //TODOMS: se deletar o caso tem que ver se o pacitente ainda tem algum outro casoi, senao, deleta o paciente R: Mantem como era antes, deleta o paciente.
-    //TODOMS: na rotina acima tem que gerar log? R: Não
     protected void deleteEntity() {
-        /*String ret = super.remove();
+        /* If the patient don't have another case this should delete the patient register
+
+        String ret = super.remove();
         if (!ret.equals("removed"))
             return ret;
 

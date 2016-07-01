@@ -1,7 +1,7 @@
 package org.msh.etbm.services.session.changepassword;
 
 /**
- * Contain information about changing password
+ * Contain information about changing users password
  * Created by msantos on 27/6/16.
  */
 public class ChangePasswordFormData {
@@ -12,7 +12,7 @@ public class ChangePasswordFormData {
     private String password;
 
     /**
-     * The old password
+     * The new password
      */
     private String newPassword;
 

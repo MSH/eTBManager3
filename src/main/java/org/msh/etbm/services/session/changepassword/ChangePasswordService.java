@@ -1,12 +1,11 @@
 package org.msh.etbm.services.session.changepassword;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
-import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.PasswordLogHandler;
+import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Change users password
@@ -28,13 +28,10 @@ public class ChangePasswordService {
     UserRequestService userRequestService;
 
     @Autowired
-    DozerBeanMapper mapper;
+    PasswordUpdateService passwordUpdateService;
 
     @PersistenceContext
     EntityManager entityManager;
-
-    @Autowired
-    EntityDAOFactory entityDAOFactory;
 
     /**
      * Update the settings of the current user
@@ -43,29 +40,22 @@ public class ChangePasswordService {
      * @return The list of changed fields
      */
     @Transactional
-    @CommandLog(handler = ChangePasswordLogHandler.class, type = "changePassword")
-    public Diffs changePassword(ChangePasswordFormData data) {
-        List<User> lst = entityManager.createQuery("from User where id = :id")
-                .setParameter("id", userRequestService.getUserSession().getUserId())
-                .getResultList();
-
-        User user = lst.get(0);
+    @CommandLog(handler = PasswordLogHandler.class, type = "userSessionChangePassword")
+    public Map<String, Object> changePassword(ChangePasswordFormData data) {
+        User user = entityManager.find(User.class, userRequestService.getUserSession().getUserId());
         String hashPwd = UserUtils.hashPassword(data.getPassword());
 
         if (!user.getPassword().equals(hashPwd)) {
             throw new EntityValidationException(data.getPassword(), "password", "changepwd.wrongpass", "changepwd.wrongpassword");
         }
 
-        if (!UserUtils.isValidPassword(data.getNewPassword())) {
-            throw new EntityValidationException(data.getNewPassword(), "newPassword", "changepwd.wrongpass", "changepwd.invalidpassword");
-        }
+        passwordUpdateService.updatePassword(user.getId(), data.getNewPassword());
 
-        String hashNewPwd = UserUtils.hashPassword(data.getNewPassword());
-        user.setPassword(hashNewPwd);
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", user.getName());
+        ret.put("userModifiedId", user.getId());
 
-        entityManager.persist(user);
-        entityManager.flush();
-
-        return null;
+        return ret;
     }
 }
