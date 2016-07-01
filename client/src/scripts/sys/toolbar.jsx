@@ -104,7 +104,7 @@ export default class Toolbar extends React.Component {
                             <MenuItem href="#/sys/usersettings">
                                 <div>
                                     <Fa icon="cog" />
-                                    {__('usersettings')}
+                                    {__('session.usersettings')}
                                 </div>
                             </MenuItem>
                             <MenuItem href="#/sys/changepassword">
