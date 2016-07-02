@@ -40,6 +40,11 @@ public class Field {
     private String label;
 
     /**
+     * The default value, if none is informed to the record
+     */
+    private Object defaultValue;
+
+    /**
      * Return the type name uded in the class
      * @return
      */
@@ -83,5 +88,13 @@ public class Field {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

@@ -9,9 +9,8 @@ import org.msh.etbm.Application;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.models.data.JSExpressionProperty;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.CharCase;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.fields.StringField;
+import org.msh.etbm.commons.models.data.fields.*;
+import org.msh.etbm.commons.models.impl.ModelConverter;
 import org.msh.etbm.commons.models.impl.ModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -39,7 +38,7 @@ public class ModelTest {
     public void checkWriteRead() {
         Model model = createModel();
 
-        assertEquals(1, model.getFields().size());
+        assertEquals(3, model.getFields().size());
 
         String s = JsonParser.objectToJSONString(model, true);
 
@@ -61,9 +60,24 @@ public class ModelTest {
         Map<String, Object> data = new HashMap<>();
 
         data.put("name", "My admi unit");
+        data.put("level", 1);
 
-        ModelValidator validator = new ModelValidator();
+        Model model = createModel();
+
+        ModelConverter converter = new ModelConverter();
+        Map<String, Object> data2 = converter.convert(model, data);
+        // active field was included
+        assertEquals(data.size() + 1, data2.size());
+        assertEquals(data.get("name"), data2.get("name"));
+        assertEquals(data.get("level"), data2.get("level"));
+
+        // level now will receive a string
+        data.put("level", "5");
+        data2 = converter.convert(model, data);
+
+        assertEquals(5, data2.get("level"));
     }
+
 
     protected Model createModel() {
         Model model = new Model();
@@ -72,6 +86,7 @@ public class ModelTest {
 
         List<Field> fields = new ArrayList<>();
 
+        // field name
         StringField fldName = new StringField();
         assertNotNull(fldName.getTypeName());
 
@@ -80,8 +95,18 @@ public class ModelTest {
         fldName.setLabel("Admin unit name");
         fldName.setRequired(new JSExpressionProperty(true));
         fldName.setMax(150);
-
         fields.add(fldName);
+
+        // field level
+        IntegerField fldLevel = new IntegerField();
+        fldLevel.setName("level");
+        fields.add(fldLevel);
+
+        // field active
+        BoolField fldActive = new BoolField();
+        fldActive.setName("active");
+        fldActive.setDefaultValue(true);
+        fields.add(fldActive);
 
         model.setFields(fields);
         return model;

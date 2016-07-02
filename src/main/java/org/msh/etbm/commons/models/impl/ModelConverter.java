@@ -31,12 +31,29 @@ public class ModelConverter {
 
             if (field != null) {
                 Object val = entry.getValue();
+
                 Object newval = convertValue(field, val);
                 newvals.put(fname, newval);
             }
         }
 
+        checkDefaultValues(model, newvals);
+
         return newvals;
+    }
+
+
+    /**
+     * Check if there are not declared fields that contains default values
+     * @param model
+     * @param vals
+     */
+    protected void checkDefaultValues(Model model, Map<String, Object> vals) {
+        for (Field field: model.getFields()) {
+            if (field.getDefaultValue() != null && !vals.containsKey(field.getName())) {
+                vals.put(field.getName(), field.getDefaultValue());
+            }
+        }
     }
 
     /**
@@ -52,6 +69,6 @@ public class ModelConverter {
             throw new ModelException("Handler not found for field " + field.getClass().getName());
         }
 
-        return handler.convert(value);
+        return handler.convert(field, value);
     }
 }

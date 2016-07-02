@@ -4,14 +4,14 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.IntegerField;
 import org.msh.etbm.commons.models.data.fields.StringField;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
-import org.msh.etbm.commons.models.data.handlers.StringFieldHandler;
+import org.msh.etbm.commons.models.data.handlers.*;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Maintain a list of all available field types to be used in models
  * Created by rmemoria on 1/7/16.
  */
 public class FieldManager {
@@ -27,6 +27,9 @@ public class FieldManager {
 
     protected void registerCommonFields() {
         register(new StringFieldHandler());
+        register(new IntegerFieldHandler());
+        register(new BoolFieldHandler());
+        register(new DateFieldHandler());
     }
 
     /**
