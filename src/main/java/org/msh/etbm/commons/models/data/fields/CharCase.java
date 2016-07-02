@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.models;
+package org.msh.etbm.commons.models.data.fields;
 
 /**
  * Created by rmemoria on 18/10/15.

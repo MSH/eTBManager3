@@ -1,0 +1,87 @@
+package org.msh.etbm.commons.models.data.fields;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.JSExpressionProperty;
+import org.msh.etbm.commons.models.data.Validator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by rmemoria on 1/7/16.
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonTypeIdResolver(FieldTypeResolver.class)
+public class Field {
+
+    /**
+     * Field name
+     */
+    private String name;
+
+    /**
+     * List of validators of the field
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Validator> validators;
+
+    /**
+     * Indicate if the field is required or not
+     */
+    private JSExpressionProperty<Boolean> required = new JSExpressionProperty<>(false);
+
+    /**
+     * The description label of the field
+     */
+    private String label;
+
+    /**
+     * Return the type name uded in the class
+     * @return
+     */
+    @JsonIgnore
+    public String getTypeName() {
+        FieldType ftype = getClass().getAnnotation(FieldType.class);
+        if (ftype == null) {
+            throw new ModelException("Annotation " + FieldType.class.getName() + " not found in class " + getClass().getName());
+        }
+
+        return ftype.value();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Validator> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<Validator> validators) {
+        this.validators = validators;
+    }
+
+    public JSExpressionProperty<Boolean> getRequired() {
+        return required;
+    }
+
+    public void setRequired(JSExpressionProperty<Boolean> required) {
+        this.required = required;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+}

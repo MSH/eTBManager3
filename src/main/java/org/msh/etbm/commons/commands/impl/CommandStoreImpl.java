@@ -49,7 +49,7 @@ public class CommandStoreImpl implements CommandStoreService {
         // parse the data to json format
         CommandLogDetail data = in.getDetailData();
         if (data != null) {
-            String json = JsonParser.objectToJSONString(data);
+            String json = JsonParser.objectToJSONString(data, false);
             cmd.setData(json);
         }
 
