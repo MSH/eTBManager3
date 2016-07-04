@@ -63,7 +63,6 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.workspace.id = :wId", userRequestService.getUserSession().getWorkspaceId());
         qry.addRestriction("a.execDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
         qry.addRestriction("a.execDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
-        qry.addRestriction("a.action = :action", query.getAction());
         qry.addRestriction("a.user.id = :userId", query.getUserId());
         qry.addLikeRestriction("a.type", query.getType());
         if (adminUnit != null) {

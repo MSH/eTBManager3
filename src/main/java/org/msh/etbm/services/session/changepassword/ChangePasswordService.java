@@ -40,7 +40,7 @@ public class ChangePasswordService {
      * @return The list of changed fields
      */
     @Transactional
-    @CommandLog(handler = PasswordLogHandler.class, type = "userSessionChangePassword")
+    @CommandLog(handler = PasswordLogHandler.class, type = "session.changepwd")
     public Map<String, Object> changePassword(ChangePasswordFormData data) {
         User user = entityManager.find(User.class, userRequestService.getUserSession().getUserId());
         String hashPwd = UserUtils.hashPassword(data.getPassword());
@@ -55,6 +55,7 @@ public class ChangePasswordService {
         HashMap<String, Object> ret = new HashMap<>();
         ret.put("userModifiedName", user.getName());
         ret.put("userModifiedId", user.getId());
+        ret.put("detail", "The user changed its own password.");
 
         return ret;
     }

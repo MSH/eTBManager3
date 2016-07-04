@@ -23,6 +23,7 @@ public class CommandTypes {
 
     // admin command types
     public static final String ADMIN_USERS = "admin.users";
+    public static final String ADMIN_USERS_CHANGE_PWD = "admin.users.changepwd";
     public static final String ADMIN_UNITS = "admin.units";
     public static final String ADMIN_ADMINUNITS = "admin.adminunits";
     public static final String ADMIN_COUNTRYSTRUCTURES = "admin.countrystr";
@@ -42,6 +43,7 @@ public class CommandTypes {
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
+    public static final String SESSION_CHANGE_PWD = "session.changepwd";
 
     // commands used in CRUD operations
     public static final String CMD_CREATE = "create";
@@ -76,6 +78,7 @@ public class CommandTypes {
         ROOT.addCRUD(ADMIN_SUBSTANCES);
         ROOT.addCRUD(ADMIN_TAGS);
         ROOT.addCRUD(ADMIN_USERS);
+        ROOT.add(ADMIN_USERS_CHANGE_PWD, "changepwd");
         ROOT.addCRUD(ADMIN_USERPROFILES);
         ROOT.addCRUD(ADMIN_WORKSPACES);
         ROOT.add(SYSTEM_SETUP);
@@ -85,6 +88,7 @@ public class CommandTypes {
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);
+        ROOT.add(SESSION_CHANGE_PWD, "changepwd");
     }
 
 

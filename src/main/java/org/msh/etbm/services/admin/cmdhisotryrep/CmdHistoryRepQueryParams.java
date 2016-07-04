@@ -13,7 +13,6 @@ public class CmdHistoryRepQueryParams extends EntityQueryParams {
 
     Date iniDate;
     Date endDate;
-    CommandAction action;
     UUID userId;
     String type;
     UUID adminUnitId;
@@ -33,14 +32,6 @@ public class CmdHistoryRepQueryParams extends EntityQueryParams {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public CommandAction getAction() {
-        return action;
-    }
-
-    public void setAction(CommandAction action) {
-        this.action = action;
     }
 
     public UUID getUserId() {
