@@ -20,23 +20,9 @@ public class PasswordLogHandler implements CommandLogHandler<Object, Map<String,
      */
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, Map<String, Object> data) {
-        String detailText = "";
-
-        switch (in.getType()) {
-            case "userSessionChangePassword":
-                detailText = "The user changed its own password.";
-                break;
-            case "userWsChangePassword":
-                detailText = "The user changed the password of another user throw administrative module.";
-                break;
-            case "pwdResetEmailSent":
-                detailText = "The user sent a reset password e-mail to another user throw administrative module.";
-                break;
-        }
-
         in.setEntityId((UUID)data.get("userModifiedId"));
         in.setEntityName((String)data.get("userModifiedName"));
         in.setAction(CommandAction.EXEC);
-        in.setDetailText(detailText);
+        in.setDetailText((String)data.get("detail"));
     }
 }
