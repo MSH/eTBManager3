@@ -159,7 +159,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Transactional
-    @CommandLog(handler = PasswordLogHandler.class, type = "userWsChangePassword")
+    @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
     public Map<String, Object> changePassword(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
 
@@ -181,12 +181,13 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         HashMap<String, Object> ret = new HashMap<>();
         ret.put("userModifiedName", userws.getUser().getName());
         ret.put("userModifiedId", userws.getUser().getId());
+        ret.put("detail", "The user changed the password of another user throw administrative module.");
 
         return ret;
     }
 
     @Transactional
-    @CommandLog(handler = PasswordLogHandler.class, type = "pwdResetEmailSent")
+    @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
     public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
         forgotPwdService.requestPasswordReset(userws.getLogin());
@@ -195,6 +196,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         HashMap<String, Object> ret = new HashMap<>();
         ret.put("userModifiedName", userws.getUser().getName());
         ret.put("userModifiedId", userws.getUser().getId());
+        ret.put("detail", "The user sent a reset password e-mail to another user throw administrative module.");
 
         return ret;
     }
