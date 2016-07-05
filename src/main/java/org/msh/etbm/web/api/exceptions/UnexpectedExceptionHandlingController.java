@@ -58,6 +58,24 @@ public class UnexpectedExceptionHandlingController {
         error.setUserName(session.getUserLoginName() + " - " + session.getUserName());
         error.setUserId(session.getUserId());
         error.setWorkspace(session.getWorkspaceName());
+        error.setRequest("TODOMS: nao consegui montar o request. exemplo abaixo, é realmente necessario?");
+
+        /*
+        ip address = 127.0.0.1
+        * browser = Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
+        * method = POST
+        * auth type = null
+        * context path = /etbmanager
+        * path info = null
+        * path translated = null
+        * query string = null
+        * remote user = null
+        * requested session id = 18B37C1FC0C05B780DA64ECBA24A3215
+        * request URI = /etbmanager/login.seam
+        * request URL = http://127.0.0.1:8080/etbmanager/login.seam
+        * servlet path = /login.seam
+        * is Request session id valid = true
+        */
 
         String s = e.getMessage();
         if (s == null) {
@@ -82,7 +100,7 @@ public class UnexpectedExceptionHandlingController {
      * Send email to administrator notifying that an unexpected error occourred
      * @param error
      */
-    private void notifyAdministrators(ErrorLog error){
+    private void notifyAdministrators(ErrorLog error) {
         //Mount list of parameter used on email render
         Map<String, Object> model = new HashMap<>();
         model.put("errorDate", DateUtils.FormatDateTime("yyyy.MM.dd G 'at' HH:mm:ss z", error.getErrorDate()));
@@ -101,7 +119,7 @@ public class UnexpectedExceptionHandlingController {
 
         //Mount subject
         String subject = messages.get("error.title") + " " + error.getId() + " - " + error.getExceptionMessage();
-
+        //TODOMS: Deveria colocar alguma proteção para nao enviar emails quando em dev?
         //send email
         mailService.send(to, subject, "unexpectedexception.ftl", model);
     }
