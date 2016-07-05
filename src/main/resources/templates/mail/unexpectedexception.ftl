@@ -4,23 +4,29 @@
 <#import "lib/utils.ftl" as u>
 
 <p>
-${errorDate}
+    <b>Date-time:</b> ${errorDate}
 </p>
 
 <p>
-${exceptionClass}
+    <b>URL:</b> ${excepionUrl}
 </p>
 
 <p>
-${userName}
+    <b>User:</b> ${userName}
+</p>
+
+<p>
+    <b>Workspace:</b> ${workspace}
+</p>
+
+<p>
+    <b>Exception:</b> ${exceptionClass}
+</p>
+
+<p>
+    <b>Exception message:</b> ${exceptionMessage}
 </p>
 
 <p>
 ${stackTrace}
 </p>
-
-<p>
-${workspace}
-</p>
-
-

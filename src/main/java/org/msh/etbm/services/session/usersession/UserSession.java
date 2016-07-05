@@ -20,6 +20,7 @@ public class UserSession {
     // information about the user
     private String userName;
     private UUID userId;
+    private String userLoginName;
 
     // information about the workspace
     private UUID workspaceId;
@@ -165,5 +166,13 @@ public class UserSession {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getUserLoginName() {
+        return userLoginName;
+    }
+
+    public void setUserLoginName(String userLoginName) {
+        this.userLoginName = userLoginName;
     }
 }
