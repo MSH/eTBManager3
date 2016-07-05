@@ -250,7 +250,7 @@
     <changeSet author="rmemoria" id="1433264274749-12">
         <createTable tableName="errorlog">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints nullable="false"/>
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="exceptionClass" type="VARCHAR(100)"/>
             <column name="exceptionMessage" type="VARCHAR(200)"/>
