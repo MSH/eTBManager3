@@ -1850,9 +1850,6 @@
     <changeSet author="rmemoria" id="1433264274749-89">
         <addPrimaryKey columnNames="id" constraintName="PKCOUNTRYSTRUCTURE" tableName="countrystructure"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-90">
-        <addPrimaryKey columnNames="id" constraintName="PKERRORLOG" tableName="errorlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-91">
         <addPrimaryKey columnNames="id" constraintName="PKEXAMCULTURE" tableName="examculture"/>
     </changeSet>
