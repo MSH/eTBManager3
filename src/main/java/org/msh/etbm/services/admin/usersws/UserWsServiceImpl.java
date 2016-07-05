@@ -189,6 +189,10 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
     public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
+        /*if(data!=null){
+            throw new NullPointerException();
+        }*/
+
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
         forgotPwdService.requestPasswordReset(userws.getLogin());
 
