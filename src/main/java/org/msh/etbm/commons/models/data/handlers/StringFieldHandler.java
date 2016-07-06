@@ -3,6 +3,7 @@ package org.msh.etbm.commons.models.data.handlers;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.StringField;
+import org.msh.etbm.commons.models.impl.FieldContext;
 import org.springframework.validation.Errors;
 
 /**
@@ -21,6 +22,11 @@ public class StringFieldHandler extends FieldHandler<StringField> {
         }
 
         return value.toString();
+    }
+
+    @Override
+    protected void validateValue(StringField field, FieldContext context, Object value) {
+
     }
 
 }

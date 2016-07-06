@@ -2,6 +2,7 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.IntegerField;
+import org.msh.etbm.commons.models.impl.FieldContext;
 import org.springframework.validation.Errors;
 
 /**
@@ -26,4 +27,10 @@ public class IntegerFieldHandler extends FieldHandler<IntegerField> {
 
         throw new ModelException("Invalid type for convertion");
     }
+
+    @Override
+    protected void validateValue(IntegerField field, FieldContext context, Object value) {
+
+    }
+
 }

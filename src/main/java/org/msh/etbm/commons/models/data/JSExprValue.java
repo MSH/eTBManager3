@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Represents a property that can host either a value or a Java script expression
  * Created by rmemoria on 1/7/16.
  */
-public class JSExpressionProperty<K> {
+public class JSExprValue<K> {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private K value;
@@ -15,14 +15,14 @@ public class JSExpressionProperty<K> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String expression;
 
-    public JSExpressionProperty(K value) {
+    public JSExprValue(K value) {
         this.value = value;
     }
 
     /**
      * Default constructor
      */
-    public JSExpressionProperty() {
+    public JSExprValue() {
         super();
     }
 
@@ -31,8 +31,13 @@ public class JSExpressionProperty<K> {
      * @return true if value is available, or null, if value is null
      */
     @JsonIgnore
-    public boolean isValueAvailable() {
+    public boolean isValuePresent() {
         return value != null;
+    }
+
+    @JsonIgnore
+    public boolean isExpressionPresent() {
+        return expression != null;
     }
 
     public K getValue() {
@@ -57,4 +62,13 @@ public class JSExpressionProperty<K> {
         }
     }
 
+    public static <K> JSExprValue<K> exp(String expr) {
+        JSExprValue<K> p = new JSExprValue<>();
+        p.setExpression(expr);
+        return p;
+    }
+
+    public static <K> JSExprValue<K> of(K value) {
+        return new JSExprValue<>(value);
+    }
 }

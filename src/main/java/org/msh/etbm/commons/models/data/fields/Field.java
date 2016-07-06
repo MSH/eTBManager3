@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.JSExpressionProperty;
+import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Validator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +31,7 @@ public class Field {
     /**
      * Indicate if the field is required or not
      */
-    private JSExpressionProperty<Boolean> required = new JSExpressionProperty<>(false);
+    private JSExprValue<Boolean> required = new JSExprValue<>(false);
 
     /**
      * The description label of the field
@@ -43,6 +42,11 @@ public class Field {
      * The default value, if none is informed to the record
      */
     private Object defaultValue;
+
+    /**
+     * Is a custom field, i.é, not part of the model but created by the user
+     */
+    private boolean custom;
 
     /**
      * Return the type name uded in the class
@@ -74,11 +78,11 @@ public class Field {
         this.validators = validators;
     }
 
-    public JSExpressionProperty<Boolean> getRequired() {
+    public JSExprValue<Boolean> getRequired() {
         return required;
     }
 
-    public void setRequired(JSExpressionProperty<Boolean> required) {
+    public void setRequired(JSExprValue<Boolean> required) {
         this.required = required;
     }
 
@@ -96,5 +100,13 @@ public class Field {
 
     public void setDefaultValue(Object defaultValue) {
         this.defaultValue = defaultValue;
+    }
+
+    public boolean isCustom() {
+        return custom;
+    }
+
+    public void setCustom(boolean custom) {
+        this.custom = custom;
     }
 }

@@ -1,15 +1,84 @@
 package org.msh.etbm.commons.models.impl;
 
+import jdk.nashorn.api.scripting.JSObject;
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.models.FieldManager;
+import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.handlers.FieldHandler;
 import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
 
 import java.util.Map;
 
 /**
+ * Execute model and fields validation. This phase is called after the conversion phase
+ * (implemented by {@link ModelConverter}
+ *
  * Created by rmemoria on 1/7/16.
  */
 public class ModelValidator {
 
-    public void validate(Map<String, Object> vals, Errors errors) {
+    public Errors validate(Model model, ScriptObjectMirror jsmodel, Map<String, Object> vals) {
+        ModelContext context = new ModelContext(model, jsmodel, vals);
 
+        for (Map.Entry<String, Object> entry: vals.entrySet()) {
+            String fname = entry.getKey();
+            Field field = model.findFieldByName(fname);
+            if (field == null) {
+                throw new ModelException("Field not found: " + fname);
+            }
+
+            FieldContext fieldCntxt = context.createFieldContext(field);
+
+            Object value = entry.getValue();
+
+            validateField(fieldCntxt, value);
+        }
+
+        checkRequiredFields(model, vals, context);
+
+        validateModel(model, context);
+
+        return context.getErrors();
     }
+
+
+    /**
+     * Check non declared fields that are required
+     * @param model
+     * @param doc
+     * @param context
+     */
+    protected void checkRequiredFields(Model model, Map<String, Object> doc, ModelContext context) {
+        for (Field field: model.getFields()) {
+            if (doc.containsKey(field.getName())) {
+                continue;
+            }
+
+            FieldContext fieldContext = context.createFieldContext(field);
+            boolean required = fieldContext.evalBoolProperty("required");
+            if (required) {
+                context.getErrors().rejectValue(field.getName(), Messages.NOT_NULL);
+            }
+        }
+    }
+
+    protected void validateField(FieldContext fieldContext, Object value) {
+        FieldHandler handler = FieldManager.instance().get(fieldContext.getField().getTypeName());
+
+        handler.validate(fieldContext.getField(), fieldContext, value);
+    }
+
+
+    protected void validateModel(Model model, ModelContext context) {
+        // if there are field validation errors, don't validate the model
+        if (context.getErrors().getFieldErrorCount() > 0) {
+            return;
+        }
+        // TODO implement model validation
+    }
+
 }
