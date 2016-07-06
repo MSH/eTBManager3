@@ -58,25 +58,16 @@ public class UnexpectedExceptionHandlingController {
         error.setUserName(session.getUserLoginName() + " - " + session.getUserName());
         error.setUserId(session.getUserId());
         error.setWorkspace(session.getWorkspaceName());
-        error.setRequest("TODOMS: nao consegui montar o request. exemplo abaixo, é realmente necessario?");
 
-        /*
-        ip address = 127.0.0.1
-        * browser = Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36
-        * method = POST
-        * auth type = null
-        * context path = /etbmanager
-        * path info = null
-        * path translated = null
-        * query string = null
-        * remote user = null
-        * requested session id = 18B37C1FC0C05B780DA64ECBA24A3215
-        * request URI = /etbmanager/login.seam
-        * request URL = http://127.0.0.1:8080/etbmanager/login.seam
-        * servlet path = /login.seam
-        * is Request session id valid = true
-        */
+        //mount request field
+        StringBuilder reqdata = new StringBuilder();
+        reqdata.append("ip address = " + req.getRemoteAddr());
+        reqdata.append("\n* browser = " + req.getHeader("user-Agent"));
+        reqdata.append("\n* method = " + req.getMethod());
+        reqdata.append("\n* context path = " + req.getContextPath());
+        error.setRequest(reqdata.toString());
 
+        //mount exception message field
         String s = e.getMessage();
         if (s == null) {
             s = "No message in exception";
@@ -85,6 +76,7 @@ public class UnexpectedExceptionHandlingController {
         }
         error.setExceptionMessage(s);
 
+        //mount stack trace field
         StringWriter writer = new StringWriter();
         PrintWriter pw = new PrintWriter(writer);
         e.printStackTrace(pw);
@@ -94,6 +86,8 @@ public class UnexpectedExceptionHandlingController {
         entityManager.flush();
 
         notifyAdministrators(error);
+
+        e.printStackTrace();
     }
 
     /**
@@ -101,6 +95,14 @@ public class UnexpectedExceptionHandlingController {
      * @param error
      */
     private void notifyAdministrators(ErrorLog error) {
+        //Get admin mails address
+        String to = (String) entityManager.createQuery("select adminMail from SystemConfig group by id having id = min(id)").getSingleResult();
+        if (to == null || to.isEmpty()) {
+           throw new RuntimeException("Missing admin email");
+        }
+        to = to.replace(" ", "");
+        String[] emails = to.split(",");
+
         //Mount list of parameter used on email render
         Map<String, Object> model = new HashMap<>();
         model.put("errorDate", DateUtils.FormatDateTime("yyyy.MM.dd G 'at' HH:mm:ss z", error.getErrorDate()));
@@ -114,13 +116,13 @@ public class UnexpectedExceptionHandlingController {
         // 'Name' of who is receiving the email
         model.put("name", "Administrator");
 
-        //Get admin mail address
-        String to = (String) entityManager.createQuery("select adminMail from SystemConfig group by id having id = min(id)").getSingleResult();
 
         //Mount subject
         String subject = messages.get("error.title") + " " + error.getId() + " - " + error.getExceptionMessage();
-        //TODOMS: Deveria colocar alguma proteção para nao enviar emails quando em dev?
+
         //send email
-        mailService.send(to, subject, "unexpectedexception.ftl", model);
+        for (String email : emails) {
+            mailService.send(email, subject, "unexpectedexception.ftl", model);
+        }
     }
 }
