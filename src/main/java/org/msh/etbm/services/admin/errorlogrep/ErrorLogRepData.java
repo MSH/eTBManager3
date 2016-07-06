@@ -18,7 +18,7 @@ public class ErrorLogRepData {
     private String workspace;
     private String request;
 
-    public ErrorLogRepData(Date errorDate, String exceptionClass, String exceptionMessage, String url, String userName, String stackTrace, String workspace, String request){
+    public ErrorLogRepData (Date errorDate, String exceptionClass, String exceptionMessage, String url, String userName, String stackTrace, String workspace, String request) {
         this.errorDate = errorDate;
         this.exceptionClass = exceptionClass;
         this.exceptionMessage = exceptionMessage;

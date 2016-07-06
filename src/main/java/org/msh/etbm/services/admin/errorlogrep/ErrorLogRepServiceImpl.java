@@ -54,7 +54,7 @@ public class ErrorLogRepServiceImpl implements ErrorLogRepService {
         qry.addRestriction("a.errorDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
         qry.addRestriction("a.errorDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
 
-        if(query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
+        if (query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
             String searchKeyRestriction = "(a.exceptionClass like :searchKey or a.exceptionMessage like :searchKey or a.stackTrace like :searchKey or a.userName like :searchKey or a.url like :searchKey or a.workspace like :searchKey or a.request like :searchKey)";
             searchKeyRestriction = searchKeyRestriction.replace(":searchKey", "'%" + query.getSearchKey() + "%'");
             qry.addRestriction(searchKeyRestriction);
