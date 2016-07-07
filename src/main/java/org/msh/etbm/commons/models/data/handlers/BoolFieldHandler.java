@@ -10,7 +10,7 @@ import org.springframework.validation.Errors;
 public class BoolFieldHandler extends FieldHandler<BoolField> {
 
     @Override
-    protected Object convertValue(BoolField field, Object value) {
+    protected Object convertValue(BoolField field, FieldContext context, Object value) {
         if (value == null) {
             return null;
         }
@@ -23,7 +23,7 @@ public class BoolFieldHandler extends FieldHandler<BoolField> {
             return Boolean.parseBoolean((String)value);
         }
 
-        raiseConvertionError();
+        registerConversionError(context);
         return null;
     }
 

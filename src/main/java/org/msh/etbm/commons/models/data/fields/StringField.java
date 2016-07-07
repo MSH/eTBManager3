@@ -26,6 +26,8 @@ public class StringField extends Field {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CharCase charCase;
 
+    private boolean trim = true;
+
 
     public Integer getMax() {
         return max;
@@ -49,5 +51,13 @@ public class StringField extends Field {
 
     public void setCharCase(CharCase charCase) {
         this.charCase = charCase;
+    }
+
+    public boolean isTrim() {
+        return trim;
+    }
+
+    public void setTrim(boolean trim) {
+        this.trim = trim;
     }
 }

@@ -41,15 +41,15 @@ public class FieldContext {
         return (boolean)func.call(parent.getDocBinding());
     }
 
-    public Errors getErrors() {
-        return parent.getErrors();
-    }
-
     public ModelContext getParent() {
         return parent;
     }
 
     public Field getField() {
         return field;
+    }
+
+    public ScriptObjectMirror getJsField() {
+        return jsField;
     }
 }

@@ -1,8 +1,5 @@
 package org.msh.etbm.test.commons.model;
 
-import jdk.nashorn.api.scripting.JSObject;
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.junit.Test;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.PreparedModel;
@@ -10,18 +7,13 @@ import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.impl.ModelScriptGenerator;
+import org.msh.etbm.commons.models.impl.ModelContext;
+import org.msh.etbm.commons.models.impl.ModelConverter;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
-import javax.script.*;
-import javax.validation.Valid;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.*;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +26,7 @@ import static org.junit.Assert.*;
 //@WebAppConfiguration
 public class ModelTest {
 
+    private static final String CITY = "Rio de Janeiro";
 
 //    @Test
 //    public void checkWriteRead() {
@@ -56,28 +49,71 @@ public class ModelTest {
 //    }
 
 
-//    @Test
-//    public void testValidation() {
-//        Map<String, Object> data = new HashMap<>();
-//
-//        data.put("name", "My admi unit");
-//        data.put("level", 1);
-//
-//        Model model = createModel();
-//
-//        ModelConverter converter = new ModelConverter();
-//        Map<String, Object> data2 = converter.convert(model, data);
-//        // active field was included
-//        assertEquals(data.size() + 1, data2.size());
-//        assertEquals(data.get("name"), data2.get("name"));
-//        assertEquals(data.get("level"), data2.get("level"));
-//
-//        // level now will receive a string
-//        data.put("level", "5");
-//        data2 = converter.convert(model, data);
-//
-//        assertEquals(5, data2.get("level"));
-//    }
+    @Test
+    public void testConverter() {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("name", "My admi unit");
+        data.put("level", 1);
+
+        Model model = createModel();
+        PreparedModel preparedModel = new PreparedModel(model);
+        ModelContext context = preparedModel.createContext(data);
+
+        ModelConverter converter = new ModelConverter();
+        Map<String, Object> data2 = converter.convert(context);
+        // active field was included
+        assertEquals(0, context.getErrors().getErrorCount());
+        assertEquals(data.size() + 1, data2.size());
+        assertNotEquals(data.get("name"), data2.get("name"));
+        assertEquals(data.get("name").toString().toUpperCase(), data2.get("name"));
+        assertEquals(data.get("level"), data2.get("level"));
+        assertEquals(true, data2.get("active"));
+
+        // level now will receive a string
+        data.put("level", "5");
+        context = preparedModel.createContext(data);
+        data2 = converter.convert(context);
+        assertEquals(0, context.getErrors().getErrorCount());
+        assertEquals(5, data2.get("level"));
+
+        // field doesn't exist, so will be ignored
+        data.put("notExist", 11);
+        context = preparedModel.createContext(data);
+        data2 = converter.convert(context);
+        assertEquals(0, context.getErrors().getErrorCount());
+        assertEquals(3, data2.keySet().size());
+
+
+        // invalid value
+        data.remove("noExist");
+        data.put("active", new Date());
+        context = preparedModel.createContext(data);
+        data2 = converter.convert(context);
+        assertEquals(1, context.getErrors().getErrorCount());
+        assertNotNull(data2);
+        FieldError err = context.getErrors().getFieldError("active");
+        assertNotNull(err);
+        assertEquals(Messages.NOT_VALID, err.getCode());
+
+        data.put("city", " " + CITY);
+        data.put("active", true);
+        context = preparedModel.createContext(data);
+        data2 = converter.convert(context);
+        assertNotEquals(data2.get("city"), data.get("city"));
+        assertEquals(data2.get("city"), data.get("city").toString().trim());
+
+        // check invalid conversion from string to int
+        data.put("level", "--");
+        context = preparedModel.createContext(data);
+        data2 = converter.convert(context);
+        assertEquals(1, context.getErrors().getErrorCount());
+        assertNotNull(data2);
+        err = context.getErrors().getFieldError("level");
+        assertNotNull(err);
+        assertEquals(Messages.NOT_VALID, err.getCode());
+
+    }
 
 
 //    @Test
@@ -117,12 +153,22 @@ public class ModelTest {
         assertNotNull(errors);
         assertEquals(0, errors.getErrorCount());
 
+        // include city as a null value (error)
+        doc.put("city", null);
+        errors = preparedModel.validate(doc);
+        assertEquals(1, errors.getErrorCount());
+        err = errors.getFieldError("city");
+        assertNotNull(err);
+        assertEquals(err.getCode(), Messages.NOT_NULL);
+
         // reduce level requirement
         doc.put("level", 1);
         doc.remove("city");
         errors = preparedModel.validate(doc);
         assertNotNull(errors);
-        assertEquals(0, errors.getErrorCount());
+        assertEquals(1, errors.getErrorCount());
+        ObjectError error = errors.getGlobalErrors().get(0);
+        assertEquals(Messages.NOT_VALID_EMAIL, error.getCode());
     }
 
 
@@ -221,6 +267,7 @@ public class ModelTest {
         fldCity.setName("city");
         fldCity.setMax(20);
         fldCity.setRequired(JSExprValue.exp("this.level > 1"));
+        fldCity.setTrim(true);
         fields.add(fldCity);
 
         model.setFields(fields);
@@ -228,6 +275,7 @@ public class ModelTest {
         List<Validator> validators = new ArrayList<>();
         Validator v = new Validator();
         v.setJsExpression("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true");
+        v.setMessageKey(Messages.NOT_VALID_EMAIL);
         validators.add(v);
 
         model.setValidators(validators);

@@ -18,11 +18,12 @@ public class ModelConverter {
 
     /**
      * Create a new map with converted values using the model and the given values
-     * @param model
-     * @param values
+     * @param context
      * @return
      */
-    public Map<String, Object> convert(Model model, Map<String, Object> values) {
+    public Map<String, Object> convert(ModelContext context) {
+        Model model = context.getModel();
+        Map<String, Object> values = context.getDoc();
         Map<String, Object> newvals = new HashMap<>();
 
         for (Map.Entry<String, Object> entry: values.entrySet()) {
@@ -32,7 +33,9 @@ public class ModelConverter {
             if (field != null) {
                 Object val = entry.getValue();
 
-                Object newval = convertValue(field, val);
+                FieldContext fieldContext = context.createFieldContext(field);
+
+                Object newval = convertValue(field, fieldContext, val);
                 newvals.put(fname, newval);
             }
         }
@@ -62,13 +65,13 @@ public class ModelConverter {
      * @param value
      * @return
      */
-    protected Object convertValue(Field field, Object value) {
+    protected Object convertValue(Field field, FieldContext context, Object value) {
         FieldHandler handler = FieldManager.instance().get(field.getTypeName());
 
         if (handler == null) {
             throw new ModelException("Handler not found for field " + field.getClass().getName());
         }
 
-        return handler.convert(field, value);
+        return handler.convert(field, context, value);
     }
 }

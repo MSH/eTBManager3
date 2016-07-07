@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.data.fields.DateField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.springframework.validation.Errors;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class DateFieldHandler extends FieldHandler<DateField> {
 
     @Override
-    protected Object convertValue(DateField field, Object value) {
+    protected Object convertValue(DateField field, FieldContext context, Object value) {
         if (value == null) {
             return null;
         }
@@ -29,12 +30,12 @@ public class DateFieldHandler extends FieldHandler<DateField> {
             try {
                 return ISO8601DateFormat.getInstance().parse((String)value);
             } catch (ParseException e) {
-                raiseConvertionError();
+                registerConversionError(context);
             }
         }
 
-        raiseConvertionError();
-        return null;
+        registerConversionError(context);
+        return value;
     }
 
     @Override

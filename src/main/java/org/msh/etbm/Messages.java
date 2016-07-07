@@ -25,7 +25,7 @@ public class Messages {
     public static final String REQUIRED = "NotNull";
     public static final String NOT_NULL = "NotNull";
     public static final String NOT_VALID = "NotValid";
-    public static final String NOT_VALID_EMIAL = "NotValidEmail";
+    public static final String NOT_VALID_EMAIL = "NotValidEmail";
     public static final String NOT_VALID_WORKSPACE = "NotValidWorkspace";
     public static final String NOT_UNIQUE_USER = "NotUniqueUser";
 

@@ -3,6 +3,7 @@ package org.msh.etbm.commons.models;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.impl.ModelContext;
 import org.msh.etbm.commons.models.impl.ModelConverter;
 import org.msh.etbm.commons.models.impl.ModelScriptGenerator;
 import org.msh.etbm.commons.models.impl.ModelValidator;
@@ -14,6 +15,10 @@ import javax.script.ScriptEngineManager;
 import java.util.Map;
 
 /**
+ * {@link PreparedModel} is a class that contains both a {@link Model} and its compiled
+ * JavaScript code. The JavaScript code is compiled and used during validation of a document
+ * (conversion and validation phases).
+ *
  * Created by rmemoria on 6/7/16.
  */
 public class PreparedModel {
@@ -25,19 +30,30 @@ public class PreparedModel {
         this.model = model;
     }
 
+    /**
+     * Validate the given document against the model
+     * @param doc the document to check
+     * @return
+     */
     public Errors validate(Map<String, Object> doc) {
-        JSObject js = getJsModel();
+        ModelContext context = createContext(doc);
 
         // convert the values to the final value
         ModelConverter converter = new ModelConverter();
-        Map<String, Object> newdoc = converter.convert(model, doc);
+        Map<String, Object> newdoc = converter.convert(context);
+
+        // check if there are conversion errors
+        if (context.getErrors().getErrorCount() > 0) {
+            return context.getErrors();
+        }
 
         // call validation
         ModelValidator validator = new ModelValidator();
-        return validator.validate(model, jsModel, newdoc);
+        context = createContext(doc);
+        return validator.validate(context, newdoc);
     }
 
-    public JSObject getJsModel() {
+    public ScriptObjectMirror getJsModel() {
         if (jsModel == null) {
             generateJsModel();
         }
@@ -66,5 +82,9 @@ public class PreparedModel {
         } catch (Exception e) {
             throw new ModelException(e);
         }
+    }
+
+    public ModelContext createContext(Map<String, Object> doc) {
+        return new ModelContext(model, getJsModel(), doc);
     }
 }

@@ -12,16 +12,30 @@ import org.springframework.validation.Errors;
 public class StringFieldHandler extends FieldHandler<StringField> {
 
     @Override
-    public Object convertValue(StringField field, Object value) {
+    public Object convertValue(StringField field, FieldContext fieldContext, Object value) {
         if (value == null) {
             return null;
         }
 
-        if (value instanceof String) {
-            return value;
+        String s = value instanceof String ? (String)value : value.toString();
+
+        // check charcase
+        if (field.getCharCase() != null) {
+            switch (field.getCharCase()) {
+                case LOWER: s = s.toLowerCase();
+                    break;
+                case UPPER: s = s.toUpperCase();
+                    break;
+                default:
+            }
         }
 
-        return value.toString();
+        // check extra spaces
+        if (field.isTrim()) {
+            s = s.trim();
+        }
+
+        return s;
     }
 
     @Override

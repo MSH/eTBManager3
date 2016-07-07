@@ -12,20 +12,26 @@ public class IntegerFieldHandler extends FieldHandler<IntegerField> {
 
 
     @Override
-    protected Object convertValue(IntegerField field, Object value) {
+    protected Object convertValue(IntegerField field, FieldContext fieldContext, Object value) {
         if (value == null) {
             return null;
         }
 
         if (value instanceof String) {
+            try {
             return Integer.parseInt((String)value);
+            } catch (NumberFormatException e) {
+                registerConversionError(fieldContext);
+                return value;
+            }
         }
 
         if (value instanceof Number) {
             return ((Number) value).intValue();
         }
 
-        throw new ModelException("Invalid type for convertion");
+        registerConversionError(fieldContext);
+        return value;
     }
 
     @Override

@@ -6,11 +6,13 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.FieldManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MapBindingResult;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 /**
@@ -21,8 +23,8 @@ import java.util.Map;
  */
 public class ModelValidator {
 
-    public Errors validate(Model model, ScriptObjectMirror jsmodel, Map<String, Object> vals) {
-        ModelContext context = new ModelContext(model, jsmodel, vals);
+    public Errors validate(ModelContext context, Map<String, Object> vals) {
+        Model model = context.getModel();
 
         for (Map.Entry<String, Object> entry: vals.entrySet()) {
             String fname = entry.getKey();
@@ -78,7 +80,18 @@ public class ModelValidator {
         if (context.getErrors().getFieldErrorCount() > 0) {
             return;
         }
-        // TODO implement model validation
+
+        ScriptObjectMirror validators = (ScriptObjectMirror)context.getJsField().get("validators");
+
+        int index = 0;
+        for (Validator validator: model.getValidators()) {
+            JSObject func = (JSObject)validators.get("v" + index);
+            boolean res = (boolean)func.call(context.getDocBinding());
+            if (!res) {
+                context.getErrors().reject(validator.getMessageKey());
+            }
+            index++;
+        }
     }
 
 }
