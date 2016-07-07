@@ -291,7 +291,19 @@ const displaySchemas = {
 				]
 			},
 			label: __('cases.details.result'),
-			size: { sm: 12 }
+			size: { sm: 12 },
+			readOnlyColumns: [
+				{
+					title: __('Medicine.substances'),
+					content: 'substance',
+					size: { sm: 6 }
+				},
+				{
+					title: __('cases.details.result'),
+					content: 'result',
+					size: { sm: 6 }
+				}
+			]
 		}]
 	},
 

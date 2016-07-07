@@ -6,6 +6,7 @@ import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.SampleType;
 import org.msh.etbm.db.enums.VisualAppearance;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -23,6 +24,9 @@ public class ExamMicroscopy extends LaboratoryExam {
     private String otherSampleType;
 
     private VisualAppearance visualAppearance;
+
+    @Column(length = 50)
+    private String method;
 
     @Override
     public ExamResult getExamResult() {
@@ -47,30 +51,18 @@ public class ExamMicroscopy extends LaboratoryExam {
         this.result = result;
     }
 
-    /**
-     * @param numberOfAFB the numberOfAFB to set
-     */
     public void setNumberOfAFB(Integer numberOfAFB) {
         this.numberOfAFB = numberOfAFB;
     }
 
-    /**
-     * @return the numberOfAFB
-     */
     public Integer getNumberOfAFB() {
         return numberOfAFB;
     }
 
-    /**
-     * @return the sampleType
-     */
     public SampleType getSampleType() {
         return sampleType;
     }
 
-    /**
-     * @param sampleType the sampleType to set
-     */
     public void setSampleType(SampleType sampleType) {
         this.sampleType = sampleType;
     }
@@ -89,5 +81,13 @@ public class ExamMicroscopy extends LaboratoryExam {
 
     public void setVisualAppearance(VisualAppearance visualAppearance) {
         this.visualAppearance = visualAppearance;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }
