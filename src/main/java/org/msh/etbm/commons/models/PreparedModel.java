@@ -35,7 +35,7 @@ public class PreparedModel {
      * @param doc the document to check
      * @return
      */
-    public Errors validate(Map<String, Object> doc) {
+    public ValidationResult validate(Map<String, Object> doc) {
         ModelContext context = createContext(doc);
 
         // convert the values to the final value
@@ -44,13 +44,15 @@ public class PreparedModel {
 
         // check if there are conversion errors
         if (context.getErrors().getErrorCount() > 0) {
-            return context.getErrors();
+            return new ValidationResult(context.getErrors(), newdoc);
         }
 
         // call validation
         ModelValidator validator = new ModelValidator();
         context = createContext(doc);
-        return validator.validate(context, newdoc);
+        Errors errors = validator.validate(context, newdoc);
+
+        return new ValidationResult(errors, newdoc);
     }
 
     public ScriptObjectMirror getJsModel() {

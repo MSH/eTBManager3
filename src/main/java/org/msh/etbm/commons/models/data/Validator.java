@@ -16,7 +16,10 @@ public class Validator {
      */
     private String messageKey;
 
-
+    /**
+     * The message to be displayed. This one is used if messageKey is not defined
+     */
+    private String message;
 
     public String getJsExpression() {
         return jsExpression;
@@ -32,5 +35,13 @@ public class Validator {
 
     public void setMessageKey(String messageKey) {
         this.messageKey = messageKey;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

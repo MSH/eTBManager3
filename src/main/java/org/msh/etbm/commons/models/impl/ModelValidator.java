@@ -81,17 +81,15 @@ public class ModelValidator {
             return;
         }
 
+        // check if there is any validator to execute
+        if (model.getValidators() == null || model.getValidators().size() == 0) {
+            return;
+        }
+
         ScriptObjectMirror validators = (ScriptObjectMirror)context.getJsField().get("validators");
 
-        int index = 0;
-        for (Validator validator: model.getValidators()) {
-            JSObject func = (JSObject)validators.get("v" + index);
-            boolean res = (boolean)func.call(context.getDocBinding());
-            if (!res) {
-                context.getErrors().reject(validator.getMessageKey());
-            }
-            index++;
-        }
+        // execute the validators
+        CustomValidatorsExecutor.execute(null, model.getValidators(), validators, context);
     }
 
 }

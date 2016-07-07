@@ -3,6 +3,7 @@ package org.msh.etbm.test.commons.model;
 import org.junit.Test;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.PreparedModel;
+import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
@@ -139,7 +140,8 @@ public class ModelTest {
         doc.put("level", 2);
 
         // city is required
-        Errors errors = preparedModel.validate(doc);
+        ValidationResult res = preparedModel.validate(doc);
+        Errors errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());
         FieldError err = errors.getFieldError("city");
@@ -148,14 +150,16 @@ public class ModelTest {
 
         // include city
         doc.put("city", "Rio de Janeiro");
-        errors = preparedModel.validate(doc);
+        res = preparedModel.validate(doc);
 
+        errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(0, errors.getErrorCount());
 
         // include city as a null value (error)
         doc.put("city", null);
-        errors = preparedModel.validate(doc);
+        res = preparedModel.validate(doc);
+        errors = res.getErrors();
         assertEquals(1, errors.getErrorCount());
         err = errors.getFieldError("city");
         assertNotNull(err);
@@ -164,7 +168,8 @@ public class ModelTest {
         // reduce level requirement
         doc.put("level", 1);
         doc.remove("city");
-        errors = preparedModel.validate(doc);
+        res = preparedModel.validate(doc);
+        errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());
         ObjectError error = errors.getGlobalErrors().get(0);

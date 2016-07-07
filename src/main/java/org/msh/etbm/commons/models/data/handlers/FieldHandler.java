@@ -8,6 +8,7 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.FieldType;
+import org.msh.etbm.commons.models.impl.CustomValidatorsExecutor;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.core.convert.ConversionException;
@@ -109,19 +110,9 @@ public abstract class FieldHandler<E extends Field> {
             return;
         }
 
-        ScriptObjectMirror validators = fieldContext.getJsField();
-        SimpleBindings doc = fieldContext.getParent().getDocBinding();
-        Errors errors = fieldContext.getParent().getErrors();
+        ScriptObjectMirror validators = (ScriptObjectMirror)fieldContext.getJsField().get("validators");
 
-        int index = 0;
-        for (Validator validator: field.getValidators()) {
-            JSObject func = (JSObject)validators.get("v" + index);
-            boolean res = (boolean)func.call(doc);
-            if (!res) {
-                errors.rejectValue(field.getName(), validator.getMessageKey());
-            }
-            index++;
-        }
+        CustomValidatorsExecutor.execute(field.getName(), field.getValidators(), validators, fieldContext.getParent());
     }
 
     protected void registerConversionError(FieldContext context) {

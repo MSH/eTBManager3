@@ -6,6 +6,7 @@ import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ public class ModelScriptGenerator {
 
         builder.append(fieldsScript);
 
-        StringBuilder valBuilder = generateValidatorsScript(model);
+        StringBuilder valBuilder = generateValidatorsScript(model.getValidators());
 
         if (valBuilder != null) {
             builder.append(", ").append(valBuilder);
@@ -41,8 +42,8 @@ public class ModelScriptGenerator {
         return builder.toString();
     }
 
-    private StringBuilder generateValidatorsScript(Model model) {
-        if (model.getValidators() == null || model.getValidators().size() == 0) {
+    private StringBuilder generateValidatorsScript(List<Validator> validators) {
+        if (validators == null || validators.size() == 0) {
             return null;
         }
 
@@ -51,7 +52,7 @@ public class ModelScriptGenerator {
 
         int index = 0;
         String delim = "";
-        for (Validator validator: model.getValidators()) {
+        for (Validator validator: validators) {
             s.append(delim)
                     .append("v")
                     .append(index)
@@ -60,6 +61,7 @@ public class ModelScriptGenerator {
                     .append("; }");
 
             delim = ", ";
+            index++;
         }
 
         s.append("}");
@@ -99,6 +101,13 @@ public class ModelScriptGenerator {
                 s.append(delim).append(script);
                 delim = ", ";
             }
+        }
+
+        // generate script to the custom validators
+        StringBuilder srcValidators = generateValidatorsScript(field.getValidators());
+        if (srcValidators != null) {
+            s.append(delim).append(srcValidators);
+            delim = ", ";
         }
 
         s.append("}");
