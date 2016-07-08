@@ -40,13 +40,13 @@ public class FollowUpService {
     public QueryResult getData(UUID caseId) {
         QueryResult<FollowUpData> result = new QueryResult();
 
-        for(FollowUpType type: FollowUpType.values()){
+        for (FollowUpType type: FollowUpType.values()) {
             List<Object> followups = entityManager.createQuery("from " + type.getEntityClassName() + " e where e.tbcase.id = :caseId")
                                         .setParameter("caseId", caseId)
                                         .getResultList();
 
             //mount result list
-            for(Object o : followups){
+            for (Object o : followups) {
                 CaseEvent caseEvent = (CaseEvent) o;
                 FollowUpData data = new FollowUpData();
 

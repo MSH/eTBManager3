@@ -36,12 +36,12 @@ public class ExamDST extends LaboratoryExam {
         boolean allNull = true;
 
         for (String key : getResults().keySet()) {
-            if(getResults().get(key) != null) {
+            if (getResults().get(key) != null) {
                 allNull = false;
                 break;
             }
 
-            if(getResults().get(key) != null && getResults().get(key).equals(DstResult.RESISTANT)) {
+            if (getResults().get(key) != null && getResults().get(key).equals(DstResult.RESISTANT)) {
                 return ExamResult.POSITIVE;
             }
         }
@@ -53,7 +53,7 @@ public class ExamDST extends LaboratoryExam {
         return ExamResult.NEGATIVE;
     }
     
-    public HashMap<String, DstResult> getResults(){
+    public HashMap<String, DstResult> getResults() {
         if (this.results == null) {
             this.results = new HashMap<>();
             results.put("Am", this.resultAm);
