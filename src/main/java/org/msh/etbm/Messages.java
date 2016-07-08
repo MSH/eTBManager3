@@ -28,6 +28,7 @@ public class Messages {
     public static final String NOT_VALID_EMAIL = "NotValidEmail";
     public static final String NOT_VALID_WORKSPACE = "NotValidWorkspace";
     public static final String NOT_UNIQUE_USER = "NotUniqueUser";
+    public static final String NOT_VALID_OPTION = "NotValidOption";
 
     @Resource
     MessageSource messageSource;

@@ -5,7 +5,6 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.springframework.validation.Errors;
 
 /**
  * Created by rmemoria on 5/7/16.

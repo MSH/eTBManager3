@@ -1,14 +1,12 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.IntegerField;
 import org.msh.etbm.commons.models.impl.FieldContext;
-import org.springframework.validation.Errors;
 
 /**
  * Created by rmemoria on 1/7/16.
  */
-public class IntegerFieldHandler extends FieldHandler<IntegerField> {
+public class IntegerFieldHandler extends SingleFieldHandler<IntegerField> {
 
 
     @Override

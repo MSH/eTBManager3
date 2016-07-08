@@ -1,11 +1,6 @@
 package org.msh.etbm.commons.models;
 
-import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.fields.IntegerField;
-import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.data.handlers.*;
-
 
 import java.util.HashMap;
 import java.util.Map;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.FieldOptions;
 import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Validator;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeIdResolver(FieldTypeResolver.class)
-public class Field {
+public abstract class Field {
 
     /**
      * Field name
@@ -47,6 +48,12 @@ public class Field {
      * Is a custom field, i.é, not part of the model but created by the user
      */
     private boolean custom;
+
+    /**
+     * List of possible values to the field
+     */
+    private FieldOptions options;
+
 
     /**
      * Return the type name uded in the class
@@ -108,5 +115,13 @@ public class Field {
 
     public void setCustom(boolean custom) {
         this.custom = custom;
+    }
+
+    public FieldOptions getOptions() {
+        return options;
+    }
+
+    public void setOptions(FieldOptions options) {
+        this.options = options;
     }
 }

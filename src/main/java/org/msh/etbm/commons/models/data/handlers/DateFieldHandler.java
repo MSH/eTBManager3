@@ -1,20 +1,16 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.data.fields.DateField;
 import org.msh.etbm.commons.models.impl.FieldContext;
-import org.springframework.validation.Errors;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by rmemoria on 2/7/16.
  */
-public class DateFieldHandler extends FieldHandler<DateField> {
+public class DateFieldHandler extends SingleFieldHandler<DateField> {
 
     @Override
     protected Object convertValue(DateField field, FieldContext context, Object value) {

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * Created by rmemoria on 1/7/16.
  */
 @FieldType("string")
-public class StringField extends Field {
+public class StringField extends SingleField {
 
     /**
      * The maximum length of the string value

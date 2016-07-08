@@ -8,6 +8,8 @@ import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
+import org.msh.etbm.commons.models.db.QueryData;
+import org.msh.etbm.commons.models.db.SQLGenerator;
 import org.msh.etbm.commons.models.impl.ModelContext;
 import org.msh.etbm.commons.models.impl.ModelConverter;
 import org.springframework.validation.Errors;
@@ -129,6 +131,25 @@ public class ModelTest {
 //        engine.eval(script);
 //    }
 
+
+    @Test
+    public void testSQLGenerator() {
+        Model model = createModel();
+
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("name", "Ricardo");
+        doc.put("level", 2);
+        doc.put("city", "Rio de Janeiro");
+
+        SQLGenerator gen = new SQLGenerator();
+        QueryData data = gen.createInsertSQL(model, doc);
+        assertNotNull(data.getSql());
+        assertNotNull(data.getParams());
+        assertNotNull(data.getParams().get("id"));
+        assertEquals(UUID.class, data.getParams().get("id").getClass());
+
+        data = gen.createUpdateSQL(model, doc, UUID.randomUUID());
+    }
 
     @Test
     public void testValidation() {

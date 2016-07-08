@@ -3,7 +3,6 @@ package org.msh.etbm.commons.models.data;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.models.data.fields.Field;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

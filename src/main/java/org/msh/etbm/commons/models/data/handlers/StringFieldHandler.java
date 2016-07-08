@@ -1,15 +1,12 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.impl.FieldContext;
-import org.springframework.validation.Errors;
 
 /**
  * Created by rmemoria on 1/7/16.
  */
-public class StringFieldHandler extends FieldHandler<StringField> {
+public class StringFieldHandler extends SingleFieldHandler<StringField> {
 
     @Override
     public Object convertValue(StringField field, FieldContext fieldContext, Object value) {

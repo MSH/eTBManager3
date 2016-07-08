@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.models;
 
-import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.impl.ModelContext;

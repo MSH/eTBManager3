@@ -9,10 +9,19 @@ import javax.script.SimpleBindings;
 import java.util.List;
 
 /**
+ * Execute a list of validators. Used both in model custom validators and field custom validators
  * Created by rmemoria on 6/7/16.
  */
 public class CustomValidatorsExecutor {
 
+    /**
+     * Execute the custom validators
+     * @param fieldName the field name (null if in model)
+     * @param validators list of {@link Validator} objects
+     * @param jsValidators JavaScript object containing the compiled objects
+     * @param context the model context, with the document and error messages
+     * @return true if validators were successfully executed
+     */
     public static boolean execute(String fieldName, List<Validator> validators,
                                   ScriptObjectMirror jsValidators, ModelContext context) {
         SimpleBindings doc = context.getDocBinding();

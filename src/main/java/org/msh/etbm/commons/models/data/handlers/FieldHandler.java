@@ -1,20 +1,17 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.FieldType;
+import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.CustomValidatorsExecutor;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.springframework.core.convert.ConversionException;
 import org.springframework.validation.Errors;
 
-import javax.script.SimpleBindings;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,6 +76,10 @@ public abstract class FieldHandler<E extends Field> {
     public void validate(E field, FieldContext fieldContext, Object value) {
         Errors errors = fieldContext.getParent().getErrors();
 
+        if (!validateOptions(fieldContext, value)) {
+            return;
+        }
+
         // field value is null ?
         // if is null, then doesn't move to the validation process, but check if it is required
         if (value == null) {
@@ -103,6 +104,32 @@ public abstract class FieldHandler<E extends Field> {
         }
     }
 
+    /**
+     * Check if field value is one of the valid options defined for the field
+     * @param fieldContext
+     * @param value
+     * @return
+     */
+    private boolean validateOptions(FieldContext fieldContext, Object value) {
+        // check if there is any option available
+        Field field = fieldContext.getField();
+        if (field.getOptions() == null) {
+            return true;
+        }
+
+        boolean success = field.getOptions().isValueInOptions(value);
+
+        if (!success) {
+            fieldContext.getParent().getErrors().rejectValue(field.getName(), Messages.NOT_VALID_OPTION);
+        }
+
+        return success;
+    }
+
+    /**
+     * Execute any custom validator defined in the field
+     * @param fieldContext
+     */
     private void runCustomValidators(FieldContext fieldContext) {
         Field field = fieldContext.getField();
 
@@ -118,4 +145,9 @@ public abstract class FieldHandler<E extends Field> {
     protected void registerConversionError(FieldContext context) {
         context.getParent().getErrors().rejectValue(context.getField().getName(), Messages.NOT_VALID);
     }
+
+    /**
+     * Define the fields to be saved
+     */
+    public abstract Map<String, Object> mapFieldsToSave(E field, Object value);
 }

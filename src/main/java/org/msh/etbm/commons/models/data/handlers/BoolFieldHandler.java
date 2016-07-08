@@ -2,12 +2,11 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.impl.FieldContext;
-import org.springframework.validation.Errors;
 
 /**
  * Created by rmemoria on 2/7/16.
  */
-public class BoolFieldHandler extends FieldHandler<BoolField> {
+public class BoolFieldHandler extends SingleFieldHandler<BoolField> {
 
     @Override
     protected Object convertValue(BoolField field, FieldContext context, Object value) {

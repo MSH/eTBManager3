@@ -1,9 +1,6 @@
 package org.msh.etbm.commons.models;
 
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
-
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 1/7/16.
