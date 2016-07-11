@@ -13,7 +13,7 @@ public class Model {
     /**
      * The model unique identifier ID
      */
-    private String id;
+    private String name;
 
     /**
      * The table to store the model record
@@ -50,12 +50,20 @@ public class Model {
         return null;
     }
 
-    public String getId() {
-        return id;
+    /**
+     * Resolve the table name. If table property is not defined, use the model name
+     * @return
+     */
+    public String resolveTableName() {
+        return table != null ? table : name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Field> getFields() {

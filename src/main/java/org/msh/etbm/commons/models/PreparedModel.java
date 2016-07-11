@@ -17,6 +17,8 @@ import java.util.Map;
  * {@link PreparedModel} is a class that contains both a {@link Model} and its compiled
  * JavaScript code. The JavaScript code is compiled and used during validation of a document
  * (conversion and validation phases).
+ * <p/>
+ * {@link PreparedModel} can be cached and reused by many simultaneous requests.
  *
  * Created by rmemoria on 6/7/16.
  */
@@ -27,6 +29,9 @@ public class PreparedModel {
 
     public PreparedModel(Model model) {
         this.model = model;
+        if (model.getName() == null) {
+            throw new ModelException("Model name must be informed");
+        }
     }
 
     /**
@@ -87,5 +92,9 @@ public class PreparedModel {
 
     public ModelContext createContext(Map<String, Object> doc) {
         return new ModelContext(model, getJsModel(), doc);
+    }
+
+    public Model getModel() {
+        return model;
     }
 }

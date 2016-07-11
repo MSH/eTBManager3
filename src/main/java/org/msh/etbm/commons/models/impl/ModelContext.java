@@ -23,7 +23,7 @@ public class ModelContext {
         this.model = model;
         this.jsModel = jsModel;
         this.doc = doc;
-        this.errors = new MapBindingResult(doc, model.getId());
+        this.errors = new MapBindingResult(doc, model.getName());
     }
 
     /**

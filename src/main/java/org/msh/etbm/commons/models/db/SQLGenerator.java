@@ -2,7 +2,7 @@ package org.msh.etbm.commons.models.db;
 
 import com.fasterxml.uuid.Generators;
 import com.fasterxml.uuid.impl.TimeBasedGenerator;
-import org.msh.etbm.commons.models.FieldManager;
+import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
@@ -31,7 +31,7 @@ public class SQLGenerator {
 
         StringBuilder s = new StringBuilder();
 
-        String table = model.getTable() != null ? model.getTable() : model.getId();
+        String table = model.resolveTableName();
 
         s.append("insert into " + table + " (");
 
@@ -60,7 +60,7 @@ public class SQLGenerator {
 
         StringBuilder s = new StringBuilder();
 
-        String table = model.getTable() != null ? model.getTable() : model.getId();
+        String table = model.resolveTableName();
 
         s.append("update ").append(table).append(" set ");
 
@@ -84,7 +84,7 @@ public class SQLGenerator {
         Map<String, Object> res = new HashMap<>();
 
         for (Field field: model.getFields()) {
-            FieldHandler handler = FieldManager.instance().get(field.getTypeName());
+            FieldHandler handler = FieldTypeManager.instance().getHandler(field.getTypeName());
             Object value = doc.get(field.getName());
 
             Map<String, Object> dbfields = handler.mapFieldsToSave(field, value);

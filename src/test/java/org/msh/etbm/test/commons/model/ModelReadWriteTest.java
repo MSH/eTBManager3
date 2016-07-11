@@ -41,7 +41,7 @@ public class ModelReadWriteTest {
 
     protected Model createModel() {
         Model model = new Model();
-        model.setId("tbcase");
+        model.setName("tbcase");
         model.setTable("tbcase");
 
         List<Field> fields = new ArrayList<>();
@@ -71,6 +71,10 @@ public class ModelReadWriteTest {
         options.setList(lst);
         fldStatus.setOptions(options);
         fields.add(fldStatus);
+
+        FKRegimenField fldRegimen = new FKRegimenField();
+        fldRegimen.setName("regimen_id");
+        fields.add(fldRegimen);
 
         model.setFields(fields);
 

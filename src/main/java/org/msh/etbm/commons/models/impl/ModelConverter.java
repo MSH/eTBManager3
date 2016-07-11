@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.models.FieldManager;
+import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -66,7 +66,7 @@ public class ModelConverter {
      * @return
      */
     protected Object convertValue(Field field, FieldContext context, Object value) {
-        FieldHandler handler = FieldManager.instance().get(field.getTypeName());
+        FieldHandler handler = FieldTypeManager.instance().getHandler(field.getTypeName());
 
         if (handler == null) {
             throw new ModelException("Handler not found for field " + field.getClass().getName());

@@ -262,7 +262,7 @@ public class ModelTest {
 
     protected Model createModel() {
         Model model = new Model();
-        model.setId("adminUnit");
+        model.setName("adminUnit");
         model.setTable("administrativeUnit");
 
         List<Field> fields = new ArrayList<>();

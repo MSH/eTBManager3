@@ -30,6 +30,9 @@ public class Messages {
     public static final String NOT_UNIQUE_USER = "NotUniqueUser";
     public static final String NOT_VALID_OPTION = "NotValidOption";
 
+    public static final String MAX_SIZE = "javax.validation.constraints.Max.message";
+    public static final String MIN_SIZE = "javax.validation.constraints.Min.message";
+
     @Resource
     MessageSource messageSource;
 

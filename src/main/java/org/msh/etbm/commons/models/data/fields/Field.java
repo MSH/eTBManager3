@@ -42,6 +42,7 @@ public abstract class Field {
     /**
      * The default value, if none is informed to the record
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object defaultValue;
 
     /**
@@ -52,6 +53,7 @@ public abstract class Field {
     /**
      * List of possible values to the field
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private FieldOptions options;
 
 

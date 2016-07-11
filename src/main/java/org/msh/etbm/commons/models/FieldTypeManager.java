@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.models;
 
+import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.data.handlers.*;
 
 import java.util.HashMap;
@@ -9,14 +10,14 @@ import java.util.Map;
  * Maintain a list of all available field types to be used in models
  * Created by rmemoria on 1/7/16.
  */
-public class FieldManager {
+public class FieldTypeManager {
 
     // generates a singleton instance
-    private static final FieldManager _instance = new FieldManager();
+    private static final FieldTypeManager _instance = new FieldTypeManager();
 
     private Map<String, FieldHandler> fields = new HashMap<>();
 
-    public FieldManager() {
+    public FieldTypeManager() {
         registerCommonFields();
     }
 
@@ -25,6 +26,9 @@ public class FieldManager {
         register(new IntegerFieldHandler());
         register(new BoolFieldHandler());
         register(new DateFieldHandler());
+
+        register(new ForeignKeyFieldHandler<FKSubstanceField>(FKSubstanceField.class));
+        register(new ForeignKeyFieldHandler<FKRegimenField>(FKRegimenField.class));
     }
 
     /**
@@ -42,15 +46,29 @@ public class FieldManager {
     }
 
     /**
-     * Return the field class by its type
+     * Return the field handler by its type name
      * @param typeName
      * @return
      */
-    public FieldHandler get(String typeName) {
+    public FieldHandler getHandler(String typeName) {
         return fields.get(typeName);
     }
 
-    public static FieldManager instance() {
+    /**
+     * Return the field handler by its field class
+     * @param clazz the class of {@link Field} representing the field
+     * @return
+     */
+    public FieldHandler getHandler(Class<? extends Field> clazz) {
+        for (Map.Entry<String, FieldHandler> entry: fields.entrySet()) {
+            if (entry.getValue().getFieldClass() == clazz) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
+    public static FieldTypeManager instance() {
         return _instance;
     }
 

@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.data.fields.BoolField;
+import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
 /**

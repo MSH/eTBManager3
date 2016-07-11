@@ -2,7 +2,7 @@ package org.msh.etbm.commons.models.impl;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.models.FieldManager;
+import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -65,7 +65,7 @@ public class ModelValidator {
     }
 
     protected void validateField(FieldContext fieldContext, Object value) {
-        FieldHandler handler = FieldManager.instance().get(fieldContext.getField().getTypeName());
+        FieldHandler handler = FieldTypeManager.instance().getHandler(fieldContext.getField().getTypeName());
 
         handler.validate(fieldContext.getField(), fieldContext, value);
     }

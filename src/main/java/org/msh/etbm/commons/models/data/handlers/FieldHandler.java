@@ -150,4 +150,42 @@ public abstract class FieldHandler<E extends Field> {
      * Define the fields to be saved
      */
     public abstract Map<String, Object> mapFieldsToSave(E field, Object value);
+
+    /**
+     * Add the fields to be selected in order to recover the information from the database
+     * @param defs the implementation of {@link DBFieldsDef} that will receive the fields
+     * @param displaying indicate if the return operation will be used for displaying data. In this
+     *                   case, if a table join or a code, it must include data to be displayed
+     */
+    public abstract void dbFieldsToSelect(E field, DBFieldsDef defs, boolean displaying);
+
+    /**
+     * Called when value is read from the database. This method is called if the method
+     * {@link FieldHandler#dbFieldsToSelect(E, DBFieldsDef, boolean)} define one single field to select
+     * from the database table.
+     * This is the moment to make any necessary conversion
+     * of the value read from DB.
+     * @param value the value read from the database
+     * @return the value to be sent to the model object
+     */
+    public Object convertSingleValueFromDb(E field, Object value) {
+        return value;
+    }
+
+    /**
+     * This method must be override in order to map the values from the DB to a single value to the
+     * model object.
+     * <p/>
+     * Called when multiple values are read from the database. This method is called if the return of
+     * {@link FieldHandler#dbFieldsToSelect(E, DBFieldsDef, boolean)} define more than one field to select
+     * from the database table.
+     * <p/>
+     * This is the moment to perform any conversion of the value read from the DB and return a single
+     * value to the model object.
+     * @param values a map containing DB field name and its value
+     * @return the object that will be set in the model object
+     */
+    public Object convertMultipleValuesFromDb(E field, Map<String, Object> values) {
+        throw new ModelException("this method must be implemented");
+    }
 }

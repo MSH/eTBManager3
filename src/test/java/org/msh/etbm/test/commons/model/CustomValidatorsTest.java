@@ -110,7 +110,7 @@ public class CustomValidatorsTest {
      */
     public Model createModel(boolean local) {
         Model model = new Model();
-        model.setId("test");
+        model.setName("test");
 
         IntegerField fldValue = new IntegerField();
         fldValue.setName("value");

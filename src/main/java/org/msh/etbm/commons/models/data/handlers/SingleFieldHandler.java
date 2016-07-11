@@ -1,6 +1,8 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.data.fields.SingleField;
+import org.msh.etbm.commons.models.data.fields.StringField;
+import org.msh.etbm.commons.models.db.DBFieldsDef;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,5 +25,11 @@ public abstract class SingleFieldHandler<E extends SingleField> extends FieldHan
 
         map.put(dbfield, value);
         return map;
+    }
+
+    @Override
+    public void dbFieldsToSelect(SingleField field, DBFieldsDef defs, boolean displaying) {
+        String s = field.getDbFieldName() != null ? field.getDbFieldName() : field.getName();
+        defs.add(s);
     }
 }

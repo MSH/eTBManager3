@@ -1,13 +1,17 @@
 package org.msh.etbm.commons.models.data.fields;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * Created by rmemoria on 1/7/16.
  */
 @FieldType("int")
 public class IntegerField extends SingleField {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer max;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer min;
 
     public Integer getMax() {

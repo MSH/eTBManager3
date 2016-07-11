@@ -8,4 +8,6 @@ public interface DBFieldsDef {
     DBFieldsDef add(String fieldName);
 
     DBFieldsDef join(String tableName, String on);
+
+    String getRootTable();
 }

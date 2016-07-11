@@ -96,7 +96,7 @@ public class FieldOptionsTest {
      */
     protected Model createModel() {
         Model model = new Model();
-        model.setId("exam");
+        model.setName("exam");
         model.setTable("exam");
 
         List<Field> fields = new ArrayList<>();

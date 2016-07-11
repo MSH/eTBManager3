@@ -128,6 +128,6 @@ public class ModelScriptGenerator {
      * @return
      */
     public static String modelFunctionName(Model model) {
-        return "model_" + model.getId();
+        return "model_" + model.getName();
     }
 }

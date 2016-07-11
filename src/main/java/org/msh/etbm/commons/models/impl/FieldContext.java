@@ -51,4 +51,8 @@ public class FieldContext {
     public ScriptObjectMirror getJsField() {
         return jsField;
     }
+
+    public void rejectValue(String group, String defaultMessage) {
+        getParent().getErrors().rejectValue(getField().getName(), group, defaultMessage);
+    }
 }
