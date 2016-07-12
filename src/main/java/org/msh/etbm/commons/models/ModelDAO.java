@@ -17,10 +17,10 @@ public class ModelDAO {
 
     private boolean displaying;
 
-    private PreparedModel preparedModel;
+    private CompiledModel compiledModel;
     private DataSource dataSource;
 
-    public ModelDAO(PreparedModel model, DataSource dataSource) {
+    public ModelDAO(CompiledModel model, DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -49,7 +49,7 @@ public class ModelDAO {
             throw new ModelException("Cannot delete an entity that doesn't exist");
         }
 
-        Model model = preparedModel.getModel();
+        Model model = compiledModel.getModel();
         JdbcTemplate template = new JdbcTemplate(dataSource);
         template.update("delete from " + model.getTable() + " where id = ?", id);
     }

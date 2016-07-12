@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by rmemoria on 7/7/16.
  */
-public class QueryData {
+public class SQLGeneratorData {
 
     /**
      * The SQL instruction
@@ -17,7 +17,7 @@ public class QueryData {
      */
     private Map<String, Object> params;
 
-    protected QueryData(String sql, Map<String, Object> params) {
+    protected SQLGeneratorData(String sql, Map<String, Object> params) {
         this.sql = sql;
         this.params = params;
     }

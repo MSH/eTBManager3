@@ -6,17 +6,16 @@ import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.db.SQLSelectGenerator;
-import org.msh.etbm.commons.models.db.SQLSelectResult;
+import org.msh.etbm.commons.models.db.SQLQueryBuilder;
+import org.msh.etbm.commons.models.db.SQLQueryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Test of the {@link org.msh.etbm.commons.models.db.SQLSelectGenerator}
+ * Test of the {@link SQLQueryBuilder}
  * Created by rmemoria on 9/7/16.
  */
 public class SQLSelectGenTest {
@@ -25,8 +24,10 @@ public class SQLSelectGenTest {
     public void selectGenTest() {
         Model model = createModel();
 
-        SQLSelectGenerator gen = new SQLSelectGenerator();
-        SQLSelectResult res = gen.generateByID(model, UUID.randomUUID(), true);
+        SQLQueryBuilder gen = new SQLQueryBuilder();
+        gen.setDisplaying(true);
+        gen.setCustomTableSuffix("test");
+        SQLQueryInfo res = gen.generate(model, model.getTable() + ".id = :id");
         System.out.println(res.getSql());
     }
 
@@ -69,6 +70,7 @@ public class SQLSelectGenTest {
         FKRegimenField fldRegimen = new FKRegimenField();
         fldRegimen.setName("regimen");
         fldRegimen.setDbFieldName("regimen_id");
+        fldRegimen.setCustom(true);
         fields.add(fldRegimen);
 
         model.setFields(fields);

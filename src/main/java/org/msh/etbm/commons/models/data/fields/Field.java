@@ -56,6 +56,14 @@ public abstract class Field {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private FieldOptions options;
 
+    public Field() {
+        super();
+    }
+
+    public Field(String name) {
+        super();
+        this.name = name;
+    }
 
     /**
      * Return the type name uded in the class

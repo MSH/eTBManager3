@@ -5,7 +5,7 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.data.FieldListOptions;
 import org.msh.etbm.commons.models.data.FieldRangeOptions;
-import org.msh.etbm.commons.models.PreparedModel;
+import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.*;
@@ -24,7 +24,7 @@ public class FieldOptionsTest {
     @Test
     public void testValidOptionValues() {
         Model model = createModel();
-        PreparedModel pm = new PreparedModel(model);
+        CompiledModel pm = new CompiledModel(model);
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("status", "REQUIRED");

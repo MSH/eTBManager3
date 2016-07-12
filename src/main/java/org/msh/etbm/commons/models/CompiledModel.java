@@ -14,20 +14,20 @@ import javax.script.ScriptEngineManager;
 import java.util.Map;
 
 /**
- * {@link PreparedModel} is a class that contains both a {@link Model} and its compiled
+ * {@link CompiledModel} is a class that contains both a {@link Model} and its compiled
  * JavaScript code. The JavaScript code is compiled and used during validation of a document
  * (conversion and validation phases).
  * <p/>
- * {@link PreparedModel} can be cached and reused by many simultaneous requests.
+ * {@link CompiledModel} can be cached and reused by many simultaneous requests.
  *
  * Created by rmemoria on 6/7/16.
  */
-public class PreparedModel {
+public class CompiledModel {
 
     private Model model;
     private ScriptObjectMirror jsModel;
 
-    public PreparedModel(Model model) {
+    public CompiledModel(Model model) {
         this.model = model;
         if (model.getName() == null) {
             throw new ModelException("Model name must be informed");

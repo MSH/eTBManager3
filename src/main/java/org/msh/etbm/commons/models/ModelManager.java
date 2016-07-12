@@ -18,7 +18,7 @@ public class ModelManager {
 
     }
 
-    public PreparedModel get(String modelId) {
+    public CompiledModel get(String modelId) {
         return null;
     }
 

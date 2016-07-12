@@ -22,7 +22,7 @@ public class SQLGenerator {
      * @param doc
      * @return
      */
-    public QueryData createInsertSQL(Model model, Map<String, Object> doc) {
+    public SQLGeneratorData createInsertSQL(Model model, Map<String, Object> doc) {
         Map<String, Object> dbfields = mapDbFields(model, doc);
 
         TimeBasedGenerator uuidGenerator = Generators.timeBasedGenerator();
@@ -51,11 +51,11 @@ public class SQLGenerator {
         }
         s.append(")");
 
-        return new QueryData(s.toString(), dbfields);
+        return new SQLGeneratorData(s.toString(), dbfields);
     }
 
 
-    public QueryData createUpdateSQL(Model model, Map<String, Object> doc, UUID id) {
+    public SQLGeneratorData createUpdateSQL(Model model, Map<String, Object> doc, UUID id) {
         Map<String, Object> dbfields = mapDbFields(model, doc);
 
         StringBuilder s = new StringBuilder();
@@ -77,7 +77,7 @@ public class SQLGenerator {
 
         dbfields.put("id", id);
 
-        return new QueryData(s.toString(), dbfields);
+        return new SQLGeneratorData(s.toString(), dbfields);
     }
 
     protected Map<String, Object> mapDbFields(Model model, Map<String, Object> doc) {

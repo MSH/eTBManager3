@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.data.fields.SingleField;
-import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 
 import java.util.HashMap;

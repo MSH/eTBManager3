@@ -7,6 +7,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public abstract class ForeignKeyField extends SingleField {
 
+    public ForeignKeyField() {
+    }
+
+    public ForeignKeyField(String name) {
+        super(name);
+    }
+
+    public ForeignKeyField(String name, String dbFieldName) {
+        super(name, dbFieldName);
+    }
+
     @JsonIgnore
     public abstract String getForeignTable();
 
@@ -17,4 +28,6 @@ public abstract class ForeignKeyField extends SingleField {
     public String getForeignTableKeyName() {
         return "id";
     }
+
+
 }

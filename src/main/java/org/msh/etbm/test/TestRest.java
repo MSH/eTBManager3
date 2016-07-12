@@ -1,8 +1,12 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.db.Address;
+import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.fields.*;
+import org.msh.etbm.commons.models.db.DataLoader;
+import org.msh.etbm.commons.models.db.RecordDataMap;
+import org.msh.etbm.commons.models.db.SQLQueryInfo;
+import org.msh.etbm.commons.models.db.SQLQueryBuilder;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
@@ -14,18 +18,13 @@ import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import javax.sql.DataSource;
+import java.util.*;
 
 /**
  * Created by rmemoria on 9/5/15.
@@ -47,20 +46,7 @@ public class TestRest {
     DozerBeanMapper mapper;
 
     @Autowired
-    Validator validator;
-
-    @Autowired
-    MailService mailService;
-
-    @RequestMapping("/hello")
-    public String hello() {
-        return "Hello nice world!";
-    }
-
-    @RequestMapping("/workspaces")
-    public List<Workspace> getWorkspaces() {
-        return entityManager.createQuery("from Workspace").getResultList();
-    }
+    DataSource dataSource;
 
 
     @RequestMapping("/workspace")
@@ -99,50 +85,40 @@ public class TestRest {
         return new StandardResult("ok", null, true);
     }
 
-    @RequestMapping("/optionaltest")
-    public StandardResult optionalTest(@RequestBody DataRequest data, BindingResult bindingResult) {
-        System.out.println("ERRORS = " + bindingResult.hasErrors());
 
-        // recover the entity
-        DataEntity ent = new DataEntity();
-        ent.setName("Karla");
-        ent.setAge(33);
-        Address addr = new Address();
-        addr.setAddress("R. Tonelero");
-        addr.setComplement("Copacabana");
-        ent.setAddress(addr);
+    @RequestMapping(value = "/load")
+    public String dataLoad() {
+        Model m = new Model();
+        m.setName("unit");
+        m.setTable("unit");
 
-        // map it to a new request
-        DataRequest req2 = mapper.map(ent, DataRequest.class);
+        StringField fldName = new StringField("name");
+        StringField fldShortName = new StringField("shortName");
+        StringField fldCustomId = new StringField("customId");
+        BoolField fldActive = new BoolField("active");
+        FKAdminUnitField fldAdminUnit = new FKAdminUnitField("adminUnitId", "adminunit_id");
+        DateField fldInventoryStartDate = new DateField("invStartDate", "inventoryStartDate");
+        FKUnitField fldAuthorizer = new FKUnitField("authorizerId", "authorizerunit_id");
 
-        // copy request data to req 2
-        mapper.map(data, req2);
+        m.setFields(Arrays.asList(fldName, fldShortName, fldCustomId, fldActive, fldAdminUnit, fldInventoryStartDate, fldAuthorizer));
 
-        // validate request 2 containing all merged data
-        validator.validate(req2, bindingResult);
+        SQLQueryBuilder gen = new SQLQueryBuilder();
+        gen.setDisplaying(true);
+        SQLQueryInfo data = gen.generate(m, null);
 
-        if (bindingResult.hasErrors()) {
-            for (FieldError err : bindingResult.getFieldErrors()) {
-                System.out.println(err);
-            }
-            return new StandardResult(false, null, false);
+        StringBuilder s = new StringBuilder();
+        s.append("## QUERY ##\n");
+        s.append(data.getSql());
+
+        DataLoader loader = new DataLoader();
+        List<RecordDataMap> list = loader.loadData(dataSource, data);
+
+        s.append("\n\n## RESULT ##\n");
+        for (Map<String, Object> map: list) {
+            s.append('\n').append(map);
         }
+        s.append('\n');
 
-
-        mapper.map(data, ent);
-        return new StandardResult(ent, null, true);
-    }
-
-
-    @RequestMapping(value = "/sendmail", method = RequestMethod.GET)
-    public void send() {
-        Workspace ws = new Workspace();
-        ws.setName("MSH Demo");
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", "Ricardo Memória");
-        data.put("workspace", ws);
-
-        mailService.send("rmemoria@msh.org", "New workspace", "register-workspace.html", data);
+        return s.toString();
     }
 }

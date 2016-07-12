@@ -5,14 +5,14 @@ import org.msh.etbm.commons.models.data.fields.Field;
 /**
  * Created by rmemoria on 9/7/16.
  */
-public class SQLField {
+public class SQLQueryField {
 
     private String fieldName;
     private SQLJoinedTable table;
     private Field field;
     private String fieldNameAlias;
 
-    public SQLField(Field field, String fieldName, SQLJoinedTable table) {
+    public SQLQueryField(Field field, String fieldName, SQLJoinedTable table) {
         this.field = field;
         this.fieldName = fieldName;
         this.table = table;

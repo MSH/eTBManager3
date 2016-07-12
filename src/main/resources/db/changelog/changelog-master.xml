@@ -1738,6 +1738,7 @@
             <column name="suspectCaseNumber" type="INT"/>
             <column name="treatMonitoringInput" type="INT"/>
             <column name="customId" type="${type.customId}"/>
+            <column name="extension" type="varchar(20)" />
         </createTable>
     </changeSet>
 

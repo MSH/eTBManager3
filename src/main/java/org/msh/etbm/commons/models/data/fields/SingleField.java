@@ -7,6 +7,19 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  */
 public abstract class SingleField extends Field {
 
+    public SingleField() {
+        super();
+    }
+
+    public SingleField(String name) {
+        super(name);
+    }
+
+    public SingleField(String name, String dbFieldName) {
+        super(name);
+        this.dbFieldName = dbFieldName;
+    }
+
     /**
      * Name of the field in the database table
      */

@@ -1,7 +1,7 @@
 package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
-import org.msh.etbm.commons.models.PreparedModel;
+import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -36,7 +36,7 @@ public class StringFieldTest {
 
         model.setFields(fields);
 
-        PreparedModel pm = new PreparedModel(model);
+        CompiledModel pm = new CompiledModel(model);
 
         // create testing document
         Map<String, Object> doc = new HashMap<>();

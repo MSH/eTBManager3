@@ -1,14 +1,14 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.apache.commons.collections.MapUtils;
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.models.data.fields.FKRegimenField;
+import org.msh.etbm.commons.entities.EntityUtils;
 import org.msh.etbm.commons.models.data.fields.ForeignKeyField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 11/7/16.
@@ -53,8 +53,21 @@ public class ForeignKeyFieldHandler<E extends ForeignKeyField> extends SingleFie
     }
 
     @Override
-    public Object convertMultipleValuesFromDb(E field, Map<String, Object> values) {
-        Object id = values.get(field.getDbFieldName());
+    public Object readSingleValueFromDb(E field, Object value) {
+        if (value == null) {
+            return null;
+        }
+        UUID id = EntityUtils.bytesToUUID((byte[])value);
+        return id;
+    }
+
+    @Override
+    public Object readMultipleValuesFromDb(E field, Map<String, Object> values) {
+        byte[] data = (byte[])values.get(field.getDbFieldName());
+        if (data == null) {
+            return null;
+        }
+        UUID id = EntityUtils.bytesToUUID(data);
         Object label = values.get(field.getForeignDisplayingFieldName());
         return new Item<>(id, label.toString());
     }

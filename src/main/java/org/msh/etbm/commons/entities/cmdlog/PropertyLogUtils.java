@@ -6,6 +6,7 @@ import org.msh.etbm.commons.objutils.PropertyValue;
 import org.msh.etbm.db.Synchronizable;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -57,6 +58,10 @@ public class PropertyLogUtils {
      * @return true if the field must be logged, otherwise false if the field should not be logged
      */
     protected boolean isFieldLogged(Field field, Operation oper) {
+        if (Modifier.isStatic(field.getModifiers())) {
+            return false;
+        }
+
         PropertyLog propertyLog = field.getAnnotation(PropertyLog.class);
 
         if (propertyLog != null) {

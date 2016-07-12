@@ -6,4 +6,11 @@ package org.msh.etbm.commons.models.data.fields;
 @FieldType("bool")
 public class BoolField extends SingleField {
 
+    public BoolField() {
+        super();
+    }
+
+    public BoolField(String name) {
+        super(name);
+    }
 }

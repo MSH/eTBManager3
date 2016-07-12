@@ -9,7 +9,7 @@ import javax.persistence.Entity;
  * Store information about a laboratory. Laboratory plays roles in exams and inventory management
  */
 @Entity
-@DiscriminatorValue("lab")
+@DiscriminatorValue(Unit.DISCRIMINATOR_LAB)
 public class Laboratory extends Unit {
 
     /**

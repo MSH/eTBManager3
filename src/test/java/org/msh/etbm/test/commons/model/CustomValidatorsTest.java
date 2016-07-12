@@ -1,14 +1,13 @@
 package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
-import org.msh.etbm.commons.models.PreparedModel;
+import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.IntegerField;
 import org.msh.etbm.commons.models.impl.ModelScriptGenerator;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -32,12 +31,12 @@ public class CustomValidatorsTest {
     public void testCustomValidators() {
         Model model = createModel(true);
 
-        PreparedModel preparedModel = new PreparedModel(model);
+        CompiledModel compiledModel = new CompiledModel(model);
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("value", 1);
 
-        ValidationResult res = preparedModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc);
         assertNotNull(res);
         assertNotNull(res.getErrors());
 
@@ -50,7 +49,7 @@ public class CustomValidatorsTest {
 
         // now active the 2nd validator
         doc.put("value", 10);
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         assertNotNull(res.getErrors());
 
         errors = res.getErrors();
@@ -61,7 +60,7 @@ public class CustomValidatorsTest {
 
         // no error (valid value)
         doc.put("value", 5);
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         errors = res.getErrors();
         assertEquals(0, errors.getErrorCount());
     }
@@ -70,13 +69,13 @@ public class CustomValidatorsTest {
     public void globalValidatorsTest() {
         Model model = createModel(false);
 
-        PreparedModel preparedModel = new PreparedModel(model);
+        CompiledModel compiledModel = new CompiledModel(model);
 
         // create the document
         Map<String, Object> doc = new HashMap<>();
         doc.put("value", 1);
 
-        ValidationResult res = preparedModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc);
         assertNotNull(res);
         assertNotNull(res.getErrors());
 
@@ -88,7 +87,7 @@ public class CustomValidatorsTest {
 
         // now active the 2nd validator
         doc.put("value", 10);
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         assertNotNull(res.getErrors());
 
         errors = res.getErrors();
@@ -98,7 +97,7 @@ public class CustomValidatorsTest {
 
         // no error (valid value)
         doc.put("value", 5);
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         errors = res.getErrors();
         assertEquals(0, errors.getErrorCount());
     }

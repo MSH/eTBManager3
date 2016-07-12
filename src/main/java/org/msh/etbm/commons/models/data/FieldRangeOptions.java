@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.models.data;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.models.data.FieldOptions;
 
 import java.util.ArrayList;
 import java.util.List;

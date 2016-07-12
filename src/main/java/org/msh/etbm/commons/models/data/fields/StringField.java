@@ -8,6 +8,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @FieldType("string")
 public class StringField extends SingleField {
 
+    public StringField() {
+        super();
+    }
+
+    public StringField(String name) {
+        super(name);
+    }
+
     /**
      * The maximum length of the string value
      */

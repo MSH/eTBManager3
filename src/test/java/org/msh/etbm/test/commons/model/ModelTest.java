@@ -2,13 +2,13 @@ package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.models.PreparedModel;
+import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.JSExprValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.db.QueryData;
+import org.msh.etbm.commons.models.db.SQLGeneratorData;
 import org.msh.etbm.commons.models.db.SQLGenerator;
 import org.msh.etbm.commons.models.impl.ModelContext;
 import org.msh.etbm.commons.models.impl.ModelConverter;
@@ -60,8 +60,8 @@ public class ModelTest {
         data.put("level", 1);
 
         Model model = createModel();
-        PreparedModel preparedModel = new PreparedModel(model);
-        ModelContext context = preparedModel.createContext(data);
+        CompiledModel compiledModel = new CompiledModel(model);
+        ModelContext context = compiledModel.createContext(data);
 
         ModelConverter converter = new ModelConverter();
         Map<String, Object> data2 = converter.convert(context);
@@ -75,14 +75,14 @@ public class ModelTest {
 
         // level now will receive a string
         data.put("level", "5");
-        context = preparedModel.createContext(data);
+        context = compiledModel.createContext(data);
         data2 = converter.convert(context);
         assertEquals(0, context.getErrors().getErrorCount());
         assertEquals(5, data2.get("level"));
 
         // field doesn't exist, so will be ignored
         data.put("notExist", 11);
-        context = preparedModel.createContext(data);
+        context = compiledModel.createContext(data);
         data2 = converter.convert(context);
         assertEquals(0, context.getErrors().getErrorCount());
         assertEquals(3, data2.keySet().size());
@@ -91,7 +91,7 @@ public class ModelTest {
         // invalid value
         data.remove("noExist");
         data.put("active", new Date());
-        context = preparedModel.createContext(data);
+        context = compiledModel.createContext(data);
         data2 = converter.convert(context);
         assertEquals(1, context.getErrors().getErrorCount());
         assertNotNull(data2);
@@ -101,14 +101,14 @@ public class ModelTest {
 
         data.put("city", " " + CITY);
         data.put("active", true);
-        context = preparedModel.createContext(data);
+        context = compiledModel.createContext(data);
         data2 = converter.convert(context);
         assertNotEquals(data2.get("city"), data.get("city"));
         assertEquals(data2.get("city"), data.get("city").toString().trim());
 
         // check invalid conversion from string to int
         data.put("level", "--");
-        context = preparedModel.createContext(data);
+        context = compiledModel.createContext(data);
         data2 = converter.convert(context);
         assertEquals(1, context.getErrors().getErrorCount());
         assertNotNull(data2);
@@ -142,7 +142,7 @@ public class ModelTest {
         doc.put("city", "Rio de Janeiro");
 
         SQLGenerator gen = new SQLGenerator();
-        QueryData data = gen.createInsertSQL(model, doc);
+        SQLGeneratorData data = gen.createInsertSQL(model, doc);
         assertNotNull(data.getSql());
         assertNotNull(data.getParams());
         assertNotNull(data.getParams().get("id"));
@@ -154,14 +154,14 @@ public class ModelTest {
     @Test
     public void testValidation() {
         Model model = createModel();
-        PreparedModel preparedModel = new PreparedModel(model);
+        CompiledModel compiledModel = new CompiledModel(model);
 
         Map<String, Object> doc = new HashMap<>();
         doc.put("name", "Ricardo");
         doc.put("level", 2);
 
         // city is required
-        ValidationResult res = preparedModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc);
         Errors errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());
@@ -171,7 +171,7 @@ public class ModelTest {
 
         // include city
         doc.put("city", "Rio de Janeiro");
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
 
         errors = res.getErrors();
         assertNotNull(errors);
@@ -179,7 +179,7 @@ public class ModelTest {
 
         // include city as a null value (error)
         doc.put("city", null);
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         errors = res.getErrors();
         assertEquals(1, errors.getErrorCount());
         err = errors.getFieldError("city");
@@ -189,7 +189,7 @@ public class ModelTest {
         // reduce level requirement
         doc.put("level", 1);
         doc.remove("city");
-        res = preparedModel.validate(doc);
+        res = compiledModel.validate(doc);
         errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());

@@ -11,7 +11,6 @@ import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.validation.Errors;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -168,7 +167,7 @@ public abstract class FieldHandler<E extends Field> {
      * @param value the value read from the database
      * @return the value to be sent to the model object
      */
-    public Object convertSingleValueFromDb(E field, Object value) {
+    public Object readSingleValueFromDb(E field, Object value) {
         return value;
     }
 
@@ -185,7 +184,7 @@ public abstract class FieldHandler<E extends Field> {
      * @param values a map containing DB field name and its value
      * @return the object that will be set in the model object
      */
-    public Object convertMultipleValuesFromDb(E field, Map<String, Object> values) {
+    public Object readMultipleValuesFromDb(E field, Map<String, Object> values) {
         throw new ModelException("this method must be implemented");
     }
 }
