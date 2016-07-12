@@ -5,7 +5,7 @@ import { app } from '../../../core/app';
  * @return {[type]} [description]
  */
 const displaySchemas = {
-	medexam: {
+	MEDICAL_EXAMINATION: {
 		layout: [
 		{
 			type: 'select',
@@ -53,7 +53,7 @@ const displaySchemas = {
 		}]
 	},
 
-	microscopy: {
+	EXAM_MICROSCOPY: {
 		layout: [
 		{
 			type: 'string',
@@ -128,7 +128,7 @@ const displaySchemas = {
 		}]
 	},
 
-	culture: {
+	EXAM_CULTURE: {
 		layout: [
 		{
 			type: 'string',
@@ -182,7 +182,7 @@ const displaySchemas = {
 		}]
 	},
 
-	xpert: {
+	EXAM_XPERT: {
 		layout: [
 		{
 			type: 'string',
@@ -231,7 +231,7 @@ const displaySchemas = {
 		}]
 	},
 
-	dst: {
+	EXAM_DST: {
 		layout: [
 		{
 			type: 'string',
@@ -307,7 +307,7 @@ const displaySchemas = {
 		}]
 	},
 
-	hiv: {
+	EXAM_HIV: {
 		defaultProperties: {
 			startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
 			startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
@@ -358,7 +358,7 @@ const displaySchemas = {
 		}]
 	},
 
-	xray: {
+	EXAM_XRAY: {
 		layout: [
 		{
 			type: 'string',
@@ -383,7 +383,7 @@ const displaySchemas = {
 };
 
 const editSchemas = {
-	medexam: {
+	MEDICAL_EXAMINATION: {
 		layout: [
 		{
 			type: 'date',
@@ -531,7 +531,7 @@ const editSchemas = {
 		}]
 	},
 
-	culture: {
+	EXAM_CULTURE: {
 		layout: [
 		{
 			type: 'date',
@@ -654,7 +654,7 @@ const editSchemas = {
 		}]
 	},
 
-	dst: {
+	EXAM_DST: {
 		layout: [
 		{
 			type: 'date',
@@ -722,7 +722,7 @@ const editSchemas = {
 		}]
 	},
 
-	hiv: {
+	EXAM_HIV: {
 		layout: [
 		{
 			type: 'date',
@@ -771,7 +771,7 @@ const editSchemas = {
 		}]
 	},
 
-	xray: {
+	EXAM_XRAY: {
 		layout: [
 		{
 			type: 'date',
@@ -804,13 +804,13 @@ const editSchemas = {
 };
 
 const folloupTypes = [
-	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM'), dateField: 'date', icon: 'stethoscope', permission: 'CASE_MED_EXAM' },
-	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_MICROSCOPY' },
-	{ id: 'CULTURE', name: __('FollowUpType.CULTURE'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_CULTURE' },
-	{ id: 'XPERT', name: __('FollowUpType.XPERT'), dateField: 'dateCollected', icon: 'file-text', permission: 'permision' },
-	{ id: 'DST', name: __('FollowUpType.DST'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_DST' },
-	{ id: 'XRAY', name: __('FollowUpType.XRAY'), dateField: 'date', icon: 'file-text', permission: 'EXAM_XRAY' },
-	{ id: 'HIV', name: __('FollowUpType.HIV'), dateField: 'date', icon: 'file-text', permission: 'EXAM_HIV' }
+	{ id: 'MEDICAL_EXAMINATION', name: __('FollowUpType.MEDICAL_EXAMINATION'), icon: 'stethoscope', permission: 'CASE_MED_EXAM', crud: 'medexam' },
+	{ id: 'EXAM_MICROSCOPY', name: __('FollowUpType.EXAM_MICROSCOPY'), icon: 'file-text', permission: 'EXAM_MICROSCOPY', crud: 'exammic' },
+	{ id: 'EXAM_CULTURE', name: __('FollowUpType.EXAM_CULTURE'), icon: 'file-text', permission: 'EXAM_CULTURE', crud: 'examcul' },
+	{ id: 'EXAM_XPERT', name: __('FollowUpType.EXAM_XPERT'), icon: 'file-text', permission: 'permision', crud: 'examxpert' },
+	{ id: 'EXAM_DST', name: __('FollowUpType.EXAM_DST'), icon: 'file-text', permission: 'EXAM_DST', crud: 'examdst' },
+	{ id: 'EXAM_XRAY', name: __('FollowUpType.EXAM_XRAY'), icon: 'file-text', permission: 'EXAM_XRAY', crud: 'examxray' },
+	{ id: 'EXAM_HIV', name: __('FollowUpType.EXAM_HIV'), icon: 'file-text', permission: 'EXAM_HIV', crud: 'examhiv' }
 ];
 
 export function getFollowUpTypes() {
@@ -822,9 +822,9 @@ export function getFollowUpType(followupId) {
 }
 
 export function getDisplaySchema(followupId) {
-	return displaySchemas[followupId.toLowerCase()];
+	return displaySchemas[followupId];
 }
 
 export function getEditSchema(followupId) {
-	return editSchemas[followupId.toLowerCase()];
+	return editSchemas[followupId];
 }

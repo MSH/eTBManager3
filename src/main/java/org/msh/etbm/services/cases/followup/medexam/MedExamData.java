@@ -1,56 +1,40 @@
-package org.msh.etbm.db.entities;
+package org.msh.etbm.services.cases.followup.medexam;
 
-import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.MedAppointmentType;
 import org.msh.etbm.db.enums.YesNoType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import java.util.Date;
+import java.util.UUID;
 
 /**
- * Records information about a medical examination of a case
- *
- * @author Ricardo Mem�ria
+ * Created by msantos on 11/7/16.
  */
-@Entity
-@Table(name = "medicalexamination")
-public class MedicalExamination extends CaseEvent {
-
-    @PropertyLog(operations = {Operation.NEW})
+public class MedExamData {
+    private UUID id;
+    private Date date;
+    private String comments;
     private Double weight;
-
-    @PropertyLog(operations = {Operation.NEW})
     private Double height;
-
     private MedAppointmentType appointmentType;
-
     private YesNoType usingPrescMedicines;
-
-    @Column(length = 200)
     private String reasonNotUsingPrescMedicines;
-
-    @Column(length = 100)
     private String responsible;
-
-    @Column(length = 100)
     private String positionResponsible;
 
+    public Date getDate() {
+        return date;
+    }
 
-    /**
-     * Calculate the BMI (using weight and height)
-     *
-     * @return BMI value
-     */
-    public double getBMI() {
-        if ((height == null) || (height == 0)) {
-            return 0;
-        }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-        double h = height / 100;
-        return weight == null ? 0 : weight / (h * h);
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Double getWeight() {
@@ -67,6 +51,14 @@ public class MedicalExamination extends CaseEvent {
 
     public void setHeight(Double height) {
         this.height = height;
+    }
+
+    public MedAppointmentType getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(MedAppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
     }
 
     public YesNoType getUsingPrescMedicines() {
@@ -93,27 +85,19 @@ public class MedicalExamination extends CaseEvent {
         this.responsible = responsible;
     }
 
-    public MedAppointmentType getAppointmentType() {
-        return appointmentType;
-    }
-
-    public void setAppointmentType(MedAppointmentType appointmentType) {
-        this.appointmentType = appointmentType;
-    }
-
-
-    /**
-     * @return the positionResponsible
-     */
     public String getPositionResponsible() {
         return positionResponsible;
     }
 
-    /**
-     * @param positionResponsible the positionResponsible to set
-     */
     public void setPositionResponsible(String positionResponsible) {
         this.positionResponsible = positionResponsible;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

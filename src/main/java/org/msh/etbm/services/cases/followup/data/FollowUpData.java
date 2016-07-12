@@ -23,7 +23,7 @@ public class FollowUpData {
     /**
      * The follow up name message key
      */
-    private String nameKey;
+    private String name;
 
     /**
      * The month of treatment when the follow up was collected
@@ -43,12 +43,12 @@ public class FollowUpData {
         this.type = type;
     }
 
-    public String getNameKey() {
-        return nameKey;
+    public String getName() {
+        return name;
     }
 
-    public void setNameKey(String nameKey) {
-        this.nameKey = nameKey;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getMonthOfTreatment() {

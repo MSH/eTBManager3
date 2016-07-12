@@ -40,6 +40,7 @@ public class CommandTypes {
 
     // case module
     public static final String CASES_CASE = "cases.case";
+    public static final String CASES_MED_EXAM = "cases.medexam";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -85,6 +86,7 @@ public class CommandTypes {
 
         // cases module
         ROOT.add(CASES_CASE);
+        ROOT.addCRUD(CASES_MED_EXAM);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

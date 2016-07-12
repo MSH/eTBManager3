@@ -8,7 +8,7 @@ public enum FollowUpType {
     MEDICAL_EXAMINATION("MedicalExamination"),
     EXAM_MICROSCOPY("ExamMicroscopy"),
     EXAM_CULTURE("ExamCulture"),
-    EXAM_EXPERT("ExamXpert"),
+    EXAM_XPERT("ExamXpert"),
     EXAM_DST("ExamDST"),
     EXAM_XRAY("ExamXRay"),
     EXAM_HIV("ExamHIV");

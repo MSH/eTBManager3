@@ -198,7 +198,7 @@ public class Permissions {
                 addChangeable(CASES_COMORBIDITIES, "cases.comorbidities"),
                 addChangeable(CASES_TBCONTACT, "cases.contacts"),
                 addChangeable(CASES_ADV_EFFECTS, "cases.sideeffects"),
-                add(CASES_MED_EXAM, "cases.details.medexam"),
+                addChangeable(CASES_MED_EXAM, "cases.details.medexam"),
                 add(CASES_ISSUES, "cases.issues",
                         add(CASES_NEW_ISSUE, "cases.issues.new"),
                         add(CASES_ANSWER_ISSUE),

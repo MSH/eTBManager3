@@ -134,8 +134,8 @@ export default class UsersWs extends React.Component {
 
 	sendNewPassword(index, item) {
 		const self = this;
-		const doc = {userWsId: item.id};
-		
+		const doc = { userWsId: item.id };
+
 		return server.post('/api/tbl/userws/resetpwd', doc)
 		.then(res => {
 			if (res && res.errors) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert, DropdownButton, MenuItem, Row, Col } from 'react-bootstrap';
-import { SelectionBox, MessageDlg, Fa } from '../../../components';
+import { SelectionBox, MessageDlg, Fa, WaitIcon } from '../../../components';
 
 import FollowupDisplay from './followup-display';
 import FollowupModal from './followup-modal';
@@ -24,6 +24,10 @@ export default class CaseExams extends React.Component {
 	}
 
 	componentWillMount() {
+		this.refreshFollowups();
+	}
+
+	refreshFollowups() {
 		const self = this;
 		const id = this.props.tbcase.id;
 
@@ -40,6 +44,7 @@ export default class CaseExams extends React.Component {
 	 */
 	startOperation(opTypeP, followUpTypeP, docP) {
 		const self = this;
+		docP.tbcaseId = this.props.tbcase.id;
 
 		return () => {
 			const op = {};
@@ -54,17 +59,22 @@ export default class CaseExams extends React.Component {
 	 * Clear operation object to end any kind of operation
 	 * @return {[type]} [description]
 	 */
-	endOperation() {
+	endOperation(res) {
 		const self = this;
+		const sMsg = res === 'success' ? __('default.entity_created') : null;
 
-		return () => {
-			const op = {
-				opType: null,
-				followUpType: null,
-				doc: null
-			};
-			self.setState({ operation: op });
+		const op = {
+			opType: null,
+			followUpType: null,
+			doc: null
 		};
+
+		self.setState({ operation: op, successMsg: sMsg });
+		setTimeout(() => { self.setState({ successMsg: null }); }, 4000);
+
+		if (res === 'success') {
+			self.refreshFollowups();
+		}
 	}
 
 	onFilterChange() {
@@ -109,17 +119,17 @@ export default class CaseExams extends React.Component {
 	 * @param  {[type]} issues [description]
 	 * @return {[type]}        [description]
 	 */
-	contentRender(followups) {
-		if (!this.state.data || !this.state.data.list || this.state.data.list.length < 1) {
+	contentRender() {
+		const data = this.state.data;
+
+		if (!data || !data.list || data.list.length < 1) {
 			return <Alert bsStyle="warning">{'No result found'}</Alert>;
 		}
-
-		console.log(followups);
 
 		return (
 			<div>
 			{
-				followups.map((item) => (
+				data.list.map((item) => (
 					<div key={item.data.id}>
 						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', getFollowUpType(item.type), item.data)} onDelete={this.startOperation('del', getFollowUpType(item.type), item.data)}/>}
 					</div>
@@ -156,22 +166,27 @@ export default class CaseExams extends React.Component {
 					</Col>
 				</Row>
 
-				{this.contentRender(this.state.data)}
+				{
+					!!this.state.successMsg &&
+					<Alert bsStyle="success">{this.state.successMsg}</Alert>
+				}
 
-				{!!this.state.op &&
+				{!this.state || !this.state.data ? <WaitIcon type="card" /> : this.contentRender()}
+
+				{!!this.state.operation &&
 				<MessageDlg show={this.state.operation.opType === 'del'}
-					onClose={this.endOperation()}
+					onClose={this.endOperation}
 					title={this.renderDelTitle()}
 					message={__('form.confirm_remove')}
 					style="warning"
 					type="YesNo" />}
 
-				{!!this.state.op &&
+				{!!this.state.operation &&
 				<FollowupModal show={this.state.operation.opType === 'new' || this.state.operation.opType === 'edt'}
-					onClose={this.endOperation()}
+					onClose={this.endOperation}
 					opType={this.state.operation.opType}
 					followUpType={this.state.operation.followUpType}
-					doc={this.state.operation.doc} />}
+					tbcase={this.props.tbcase} />}
 
 			</div>);
 	}

@@ -49,7 +49,7 @@ const tags = [{
 const followUp = [
 	{
 		type: 'MEDEXAM',
-		name: __('FollowUpType.MEDEXAM'),
+		name: __('FollowUpType.MEDICAL_EXAMINATION'),
 		monthOfTreatment: 'Before TB Diagnosis',
 		data: {
 			id: '123-123-12-3123',
@@ -66,7 +66,7 @@ const followUp = [
 	},
 	{
 		type: 'MICROSCOPY',
-		name: __('FollowUpType.MICROSCOPY'),
+		name: __('FollowUpType.EXAM_MICROSCOPY'),
 		monthOfTreatment: 'Month of Diagnosis',
 		data: {
 			id: '34-534-5-345',
@@ -87,7 +87,7 @@ const followUp = [
 	},
 	{
 		type: 'CULTURE',
-		name: __('FollowUpType.CULTURE'),
+		name: __('FollowUpType.EXAM_CULTURE'),
 		monthOfTreatment: '1st month',
 		data: {
 			id: '334-5-3453-4',
@@ -106,7 +106,7 @@ const followUp = [
 	},
 	{
 		type: 'MEDEXAM',
-		name: __('FollowUpType.MEDEXAM'),
+		name: __('FollowUpType.MEDICAL_EXAMINATION'),
 		monthOfTreatment: '2nd month',
 		data: {
 				id: '3-123-123-12-3123',
@@ -123,7 +123,7 @@ const followUp = [
 	},
 	{
 		type: 'XPERT',
-		name: __('FollowUpType.XPERT'),
+		name: __('FollowUpType.EXAM_XPERT'),
 		monthOfTreatment: '3rd month',
 		data: {
 			id: '234-23-4-23',
@@ -141,7 +141,7 @@ const followUp = [
 	},
 	{
 		type: 'MICROSCOPY',
-		name: __('FollowUpType.MICROSCOPY'),
+		name: __('FollowUpType.EXAM_MICROSCOPY'),
 		monthOfTreatment: '4th month',
 		data: {
 			id: '35-34-53-4-3-5',
@@ -163,7 +163,7 @@ const followUp = [
 	},
 	{
 		type: 'DST',
-		name: __('FollowUpType.DST'),
+		name: __('FollowUpType.EXAM_DST'),
 		monthOfTreatment: '4th month',
 		data: {
 				id: '34-5-345-3',
@@ -202,7 +202,7 @@ const followUp = [
 	},
 	{
 		type: 'XRAY',
-		name: __('FollowUpType.XRAY'),
+		name: __('FollowUpType.EXAM_XRAY'),
 		monthOfTreatment: '4th month',
 		data: {
 			id: '546-565',
@@ -215,7 +215,7 @@ const followUp = [
 	},
 	{
 		type: 'HIV',
-		name: __('FollowUpType.HIV'),
+		name: __('FollowUpType.EXAM_HIV'),
 		monthOfTreatment: '4th month',
 		data: {
 			id: '345-345-34-5-345',
