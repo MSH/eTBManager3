@@ -42,6 +42,11 @@
             <b>userName</b>
         </field>
 
+        <field>
+            <a>user.login</a>
+            <b>userLoginName</b>
+        </field>
+
         <field custom-converter-id="adminunit">
             <a>unit.address.adminUnit</a>
             <b>adminUnit</b>

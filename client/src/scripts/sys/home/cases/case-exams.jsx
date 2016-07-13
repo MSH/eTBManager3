@@ -4,6 +4,7 @@ import { SelectionBox, MessageDlg, Fa } from '../../../components';
 
 import FollowupDisplay from './followup-display';
 import FollowupModal from './followup-modal';
+import { server } from '../../../commons/server';
 
 import moment from 'moment';
 import { getFollowUpTypes, getFollowUpType } from './followup-utils';
@@ -19,13 +20,15 @@ export default class CaseExams extends React.Component {
 		this.startOperation = this.startOperation.bind(this);
 		this.endOperation = this.endOperation.bind(this);
 
-		const op = {
-			opType: null,
-			followUpType: null,
-			followUpName: null,
-			doc: null
-		};
-		this.state = { filter: options.slice(), operation: op };
+		this.state = { filter: options.slice(), operation: null };
+	}
+
+	componentWillMount() {
+		const self = this;
+		const id = this.props.tbcase.id;
+
+		server.get('/api/cases/case/followups/' + id)
+			.then(res => self.setState({ data: res }));
 	}
 
 	/**
@@ -106,15 +109,17 @@ export default class CaseExams extends React.Component {
 	 * @param  {[type]} issues [description]
 	 * @return {[type]}        [description]
 	 */
-	contentRender(followup) {
-		if (!followup || followup.length === 0) {
+	contentRender(followups) {
+		if (!this.state.data || !this.state.data.list || this.state.data.list.length < 1) {
 			return <Alert bsStyle="warning">{'No result found'}</Alert>;
 		}
+
+		console.log(followups);
 
 		return (
 			<div>
 			{
-				followup.map((item) => (
+				followups.map((item) => (
 					<div key={item.data.id}>
 						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', getFollowUpType(item.type), item.data)} onDelete={this.startOperation('del', getFollowUpType(item.type), item.data)}/>}
 					</div>
@@ -151,20 +156,22 @@ export default class CaseExams extends React.Component {
 					</Col>
 				</Row>
 
-				{this.contentRender(this.props.tbcase.followUp)}
+				{this.contentRender(this.state.data)}
 
+				{!!this.state.op &&
 				<MessageDlg show={this.state.operation.opType === 'del'}
 					onClose={this.endOperation()}
 					title={this.renderDelTitle()}
 					message={__('form.confirm_remove')}
 					style="warning"
-					type="YesNo" />
+					type="YesNo" />}
 
+				{!!this.state.op &&
 				<FollowupModal show={this.state.operation.opType === 'new' || this.state.operation.opType === 'edt'}
 					onClose={this.endOperation()}
 					opType={this.state.operation.opType}
 					followUpType={this.state.operation.followUpType}
-					doc={this.state.operation.doc} />
+					doc={this.state.operation.doc} />}
 
 			</div>);
 	}

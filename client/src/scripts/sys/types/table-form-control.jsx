@@ -1,11 +1,10 @@
 
 import React from 'react';
 import Form from '../../forms/form';
-import { Row, Col, ButtonToolbar, Button } from 'react-bootstrap';
+import { Row, Col, ButtonToolbar, Button, Alert } from 'react-bootstrap';
 import Fa from '../../components/fa';
 import ReactTable from '../../components/react-table';
 import msgs from '../../commons/messages';
-import FormUtils from '../../forms/form-utils';
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -145,16 +144,10 @@ export default class TableFormControl extends React.Component {
 
 		if (sc.readOnly) {
 			if (!this.props.value) {
-				return 'No results found';
+				return <Alert className="mtop" bsStyle="warning">{__('form.norecordfound')}</Alert>;
 			}
 
-			if (!sc.readOnlyClomuns) {
-				return 'ERROR! No column defined for readonly form.';
-			}
-			
-			return (<ReactTable columns={sc.readOnlyClomuns}
-						values={this.props.value} />);
-
+			return (<ReactTable columns={sc.readOnlyColumns} values={this.props.value} />);
 		}
 
 		if (!sc.fschema) {

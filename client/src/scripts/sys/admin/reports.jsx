@@ -5,6 +5,7 @@ import PageContent from './page-content';
 import UserSessions from './reports/usersessions';
 import OnlineUsers from './reports/onlineusers';
 import CommandHistory from './reports/cmdhistory';
+import ErrorLog from './reports/errorlog';
 
 /**
  * Options of the left menu in the reports page
@@ -42,7 +43,8 @@ const menu = [
 		title: 'Error log report',
 		icon: 'bug',
 		perm: 'ERRORLOGREP',
-		path: 'errorlogrep'
+		path: '/errorlog',
+		view: ErrorLog
 	}
 ];
 

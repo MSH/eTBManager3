@@ -1,108 +1,178 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.DstResult;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Transient;
+import java.util.HashMap;
 
 @Entity
 @Table(name = "examdst")
 public class ExamDST extends LaboratoryExam {
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "exam")
-    private List<ExamDSTResult> results = new ArrayList<ExamDSTResult>();
+    private DstResult resultAm;
+    private DstResult resultCfz;
+    private DstResult resultCm;
+    private DstResult resultCs;
+    private DstResult resultE;
+    private DstResult resultEto;
+    private DstResult resultH;
+    private DstResult resultLfx;
+    private DstResult resultOfx;
+    private DstResult resultR;
+    private DstResult resultS;
+    private DstResult resultZ;
 
-    @PropertyLog(ignore = true)
-    private int numResistant;
+    @Column(length = 50)
+    private String method;
 
-    @PropertyLog(ignore = true)
-    private int numSusceptible;
-
-    @PropertyLog(ignore = true)
-    private int numContaminated;
+    @Transient
+    private HashMap<String, DstResult> results;
 
     @Override
     public ExamResult getExamResult() {
-        if ((results == null) || (results.size() == 0)) {
-            return ExamResult.UNDEFINED;
-        }
+        boolean allNull = true;
 
-        for (ExamDSTResult res : results) {
-            if (res.getResult() == DstResult.RESISTANT) {
+        for (String key : getResults().keySet()) {
+            if (getResults().get(key) != null) {
+                allNull = false;
+                break;
+            }
+
+            if (getResults().get(key) != null && getResults().get(key).equals(DstResult.RESISTANT)) {
                 return ExamResult.POSITIVE;
             }
         }
 
+        if (allNull) {
+            return ExamResult.UNDEFINED;
+        }
+
         return ExamResult.NEGATIVE;
     }
-
-    /**
-     * Search for a result by the substance
-     *
-     * @param sub - Substance to be used to search result
-     * @return - Susceptibility result
-     */
-    public ExamDSTResult findResultBySubstance(Substance sub) {
-        for (ExamDSTResult res : results) {
-            if (res.getSubstance().equals(sub)) {
-                return res;
-            }
+    
+    public HashMap<String, DstResult> getResults() {
+        if (this.results == null) {
+            this.results = new HashMap<>();
+            results.put("Am", this.resultAm);
+            results.put("Cfz", this.resultCfz);
+            results.put("Cm", this.resultCm);
+            results.put("Cs", this.resultCs);
+            results.put("E", this.resultE);
+            results.put("Eto", this.resultEto);
+            results.put("H", this.resultH);
+            results.put("Lfx", this.resultLfx);
+            results.put("Ofx", this.resultOfx);
+            results.put("R", this.resultR);
+            results.put("S", this.resultS);
+            results.put("Z", this.resultZ);
         }
-        return null;
+        return this.results;
     }
 
-    public List<ExamDSTResult> getResults() {
-        return results;
+    public DstResult getResultAm() {
+        return resultAm;
     }
 
-    public void setResults(List<ExamDSTResult> results) {
-        this.results = results;
+    public void setResultAm(DstResult resultAm) {
+        this.resultAm = resultAm;
     }
 
-    /**
-     * @param numResistant the numResistant to set
-     */
-    public void setNumResistant(int numResistant) {
-        this.numResistant = numResistant;
+    public DstResult getResultCfz() {
+        return resultCfz;
     }
 
-    /**
-     * @return the numResistant
-     */
-    public int getNumResistant() {
-        return numResistant;
+    public void setResultCfz(DstResult resultCfz) {
+        this.resultCfz = resultCfz;
     }
 
-    /**
-     * @return the numSusceptible
-     */
-    public int getNumSusceptible() {
-        return numSusceptible;
+    public DstResult getResultCm() {
+        return resultCm;
     }
 
-    /**
-     * @param numSusceptible the numSusceptible to set
-     */
-    public void setNumSusceptible(int numSusceptible) {
-        this.numSusceptible = numSusceptible;
+    public void setResultCm(DstResult resultCm) {
+        this.resultCm = resultCm;
     }
 
-    /**
-     * @return the numContaminated
-     */
-    public int getNumContaminated() {
-        return numContaminated;
+    public DstResult getResultCs() {
+        return resultCs;
     }
 
-    /**
-     * @param numContaminated the numContaminated to set
-     */
-    public void setNumContaminated(int numContaminated) {
-        this.numContaminated = numContaminated;
+    public void setResultCs(DstResult resultCs) {
+        this.resultCs = resultCs;
+    }
+
+    public DstResult getResultE() {
+        return resultE;
+    }
+
+    public void setResultE(DstResult resultE) {
+        this.resultE = resultE;
+    }
+
+    public DstResult getResultEto() {
+        return resultEto;
+    }
+
+    public void setResultEto(DstResult resultEto) {
+        this.resultEto = resultEto;
+    }
+
+    public DstResult getResultH() {
+        return resultH;
+    }
+
+    public void setResultH(DstResult resultH) {
+        this.resultH = resultH;
+    }
+
+    public DstResult getResultLfx() {
+        return resultLfx;
+    }
+
+    public void setResultLfx(DstResult resultLfx) {
+        this.resultLfx = resultLfx;
+    }
+
+    public DstResult getResultOfx() {
+        return resultOfx;
+    }
+
+    public void setResultOfx(DstResult resultOfx) {
+        this.resultOfx = resultOfx;
+    }
+
+    public DstResult getResultR() {
+        return resultR;
+    }
+
+    public void setResultR(DstResult resultR) {
+        this.resultR = resultR;
+    }
+
+    public DstResult getResultS() {
+        return resultS;
+    }
+
+    public void setResultS(DstResult resultS) {
+        this.resultS = resultS;
+    }
+
+    public DstResult getResultZ() {
+        return resultZ;
+    }
+
+    public void setResultZ(DstResult resultZ) {
+        this.resultZ = resultZ;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }

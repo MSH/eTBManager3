@@ -5,10 +5,7 @@ import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.CultureResult;
 import org.msh.etbm.db.enums.SampleType;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -22,6 +19,9 @@ public class ExamCulture extends LaboratoryExam {
     private Integer numberOfColonies;
 
     private SampleType sampleType;
+
+    @Column(length = 50)
+    private String method;
 
     @Override
     public ExamResult getExamResult() {
@@ -48,32 +48,27 @@ public class ExamCulture extends LaboratoryExam {
         this.result = result;
     }
 
-    /**
-     * @return the numberOfColonies
-     */
     public Integer getNumberOfColonies() {
         return numberOfColonies;
     }
 
-    /**
-     * @param numberOfColonies the numberOfColonies to set
-     */
     public void setNumberOfColonies(Integer numberOfColonies) {
         this.numberOfColonies = numberOfColonies;
     }
 
-
-    /**
-     * @return the sampleType
-     */
     public SampleType getSampleType() {
         return sampleType;
     }
 
-    /**
-     * @param sampleType the sampleType to set
-     */
     public void setSampleType(SampleType sampleType) {
         this.sampleType = sampleType;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 }

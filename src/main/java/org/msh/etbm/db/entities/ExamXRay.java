@@ -15,96 +15,28 @@ import javax.persistence.*;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("gen")
 @Table(name = "examxray")
 public class ExamXRay extends CaseEvent {
 
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private XRayResult result;
-
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private XRayEvolution evolution;
-
-    @PropertyLog(operations = {Operation.NEW})
-    private XRayBaseline baseline;
-
-    private Boolean destruction;
+    @Column(length = 50)
+    private String evolution;
 
     @Column(length = 50)
     private String presentation;
 
-    /**
-     * @return the baseline
-     */
-    public XRayBaseline getBaseline() {
-        return baseline;
-    }
-
-    /**
-     * @param baseline the baseline to set
-     */
-    public void setBaseline(XRayBaseline baseline) {
-        this.baseline = baseline;
-    }
-
-    /**
-     * Return the X-Ray result
-     *
-     * @return the result
-     */
-    public XRayResult getResult() {
-        return result;
-    }
-
-    /**
-     * Set the X-Ray result
-     *
-     * @param result the result to set
-     */
-    public void setResult(XRayResult result) {
-        this.result = result;
-    }
-
-    /**
-     * @return the evolution
-     */
-    public XRayEvolution getEvolution() {
+    public String getEvolution() {
         return evolution;
     }
 
-    /**
-     * @param evolution the evolution to set
-     */
-    public void setEvolution(XRayEvolution evolution) {
+    public void setEvolution(String evolution) {
         this.evolution = evolution;
     }
 
-    /**
-     * @param presentation the presentation to set
-     */
-    public void setPresentation(String presentation) {
-        this.presentation = presentation;
-    }
-
-    /**
-     * @return the presentation
-     */
     public String getPresentation() {
         return presentation;
     }
 
-    /**
-     * @return the destruction
-     */
-    public Boolean getDestruction() {
-        return destruction;
-    }
-
-    /**
-     * @param destruction the destruction to set
-     */
-    public void setDestruction(Boolean destruction) {
-        this.destruction = destruction;
+    public void setPresentation(String presentation) {
+        this.presentation = presentation;
     }
 }

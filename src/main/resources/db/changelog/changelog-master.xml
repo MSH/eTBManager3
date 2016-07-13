@@ -249,8 +249,8 @@
 
     <changeSet author="rmemoria" id="1433264274749-12">
         <createTable tableName="errorlog">
-            <column name="id" type="bigint">
-                <constraints nullable="false"/>
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="exceptionClass" type="VARCHAR(100)"/>
             <column name="exceptionMessage" type="VARCHAR(200)"/>
@@ -281,8 +281,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="sampleNumber" type="VARCHAR(50)"/>
-            <column name="dateCollected" type="date"/>
-            <column name="DTYPE" type="VARCHAR(31)"/>
+            <column name="EVENT_DATE" type="date"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
         </createTable>
@@ -296,49 +295,30 @@
             </column>
             <column name="comments" type="${type.text}"/>
             <column name="dateRelease" type="date"/>
-            <column name="numContaminated" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="numResistant" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="numSusceptible" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="LABORATORY_ID" type="${type.id}"/>
             <column name="method" type="VARCHAR(50)"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="sampleNumber" type="VARCHAR(50)"/>
-            <column name="dateCollected" type="date"/>
-            <column name="DTYPE" type="VARCHAR(31)"/>
+            <column name="EVENT_DATE" type="date"/>
             <column name="sampleType" type="INT"/>
-            <column name="mtbDetected" type="INT"/>
-            <column name="datePlating" type="date"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
+            <column name="resultAm" type="INT"/>
+            <column name="resultCfz" type="INT"/>
+            <column name="resultCm" type="INT"/>
+            <column name="resultCs" type="INT"/>
+            <column name="resultE" type="INT"/>
+            <column name="resultEto" type="INT"/>
+            <column name="resultH" type="INT"/>
+            <column name="resultLfx" type="INT"/>
+            <column name="resultOfx" type="INT"/>
+            <column name="resultR" type="INT"/>
+            <column name="resultS" type="INT"/>
+            <column name="resultZ" type="INT"/>
         </createTable>
     </changeSet>
-
-
-    <changeSet author="rmemoria" id="1433264274749-15">
-        <createTable tableName="examdstresult">
-            <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="result" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EXAM_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SUBSTANCE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
 
     <changeSet author="rmemoria" id="1433264274749-16">
         <createTable tableName="examhiv">
@@ -349,13 +329,11 @@
             <column name="EVENT_DATE" type="date"/>
             <column name="laboratory" type="VARCHAR(100)"/>
             <column name="result" type="INT"/>
-            <column name="startedARVdate" type="date"/>
+            <column name="startedARTdate" type="date"/>
             <column name="startedCPTdate" type="date"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="startedARTdate" type="date"/>
-            <column name="startedVCTdate" type="date"/>
             <column name="resultDate" type="date"/>
         </createTable>
     </changeSet>
@@ -375,12 +353,9 @@
             <column name="sampleType" type="INT"/>
             <column name="CASE_ID" type="${type.id}"/>
             <column name="sampleNumber" type="VARCHAR(50)"/>
-            <column name="dateCollected" type="date">
+            <column name="EVENT_DATE" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="laboratoryName" type="VARCHAR(200)"/>
-            <column name="LAB_ADMINUNIT_ID" type="${type.id}"/>
-            <column name="datePlating" type="date"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
             <column name="otherSampleType" type="VARCHAR(100)"/>
@@ -415,21 +390,16 @@
             <column name="case_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="dateCollected" type="date">
+            <column name="EVENT_DATE" type="date">
                 <constraints nullable="false"/>
             </column>
             <column name="comments" type="${type.text}"/>
             <column name="dateRelease" type="date"/>
             <column name="sampleNumber" type="VARCHAR(50)"/>
             <column name="result" type="INT"/>
-            <column name="rifResult" type="INT"/>
-            <column name="method" type="VARCHAR(50)"/>
             <column name="laboratory_ID" type="${type.id}"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
-            <column name="reason_id" type="${type.id}"/>
-            <column name="otherReason" type="VARCHAR(250)"/>
-            <column name="discriminator" type="VARCHAR(250)"/>
         </createTable>
     </changeSet>
 
@@ -443,17 +413,11 @@
             <column name="EVENT_DATE" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="baseline" type="INT"/>
-            <column name="evolution" type="INT"/>
-            <column name="result" type="INT"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="evolution" type="VARCHAR(50)"/>
             <column name="presentation" type="VARCHAR(50)"/>
-            <column name="destruction" type="${type.boolean}"/>
-            <column name="DISCRIMINATOR" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
 
@@ -965,6 +929,42 @@
             </column>
             <column name="OUTCOME_MONTH" type="INT"/>
             <column name="OUTCOME_YEAR" type="INT"/>
+            <column name="Am" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Cfz" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Cm" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Cs" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="E" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Eto" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="H" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Lfx" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Ofx" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="R" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="S" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Z" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -1013,18 +1013,6 @@
             </column>
             <column name="data" type="${type.text}"/>
             <column name="WORKSPACE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
-
-
-    <changeSet author="rmemoria" id="1433264274749-50">
-        <createTable tableName="res_prevtbtreatment">
-            <column name="PREVTBTREATMENT_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SUBSTANCE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -1851,17 +1839,11 @@
     <changeSet author="rmemoria" id="1433264274749-89">
         <addPrimaryKey columnNames="id" constraintName="PKCOUNTRYSTRUCTURE" tableName="countrystructure"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-90">
-        <addPrimaryKey columnNames="id" constraintName="PKERRORLOG" tableName="errorlog"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-91">
         <addPrimaryKey columnNames="id" constraintName="PKEXAMCULTURE" tableName="examculture"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-92">
         <addPrimaryKey columnNames="id" constraintName="PKEXAMDST" tableName="examdst"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-93">
-        <addPrimaryKey columnNames="id" constraintName="PKEXAMDSTRESULT" tableName="examdstresult"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-94">
         <addPrimaryKey columnNames="id" constraintName="PKEXAMHIV" tableName="examhiv"/>
@@ -1953,10 +1935,6 @@
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-125">
         <addPrimaryKey columnNames="id" constraintName="PKREPORT" tableName="report"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-126">
-        <addPrimaryKey columnNames="PREVTBTREATMENT_ID, SUBSTANCE_ID" constraintName="PKRESPREVTBTREATMENT"
-                       tableName="res_prevtbtreatment"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-127">
         <addPrimaryKey columnNames="id" constraintName="PKRESISTANCEPAT" tableName="resistancepattern"/>
@@ -2326,17 +2304,6 @@
                                  constraintName="FK7857D37EB3B1717" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
-
-    <changeSet author="rmemoria" id="1433264274749-234">
-        <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="examdstresult"
-                                 constraintName="FK786720E396FA537" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-235">
-        <addForeignKeyConstraint baseColumnNames="EXAM_ID" baseTableName="examdstresult"
-                                 constraintName="FK786720E397ACDF1E" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="examdst"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-236">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="transferitem"
                                  constraintName="FK8046457E1CBB077D" deferrable="false" initiallyDeferred="false"
@@ -2404,25 +2371,10 @@
                                  constraintName="FK8B79F783A3F04EEB" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-249">
-        <addForeignKeyConstraint baseColumnNames="LAB_ADMINUNIT_ID" baseTableName="exammicroscopy"
-                                 constraintName="FK8B79F783FE125FEE" deferrable="false" initiallyDeferred="false"
-                                 referencedColumnNames="id" referencedTableName="administrativeunit"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-251">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="medicalexamination"
                                  constraintName="FK919DA4C0A3F04EEB" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-252">
-        <addForeignKeyConstraint baseColumnNames="SUBSTANCE_ID" baseTableName="res_prevtbtreatment"
-                                 constraintName="FK972BA41896FA537" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="substance"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-253">
-        <addForeignKeyConstraint baseColumnNames="PREVTBTREATMENT_ID" baseTableName="res_prevtbtreatment"
-                                 constraintName="FK972BA418E3BBBDF7" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="prevtbtreatment"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-254">
         <addForeignKeyConstraint baseColumnNames="PROFILE_ID" baseTableName="userpermission"
