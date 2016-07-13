@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.tags;
 
-import org.msh.etbm.commons.entities.EntityUtils;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +87,7 @@ public class CasesTagsReportService {
             }
 
             int count = ((Number) vals[4]).intValue();
-            UUID id = EntityUtils.bytesToUUID((byte[]) vals[0]);
+            UUID id = ObjectUtils.bytesToUUID((byte[]) vals[0]);
 
             CasesTagsReportItem tag = new CasesTagsReportItem();
             tag.setId(id);

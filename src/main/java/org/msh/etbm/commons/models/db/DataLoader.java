@@ -1,9 +1,9 @@
 package org.msh.etbm.commons.models.db;
 
-import org.msh.etbm.commons.entities.EntityUtils;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class DataLoader {
 
-    public List<RecordDataMap> loadData(DataSource dataSource, SQLQueryInfo sel) {
+    public List<RecordData> loadData(DataSource dataSource, SQLQueryInfo sel) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 
         SqlParameterSource params = sel.getParameters() != null ?
@@ -28,8 +28,8 @@ public class DataLoader {
     }
 
 
-    private List<RecordDataMap> convertValues(List<Map<String, Object>> lst, SQLQueryInfo sel) {
-        List<RecordDataMap> res = new ArrayList<>();
+    private List<RecordData> convertValues(List<Map<String, Object>> lst, SQLQueryInfo sel) {
+        List<RecordData> res = new ArrayList<>();
 
         for (Map<String, Object> map: lst) {
             res.add(convertRecord(map, sel));
@@ -38,12 +38,12 @@ public class DataLoader {
     }
 
 
-    private RecordDataMap convertRecord(Map<String, Object> map, SQLQueryInfo qry) {
-        RecordDataMap res = new RecordDataMap();
+    private RecordData convertRecord(Map<String, Object> map, SQLQueryInfo qry) {
+        RecordData res = new RecordData();
 
         // load the ID
         byte[] val = (byte[])map.get("id");
-        UUID id = EntityUtils.bytesToUUID(val);
+        UUID id = ObjectUtils.bytesToUUID(val);
         res.setId(id);
 
         // feed the values using the fields
@@ -65,7 +65,7 @@ public class DataLoader {
                 }
                 newValue = handler.readMultipleValuesFromDb(field, vals);
             }
-            res.put(field.getName(), newValue);
+            res.getValues().put(field.getName(), newValue);
         }
 
         return res;

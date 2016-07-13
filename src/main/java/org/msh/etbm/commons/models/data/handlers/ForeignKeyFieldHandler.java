@@ -1,10 +1,10 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.entities.EntityUtils;
 import org.msh.etbm.commons.models.data.fields.ForeignKeyField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class ForeignKeyFieldHandler<E extends ForeignKeyField> extends SingleFie
 
     @Override
     public Map<String, Object> mapFieldsToSave(E field, Object value) {
-        return Collections.singletonMap(field.getDbFieldName(), value);
+        return Collections.singletonMap(field.getDbFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ForeignKeyFieldHandler<E extends ForeignKeyField> extends SingleFie
         if (value == null) {
             return null;
         }
-        UUID id = EntityUtils.bytesToUUID((byte[])value);
+        UUID id = ObjectUtils.bytesToUUID((byte[]) value);
         return id;
     }
 
@@ -67,7 +67,7 @@ public class ForeignKeyFieldHandler<E extends ForeignKeyField> extends SingleFie
         if (data == null) {
             return null;
         }
-        UUID id = EntityUtils.bytesToUUID(data);
+        UUID id = ObjectUtils.bytesToUUID(data);
         Object label = values.get(field.getForeignDisplayingFieldName());
         return new Item<>(id, label.toString());
     }

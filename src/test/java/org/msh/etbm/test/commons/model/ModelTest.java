@@ -142,7 +142,7 @@ public class ModelTest {
         doc.put("city", "Rio de Janeiro");
 
         SQLGenerator gen = new SQLGenerator();
-        SQLGeneratorData data = gen.createInsertSQL(model, doc);
+        SQLGeneratorData data = gen.createInsertSQL(model, doc, UUID.randomUUID());
         assertNotNull(data.getSql());
         assertNotNull(data.getParams());
         assertNotNull(data.getParams().get("id"));

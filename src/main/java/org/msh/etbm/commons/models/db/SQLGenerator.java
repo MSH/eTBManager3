@@ -6,6 +6,7 @@ import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,12 +23,14 @@ public class SQLGenerator {
      * @param doc
      * @return
      */
-    public SQLGeneratorData createInsertSQL(Model model, Map<String, Object> doc) {
+    public SQLGeneratorData createInsertSQL(Model model, Map<String, Object> doc, UUID workspaceId) {
         Map<String, Object> dbfields = mapDbFields(model, doc);
 
         TimeBasedGenerator uuidGenerator = Generators.timeBasedGenerator();
         UUID id = uuidGenerator.generate();
-        dbfields.put("id", id);
+        dbfields.put("id", ObjectUtils.uuidAsBytes(id));
+
+        dbfields.put("workspace_id", ObjectUtils.uuidAsBytes(workspaceId));
 
         StringBuilder s = new StringBuilder();
 

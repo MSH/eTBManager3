@@ -7,7 +7,7 @@ import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.db.DataLoader;
-import org.msh.etbm.commons.models.db.RecordDataMap;
+import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.commons.models.db.SQLQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +40,10 @@ public class DataLoaderTest {
         System.out.println(data.getSql());
 
         DataLoader loader = new DataLoader();
-        List<RecordDataMap> list = loader.loadData(dataSource, data);
+        List<RecordData> list = loader.loadData(dataSource, data);
 
-        for (Map<String, Object> map: list) {
-            System.out.println(map);
+        for (RecordData rec: list) {
+            System.out.println(rec);
         }
     }
 

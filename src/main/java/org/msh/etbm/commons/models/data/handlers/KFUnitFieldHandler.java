@@ -1,10 +1,9 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.entities.EntityUtils;
 import org.msh.etbm.commons.models.data.fields.FKUnitField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 
@@ -46,7 +45,7 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
         if (value == null) {
             return null;
         }
-        UUID id = EntityUtils.bytesToUUID((byte[])value);
+        UUID id = ObjectUtils.bytesToUUID((byte[]) value);
         return id;
     }
 
@@ -56,7 +55,7 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
         if (data == null) {
             return null;
         }
-        UUID id = EntityUtils.bytesToUUID(data);
+        UUID id = ObjectUtils.bytesToUUID(data);
         String label = (String)values.get("name");
         String discriminator = (String)values.get("discriminator");
 

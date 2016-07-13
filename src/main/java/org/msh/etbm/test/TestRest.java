@@ -1,12 +1,16 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.models.ModelDAO;
+import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.db.DataLoader;
-import org.msh.etbm.commons.models.db.RecordDataMap;
-import org.msh.etbm.commons.models.db.SQLQueryInfo;
+import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.commons.models.db.SQLQueryBuilder;
+import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
@@ -15,6 +19,7 @@ import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.web.api.StandardResult;
+import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -47,6 +52,9 @@ public class TestRest {
 
     @Autowired
     DataSource dataSource;
+
+    @Autowired
+    ModelDAOFactory modelDAOFactory;
 
 
     @RequestMapping("/workspace")
@@ -86,8 +94,37 @@ public class TestRest {
     }
 
 
+    @RequestMapping(value = "/model")
+    @Authenticated
+    public String modelTest() {
+        ModelDAO dao = modelDAOFactory.create("patient");
+
+        StringBuilder s = new StringBuilder();
+
+        Map<String, Object> vals = new HashMap<>();
+        vals.put("name", "Ricardo");
+        vals.put("middleName", "Memória");
+        vals.put("lastName", "Lima");
+        vals.put("birthDate", DateUtils.newDate(1971, 11, 13));
+        vals.put("gender", "MALE");
+        ModelDAOResult res = dao.create(vals);
+
+        s.append('\n').append("ID = ").append(res.getId()).append('\n');
+
+        List<RecordData> lst = dao.findMany(true, null);
+
+        s.append("DATA: \n");
+        for (RecordData data: lst) {
+            s.append(data).append('\n');
+        }
+
+        return s.toString();
+    }
+
     @RequestMapping(value = "/load")
     public String dataLoad() {
+        ModelDAO daoPatient = modelDAOFactory.create("patient");
+
         Model m = new Model();
         m.setName("unit");
         m.setTable("unit");
@@ -111,11 +148,11 @@ public class TestRest {
         s.append(data.getSql());
 
         DataLoader loader = new DataLoader();
-        List<RecordDataMap> list = loader.loadData(dataSource, data);
+        List<RecordData> list = loader.loadData(dataSource, data);
 
         s.append("\n\n## RESULT ##\n");
-        for (Map<String, Object> map: list) {
-            s.append('\n').append(map);
+        for (RecordData record: list) {
+            s.append('\n').append(record);
         }
         s.append('\n');
 
