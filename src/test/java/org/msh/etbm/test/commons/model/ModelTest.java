@@ -146,7 +146,6 @@ public class ModelTest {
         assertNotNull(data.getSql());
         assertNotNull(data.getParams());
         assertNotNull(data.getParams().get("id"));
-        assertEquals(UUID.class, data.getParams().get("id").getClass());
 
         data = gen.createUpdateSQL(model, doc, UUID.randomUUID());
     }

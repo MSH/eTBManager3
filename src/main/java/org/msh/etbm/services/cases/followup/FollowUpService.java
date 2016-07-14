@@ -41,7 +41,7 @@ public class FollowUpService {
 
                 data.setData(caseEvent);// TODO: add data class
                 data.setMonthOfTreatment(caseEvent.getMonthDisplay());
-                data.setNameKey(type.getKey());
+                data.setName(type.getKey());
                 data.setType(type.name());
 
                 result.getList().add(data);

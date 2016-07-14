@@ -45,7 +45,7 @@ public class Patient extends WorkspaceEntity {
     private Integer recordNumber;
 
     @NotNull
-    @PropertyLog(operations = {Operation.NEW})
+    @PropertyLog(operations = {Operation.NEW}, messageKey = "Gender")
     private String gender;
 
     @Column(length = 50)
