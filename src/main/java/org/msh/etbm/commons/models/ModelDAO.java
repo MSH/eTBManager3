@@ -61,6 +61,7 @@ public class ModelDAO {
      * @return the model ID
      */
     public ModelDAOResult insert(Map<String, Object> values) {
+        System.out.println("CompiledModel = " + compiledModel);
         ValidationResult validationRes = compiledModel.validate(values, resources);
 
         // there are errors from validation ?
