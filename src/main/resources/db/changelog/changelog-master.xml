@@ -33,6 +33,7 @@
     <property name="type.name" value="VARCHAR(100)"/>
     <property name="type.shortName" value="VARCHAR(30)"/>
     <property name="type.customId" value="VARCHAR(50)"/>
+    <property name="type.optionId" value="VARCHAR(100)" />
 
 
     <changeSet author="rmemoria" id="1433264274749-1">
@@ -863,7 +864,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="birthDate" type="date"/>
-            <column name="gender" type="INT">
+            <column name="gender" type="${type.optionId}">
                 <constraints nullable="false"/>
             </column>
             <column name="name" type="${type.name}">
@@ -878,7 +879,6 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="fatherName" type="VARCHAR(100)"/>
         </createTable>
     </changeSet>
 
@@ -1726,6 +1726,7 @@
             <column name="suspectCaseNumber" type="INT"/>
             <column name="treatMonitoringInput" type="INT"/>
             <column name="customId" type="${type.customId}"/>
+            <column name="extension" type="varchar(20)" />
         </createTable>
     </changeSet>
 

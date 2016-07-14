@@ -1,8 +1,8 @@
 package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
@@ -19,7 +19,6 @@ import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
 import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

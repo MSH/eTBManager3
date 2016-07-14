@@ -25,9 +25,13 @@ public class Messages {
     public static final String REQUIRED = "NotNull";
     public static final String NOT_NULL = "NotNull";
     public static final String NOT_VALID = "NotValid";
-    public static final String NOT_VALID_EMIAL = "NotValidEmail";
+    public static final String NOT_VALID_EMAIL = "NotValidEmail";
     public static final String NOT_VALID_WORKSPACE = "NotValidWorkspace";
     public static final String NOT_UNIQUE_USER = "NotUniqueUser";
+    public static final String NOT_VALID_OPTION = "NotValidOption";
+
+    public static final String MAX_SIZE = "javax.validation.constraints.Max.message";
+    public static final String MIN_SIZE = "javax.validation.constraints.Min.message";
 
     @Resource
     MessageSource messageSource;

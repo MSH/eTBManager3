@@ -5,10 +5,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * General utility functions involving an object
@@ -169,5 +167,25 @@ public class ObjectUtils {
         }
 
         return values;
+    }
+
+    /**
+     * Convert an array of bytes to an UUID object
+     *
+     * @param val an array of bytes
+     * @return instance of UUID
+     */
+    public static UUID bytesToUUID(byte[] val) {
+        ByteBuffer bb = ByteBuffer.wrap(val);
+        long high = bb.getLong();
+        long low = bb.getLong();
+        return new UUID(high, low);
+    }
+
+    public static byte[] uuidAsBytes(UUID uuid) {
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return bb.array();
     }
 }

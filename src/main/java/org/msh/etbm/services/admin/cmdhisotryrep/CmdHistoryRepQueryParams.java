@@ -1,6 +1,5 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
-import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 import java.util.Date;

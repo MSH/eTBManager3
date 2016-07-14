@@ -2,11 +2,7 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.followup.FollowUpService;
-import org.msh.etbm.services.cases.followup.data.FollowUpData;
-import org.msh.etbm.services.cases.treatment.TreatmentService;
-import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.msh.etbm.services.security.permissions.Permissions;
-import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +25,7 @@ public class FollowUpREST {
 
     @RequestMapping(value = "/followups/{caseId}", method = RequestMethod.GET)
     @Authenticated
-    public QueryResult<FollowUpData> get(@PathVariable UUID caseId) {
+    public QueryResult get(@PathVariable UUID caseId) {
         return service.getData(caseId);
     }
 

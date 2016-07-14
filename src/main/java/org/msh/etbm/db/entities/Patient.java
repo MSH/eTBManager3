@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.db.enums.Gender;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -47,7 +46,7 @@ public class Patient extends WorkspaceEntity {
 
     @NotNull
     @PropertyLog(operations = {Operation.NEW})
-    private Gender gender;
+    private String gender;
 
     @Column(length = 50)
     @PropertyLog(messageKey = "form.customId")
@@ -57,15 +56,12 @@ public class Patient extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<TbCase> cases = new ArrayList<TbCase>();
 
-    @Column(length = 100)
-    private String fatherName;
 
-
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -157,14 +153,6 @@ public class Patient extends WorkspaceEntity {
      */
     public void setCases(List<TbCase> cases) {
         this.cases = cases;
-    }
-
-    public String getFatherName() {
-        return fatherName;
-    }
-
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
     }
 
     @Override

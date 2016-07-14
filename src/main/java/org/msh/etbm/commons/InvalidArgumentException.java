@@ -9,6 +9,13 @@ public class InvalidArgumentException extends RuntimeException {
     private final String property;
     private final String code;
 
+
+    public InvalidArgumentException(String message) {
+        super(message);
+        this.property = null;
+        this.code = null;
+    }
+
     /**
      * Default constructor
      *

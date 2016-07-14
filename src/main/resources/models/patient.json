@@ -1,0 +1,50 @@
+{
+  "name": "patient",
+  "table": "patient",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": { "value": true },
+      "label": "${Patient.firstName}",
+      "max": 100,
+      "unique": true
+    },
+    {
+      "name": "middleName",
+      "type": "string",
+      "required": { "value": true },
+      "label": "${Patient.middleName}",
+      "max": 100
+    },
+    {
+      "name": "lastName",
+      "type": "string",
+      "required": { "value": true },
+      "label": "${Patient.lastName}",
+      "max": 100
+    },
+    {
+      "name": "birthDate",
+      "type": "date",
+      "label": "${Patient.birthDate}"
+    },
+    {
+      "name": "gender",
+      "type": "string",
+      "required": { "value": true },
+      "options": {
+        "type": "list",
+        "list": [
+          { "id": "MALE", "name": "${Gender.MALE}" },
+          { "id": "FEMALE", "name": "${Gender.FEMALE}" }
+        ]
+      }
+    },
+    {
+      "name": "customId",
+      "type": "string",
+      "max": 50
+    }
+  ]
+}
