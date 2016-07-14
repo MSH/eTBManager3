@@ -13,7 +13,7 @@ import java.util.UUID;
  * Created by rmemoria on 11/10/15.
  */
 @MappedSuperclass
-public class CaseEntity extends Synchronizable{
+public class CaseEntity extends Synchronizable {
 
     /**
      * The case related to this data

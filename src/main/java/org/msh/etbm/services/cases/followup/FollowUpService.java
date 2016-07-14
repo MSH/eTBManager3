@@ -80,8 +80,8 @@ public class FollowUpService {
         return messages.get("cases.exams.prevdt");
     }
 
-    private CaseEventData getDataInstance(FollowUpType type){
-        CaseEventData ret = null;
+    private CaseEventData getDataInstance(FollowUpType type) {
+        CaseEventData ret;
 
         try {
             ret = (CaseEventData) Class.forName(type.getDataClassCanonicalName()).newInstance();
