@@ -23,6 +23,7 @@ import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -102,12 +103,21 @@ public class TestRest {
         StringBuilder s = new StringBuilder();
 
         Map<String, Object> vals = new HashMap<>();
-        vals.put("name", "Ricardo");
+        vals.put("name", "Ricardo3");
         vals.put("middleName", "Memória");
         vals.put("lastName", "Lima");
         vals.put("birthDate", DateUtils.newDate(1971, 11, 13));
         vals.put("gender", "MALE");
         ModelDAOResult res = dao.create(vals);
+
+        // there are errors ?
+        if (res.getErrors() != null) {
+            s.append("\nTHERE ARE ERRORS:\n");
+            for (FieldError err: res.getErrors().getFieldErrors()) {
+                s.append(err.toString()).append('\n');
+            }
+            return s.toString();
+        }
 
         s.append('\n').append("ID = ").append(res.getId()).append('\n');
 

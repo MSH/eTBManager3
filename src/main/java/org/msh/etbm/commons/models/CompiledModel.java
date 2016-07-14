@@ -2,10 +2,7 @@ package org.msh.etbm.commons.models;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.impl.ModelContext;
-import org.msh.etbm.commons.models.impl.ModelConverter;
-import org.msh.etbm.commons.models.impl.ModelScriptGenerator;
-import org.msh.etbm.commons.models.impl.ModelValidator;
+import org.msh.etbm.commons.models.impl.*;
 import org.springframework.validation.Errors;
 
 import javax.script.Invocable;
@@ -39,7 +36,7 @@ public class CompiledModel {
      * @param doc the document to check
      * @return
      */
-    public ValidationResult validate(Map<String, Object> doc) {
+    public ValidationResult validate(Map<String, Object> doc, ModelResources modelResources) {
         ModelContext context = createContext(doc);
 
         // convert the values to the final value
@@ -54,7 +51,7 @@ public class CompiledModel {
         // call validation
         ModelValidator validator = new ModelValidator();
         context = createContext(doc);
-        Errors errors = validator.validate(context, newdoc);
+        Errors errors = validator.validate(context, newdoc, modelResources);
 
         return new ValidationResult(errors, newdoc);
     }
@@ -91,7 +88,7 @@ public class CompiledModel {
     }
 
     public ModelContext createContext(Map<String, Object> doc) {
-        return new ModelContext(model, getJsModel(), doc);
+        return new ModelContext(model, getJsModel(), doc, null);
     }
 
     public Model getModel() {

@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class ModelValidator {
 
-    public Errors validate(ModelContext context, Map<String, Object> vals) {
+    public Errors validate(ModelContext context, Map<String, Object> vals, ModelResources resources) {
         Model model = context.getModel();
 
         for (Map.Entry<String, Object> entry: vals.entrySet()) {
@@ -33,7 +33,7 @@ public class ModelValidator {
 
             Object value = entry.getValue();
 
-            validateField(fieldCntxt, value);
+            validateField(fieldCntxt, value, resources);
         }
 
         checkRequiredFields(model, vals, context);
@@ -64,10 +64,10 @@ public class ModelValidator {
         }
     }
 
-    protected void validateField(FieldContext fieldContext, Object value) {
+    protected void validateField(FieldContext fieldContext, Object value, ModelResources resources) {
         FieldHandler handler = FieldTypeManager.instance().getHandler(fieldContext.getField().getTypeName());
 
-        handler.validate(fieldContext.getField(), fieldContext, value);
+        handler.validate(fieldContext.getField(), fieldContext, value, resources);
     }
 
 

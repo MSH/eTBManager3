@@ -8,6 +8,7 @@ import org.msh.etbm.commons.models.data.fields.FieldType;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.CustomValidatorsExecutor;
 import org.msh.etbm.commons.models.impl.FieldContext;
+import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.validation.Errors;
 
@@ -72,10 +73,16 @@ public abstract class FieldHandler<E extends Field> {
      * @param fieldContext
      * @param value
      */
-    public void validate(E field, FieldContext fieldContext, Object value) {
+    public void validate(E field, FieldContext fieldContext, Object value, ModelResources resources) {
         Errors errors = fieldContext.getParent().getErrors();
 
+        // check if value is inside one of the options
         if (!validateOptions(fieldContext, value)) {
+            return;
+        }
+
+        // is field value not unique, but it must be unique ?
+        if (!UniqueChecker.checkUnique(fieldContext, value, resources)) {
             return;
         }
 
@@ -102,6 +109,7 @@ public abstract class FieldHandler<E extends Field> {
             runCustomValidators(fieldContext);
         }
     }
+
 
     /**
      * Check if field value is one of the valid options defined for the field

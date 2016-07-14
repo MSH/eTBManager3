@@ -51,6 +51,11 @@ public abstract class Field {
     private boolean custom;
 
     /**
+     * If true, this value must be unique in the column
+     */
+    private boolean unique;
+
+    /**
      * List of possible values to the field
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -133,5 +138,13 @@ public abstract class Field {
 
     public void setOptions(FieldOptions options) {
         this.options = options;
+    }
+
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public void setUnique(boolean unique) {
+        this.unique = unique;
     }
 }

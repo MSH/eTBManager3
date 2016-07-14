@@ -7,7 +7,8 @@
       "type": "string",
       "required": { "value": true },
       "label": "${Patient.firstName}",
-      "max": 100
+      "max": 100,
+      "unique": true
     },
     {
       "name": "middleName",

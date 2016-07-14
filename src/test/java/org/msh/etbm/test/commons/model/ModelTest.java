@@ -161,7 +161,7 @@ public class ModelTest {
         doc.put("level", 2);
 
         // city is required
-        ValidationResult res = compiledModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc, null);
         Errors errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());
@@ -171,7 +171,7 @@ public class ModelTest {
 
         // include city
         doc.put("city", "Rio de Janeiro");
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
 
         errors = res.getErrors();
         assertNotNull(errors);
@@ -179,7 +179,7 @@ public class ModelTest {
 
         // include city as a null value (error)
         doc.put("city", null);
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         errors = res.getErrors();
         assertEquals(1, errors.getErrorCount());
         err = errors.getFieldError("city");
@@ -189,7 +189,7 @@ public class ModelTest {
         // reduce level requirement
         doc.put("level", 1);
         doc.remove("city");
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         errors = res.getErrors();
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());

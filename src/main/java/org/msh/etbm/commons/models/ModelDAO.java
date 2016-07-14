@@ -2,11 +2,11 @@ package org.msh.etbm.commons.models;
 
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.db.*;
+import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,13 +17,12 @@ import java.util.UUID;
 public class ModelDAO {
 
     private CompiledModel compiledModel;
-    private DataSource dataSource;
-    private UUID workspaceId;
 
-    public ModelDAO(CompiledModel model, DataSource dataSource, UUID workspaceId) {
+    private ModelResources resources;
+
+    public ModelDAO(CompiledModel model, ModelResources resources) {
         this.compiledModel = model;
-        this.dataSource = dataSource;
-        this.workspaceId = workspaceId;
+        this.resources = resources;
     }
 
 
@@ -39,7 +38,7 @@ public class ModelDAO {
         SQLQueryInfo res = builder.generate(compiledModel.getModel(), restriction);
 
         DataLoader loader = new DataLoader();
-        return loader.loadData(dataSource, res);
+        return loader.loadData(resources.getDataSource(), res);
     }
 
     /**
@@ -48,7 +47,7 @@ public class ModelDAO {
      * @return the model ID
      */
     public ModelDAOResult create(Map<String, Object> values) {
-        ValidationResult validationRes = compiledModel.validate(values);
+        ValidationResult validationRes = compiledModel.validate(values, resources);
 
         // there are errors from validation ?
         if (validationRes.getErrors().hasErrors()) {
@@ -56,9 +55,9 @@ public class ModelDAO {
         }
 
         SQLGenerator gen = new SQLGenerator();
-        SQLGeneratorData genres = gen.createInsertSQL(compiledModel.getModel(), validationRes.getValues(), workspaceId);
+        SQLGeneratorData genres = gen.createInsertSQL(compiledModel.getModel(), validationRes.getValues(), resources.getWorkspaceId());
 
-        NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(dataSource);
+        NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(resources.getDataSource());
         templ.update(genres.getSql(), genres.getParams());
 
         byte[] id = (byte[])genres.getParams().get("id");
@@ -74,7 +73,7 @@ public class ModelDAO {
 
     public void delete(UUID id) {
         Model model = compiledModel.getModel();
-        JdbcTemplate template = new JdbcTemplate(dataSource);
+        JdbcTemplate template = new JdbcTemplate(resources.getDataSource());
         template.update("delete from " + model.getTable() + " where id = ?", id);
     }
 

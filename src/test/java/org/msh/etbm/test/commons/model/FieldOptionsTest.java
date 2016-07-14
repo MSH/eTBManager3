@@ -33,7 +33,7 @@ public class FieldOptionsTest {
             doc.put("afb", i);
 
             // Initial test with no error
-            ValidationResult res = pm.validate(doc);
+            ValidationResult res = pm.validate(doc, null);
             assertNotNull(res);
             assertNotNull(res.getErrors());
 
@@ -43,14 +43,14 @@ public class FieldOptionsTest {
 
         // invalid option in range
         doc.put("afb", 100);
-        ValidationResult res = pm.validate(doc);
+        ValidationResult res = pm.validate(doc, null);
         assertEquals(1, res.getErrors().getErrorCount());
         FieldError err = res.getErrors().getFieldError("afb");
         assertNotNull(err);
         assertEquals(Messages.NOT_VALID_OPTION, err.getCode());
 
         doc.put("afb", 1);
-        res = pm.validate(doc);
+        res = pm.validate(doc, null);
         assertEquals(1, res.getErrors().getErrorCount());
         err = res.getErrors().getFieldError("afb");
         assertNotNull(err);
@@ -59,7 +59,7 @@ public class FieldOptionsTest {
         // invalid option in list
         doc.put("status", "INVALID STATUS");
         doc.put("afb", 5);
-        res = pm.validate(doc);
+        res = pm.validate(doc, null);
         assertEquals(1, res.getErrors().getErrorCount());
         err = res.getErrors().getFieldError("status");
         assertNotNull(err);

@@ -43,13 +43,13 @@ public class StringFieldTest {
 
         // valid value
         doc.put("name", "Test");
-        ValidationResult res = pm.validate(doc);
+        ValidationResult res = pm.validate(doc, null);
         assertNotNull(res.getErrors());
         assertEquals(0, res.getErrors().getErrorCount());
 
         // invalid name (max size)
         doc.put("name", "This is a name longer than allowed");
-        res = pm.validate(doc);
+        res = pm.validate(doc, null);
         assertEquals(1, res.getErrors().getErrorCount());
         FieldError err = res.getErrors().getFieldError("name");
         assertNotNull(err);

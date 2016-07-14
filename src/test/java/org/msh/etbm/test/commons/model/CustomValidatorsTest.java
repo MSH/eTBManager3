@@ -36,7 +36,7 @@ public class CustomValidatorsTest {
         Map<String, Object> doc = new HashMap<>();
         doc.put("value", 1);
 
-        ValidationResult res = compiledModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc, null);
         assertNotNull(res);
         assertNotNull(res.getErrors());
 
@@ -49,7 +49,7 @@ public class CustomValidatorsTest {
 
         // now active the 2nd validator
         doc.put("value", 10);
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         assertNotNull(res.getErrors());
 
         errors = res.getErrors();
@@ -60,7 +60,7 @@ public class CustomValidatorsTest {
 
         // no error (valid value)
         doc.put("value", 5);
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         errors = res.getErrors();
         assertEquals(0, errors.getErrorCount());
     }
@@ -75,7 +75,7 @@ public class CustomValidatorsTest {
         Map<String, Object> doc = new HashMap<>();
         doc.put("value", 1);
 
-        ValidationResult res = compiledModel.validate(doc);
+        ValidationResult res = compiledModel.validate(doc, null);
         assertNotNull(res);
         assertNotNull(res.getErrors());
 
@@ -87,7 +87,7 @@ public class CustomValidatorsTest {
 
         // now active the 2nd validator
         doc.put("value", 10);
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         assertNotNull(res.getErrors());
 
         errors = res.getErrors();
@@ -97,7 +97,7 @@ public class CustomValidatorsTest {
 
         // no error (valid value)
         doc.put("value", 5);
-        res = compiledModel.validate(doc);
+        res = compiledModel.validate(doc, null);
         errors = res.getErrors();
         assertEquals(0, errors.getErrorCount());
     }

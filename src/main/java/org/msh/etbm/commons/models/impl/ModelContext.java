@@ -8,6 +8,7 @@ import org.springframework.validation.MapBindingResult;
 
 import javax.script.SimpleBindings;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 5/7/16.
@@ -17,13 +18,23 @@ public class ModelContext {
     private ScriptObjectMirror jsModel;
     private Errors errors;
     private Map<String, Object> doc;
+
+    /**
+     * The JS object containing a copy of the doc, to be used in JS execution
+     */
     private SimpleBindings docBinding;
 
-    public ModelContext(Model model, ScriptObjectMirror jsModel, Map<String, Object> doc) {
+    /**
+     * The record ID, if available
+     */
+    private UUID id;
+
+    public ModelContext(Model model, ScriptObjectMirror jsModel, Map<String, Object> doc, UUID id) {
         this.model = model;
         this.jsModel = jsModel;
         this.doc = doc;
         this.errors = new MapBindingResult(doc, model.getName());
+        this.id = id;
     }
 
     /**
@@ -67,4 +78,9 @@ public class ModelContext {
     public Map<String, Object> getDoc() {
         return doc;
     }
+
+    public UUID getId() {
+        return id;
+    }
+
 }
