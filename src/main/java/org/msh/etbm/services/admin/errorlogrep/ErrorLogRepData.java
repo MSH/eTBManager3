@@ -1,8 +1,6 @@
 package org.msh.etbm.services.admin.errorlogrep;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by msantos on 05/7/16.

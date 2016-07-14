@@ -1,8 +1,11 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.mail.MailService;
-import org.msh.etbm.db.Address;
+import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.models.ModelDAO;
+import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.commons.models.ModelDAOResult;
+import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
@@ -11,17 +14,18 @@ import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.web.api.StandardResult;
+import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.Validator;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -47,20 +51,10 @@ public class TestRest {
     DozerBeanMapper mapper;
 
     @Autowired
-    Validator validator;
+    DataSource dataSource;
 
     @Autowired
-    MailService mailService;
-
-    @RequestMapping("/hello")
-    public String hello() {
-        return "Hello nice world!";
-    }
-
-    @RequestMapping("/workspaces")
-    public List<Workspace> getWorkspaces() {
-        return entityManager.createQuery("from Workspace").getResultList();
-    }
+    ModelDAOFactory modelDAOFactory;
 
 
     @RequestMapping("/workspace")
@@ -99,50 +93,91 @@ public class TestRest {
         return new StandardResult("ok", null, true);
     }
 
-    @RequestMapping("/optionaltest")
-    public StandardResult optionalTest(@RequestBody DataRequest data, BindingResult bindingResult) {
-        System.out.println("ERRORS = " + bindingResult.hasErrors());
 
-        // recover the entity
-        DataEntity ent = new DataEntity();
-        ent.setName("Karla");
-        ent.setAge(33);
-        Address addr = new Address();
-        addr.setAddress("R. Tonelero");
-        addr.setComplement("Copacabana");
-        ent.setAddress(addr);
+    @RequestMapping(value = "/model")
+    @Authenticated
+    public String modelTest() {
+        ModelDAO dao = modelDAOFactory.create("patient");
 
-        // map it to a new request
-        DataRequest req2 = mapper.map(ent, DataRequest.class);
+        StringBuilder s = new StringBuilder();
 
-        // copy request data to req 2
-        mapper.map(data, req2);
+        Map<String, Object> vals = new HashMap<>();
+        vals.put("name", "Ricardo3");
+        vals.put("middleName", "Memória");
+        vals.put("lastName", "Lima");
+        vals.put("birthDate", DateUtils.newDate(1971, 11, 13));
+        vals.put("gender", "MALE");
+        ModelDAOResult res = dao.insert(vals);
 
-        // validate request 2 containing all merged data
-        validator.validate(req2, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            for (FieldError err : bindingResult.getFieldErrors()) {
-                System.out.println(err);
+        // there are errors ?
+        if (res.getErrors() != null) {
+            s.append("\nTHERE ARE ERRORS:\n");
+            for (FieldError err: res.getErrors().getFieldErrors()) {
+                s.append(err.toString()).append('\n');
             }
-            return new StandardResult(false, null, false);
+            return s.toString();
         }
 
+        s.append('\n').append("ID = ").append(res.getId()).append('\n');
 
-        mapper.map(data, ent);
-        return new StandardResult(ent, null, true);
+        List<RecordData> lst = dao.findMany(true, null, null);
+
+        s.append("DATA: \n");
+        for (RecordData data: lst) {
+            s.append(data).append('\n');
+        }
+
+        return s.toString();
     }
 
+    @RequestMapping(value = "/load")
+    @Authenticated
+    public String dataLoad() {
+        StringBuilder s = new StringBuilder();
 
-    @RequestMapping(value = "/sendmail", method = RequestMethod.GET)
-    public void send() {
-        Workspace ws = new Workspace();
-        ws.setName("MSH Demo");
+        ModelDAO daoPatient = modelDAOFactory.create("patient");
 
-        Map<String, Object> data = new HashMap<>();
-        data.put("name", "Ricardo Memória");
-        data.put("workspace", ws);
+        s.append("\n## CREATING##\n");
+        Map<String, Object> p = new HashMap<>();
+        p.put("name", "Ricardo");
+        p.put("middleName", "Memoria");
+        p.put("lastName", "Lima");
+        p.put("birthDate", DateUtils.newDate(1971, 11, 13));
+        p.put("gender", "MALE");
+        ModelDAOResult res = daoPatient.insert(p);
 
-        mailService.send("rmemoria@msh.org", "New workspace", "register-workspace.html", data);
+        if (res.getErrors() != null) {
+            s.append("\nERRORS:\n");
+            for (ObjectError err: res.getErrors().getAllErrors()) {
+                s.append(err).append('\n');
+            }
+            return s.toString();
+        }
+        s.append("\nID = ").append(res.getId());
+
+        // find record
+        s.append("\n\n## FindOne ##\n");
+        RecordData p2 = daoPatient.findOne(res.getId());
+        s.append("Name = ").append(p2.getValues().get("name"));
+
+        // update record
+        s.append("\n\n## Updating ###");
+        Map<String, Object> vals = p2.getValues();
+        vals.put("name", "Karla");
+        daoPatient.update(p2.getId(), vals);
+
+        // find to check the changes
+        p2 = daoPatient.findOne(p2.getId());
+        if (!p2.getValues().get("name").equals("Karla")) {
+            s.append("Update didn't work");
+            return s.toString();
+        }
+
+        // delete record
+        s.append("\n\n## Deleting ##\n");
+        daoPatient.delete(res.getId());
+        s.append("  deleted...\n");
+
+        return s.toString();
     }
 }

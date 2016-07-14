@@ -1,11 +1,5 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-import org.msh.etbm.db.enums.XRayBaseline;
-import org.msh.etbm.db.enums.XRayEvolution;
-import org.msh.etbm.db.enums.XRayResult;
-
 import javax.persistence.*;
 
 /**

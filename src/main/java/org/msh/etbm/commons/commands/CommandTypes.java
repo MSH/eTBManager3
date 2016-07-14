@@ -9,6 +9,10 @@ import org.msh.etbm.commons.commands.impl.RootCommandType;
  */
 public class CommandTypes {
 
+    private CommandTypes() {
+        // avoid this class being instantiated inadvertently
+    }
+
     // main group commands
     public static final String INIT = "init";
     public static final String PUBLIC = "pub";

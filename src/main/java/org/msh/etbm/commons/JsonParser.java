@@ -2,6 +2,7 @@ package org.msh.etbm.commons;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -70,8 +71,13 @@ public class JsonParser {
      * @param obj object to serialize
      * @return JSON in string format
      */
-    public static String objectToJSONString(Object obj) {
+    public static String objectToJSONString(Object obj, boolean pretty) {
         ObjectMapper mapper = new ObjectMapper();
+
+        if (pretty) {
+            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        }
+
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {

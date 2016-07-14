@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.workspace;
 
-import org.msh.etbm.commons.entities.EntityUtils;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.admin.tags.CasesTagsReportItem;
@@ -160,7 +160,7 @@ public class WorkspaceViewService {
                 continue;
             }
 
-            UUID id = EntityUtils.bytesToUUID((byte[]) vals[0]);
+            UUID id = ObjectUtils.bytesToUUID((byte[]) vals[0]);
             String name = (String) vals[1];
 
             PlaceData item = findPlaceById(dest, id, type);

@@ -39,4 +39,13 @@ public class UnitItemData {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "UnitItemData{" +
+                "type=" + type +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -28,6 +28,9 @@ import java.util.Date;
 @DiscriminatorValue("gen")
 public abstract class Unit extends WorkspaceEntity implements EntityState {
 
+    public static final String DISCRIMINATOR_UNIT = "unit";
+    public static final String DISCRIMINATOR_LAB = "lab";
+
     /**
      * The name of the unit
      */
