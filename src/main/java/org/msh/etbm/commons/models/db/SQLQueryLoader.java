@@ -12,10 +12,18 @@ import javax.sql.DataSource;
 import java.util.*;
 
 /**
+ * Load records from a table from the query provided by {@link SQLQueryBuilder}
  * Created by rmemoria on 11/7/16.
  */
-public class DataLoader {
+public class SQLQueryLoader {
 
+    /**
+     * Execute the given query located in {@link SQLQueryInfo} and parse the results into
+     * instances of {@link RecordData} classes
+     * @param dataSource
+     * @param sel
+     * @return
+     */
     public List<RecordData> loadData(DataSource dataSource, SQLQueryInfo sel) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 

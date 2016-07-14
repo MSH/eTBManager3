@@ -17,10 +17,16 @@ public class ModelResources {
     private Messages messages;
     private UUID workspaceId;
 
-    public ModelResources(DataSource dataSource, Messages messages, UUID workspaceId) {
+    /**
+     * True if system was initialized in development mode
+     */
+    private boolean development;
+
+    public ModelResources(DataSource dataSource, Messages messages, UUID workspaceId, boolean development) {
         this.dataSource = dataSource;
         this.messages = messages;
         this.workspaceId = workspaceId;
+        this.development = development;
     }
 
     public DataSource getDataSource() {

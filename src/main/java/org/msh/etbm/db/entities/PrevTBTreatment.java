@@ -5,8 +5,6 @@ import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity

@@ -11,6 +11,7 @@ import org.msh.etbm.commons.models.db.SQLQueryInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -27,7 +28,7 @@ public class SQLSelectGenTest {
         SQLQueryBuilder gen = new SQLQueryBuilder();
         gen.setDisplaying(true);
         gen.setCustomTableSuffix("test");
-        SQLQueryInfo res = gen.generate(model, model.getTable() + ".id = :id");
+        SQLQueryInfo res = gen.generate(model, model.getTable() + ".id = :id", UUID.randomUUID());
         System.out.println(res.getSql());
     }
 

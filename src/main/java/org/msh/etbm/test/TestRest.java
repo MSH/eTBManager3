@@ -5,12 +5,7 @@ import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
-import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.db.DataLoader;
 import org.msh.etbm.commons.models.db.RecordData;
-import org.msh.etbm.commons.models.db.SQLQueryBuilder;
-import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
@@ -24,13 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by rmemoria on 9/5/15.
@@ -108,7 +107,7 @@ public class TestRest {
         vals.put("lastName", "Lima");
         vals.put("birthDate", DateUtils.newDate(1971, 11, 13));
         vals.put("gender", "MALE");
-        ModelDAOResult res = dao.create(vals);
+        ModelDAOResult res = dao.insert(vals);
 
         // there are errors ?
         if (res.getErrors() != null) {
@@ -121,7 +120,7 @@ public class TestRest {
 
         s.append('\n').append("ID = ").append(res.getId()).append('\n');
 
-        List<RecordData> lst = dao.findMany(true, null);
+        List<RecordData> lst = dao.findMany(true, null, null);
 
         s.append("DATA: \n");
         for (RecordData data: lst) {
@@ -132,39 +131,52 @@ public class TestRest {
     }
 
     @RequestMapping(value = "/load")
+    @Authenticated
     public String dataLoad() {
+        StringBuilder s = new StringBuilder();
+
         ModelDAO daoPatient = modelDAOFactory.create("patient");
 
-        Model m = new Model();
-        m.setName("unit");
-        m.setTable("unit");
+        s.append("\n## CREATING##\n");
+        Map<String, Object> p = new HashMap<>();
+        p.put("name", "Ricardo");
+        p.put("middleName", "Memoria");
+        p.put("lastName", "Lima");
+        p.put("birthDate", DateUtils.newDate(1971, 11, 13));
+        p.put("gender", "MALE");
+        ModelDAOResult res = daoPatient.insert(p);
 
-        StringField fldName = new StringField("name");
-        StringField fldShortName = new StringField("shortName");
-        StringField fldCustomId = new StringField("customId");
-        BoolField fldActive = new BoolField("active");
-        FKAdminUnitField fldAdminUnit = new FKAdminUnitField("adminUnitId", "adminunit_id");
-        DateField fldInventoryStartDate = new DateField("invStartDate", "inventoryStartDate");
-        FKUnitField fldAuthorizer = new FKUnitField("authorizerId", "authorizerunit_id");
-
-        m.setFields(Arrays.asList(fldName, fldShortName, fldCustomId, fldActive, fldAdminUnit, fldInventoryStartDate, fldAuthorizer));
-
-        SQLQueryBuilder gen = new SQLQueryBuilder();
-        gen.setDisplaying(true);
-        SQLQueryInfo data = gen.generate(m, null);
-
-        StringBuilder s = new StringBuilder();
-        s.append("## QUERY ##\n");
-        s.append(data.getSql());
-
-        DataLoader loader = new DataLoader();
-        List<RecordData> list = loader.loadData(dataSource, data);
-
-        s.append("\n\n## RESULT ##\n");
-        for (RecordData record: list) {
-            s.append('\n').append(record);
+        if (res.getErrors() != null) {
+            s.append("\nERRORS:\n");
+            for (ObjectError err: res.getErrors().getAllErrors()) {
+                s.append(err).append('\n');
+            }
+            return s.toString();
         }
-        s.append('\n');
+        s.append("\nID = ").append(res.getId());
+
+        // find record
+        s.append("\n\n## FindOne ##\n");
+        RecordData p2 = daoPatient.findOne(res.getId());
+        s.append("Name = ").append(p2.getValues().get("name"));
+
+        // update record
+        s.append("\n\n## Updating ###");
+        Map<String, Object> vals = p2.getValues();
+        vals.put("name", "Karla");
+        daoPatient.update(p2.getId(), vals);
+
+        // find to check the changes
+        p2 = daoPatient.findOne(p2.getId());
+        if (!p2.getValues().get("name").equals("Karla")) {
+            s.append("Update didn't work");
+            return s.toString();
+        }
+
+        // delete record
+        s.append("\n\n## Deleting ##\n");
+        daoPatient.delete(res.getId());
+        s.append("  deleted...\n");
 
         return s.toString();
     }

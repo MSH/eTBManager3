@@ -19,11 +19,6 @@ public class SQLQueryInfo {
     private Map<Field, List<SQLQueryField>> fields;
 
     /**
-     * The list of fields in the query
-     */
-//    private List<SQLField> fields;
-
-    /**
      * The list of joined tables involved
      */
     private List<SQLJoinedTable> tables;
@@ -34,7 +29,7 @@ public class SQLQueryInfo {
     private String sql;
 
     /**
-     * Any list of parameters used in the SQL instructions
+     * Any list of named parameters to be used in SQL query execution
      */
     private Map<String, Object> parameters;
 
@@ -50,14 +45,6 @@ public class SQLQueryInfo {
     public Model getModel() {
         return model;
     }
-
-//    public List<SQLField> getFields() {
-//        return fields;
-//    }
-//
-//    public void setFields(List<SQLField> fields) {
-//        this.fields = fields;
-//    }
 
     public List<SQLJoinedTable> getTables() {
         return tables;

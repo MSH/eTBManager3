@@ -23,7 +23,7 @@ public class SQLGenerator {
      * @param doc
      * @return
      */
-    public SQLGeneratorData createInsertSQL(Model model, Map<String, Object> doc, UUID workspaceId) {
+    public static SQLGeneratorData createInsertSQL(Model model, Map<String, Object> doc, UUID workspaceId) {
         Map<String, Object> dbfields = mapDbFields(model, doc);
 
         TimeBasedGenerator uuidGenerator = Generators.timeBasedGenerator();
@@ -58,7 +58,7 @@ public class SQLGenerator {
     }
 
 
-    public SQLGeneratorData createUpdateSQL(Model model, Map<String, Object> doc, UUID id) {
+    public static SQLGeneratorData createUpdateSQL(Model model, Map<String, Object> doc, UUID id) {
         Map<String, Object> dbfields = mapDbFields(model, doc);
 
         StringBuilder s = new StringBuilder();
@@ -83,7 +83,7 @@ public class SQLGenerator {
         return new SQLGeneratorData(s.toString(), dbfields);
     }
 
-    protected Map<String, Object> mapDbFields(Model model, Map<String, Object> doc) {
+    protected static Map<String, Object> mapDbFields(Model model, Map<String, Object> doc) {
         Map<String, Object> res = new HashMap<>();
 
         for (Field field: model.getFields()) {

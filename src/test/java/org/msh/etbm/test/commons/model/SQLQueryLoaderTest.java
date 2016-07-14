@@ -6,10 +6,10 @@ import org.msh.etbm.Application;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.data.fields.StringField;
-import org.msh.etbm.commons.models.db.DataLoader;
 import org.msh.etbm.commons.models.db.RecordData;
-import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.commons.models.db.SQLQueryBuilder;
+import org.msh.etbm.commons.models.db.SQLQueryInfo;
+import org.msh.etbm.commons.models.db.SQLQueryLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 11/7/16.
@@ -26,7 +26,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(Application.class)
 @WebAppConfiguration
-public class DataLoaderTest {
+public class SQLQueryLoaderTest {
 
     @Autowired
     DataSource dataSource;
@@ -35,11 +35,11 @@ public class DataLoaderTest {
     public void testLoad() {
         Model model = createModel();
         SQLQueryBuilder gen = new SQLQueryBuilder();
-        SQLQueryInfo data = gen.generate(model, null);
+        SQLQueryInfo data = gen.generate(model, null, UUID.randomUUID());
 
         System.out.println(data.getSql());
 
-        DataLoader loader = new DataLoader();
+        SQLQueryLoader loader = new SQLQueryLoader();
         List<RecordData> list = loader.loadData(dataSource, data);
 
         for (RecordData rec: list) {

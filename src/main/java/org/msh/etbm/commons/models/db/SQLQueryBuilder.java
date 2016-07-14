@@ -5,10 +5,9 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +30,7 @@ public class SQLQueryBuilder {
      * @param restrictions the restrictions to be applied (inside where clause)
      * @return The SQL to select values and its query parameters
      */
-    public SQLQueryInfo generate(Model model, String restrictions) {
+    public SQLQueryInfo generate(Model model, String restrictions, UUID workspaceId) {
         StringBuilder s = new StringBuilder();
 
         SQLQueryInfo res = collectDBFieldsFromModel(model, displaying);
@@ -60,12 +59,16 @@ public class SQLQueryBuilder {
             }
         }
 
+        s.append("\nwhere ").append(ROOT_TABLE_ALIAS).append(".workspace_id = :workspace_id");
+
         if (restrictions != null) {
-            s.append("\nwhere ")
+            s.append("\nand ")
                     .append(parseTableNames(res, restrictions));
         }
 
         res.setSql(s.toString());
+        res.setParameters(new HashMap<>());
+        res.getParameters().put("workspace_id", ObjectUtils.uuidAsBytes(workspaceId));
 
         return res;
     }

@@ -3,17 +3,20 @@ package org.msh.etbm.test.commons.model;
 import org.junit.Test;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.models.data.FieldListOptions;
-import org.msh.etbm.commons.models.data.FieldRangeOptions;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
+import org.msh.etbm.commons.models.data.FieldListOptions;
+import org.msh.etbm.commons.models.data.FieldRangeOptions;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.*;
+import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.fields.IntegerField;
+import org.msh.etbm.commons.models.data.fields.StringField;
 import org.springframework.validation.FieldError;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test the options of a field

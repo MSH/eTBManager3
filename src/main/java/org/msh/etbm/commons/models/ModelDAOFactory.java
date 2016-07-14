@@ -4,6 +4,7 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
@@ -30,6 +31,9 @@ public class ModelDAOFactory {
     @Autowired
     Messages messages;
 
+    @Value("${development:false}")
+    boolean development;
+
     /**
      * Create a new model DAO from a model name
      * @param modelName the name of the model to search for
@@ -38,7 +42,7 @@ public class ModelDAOFactory {
     public ModelDAO create(String modelName) {
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();
         CompiledModel compiledModel = modelManager.get(modelName, wsId);
-        ModelResources resources = new ModelResources(dataSource, messages, wsId);
+        ModelResources resources = new ModelResources(dataSource, messages, wsId, development);
 
         return new ModelDAO(compiledModel, resources);
     }
