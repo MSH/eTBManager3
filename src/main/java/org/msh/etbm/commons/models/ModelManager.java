@@ -30,13 +30,13 @@ public class ModelManager {
 
     private CompiledModel findGenericModel(String modelId) {
         // check if model is in the cache
-        CompiledModel compModel = findModelInCache(modelId, GENERIC_WS);
-        if (compModel != null) {
-            return compModel;
+        CompiledModel compiledModel = findModelInCache(modelId, GENERIC_WS);
+        if (compiledModel != null) {
+            return compiledModel;
         }
 
         Model model = loadFromResources(modelId);
-        CompiledModel compiledModel = new CompiledModel(model);
+        compiledModel = new CompiledModel(model);
 
         // if in development mode, doesn't store model in cache
         if (development) {
@@ -45,7 +45,7 @@ public class ModelManager {
 
         addModelToCache(compiledModel, GENERIC_WS);
 
-        return compModel;
+        return compiledModel;
     }
 
 
