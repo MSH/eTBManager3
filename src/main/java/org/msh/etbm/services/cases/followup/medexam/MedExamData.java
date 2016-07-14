@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.followup.medexam;
 
 import org.msh.etbm.db.enums.MedAppointmentType;
 import org.msh.etbm.db.enums.YesNoType;
+import org.msh.etbm.services.cases.followup.data.CaseEventData;
 
 import java.util.Date;
 import java.util.UUID;
@@ -9,10 +10,8 @@ import java.util.UUID;
 /**
  * Created by msantos on 11/7/16.
  */
-public class MedExamData {
-    private UUID id;
-    private Date date;
-    private String comments;
+public class MedExamData extends CaseEventData {
+
     private Double weight;
     private Double height;
     private MedAppointmentType appointmentType;
@@ -20,22 +19,6 @@ public class MedExamData {
     private String reasonNotUsingPrescMedicines;
     private String responsible;
     private String positionResponsible;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
 
     public Double getWeight() {
         return weight;
@@ -91,13 +74,5 @@ public class MedExamData {
 
     public void setPositionResponsible(String positionResponsible) {
         this.positionResponsible = positionResponsible;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 }

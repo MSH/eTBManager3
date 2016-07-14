@@ -2,17 +2,16 @@ package org.msh.etbm.services.cases.followup.medexam;
 
 import org.msh.etbm.db.enums.MedAppointmentType;
 import org.msh.etbm.db.enums.YesNoType;
+import org.msh.etbm.services.cases.followup.data.CaseEventFormData;
 
-import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
 /**
  * Created by msantos on 11/7/16.
  */
-public class MedExamFormData {
-    private Optional<Date> date;
-    private Optional<String> comments;
+public class MedExamFormData extends CaseEventFormData {
+
     private Optional<Double> weight;
     private Optional<Double> height;
     private Optional<MedAppointmentType> appointmentType;
@@ -20,23 +19,7 @@ public class MedExamFormData {
     private Optional<String> reasonNotUsingPrescMedicines;
     private Optional<String> responsible;
     private Optional<String> positionResponsible;
-    private UUID tbcaseId;
-
-    public Optional<Date> getDate() {
-        return date;
-    }
-
-    public void setDate(Optional<Date> date) {
-        this.date = date;
-    }
-
-    public Optional<String> getComments() {
-        return comments;
-    }
-
-    public void setComments(Optional<String> comments) {
-        this.comments = comments;
-    }
+    private Optional<UUID> tbcaseId;
 
     public Optional<Double> getWeight() {
         return weight;
@@ -94,11 +77,11 @@ public class MedExamFormData {
         this.positionResponsible = positionResponsible;
     }
 
-    public UUID getTbcaseId() {
+    public Optional<UUID> getTbcaseId() {
         return tbcaseId;
     }
 
-    public void setTbcaseId(UUID tbcaseId) {
+    public void setTbcaseId(Optional<UUID> tbcaseId) {
         this.tbcaseId = tbcaseId;
     }
 }

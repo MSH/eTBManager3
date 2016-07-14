@@ -2,29 +2,17 @@ package org.msh.etbm.services.cases.followup;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.cases.followup.data.CaseEventData;
 import org.msh.etbm.services.cases.followup.data.FollowUpData;
 import org.msh.etbm.services.cases.followup.data.FollowUpType;
-import org.msh.etbm.services.cases.followup.medexam.MedExamData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
-import org.msh.etbm.services.cases.treatment.data.TreatmentData;
-import org.msh.etbm.services.cases.treatment.data.TreatmentUnitData;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.services.session.usersession.UserSession;
-import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import java.text.MessageFormat;
 import java.util.*;
 
 /**
@@ -63,12 +51,12 @@ public class FollowUpService {
             //mount result list
             for (Object o : followups) {
                 CaseEvent caseEvent = (CaseEvent) o;
-                MedExamData medData = new MedExamData();
-                mapper.map(o, medData);
+                CaseEventData caseEventData = getDataInstance(type);
+                mapper.map(o, caseEventData);
 
                 FollowUpData data = new FollowUpData();
 
-                data.setData(medData);// TODO: add data class
+                data.setData(caseEventData);
                 data.setMonthOfTreatment(getMonthTreatDisplay(caseEvent.getMonthTreatment()));
                 data.setName(messages.get(type.getKey()));
                 data.setType(type.name());
@@ -90,5 +78,21 @@ public class FollowUpService {
         }
 
         return messages.get("cases.exams.prevdt");
+    }
+
+    private CaseEventData getDataInstance(FollowUpType type){
+        CaseEventData ret = null;
+
+        try {
+            ret = (CaseEventData) Class.forName(type.getDataClassCanonicalName()).newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException("ERROR getting data class - " + type.name());
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("ERROR getting data class - " + type.name());
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("ERROR getting data class - " + type.getDataClassCanonicalName() + " - not found");
+        }
+
+        return ret;
     }
 }

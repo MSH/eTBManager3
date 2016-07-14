@@ -447,12 +447,12 @@ const editSchemas = {
 		}]
 	},
 
-	microscopy: {
+	EXAM_MICROSCOPY: {
 		layout: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 12 }
 		},
@@ -536,7 +536,7 @@ const editSchemas = {
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},
@@ -595,12 +595,12 @@ const editSchemas = {
 		}]
 	},
 
-	xpert: {
+	EXAM_XPERT: {
 		layout: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},
@@ -659,7 +659,7 @@ const editSchemas = {
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},

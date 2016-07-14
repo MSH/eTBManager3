@@ -3,8 +3,7 @@ import React from 'react';
 import { FormDialog, Fa } from '../../../components/index';
 import moment from 'moment';
 
-import { getEditSchema, getFollowUpType } from './followup-utils';
-import CRUD from '../../../commons/crud';
+import { getEditSchema } from './followup-utils';
 
 /**
  * The page controller of the public module
@@ -15,54 +14,76 @@ export default class FollowupModal extends React.Component {
 		super(props);
 
 		this.save = this.save.bind(this);
-		this.state = { doc: {} };
+		this.state = { doc: {}, showForm: true };
+	}
+
+	componentWillMount() {
+		const op = this.props.operation;
+
+		if (this.props.operation.opType === 'edt') {
+			this.setState({ showForm: false });
+
+			op.crud.getEdit(op.followUpId)
+				.then(res => {
+					this.setState({ doc: res, showForm: true });
+				});
+		}
 	}
 
 	save() {
-		// initialize crud
-		const crud = new CRUD(getFollowUpType(this.props.followUpType.id).crud);
+		const op = this.props.operation;
 
-		// set tbcaseId
-		const nDoc = this.state.doc;
-		nDoc.tbcaseId = this.props.tbcase.id;
-		this.setState({ doc: nDoc });
-
-		if (this.props.opType === 'new') {
-			return crud.create(this.state.doc).then(() => this.props.onClose('success'));
+		if (op.opType === 'new') {
+			const doc = this.state.doc;
+			doc.tbcaseId = op.tbcaseId;
+			return op.crud.create(this.state.doc).then(() => {
+				this.props.onClose('successNew');
+			});
 		}
 
-		if (this.props.opType === 'edt') {
+		if (op.opType === 'edt') {
 			console.log('do it');
 		}
 
 		return null;
 	}
 
-	renderTitle() {
-		var title;
+	loadEditDoc(op) {
+		this.setState({ showForm: false });
 
-		if (this.props.opType === 'edt') {
+		return op.crud.getEdit(op.followUpId)
+			.then(res => {
+				this.setState({ doc: res, showForm: true });
+			});
+	}
+
+	renderTitle(op) {
+		let title;
+
+		if (this.props.operation.opType === 'edt') {
 			if (!this.state.doc) {
 				return null;
 			}
 
 			title = __('action.edit') + ' ';
-			title = title + this.props.followUpType.name + ' ';
-			title = title + moment(this.state.doc[this.props.followUpType.dateField]).format('ll');
-		} else if (this.props.opType === 'new') {
-			title = __('cases.details.newresult') + ' ' + this.props.followUpType.name;
+			title = title + op.followUpType.name + ' ';
+			title = title + moment(this.state.doc.date).format('ll');
+		} else if (this.props.operation.opType === 'new') {
+			title = __('cases.details.newresult') + ' ' + op.followUpType.name;
 		}
 
-		return (<span><Fa icon={this.props.followUpType.icon} />{title}</span>);
+		return (<span><Fa icon={op.followUpType.icon} />{title}</span>);
 	}
 
 	render() {
-		if (!this.props.opType || this.props.opType === 'del') {
+		const op = this.props.operation;
+
+		if (!this.props.operation || this.props.operation.opType === 'del' || this.state.doc === null) {
 			return null;
 		}
 
-		const fschema = getEditSchema(this.props.followUpType.id);
-		fschema.title = this.renderTitle();
+		const fschema = getEditSchema(this.props.operation.followUpType.id);
+		fschema.title = this.renderTitle(op);
 
 		return (
 			<FormDialog
@@ -71,15 +92,12 @@ export default class FollowupModal extends React.Component {
 				onCancel={this.props.onClose}
 				onConfirm={this.save}
 				wrapType={'modal'}
-				modalShow={this.props.show}/>
+				modalShow={this.state.showForm}/>
 		);
 	}
 }
 
 FollowupModal.propTypes = {
-	show: React.PropTypes.bool,
 	onClose: React.PropTypes.func,
-	opType: React.PropTypes.oneOf(['new', 'edt', 'del']),
-	followUpType: React.PropTypes.object.isRequired,
-	tbcase: React.PropTypes.object.isRequired
+	operation: React.PropTypes.object
 };

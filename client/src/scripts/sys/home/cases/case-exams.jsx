@@ -4,10 +4,12 @@ import { SelectionBox, MessageDlg, Fa, WaitIcon } from '../../../components';
 
 import FollowupDisplay from './followup-display';
 import FollowupModal from './followup-modal';
-import { server } from '../../../commons/server';
-
-import moment from 'moment';
 import { getFollowUpTypes, getFollowUpType } from './followup-utils';
+
+import { isString } from '../../../commons/utils';
+import { server } from '../../../commons/server';
+import CRUD from '../../../commons/crud';
+import moment from 'moment';
 
 export default class CaseExams extends React.Component {
 
@@ -19,20 +21,26 @@ export default class CaseExams extends React.Component {
 		this.onFilterChange = this.onFilterChange.bind(this);
 		this.startOperation = this.startOperation.bind(this);
 		this.endOperation = this.endOperation.bind(this);
+		this.closeDel = this.closeDel.bind(this);
 
-		this.state = { filter: options.slice(), operation: null };
+		this.state = { filter: options.slice(), operation: null, showDelMsg: false, showForm: false };
 	}
 
 	componentWillMount() {
 		this.refreshFollowups();
 	}
 
-	refreshFollowups() {
+	refreshFollowups(afterRefresh) {
 		const self = this;
 		const id = this.props.tbcase.id;
 
-		server.get('/api/cases/case/followups/' + id)
-			.then(res => self.setState({ data: res }));
+		return server.get('/api/cases/case/followups/' + id)
+				.then(res => {
+					self.setState({ data: res });
+					if (afterRefresh) {
+						afterRefresh();
+					}
+				});
 	}
 
 	/**
@@ -42,15 +50,23 @@ export default class CaseExams extends React.Component {
 	 * @param  {[type]} docP          Data of followup used on delete and edit operation
 	 * @return {[type]}               function that create the operation object on the state of this component
 	 */
-	startOperation(opTypeP, followUpTypeP, docP) {
+	startOperation(opTypeP, followup) {
 		const self = this;
-		docP.tbcaseId = this.props.tbcase.id;
 
 		return () => {
+			if (opTypeP === 'del') {
+				self.setState({ showDelMsg: true });
+			} else if (opTypeP === 'new' || opTypeP === 'edt') {
+				self.setState({ showForm: true });
+			}
+
 			const op = {};
 			op.opType = opTypeP;
-			op.followUpType = followUpTypeP;
-			op.doc = docP;
+			op.followUpType = getFollowUpType(followup.type);
+			op.followUpId = followup ? followup.data.id : null;
+			op.followUpDate = followup.data.date;
+			op.tbcaseId = self.props.tbcase.id;
+			op.crud = new CRUD(op.followUpType.crud);
 			self.setState({ operation: op });
 		};
 	}
@@ -61,20 +77,40 @@ export default class CaseExams extends React.Component {
 	 */
 	endOperation(res) {
 		const self = this;
-		const sMsg = res === 'success' ? __('default.entity_created') : null;
 
-		const op = {
-			opType: null,
-			followUpType: null,
-			doc: null
-		};
+		self.setState({ operation: null, showDelMsg: false, showForm: false });
 
-		self.setState({ operation: op, successMsg: sMsg });
-		setTimeout(() => { self.setState({ successMsg: null }); }, 4000);
-
-		if (res === 'success') {
-			self.refreshFollowups();
+		let sMsg = null;
+		switch (res) {
+			case 'successNew': sMsg = __('default.entity_created'); break;
+			case 'successEdt': sMsg = __('default.entity_updated'); break;
+			case 'successDel': sMsg = __('default.entity_deleted'); break;
+			default: sMsg = null;
 		}
+
+		if (isString(res) && res.search('success') >= 0) {
+			let afterRefresh = null;
+
+			if (sMsg) {
+				afterRefresh = () => {
+					self.setState({ successMsg: sMsg });
+					setTimeout(() => { self.setState({ successMsg: null }); }, 4000);
+				};
+			}
+
+			self.refreshFollowups(afterRefresh);
+		}
+	}
+
+	closeDel(res) {
+		const op = this.state.operation;
+
+		if (res === 'yes') {
+			return op.crud.delete(op.followUpId).then(() => this.endOperation('successDel'));
+		}
+
+		this.endOperation();
+		return null;
 	}
 
 	onFilterChange() {
@@ -103,13 +139,13 @@ export default class CaseExams extends React.Component {
 	renderDelTitle() {
 		const op = this.state.operation;
 
-		if (!op.doc) {
+		if (!op || op.opType !== 'del') {
 			return null;
 		}
 
 		var delTitle = __('action.delete') + ' - ';
-		delTitle = delTitle + op.followUpName + ' ';
-		delTitle = delTitle + moment(op.doc[op.followUpType.dateField]).format('ll');
+		delTitle = delTitle + op.followUpType.name + ' ';
+		delTitle = delTitle + moment(op.followUpDate).format('ll');
 
 		return delTitle;
 	}
@@ -131,7 +167,7 @@ export default class CaseExams extends React.Component {
 			{
 				data.list.map((item) => (
 					<div key={item.data.id}>
-						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', getFollowUpType(item.type), item.data)} onDelete={this.startOperation('del', getFollowUpType(item.type), item.data)}/>}
+						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', item)} onDelete={this.startOperation('del', item)}/>}
 					</div>
 				))
 			}
@@ -149,7 +185,7 @@ export default class CaseExams extends React.Component {
 						<DropdownButton id="newFollowUp" bsStyle="default" title={<span><Fa icon="plus-circle"/>{__('action.add')}</span>}>
 							{
 								options.map((item, index) => (
-									<MenuItem key={index} eventKey={index} onSelect={this.startOperation('new', getFollowUpType(item.id), {})} >{item.name}</MenuItem>
+									<MenuItem key={index} eventKey={index} onSelect={this.startOperation('new', { type: item.id, name: item.name, data: {} })} >{item.name}</MenuItem>
 								))
 							}
 						</DropdownButton>
@@ -173,20 +209,17 @@ export default class CaseExams extends React.Component {
 
 				{!this.state || !this.state.data ? <WaitIcon type="card" /> : this.contentRender()}
 
-				{!!this.state.operation &&
-				<MessageDlg show={this.state.operation.opType === 'del'}
-					onClose={this.endOperation}
+				<MessageDlg show={this.state.showDelMsg}
+					onClose={this.closeDel}
 					title={this.renderDelTitle()}
 					message={__('form.confirm_remove')}
 					style="warning"
-					type="YesNo" />}
+					type="YesNo" />
 
-				{!!this.state.operation &&
-				<FollowupModal show={this.state.operation.opType === 'new' || this.state.operation.opType === 'edt'}
-					onClose={this.endOperation}
-					opType={this.state.operation.opType}
-					followUpType={this.state.operation.followUpType}
-					tbcase={this.props.tbcase} />}
+				{this.state.showForm === true &&
+					<FollowupModal onClose={this.endOperation}
+						operation={this.state.operation} />
+				}
 
 			</div>);
 	}
