@@ -36,13 +36,15 @@ export default class FollowupModal extends React.Component {
 		if (op.opType === 'new') {
 			const doc = this.state.doc;
 			doc.tbcaseId = op.tbcaseId;
-			return op.crud.create(this.state.doc).then(() => {
+			return op.crud.create(doc).then(() => {
 				this.props.onClose('successNew');
 			});
 		}
 
 		if (op.opType === 'edt') {
-			console.log('do it');
+			return op.crud.update(this.props.operation.followUpId, this.state.doc).then(() => {
+				this.props.onClose('successEdt');
+			});
 		}
 
 		return null;
@@ -84,6 +86,9 @@ export default class FollowupModal extends React.Component {
 
 		const fschema = getEditSchema(this.props.operation.followUpType.id);
 		fschema.title = this.renderTitle(op);
+
+		// TODOMS: when date comes from server it is not being parsed on date control, this causes an error.
+		this.state.doc.date = new Date();
 
 		return (
 			<FormDialog
