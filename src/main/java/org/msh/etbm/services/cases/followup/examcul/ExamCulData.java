@@ -4,10 +4,8 @@ import org.msh.etbm.db.enums.CultureResult;
 import org.msh.etbm.db.enums.SampleType;
 import org.msh.etbm.services.cases.followup.data.LaboratoryExamData;
 
-import javax.persistence.Column;
-
 /**
- * Created by msantos on 13/7/16.
+ * Created by msantos on 14/7/16.
  */
 public class ExamCulData extends LaboratoryExamData {
 

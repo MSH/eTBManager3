@@ -30,6 +30,12 @@ export default class FollowupModal extends React.Component {
 					if (res.dateRelease) {
 						res.dateRelease = new Date();
 					}
+					if (res.startedARTdate) {
+						res.startedARTdate = new Date();
+					}
+					if (res.startedCPTdate) {
+						res.startedCPTdate = new Date();
+					}
 					this.setState({ doc: res, showForm: true });
 				});
 		}
