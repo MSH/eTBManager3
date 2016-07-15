@@ -1,7 +1,10 @@
 package org.msh.etbm.services.session.changepassword;
 
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
@@ -25,6 +28,9 @@ import java.util.Map;
 public class ChangePasswordService {
 
     @Autowired
+    Messages messages;
+
+    @Autowired
     UserRequestService userRequestService;
 
     @Autowired
@@ -40,13 +46,13 @@ public class ChangePasswordService {
      * @return The list of changed fields
      */
     @Transactional
-    @CommandLog(handler = PasswordLogHandler.class, type = "session.changepwd")
+    @CommandLog(handler = PasswordLogHandler.class, type = CommandTypes.SESSION_CHANGE_PWD)
     public Map<String, Object> changePassword(ChangePasswordFormData data) {
         User user = entityManager.find(User.class, userRequestService.getUserSession().getUserId());
         String hashPwd = UserUtils.hashPassword(data.getPassword());
 
         if (!user.getPassword().equals(hashPwd)) {
-            throw new EntityValidationException(data.getPassword(), "password", "changepwd.wrongpass", "changepwd.wrongpassword");
+            throw new EntityValidationException(data, "password", null, "changepwd.wrongpass");
         }
 
         passwordUpdateService.updatePassword(user.getId(), data.getNewPassword());
