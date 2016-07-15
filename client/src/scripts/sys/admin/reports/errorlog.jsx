@@ -26,7 +26,7 @@ const fschema = {
 		{
 			property: 'searchKey',
 			required: false,
-			type: 'string',
+			type: 'text',
 			max: 50,
 			label: __('form.searchkey'),
 			size: { sm: 4 }
