@@ -1,10 +1,10 @@
 package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.followup.medexam.MedExamData;
 import org.msh.etbm.services.cases.followup.medexam.MedExamFormData;
-import org.msh.etbm.services.cases.followup.medexam.MedExamQueryParams;
 import org.msh.etbm.services.cases.followup.medexam.MedExamService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -53,7 +53,7 @@ public class MedicalExaminationREST {
 
     @RequestMapping(value = "/medexam/query", method = RequestMethod.POST)
     @Authenticated()
-    public QueryResult query(@Valid @RequestBody MedExamQueryParams query) {
+    public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }
 

@@ -46,6 +46,11 @@ public class CommandTypes {
     public static final String CASES_CASE = "cases.case";
     public static final String CASES_MED_EXAM = "cases.medexam";
     public static final String CASES_EXAM_MIC = "cases.exammic";
+    public static final String CASES_EXAM_CUL = "cases.examcul";
+    public static final String CASES_EXAM_XPERT = "cases.examxpert";
+    public static final String CASES_EXAM_DST = "cases.examdst";
+    public static final String CASES_EXAM_HIV = "cases.examhiv";
+    public static final String CASES_EXAM_XRAY = "cases.examxray";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -93,6 +98,11 @@ public class CommandTypes {
         ROOT.add(CASES_CASE);
         ROOT.addCRUD(CASES_MED_EXAM);
         ROOT.addCRUD(CASES_EXAM_MIC);
+        ROOT.addCRUD(CASES_EXAM_CUL);
+        ROOT.addCRUD(CASES_EXAM_XPERT);
+        ROOT.addCRUD(CASES_EXAM_DST);
+        ROOT.addCRUD(CASES_EXAM_HIV);
+        ROOT.addCRUD(CASES_EXAM_XRAY);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

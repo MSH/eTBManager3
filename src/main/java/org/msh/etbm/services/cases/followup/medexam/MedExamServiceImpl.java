@@ -8,6 +8,7 @@ import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.MedicalExamination;
 import org.msh.etbm.db.entities.Tag;
@@ -25,7 +26,7 @@ import javax.persistence.PersistenceException;
  * Created by msantos on 11/7/16.
  */
 @Service
-public class MedExamServiceImpl extends EntityServiceImpl<MedicalExamination, MedExamQueryParams> implements MedExamService {
+public class MedExamServiceImpl extends EntityServiceImpl<MedicalExamination, EntityQueryParams> implements MedExamService {
 
     @Override
     public String getCommandType() {

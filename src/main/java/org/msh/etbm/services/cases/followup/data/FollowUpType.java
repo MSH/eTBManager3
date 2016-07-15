@@ -7,7 +7,7 @@ public enum FollowUpType {
 
     MEDICAL_EXAMINATION("MedicalExamination", "org.msh.etbm.services.cases.followup.medexam.MedExamData"),
     EXAM_MICROSCOPY("ExamMicroscopy", "org.msh.etbm.services.cases.followup.exammic.ExamMicData"),
-    EXAM_CULTURE("ExamCulture", ""),
+    EXAM_CULTURE("ExamCulture", "org.msh.etbm.services.cases.followup.examcul.ExamCulData"),
     EXAM_XPERT("ExamXpert", ""),
     EXAM_DST("ExamDST", ""),
     EXAM_XRAY("ExamXRay", ""),

@@ -25,6 +25,11 @@ export default class FollowupModal extends React.Component {
 
 			op.crud.getEdit(op.followUpId)
 				.then(res => {
+					// TODOMS: when date comes from server it is not being parsed on date control, this causes an error.
+					res.date = new Date();
+					if (res.dateRelease) {
+						res.dateRelease = new Date();
+					}
 					this.setState({ doc: res, showForm: true });
 				});
 		}
@@ -86,9 +91,6 @@ export default class FollowupModal extends React.Component {
 
 		const fschema = getEditSchema(this.props.operation.followUpType.id);
 		fschema.title = this.renderTitle(op);
-
-		// TODOMS: when date comes from server it is not being parsed on date control, this causes an error.
-		this.state.doc.date = new Date();
 
 		return (
 			<FormDialog
