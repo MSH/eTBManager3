@@ -1,15 +1,22 @@
 package org.msh.etbm.test.commons.objutils;
 
 import org.junit.Test;
-import org.msh.etbm.commons.objutils.*;
+import org.msh.etbm.commons.objutils.DiffValue;
+import org.msh.etbm.commons.objutils.Diffs;
+import org.msh.etbm.commons.objutils.DiffsUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test ObjectDiffs class
- *
+ * <p>
  * Created by rmemoria on 28/1/16.
  */
 public class DiffsUtilsTest {
@@ -35,18 +42,18 @@ public class DiffsUtilsTest {
         model.setId(1000L);
 
         // two objects are the same ?
-        assert(DiffsUtils.compareEquals(model, model));
+        assert (DiffsUtils.compareEquals(model, model));
 
         Model m2 = new Model();
 
         // objects must be different
-        assert(!DiffsUtils.compareEquals(model, m2));
+        assert (!DiffsUtils.compareEquals(model, m2));
 
         // objects must be equal
         // because ID is the key to identify equals objects inside Model class
         m2.setId(model.getId());
-        assert(DiffsUtils.compareEquals(model, m2));
-        assert(DiffsUtils.compareEquals(m2, model));
+        assert (DiffsUtils.compareEquals(model, m2));
+        assert (DiffsUtils.compareEquals(m2, model));
     }
 
     /**
@@ -57,14 +64,14 @@ public class DiffsUtilsTest {
         Date dt = new Date();
 
         // check the same object
-        String[] fruits = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits = {"Banana", "Apple", "Strawberry", "Orange"};
         Model model = new Model("name1", 1L, 33, true, dt, Arrays.asList(fruits));
 
         Diffs diffs = DiffsUtils.generateDiffs(model, model);
         assertEquals(diffs.getValues().size(), 0);
 
         // check another object but with the same properties
-        String[] fruits2 = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits2 = {"Banana", "Apple", "Strawberry", "Orange"};
         Model m2 = new Model("name1", 1L, 33, true, dt, Arrays.asList(fruits2));
         diffs = DiffsUtils.generateDiffs(model, m2);
         assertEquals(diffs.getValues().size(), 0);
@@ -89,7 +96,7 @@ public class DiffsUtilsTest {
         assertNotNull(diffs.getValues().get("name"));
         assertNotNull(diffs.getValues().get("age"));
 
-        String[] fruits3 = { "Apple", "Strawberry", "Orange" };
+        String[] fruits3 = {"Apple", "Strawberry", "Orange"};
         m2.setFruits(Arrays.asList(fruits3));
         diffs = DiffsUtils.generateDiffs(model, m2);
         assertEquals(diffs.getValues().size(), 4);
@@ -102,8 +109,8 @@ public class DiffsUtilsTest {
         List<Model> lst1 = new ArrayList<>();
         List<Model> lst2 = new ArrayList<>();
         for (int i = 1; i <= 5; i++) {
-            lst1.add(new Model("Name " + i, (long)i, 30 + i, false, new Date(), null));
-            lst2.add(new Model("Name " + i, (long)i, 30 + i, false, new Date(), null));
+            lst1.add(new Model("Name " + i, (long) i, 30 + i, false, new Date(), null));
+            lst2.add(new Model("Name " + i, (long) i, 30 + i, false, new Date(), null));
         }
 
         ModelArray ma1 = new ModelArray();

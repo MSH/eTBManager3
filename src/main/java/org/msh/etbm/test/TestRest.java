@@ -92,7 +92,7 @@ public class TestRest {
 
     @RequestMapping(value = "/map", method = RequestMethod.POST)
     public StandardResult mapTest(@RequestBody Map<String, Object> map) {
-        for (String key: map.keySet()) {
+        for (String key : map.keySet()) {
             Object val = map.get(key);
             System.out.println(key + " = " + val);
         }
@@ -122,7 +122,7 @@ public class TestRest {
         validator.validate(req2, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            for (FieldError err: bindingResult.getFieldErrors()) {
+            for (FieldError err : bindingResult.getFieldErrors()) {
                 System.out.println(err);
             }
             return new StandardResult(false, null, false);

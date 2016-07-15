@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 /**
  * Component to replace the keys separated by {} into messages from the resource files
  * using the current language.
- *
+ * <p>
  * It is also the factory for MessageList objects
- *
+ * <p>
  * Created by rmemoria on 27/10/15.
  */
 @Component
@@ -30,6 +30,7 @@ public class MessageKeyResolver {
 
     /**
      * Create an instance of MessageList class with support for key replacement
+     *
      * @return
      */
     public MessageList createMessageList() {
@@ -39,6 +40,7 @@ public class MessageKeyResolver {
 
     /**
      * Evaluate the given text replacing the keys between {} by messages in the resoure files
+     *
      * @param text the text to have its key messages replaced
      * @return the text replaced
      */

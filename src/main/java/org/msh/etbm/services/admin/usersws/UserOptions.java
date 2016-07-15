@@ -4,7 +4,7 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.db.entities.User;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,8 +38,8 @@ public class UserOptions implements FormRequestHandler<List<Item>> {
     public List<Item> execFormRequest(FormRequest req) {
         List<Item> options = new ArrayList<>();
         List<User> userList = entityManager.createQuery("select uw.user from UserWorkspace uw where uw.workspace.id = :wId order by uw.user.name")
-                                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
-                                .getResultList();
+                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
+                .getResultList();
 
         for (User u : userList) {
             options.add(new Item(u.getId(), u.getName()));

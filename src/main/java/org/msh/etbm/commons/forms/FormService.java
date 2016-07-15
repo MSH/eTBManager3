@@ -20,20 +20,29 @@ public class FormService {
     /**
      * Register a new form request handler. The request handler will be called to generate response
      * of form requests based on the command issued
+     *
      * @param handler the request handler to be registered
      */
     public void registerRequestHandler(FormRequestHandler handler) {
-        String name = handler.getFormCommandName();
-        if (handlers.containsKey(name)) {
-            throw new FormException("There is already a form request handler to the name " + name);
+        String cmdName = handler.getFormCommandName();
+        if (handlers.containsKey(cmdName)) {
+            throw new FormException("There is already a form request handler to the name " + cmdName);
         }
 
-        handlers.put(name, handler);
+        // more than one name can be registered to the same handle using ; or , as separators
+        String delimiters = ",\\s*|\\;\\s*";
+        String[] names = cmdName.split(delimiters);
+
+        // register each name
+        for (String name : names) {
+            handlers.put(name, handler);
+        }
     }
 
 
     /**
      * Process form requests, invoking the specific handler for each request
+     *
      * @param reqs list of requests of a form
      * @return form response, in a map format
      */
@@ -44,7 +53,7 @@ public class FormService {
 
         Map<String, Object> resps = new HashMap<>();
 
-        for (FormRequest req: reqs) {
+        for (FormRequest req : reqs) {
             // get the handler for the given command
             FormRequestHandler handler = handlers.get(req.getCmd());
 

@@ -1,0 +1,23 @@
+@import '../../../less/variables.less';
+
+.bless-form {
+
+	.form-group {
+		margin-bottom: 0px;
+
+		input {
+			font-size: 1.1em;
+		}
+
+		.input-group-addon {
+			color: #b0b0b0;
+			font-size: 1.1em;
+		}
+	}
+
+	.has-error .form-control {
+		border: 1px solid @brand-danger;
+		background-color: lighten(@brand-danger, 35%);
+		border-radius: @border-radius-base;
+	}
+}

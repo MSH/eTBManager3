@@ -1,9 +1,9 @@
 package org.msh.etbm.services.admin.units.impl;
 
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Laboratory;
@@ -24,7 +24,7 @@ import org.springframework.validation.Errors;
 
 /**
  * CRUD service to handle units (laboratories and TB units)
- *
+ * <p>
  * Created by rmemoria on 31/10/15.
  */
 @Service
@@ -47,7 +47,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         }
         builder.setEntityClass(clazz);
         builder.setEntityAlias("a");
-        
+
         // add the available profiles
         builder.addProfile(UnitQueryParams.PROFILE_ITEM, UnitItemData.class);
         builder.addDefaultProfile(UnitQueryParams.PROFILE_DEFAULT, UnitData.class);
@@ -107,15 +107,17 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
 
     @Override
     protected Unit createEntityInstance(Object req) {
-        UnitFormData ureq = (UnitFormData)req;
+        UnitFormData ureq = (UnitFormData) req;
 
         if (ureq.getType() == null) {
             raiseRequiredFieldException(req, "type");
         }
 
         switch (ureq.getUnitType()) {
-            case LAB: return new Laboratory();
-            case TBUNIT: return new Tbunit();
+            case LAB:
+                return new Laboratory();
+            case TBUNIT:
+                return new Tbunit();
         }
 
         rejectFieldException(req, "type", "InvalidValue");
@@ -123,9 +125,14 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_UNITS;
+    }
+
+    @Override
     protected void beforeSave(Unit unit, Errors errors) {
         if (unit.getAddress().getAdminUnit() == null) {
-            errors.rejectValue("address.adminUnit", ErrorMessages.REQUIRED);
+            errors.rejectValue("address.adminUnit", Messages.REQUIRED);
         }
     }
 }

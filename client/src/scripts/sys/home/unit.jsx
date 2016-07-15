@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { Row, Col, Nav, NavItem } from 'react-bootstrap';
-import { app } from '../../core/app';
-import { RouteView, router } from '../../components/router';
-import UnitPanel from './commons/unit-panel';
+import FrontPage from './commons/front-page';
+import { server } from '../../commons/server';
+import { WaitIcon } from '../../components';
+import SessionUtils from '../session-utils';
 
 
 import General from './unit/general';
@@ -11,72 +11,61 @@ import Cases from './unit/cases';
 import Inventory from './unit/inventory';
 
 
-const routes = RouteView.createRoutes([
+const views = [
 	{
-		title: 'General',
+		title: __('general'),
 		path: '/general',
 		view: General,
 		default: true
 	},
 	{
-		title: 'Cases',
+		title: __('cases'),
 		path: '/cases',
 		view: Cases
 	},
 	{
-		title: 'Inventory',
+		title: __('meds.inventory'),
 		path: '/inventory',
 		view: Inventory
 	}
-]);
+];
 
 
 export default class Unit extends React.Component {
 
 	constructor(props) {
 		super(props);
-
-		this.tabSelect = this.tabSelect.bind(this);
+		this.state = {};
 	}
 
-
-	tabIndex() {
-		const route = this.props.route;
-		const path = route.forpath;
-		if (!path) {
-			return 0;
-		}
-		return routes.list.findIndex(it => path.startsWith(it.data.path));
+	componentWillMount() {
+		const id = this.props.route.queryParam('id');
+		this.fetchData(id);
 	}
 
-	tabSelect(key) {
-		const item = routes.list[key].data;
-		router.goto('/sys/home/unit' + item.path);
+	fetchData(id) {
+		const self = this;
+
+		// get data of the unit
+		server.get('/api/tbl/unit/' + id)
+		.then(res => self.setState({ data: res }));
 	}
 
 	render() {
-		const content = (
-			<Row>
-				<Col md={12}>
-					<Nav bsStyle="tabs" activeKey={this.tabIndex()}
-						onSelect={this.tabSelect}
-						className="app-tabs">
-						{
-							routes.list.map((it, index) =>
-								<NavItem key={index} eventKey={index}>
-									{it.data.title}
-								</NavItem>)
-						}
-					</Nav>
-				</Col>
-			</Row>
-			);
+		const unit = this.state.data;
+
+		if (!unit) {
+			return <WaitIcon />;
+		}
 
 		return (
-			<div>
-				<UnitPanel content={content} />
-				<RouteView routes={routes} />
-			</div>
+			<FrontPage
+				title={unit.name}
+				subtitle={SessionUtils.adminUnitDisplay(unit.address.adminUnit, true)}
+				type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
+				views={views}
+				route={this.props.route}
+				/>
 			);
 	}
 }

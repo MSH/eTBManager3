@@ -1,24 +1,21 @@
 package org.msh.etbm.services.admin.workspaces;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.entities.Workspace;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import javax.persistence.EntityManager;
@@ -29,12 +26,12 @@ import java.util.UUID;
 
 /**
  * Service to handle CRUD operation in Workspaces
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 @Service
 public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, WorkspaceQueryParams>
-    implements WorkspaceService {
+        implements WorkspaceService {
 
     @Autowired
     WorkspaceCreator workspaceCreator;
@@ -54,8 +51,13 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         builder.addDefaultOrderByMap(WorkspaceQueryParams.ORDERBY_NAME, "name");
     }
 
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_WORKSPACES;
+    }
+
     @Transactional
-    @CommandLog(type = EntityCmdLogHandler.CREATE, handler = EntityCmdLogHandler.class)
+    @CommandLog(type = CommandTypes.CMD_CREATE, handler = EntityCmdLogHandler.class)
     @Override
     public ServiceResult create(@Valid @NotNull Object req) {
         // keep other request classes being handled by the standard create method
@@ -63,7 +65,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
             return super.create(req);
         }
 
-        WorkspaceFormData frmdata = (WorkspaceFormData)req;
+        WorkspaceFormData frmdata = (WorkspaceFormData) req;
 
         // check if name is present in the request
         if (!frmdata.getName().isPresent()) {
@@ -86,7 +88,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
         // create the result of the service
         ServiceResult res = createResult(entity);
-        res.setId( entity.getId() );
+        res.setId(entity.getId());
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 
@@ -95,6 +97,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
     /**
      * Add the current user to the new workspace, so he will be able to enter there
+     *
      * @param workspace the new workspace
      */
     private void addCurrentUser(Workspace workspace) {
@@ -107,7 +110,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
     private void checkUniqueWorkspaceName(Workspace ws) {
         if (!checkUnique(ws, "name")) {
-            rejectFieldException(ws, "name", ErrorMessages.NOT_UNIQUE);
+            rejectFieldException(ws, "name", Messages.NOT_UNIQUE);
         }
     }
 
@@ -131,5 +134,15 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
 
         List<SynchronizableItem> lst = res.getList();
         return lst;
+    }
+
+    @Override
+    protected void beforeDelete(Workspace entity, Errors errors) {
+        UUID wsid = userRequestService.getUserSession().getWorkspaceId();
+
+        if (wsid.equals(entity.getId())) {
+            errors.reject("admin.workspaces.delerror1");
+        }
+        super.beforeDelete(entity, errors);
     }
 }

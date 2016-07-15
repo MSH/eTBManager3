@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.admunits.AdminUnitDetailedData;
 import org.msh.etbm.services.admin.admunits.AdminUnitFormData;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /**
  * REST API to handle administrative unit CRUD operations
- *
+ * <p>
  * Created by rmemoria on 21/10/15.
  */
 @RestController
@@ -47,7 +47,7 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req)  throws BindException {
+    public StandardResult create(@Valid @NotNull @RequestBody AdminUnitFormData req) throws BindException {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
@@ -59,8 +59,9 @@ public class AdminUnitsREST {
     }
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST)

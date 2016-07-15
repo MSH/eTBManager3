@@ -1,14 +1,13 @@
 package org.msh.etbm.sys.daemon;
 
 
-import java.io.IOException;
+import org.springframework.boot.SpringApplication;
+import org.springframework.util.ClassUtils;
 
 import javax.management.InstanceNotFoundException;
 import javax.management.MBeanServerConnection;
 import javax.management.remote.JMXConnector;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.util.ClassUtils;
+import java.io.IOException;
 
 /**
  * Basic daemon implementation for a Spring Boot app.
@@ -24,7 +23,8 @@ public class SpringBootService {
         Class<?> springBootApp = ClassUtils.resolveClassName(args[0],
                 SpringBootService.class.getClassLoader());
         System.out.println("Starting Spring Boot application [" + springBootApp.getName() + "]");
-        SpringApplication.run(springBootApp);
+        SpringApplication
+                .run(springBootApp);
     }
 
     public void stop(String[] args) throws IOException {

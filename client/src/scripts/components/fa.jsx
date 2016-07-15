@@ -10,11 +10,14 @@ export default class Fa extends React.Component {
 		const p = this.props;
 		const clazz = 'fa fa-fw' +
 			(p.icon ? ' fa-' + p.icon : '') +
-			(p.size ? ' fa-' + p.size + 'x' : '') +
+//			(p.size ? ' fa-' + p.size + 'x' : '') +
 			(p.spin ? ' fa-spin' : '') +
 			(p.className ? ' ' + p.className : '');
 
-		return <i className={clazz} />;
+		const style = p.size ? { fontSize: p.size + 'em' } : null;
+
+		return <i className={clazz} style={ style } />;
+//		return <i className={clazz} />;
 	}
 }
 

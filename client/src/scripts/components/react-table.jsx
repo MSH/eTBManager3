@@ -33,21 +33,31 @@ export default class ReactTable extends React.Component {
 	 */
 	titleRender() {
 		const cols = this.props.columns;
+		var hasTitle = false;
 
-		return (
-			<Row className="tbl-title">
-			{
-				cols.map((col, index) => {
-					const colProps = Object.assign({}, col.size);
-					return (
-						<Col key={index} {...colProps} className={this.alignClass(col)}>
-							{col.title}
-						</Col>
-						);
-				})
-			}
-			</Row>
-			);
+		var ret = (
+						<Row className="tbl-title">
+						{
+							cols.map((col, index) => {
+								const colProps = Object.assign({}, col.size);
+								if (col.title) {
+									hasTitle = true;
+								}
+								return (
+									<Col key={index} {...colProps} className={this.alignClass(col)}>
+										{col.title}
+									</Col>
+									);
+							})
+						}
+						</Row>
+					);
+
+		if (hasTitle === false) {
+			ret = null;
+		}
+
+		return ret;
 	}
 
 	alignClass(col) {
@@ -146,7 +156,7 @@ export default class ReactTable extends React.Component {
 		}
 
 		return (
-			<Grid fluid className={classes.join(' ')}>
+			<Grid className={classes.join(' ')} fluid>
 				{
 					this.titleRender()
 				}

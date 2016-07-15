@@ -3,8 +3,10 @@ import React from 'react';
 import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
+import { Label, Alert } from 'react-bootstrap';
 
-
+import UserWsChangePwd from './user-ws-changepwd';
+import { server } from '../../../commons/server';
 const crud = new CRUD('userws');
 
 // definition of the form fields to edit substances
@@ -101,38 +103,95 @@ export default class UsersWs extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.execOption = this.execOption.bind(this);
-		this.state = {
-			options: [
+		this.state = { userChangePwd: null };
+
+		this.options = this.options.bind(this);
+
+		this.sendNewPassword = this.sendNewPassword.bind(this);
+		this.blockUnblockUser = this.blockUnblockUser.bind(this);
+		this.openChangePassword = this.openChangePassword.bind(this);
+		this.closeChangePassword = this.closeChangePassword.bind(this);
+	}
+
+	options(item) {
+		const options = [
 				{
 					label: 'Send new password',
-					onClick: this.execOption
+					onClick: this.sendNewPassword
 				},
 				{
 					label: 'Change password',
-					onClick: this.execOption
+					onClick: this.openChangePassword
 				},
 				{
-					label: 'Block user',
-					onClick: this.execOption
+					label: item.active === false ? 'Unblock user' : 'Block user',
+					onClick: this.blockUnblockUser
 				}
-			]
-		};
+			];
+
+		return options;
 	}
 
-	execOption(index) {
-		alert('Not implemented: ' + index);
+	sendNewPassword(index, item) {
+		const self = this;
+		const doc = {userWsId: item.id};
+		
+		return server.post('/api/tbl/userws/resetpwd', doc)
+		.then(res => {
+			if (res && res.errors) {
+				return Promise.reject(res.errors);
+			}
+			const msg = __('changepwd.emailsent') + ' ' + item.name;
+			self.setState({ infoMsg: msg });
+			setTimeout(() => { self.setState({ infoMsg: null }); }, 4000);
+			return true;
+		});
+	}
+
+	blockUnblockUser(index, item, cell) {
+		const newState = !item.active;
+		const doc = { active: newState };
+		crud.update(item.id, doc)
+		.then(() => {
+				item.active = newState;
+				cell.forceUpdate();
+			});
+	}
+
+	openChangePassword(index, item) {
+		this.setState({ userChangePwd: item });
+	}
+
+	closeChangePassword(res) {
+		this.setState({ userChangePwd: null, infoMsg: res });
+		const self = this;
+		setTimeout(() => { self.setState({ infoMsg: null }); }, 4000);
 	}
 
 	cellRender(item) {
 		const sub = (
 			<div>
-				{item.unit.name}
+				<div>
+					{item.unit.name}
+				</div>
 			</div>
 			);
 
 		return (
-			<Profile type="user" title={item.name} subtitle={sub} size="small"/>
+			<div>
+				<div className="pull-right">
+					{
+						!item.active && <Label className="mright" bsStyle="danger">{'Blocked'}</Label>
+					}
+					{
+						item.passwordExpired && <Label className="mright" bsStyle="warning">{'Password Expired'}</Label>
+					}
+					{
+						!item.emailConfirmed && <Label className="mright" bsStyle="warning">{'Waiting E-mail Validation'}</Label>
+					}
+				</div>
+				<Profile type="user" title={item.name} subtitle={sub} size="small"/>
+			</div>
 			);
 	}
 
@@ -141,13 +200,25 @@ export default class UsersWs extends React.Component {
 		const data = this.props.route.data;
 
 		return (
-			<CrudView crud={crud}
-				pageSize={50}
-				options={this.state.options}
-				title={data.title}
-				editorSchema={editorDef}
-				onCellRender={this.cellRender}
-				perm={data.perm} />
+			<div>
+
+				{
+					!!this.state.infoMsg &&
+					<Alert bsStyle="success">{this.state.infoMsg}</Alert>
+				}
+
+				<CrudView crud={crud}
+					pageSize={50}
+					options={this.options}
+					title={data.title}
+					editorSchema={editorDef}
+					onCellRender={this.cellRender}
+					perm={data.perm} />
+
+				<UserWsChangePwd userws={this.state.userChangePwd}
+					show={!!this.state.userChangePwd}
+					onClose={this.closeChangePassword} />
+			</div>
 			);
 	}
 }

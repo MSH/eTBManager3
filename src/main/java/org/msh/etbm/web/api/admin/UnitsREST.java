@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,7 @@ public class UnitsREST {
 
     /**
      * Query units (labs or TB units) based on the request query
+     *
      * @param qry search criterias to query the database
      * @return lisat of units
      */
@@ -64,13 +65,14 @@ public class UnitsREST {
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitFormData req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UnitFormData req) throws BindException {
         ServiceResult res = unitService.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/unit/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
-        return unitService.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        unitService.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 }

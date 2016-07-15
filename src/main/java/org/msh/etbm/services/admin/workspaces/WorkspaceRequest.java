@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * Information to be sent to the service component to create or update a workspace
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class WorkspaceRequest {

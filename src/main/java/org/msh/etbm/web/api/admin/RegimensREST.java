@@ -6,7 +6,7 @@ import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.regimens.RegimenFormData;
 import org.msh.etbm.services.admin.regimens.RegimenQueryParams;
 import org.msh.etbm.services.admin.regimens.RegimenService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 /**
  * REST API controller to expose CRUD operations in a medicine regimen
- *
+ * <p>
  * Created by rmemoria on Jan 6th, 2015.
  */
 @RestController
@@ -50,8 +50,9 @@ public class RegimensREST {
     }
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)

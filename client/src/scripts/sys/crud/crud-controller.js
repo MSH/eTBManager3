@@ -25,7 +25,13 @@ const Events = {
 export default class CrudController {
 
 	constructor(crud, options) {
-		this.openForm = this.openForm.bind(this);
+		if (__DEV__) {
+			if (!options || !options.editorSchema) {
+				throw new Error('editorSchema must be specified in CrudController options');
+			}
+		}
+		this.openNewForm = this.openNewForm.bind(this);
+		this.openEditForm = this.openEditForm.bind(this);
 		this.closeForm = this.closeForm.bind(this);
 		this.saveAndClose = this.saveAndClose.bind(this);
 
@@ -102,12 +108,61 @@ export default class CrudController {
 	}
 
 	/**
+	 * Return the available schema editor keys and its title. Used to create a popup menu
+	 * @return {[type]} [description]
+	 */
+	getEditors() {
+		const schema = this.options.editorSchema;
+		if (!schema.editors) {
+			return null;
+		}
+
+		return Object.keys(schema.editors).map(key => ({ key: key, label: schema.editors[key].label }));
+	}
+
+	/**
+	 * Generate an event to create a new form and optionally passes the editor schema key, if it
+	 * is a mulit schema
+	 * @param  {[type]} key [description]
+	 * @return {[type]}     [description]
+	 */
+	openNewForm(key) {
+		return this._openForm(null, key);
+	}
+
+	/**
+	 * Generate an event to open an edit form based on its document to edit
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	openEditForm(item) {
+		return this._openForm(item);
+	}
+
+	/**
 	 * Generate events to open a new form
 	 * @return {[type]} [description]
 	 */
-	openForm(item) {
+	_openForm(item, key) {
 		if (this.isFormOpen()) {
 			return null;
+		}
+
+		// select the schema to be used in the form
+		const se = this.options.editorSchema;
+		var schema;
+		// is mulit schema ?
+		if (se.editors) {
+			if (__DEV__) {
+				if (!item && !key) {
+					throw new Error('CrudController: In a multi schema, either the item or the schema key must be informed');
+				}
+			}
+			// select the schema by its item or by the key
+			schema = se.editors[key ? key : se.select(item)];
+		}
+		else {
+			schema = se;
 		}
 
 		// information about the document being edited in the form
@@ -115,7 +170,8 @@ export default class CrudController {
 			doc: null,
 			id: null,
 			fetching: true,
-			item: item
+			item: item,
+			schema: schema
 		};
 
 		// store information in the controller about the doc being edited
@@ -197,14 +253,29 @@ export default class CrudController {
 			// remove information about open form
 			delete self.frm;
 
-			// informing that the item is being loaded
-			if (id) {
-				self._raise(Events.fetchingItem, id);
+			if (this.options.refreshAll) {
+				return this.refreshList();
 			}
 
-			// reload the item in order to be displayed again
-			return this.crud.query({ id: id });
-		})
+			return this._updateItem(id, isNew);
+		});
+	}
+
+	/**
+	 * Called by function saveAndClose to update the item that was edited or inserted
+	 * @param  {[type]}  id    [description]
+	 * @param  {Boolean} isNew [description]
+	 * @return {[type]}        [description]
+	 */
+	_updateItem(id, isNew) {
+		// informing that the item is being loaded
+		if (id) {
+			this._raise(Events.fetchingItem, id);
+		}
+
+		const self = this;
+		// reload the item in order to be displayed again
+		return this.crud.query({ id: id })
 		.then(res => {
 			// the new item that will replace the current item
 			const newitem = res.list[0];
@@ -227,7 +298,7 @@ export default class CrudController {
 			}
 			else {
 				// search for the position of the item in the list
-				const index = lst.findIndex(item => fi.id === self.resolveId(item));
+				const index = lst.findIndex(item => id === self.resolveId(item));
 				if (__DEV__) {
 					// if item was not found, raise an error
 					if (index === -1) {
@@ -238,10 +309,10 @@ export default class CrudController {
 				lst[index] = newitem;
 
 				// generate event to update the item being displayed
-				self._raise(Events.itemUpdated, { id: fi.id, item: newitem });
+				self._raise(Events.itemUpdated, { id: id, item: newitem });
 			}
 
-			const msg = fi.id ? __('default.entity_updated') : __('default.entity_created');
+			const msg = id ? __('default.entity_updated') : __('default.entity_created');
 			self.showMessage(msg);
 		});
 	}
@@ -250,8 +321,8 @@ export default class CrudController {
 	 * Raise an event to display a message
 	 * @param  {String} msg The message to be displayed
 	 */
-	showMessage(msg) {
-		this._raise(Events.showMsg, msg);
+	showMessage(msg, type) {
+		this._raise(Events.showMsg, { msg: msg, type: type });
 	}
 
 	/**
@@ -285,6 +356,10 @@ export default class CrudController {
 		return this.frm ? this.frm.id : null;
 	}
 
+	getFormSchema() {
+		return this.frm ? this.frm.schema : null;
+	}
+
 	/**
 	 * Init the deleting of the document represented by the item in teh list
 	 * @param  {[type]} item [description]
@@ -311,9 +386,14 @@ export default class CrudController {
 
 		const self = this;
 		return this.crud.delete(this.item.id)
-			.then(() => self.refreshList())
-			.then(() => self.showMessage(__('default.entity_deleted')));
+			.then(res => {
+				if (!res.errors) {
+					return self.refreshList()
+					.then(() => self.showMessage(__('default.entity_deleted')));
+				}
 
+				return self.showMessage(res.errors, 'error');
+			});
 	}
 
 	/**

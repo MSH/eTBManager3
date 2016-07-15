@@ -14,65 +14,65 @@ import javax.validation.constraints.NotNull;
 @Table(name = "substance")
 public class Substance extends WorkspaceEntity {
 
-	@NotNull
-	@PropertyLog(messageKey = "form.name")
-	private String name;
-	
-	@PropertyLog(messageKey = "form.shortName")
     @NotNull
-	private String shortName;
+    @PropertyLog(messageKey = "form.name")
+    private String name;
+
+    @PropertyLog(messageKey = "form.shortName")
+    @NotNull
+    private String shortName;
 
     @NotNull
-	private MedicineLine line;
-	
-	private boolean prevTreatmentForm = true;
-	
-	private boolean dstResultForm = true;
+    private MedicineLine line;
+
+    private boolean prevTreatmentForm = true;
+
+    private boolean dstResultForm = true;
 
     private boolean active = true;
 
-	@PropertyLog(messageKey = "form.displayorder")
-	private Integer displayOrder;
+    @PropertyLog(messageKey = "form.displayorder")
+    private Integer displayOrder;
 
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
 
-	public void setLine(MedicineLine line) {
-		this.line = line;
-	}
+    public void setLine(MedicineLine line) {
+        this.line = line;
+    }
 
-	public MedicineLine getLine() {
-		return line;
-	}
+    public MedicineLine getLine() {
+        return line;
+    }
 
-	/**
-	 * @return the prevTreatmentForm
-	 */
-	public boolean isPrevTreatmentForm() {
-		return prevTreatmentForm;
-	}
+    /**
+     * @return the prevTreatmentForm
+     */
+    public boolean isPrevTreatmentForm() {
+        return prevTreatmentForm;
+    }
 
-	/**
-	 * @param prevTreatmentForm the prevTreatmentForm to set
-	 */
-	public void setPrevTreatmentForm(boolean prevTreatmentForm) {
-		this.prevTreatmentForm = prevTreatmentForm;
-	}
+    /**
+     * @param prevTreatmentForm the prevTreatmentForm to set
+     */
+    public void setPrevTreatmentForm(boolean prevTreatmentForm) {
+        this.prevTreatmentForm = prevTreatmentForm;
+    }
 
-	/**
-	 * @return the dstResultForm
-	 */
-	public boolean isDstResultForm() {
-		return dstResultForm;
-	}
+    /**
+     * @return the dstResultForm
+     */
+    public boolean isDstResultForm() {
+        return dstResultForm;
+    }
 
-	/**
-	 * @param dstResultForm the dstResultForm to set
-	 */
-	public void setDstResultForm(boolean dstResultForm) {
-		this.dstResultForm = dstResultForm;
-	}
+    /**
+     * @param dstResultForm the dstResultForm to set
+     */
+    public void setDstResultForm(boolean dstResultForm) {
+        this.dstResultForm = dstResultForm;
+    }
 
     public Integer getDisplayOrder() {
         return displayOrder;
@@ -89,12 +89,12 @@ public class Substance extends WorkspaceEntity {
         return name;
     }
 
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getShortName() {
         return shortName;

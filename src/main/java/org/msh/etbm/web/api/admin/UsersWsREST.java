@@ -3,12 +3,12 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.services.admin.userprofiles.UserProfileFormData;
-import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
-import org.msh.etbm.services.admin.usersws.data.UserWsFormData;
 import org.msh.etbm.services.admin.usersws.UserWsQueryParams;
 import org.msh.etbm.services.admin.usersws.UserWsService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
+import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
+import org.msh.etbm.services.admin.usersws.data.UserWsFormData;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +37,7 @@ public class UsersWsREST {
 
     /**
      * Return displayable information about a user profile
+     *
      * @param id the ID of the profile
      * @return
      */
@@ -61,14 +62,15 @@ public class UsersWsREST {
     }
 
     @RequestMapping(value = PREFIX + "/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserWsFormData req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserWsFormData req) throws BindException {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = PREFIX + "/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = PREFIX + "/query", method = RequestMethod.POST)
@@ -77,4 +79,15 @@ public class UsersWsREST {
         return service.findMany(qry);
     }
 
+    @RequestMapping(value = PREFIX + "/updatepwd", method = RequestMethod.POST)
+    @Authenticated
+    public void updatePassword(@Valid @RequestBody UserWsChangePwdFormData data) {
+        service.changePassword(data);
+    }
+
+    @RequestMapping(value = PREFIX + "/resetpwd", method = RequestMethod.POST)
+    @Authenticated
+    public void resetPassword(@Valid @RequestBody UserWsChangePwdFormData data) {
+        service.sendPwdResetLink(data);
+    }
 }

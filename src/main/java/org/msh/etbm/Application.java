@@ -1,6 +1,5 @@
 package org.msh.etbm;
 
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.DozerEntityConverter;
@@ -11,7 +10,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,17 +19,18 @@ import java.util.Map;
 
 /**
  * eTBM bootstrap and entry point class
- *
+ * <p>
  * Created by rmemoria on 7/5/15.
  */
 @SpringBootApplication
-@PropertySource("file:./etbmanager.properties")
+@PropertySource("file:${app-property-file:./etbmanager.properties}")
 @EnableJpaRepositories(value = "org.msh.etbm.db.repositories")
 @EnableCaching
 public class Application {
 
     /**
      * Application entry-point
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -41,11 +40,16 @@ public class Application {
 
     /**
      * Configure Dozer lib to be used in the application
+     *
      * @return instance of DozerBeanMapper
      */
     @Bean
     public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitSeriesConverter admconv) {
         DozerBeanMapper m = new DozerBeanMapper();
+
+        List<CustomConverter> customConverters = new ArrayList<>();
+        customConverters.add(admconv);
+        m.setCustomConverters(customConverters);
 
         List<String> lst = new ArrayList<>();
         lst.add("dozer/config.mapper.xml");
@@ -68,12 +72,5 @@ public class Application {
         m.setCustomConvertersWithId(convs);
 
         return m;
-    }
-
-    @Bean
-    public Jackson2ObjectMapperBuilder objectMapperBuilder() {
-        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.modulesToInstall(Jdk8Module.class);
-        return builder;
     }
 }

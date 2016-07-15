@@ -7,7 +7,7 @@ import org.msh.etbm.db.enums.TreatMonitoringInput;
 
 /**
  * Detailed data about a workspace to be sent by the service to the client
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class WorkspaceDetailData extends WorkspaceData {

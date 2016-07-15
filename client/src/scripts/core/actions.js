@@ -4,11 +4,8 @@ export const AUTHENTICATED = 'authenticated';
 export const LOGOUT = 'logout';
 export const WORKSPACE_CHANGING = 'ws-changing';
 export const WORKSPACE_CHANGE = 'ws-change';
+export const CHANGE_LANG = 'change-lang';
 export const ERROR = 'error';
-
-// used to set the content of the toolbar after login
-export const TB_SET = 'tb-reg';
-export const TB_CLEAR = 'tb-clear';
 
 // called when a crud view starts or ends
 export const CRUD_BEGIN = 'crud-begin';
@@ -18,3 +15,4 @@ export const CRUD_END = 'crud-end';
 export const DOC_CREATE = 'doc-create';
 export const DOC_UPDATE = 'doc-update';
 export const DOC_DELETE = 'doc-delete';
+

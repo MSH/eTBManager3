@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 
 const crud = new CRUD('agerange');
@@ -43,10 +43,11 @@ export default class AgeRanges extends React.Component {
 		return (
 			<CrudView crud={crud}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				cellSize={{ md: 12 }}
-				perm={data.perm} />
+				perm={data.perm}
+				refreshAll />
 			);
 	}
 }

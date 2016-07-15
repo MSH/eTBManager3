@@ -1,6 +1,6 @@
 package org.msh.etbm.services.init;
 
-import org.msh.etbm.services.users.UserConstants;
+import org.msh.etbm.services.security.UserConstants;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

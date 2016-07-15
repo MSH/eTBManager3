@@ -1,10 +1,10 @@
 package org.msh.etbm.services.admin.substances;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * CRUD service to handle substance operations
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 @Service
@@ -51,15 +51,20 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_SUBSTANCES;
+    }
+
+    @Override
     protected void beforeSave(Substance sub, Errors errors) {
         // check if name is unique
         if (!checkUnique(sub, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         // check if short name is unique
         if (!checkUnique(sub, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", Messages.NOT_UNIQUE);
         }
     }
 
@@ -71,6 +76,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
     /**
      * Return the list of substances to a form from a from request
+     *
      * @param req the form request
      * @return list of substances
      */
@@ -83,7 +89,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
 
         // mount list to include the short name in the label
         List<Item> lst = new ArrayList<>();
-        for (SubstanceData sub: res.getList()) {
+        for (SubstanceData sub : res.getList()) {
             lst.add(new SynchronizableItem(sub.getId(), "(" + sub.getShortName() + ") " + sub.getName()));
         }
 

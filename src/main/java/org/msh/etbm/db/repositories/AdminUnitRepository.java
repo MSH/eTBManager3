@@ -12,6 +12,7 @@ import java.util.UUID;
 public interface AdminUnitRepository extends CrudRepository<AdministrativeUnit, UUID> {
     /**
      * Search an administrative unit by its name and workspace ID
+     *
      * @param name
      * @param wsId
      * @return list of administrative units found

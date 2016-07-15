@@ -3,12 +3,12 @@ package org.msh.etbm.web.api;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.entities.ServiceResult;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Standard result structure for API requests. Not a rule, but used by many API functions to indicate the
  * result of a request
- *
+ * <p>
  * Created by rmemoria on 27/10/15.
  */
 public class StandardResult {
@@ -27,7 +27,7 @@ public class StandardResult {
      * The list of error messages, in case validation fails
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Map<String, Message> errors;
+    private List<Message> errors;
 
 
     public StandardResult() {
@@ -39,7 +39,7 @@ public class StandardResult {
         this.result = res.getId();
     }
 
-    public StandardResult(Object res, Map<String, Message> errors, boolean success) {
+    public StandardResult(Object res, List<Message> errors, boolean success) {
         this.result = res;
         this.errors = errors;
         this.success = success;
@@ -61,11 +61,15 @@ public class StandardResult {
         this.result = result;
     }
 
-    public Map<String, Message> getErrors() {
+    public List<Message> getErrors() {
         return errors;
     }
 
-    public void setErrors(Map<String, Message> errors) {
+    public void setErrors(List<Message> errors) {
         this.errors = errors;
+    }
+
+    public static StandardResult createSuccessResult() {
+        return new StandardResult(null, null, true);
     }
 }

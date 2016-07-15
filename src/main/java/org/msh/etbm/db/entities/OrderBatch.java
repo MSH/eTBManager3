@@ -10,55 +10,55 @@ import javax.validation.constraints.NotNull;
 @Table(name = "orderbatch")
 public class OrderBatch extends Synchronizable {
 
-	@ManyToOne
-	@JoinColumn(name = "ORDERITEM_ID")
-	@NotNull
-	private OrderItem orderItem;
-	
-	@ManyToOne
-	@JoinColumn(name = "BATCH_ID")
-	@NotNull
-	private Batch batch;
+    @ManyToOne
+    @JoinColumn(name = "ORDERITEM_ID")
+    @NotNull
+    private OrderItem orderItem;
 
-	private int quantity;
-	private Integer receivedQuantity;
+    @ManyToOne
+    @JoinColumn(name = "BATCH_ID")
+    @NotNull
+    private Batch batch;
 
-	@Transient
-	public float getTotalPrice() {
-		float qtd = (receivedQuantity != null ? receivedQuantity : quantity);
-		return batch != null ? (float)batch.getUnitPrice() * qtd : 0;
-	}
-	
-	public Integer getReceivedQuantity() {
-		return receivedQuantity;
-	}
+    private int quantity;
+    private Integer receivedQuantity;
+
+    @Transient
+    public float getTotalPrice() {
+        float qtd = (receivedQuantity != null ? receivedQuantity : quantity);
+        return batch != null ? (float) batch.getUnitPrice() * qtd : 0;
+    }
+
+    public Integer getReceivedQuantity() {
+        return receivedQuantity;
+    }
 
     public void setReceivedQuantity(Integer receivedQuantity) {
-		this.receivedQuantity = receivedQuantity;
-	}
+        this.receivedQuantity = receivedQuantity;
+    }
 
     public Batch getBatch() {
-		return batch;
-	}
+        return batch;
+    }
 
     public void setBatch(Batch batch) {
-		this.batch = batch;
-	}
+        this.batch = batch;
+    }
 
-	public int getQuantity() {
-		return quantity;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
     public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+        this.quantity = quantity;
+    }
 
-	public OrderItem getOrderItem() {
-		return orderItem;
-	}
+    public OrderItem getOrderItem() {
+        return orderItem;
+    }
 
-	public void setOrderItem(OrderItem orderItem) {
-		this.orderItem = orderItem;
-	}
-	
+    public void setOrderItem(OrderItem orderItem) {
+        this.orderItem = orderItem;
+    }
+
 }

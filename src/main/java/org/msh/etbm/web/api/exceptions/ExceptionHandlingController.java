@@ -3,6 +3,7 @@ package org.msh.etbm.web.api.exceptions;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Exception handlers to display friendly and standard messages to the client
- *
+ * <p>
  * Created by rmemoria on 22/8/15.
  */
 @ControllerAdvice
@@ -36,7 +36,18 @@ public class ExceptionHandlingController {
 
 
     /**
+     * When a service call is not authorized by the current user
+     */
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public String forbiddenException(ForbiddenException e) {
+        return e.getMessage();
+    }
+
+    /**
      * Handle errors when the entity was not found in the database
+     *
      * @param req
      */
     @ExceptionHandler(EntityNotFoundException.class)
@@ -69,6 +80,7 @@ public class ExceptionHandlingController {
     /**
      * Convert a list of error messages in the given bindingResult object to be serialized in a standard
      * way to the client
+     *
      * @param res list of error messages
      * @return instance of {@link StandardResult}
      */
@@ -77,32 +89,36 @@ public class ExceptionHandlingController {
             return new StandardResult(null, null, false);
         }
 
-        Map<String, Message> errors = new HashMap<>();
-        List<FieldError> lst1 = res.getFieldErrors();
-        for (FieldError fld: lst1) {
-            String message = messages.get(fld);
-            errors.put(fld.getField(), new Message(message, fld.getCode()));
+        List<Message> msgs = new ArrayList<>();
+
+        // add local error messages
+        if (res.getFieldErrorCount() > 0) {
+            // add local error messages
+            for (FieldError fld : res.getFieldErrors()) {
+                String message = messages.get(fld);
+                msgs.add(new Message(fld.getField(), message, fld.getCode()));
+            }
         }
 
-        List<ObjectError> lst2 = res.getGlobalErrors();
-        for (ObjectError fld: lst2) {
-            String message = messages.get(fld);
-            errors.put("global", new Message(message, fld.getCode())); //TODOMS: melhorar para permitir mais de uma mensagem global, o key nao pode ser repetido
+        // add global error messages
+        if (res.getGlobalErrorCount() > 0) {
+            for (ObjectError err : res.getGlobalErrors()) {
+                msgs.add(new Message(messages.get(err), err.getCode()));
+            }
         }
 
-        return new StandardResult(null, errors, false);
+        return new StandardResult(null, msgs, false);
     }
-
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Object methodValidationError(MethodArgumentNotValidException e) {
-        Map<String, Message> errors = new HashMap<>();
+        List<Message> errors = new ArrayList<>();
 
-        for (FieldError fld: e.getBindingResult().getFieldErrors()) {
-            errors.put(fld.getField(), new Message(fld.getDefaultMessage(), null));
+        for (FieldError fld : e.getBindingResult().getFieldErrors()) {
+            errors.add(new Message(fld.getField(), messages.get(fld), fld.getCode()));
         }
 
         StandardResult res = new StandardResult(null, errors, false);

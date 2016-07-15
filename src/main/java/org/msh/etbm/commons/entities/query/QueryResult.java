@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Standard result of entity queries
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class QueryResult<E> {

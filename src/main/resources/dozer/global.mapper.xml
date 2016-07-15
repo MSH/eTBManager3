@@ -35,7 +35,7 @@
     <!-- User session data -->
     <mapping>
         <class-a>org.msh.etbm.db.entities.UserWorkspace</class-a>
-        <class-b>org.msh.etbm.services.usersession.UserSession</class-b>
+        <class-b>org.msh.etbm.services.session.usersession.UserSession</class-b>
 
         <field>
             <a>user.name</a>
@@ -75,6 +75,11 @@
         <field>
             <a>unit.name</a>
             <b>unitName</b>
+        </field>
+
+        <field>
+            <a>user.language</a>
+            <b>language</b>
         </field>
     </mapping>
 </mappings>

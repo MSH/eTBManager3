@@ -9,105 +9,104 @@ import java.util.Date;
 /**
  * Store information about a follow up of an issue. A follow up contains
  * an answer given by an user to a given issue.
- * 
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "issuefollowup")
 public class IssueFollowup extends Synchronizable {
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "issue_id")
-	private Issue issue;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
 
-	@Lob
-	@NotNull
-	private String text;
+    @Lob
+    @NotNull
+    private String text;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	@NotNull
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @NotNull
+    private User user;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date followupDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date followupDate;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "unit_id")
-	@NotNull
-	private Tbunit unit;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "unit_id")
+    @NotNull
+    private Tbunit unit;
 
 
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
+    /**
+     * @return the text
+     */
+    public String getText() {
+        return text;
+    }
 
-	/**
-	 * @param text the text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
-	}
+    /**
+     * @param text the text to set
+     */
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	/**
-	 * @return the user
-	 */
-	public User getUser() {
-		return user;
-	}
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
 
-	/**
-	 * @param user the user to set
-	 */
-	public void setUser(User user) {
-		this.user = user;
-	}
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	/**
-	 * @return the followupDate
-	 */
-	public Date getFollowupDate() {
-		return followupDate;
-	}
+    /**
+     * @return the followupDate
+     */
+    public Date getFollowupDate() {
+        return followupDate;
+    }
 
-	/**
-	 * @param followupDate the followupDate to set
-	 */
-	public void setFollowupDate(Date followupDate) {
-		this.followupDate = followupDate;
-	}
+    /**
+     * @param followupDate the followupDate to set
+     */
+    public void setFollowupDate(Date followupDate) {
+        this.followupDate = followupDate;
+    }
 
-	/**
-	 * @return the issue
-	 */
-	public Issue getIssue() {
-		return issue;
-	}
+    /**
+     * @return the issue
+     */
+    public Issue getIssue() {
+        return issue;
+    }
 
-	/**
-	 * @param issue the issue to set
-	 */
-	public void setIssue(Issue issue) {
-		this.issue = issue;
-	}
+    /**
+     * @param issue the issue to set
+     */
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
 
-	/**
-	 * @return the unit
-	 */
-	public Tbunit getUnit() {
-		return unit;
-	}
+    /**
+     * @return the unit
+     */
+    public Tbunit getUnit() {
+        return unit;
+    }
 
-	/**
-	 * @param unit the unit to set
-	 */
-	public void setUnit(Tbunit unit) {
-		this.unit = unit;
-	}
+    /**
+     * @param unit the unit to set
+     */
+    public void setUnit(Tbunit unit) {
+        this.unit = unit;
+    }
 }

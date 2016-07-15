@@ -59,7 +59,7 @@ export class RouteView extends React.Component {
 		if (this.context.path) {
 			const s = hash.split('?');
 			hash = s.shift();
-			const params = s.shift();
+			// const params = s.shift();
 
 			// check if the context is beyond hash (using default views in routes)
 			if (this.context.path.startsWith(hash)) {
@@ -69,7 +69,7 @@ export class RouteView extends React.Component {
 				hash = hash.replace(this.context.path, '');
 			}
 
-			hash += params ? '?' + params : '';
+		//	hash += params ? '?' + params : '';
 		}
 		return hash;
 	}
@@ -118,10 +118,15 @@ export class RouteView extends React.Component {
 		}
 
 		const self = this;
-		route.resolveView(path)
-		.then(view => self.setState({ view: view, route: route, path: path, params: params }));
+		const res = route.resolveView(path);
 
-		this.setState({ view: null, route: route, path: path, params: params });
+		// result is a promise ?
+		if (res.then) {
+			res.then(view => self.setState({ view: view, route: route, path: path, params: params }));
+			return;
+		}
+
+		this.setState({ view: res, route: route, path: path, params: params });
 	}
 
 	/**
@@ -130,15 +135,15 @@ export class RouteView extends React.Component {
 	 */
 	render() {
 		let View = this.state.view;
+		const route = this.state.route;
 
 		// no view resolved?
 		if (!View) {
-			const loadingView = this.state.loadingView;
+			const loadingView = this.props.loadingView;
 			// is resolving view, i.e, route != null ?
 			return route && loadingView ? loadingView : null;
 		}
 
-		const route = this.state.route;
 		const params = this.state.params;
 		const path = this._currentPath();
 		const forpath = path.replace(route.pathExp, '');
@@ -146,11 +151,11 @@ export class RouteView extends React.Component {
 		// set the properties to be passed to the view that will be rendered
 		const viewProps = Object.assign({}, this.props.viewProps);
 		viewProps.route = {
-			hash: router.hash(),
 			params: params ? params : {},
-			path: route.data.path,
+			path: this.context.path + route.data.path,
 			forpath: forpath,
-			data: route.data
+			data: route.data,
+			queryParam: getParameterByName
 		};
 
 		if (typeof View === 'object' && View.default) {
@@ -222,7 +227,7 @@ export class Route {
 		this.data = data;
 
 		// create pattern to make it easier to identify routes
-		const p = '^' + data.path.replace(/\//g, '\\\/').replace(/{\w+}/g, '(\\w+)');
+		const p = '^' + data.path.replace(/\//g, '\\\/').replace(/{\w+}/g, '([\\w\-]+)');
 		this.pathExp = new RegExp(p);
 
 		// get the list of params without the { }
@@ -270,18 +275,46 @@ export class Route {
 			return this._resPromise;
 		}
 
-		this._resPromise = new Promise((resolve, reject) => {
-			if (data.view) {
-				return resolve(data.view);
-			}
+		// check if view is available
+		if (data.view) {
+			return data.view;
+		}
 
-			if (data.viewResolver) {
-				return resolve(data.viewResolver(data.path, this));
-			}
-			return reject('No view or viewResolver');
-		});
+		// check if resolver is defined
+		if (data.viewResolver) {
+			const res = data.viewResolver(data.path, this);
 
-		return this._resPromise;
+			const self = this;
+			if (res.then) {
+				this._resPromise = res;
+				res.then(ret => {
+					delete self._resPromise;
+					return ret;
+				});
+			}
+			return res;
+		}
+
+		return null;
+
+		// this._resPromise = new Promise((resolve, reject) => {
+		// 	if (data.view) {
+		// 		return resolve(data.view);
+		// 	}
+
+		// 	if (data.viewResolver) {
+		// 		return resolve(data.viewResolver(data.path, this));
+		// 	}
+		// 	return reject('No view or viewResolver');
+		// });
+
+		// const self = this;
+		// this._resPromise.then(res => {
+		// 	delete self._resPromise;
+		// 	return res;
+		// });
+
+		// return this._resPromise;
 	}
 }
 
@@ -339,10 +372,9 @@ class Router {
 	/**
 	 * Navigate to a given path
 	 * @param  {String} path   The path to go to
-	 * @param  {object} queryParams The query params
 	 * @return {[type]}        [description]
 	 */
-	goto(path, queryParams) {
+	goto(path) {
 		location.href = '#' + path;
 	}
 
@@ -362,5 +394,22 @@ class Router {
 }
 
 const router = new Router();
+
+function getParameterByName(pname) {
+    const url = window.location.href;
+
+    const name = pname.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+    const results = regex.exec(url);
+
+    if (!results) {
+		return null;
+    }
+
+    if (!results[2]) {
+		return '';
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
 
 export { router };

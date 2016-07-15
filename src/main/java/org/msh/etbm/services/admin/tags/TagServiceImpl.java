@@ -1,11 +1,11 @@
 package org.msh.etbm.services.admin.tags;
 
 import org.hibernate.exception.SQLGrammarException;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import javax.persistence.PersistenceException;
 public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> implements TagService {
 
     @Autowired
-    TagsCasesService tagsCasesService;
+    CasesTagsUpdateService casesTagsUpdateService;
 
     @Override
     protected void buildQuery(QueryBuilder<Tag> builder, TagQueryParams queryParams) {
@@ -39,25 +39,31 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void afterSave(Tag entity, ServiceResult res) {
-        tagsCasesService.updateCases(entity);
+    protected void afterSave(Tag entity, ServiceResult res, boolean isNew) {
+        casesTagsUpdateService.updateCases(entity.getId());
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_TAGS;
     }
 
     @Override
     protected void beforeSave(Tag tag, Errors errors) {
         if (!checkUnique(tag, "name", null)) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         String sqlTestMessage = testTagCondition(tag);
 
         if (sqlTestMessage != null) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("sqlCondition", Messages.NOT_VALID);
         }
     }
 
     /**
      * Check if the SQL condition given to the tag is correct
+     *
      * @return null if no error is found or the error message.
      */
     public String testTagCondition(Tag tag) {
@@ -69,7 +75,7 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
         } catch (PersistenceException e) {
             sqlErrorMessage = "error";
             if (e.getCause() instanceof SQLGrammarException) {
-                SQLGrammarException sqlerror = (SQLGrammarException)e.getCause();
+                SQLGrammarException sqlerror = (SQLGrammarException) e.getCause();
                 sqlErrorMessage = sqlerror.getSQLException().getMessage();
             }
         }

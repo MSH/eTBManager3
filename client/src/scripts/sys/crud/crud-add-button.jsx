@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, MenuItem, DropdownButton } from 'react-bootstrap';
 import { Fa } from '../../components';
 
 
@@ -14,16 +14,60 @@ export default class CrudAddButton extends React.Component {
 		this.openNewForm = this.openNewForm.bind(this);
 	}
 
-	openNewForm() {
-		this.props.controller.openForm();
+	openNewForm(key) {
+		this.props.controller.openNewForm(key);
 	}
 
-	render() {
-		const props = Object.assign({}, this.props, { onClick: this.openNewForm });
+	getBtnTitle() {
+		return <span><Fa icon="plus-circle" />{__('action.add')}</span>;
+	}
+
+	/**
+	 * Return the options of a popup menu, if available
+	 * @return {[type]} [description]
+	 */
+	popupMenu() {
+		const controller = this.props.controller;
+
+		const lst = controller.getEditors();
+
+		// if it is a single editor, return null
+		if (!lst) {
+			return null;
+		}
+
+		// return the list of menu options
+		const options = lst.map(item =>
+				<MenuItem key={item.key} eventKey={item.key} onSelect={this.openNewForm}>
+					{item.label}
+				</MenuItem>
+				);
 
 		return (
+			<DropdownButton id="optMenu"
+				title={this.getBtnTitle()}
+				onSelect={this.newMenuClick}>
+				{
+					options
+				}
+			</DropdownButton>
+		);
+	}
+
+
+	render() {
+		const ppMenu = this.popupMenu();
+		if (ppMenu) {
+			return ppMenu;
+		}
+
+		const props = Object.assign({}, this.props, { onClick: this.openNewForm });
+
+		return ppMenu ? ppMenu : (
 			<Button {...props}>
-				<Fa icon="plus-circle" />{__('action.add')}
+				{
+					this.getBtnTitle()
+				}
 			</Button>
 			);
 	}

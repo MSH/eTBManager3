@@ -14,10 +14,10 @@ import java.util.List;
 public class Medicine extends Product {
 
     @NotNull
-	private MedicineCategory category;
+    private MedicineCategory category;
 
     @NotNull
-	private MedicineLine line;
+    private MedicineLine line;
 
     @ManyToMany
     @JoinTable(name = "medicine_substances",
@@ -25,9 +25,9 @@ public class Medicine extends Product {
             inverseJoinColumns = {@JoinColumn(name = "SUBSTANCE_ID")})
     private List<Substance> substances = new ArrayList<>();
 
-	public String getTbInfoKey() {
-		return line != null ? line.getKey() : null;
-	}
+    public String getTbInfoKey() {
+        return line != null ? line.getKey() : null;
+    }
 
 
     @Override
@@ -35,22 +35,22 @@ public class Medicine extends Product {
         return ProductType.MEDICINE;
     }
 
-	public MedicineCategory getCategory() {
-		return category;
-	}
+    public MedicineCategory getCategory() {
+        return category;
+    }
 
-	public void setCategory(MedicineCategory category) {
-		this.category = category;
-	}
+    public void setCategory(MedicineCategory category) {
+        this.category = category;
+    }
 
 
-	public MedicineLine getLine() {
-		return line;
-	}
+    public MedicineLine getLine() {
+        return line;
+    }
 
-	public void setLine(MedicineLine line) {
-		this.line = line;
-	}
+    public void setLine(MedicineLine line) {
+        this.line = line;
+    }
 
     public List<Substance> getSubstances() {
         return substances;

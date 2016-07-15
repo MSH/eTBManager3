@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.sources.SourceData;
 import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceQueryParams;
 import org.msh.etbm.services.admin.sources.SourceService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * Rest api to handle CRUD operations on medicine sources
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @RequestMapping("/api/tbl")
@@ -61,8 +61,9 @@ public class SourcesREST {
     }
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)

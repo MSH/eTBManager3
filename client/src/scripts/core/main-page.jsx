@@ -3,7 +3,6 @@ import React from 'react';
 import { RouteView } from '../components/router';
 import PageNotFound from './page-not-found';
 
-import Toolbar from './toolbar';
 import Footer from './footer';
 import WaitIcon from '../components/wait-icon';
 import ErrorView from './error-view';
@@ -52,7 +51,6 @@ export default class MainPage extends React.Component {
 
 		return (
 			<div>
-				<Toolbar />
 				<div className="app-content">
 					<RouteView key={1}
 						routes={routers}

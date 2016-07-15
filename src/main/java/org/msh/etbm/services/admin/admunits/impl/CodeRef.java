@@ -5,10 +5,10 @@ import java.util.UUID;
 /**
  * Store temporary information about a new code of an administrative unit
  * during an operation of update and insert (when new code is issued).
- * <p/>
+ * <p>
  * Basically store the number of references at the execution point for a
  * parent unit
- *
+ * <p>
  * Created by rmemoria on 31/10/15.
  */
 public class CodeRef {
@@ -26,6 +26,7 @@ public class CodeRef {
     /**
      * Set the code to the given parent. This operation is supposed to happen just once
      * in the object life-cycle
+     *
      * @param code the code of the given parent ID
      */
     public void setCode(String code) {
@@ -54,6 +55,7 @@ public class CodeRef {
 
     /**
      * Generate a new code for the given parent
+     *
      * @return
      */
     public String generateNewCode() {

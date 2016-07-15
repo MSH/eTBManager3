@@ -1,19 +1,20 @@
 package org.msh.etbm.test;
 
-import org.msh.etbm.services.authentication.LoginService;
 import org.msh.etbm.services.init.RegisterWorkspaceRequest;
 import org.msh.etbm.services.init.RegisterWorkspaceService;
-import org.msh.etbm.services.sys.SystemInfoService;
-import org.msh.etbm.services.sys.SystemInformation;
-import org.msh.etbm.services.sys.SystemState;
-import org.msh.etbm.services.usersession.UserRequestService;
-import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.security.authentication.LoginService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
+import org.msh.etbm.services.sys.info.SystemInfoService;
+import org.msh.etbm.services.sys.info.SystemInformation;
+import org.msh.etbm.services.sys.info.SystemState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,11 +36,11 @@ public class TestSetup {
     private final static Logger LOGGER = LoggerFactory.getLogger(TestSetup.class);
 
     // the administrator user name
-    public static final String USER_LOGIN = "admin";
+    public static final String ADMIN_LOGIN = "admin";
     // the password of the administrator
-    public static final String USER_PWD = "pwd123";
+    public static final String ADMIN_PWD = "pwd123";
     // administrator e-mail address
-    public static final String USER_EMAIL = "rmemoria@msh.org";
+    public static final String ADMIN_EMAIL = "rmemoria@msh.org";
     // the name of the workspace that will be registered
     public static final String WORKSPACE_NAME = "Test";
     // the IP address of the application that is requesting login
@@ -74,8 +75,10 @@ public class TestSetup {
 
     /**
      * Check if user is authenticated, if not, a login will be performed using the standard user name and password
+     *
      * @throws MalformedURLException
      */
+    @Transactional
     public void checkAuthenticated() throws MalformedURLException {
         checkSystemInitialization();
 
@@ -84,7 +87,12 @@ public class TestSetup {
             return;
         }
 
-        UUID authToken = loginService.login(USER_LOGIN, USER_PWD, null, CLIENT_IP, CLIENT_APP);
+        // just guarantee that admin is active
+        entityManager.createQuery("update User set active = true where login = :login")
+                .setParameter("login", ADMIN_LOGIN)
+                .executeUpdate();
+
+        UUID authToken = loginService.login(ADMIN_LOGIN, ADMIN_PWD, null, CLIENT_IP, CLIENT_APP);
         assertNotNull(authToken);
 
         UserSession userSession = userRequestService.getUserSession();
@@ -103,7 +111,7 @@ public class TestSetup {
      *
      * @throws MalformedURLException
      */
-    private void checkSystemInitialization() throws MalformedURLException {
+    public void checkSystemInitialization() throws MalformedURLException {
         if (initialized) {
             return;
         }
@@ -142,8 +150,8 @@ public class TestSetup {
         LOGGER.info("Initializing workspace and admin user");
 
         RegisterWorkspaceRequest req = new RegisterWorkspaceRequest();
-        req.setAdminEmail(USER_EMAIL);
-        req.setAdminPassword(USER_PWD);
+        req.setAdminEmail(ADMIN_EMAIL);
+        req.setAdminPassword(ADMIN_PWD);
         req.setWorkspaceName(WORKSPACE_NAME);
 
         UUID wsid = registerWorkspaceService.run(req);

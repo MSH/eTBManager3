@@ -14,7 +14,7 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.CommandHistory;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +53,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         AdministrativeUnit adminUnit = null;
 
-        if (query.getAdminUnitId() != null ) {
+        if (query.getAdminUnitId() != null) {
             adminUnit = entityManager.find(AdministrativeUnit.class, query.getAdminUnitId());
         }
 
@@ -63,7 +63,6 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.workspace.id = :wId", userRequestService.getUserSession().getWorkspaceId());
         qry.addRestriction("a.execDate >= :iniDate", DateUtils.getDatePart(query.getIniDate()));
         qry.addRestriction("a.execDate < :endDate", query.getEndDate() != null ? DateUtils.getDatePart(DateUtils.incDays(query.getEndDate(), 1)) : null);
-        qry.addRestriction("a.action = :action", query.getAction());
         qry.addRestriction("a.user.id = :userId", query.getUserId());
         qry.addLikeRestriction("a.type", query.getType());
         if (adminUnit != null) {
@@ -83,13 +82,13 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
             ret.getList().add(new CmdHistoryRepData(c.getType(),
-                                                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
-                                                    c.getExecDate(),
-                                                    c.getEntityName(),
-                                                    userName,
-                                                    unitName,
-                                                    adminUnitName,
-                                                    processJsonData(c.getData())));
+                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
+                    c.getExecDate(),
+                    c.getEntityName(),
+                    userName,
+                    unitName,
+                    adminUnitName,
+                    processJsonData(c.getData())));
         }
 
         return ret;
@@ -144,18 +143,23 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return null;
         }
 
-        String type = s.substring(0,1);
+        String type = s.substring(0, 1);
 
         switch (type) {
-            case CommandLogDetail.TYPE_STRING :  s = s.substring(1, s.length());
+            case CommandLogDetail.TYPE_STRING:
+                s = s.substring(1, s.length());
                 break;
-            case CommandLogDetail.TYPE_BOOLEAN :  s = processBooleanValue(s);
+            case CommandLogDetail.TYPE_BOOLEAN:
+                s = processBooleanValue(s);
                 break;
-            case CommandLogDetail.TYPE_DATETIME :  s = processDateValue(s);
+            case CommandLogDetail.TYPE_DATETIME:
+                s = processDateValue(s);
                 break;
-            case CommandLogDetail.TYPE_NUMBER :  s = processNumberValue(s);
+            case CommandLogDetail.TYPE_NUMBER:
+                s = processNumberValue(s);
                 break;
-            case CommandLogDetail.TYPE_TEMPLATE :  s = messages.get(s.substring(2, s.length()));
+            case CommandLogDetail.TYPE_TEMPLATE:
+                s = messages.get(s.substring(2, s.length()));
                 break;
         }
 
@@ -182,12 +186,10 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return s;
         }
 
-        // TODOMS waiting for a form that saves date insto JSON field, so I can test it
         return s;
     }
 
     private String processNumberValue(String s) {
-        // TODOMS waiting for a form that saves number into JSON field, so I can test it
         return s;
     }
 

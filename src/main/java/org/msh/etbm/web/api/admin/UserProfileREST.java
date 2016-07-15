@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.userprofiles.UserProfileDetailedData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileFormData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileQueryParams;
 import org.msh.etbm.services.admin.userprofiles.UserProfileService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +36,7 @@ public class UserProfileREST {
 
     /**
      * Return displayable information about a user profile
+     *
      * @param id the ID of the profile
      * @return
      */
@@ -47,6 +48,7 @@ public class UserProfileREST {
 
     /**
      * Return displayable information about a user profile
+     *
      * @param id the ID of the profile
      * @return
      */
@@ -63,14 +65,15 @@ public class UserProfileREST {
     }
 
     @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserProfileFormData req)  throws BindException {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody UserProfileFormData req) throws BindException {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/userprofile/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/userprofile/query", method = RequestMethod.POST)

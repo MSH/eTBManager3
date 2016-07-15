@@ -13,101 +13,101 @@ import java.util.List;
 
 /**
  * Store information of patient personal information
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "patient")
 public class Patient extends WorkspaceEntity {
 
-	@Column(length = 100)
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private String name;
-	
-	@Column(length = 100)
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private String middleName;
-	
-	@Column(length = 100)
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private String lastName;
-	
-	@Column(length = 50)
-	private String securityNumber;
-	
-	@Column(length = 100)
-	private String motherName;
-	
-	@Temporal(TemporalType.DATE)
-	@PropertyLog(operations = {Operation.NEW})
-	private Date birthDate;
+    @Column(length = 100)
+    @NotNull
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private String name;
 
-	private Integer recordNumber;
+    @Column(length = 100)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private String middleName;
 
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW})
-	private Gender gender;
-	
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
-	
-	@OneToMany(mappedBy = "patient")
+    @Column(length = 100)
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private String lastName;
+
+    @Column(length = 50)
+    private String securityNumber;
+
+    @Column(length = 100)
+    private String motherName;
+
+    @Temporal(TemporalType.DATE)
+    @PropertyLog(operations = {Operation.NEW})
+    private Date birthDate;
+
+    private Integer recordNumber;
+
+    @NotNull
+    @PropertyLog(operations = {Operation.NEW})
+    private Gender gender;
+
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
+
+    @OneToMany(mappedBy = "patient")
     @PropertyLog(ignore = true)
-	private List<TbCase> cases = new ArrayList<TbCase>();
+    private List<TbCase> cases = new ArrayList<TbCase>();
 
-	@Column(length = 100)
-	private String fatherName;
-	
+    @Column(length = 100)
+    private String fatherName;
 
-	public Gender getGender() {
-		return gender;
-	}
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
+    public Gender getGender() {
+        return gender;
+    }
 
-	public Date getBirthDate() {
-		return birthDate;
-	}
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
+    public Date getBirthDate() {
+        return birthDate;
+    }
 
-	public String getSecurityNumber() {
-		return securityNumber;
-	}
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 
-	public void setSecurityNumber(String securityNumber) {
-		this.securityNumber = securityNumber;
-	}
+    public String getSecurityNumber() {
+        return securityNumber;
+    }
 
-	public String getMotherName() {
-		return motherName;
-	}
+    public void setSecurityNumber(String securityNumber) {
+        this.securityNumber = securityNumber;
+    }
 
-	public void setMotherName(String motherName) {
-		this.motherName = motherName;
-	}
+    public String getMotherName() {
+        return motherName;
+    }
 
-	public Integer getRecordNumber() {
-		return recordNumber;
-	}
+    public void setMotherName(String motherName) {
+        this.motherName = motherName;
+    }
 
-	public void setRecordNumber(Integer recordNumber) {
-		this.recordNumber = recordNumber;
-	}
+    public Integer getRecordNumber() {
+        return recordNumber;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setRecordNumber(Integer recordNumber) {
+        this.recordNumber = recordNumber;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     public String getCustomId() {
         return customId;
@@ -124,48 +124,48 @@ public class Patient extends WorkspaceEntity {
         return middleName;
     }
 
-	/**
-	 * @param middleName the middleName to set
-	 */
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
+    /**
+     * @param middleName the middleName to set
+     */
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
 
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	/**
-	 * @param lastName the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * @param lastName the lastName to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-	/**
-	 * @return the cases
-	 */
-	public List<TbCase> getCases() {
-		return cases;
-	}
+    /**
+     * @return the cases
+     */
+    public List<TbCase> getCases() {
+        return cases;
+    }
 
-	/**
-	 * @param cases the cases to set
-	 */
-	public void setCases(List<TbCase> cases) {
-		this.cases = cases;
-	}
+    /**
+     * @param cases the cases to set
+     */
+    public void setCases(List<TbCase> cases) {
+        this.cases = cases;
+    }
 
-	public String getFatherName() {
-		return fatherName;
-	}
+    public String getFatherName() {
+        return fatherName;
+    }
 
-	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
-	}
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
 
     @Override
     public String getDisplayString() {

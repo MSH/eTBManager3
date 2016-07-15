@@ -44,6 +44,7 @@ public class FormRequest {
     /**
      * Return a parameter value as string type. If parameter value is not of string type,
      * an {@link InvalidArgumentException} is thrown
+     *
      * @param name the parameter name
      * @return String value, or null if value is not found
      */
@@ -60,13 +61,14 @@ public class FormRequest {
         if (!(value instanceof String)) {
             throw new InvalidArgumentException(name, "Invalid type. Expected string", null);
         }
-        return (String)value;
+        return (String) value;
     }
 
     /**
      * Return a parameter value as a UUID type. If parameter type is a string, it will try to convert
      * to an UUID. In case of invalid string or not the expected type, a {@link InvalidArgumentException}
      * will be thrown
+     *
      * @param name the parameter name
      * @return the value in UUID type
      */
@@ -81,7 +83,7 @@ public class FormRequest {
         }
 
         if (value instanceof UUID) {
-            return (UUID)value;
+            return (UUID) value;
         }
 
         if (!(value instanceof String)) {
@@ -89,7 +91,7 @@ public class FormRequest {
         }
 
         try {
-            return UUID.fromString((String)value);
+            return UUID.fromString((String) value);
         } catch (IllegalArgumentException e) {
             throw new InvalidArgumentException(name, "Not a valid UUID", null);
         }
@@ -98,6 +100,7 @@ public class FormRequest {
     /**
      * Return a parameter value as an integer type. If parameter value is not of number type,
      * an {@link InvalidArgumentException} is thrown
+     *
      * @param name the parameter name
      * @return an Integer value, or null if parameter value is not found
      */
@@ -114,12 +117,13 @@ public class FormRequest {
         if (!(value instanceof Number)) {
             throw new InvalidArgumentException(name, "Invalid type. Expected number", null);
         }
-        return ((Number)value).intValue();
+        return ((Number) value).intValue();
     }
 
     /**
      * Return a parameter value as a boolean type. If parameter value is not of boolean type,
      * an {@link InvalidArgumentException} is thrown
+     *
      * @param name the parameter name
      * @return a boolean value, or null if parameter value is not found
      */
@@ -136,7 +140,7 @@ public class FormRequest {
         if (!(value instanceof Boolean)) {
             throw new InvalidArgumentException(name, "Invalid type. Expected boolean", null);
         }
-        return (Boolean)value;
+        return (Boolean) value;
     }
 
     public String getCmd() {

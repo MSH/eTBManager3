@@ -12,51 +12,51 @@ import java.util.UUID;
 
 /**
  * Stores information about a medicine transaction
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "movement")
-public class Movement  {
+public class Movement {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+    private UUID id;
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "mov_date")
-	@NotNull
-	private Date date;
-	
-	private MovementType type;
-	
-	@ManyToOne
-	@JoinColumn(name = "PRODUCT_ID")
-	@NotNull
-	private Product product;
-	
-	@ManyToOne
-	@JoinColumn(name = "UNIT_ID")
-	@NotNull
-	private Tbunit tbunit;
-	
-	@ManyToOne
-	@JoinColumn(name = "SOURCE_ID")
-	@NotNull
-	private Source source;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "mov_date")
+    @NotNull
+    private Date date;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@NotNull
-	private Date recordDate;
+    private MovementType type;
 
-	@Length(max = 250)
-	private String comment;
-	
-	@OneToMany(cascade = {CascadeType.ALL}, mappedBy = "movement")
-	private List<BatchMovement> batches = new ArrayList<BatchMovement>();
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    @NotNull
+    private Product product;
 
-	@Column(length = 50)
-	private String adjustmentType;
+    @ManyToOne
+    @JoinColumn(name = "UNIT_ID")
+    @NotNull
+    private Tbunit tbunit;
+
+    @ManyToOne
+    @JoinColumn(name = "SOURCE_ID")
+    @NotNull
+    private Source source;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date recordDate;
+
+    @Length(max = 250)
+    private String comment;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "movement")
+    private List<BatchMovement> batches = new ArrayList<BatchMovement>();
+
+    @Column(length = 50)
+    private String adjustmentType;
 
 
     /**
@@ -97,152 +97,169 @@ public class Movement  {
 
     /**
      * Returns adjustment type of the transaction
+     *
      * @return a FieldValue representing the adjustment type
      */
     public String getAdjustmentType() {
         return adjustmentType;
     }
 
-	public void setAdjustmentType(String adjustmentType) {
-		this.adjustmentType = adjustmentType;
-	}
-	
-	/**
-	 * Returns the remark of the transaction
-	 * @return String containing the remarks of the transaction
-	 */
-	public String getComment() {
-		return comment;
-	}
+    public void setAdjustmentType(String adjustmentType) {
+        this.adjustmentType = adjustmentType;
+    }
 
-	/**
-	 * Changes the remark of the transaction
-	 * @param comment - the new remark of the transaction
-	 */
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    /**
+     * Returns the remark of the transaction
+     *
+     * @return String containing the remarks of the transaction
+     */
+    public String getComment() {
+        return comment;
+    }
 
-	/**
-	 * Returns the date of the transaction
-	 * @return instance of the Date class
-	 */
-	public Date getDate() {
-		return date;
-	}
+    /**
+     * Changes the remark of the transaction
+     *
+     * @param comment - the new remark of the transaction
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	/**
-	 * Changes the date of the transaction
-	 * @param date to be changed
-	 */
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    /**
+     * Returns the date of the transaction
+     *
+     * @return instance of the Date class
+     */
+    public Date getDate() {
+        return date;
+    }
 
-	/**
-	 * Returns the unique id of the transaction
-	 * @return Integer instance representing the id of the transaction
-	 */
-	public UUID getId() {
-		return id;
-	}
+    /**
+     * Changes the date of the transaction
+     *
+     * @param date to be changed
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	
-	/**
-	 * Changes the id of the transaction
-	 * @param id to be changed
-	 */
-	public void setId(UUID id) {
-		this.id = id;
-	}
+    /**
+     * Returns the unique id of the transaction
+     *
+     * @return Integer instance representing the id of the transaction
+     */
+    public UUID getId() {
+        return id;
+    }
 
-	/**
-	 * Returns the source of the transaction
-	 * @return instance of the Source class 
-	 */
-	public Source getSource() {
-		return source;
-	}
 
-	/**
-	 * Changes the source of the transaction
-	 * @param source - the new source of the transaction
-	 */
-	public void setSource(Source source) {
-		this.source = source;
-	}
+    /**
+     * Changes the id of the transaction
+     *
+     * @param id to be changed
+     */
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
-	/**
-	 * Returns the TB unit of the transaction
-	 * @return instance of Tbunit class
-	 */
-	public Tbunit getTbunit() {
-		return tbunit;
-	}
+    /**
+     * Returns the source of the transaction
+     *
+     * @return instance of the Source class
+     */
+    public Source getSource() {
+        return source;
+    }
 
-	/**
-	 * Changes the TB unit of the transaction
-	 * @param tbunit - the new TB Unit
-	 */
-	public void setTbunit(Tbunit tbunit) {
-		this.tbunit = tbunit;
-	}
+    /**
+     * Changes the source of the transaction
+     *
+     * @param source - the new source of the transaction
+     */
+    public void setSource(Source source) {
+        this.source = source;
+    }
 
-	/**
-	 * Returns the type of the transaction
-	 * @return MovementType instance
-	 */
-	public MovementType getType() {
-		return type;
-	}
+    /**
+     * Returns the TB unit of the transaction
+     *
+     * @return instance of Tbunit class
+     */
+    public Tbunit getTbunit() {
+        return tbunit;
+    }
 
-	/**
-	 * Changes the type of the transaction
-	 * @param type - new type of movement
-	 */
-	public void setType(MovementType type) {
-		this.type = type;
-	}
+    /**
+     * Changes the TB unit of the transaction
+     *
+     * @param tbunit - the new TB Unit
+     */
+    public void setTbunit(Tbunit tbunit) {
+        this.tbunit = tbunit;
+    }
 
-	/**
-	 * Returns the date and time that the transaction was generated
-	 * @return Date instance
-	 */
-	public Date getRecordDate() {
-		return recordDate;
-	}
+    /**
+     * Returns the type of the transaction
+     *
+     * @return MovementType instance
+     */
+    public MovementType getType() {
+        return type;
+    }
 
-	/**
-	 * Changes the date and time the record was generated
-	 * @param recordDate - the new record date
-	 */
-	public void setRecordDate(Date recordDate) {
-		this.recordDate = recordDate;
-	}
+    /**
+     * Changes the type of the transaction
+     *
+     * @param type - new type of movement
+     */
+    public void setType(MovementType type) {
+        this.type = type;
+    }
 
-	/**
-	 * Returns the batches movements involved in this transaction
-	 * @return the list of instances of BachMovement class 
-	 */
-	public List<BatchMovement> getBatches() {
-		return batches;
-	}
+    /**
+     * Returns the date and time that the transaction was generated
+     *
+     * @return Date instance
+     */
+    public Date getRecordDate() {
+        return recordDate;
+    }
 
-	/**
-	 * Changes the batches involved in the transaction
-	 * @param batches - the list of BachMovement objects of the transaction
-	 */
-	public void setBatches(List<BatchMovement> batches) {
-		this.batches = batches;
-	}
+    /**
+     * Changes the date and time the record was generated
+     *
+     * @param recordDate - the new record date
+     */
+    public void setRecordDate(Date recordDate) {
+        this.recordDate = recordDate;
+    }
 
-	public boolean isAdjustment() {
+    /**
+     * Returns the batches movements involved in this transaction
+     *
+     * @return the list of instances of BachMovement class
+     */
+    public List<BatchMovement> getBatches() {
+        return batches;
+    }
+
+    /**
+     * Changes the batches involved in the transaction
+     *
+     * @param batches - the list of BachMovement objects of the transaction
+     */
+    public void setBatches(List<BatchMovement> batches) {
+        this.batches = batches;
+    }
+
+    public boolean isAdjustment() {
         return this.type != null ? type.equals(MovementType.ADJUSTMENT) : false;
-	}
-	
-	public boolean isDispensing() {
+    }
+
+    public boolean isDispensing() {
         return this.type != null ? type.equals(MovementType.DISPENSING) : false;
-	}
+    }
 
     public Product getProduct() {
         return product;

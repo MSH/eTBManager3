@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * Register a workspace in the system during its initialization process
- *
+ * <p>
  * Created by rmemoria on 10/10/15.
  */
 public interface RegisterWorkspaceService {

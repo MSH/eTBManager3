@@ -1,13 +1,10 @@
 package org.msh.etbm.services.admin.ageranges;
 
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
-import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AgeRange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +16,8 @@ import java.util.List;
  * Created by rmemoria on 6/1/16.
  */
 @Service
-public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQueryParams>
-    implements AgeRangeService {
+public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQueryParams>
+        implements AgeRangeService {
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
@@ -28,28 +25,27 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     @Autowired
     Messages messages;
 
-    /**
-     * Return the list of age ranges
-     * @return
-     */
     @Override
-    public QueryResult findMany(EntityQueryParams params) {
-        QueryBuilder<AgeRange> builder = queryBuilderFactory.createQueryBuilder(AgeRange.class);
+    protected void buildQuery(QueryBuilder<AgeRange> builder, AgeRangesQueryParams queryParams) {
+        builder.addDefaultProfile(AgeRangesQueryParams.PROFILE_DEFAULT, AgeRangeData.class);
 
-        builder.addDefaultOrderByMap("age", "iniAge");
-        builder.setOrderByKey("age");
+        builder.addDefaultOrderByMap(AgeRangesQueryParams.ORDERBY_AGE, "iniAge");
+        builder.setOrderByKey(AgeRangesQueryParams.PROFILE_DEFAULT);
+    }
 
-        return builder.createQueryResult(AgeRangeData.class);
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_AGERANGES;
     }
 
     @Override
     protected void beforeSave(AgeRange entity, Errors errors) {
         if (entity.getIniAge() < 0) {
-            errors.rejectValue("iniDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("iniDate", Messages.NOT_VALID);
         }
 
         if (entity.getEndAge() < 0) {
-            errors.rejectValue("endDate", ErrorMessages.NOT_VALID);
+            errors.rejectValue("endDate", Messages.NOT_VALID);
         }
 
         // check ranges
@@ -59,7 +55,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
         }
 
         // check if exists a similar age range
-        for (AgeRange age: findAll()) {
+        for (AgeRange age : findAll()) {
             if ((age != entity) &&
                     (age.getIniAge() == entity.getIniAge()) &&
                     (age.getEndAge() == entity.getEndAge())) {
@@ -88,7 +84,7 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
                     ages.remove(range);
                     index--;
                 } else if ((range.getIniAge() < instance.getIniAge()) &&
-                            (range.getEndAge() > instance.getEndAge())) {
+                        (range.getEndAge() > instance.getEndAge())) {
                     int end = range.getEndAge();
                     range.setEndAge(instance.getIniAge() - 1);
                     AgeRange aux = new AgeRange();
@@ -108,6 +104,6 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, EntityQuery
     }
 
     private List<AgeRange> findAll() {
-        return getEntityManager().createQuery("from AgeRange").getResultList();
+        return getEntityManager().createQuery("from AgeRange order by iniAge").getResultList();
     }
 }

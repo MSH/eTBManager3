@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service to recover and change system configuration
- *
+ * <p>
  * Created by rmemoria on 6/4/16.
  */
 @Service
@@ -25,6 +25,7 @@ public class SysConfigService {
 
     /**
      * Load the system configuration
+     *
      * @return instance of {@link SysConfigFormData} containing system configuration
      */
     @Transactional
@@ -38,6 +39,7 @@ public class SysConfigService {
 
     /**
      * Update system configuration based on give data
+     *
      * @param data instance of {@link SysConfigFormData} containing the configuration data to be updated
      */
     @Transactional

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Utilities to generate log values of an object based on its property log information and the operation
  * under progress
- *
+ * <p>
  * Created by rmemoria on 26/10/15.
  */
 public class PropertyLogUtils {
@@ -29,6 +29,7 @@ public class PropertyLogUtils {
 
     /**
      * Generate the log values for the object
+     *
      * @param vals
      * @param obj
      * @param clazz
@@ -40,7 +41,7 @@ public class PropertyLogUtils {
         while (objClass != Object.class && objClass != null) {
             Field[] fields = objClass.getDeclaredFields();
 
-            for (Field field: fields) {
+            for (Field field : fields) {
                 analyseProperty(vals, obj, field, oper);
             }
 
@@ -50,8 +51,9 @@ public class PropertyLogUtils {
 
     /**
      * Return true if the field must be logged
+     *
      * @param field the field to be analysed
-     * @param oper the log operation (new, edit or delete)
+     * @param oper  the log operation (new, edit or delete)
      * @return true if the field must be logged, otherwise false if the field should not be logged
      */
     protected boolean isFieldLogged(Field field, Operation oper) {
@@ -83,6 +85,7 @@ public class PropertyLogUtils {
 
     /**
      * Return the message key to log the field value
+     *
      * @param field
      * @return
      */
@@ -110,6 +113,7 @@ public class PropertyLogUtils {
 
     /**
      * Analyse property for logging
+     *
      * @param vals
      * @param field
      * @param oper
@@ -134,7 +138,7 @@ public class PropertyLogUtils {
             // scan properties of the linked object
             ObjectValues fieldVals = generateLog(val, field.getType(), oper);
 
-            for (Map.Entry<String, PropertyValue> entry: fieldVals.getValues().entrySet()) {
+            for (Map.Entry<String, PropertyValue> entry : fieldVals.getValues().entrySet()) {
                 vals.putPropertyValue(key + " - " + entry.getKey(), entry.getValue());
             }
         } else {
@@ -144,6 +148,7 @@ public class PropertyLogUtils {
 
     /**
      * Check if class implements a particular interface
+     *
      * @param clazz
      * @return
      */
@@ -159,7 +164,7 @@ public class PropertyLogUtils {
         Class[] ints = clazz.getInterfaces();
 
         if (ints != null) {
-            for (Class intf: clazz.getInterfaces()) {
+            for (Class intf : clazz.getInterfaces()) {
                 if (isInterfaceImplemented(intf, interf)) {
                     return true;
                 }
@@ -177,6 +182,7 @@ public class PropertyLogUtils {
 
     /**
      * Check if a given interface extends another interface
+     *
      * @param clazz
      * @param interf
      * @return
@@ -187,7 +193,7 @@ public class PropertyLogUtils {
         }
 
         Class[] lst = clazz.getInterfaces();
-        for (Class aux: lst) {
+        for (Class aux : lst) {
             if (isInterfaceImplemented(aux, interf)) {
                 return true;
             }

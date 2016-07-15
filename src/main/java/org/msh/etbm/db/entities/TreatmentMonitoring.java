@@ -10,99 +10,101 @@ import javax.persistence.Table;
 
 /**
  * Store information about medicine in-take along the treatment
- * 
- * @author Ricardo Memoria
  *
+ * @author Ricardo Memoria
  */
 @Entity
 @Table(name = "treatmentmonitoring")
 public class TreatmentMonitoring extends CaseEntity {
-	
-	@Column(name = "MONTH_TREAT")
-	private int month;
-	
-	@Column(name = "YEAR_TREAT")
-	private int year;
-	
-	private TreatmentDayOption day1 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day2 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day3 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day4 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day5 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day6 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day7 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day8 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day9 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day10 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day11 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day12 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day13 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day14 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day15 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day16 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day17 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day18 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day19 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day20 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day21 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day22 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day23 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day24 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day25 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day26 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day27 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day28 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day29 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day30 = TreatmentDayOption.NOT_TAKEN;
-	private TreatmentDayOption day31 = TreatmentDayOption.NOT_TAKEN;
-	
 
-	/**
-	 * Return the number of dispensing days for the given month
-	 * @return number of dispensing days
-	 */
-	public int getNumDispensingDays() {
-		int res = 0;
-		for (int i = 1; i <= 31; i++) {
-			TreatmentDayOption opt = getDay(i);
-			if ((opt == TreatmentDayOption.DOTS) || (opt == TreatmentDayOption.SELF_ADMIN)) {
-                res++;
-            }
-		}
-		return res;
-	}
-	
-	/**
-	 * Return information about the treatment for a specific day
-	 * @param day day of the month
-	 * @return instance of {@link TreatmentDayOption}, or null if nothing is found
-	 */
-	public TreatmentDayOption getDay(int day) {
-        return (TreatmentDayOption) ObjectUtils.getProperty(this, "day" + Integer.toString(day));
-	}
-	
-	/**
-	 * Update the status of a given day of treatment
-	 * @param day day of the month (between 1 and 31)
-	 * @param value instance of {@link TreatmentDayOption}
-	 */
-	public void setDay(int day, TreatmentDayOption value) {
-        ObjectUtils.setProperty(this, "day" + Integer.toString(day), value);
-	}
+    @Column(name = "MONTH_TREAT")
+    private int month;
 
-	/**
-	 * @return the month
-	 */
-	public int getMonth() {
-		return month;
-	}
+    @Column(name = "YEAR_TREAT")
+    private int year;
+
+    private TreatmentDayOption day1 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day2 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day3 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day4 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day5 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day6 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day7 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day8 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day9 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day10 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day11 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day12 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day13 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day14 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day15 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day16 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day17 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day18 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day19 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day20 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day21 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day22 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day23 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day24 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day25 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day26 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day27 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day28 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day29 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day30 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayOption day31 = TreatmentDayOption.NOT_TAKEN;
+
 
     /**
-	 * @param month the month to set
-	 */
+     * Return the number of dispensing days for the given month
+     *
+     * @return number of dispensing days
+     */
+    public int getNumDispensingDays() {
+        int res = 0;
+        for (int i = 1; i <= 31; i++) {
+            TreatmentDayOption opt = getDay(i);
+            if ((opt == TreatmentDayOption.DOTS) || (opt == TreatmentDayOption.SELF_ADMIN)) {
+                res++;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Return information about the treatment for a specific day
+     *
+     * @param day day of the month
+     * @return instance of {@link TreatmentDayOption}, or null if nothing is found
+     */
+    public TreatmentDayOption getDay(int day) {
+        return (TreatmentDayOption) ObjectUtils.getProperty(this, "day" + Integer.toString(day));
+    }
+
+    /**
+     * Update the status of a given day of treatment
+     *
+     * @param day   day of the month (between 1 and 31)
+     * @param value instance of {@link TreatmentDayOption}
+     */
+    public void setDay(int day, TreatmentDayOption value) {
+        ObjectUtils.setProperty(this, "day" + Integer.toString(day), value);
+    }
+
+    /**
+     * @return the month
+     */
+    public int getMonth() {
+        return month;
+    }
+
+    /**
+     * @param month the month to set
+     */
     public void setMonth(int month) {
-		this.month = month;
-	}
+        this.month = month;
+    }
 
     /**
      * @return the year

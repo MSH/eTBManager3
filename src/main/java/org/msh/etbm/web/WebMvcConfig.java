@@ -17,7 +17,7 @@ import java.util.Locale;
 
 /**
  * Provide configuration of the interceptors used in the web app
- *
+ * <p>
  * Created by rmemoria on 21/8/15.
  */
 @Configuration
@@ -47,6 +47,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Language support
+     *
      * @param defaultLanguage the default language of the system
      * @return instance of {@link LocaleResolver}
      */
@@ -60,6 +61,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Indicate the validator to use the same resource as the app uses
+     *
      * @return instance of Validator class
      */
     @Override

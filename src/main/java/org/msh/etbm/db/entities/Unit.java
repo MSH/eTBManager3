@@ -15,15 +15,15 @@ import java.util.Date;
 /**
  * Abstract class that defines generic properties of an unit in the system.
  * Actually, there are two types of units in the system - laboratories and TB units.
- *
+ * <p>
  * Laboratories are responsible for performing test exams, while TB units participate directly
  * or indirectly in TB management (pharmacy, health unit, NTP, etc)
- *
+ * <p>
  * Created by rmemoria on 29/6/15.
  */
 @Entity
 @Table(name = "unit")
-@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 public abstract class Unit extends WorkspaceEntity implements EntityState {
@@ -95,14 +95,14 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUPPLIER_ID")
-    private Tbunit supplier;
+    private Unit supplier;
 
     /**
      * The authorizer for orders
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHORIZERUNIT_ID")
-    private Tbunit authorizer;
+    private Unit authorizer;
 
     /**
      * Indicate if the unit can register commodities received from manufacturer
@@ -124,6 +124,7 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
 
     /**
      * Check if medicine management was already started for this TB Unit
+     *
      * @return
      */
     public boolean isMedicineManagementStarted() {
@@ -202,19 +203,19 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
         this.shipAddress = shipAddress;
     }
 
-    public Tbunit getSupplier() {
+    public Unit getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Tbunit supplier) {
+    public void setSupplier(Unit supplier) {
         this.supplier = supplier;
     }
 
-    public Tbunit getAuthorizer() {
+    public Unit getAuthorizer() {
         return authorizer;
     }
 
-    public void setAuthorizer(Tbunit authorizer) {
+    public void setAuthorizer(Unit authorizer) {
         this.authorizer = authorizer;
     }
 

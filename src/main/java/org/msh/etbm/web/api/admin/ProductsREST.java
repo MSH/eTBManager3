@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.products.ProductDetailedData;
 import org.msh.etbm.services.admin.products.ProductFormData;
 import org.msh.etbm.services.admin.products.ProductQueryParams;
 import org.msh.etbm.services.admin.products.ProductService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * REST API controller to expose CRUD operations in a product/medicine
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @RestController
@@ -61,8 +61,9 @@ public class ProductsREST {
     }
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = API_PREFIX + "/query", method = RequestMethod.POST)
@@ -70,5 +71,5 @@ public class ProductsREST {
     public QueryResult query(@Valid @RequestBody ProductQueryParams query) {
         return service.findMany(query);
     }
-    
+
 }

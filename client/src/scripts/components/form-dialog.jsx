@@ -17,6 +17,14 @@ export default class FormDialog extends React.Component {
 		this.confirmClick = this.confirmClick.bind(this);
 	}
 
+	componentDidMount() {
+		this._mounted = true;
+	}
+
+	componentWillUnmount() {
+		this._mounted = false;
+	}
+
 	/**
 	 * Called when the user clicks on the confirm button
 	 */
@@ -42,8 +50,9 @@ export default class FormDialog extends React.Component {
 			const self = this;
 
 			// wait for the end of the promise
-			prom.then(() => self.setState({ fetching: false }))
-				.catch(res => self.setState({ errors: res, fetching: false }));
+			prom
+				.then(() => this._mounted && self.setState({ fetching: false }))
+				.catch(res => this._mounted && self.setState({ errors: res, fetching: false }));
 		}
 	}
 
@@ -70,7 +79,7 @@ export default class FormDialog extends React.Component {
 				);
 
 			const buttons = (
-				<div>
+				<div className="mtop">
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
 							bsStyle="primary"

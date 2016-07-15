@@ -1,11 +1,11 @@
 
 import React from 'react';
-import { Row, Col, Button, Badge, Label } from 'react-bootstrap';
+import { Row, Col, Button, Badge, Label, Alert } from 'react-bootstrap';
 import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';
-import { app } from '../../../core/app';
 import moment from 'moment';
+import CommandTypeControl from './command-type-control';
 
 const fschema = {
 			layout: [
@@ -14,7 +14,7 @@ const fschema = {
 					required: true,
 					type: 'date',
 					label: __('Period.iniDate'),
-					size: { md: 3 },
+					size: { md: 6 },
 					defaultValue: new Date()
 				},
 				{
@@ -22,15 +22,7 @@ const fschema = {
 					required: false,
 					type: 'date',
 					label: __('Period.endDate'),
-					size: { md: 3 }
-				},
-				{
-					property: 'action',
-					required: false,
-					type: 'select',
-					label: __('form.action'),
-					options: app.getState().app.lists.CommandAction,
-					size: { md: 3 }
+					size: { md: 6 }
 				},
 				{
 					property: 'userId',
@@ -38,21 +30,21 @@ const fschema = {
 					type: 'select',
 					label: __('User'),
 					options: 'users',
-					size: { md: 3 }
+					size: { md: 6, newLine: true }
 				},
 				{
 					property: 'type',
 					required: false,
-					type: 'string',
+					type: CommandTypeControl,
 					max: 50,
 					label: __('admin.reports.cmdhistory.cmdevent'),
-					size: { sm: 4 }
+					size: { sm: 6 }
 				},
 				{
 					property: 'adminUnitId',
 					type: 'adminUnit',
 					label: __('AdministrativeUnit'),
-					size: { md: 4 }
+					size: { md: 6, newLine: true }
 				},
 				{
 					property: 'searchKey',
@@ -60,11 +52,10 @@ const fschema = {
 					type: 'string',
 					max: 50,
 					label: __('form.searchkey'),
-					size: { sm: 4 }
+					size: { sm: 6 }
 				}
 			]
 		};
-
 /**
  * The page controller of the public module
  */
@@ -97,9 +88,8 @@ export default class CommandHistory extends React.Component {
 		const query = {
 			iniDate: this.state.doc.iniDate,
 			endDate: this.state.doc.endDate,
-			action: this.state.doc.action,
 			userId: this.state.doc.userId,
-			type: this.state.doc.type, // TODOMS: Pensar sobr euma solução para gerar a lista de opções
+			type: this.state.doc.type,
 			adminUnitId: this.state.doc.adminUnitId,
 			searchKey: this.state.doc.searchKey
 		};
@@ -183,55 +173,50 @@ export default class CommandHistory extends React.Component {
 		return (<div>{item.unitName} <br/> {item.adminUnitName} </div>);
 	}
 
-	render() {
-		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
+	renderTableResult() {
+		if (!this.state.values || !this.state.values.list || this.state.values.list.length < 1) {
+			return <Alert className="mtop" bsStyle="warning">{__('form.norecordfound')}</Alert>;
+		}
 
 		const tschema = [
-		{
-			title: __('User'),
-			content: item => <Profile size="small" title={item.userName} type="user" subtitle={this.profileSubtitleRender(item)} />,
-			size: { sm: 3 }
-		},
-		{
-			title: __('datetime.date'),
-			content: item => moment(item.execDate).format('L LTS'),
-			size: { sm: 2 }
-		},
-		{
-			title: __('admin.reports.cmdhistory.cmdevent'),
-			content: 'type',
-			size: { sm: 2 }
-		},
-		{
-			title: __('form.action'),
-			content: item => {
-				var c = null;
-				switch (item.action.id) {
-				case 'EXEC':
-					c = 'default';
-					break;
-				case 'CREATE':
-					c = 'success';
-					break;
-				case 'UPDATE':
-					c = 'warning';
-					break;
-				case 'DELETE':
-					c = 'danger';
-					break;
-				default:
-					c = 'default';
+				{
+					title: __('User'),
+					content: item => <Profile size="small" title={item.userName} type="user" subtitle={this.profileSubtitleRender(item)} />,
+					size: { sm: 3 }
+				},
+				{
+					title: __('datetime.date'),
+					content: item => moment(item.execDate).format('L LTS'),
+					size: { sm: 3 }
+				},
+				{
+					title: __('admin.reports.cmdhistory.cmdevent'),
+					content: 'type',
+					size: { sm: 2 }
+				},
+				{
+					title: 'Entity Name',
+					content: 'entityName',
+					size: { sm: 4 }
 				}
-				return (<Label bsStyle={c}>{item.action.name}</Label>);
-			},
-			size: { sm: 1 }
-		},
-		{
-			title: 'entityName',
-			content: 'entityName',
-			size: { sm: 4 }
-		}
-		];
+			];
+
+		return (<div>
+					<Card>
+						<Row>
+							<Col md={12}>
+								<ReactTable columns={tschema}
+									values={this.state.values.list}
+									onExpandRender={this.collapseRender} />
+							</Col>
+						</Row>
+					</Card>
+				</div>);
+
+	}
+
+	render() {
+		const header = this.headerRender(!this.state || !this.state.values ? 0 : this.state.values.count);
 
 		return (
 			<div>
@@ -247,18 +232,7 @@ export default class CommandHistory extends React.Component {
 					<Col md={12}><Button onClick={this.refresh} bsStyle="primary">{'Update'}</Button></Col>
 				</Row>
 
-				{!this.state || !this.state.values ? <WaitIcon type="card" /> :
-				<div>
-					<Card>
-						<Row>
-							<Col md={12}>
-								<ReactTable columns={tschema}
-									values={this.state.values.list}
-									onExpandRender={this.collapseRender} />
-							</Col>
-						</Row>
-					</Card>
-				</div>}
+				{!this.state || !this.state.values ? <WaitIcon type="card" /> : this.renderTableResult()}
 
 			</Card>
 			</div>

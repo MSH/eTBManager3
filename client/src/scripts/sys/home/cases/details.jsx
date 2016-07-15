@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg, Fa } from '../../../components';
+import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
+import { server } from '../../../commons/server';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -23,12 +24,28 @@ export default class Details extends React.Component {
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 
-		this.state = { selTab: 0 };
+		this.state = { selTab: 2 };
 	}
 
 	componentWillMount() {
-		setTimeout(() => {
-			// contatos
+		const id = this.props.route.queryParam('id');
+		this.fetchData(id);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		// check if page must be updated
+		const id = nextProps.route.queryParam('id');
+		const oldId = this.state.tbcase ? this.state.tbcase.id : null;
+		if (id !== oldId) {
+			this.fetchData(id);
+		}
+	}
+
+
+	fetchData(id) {
+		const self = this;
+		server.get('/api/cases/case/' + id)
+		.then(tbcase => {
 			const contacts = [];
 			for (var i = 0; i < 5; i++) {
 				const res = generateName();
@@ -39,12 +56,14 @@ export default class Details extends React.Component {
 					age: res.age
 				});
 			}
-			const data = Object.assign({}, mockTbCase, { contacts: contacts });
+			const data = Object.assign({}, mockTbCase, { contacts: contacts }, tbcase);
 
-			this.setState({
+			self.setState({
 				tbcase: data
 			});
-		}, 100);
+		});
+
+		this.setState({ tbcase: null });
 	}
 
 	tagsRender() {
@@ -83,7 +102,7 @@ export default class Details extends React.Component {
 
 	deleteConfirm(action) {
 		if (action === 'yes') {
-			alert('TODOMS: delete this item on DB');
+			alert('delete this item on DB');
 		}
 
 		this.setState({ showDelConfirm: false });
@@ -102,21 +121,39 @@ export default class Details extends React.Component {
 			<Nav bsStyle="tabs" activeKey={seltab}
 				onSelect={this.selectTab}
 				className="app-tabs">
-				<NavItem key={0} eventKey={0}>{'Data'}</NavItem>
-				<NavItem key={1} eventKey={1}>{'Follow-up'}</NavItem>
-				<NavItem key={2} eventKey={2}>{'Treatment'}</NavItem>
-				<NavItem key={3} eventKey={3}>{'Issues'}</NavItem>
+				<NavItem key={0} eventKey={0}>{__('cases.details.case')}</NavItem>
+				<NavItem key={1} eventKey={1}>{__('cases.details.followup')}</NavItem>
+				<NavItem key={2} eventKey={2}>{__('cases.details.treatment')}</NavItem>
+				<NavItem key={3} eventKey={3}>{__('cases.issues')}</NavItem>
 			</Nav>
 			);
 
 		const tagh = (<span>
 						<h4 className="inlineb mright">
-							{'Tags'}
+							{__('admin.tags')}
 						</h4>
 						<Button onClick={this.show('showTagEdt', true)} bsSize="small">
 							<Fa icon="pencil"/>
 						</Button>
 					</span>);
+
+		const commands = [
+		{
+			label: __('cases.delete'),
+			onClick: this.show('showDelConfirm', true),
+			icon: 'remove'
+		},
+		{
+			label: __('cases.close'),
+			onClick: this.show('showCloseCase', true),
+			icon: 'power-off'
+		},
+		{
+			label: __('cases.move'),
+			onClick: this.show('showMoveCase', true),
+			icon: 'toggle-right'
+		}
+		];
 
 		return (
 			<div>
@@ -124,11 +161,7 @@ export default class Details extends React.Component {
 				<Grid fluid>
 					<Row className="mtop">
 						<Col sm={3}>
-							<DropdownButton id="ddcase" bsStyle="danger" title={__('form.options')} >
-								<MenuItem eventKey={1} onSelect={this.show('showDelConfirm', true)}>{__('cases.delete')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.show('showCloseCase', true)}>{__('cases.close')}</MenuItem>
-								<MenuItem eventKey={1} onSelect={this.show('showMoveCase', true)}>{__('cases.move')}</MenuItem>
-							</DropdownButton>
+							<CommandBar commands={commands} />
 							<Card className="mtop" header={tagh}>
 							{
 								this.tagsRender()
@@ -161,3 +194,8 @@ export default class Details extends React.Component {
 			);
 	}
 }
+
+
+Details.propTypes = {
+	route: React.PropTypes.object
+};

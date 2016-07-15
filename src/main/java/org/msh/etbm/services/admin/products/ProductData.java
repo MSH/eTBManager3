@@ -6,7 +6,7 @@ import org.msh.etbm.db.enums.MedicineLine;
 
 /**
  * Product data returned by the product service with information about a product/medicine
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 public class ProductData extends ProductItem {

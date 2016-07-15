@@ -1,8 +1,8 @@
 package org.msh.etbm.services.admin.products;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Product;
@@ -13,12 +13,12 @@ import java.util.Optional;
 
 /**
  * Service component to handle CRUD operation on products and medicines
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 @Service
 public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryParams>
-    implements ProductService {
+        implements ProductService {
 
 
     @Override
@@ -59,13 +59,18 @@ public class ProductServiceImpl extends EntityServiceImpl<Product, ProductQueryP
     }
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_PRODUCTS;
+    }
+
+    @Override
     protected void beforeSave(Product product, Errors errors) {
         if (!checkUnique(product, "name")) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
 
         if (!checkUnique(product, "shortName")) {
-            errors.rejectValue("shortName", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("shortName", Messages.NOT_UNIQUE);
         }
     }
 }

@@ -4,7 +4,7 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Filters or conditions to generate a query of products
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 public class ProductQueryParams extends EntityQueryParams {

@@ -27,7 +27,7 @@ public class MessageResolverMethod implements TemplateMethodModelEx {
             throw new MailServiceException("Wrong number of arguments in msg function");
         }
 
-        String key = ((TemplateScalarModel)list.get(0)).getAsString();
+        String key = ((TemplateScalarModel) list.get(0)).getAsString();
 
         if (key == null || key.isEmpty()) {
             throw new MailServiceException("No message key found in msg function");

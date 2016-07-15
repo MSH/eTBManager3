@@ -12,7 +12,9 @@ import java.util.UUID;
  * Created by rmemoria on 11/11/15.
  */
 public class ProductFormData {
-    /** if true, this product represents a medicine */
+    /**
+     * if true, this product represents a medicine
+     */
     private Optional<ProductType> type;
 
     private Optional<String> name;

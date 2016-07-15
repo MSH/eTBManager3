@@ -17,8 +17,8 @@ class CrudPagination extends React.Component {
 		}
 	}
 
-	changePage(evt, data) {
-		this.props.controller.gotoPage(data.eventKey - 1);
+	changePage(data) {
+		this.props.controller.gotoPage(data - 1);
 	}
 
 

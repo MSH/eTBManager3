@@ -3,7 +3,7 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.workspaces.*;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +51,9 @@ public class WorkspacesREST {
     }
 
     @RequestMapping(value = "/workspace/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id);
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/workspace/query", method = RequestMethod.POST)

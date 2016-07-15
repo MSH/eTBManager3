@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Scan for beans that implements the {@link FormRequestHandler} interface and auto register them
- *
+ * <p>
  * Created by rmemoria on 5/2/16.
  */
 @Configuration
@@ -30,8 +30,8 @@ public class FormConfiguration implements ApplicationContextAware {
 
         List<String> names = new ArrayList<>();
 
-        for (String beanName: applicationContext.getBeanNamesForType(FormRequestHandler.class)) {
-            FormRequestHandler handler = (FormRequestHandler)applicationContext.getBean(beanName);
+        for (String beanName : applicationContext.getBeanNamesForType(FormRequestHandler.class)) {
+            FormRequestHandler handler = (FormRequestHandler) applicationContext.getBean(beanName);
             formService.registerRequestHandler(handler);
 
             names.add(handler.getFormCommandName());

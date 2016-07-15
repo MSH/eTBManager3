@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * Bean factory to create new request/medicine according to the condition if
  * the source represents a product or a medicine
- *
+ * <p>
  * Created by rmemoria on 11/11/15.
  */
 public class DozerProductFactory implements BeanFactory {

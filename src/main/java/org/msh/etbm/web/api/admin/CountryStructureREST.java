@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
 import org.msh.etbm.services.admin.admunits.CountryStructureService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,14 +52,15 @@ public class CountryStructureREST {
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.POST)
-    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException  {
+    public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CountryStructureFormData req) throws BindException {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) throws BindException  {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/countrystructure/query", method = RequestMethod.POST)

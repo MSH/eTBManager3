@@ -4,7 +4,7 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.db.entities.Medicine;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +38,9 @@ public class MedicineOptions implements FormRequestHandler<List<Item>> {
     public List<Item> execFormRequest(FormRequest req) {
         List<Item> options = new ArrayList<>();
         List<Medicine> medList = entityManager.createQuery("from Medicine m " +
-                                        "where m.workspace.id = :wId and m.active = :true " +
-                                        "order by m.name")
-                                    .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
+                "where m.workspace.id = :wId and m.active = :true " +
+                "order by m.name")
+                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
                 .setParameter("true", true)
                 .getResultList();
 

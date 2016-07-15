@@ -2,7 +2,7 @@ package org.msh.etbm.commons;
 
 /**
  * Custom exception of the application when an invalid argument is used in a service
- *
+ * <p>
  * Created by rmemoria on 8/2/16.
  */
 public class InvalidArgumentException extends RuntimeException {
@@ -11,9 +11,10 @@ public class InvalidArgumentException extends RuntimeException {
 
     /**
      * Default constructor
+     *
      * @param property invalid property name
-     * @param message message to the user
-     * @param code message error code, if available
+     * @param message  message to the user
+     * @param code     message error code, if available
      */
     public InvalidArgumentException(String property, String message, String code) {
         super(message);
@@ -23,6 +24,7 @@ public class InvalidArgumentException extends RuntimeException {
 
     /**
      * The invalid property name
+     *
      * @return string value
      */
     public String getProperty() {
@@ -31,6 +33,7 @@ public class InvalidArgumentException extends RuntimeException {
 
     /**
      * The error code, if available
+     *
      * @return string value
      */
     public String getCode() {

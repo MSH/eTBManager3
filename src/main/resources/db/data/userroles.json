@@ -1,647 +1,644 @@
 [
   {
-    "id" : 49,
-    "changeable" : false,
-    "code" : "010000",
-    "name" : "CASEMAN"
+    "id": 49,
+    "changeable": false,
+    "code": "010000",
+    "name": "CASEMAN"
   },
   {
-    "id" : 170,
-    "changeable" : false,
-    "code" : "010100",
-    "name" : "NEWSUSP"
+    "id": 170,
+    "changeable": false,
+    "code": "010100",
+    "name": "NEWSUSP"
   },
   {
-    "id" : 171,
-    "changeable" : false,
-    "code" : "010200",
-    "name" : "NEWCASE"
+    "id": 171,
+    "changeable": false,
+    "code": "010200",
+    "name": "NEWCASE"
   },
   {
-    "id" : 100,
-    "changeable" : false,
-    "code" : "010400",
-    "name" : "CASE_VIEW"
+    "id": 100,
+    "changeable": false,
+    "code": "010400",
+    "name": "CASE_VIEW"
   },
   {
-    "id" : 140,
-    "changeable" : true,
-    "code" : "010401",
-    "name" : "CASE_DATA"
+    "id": 140,
+    "changeable": true,
+    "code": "010401",
+    "name": "CASE_DATA"
   },
   {
-    "id" : 106,
-    "changeable" : true,
-    "code" : "010402",
-    "name" : "CASE_TREAT"
+    "id": 106,
+    "changeable": true,
+    "code": "010402",
+    "name": "CASE_TREAT"
   },
   {
-    "id" : 184,
-    "changeable" : false,
-    "code" : "010402",
-    "name" : "CASE_STARTTREAT"
+    "id": 184,
+    "changeable": false,
+    "code": "010402",
+    "name": "CASE_STARTTREAT"
   },
   {
-    "id" : 190,
-    "changeable" : false,
-    "code" : "010402",
-    "name" : "TREATMENT_UNDO"
+    "id": 190,
+    "changeable": false,
+    "code": "010402",
+    "name": "TREATMENT_UNDO"
   },
   {
-    "id" : 105,
-    "changeable" : true,
-    "code" : "010403",
-    "name" : "CASE_EXAMS"
+    "id": 105,
+    "changeable": true,
+    "code": "010403",
+    "name": "CASE_EXAMS"
   },
   {
-    "id" : 141,
-    "changeable" : true,
-    "code" : "010403",
-    "name" : "CASE_INTAKEMED"
+    "id": 141,
+    "changeable": true,
+    "code": "010403",
+    "name": "CASE_INTAKEMED"
   },
   {
-    "id" : 200,
-    "changeable" : true,
-    "code" : "010403",
-    "name" : "EXAM_XPERT"
+    "id": 200,
+    "changeable": true,
+    "code": "010403",
+    "name": "EXAM_XPERT"
   },
   {
-    "id" : 146,
-    "changeable" : true,
-    "code" : "010405",
-    "name" : "CASE_ADDINFO"
+    "id": 146,
+    "changeable": true,
+    "code": "010405",
+    "name": "CASE_ADDINFO"
   },
   {
-    "id" : 142,
-    "changeable" : false,
-    "code" : "010406",
-    "name" : "CASE_DRUGOGRAM"
+    "id": 142,
+    "changeable": false,
+    "code": "010406",
+    "name": "CASE_DRUGOGRAM"
   },
   {
-    "id" : 101,
-    "changeable" : false,
-    "code" : "010407",
-    "name" : "CASE_VALIDATE"
+    "id": 101,
+    "changeable": false,
+    "code": "010407",
+    "name": "CASE_VALIDATE"
   },
   {
-    "id" : 143,
-    "changeable" : false,
-    "code" : "010408",
-    "name" : "CASE_DEL_VAL"
+    "id": 143,
+    "changeable": false,
+    "code": "010408",
+    "name": "CASE_DEL_VAL"
   },
   {
-    "id" : 102,
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFER"
+    "id": 102,
+    "changeable": false,
+    "code": "010409",
+    "name": "CASE_TRANSFER"
   },
   {
-    "id" : 181,
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFERIN"
+    "id": 181,
+    "changeable": false,
+    "code": "010409",
+    "name": "CASE_TRANSFERIN"
   },
   {
-    "id" : 182,
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFEROUT"
+    "id": 182,
+    "changeable": false,
+    "code": "010409",
+    "name": "CASE_TRANSFEROUT"
   },
   {
-    "id" : 183,
-    "changeable" : false,
-    "code" : "010409",
-    "name" : "CASE_TRANSFERCANCEL"
+    "id": 183,
+    "changeable": false,
+    "code": "010409",
+    "name": "CASE_TRANSFERCANCEL"
   },
   {
-    "id" : 103,
-    "changeable" : false,
-    "code" : "010410",
-    "name" : "CASE_CLOSE"
+    "id": 103,
+    "changeable": false,
+    "code": "010410",
+    "name": "CASE_CLOSE"
   },
   {
-    "id" : 104,
-    "changeable" : false,
-    "code" : "010411",
-    "name" : "CASE_REOPEN"
+    "id": 104,
+    "changeable": false,
+    "code": "010411",
+    "name": "CASE_REOPEN"
   },
   {
-    "id" : 147,
-    "changeable" : false,
-    "code" : "010412",
-    "name" : "CASE_PERSONALVIEW"
+    "id": 147,
+    "changeable": false,
+    "code": "010412",
+    "name": "CASE_PERSONALVIEW"
   },
   {
-    "id" : 159,
-    "changeable" : false,
-    "code" : "010413",
-    "name" : "CASE_COMMENTS"
+    "id": 159,
+    "changeable": false,
+    "code": "010413",
+    "name": "CASE_COMMENTS"
   },
   {
-    "id" : 160,
-    "changeable" : false,
-    "code" : "010414",
-    "name" : "REM_COMMENTS"
+    "id": 160,
+    "changeable": false,
+    "code": "010414",
+    "name": "REM_COMMENTS"
   },
   {
-    "id" : 165,
-    "changeable" : false,
-    "code" : "010415",
-    "name" : "CASE_TAG"
+    "id": 165,
+    "changeable": false,
+    "code": "010415",
+    "name": "CASE_TAG"
   },
   {
-    "id" : 166,
-    "changeable" : false,
-    "code" : "010500",
-    "name" : "CASE_CHANGENUMBER"
+    "id": 166,
+    "changeable": false,
+    "code": "010500",
+    "name": "CASE_CHANGENUMBER"
   },
   {
-    "id" : 130,
-    "changeable" : true,
-    "code" : "011001",
-    "name" : "EXAM_CULTURE"
+    "id": 130,
+    "changeable": true,
+    "code": "011001",
+    "name": "EXAM_CULTURE"
   },
   {
-    "id" : 131,
-    "changeable" : true,
-    "code" : "011002",
-    "name" : "EXAM_MICROSC"
+    "id": 131,
+    "changeable": true,
+    "code": "011002",
+    "name": "EXAM_MICROSC"
   },
   {
-    "id" : 132,
-    "changeable" : true,
-    "code" : "011003",
-    "name" : "EXAM_DST"
+    "id": 132,
+    "changeable": true,
+    "code": "011003",
+    "name": "EXAM_DST"
   },
   {
-    "id" : 134,
-    "changeable" : true,
-    "code" : "011005",
-    "name" : "EXAM_XRAY"
+    "id": 134,
+    "changeable": true,
+    "code": "011005",
+    "name": "EXAM_XRAY"
   },
   {
-    "id" : 133,
-    "changeable" : true,
-    "code" : "011006",
-    "name" : "EXAM_HIV"
+    "id": 133,
+    "changeable": true,
+    "code": "011006",
+    "name": "EXAM_HIV"
   },
   {
-    "id" : 152,
-    "changeable" : false,
-    "code" : "011007",
-    "name" : "COMORBIDITIES"
+    "id": 152,
+    "changeable": false,
+    "code": "011007",
+    "name": "COMORBIDITIES"
   },
   {
-    "id" : 153,
-    "changeable" : false,
-    "code" : "011008",
-    "name" : "TBCONTACT"
+    "id": 153,
+    "changeable": false,
+    "code": "011008",
+    "name": "TBCONTACT"
   },
   {
-    "id" : 154,
-    "changeable" : false,
-    "code" : "011009",
-    "name" : "ADV_EFFECTS"
+    "id": 154,
+    "changeable": false,
+    "code": "011009",
+    "name": "ADV_EFFECTS"
   },
   {
-    "id" : 157,
-    "changeable" : true,
-    "code" : "011010",
-    "name" : "EXAM_BIOPSY"
+    "id": 157,
+    "changeable": true,
+    "code": "011010",
+    "name": "EXAM_BIOPSY"
   },
   {
-    "id" : 158,
-    "changeable" : true,
-    "code" : "011011",
-    "name" : "EXAM_SKIN"
+    "id": 158,
+    "changeable": true,
+    "code": "011011",
+    "name": "EXAM_SKIN"
   },
   {
-    "id" : 172,
-    "changeable" : false,
-    "code" : "011013",
-    "name" : "EXAM_BIOMOL"
+    "id": 172,
+    "changeable": false,
+    "code": "011013",
+    "name": "EXAM_BIOMOL"
   },
   {
-    "id" : 195,
-    "changeable" : true,
-    "code" : "011014",
-    "name" : "CASE_MED_EXAM"
+    "id": 195,
+    "changeable": true,
+    "code": "011014",
+    "name": "CASE_MED_EXAM"
   },
   {
-    "id" : 205,
-    "changeable" : false,
-    "code" : "011100",
-    "name" : "ISSUES"
+    "id": 205,
+    "changeable": false,
+    "code": "011100",
+    "name": "ISSUES"
   },
   {
-    "id" : 206,
-    "changeable" : false,
-    "code" : "011101",
-    "name" : "NEW_ISSUE"
+    "id": 206,
+    "changeable": false,
+    "code": "011101",
+    "name": "NEW_ISSUE"
   },
   {
-    "id" : 207,
-    "changeable" : false,
-    "code" : "011103",
-    "name" : "ANSWER_ISSUE"
+    "id": 207,
+    "changeable": false,
+    "code": "011103",
+    "name": "ANSWER_ISSUE"
   },
   {
-    "id" : 208,
-    "changeable" : false,
-    "code" : "011104",
-    "name" : "CLOSEDEL_ISSUE"
+    "id": 208,
+    "changeable": false,
+    "code": "011104",
+    "name": "CLOSEDEL_ISSUE"
   },
   {
-    "id" : 220,
-    "changeable" : false,
-    "code" : "020000",
-    "name" : "LAB_MODULE"
+    "id": 220,
+    "changeable": false,
+    "code": "020000",
+    "name": "LAB_MODULE"
   },
   {
-    "id" : 221,
-    "changeable" : false,
-    "code" : "020100",
-    "name" : "LAB_NEWREQUEST"
+    "id": 221,
+    "changeable": false,
+    "code": "020100",
+    "name": "LAB_NEWREQUEST"
   },
   {
-    "id" : 222,
-    "changeable" : false,
-    "code" : "020200",
-    "name" : "LAB_POSTRESULT"
+    "id": 222,
+    "changeable": false,
+    "code": "020200",
+    "name": "LAB_POSTRESULT"
   },
   {
-    "id" : 223,
-    "changeable" : false,
-    "code" : "020300",
-    "name" : "LAB_EDTREQ"
+    "id": 223,
+    "changeable": false,
+    "code": "020300",
+    "name": "LAB_EDTREQ"
   },
   {
-    "id" : 224,
-    "changeable" : false,
-    "code" : "020400",
-    "name" : "LAB_REMREQ"
+    "id": 224,
+    "changeable": false,
+    "code": "020400",
+    "name": "LAB_REMREQ"
   },
   {
-    "id" : 9,
-    "changeable" : false,
-    "code" : "030000",
-    "name" : "MEDMAN"
+    "id": 9,
+    "changeable": false,
+    "code": "030000",
+    "name": "MEDMAN"
   },
   {
-    "id" : 37,
-    "changeable" : false,
-    "code" : "030100",
-    "name" : "STOCKPOS"
+    "id": 37,
+    "changeable": false,
+    "code": "030100",
+    "name": "STOCKPOS"
   },
   {
-    "id" : 11,
-    "changeable" : true,
-    "code" : "030200",
-    "name" : "RECEIV"
+    "id": 11,
+    "changeable": true,
+    "code": "030200",
+    "name": "RECEIV"
   },
   {
-    "id" : 211,
-    "changeable" : false,
-    "code" : "030200",
-    "name" : "STOCK_ADJUST_NEW_BATCH"
+    "id": 211,
+    "changeable": false,
+    "code": "030200",
+    "name": "STOCK_ADJUST_NEW_BATCH"
   },
   {
-    "id" : 217,
-    "changeable" : false,
-    "code" : "030200",
-    "name" : "VIEW_MEDICINE_PRICES"
+    "id": 217,
+    "changeable": false,
+    "code": "030200",
+    "name": "VIEW_MEDICINE_PRICES"
   },
   {
-    "id" : 18,
-    "changeable" : false,
-    "code" : "030400",
-    "name" : "ORDERS"
+    "id": 18,
+    "changeable": false,
+    "code": "030400",
+    "name": "ORDERS"
   },
   {
-    "id" : 144,
-    "changeable" : false,
-    "code" : "030401",
-    "name" : "NEW_ORDER"
+    "id": 144,
+    "changeable": false,
+    "code": "030401",
+    "name": "NEW_ORDER"
   },
   {
-    "id" : 13,
-    "changeable" : false,
-    "code" : "030402",
-    "name" : "VAL_ORDER"
+    "id": 13,
+    "changeable": false,
+    "code": "030402",
+    "name": "VAL_ORDER"
   },
   {
-    "id" : 14,
-    "changeable" : false,
-    "code" : "030403",
-    "name" : "SEND_ORDER"
+    "id": 14,
+    "changeable": false,
+    "code": "030403",
+    "name": "SEND_ORDER"
   },
   {
-    "id" : 15,
-    "changeable" : false,
-    "code" : "030404",
-    "name" : "RECEIV_ORDER"
+    "id": 15,
+    "changeable": false,
+    "code": "030404",
+    "name": "RECEIV_ORDER"
   },
   {
-    "id" : 25,
-    "changeable" : false,
-    "code" : "030405",
-    "name" : "ORDER_CANC"
+    "id": 25,
+    "changeable": false,
+    "code": "030405",
+    "name": "ORDER_CANC"
   },
   {
-    "id" : 16,
-    "changeable" : true,
-    "code" : "030500",
-    "name" : "DISP_PAC"
+    "id": 16,
+    "changeable": true,
+    "code": "030500",
+    "name": "DISP_PAC"
   },
   {
-    "id" : 46,
-    "changeable" : false,
-    "code" : "030700",
-    "name" : "TRANSFER"
+    "id": 46,
+    "changeable": false,
+    "code": "030700",
+    "name": "TRANSFER"
   },
   {
-    "id" : 145,
-    "changeable" : false,
-    "code" : "030701",
-    "name" : "NEW_TRANSFER"
+    "id": 145,
+    "changeable": false,
+    "code": "030701",
+    "name": "NEW_TRANSFER"
   },
   {
-    "id" : 28,
-    "changeable" : false,
-    "code" : "030702",
-    "name" : "TRANSF_REC"
+    "id": 28,
+    "changeable": false,
+    "code": "030702",
+    "name": "TRANSF_REC"
   },
   {
-    "id" : 156,
-    "changeable" : false,
-    "code" : "030702",
-    "name" : "TRANSF_CANCEL"
+    "id": 156,
+    "changeable": false,
+    "code": "030702",
+    "name": "TRANSF_CANCEL"
   },
   {
-    "id" : 54,
-    "changeable" : true,
-    "code" : "030800",
-    "name" : "UNITSETUP"
+    "id": 54,
+    "changeable": true,
+    "code": "030800",
+    "name": "UNITSETUP"
   },
   {
-    "id" : 138,
-    "changeable" : false,
-    "code" : "030900",
-    "name" : "MED_INIT"
+    "id": 138,
+    "changeable": false,
+    "code": "030900",
+    "name": "MED_INIT"
   },
   {
-    "id" : 155,
-    "changeable" : false,
-    "code" : "030901",
-    "name" : "MED_INIT_REM"
+    "id": 155,
+    "changeable": false,
+    "code": "030901",
+    "name": "MED_INIT_REM"
   },
   {
-    "id" : 150,
-    "changeable" : false,
-    "code" : "031000",
-    "name" : "MED_REPORTS"
+    "id": 150,
+    "changeable": false,
+    "code": "031000",
+    "name": "MED_REPORTS"
   },
   {
-    "id" : 27,
-    "changeable" : false,
-    "code" : "031002",
-    "name" : "MOVS"
+    "id": 27,
+    "changeable": false,
+    "code": "031002",
+    "name": "MOVS"
   },
   {
-    "id" : 31,
-    "changeable" : false,
-    "code" : "031003",
-    "name" : "REP_ESTPOS"
+    "id": 31,
+    "changeable": false,
+    "code": "031003",
+    "name": "REP_ESTPOS"
   },
   {
-    "id" : 32,
-    "changeable" : false,
-    "code" : "031004",
-    "name" : "REP_STOCKEVOL"
+    "id": 32,
+    "changeable": false,
+    "code": "031004",
+    "name": "REP_STOCKEVOL"
   },
   {
-    "id" : 35,
-    "changeable" : false,
-    "code" : "031005",
-    "name" : "REP_COSTPAT"
+    "id": 35,
+    "changeable": false,
+    "code": "031005",
+    "name": "REP_COSTPAT"
   },
   {
-    "id" : 203,
-    "changeable" : false,
-    "code" : "031006",
-    "name" : "QUARTERLY_EDIT"
+    "id": 203,
+    "changeable": false,
+    "code": "031006",
+    "name": "QUARTERLY_EDIT"
   },
   {
-    "id" : 209,
-    "changeable" : false,
-    "code" : "031007",
-    "name" : "MED_MOV_EDIT_OUT_PERIOD"
+    "id": 209,
+    "changeable": false,
+    "code": "031007",
+    "name": "MED_MOV_EDIT_OUT_PERIOD"
   },
   {
-    "id" : 210,
-    "changeable" : false,
-    "code" : "031008",
-    "name" : "AUTO_TASK"
+    "id": 210,
+    "changeable": false,
+    "code": "031008",
+    "name": "AUTO_TASK"
   },
   {
-    "id" : 10,
-    "changeable" : false,
-    "code" : "040000",
-    "name" : "MANAGEMENT"
+    "id": 10,
+    "changeable": false,
+    "code": "040000",
+    "name": "MANAGEMENT"
   },
   {
-    "id" : 30,
-    "changeable" : false,
-    "code" : "040100",
-    "name" : "REP1"
+    "id": 30,
+    "changeable": false,
+    "code": "040100",
+    "name": "REP1"
   },
   {
-    "id" : 34,
-    "changeable" : false,
-    "code" : "040400",
-    "name" : "REP4"
+    "id": 34,
+    "changeable": false,
+    "code": "040400",
+    "name": "REP4"
   },
   {
-    "id" : 151,
-    "changeable" : false,
-    "code" : "040500",
-    "name" : "INDICATORS"
+    "id": 151,
+    "changeable": false,
+    "code": "040500",
+    "name": "INDICATORS"
   },
   {
-    "id" : 59,
-    "changeable" : false,
-    "code" : "040600",
-    "name" : "EXPORT"
+    "id": 59,
+    "changeable": false,
+    "code": "040600",
+    "name": "EXPORT"
   },
   {
-    "id" : 60,
-    "changeable" : false,
-    "code" : "040700",
-    "name" : "FORECAST"
+    "id": 60,
+    "changeable": false,
+    "code": "040700",
+    "name": "FORECAST"
   },
   {
-    "id" : 201,
-    "changeable" : false,
-    "code" : "041000",
-    "name" : "DATA_ANALYSIS"
+    "id": 201,
+    "changeable": false,
+    "code": "041000",
+    "name": "DATA_ANALYSIS"
   },
   {
-    "id" : 204,
-    "changeable" : false,
-    "code" : "041000",
-    "name" : "SUSPECT_FOLLOWUP"
+    "id": 204,
+    "changeable": false,
+    "code": "041000",
+    "name": "SUSPECT_FOLLOWUP"
   },
   {
-    "id" : 202,
-    "changeable" : false,
-    "code" : "041100",
-    "name" : "REP_QUARTERLY"
+    "id": 202,
+    "changeable": false,
+    "code": "041100",
+    "name": "REP_QUARTERLY"
   },
-
-
-
   {
-    "id" : 1,
-    "changeable" : false,
-    "code" : "050000",
-    "name" : "ADMIN"
+    "id": 1,
+    "changeable": false,
+    "code": "050000",
+    "name": "ADMIN"
   },
   {
-    "id" : 3,
-    "changeable" : true,
-    "code" : "050200",
-    "name" : "ADMINUNITS"
+    "id": 3,
+    "changeable": true,
+    "code": "050200",
+    "name": "ADMINUNITS"
   },
   {
-    "id" : 5,
-    "changeable" : true,
-    "code" : "050400",
-    "name" : "SOURCES"
+    "id": 5,
+    "changeable": true,
+    "code": "050400",
+    "name": "SOURCES"
   },
   {
-    "id" : 6,
-    "changeable" : true,
-    "code" : "050500",
-    "name" : "UNITS"
+    "id": 6,
+    "changeable": true,
+    "code": "050500",
+    "name": "UNITS"
   },
   {
-    "id" : 7,
-    "changeable" : true,
-    "code" : "050600",
-    "name" : "PRODUCTS"
+    "id": 7,
+    "changeable": true,
+    "code": "050600",
+    "name": "PRODUCTS"
   },
   {
-    "id" : 2,
-    "changeable" : true,
-    "code" : "050800",
-    "name" : "USERS"
+    "id": 2,
+    "changeable": true,
+    "code": "050800",
+    "name": "USERS"
   },
   {
-    "id" : 40,
-    "changeable" : true,
-    "code" : "050800",
-    "name" : "REGIMENS"
+    "id": 40,
+    "changeable": true,
+    "code": "050800",
+    "name": "REGIMENS"
   },
   {
-    "id" : 41,
-    "changeable" : true,
-    "code" : "050900",
-    "name" : "WORKSPACES"
+    "id": 41,
+    "changeable": true,
+    "code": "050900",
+    "name": "WORKSPACES"
   },
   {
-    "id" : 39,
-    "changeable" : true,
-    "code" : "051000",
-    "name" : "PROFILES"
+    "id": 39,
+    "changeable": true,
+    "code": "051000",
+    "name": "PROFILES"
   },
   {
-    "id" : 52,
-    "changeable" : true,
-    "code" : "051300",
-    "name" : "SUBSTANCES"
+    "id": 52,
+    "changeable": true,
+    "code": "051300",
+    "name": "SUBSTANCES"
   },
   {
-    "id" : 53,
-    "changeable" : true,
-    "code" : "051400",
-    "name" : "WEEKFREQ"
+    "id": 53,
+    "changeable": true,
+    "code": "051400",
+    "name": "WEEKFREQ"
   },
   {
-    "id" : 58,
-    "changeable" : true,
-    "code" : "051700",
-    "name" : "FIELDS"
+    "id": 58,
+    "changeable": true,
+    "code": "051700",
+    "name": "FIELDS"
   },
   {
-    "id" : 65,
-    "changeable" : true,
-    "code" : "051800",
-    "name" : "HEALTHSYS"
+    "id": 65,
+    "changeable": true,
+    "code": "051800",
+    "name": "HEALTHSYS"
   },
   {
-    "id" : 117,
-    "changeable" : true,
-    "code" : "051900",
-    "name" : "AGERANGES"
+    "id": 117,
+    "changeable": true,
+    "code": "051900",
+    "name": "AGERANGES"
   },
   {
-    "id" : 162,
-    "changeable" : true,
-    "code" : "052000",
-    "name" : "TAGS"
+    "id": 162,
+    "changeable": true,
+    "code": "052000",
+    "name": "TAGS"
   },
   {
-    "id" : 61,
-    "changeable" : false,
-    "code" : "055000",
-    "name" : "SETUPWS"
+    "id": 61,
+    "changeable": false,
+    "code": "055000",
+    "name": "SETUPWS"
   },
   {
-    "id" : 19,
-    "changeable" : false,
-    "code" : "055100",
-    "name" : "ONLINE"
+    "id": 19,
+    "changeable": false,
+    "code": "055100",
+    "name": "ONLINE"
   },
   {
-    "id" : 62,
-    "changeable" : false,
-    "code" : "055100",
-    "name" : "ADMREP"
+    "id": 62,
+    "changeable": false,
+    "code": "055100",
+    "name": "ADMREP"
   },
   {
-    "id" : 63,
-    "changeable" : false,
-    "code" : "055101",
-    "name" : "USERSESSIONS"
+    "id": 63,
+    "changeable": false,
+    "code": "055101",
+    "name": "USERSESSIONS"
   },
   {
-    "id" : 118,
-    "changeable" : false,
-    "code" : "055102",
-    "name" : "CMDHISTORY"
+    "id": 118,
+    "changeable": false,
+    "code": "055102",
+    "name": "CMDHISTORY"
   },
   {
-    "id" : 167,
-    "changeable" : false,
-    "code" : "055103",
-    "name" : "ERRORLOGREP"
+    "id": 167,
+    "changeable": false,
+    "code": "055103",
+    "name": "ERRORLOGREP"
   },
   {
-    "id" : 64,
-    "changeable" : true,
-    "code" : "055200",
-    "name" : "SYSSETUP"
+    "id": 64,
+    "changeable": true,
+    "code": "055200",
+    "name": "SYSSETUP"
   },
   {
-    "id" : 230,
-    "changeable" : false,
-    "code" : "055300",
-    "name" : "CHECKUPDATE"
+    "id": 230,
+    "changeable": false,
+    "code": "055300",
+    "name": "CHECKUPDATE"
   },
   {
-    "id" : 1000,
-    "changeable" : false,
-    "code" : "055300",
-    "name" : "CMDSTATISTICS"
+    "id": 1000,
+    "changeable": false,
+    "code": "055300",
+    "name": "CMDSTATISTICS"
   }
 ]

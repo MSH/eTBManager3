@@ -11,172 +11,172 @@ public class ErrorLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date errorDate;
-	
-	@Column(length = 100)
-	private String exceptionClass;
-	
-	@Column(length = 500)
-	private String exceptionMessage;
-	
-	@Column(length = 150)
-	private String url;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date errorDate;
 
-	@Column(length = 100)
-	private String userName;
-	
-	private UUID userId;
-	
-	@Lob
-	private String stackTrace;
-	
-	@Column(length = 100)
-	private String workspace;
+    @Column(length = 100)
+    private String exceptionClass;
 
-	@Lob
-	private String request;
+    @Column(length = 500)
+    private String exceptionMessage;
 
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+    @Column(length = 150)
+    private String url;
 
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(length = 100)
+    private String userName;
 
-	/**
-	 * @return the exceptionClass
-	 */
-	public String getExceptionClass() {
-		return exceptionClass;
-	}
+    private UUID userId;
 
-	/**
-	 * @param exceptionClass the exceptionClass to set
-	 */
-	public void setExceptionClass(String exceptionClass) {
-		this.exceptionClass = exceptionClass;
-	}
+    @Lob
+    private String stackTrace;
 
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
+    @Column(length = 100)
+    private String workspace;
 
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    @Lob
+    private String request;
 
-	/**
-	 * @return the user
-	 */
-	public String getUserName() {
-		return userName;
-	}
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * @param user the user to set
-	 */
-	public void setUserName(String user) {
-		this.userName = userName;
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @return the userId
-	 */
-	public UUID getUserId() {
-		return userId;
-	}
+    /**
+     * @return the exceptionClass
+     */
+    public String getExceptionClass() {
+        return exceptionClass;
+    }
 
-	/**
-	 * @param userId the userId to set
-	 */
-	public void setUserId(UUID userId) {
-		this.userId = userId;
-	}
+    /**
+     * @param exceptionClass the exceptionClass to set
+     */
+    public void setExceptionClass(String exceptionClass) {
+        this.exceptionClass = exceptionClass;
+    }
 
-	/**
-	 * @return the stackTrace
-	 */
-	public String getStackTrace() {
-		return stackTrace;
-	}
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-	/**
-	 * @param stackTrace the stackTrace to set
-	 */
-	public void setStackTrace(String stackTrace) {
-		this.stackTrace = stackTrace;
-	}
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	/**
-	 * @return the exceptionMessage
-	 */
-	public String getExceptionMessage() {
-		return exceptionMessage;
-	}
+    /**
+     * @return the user
+     */
+    public String getUserName() {
+        return userName;
+    }
 
-	/**
-	 * @param exceptionMessage the exceptionMessage to set
-	 */
-	public void setExceptionMessage(String exceptionMessage) {
-		this.exceptionMessage = exceptionMessage;
-	}
+    /**
+     * @param user the user to set
+     */
+    public void setUserName(String user) {
+        this.userName = userName;
+    }
 
-	/**
-	 * @return the workspace
-	 */
-	public String getWorkspace() {
-		return workspace;
-	}
+    /**
+     * @return the userId
+     */
+    public UUID getUserId() {
+        return userId;
+    }
 
-	/**
-	 * @param workspace the workspace to set
-	 */
-	public void setWorkspace(String workspace) {
-		this.workspace = workspace;
-	}
+    /**
+     * @param userId the userId to set
+     */
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
 
-	/**
-	 * @return the errorDate
-	 */
-	public Date getErrorDate() {
-		return errorDate;
-	}
+    /**
+     * @return the stackTrace
+     */
+    public String getStackTrace() {
+        return stackTrace;
+    }
 
-	/**
-	 * @param errorDate the errorDate to set
-	 */
-	public void setErrorDate(Date errorDate) {
-		this.errorDate = errorDate;
-	}
+    /**
+     * @param stackTrace the stackTrace to set
+     */
+    public void setStackTrace(String stackTrace) {
+        this.stackTrace = stackTrace;
+    }
+
+    /**
+     * @return the exceptionMessage
+     */
+    public String getExceptionMessage() {
+        return exceptionMessage;
+    }
+
+    /**
+     * @param exceptionMessage the exceptionMessage to set
+     */
+    public void setExceptionMessage(String exceptionMessage) {
+        this.exceptionMessage = exceptionMessage;
+    }
+
+    /**
+     * @return the workspace
+     */
+    public String getWorkspace() {
+        return workspace;
+    }
+
+    /**
+     * @param workspace the workspace to set
+     */
+    public void setWorkspace(String workspace) {
+        this.workspace = workspace;
+    }
+
+    /**
+     * @return the errorDate
+     */
+    public Date getErrorDate() {
+        return errorDate;
+    }
+
+    /**
+     * @param errorDate the errorDate to set
+     */
+    public void setErrorDate(Date errorDate) {
+        this.errorDate = errorDate;
+    }
 
 
-	/**
-	 * @return the request
-	 */
-	public String getRequest() {
-		return request;
-	}
+    /**
+     * @return the request
+     */
+    public String getRequest() {
+        return request;
+    }
 
-	/**
-	 * @param request the request to set
-	 */
-	public void setRequest(String request) {
-		this.request = request;
-	}
+    /**
+     * @param request the request to set
+     */
+    public void setRequest(String request) {
+        this.request = request;
+    }
 }

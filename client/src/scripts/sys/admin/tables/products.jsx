@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import Profile from '../../../components/profile';
 import { app } from '../../../core/app';
@@ -23,7 +23,7 @@ const editorDef = {
 					type: 'string',
 					max: 20,
 					label: __('form.shortName'),
-					size: { sm: 3 }
+					size: { md: 3 }
 				},
 				{
 					property: 'name',
@@ -31,7 +31,7 @@ const editorDef = {
 					type: 'string',
 					max: 200,
 					label: __('form.name'),
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'active',
@@ -39,13 +39,13 @@ const editorDef = {
 					required: true,
 					label: __('EntityState.ACTIVE'),
 					defaultValue: true,
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'customId',
 					type: 'string',
 					label: __('form.customId'),
-					size: { sm: 3 }
+					size: { md: 3 }
 				}
 			],
 			title: doc => doc.id ? __('admin.products.edt') : __('admin.products.new')
@@ -63,7 +63,7 @@ const editorDef = {
 					type: 'string',
 					max: 20,
 					label: __('form.shortName'),
-					size: { sm: 3 }
+					size: { md: 3 }
 				},
 				{
 					property: 'name',
@@ -71,14 +71,14 @@ const editorDef = {
 					type: 'string',
 					max: 200,
 					label: __('form.name'),
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'customId',
 					type: 'string',
 					max: 50,
 					label: __('form.customId'),
-					size: { sm: 3 }
+					size: { md: 3 }
 				},
 				{
 					property: 'active',
@@ -86,7 +86,7 @@ const editorDef = {
 					required: true,
 					label: __('EntityState.ACTIVE'),
 					defaultValue: true,
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'category',
@@ -94,7 +94,7 @@ const editorDef = {
 					required: true,
 					options: app.getState().app.lists.MedicineCategory,
 					label: __('MedicineCategory'),
-					size: { sm: 6, newLine: true }
+					size: { md: 6, newLine: true }
 				},
 				{
 					property: 'line',
@@ -102,7 +102,7 @@ const editorDef = {
 					required: true,
 					options: app.getState().app.lists.MedicineLine,
 					label: __('MedicineLine'),
-					size: { sm: 6 }
+					size: { md: 6 }
 				},
 				{
 					property: 'substances',
@@ -136,7 +136,7 @@ export default class Products extends React.Component {
 		return (
 			<CrudView crud={crud}
 				title={data.title}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				onCellRender={this.cellRender}
 				perm={data.perm} />
 			);

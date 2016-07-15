@@ -17,7 +17,6 @@
 // app components
 @import "callout.less";
 @import "card.less";
-@import "profile.less";
 @import "fluidbar.less";
 @import "collapse-card.less";
 @import "collapse-row.less";
@@ -40,126 +39,22 @@
 	padding-left:4px;
 }
 
-.placeholder(@color) {
-	::-webkit-input-placeholder {color: @color}
-	::-moz-placeholder {color: @color}
-	:-ms-input-placeholder {color: @color}
-}
-
 
 .app-content {
 	background-color: @content-bgcolor;
 	min-height: 500px;
 	padding-bottom:10px;
-    margin-top:50px;
+	margin-top: -1px;
+	padding-top: 1px;
+    background: -webkit-linear-gradient(to left, #4CA1AF, #C4E0E5);
+    background: linear-gradient(to left, #bbced2, #e8f1f3);
+}
+
+.tb-margin {
+	margin-top:50px;
 }
 
 
-
-.header-search {
-	.search-input {
-		padding:2px;
-		background-color: @header-search-bg;
-		border-radius: 4px;
-		color: #606060;
-		height:28px;
-		margin-top:2px;
-
-		input {
-			border:none;
-			width:auto;
-			background-color: @header-search-bg;
-			color: #000;
-			float:left;
-
-			.placeholder(@navbar-inverse-bg);
-		}
-		input:focus {
-			box-shadow: none;
-			outline:0;
-		}
-		button {
-			float:right;
-			background-color: @header-search-bg;
-			border:none;
-		}
-	}
-
-	.dropdown-menu > li > a {
-		white-space: normal !important;
-		width: 300px;
-	}
-
-}
-
-
-@media (max-width: @screen-xs-max)  {
-	.header-search {
-		input {
-			width:80%;
-			padding:1px 0 0 4px;
-		}
-	}
-}
-@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
-	.header-search {
-		input {
-			width: 100px;
-		}
-	}
-	.navbar-inverse .navbar-nav > li > a {
-    	padding-left:5px;
-	}
-}
-@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
-	.header-search {
-		input {
-			width: 150px;
-		}
-	}
-}
-@media (min-width: @screen-lg-min) {
-	.header-search {
-		input {
-			min-width:200px;
-		}
-	}
-}
-
-/** nav item in the toolbar with an icon */
-.nav-item-icon {
-	a {
-		padding-top: 11px !important;
-		padding-bottom:10px !important;
-	}
-}
-
-/**
-* Decorate the workspace label in the page header
-**/
-.header-ws {
-	max-width: 100px;
-
-	.ws-text {
-		font-size: 0.9em;
-	}
-
-	.fa-inverse {
-		color:#f0f0f0;
-	}
-}
-
-
-/** The header style */
-.header {
-		box-shadow: #a0a0a0 0 4px 6px;
-
-		// small padding for nav items
-		.hsmall {
-				padding-top: 2px;
-				padding-bottom:4px;
-		}
-}
 
 .dropdown {
 	.fa-inverse {
@@ -173,8 +68,6 @@
 }
 
 .footer {
- // border-top:1px solid #d0d0d0;
-//  background-color: #e0e0e0;
 	background-color: @body-bg;
 	border-top:1px solid @btn-default-border;
 	padding: 30px;
@@ -185,19 +78,9 @@
 }
 
 
-@media screen and (min-width:550px) {
-	.central-container-sm {
-		margin: 30px auto 20px;
-		max-width:300px;
-	}
-	.central-container-md {
-		margin: 30px auto 20px;
-		max-width:450px;
-	}
-	.central-container-lg {
-		margin: 30px auto 20px;
-		max-width:700px;
-	}
+.central-container-md {
+	margin: 20px auto 20px;
+	max-width:450px;
 }
 
 .mtop {
@@ -224,9 +107,16 @@
 	margin-bottom: 20px;
 }
 
-.borderless {
+.borderless, .group-borderless input {
 	border:none;
-	box-shadow: none;
+	box-shadow: none !important;
+}
+
+.group-borderless {
+	.input-group-addon {
+		background-color: transparent !important;
+		border: none;
+	}
 }
 
 .sub-text {
@@ -285,6 +175,10 @@
 	font-size: 0.8em;
 }
 
+.text-big {
+	font-size: 1.2em;
+}
+
 .status-box {
 	padding:2px 4px;
 	border-radius: 2px;
@@ -338,6 +232,15 @@
 
 .lnk-circle:hover {
 	border-color: darken(@link-muted-color, 20%);
+}
+
+.lnk-label {
+	color: @text-color;
+	padding: 2px;
+}
+
+.lnk-label:hover {
+	text-decoration: underline;
 }
 
 .input-btn-group {
@@ -477,7 +380,7 @@
   background: #f0f0f0;
 }
 
-.tag-danger, .tag-userdef, .tag-warn, .tag-subtitle {
+.tag-autodanger, .tag-manual, .tag-auto, .tag-subtitle {
   display: block;
   color: #909090;
   margin-top:2px;
@@ -491,16 +394,16 @@
   font-size: 13px;
 }
 
-.tag-danger {
+.tag-autodanger {
   border-left-color: @brand-danger;
   font-weight: bold;
 }
 
-.tag-userdef {
+.tag-manual {
   border-left-color: @brand-primary;
 }
 
-.tag-warn {
+.tag-auto {
   border-left-color: @brand-success;
 }
 
@@ -574,4 +477,78 @@
 
 .inlineb {
 	display: inline-block;
+}
+
+.nav-select {
+	li {
+		border-bottom: 1px solid #e5e5e5;
+		margin-top: 0 !important;
+
+		a {
+			color: @text-color;
+		}
+	}
+
+	li.active, li.active:hover {
+		a {
+			background-color: #e0e0e0;
+			color: @text-color;
+		}
+	}
+
+	li:hover {
+		a {
+			background-color: #f6f6f6;
+			color: lighten(@text-color, 20%);
+		}
+	}
+
+	li:last-child {
+		border-bottom: none;
+	}
+}
+
+@cmd-background: lighten(@navbar-inverse-bg, 45%);
+
+.cmd-bar {
+	background-color: @cmd-background;
+	margin-bottom: 20px;
+
+	.title {
+	    text-align: center;
+	    color: #fff;
+	    padding: 4px;
+	    font-weight: bold;
+	    border-bottom: 1px solid darken(@cmd-background, 10%);
+   	}
+
+	a {
+	    color: #000000;
+	    text-transform: none !important;
+	    border-top: 1px solid lighten(@cmd-background, 10%) !important;
+	    border-bottom: 1px solid darken(@cmd-background, 10%);
+	    border-left: none;
+	    border-right: none;
+	    padding: 6px 6px !important;
+
+		.fa {
+		    width: 32px;
+		    padding: 6px 2px;
+		    background-color: darken(@cmd-background, 30%);
+		    margin-right: 8px;
+		    color: #fff;
+		    border-radius: 4px;
+   		}
+	}
+
+	a:hover, a:focus {
+		background-color: darken(@cmd-background, 55%) !important;
+		color: #fff;
+    	border-bottom: 1px solid lighten(@cmd-background, 10%) !important;
+    	border-top: 1px solid darken(@cmd-background, 10%) !important;
+	}
+
+	a:first-child {
+		border-top: none;
+	}
 }

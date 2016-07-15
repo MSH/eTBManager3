@@ -8,13 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.isA;
 import static org.junit.Assert.*;
 
 /**
  * Created by rmemoria on 8/4/16.
  */
-public class SysConfigTest extends AuthenticatedTest{
+public class SysConfigTest extends AuthenticatedTest {
 
     private static final String ADMIN_MAIL = "rmemoria@gmail.com";
     private static final boolean ALLOW_REG_PAGE = true;

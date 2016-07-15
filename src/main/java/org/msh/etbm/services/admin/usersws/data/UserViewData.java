@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Store information about the user view restriction. Used for creation and updating of the user
  * data by the services
- *
+ * <p>
  * Created by rmemoria on 10/2/16.
  */
 public class UserViewData {
@@ -35,7 +35,8 @@ public class UserViewData {
 
     /**
      * Constructor passing the arguments
-     * @param view the user view
+     *
+     * @param view        the user view
      * @param adminUnitId
      */
     public UserViewData(UserView view, UUID adminUnitId) {

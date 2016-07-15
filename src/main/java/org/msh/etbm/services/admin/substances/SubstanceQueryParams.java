@@ -4,7 +4,7 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
 /**
  * Query class to establish the criterias to return a list of substances
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class SubstanceQueryParams extends EntityQueryParams {

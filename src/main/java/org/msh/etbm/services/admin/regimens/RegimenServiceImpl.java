@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.regimens;
 
 
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.MedicineRegimen;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * CRUD services for medicine regimens
- *
+ * <p>
  * Created by rmemoria on 6/1/16.
  */
 @Service
@@ -34,6 +35,11 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
     }
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_REGIMENS;
+    }
+
+    @Override
     protected void mapRequest(Object request, Regimen regimen) {
         // clear previous regimens
         regimen.getMedicines().clear();
@@ -42,7 +48,7 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
         super.mapRequest(request, regimen);
 
         // manually set the parent regimen, since it cannot be done by dozer
-        for (MedicineRegimen mr: regimen.getMedicines()) {
+        for (MedicineRegimen mr : regimen.getMedicines()) {
             mr.setRegimen(regimen);
         }
     }

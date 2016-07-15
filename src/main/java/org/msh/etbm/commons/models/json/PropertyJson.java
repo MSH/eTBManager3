@@ -9,7 +9,7 @@ import java.util.Map;
  * Represents a property of a model defined in a JSON file. The property may represents
  * the root of a model, when describing a complex object (when type is object and 'properties'
  * is available
- *
+ * <p>
  * Created by rmemoria on 18/10/15.
  */
 public class PropertyJson {
@@ -43,17 +43,19 @@ public class PropertyJson {
 
     private boolean email;
 
-    /** String properties **/
+    /**
+     * String properties
+     **/
     private int maxLength;
     private int minLength;
     private String regExp;
     private CharCase charCase;
 
-    /** Date properties **/
+    /**
+     * Date properties
+     **/
     private boolean future;
     private boolean past;
-
-
 
 
     public String getType() {

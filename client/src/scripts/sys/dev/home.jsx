@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Row, Col, MenuItem, Button } from 'react-bootstrap';
-import { Card, Popup, SelectionBox, ListBox, MaskedInput } from '../../components/index';
+import { Card, Popup, SelectionBox, ListBox, MaskedInput, Fa } from '../../components/index';
 import FormModalExample from './form-modal-example';
 
 
@@ -68,6 +68,15 @@ export default class StuffExamples extends React.Component {
 
 	onChange(ref) {
 		const self = this;
+		return (val) => {
+			const obj = {};
+			obj[ref] = val;
+			self.setState(obj);
+		};
+	}
+
+	onChange2(ref) {
+		const self = this;
 		return (evt, val) => {
 			const obj = {};
 			obj[ref] = val;
@@ -86,6 +95,11 @@ export default class StuffExamples extends React.Component {
 
 
 	render() {
+		const listBoxOptions = [];
+		options2.map(a => {
+			listBoxOptions.push(<span><Fa icon="globe"/>{a}</span>);
+		});
+
 		return (
 			<div>
 				<Card>
@@ -140,8 +154,8 @@ export default class StuffExamples extends React.Component {
 								mode="single"
 								label="Items:"
 								help="This is a simple help message"
-								onChange={this.onChange('selBox3')}
-								options={options2}
+								onChange={this.onChange2('selBox3')}
+								options={listBoxOptions}
 								vertical />
 						</Col>
 						<Col sm={6}>
@@ -149,7 +163,7 @@ export default class StuffExamples extends React.Component {
 								mode="single"
 								label="Items:"
 								help="This is a simple help message"
-								onChange={this.onChange('selBox4')}
+								onChange={this.onChange2('selBox4')}
 								options={options3} />
 						</Col>
 					</Row>

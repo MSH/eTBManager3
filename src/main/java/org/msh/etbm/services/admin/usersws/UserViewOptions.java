@@ -8,8 +8,8 @@ import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.usersws.data.UserViewData;
-import org.msh.etbm.services.usersession.UserRequestService;
-import org.msh.etbm.services.usersession.UserSession;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,14 +66,14 @@ public class UserViewOptions implements FormRequestHandler<List<Item>> {
         List<AdministrativeUnit> lst = unit.getAddress().getAdminUnit().getParentsTreeList(true);
 
         // include the administrative units
-        for (AdministrativeUnit adm: lst) {
+        for (AdministrativeUnit adm : lst) {
             options.add(new Item<UserViewData>(
                             new UserViewData(UserView.ADMINUNIT, adm.getId()),
                             adm.getCountryStructure().getName() + ": " + adm.getName())
             );
         }
 
-        options.add(new Item<UserViewData>(new UserViewData(UserView.TBUNIT), unit.getName()));
+        options.add(new Item<UserViewData>(new UserViewData(UserView.UNIT), unit.getName()));
 
         options.add(new Item(new UserViewData(UserView.SELECTEDUNITS), messages.get(UserView.SELECTEDUNITS.getKey())));
 

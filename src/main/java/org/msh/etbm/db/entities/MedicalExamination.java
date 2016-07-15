@@ -11,112 +11,110 @@ import javax.persistence.Table;
 
 
 /**
- *
  * Records information about a medical examination of a case
  *
  * @author Ricardo Mem�ria
- *
  */
 @Entity
 @Table(name = "medicalexamination")
 public class MedicalExamination extends CaseEvent {
 
-	@PropertyLog(operations = {Operation.NEW})
-	private Double weight;
-	
-	@PropertyLog(operations = {Operation.NEW})
-	private Double height;
-	
+    @PropertyLog(operations = {Operation.NEW})
+    private Double weight;
 
-	private MedAppointmentType appointmentType;
-
-	private YesNoType usingPrescMedicines;
-	
-	@Column(length = 200)
-	private String reasonNotUsingPrescMedicines;
-	
-	@Column(length = 100)
-	private String responsible;
-	
-	@Column(length = 100)
-	private String positionResponsible;
+    @PropertyLog(operations = {Operation.NEW})
+    private Double height;
 
 
-	
-	/**
-	 * Calculate the BMI (using weight and height)
-	 * @return BMI value
-	 */
-	public double getBMI() {
-		if ((height == null) || (height == 0)) {
+    private MedAppointmentType appointmentType;
+
+    private YesNoType usingPrescMedicines;
+
+    @Column(length = 200)
+    private String reasonNotUsingPrescMedicines;
+
+    @Column(length = 100)
+    private String responsible;
+
+    @Column(length = 100)
+    private String positionResponsible;
+
+
+    /**
+     * Calculate the BMI (using weight and height)
+     *
+     * @return BMI value
+     */
+    public double getBMI() {
+        if ((height == null) || (height == 0)) {
             return 0;
         }
 
-		double h = height / 100;
-		return weight == null ? 0 : weight / (h * h);
-	}
-	
-	public Double getWeight() {
-		return weight;
-	}
+        double h = height / 100;
+        return weight == null ? 0 : weight / (h * h);
+    }
 
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
+    public Double getWeight() {
+        return weight;
+    }
 
-	public Double getHeight() {
-		return height;
-	}
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
 
-	public void setHeight(Double height) {
-		this.height = height;
-	}
+    public Double getHeight() {
+        return height;
+    }
 
-	public YesNoType getUsingPrescMedicines() {
-		return usingPrescMedicines;
-	}
+    public void setHeight(Double height) {
+        this.height = height;
+    }
 
-	public void setUsingPrescMedicines(YesNoType usingPrescMedicines) {
-		this.usingPrescMedicines = usingPrescMedicines;
-	}
+    public YesNoType getUsingPrescMedicines() {
+        return usingPrescMedicines;
+    }
 
-	public String getReasonNotUsingPrescMedicines() {
-		return reasonNotUsingPrescMedicines;
-	}
+    public void setUsingPrescMedicines(YesNoType usingPrescMedicines) {
+        this.usingPrescMedicines = usingPrescMedicines;
+    }
 
-	public void setReasonNotUsingPrescMedicines(String reasonNotUsingPrescMedicines) {
-		this.reasonNotUsingPrescMedicines = reasonNotUsingPrescMedicines;
-	}
+    public String getReasonNotUsingPrescMedicines() {
+        return reasonNotUsingPrescMedicines;
+    }
 
-	public String getResponsible() {
-		return responsible;
-	}
+    public void setReasonNotUsingPrescMedicines(String reasonNotUsingPrescMedicines) {
+        this.reasonNotUsingPrescMedicines = reasonNotUsingPrescMedicines;
+    }
 
-	public void setResponsible(String responsible) {
-		this.responsible = responsible;
-	}
+    public String getResponsible() {
+        return responsible;
+    }
 
-	public MedAppointmentType getAppointmentType() {
-		return appointmentType;
-	}
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
 
-	public void setAppointmentType(MedAppointmentType appointmentType) {
-		this.appointmentType = appointmentType;
-	}
+    public MedAppointmentType getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(MedAppointmentType appointmentType) {
+        this.appointmentType = appointmentType;
+    }
 
 
-	/**
-	 * @return the positionResponsible
-	 */
-	public String getPositionResponsible() {
-		return positionResponsible;
-	}
+    /**
+     * @return the positionResponsible
+     */
+    public String getPositionResponsible() {
+        return positionResponsible;
+    }
 
-	/**
-	 * @param positionResponsible the positionResponsible to set
-	 */
-	public void setPositionResponsible(String positionResponsible) {
-		this.positionResponsible = positionResponsible;
-	}
-	
+    /**
+     * @param positionResponsible the positionResponsible to set
+     */
+    public void setPositionResponsible(String positionResponsible) {
+        this.positionResponsible = positionResponsible;
+    }
+
 }

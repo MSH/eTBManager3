@@ -3,14 +3,15 @@ package org.msh.etbm.services.admin.userprofiles;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.db.entities.UserPermission;
 import org.msh.etbm.db.entities.UserProfile;
-import org.msh.etbm.services.permissions.Permission;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permission;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -21,12 +22,12 @@ import java.util.UUID;
 
 /**
  * Implementation of the User profile service for CRUD operations
- *
+ * <p>
  * Created by rmemoria on 26/1/16.
  */
 @Service
 public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserProfileQueryParams>
-    implements UserProfileService {
+        implements UserProfileService {
 
     private static final String CMD_NAME = "profiles";
 
@@ -56,6 +57,11 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
         }
 
         super.mapRequest(request, entity);
+    }
+
+    @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_USERPROFILES;
     }
 
     @Override
@@ -102,6 +108,7 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
 
     /**
      * Delete the previous permissions of an user profile being edited
+     *
      * @param userProfile the user profile
      */
     protected void removeOldPermissions(UserProfile userProfile) {

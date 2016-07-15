@@ -9,7 +9,7 @@ import java.util.UUID;
 
 /**
  * A supper entity class that is under a TB case
- *
+ * <p>
  * Created by rmemoria on 11/10/15.
  */
 @MappedSuperclass
@@ -20,7 +20,7 @@ public class CaseEntity {
      */
     @Id
     @GeneratedValue(generator = "uuid2", strategy = GenerationType.SEQUENCE)
-    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = { @org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy") })
+    @GenericGenerator(name = "uuid2", strategy = "uuid2", parameters = {@org.hibernate.annotations.Parameter(name = "uuid_gen_strategy_class", value = "org.hibernate.id.uuid.CustomVersionOneStrategy")})
     private UUID id;
 
 

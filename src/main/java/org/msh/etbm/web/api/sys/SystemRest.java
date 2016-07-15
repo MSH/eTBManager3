@@ -1,9 +1,9 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.services.sys.SystemInfoService;
-import org.msh.etbm.services.sys.SystemInformation;
-import org.msh.etbm.services.sys.SystemState;
-import org.msh.etbm.services.usersession.UserSessionService;
+import org.msh.etbm.services.session.usersession.UserSessionService;
+import org.msh.etbm.services.sys.info.SystemInfoService;
+import org.msh.etbm.services.sys.info.SystemInformation;
+import org.msh.etbm.services.sys.info.SystemState;
 import org.msh.etbm.web.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * REST API to handle system requests
- *
+ * <p>
  * Created by rmemoria on 16/8/15.
  */
 @RestController
@@ -38,6 +38,7 @@ public class SystemRest {
 
     /**
      * Return information about the system
+     *
      * @return instance of SystemInformation
      */
     @RequestMapping("/info")
@@ -55,7 +56,7 @@ public class SystemRest {
             try {
                 uuidToken = authToken != null ? UUID.fromString(authToken) : null;
             } catch (IllegalArgumentException e) {
-                LOGGER.error("Invalid token UUID format : " + authToken, e);
+                LOGGER.error("Invalid token UUID format : " + authToken);
                 uuidToken = null;
             }
 

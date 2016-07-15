@@ -5,7 +5,6 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
 
-
     <mapping>
         <class-a>org.msh.etbm.db.entities.Regimen</class-a>
         <class-b>org.msh.etbm.services.admin.regimens.RegimenFormData</class-b>

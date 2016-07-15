@@ -5,7 +5,9 @@ package org.msh.etbm.commons.models.props;
  */
 public abstract class PrimitiveProperty extends Property {
 
-    /** Date validators **/
+    /**
+     * Date validators
+     **/
 
     private PropertyOption[] options;
 

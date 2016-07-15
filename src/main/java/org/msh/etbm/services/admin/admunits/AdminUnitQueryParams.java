@@ -7,7 +7,7 @@ import java.util.UUID;
 
 /**
  * Query arguments to search for administrative units
- *
+ * <p>
  * Created by rmemoria on 21/10/15.
  */
 public class AdminUnitQueryParams extends EntityQueryParams {
@@ -53,7 +53,6 @@ public class AdminUnitQueryParams extends EntityQueryParams {
      */
     @JsonIgnore
     private UUID workspaceId;
-
 
 
     public String getName() {

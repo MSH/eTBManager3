@@ -51,7 +51,7 @@ public enum PatientType {
     UNKNOWN_PREVIOUS_TB_TREAT,//48
     ;
 
-	public String getKey() {
-		return getClass().getSimpleName().concat("." + name());
-	}	
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 }

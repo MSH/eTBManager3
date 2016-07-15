@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../../crud-view';
+import CrudView from '../../crud/crud-view';
 import CRUD from '../../../commons/crud';
 import { app } from '../../../core/app';
 import Profile from '../../../components/profile';
@@ -128,7 +128,7 @@ export default class Regimens extends React.Component {
 			<CrudView crud={crud}
 				title={data.title}
 				onCellRender={this.cellRender}
-				editorDef={editorDef}
+				editorSchema={editorDef}
 				perm={data.perm} />
 			);
 	}

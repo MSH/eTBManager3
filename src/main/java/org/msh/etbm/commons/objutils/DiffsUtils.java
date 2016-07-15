@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Compare objects, generate differences between them
- *
+ * <p>
  * Created by rmemoria on 28/1/16.
  */
 public class DiffsUtils {
@@ -14,10 +14,20 @@ public class DiffsUtils {
         super();
     }
 
+    /**
+     * Generate a list of object values. The list of object values can be used to compare to other values
+     *
+     * @param obj
+     * @return
+     */
+    public static ObjectValues generateValues(Object obj) {
+        return new ObjectValues(obj);
+    }
 
     /**
      * Compare if objects are the same. It checks if references point to the same object.
      * If not, uses the equals method to compare them
+     *
      * @param val1 the first object to compare
      * @param val2 the second object to compare
      * @return true if objects are the same, otherwise false
@@ -36,8 +46,9 @@ public class DiffsUtils {
 
     /**
      * Compare the properties of two objects and generate a diff list
+     *
      * @param prevValues the object containing the previous values to compare
-     * @param newValues the object containing the new values to compare
+     * @param newValues  the object containing the new values to compare
      * @return instance of ObjectDiffValues containing the different properties
      */
     public static Diffs generateDiffs(Object prevValues, Object newValues) {
@@ -49,6 +60,7 @@ public class DiffsUtils {
 
     /**
      * Generate a list of different properties based on the property values
+     *
      * @param vals1 list of properties and its values of first object to compare to
      * @param vals2 list of properties and its values of second object to compare to
      * @return instance of {@link Diffs} containing the differences
@@ -57,12 +69,12 @@ public class DiffsUtils {
         Diffs diffs = new Diffs();
 
         // check properties in the list of previous values
-        for (String prop: vals1.getValues().keySet()) {
+        for (String prop : vals1.getValues().keySet()) {
             checkDiffValues(prop, vals1, vals2, diffs);
         }
 
         // check new properties in the list of new values
-        for (String prop: vals2.getValues().keySet()) {
+        for (String prop : vals2.getValues().keySet()) {
             if (vals1.get(prop) == null) {
                 checkDiffValues(prop, vals1, vals2, diffs);
             }
@@ -73,7 +85,8 @@ public class DiffsUtils {
 
     /**
      * Check if values of a given property are different. If so, the values are put in an instance of ObjectDiffValues
-     * @param prop the property to check
+     *
+     * @param prop  the property to check
      * @param vals1 the list of previous object values
      * @param vals2 the list of new object values
      * @param diffs the list store the differences
@@ -97,6 +110,7 @@ public class DiffsUtils {
 
     /**
      * Collect changes in a collection
+     *
      * @param diffs
      * @param prop
      * @param p1
@@ -110,7 +124,7 @@ public class DiffsUtils {
         boolean diff = false;
 
         // check the added items and start mounting the changed items
-        for (CollectionItem item: p2.getItems()) {
+        for (CollectionItem item : p2.getItems()) {
             CollectionItem prevItem = p1.findItemByValue(item.getValue());
 
             // item doesn't exist in the previous list, so it is a new item
@@ -124,7 +138,7 @@ public class DiffsUtils {
         }
 
         // mount removed list and complete the changed items
-        for (CollectionItem item: p1.getItems()) {
+        for (CollectionItem item : p1.getItems()) {
             CollectionItem newItem = p2.findItemByValue(item.getValue());
 
             // item was not found in the new list ?

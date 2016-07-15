@@ -1,9 +1,8 @@
 package org.msh.etbm.services.admin.admunits.impl;
 
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
@@ -19,7 +18,7 @@ import org.springframework.validation.Errors;
  */
 @Service
 public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStructure, CountryStructureQueryParams>
-    implements CountryStructureService {
+        implements CountryStructureService {
 
     @Override
     protected void buildQuery(QueryBuilder<CountryStructure> builder, CountryStructureQueryParams queryParams) {
@@ -43,9 +42,14 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_COUNTRYSTRUCTURES;
+    }
+
+    @Override
     protected void beforeSave(CountryStructure cs, Errors errors) {
         if (!checkUnique(cs, "name", "level = " + cs.getLevel())) {
-            errors.rejectValue("name", ErrorMessages.NOT_UNIQUE);
+            errors.rejectValue("name", Messages.NOT_UNIQUE);
         }
     }
 }

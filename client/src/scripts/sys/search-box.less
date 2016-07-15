@@ -1,0 +1,89 @@
+@import '../../../less/variables.less';
+
+.tb-search {
+	.form-group {
+		.placeholder(@gray-dark);
+		.form-control {
+			width: 100%;
+			background-color: @gray-light;
+			border: none;
+			box-shadow: none;
+			color: #fff;
+		}
+		.input-group-addon, .clearbtn {
+			width: 30px;
+			background-color: @gray-light;
+			color: @gray-dark;
+			border: none;
+		}
+		.clearbtn {
+			cursor: pointer;
+		}
+	}
+
+	.dropdown-menu  {
+		> li.active > a {
+			background-color: darken(@gray-lighter, 10%);
+		}
+
+		> li > a {
+			white-space: normal !important;
+			min-width: 300px;
+		}
+	}
+
+}
+
+
+@media (max-width: @screen-xs-max)  {
+	.tb-search {
+		.form-group, .input-group {
+			width: 100%;
+		}
+	}
+	.tb-user {
+		max-idth: 100%;
+	}
+}
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+	.tb-search {
+		.form-group, .input-group {
+			width: 180px !important;
+		}
+	}
+	.tb-user {
+		max-width: 150px;
+	}
+
+	.navbar-brand {
+		max-width: 45px;
+		overflow: hidden;
+	}
+}
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) {
+	.tb-search {
+		.form-group, .input-group {
+			width: 250px !important;
+		}
+	}
+
+	.tb-user {
+		max-width: 200px;
+	}
+
+	.navbar-brand {
+		max-width: 45px;
+		overflow: hidden;
+	}
+}
+
+@media (min-width: @screen-lg-min) {
+	.tb-search {
+		.form-group, .input-group {
+			width: 380px !important;
+		}
+	}
+	.tb-user {
+		max-width: 250px;
+	}
+}

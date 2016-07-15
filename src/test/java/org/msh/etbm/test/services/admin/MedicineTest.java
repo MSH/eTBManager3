@@ -3,10 +3,12 @@ package org.msh.etbm.test.services.admin;
 import org.junit.Test;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.Medicine;
-import org.msh.etbm.db.entities.Substance;
 import org.msh.etbm.db.enums.MedicineCategory;
 import org.msh.etbm.db.enums.MedicineLine;
-import org.msh.etbm.services.admin.products.*;
+import org.msh.etbm.services.admin.products.ProductDetailedData;
+import org.msh.etbm.services.admin.products.ProductFormData;
+import org.msh.etbm.services.admin.products.ProductService;
+import org.msh.etbm.services.admin.products.ProductType;
 import org.msh.etbm.services.admin.substances.SubstanceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceService;
 import org.msh.etbm.test.services.CommonEntityServiceTests;
@@ -17,7 +19,7 @@ import java.util.*;
 
 /**
  * Test of CRUD operations in {@link org.msh.etbm.services.admin.products.ProductService}
- *
+ * <p>
  * Created by rmemoria on 9/3/16.
  */
 public class MedicineTest extends CommonEntityServiceTests {
@@ -32,7 +34,6 @@ public class MedicineTest extends CommonEntityServiceTests {
 
     /**
      * Single constructor passing the classes to be used during tests
-     *
      */
     public MedicineTest() {
         super(Medicine.class, ProductFormData.class, ProductDetailedData.class);

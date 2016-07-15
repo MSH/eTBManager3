@@ -42,17 +42,19 @@
       "parent": "Region 1"
     }
   ],
-  "tbunits": [{
-    "name": "Working unit",
-    "adminUnitName": "City 1",
-    "active": true,
-    "drtbFacility": true,
-    "tbFacility": true,
-    "ntmFacility": true,
-    "notificationUnit": true,
-    "receiveFromManufacturer": true,
-    "numDaysOrder": 90
-  }],
+  "tbunits": [
+    {
+      "name": "Working unit",
+      "adminUnitName": "City 1",
+      "active": true,
+      "drtbFacility": true,
+      "tbFacility": true,
+      "ntmFacility": true,
+      "notificationUnit": true,
+      "receiveFromManufacturer": true,
+      "numDaysOrder": 90
+    }
+  ],
   "profiles": [
     {
       "name": "Administrator",

@@ -2,7 +2,7 @@ package org.msh.etbm.services.init;
 
 /**
  * Exception thrown during initialization of the system under certain conditions
- *
+ * <p>
  * Created by rmemoria on 1/9/15.
  */
 public class InitializationException extends RuntimeException {

@@ -6,7 +6,7 @@ import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagFormData;
 import org.msh.etbm.services.admin.tags.TagQueryParams;
 import org.msh.etbm.services.admin.tags.TagService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +46,9 @@ public class TagsREST {
     }
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/tag/query", method = RequestMethod.POST)

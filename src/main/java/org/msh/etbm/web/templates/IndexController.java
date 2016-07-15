@@ -1,6 +1,5 @@
 package org.msh.etbm.web.templates;
 
-import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.JsonParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,19 +46,21 @@ public class IndexController {
 
     /**
      * Fill the page variables and return the name of the template page
+     *
      * @param model the injected model
      * @return
      */
     @RequestMapping("/")
     public String welcome(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) {
         Locale locale = LocaleContextHolder.getLocale();
-        Map<String, String> scripts = (Map<String, String>)langMap.get(locale.toString());
+        String lang = locale.toString();
+        Map<String, String> scripts = (Map<String, String>) langMap.get(lang);
 
-        model.put("languages", getLanguagesJS());
+        model.put("language", lang);
+        model.put("development", development);
         model.put("path", contextPath);
-        model.put("defaultLanguage", defaultLanguage);
-        model.put("vendor", locale.toString() + "/" + scripts.get("vendor"));
-        model.put("app", locale.toString() + "/" + scripts.get("app"));
+        model.put("vendor", lang + "/" + scripts.get("vendor"));
+        model.put("app", lang + "/" + scripts.get("app"));
 
         // avoid page to be included in the browser cache
         response.setHeader("Cache-Control", "no-store");
@@ -70,23 +71,16 @@ public class IndexController {
     }
 
     /**
-     * Return the list of languages to be injected into JS code
-     * @return String value
-     */
-    protected String getLanguagesJS() {
-        return JsonParser.objectToJSONString(langMap);
-    }
-
-    /**
      * Create the list of languages supported by the application and its corresponding
      * Java Script file name
+     *
      * @throws IOException
      */
     @PostConstruct
     public void createLanguageMap() throws IOException {
         langMap = new HashMap<>();
 
-        for (String lang: languages) {
+        for (String lang : languages) {
             Map<String, String> files = getJSAppFiles(lang);
 
             langMap.put(lang, files);
@@ -95,6 +89,7 @@ public class IndexController {
 
     /**
      * Return the name of the JavaScript file name used to start up application in the browser
+     *
      * @param lang the language
      * @return the java script file to be used in the client side to start-up the application
      * @throws IOException
@@ -132,6 +127,7 @@ public class IndexController {
 
     /**
      * Read manifest file from the resources containing information about the generated script file names
+     *
      * @param lang the selected language
      * @return list of files to be sent to the browser
      * @throws IOException

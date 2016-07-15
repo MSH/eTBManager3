@@ -7,7 +7,7 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.UserLogin;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,7 +62,7 @@ public class UserSessionRepServiceImpl implements UserSessionRepService {
     private QueryResult createQueryResult(List<UserLogin> result) {
         QueryResult ret = new QueryResult<OnlineUsersRepData>();
         ret.setList(new ArrayList<UserSessionRepData>());
-        ret.setCount( (result == null ? 0 : result.size()) );
+        ret.setCount((result == null ? 0 : result.size()));
 
         for (UserLogin u : result) {
             ret.getList().add(new UserSessionRepData(u.getUser().getLogin(), u.getUser().getName(), u.getLoginDate(), u.getLogoutDate(), u.getIpAddress(), u.getApplication()));

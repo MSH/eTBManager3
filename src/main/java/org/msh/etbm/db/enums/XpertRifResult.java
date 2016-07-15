@@ -1,11 +1,11 @@
 package org.msh.etbm.db.enums;
 
 public enum XpertRifResult {
-	RIF_DETECTED,
-	RIF_NOT_DETECTED,
-	RIF_INDETERMINATE;
+    RIF_DETECTED,
+    RIF_NOT_DETECTED,
+    RIF_INDETERMINATE;
 
-	public String getKey() {
-		return getClass().getSimpleName().concat("." + name());
-	}
+    public String getKey() {
+        return getClass().getSimpleName().concat("." + name());
+    }
 }

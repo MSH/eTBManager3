@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * Age range data returned to the client from the service layer
- *
+ * <p>
  * Created by rmemoria on 6/1/16.
  */
 public class AgeRangeData {

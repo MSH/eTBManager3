@@ -1,25 +1,37 @@
 package org.msh.etbm.services.admin.usersws;
 
+import org.msh.etbm.Messages;
+import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserWorkspace;
-import org.msh.etbm.db.enums.UserState;
+import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
 import org.msh.etbm.services.admin.usersws.data.UserWsData;
 import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.pub.ForgotPwdService;
+import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.PasswordLogHandler;
+import org.msh.etbm.services.security.password.PasswordUpdateService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
 import java.util.Date;
-import java.util.UUID;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implementation of the {@link UserWsService} to handle CRUD operations for User workspace
- *
+ * <p>
  * Created by rmemoria on 26/1/16.
  */
 @Service
@@ -27,6 +39,18 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    MailService mailService;
+
+    @Autowired
+    Messages messages;
+
+    @Autowired
+    PasswordUpdateService passwordUpdateService;
+
+    @Autowired
+    ForgotPwdService forgotPwdService;
 
     @Override
     protected void buildQuery(QueryBuilder<UserWorkspace> builder, UserWsQueryParams queryParams) {
@@ -46,7 +70,18 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
+    public String getCommandType() {
+        return CommandTypes.ADMIN_USERS;
+    }
+
+    @Override
     protected void beforeValidate(UserWorkspace uw, Object request) {
+        // set login to lower case
+        User user = uw.getUser();
+        if (user != null && user.getLogin() != null) {
+            uw.getUser().setLogin(uw.getUser().getLogin().toLowerCase());
+        }
+
         if (uw.getAdminUnit() == null && uw.getUnit() != null) {
             uw.setAdminUnit(uw.getUnit().getAddress().getAdminUnit());
         }
@@ -54,11 +89,43 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Override
     protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
+        if (!checkUnique(User.class, userWorkspace.getUser(), "login", null)) {
+            errors.rejectValue("login", Messages.NOT_UNIQUE);
+        }
+
+        if (!checkUnique(User.class, userWorkspace.getUser(), "email", null)) {
+            errors.rejectValue("email", Messages.NOT_UNIQUE);
+        }
+
         initNewUser(userWorkspace.getUser());
+    }
+
+    @Override
+    protected void afterSave(UserWorkspace entity, ServiceResult res, boolean isNew) {
+        if (isNew) {
+            sendMessageToNewUser(entity);
+        }
+    }
+
+
+    /**
+     * Send an e-mail message to the user informing about its registration and link to change the password
+     *
+     * @param uw
+     */
+    protected void sendMessageToNewUser(UserWorkspace uw) {
+        User user = uw.getUser();
+        // send a message informing
+        Map<String, Object> model = new HashMap<>();
+        model.put("user", user);
+        model.put("name", user.getName());
+        mailService.send(uw.getUser().getEmail(), messages.get("mail.newuser"), "new-user.ftl", model);
+
     }
 
     /**
      * Initialize the variables for a new user
+     *
      * @param user the new user to be registered
      */
     protected void initNewUser(User user) {
@@ -67,11 +134,11 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
             return;
         }
 
-        user.setState(UserState.VALIDATE_EMAIL);
+        user.setEmailConfirmed(false);
 
         // generate new UUID token to change password
-        UUID id = UUID.randomUUID();
-        user.setPwdChangeRequest(id.toString());
+        String token = UserUtils.generatePasswordToken();
+        user.setPasswordResetToken(token);
 
         // set the date and time user was registered
         user.setRegistrationDate(new Date());
@@ -89,5 +156,48 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         dao.save();
 
         System.out.println(dao.getEntity().getId());
+    }
+
+    @Transactional
+    @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
+    public Map<String, Object> changePassword(UserWsChangePwdFormData data) {
+        UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
+
+        if (userws == null) {
+            throw new RuntimeException("UserWs not found");
+        }
+
+        // Update the user password on database
+        passwordUpdateService.updatePassword(userws.getUser().getId(), data.getNewPassword());
+
+        // Send email notifying the user
+        Map<String, Object> model = new HashMap<>();
+        model.put("adminUserName", userRequestService.getUserSession().getUserName());
+        model.put("name", userws.getUser().getName());
+        String subject = messages.get("mail.pwdchanged.subject");
+        mailService.send(userws.getUser().getEmail(), subject, "userwschangepwd.ftl", model);
+
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", userws.getUser().getName());
+        ret.put("userModifiedId", userws.getUser().getId());
+        ret.put("detail", "The user changed the password of another user throw administrative module.");
+
+        return ret;
+    }
+
+    @Transactional
+    @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
+    public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
+        UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
+        forgotPwdService.requestPasswordReset(userws.getLogin());
+
+        // create data for command log
+        HashMap<String, Object> ret = new HashMap<>();
+        ret.put("userModifiedName", userws.getUser().getName());
+        ret.put("userModifiedId", userws.getUser().getId());
+        ret.put("detail", "The user sent a reset password e-mail to another user throw administrative module.");
+
+        return ret;
     }
 }

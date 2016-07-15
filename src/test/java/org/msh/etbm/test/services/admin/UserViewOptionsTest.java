@@ -10,8 +10,8 @@ import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.services.admin.usersws.UserViewOptions;
+import org.msh.etbm.services.admin.usersws.data.UserViewData;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +25,7 @@ import static org.junit.Assert.*;
 
 /**
  * Test the {@link UserViewOptions} component (indirectly instantiated by FormServices)
- *
+ * <p>
  * Created by rmemoria on 10/2/16.
  */
 public class UserViewOptionsTest extends AuthenticatedTest {
@@ -50,9 +50,9 @@ public class UserViewOptionsTest extends AuthenticatedTest {
 
         assertEquals(items.size(), 1);
         Item item = items.get(0);
-        assert(item.getId() instanceof UserViewData);
+        assert (item.getId() instanceof UserViewData);
 
-        UserViewData uv = (UserViewData)item.getId();
+        UserViewData uv = (UserViewData) item.getId();
         assertEquals(uv.getView().get(), UserView.COUNTRY);
         assertNull(uv.getAdminUnitId());
     }
@@ -68,12 +68,12 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         QueryResult<UnitData> units = unitService.findMany(p);
 
         // assert there is at least one single unit
-        assert(units.getList().size() > 0);
+        assert (units.getList().size() > 0);
 
         UnitData data = units.getList().get(0);
 
-        assert(data instanceof UnitData);
-        assert(data.getAdminUnit() instanceof AdminUnitSeries);
+        assert (data instanceof UnitData);
+        assert (data.getAdminUnit() instanceof AdminUnitSeries);
 
         Map<String, Object> params = new HashMap<>();
         params.put(UserViewOptions.PARAM_UNITID, data.getId().toString());
@@ -84,7 +84,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         List<Item> items = process(req);
 
         // at least the country option, admin unit, the unit and option to select other units
-        assert(items.size() >= 4);
+        assert (items.size() >= 4);
 
         // check country option
         Item<UserViewData> item = items.get(0);
@@ -101,7 +101,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         // check unit
         item = items.get(items.size() - 2);
         id = item.getId();
-        assertEquals(id.getView().get(), UserView.TBUNIT);
+        assertEquals(id.getView().get(), UserView.UNIT);
         assertNull(id.getAdminUnitId());
 
 
@@ -114,6 +114,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
 
     /**
      * Execute the form request
+     *
      * @param req the request to be performed
      * @return the expected list of items
      */
@@ -125,16 +126,16 @@ public class UserViewOptionsTest extends AuthenticatedTest {
 
         // assert values
         assertNotNull(res);
-        assert(res.keySet().size() > 0);
+        assert (res.keySet().size() > 0);
         assertNotNull(res.get(KEY));
-        assert(res.get(KEY) instanceof List);
+        assert (res.get(KEY) instanceof List);
 
-        List<Item> items = (List)res.get(KEY);
+        List<Item> items = (List) res.get(KEY);
 
-        for (Item item: items) {
-            assert(item.getId() instanceof UserViewData);
+        for (Item item : items) {
+            assert (item.getId() instanceof UserViewData);
         }
 
-        return (List)res.get(KEY);
+        return (List) res.get(KEY);
     }
 }

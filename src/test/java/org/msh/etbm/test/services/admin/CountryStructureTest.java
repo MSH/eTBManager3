@@ -1,7 +1,7 @@
 package org.msh.etbm.test.services.admin;
 
 import org.junit.Test;
-import org.msh.etbm.commons.ErrorMessages;
+import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.CountryStructure;
@@ -13,7 +13,10 @@ import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.FieldError;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -79,8 +82,7 @@ public class CountryStructureTest extends CommonEntityServiceTests {
         try {
             service.create(req);
             fail("Should raise EntityValidationException");
-        }
-        catch (EntityValidationException e) {
+        } catch (EntityValidationException e) {
             assertEquals(e.getClass(), EntityValidationException.class);
 
             // get errors
@@ -88,7 +90,7 @@ public class CountryStructureTest extends CommonEntityServiceTests {
             assertNotNull(lst);
             // assert error
             assertEquals(lst.size(), 1);
-            assertEquals(lst.get(0).getCode(), ErrorMessages.NOT_UNIQUE);
+            assertEquals(lst.get(0).getCode(), Messages.NOT_UNIQUE);
         }
 
         service.delete(res.getId());

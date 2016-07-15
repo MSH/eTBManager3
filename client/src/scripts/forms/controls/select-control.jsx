@@ -1,5 +1,6 @@
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
 import { isPromise } from '../../commons/utils';
@@ -46,17 +47,18 @@ export default class SelectControl extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	focus() {
-		this.refs.sel.getInputDOMNode().focus();
+		const comp = this.refs.sel;
+		if (comp) {
+			comp.getDOMNode().focus();
+		}
 	}
 
 	/**
 	 * Called when user changes the value in the control
 	 * @return {[type]} [description]
 	 */
-	onChange() {
+	onChange(value) {
 		const sc = this.props.schema;
-		const value = this.refs.sel.getValue();
-
 		this.props.onChange({ schema: sc, value: value ? value.id : null });
 	}
 

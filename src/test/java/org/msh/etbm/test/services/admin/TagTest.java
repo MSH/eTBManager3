@@ -10,7 +10,10 @@ import org.msh.etbm.test.services.CommonEntityServiceTests;
 import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by msantos on 2/24/16.
@@ -57,13 +60,14 @@ public class TagTest extends CommonEntityServiceTests {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void testInvalidSqlCondition(){
+    public void testInvalidSqlCondition() {
         setEntityService(tagService);
 
         // test create and find one
         Map<String, Object> props = new HashMap<>();
         props.put("name", "My tag3");
-        props.put("sqlCondition", "a.statee > 2");
+        // THERE IS AN ERROR, BUT IT'S PART OF THE TEST
+        props.put("sqlCondition", "a.invalidFIELD > 2");
         props.put("consistencyCheck", false);
         props.put("active", true);
         props.put("dailyUpdate", false);

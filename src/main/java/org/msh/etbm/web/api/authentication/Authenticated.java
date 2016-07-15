@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 /**
  * All methods or classes that implements a REST API that must be authenticated
  * first, must implement this annotation
- *
+ * <p>
  * Created by rmemoria on 5/5/15.
  */
 @Documented

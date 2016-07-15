@@ -14,81 +14,81 @@ import java.util.List;
 @Table(name = "userworkspace")
 public class UserWorkspace extends WorkspaceEntity {
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "UNIT_ID")
-	@PropertyLog(operations = {Operation.NEW})
-	private Unit unit;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "UNIT_ID")
+    @PropertyLog(operations = {Operation.NEW})
+    private Unit unit;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
-	@NotNull
-	@PropertyLog(ignore = true)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    @NotNull
+    @PropertyLog(ignore = true)
+    private User user;
 
     /**
      * If true, user is granted all permissions in the system
      */
     private boolean administrator;
-	
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "userworkspace_profiles",
             joinColumns = {@JoinColumn(name = "USERWORKSPACE_ID")},
             inverseJoinColumns = {@JoinColumn(name = "USERPROFILE_ID")})
     @PropertyLog(operations = {Operation.NEW})
-	private List<UserProfile> profiles = new ArrayList<>();
+    private List<UserProfile> profiles = new ArrayList<>();
 
 
-	@Column(name = "USER_VIEW")
-	@NotNull
-	@PropertyLog(operations = {Operation.NEW})
-	private UserView view;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ADMINUNIT_ID")
-	@PropertyLog(operations = {Operation.NEW})
+    @Column(name = "USER_VIEW")
     @NotNull
-	private AdministrativeUnit adminUnit;
-    
+    @PropertyLog(operations = {Operation.NEW})
+    private UserView view;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADMINUNIT_ID")
+    @PropertyLog(operations = {Operation.NEW})
+    @NotNull
+    private AdministrativeUnit adminUnit;
+
     private boolean playOtherUnits;
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public UserView getView() {
-		return view;
-	}
+    public UserView getView() {
+        return view;
+    }
 
-	public void setView(UserView view) {
-		this.view = view;
-	}
+    public void setView(UserView view) {
+        this.view = view;
+    }
 
-	public boolean isPlayOtherUnits() {
-		return playOtherUnits;
-	}
+    public boolean isPlayOtherUnits() {
+        return playOtherUnits;
+    }
 
-	public void setPlayOtherUnits(boolean playOtherUnits) {
-		this.playOtherUnits = playOtherUnits;
-	}
+    public void setPlayOtherUnits(boolean playOtherUnits) {
+        this.playOtherUnits = playOtherUnits;
+    }
 
-	/**
-	 * @param adminUnit the adminUnit to set
-	 */
-	public void setAdminUnit(AdministrativeUnit adminUnit) {
-		this.adminUnit = adminUnit;
-	}
+    /**
+     * @param adminUnit the adminUnit to set
+     */
+    public void setAdminUnit(AdministrativeUnit adminUnit) {
+        this.adminUnit = adminUnit;
+    }
 
-	/**
-	 * @return the adminUnit
-	 */
-	public AdministrativeUnit getAdminUnit() {
-		return adminUnit;
-	}
+    /**
+     * @return the adminUnit
+     */
+    public AdministrativeUnit getAdminUnit() {
+        return adminUnit;
+    }
 
     public Unit getUnit() {
         return unit;
@@ -119,4 +119,11 @@ public class UserWorkspace extends WorkspaceEntity {
         return user.getDisplayString() + " - " + getWorkspace().getDisplayString();
     }
 
+    public String getLogin() {
+        return user != null ? user.getLogin() : null;
+    }
+
+    public String getEmail() {
+        return user != null ? user.getEmail() : null;
+    }
 }

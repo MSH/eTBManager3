@@ -10,7 +10,10 @@ import org.msh.etbm.test.services.CommonEntityServiceTests;
 import org.msh.etbm.test.services.TestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by rmemoria on 8/2/16.
@@ -22,7 +25,6 @@ public class SubstanceTest extends CommonEntityServiceTests {
 
     /**
      * Single constructor passing the classes to be used during tests
-     *
      */
     public SubstanceTest() {
         super(Substance.class, SubstanceFormData.class, SubstanceData.class);

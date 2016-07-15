@@ -7,7 +7,7 @@ import java.util.UUID;
 
 /**
  * Response sent to the client in order to initialize a field of an administrative unit selection box
- *
+ * <p>
  * Created by rmemoria on 18/1/16.
  */
 public class AdminUnitFieldResponse {

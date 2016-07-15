@@ -6,7 +6,7 @@ import java.util.Optional;
 
 /**
  * Substance request data used in CRUD operations to create a new one or update the data of an existing one
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 public class SubstanceFormData {
@@ -18,6 +18,7 @@ public class SubstanceFormData {
     private Optional<Boolean> dstResultForm;
     private Optional<Integer> displayOrder;
     private Optional<String> customId;
+    private Optional<Boolean> active;
 
 
     public Optional<String> getName() {
@@ -74,5 +75,13 @@ public class SubstanceFormData {
 
     public void setCustomId(Optional<String> customId) {
         this.customId = customId;
+    }
+
+    public Optional<Boolean> getActive() {
+        return active;
+    }
+
+    public void setActive(Optional<Boolean> active) {
+        this.active = active;
     }
 }

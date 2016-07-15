@@ -13,48 +13,48 @@ import java.util.List;
 @Table(name = "userprofile")
 public class UserProfile extends WorkspaceEntity implements Displayable {
 
-	@Column(length = 100)
-	@NotNull
-	@PropertyLog(messageKey = "form.name")
-	private String name;
+    @Column(length = 100)
+    @NotNull
+    @PropertyLog(messageKey = "form.name")
+    private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfile",cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userProfile", cascade = {CascadeType.ALL})
     private List<UserPermission> permissions = new ArrayList<UserPermission>();
 
-	@Column(length = 50)
-	@PropertyLog(messageKey = "form.customId")
-	private String customId;
+    @Column(length = 50)
+    @PropertyLog(messageKey = "form.customId")
+    private String customId;
 
 
-	public UserPermission permissionByPermissionID(String permissionId) {
-		for (UserPermission up: getPermissions()) {
-			if (up.getPermission().equals(permissionId)) {
+    public UserPermission permissionByPermissionID(String permissionId) {
+        for (UserPermission up : getPermissions()) {
+            if (up.getPermission().equals(permissionId)) {
                 return up;
-			}
-		}
-		return null;
-	}
+            }
+        }
+        return null;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
-	public int compareTo(UserProfile userProfile) {
-		return name.compareTo(userProfile.getName());
-	}
+    public int compareTo(UserProfile userProfile) {
+        return name.compareTo(userProfile.getName());
+    }
 
-	public List<UserPermission> getPermissions() {
-		return permissions;
-	}
+    public List<UserPermission> getPermissions() {
+        return permissions;
+    }
 
-	public void setPermissions(List<UserPermission> permissions) {
-		this.permissions = permissions;
-	}
+    public void setPermissions(List<UserPermission> permissions) {
+        this.permissions = permissions;
+    }
 
     public String getCustomId() {
         return customId;

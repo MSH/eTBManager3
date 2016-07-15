@@ -5,7 +5,7 @@ import java.util.UUID;
 
 /**
  * Request with information about the address, to be mapped back to {@link org.msh.etbm.db.Address}
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class AddressRequest {

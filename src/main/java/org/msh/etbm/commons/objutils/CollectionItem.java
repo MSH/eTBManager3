@@ -2,7 +2,7 @@ package org.msh.etbm.commons.objutils;
 
 /**
  * Store information about an item of a collection
- *
+ * <p>
  * Created by rmemoria on 9/3/16.
  */
 public class CollectionItem {

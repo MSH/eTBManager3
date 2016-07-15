@@ -103,7 +103,7 @@ export default class ListBox extends React.Component {
 		}
 
 		// create the components
-		var opts = null;
+		var opts;
 
 		if (this.props.mode === 'single') {
 			opts = options
@@ -234,7 +234,7 @@ export default class ListBox extends React.Component {
 
 ListBox.propTypes = {
 	label: React.PropTypes.node,
-	optionDisplay: React.PropTypes.any, // TODOMS: testar se pode entrar um node, ou função e se funciona de boa
+	optionDisplay: React.PropTypes.any,
 	options: React.PropTypes.array,
 	onChange: React.PropTypes.func,
 	value: React.PropTypes.any,

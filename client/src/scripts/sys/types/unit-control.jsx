@@ -59,7 +59,8 @@ export default class UnitControl extends React.Component {
 				cmd: 'unit',
 				params: {
 					value: nextValue,
-					workspaceId: nextSchema.workspaceId
+					workspaceId: nextSchema.workspaceId,
+					type: nextSchema.unitType
 				}
 			};
 	}
@@ -68,7 +69,7 @@ export default class UnitControl extends React.Component {
 	 * Called when user changes the administrative unit select box
 	 * @return {[type]} [description]
 	 */
-	onAuChange(evt, item) {
+	onAuChange(item) {
 		const admUnit = item ? item.id : null;
 		const resources = this.props.resources;
 
@@ -78,7 +79,7 @@ export default class UnitControl extends React.Component {
 		if (admUnit === '-') {
 			resources.units = null;
 			this.forceUpdate();
-			this.onUnitChange(null, null);
+			this.onUnitChange(null);
 			return;
 		}
 
@@ -87,6 +88,8 @@ export default class UnitControl extends React.Component {
 			params: {
 				// the workspace in use
 				workspaceId: this.props.schema.workspaceId,
+				// the workspace in use
+				type: this.props.schema.unitType,
 				// just the list of units
 				units: true,
 				// the selected admin unit
@@ -104,7 +107,7 @@ export default class UnitControl extends React.Component {
 
 		resources.units = null;
 		resources.adminUnitId = admUnit;
-		this.onUnitChange(null, null);
+		this.onUnitChange(null);
 	}
 
 	/**
@@ -113,7 +116,7 @@ export default class UnitControl extends React.Component {
 	 * @param  {[type]} item [description]
 	 * @return {[type]}      [description]
 	 */
-	onUnitChange(evt, item) {
+	onUnitChange(item) {
 		const id = item ? item.id : null;
 		const val = this.props.value ? this.props.value : null;
 
@@ -200,7 +203,7 @@ export default class UnitControl extends React.Component {
 
 	render() {
 		const schema = this.props.schema || {};
-		return schema.readOnly ? this.readOnlyRender(schema) : this.editorRender(schema);
+		return schema.readOnly ? this.readOnlyRender(schema) : this.editorRender();
 	}
 }
 

@@ -18,7 +18,9 @@ public class UnitDetailedData extends UnitItemData {
     private UnitData authorizer;
     private boolean receiveFromManufacturer;
 
-    /** laboratory part */
+    /**
+     * laboratory part
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean performCulture;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,8 +29,10 @@ public class UnitDetailedData extends UnitItemData {
     private Boolean performDst;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean performXpert;
-    
-    /** TB unit part */
+
+    /**
+     * TB unit part
+     */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Boolean tbFacility;
     @JsonInclude(JsonInclude.Include.NON_NULL)

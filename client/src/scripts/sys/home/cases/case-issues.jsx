@@ -90,7 +90,7 @@ export default class CaseIssues extends React.Component {
 							<div className="pull-right">
 								<a className="lnk-muted" onClick={this.editClick(issue)}><Fa icon="pencil"/>{__('action.edit')}</a>
 								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-									<a className="lnk-muted" onClick={this.removeClick(issue)}><Fa icon="remove"/></a>
+									<a className="lnk-muted" onClick={this.removeClick(issue)}><Fa icon="trash-o"/></a>
 								</OverlayTrigger>
 							</div>
 							<span className="status-box bg-primary">

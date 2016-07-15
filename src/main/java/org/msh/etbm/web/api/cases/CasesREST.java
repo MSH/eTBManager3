@@ -6,7 +6,7 @@ import org.msh.etbm.services.cases.cases.CaseData;
 import org.msh.etbm.services.cases.cases.CaseFormData;
 import org.msh.etbm.services.cases.cases.CaseQueryParams;
 import org.msh.etbm.services.cases.cases.CaseService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.UUID;
  * Created by msantos on 26/3/16.
  */
 @RestController
-@RequestMapping("/api/casesman")
+@RequestMapping("/api/cases")
 @Authenticated(permissions = {Permissions.CASES})
 public class CasesREST {
 

@@ -85,7 +85,7 @@ export default class CrudTable extends React.Component {
 						{__('action.edit')}
 					</AsyncButton>
 					<Button bsStyle="link"
-						onClick={this.deleteClick(item, row)}>
+						onClick={this.deleteClick(item)}>
 						{__('action.delete')}
 					</Button>
 				</ButtonToolbar>

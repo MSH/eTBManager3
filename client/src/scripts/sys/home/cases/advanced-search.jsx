@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Col, Row, Input } from 'react-bootstrap';
+import { Grid, Col, Row, FormControl } from 'react-bootstrap';
 import { Card, SelectionBox, LinkTooltip, AsyncButton, ReactTable, Profile } from '../../../components';
 import { app } from '../../../core/app';
 
@@ -128,11 +128,11 @@ export default class AdvancedSearch extends React.Component {
 	filterValueRender(fval) {
 		switch (fval.filter.type) {
 			case 'text':
-				return <Input type="text" defaultValue={fval.value} />;
+				return <FormControl type="text" defaultValue={fval.value} />;
 			case 'select':
 				return <SelectionBox mode="multiple" options={fval.filter.options} optionDisplay="name" />;
 			case 'period':
-				return <Input type="text" defaultValue="TO BE IMPLEMENTED" />;
+				return <FormControl type="text" defaultValue="TO BE IMPLEMENTED" />;
 			default: throw new Error('Not supported ' + fval.type);
 		}
 	}
@@ -223,7 +223,7 @@ export default class AdvancedSearch extends React.Component {
 	 */
 	changeFilter(fval) {
 		const self = this;
-		return (evt, filter) => {
+		return filter => {
 			fval.filter = filter;
 			self.forceUpdate();
 		};

@@ -11,15 +11,15 @@ export default class Popup extends React.Component {
 		this.show = this.show.bind(this);
 		this.hide = this.hide.bind(this);
 
-		this.state = { open: false };
+		this.state = { show: false };
 	}
 
 	componentWillUnmount() {
 		this._remHandler();
 	}
 
-	_togglePopup() {
-		const open = !this.state.open;
+	_togglePopup(evt) {
+		const open = !this.state.show;
 
 		if (open) {
 			this.show();
@@ -43,19 +43,23 @@ export default class Popup extends React.Component {
 	}
 
 	hide() {
-		if (!this.state.open) {
+		if (!this.state.show) {
 			return;
 		}
-		this.setState({ open: false });
+		this.setState({ show: false });
+
+		if (this.props.onHide) {
+			this.props.onHide();
+		}
 		this._remHandler();
 	}
 
 	show() {
 		delete this._prevHide;
-		if (this.state.open) {
+		if (this.state.show) {
 			return;
 		}
-		this.setState({ open: true });
+		this.setState({ show: true });
 		this._addHandler();
 	}
 
@@ -64,7 +68,7 @@ export default class Popup extends React.Component {
 	}
 
 	render() {
-		const open = this.state && this.state.open;
+		const open = this.props.show || this.state.show;
 
 		const clazz = 'dropdown' + (open ? ' open' : '');
 
@@ -81,5 +85,7 @@ export default class Popup extends React.Component {
 }
 
 Popup.propTypes = {
-	children: React.PropTypes.node
+	children: React.PropTypes.node,
+	show: React.PropTypes.bool,
+	onHide: React.PropTypes.func
 };

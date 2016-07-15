@@ -2,7 +2,6 @@
  * Generate and maintain a form based on a given layout (in object structure) and a data model
  */
 import React from 'react';
-import { Grid } from 'react-bootstrap';
 import validateForm from './impl/form-validate';
 import { setValue } from '../commons/utils';
 import formRender from './impl/form-render';
@@ -216,14 +215,14 @@ export default class Form extends React.Component {
 	render() {
 		// render the form
 		const form = formRender(this);
-		return <Grid fluid className={this.props.className}>{form}</Grid>;
+		return <div className={this.props.className}>{form}</div>;
 	}
 }
 
 Form.propTypes = {
 	schema: React.PropTypes.object,
 	doc: React.PropTypes.object,
-	errors: React.PropTypes.object,
+	errors: React.PropTypes.array,
 	resources: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	readOnly: React.PropTypes.bool,

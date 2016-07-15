@@ -88,10 +88,10 @@ export default class ReactGrid extends React.Component {
 	}
 
 	render() {
-		const className = this.props.onCollapseRender ? 'tbl-hover' : null;
+		const className = (this.props.onCollapseRender ? 'tbl-hover' : null);
 
 		return (
-			<div className={className}>
+			<div className={className} style={{ clear: 'both' }}>
 				{this.gridRender()}
 			</div>
 			);

@@ -3,7 +3,7 @@ package org.msh.etbm.commons.entities.query;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -117,6 +117,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Default constructor
+     *
      * @param entityClass the entity class to be handled
      * @param entityAlias the path used in the FROM clause (optional, but required in join operation)
      */
@@ -127,6 +128,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Create HQL instruction to count number of entities from query
+     *
      * @return HQL instruction to count number of entities
      */
     public String createHQLCount() {
@@ -146,6 +148,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Create HQL instruction to query entities
+     *
      * @return HQL instruction
      */
     public String createHQL() {
@@ -172,6 +175,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Add order by HQL instruction, if necessary, to the query
+     *
      * @param hql
      */
     protected void addHQLOrderBy(StringBuilder hql) {
@@ -205,6 +209,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Add workspace restriction in the query
+     *
      * @param hql
      * @return
      */
@@ -229,7 +234,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         boolean bWhere = addWorkspaceRestriction(hql);
 
         if (restrictions != null) {
-            for (String restr: restrictions) {
+            for (String restr : restrictions) {
                 if (bWhere) {
                     hql.append(" and ");
                 } else {
@@ -243,6 +248,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Create query from hql instruction (count or result set)
+     *
      * @return
      */
     protected Query createQuery(String hql) {
@@ -250,7 +256,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
         // has parameters ?
         if (parameters != null) {
-            for (Map.Entry<String, Object>  p: parameters.entrySet()) {
+            for (Map.Entry<String, Object> p : parameters.entrySet()) {
                 qry.setParameter(p.getKey(), p.getValue());
             }
         }
@@ -265,8 +271,9 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     /**
      * Set a parameter to be used in the query
+     *
      * @param paramName parameter name
-     * @param value parameter value
+     * @param value     parameter value
      */
     @Override
     public void setParameter(String paramName, Object value) {
@@ -344,7 +351,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     @Override
     public long getCount() {
         Query qry = createQuery(createHQLCount());
-        Number res = (Number)qry.getSingleResult();
+        Number res = (Number) qry.getSingleResult();
 
         return res.longValue();
     }
@@ -387,7 +394,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
                 List<E> lst = getResultList();
 
                 List lst2 = new ArrayList();
-                for (E ent: lst) {
+                for (E ent : lst) {
                     lst2.add(mapper.map(ent, finalDestClass));
                 }
 
@@ -448,7 +455,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         if (qry.getIds() != null) {
             String s = "";
             int count = 1;
-            for (UUID id: qry.getIds()) {
+            for (UUID id : qry.getIds()) {
                 if (!s.isEmpty()) {
                     s += ",";
                 }

@@ -133,7 +133,7 @@ export default class UserSessions extends React.Component {
 			},
 			{
 				title: __('admin.websessions.sessiontime'),
-				content: item => item.logoutDate ? moment(item.loginDate).from(moment(item.logoutDate)) : moment(item.loginDate).fromNow(true),
+				content: item => item.logoutDate ? moment(item.loginDate).from(moment(item.logoutDate), true) : moment(item.loginDate).fromNow(true),
 				size: { sm: 4 }
 			}
 		];

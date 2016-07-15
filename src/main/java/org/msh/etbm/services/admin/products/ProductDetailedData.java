@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Detailed data about a product returned by the product service
- *
+ * <p>
  * Created by rmemoria on 13/11/15.
  */
 public class ProductDetailedData extends ProductData {

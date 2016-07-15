@@ -55,13 +55,13 @@ public class ObjectUtilsTest {
     public void newInstance() {
         Model model = ObjectUtils.newInstance(Model.class);
 
-        assert(model != null);
+        assert (model != null);
     }
 
 
     @Test
     public void hashTest() {
-        String[] fruits = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits = {"Banana", "Apple", "Strawberry", "Orange"};
         Model model = new Model("name1", 1L, 33, true, new Date(), Arrays.asList(fruits));
         int val = ObjectUtils.hash(model);
         assertTrue(val != 0);
@@ -86,10 +86,10 @@ public class ObjectUtilsTest {
     public void propertyValueTest() {
         // test a collection
         List<Model> models = new ArrayList<>();
-        String[] fruits = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits = {"Banana", "Apple", "Strawberry", "Orange"};
         models.add(new Model("name1", 1L, 33, true, new Date(), Arrays.asList(fruits)));
 
-        String[] fruits2 = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits2 = {"Banana", "Apple", "Strawberry", "Orange"};
         models.add(new Model("name2", 2L, 33, false, new Date(), Arrays.asList(fruits2)));
 
         PropertyValue val = new PropertyValue(models);
@@ -98,9 +98,9 @@ public class ObjectUtilsTest {
         assertFalse(val.isNull());
         assertNotNull(val.getItems());
 
-        for (CollectionItem item: val.getItems()) {
+        for (CollectionItem item : val.getItems()) {
             assertNotNull(item.getValue());
-            assert(item.getHash() != 0);
+            assert (item.getHash() != 0);
         }
 
         // test a single value
@@ -115,7 +115,7 @@ public class ObjectUtilsTest {
      */
     @Test
     public void objectValuesTest() {
-        String[] fruits = { "Banana", "Apple", "Strawberry", "Orange" };
+        String[] fruits = {"Banana", "Apple", "Strawberry", "Orange"};
         Model model = new Model("name1", 1L, 33, true, new Date(), Arrays.asList(fruits));
         ObjectValues ov = new ObjectValues(model);
 

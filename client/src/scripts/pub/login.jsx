@@ -1,10 +1,14 @@
 
 import React from 'react';
-import { Row, Col, Input, Button, Fade, Alert } from 'react-bootstrap';
-import { Card, AsyncButton } from '../components/index';
+import { Row, Col, Alert, FormGroup, FormControl, InputGroup, Checkbox } from 'react-bootstrap';
+import AsyncButton from '../components/async-button';
+import Fa from '../components/fa';
+import Error from '../components/error';
 import { validateForm } from '../commons/validator';
 import { app } from '../core/app';
 import { server } from '../commons/server';
+import Logo from './logo';
+import BorderlessForm from './borderless-form';
 
 
 /**
@@ -26,11 +30,6 @@ export default class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.loginClick = this.loginClick.bind(this);
-	}
-
-
-	forgotPwdClick() {
-		app.goto('/pub/forgotpwd');
 	}
 
 	/**
@@ -55,11 +54,15 @@ export default class Login extends React.Component {
 		this.login(val.user, val.pwd)
 		.then(data => {
 			if (data) {
-				app.goto('/sys/home/index');
+				app.goto('/sys/home/workspace/cases');
 			}
 			else {
 				self.setState({ fetching: false, invalid: true });
 			}
+		})
+		.catch(err => {
+			self.setState({ fetching: false });
+			return Promise.reject(err);
 		});
 	}
 
@@ -91,70 +94,84 @@ export default class Login extends React.Component {
 		const st = this.state;
 		const err = st && st.errors || {};
 		const fetching = st && st.fetching;
-
-		const iconUser = (<i className="fa fa-user fa-fw"></i>);
-		const iconPwd = (<i className="fa fa-key fa-fw"></i>);
+		const login = app.getState().login || '';
 
 		return (
-			<Fade in transitionAppear>
-				<div className="container central-container-md">
-					<Card title={__('login.enter_system')}>
-						<div>
-							<Row>
-								<Col sm={12}>
-									<Input type="text" ref="user" placeholder={__('User.login')} autoFocus
-										addonBefore={iconUser}
-										help={err.user} bsStyle={err.user ? 'error' : undefined}
-									/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<Input type="password" ref="pwd" placeholder={__('User.password')}
-										addonBefore={iconPwd}
-										help={err.pwd} bsStyle={err.pwd ? 'error' : undefined}/>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<Input type="checkbox" label={__('login.rememberme')} />
-								</Col>
-							</Row>
-							{st && st.invalid && (
-							<Row >
-								<Col sm={12}>
-									<Alert bsStyle="danger">
-										{__('login.invaliduserpwd')}
-									</Alert>
-								</Col>
-							</Row>
-							)}
-							<Row>
-								<Col sm={12}>
-									<AsyncButton block onClick={this.loginClick}
-										fetching={fetching} fetchCaption={__('action.entering')}>
-										{__('action.enter')}
-									</AsyncButton>
-								</Col>
-							</Row>
-							<Row>
-								<hr/>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<Button bsStyle="link" onClick={this.forgotPwdClick}>{__('login.msg2')}</Button>
-								</Col>
-							</Row>
-							<Row>
-								<Col sm={12}>
-									<p className="mtop-2x">{__('login.newuser')}</p>
-									<Button bsStyle="default" block>{__('login.createaccount')}</Button>
-								</Col>
-							</Row>
-						</div>
-					</Card>
-				</div>
-			</Fade>
+				<Logo>
+					<div>
+					<Row>
+						<Col md={12}>
+							<div className="text-center">
+								<p className="text-muted">{__('login.msg1')}</p>
+							</div>
+							<BorderlessForm>
+								<FormGroup validationState={err.user ? 'error' : undefined} >
+									<InputGroup>
+										<InputGroup.Addon>
+											<Fa icon="user" />
+										</InputGroup.Addon>
+										<FormControl type="text"
+											ref="user"
+											placeholder={__('User.login')} autoFocus={!login}
+											defaultValue={login}
+											/>
+									</InputGroup>
+									<Error msg={err.user} />
+								</FormGroup>
+
+								<FormGroup validationState={err.pwd ? 'error' : undefined} >
+									<InputGroup>
+										<InputGroup.Addon>
+											<Fa icon="key" />
+										</InputGroup.Addon>
+										<FormControl type="password"
+											autoFocus={!!login}
+											ref="pwd"
+											placeholder={__('User.password')}
+											/>
+									</InputGroup>
+									<Error msg={err.pwd} />
+								</FormGroup>
+							</BorderlessForm>
+						</Col>
+					</Row>
+					{st && st.invalid && (
+						<Row >
+							<Col sm={12}>
+								<Alert bsStyle="danger">
+									{__('login.invaliduserpwd')}
+								</Alert>
+							</Col>
+						</Row>
+					)}
+					<Row>
+						<Col sm={12}>
+							<Checkbox>{__('login.rememberme')}</Checkbox>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12}>
+							<AsyncButton block onClick={this.loginClick}
+								bsSize="large"
+								fetching={fetching} fetchCaption={__('action.entering')}>
+								{__('action.enter')}
+							</AsyncButton>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12} className="text-center mtop-2x">
+							<a href="#/pub/forgotpwd">{__('forgotpwd')}</a>
+						</Col>
+					</Row>
+					<Row>
+						<Col sm={12} className="mtop-2x">
+							<a className="btn btn-block btn-lg btn-default" href="#/pub/selfreg">
+								{__('userreg')}
+							</a>
+						</Col>
+					</Row>
+					</div>
+				</Logo>
 		);
 	}
 }

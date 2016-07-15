@@ -41,7 +41,7 @@ public class ListLogData implements CommandData {
     }
 
     public ListLogData put(ObjectValues vals) {
-        for (String prop: vals.getValues().keySet()) {
+        for (String prop : vals.getValues().keySet()) {
             put(prop, vals.getValues().get(prop));
         }
         return this;

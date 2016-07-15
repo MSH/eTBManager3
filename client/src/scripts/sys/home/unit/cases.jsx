@@ -1,44 +1,11 @@
 import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
-import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
+import { Card, Profile, WaitIcon, ReactTable, Fa, CommandBar } from '../../../components';
 import AdvancedSearch from '../cases/advanced-search';
 import { app } from '../../../core/app';
-
-import { generateName, generateCaseNumber } from '../../mock-data';
-
-
-const tags = [
-	{
-		id: '123456-1',
-		name: 'Not on treatment',
-		type: 'userdef',
-		count: 14
-	},
-	{
-		id: '123456-2',
-		name: 'On treatment',
-		type: 'userdef',
-		count: 120
-	},
-	{
-		id: '123456-3',
-		name: 'Closed cases',
-		type: 'warn',
-		count: 243
-	},
-	{
-		id: '123456-4',
-		name: 'DR-TB with no resistance with a long name that someone included',
-		type: 'danger',
-		count: 5
-	},
-	{
-		id: '123456-5',
-		name: 'TB with resistance',
-		type: 'danger',
-		count: 8
-	}
-];
+import { server } from '../../../commons/server';
+import moment from 'moment';
+import SessionUtils from '../../session-utils';
 
 
 export default class Cases extends React.Component {
@@ -65,51 +32,17 @@ export default class Cases extends React.Component {
 	 */
 	loadCases() {
 		const self = this;
-		setTimeout(() => {
-			const presumptives = [];
-			for (var i = 0; i < 20; i++) {
-				const res = generateName();
-				presumptives.push({
-					name: res.name,
-					gender: res.gender,
-					id: (123456 + i).toString(),
-					recordNumber: '123456-789-01',
-					recordDate: '21-jan-2016',
-					xpertResult: {
-						id: 'TB_DETECT',
-						name: 'TB Detected'
-					},
-					micResult: {
-						id: 'POSITIVE',
-						name: 'Positive'
-					}
-				});
-			}
 
-			const drtb = [];
-			for (var n = 0; n < 16; n++) {
-				const res = generateName();
-				drtb.push({
-					name: res.name,
-					gender: res.gender,
-					id: (123456 + n).toString(),
-					recordNumber: generateCaseNumber(),
-					regGroup: {
-						id: 'AFTER_FAILURE',
-						name: 'After failure of 1st treatment'
-					},
-					infectionSite: {
-						id: 'PULMONARY',
-						name: 'Pulmonary'
-					},
-					recordDate: 'jan 20th, 2016',
-					iniTreatmentDate: 'Jan 31th, 2016',
-					treatProgess: 35
-				});
-			}
+		const unitId = this.props.route.queryParam('id');
 
-			self.setState({ presumptives: presumptives, tags: tags, drtbCases: drtb, tbCases: [] });
-		}, 600);
+		// get data from the server
+		server.post('/api/cases/unit/' + unitId, {})
+		.then(res => self.setState({
+			presumptives: res.presumptives,
+			drtbCases: res.drtbCases,
+			tbCases: res.tbCases,
+			tags: res.tags
+		}));
 	}
 
 	/**
@@ -134,7 +67,7 @@ export default class Cases extends React.Component {
 	 * @return {[type]}    [description]
 	 */
 	caseClick(item) {
-		app.goto('/sys/home/cases/details/' + item.id);
+		window.location.hash = SessionUtils.caseHash(item.id);
 	}
 
 	tabSelect(evt) {
@@ -156,15 +89,15 @@ export default class Cases extends React.Component {
 				onSelect={this.tabSelect}>
 				<NavItem key={0} eventKey={0}>
 					{this.listCount(this.state.presumptives)}
-					{'Presumptive'}
+					{__('cases.suspects')}
 				</NavItem>
 				<NavItem key={1} eventKey={1}>
 					{this.listCount(this.state.tbCases)}
-					{'TB Cases'}
+					{__('cases.tb')}
 				</NavItem>
 				<NavItem key={2} eventKey={2}>
 					{this.listCount(this.state.drtbCases)}
-					{'DR-TB Cases'}
+					{__('cases.drtb')}
 				</NavItem>
 			</Nav>
 			);
@@ -219,13 +152,13 @@ export default class Cases extends React.Component {
 					{
 						title: 'Registration date',
 						size: { sm: 2 },
-						content: item => <div>{item.recordDate}<br/>
+						content: item => <div>{item.registrationDate}<br/>
 								<div className="sub-text">{'30 days ago'}</div></div>
 					},
 					{
 						title: 'Registration group',
 						size: { sm: 2 },
-						content: item => <div>{item.regGroup.name}<br/>{item.infectionSite.name}</div>
+						content: item => <div>{item.registrationGroup.name}<br/>{item.infectionSite}</div>
 					},
 					{
 						title: 'Start treatment date',
@@ -257,19 +190,21 @@ export default class Cases extends React.Component {
 		return (
 			<ReactTable columns={
 				[{
-					title: 'Patient',
+					title: __('Patient'),
 					size: { sm: 4 },
 					content: item =>
 							<Profile type={item.gender.toLowerCase()} size="small"
 								title={item.name} subtitle={item.recordNumber} />
 				},
 				{
-					title: 'Registration date',
+					title: __('TbCase.registrationDate'),
 					size: { sm: 3 },
-					content: item =>
-						<div>{item.recordDate}
-							<div className="sub-text">{'30 days ago'}</div>
-						</div>,
+					content: item => {
+						const dt = moment(item.registrationDate);
+						return (<div>{dt.format('L')}
+							<div className="sub-text">{dt.fromNow()}</div>
+						</div>);
+					},
 					align: 'center'
 				},
 				{
@@ -280,7 +215,7 @@ export default class Cases extends React.Component {
 				{
 					title: 'Microscopy',
 					size: { sm: 2 },
-					content: item => item.micResult.name
+					content: item => item.microscopyResult
 				}
 				]} values={lst} className="mtop-2x" onClick={this.caseClick} />
 		);
@@ -292,7 +227,7 @@ export default class Cases extends React.Component {
 	 */
 	noRecFoundRender() {
 		return (
-			<div className="card-default">
+			<div className="card-default mtop-2x">
 				<div className="card-content">
 					<Alert bsStyle="warning">{__('form.norecordfound')}</Alert>
 				</div>
@@ -313,7 +248,6 @@ export default class Cases extends React.Component {
 	}
 
 	render() {
-
 		const caseSearch = app.getState().caseSearch;
 
 		const popup = (
@@ -326,29 +260,43 @@ export default class Cases extends React.Component {
 				</Popover>
 			);
 
+		const commands = [
+			{
+				node: (
+					<OverlayTrigger key="pp" trigger="click" placement="right"
+						overlay={popup} rootClose>
+						<NavItem><Fa icon="coffee" />{'New notification'}</NavItem>
+					</OverlayTrigger>
+					)
+			},
+			{
+				label: __('cases.advancedsearch'),
+				icon: 'feed',
+				onClick: this.toggleSearch
+			}
+		];
+
 		return (
 			<Grid fluid>
 			<Row className="mtop">
 				<Col sm={3}>
-					<OverlayTrigger trigger="click" placement="right"
-						overlay={popup} rootClose>
-						<Button bsStyle="danger" block style={{ padding: '8px 40px' }}>{'Notify'}</Button>
-					</OverlayTrigger>
-					<Button block onClick={this.toggleSearch}>{__('cases.advancedsearch')}</Button>
-
-					<Card className="mtop" title="Tags">
-						<div>
-							{
-								!this.state.tags ? <WaitIcon type="card" /> :
-								this.state.tags.map(item => (
-									<a key={item.id} className={'tag-link tag-' + item.type}>
-										<Badge pullRight>{item.count}</Badge>
-										<div className="tag-title">{item.name}</div>
-									</a>
-								))
-							}
-						</div>
-					</Card>
+					<CommandBar commands={commands} />
+					{
+						this.state.tags &&
+						<Card className="mtop" title="Tags">
+							<div>
+								{
+									!this.state.tags ? <WaitIcon type="card" /> :
+									this.state.tags.map(item => (
+										<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()}>
+											<Badge pullRight>{item.count}</Badge>
+											<div className="tag-title">{item.name}</div>
+										</a>
+									))
+								}
+							</div>
+						</Card>
+					}
 				</Col>
 				<Col sm={9}>
 				{
@@ -362,3 +310,7 @@ export default class Cases extends React.Component {
 		);
 	}
 }
+
+Cases.propTypes = {
+	route: React.PropTypes.object
+};

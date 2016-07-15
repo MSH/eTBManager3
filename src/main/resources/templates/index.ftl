@@ -19,11 +19,12 @@
 
     .cssload-loading i {
         position: absolute;
-        top: 33px; left: 33px;
+        top: 33px;
+        left: 33px;
         display: block;
         width: 33px;
         height: 33px;
-        background: rgb(101,199,121);
+        background: rgb(101, 199, 121);
         border-radius: 33px;
         animation: cssload-spin2 2.63s ease-in-out infinite;
         -o-animation: cssload-spin2 2.63s ease-in-out infinite;
@@ -31,18 +32,22 @@
         -webkit-animation: cssload-spin2 2.63s ease-in-out infinite;
         -moz-animation: cssload-spin2 2.63s ease-in-out infinite;
     }
+
     .cssload-loading i:first-child {
-        top: -33px; left: 0;
-        background: rgb(20,168,109);
+        top: -33px;
+        left: 0;
+        background: rgb(20, 168, 109);
         animation: cssload-spin 2.63s ease-in-out infinite;
         -o-animation: cssload-spin 2.63s ease-in-out infinite;
         -ms-animation: cssload-spin 2.63s ease-in-out infinite;
         -webkit-animation: cssload-spin 2.63s ease-in-out infinite;
         -moz-animation: cssload-spin 2.63s ease-in-out infinite;
     }
+
     .cssload-loading i:last-child {
-        top: 33px; left: -33px;
-        background: rgb(79,133,29);
+        top: 33px;
+        left: -33px;
+        background: rgb(79, 133, 29);
         animation: cssload-spin3 2.63s ease-in-out infinite;
         -o-animation: cssload-spin3 2.63s ease-in-out infinite;
         -ms-animation: cssload-spin3 2.63s ease-in-out infinite;
@@ -529,16 +534,18 @@
             -moz-transform: scale(1);
         }
     }
+
     .center {
-        margin-top:120px;
+        margin-top: 120px;
     }
 </style>
 <body>
 <script type="text/javascript">
-window.app = { contextPath: '${path}' };
+    window.app = {contextPath: '${path}', language: '${language}'};
 </script>
 <!--[if lt IE 8]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+	your browser</a> to improve your experience.</p>
 <![endif]-->
 <div id="content">
     <div class="cssload-loading center">
@@ -547,7 +554,9 @@ window.app = { contextPath: '${path}' };
         <i></i>
     </div>
 </div>
+<#if !development>
 <script src="scripts/${vendor}"></script>
+</#if>
 <script src="scripts/${app}"></script>
 </body>
 </html>

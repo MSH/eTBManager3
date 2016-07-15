@@ -1,6 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
-import { MessageDlg } from '../../components';
+import { MessageDlg, Errors } from '../../components';
 import controlWrapper from './crud-control-wrapper';
 
 class CrudMessage extends React.Component {
@@ -16,7 +16,7 @@ class CrudMessage extends React.Component {
 
 	eventHandler(evt, data) {
 		if (evt === 'show-msg') {
-			this.setState({ msg: data });
+			this.setState({ msg: data.msg, type: data.type });
 			return;
 		}
 
@@ -30,7 +30,7 @@ class CrudMessage extends React.Component {
 	 * Hide the alert box displaying the message
 	 */
 	hideMessage() {
-		this.setState({ msg: null });
+		this.setState({ msg: null, type: null });
 	}
 
 	confirmDlgClose(action) {
@@ -41,12 +41,12 @@ class CrudMessage extends React.Component {
 	}
 
 	render() {
-
-		const msg = this.state.msg ?
-			<Alert bsStyle="warning"
+		const msg = this.state.msg;
+		const msgpanel = msg ?
+			<Alert bsStyle={this.state.type === 'error' ? 'danger' : 'warning'}
 				onDismiss={this.hideMessage}
 				style={{ marginTop: '10px', marginBottom: '10px' }}>
-				{this.state.msg}
+				<Errors messages={msg} />
 			</Alert> :
 			null;
 
@@ -62,7 +62,7 @@ class CrudMessage extends React.Component {
 
 		return (
 			<div>
-				{msg}
+				{msgpanel}
 				{confirmDlg}
 			</div>
 			);

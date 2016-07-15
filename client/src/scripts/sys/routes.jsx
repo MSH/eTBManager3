@@ -4,11 +4,16 @@ import { RouteView } from '../components/router';
 import WaitIcon from '../components/wait-icon';
 import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
 import { app } from '../core/app';
+import LanguageSel from './others/language-sel';
+import WorkspaceSel from './others/workspace-sel';
+import Toolbar from './toolbar';
 
 /** Pages of the public module */
 import HomeRoutes from './home/routes';
 import ReportRoutes from './reports/routes';
 import AdminRoutes from './admin/routes';
+import UserSettings from './others/user-settings';
+import ChangePassword from './others/change-password.jsx';
 
 
 /**
@@ -41,18 +46,6 @@ export default class Routes extends React.Component {
 		}
 	}
 
-	openHome() {
-		return HomeRoutes;
-	}
-
-	openReports() {
-		return ReportRoutes;
-	}
-
-	openAdmin() {
-		return AdminRoutes;
-	}
-
 	render() {
 
 		const changing = this.state && this.state.changing;
@@ -63,7 +56,9 @@ export default class Routes extends React.Component {
 		const routesInfo = [
 			{ path: '/home', view: HomeRoutes },
 			{ path: '/reports', view: ReportRoutes },
-			{ path: '/admin', view: AdminRoutes }
+			{ path: '/admin', view: AdminRoutes },
+			{ path: '/usersettings', view: UserSettings },
+			{ path: '/changepassword', view: ChangePassword }
 			];
 
 		// playground for dev is available just in dev module
@@ -75,7 +70,14 @@ export default class Routes extends React.Component {
 		const routes = RouteView.createRoutes(routesInfo);
 
 		return (
-			<RouteView id="routes-index" routes={routes} />
+			<div>
+				<Toolbar />
+				<div className="tb-margin">
+					<RouteView id="routes-index" routes={routes} />
+				</div>
+				<LanguageSel />
+				<WorkspaceSel />
+			</div>
 			);
 	}
 }

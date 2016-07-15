@@ -4,11 +4,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandLog;
-import org.msh.etbm.commons.commands.CommandLogHandler;
-import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.commons.commands.*;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -35,6 +32,7 @@ public class CommandInterceptor {
 
     /**
      * Around point cut called for every method that implements the CommandLog annotation
+     *
      * @param pjp information about the method to be invoked
      * @return the return of the method invocation
      * @throws Throwable
@@ -59,6 +57,7 @@ public class CommandInterceptor {
 
     /**
      * Execute a command and log its execution in the command history
+     *
      * @param pjp information about method being invoked
      * @return the return of method invocation
      * @throws Throwable
@@ -80,7 +79,7 @@ public class CommandInterceptor {
 
     protected Method findAnnotatedMethod(ProceedingJoinPoint pjp) {
         // try to get the command log annotation from the method
-        MethodSignature signature = (MethodSignature)pjp.getSignature();
+        MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
 
         if (!method.getDeclaringClass().isInterface()) {
@@ -89,7 +88,7 @@ public class CommandInterceptor {
 
         Class clazz = pjp.getTarget().getClass();
         while (clazz != Object.class) {
-            for (Method met: clazz.getDeclaredMethods()) {
+            for (Method met : clazz.getDeclaredMethods()) {
                 if (met.getName().equals(method.getName()) && met.getParameterCount() == method.getParameterCount()) {
                     return met;
                 }
@@ -102,8 +101,9 @@ public class CommandInterceptor {
 
     /**
      * Store the command in the command history
+     *
      * @param cmdlog the annotation found in the method about the command
-     * @param args the arguments of the method call
+     * @param args   the arguments of the method call
      * @param result the return object of the method call
      */
     protected void storeCommand(Method method, CommandLog cmdlog, Object[] args, Object result) {

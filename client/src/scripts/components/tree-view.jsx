@@ -222,8 +222,6 @@ export default class TreeView extends React.Component {
 	 */
 	createNodesView() {
 		const self = this;
-		// get the item being expanded (for animation)
-		const expitem = this.state && this.state.expitem;
 
 		// recursive function to create the expanded tree in a list
 		const mountList = function(nlist, level, parentkey) {
@@ -291,7 +289,7 @@ export default class TreeView extends React.Component {
 		}
 
 		if (typeof icon === 'string') {
-			icon = <Fa icon={icon} size={p.size} spin={waiting} />;
+			icon = <Fa icon={icon} size={p.iconSize} spin={waiting} />;
 		}
 
 		return icon;
@@ -429,7 +427,11 @@ export default class TreeView extends React.Component {
 			return null;
 		}
 
-		return <div className="tree-view">{this.createNodesView(root)}</div>;
+		return (
+			<div className="tree-view" style={this.props.style}>
+				{this.createNodesView()}
+			</div>
+			);
 	}
 }
 
@@ -457,7 +459,8 @@ TreeView.propTypes = {
 	// the indentation of each node level, in pixels
 	indent: React.PropTypes.number,
 	// called when tree is mounted in order to parent interact with tree
-	onInit: React.PropTypes.func
+	onInit: React.PropTypes.func,
+	style: React.PropTypes.object
 };
 
 TreeView.defaultProps = {

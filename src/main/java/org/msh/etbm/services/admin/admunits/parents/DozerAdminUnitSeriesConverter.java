@@ -3,7 +3,7 @@ package org.msh.etbm.services.admin.admunits.parents;
 import org.dozer.CustomConverter;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.AdministrativeUnit;
-import org.msh.etbm.services.usersession.UserRequestService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +37,7 @@ public class DozerAdminUnitSeriesConverter implements CustomConverter {
 
     /**
      * Convert an administrative unit in a series of parent administrative units
+     *
      * @param adm the administrative unit to be converted
      * @return the administrative unit series
      */
@@ -48,7 +49,7 @@ public class DozerAdminUnitSeriesConverter implements CustomConverter {
         // series list exists ?
         if (seriesList != null) {
             // check in the series list
-            for (AdminUnitSeries au: seriesList) {
+            for (AdminUnitSeries au : seriesList) {
                 SynchronizableItem item = au.getSelected();
                 if (item != null && adm.getId().equals(item.getId())) {
                     return au;

@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Provide global list options used throughout the system. The main reason
  * of this service is to expose all standard lists to the client side
- *
+ * <p>
  * Created by rmemoria on 10/12/15.
  */
 @Service
@@ -32,18 +32,31 @@ public class GlobalListsService {
             MedicineCategory.class,
             CaseClassification.class,
             CaseState.class,
-            UserState.class,
-            CommandAction.class
+            CommandAction.class,
+            FollowUpType.class,
+            MedAppointmentType.class,
+            YesNoType.class,
+            VisualAppearance.class,
+            SampleType.class,
+            MicroscopyResult.class,
+            CultureResult.class,
+            XpertRifResult.class,
+            XpertResult.class,
+            XRayEvolution.class,
+            HIVResult.class,
+            ExamStatus.class,
+            DstResult.class
     };
 
     /**
      * Return the options of all lists supported by the system
+     *
      * @return
      */
     public Map<String, Map<String, String>> getLists() {
         Map<String, Map<String, String>> res = new HashMap<>();
 
-        for (Class clazz: lists) {
+        for (Class clazz : lists) {
             String name = clazz.getSimpleName();
             Map<String, String> options = getOptions(clazz);
 
@@ -55,6 +68,7 @@ public class GlobalListsService {
 
     /**
      * Return the options from the given class (actually, just enums are supported)
+     *
      * @param clazz the enum class to get options from
      * @return the list of options from the enumeration
      */
@@ -67,7 +81,7 @@ public class GlobalListsService {
 
         Map<String, String> opts = new HashMap<>();
 
-        for (Object val: vals) {
+        for (Object val : vals) {
             String messageKey = clazz.getSimpleName() + '.' + val.toString();
             String message = messages.get(messageKey);
 

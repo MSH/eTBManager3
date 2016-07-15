@@ -10,7 +10,7 @@ import java.util.UUID;
 
 /**
  * Abstract class containing common information about an unit (laboratory or TB unit)
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class UnitFormData implements TypedUnit {
@@ -45,13 +45,17 @@ public class UnitFormData implements TypedUnit {
 
     private Optional<Boolean> receiveFromManufacturer;
 
-    /** LABORATORY EXCLUSIVE **/
+    /**
+     * LABORATORY EXCLUSIVE
+     **/
     private Optional<Boolean> performCulture;
     private Optional<Boolean> performMicroscopy;
     private Optional<Boolean> performDst;
     private Optional<Boolean> performXpert;
 
-    /** TB UNIT EXCLUSIVE **/
+    /**
+     * TB UNIT EXCLUSIVE
+     **/
     private Optional<Boolean> tbFacility;
     private Optional<Boolean> drtbFacility;
     private Optional<Boolean> ntmFacility;

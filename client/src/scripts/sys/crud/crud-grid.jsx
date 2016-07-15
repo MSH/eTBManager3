@@ -59,7 +59,7 @@ CrudGrid.propTypes = {
 	onExpandRender: React.PropTypes.func,
 	editorSchema: React.PropTypes.object,
 	cellSize: React.PropTypes.object,
-	options: React.PropTypes.array,
+	options: React.PropTypes.any,
 	modal: React.PropTypes.bool
 };
 

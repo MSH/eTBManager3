@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * General purpose class to store information about an item (from list of options, entity collections, etc.)
- *
+ * <p>
  * Created by rmemoria on 30/8/15.
  */
 public class Item<E> implements Displayable {
@@ -20,7 +20,8 @@ public class Item<E> implements Displayable {
 
     /**
      * Constructor passing ID and text
-     * @param id the id of the item
+     *
+     * @param id   the id of the item
      * @param name the display name
      */
     public Item(E id, String name) {

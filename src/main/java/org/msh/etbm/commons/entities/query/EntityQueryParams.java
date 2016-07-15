@@ -7,7 +7,7 @@ import java.util.UUID;
 
 /**
  * Default query when returning a list of entities
- *
+ * <p>
  * Created by rmemoria on 28/10/15.
  */
 public class EntityQueryParams {

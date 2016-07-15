@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.substances.SubstanceData;
 import org.msh.etbm.services.admin.substances.SubstanceFormData;
 import org.msh.etbm.services.admin.substances.SubstanceQueryParams;
 import org.msh.etbm.services.admin.substances.SubstanceService;
-import org.msh.etbm.services.permissions.Permissions;
+import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 /**
  * Rest API to handle CRUD operations in substances
- *
+ * <p>
  * Created by rmemoria on 12/11/15.
  */
 @RestController
@@ -59,8 +59,9 @@ public class SubstancesREST {
     }
 
     @RequestMapping(value = "/substance/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/substance/query", method = RequestMethod.POST)

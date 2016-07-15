@@ -10,99 +10,101 @@ import javax.persistence.*;
 
 /**
  * Stores information about an X-Ray exam of a case
- * @author Ricardo Lima
  *
+ * @author Ricardo Lima
  */
 @Entity
-@Inheritance(strategy =  InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DISCRIMINATOR", discriminatorType = DiscriminatorType.STRING)
 @DiscriminatorValue("gen")
 @Table(name = "examxray")
 public class ExamXRay extends CaseEvent {
 
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private XRayResult result;
-	
-	@PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-	private XRayEvolution evolution;
-	
-	@PropertyLog(operations = {Operation.NEW})
-	private XRayBaseline baseline;
-	
-	private Boolean destruction;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private XRayResult result;
 
-	@Column(length = 50)
-	private String presentation;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    private XRayEvolution evolution;
 
-	/**
-	 * @return the baseline
-	 */
-	public XRayBaseline getBaseline() {
-		return baseline;
-	}
+    @PropertyLog(operations = {Operation.NEW})
+    private XRayBaseline baseline;
 
-	/**
-	 * @param baseline the baseline to set
-	 */
-	public void setBaseline(XRayBaseline baseline) {
-		this.baseline = baseline;
-	}
+    private Boolean destruction;
 
-	/**
-	 * Return the X-Ray result
-	 * @return the result
-	 */
-	public XRayResult getResult() {
-		return result;
-	}
+    @Column(length = 50)
+    private String presentation;
 
-	/**
-	 * Set the X-Ray result
-	 * @param result the result to set
-	 */
-	public void setResult(XRayResult result) {
-		this.result = result;
-	}
+    /**
+     * @return the baseline
+     */
+    public XRayBaseline getBaseline() {
+        return baseline;
+    }
 
-	/**
-	 * @return the evolution
-	 */
-	public XRayEvolution getEvolution() {
-		return evolution;
-	}
+    /**
+     * @param baseline the baseline to set
+     */
+    public void setBaseline(XRayBaseline baseline) {
+        this.baseline = baseline;
+    }
 
-	/**
-	 * @param evolution the evolution to set
-	 */
-	public void setEvolution(XRayEvolution evolution) {
-		this.evolution = evolution;
-	}
+    /**
+     * Return the X-Ray result
+     *
+     * @return the result
+     */
+    public XRayResult getResult() {
+        return result;
+    }
 
-	/**
-	 * @param presentation the presentation to set
-	 */
-	public void setPresentation(String presentation) {
-		this.presentation = presentation;
-	}
+    /**
+     * Set the X-Ray result
+     *
+     * @param result the result to set
+     */
+    public void setResult(XRayResult result) {
+        this.result = result;
+    }
 
-	/**
-	 * @return the presentation
-	 */
-	public String getPresentation() {
-		return presentation;
-	}
+    /**
+     * @return the evolution
+     */
+    public XRayEvolution getEvolution() {
+        return evolution;
+    }
 
-	/**
-	 * @return the destruction
-	 */
-	public Boolean getDestruction() {
-		return destruction;
-	}
+    /**
+     * @param evolution the evolution to set
+     */
+    public void setEvolution(XRayEvolution evolution) {
+        this.evolution = evolution;
+    }
 
-	/**
-	 * @param destruction the destruction to set
-	 */
-	public void setDestruction(Boolean destruction) {
-		this.destruction = destruction;
-	}
+    /**
+     * @param presentation the presentation to set
+     */
+    public void setPresentation(String presentation) {
+        this.presentation = presentation;
+    }
+
+    /**
+     * @return the presentation
+     */
+    public String getPresentation() {
+        return presentation;
+    }
+
+    /**
+     * @return the destruction
+     */
+    public Boolean getDestruction() {
+        return destruction;
+    }
+
+    /**
+     * @param destruction the destruction to set
+     */
+    public void setDestruction(Boolean destruction) {
+        this.destruction = destruction;
+    }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Represents a message related to a field. Usually these messages are related to validation
  * errors, but may be used in other contexts
- *
+ * <p>
  * Created by rmemoria on 27/10/15.
  */
 public class Message {
@@ -36,6 +36,7 @@ public class Message {
 
     /**
      * Constructor to fill the object properties
+     *
      * @param field
      * @param message
      * @param messageGroup

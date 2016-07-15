@@ -1,19 +1,13 @@
 package org.msh.etbm.sys.daemon;
 
 
-import java.io.IOException;
-import javax.management.AttributeNotFoundException;
-import javax.management.InstanceNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanServerConnection;
-import javax.management.MalformedObjectNameException;
-import javax.management.ObjectName;
-import javax.management.ReflectionException;
+import org.springframework.jmx.JmxException;
+
+import javax.management.*;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
-
-import org.springframework.jmx.JmxException;
+import java.io.IOException;
 
 /**
  * A JMX client for the {@code SpringApplicationAdmin} MBean. Permits to obtain
@@ -39,6 +33,7 @@ class SpringApplicationAdminClient {
      * Check if the spring application managed by this instance is ready. Returns
      * {@code false} if the mbean is not yet deployed so this method should be repeatedly
      * called until a timeout is reached.
+     *
      * @return {@code true} if the application is ready to service requests
      * @throws org.springframework.jmx.JmxException if the JMX service could not be contacted
      */
@@ -62,8 +57,9 @@ class SpringApplicationAdminClient {
 
     /**
      * Stop the application managed by this instance.
-     * @throws JmxException if the JMX service could not be contacted
-     * @throws IOException if an I/O error occurs
+     *
+     * @throws JmxException              if the JMX service could not be contacted
+     * @throws IOException               if an I/O error occurs
      * @throws InstanceNotFoundException if the lifecycle mbean cannot be found
      */
     public void stop() throws IOException,
@@ -88,6 +84,7 @@ class SpringApplicationAdminClient {
     /**
      * Create a connector for an {@link javax.management.MBeanServer} exposed on the
      * current machine and the current port. Security should be disabled.
+     *
      * @param port the port on which the mbean server is exposed
      * @return a connection
      * @throws IOException if the connection to that server failed

@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Regimen information to be returned from the service to the client
- *
+ * <p>
  * Created by rmemoria on 6/1/16.
  */
 public class RegimenData {
