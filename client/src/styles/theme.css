@@ -7516,6 +7516,9 @@ button.close {
 .cmd-bar a:first-child {
   border-top: none;
 }
+.sc-overflow {
+  overflow: scroll;
+}
 @font-face {
   font-family: 'OpenSans';
   font-style: normal;

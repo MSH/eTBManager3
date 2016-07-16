@@ -11,7 +11,7 @@ const schema = {
 			type: 'string',
 			required: true,
 			password: true,
-			size: { md: 12 }
+			size: { sm: 6, newLine: true }
 		},
 		{
 			property: 'repeatNewPassword',
@@ -19,7 +19,7 @@ const schema = {
 			type: 'string',
 			required: true,
 			password: true,
-			size: { md: 12 }
+			size: { sm: 6, newLine: true }
 		}
 	]
 };
