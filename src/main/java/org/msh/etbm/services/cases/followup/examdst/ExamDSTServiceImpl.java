@@ -1,37 +1,37 @@
-package org.msh.etbm.services.cases.followup.examxpert;
+package org.msh.etbm.services.cases.followup.examdst;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.entities.ExamDST;
-import org.msh.etbm.db.entities.ExamXpert;
 import org.msh.etbm.db.enums.ExamStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
 /**
- * Created by msantos on 14/7/16.
+ * Created by msantos on 15/7/16.
  */
 @Service
-public class ExamXpertServiceImpl extends EntityServiceImpl<ExamXpert, EntityQueryParams> implements ExamXpertService {
+public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryParams> implements ExamDSTService {
 
     @Autowired
     Messages messages;
 
     @Override
     public String getCommandType() {
-        return CommandTypes.CASES_EXAM_XPERT;
+        return CommandTypes.CASES_EXAM_DST;
     }
 
     @Override
-    protected void beforeSave(ExamXpert entity, Errors errors) {
+    protected void beforeSave(ExamDST entity, Errors errors) {
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
             errors.rejectValue("dateRelease", messages.get("cases.exams.datereleasebeforecol"));
         }
 
         entity.setStatus(ExamStatus.PERFORMED);
     }
+
 
 }

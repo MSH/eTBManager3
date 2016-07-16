@@ -13,7 +13,8 @@ public abstract class LaboratoryExamData extends CaseEventData {
 
     private String sampleNumber;
     private ExamRequest request;
-    private UUID laboratoryId;
+    // TODOMS: verificar se é assim que se leva o nome do lab
+    private String laboratoryName;
     private Date dateRelease;
     private ExamStatus status;
 
@@ -33,12 +34,12 @@ public abstract class LaboratoryExamData extends CaseEventData {
         this.request = request;
     }
 
-    public UUID getLaboratoryId() {
-        return laboratoryId;
+    public String getLaboratoryName() {
+        return laboratoryName;
     }
 
-    public void setLaboratoryId(UUID laboratoryId) {
-        this.laboratoryId = laboratoryId;
+    public void setLaboratoryName(String laboratoryName) {
+        this.laboratoryName = laboratoryName;
     }
 
     public Date getDateRelease() {
