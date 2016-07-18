@@ -59,7 +59,7 @@ export default class ChangePassword extends React.Component {
 			if (res && res.errors) {
 				return Promise.reject(res.errors);
 			}
-			self.setState({ msg: 1 });
+			self.setState({ msg: 1, doc: {} });
 			return true;
 		});
 	}

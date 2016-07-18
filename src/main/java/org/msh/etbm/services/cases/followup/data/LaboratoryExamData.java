@@ -13,7 +13,7 @@ public abstract class LaboratoryExamData extends CaseEventData {
 
     private String sampleNumber;
     private ExamRequest request;
-    // TODOMS: verificar se é assim que se leva o nome do lab
+    // TODOMS: Enviar como SynchronizableItem
     private String laboratoryName;
     private Date dateRelease;
     private ExamStatus status;
