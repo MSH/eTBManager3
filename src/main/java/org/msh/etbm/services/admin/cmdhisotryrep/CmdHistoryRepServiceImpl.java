@@ -81,7 +81,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String unitName = c.getUnit() != null ? c.getUnit().getName() : null;
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
-            ret.getList().add(new CmdHistoryRepData(c.getType(),
+            ret.getList().add(new CmdHistoryRepData( messages.get(c.getType()),
                     new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
                     c.getExecDate(),
                     c.getEntityName(),
