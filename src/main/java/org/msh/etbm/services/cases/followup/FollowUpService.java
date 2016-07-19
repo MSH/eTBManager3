@@ -99,7 +99,7 @@ public class FollowUpService {
         return ret;
     }
 
-    private Comparator<FollowUpData> getComparator(){
+    private Comparator<FollowUpData> getComparator() {
         Comparator<FollowUpData> cmp = new Comparator<FollowUpData>() {
             public int compare(FollowUpData f1, FollowUpData f2) {
                 if (f1.getData().getDate().after(f2.getData().getDate())) {
