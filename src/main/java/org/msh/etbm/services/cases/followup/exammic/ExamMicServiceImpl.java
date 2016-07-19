@@ -16,9 +16,6 @@ import org.springframework.validation.Errors;
 @Service
 public class ExamMicServiceImpl extends EntityServiceImpl<ExamMicroscopy, EntityQueryParams> implements ExamMicService {
 
-    @Autowired
-    Messages messages;
-
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_EXAM_MIC;
@@ -27,7 +24,9 @@ public class ExamMicServiceImpl extends EntityServiceImpl<ExamMicroscopy, Entity
     @Override
     protected void beforeSave(ExamMicroscopy entity, Errors errors) {
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
-            errors.rejectValue("dateRelease", messages.get("cases.exams.datereleasebeforecol"));
+            // TODOMS: provisoriamente no campo comments, precisa colcoar esse erro no dateRelease
+            // o componente datepicker parece estar tendo algum problema para receber a mensagem de erro.
+            errors.rejectValue("dateRelease", "cases.exams.datereleasebeforecol");
         }
 
         entity.setStatus(ExamStatus.PERFORMED);

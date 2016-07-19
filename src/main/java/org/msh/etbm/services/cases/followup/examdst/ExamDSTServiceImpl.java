@@ -16,9 +16,6 @@ import org.springframework.validation.Errors;
 @Service
 public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryParams> implements ExamDSTService {
 
-    @Autowired
-    Messages messages;
-
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_EXAM_DST;
@@ -27,7 +24,9 @@ public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryPa
     @Override
     protected void beforeSave(ExamDST entity, Errors errors) {
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
-            errors.rejectValue("dateRelease", messages.get("cases.exams.datereleasebeforecol"));
+            // TODOMS: provisoriamente no campo comments, precisa colcoar esse erro no dateRelease
+            // o componente datepicker parece estar tendo algum problema para receber a mensagem de erro.
+            errors.rejectValue("comments", "cases.exams.datereleasebeforecol");
         }
 
         entity.setStatus(ExamStatus.PERFORMED);
