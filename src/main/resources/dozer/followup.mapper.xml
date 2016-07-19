@@ -25,14 +25,4 @@
         </field>
     </mapping>
 
-    <mapping>
-        <class-a>org.msh.etbm.db.entities.LaboratoryExam</class-a>
-        <class-b>org.msh.etbm.services.cases.followup.data.LaboratoryExamData</class-b>
-
-        <field>
-            <a>laboratory.name</a>
-            <b>laboratoryName</b>
-        </field>
-    </mapping>
-
 </mappings>

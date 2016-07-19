@@ -91,7 +91,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratoryName',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -139,7 +139,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratoryName',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -193,7 +193,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratoryName',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -242,7 +242,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratoryName',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
