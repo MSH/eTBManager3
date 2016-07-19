@@ -1,9 +1,10 @@
 
 import React from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
 import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -102,10 +103,16 @@ export default class Details extends React.Component {
 
 	deleteConfirm(action) {
 		if (action === 'yes') {
-			alert('delete this item on DB');
+			server.delete('/api/cases/case/' + this.state.tbcase.id)
+				.then(() => {
+					// TODOMS: verificar com ricardo se o botao yes do messagedlg deveria ser um AssyncButton que fica em fetch
+					// TODOMS: verificar com ricardo como mandar mensagem para a pagina
+					// TODOMS: verificar com ricardo para onde deve redirecionar
+					app.goto('/sys/home/unit/cases?id=668ca7a4-44a7-11e6-b746-0defad2af570');
+				});
+		} else if (action === 'no') {
+			this.setState({ showDelConfirm: false });
 		}
-
-		this.setState({ showDelConfirm: false });
 	}
 
 	render() {

@@ -2,6 +2,8 @@ package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +18,15 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     @Autowired
     CasesTagsUpdateService casesTagsUpdateService;
 
-    protected void deleteEntity() {
-        /* If the patient don't have another case this should delete the patient register
+    @Override
+    public String getCommandType() {
+        return CommandTypes.CASES_CASE;
+    }
 
-        String ret = super.remove();
-        if (!ret.equals("removed"))
-            return ret;
-
-        Patient patient = getInstance().getPatient();
+    @Override
+    protected void afterDelete(TbCase entity, ServiceResult res) {
+        // removes patient from database if this patient don't have any other case registered
+        Patient patient = entity.getPatient();
 
         Long count = (Long)getEntityManager()
                 .createQuery("select count(*) from TbCase c where c.patient.id = :id")
@@ -33,11 +36,5 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         if (count == 0) {
             getEntityManager().remove(patient);
         }
-        return ret;*/
-    }
-
-    @Override
-    public String getCommandType() {
-        return CommandTypes.CASES_CASE;
     }
 }
