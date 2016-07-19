@@ -24,8 +24,6 @@ public class ExamMicServiceImpl extends EntityServiceImpl<ExamMicroscopy, Entity
     @Override
     protected void beforeSave(ExamMicroscopy entity, Errors errors) {
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
-            // TODOMS: provisoriamente no campo comments, precisa colcoar esse erro no dateRelease
-            // o componente datepicker parece estar tendo algum problema para receber a mensagem de erro.
             errors.rejectValue("dateRelease", "cases.exams.datereleasebeforecol");
         }
 

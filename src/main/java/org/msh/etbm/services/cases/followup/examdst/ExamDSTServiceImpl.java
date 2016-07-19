@@ -24,9 +24,7 @@ public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryPa
     @Override
     protected void beforeSave(ExamDST entity, Errors errors) {
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
-            // TODOMS: provisoriamente no campo comments, precisa colcoar esse erro no dateRelease
-            // o componente datepicker parece estar tendo algum problema para receber a mensagem de erro.
-            errors.rejectValue("comments", "cases.exams.datereleasebeforecol");
+            errors.rejectValue("dateRelease", "cases.exams.datereleasebeforecol");
         }
 
         entity.setStatus(ExamStatus.PERFORMED);
