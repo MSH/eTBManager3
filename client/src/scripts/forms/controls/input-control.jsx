@@ -24,11 +24,6 @@ export default class InputControl extends React.Component {
 		const schema = this.props.schema;
 		const value = ReactDOM.findDOMNode(this.refs.input).value;
 
-		// TODOMS: quando o campo esta dentro de um group o schema.type vem como group e nao com o tipo do campo
-		if (schema.type === 'group') {
-			return null;
-		}
-
 		return schema.type === 'string' ?
 			stringValidator(schema, value) :
 			numberValidator(schema, value);

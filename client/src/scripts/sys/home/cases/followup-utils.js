@@ -91,7 +91,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -139,7 +139,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -193,7 +193,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -242,7 +242,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -271,39 +271,88 @@ const displaySchemas = {
 			size: { sm: 4 }
 		},
 		{
-			property: 'results',
-			type: 'tableForm',
-			fschema: {
-				layout: [
-					{
-						property: 'substance',
-						type: 'string',
-						label: __('Medicine.substances'),
-						size: { md: 6 }
-					},
-					{
-						property: 'result',
-						type: 'select',
-						label: __('cases.details.result'),
-						options: app.getState().app.lists.DstResult,
-						size: { md: 6 }
-					}
-				]
-			},
-			label: __('cases.details.result'),
-			size: { sm: 12 },
-			readOnlyColumns: [
-				{
-					title: __('Medicine.substances'),
-					content: 'substance',
-					size: { sm: 6 }
-				},
-				{
-					title: __('cases.details.result'),
-					content: 'result',
-					size: { sm: 6 }
-				}
-			]
+			property: 'resultAm',
+			type: 'select',
+			label: __('cases.examdst.resultAm'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCfz',
+			type: 'select',
+			label: __('cases.examdst.resultCfz'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCm',
+			type: 'select',
+			label: __('cases.examdst.resultCm'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCs',
+			type: 'select',
+			label: __('cases.examdst.resultCs'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultE',
+			type: 'select',
+			label: __('cases.examdst.resultE'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultEto',
+			type: 'select',
+			label: __('cases.examdst.resultEto'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultH',
+			type: 'select',
+			label: __('cases.examdst.resultH'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultLfx',
+			type: 'select',
+			label: __('cases.examdst.resultLfx'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultOfx',
+			type: 'select',
+			label: __('cases.examdst.resultOfx'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultR',
+			type: 'select',
+			label: __('cases.examdst.resultR'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultS',
+			type: 'select',
+			label: __('cases.examdst.resultS'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultZ',
+			type: 'select',
+			label: __('cases.examdst.resultZ'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
 		}]
 	},
 
@@ -491,7 +540,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -549,7 +598,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -613,7 +662,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -672,7 +721,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			required: true,
 			unitType: 'LAB',
 			size: { sm: 12 }
@@ -690,29 +739,112 @@ const editSchemas = {
 			size: { sm: 6 }
 		},
 		{
-			property: 'results',
-			type: 'tableForm',
-			fschema: {
-				layout: [
-					{
-						property: 'substance',
-						type: 'select',
-						label: __('Medicine.substances'),
-						options: 'substances',
-						size: { md: 6 }
-					},
-					{
-						property: 'result',
-						type: 'select',
-						label: __('cases.details.result'),
-						options: app.getState().app.lists.DstResult,
-						size: { md: 6 }
-					}
-				]
-			},
-			label: __('cases.details.result'),
-			min: 1,
-			size: { sm: 12 }
+			property: 'resultAm',
+			type: 'select',
+			label: __('cases.examdst.resultAm'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCfz',
+			type: 'select',
+			label: __('cases.examdst.resultCfz'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCm',
+			type: 'select',
+			label: __('cases.examdst.resultCm'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCs',
+			type: 'select',
+			label: __('cases.examdst.resultCs'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultE',
+			type: 'select',
+			label: __('cases.examdst.resultE'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultEto',
+			type: 'select',
+			label: __('cases.examdst.resultEto'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultH',
+			type: 'select',
+			label: __('cases.examdst.resultH'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultLfx',
+			type: 'select',
+			label: __('cases.examdst.resultLfx'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultOfx',
+			type: 'select',
+			label: __('cases.examdst.resultOfx'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultR',
+			type: 'select',
+			label: __('cases.examdst.resultR'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultS',
+			type: 'select',
+			label: __('cases.examdst.resultS'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultZ',
+			type: 'select',
+			label: __('cases.examdst.resultZ'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
 		},
 		{
 			type: 'text',

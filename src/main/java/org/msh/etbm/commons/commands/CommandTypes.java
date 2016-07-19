@@ -36,7 +36,7 @@ public class CommandTypes {
     public static final String ADMIN_PRODUCTS = "admin.products";
     public static final String ADMIN_REGIMENS = "admin.regimens";
     public static final String ADMIN_SUBSTANCES = "admin.substances";
-    public static final String ADMIN_TAGS = "admin.substances";
+    public static final String ADMIN_TAGS = "admin.tags";
     public static final String ADMIN_USERPROFILES = "admin.profiles";
     public static final String ADMIN_WORKSPACES = "admin.workspaces";
 
@@ -89,20 +89,20 @@ public class CommandTypes {
         ROOT.addCRUD(ADMIN_SUBSTANCES);
         ROOT.addCRUD(ADMIN_TAGS);
         ROOT.addCRUD(ADMIN_USERS);
-        ROOT.add(ADMIN_USERS_CHANGE_PWD, "changepwd");
+        ROOT.add(ADMIN_USERS_CHANGE_PWD);
         ROOT.addCRUD(ADMIN_USERPROFILES);
         ROOT.addCRUD(ADMIN_WORKSPACES);
         ROOT.add(SYSTEM_SETUP);
 
         // cases module
         ROOT.add(CASES_CASE);
-        ROOT.addCRUD(CASES_MED_EXAM);
-        ROOT.addCRUD(CASES_EXAM_MIC);
-        ROOT.addCRUD(CASES_EXAM_CUL);
-        ROOT.addCRUD(CASES_EXAM_XPERT);
-        ROOT.addCRUD(CASES_EXAM_DST);
-        ROOT.addCRUD(CASES_EXAM_HIV);
-        ROOT.addCRUD(CASES_EXAM_XRAY);
+        ROOT.addCRUD(CASES_MED_EXAM); //messages ok
+        ROOT.addCRUD(CASES_EXAM_MIC); //messages ok
+        ROOT.addCRUD(CASES_EXAM_CUL); //messages ok
+        ROOT.addCRUD(CASES_EXAM_XPERT); //messages ok
+        ROOT.addCRUD(CASES_EXAM_DST); //messages ok
+        ROOT.addCRUD(CASES_EXAM_HIV); //messages ok
+        ROOT.addCRUD(CASES_EXAM_XRAY); //messages ok
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.followup.data;
 
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.ExamRequest;
 import org.msh.etbm.db.enums.ExamStatus;
 
@@ -13,7 +14,7 @@ public abstract class LaboratoryExamData extends CaseEventData {
 
     private String sampleNumber;
     private ExamRequest request;
-    private UUID laboratoryId;
+    private SynchronizableItem laboratory;
     private Date dateRelease;
     private ExamStatus status;
 
@@ -33,12 +34,12 @@ public abstract class LaboratoryExamData extends CaseEventData {
         this.request = request;
     }
 
-    public UUID getLaboratoryId() {
-        return laboratoryId;
+    public SynchronizableItem getLaboratory() {
+        return laboratory;
     }
 
-    public void setLaboratoryId(UUID laboratoryId) {
-        this.laboratoryId = laboratoryId;
+    public void setLaboratory(SynchronizableItem laboratory) {
+        this.laboratory = laboratory;
     }
 
     public Date getDateRelease() {
