@@ -64,6 +64,9 @@ public class FollowUpService {
                 result.getList().add(data);
             }
 
+            // sort followups by date
+            Collections.sort(result.getList(), getComparator());
+
             //set result results count
             result.setCount(result.getCount() + followups.size());
         }
@@ -94,5 +97,23 @@ public class FollowUpService {
         }
 
         return ret;
+    }
+
+    private Comparator<FollowUpData> getComparator(){
+        Comparator<FollowUpData> cmp = new Comparator<FollowUpData>() {
+            public int compare(FollowUpData f1, FollowUpData f2) {
+                if (f1.getData().getDate().after(f2.getData().getDate())) {
+                    return -1;
+                }
+
+                if (f2.getData().getDate().after(f1.getData().getDate())) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+
+        return cmp;
     }
 }
