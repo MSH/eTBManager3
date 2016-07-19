@@ -105,9 +105,6 @@ export default class Details extends React.Component {
 		if (action === 'yes') {
 			server.delete('/api/cases/case/' + this.state.tbcase.id)
 				.then(() => {
-					// TODOMS: verificar com ricardo se o botao yes do messagedlg deveria ser um AssyncButton que fica em fetch
-					// TODOMS: verificar com ricardo como mandar mensagem para a pagina
-					// TODOMS: verificar com ricardo para onde deve redirecionar
 					app.goto('/sys/home/unit/cases?id=668ca7a4-44a7-11e6-b746-0defad2af570');
 				});
 		} else if (action === 'no') {
