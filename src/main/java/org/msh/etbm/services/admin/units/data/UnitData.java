@@ -1,19 +1,20 @@
 package org.msh.etbm.services.admin.units.data;
 
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
 /**
  * Created by rmemoria on 1/11/15.
  */
 public class UnitData extends UnitItemData {
     private boolean active;
-    private AdminUnitSeries adminUnit;
+    private AdminUnitData adminUnit;
 
-    public AdminUnitSeries getAdminUnit() {
+    public AdminUnitData getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdminUnitSeries adminUnit) {
+    public void setAdminUnit(AdminUnitData adminUnit) {
         this.adminUnit = adminUnit;
     }
 

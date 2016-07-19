@@ -7,7 +7,7 @@ import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -82,7 +82,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
         }
 
         // recover administrative unit (with parent series)
-        AdminUnitSeries adminUnit = adminUnitService.findOne(id, AdminUnitSeries.class);
+        AdminUnitData adminUnit = adminUnitService.findOne(id, AdminUnitData.class);
 
         // prepare query for other levels
         qry.setRootUnits(false);
@@ -92,7 +92,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
         int seriesLevels = adminUnit.getLevel();
         int l = 1;
         while (l <= seriesLevels) {
-            SynchronizableItem item = adminUnit.getAdminUnitLevel(l);
+            SynchronizableItem item = adminUnit.getItemAtLevel(l);
 
             vals[l - 1].setSelected(item.getId());
 

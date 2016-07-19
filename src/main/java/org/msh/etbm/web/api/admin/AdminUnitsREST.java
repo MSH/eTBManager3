@@ -3,8 +3,8 @@ package org.msh.etbm.web.api.admin;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.services.admin.admunits.AdminUnitDetailedData;
-import org.msh.etbm.services.admin.admunits.AdminUnitFormData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitFormData;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.security.permissions.Permissions;
@@ -36,8 +36,8 @@ public class AdminUnitsREST {
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public AdminUnitDetailedData get(@PathVariable UUID id) {
-        return service.findOne(id, AdminUnitDetailedData.class);
+    public AdminUnitData get(@PathVariable UUID id) {
+        return service.findOne(id, AdminUnitData.class);
     }
 
     @RequestMapping(value = "/adminunit/form/{id}", method = RequestMethod.GET)

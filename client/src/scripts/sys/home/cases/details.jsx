@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
 import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';

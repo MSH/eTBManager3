@@ -1,21 +1,23 @@
 package org.msh.etbm.services.cases.workspace;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.admin.tags.CasesTagsReportItem;
 import org.msh.etbm.services.admin.tags.CasesTagsReportService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import javax.sql.DataSource;
+import java.util.*;
 
 /**
  * Service to generate a view of the workspace about the case management
@@ -33,6 +35,9 @@ public class WorkspaceViewService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    DataSource dataSource;
 
 
     /**
@@ -75,11 +80,16 @@ public class WorkspaceViewService {
     private List<PlaceData> loadPlaces(UUID adminUnitId) {
         List<PlaceData> places = new ArrayList<>();
 
+        AdministrativeUnit adminUnit =
+                adminUnitId != null ?
+                entityManager.find(AdministrativeUnit.class, adminUnitId) :
+                null;
+
         // just load the units because it is level 0
-        loadAdminUnits(places, adminUnitId);
+        loadAdminUnits(places, adminUnit);
 
         if (adminUnitId != null) {
-            loadUnits(places, adminUnitId);
+            loadUnits(places, adminUnit);
         }
 
         // sort items
@@ -89,31 +99,39 @@ public class WorkspaceViewService {
     }
 
 
-    private void loadAdminUnits(List<PlaceData> data, UUID admunitId) {
-        String sql = "select a.id, a.name, a.unitsCount, k.diagnosisType, k.classification, sum(k.count)\n" +
-                "from administrativeunit a\n" +
-                "left join (select a2.code, c.diagnosisType, c.classification, count(*) as count\n" +
-                "from tbcase c \n" +
-                "inner join unit b on b.id=c.owner_unit_id\n" +
-                "inner join administrativeunit a2 on a2.id = b.adminunit_id\n" +
-                "where a2.workspace_id=:wsid and c.state < 3 " +
-                "and c.diagnosisType is not null and c.classification is not null\n" +
-                "group by a2.code, c.diagnosisType, c.classification) as k\n" +
-                "  on k.code like concat(a.code, '%')\n" +
-                "where " + (admunitId == null ? "a.parent_id is null\n" : "a.parent_id = :id\n") +
-                "and a.workspace_id=:wsid\n" +
-                "group by a.id, a.name, k.diagnosisType, k.classification\n" +
-                "order by a.name";
+    private void loadAdminUnits(List<PlaceData> data, AdministrativeUnit adminUnit) {
+        Map<String, Object> params = new HashMap<>();
 
-        Query qry = entityManager
-                .createNativeQuery(sql)
-                .setParameter("wsid", userRequestService.getUserSession().getWorkspaceId());
+        StringBuilder s = new StringBuilder();
 
-        if (admunitId != null) {
-            qry.setParameter("id", admunitId);
+        s.append("select a.id, a.name, a.unitsCount, d.diagnosisType, d.classification, count(*) as count\n")
+                .append("from administrativeunit a\n");
+
+        if (adminUnit != null) {
+            int level = adminUnit.getLevel();
+            params.put("id", ObjectUtils.uuidAsBytes(adminUnit.getId()));
+            String fname = "pid" + (level + 1);
+            String fparent = "pid" + level;
+
+            s.append("join administrativeunit b on b.id = a.id or b.").append(fname).append(" = a.id\n")
+                    .append("join unit c on c.adminunit_id = b.id\n")
+                    .append("join tbcase d on d.owner_unit_id = c.id\n")
+                    .append("where a.").append(fname).append(" is null and a.").append(fparent).append(" = :id\n");
+        } else {
+            s.append("join administrativeunit b on b.pid0 = a.id\n")
+                   .append("join unit c on c.adminunit_id = b.id\n")
+                    .append("join tbcase d on d.owner_unit_id = c.id\n")
+                    .append("where a.pid0 is null\n");
         }
 
-        List<Object[]> lst = qry.getResultList();
+        s.append("and a.workspace_id = :wsid and d.state < 3 and d.diagnosisType is not null\n")
+                .append("group by a.id, a.name, d.diagnosisType, d.classification\n")
+                .append("order by a.name");
+
+        params.put("wsid", ObjectUtils.uuidAsBytes(userRequestService.getUserSession().getWorkspaceId()));
+
+        NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(dataSource);
+        List<Map<String, Object>> lst = templ.queryForList(s.toString(), params);
 
         mountList(lst, data, PlaceData.PlaceType.ADMINUNIT);
     }
@@ -123,24 +141,21 @@ public class WorkspaceViewService {
      * Load case information about the units
      *
      * @param data      the data to include information into
-     * @param admunitId the administrative unit to get information from
+     * @param adminUnit the administrative unit to get information from
      */
-    private void loadUnits(List<PlaceData> data, UUID admunitId) {
-        String sql = "select a.id, a.name, 0, res.diagnosisType, res.classification, count(*) " +
+    private void loadUnits(List<PlaceData> data, AdministrativeUnit adminUnit) {
+        String sql = "select a.id, a.name, 0 as unitsCount, b.diagnosisType, b.classification, count(*) as count " +
                 "from unit a\n" +
-                "inner join (select owner_unit_id, diagnosistype, classification\n" +
-                "from tbcase c\n" +
-                "inner join patient p on p.id=c.patient_id where p.workspace_id=:wsid\n" +
-                "and c.state < 3 and c.diagnosisType is not null) res on a.id=res.owner_unit_id\n" +
-                "where a.adminunit_id=:auId\n" +
-                "group by a.id, a.name, res.diagnosisType, res.classification\n" +
+                "inner join tbcase b on b.owner_unit_id = a.id\n" +
+                "where b.state < 3 and b.diagnosisType is not null\n" +
+                "and a.adminunit_id = :auId\n" +
+                "group by a.id, a.name, b.diagnosisType, b.classification\n" +
                 "order by a.name";
 
-        List<Object[]> lst = entityManager
-                .createNativeQuery(sql)
-                .setParameter("wsid", userRequestService.getUserSession().getWorkspaceId())
-                .setParameter("auId", admunitId)
-                .getResultList();
+        NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(dataSource);
+        Map<String, Object> p = new HashMap<>();
+        p.put("auId", ObjectUtils.uuidAsBytes(adminUnit.getId()));
+        List<Map<String, Object>> lst = templ.queryForList(sql, p);
 
         mountList(lst, data, PlaceData.PlaceType.UNIT);
     }
@@ -152,16 +167,16 @@ public class WorkspaceViewService {
      * @param dest destination list to include information of place report
      * @param type the type of list (admin unit or TB unit)
      */
-    protected void mountList(List<Object[]> lst, List<PlaceData> dest, PlaceData.PlaceType type) {
-        for (Object[] vals : lst) {
+    protected void mountList(List<Map<String, Object>> lst, List<PlaceData> dest, PlaceData.PlaceType type) {
+        for (Map<String, Object> vals : lst) {
             // check if there is any value
-            long count = vals[5] != null ? ((Number) vals[5]).longValue() : 0;
+            long count = vals.get("count") != null ? ((Number) vals.get("count")).longValue() : 0;
             if (count == 0) {
                 continue;
             }
 
-            UUID id = ObjectUtils.bytesToUUID((byte[]) vals[0]);
-            String name = (String) vals[1];
+            UUID id = ObjectUtils.bytesToUUID((byte[]) vals.get("id"));
+            String name = (String) vals.get("name");
 
             PlaceData item = findPlaceById(dest, id, type);
 
@@ -171,15 +186,15 @@ public class WorkspaceViewService {
                 item.setName(name);
                 item.setType(type);
 
-                int children = ((Number) vals[2]).intValue();
+                int children = ((Number) vals.get("unitsCount")).intValue();
                 item.setHasChildren(children > 0);
 
                 dest.add(item);
             }
 
-            if (vals[3] != null && count > 0) {
-                DiagnosisType dtype = DiagnosisType.values()[(Integer) vals[3]];
-                CaseClassification cla = CaseClassification.values()[(Integer) vals[4]];
+            if (vals.get("diagnosisType") != null && count > 0) {
+                DiagnosisType dtype = DiagnosisType.values()[(Integer) vals.get("diagnosisType")];
+                CaseClassification cla = CaseClassification.values()[(Integer) vals.get("classification")];
 
                 // force item as a node if there are cases in an admin unit node
                 if (count > 0 && type == PlaceData.PlaceType.ADMINUNIT) {

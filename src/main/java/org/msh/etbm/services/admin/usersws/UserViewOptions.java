@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.usersws;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.db.entities.AdministrativeUnit;
@@ -63,13 +64,15 @@ public class UserViewOptions implements FormRequestHandler<List<Item>> {
 
         // get the unit
         Unit unit = entityManager.find(Unit.class, unitId);
-        List<AdministrativeUnit> lst = unit.getAddress().getAdminUnit().getParentsTreeList(true);
+        AdministrativeUnit adminUnit = unit.getAddress().getAdminUnit();
+
+        List<SynchronizableItem> lst = unit.getAddress().getAdminUnit().getParentsList(true);
 
         // include the administrative units
-        for (AdministrativeUnit adm : lst) {
+        for (SynchronizableItem adm : lst) {
             options.add(new Item<UserViewData>(
                             new UserViewData(UserView.ADMINUNIT, adm.getId()),
-                            adm.getCountryStructure().getName() + ": " + adm.getName())
+                            adm.getName())
             );
         }
 

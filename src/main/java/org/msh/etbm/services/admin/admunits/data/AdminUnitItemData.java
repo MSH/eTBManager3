@@ -1,4 +1,4 @@
-package org.msh.etbm.services.admin.admunits;
+package org.msh.etbm.services.admin.admunits.data;
 
 import java.util.UUID;
 
@@ -7,8 +7,19 @@ import java.util.UUID;
  * Created by rmemoria on 1/11/15.
  */
 public class AdminUnitItemData {
+    /**
+     * Admin unit unique ID
+     */
     private UUID id;
+
+    /**
+     * Name of the administrative unit
+     */
     private String name;
+
+    /**
+     * Number of child admin units under this admin unit
+     */
     private int unitsCount;
 
     public UUID getId() {

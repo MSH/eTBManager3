@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.regimens;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.MedicineRegimen;
@@ -40,12 +41,14 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
     }
 
     @Override
-    protected void mapRequest(Object request, Regimen regimen) {
+    protected void mapRequest(EntityServiceContext<Regimen> context) {
+        Regimen regimen = context.getEntity();
+
         // clear previous regimens
         regimen.getMedicines().clear();
 
         // run default mapping
-        super.mapRequest(request, regimen);
+        super.mapRequest(context);
 
         // manually set the parent regimen, since it cannot be done by dozer
         for (MedicineRegimen mr : regimen.getMedicines()) {

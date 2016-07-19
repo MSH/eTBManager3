@@ -110,7 +110,7 @@ public class SearchService {
 
         // set parameter if view is per admin unit
         if (session.getView() == UserView.ADMINUNIT) {
-            qry.setParameter("auid", session.getAdminUnit().getSelected().getId());
+            qry.setParameter("auid", session.getAdminUnit().getId());
         }
 
         // just load cases ?

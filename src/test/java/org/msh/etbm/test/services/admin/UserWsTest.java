@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.UserWorkspace;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.admunits.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.usersws.UserWsService;
 import org.msh.etbm.services.admin.usersws.data.UserViewData;

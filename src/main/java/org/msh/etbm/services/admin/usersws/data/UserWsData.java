@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.usersws.data;
 
 import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 
 
@@ -12,7 +12,7 @@ import org.msh.etbm.services.admin.units.data.UnitItemData;
 public class UserWsData extends SynchronizableItem {
 
     private UnitItemData unit;
-    private AdminUnitSeries adminUnit;
+    private AdminUnitData adminUnit;
 
     private boolean active;
     private boolean emailConfirmed;
@@ -28,11 +28,11 @@ public class UserWsData extends SynchronizableItem {
         this.unit = unit;
     }
 
-    public AdminUnitSeries getAdminUnit() {
+    public AdminUnitData getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdminUnitSeries adminUnit) {
+    public void setAdminUnit(AdminUnitData adminUnit) {
         this.adminUnit = adminUnit;
     }
 

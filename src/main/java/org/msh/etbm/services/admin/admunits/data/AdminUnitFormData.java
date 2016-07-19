@@ -1,9 +1,10 @@
-package org.msh.etbm.services.admin.admunits;
+package org.msh.etbm.services.admin.admunits.data;
 
 import java.util.Optional;
 import java.util.UUID;
 
 /**
+ * Class data to create or update an administrative unit
  * Created by rmemoria on 21/10/15.
  */
 public class AdminUnitFormData {
@@ -12,7 +13,7 @@ public class AdminUnitFormData {
 
     private Optional<UUID> parentId;
 
-    private Optional<UUID> csId;
+    private Optional<UUID> countryStructure;
 
     private Optional<String> customId;
 
@@ -33,12 +34,12 @@ public class AdminUnitFormData {
         this.parentId = parentId;
     }
 
-    public Optional<UUID> getCsId() {
-        return csId;
+    public Optional<UUID> getCountryStructure() {
+        return countryStructure;
     }
 
-    public void setCsId(Optional<UUID> csId) {
-        this.csId = csId;
+    public void setCountryStructure(Optional<UUID> countryStructure) {
+        this.countryStructure = countryStructure;
     }
 
     public Optional<String> getCustomId() {

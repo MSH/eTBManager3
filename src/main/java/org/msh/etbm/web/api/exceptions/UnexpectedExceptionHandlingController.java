@@ -6,7 +6,10 @@ import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.ErrorLog;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -31,6 +34,8 @@ import java.util.Map;
 @ControllerAdvice
 public class UnexpectedExceptionHandlingController {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(UnexpectedExceptionHandlingController.class);
+
     @Autowired
     Messages messages;
 
@@ -42,6 +47,9 @@ public class UnexpectedExceptionHandlingController {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Value("${development:false}")
+    boolean development;
 
     @Transactional
     @ExceptionHandler(Exception.class)
@@ -85,7 +93,9 @@ public class UnexpectedExceptionHandlingController {
         entityManager.persist(error);
         entityManager.flush();
 
-        notifyAdministrators(error);
+        if (!development) {
+            notifyAdministrators(error);
+        }
 
         e.printStackTrace();
     }
@@ -120,9 +130,13 @@ public class UnexpectedExceptionHandlingController {
         //Mount subject
         String subject = messages.get("error.title") + " " + error.getId() + " - " + error.getExceptionMessage();
 
-        //send email
-        for (String email : emails) {
-            mailService.send(email, subject, "unexpectedexception.ftl", model);
+        try {
+            //send email
+            for (String email : emails) {
+                mailService.send(email, subject, "unexpectedexception.ftl", model);
+            }
+        } catch (Exception e) {
+            LOGGER.info("Error when trying to send e-mail: " + e.getClass().toString() + ": " + e.getMessage());
         }
     }
 }

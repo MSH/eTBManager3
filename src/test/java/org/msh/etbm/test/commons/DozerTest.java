@@ -3,7 +3,7 @@ package org.msh.etbm.test.commons;
 import org.dozer.DozerBeanMapper;
 import org.junit.Test;
 import org.msh.etbm.db.entities.Tbunit;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -53,6 +53,6 @@ public class DozerTest extends AuthenticatedTest {
         assertEquals(data.getName(), unit.getName());
         assertEquals(data.getType(), UnitType.TBUNIT);
 
-        assert (data.getAdminUnit() instanceof AdminUnitSeries);
+        assert (data.getAdminUnit() instanceof AdminUnitData);
     }
 }

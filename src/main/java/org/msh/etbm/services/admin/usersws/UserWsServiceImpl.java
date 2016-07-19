@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.usersws;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
@@ -74,7 +75,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeValidate(UserWorkspace uw, Object request) {
+    protected void beforeValidate(EntityServiceContext<UserWorkspace> context) {
+        UserWorkspace uw = context.getEntity();
+
         // set login to lower case
         User user = uw.getUser();
         if (user != null && user.getLogin() != null) {
@@ -87,7 +90,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
+    protected void beforeSave(EntityServiceContext<UserWorkspace> context, Errors errors) {
+        UserWorkspace userWorkspace = context.getEntity();
+
         if (!checkUnique(User.class, userWorkspace.getUser(), "login", null)) {
             errors.rejectValue("login", Messages.NOT_UNIQUE);
         }
@@ -100,9 +105,10 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void afterSave(UserWorkspace entity, ServiceResult res, boolean isNew) {
-        if (isNew) {
-            sendMessageToNewUser(entity);
+    protected void afterSave(EntityServiceContext<UserWorkspace> context, ServiceResult res) {
+        // is a new entity ?
+        if (context.getRequestedId() == null) {
+            sendMessageToNewUser(context.getEntity());
         }
     }
 

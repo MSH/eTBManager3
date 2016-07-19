@@ -3,7 +3,7 @@ package org.msh.etbm;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.DozerEntityConverter;
-import org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter;
+import org.msh.etbm.services.admin.admunits.impl.DozerAdminUnitConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -44,7 +44,7 @@ public class Application {
      * @return instance of DozerBeanMapper
      */
     @Bean
-    public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitSeriesConverter admconv) {
+    public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitConverter admconv) {
         DozerBeanMapper m = new DozerBeanMapper();
 
         List<CustomConverter> customConverters = new ArrayList<>();

@@ -4,6 +4,7 @@ package org.msh.etbm.services.admin.userprofiles;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -50,13 +51,15 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
     }
 
     @Override
-    protected void mapRequest(Object request, UserProfile entity) {
+    protected void mapRequest(EntityServiceContext<UserProfile> context) {
+        UserProfile entity = context.getEntity();
+
         if (entity.getPermissions().size() > 0) {
             entity.getPermissions().clear();
             removeOldPermissions(entity);
         }
 
-        super.mapRequest(request, entity);
+        super.mapRequest(context);
     }
 
     @Override
@@ -65,7 +68,9 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
     }
 
     @Override
-    protected void beforeSave(UserProfile entity, Errors errors) {
+    protected void beforeSave(EntityServiceContext<UserProfile> context, Errors errors) {
+        UserProfile entity = context.getEntity();
+
         List<Permission> toadd = new ArrayList<>();
 
         // check user permissions
@@ -117,7 +122,6 @@ public class UserProfileServiceImpl extends EntityServiceImpl<UserProfile, UserP
             return;
         }
 
-        System.out.println("permissions = " + userProfile.getPermissions().size());
         getEntityManager().createQuery("delete from UserPermission where userProfile.id = :id")
                 .setParameter("id", userProfile.getId())
                 .executeUpdate();

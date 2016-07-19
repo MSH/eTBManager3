@@ -4,6 +4,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
@@ -39,8 +40,8 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void afterSave(Tag entity, ServiceResult res, boolean isNew) {
-        casesTagsUpdateService.updateCases(entity.getId());
+    protected void afterSave(EntityServiceContext<Tag> context, ServiceResult res) {
+        casesTagsUpdateService.updateCases(context.getEntity().getId());
     }
 
     @Override
@@ -49,7 +50,9 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void beforeSave(Tag tag, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Tag> context, Errors errors) {
+        Tag tag = context.getEntity();
+
         if (!checkUnique(tag, "name", null)) {
             errors.rejectValue("name", Messages.NOT_UNIQUE);
         }

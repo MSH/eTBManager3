@@ -6,7 +6,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
@@ -73,7 +73,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         UnitData data = units.getList().get(0);
 
         assert (data instanceof UnitData);
-        assert (data.getAdminUnit() instanceof AdminUnitSeries);
+        assert (data.getAdminUnit() instanceof AdminUnitData);
 
         Map<String, Object> params = new HashMap<>();
         params.put(UserViewOptions.PARAM_UNITID, data.getId().toString());

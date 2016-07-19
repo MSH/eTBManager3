@@ -41,9 +41,6 @@
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="code" type="VARCHAR(15)">
-                <constraints nullable="false"/>
-            </column>
             <column name="customId" type="${type.customId}"/>
             <column name="name" type="${type.name}">
                 <constraints nullable="false"/>
@@ -57,7 +54,14 @@
             <column name="COUNTRYSTRUCTURE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="PARENT_ID" type="${type.id}"/>
+            <column name="pid0" type="${type.id}" />
+            <column name="pid1" type="${type.id}" />
+            <column name="pid2" type="${type.id}" />
+            <column name="pid3" type="${type.id}" />
+            <column name="pname0" type="${type.name}" />
+            <column name="pname1" type="${type.name}" />
+            <column name="pname2" type="${type.name}" />
+            <column name="pname3" type="${type.name}" />
         </createTable>
     </changeSet>
 
@@ -2109,12 +2113,32 @@
                                  constraintName="FK3B6F13B2B3B1717" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-181">
-        <addForeignKeyConstraint baseColumnNames="PARENT_ID" baseTableName="administrativeunit"
-                                 constraintName="FK3B6F13B2D19C2BC5" deferrable="false" initiallyDeferred="false"
+
+    <changeSet author="rmemoria" id="1433264274749-181-0">
+        <addForeignKeyConstraint baseColumnNames="PID0" baseTableName="administrativeunit"
+                                 constraintName="FKADMINUNITP0" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id"
                                  referencedTableName="administrativeunit"/>
     </changeSet>
+    <changeSet author="rmemoria" id="1433264274749-181-1">
+        <addForeignKeyConstraint baseColumnNames="PID1" baseTableName="administrativeunit"
+                                 constraintName="FKADMINUNITP1" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="administrativeunit"/>
+    </changeSet>
+    <changeSet author="rmemoria" id="1433264274749-181-2">
+        <addForeignKeyConstraint baseColumnNames="PID2" baseTableName="administrativeunit"
+                                 constraintName="FKADMINUNITP2" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="administrativeunit"/>
+    </changeSet>
+    <changeSet author="rmemoria" id="1433264274749-181-3">
+        <addForeignKeyConstraint baseColumnNames="PID3" baseTableName="administrativeunit"
+                                 constraintName="FKADMINUNITP3" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" referencedColumnNames="id"
+                                 referencedTableName="administrativeunit"/>
+    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-188">
         <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="userworkspace"
                                  constraintName="FK3FB6152A6515C41D" deferrable="false" initiallyDeferred="false"
@@ -2783,11 +2807,6 @@
         <addForeignKeyConstraint baseColumnNames="resistpattern_id" baseTableName="caseresistancepattern"
                                  constraintName="respatt_caserespat_fk" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="resistancepattern"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-406">
-        <createIndex indexName="fk_adminunit_code" tableName="administrativeunit" unique="false">
-            <column name="code"/>
-        </createIndex>
     </changeSet>
 
     <changeSet author="rmemoria" id="300-3">

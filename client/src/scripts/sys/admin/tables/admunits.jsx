@@ -113,7 +113,7 @@ export default class AdmUnits extends React.Component {
 		return (
 			<Row key={item.name} className="tbl-cell">
 				<Col xs={7}>{content}</Col>
-				<Col xs={3}>{item.csName}</Col>
+				<Col xs={3}>{item.countryStructure ? item.countryStructure.name : ''}</Col>
 				<Col xs={2}>
 					{btn}
 				</Col>
@@ -131,7 +131,7 @@ export default class AdmUnits extends React.Component {
 	addRoot() {
 		this.setState({ editing: true,
 			level: 1,
-			doc: { parents: { } },
+			doc: { parentId: { } },
 			parent: this.state.root });
 	}
 
@@ -161,7 +161,7 @@ export default class AdmUnits extends React.Component {
 		// open the editor
 		this.setState({ editing: true,
 			level: item.level + 1,
-			doc: { parents: parents, parentId: item.id },
+			doc: { parentId: parents },
 			parent: item });
 	}
 
@@ -273,8 +273,8 @@ export default class AdmUnits extends React.Component {
 		const doc = this.state.doc;
 		const req = {
 			name: doc.name,
-			parentId: doc.parents && doc.parents.p0 ? doc.parents.p0.id : null,
-			csId: doc.csId,
+			parentId: doc.parentId && doc.parentId.p0 ? doc.parentId.p0.id : null,
+			countryStructure: doc.countryStructure,
 			customId: doc.customId
 		};
 
@@ -293,7 +293,7 @@ export default class AdmUnits extends React.Component {
 					doc.id = res;
 					doc.unitsCount = 0;
 					// get the country structure name
-					doc.csName = this.state.cslist.find(item => item.id === doc.csId).name;
+					doc.countryStructure = this.state.cslist.find(item => item.id === doc.countryStructure);
 					// add to the tree
 					self.tvhandler.addNode(self.state.parent, doc);
 				});
@@ -335,15 +335,14 @@ export default class AdmUnits extends React.Component {
 					size: { md: 6 }
 				},
 				{
-					property: 'parents',
+					property: 'parentId',
 					type: 'adminUnit',
 					label: __('admin.adminunits.parentunit'),
 					readOnly: true,
-					size: { md: 6 },
-					visible: doc => !!doc.parents
+					size: { md: 6 }
 				},
 				{
-					property: 'csId',
+					property: 'countryStructure',
 					type: 'select',
 					label: __('admin.adminunits.countrystructure'),
 					options: this.getCsOptions(this.state.level),

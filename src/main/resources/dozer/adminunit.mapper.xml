@@ -11,65 +11,14 @@
     </mapping>
 
 
-    <mapping>
-        <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
-        <class-b>org.msh.etbm.services.admin.admunits.AdminUnitData</class-b>
-
-        <field custom-converter-id="entity-id">
-            <a>countryStructure</a>
-            <b>csId</b>
-        </field>
-
-        <field custom-converter-id="entity-id">
-            <a>parent</a>
-            <b>parentId</b>
-        </field>
-
-        <field>
-            <a>parent.name</a>
-            <b>parentName</b>
-        </field>
-
-        <field>
-            <a>countryStructure.name</a>
-            <b>csName</b>
-        </field>
-    </mapping>
-
 
     <mapping>
-        <class-a>org.msh.etbm.db.entities.AdministrativeUnit</class-a>
-        <class-b>org.msh.etbm.services.admin.admunits.AdminUnitDetailedData</class-b>
-
-        <field custom-converter-id="entity-id">
-            <a>countryStructure</a>
-            <b>csId</b>
-        </field>
-
-        <field custom-converter-id="adminunit">
-            <a>parent</a>
-            <b>parents</b>
-        </field>
-
-        <field>
-            <a>countryStructure.name</a>
-            <b>csName</b>
-        </field>
-    </mapping>
-
-
-    <mapping>
-        <class-a>org.msh.etbm.services.admin.admunits.AdminUnitFormData</class-a>
+        <class-a>org.msh.etbm.services.admin.admunits.data.AdminUnitFormData</class-a>
         <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
 
         <field custom-converter-id="entity-id">
-            <a>csId</a>
+            <a>countryStructure</a>
             <b>countryStructure</b>
-        </field>
-
-        <field custom-converter-id="entity-id">
-            <a>parentId</a>
-            <b>parent</b>
         </field>
     </mapping>
 

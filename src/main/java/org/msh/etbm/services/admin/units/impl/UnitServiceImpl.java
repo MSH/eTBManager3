@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.units.impl;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
@@ -10,7 +11,6 @@ import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.repositories.AdminUnitRepository;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.UnitType;
@@ -32,9 +32,6 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
 
     @Autowired
     AdminUnitRepository adminUnitRepository;
-
-    @Autowired
-    AdminUnitSeriesService adminUnitSeriesService;
 
     @Override
     protected void buildQuery(QueryBuilder<Unit> builder, UnitQueryParams queryParams) {
@@ -84,7 +81,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
                     rejectFieldException(queryParams, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
-                builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
+                builder.addRestriction("a.address.adminUnit.pid" + au.getLevel() + " = :auid", au.getId());
             } else {
                 // search for units directly registered in this administrative unit
                 builder.addRestriction("a.address.adminUnit.id = :auid", queryParams.getAdminUnitId());
@@ -130,7 +127,9 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void beforeSave(Unit unit, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Unit> context, Errors errors) {
+        Unit unit = context.getEntity();
+
         if (unit.getAddress().getAdminUnit() == null) {
             errors.rejectValue("address.adminUnit", Messages.REQUIRED);
         }

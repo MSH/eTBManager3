@@ -4,6 +4,7 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
@@ -115,8 +116,8 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     @Override
-    protected void beforeSave(Workspace ws, Errors errors) {
-        checkUniqueWorkspaceName(ws);
+    protected void beforeSave(EntityServiceContext<Workspace> context, Errors errors) {
+        checkUniqueWorkspaceName(context.getEntity());
     }
 
     @Override
@@ -137,12 +138,13 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
     }
 
     @Override
-    protected void beforeDelete(Workspace entity, Errors errors) {
+    protected void beforeDelete(EntityServiceContext<Workspace> context, Errors errors) {
+        // check if it is the current workspace
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
-        if (wsid.equals(entity.getId())) {
+        if (wsid.equals(context.getEntity().getId())) {
             errors.reject("admin.workspaces.delerror1");
         }
-        super.beforeDelete(entity, errors);
+        super.beforeDelete(context, errors);
     }
 }

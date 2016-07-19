@@ -3,6 +3,7 @@ package org.msh.etbm.services.admin.sources;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Source;
@@ -40,7 +41,9 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
     }
 
     @Override
-    protected void beforeSave(Source source, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Source> context, Errors errors) {
+        Source source = context.getEntity();
+
         if (!checkUnique(source, "name", null)) {
             errors.rejectValue("name", Messages.NOT_UNIQUE);
         }

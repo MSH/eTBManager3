@@ -2,6 +2,7 @@ package org.msh.etbm.services.admin.admunits.impl;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.CountryStructure;
@@ -47,7 +48,8 @@ public class CountryStructureServiceImpl extends EntityServiceImpl<CountryStruct
     }
 
     @Override
-    protected void beforeSave(CountryStructure cs, Errors errors) {
+    protected void beforeSave(EntityServiceContext<CountryStructure> context, Errors errors) {
+        CountryStructure cs = context.getEntity();
         if (!checkUnique(cs, "name", "level = " + cs.getLevel())) {
             errors.rejectValue("name", Messages.NOT_UNIQUE);
         }

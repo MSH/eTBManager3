@@ -1,5 +1,6 @@
 package org.msh.etbm.db.entities;
 
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.WorkspaceEntity;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -18,15 +20,21 @@ public class AdministrativeUnit extends WorkspaceEntity {
     @NotNull
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "PARENT_ID")
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private AdministrativeUnit parent;
+    /**
+     * A sequence with parent ids
+     */
+    private UUID pid0;
+    private UUID pid1;
+    private UUID pid2;
+    private UUID pid3;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    @OrderBy("NAME")
-    @PropertyLog(ignore = true)
-    private List<AdministrativeUnit> units = new ArrayList<>();
+    /**
+     * The name of the parents
+     */
+    private String pname0;
+    private String pname1;
+    private String pname2;
+    private String pname3;
 
     @Column(length = 50)
     @PropertyLog(messageKey = "form.customId")
@@ -35,25 +43,11 @@ public class AdministrativeUnit extends WorkspaceEntity {
     // properties to help dealing with trees
     private int unitsCount;
 
-    @Column(length = 15, nullable = false)
-    @PropertyLog(ignore = true)
-    private String code;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COUNTRYSTRUCTURE_ID")
     @PropertyLog(operations = {Operation.ALL})
     @NotNull
     private CountryStructure countryStructure;
-
-
-    /**
-     * Return the parent list including the own object
-     *
-     * @return List of {@link AdministrativeUnit} instance
-     */
-    public List<AdministrativeUnit> getParents() {
-        return getParentsTreeList(true);
-    }
 
 
     /**
@@ -64,177 +58,79 @@ public class AdministrativeUnit extends WorkspaceEntity {
     public String getFullDisplayName() {
         String s = getName();
 
-        for (AdministrativeUnit adm : getParentsTreeList(false)) {
-            s += ", " + adm.getName();
+        String delim = "";
+        if (pname3 != null) {
+            s += delim + pname3;
+            delim = ", ";
+        }
+
+        if (pname2 != null) {
+            s += delim + pname2;
+            delim = ", ";
+        }
+
+        if (pname1 != null) {
+            s += delim + pname1;
+            delim = ", ";
+        }
+
+        if (pname0 != null) {
+            s += delim + pname0;
         }
 
         return s;
     }
 
-    /**
-     * Return the parent units display name with the name of this instance only on the end.
-     *
-     * @return
-     */
-    public String getFullDisplayName2() {
-        String s = null;
 
-        for (AdministrativeUnit adm : getParentsTreeList(true)) {
-            if (s == null) {
-                s = adm.getName();
-            } else {
-                s += ", " + adm.getName();
-            }
+    /**
+     * Return the direct administrative unit parent ID
+     * @return instance of UUID, or null if there is no parent
+     */
+    public UUID getParentId() {
+        if (pid3 != null) {
+            return pid3;
         }
 
-        return s;
-    }
-
-    /**
-     * Return a list with parents administrative unit, where the first is the upper level administrative unit and
-     * the last the lowest level
-     *
-     * @return {@link List} of {@link AdministrativeUnit} instances
-     */
-    public List<AdministrativeUnit> getParentsTreeList(boolean includeThis) {
-        ArrayList<AdministrativeUnit> lst = new ArrayList<>();
-
-        AdministrativeUnit aux;
-        if (includeThis) {
-            aux = this;
-        } else {
-            aux = getParent();
+        if (pid2 != null) {
+            return pid2;
         }
 
-        while (aux != null) {
-            lst.add(0, aux);
-            aux = aux.getParent();
-        }
-        return lst;
-    }
-
-
-    /**
-     * Static method that return the parent code of a given code
-     *
-     * @param code
-     * @return
-     */
-    public static String getParentCode(String code) {
-        if ((code == null) || (code.length() <= 3)) {
-            return null;
+        if (pid1 != null) {
+            return pid1;
         }
 
-        if (code.length() <= 6) {
-            return code.substring(0, 3);
+        return pid0;
+    }
+
+    public void setParent(AdministrativeUnit parent) {
+        pid0 = parent.getPid0();
+        pid1 = parent.getPid1();
+        pid2 = parent.getPid2();
+        pid3 = parent.getPid3();
+        pname0 = parent.getPname0();
+        pname1 = parent.getPname1();
+        pname2 = parent.getPname2();
+        pname3 = parent.getPname3();
+
+        switch (parent.getLevel()) {
+            case 0:
+                pid0 = parent.getId();
+                pname0 = parent.getPname0();
+                break;
+            case 1:
+                pid1 = parent.getPid1();
+                pname1 = parent.getPname1();
+                break;
+            case 2:
+                pid2 = parent.getPid2();
+                pname2 = parent.getPname2();
+                break;
+            case 3:
+                pid3 = parent.getPid3();
+                pname3 = parent.getPname3();
+                break;
         }
-
-        if (code.length() <= 9) {
-            return code.substring(0, 6);
-        }
-
-        return code.length() <= 12 ? code.substring(0, 9) : code.substring(0, 12);
     }
-
-    /**
-     * Check if an administrative unit code (passed as the code parameter) is a child of the current administrative unit
-     *
-     * @param code of the unit
-     * @return true if code is of a child unit, otherwise return false
-     */
-    public boolean isSameOrChildCode(String code) {
-        return isSameOrChildCode(this.code, code);
-    }
-
-
-    /**
-     * Static method to check if a code is equals of a child of the code given by the parentCode param
-     *
-     * @param parentCode
-     * @param code
-     * @return
-     */
-    public static boolean isSameOrChildCode(String parentCode, String code) {
-        int len = parentCode.length();
-        if (len > code.length()) {
-            return false;
-        }
-
-        return parentCode.equals(code.substring(0, parentCode.length()));
-    }
-
-
-    /**
-     * Return the parent administrative unit based on its level. If level is the same of this unit, it returns itself.
-     * If level is bigger than the level of this unit, it returns null
-     *
-     * @param level
-     * @return {@link AdministrativeUnit} instance, which is itself or a parent admin unit
-     */
-    public AdministrativeUnit getAdminUnitByLevel(int level) {
-        if (level == countryStructure.getLevel()) {
-            return this;
-        }
-
-        List<AdministrativeUnit> lst = getParents();
-        for (AdministrativeUnit adm : lst) {
-            if (adm.getLevel() == level) {
-                return adm;
-            }
-        }
-        return null;
-    }
-
-
-    /**
-     * Return parent administrative unit of level 1
-     *
-     * @return {@link AdministrativeUnit} instance
-     */
-    public AdministrativeUnit getParentLevel1() {
-        return getAdminUnitByLevel(1);
-    }
-
-
-    /**
-     * Return parent administrative unit of level 2
-     *
-     * @return {@link AdministrativeUnit} instance
-     */
-    public AdministrativeUnit getParentLevel2() {
-        return getAdminUnitByLevel(2);
-    }
-
-
-    /**
-     * Return parent administrative unit of level 3
-     *
-     * @return {@link AdministrativeUnit} instance
-     */
-    public AdministrativeUnit getParentLevel3() {
-        return getAdminUnitByLevel(3);
-    }
-
-
-    /**
-     * Return parent administrative unit of level 4
-     *
-     * @return {@link AdministrativeUnit} instance
-     */
-    public AdministrativeUnit getParentLevel4() {
-        return getAdminUnitByLevel(4);
-    }
-
-
-    /**
-     * Return parent administrative unit of level 5
-     *
-     * @return {@link AdministrativeUnit} instance
-     */
-    public AdministrativeUnit getParentLevel5() {
-        return getAdminUnitByLevel(5);
-    }
-
 
     /**
      * @return the name
@@ -248,34 +144,6 @@ public class AdministrativeUnit extends WorkspaceEntity {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return the parent
-     */
-    public AdministrativeUnit getParent() {
-        return parent;
-    }
-
-    /**
-     * @param parent the parent to set
-     */
-    public void setParent(AdministrativeUnit parent) {
-        this.parent = parent;
-    }
-
-    /**
-     * @return the units
-     */
-    public List<AdministrativeUnit> getUnits() {
-        return units;
-    }
-
-    /**
-     * @param units the units to set
-     */
-    public void setUnits(List<AdministrativeUnit> units) {
-        this.units = units;
     }
 
     public String getCustomId() {
@@ -319,32 +187,161 @@ public class AdministrativeUnit extends WorkspaceEntity {
         this.countryStructure = countryStructure;
     }
 
-
     /**
-     * @param code the code to set
+     * Zero-based index indicating the administrative unit level, calculated from
+     * its parent units. Level is a value from 0 to 4, where 0 means the administrative unit
+     * has no parent and 4 means it has 4 parents
+     * @return integer value
      */
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    /**
-     * @return the code
-     */
-    public String getCode() {
-        return code;
-    }
-
     public int getLevel() {
-        String s = getCode();
-        if (s == null) {
-            return 0;
+        int level = 4;
+        if (pid3 == null) {
+            level--;
         }
 
-        return s.length() / 3;
+        if (pid2 == null) {
+            level--;
+        }
+
+        if (pid1 == null) {
+            level--;
+        }
+
+        if (pid0 == null) {
+            level--;
+        }
+
+        return level;
+    }
+
+
+    /**
+     * Return the parent ID by its level
+     * @param level the parent ID level, between 0 and the admin unit level
+     * @return
+     */
+    public UUID getParentIdByLevel(int level) {
+        switch (level) {
+            case 0: return pid0;
+            case 1: return pid1;
+            case 2: return pid2;
+            case 3: return pid3;
+            default: return null;
+        }
+    }
+
+    /**
+     * Return the parent name by its level
+     * @param level the parent ID level, between 0 and the admin unit level
+     * @return String value
+     */
+    public String getParentNameByLevel(int level) {
+        switch (level) {
+            case 0: return pname0;
+            case 1: return pname1;
+            case 2: return pname2;
+            case 3: return pname3;
+            default: return null;
+        }
+    }
+
+    /**
+     * Create a list with all parent elements. The list is
+     * @param includeItself if true, the list will contain the own unit
+     * @return
+     */
+    public List<SynchronizableItem> getParentsList(boolean includeItself) {
+        List<SynchronizableItem> lst = new ArrayList<>();
+
+        if (pid0 != null) {
+            lst.add(new SynchronizableItem(pid0, pname0));
+        }
+
+        if (pid1 != null) {
+            lst.add(new SynchronizableItem(pid1, pname1));
+        }
+
+        if (pid2 != null) {
+            lst.add(new SynchronizableItem(pid2, pname2));
+        }
+
+        if (pid3 != null) {
+            lst.add(new SynchronizableItem(pid3, pname3));
+        }
+
+        if (includeItself) {
+            lst.add(new SynchronizableItem(getId(), getName()));
+        }
+
+        return lst;
     }
 
     @Override
     public String getDisplayString() {
         return name;
+    }
+
+    public UUID getPid0() {
+        return pid0;
+    }
+
+    public void setPid0(UUID pid0) {
+        this.pid0 = pid0;
+    }
+
+    public UUID getPid1() {
+        return pid1;
+    }
+
+    public void setPid1(UUID pid1) {
+        this.pid1 = pid1;
+    }
+
+    public UUID getPid2() {
+        return pid2;
+    }
+
+    public void setPid2(UUID pid2) {
+        this.pid2 = pid2;
+    }
+
+    public UUID getPid3() {
+        return pid3;
+    }
+
+    public void setPid3(UUID pid3) {
+        this.pid3 = pid3;
+    }
+
+    public String getPname0() {
+        return pname0;
+    }
+
+    public void setPname0(String pname0) {
+        this.pname0 = pname0;
+    }
+
+    public String getPname1() {
+        return pname1;
+    }
+
+    public void setPname1(String pname1) {
+        this.pname1 = pname1;
+    }
+
+    public String getPname2() {
+        return pname2;
+    }
+
+    public void setPname2(String pname2) {
+        this.pname2 = pname2;
+    }
+
+    public String getPname3() {
+        return pname3;
+    }
+
+    public void setPname3(String pname3) {
+        this.pname3 = pname3;
     }
 }

@@ -66,7 +66,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.user.id = :userId", query.getUserId());
         qry.addLikeRestriction("a.type", query.getType());
         if (adminUnit != null) {
-            qry.addRestriction("a.unit.address.adminUnit.code like :code", adminUnit.getCode() + "%");
+            qry.addRestriction("a.unit.address.adminUnit.pid" + adminUnit.getLevel() + " = :auid", adminUnit.getId());
         }
         if (query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
             qry.addRestriction("(a.data like :searchKey or a.entityName like :searchKey)", "%" + query.getSearchKey() + "%", "%" + query.getSearchKey() + "%");

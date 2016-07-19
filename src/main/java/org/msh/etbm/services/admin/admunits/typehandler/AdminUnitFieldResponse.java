@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.admunits.typehandler;
 
-import org.msh.etbm.services.admin.admunits.AdminUnitItemData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitItemData;
 
 import java.util.List;
 import java.util.UUID;

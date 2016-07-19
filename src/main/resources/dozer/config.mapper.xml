@@ -12,8 +12,8 @@
                 <class-b>java.lang.Object</class-b>
             </converter>
 
-            <converter type="org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter">
-                <class-a>org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries</class-a>
+            <converter type="org.msh.etbm.services.admin.admunits.impl.DozerAdminUnitConverter">
+                <class-a>org.msh.etbm.services.admin.admunits.data.AdminUnitData</class-a>
                 <class-b>org.msh.etbm.db.entities.AdministrativeUnit</class-b>
             </converter>
         </custom-converters>

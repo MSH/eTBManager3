@@ -54,16 +54,17 @@ export default class SessionUtils {
 
 		// admin unit was informed ?
 		if (adminUnit) {
-			const keys = Object.keys(adminUnit);
-			keys.forEach((k, index) => {
-					const item = adminUnit[k];
-					const hash = SessionUtils.adminUnitHash(item.id);
-					lst.push(<a key={index} href={hash}>{item.name}</a>);
-
-					if (index < keys.length - 1) {
-						lst.push(<span key={'s' + index}>{', '}</span>);
-					}
-				});
+			// add links of parents
+			for (var k = 0; k < 4; k++) {
+				const p = adminUnit['p' + k];
+				if (p) {
+					const hash = SessionUtils.adminUnitHash(p.id);
+					lst.push(<a key={k} href={hash}>{p.name}</a>);
+					lst.push(<span key={'s' + k}>{', '}</span>);
+				}
+			}
+			// add link of main item
+			lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id)}>{adminUnit.name}</a>);
 		}
 
 		return (

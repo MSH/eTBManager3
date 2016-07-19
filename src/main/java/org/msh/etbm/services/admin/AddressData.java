@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin;
 
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
 /**
  * Created by rmemoria on 1/11/15.
@@ -10,7 +11,7 @@ public class AddressData {
     private String complement;
     private String zipCode;
 
-    private AdminUnitSeries adminUnit;
+    private AdminUnitData adminUnit;
 
     public String getAddress() {
         return address;
@@ -36,11 +37,11 @@ public class AddressData {
         this.zipCode = zipCode;
     }
 
-    public AdminUnitSeries getAdminUnit() {
+    public AdminUnitData getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdminUnitSeries adminUnit) {
+    public void setAdminUnit(AdminUnitData adminUnit) {
         this.adminUnit = adminUnit;
     }
 }
