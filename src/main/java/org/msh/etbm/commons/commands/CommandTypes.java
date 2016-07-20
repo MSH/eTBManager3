@@ -95,14 +95,14 @@ public class CommandTypes {
         ROOT.add(SYSTEM_SETUP);
 
         // cases module
-        ROOT.add(CASES_CASE);
-        ROOT.addCRUD(CASES_MED_EXAM); //messages ok
-        ROOT.addCRUD(CASES_EXAM_MIC); //messages ok
-        ROOT.addCRUD(CASES_EXAM_CUL); //messages ok
-        ROOT.addCRUD(CASES_EXAM_XPERT); //messages ok
-        ROOT.addCRUD(CASES_EXAM_DST); //messages ok
-        ROOT.addCRUD(CASES_EXAM_HIV); //messages ok
-        ROOT.addCRUD(CASES_EXAM_XRAY); //messages ok
+        ROOT.addCRUD(CASES_CASE);
+        ROOT.addCRUD(CASES_MED_EXAM);
+        ROOT.addCRUD(CASES_EXAM_MIC);
+        ROOT.addCRUD(CASES_EXAM_CUL);
+        ROOT.addCRUD(CASES_EXAM_XPERT);
+        ROOT.addCRUD(CASES_EXAM_DST);
+        ROOT.addCRUD(CASES_EXAM_HIV);
+        ROOT.addCRUD(CASES_EXAM_XRAY);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

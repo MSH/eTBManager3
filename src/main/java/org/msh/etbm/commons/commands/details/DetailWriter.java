@@ -2,6 +2,7 @@ package org.msh.etbm.commons.commands.details;
 
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandException;
+import org.msh.etbm.db.Address;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,6 +93,10 @@ public class DetailWriter {
 
         if (value instanceof Displayable) {
             return CommandLogDetail.TYPE_STRING + ((Displayable) value).getDisplayString();
+        }
+
+        if (value instanceof Address) {
+            return CommandLogDetail.TYPE_STRING + ((Address) value).getAddress();
         }
 
         throw new CommandException("Type not supported for string convertion: " + value.getClass());

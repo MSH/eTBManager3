@@ -46,8 +46,9 @@ public class CasesREST {
     }
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/case/query", method = RequestMethod.POST)
