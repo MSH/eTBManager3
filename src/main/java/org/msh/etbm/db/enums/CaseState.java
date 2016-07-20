@@ -19,7 +19,8 @@ public enum CaseState {
     REGIMEN_CHANGED,
     //New Generic Options
     NOT_EVALUATED,
-    MOVED_SECONDLINE;
+    MOVED_SECONDLINE,
+    CLOSED;
 
     public String getKey() {
         return getClass().getSimpleName().concat("." + name());

@@ -24,6 +24,7 @@ export default class Details extends React.Component {
 		this.selectTab = this.selectTab.bind(this);
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
+		this.reopenConfirm = this.reopenConfirm.bind(this);
 
 		this.state = { selTab: 2 };
 	}
@@ -112,6 +113,18 @@ export default class Details extends React.Component {
 		}
 	}
 
+	reopenConfirm(action) {
+		if (action === 'yes') {
+			server.get('/api/cases/case/reopen/' + this.state.tbcase.id)
+				.then(() => {
+					console.log('update this.state.tbcase');
+					this.setState({ showReopenConfirm: false });
+				});
+		} else if (action === 'no') {
+			this.setState({ showReopenConfirm: false });
+		}
+	}
+
 	render() {
 		const tbcase = this.state.tbcase;
 
@@ -153,11 +166,22 @@ export default class Details extends React.Component {
 			icon: 'power-off'
 		},
 		{
+			label: __('cases.reopen'),
+			onClick: this.show('showReopenConfirm', true),
+			icon: 'power-off'
+		},
+		{
 			label: __('cases.move'),
 			onClick: this.show('showMoveCase', true),
 			icon: 'toggle-right'
 		}
 		];
+
+		if (this.state.tbcase.state === 'CLOSED') {
+			commands.splice(1, 1);
+		} else {
+			commands.splice(2, 1);
+		}
 
 		return (
 			<div>
@@ -187,6 +211,11 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<MessageDlg show={this.state.showReopenConfirm}
+					onClose={this.reopenConfirm}
+					title={__('cases.reopen')}
+					message={__('cases.reopen.confirm')} style="warning" type="YesNo" />
 
 				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 

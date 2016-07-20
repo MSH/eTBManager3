@@ -1,12 +1,13 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import { server } from '../../../commons/server';
 
 const fschema = {
 			title: __('cases.close'),
 			layout: [
 				{
-					property: 'date',
+					property: 'outcomeDate',
 					required: true,
 					type: 'date',
 					label: __('cases.details.date'),
@@ -56,8 +57,20 @@ export default class CaseClose extends React.Component {
 	}
 
 	closeCase() {
-		console.log('go to server and close this case! Dont forget to return a promise');
-		this.props.onClose();
+		const doc = this.state.doc;
+		doc.tbcaseId = this.props.tbcase.id;
+
+		server.post('/api/cases/case/close', doc)
+				.then(res => {
+					if (res.errors) {
+						return Promise.reject(res.errors);
+					}
+
+					this.setState({ doc: {} });
+					this.props.onClose();
+
+					return res.result;
+				});
 	}
 
 	render() {

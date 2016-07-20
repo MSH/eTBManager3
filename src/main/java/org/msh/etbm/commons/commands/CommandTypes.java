@@ -44,6 +44,7 @@ public class CommandTypes {
 
     // case module
     public static final String CASES_CASE = "cases.case";
+    public static final String CASES_CASE_CLOSE = "cases.case.close";
     public static final String CASES_MED_EXAM = "cases.medexam";
     public static final String CASES_EXAM_MIC = "cases.exammic";
     public static final String CASES_EXAM_CUL = "cases.examcul";
