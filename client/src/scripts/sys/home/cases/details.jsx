@@ -25,6 +25,7 @@ export default class Details extends React.Component {
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 		this.reopenConfirm = this.reopenConfirm.bind(this);
+		this.goToUnitPage = this.goToUnitPage.bind(this);
 
 		this.state = { selTab: 2 };
 	}
@@ -103,14 +104,20 @@ export default class Details extends React.Component {
 	}
 
 	deleteConfirm(action) {
+		const self = this;
+
 		if (action === 'yes') {
 			server.delete('/api/cases/case/' + this.state.tbcase.id)
 				.then(() => {
-					app.goto('/sys/home/unit/cases?id=668ca7a4-44a7-11e6-b746-0defad2af570');
+					this.setState({ showDelSuccess: true });
 				});
-		} else if (action === 'no') {
-			this.setState({ showDelConfirm: false });
 		}
+
+		this.setState({ showDelConfirm: false });
+	}
+
+	goToUnitPage() {
+		app.goto('/sys/home/unit/cases?id=' + this.state.tbcase.ownerUnit.id);
 	}
 
 	reopenConfirm(action) {
@@ -211,6 +218,11 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<MessageDlg show={this.state.showDelSuccess}
+					onClose={this.goToUnitPage}
+					title={__('action.delete')}
+					message={__('default.entity_deleted')} style="info" type="Ok" />
 
 				<MessageDlg show={this.state.showReopenConfirm}
 					onClose={this.reopenConfirm}
