@@ -66,8 +66,8 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update the tags
-        //casesTagsUpdateService.updateTags(tbcase.getId());
+        //update case tags
+        casesTagsUpdateService.updateTags(tbcase.getId());
 
         return getSuccessResult(tbcase);
     }
@@ -108,14 +108,14 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update the tags
-        //casesTagsUpdateService.updateTags(tbcase.getId());
+        //update case tags
+        casesTagsUpdateService.updateTags(tbcase.getId());
 
         // build updated case data for UI refresh
         return getSuccessResult(tbcase);
     }
 
-    private StandardResult getSuccessResult(TbCase tbcase){
+    private StandardResult getSuccessResult(TbCase tbcase) {
         entityManager.refresh(tbcase);
         CaseData data = new CaseData();
         mapper.map(tbcase, data);
