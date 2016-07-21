@@ -144,6 +144,9 @@ public class TbCase extends WorkspaceEntity {
     private Nationality nationality;
 
     @Column(length = 100)
+    private String outcome;
+
+    @Column(length = 100)
     private String otherOutcome;
 
     @Column(length = 50)
@@ -575,11 +578,17 @@ public class TbCase extends WorkspaceEntity {
         this.notifAddressChanged = notifAddressChanged;
     }
 
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
 
     public String getOtherOutcome() {
         return otherOutcome;
     }
-
 
     public void setOtherOutcome(String otherOutcome) {
         this.otherOutcome = otherOutcome;
