@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.caseclose;
 
+import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
@@ -11,7 +12,9 @@ import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
+import org.msh.etbm.services.cases.cases.CaseData;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
+import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,9 +41,12 @@ public class CaseCloseService {
     @Autowired
     CasesTagsUpdateService casesTagsUpdateService;
 
+    @Autowired
+    DozerBeanMapper mapper;
+
     @Transactional
     @CommandLog(handler = EntityCmdLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
-    public void closeCase (CaseCloseData data) {
+    public StandardResult closeCase (CaseCloseData data) {
        TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
        validateClose(tbcase, data);
@@ -60,7 +66,10 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
+        //update the tags
         //casesTagsUpdateService.updateTags(tbcase.getId());
+
+        return getSuccessResult(tbcase);
     }
 
     private void validateClose(TbCase tbcase, CaseCloseData data) {
@@ -81,7 +90,7 @@ public class CaseCloseService {
     }
 
     @Transactional
-    public void reopenCase(UUID tbcaseId) {
+    public StandardResult reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
@@ -99,6 +108,18 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
+        //update the tags
         //casesTagsUpdateService.updateTags(tbcase.getId());
+
+        // build updated case data for UI refresh
+        return getSuccessResult(tbcase);
+    }
+
+    private StandardResult getSuccessResult(TbCase tbcase){
+        entityManager.refresh(tbcase);
+        CaseData data = new CaseData();
+        mapper.map(tbcase, data);
+
+        return new StandardResult(data, null, true);
     }
 }

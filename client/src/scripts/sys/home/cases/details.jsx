@@ -44,7 +44,6 @@ export default class Details extends React.Component {
 		}
 	}
 
-
 	fetchData(id) {
 		const self = this;
 		server.get('/api/cases/case/' + id)
@@ -96,10 +95,13 @@ export default class Details extends React.Component {
 
 	show(cpt, show) {
 		const self = this;
-		return () => {
+		return fetch => {
 			const obj = {};
 			obj[cpt] = show;
 			self.setState(obj);
+			if(fetch === true) {
+				self.fetchData(self.state.tbcase.id);
+			}
 		};
 	}
 
@@ -123,9 +125,12 @@ export default class Details extends React.Component {
 	reopenConfirm(action) {
 		if (action === 'yes') {
 			server.get('/api/cases/case/reopen/' + this.state.tbcase.id)
-				.then(() => {
-					console.log('update this.state.tbcase');
-					this.setState({ showReopenConfirm: false });
+				.then(res => {
+					if (res && res.errors) {
+						return Promise.reject(res.errors);
+					}
+
+					this.setState({ showReopenConfirm: false, tbcase: res.result });
 				});
 		} else if (action === 'no') {
 			this.setState({ showReopenConfirm: false });

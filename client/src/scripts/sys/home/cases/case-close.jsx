@@ -16,7 +16,7 @@ const fschema = {
 				{
 					property: 'outcome',
 					required: true,
-					type: 'listBox',
+					type: 'select',
 					label: __('form.action'),
 					options: [
 						{ id: 'CURED', name: 'Cured' },
@@ -60,14 +60,14 @@ export default class CaseClose extends React.Component {
 		const doc = this.state.doc;
 		doc.tbcaseId = this.props.tbcase.id;
 
-		server.post('/api/cases/case/close', doc)
+		return server.post('/api/cases/case/close', doc)
 				.then(res => {
-					if (res.errors) {
+					if (res && res.errors) {
 						return Promise.reject(res.errors);
 					}
 
 					this.setState({ doc: {} });
-					this.props.onClose();
+					this.props.onClose(true);
 
 					return res.result;
 				});
