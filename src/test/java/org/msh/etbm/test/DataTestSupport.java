@@ -79,7 +79,7 @@ public class DataTestSupport {
                     .createQuery("from AdministrativeUnit where id = :id")
                     .setParameter("id", parentId)
                     .getSingleResult();
-            level = parent.getLevel() + 1;
+            level = parent.getLevel() + 2;
         } else {
             level = 1;
         }

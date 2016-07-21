@@ -23,9 +23,13 @@ public class AdministrativeUnit extends WorkspaceEntity {
     /**
      * A sequence with parent ids
      */
+    @PropertyLog(ignore = true)
     private UUID pid0;
+    @PropertyLog(ignore = true)
     private UUID pid1;
+    @PropertyLog(ignore = true)
     private UUID pid2;
+    @PropertyLog(ignore = true)
     private UUID pid3;
 
     /**
