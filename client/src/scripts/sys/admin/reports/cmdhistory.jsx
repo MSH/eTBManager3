@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Row, Col, Button, Badge, Label, Alert } from 'react-bootstrap';
+import { Row, Col, Button, Badge, Alert } from 'react-bootstrap';
 import { Card, WaitIcon, ReactTable, Profile, Fa } from '../../../components/index';
 import { server } from '../../../commons/server';
 import Form from '../../../forms/form';

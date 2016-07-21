@@ -99,15 +99,13 @@ export default class Details extends React.Component {
 			const obj = {};
 			obj[cpt] = show;
 			self.setState(obj);
-			if(fetch === true) {
+			if (fetch === true) {
 				self.fetchData(self.state.tbcase.id);
 			}
 		};
 	}
 
 	deleteConfirm(action) {
-		const self = this;
-
 		if (action === 'yes') {
 			server.delete('/api/cases/case/' + this.state.tbcase.id)
 				.then(() => {
@@ -131,6 +129,8 @@ export default class Details extends React.Component {
 					}
 
 					this.setState({ showReopenConfirm: false, tbcase: res.result });
+
+					return res;
 				});
 		} else if (action === 'no') {
 			this.setState({ showReopenConfirm: false });
