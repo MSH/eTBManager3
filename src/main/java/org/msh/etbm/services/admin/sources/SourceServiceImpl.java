@@ -26,8 +26,6 @@ public class SourceServiceImpl extends EntityServiceImpl<Source, SourceQueryPara
 
         builder.addDefaultProfile("default", SourceData.class);
 
-        queryParams.getIds().size();
-
         // default to include just active items
         if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");

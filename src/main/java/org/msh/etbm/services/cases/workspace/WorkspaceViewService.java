@@ -104,7 +104,7 @@ public class WorkspaceViewService {
 
         StringBuilder s = new StringBuilder();
 
-        s.append("select a.id, a.name, a.unitsCount, d.diagnosisType, d.classification, count(*) as count\n")
+        s.append("select a.id, a.name, a.unitsCount, d.diagnosisType, d.classification, count(*) as total\n")
                 .append("from administrativeunit a\n");
 
         if (adminUnit != null) {
@@ -144,7 +144,7 @@ public class WorkspaceViewService {
      * @param adminUnit the administrative unit to get information from
      */
     private void loadUnits(List<PlaceData> data, AdministrativeUnit adminUnit) {
-        String sql = "select a.id, a.name, 0 as unitsCount, b.diagnosisType, b.classification, count(*) as count " +
+        String sql = "select a.id, a.name, 0 as unitsCount, b.diagnosisType, b.classification, count(*) as total " +
                 "from unit a\n" +
                 "inner join tbcase b on b.owner_unit_id = a.id\n" +
                 "where b.state < 3 and b.diagnosisType is not null\n" +
@@ -170,7 +170,7 @@ public class WorkspaceViewService {
     protected void mountList(List<Map<String, Object>> lst, List<PlaceData> dest, PlaceData.PlaceType type) {
         for (Map<String, Object> vals : lst) {
             // check if there is any value
-            long count = vals.get("count") != null ? ((Number) vals.get("count")).longValue() : 0;
+            long count = vals.get("total") != null ? ((Number) vals.get("total")).longValue() : 0;
             if (count == 0) {
                 continue;
             }

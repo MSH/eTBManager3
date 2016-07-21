@@ -11,6 +11,7 @@ import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,11 +61,11 @@ public class AdminUnitsREST {
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.DELETE)
     public StandardResult delete(@PathVariable @NotNull UUID id) throws BindException {
-        service.delete(id).getId();
+        service.delete(id);
         return new StandardResult(id, null, true);
     }
 
-    @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST)
+    @RequestMapping(value = "/adminunit/query", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Authenticated(permissions = {Permissions.TABLE_ADMUNITS})
     public QueryResult query(@Valid @RequestBody @NotNull AdminUnitQueryParams query) {
         return service.findMany(query);
