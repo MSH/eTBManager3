@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.followup.examdst;
 
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.entities.ExamDST;
@@ -22,7 +23,9 @@ public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryPa
     }
 
     @Override
-    protected void beforeSave(ExamDST entity, Errors errors) {
+    protected void beforeSave(EntityServiceContext<ExamDST> context, Errors errors) {
+        ExamDST entity = context.getEntity();
+
         if (entity.getDateRelease() != null && entity.getDateRelease().before(entity.getDate())) {
             errors.rejectValue("dateRelease", "cases.exams.datereleasebeforecol");
         }

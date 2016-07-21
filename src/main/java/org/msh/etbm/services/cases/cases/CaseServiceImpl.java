@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.Patient;
@@ -24,9 +25,9 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     }
 
     @Override
-    protected void afterDelete(TbCase entity, ServiceResult res) {
+    protected void afterDelete(EntityServiceContext<TbCase> context, ServiceResult res) {
         // removes patient from database if this patient don't have any other case registered
-        Patient patient = entity.getPatient();
+        Patient patient = context.getEntity().getPatient();
 
         Long count = (Long)getEntityManager()
                 .createQuery("select count(*) from TbCase c where c.patient.id = :id")

@@ -10,6 +10,7 @@ import ReacttableExample from './reacttable-example';
 import FormExample from './form-example';
 import CrudExample from './crud-example';
 import TableFormExample from './table-form-example';
+import ShowMessage from './show-message';
 
 
 const sidebar = [
@@ -47,6 +48,12 @@ const sidebar = [
 		title: 'CRUD',
 		view: CrudExample,
 		path: '/crud-example',
+		icon: 'ship'
+	},
+	{
+		title: 'Show message',
+		view: ShowMessage,
+		path: '/show-message',
 		icon: 'ship'
 	}
 ];

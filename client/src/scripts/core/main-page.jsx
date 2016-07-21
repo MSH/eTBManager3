@@ -6,6 +6,7 @@ import PageNotFound from './page-not-found';
 import Footer from './footer';
 import WaitIcon from '../components/wait-icon';
 import ErrorView from './error-view';
+import AppMessageDlg from './app-message-dlg';
 
 /**
  * Modules that are part of the system
@@ -60,6 +61,7 @@ export default class MainPage extends React.Component {
 				</div>
 				<Footer />
 				<ErrorView />
+				<AppMessageDlg />
 			</div>);
 	}
 }
