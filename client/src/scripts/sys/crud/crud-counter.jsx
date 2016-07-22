@@ -9,7 +9,9 @@ import controlWrapper from './crud-control-wrapper';
 class CrudCounter extends React.Component {
 
 	eventHandler(evt) {
+		console.log('Counter = ', evt);
 		if (evt === 'page' || evt === 'fetching-list' || evt === 'list') {
+			console.log('updating list', this.props.controller.getCount());
 			this.forceUpdate();
 		}
 	}

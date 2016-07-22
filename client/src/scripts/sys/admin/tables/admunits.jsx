@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col, DropdownButton, MenuItem, Button, Collapse } from 'react-bootstrap';
-import { Card, Fa, MessageDlg, FormDialog } from '../../../components/index';
+import { Card, Fa, FormDialog } from '../../../components/index';
 import CRUD from '../../../commons/crud';
 import TreeView from '../../../components/tree-view';
 import { app } from '../../../core/app';
@@ -28,7 +28,6 @@ export default class AdmUnits extends React.Component {
 		this.onCancelEditor = this.onCancelEditor.bind(this);
 		this.onMenuSel = this.onMenuSel.bind(this);
 		this.onInitTree = this.onInitTree.bind(this);
-		this.deleteItem = this.deleteItem.bind(this);
 		this.onCsChange = this.onCsChange.bind(this);
 		this.onCsToggle = this.onCsToggle.bind(this);
 		this.state = { root: this.createRoot() };
@@ -186,27 +185,25 @@ export default class AdmUnits extends React.Component {
 	 * @param  {object} item The admin unit to be deleted
 	 */
 	cmdDelete(item) {
-		this.setState({ confirm: true, item: item });
+		const self = this;
+		app.messageDlg({
+			title: __('action.delete'),
+			message: __('form.confirm_remove'),
+			style: 'warning',
+			type: 'YesNo'
+		})
+		.then(res => {
+			if (res === 'yes') {
+				return crud.delete(item.id)
+					.then(() => {
+						self.tvhandler.remNode(item);
+						self.forceUpdate();
+					});
+			}
+			return res;
+		});
 	}
 
-	/**
-	 * Called when user closes the delete confirmation dialog
-	 * @param  {[type]} action [description]
-	 * @return {[type]}        [description]
-	 */
-	deleteItem(action) {
-		const item = this.state.item;
-		this.setState({ confirm: false, item: null });
-		if (action === 'yes') {
-			const self = this;
-			return crud.delete(item.id)
-				.then(() => {
-					this.tvhandler.remNode(item);
-					self.forceUpdate();
-				});
-		}
-		return null;
-	}
 
 	/**
 	 * Return the name of the country structure division in the given level
@@ -422,10 +419,6 @@ export default class AdmUnits extends React.Component {
 					/>
 					</Grid>
 				</Card>
-				<MessageDlg show={state.confirm}
-					onClose={this.deleteItem}
-					title={__('action.delete')}
-					message={__('form.confirm_remove')} style="warning" type="YesNo" />
 			</div>
 			);
 	}

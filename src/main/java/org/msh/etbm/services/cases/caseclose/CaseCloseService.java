@@ -144,7 +144,7 @@ public class CaseCloseService {
     }
 
     /**
-     * Create the result to be returned by the create, update or delete operation
+     * Create the result to be returned by the close or reopen operation
      *
      * @param entity the entity involved in the operation
      * @return instance of {@link ServiceResult}
