@@ -62,7 +62,7 @@ export default class CaseClose extends React.Component {
 
 		return server.post('/api/cases/case/close', doc)
 				.then(res => {
-					if (res && res.errors) {
+					if (!res.success) {
 						return Promise.reject(res.errors);
 					}
 

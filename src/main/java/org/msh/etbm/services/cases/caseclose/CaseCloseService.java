@@ -1,14 +1,20 @@
 package org.msh.etbm.services.cases.caseclose;
 
 import org.dozer.DozerBeanMapper;
+import org.hibernate.Hibernate;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
+import org.msh.etbm.commons.objutils.Diffs;
+import org.msh.etbm.commons.objutils.DiffsUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
@@ -46,8 +52,11 @@ public class CaseCloseService {
 
     @Transactional
     @CommandLog(handler = EntityCmdLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
-    public StandardResult closeCase (CaseCloseData data) {
-       TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
+    public ServiceResult closeCase (CaseCloseData data) {
+        TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
+
+       // get initial state
+       ObjectValues prevVals = createValuesToLog(tbcase, Operation.EDIT);
 
        validateClose(tbcase, data);
 
@@ -62,36 +71,26 @@ public class CaseCloseService {
             tbcase.setOtherOutcome(data.getOtherOutcome());
         }
 
+        // get final state
+        ObjectValues newVals = createValuesToLog(tbcase, Operation.EDIT);
+
         // save case changes
         entityManager.persist(tbcase);
         entityManager.flush();
 
         //update case tags
-        casesTagsUpdateService.updateTags(tbcase.getId());
+        //casesTagsUpdateService.updateTags(tbcase.getId());
 
-        return getSuccessResult(tbcase);
-    }
-
-    private void validateClose(TbCase tbcase, CaseCloseData data) {
-        Date dt = tbcase.getDiagnosisDate();
-        BindingResult errors = new BeanPropertyBindingResult(data, data.getClass().getSimpleName());;
-
-        if ((dt != null) && (data.getOutcomeDate().before(dt))) {
-            errors.rejectValue("outcomeDate", "cases.close.msg1");
-        }
-
-        if (tbcase.getTreatmentPeriod() != null && data.getOutcomeDate().after(tbcase.getTreatmentPeriod().getEndDate())) {
-            errors.rejectValue("outcomeDate", "cases.close.msg2");
-        }
-
-        if (errors.hasErrors()) {
-            throw new EntityValidationException(errors);
-        }
+        return createResult(tbcase, CommandTypes.CASES_CASE_CLOSE, prevVals, newVals);
     }
 
     @Transactional
-    public StandardResult reopenCase(UUID tbcaseId) {
+    @CommandLog(handler = EntityCmdLogHandler.class, type = CommandTypes.CASES_CASE_REOPEN)
+    public ServiceResult reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
+
+        // get initial state
+        ObjectValues prevVals = createValuesToLog(tbcase, Operation.EDIT);
 
         if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
             tbcase.setState(CaseState.WAITING_TREATMENT);
@@ -104,22 +103,77 @@ public class CaseCloseService {
         tbcase.setOtherOutcome(null);
         tbcase.setMovedSecondLineTreatment(false);
 
+        // get final state
+        ObjectValues newVals = createValuesToLog(tbcase, Operation.EDIT);
+
         // save case changes
         entityManager.persist(tbcase);
         entityManager.flush();
 
         //update case tags
-        casesTagsUpdateService.updateTags(tbcase.getId());
+        //casesTagsUpdateService.updateTags(tbcase.getId());
 
-        // build updated case data for UI refresh
-        return getSuccessResult(tbcase);
+        return createResult(tbcase, CommandTypes.CASES_CASE_REOPEN, prevVals, newVals);
     }
 
-    private StandardResult getSuccessResult(TbCase tbcase) {
-        entityManager.refresh(tbcase);
-        CaseData data = new CaseData();
-        mapper.map(tbcase, data);
+    private void validateClose(TbCase tbcase, CaseCloseData data) {
+        /*Date dt = tbcase.getDiagnosisDate();
+        BindingResult errors = new BeanPropertyBindingResult(data, data.getClass().getSimpleName());
 
-        return new StandardResult(data, null, true);
+        if ((dt != null) && (data.getOutcomeDate().before(dt))) {
+            errors.rejectValue("outcomeDate", "cases.close.msg1");
+        }
+
+        if (tbcase.getTreatmentPeriod() != null && data.getOutcomeDate().after(tbcase.getTreatmentPeriod().getEndDate())) {
+            errors.rejectValue("outcomeDate", "cases.close.msg2");
+        }
+
+        if (errors.hasErrors()) {
+            throw new EntityValidationException(errors);
+        }*/
+
+        Date dt = tbcase.getDiagnosisDate();
+
+        if ((dt != null) && (data.getOutcomeDate().before(dt))) {
+            throw new EntityValidationException(data, "outcomeDate", null, "cases.close.msg1");
+        }
+
+        if (tbcase.getTreatmentPeriod() != null && data.getOutcomeDate().after(tbcase.getTreatmentPeriod().getEndDate())) {
+            throw new EntityValidationException(data, "outcomeDate", null, "cases.close.msg2");
+        }
+    }
+
+    /**
+     * Create the result to be returned by the create, update or delete operation
+     *
+     * @param entity the entity involved in the operation
+     * @return instance of {@link ServiceResult}
+     */
+    protected ServiceResult createResult(TbCase entity, String cmdPath, ObjectValues prevVals, ObjectValues newVals) {
+        ServiceResult res = new ServiceResult();
+
+        res.setId(entity.getId());
+        res.setEntityClass(TbCase.class);
+
+        res.setCommandType(CommandTypes.get(cmdPath));
+        res.setEntityName(entity.getDisplayString());
+
+        Diffs diffs = DiffsUtils.generateDiffsFromValues(prevVals, newVals);
+        res.setLogDiffs(diffs);
+        res.setOperation(Operation.ALL);
+
+        return res;
+    }
+
+    /**
+     * Create the list of values to be logged
+     *
+     * @param entity
+     * @param oper
+     * @return
+     */
+    protected ObjectValues createValuesToLog(TbCase entity, Operation oper) {
+        Class pureClass = Hibernate.getClass(entity);
+        return PropertyLogUtils.generateLog(entity, pureClass, oper);
     }
 }

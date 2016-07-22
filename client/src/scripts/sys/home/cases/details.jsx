@@ -129,13 +129,13 @@ export default class Details extends React.Component {
 						return Promise.reject(res.errors);
 					}
 
-					this.setState({ showReopenConfirm: false, tbcase: res.result });
+					this.fetchData(this.state.tbcase.id);
 
 					return res;
 				});
-		} else if (action === 'no') {
-			this.setState({ showReopenConfirm: false });
-		}
+			}
+
+		this.setState({ showReopenConfirm: false });
 	}
 
 	render() {
