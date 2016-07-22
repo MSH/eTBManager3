@@ -36,7 +36,7 @@ export default class YesNoControl extends React.Component {
 
 	optionRender(val) {
 		return val ?
-			<div><Fa icon="check-circle" className="text-primary"/>{__('global.yes')}</div> :
+			<div><Fa icon="check-circle" className="text-success"/>{__('global.yes')}</div> :
 			<div><Fa icon="times-circle" className="text-danger"/>{__('global.no')}</div>;
 	}
 

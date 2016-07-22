@@ -288,6 +288,7 @@ export default class CrudController {
 			if (isNew) {
 				// add a new item in the list
 				lst.unshift(newitem);
+				this.result.count++;
 				// if list size is bigger than the page size, remove the last item
 				if (this.options.pageSize && lst.length > this.options.pageSize) {
 					lst.pop();
