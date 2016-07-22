@@ -35,6 +35,10 @@ public class CaseData {
 
     private Integer age;
 
+    private String outcome;
+
+    private String otherOutcome;
+
     private Date outcomeDate;
 
     private CaseState state;
@@ -129,6 +133,22 @@ public class CaseData {
         this.age = age;
     }
 
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
+    public String getOtherOutcome() {
+        return otherOutcome;
+    }
+
+    public void setOtherOutcome(String otherOutcome) {
+        this.otherOutcome = otherOutcome;
+    }
+
     public Date getOutcomeDate() {
         return outcomeDate;
     }
@@ -175,5 +195,9 @@ public class CaseData {
 
     public void setValidationState(ValidationState validationState) {
         this.validationState = validationState;
+    }
+
+    public String getDisplayString() {
+        return "(" + classification + ") " + patient.getDisplayString();
     }
 }
