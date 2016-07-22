@@ -115,7 +115,7 @@ function propertyErrors(propname, errors, handledErrors) {
 	}
 
 	const res = errors.filter(msg => {
-		if (msg.field && msg.field.startsWith(propname)) {
+		if (msg.field && msg.field === propname) {
 			handledErrors.push(msg.field);
 			return true;
 		}

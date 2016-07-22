@@ -1258,7 +1258,7 @@
             <column name="notifAddressChanged" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="outcome" type="varchar(100)"/>
+            <column name="outcome" type="varchar(50)"/>
             <column name="otherOutcome" type="VARCHAR(100)"/>
             <column name="outcomeDate" type="date"/>
             <column name="registrationGroup" type="VARCHAR(100)"/>

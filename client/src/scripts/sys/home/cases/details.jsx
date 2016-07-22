@@ -25,6 +25,7 @@ export default class Details extends React.Component {
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 		this.reopenConfirm = this.reopenConfirm.bind(this);
+		this._onAppChange = this._onAppChange.bind(this);
 
 		this.state = { selTab: 2 };
 	}
@@ -32,6 +33,8 @@ export default class Details extends React.Component {
 	componentWillMount() {
 		const id = this.props.route.queryParam('id');
 		this.fetchData(id);
+
+		app.add(this._onAppChange);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -42,6 +45,21 @@ export default class Details extends React.Component {
 			this.fetchData(id);
 		}
 	}
+
+	componentWillUmount() {
+        app.remove(this._onAppChange);
+    }
+
+    /**
+     * Called when application state changes
+     * @param  {[type]} action [description]
+     * @return {[type]}        [description]
+     */
+    _onAppChange(action) {
+        if (action === 'case_update') {
+            this.fetchData(this.state.tbcase.id);
+        }
+    }
 
 	fetchData(id) {
 		const self = this;
@@ -94,13 +112,10 @@ export default class Details extends React.Component {
 
 	show(cpt, show) {
 		const self = this;
-		return fetch => {
+		return () => {
 			const obj = {};
 			obj[cpt] = show;
 			self.setState(obj);
-			if (fetch === true) {
-				self.fetchData(self.state.tbcase.id);
-			}
 		};
 	}
 

@@ -54,7 +54,7 @@ public class CasesTagsUpdateService {
      * @param tbcaseId
      */
     public void updateTags(UUID tbcaseId) {
-        UUID wsid = userRequestService.getUserSession().getWorkspaceId();
+        /*UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
         // get tags
         List<Tag> tags = entityManager.createQuery("from Tag t where t.active = true " +
@@ -78,7 +78,7 @@ public class CasesTagsUpdateService {
             if (!sql.isEmpty()) {
                 sql += " union ";
             }
-
+            TODO: UUID is binary, can't be concatenated like this. Find a solution.
             sql += "select a.id, " + tag.getId() +
                     " from tbcase a join patient p on p.id=a.patient_id " +
                     " and p.workspace_id = '" + wsid + "'" +
@@ -87,7 +87,7 @@ public class CasesTagsUpdateService {
         }
 
         sql = "insert into tags_case (case_id, tag_id) " + sql;
-        entityManager.createNativeQuery(sql).setParameter("tbcaseId", tbcaseId).executeUpdate();
+        entityManager.createNativeQuery(sql).setParameter("tbcaseId", tbcaseId).executeUpdate();*/
     }
 
     /**

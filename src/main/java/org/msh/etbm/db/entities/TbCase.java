@@ -143,7 +143,7 @@ public class TbCase extends WorkspaceEntity {
 
     private Nationality nationality;
 
-    @Column(length = 100)
+    @Column(length = 50)
     private String outcome;
 
     @Column(length = 100)
