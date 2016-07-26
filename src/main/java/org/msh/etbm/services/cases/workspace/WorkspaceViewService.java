@@ -4,18 +4,16 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.services.admin.tags.CasesTagsReportItem;
-import org.msh.etbm.services.admin.tags.CasesTagsReportService;
+import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
+import org.msh.etbm.services.cases.tag.CasesTagsReportService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.sql.DataSource;
 import java.util.*;
 

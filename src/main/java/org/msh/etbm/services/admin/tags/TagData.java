@@ -1,5 +1,7 @@
 package org.msh.etbm.services.admin.tags;
 
+import org.msh.etbm.db.entities.Tag;
+
 import java.util.UUID;
 
 /**
@@ -12,6 +14,7 @@ public class TagData {
     private boolean consistencyCheck;
     private boolean active;
     private boolean dailyUpdate;
+    private Tag.TagType type;
 
     public UUID getId() {
         return id;
@@ -59,5 +62,13 @@ public class TagData {
 
     public void setDailyUpdate(boolean dailyUpdate) {
         this.dailyUpdate = dailyUpdate;
+    }
+
+    public Tag.TagType getType() {
+        return type;
+    }
+
+    public void setType(Tag.TagType type) {
+        this.type = type;
     }
 }

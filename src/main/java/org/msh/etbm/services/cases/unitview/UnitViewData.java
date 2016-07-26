@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.unitview;
 
-import org.msh.etbm.services.admin.tags.CasesTagsReportItem;
+import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
 import java.util.List;

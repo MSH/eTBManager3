@@ -19,31 +19,11 @@ const fschema = {
 			layout: [
 				{
 					property: 'tags',
-					required: true,
-					type: 'multiListBox',
+					type: 'multiSelect',
+					options: 'profiles',
 					label: __('admin.tags'),
-					options: [
-						{ id: '1', name: 'On Treatment' },
-						{ id: '2', name: 'Tag 2' },
-						{ id: '3', name: 'Tag 3' },
-						{ id: '4', name: 'Tag 4' },
-						{ id: '5', name: 'Tag 5' },
-						{ id: '6', name: 'Tag 6' },
-						{ id: '7', name: 'Tag 7' },
-						{ id: '8', name: 'Tag 8' },
-						{ id: '9', name: 'Tag 9' },
-						{ id: '10', name: 'Tag 23' },
-						{ id: '11', name: 'Tag 25' },
-						{ id: '12', name: 'Tag 28' },
-						{ id: '13', name: 'Tag 29' },
-						{ id: '14', name: 'Tag 20' },
-						{ id: '15', name: 'Tag 21' },
-						{ id: '16', name: 'Tag 22' },
-						{ id: '17', name: 'Tag 23' }
-					],
-					vertical: true,
-					textAlign: 'left',
-					maxHeight: 250
+					size: { sm: 12 },
+					required: true
 				},
 				{
 					property: 'newTags',
@@ -63,13 +43,21 @@ export default class CaseTags extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { doc: {} };
+		this.state = { doc: { tags: props.tbcase.tags } };
 		this.saveTags = this.saveTags.bind(this);
+		this.onCancel = this.onCancel.bind(this);
 	}
 
 	saveTags() {
 		console.log('go to server and save this case tags! Dont forget to return a promise');
-		this.props.onClose();
+		this.onCancel();
+	}
+
+	onCancel() {
+		this.setState({ doc: {} });
+		if (this.props.onClose) {
+			this.props.onClose();
+		}
 	}
 
 	render() {
@@ -80,7 +68,7 @@ export default class CaseTags extends React.Component {
 				schema={fschema}
 				doc={this.state.doc}
 				onConfirm={this.saveTags}
-				onCancel={this.props.onClose}
+				onCancel={this.onCancel}
 				confirmCaption={__('action.save')}
 				wrapType={'modal'}
 				modalShow={this.props.show}/>

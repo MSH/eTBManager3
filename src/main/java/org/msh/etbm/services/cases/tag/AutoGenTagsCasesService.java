@@ -1,4 +1,4 @@
-package org.msh.etbm.services.admin.tags;
+package org.msh.etbm.services.cases.tag;
 
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -10,8 +10,12 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Service to update cases tags links of auto generated tags
+ * Created by Mauricio on 25/07/2016.
+ */
 @Service
-public class CasesTagsUpdateService {
+public class AutoGenTagsCasesService {
 
     @PersistenceContext
     EntityManager entityManager;

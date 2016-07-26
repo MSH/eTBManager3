@@ -1,27 +1,15 @@
 package org.msh.etbm.services.cases.caseclose;
 
 import org.dozer.DozerBeanMapper;
-import org.hibernate.Hibernate;
-import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandLog;
-import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
-import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.commons.entities.cmdlog.PropertyLogUtils;
-import org.msh.etbm.commons.objutils.Diffs;
-import org.msh.etbm.commons.objutils.DiffsUtils;
-import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
+import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.cases.cases.CaseData;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
-import org.msh.etbm.services.security.password.PasswordLogHandler;
-import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +19,6 @@ import org.springframework.validation.BindingResult;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -48,7 +34,7 @@ public class CaseCloseService {
     TreatmentService treatmentService;
 
     @Autowired
-    CasesTagsUpdateService casesTagsUpdateService;
+    AutoGenTagsCasesService autoGenTagsCasesService;
 
     @Autowired
     DozerBeanMapper mapper;
@@ -76,7 +62,7 @@ public class CaseCloseService {
         entityManager.flush();
 
         //update case tags
-        casesTagsUpdateService.updateTags(tbcase.getId());
+        autoGenTagsCasesService.updateTags(tbcase.getId());
 
         CaseData caseData = new CaseData();
         mapper.map(tbcase, caseData);
@@ -105,7 +91,7 @@ public class CaseCloseService {
         entityManager.flush();
 
         //update case tags
-        casesTagsUpdateService.updateTags(tbcase.getId());
+        autoGenTagsCasesService.updateTags(tbcase.getId());
 
         CaseData caseData = new CaseData();
         mapper.map(tbcase, caseData);

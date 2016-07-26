@@ -97,9 +97,9 @@ export default class Details extends React.Component {
 				{
 					!lst ? <WaitIcon type="card" /> :
 					lst.map(item => (
-						<a key={item.id} className={'tag-link tag-' + item.type}>
+						<li key={item.id} className={'tag-' + item.type.toLowerCase()}>
 							<div className="tag-title">{item.name}</div>
-						</a>
+						</li>
 					))
 				}
 			</div>
