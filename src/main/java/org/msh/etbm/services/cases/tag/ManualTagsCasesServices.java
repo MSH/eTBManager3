@@ -67,7 +67,7 @@ public class ManualTagsCasesServices {
         String allTagNames = "";
 
         for (String tagName : newTags) {
-            allTagNames += "'"+ tagName.toUpperCase() + "',";
+            allTagNames += "'" + tagName.toUpperCase() + "',";
         }
 
         allTagNames = allTagNames.substring(0, allTagNames.length() - 1);
@@ -103,7 +103,7 @@ public class ManualTagsCasesServices {
         return ret;
     }
 
-    private String getTagCode(String tagName){
+    private String getTagCode(String tagName) {
         if (tagName == null) {
             return null;
         }
