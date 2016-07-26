@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.tag;
 
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,39 +31,50 @@ public class ManualTagsCasesServices {
     @Transactional
     //@CommandLog(handler = CaseCloseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
     public void updateTags(CaseTagsFormData data) {
-        List<Tag> finalTagList = new ArrayList<Tag>();
+        List<Tag> manualTags = new ArrayList<Tag>();
 
-        // load already registered tags
-        for (UUID tagId : data.getTagIds()) {
-            finalTagList.add(entityManager.find(Tag.class, tagId));
+        // Remove all tags from case that is not auto gen
+        entityManager.createNativeQuery("delete from tags_case where case_id = :caseId " +
+                "and tag_id in (select id from tag where sqlCondition is null)")
+                .setParameter("caseId", data.getTbcaseId())
+                .executeUpdate();
+
+        // load existing tags
+        if ((data.getTagIds() != null && !data.getTagIds().isEmpty())) {
+            for (UUID tagId : data.getTagIds()) {
+                manualTags.add(entityManager.find(Tag.class, tagId));
+            }
         }
 
-        finalTagList.addAll(getNewTags(data.getNewTags()));
+        // create new tags and add to list
+        if (data.getNewTags() != null && !data.getNewTags().isEmpty()) {
+            List<Tag> aksljd = getNewTags(data.getNewTags());
+            manualTags.addAll(aksljd);
+        }
 
+        // set manual tags
         TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
-        tbcase.setTags(finalTagList);
+        tbcase.getTags().addAll(manualTags);
         entityManager.persist(tbcase);
         entityManager.flush();
     }
 
     private List<Tag> getNewTags(List<String> newTags) {
-        if (newTags == null || newTags.isEmpty()) {
-            return null;
-        }
+        Workspace currentWorkspace = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
 
         // check if already exists a tag with the same name
-        List<Tag> ret = new ArrayList<>();
+        List<Tag> ret = new ArrayList<Tag>();
         String allTagNames = "";
 
         for (String tagName : newTags) {
-            allTagNames = "'"+ tagName.toUpperCase() + "',";
+            allTagNames += "'"+ tagName.toUpperCase() + "',";
         }
 
         allTagNames = allTagNames.substring(0, allTagNames.length() - 1);
 
-        List<Tag> existingTags = entityManager.createQuery(" From Tag where sqlCondition is null " +
-                "and workspace.id = :wid and t.active = true and upper(t.name) in (" + allTagNames + ") ")
-                .setParameter("wId", userRequestService.getUserSession().getWorkspaceId())
+        List<Tag> existingTags = entityManager.createQuery(" From Tag t where t.sqlCondition is null " +
+                "and t.workspace.id = :wId and t.active = true and upper(t.name) in (" + allTagNames + ") ")
+                .setParameter("wId", currentWorkspace.getId())
                 .getResultList();
 
         //create tags that doesn't exists
@@ -81,8 +93,8 @@ public class ManualTagsCasesServices {
                 Tag newTag = new Tag();
                 newTag.setActive(true);
                 newTag.setName(newTagName);
+                newTag.setWorkspace(currentWorkspace);
                 entityManager.persist(newTag);
-                entityManager.refresh(newTag);
                 ret.add(newTag);
             }
         }

@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 const tfschema = {
 			layout: [{
@@ -18,9 +20,9 @@ const fschema = {
 			title: __('Permission.CASE_TAG'),
 			layout: [
 				{
-					property: 'tags',
+					property: 'tagIds',
 					type: 'multiSelect',
-					options: 'profiles',
+					options: 'manualTags',
 					label: __('admin.tags'),
 					size: { sm: 12 },
 					required: true
@@ -43,21 +45,43 @@ export default class CaseTags extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { doc: { tags: props.tbcase.tags } };
+		this.state = { doc: {} };
 		this.saveTags = this.saveTags.bind(this);
 		this.onCancel = this.onCancel.bind(this);
 	}
 
+	componentWillMount() {
+		const doc = this.state.doc;
+		// set as selected only manual assigned tags
+		doc.tagIds = this.props.tbcase.tags.filter(item => item.type === 'MANUAL');
+		// set only tag ids
+		doc.tagIds = doc.tagIds.map(item => item.id);
+	}
+
 	saveTags() {
-		console.log('go to server and save this case tags! Dont forget to return a promise');
-		this.onCancel();
+		const req = {};
+		req.tbcaseId = this.props.tbcase.id;
+		req.newTags = this.state.doc.newTags ? this.state.doc.newTags.map(item => item.newTag) : null;
+		req.tagIds = this.state.doc.tagIds;
+
+		return server.post('/api/cases/case/tags', req)
+				.then(res => {
+					if (!res.success) {
+						return Promise.reject(res.errors);
+					}
+
+					this.setState({ doc: {} });
+					this.props.onClose();
+
+					app.dispatch('case_update');
+
+					return res.result;
+				});
 	}
 
 	onCancel() {
 		this.setState({ doc: {} });
-		if (this.props.onClose) {
-			this.props.onClose();
-		}
+		this.props.onClose();
 	}
 
 	render() {

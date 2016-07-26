@@ -23,7 +23,7 @@ public class CaseTagsREST {
     ManualTagsCasesServices service;
 
     @RequestMapping(value = "/tags", method = RequestMethod.POST)
-    public StandardResult closeCase(@Valid @NotNull @RequestBody CaseTagsFormData req) {
+    public StandardResult updateManualTags(@Valid @NotNull @RequestBody CaseTagsFormData req) {
         service.updateTags(req);
         return new StandardResult(null, null, true);
     }
