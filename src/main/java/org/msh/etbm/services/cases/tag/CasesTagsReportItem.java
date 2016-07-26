@@ -1,4 +1,4 @@
-package org.msh.etbm.services.admin.tags;
+package org.msh.etbm.services.cases.tag;
 
 import org.msh.etbm.db.entities.Tag;
 

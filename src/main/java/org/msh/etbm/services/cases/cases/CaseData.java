@@ -7,9 +7,12 @@ import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.ValidationState;
 import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
+import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -35,6 +38,10 @@ public class CaseData {
 
     private Integer age;
 
+    private String outcome;
+
+    private String otherOutcome;
+
     private Date outcomeDate;
 
     private CaseState state;
@@ -56,6 +63,8 @@ public class CaseData {
     private String phoneNumber;
 
     private String mobileNumber;
+
+    private List<CaseTagsData> tags;
 
     public UUID getId() {
         return id;
@@ -129,6 +138,22 @@ public class CaseData {
         this.age = age;
     }
 
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
+    public String getOtherOutcome() {
+        return otherOutcome;
+    }
+
+    public void setOtherOutcome(String otherOutcome) {
+        this.otherOutcome = otherOutcome;
+    }
+
     public Date getOutcomeDate() {
         return outcomeDate;
     }
@@ -175,5 +200,17 @@ public class CaseData {
 
     public void setValidationState(ValidationState validationState) {
         this.validationState = validationState;
+    }
+
+    public String getDisplayString() {
+        return "(" + classification + ") " + patient.getDisplayString();
+    }
+
+    public List<CaseTagsData> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<CaseTagsData> tags) {
+        this.tags = tags;
     }
 }

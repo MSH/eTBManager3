@@ -6,7 +6,7 @@ import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.services.admin.tags.CasesTagsUpdateService;
+import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> implements CaseService {
 
     @Autowired
-    CasesTagsUpdateService casesTagsUpdateService;
+    AutoGenTagsCasesService autoGenTagsCasesService;
 
     @Override
     public String getCommandType() {

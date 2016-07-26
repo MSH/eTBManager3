@@ -2,6 +2,7 @@
 import React from 'react';
 import { FormDialog } from '../../../components/index';
 import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 const fschema = {
 			title: __('cases.close'),
@@ -10,8 +11,7 @@ const fschema = {
 					property: 'outcomeDate',
 					required: true,
 					type: 'date',
-					label: __('cases.details.date'),
-					defaultValue: new Date()
+					label: __('cases.details.date')
 				},
 				{
 					property: 'outcome',
@@ -62,12 +62,14 @@ export default class CaseClose extends React.Component {
 
 		return server.post('/api/cases/case/close', doc)
 				.then(res => {
-					if (res && res.errors) {
+					if (!res.success) {
 						return Promise.reject(res.errors);
 					}
 
 					this.setState({ doc: {} });
-					this.props.onClose(true);
+					this.props.onClose();
+
+					app.dispatch('case_update');
 
 					return res.result;
 				});

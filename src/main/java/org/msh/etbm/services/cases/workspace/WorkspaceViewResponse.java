@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.workspace;
 
-import org.msh.etbm.services.admin.tags.CasesTagsReportItem;
+import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
 
 import java.util.List;
 

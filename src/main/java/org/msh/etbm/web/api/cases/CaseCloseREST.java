@@ -7,6 +7,7 @@ import org.msh.etbm.services.cases.cases.CaseFormData;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.msh.etbm.services.security.permissions.Permissions;
+import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +29,15 @@ public class CaseCloseREST {
     CaseCloseService service;
 
     @RequestMapping(value = "/reopen/{caseId}", method = RequestMethod.GET)
-    @Authenticated
     public StandardResult reopenCase(@PathVariable UUID caseId) {
-        return service.reopenCase(caseId);
+        service.reopenCase(caseId);
+        return new StandardResult(null, null, true);
     }
 
     @RequestMapping(value = "/close", method = RequestMethod.POST)
     public StandardResult closeCase(@Valid @NotNull @RequestBody CaseCloseData req) {
-        return service.closeCase(req);
+        service.closeCase(req);
+        return new StandardResult(null, null, true);
     }
 
 }

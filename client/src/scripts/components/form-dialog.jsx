@@ -53,7 +53,6 @@ export default class FormDialog extends React.Component {
 			prom
 				.then(() => this._mounted && self.setState({ fetching: false }))
 				.catch(res => {
-					console.error(res);
 					return this._mounted && self.setState({ errors: res, fetching: false });
 				});
 		}
