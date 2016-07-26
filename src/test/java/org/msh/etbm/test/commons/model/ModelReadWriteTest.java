@@ -5,7 +5,7 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.models.data.FieldListOptions;
-import org.msh.etbm.commons.models.data.JSExprValue;
+import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
@@ -53,7 +53,7 @@ public class ModelReadWriteTest {
         fldName.setName("name");
         fldName.setCharCase(CharCase.UPPER);
         fldName.setLabel("Patient name");
-        fldName.setRequired(JSExprValue.of(true));
+        fldName.setRequired(JSFuncValue.of(true));
         fldName.setMax(150);
         fields.add(fldName);
 

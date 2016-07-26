@@ -1,5 +1,4 @@
 import React from 'react';
-import formControl from './form-control';
 
 export default class GroupControl extends React.Component {
 

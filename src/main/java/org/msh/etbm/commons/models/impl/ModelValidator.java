@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class ModelValidator {
 
-    public Errors validate(ModelContext context, Map<String, Object> vals, ModelResources resources) {
+    public Errors validate(ValidationContext context, Map<String, Object> vals, ModelResources resources) {
         Model model = context.getModel();
 
         for (Map.Entry<String, Object> entry: vals.entrySet()) {
@@ -50,7 +50,7 @@ public class ModelValidator {
      * @param doc
      * @param context
      */
-    protected void checkRequiredFields(Model model, Map<String, Object> doc, ModelContext context) {
+    protected void checkRequiredFields(Model model, Map<String, Object> doc, ValidationContext context) {
         for (Field field: model.getFields()) {
             if (doc.containsKey(field.getName())) {
                 continue;
@@ -71,7 +71,7 @@ public class ModelValidator {
     }
 
 
-    protected void validateModel(Model model, ModelContext context) {
+    protected void validateModel(Model model, ValidationContext context) {
         // if there are field validation errors, don't validate the model
         if (context.getErrors().getFieldErrorCount() > 0) {
             return;
@@ -85,7 +85,7 @@ public class ModelValidator {
         ScriptObjectMirror validators = (ScriptObjectMirror)context.getJsField().get("validators");
 
         // execute the validators
-        CustomValidatorsExecutor.execute(null, model.getValidators(), validators, context);
+        CustomValidatorsExecutor.execute(null, model.getValidators(), validators, context.getDocBinding(), context.getErrors());
     }
 
 }

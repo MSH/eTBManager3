@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.models.data.JSExprValue;
+import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -93,8 +93,8 @@ public class ModelScriptGenerator {
         String delim = "";
         for (Map.Entry<String, Object> prop: props.entrySet()) {
             Object propType = prop.getValue();
-            String script = propType instanceof JSExprValue ?
-                    generatePropScript(prop.getKey(), (JSExprValue)propType) :
+            String script = propType instanceof JSFuncValue ?
+                    generatePropScript(prop.getKey(), (JSFuncValue)propType) :
                     null;
 
             if (script != null) {
@@ -114,12 +114,12 @@ public class ModelScriptGenerator {
         return s;
     }
 
-    private String generatePropScript(String propName, JSExprValue propType) {
+    private String generatePropScript(String propName, JSFuncValue propType) {
         if (!propType.isExpressionPresent()) {
             return null;
         }
 
-        return propName + ": function() {return " + propType.getExpression() + "; }\n";
+        return propName + ": function() {return " + propType.getFunction() + "; }\n";
     }
 
     /**

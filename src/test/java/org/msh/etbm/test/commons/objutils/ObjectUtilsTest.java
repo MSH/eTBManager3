@@ -2,11 +2,10 @@ package org.msh.etbm.test.commons.objutils;
 
 import org.junit.Test;
 import org.msh.etbm.commons.objutils.*;
+import org.msh.etbm.test.commons.objutils.fixtures.ClassB;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -143,5 +142,28 @@ public class ObjectUtilsTest {
             name = name.replace("$" + p, val);
         }
         System.out.println(name);
+    }
+
+
+    @Test
+    public void testFieldGeneric() {
+        Field fieldActive = ObjectUtils.findField(ClassB.class, "active");
+        assertNotNull(fieldActive);
+        assertEquals(Optional.class, fieldActive.getType());
+
+        Field fieldName = ObjectUtils.findField(ClassB.class, "name");
+        assertNotNull(fieldName);
+        assertEquals(Optional.class, fieldName.getType());
+
+        Field f = ObjectUtils.findField(ClassB.class, "notExist");
+        assertNull(f);
+
+        Class activeType = ObjectUtils.getPropertyGenericType(ClassB.class, "active", 0);
+        assertNotNull(activeType);
+        assertEquals(Boolean.class, activeType);
+
+        Class nameType = ObjectUtils.getPropertyGenericType(ClassB.class, "name", 0);
+        assertNotNull(nameType);
+        assertEquals(String.class, nameType);
     }
 }

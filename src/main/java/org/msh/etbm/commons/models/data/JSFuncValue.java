@@ -4,25 +4,25 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * Represents a property that can host either a value or a Java script expression
+ * Represents a property that can host either a value or a Java script function
  * Created by rmemoria on 1/7/16.
  */
-public class JSExprValue<K> {
+public class JSFuncValue<K> {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private K value;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String expression;
+    private String function;
 
-    public JSExprValue(K value) {
+    public JSFuncValue(K value) {
         this.value = value;
     }
 
     /**
      * Default constructor
      */
-    public JSExprValue() {
+    public JSFuncValue() {
         super();
     }
 
@@ -37,7 +37,7 @@ public class JSExprValue<K> {
 
     @JsonIgnore
     public boolean isExpressionPresent() {
-        return expression != null;
+        return function != null;
     }
 
     public K getValue() {
@@ -47,28 +47,28 @@ public class JSExprValue<K> {
     public void setValue(K value) {
         this.value = value;
         if (value != null) {
-            expression = null;
+            function = null;
         }
     }
 
-    public String getExpression() {
-        return expression;
+    public String getFunction() {
+        return function;
     }
 
-    public void setExpression(String expression) {
-        this.expression = expression;
-        if (expression != null) {
+    public void setFunction(String function) {
+        this.function = function;
+        if (function != null) {
             value = null;
         }
     }
 
-    public static <K> JSExprValue<K> exp(String expr) {
-        JSExprValue<K> p = new JSExprValue<>();
-        p.setExpression(expr);
+    public static <K> JSFuncValue<K> function(String expr) {
+        JSFuncValue<K> p = new JSFuncValue<>();
+        p.setFunction(expr);
         return p;
     }
 
-    public static <K> JSExprValue<K> of(K value) {
-        return new JSExprValue<>(value);
+    public static <K> JSFuncValue<K> of(K value) {
+        return new JSFuncValue<>(value);
     }
 }

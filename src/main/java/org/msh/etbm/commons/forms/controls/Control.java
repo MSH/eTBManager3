@@ -1,0 +1,86 @@
+package org.msh.etbm.commons.forms.controls;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.msh.etbm.commons.models.data.JSFuncValue;
+
+import java.util.List;
+
+/**
+ * Specify the properties of a form control. Basically it contains information on how the control
+ * will be rendered in the form, like size, visibility, etc.
+ *
+ * Created by rmemoria on 23/7/16.
+ */
+public class Control {
+    /**
+     * The control type. Each control will have specific features
+     */
+    private String type;
+
+    private JSFuncValue<Boolean> visible;
+
+    private JSFuncValue<Boolean> readOnly;
+
+    private JSFuncValue<Boolean> disabled;
+
+    private JSFuncValue<String> label;
+
+    private Size size;
+
+    /**
+     * If the control contains other controls, probably this method must be overriden
+     * @return
+     */
+    public List<Control> getControls() {
+        return null;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public JSFuncValue<Boolean> getVisible() {
+        return visible;
+    }
+
+    public void setVisible(JSFuncValue<Boolean> visible) {
+        this.visible = visible;
+    }
+
+    public JSFuncValue<Boolean> getReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(JSFuncValue<Boolean> readOnly) {
+        this.readOnly = readOnly;
+    }
+
+    public JSFuncValue<Boolean> getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(JSFuncValue<Boolean> disabled) {
+        this.disabled = disabled;
+    }
+
+    public JSFuncValue<String> getLabel() {
+        return label;
+    }
+
+    public void setLabel(JSFuncValue<String> label) {
+        this.label = label;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
+    }
+}

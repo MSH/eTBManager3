@@ -19,14 +19,12 @@ public class CustomValidatorsExecutor {
      * @param fieldName the field name (null if in model)
      * @param validators list of {@link Validator} objects
      * @param jsValidators JavaScript object containing the compiled objects
-     * @param context the model context, with the document and error messages
+     * @param doc the document to be validated in JS format
+     * @param errors the object to receive the errors
      * @return true if validators were successfully executed
      */
     public static boolean execute(String fieldName, List<Validator> validators,
-                                  ScriptObjectMirror jsValidators, ModelContext context) {
-        SimpleBindings doc = context.getDocBinding();
-        Errors errors = context.getErrors();
-
+                                  ScriptObjectMirror jsValidators, SimpleBindings doc, Errors errors) {
         int index = 0;
         boolean success = true;
         for (Validator validator: validators) {

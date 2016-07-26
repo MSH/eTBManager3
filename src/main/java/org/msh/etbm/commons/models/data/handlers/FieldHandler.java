@@ -74,7 +74,7 @@ public abstract class FieldHandler<E extends Field> {
      * @param value
      */
     public void validate(E field, FieldContext fieldContext, Object value, ModelResources resources) {
-        Errors errors = fieldContext.getParent().getErrors();
+        Errors errors = fieldContext.getErrors();
 
         // check if value is inside one of the options
         if (!validateOptions(fieldContext, value)) {
@@ -127,7 +127,7 @@ public abstract class FieldHandler<E extends Field> {
         boolean success = field.getOptions().isValueInOptions(value);
 
         if (!success) {
-            fieldContext.getParent().getErrors().rejectValue(field.getName(), Messages.NOT_VALID_OPTION);
+            fieldContext.getErrors().rejectValue(field.getName(), Messages.NOT_VALID_OPTION);
         }
 
         return success;
@@ -146,11 +146,15 @@ public abstract class FieldHandler<E extends Field> {
 
         ScriptObjectMirror validators = (ScriptObjectMirror)fieldContext.getJsField().get("validators");
 
-        CustomValidatorsExecutor.execute(field.getName(), field.getValidators(), validators, fieldContext.getParent());
+        CustomValidatorsExecutor.execute(fieldContext.getField().getName(),
+                field.getValidators(),
+                validators,
+                fieldContext.getContext().getDocBinding(),
+                fieldContext.getErrors());
     }
 
     protected void registerConversionError(FieldContext context) {
-        context.getParent().getErrors().rejectValue(context.getField().getName(), Messages.NOT_VALID);
+        context.getErrors().rejectValue(context.getField().getName(), Messages.NOT_VALID);
     }
 
     /**
