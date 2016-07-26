@@ -16,7 +16,7 @@ public class FormManager {
         Form frm = forms.get(formid);
 
         if (frm == null) {
-
+            return null;
         }
 
         return frm;
