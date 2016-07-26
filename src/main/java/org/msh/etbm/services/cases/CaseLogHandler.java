@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.caseclose;
+package org.msh.etbm.services.cases;
 
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
@@ -16,10 +16,13 @@ import java.util.UUID;
  * Created by msantos 22/07/2016.
  */
 @Component
-public class CaseCloseLogHandler implements CommandLogHandler<Object, CaseData> {
+public class CaseLogHandler implements CommandLogHandler<Object, CaseData> {
 
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, CaseData response) {
+        /*
+        TODOMS: implementar este handler para tratar pequenas funcionalidades dos casos e melhorar a gravação do log de close/reopen case
+         */
         in.setEntityId(response.getId());
         in.setEntityName(response.getDisplayString());
         in.setAction(CommandAction.EXEC);

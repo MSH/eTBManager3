@@ -7,6 +7,7 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.cases.cases.CaseData;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
@@ -40,7 +41,7 @@ public class CaseCloseService {
     DozerBeanMapper mapper;
 
     @Transactional
-    @CommandLog(handler = CaseCloseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
     public CaseData closeCase (CaseCloseData data) {
         TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
@@ -71,7 +72,7 @@ public class CaseCloseService {
     }
 
     @Transactional
-    @CommandLog(handler = CaseCloseLogHandler.class, type = CommandTypes.CASES_CASE_REOPEN)
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_REOPEN)
     public CaseData reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 

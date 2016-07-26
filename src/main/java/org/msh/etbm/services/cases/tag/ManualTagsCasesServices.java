@@ -1,8 +1,11 @@
 package org.msh.etbm.services.cases.tag;
 
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,7 @@ public class ManualTagsCasesServices {
     UserRequestService userRequestService;
 
     @Transactional
-    //@CommandLog(handler = CaseCloseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
+    //@CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TAG)
     public void updateTags(CaseTagsFormData data) {
         List<Tag> manualTags = new ArrayList<Tag>();
 
