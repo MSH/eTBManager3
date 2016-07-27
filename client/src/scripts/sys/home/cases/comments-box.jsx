@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ButtonToolbar, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
 import { Card, Profile, Fa, AutoheightInput, MessageDlg } from '../../../components';
+import moment from 'moment';
 
 import './comments-box.less';
 
@@ -154,7 +155,7 @@ export default class CommentsBox extends React.Component {
 										</span>
 									}
 									</div>
-									<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
+									<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{moment(it.date).format('lll')}</b></div>
 									{it.comment.split('\n').map((item, index) =>
 										<span key={index}>
 											{item}
