@@ -28,11 +28,15 @@ public class JavaScriptFormGenerator {
     public String generate(Form form, String funcName) {
         StringBuilder s = new StringBuilder();
 
-        s.append("function ").append(funcName).append("() { return ");
+        if (funcName != null) {
+            s.append("function ").append(funcName).append("() { return ");
+        }
 
         generateFormObjectScript(form, s);
 
-        s.append(";\n}");
+        if (funcName != null) {
+            s.append(";\n}");
+        }
 
         return s.toString();
     }

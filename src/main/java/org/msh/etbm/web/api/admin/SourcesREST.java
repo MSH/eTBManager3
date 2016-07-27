@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.sources.SourceData;
 import org.msh.etbm.services.admin.sources.SourceFormData;
 import org.msh.etbm.services.admin.sources.SourceQueryParams;
@@ -33,7 +33,7 @@ public class SourcesREST {
     SourceService service;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
 
     @RequestMapping(value = API_PREFIX + "/{id}", method = RequestMethod.GET)

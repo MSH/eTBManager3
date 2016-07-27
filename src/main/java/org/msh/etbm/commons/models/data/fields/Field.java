@@ -43,7 +43,7 @@ public abstract class Field {
      * The default value, if none is informed to the record
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Object defaultValue;
+    private JSFuncValue defaultValue;
 
     /**
      * Is a custom field, i.é, not part of the model but created by the user
@@ -116,11 +116,11 @@ public abstract class Field {
         this.label = label;
     }
 
-    public Object getDefaultValue() {
+    public JSFuncValue getDefaultValue() {
         return defaultValue;
     }
 
-    public void setDefaultValue(Object defaultValue) {
+    public void setDefaultValue(JSFuncValue defaultValue) {
         this.defaultValue = defaultValue;
     }
 

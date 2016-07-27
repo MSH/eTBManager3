@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by rmemoria on 17/1/16.
  */
 @Component
-public class FormService {
+public class FormRequestService {
 
     private Map<String, FormRequestHandler> handlers = new HashMap<>();
 

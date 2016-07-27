@@ -71,7 +71,8 @@ public class ModelTest {
         assertNotEquals(data.get("name"), data2.get("name"));
         assertEquals(data.get("name").toString().toUpperCase(), data2.get("name"));
         assertEquals(data.get("level"), data2.get("level"));
-        assertEquals(true, data2.get("active"));
+        JSFuncValue<Boolean> active = (JSFuncValue<Boolean>)data2.get("active");
+        assertEquals(true, active.getValue());
 
         // level now will receive a string
         data.put("level", "5");
@@ -285,7 +286,7 @@ public class ModelTest {
         // field active
         BoolField fldActive = new BoolField();
         fldActive.setName("active");
-        fldActive.setDefaultValue(true);
+        fldActive.setDefaultValue(JSFuncValue.of(true));
         fields.add(fldActive);
 
         StringField fldCity = new StringField();

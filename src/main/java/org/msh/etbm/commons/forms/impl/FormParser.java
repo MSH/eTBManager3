@@ -11,7 +11,6 @@ import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -126,7 +125,7 @@ public class FormParser {
             }
 
             if (propType == null) {
-                return;
+                throw new FormException("Property not found: " + prop + " in " + bean.getClass());
             }
 
             Object propValue = getValueToWrite(bean, prop, value, propType);
@@ -180,7 +179,7 @@ public class FormParser {
             }
         }
 
-        if (targetType.isAssignableFrom(value.getClass())) {
+        if (targetType == null || targetType.isAssignableFrom(value.getClass())) {
             return JSFuncValue.of(value);
         }
 

@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.usersws.UserWsQueryParams;
 import org.msh.etbm.services.admin.usersws.UserWsService;
 import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
@@ -33,7 +33,7 @@ public class UsersWsREST {
     UserWsService service;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     /**
      * Return displayable information about a user profile

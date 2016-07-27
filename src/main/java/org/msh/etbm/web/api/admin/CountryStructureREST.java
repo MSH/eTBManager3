@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.admunits.CountryStructureData;
 import org.msh.etbm.services.admin.admunits.CountryStructureFormData;
 import org.msh.etbm.services.admin.admunits.CountryStructureQueryParams;
@@ -31,7 +31,7 @@ public class CountryStructureREST {
     CountryStructureService service;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @RequestMapping(value = "/countrystructure/{id}", method = RequestMethod.GET)
     @Authenticated()

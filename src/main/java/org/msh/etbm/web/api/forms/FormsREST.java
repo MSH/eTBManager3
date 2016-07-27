@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.forms;
 
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +26,10 @@ import java.util.Map;
 public class FormsREST {
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public Map<String, Object> initFields(@Valid @NotNull @RequestBody List<FormRequest> req) {
-        return formService.processFormRequests(req);
+        return formRequestService.processFormRequests(req);
     }
 }

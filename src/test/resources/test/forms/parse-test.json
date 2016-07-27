@@ -8,6 +8,7 @@
     {
       "value": "name",
       "type": "string",
+      "spanRow": true,
       "readOnly": true,
       "required": true,
       "size": { "md": 6 }
@@ -33,7 +34,7 @@
         {
           "value": "consistencyCheck",
           "type": "yesNo",
-          "newLine": true,
+          "newRow": true,
           "size": { "md": 6 },
           "defaultValue": false
         },

@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitFormData;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
@@ -33,7 +33,7 @@ public class AdminUnitsREST {
     AdminUnitService service;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @RequestMapping(value = "/adminunit/{id}", method = RequestMethod.GET)
     @Authenticated()
