@@ -2,7 +2,7 @@ package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
 import org.msh.etbm.Messages;
-import org.msh.etbm.commons.models.data.JSExprValue;
+import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
@@ -46,7 +46,7 @@ public class SQLSelectGenTest {
         fldName.setName("name");
         fldName.setCharCase(CharCase.UPPER);
         fldName.setLabel("Admin unit name");
-        fldName.setRequired(JSExprValue.of(true));
+        fldName.setRequired(JSFuncValue.of(true));
         fldName.setMax(150);
         fields.add(fldName);
 
@@ -64,7 +64,7 @@ public class SQLSelectGenTest {
         StringField fldCity = new StringField();
         fldCity.setName("city");
         fldCity.setMax(20);
-        fldCity.setRequired(JSExprValue.exp("this.level > 1"));
+        fldCity.setRequired(JSFuncValue.function("this.level > 1"));
         fldCity.setTrim(true);
         fields.add(fldCity);
 

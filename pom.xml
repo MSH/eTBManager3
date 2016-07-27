@@ -485,6 +485,7 @@
                             <arguments>
                                 <argument>--app-property-file=${test.workingDirectory}/etbmanager.properties</argument>
                             </arguments>
+                            <maxAttempts>60000</maxAttempts>
                         </configuration>
                     </execution>
                     <execution>

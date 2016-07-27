@@ -37,7 +37,7 @@ public class CompiledModel {
      * @return
      */
     public ValidationResult validate(Map<String, Object> doc, ModelResources modelResources) {
-        ModelContext context = createContext(doc);
+        ValidationContext context = createContext(doc);
 
         // convert the values to the final value
         ModelConverter converter = new ModelConverter();
@@ -87,8 +87,8 @@ public class CompiledModel {
         }
     }
 
-    public ModelContext createContext(Map<String, Object> doc) {
-        return new ModelContext(model, getJsModel(), doc, null);
+    public ValidationContext createContext(Map<String, Object> doc) {
+        return new ValidationContext(model, getJsModel(), doc, null);
     }
 
     public Model getModel() {

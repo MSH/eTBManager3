@@ -8,6 +8,8 @@ import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -23,6 +25,8 @@ import java.util.UUID;
  */
 public class UniqueChecker {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UniqueChecker.class);
+
     /**
      * Check if field value is unique
      * @param context the field context, with information about model and error messages
@@ -37,12 +41,16 @@ public class UniqueChecker {
             return true;
         }
 
+        Model model = context.getContext().getModel();
+        if (model == null) {
+            LOGGER.warn("Unable to check unique. No model found. field = " + field.getName());
+            return true;
+        }
+
         // check if resource is available
         if (resources == null) {
             throw new ModelException("Cannot test unique value. No resource available");
         }
-
-        Model model = context.getParent().getModel();
 
         StringBuilder s = new StringBuilder();
         s.append("select count(*) from ")
@@ -63,7 +71,7 @@ public class UniqueChecker {
         }
 
         // check if it is an existing record
-        UUID id = context.getParent().getId();
+        UUID id = context.getContext().getId();
         if (id != null) {
             s.append(" and id <> ?");
             params.add(ObjectUtils.uuidAsBytes(id));
@@ -80,7 +88,7 @@ public class UniqueChecker {
 
         // check if value is not unique
         if (count != null && count > 0) {
-            context.getParent().getErrors().rejectValue(context.getField().getName(), Messages.NOT_UNIQUE);
+            context.getErrors().rejectValue(context.getField().getName(), Messages.NOT_UNIQUE);
             return false;
         }
 

@@ -43,13 +43,13 @@ public class StringFieldHandler extends SingleFieldHandler<StringField> {
         // check upper boundary
         if (field.getMax() != null && len > field.getMax()) {
             Object[] params = {field.getMax()};
-            context.getParent().getErrors().rejectValue(field.getName(), Messages.MAX_SIZE, params, null);
+            context.getErrors().rejectValue(field.getName(), Messages.MAX_SIZE, params, null);
         }
 
         // check lower boundary
         if (field.getMin() != null && len < field.getMin()) {
             Object[] params = {field.getMin()};
-            context.getParent().getErrors().rejectValue(field.getName(), Messages.MIN_SIZE, params, null);
+            context.getErrors().rejectValue(field.getName(), Messages.MIN_SIZE, params, null);
         }
     }
 

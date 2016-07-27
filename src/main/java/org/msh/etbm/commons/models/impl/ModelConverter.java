@@ -21,7 +21,7 @@ public class ModelConverter {
      * @param context
      * @return
      */
-    public Map<String, Object> convert(ModelContext context) {
+    public Map<String, Object> convert(ValidationContext context) {
         Model model = context.getModel();
         Map<String, Object> values = context.getDoc();
         Map<String, Object> newvals = new HashMap<>();

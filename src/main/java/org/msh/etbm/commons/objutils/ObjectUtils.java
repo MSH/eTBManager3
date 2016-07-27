@@ -3,6 +3,7 @@ package org.msh.etbm.commons.objutils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
@@ -182,10 +183,67 @@ public class ObjectUtils {
         return new UUID(high, low);
     }
 
+    /**
+     * Convert an UUID instance to an array of bytes
+     * @param uuid
+     * @return
+     */
     public static byte[] uuidAsBytes(UUID uuid) {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getLeastSignificantBits());
         return bb.array();
+    }
+
+
+    /**
+     * Return the generic type declared in the field property of the class
+     * @param beanClass
+     * @param fieldName
+     * @param typeIndex
+     * @return
+     */
+    public static Class getPropertyGenericType(Class beanClass, String fieldName, int typeIndex) {
+        Field field = findField(beanClass, fieldName);
+
+        if (field == null) {
+            throw new ObjectAccessException("Class field not found: [" + fieldName + "] in class " + beanClass);
+        }
+
+        Type type = field.getGenericType();
+
+        if (!(type instanceof ParameterizedType)) {
+            return null;
+        }
+
+        ParameterizedType ptype = (ParameterizedType)type;
+        Type[] typeArgs = ptype.getActualTypeArguments();
+
+        return (Class)typeArgs[typeIndex];
+    }
+
+    /**
+     * Search for the instance of the field that declared the property in the given
+     * class or its super classes
+     * @param beanClass the bean class name
+     * @param fieldName the field name to search for
+     * @return the instance of Field or null if field is not found
+     */
+    public static Field findField(Class beanClass, String fieldName) {
+        Class clazz = beanClass;
+
+        while (clazz != null && clazz != Object.class) {
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field: fields) {
+                if (field.getName().equals(fieldName)) {
+                    return field;
+                }
+            }
+
+            clazz = clazz.getSuperclass();
+        }
+
+        return null;
     }
 }

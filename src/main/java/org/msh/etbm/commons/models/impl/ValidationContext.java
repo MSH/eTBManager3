@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * Created by rmemoria on 5/7/16.
  */
-public class ModelContext {
+public class ValidationContext {
     private Model model;
     private ScriptObjectMirror jsModel;
     private Errors errors;
@@ -29,7 +29,8 @@ public class ModelContext {
      */
     private UUID id;
 
-    public ModelContext(Model model, ScriptObjectMirror jsModel, Map<String, Object> doc, UUID id) {
+
+    public ValidationContext(Model model, ScriptObjectMirror jsModel, Map<String, Object> doc, UUID id) {
         this.model = model;
         this.jsModel = jsModel;
         this.doc = doc;
