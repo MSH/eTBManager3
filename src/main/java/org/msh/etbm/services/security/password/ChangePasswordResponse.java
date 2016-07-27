@@ -10,7 +10,7 @@ public class ChangePasswordResponse {
     private String userModifiedName;
     private String detail;
 
-    public ChangePasswordResponse(UUID userModifiedId, String userModifiedName, String detail){
+    public ChangePasswordResponse(UUID userModifiedId, String userModifiedName, String detail) {
         this.userModifiedId = userModifiedId;
         this.userModifiedName = userModifiedName;
         this.detail = detail;
