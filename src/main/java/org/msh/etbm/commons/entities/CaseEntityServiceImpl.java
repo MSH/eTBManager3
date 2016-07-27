@@ -6,7 +6,7 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.entities.TbCase;
 
-public abstract class CaseEntityServiceImpl<E extends CaseEntity, Q extends EntityQueryParams> extends EntityServiceImpl<E, Q>{
+public abstract class CaseEntityServiceImpl<E extends CaseEntity, Q extends EntityQueryParams> extends EntityServiceImpl<E, Q> {
 
     /**
      * Create the result to be returned by the create, update or delete operation of CaseEntity
