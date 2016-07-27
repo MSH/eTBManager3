@@ -37,7 +37,6 @@ public class EntityCmdLogHandler implements CommandLogHandler<Object, ServiceRes
         in.setType(name + "." + in.getType());
         in.setEntityId(result.getId());
         in.setEntityName(result.getEntityName());
-        in.setParentId(result.getParentId());
 
         CommandType cmd = resolveCommandType(result);
         in.setType(cmd.getPath());

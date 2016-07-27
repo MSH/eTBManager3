@@ -1,8 +1,8 @@
 package org.msh.etbm.services.cases.followup.examdst;
 
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.CaseEntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityServiceContext;
-import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.entities.ExamDST;
 import org.msh.etbm.db.enums.ExamStatus;
@@ -13,7 +13,7 @@ import org.springframework.validation.Errors;
  * Created by msantos on 15/7/16.
  */
 @Service
-public class ExamDSTServiceImpl extends EntityServiceImpl<ExamDST, EntityQueryParams> implements ExamDSTService {
+public class ExamDSTServiceImpl extends CaseEntityServiceImpl<ExamDST, EntityQueryParams> implements ExamDSTService {
 
     @Override
     public String getCommandType() {

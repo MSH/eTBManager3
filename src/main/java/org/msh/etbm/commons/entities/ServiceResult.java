@@ -19,7 +19,6 @@ public class ServiceResult {
     private ObjectValues logValues;
     private Operation operation;
     private CommandType commandType;
-    private UUID parentId;
 
     public UUID getId() {
         return id;
@@ -75,13 +74,5 @@ public class ServiceResult {
 
     public void setCommandType(CommandType commandType) {
         this.commandType = commandType;
-    }
-
-    public UUID getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(UUID parentId) {
-        this.parentId = parentId;
     }
 }
