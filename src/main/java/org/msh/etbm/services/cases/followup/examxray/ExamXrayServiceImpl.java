@@ -14,6 +14,6 @@ public class ExamXrayServiceImpl extends EntityServiceImpl<ExamXRay, EntityQuery
 
     @Override
     public String getCommandType() {
-        return CommandTypes.CASES_EXAM_XRAY;
+        return CommandTypes.CASES_CASE_EXAM_XRAY;
     }
 }

@@ -278,7 +278,6 @@ public class EntityDAO<E> {
         entityManager.flush();
     }
 
-
     /**
      * Check if the entity workspace is the same as the current workspace. If not, an error is added
      */

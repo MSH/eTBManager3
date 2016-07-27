@@ -20,6 +20,7 @@ import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.ObjectValues;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -47,7 +48,7 @@ import java.util.UUID;
 public abstract class EntityServiceImpl<E extends Synchronizable, Q extends EntityQueryParams> implements EntityService<Q> {
 
     @Autowired
-    UserRequestService userRequestService;
+    protected UserRequestService userRequestService;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -465,6 +466,10 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         if (entity instanceof Displayable) {
             res.setEntityName(((Displayable) entity).getDisplayString());
+        } else if (entity instanceof CaseEntity) {
+            CaseEntity caseEntity = (CaseEntity) entity;
+            res.setEntityName(caseEntity.getTbcase().getDisplayString());
+            res.setParentId(caseEntity.getTbcase().getId());
         } else {
             res.setEntityName(entity.toString());
         }

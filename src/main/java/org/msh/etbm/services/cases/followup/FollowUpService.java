@@ -4,7 +4,7 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.services.cases.followup.data.CaseEventData;
+import org.msh.etbm.services.cases.CaseEventData;
 import org.msh.etbm.services.cases.followup.data.FollowUpData;
 import org.msh.etbm.services.cases.followup.data.FollowUpType;
 import org.msh.etbm.services.session.usersession.UserRequestService;

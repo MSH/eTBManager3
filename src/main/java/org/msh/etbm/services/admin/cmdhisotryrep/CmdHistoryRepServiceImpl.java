@@ -95,6 +95,10 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     }
 
     private CommandLogDetail processJsonData(String data) {
+        if (data == null) {
+            return null;
+        }
+
         CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
         if (c == null) {
             return null;

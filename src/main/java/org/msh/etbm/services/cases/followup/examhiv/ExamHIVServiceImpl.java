@@ -14,6 +14,6 @@ public class ExamHIVServiceImpl extends EntityServiceImpl<ExamHIV, EntityQueryPa
 
     @Override
     public String getCommandType() {
-        return CommandTypes.CASES_EXAM_HIV;
+        return CommandTypes.CASES_CASE_EXAM_HIV;
     }
 }

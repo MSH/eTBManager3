@@ -1,9 +1,7 @@
 package org.msh.etbm.services.cases.followup.examxray;
 
-import org.msh.etbm.db.enums.HIVResult;
-import org.msh.etbm.services.cases.followup.data.CaseEventFormData;
+import org.msh.etbm.services.cases.CaseEventFormData;
 
-import java.util.Date;
 import java.util.Optional;
 
 /**

@@ -45,15 +45,16 @@ public class CommandTypes {
     // case module
     public static final String CASES_CASE = "cases.case";
     public static final String CASES_CASE_CLOSE = "cases.case.close";
-    public static final String CASES_CASE_TAG = "cases.case.manualtags";
     public static final String CASES_CASE_REOPEN = "cases.case.reopen";
-    public static final String CASES_MED_EXAM = "cases.medexam";
-    public static final String CASES_EXAM_MIC = "cases.exammic";
-    public static final String CASES_EXAM_CUL = "cases.examcul";
-    public static final String CASES_EXAM_XPERT = "cases.examxpert";
-    public static final String CASES_EXAM_DST = "cases.examdst";
-    public static final String CASES_EXAM_HIV = "cases.examhiv";
-    public static final String CASES_EXAM_XRAY = "cases.examxray";
+    public static final String CASES_CASE_TAG = "cases.case.manualtags";
+    public static final String CASES_CASE_COMMENT = "cases.case.comment";
+    public static final String CASES_CASE_MED_EXAM = "cases.case.medexam";
+    public static final String CASES_CASE_EXAM_MIC = "cases.case.exammic";
+    public static final String CASES_CASE_EXAM_CUL = "cases.case.examcul";
+    public static final String CASES_CASE_EXAM_XPERT = "cases.case.examxpert";
+    public static final String CASES_CASE_EXAM_DST = "cases.case.examdst";
+    public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
+    public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -102,13 +103,14 @@ public class CommandTypes {
         ROOT.add(CASES_CASE_CLOSE);
         ROOT.add(CASES_CASE_REOPEN);
         ROOT.add(CASES_CASE_TAG);
-        ROOT.addCRUD(CASES_MED_EXAM);
-        ROOT.addCRUD(CASES_EXAM_MIC);
-        ROOT.addCRUD(CASES_EXAM_CUL);
-        ROOT.addCRUD(CASES_EXAM_XPERT);
-        ROOT.addCRUD(CASES_EXAM_DST);
-        ROOT.addCRUD(CASES_EXAM_HIV);
-        ROOT.addCRUD(CASES_EXAM_XRAY);
+        ROOT.addCRUD(CASES_CASE_COMMENT);
+        ROOT.addCRUD(CASES_CASE_MED_EXAM);
+        ROOT.addCRUD(CASES_CASE_EXAM_MIC);
+        ROOT.addCRUD(CASES_CASE_EXAM_CUL);
+        ROOT.addCRUD(CASES_CASE_EXAM_XPERT);
+        ROOT.addCRUD(CASES_CASE_EXAM_DST);
+        ROOT.addCRUD(CASES_CASE_EXAM_HIV);
+        ROOT.addCRUD(CASES_CASE_EXAM_XRAY);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

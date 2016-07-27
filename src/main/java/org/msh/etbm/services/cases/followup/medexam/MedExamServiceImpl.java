@@ -14,6 +14,6 @@ public class MedExamServiceImpl extends EntityServiceImpl<MedicalExamination, En
 
     @Override
     public String getCommandType() {
-        return CommandTypes.CASES_MED_EXAM;
+        return CommandTypes.CASES_CASE_MED_EXAM;
     }
 }

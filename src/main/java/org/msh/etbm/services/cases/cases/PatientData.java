@@ -73,10 +73,4 @@ public class PatientData extends SynchronizableItem {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-
-    public String getDisplayString() {
-        return name +
-                (middleName != null && !middleName.isEmpty() ? " " + middleName + " " : "") +
-                (lastName != null && !lastName.isEmpty() ? " " + lastName + " " : "");
-    }
 }

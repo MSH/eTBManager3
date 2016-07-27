@@ -1,7 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.CaseEntity;
-import org.msh.etbm.db.enums.CaseView;
+import org.msh.etbm.db.enums.CaseDataGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -31,9 +31,9 @@ public class CaseComment extends CaseEntity {
     @NotNull
     private String comment;
 
+    @Column(name = "comment_group")
     @NotNull
-    private CaseView view;
-
+    private CaseDataGroup group;
 
     /**
      * @return the user
@@ -77,20 +77,11 @@ public class CaseComment extends CaseEntity {
         this.comment = comment;
     }
 
-    /**
-     * @return the view
-     */
-    public CaseView getView() {
-        return view;
+    public CaseDataGroup getGroup() {
+        return group;
     }
 
-
-    /**
-     * @param view the view to set
-     */
-    public void setView(CaseView view) {
-        this.view = view;
+    public void setGroup(CaseDataGroup group) {
+        this.group = group;
     }
-
-
 }

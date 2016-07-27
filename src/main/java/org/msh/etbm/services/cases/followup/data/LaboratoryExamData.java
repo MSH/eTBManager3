@@ -3,9 +3,9 @@ package org.msh.etbm.services.cases.followup.data;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.entities.ExamRequest;
 import org.msh.etbm.db.enums.ExamStatus;
+import org.msh.etbm.services.cases.CaseEventData;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by msantos on 13/7/16.

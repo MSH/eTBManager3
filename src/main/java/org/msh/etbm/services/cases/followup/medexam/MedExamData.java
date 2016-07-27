@@ -2,10 +2,7 @@ package org.msh.etbm.services.cases.followup.medexam;
 
 import org.msh.etbm.db.enums.MedAppointmentType;
 import org.msh.etbm.db.enums.YesNoType;
-import org.msh.etbm.services.cases.followup.data.CaseEventData;
-
-import java.util.Date;
-import java.util.UUID;
+import org.msh.etbm.services.cases.CaseEventData;
 
 /**
  * Created by msantos on 11/7/16.

@@ -148,7 +148,6 @@
         </createTable>
     </changeSet>
 
-
     <changeSet author="rmemoria" id="1433264274749-7">
         <createTable tableName="casecomment">
             <column name="id" type="${type.id}">
@@ -160,16 +159,13 @@
             <column name="comment_date" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="viewId" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
             <column name="USER_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="VIEW" type="int"/>
+            <column name="comment_group" type="int"/>
         </createTable>
     </changeSet>
 
@@ -1271,7 +1267,6 @@
             </column>
             <column name="diagnosisType" type="INT"/>
             <column name="drugResistanceType" type="INT"/>
-            <column name="comments" type="${type.text}"/>
             <column name="patientContactName" type="VARCHAR(100)"/>
             <column name="tbContact" type="${type.boolean}"/>
             <column name="extrapulmonaryType" type="VARCHAR(50)"/>

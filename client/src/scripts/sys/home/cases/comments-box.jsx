@@ -145,10 +145,14 @@ export default class CommentsBox extends React.Component {
 								</div>
 								<div className="media-body">
 									<div className="pull-right">
-										<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
-										<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-											<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
-										</OverlayTrigger>
+									{it.id.indexOf('fakeid') < 0 &&
+										<span>
+											<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
+											<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+												<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
+											</OverlayTrigger>
+										</span>
+									}
 									</div>
 									<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
 									{it.comment.split('\n').map((item, index) =>
