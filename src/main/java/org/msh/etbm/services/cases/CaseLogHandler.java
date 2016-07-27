@@ -7,11 +7,8 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.cases.caseclose.CaseCloseResponse;
 import org.msh.etbm.services.cases.caseclose.ReopenCaseResponse;
-import org.msh.etbm.services.cases.cases.CaseData;
+import org.msh.etbm.services.cases.tag.ManualCaseTagsResponse;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Register log for case features
@@ -29,6 +26,9 @@ public class CaseLogHandler implements CommandLogHandler<Object, Object> {
                 break;
             case CommandTypes.CASES_CASE_REOPEN:
                 prepareReopenCaseLog(in, request, (ReopenCaseResponse) response);
+                break;
+            case CommandTypes.CASES_CASE_TAG:
+                prepareCaseTagsLog(in, request, (ManualCaseTagsResponse) response);
                 break;
         }
 
@@ -53,5 +53,12 @@ public class CaseLogHandler implements CommandLogHandler<Object, Object> {
         in.setEntityName(response.getTbcaseDisplayString());
         in.setAction(CommandAction.EXEC);
         in.addItem("$TbCase.state", response.getState());
+    }
+
+    public void prepareCaseTagsLog(CommandHistoryInput in, Object request, ManualCaseTagsResponse response) {
+        in.setEntityId(response.getTbcaseId());
+        in.setEntityName(response.getTbcaseDisplayString());
+        in.setAction(CommandAction.EXEC);
+        in.addDiff("$TbCase.manualtags", response.getPrevManualTags(), response.getNewManualTags());
     }
 }
