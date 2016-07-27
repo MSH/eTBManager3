@@ -21,6 +21,11 @@ import java.util.*;
  */
 public class FormParser {
 
+    /**
+     * Single method that parse the json from the given input stream object
+     * @param in the instance of InputStream, source of the form schema in json format
+     * @return the instance of {@link Form} containing the parsed json data
+     */
     public Form parse(InputStream in) {
         FormJson frm;
         try {
