@@ -45,6 +45,7 @@ public class ControlFactory {
         }
 
         Control ctrl = ObjectUtils.newInstance(clazz);
+        ctrl.setType(name);
 
         return ctrl;
     }

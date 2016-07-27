@@ -30,6 +30,7 @@ public class FormParserTest {
         // check control properties
         ValuedControl vc = frm.searchControlByValue("name");
         assertNotNull(vc);
+        assertEquals("string", vc.getType());
         assertEquals(StringControl.class, vc.getClass());
         assertNotNull(vc.getReadOnly());
         assertEquals(true, vc.getReadOnly().getValue());
