@@ -17,6 +17,7 @@ import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
 import org.msh.etbm.services.pub.ForgotPwdService;
 import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.ChangePasswordResponse;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
 import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -165,7 +166,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
-    public Map<String, Object> changePassword(UserWsChangePwdFormData data) {
+    public ChangePasswordResponse changePassword(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
 
         if (userws == null) {
@@ -188,21 +189,15 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         ret.put("userModifiedId", userws.getUser().getId());
         ret.put("detail", "The user changed the password of another user throw administrative module.");
 
-        return ret;
+        return new ChangePasswordResponse(userws.getUser().getId(), userws.getUser().getName(), "The user changed the password of another user throw administrative module.");
     }
 
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
-    public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
+    public ChangePasswordResponse sendPwdResetLink(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
         forgotPwdService.requestPasswordReset(userws.getLogin());
 
-        // create data for command log
-        HashMap<String, Object> ret = new HashMap<>();
-        ret.put("userModifiedName", userws.getUser().getName());
-        ret.put("userModifiedId", userws.getUser().getId());
-        ret.put("detail", "The user sent a reset password e-mail to another user throw administrative module.");
-
-        return ret;
+        return new ChangePasswordResponse(userws.getUser().getId(), userws.getUser().getName(), "The user sent a reset password e-mail to another user throw administrative module.");
     }
 }

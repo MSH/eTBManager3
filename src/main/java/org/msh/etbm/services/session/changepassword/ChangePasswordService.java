@@ -7,6 +7,7 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.ChangePasswordResponse;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
 import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Change users password
@@ -47,7 +49,7 @@ public class ChangePasswordService {
      */
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = CommandTypes.SESSION_CHANGE_PWD)
-    public Map<String, Object> changePassword(ChangePasswordFormData data) {
+    public ChangePasswordResponse changePassword(ChangePasswordFormData data) {
         User user = entityManager.find(User.class, userRequestService.getUserSession().getUserId());
         String hashPwd = UserUtils.hashPassword(data.getPassword());
 
@@ -57,12 +59,6 @@ public class ChangePasswordService {
 
         passwordUpdateService.updatePassword(user.getId(), data.getNewPassword());
 
-        // create data for command log
-        HashMap<String, Object> ret = new HashMap<>();
-        ret.put("userModifiedName", user.getName());
-        ret.put("userModifiedId", user.getId());
-        ret.put("detail", "The user changed its own password.");
-
-        return ret;
+        return new ChangePasswordResponse(user.getId(), user.getName(), "The user changed its own password.");
     }
 }

@@ -37,15 +37,12 @@ public class CaseCloseService {
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
 
-    @Autowired
-    DozerBeanMapper mapper;
-
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
-    public CaseData closeCase (CaseCloseData data) {
+    public CaseCloseResponse closeCase (CaseCloseData data) {
         TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
-       validateClose(tbcase, data);
+        validateClose(tbcase, data);
 
         if ((tbcase.getTreatmentPeriod() != null) && (!tbcase.getTreatmentPeriod().isEmpty())) {
             treatmentService.cropTreatmentPeriod(tbcase.getId(), new Period(tbcase.getTreatmentPeriod().getIniDate(), data.getOutcomeDate()));
@@ -65,15 +62,12 @@ public class CaseCloseService {
         //update case tags
         autoGenTagsCasesService.updateTags(tbcase.getId());
 
-        CaseData caseData = new CaseData();
-        mapper.map(tbcase, caseData);
-
-        return caseData;
+        return new CaseCloseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getOutcomeDate(), tbcase.getOutcome(), tbcase.getOtherOutcome());
     }
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_REOPEN)
-    public CaseData reopenCase(UUID tbcaseId) {
+    public ReopenCaseResponse reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
@@ -94,10 +88,7 @@ public class CaseCloseService {
         //update case tags
         autoGenTagsCasesService.updateTags(tbcase.getId());
 
-        CaseData caseData = new CaseData();
-        mapper.map(tbcase, caseData);
-
-        return caseData;
+        return new ReopenCaseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getState());
     }
 
     private void validateClose(TbCase tbcase, CaseCloseData data) {
