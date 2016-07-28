@@ -146,12 +146,22 @@ export default class CommentsBox extends React.Component {
 								</div>
 								<div className="media-body">
 									<div className="pull-right">
-									{it.id.indexOf('fakeid') < 0 &&
+									{it.id.indexOf('fakeid') < 0 && it.id.indexOf('error') < 0 &&
 										<span>
 											<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
 											<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
 												<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
 											</OverlayTrigger>
+										</span>
+									}
+									{it.id.indexOf('fakeid') >= 0 &&
+										<span className="lnk-muted">
+											{'Saving...'}
+										</span>
+									}
+									{it.id.indexOf('error') >= 0 &&
+										<span className="bs-error">
+											{'Error - Comment not saved'}
 										</span>
 									}
 									</div>
