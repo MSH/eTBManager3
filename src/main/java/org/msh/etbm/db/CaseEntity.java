@@ -1,11 +1,11 @@
 package org.msh.etbm.db;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.msh.etbm.db.entities.TbCase;
 
-import javax.persistence.*;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 /**
  * A supper entity class that is under a TB case

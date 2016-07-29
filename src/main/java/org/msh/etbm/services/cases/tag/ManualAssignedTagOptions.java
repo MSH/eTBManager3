@@ -3,7 +3,6 @@ package org.msh.etbm.services.cases.tag;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
-import org.msh.etbm.db.entities.Medicine;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;

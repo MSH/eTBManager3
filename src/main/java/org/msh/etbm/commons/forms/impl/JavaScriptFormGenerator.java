@@ -20,12 +20,32 @@ import java.util.Map;
 public class JavaScriptFormGenerator {
 
     /**
+     * Private constructor to avoid initialization of this class
+     */
+    private JavaScriptFormGenerator() {
+        super();
+    }
+
+    /**
+     * Generate the script for the give form exposing the function as the given function name
+     * @param form the instance of {@link Form}
+     * @param funcName the name of the java script function to be declared in the script. If a null
+     *                 value is given, the script will generate the object code
+     * @return The java script code
+     */
+    public static final String generate(Form form, String funcName) {
+        JavaScriptFormGenerator instance = new JavaScriptFormGenerator();
+        return instance.generateScript(form, funcName);
+    }
+
+
+    /**
      * Generate the java script code with a form schema to be executed by the browser
      * @param form the form data, instance of {@link Form}
      * @param funcName the name of the function to be declared as the entry point function in the script
      * @return the java script code
      */
-    public String generate(Form form, String funcName) {
+    private String generateScript(Form form, String funcName) {
         StringBuilder s = new StringBuilder();
 
         if (funcName != null) {

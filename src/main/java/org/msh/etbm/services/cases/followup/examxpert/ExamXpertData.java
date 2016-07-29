@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases.followup.examxpert;
 
-import org.msh.etbm.db.enums.CultureResult;
-import org.msh.etbm.db.enums.SampleType;
 import org.msh.etbm.db.enums.XpertResult;
 import org.msh.etbm.services.cases.followup.data.LaboratoryExamData;
 

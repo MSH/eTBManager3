@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.forms.controls;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 
 import java.util.List;

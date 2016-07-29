@@ -4,12 +4,8 @@ import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.cases.cases.CaseData;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Register the log for close and reopen case

@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases.tag;
 
-import org.msh.etbm.db.entities.Tag;
-
 import java.util.List;
 import java.util.UUID;
 

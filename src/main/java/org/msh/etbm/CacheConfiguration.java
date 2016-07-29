@@ -26,6 +26,8 @@ public class CacheConfiguration {
     public static final String CACHE_SESSION_ID = "session";
     public static final Integer CACHE_SESSION_TIMEOUT_MIN = 5;
 
+    public static final String CACHE_FORMS_ID = "forms";
+
 
     /**
      * Configure the cache manager
@@ -39,7 +41,10 @@ public class CacheConfiguration {
         GuavaCache sessionCache = new GuavaCache(CACHE_SESSION_ID, CacheBuilder.newBuilder()
                 .expireAfterAccess(CACHE_SESSION_TIMEOUT_MIN, TimeUnit.MINUTES)
                 .build());
-        cacheManager.setCaches(Arrays.asList(sessionCache));
+
+        GuavaCache formsCache = new GuavaCache("forms", CacheBuilder.newBuilder()
+                .build());
+        cacheManager.setCaches(Arrays.asList(sessionCache, formsCache));
         return cacheManager;
     }
 }

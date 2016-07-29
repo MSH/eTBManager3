@@ -5,7 +5,6 @@ import org.msh.etbm.db.entities.ExamRequest;
 import org.msh.etbm.db.enums.ExamStatus;
 
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by msantos on 13/7/16.

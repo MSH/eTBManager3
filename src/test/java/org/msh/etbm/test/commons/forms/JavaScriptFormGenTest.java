@@ -26,8 +26,7 @@ public class JavaScriptFormGenTest {
         FormParser p = new FormParser();
         Form frm = p.parse(resource.getInputStream());
 
-        JavaScriptFormGenerator gen = new JavaScriptFormGenerator();
-        String script = gen.generate(frm, "newSchema");
+        String script = JavaScriptFormGenerator.generate(frm, "newSchema");
 
         // System.out.println(script);
 

@@ -11,7 +11,10 @@ import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Parse a form from a JSON representation to a {@link Form} object

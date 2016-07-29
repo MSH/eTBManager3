@@ -1,13 +1,11 @@
 package org.msh.etbm.services.cases.followup.exammic;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.entities.ExamMicroscopy;
 import org.msh.etbm.db.enums.ExamStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 

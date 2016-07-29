@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.SynchronizableItem;
 
-import java.util.UUID;
-
 /**
  * Created by rmemoria on 21/10/15.
  */

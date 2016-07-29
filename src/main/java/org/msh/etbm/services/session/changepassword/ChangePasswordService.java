@@ -4,7 +4,6 @@ import org.msh.etbm.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.messages.Message;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
