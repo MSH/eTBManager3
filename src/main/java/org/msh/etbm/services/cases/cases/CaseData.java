@@ -8,6 +8,7 @@ import org.msh.etbm.db.enums.ValidationState;
 import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -64,6 +65,8 @@ public class CaseData {
     private String mobileNumber;
 
     private List<CaseTagsData> tags;
+
+    private List<CaseCommentData> comments;
 
     public UUID getId() {
         return id;
@@ -201,15 +204,19 @@ public class CaseData {
         this.validationState = validationState;
     }
 
-    public String getDisplayString() {
-        return "(" + classification + ") " + patient.getDisplayString();
-    }
-
     public List<CaseTagsData> getTags() {
         return tags;
     }
 
     public void setTags(List<CaseTagsData> tags) {
         this.tags = tags;
+    }
+
+    public List<CaseCommentData> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CaseCommentData> comments) {
+        this.comments = comments;
     }
 }

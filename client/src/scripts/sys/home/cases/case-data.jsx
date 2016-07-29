@@ -212,7 +212,7 @@ export default class CaseData extends React.Component {
 
 		return (
 			<div>
-				<CaseComments tbcase={tbcase} group="data">
+				<CaseComments tbcase={tbcase} group="DATA">
 					<Card padding="combine">
 						<Form schema={data} doc={tbcase} readOnly/>
 					</Card>

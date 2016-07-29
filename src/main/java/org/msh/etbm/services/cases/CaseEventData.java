@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.followup.data;
+package org.msh.etbm.services.cases;
 
 import java.util.Date;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.followup.examxray;
 
-import org.msh.etbm.services.cases.followup.data.CaseEventData;
+import org.msh.etbm.services.cases.CaseEventData;
 
 /**
  * Created by msantos on 14/7/16.

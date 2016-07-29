@@ -1,5 +1,7 @@
 package org.msh.etbm.services.cases.followup.data;
 
+import org.msh.etbm.services.cases.CaseEventData;
+
 /**
  * Follow up information to be sent to the client
  * Created by msantos on 7/7/16.

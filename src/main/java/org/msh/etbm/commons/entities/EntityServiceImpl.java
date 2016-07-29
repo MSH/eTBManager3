@@ -20,8 +20,10 @@ import org.msh.etbm.commons.objutils.Diffs;
 import org.msh.etbm.commons.objutils.DiffsUtils;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.ObjectValues;
+import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
+import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +49,7 @@ import java.util.UUID;
 public abstract class EntityServiceImpl<E extends Synchronizable, Q extends EntityQueryParams> implements EntityService<Q> {
 
     @Autowired
-    UserRequestService userRequestService;
+    protected UserRequestService userRequestService;
 
     @PersistenceContext
     EntityManager entityManager;

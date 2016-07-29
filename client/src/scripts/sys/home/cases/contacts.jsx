@@ -92,7 +92,7 @@ export default class Contacts extends React.Component {
 
 		return (
 			<CaseComments
-				tbcase={tbcase} group="contacts">
+				tbcase={tbcase} group="CONTACTS">
 				<CrudView combine
 					modal
 					title={__('cases.contacts')}

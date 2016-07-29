@@ -1,7 +1,7 @@
 package org.msh.etbm.services.cases.followup.examhiv;
 
 import org.msh.etbm.db.enums.HIVResult;
-import org.msh.etbm.services.cases.followup.data.CaseEventData;
+import org.msh.etbm.services.cases.CaseEventData;
 
 import java.util.Date;
 

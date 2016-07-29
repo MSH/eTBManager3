@@ -167,9 +167,9 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 100)
     private String patientContactName;
 
-    @Lob
-    @PropertyLog(messageKey = "global.comments")
-    private String comments;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<CaseComment> comments = new ArrayList<>();
 
     @Embedded
     @AttributeOverrides({
@@ -540,6 +540,13 @@ public class TbCase extends WorkspaceEntity {
         this.infectionSite = infectionSite;
     }
 
+    public List<CaseComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CaseComment> comments) {
+        this.comments = comments;
+    }
 
     public Address getNotifAddress() {
         if (notifAddress == null) {
@@ -758,23 +765,6 @@ public class TbCase extends WorkspaceEntity {
     public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
         this.drugResistanceType = drugResistanceType;
     }
-
-
-    /**
-     * @return the comments
-     */
-    public String getComments() {
-        return comments;
-    }
-
-
-    /**
-     * @param comments the comments to set
-     */
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
 
     /**
      * @return the patientContactName

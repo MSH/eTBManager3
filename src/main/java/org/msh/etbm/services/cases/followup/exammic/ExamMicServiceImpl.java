@@ -1,8 +1,8 @@
 package org.msh.etbm.services.cases.followup.exammic;
 
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.CaseEntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityServiceContext;
-import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.entities.ExamMicroscopy;
 import org.msh.etbm.db.enums.ExamStatus;
@@ -13,11 +13,11 @@ import org.springframework.validation.Errors;
  * Created by msantos on 11/7/16.
  */
 @Service
-public class ExamMicServiceImpl extends EntityServiceImpl<ExamMicroscopy, EntityQueryParams> implements ExamMicService {
+public class ExamMicServiceImpl extends CaseEntityServiceImpl<ExamMicroscopy, EntityQueryParams> implements ExamMicService {
 
     @Override
     public String getCommandType() {
-        return CommandTypes.CASES_EXAM_MIC;
+        return CommandTypes.CASES_CASE_EXAM_MIC;
     }
 
     @Override

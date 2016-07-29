@@ -1,8 +1,12 @@
 package org.msh.etbm.services.cases.tag;
 
+import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,7 @@ import java.util.UUID;
  * Created by Mauricio on 25/07/2016.
  */
 @Service
-public class ManualTagsCasesServices {
+public class ManualCaseTagsService {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -29,34 +33,49 @@ public class ManualTagsCasesServices {
     UserRequestService userRequestService;
 
     @Transactional
-    //@CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TAG)
-    public void updateTags(CaseTagsFormData data) {
-        List<Tag> manualTags = new ArrayList<Tag>();
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TAG)
+    public ManualCaseTagsResponse updateTags(CaseTagsFormData data) {
+        TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
-        // Remove all tags from case that is not auto gen
-        entityManager.createNativeQuery("delete from tags_case where case_id = :caseId " +
-                "and tag_id in (select id from tag where sqlCondition is null)")
-                .setParameter("caseId", data.getTbcaseId())
-                .executeUpdate();
+        // response to be returned
+        ManualCaseTagsResponse res = new ManualCaseTagsResponse();
+
+        // store previous list
+        assignManualTags(tbcase.getTags(), res.getPrevManualTags());
+
+        // temporary tag list that will be assigned to the case at the end of this method
+        List<Tag> newTagList = new ArrayList<Tag>();
+
+        // store the auto generated tags
+        for (Tag t : tbcase.getTags()) {
+            if (t.getSqlCondition() != null) {
+               newTagList.add(t);
+            }
+        }
 
         // load existing tags
         if ((data.getTagIds() != null && !data.getTagIds().isEmpty())) {
             for (UUID tagId : data.getTagIds()) {
-                manualTags.add(entityManager.find(Tag.class, tagId));
+                newTagList.add(entityManager.find(Tag.class, tagId));
             }
         }
 
         // create new tags and add to list
         if (data.getNewTags() != null && !data.getNewTags().isEmpty()) {
-            List<Tag> aksljd = getNewTags(data.getNewTags());
-            manualTags.addAll(aksljd);
+            newTagList.addAll(getNewTags(data.getNewTags()));
         }
 
-        // set manual tags
-        TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
-        tbcase.getTags().addAll(manualTags);
+        // set new tag list
+        tbcase.setTags(newTagList);
         entityManager.persist(tbcase);
         entityManager.flush();
+
+        // finish preparing response
+        assignManualTags(tbcase.getTags(), res.getNewManualTags());
+        res.setTbcaseId(tbcase.getId());
+        res.setTbcaseDisplayString(tbcase.getDisplayString());
+
+        return res;
     }
 
     private List<Tag> getNewTags(List<String> newTags) {
@@ -99,7 +118,6 @@ public class ManualTagsCasesServices {
             }
         }
 
-
         return ret;
     }
 
@@ -113,5 +131,13 @@ public class ManualTagsCasesServices {
         tagName = tagName.replaceAll("[^\\p{ASCII}]", "");
 
         return tagName.toUpperCase().trim().replace(" ", "");
+    }
+
+    private void assignManualTags(List<Tag> source, List<Item<UUID>> destination) {
+        for (Tag t : source) {
+            if (t.getSqlCondition() == null) {
+                destination.add(new Item(t.getId(), t.getName()));
+            }
+        }
     }
 }

@@ -4,13 +4,14 @@
           xsi:schemaLocation="http://dozer.sourceforge.net
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
+
     <mapping>
-        <class-a>org.msh.etbm.services.cases.followup.data.LaboratoryExamFormData</class-a>
-        <class-b>org.msh.etbm.db.entities.LaboratoryExam</class-b>
+        <class-a>org.msh.etbm.services.cases.CaseEntityFormData</class-a>
+        <class-b>org.msh.etbm.db.CaseEntity</class-b>
 
         <field custom-converter-id="entity-id">
-            <a>laboratoryId</a>
-            <b>laboratory</b>
+            <a>tbcaseId</a>
+            <b>tbcase</b>
         </field>
     </mapping>
 

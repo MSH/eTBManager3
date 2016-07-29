@@ -84,7 +84,7 @@ export default class CaseAdvReact extends React.Component {
 
 		return (
 			<CaseComments
-				tbcase={tbcase} group="adv-reacts">
+				tbcase={tbcase} group="ADV_REACTS">
 				<CrudView combine
 					modal
 					title={__('cases.sideeffects')}

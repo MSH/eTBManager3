@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.followup.data;
 
 import org.msh.etbm.db.entities.ExamRequest;
 import org.msh.etbm.db.enums.ExamStatus;
+import org.msh.etbm.services.cases.CaseEventFormData;
 
 import java.util.Date;
 import java.util.Optional;
