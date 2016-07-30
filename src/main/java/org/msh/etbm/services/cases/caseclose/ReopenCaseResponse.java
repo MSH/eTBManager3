@@ -2,7 +2,6 @@ package org.msh.etbm.services.cases.caseclose;
 
 import org.msh.etbm.db.enums.CaseState;
 
-import java.util.Date;
 import java.util.UUID;
 
 /**

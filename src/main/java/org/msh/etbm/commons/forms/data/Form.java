@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class Form {
 
-    private String model;
+    private DataModel dataModel;
 
     private List<Control> controls;
 
@@ -88,12 +88,12 @@ public class Form {
         this.controls = controls;
     }
 
-    public String getModel() {
-        return model;
+    public DataModel getDataModel() {
+        return dataModel;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setDataModel(DataModel dataModel) {
+        this.dataModel = dataModel;
     }
 
     public Map<String, JSFuncValue> getDefaultProperties() {

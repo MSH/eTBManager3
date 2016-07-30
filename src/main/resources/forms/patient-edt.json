@@ -43,7 +43,7 @@
     {
       "value": "customId",
       "type": "string",
-      "visible": { "function": "this.gender === 'MALE" },
+      "visible": { "function": "this.gender === 'MALE'" },
       "size": { "md": 6 }
     }
  ]

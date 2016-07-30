@@ -13,7 +13,7 @@ public class FormJson {
     /**
      * The model name. Must be available in the list of models
      */
-    private String model;
+    private Object model;
 
     /**
      * The list of controls, in the displaying order
@@ -31,11 +31,11 @@ public class FormJson {
     private Map<String, Object> defaultProperties;
 
 
-    public String getModel() {
+    public Object getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(Object model) {
         this.model = model;
     }
 

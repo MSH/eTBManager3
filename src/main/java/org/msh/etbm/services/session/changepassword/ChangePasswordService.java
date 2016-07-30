@@ -17,9 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Change users password

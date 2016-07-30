@@ -5,9 +5,6 @@ import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
-
 /**
  * Register the changes in the user settings
  * Created by rmemoria on 15/5/16.

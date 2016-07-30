@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.caseclose;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.Period;
@@ -8,7 +7,6 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.cases.CaseLogHandler;
-import org.msh.etbm.services.cases.cases.CaseData;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;

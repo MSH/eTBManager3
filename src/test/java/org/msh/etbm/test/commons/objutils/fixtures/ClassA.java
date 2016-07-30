@@ -1,6 +1,5 @@
 package org.msh.etbm.test.commons.objutils.fixtures;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**

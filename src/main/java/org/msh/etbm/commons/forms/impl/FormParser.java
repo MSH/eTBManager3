@@ -7,6 +7,8 @@ import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.FormJson;
+import org.msh.etbm.commons.forms.data.MultipleDataModel;
+import org.msh.etbm.commons.forms.data.SingleDataModel;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
@@ -38,7 +40,13 @@ public class FormParser {
         }
 
         Form res = new Form();
-        res.setModel(frm.getModel());
+
+        if (frm.getModel() instanceof Map) {
+            Map<String, String> variables = (Map<String, String>)frm.getModel();
+            res.setDataModel(new MultipleDataModel(variables));
+        } else if (frm.getModel() instanceof String) {
+            res.setDataModel(new SingleDataModel((String)frm.getModel()));
+        }
 
         List<Control> controls = importControlList(frm.getControls());
         res.setControls(controls);

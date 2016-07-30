@@ -1,9 +1,9 @@
 package org.msh.etbm.test.commons.forms;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Test;
 import org.msh.etbm.commons.forms.controls.*;
 import org.msh.etbm.commons.forms.data.Form;
+import org.msh.etbm.commons.forms.data.SingleDataModel;
 import org.msh.etbm.commons.forms.impl.FormParser;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.fields.BoolField;
@@ -23,7 +23,12 @@ public class FormParserTest {
         FormParser p = new FormParser();
         Form frm = p.parse(res.getInputStream());
 
-        assertEquals("tag", frm.getModel());
+        assertNotNull(frm.getDataModel());
+        assertTrue(frm.getDataModel() instanceof SingleDataModel);
+
+        SingleDataModel dm = (SingleDataModel)frm.getDataModel();
+        assertEquals("tag", dm.getModelId());
+
         assertNotNull(frm.getControls());
         assertEquals(4, frm.getControls().size());
 

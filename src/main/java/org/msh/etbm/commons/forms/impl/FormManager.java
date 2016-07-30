@@ -1,15 +1,13 @@
 package org.msh.etbm.commons.forms.impl;
 
-import org.msh.etbm.CacheConfiguration;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.data.Form;
-import org.springframework.cache.annotation.Cacheable;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -18,7 +16,12 @@ import java.util.UUID;
 @Service
 public class FormManager {
 
-    @Cacheable(cacheNames = CacheConfiguration.CACHE_FORMS_ID)
+    @Autowired
+    FormStoreService formStoreService;
+
+    @Autowired
+    UserRequestService userRequestService;
+
     public Form get(String formid, UUID workspaceId) {
         String resourcePath = "/forms/" + formid + ".json";
         Form frm = null;

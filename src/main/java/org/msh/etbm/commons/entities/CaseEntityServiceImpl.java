@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.entities;
 
-import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.CaseEntity;

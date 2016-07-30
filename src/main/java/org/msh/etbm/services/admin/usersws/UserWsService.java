@@ -4,8 +4,6 @@ import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.services.admin.usersws.data.UserWsChangePwdFormData;
 import org.msh.etbm.services.security.password.ChangePasswordResponse;
 
-import java.util.Map;
-
 /**
  * Created by rmemoria on 3/2/16.
  */

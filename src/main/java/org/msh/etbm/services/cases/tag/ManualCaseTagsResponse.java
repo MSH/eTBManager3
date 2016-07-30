@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.tag;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.services.admin.tags.TagData;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.comments;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.CaseDataGroup;
 
