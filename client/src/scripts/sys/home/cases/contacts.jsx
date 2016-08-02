@@ -106,7 +106,7 @@ export default class Contacts extends React.Component {
 		return (
 			<CaseComments
 				tbcase={tbcase} group="CONTACTS">
-				<CrudView modal combine
+				<CrudView combine
 					title={__('cases.contacts')}
 					editorSchema={this.state.editorSchema}
 					crud={crud}

@@ -1081,13 +1081,6 @@
             <column name="shortName" type="${type.shortName}"/>
             <column name="line" type="INT"/>
             <column name="name" type="${type.name}"/>
-            <column name="dstResultForm" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="prevTreatmentForm" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="displayOrder" type="INT"/>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
