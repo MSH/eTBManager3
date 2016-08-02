@@ -179,7 +179,7 @@ class CrudCell extends React.Component {
 			<div>
 				{content}
 				<ButtonToolbar className="mtop">
-					<AsyncButton bsStyle="primary"
+					<AsyncButton bsStyle="success"
 						fetching={controller.frm && controller.frm.fetching}
 						onClick={this.editClick}>
 						{__('action.edit')}

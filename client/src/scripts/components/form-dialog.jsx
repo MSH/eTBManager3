@@ -84,7 +84,7 @@ export default class FormDialog extends React.Component {
 				<div className="mtop">
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
-							bsStyle="primary"
+							bsStyle="success"
 							onClick={this.confirmClick}>{this.props.confirmCaption}
 						</AsyncButton>
 						{
