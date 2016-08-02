@@ -227,7 +227,7 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(messageKey = "cases.contacts")
-    private List<TbContact> contacts = new ArrayList<>();
+    private List<CaseContact> contacts = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
@@ -801,7 +801,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the contacts
      */
-    public List<TbContact> getContacts() {
+    public List<CaseContact> getContacts() {
         return contacts;
     }
 
@@ -809,7 +809,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @param contacts the contacts to set
      */
-    public void setContacts(List<TbContact> contacts) {
+    public void setContacts(List<CaseContact> contacts) {
         this.contacts = contacts;
     }
 

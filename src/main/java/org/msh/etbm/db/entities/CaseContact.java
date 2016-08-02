@@ -10,8 +10,8 @@ import java.util.Date;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "tbcontact")
-public class TbContact extends CaseEntity {
+@Table(name = "casecontact")
+public class CaseContact extends CaseEntity {
 
     @PropertyLog(operations = {Operation.ALL})
     private String name;

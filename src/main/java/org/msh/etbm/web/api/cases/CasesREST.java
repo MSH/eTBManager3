@@ -2,10 +2,7 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.cases.cases.CaseData;
-import org.msh.etbm.services.cases.cases.CaseFormData;
-import org.msh.etbm.services.cases.cases.CaseQueryParams;
-import org.msh.etbm.services.cases.cases.CaseService;
+import org.msh.etbm.services.cases.cases.*;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -29,8 +26,8 @@ public class CasesREST {
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public CaseData get(@PathVariable UUID id) {
-        return service.findOne(id, CaseData.class);
+    public CaseDetailedData get(@PathVariable UUID id) {
+        return service.findOne(id, CaseDetailedData.class);
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)

@@ -9,6 +9,7 @@ import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
+import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -18,7 +19,7 @@ import java.util.UUID;
 /**
  * Created by msantos on 26/3/16.
  */
-public class CaseData {
+public class CaseDetailedData {
 
     private UUID id;
 
@@ -40,15 +41,35 @@ public class CaseData {
 
     private String outcome;
 
+    private String otherOutcome;
+
     private Date outcomeDate;
 
     private CaseState state;
 
     private Period treatmentPeriod;
 
+    private RegimenData regimen;
+
     private UnitData ownerUnit;
 
     private ValidationState validationState;
+
+    private AddressData notifAddress;
+
+    private AddressData currentAddress;
+
+    private boolean notifAddressChanged;
+
+    private String phoneNumber;
+
+    private String mobileNumber;
+
+    private List<CaseTagsData> tags;
+
+    private List<CaseCommentData> comments;
+
+    private List<CaseContactData> contacts;
 
     public UUID getId() {
         return id;
@@ -130,6 +151,14 @@ public class CaseData {
         this.outcome = outcome;
     }
 
+    public String getOtherOutcome() {
+        return otherOutcome;
+    }
+
+    public void setOtherOutcome(String otherOutcome) {
+        this.otherOutcome = otherOutcome;
+    }
+
     public Date getOutcomeDate() {
         return outcomeDate;
     }
@@ -154,6 +183,14 @@ public class CaseData {
         this.treatmentPeriod = treatmentPeriod;
     }
 
+    public RegimenData getRegimen() {
+        return regimen;
+    }
+
+    public void setRegimen(RegimenData regimen) {
+        this.regimen = regimen;
+    }
+
     public UnitData getOwnerUnit() {
         return ownerUnit;
     }
@@ -168,5 +205,29 @@ public class CaseData {
 
     public void setValidationState(ValidationState validationState) {
         this.validationState = validationState;
+    }
+
+    public List<CaseTagsData> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<CaseTagsData> tags) {
+        this.tags = tags;
+    }
+
+    public List<CaseCommentData> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CaseCommentData> comments) {
+        this.comments = comments;
+    }
+
+    public List<CaseContactData> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<CaseContactData> contacts) {
+        this.contacts = contacts;
     }
 }

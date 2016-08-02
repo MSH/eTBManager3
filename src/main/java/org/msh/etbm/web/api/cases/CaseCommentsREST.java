@@ -18,8 +18,8 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_CULTURE})
-public class CaseCommentREST {
+@Authenticated(permissions = {Permissions.CASES_COMMENTS})
+public class CaseCommentsREST {
 
     @Autowired
     CaseCommentService service;

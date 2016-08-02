@@ -48,6 +48,7 @@ public class CommandTypes {
     public static final String CASES_CASE_REOPEN = "cases.case.reopen";
     public static final String CASES_CASE_TAG = "cases.case.manualtags";
     public static final String CASES_CASE_COMMENT = "cases.case.comment";
+    public static final String CASES_CASE_CONTACT = "cases.case.contact";
     public static final String CASES_CASE_MED_EXAM = "cases.case.medexam";
     public static final String CASES_CASE_EXAM_MIC = "cases.case.exammic";
     public static final String CASES_CASE_EXAM_CUL = "cases.case.examcul";
@@ -103,6 +104,7 @@ public class CommandTypes {
         ROOT.add(CASES_CASE_CLOSE);
         ROOT.add(CASES_CASE_REOPEN);
         ROOT.add(CASES_CASE_TAG);
+        ROOT.addCRUD(CASES_CASE_CONTACT);
         ROOT.addCRUD(CASES_CASE_COMMENT);
         ROOT.addCRUD(CASES_CASE_MED_EXAM);
         ROOT.addCRUD(CASES_CASE_EXAM_MIC);

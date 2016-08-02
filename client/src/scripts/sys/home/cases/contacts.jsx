@@ -2,30 +2,28 @@ import React from 'react';
 import CrudView from '../../crud/crud-view';
 import { Profile } from '../../../components';
 import CaseComments from './case-comments';
-import { mockCrud } from '../../mock-data';
+import CRUD from '../../../commons/crud';
 
+const crud = new CRUD('contact');
 
 export default class Contacts extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.cellRender = this.cellRender.bind(this);
 
-		// form fields for contacts
 		const editorSchema = {
+			defaultProperties: {
+				tbcaseId: props.tbcase.id
+			},
 			layout: [
 				{
 					type: 'string',
-					label: 'Contact name',
-					property: 'registrationCode',
+					label: __('TbContact.name'),
+					property: 'name',
+					required: true,
 					max: 100,
 					size: { sm: 12 }
-				},
-				{
-					type: 'number',
-					property: 'age',
-					label: __('TbCase.age'),
-					required: true,
-					size: { sm: 6 }
 				},
 				{
 					type: 'select',
@@ -39,15 +37,17 @@ export default class Contacts extends React.Component {
 					size: { sm: 6 }
 				},
 				{
-					type: 'date',
-					property: 'dateOfExamination',
-					label: __('TbContact.dateOfExamination'),
+					type: 'number',
+					property: 'age',
+					label: __('TbCase.age'),
+					required: true,
 					size: { sm: 6 }
 				},
 				{
 					type: 'select',
 					property: 'contactType',
 					label: __('TbField.CONTACTTYPE'),
+					required: true,
 					options: [
 						{ id: 'household', name: 'Household' },
 						{ id: 'institutional', name: 'Institutional (asylum, shelter, orphanage, etc.)' },
@@ -56,28 +56,40 @@ export default class Contacts extends React.Component {
 				},
 				{
 					type: 'yesNo',
-					property: 'examined',
+					property: 'examinated',
 					label: __('TbContact.examined'),
-					required: true
+					required: true,
+					size: { sm: 6 }
+				},
+				{
+					type: 'group',
+					visible: value => value.examinated,
+					layout: [
+						{
+							type: 'date',
+							property: 'dateOfExamination',
+							label: __('TbContact.dateOfExamination'),
+							size: { sm: 6 }
+						}
+					]
+				},
+				{
+					type: 'string',
+					label: __('TbContact.conduct'),
+					property: 'conduct',
+					max: 50,
+					size: { sm: 12 }
+				},
+				{
+					type: 'text',
+					label: __('global.comments'),
+					property: 'comments',
+					size: { sm: 12 }
 				}
 			]
 		};
 
-		// create mock data
-		const self = this;
-		const crud = mockCrud()
-			.on((evt) => {
-				switch (evt) {
-					case 'query':
-						return {
-							list: self.props.tbcase.contacts,
-							count: self.props.tbcase.contacts.length
-						};
-					default:
-						return null;
-				}
-			});
-		this.state = { crud: crud, editorSchema: editorSchema };
+		this.state = { editorSchema: editorSchema };
 	}
 
 	cellRender(item) {
@@ -93,11 +105,10 @@ export default class Contacts extends React.Component {
 		return (
 			<CaseComments
 				tbcase={tbcase} group="CONTACTS">
-				<CrudView combine
-					modal
+				<CrudView modal combine
 					title={__('cases.contacts')}
 					editorSchema={this.state.editorSchema}
-					crud={this.state.crud}
+					crud={crud}
 					onCellRender={this.cellRender}
 					/>
 			</CaseComments>
