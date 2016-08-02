@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_TBCONTACT})
+@Authenticated(permissions = {Permissions.CASES_CASE_CONTACT})
 public class CaseContactsREST {
 
     @Autowired
