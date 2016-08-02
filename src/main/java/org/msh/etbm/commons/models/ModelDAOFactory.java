@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.errorlogrep;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryBuilder;

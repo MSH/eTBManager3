@@ -3,6 +3,7 @@ package org.msh.etbm.commons.forms.data;
 import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,9 @@ public class Form {
 
     private Map<String, JSFuncValue> defaultProperties;
 
+    private JSFuncValue<String> title;
+
+    private List<Validator> validators;
 
     /**
      * Search for a control by the value being referenced
@@ -102,5 +106,21 @@ public class Form {
 
     public void setDefaultProperties(Map<String, JSFuncValue> defaultProperties) {
         this.defaultProperties = defaultProperties;
+    }
+
+    public JSFuncValue<String> getTitle() {
+        return title;
+    }
+
+    public void setTitle(JSFuncValue<String> title) {
+        this.title = title;
+    }
+
+    public List<Validator> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<Validator> validators) {
+        this.validators = validators;
     }
 }

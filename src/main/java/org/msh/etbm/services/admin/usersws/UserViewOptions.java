@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.usersws;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;

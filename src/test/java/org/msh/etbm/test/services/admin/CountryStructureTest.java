@@ -1,7 +1,7 @@
 package org.msh.etbm.test.services.admin;
 
 import org.junit.Test;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.CountryStructure;

@@ -9,32 +9,19 @@ public class Validator {
     /**
      * The java script function expression used in validation process
      */
-    private String jsExpression;
-
-    /**
-     * The message key to be displayed, in case of validation failure
-     */
-    private String messageKey;
+    private String rule;
 
     /**
      * The message to be displayed. This one is used if messageKey is not defined
      */
     private String message;
 
-    public String getJsExpression() {
-        return jsExpression;
+    public String getRule() {
+        return rule;
     }
 
-    public void setJsExpression(String jsExpression) {
-        this.jsExpression = jsExpression;
-    }
-
-    public String getMessageKey() {
-        return messageKey;
-    }
-
-    public void setMessageKey(String messageKey) {
-        this.messageKey = messageKey;
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 
     public String getMessage() {

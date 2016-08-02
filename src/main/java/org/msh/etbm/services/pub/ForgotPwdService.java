@@ -1,6 +1,6 @@
 package org.msh.etbm.services.pub;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.services.security.UserUtils;

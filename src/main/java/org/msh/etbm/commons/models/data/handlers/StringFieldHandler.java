@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 

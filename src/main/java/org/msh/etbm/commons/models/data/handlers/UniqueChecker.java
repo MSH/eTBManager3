@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;

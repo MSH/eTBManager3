@@ -29,15 +29,15 @@ export default class ShowMessage extends React.Component {
 
 		const res = func();
 		/* eslint no-console: "off" */
+		console.log(res);
 		res.layout = res.controls;
 		delete res.controls;
-		this.setState({ code: JSON.stringify(res, null, '\t'), schema: res });
+		this.setState({ schema: res });
 	}
 
 	render() {
 
 		const fetching = this.state.fetching;
-		const code = this.state.code;
 		const schema = this.state.schema;
 		const doc = {};
 
@@ -46,12 +46,6 @@ export default class ShowMessage extends React.Component {
 				<ButtonToolbar>
 					<AsyncButton bsStyle="primary" onClick={this.click} fetching={fetching}>{'Get it'}</AsyncButton>
 				</ButtonToolbar>
-				{
-					code &&
-					<p>
-					{code}
-					</p>
-				}
 				{
 					schema &&
 					<FormDialog schema={schema} doc={doc} />

@@ -22,8 +22,6 @@ public class Control {
 
     private JSFuncValue<Boolean> disabled;
 
-    private JSFuncValue<String> label;
-
     private Size size;
 
     /**
@@ -74,14 +72,6 @@ public class Control {
 
     public void setDisabled(JSFuncValue<Boolean> disabled) {
         this.disabled = disabled;
-    }
-
-    public JSFuncValue<String> getLabel() {
-        return label;
-    }
-
-    public void setLabel(JSFuncValue<String> label) {
-        this.label = label;
     }
 
     public Size getSize() {

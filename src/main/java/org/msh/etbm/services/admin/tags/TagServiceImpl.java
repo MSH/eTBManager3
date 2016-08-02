@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.tags;
 
 import org.hibernate.exception.SQLGrammarException;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
