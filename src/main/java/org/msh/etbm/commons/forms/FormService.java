@@ -1,71 +1,39 @@
 package org.msh.etbm.commons.forms;
 
-import org.springframework.stereotype.Component;
+import org.msh.etbm.commons.forms.data.Form;
+import org.msh.etbm.commons.forms.impl.FormManager;
+import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 /**
- * Services to handle form operations. Initialize field contents that need resources
- * from the server side, for example, list of units needed in a drop down
- * Created by rmemoria on 17/1/16.
+ * Form services used for initialization and submission of data
+ *
+ * Created by rmemoria on 27/7/16.
  */
-@Component
+@Service
 public class FormService {
 
-    private Map<String, FormRequestHandler> handlers = new HashMap<>();
+    @Autowired
+    FormManager formManager;
 
+    @Autowired
+    UserRequestService userRequestService;
 
-    /**
-     * Register a new form request handler. The request handler will be called to generate response
-     * of form requests based on the command issued
-     *
-     * @param handler the request handler to be registered
-     */
-    public void registerRequestHandler(FormRequestHandler handler) {
-        String cmdName = handler.getFormCommandName();
-        if (handlers.containsKey(cmdName)) {
-            throw new FormException("There is already a form request handler to the name " + cmdName);
-        }
+    public FormInitResponse init(String formId, Object doc) {
+        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
 
-        // more than one name can be registered to the same handle using ; or , as separators
-        String delimiters = ",\\s*|\\;\\s*";
-        String[] names = cmdName.split(delimiters);
+        Form form = formManager.get(formId, wsId);
 
-        // register each name
-        for (String name : names) {
-            handlers.put(name, handler);
-        }
-    }
+        FormInitResponse resp = new FormInitResponse();
 
+        String code = JavaScriptFormGenerator.generate(form, null);
 
-    /**
-     * Process form requests, invoking the specific handler for each request
-     *
-     * @param reqs list of requests of a form
-     * @return form response, in a map format
-     */
-    public Map<String, Object> processFormRequests(List<FormRequest> reqs) {
-        if (reqs == null) {
-            return null;
-        }
+        resp.setSchema(code);
 
-        Map<String, Object> resps = new HashMap<>();
-
-        for (FormRequest req : reqs) {
-            // get the handler for the given command
-            FormRequestHandler handler = handlers.get(req.getCmd());
-
-            // handler was found ?
-            if (handler == null) {
-                throw new FormException("No form handler found for command request: " + req.getCmd());
-            }
-
-            Object res = handler.execFormRequest(req);
-            resps.put(req.getId(), res);
-        }
-
-        return resps;
+        return resp;
     }
 }

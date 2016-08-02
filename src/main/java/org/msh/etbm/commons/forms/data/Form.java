@@ -4,15 +4,19 @@ import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * Represents a form, containing controls, default values and validators to display, handle and validate
+ * forms in server and client side
+ *
  * Created by rmemoria on 23/7/16.
  */
 public class Form {
 
-    private String model;
+    private DataModel dataModel;
 
     private List<Control> controls;
 
@@ -42,6 +46,39 @@ public class Form {
         return null;
     }
 
+    /**
+     * Return a list of all instances of {@link ValuedControl} found in the form, inclusive
+     * child controls inside containers
+     *
+     * @return
+     */
+    public List<ValuedControl> collectAllValuedControls() {
+        List<ValuedControl> lst = new ArrayList<>();
+
+        recursiveControlSearch(getControls(), lst);
+
+        return lst;
+    }
+
+
+    /**
+     * Browse the control tree and retrieve all controls of type {@link ValuedControl} inside
+     * the given list
+     * @param controls
+     * @param list
+     */
+    private void recursiveControlSearch(List<Control> controls, List<ValuedControl> list) {
+        for (Control control: controls) {
+            if (control instanceof ValuedControl) {
+                ValuedControl vc = (ValuedControl)control;
+                list.add(vc);
+            }
+
+            if (control.getControls() != null) {
+                recursiveControlSearch(control.getControls(), list);
+            }
+        }
+    }
 
     public List<Control> getControls() {
         return controls;
@@ -51,12 +88,12 @@ public class Form {
         this.controls = controls;
     }
 
-    public String getModel() {
-        return model;
+    public DataModel getDataModel() {
+        return dataModel;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setDataModel(DataModel dataModel) {
+        this.dataModel = dataModel;
     }
 
     public Map<String, JSFuncValue> getDefaultProperties() {

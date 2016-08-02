@@ -3,7 +3,7 @@ package org.msh.etbm.test.commons.forms;
 import org.junit.Test;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,12 +17,12 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Created by rmemoria on 6/2/16.
  */
-public class FormServiceTest extends AuthenticatedTest {
+public class FormRequestServiceTest extends AuthenticatedTest {
 
     private static final String ID = "sub";
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @Test
     public void testSimpleRequest() {
@@ -33,7 +33,7 @@ public class FormServiceTest extends AuthenticatedTest {
         req.setId(ID);
         reqs.add(req);
 
-        Map<String, Object> res = formService.processFormRequests(reqs);
+        Map<String, Object> res = formRequestService.processFormRequests(reqs);
 
         assertNotNull(res);
         assertEquals(res.size(), 1);

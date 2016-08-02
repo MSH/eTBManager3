@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.forms.controls;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 
 import java.util.List;
@@ -27,6 +25,16 @@ public class Control {
     private JSFuncValue<String> label;
 
     private Size size;
+
+    /**
+     * If true, the control will start in a new row
+     */
+    private boolean newRow;
+
+    /**
+     * If true, the next control will start in a new row
+     */
+    private boolean spanRow;
 
     /**
      * If the control contains other controls, probably this method must be overriden
@@ -82,5 +90,21 @@ public class Control {
 
     public void setSize(Size size) {
         this.size = size;
+    }
+
+    public boolean isNewRow() {
+        return newRow;
+    }
+
+    public void setNewRow(boolean newRow) {
+        this.newRow = newRow;
+    }
+
+    public boolean isSpanRow() {
+        return spanRow;
+    }
+
+    public void setSpanRow(boolean spanRow) {
+        this.spanRow = spanRow;
     }
 }

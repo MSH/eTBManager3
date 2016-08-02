@@ -1,6 +1,8 @@
 package org.msh.etbm.services.cases.followup.exammic;
 
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.MicroscopyResult;
+import org.msh.etbm.db.enums.SampleType;
+import org.msh.etbm.db.enums.VisualAppearance;
 import org.msh.etbm.services.cases.followup.data.LaboratoryExamFormData;
 
 import java.util.Optional;

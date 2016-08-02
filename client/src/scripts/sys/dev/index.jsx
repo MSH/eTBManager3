@@ -11,6 +11,7 @@ import FormExample from './form-example';
 import CrudExample from './crud-example';
 import TableFormExample from './table-form-example';
 import ShowMessage from './show-message';
+import ServerForms from './server-forms';
 
 
 const sidebar = [
@@ -54,7 +55,13 @@ const sidebar = [
 		title: 'Show message',
 		view: ShowMessage,
 		path: '/show-message',
-		icon: 'ship'
+		icon: 'bicycle'
+	},
+	{
+		title: 'Server form',
+		view: ServerForms,
+		path: '/server-form',
+		icon: 'wpforms'
 	}
 ];
 

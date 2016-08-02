@@ -11,28 +11,67 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Generate java script code to be sent to the client (browser) with a form schema.
+ * The code generated is wrapped by a function and can be executed with an eval function
+ * in the javascript environment.
+ *
  * Created by rmemoria on 26/7/16.
  */
 public class JavaScriptFormGenerator {
 
-    public String generate(Form form, String funcName) {
+    /**
+     * Private constructor to avoid initialization of this class
+     */
+    private JavaScriptFormGenerator() {
+        super();
+    }
+
+    /**
+     * Generate the script for the give form exposing the function as the given function name
+     * @param form the instance of {@link Form}
+     * @param funcName the name of the java script function to be declared in the script. If a null
+     *                 value is given, the script will generate the object code
+     * @return The java script code
+     */
+    public static final String generate(Form form, String funcName) {
+        JavaScriptFormGenerator instance = new JavaScriptFormGenerator();
+        return instance.generateScript(form, funcName);
+    }
+
+
+    /**
+     * Generate the java script code with a form schema to be executed by the browser
+     * @param form the form data, instance of {@link Form}
+     * @param funcName the name of the function to be declared as the entry point function in the script
+     * @return the java script code
+     */
+    private String generateScript(Form form, String funcName) {
         StringBuilder s = new StringBuilder();
 
-        s.append("function ").append(funcName).append("() { return ");
+        if (funcName != null) {
+            s.append("function ").append(funcName).append("() { return ");
+        }
 
-        createJSObject(form, s);
+        generateFormObjectScript(form, s);
 
-        s.append(";\n}");
+        if (funcName != null) {
+            s.append(";\n}");
+        }
 
         return s.toString();
     }
 
-    private void createJSObject(Form frm, StringBuilder s) {
+    /**
+     * Generate the form to a java script object code
+     * @param frm object with information about the form
+     * @param s the instance of StringBuilder to receive the script code
+     */
+    private void generateFormObjectScript(Form frm, StringBuilder s) {
         s.append("{\n");
 
         String delim = "";
         if (frm.getDefaultProperties() != null) {
-            addDefaultProperties(frm, s);
+            generateDefaultPropertiesCode(frm, s);
             delim = ",\n";
         }
 
@@ -44,6 +83,11 @@ public class JavaScriptFormGenerator {
         s.append("\n}");
     }
 
+    /**
+     * Generate a java script code for the list of controls in the form
+     * @param controls the list of controls
+     * @param s the instance of StringBuilder to receive the script code
+     */
     private void createControlsScript(List<Control> controls, StringBuilder s) {
         s.append("controls:[");
         String delim = "";
@@ -55,6 +99,11 @@ public class JavaScriptFormGenerator {
         s.append("\n]");
     }
 
+    /**
+     * Generate the java script object code of the give control object
+     * @param control the control to generate its JS code
+     * @return the java script code
+     */
     private String generateControlScript(Control control) {
         StringBuilder s = new StringBuilder();
         s.append("{\n");
@@ -91,7 +140,12 @@ public class JavaScriptFormGenerator {
         return s.toString();
     }
 
-    private void addDefaultProperties(Form frm, StringBuilder s) {
+    /**
+     * Generate the Java script code of the default properties of the form
+     * @param frm the form to get the default properties from
+     * @param s the instance of StringBuilder to include the code into
+     */
+    private void generateDefaultPropertiesCode(Form frm, StringBuilder s) {
         s.append("defaultProperties:{");
 
         String delim = "\n";
@@ -109,6 +163,12 @@ public class JavaScriptFormGenerator {
         s.append("\n}");
     }
 
+    /**
+     * Generate the java script code of a value. Several value types are supported, including
+     * number, date, booleans, string, lists and objects
+     * @param value the value to generate the js code
+     * @return the js code generated
+     */
     private String convertValue(Object value) {
         if (value == null) {
             return null;
@@ -152,6 +212,11 @@ public class JavaScriptFormGenerator {
     }
 
 
+    /**
+     * Convert a list to java script code. Each item of the list will be converted to JS code
+     * @param lst the list to generate the code
+     * @return the js code representing a list of values
+     */
     private String convertList(List lst) {
         StringBuilder s = new StringBuilder();
         s.append("[");
@@ -168,6 +233,12 @@ public class JavaScriptFormGenerator {
         return s.toString();
     }
 
+    /**
+     * Convert an object to java script code. Each property of the object will be converted
+     * to java script code
+     * @param obj the object to generate the js code from
+     * @return the js code generated
+     */
     private String convertObject(Object obj) {
         StringBuilder s = new StringBuilder();
 

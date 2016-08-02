@@ -1,8 +1,6 @@
 package org.msh.etbm.services.cases.followup.examdst;
 
-import org.msh.etbm.db.enums.CultureResult;
 import org.msh.etbm.db.enums.DstResult;
-import org.msh.etbm.db.enums.SampleType;
 import org.msh.etbm.services.cases.followup.data.LaboratoryExamFormData;
 
 import java.util.Optional;

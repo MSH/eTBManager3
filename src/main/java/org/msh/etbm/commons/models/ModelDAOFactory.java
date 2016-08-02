@@ -40,8 +40,9 @@ public class ModelDAOFactory {
      * @return instance of {@link ModelDAO}
      */
     public ModelDAO create(String modelName) {
+        CompiledModel compiledModel = modelManager.get(modelName);
+
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();
-        CompiledModel compiledModel = modelManager.get(modelName, wsId);
         ModelResources resources = new ModelResources(dataSource, messages, wsId, development);
 
         return new ModelDAO(compiledModel, resources);

@@ -3,7 +3,7 @@ package org.msh.etbm.services.cases.followup;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.Messages;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.CaseEvent;
 import org.msh.etbm.services.cases.CaseEventData;
 import org.msh.etbm.services.cases.followup.data.FollowUpData;
 import org.msh.etbm.services.cases.followup.data.FollowUpType;

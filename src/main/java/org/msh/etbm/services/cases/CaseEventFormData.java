@@ -2,7 +2,6 @@ package org.msh.etbm.services.cases;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Created by msantos on 13/7/16.

@@ -2,6 +2,8 @@ package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.forms.FormInitResponse;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
@@ -35,7 +37,7 @@ import java.util.Map;
  * Created by rmemoria on 9/5/15.
  */
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/api/test")
 public class TestRest {
 
     @PersistenceContext
@@ -55,6 +57,9 @@ public class TestRest {
 
     @Autowired
     ModelDAOFactory modelDAOFactory;
+
+    @Autowired
+    FormService formService;
 
 
     @RequestMapping("/workspace")
@@ -179,5 +184,12 @@ public class TestRest {
         s.append("  deleted...\n");
 
         return s.toString();
+    }
+
+    @RequestMapping(value = "/form")
+    @Authenticated
+    public FormInitResponse initForm() {
+        Map<String, Object> doc = new HashMap<>();
+        return formService.init("patient-edt", doc);
     }
 }

@@ -21,7 +21,7 @@ public class FormConfiguration implements ApplicationContextAware {
     private static final Logger LOGGER = LoggerFactory.getLogger(FormConfiguration.class);
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) {
@@ -32,7 +32,7 @@ public class FormConfiguration implements ApplicationContextAware {
 
         for (String beanName : applicationContext.getBeanNamesForType(FormRequestHandler.class)) {
             FormRequestHandler handler = (FormRequestHandler) applicationContext.getBean(beanName);
-            formService.registerRequestHandler(handler);
+            formRequestService.registerRequestHandler(handler);
 
             names.add(handler.getFormCommandName());
         }

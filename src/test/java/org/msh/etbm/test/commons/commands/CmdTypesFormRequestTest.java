@@ -6,7 +6,7 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.commands.formhandler.CmdTypeItem;
 import org.msh.etbm.commons.commands.formhandler.CommandTypeFormRequest;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,7 +25,7 @@ public class CmdTypesFormRequestTest  extends AuthenticatedTest {
     private static final String ID = "anyID";
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @Test
     public void execute() {
@@ -36,7 +36,7 @@ public class CmdTypesFormRequestTest  extends AuthenticatedTest {
         req.setId(ID);
         reqs.add(req);
 
-        Map<String, Object> res = formService.processFormRequests(reqs);
+        Map<String, Object> res = formRequestService.processFormRequests(reqs);
 
         Object val = res.get(ID);
 

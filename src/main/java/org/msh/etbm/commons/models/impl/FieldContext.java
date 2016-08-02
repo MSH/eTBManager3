@@ -3,12 +3,9 @@ package org.msh.etbm.commons.models.impl;
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.models.data.JSFuncValue;
-import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.validation.Errors;
-
-import javax.script.SimpleBindings;
 
 /**
  * Define a context for execution of field conversion and validation

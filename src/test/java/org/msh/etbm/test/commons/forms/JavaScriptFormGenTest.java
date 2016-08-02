@@ -5,16 +5,17 @@ import org.junit.Test;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.impl.FormParser;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
-import org.msh.etbm.commons.models.impl.ModelScriptGenerator;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 /**
+ * Test the generation of java script code to be sent to the client side
+ *
  * Created by rmemoria on 26/7/16.
  */
 public class JavaScriptFormGenTest {
@@ -25,8 +26,7 @@ public class JavaScriptFormGenTest {
         FormParser p = new FormParser();
         Form frm = p.parse(resource.getInputStream());
 
-        JavaScriptFormGenerator gen = new JavaScriptFormGenerator();
-        String script = gen.generate(frm, "newSchema");
+        String script = JavaScriptFormGenerator.generate(frm, "newSchema");
 
         // System.out.println(script);
 

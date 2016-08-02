@@ -58,7 +58,7 @@ public class SQLSelectGenTest {
         // field active
         BoolField fldActive = new BoolField();
         fldActive.setName("active");
-        fldActive.setDefaultValue(true);
+        fldActive.setDefaultValue(JSFuncValue.of(true));
         fields.add(fldActive);
 
         StringField fldCity = new StringField();

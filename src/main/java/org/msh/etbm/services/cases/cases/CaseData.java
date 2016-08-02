@@ -7,7 +7,6 @@ import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.ValidationState;
 import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
-import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;

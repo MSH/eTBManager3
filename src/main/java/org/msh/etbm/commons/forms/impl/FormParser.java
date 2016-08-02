@@ -7,12 +7,16 @@ import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.FormJson;
+import org.msh.etbm.commons.forms.data.MultipleDataModel;
+import org.msh.etbm.commons.forms.data.SingleDataModel;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Parse a form from a JSON representation to a {@link Form} object
@@ -21,6 +25,11 @@ import java.util.*;
  */
 public class FormParser {
 
+    /**
+     * Single method that parse the json from the given input stream object
+     * @param in the instance of InputStream, source of the form schema in json format
+     * @return the instance of {@link Form} containing the parsed json data
+     */
     public Form parse(InputStream in) {
         FormJson frm;
         try {
@@ -31,7 +40,13 @@ public class FormParser {
         }
 
         Form res = new Form();
-        res.setModel(frm.getModel());
+
+        if (frm.getModel() instanceof Map) {
+            Map<String, String> variables = (Map<String, String>)frm.getModel();
+            res.setDataModel(new MultipleDataModel(variables));
+        } else if (frm.getModel() instanceof String) {
+            res.setDataModel(new SingleDataModel((String)frm.getModel()));
+        }
 
         List<Control> controls = importControlList(frm.getControls());
         res.setControls(controls);
@@ -121,7 +136,7 @@ public class FormParser {
             }
 
             if (propType == null) {
-                return;
+                throw new FormException("Property not found: " + prop + " in " + bean.getClass());
             }
 
             Object propValue = getValueToWrite(bean, prop, value, propType);
@@ -175,7 +190,7 @@ public class FormParser {
             }
         }
 
-        if (targetType.isAssignableFrom(value.getClass())) {
+        if (targetType == null || targetType.isAssignableFrom(value.getClass())) {
             return JSFuncValue.of(value);
         }
 
