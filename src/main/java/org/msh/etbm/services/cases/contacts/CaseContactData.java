@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.contacts;
 
 import org.msh.etbm.db.enums.Gender;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -16,6 +17,16 @@ public class CaseContactData {
     private Gender gender;
 
     private String age;
+
+    private Date dateOfExamination;
+
+    private String contactType;
+
+    private boolean examinated;
+
+    private String conduct;
+
+    private String comments;
 
     public UUID getId() {
         return id;
@@ -47,5 +58,45 @@ public class CaseContactData {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public Date getDateOfExamination() {
+        return dateOfExamination;
+    }
+
+    public void setDateOfExamination(Date dateOfExamination) {
+        this.dateOfExamination = dateOfExamination;
+    }
+
+    public String getContactType() {
+        return contactType;
+    }
+
+    public void setContactType(String contactType) {
+        this.contactType = contactType;
+    }
+
+    public boolean isExaminated() {
+        return examinated;
+    }
+
+    public void setExaminated(boolean examinated) {
+        this.examinated = examinated;
+    }
+
+    public String getConduct() {
+        return conduct;
+    }
+
+    public void setConduct(String conduct) {
+        this.conduct = conduct;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

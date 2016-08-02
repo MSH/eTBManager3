@@ -3,6 +3,8 @@ import CrudView from '../../crud/crud-view';
 import { Profile } from '../../../components';
 import CaseComments from './case-comments';
 import CRUD from '../../../commons/crud';
+import Form from '../../../forms/form';
+import moment from 'moment';
 
 const crud = new CRUD('contact');
 
@@ -11,6 +13,7 @@ export default class Contacts extends React.Component {
 	constructor(props) {
 		super(props);
 		this.cellRender = this.cellRender.bind(this);
+		this.collapseCellRender = this.collapseCellRender.bind(this);
 
 		const editorSchema = {
 			defaultProperties: {
@@ -96,8 +99,28 @@ export default class Contacts extends React.Component {
 	cellRender(item) {
 		return (
 			<Profile size="small" type={item.gender.toLowerCase()}
-				title={item.name} subtitle={item.age} />
+				title={item.name} subtitle={__('TbCase.age') + ': ' + item.age + ' - ' + item.contactType} />
 		);
+	}
+
+	collapseCellRender(item) {
+		const YesNo = Form.types.yesNo;
+		const ret = (<div>
+						<hr/>
+						<dl className="dl-horizontal">
+							<dt>{__('CaseContact.examined') + ':'}</dt>
+							<dd><YesNo value={item.examinated} noForm /></dd>
+							<dt>{__('CaseContact.dateOfExamination') + ':'}</dt>
+							<dd>{moment(item.dateOfExamination).format('ll')}</dd>
+							<dt>{__('CaseContact.conduct') + ':'}</dt>
+							<dd>{item.conduct ? item.conduct : '-'}</dd>
+							<dt>{__('global.comments') + ':'}</dt>
+							<dd>{item.comments ? item.comments : '-'}</dd>
+						</dl>
+						<hr/>
+					</div>);
+
+		return (ret);
 	}
 
 	render() {
@@ -111,6 +134,7 @@ export default class Contacts extends React.Component {
 					editorSchema={this.state.editorSchema}
 					crud={crud}
 					onCellRender={this.cellRender}
+					onDetailRender={this.collapseCellRender}
 					/>
 			</CaseComments>
 			);
