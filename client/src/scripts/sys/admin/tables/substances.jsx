@@ -10,7 +10,7 @@ const crud = new CRUD('substance');
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
+	controls: [
 		{
 			property: 'shortName',
 			required: true,

@@ -5,7 +5,7 @@ import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 
 const tfschema = {
-			layout: [{
+			controls: [{
 					property: 'newTag',
 					required: true,
 					type: 'string',
@@ -18,7 +18,7 @@ const tfschema = {
 
 const fschema = {
 			title: __('Permission.CASE_TAG'),
-			layout: [
+			controls: [
 				{
 					property: 'tagIds',
 					type: 'multiSelect',

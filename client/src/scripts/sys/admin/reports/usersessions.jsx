@@ -8,7 +8,7 @@ import Form from '../../../forms/form';
 import moment from 'moment';
 
 const fschema = {
-			layout: [
+			controls: [
 				{
 					property: 'iniDate',
 					required: true,

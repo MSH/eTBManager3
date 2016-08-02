@@ -25,7 +25,7 @@ export default class TableFormControl extends React.Component {
 
 	componentWillMount() {
 		const sc = this.props.schema;
-		sc.fschema.layout.forEach(item => {
+		sc.fschema.controls.forEach(item => {
 			if (item.options) {
 				console.log(item.property);
 			}

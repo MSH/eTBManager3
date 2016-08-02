@@ -10,7 +10,7 @@ import CaseComments from './case-comments';
 
 
 const data = {
-	layout: [
+	controls: [
 	{
 		type: 'date',
 		label: 'Date entered in SL treatment TB register',

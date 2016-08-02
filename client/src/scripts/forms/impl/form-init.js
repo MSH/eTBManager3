@@ -53,7 +53,7 @@ function initFromSchema(schema, doc) {
  */
 function initFromControls(schema, doc) {
 	// set the default properties of the controls
-	schema.layout
+	schema.controls
 		.filter(elem => !!elem.property && getValue(doc, elem.property) === undefined)
 		.forEach(elem => {
 			let val = elem.defaultValue;

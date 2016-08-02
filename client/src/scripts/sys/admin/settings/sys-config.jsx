@@ -12,7 +12,7 @@ export default class SysConfig extends React.Component {
 
 		this.state = {
 			schema: {
-				layout: [
+				controls: [
 					{
 						property: 'systemURL',
 						label: __('SystemConfig.systemURL'),

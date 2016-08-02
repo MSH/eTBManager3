@@ -6,7 +6,7 @@ import { app } from '../../../core/app';
  */
 const displaySchemas = {
 	MEDICAL_EXAMINATION: {
-		layout: [
+		controls: [
 		{
 			type: 'select',
 			label: __('MedAppointmentType'),
@@ -54,7 +54,7 @@ const displaySchemas = {
 	},
 
 	EXAM_MICROSCOPY: {
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			visible: value => value.otherSampleType !== null && value.otherSampleType !== '',
@@ -129,7 +129,7 @@ const displaySchemas = {
 	},
 
 	EXAM_CULTURE: {
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -183,7 +183,7 @@ const displaySchemas = {
 	},
 
 	EXAM_XPERT: {
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -232,7 +232,7 @@ const displaySchemas = {
 	},
 
 	EXAM_DST: {
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -361,7 +361,7 @@ const displaySchemas = {
 			startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
 			startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
 		},
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('Laboratory'),
@@ -408,7 +408,7 @@ const displaySchemas = {
 	},
 
 	EXAM_XRAY: {
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('TbField.XRAYPRESENTATION'),
@@ -433,7 +433,7 @@ const displaySchemas = {
 
 const editSchemas = {
 	MEDICAL_EXAMINATION: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),
@@ -465,7 +465,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.usingPrescMedicines === 'NO',
-			layout: [
+			controls: [
 				{
 					type: 'string',
 					label: __('MedicalExamination.reasonNotUsingPrescMedicines'),
@@ -497,7 +497,7 @@ const editSchemas = {
 	},
 
 	EXAM_MICROSCOPY: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
@@ -515,7 +515,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.sampleType === 'OTHER',
-			layout: [
+			controls: [
 				{
 					type: 'string',
 					label: __('SampleType.OTHER'),
@@ -562,7 +562,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					type: 'select',
 					label: __('cases.exams.afb'),
@@ -581,7 +581,7 @@ const editSchemas = {
 	},
 
 	EXAM_CULTURE: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
@@ -620,7 +620,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					property: 'numberOfColonies',
 					type: 'select',
@@ -645,7 +645,7 @@ const editSchemas = {
 	},
 
 	EXAM_XPERT: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
@@ -684,7 +684,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'TB_DETECTED',
-			layout: [
+			controls: [
 				{
 					type: 'select',
 					label: __('XpertResult.rifresult'),
@@ -704,7 +704,7 @@ const editSchemas = {
 	},
 
 	EXAM_DST: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
@@ -855,7 +855,7 @@ const editSchemas = {
 	},
 
 	EXAM_HIV: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),
@@ -880,7 +880,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					type: 'date',
 					label: __('cases.examhiv.art'),
@@ -904,7 +904,7 @@ const editSchemas = {
 	},
 
 	EXAM_XRAY: {
-		layout: [
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),

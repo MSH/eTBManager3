@@ -15,7 +15,7 @@ export default class CaseTreatment extends React.Component {
 
 		this.state = {
 			sc1: {
-				layout: [
+				controls: [
 					{
 						property: 'regimen.name',
 						type: 'string',

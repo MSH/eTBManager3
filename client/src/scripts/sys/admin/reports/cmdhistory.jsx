@@ -8,7 +8,7 @@ import moment from 'moment';
 import CommandTypeControl from './command-type-control';
 
 const fschema = {
-			layout: [
+			controls: [
 				{
 					property: 'iniDate',
 					required: true,

@@ -11,7 +11,7 @@ const crud = new CRUD('userws');
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
+	controls: [
 		{
 			property: 'login',
 			required: true,

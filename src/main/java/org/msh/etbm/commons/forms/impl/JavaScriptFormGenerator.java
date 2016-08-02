@@ -175,7 +175,7 @@ public class JavaScriptFormGenerator {
                 if (field != null) {
                     Map<String, Object> fprops = PropertyUtils.describe(field);
 
-                    Field modelField = dm.getFieldModel(modelManager, vc.getValue());
+                    Field modelField = dm.getFieldModel(modelManager, vc.getProperty());
 
                     // check if there is an equivalent field
                     if (modelField != null) {

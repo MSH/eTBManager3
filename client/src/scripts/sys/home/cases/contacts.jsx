@@ -16,7 +16,7 @@ export default class Contacts extends React.Component {
 			defaultProperties: {
 				tbcaseId: props.tbcase.id
 			},
-			layout: [
+			controls: [
 				{
 					type: 'string',
 					label: __('CaseContact.name'),
@@ -64,7 +64,7 @@ export default class Contacts extends React.Component {
 				{
 					type: 'group',
 					visible: value => value.examinated,
-					layout: [
+					controls: [
 						{
 							type: 'date',
 							property: 'dateOfExamination',

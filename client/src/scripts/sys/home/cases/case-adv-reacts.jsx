@@ -1,6 +1,5 @@
 import React from 'react';
 import CrudView from '../../crud/crud-view';
-import { Profile } from '../../../components';
 import CaseComments from './case-comments';
 import { mockCrud } from '../../mock-data';
 
@@ -12,7 +11,7 @@ export default class CaseAdvReact extends React.Component {
 
 		// form fields for contacts
 		const editorSchema = {
-			layout: [
+			controls: [
 				{
 					type: 'select',
 					label: 'Adverse reaction',

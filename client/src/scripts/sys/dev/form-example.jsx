@@ -44,7 +44,7 @@ export default class ReacttableExample extends React.Component {
 	render() {
 		// THE FORM LAYOUT
 		const schema = {
-			layout: [
+			controls: [
 				{
 					property: 'name',
 					required: true,

@@ -30,6 +30,7 @@ export default class Form extends React.Component {
 
 		if (__DEV__) {
 			if (!name) {
+				/* eslint no-console: "off" */
 				console.log('No name defined for ' + (Comp.typeName ? Comp.typeName() : Comp) + '.typeName()');
 			}
 		}
@@ -59,8 +60,8 @@ export default class Form extends React.Component {
 			}
 
 			// validate the schema
-			if (schema.layout) {
-				schema.layout
+			if (schema.controls) {
+				schema.controls
 				.forEach(elem => {
 					if (!elem.type) {
 						throw new Error('Element type not defined for ' + elem.property);

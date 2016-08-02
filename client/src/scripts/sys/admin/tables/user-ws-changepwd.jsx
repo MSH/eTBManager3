@@ -4,7 +4,7 @@ import { FormDialog } from '../../../components/index';
 import { server } from '../../../commons/server';
 
 const schema = {
-	layout: [
+	controls: [
 		{
 			property: 'newPassword',
 			label: __('changepwd.newpass'),

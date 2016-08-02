@@ -7,7 +7,7 @@ import org.msh.etbm.commons.models.data.fields.Field;
  */
 public abstract class ValuedControl extends Control {
 
-    private String value;
+    private String property;
 
     private Field field;
 
@@ -20,11 +20,11 @@ public abstract class ValuedControl extends Control {
 
     protected abstract Field createField();
 
-    public String getValue() {
-        return value;
+    public String getProperty() {
+        return property;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setProperty(String property) {
+        this.property = property;
     }
 }

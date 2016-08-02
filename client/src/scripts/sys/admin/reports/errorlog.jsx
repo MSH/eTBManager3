@@ -7,7 +7,7 @@ import Form from '../../../forms/form';
 import moment from 'moment';
 
 const fschema = {
-	layout: [
+	controls: [
 		{
 			property: 'iniDate',
 			required: true,
@@ -35,7 +35,7 @@ const fschema = {
 };
 
 const detailSchema = {
-	layout: [
+	controls: [
 		{
 			property: 'userName',
 			type: 'string',

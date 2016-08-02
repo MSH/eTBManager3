@@ -10,7 +10,7 @@
 
   "controls": [
     {
-      "value": "name",
+      "property": "name",
       "type": "string",
       "label": "Name of the patient",
       "max": 30,
@@ -18,33 +18,33 @@
       "size": { "md": 3 }
     },
     {
-      "value": "middleName",
+      "property": "middleName",
       "type": "string",
       "max": 30,
       "required": true,
       "size": { "md": 3 }
     },
     {
-      "value": "lastName",
+      "property": "lastName",
       "type": "string",
       "max": 30,
       "required": true,
       "size": { "md": 3 }
     },
     {
-      "value": "birthDate",
+      "property": "birthDate",
       "type": "date",
       "size": { "md": 6 },
       "newRow": true
     },
     {
-      "value": "gender",
+      "property": "gender",
       "type": "select",
       "size": { "md": 6 },
       "newRow": true
     },
     {
-      "value": "customId",
+      "property": "customId",
       "type": "string",
       "visible": { "function": "this.gender === 'MALE'" },
       "size": { "md": 6 }

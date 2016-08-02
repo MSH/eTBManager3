@@ -8,7 +8,7 @@ export default class AddMedicine extends React.Component {
 		this.state = {
 			schema: {
 				title: __('Regimen.add'),
-				layout: [
+				controls: [
 					{
 						property: 'medicine',
 						type: 'select',

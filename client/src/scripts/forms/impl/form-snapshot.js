@@ -37,7 +37,7 @@ class SnapshotCreator {
 		this.form = form;
 		this.list = [];
 
-		this._traverse(schema.layout, formSnapshot);
+		this._traverse(schema.controls, formSnapshot);
 
 		return this.list;
 	}

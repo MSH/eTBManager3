@@ -6,7 +6,7 @@ import { app } from '../../../core/app';
 
 const fschema = {
 			title: __('cases.close'),
-			layout: [
+			controls: [
 				{
 					property: 'outcomeDate',
 					required: true,
@@ -32,7 +32,7 @@ const fschema = {
 				{
 					type: 'group',
 					visible: value => value.outcome === 'OTHER',
-					layout: [
+					controls: [
 						{
 							property: 'otherOutcome',
 							type: 'string',

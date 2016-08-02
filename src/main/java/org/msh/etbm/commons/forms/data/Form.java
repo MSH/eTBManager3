@@ -41,7 +41,7 @@ public class Form {
 
         for (Control ctrl: controls) {
             if (ctrl instanceof ValuedControl) {
-                if (value.equals(((ValuedControl) ctrl).getValue())) {
+                if (value.equals(((ValuedControl) ctrl).getProperty())) {
                     return (ValuedControl)ctrl;
                 }
             }

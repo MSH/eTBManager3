@@ -7,7 +7,7 @@ export default class GroupControl extends React.Component {
 	}
 
 	static children(snapshot) {
-		return snapshot.layout;
+		return snapshot.controls;
 	}
 
 	render() {

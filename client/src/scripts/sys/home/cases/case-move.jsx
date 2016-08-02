@@ -4,7 +4,7 @@ import { FormDialog } from '../../../components/index';
 
 const fschema = {
 			title: __('cases.move'),
-			layout: [
+			controls: [
 				{
 					property: 'date',
 					required: true,

@@ -5,7 +5,7 @@ import { Card, FormDialog } from '../../components';
 import { server } from '../../commons/server';
 
 const schema = {
-	layout: [
+	controls: [
 		{
 			property: 'password',
 			label: __('changepwd.passinuse'),

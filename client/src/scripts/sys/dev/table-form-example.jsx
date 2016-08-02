@@ -60,7 +60,7 @@ export default class TableFormExample extends React.Component {
 
 		// The schema of table form
 		const tfschema = {
-			layout: [
+			controls: [
 				{
 					property: 'iniDate',
 					required: true,
@@ -84,7 +84,7 @@ export default class TableFormExample extends React.Component {
 						type: 'Type test default prop',
 						formList: [{ iniDate: new Date(), userName: 'Mauricio' }, { iniDate: new Date(), userName: 'Jesus' }, { iniDate: new Date(), userName: 'Santos' }]
 					},
-					layout: [
+					controls: [
 						{
 							property: 'type',
 							required: false,

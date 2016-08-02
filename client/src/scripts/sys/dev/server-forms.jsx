@@ -30,8 +30,6 @@ export default class ShowMessage extends React.Component {
 		const res = func();
 		/* eslint no-console: "off" */
 		console.log(res);
-		res.layout = res.controls;
-		delete res.controls;
 		this.setState({ schema: res });
 	}
 

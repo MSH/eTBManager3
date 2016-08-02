@@ -322,7 +322,7 @@ export default class AdmUnits extends React.Component {
 	 */
 	getEditorDef() {
 		return {
-			layout: [
+			controls: [
 				{
 					property: 'name',
 					required: true,

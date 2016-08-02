@@ -16,7 +16,7 @@ const editorDef = {
 				type: 'PRODUCT',
 				active: true
 			},
-			layout: [
+			controls: [
 				{
 					property: 'shortName',
 					required: true,
@@ -56,7 +56,7 @@ const editorDef = {
 				type: 'MEDICINE',
 				active: true
 			},
-			layout: [
+			controls: [
 				{
 					property: 'shortName',
 					required: true,

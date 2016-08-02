@@ -9,7 +9,7 @@ import { generateName, mockCrud } from '../mock-data';
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
+	controls: [
 		{
 			property: 'name',
 			required: true,

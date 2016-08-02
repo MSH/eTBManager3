@@ -57,7 +57,7 @@ public class FormParserTest {
         assertEquals(2, container.getControls().size());
 
         vc = (ValuedControl)container.getControls().get(0);
-        assertEquals("consistencyCheck", vc.getValue());
+        assertEquals("consistencyCheck", vc.getProperty());
         assertEquals(YesNoControl.class, vc.getClass());
         assertNotNull(vc.getField());
         assertEquals(BoolField.class, vc.getField().getClass());
