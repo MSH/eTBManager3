@@ -1296,7 +1296,7 @@
 
 
     <changeSet author="rmemoria" id="1433264274749-62">
-        <createTable tableName="tbcontact">
+        <createTable tableName="casecontact">
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -1960,7 +1960,7 @@
         <addPrimaryKey columnNames="id" constraintName="PKTBCASE" tableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-136">
-        <addPrimaryKey columnNames="id" constraintName="PKTBCONTACT" tableName="tbcontact"/>
+        <addPrimaryKey columnNames="id" constraintName="PKCASECONTACT" tableName="casecontact"/>
     </changeSet>
     <!--
         <changeSet author="rmemoria" id="1433264274749-137">
@@ -2063,7 +2063,7 @@
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-169">
-        <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="tbcontact" constraintName="FK2BEC9DF2A3F04EEB"
+        <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="casecontact" constraintName="FK2BEC9DF2A3F04EEB"
                                  deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
