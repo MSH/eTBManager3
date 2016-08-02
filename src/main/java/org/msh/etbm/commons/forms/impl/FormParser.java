@@ -180,6 +180,10 @@ public class FormParser {
     }
 
     private JSFuncValue convertToJSFuncValue(Object value, Class targetType) {
+        if (value == null) {
+            return null;
+        }
+
         if (value instanceof Map) {
             Map map = (Map)value;
             if (map.size() == 1) {

@@ -194,7 +194,7 @@ public class ModelTest {
         assertNotNull(errors);
         assertEquals(1, errors.getErrorCount());
         ObjectError error = errors.getGlobalErrors().get(0);
-        assertEquals(Messages.NOT_VALID_EMAIL, error.getCode());
+        assertNotNull(error.getDefaultMessage());
     }
 
 

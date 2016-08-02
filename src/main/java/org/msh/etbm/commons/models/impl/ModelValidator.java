@@ -89,7 +89,7 @@ public class ModelValidator {
                 validators,
                 context.getDocBinding(),
                 context.getErrors(),
-                resources.getMessages());
+                resources != null? resources.getMessages() : null);
     }
 
 }

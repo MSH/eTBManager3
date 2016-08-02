@@ -132,13 +132,17 @@ public class JavaScriptFormGenerator {
             String delim = "";
             for (Map.Entry<String, Object> entry: props.entrySet()) {
                 if (entry.getValue() != null) {
-                    String sval = entry.getKey().equals("controls") ?
-                            createControlsScript((List<Control>)entry.getValue(), dm) :
-                            convertValue(entry.getValue());
-
-                    if (sval != null) {
-                        s.append(delim).append(entry.getKey()).append(": ").append(sval);
+                    if (entry.getKey().equals("controls")) {
+                        s.append(delim).append(createControlsScript((List<Control>)entry.getValue(), dm));
                         delim = ",\n";
+                    } else {
+                        String sval = convertValue(entry.getValue());
+
+                        if (sval != null) {
+                            s.append(delim).append(entry.getKey()).append(": ").append(sval);
+                            delim = ",\n";
+                        }
+
                     }
                 }
             }
@@ -188,11 +192,11 @@ public class JavaScriptFormGenerator {
 
                     props.putAll(fprops);
                 }
-
-                // remove unused properties
-                props.remove("field");
-                props.remove("class");
             }
+
+            // remove unused properties
+            props.remove("field");
+            props.remove("class");
 
             return props;
         } catch (Exception e) {

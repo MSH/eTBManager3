@@ -33,7 +33,7 @@ public class CustomValidatorsExecutor {
             JSObject func = (JSObject)jsValidators.get("v" + index);
             boolean res = (boolean)func.call(doc);
             if (!res) {
-                String msg = messages.eval(validator.getMessage());
+                String msg = messages != null ? messages.eval(validator.getMessage()) : validator.getMessage();
 
                 if (fieldName != null) {
                     errors.rejectValue(fieldName, null, msg);

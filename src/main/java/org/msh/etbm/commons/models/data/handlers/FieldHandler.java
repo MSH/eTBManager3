@@ -151,7 +151,7 @@ public abstract class FieldHandler<E extends Field> {
                 validators,
                 fieldContext.getContext().getDocBinding(),
                 fieldContext.getErrors(),
-                resources.getMessages());
+                resources != null ? resources.getMessages() : null);
     }
 
     protected void registerConversionError(FieldContext context) {

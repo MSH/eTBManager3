@@ -27,7 +27,7 @@ public class FormParserTest {
         assertTrue(frm.getDataModel() instanceof SingleDataModel);
 
         SingleDataModel dm = (SingleDataModel)frm.getDataModel();
-        assertEquals("tag", dm.getModelId());
+        assertEquals("patient", dm.getModelId());
 
         assertNotNull(frm.getControls());
         assertEquals(4, frm.getControls().size());
