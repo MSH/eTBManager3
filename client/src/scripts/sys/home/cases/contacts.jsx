@@ -19,7 +19,7 @@ export default class Contacts extends React.Component {
 			layout: [
 				{
 					type: 'string',
-					label: __('TbContact.name'),
+					label: __('CaseContact.name'),
 					property: 'name',
 					required: true,
 					max: 100,
@@ -57,7 +57,7 @@ export default class Contacts extends React.Component {
 				{
 					type: 'yesNo',
 					property: 'examinated',
-					label: __('TbContact.examined'),
+					label: __('CaseContact.examined'),
 					required: true,
 					size: { sm: 6 }
 				},
@@ -68,14 +68,14 @@ export default class Contacts extends React.Component {
 						{
 							type: 'date',
 							property: 'dateOfExamination',
-							label: __('TbContact.dateOfExamination'),
+							label: __('CaseContact.dateOfExamination'),
 							size: { sm: 6 }
 						}
 					]
 				},
 				{
 					type: 'string',
-					label: __('TbContact.conduct'),
+					label: __('CaseContact.conduct'),
 					property: 'conduct',
 					max: 50,
 					size: { sm: 12 }
@@ -86,7 +86,8 @@ export default class Contacts extends React.Component {
 					property: 'comments',
 					size: { sm: 12 }
 				}
-			]
+			],
+			title: doc => doc && doc.id ? __('admin.ageranges.edt') : __('admin.ageranges.new')
 		};
 
 		this.state = { editorSchema: editorSchema };
