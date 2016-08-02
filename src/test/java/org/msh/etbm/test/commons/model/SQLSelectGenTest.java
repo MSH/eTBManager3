@@ -1,7 +1,7 @@
 package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
@@ -78,8 +78,8 @@ public class SQLSelectGenTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator v = new Validator();
-        v.setJsExpression("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true");
-        v.setMessageKey(Messages.NOT_VALID_EMAIL);
+        v.setRule("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true");
+        v.setMessage("${" + Messages.NOT_VALID_EMAIL + "}");
         validators.add(v);
 
         model.setValidators(validators);

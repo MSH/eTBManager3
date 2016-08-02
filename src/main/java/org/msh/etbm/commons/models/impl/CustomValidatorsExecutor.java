@@ -2,6 +2,7 @@ package org.msh.etbm.commons.models.impl;
 
 import jdk.nashorn.api.scripting.JSObject;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.data.Validator;
 import org.springframework.validation.Errors;
 
@@ -24,17 +25,20 @@ public class CustomValidatorsExecutor {
      * @return true if validators were successfully executed
      */
     public static boolean execute(String fieldName, List<Validator> validators,
-                                  ScriptObjectMirror jsValidators, SimpleBindings doc, Errors errors) {
+                                  ScriptObjectMirror jsValidators, SimpleBindings doc, Errors errors,
+                                  Messages messages) {
         int index = 0;
         boolean success = true;
         for (Validator validator: validators) {
             JSObject func = (JSObject)jsValidators.get("v" + index);
             boolean res = (boolean)func.call(doc);
             if (!res) {
+                String msg = messages.eval(validator.getMessage());
+
                 if (fieldName != null) {
-                    errors.rejectValue(fieldName, validator.getMessageKey(), validator.getMessage());
+                    errors.rejectValue(fieldName, null, msg);
                 } else {
-                    errors.reject(validator.getMessageKey(), validator.getMessage());
+                    errors.reject(null, msg);
                 }
                 success = false;
             }

@@ -54,9 +54,12 @@ public class FormParser {
         Map<String, JSFuncValue> defaultProperties = importDefaultProperties(frm.getDefaultProperties());
         res.setDefaultProperties(defaultProperties);
 
+        res.setTitle(convertToJSFuncValue(frm.getTitle(), String.class));
+
+        res.setValidators(frm.getValidators());
+
         return res;
     }
-
 
     private Map<String, JSFuncValue> importDefaultProperties(Map<String, Object> props) {
         Map<String, JSFuncValue> defProps = new HashMap<>();

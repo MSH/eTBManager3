@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.FieldType;
@@ -106,7 +106,7 @@ public abstract class FieldHandler<E extends Field> {
 
         // run custom validators
         if (errorcount == 0) {
-            runCustomValidators(fieldContext);
+            runCustomValidators(fieldContext, resources);
         }
     }
 
@@ -137,7 +137,7 @@ public abstract class FieldHandler<E extends Field> {
      * Execute any custom validator defined in the field
      * @param fieldContext
      */
-    private void runCustomValidators(FieldContext fieldContext) {
+    private void runCustomValidators(FieldContext fieldContext, ModelResources resources) {
         Field field = fieldContext.getField();
 
         if (field.getValidators() == null || field.getValidators().size() == 0) {
@@ -150,7 +150,8 @@ public abstract class FieldHandler<E extends Field> {
                 field.getValidators(),
                 validators,
                 fieldContext.getContext().getDocBinding(),
-                fieldContext.getErrors());
+                fieldContext.getErrors(),
+                resources.getMessages());
     }
 
     protected void registerConversionError(FieldContext context) {

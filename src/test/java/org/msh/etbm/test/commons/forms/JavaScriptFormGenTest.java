@@ -2,10 +2,16 @@ package org.msh.etbm.test.commons.forms;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.msh.etbm.Application;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.impl.FormParser;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -18,7 +24,13 @@ import static org.junit.Assert.assertNotNull;
  *
  * Created by rmemoria on 26/7/16.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(Application.class)
+@WebAppConfiguration
 public class JavaScriptFormGenTest {
+
+    @Autowired
+    JavaScriptFormGenerator javaScriptFormGenerator;
 
     @Test
     public void test() throws Exception {
@@ -26,7 +38,7 @@ public class JavaScriptFormGenTest {
         FormParser p = new FormParser();
         Form frm = p.parse(resource.getInputStream());
 
-        String script = JavaScriptFormGenerator.generate(frm, "newSchema");
+        String script = javaScriptFormGenerator.generate(frm, "newSchema");
 
         // System.out.println(script);
 

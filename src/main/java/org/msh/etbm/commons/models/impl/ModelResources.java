@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 
 import javax.sql.DataSource;
 import java.util.UUID;

@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.cases.followup.data.FollowUpType;

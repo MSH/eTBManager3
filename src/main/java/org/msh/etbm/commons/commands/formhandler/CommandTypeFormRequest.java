@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.commands.formhandler;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.forms.FormRequest;

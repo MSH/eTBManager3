@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.dao;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;

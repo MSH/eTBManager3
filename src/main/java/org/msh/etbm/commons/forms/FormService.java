@@ -23,14 +23,17 @@ public class FormService {
     @Autowired
     UserRequestService userRequestService;
 
+    @Autowired
+    JavaScriptFormGenerator javaScriptFormGenerator;
+
     public FormInitResponse init(String formId, Object doc) {
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();
 
-        Form form = formManager.get(formId, wsId);
+        Form form = formManager.get(formId);
 
         FormInitResponse resp = new FormInitResponse();
 
-        String code = JavaScriptFormGenerator.generate(form, null);
+        String code = javaScriptFormGenerator.generate(form, null);
 
         resp.setSchema(code);
 

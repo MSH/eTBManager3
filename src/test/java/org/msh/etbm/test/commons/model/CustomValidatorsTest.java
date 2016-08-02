@@ -117,12 +117,12 @@ public class CustomValidatorsTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator validator = new Validator();
-        validator.setJsExpression("this.value !== 1");
+        validator.setRule("this.value !== 1");
         validator.setMessage(ERR1);
         validators.add(validator);
 
         validator = new Validator();
-        validator.setJsExpression("this.value < 10");
+        validator.setRule("this.value < 10");
         validator.setMessage(ERR2);
         validators.add(validator);
 

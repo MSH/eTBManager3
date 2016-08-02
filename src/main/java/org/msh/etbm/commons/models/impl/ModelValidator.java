@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.models.impl;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -38,7 +38,7 @@ public class ModelValidator {
 
         checkRequiredFields(model, vals, context);
 
-        validateModel(model, context);
+        validateModel(model, context, resources);
 
         return context.getErrors();
     }
@@ -71,7 +71,7 @@ public class ModelValidator {
     }
 
 
-    protected void validateModel(Model model, ValidationContext context) {
+    protected void validateModel(Model model, ValidationContext context, ModelResources resources) {
         // if there are field validation errors, don't validate the model
         if (context.getErrors().getFieldErrorCount() > 0) {
             return;
@@ -85,7 +85,11 @@ public class ModelValidator {
         ScriptObjectMirror validators = (ScriptObjectMirror)context.getJsField().get("validators");
 
         // execute the validators
-        CustomValidatorsExecutor.execute(null, model.getValidators(), validators, context.getDocBinding(), context.getErrors());
+        CustomValidatorsExecutor.execute(null, model.getValidators(),
+                validators,
+                context.getDocBinding(),
+                context.getErrors(),
+                resources.getMessages());
     }
 
 }

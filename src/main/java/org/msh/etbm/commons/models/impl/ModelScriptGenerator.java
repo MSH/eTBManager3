@@ -57,7 +57,7 @@ public class ModelScriptGenerator {
                     .append("v")
                     .append(index)
                     .append(": function() { return ")
-                    .append(validator.getJsExpression())
+                    .append(validator.getRule())
                     .append("; }");
 
             delim = ", ";

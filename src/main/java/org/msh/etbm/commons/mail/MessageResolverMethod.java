@@ -3,7 +3,7 @@ package org.msh.etbm.commons.mail;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

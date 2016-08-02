@@ -27,6 +27,8 @@ export default class AsyncButton extends React.Component {
             });
 
         delete btnProps.fetching;
+        delete btnProps.faIcon;
+        delete btnProps.fetchMsg;
 
         if (fetching) {
             btnProps.onClick = null;

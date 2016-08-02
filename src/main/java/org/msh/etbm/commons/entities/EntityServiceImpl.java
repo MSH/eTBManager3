@@ -2,8 +2,8 @@ package org.msh.etbm.commons.entities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Displayable;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;

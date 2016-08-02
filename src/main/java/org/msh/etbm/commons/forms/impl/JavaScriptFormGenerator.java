@@ -1,10 +1,18 @@
 package org.msh.etbm.commons.forms.impl;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.controls.Control;
+import org.msh.etbm.commons.forms.controls.ValuedControl;
+import org.msh.etbm.commons.forms.data.DataModel;
 import org.msh.etbm.commons.forms.data.Form;
+import org.msh.etbm.commons.models.ModelManager;
 import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.Validator;
+import org.msh.etbm.commons.models.data.fields.Field;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -17,26 +25,14 @@ import java.util.Map;
  *
  * Created by rmemoria on 26/7/16.
  */
+@Service
 public class JavaScriptFormGenerator {
 
-    /**
-     * Private constructor to avoid initialization of this class
-     */
-    private JavaScriptFormGenerator() {
-        super();
-    }
+    @Autowired
+    Messages messages;
 
-    /**
-     * Generate the script for the give form exposing the function as the given function name
-     * @param form the instance of {@link Form}
-     * @param funcName the name of the java script function to be declared in the script. If a null
-     *                 value is given, the script will generate the object code
-     * @return The java script code
-     */
-    public static final String generate(Form form, String funcName) {
-        JavaScriptFormGenerator instance = new JavaScriptFormGenerator();
-        return instance.generateScript(form, funcName);
-    }
+    @Autowired
+    ModelManager modelManager;
 
 
     /**
@@ -45,7 +41,7 @@ public class JavaScriptFormGenerator {
      * @param funcName the name of the function to be declared as the entry point function in the script
      * @return the java script code
      */
-    private String generateScript(Form form, String funcName) {
+    public String generate(Form form, String funcName) {
         StringBuilder s = new StringBuilder();
 
         if (funcName != null) {
@@ -70,61 +66,76 @@ public class JavaScriptFormGenerator {
         s.append("{\n");
 
         String delim = "";
+
+        if (frm.getTitle() != null) {
+            generateTitle(frm.getTitle(), s);
+            delim = ",\n";
+        }
+
         if (frm.getDefaultProperties() != null) {
+            s.append(delim);
             generateDefaultPropertiesCode(frm, s);
             delim = ",\n";
         }
 
         if (frm.getControls() != null) {
             s.append(delim);
-            createControlsScript(frm.getControls(), s);
+            s.append(createControlsScript(frm.getControls(), frm.getDataModel()));
+            delim = ",\n";
+        }
+
+        if (frm.getValidators() != null) {
+            s.append(delim).append(" validators:").append(convertValue(frm.getValidators()));
             delim = ",\n";
         }
         s.append("\n}");
     }
 
+
+    private void generateTitle(JSFuncValue<String> title, StringBuilder s) {
+        s.append("title: ").append(convertValue(title));
+    }
+
     /**
      * Generate a java script code for the list of controls in the form
      * @param controls the list of controls
-     * @param s the instance of StringBuilder to receive the script code
+     * @param dm the instance of {@link DataModel} related to the control
      */
-    private void createControlsScript(List<Control> controls, StringBuilder s) {
+    private String createControlsScript(List<Control> controls, DataModel dm) {
+        StringBuilder s = new StringBuilder();
+
         s.append("controls:[");
         String delim = "";
         for (Control control: controls) {
             s.append(delim);
-            s.append(generateControlScript(control));
+            s.append(generateControlScript(control, dm));
             delim = ",";
         }
         s.append("\n]");
+
+        return s.toString();
     }
 
     /**
      * Generate the java script object code of the give control object
      * @param control the control to generate its JS code
+     * @param dm the instance of {@link DataModel} related to the control
      * @return the java script code
      */
-    private String generateControlScript(Control control) {
+    private String generateControlScript(Control control, DataModel dm) {
         StringBuilder s = new StringBuilder();
         s.append("{\n");
         try {
-            Map<String, Object> props = PropertyUtils.describe(control);
-
-            // collect the properties to generate
-            Object field = props.get("field");
-
-            if (field != null) {
-                Map<String, Object> extra = PropertyUtils.describe(control);
-                props.putAll(extra);
-            }
-            props.remove("field");
-            props.remove("class");
+            Map<String, Object> props = collectControlProperties(control, dm);
 
             // mount the list of properties
             String delim = "";
             for (Map.Entry<String, Object> entry: props.entrySet()) {
                 if (entry.getValue() != null) {
-                    String sval = convertValue(entry.getValue());
+                    String sval = entry.getKey().equals("controls") ?
+                            createControlsScript((List<Control>)entry.getValue(), dm) :
+                            convertValue(entry.getValue());
+
                     if (sval != null) {
                         s.append(delim).append(entry.getKey()).append(": ").append(sval);
                         delim = ",\n";
@@ -138,6 +149,55 @@ public class JavaScriptFormGenerator {
         s.append("\n}");
 
         return s.toString();
+    }
+
+
+    /**
+     * Collect all properties from the control that must be available in the java script schema
+     *
+     * @param control
+     * @param dm
+     * @return
+     */
+    private Map<String, Object> collectControlProperties(Control control, DataModel dm) {
+        try {
+            Map<String, Object> props = PropertyUtils.describe(control);
+
+            if (control instanceof ValuedControl) {
+                ValuedControl vc = (ValuedControl)control;
+                Field field = vc.getField();
+
+                // check if control has a field
+                if (field != null) {
+                    Map<String, Object> fprops = PropertyUtils.describe(field);
+
+                    Field modelField = dm.getFieldModel(modelManager, vc.getValue());
+
+                    // check if there is an equivalent field
+                    if (modelField != null) {
+                        // mix model field into properties of the control field
+                        Map<String, Object> fprops2 = PropertyUtils.describe(modelField);
+                        for (Map.Entry<String, Object> entry: fprops2.entrySet()) {
+                            String propName = entry.getKey();
+
+                            if (fprops.get(propName) == null) {
+                                fprops.put(propName, entry.getValue());
+                            }
+                        }
+                    }
+
+                    props.putAll(fprops);
+                }
+
+                // remove unused properties
+                props.remove("field");
+                props.remove("class");
+            }
+
+            return props;
+        } catch (Exception e) {
+            throw new FormException(e);
+        }
     }
 
     /**
@@ -199,8 +259,8 @@ public class JavaScriptFormGenerator {
             return convertValue(f.getValue());
         }
 
-        if (value instanceof Control) {
-            return generateControlScript((Control)value);
+        if (value instanceof Validator) {
+            return convertValidator((Validator)value);
         }
 
         if (value instanceof List) {
@@ -211,6 +271,24 @@ public class JavaScriptFormGenerator {
         return convertObject(value);
     }
 
+
+    /**
+     * Convert a validator to a java script object
+     * @param validator
+     * @return
+     */
+    private String convertValidator(Validator validator) {
+        StringBuilder s = new StringBuilder();
+        s.append("{ rule: function() { return ").append(validator.getRule()).append("; }");
+
+        if (validator.getMessage() != null) {
+            String msg = messages.eval(validator.getMessage());
+            s.append(", message: \"").append(msg).append('"');
+        }
+        s.append('}');
+
+        return s.toString();
+    }
 
     /**
      * Convert a list to java script code. Each item of the list will be converted to JS code

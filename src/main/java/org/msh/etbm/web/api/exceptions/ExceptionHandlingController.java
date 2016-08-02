@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.exceptions;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.web.api.Message;

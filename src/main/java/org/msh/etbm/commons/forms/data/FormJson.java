@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.forms.data;
 
-import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.Validator;
 
 import java.util.List;
 import java.util.Map;
@@ -23,12 +23,17 @@ public class FormJson {
     /**
      * The title of the form
      */
-    private JSFuncValue<String> title;
+    private Object title;
 
     /**
      * The list of default properties
      */
     private Map<String, Object> defaultProperties;
+
+    /**
+     * The list of validators of the form
+     */
+    private List<Validator> validators;
 
 
     public Object getModel() {
@@ -47,11 +52,11 @@ public class FormJson {
         this.controls = controls;
     }
 
-    public JSFuncValue<String> getTitle() {
+    public Object getTitle() {
         return title;
     }
 
-    public void setTitle(JSFuncValue<String> title) {
+    public void setTitle(Object title) {
         this.title = title;
     }
 
@@ -61,5 +66,13 @@ public class FormJson {
 
     public void setDefaultProperties(Map<String, Object> defaultProperties) {
         this.defaultProperties = defaultProperties;
+    }
+
+    public List<Validator> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<Validator> validators) {
+        this.validators = validators;
     }
 }

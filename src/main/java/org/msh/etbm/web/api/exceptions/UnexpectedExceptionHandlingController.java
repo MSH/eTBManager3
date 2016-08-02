@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.exceptions;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.ErrorLog;

@@ -1,8 +1,8 @@
 package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.FieldListOptions;
