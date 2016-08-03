@@ -18,7 +18,7 @@ const issueEditorDef = {
 	title: __('Issue.edtanswer')
 };
 
-export default class IssueFollowUpBox extends React.Component {
+export default class IssueFollowUpsBox extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -165,7 +165,7 @@ export default class IssueFollowUpBox extends React.Component {
 }
 
 
-IssueFollowUpBox.propTypes = {
+IssueFollowUpsBox.propTypes = {
 	issue: React.PropTypes.object.isRequired,
 	/**
 	 * Possible events: add, edit, remove

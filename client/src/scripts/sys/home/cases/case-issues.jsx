@@ -1,69 +1,75 @@
 import React from 'react';
 import { Alert, Button } from 'react-bootstrap';
-import { Card, Fa } from '../../../components';
-import Issue from './issue';
+import { Card, Fa, FormDialog } from '../../../components';
+import Issues from './issues';
 import { app } from '../../../core/app';
+
+// definition of the form fields to edit tags
+const editorDef = {
+	controls: [
+		{
+			property: 'title',
+			required: true,
+			type: 'string',
+			max: 200,
+			label: __('Issue.title'),
+			size: { md: 12 }
+		},
+		{
+			property: 'description',
+			type: 'text',
+			required: true,
+			label: __('global.description'),
+			size: { md: 12 }
+		}
+	],
+	title: __('cases.issues.new')
+};
 
 export default class CaseIssues extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onIssueEvent = this.onIssueEvent.bind(this);
 		this.addIssue = this.addIssue.bind(this);
-		this.removeIssue = this.removeIssue.bind(this);
-		this.editIssue = this.editIssue.bind(this);
+		this.modalOpen = this.modalOpen.bind(this);
+		this.modalClose = this.modalClose.bind(this);
 
-		this.state = { doc: {}, showForm: false };
+		this.state = { newIssue: {}, showModal: false };
 	}
 
+	addIssue() {
+		const newIssue = this.state.newIssue;
 
-	onIssueEvent(evt, issue, doc) {
-		switch (evt) {
-			case 'add': return this.addIssue(doc);
-			case 'remove': return this.removeIssue(issue);
-			case 'edit': return this.editIssue(issue, doc);
-			default: throw new Error('Invalid ' + evt);
-		}
-	}
-
-	addIssue(doc) {
 		if (!this.props.tbcase.issues) {
 			this.props.tbcase.issues = [];
 		}
 
 		// add the new comment on UI
-		const newIssue = {
-			id: 'fakeid-' + this.props.tbcase.issues.length,
-			title: doc.title,
-			user: {
-				id: app.getState().session.userId,
-				name: app.getState().session.userName
-			},
-			unit: {
-				id: app.getState().session.unitId,
-				name: app.getState().session.unitName
-			},
-			creationDate: new Date(),
-			closed: false
-		};
+		newIssue.id = 'fakeid-' + this.props.tbcase.issues.length;
+		newIssue.user = {
+							id: app.getState().session.userId,
+							name: app.getState().session.userName
+						};
+		newIssue.unit = {
+							id: app.getState().session.unitId,
+							name: app.getState().session.unitName
+						};
+		newIssue.creationDate = new Date();
+		newIssue.closed = false;
 
 		this.props.tbcase.issues.push(newIssue);
 		this.forceUpdate();
+
+		const self = this;
+		return Promise.resolve([]).then(() => self.modalClose());
 	}
 
-	removeIssue(issue) {
-		// removes the comment from UI
-		const lst = this.props.tbcase.issues;
-		const index = lst.indexOf(issue);
-		this.props.tbcase.issues.splice(index, 1);
-		this.forceUpdate();
+	modalOpen() {
+		this.setState({ showModal: true });
 	}
 
-	editIssue(issue, doc) {
-		// refresh the comment on UI
-		issue.title = doc.title;
-		issue.description = doc.description;
-		this.forceUpdate();
+	modalClose() {
+		this.setState({ newIssue: {}, showModal: false });
 	}
 
 	render() {
@@ -75,34 +81,29 @@ export default class CaseIssues extends React.Component {
 							<h4 className="inlineb"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</h4> :
 							<h4 className="inlineb"><Fa icon="check" />{__('Issue.noopenissuesmg')}</h4>;
 
-		// shown if no issues is registered
-		if (!issues || issues.length === 0) {
-			return (<div>
-						<Card>
-							<div>
-								{header}
-								<Button className="pull-right" onClick={this.openNewIssueForm}>{__('cases.issues.new')}</Button>
-								<div className="clearb"/>
-							</div>
-						</Card>
-
-						<Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
-					</div>);
-		}
-
 		return (
 			<div>
 				<Card>
 					<div>
 						{header}
-						<Button className="pull-right" onClick={this.openNewIssueForm}>{__('cases.issues.new')}</Button>
+						<Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
 						<div className="clearb"/>
 					</div>
 				</Card>
 
 				{
-					issues.map((issue) => (<Issue key={issue.id} issue={issue} onIssueEvent={this.onIssueEvent}/>))
+					!issues && <Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
 				}
+
+				<Issues issues={issues} />
+
+				<FormDialog
+					schema={editorDef}
+					doc={this.state.newIssue}
+					onCancel={this.modalClose}
+					onConfirm={this.addIssue}
+					wrapType={'modal'}
+					modalShow={this.state.showModal} />
 
 			</div>
 			);

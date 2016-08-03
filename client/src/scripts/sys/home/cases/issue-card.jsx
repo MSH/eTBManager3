@@ -1,48 +1,18 @@
 import React from 'react';
-import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
-import { Profile, Fa, FormDialog, Card, AutoheightInput } from '../../../components';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Profile, Fa, Card } from '../../../components';
 import moment from 'moment';
 import { app } from '../../../core/app';
-import IssueFollowUpBox from './issue-followup-box';
+import IssueFollowUpsBox from './issue-followups-box';
 
-// definition of the form fields to edit tags
-const issueEditorDef = {
-	controls: [
-		{
-			property: 'title',
-			required: true,
-			type: 'string',
-			max: 200,
-			label: __('Issue.title'),
-			size: { md: 12 }
-		},
-		{
-			property: 'description',
-			type: 'text',
-			required: true,
-			label: __('global.description'),
-			size: { md: 12 }
-		}
-	],
-	title: __('cases.issues.new')
-};
-
-export default class Issue extends React.Component {
+export default class IssueCard extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.editClick = this.editClick.bind(this);
-		this.saveEdit = this.saveEdit.bind(this);
-		this.closeForm = this.closeForm.bind(this);
-		this.closeIssue = this.closeIssue.bind(this);
-		this.reopenIssue = this.reopenIssue.bind(this);
-		this.removeIssue = this.removeIssue.bind(this);
-		this.answerChange = this.answerChange.bind(this);
-		this.onFollowupEvent = this.onFollowupEvent.bind(this);
-
 		this.addAnswer = this.addAnswer.bind(this);
 		this.removeAnswer = this.removeAnswer.bind(this);
 		this.editAnswer = this.editAnswer.bind(this);
+		this.onFollowupEvent = this.onFollowupEvent.bind(this);
 
 
 		this.state = { doc: {}, showForm: false, answerBtnDisabled: true };
@@ -96,66 +66,33 @@ export default class Issue extends React.Component {
 		this.forceUpdate();
 	}
 
+	editIssueClick() {
 
-
-
-
-	editClick() {
-		this.setState({ doc: this.props.issue, showForm: true });
-	}
-
-	saveEdit() {
-		console.log('edit issue');
-		this.closeForm();
-		return null;
-	}
-
-	closeForm() {
-		this.setState({ doc: {}, showForm: false });
-	}
-
-	closeIssue() {
-		console.log('close issue');
-	}
-
-	reopenIssue() {
-		console.log('reopen issue');
-	}
-
-	removeIssue() {
-		console.log('remove issue');
-	}
-
-	answerChange() {
-		this.setState({ answerBtnDisabled: !this.refs.input.getText().trim() });
 	}
 
 	confirmRemove() {
-		app.messageDlg({
-					message: __('form.confirm_remove'),
-					style: 'warning',
-					type: 'YesNo'
-				}).then(res =>
-					{
-						if (res === 'yes') {
-							this.removeIssue();
-						}
-					});
+		return () => app.messageDlg({
+							message: __('form.confirm_remove'),
+							style: 'warning',
+							type: 'YesNo'
+						}).then(res =>
+							{
+								if (res === 'yes') {
+									this.props.onIssueEvent('remove', this.props.issue);
+								}
+							});
 	}
 
-	followUpsRender(followups) {
+	closeIssueClick() {
+		this.props.onIssueEvent('close', this.props.issue);
+	}
 
-
-		return followups.map(it => (
-			<div className="media" key={it.id}>
-				<IssueFollowUpBox followup={it} />
-			</div>
-			));
+	reopenIssueClick() {
+		this.props.onIssueEvent('reopen', this.props.issue);
 	}
 
 	render() {
 		return (<Card>
-
 					<div className="media">
 						<div className="media-left">
 							<Profile type="user" size="small"/>
@@ -164,11 +101,11 @@ export default class Issue extends React.Component {
 							<div className="pull-right">
 								{
 									this.props.issue.closed ?
-										<a className="lnk-muted" onClick={this.reopenIssue}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
-										<a className="lnk-muted" onClick={this.closeIssue}><Fa icon="power-off"/>{__('action.close')}</a>
+										<a className="lnk-muted" onClick={this.reopenIssueClick}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
+										<a className="lnk-muted" onClick={this.closeIssueClick}><Fa icon="power-off"/>{__('action.close')}</a>
 								}
 
-								<a className="lnk-muted" onClick={this.editClick}><Fa icon="pencil"/>{__('action.edit')}</a>
+								<a className="lnk-muted" onClick={this.editIssueClick}><Fa icon="pencil"/>{__('action.edit')}</a>
 								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
 									<a className="lnk-muted" onClick={this.confirmRemove}><Fa icon="trash-o"/></a>
 								</OverlayTrigger>
@@ -188,29 +125,22 @@ export default class Issue extends React.Component {
 								)
 							}
 
-							<IssueFollowUpBox issue={this.props.issue} onEvent={this.onFollowupEvent} />
+							<IssueFollowUpsBox issue={this.props.issue} onEvent={this.onFollowupEvent} />
 
 						</div>
 					</div>
-
-					<FormDialog
-						schema={issueEditorDef}
-						doc={this.state.doc}
-						onCancel={this.closeForm}
-						onConfirm={this.saveEdit}
-						wrapType={'modal'}
-						modalShow={this.state.showForm} />
-
 				</Card>
 				);
 	}
 }
 
 
-Issue.propTypes = {
+IssueCard.propTypes = {
 	issue: React.PropTypes.object.isRequired,
+	onEditEvent: React.PropTypes.func,
+	onRemoveEvent: React.PropTypes.func,
 	/**
-	 * Possible events: add, edit, remove
+	 * Possible events: edit, remove, reopen, close
 	 */
 	onIssueEvent: React.PropTypes.func
 };
