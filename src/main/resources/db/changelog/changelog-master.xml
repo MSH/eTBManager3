@@ -435,7 +435,7 @@
             <column name="creationDate" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="answerDate" type="${type.datetime}"/>
+            <column name="lastAnswerDate" type="${type.datetime}"/>
             <column name="title" type="VARCHAR(200)"/>
             <column name="description" type="${type.text}"/>
             <column name="unit_id" type="${type.id}">
