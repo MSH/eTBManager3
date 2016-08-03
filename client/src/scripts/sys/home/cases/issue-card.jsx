@@ -9,11 +9,15 @@ export default class IssueCard extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.onFollowupEvent = this.onFollowupEvent.bind(this);
 		this.addAnswer = this.addAnswer.bind(this);
 		this.removeAnswer = this.removeAnswer.bind(this);
 		this.editAnswer = this.editAnswer.bind(this);
-		this.onFollowupEvent = this.onFollowupEvent.bind(this);
 
+		this.editIssueClick = this.editIssueClick.bind(this);
+		this.confirmRemove = this.confirmRemove.bind(this);
+		this.closeIssueClick = this.closeIssueClick.bind(this);
+		this.reopenIssueClick = this.reopenIssueClick.bind(this);
 
 		this.state = { doc: {}, showForm: false, answerBtnDisabled: true };
 	}
@@ -67,20 +71,21 @@ export default class IssueCard extends React.Component {
 	}
 
 	editIssueClick() {
-
+		this.props.onIssueEvent('openedt', this.props.issue);
 	}
 
 	confirmRemove() {
-		return () => app.messageDlg({
-							message: __('form.confirm_remove'),
-							style: 'warning',
-							type: 'YesNo'
-						}).then(res =>
-							{
-								if (res === 'yes') {
-									this.props.onIssueEvent('remove', this.props.issue);
-								}
-							});
+		const self = this;
+		app.messageDlg({
+			message: __('form.confirm_remove'),
+			style: 'warning',
+			type: 'YesNo'
+		}).then(res =>
+			{
+				if (res === 'yes') {
+					self.props.onIssueEvent('remove', this.props.issue);
+				}
+			});
 	}
 
 	closeIssueClick() {
@@ -140,7 +145,7 @@ IssueCard.propTypes = {
 	onEditEvent: React.PropTypes.func,
 	onRemoveEvent: React.PropTypes.func,
 	/**
-	 * Possible events: edit, remove, reopen, close
+	 * Possible events: openedt, remove, reopen, close
 	 */
 	onIssueEvent: React.PropTypes.func
 };

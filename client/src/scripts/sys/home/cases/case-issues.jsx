@@ -34,6 +34,12 @@ export default class CaseIssues extends React.Component {
 		this.modalOpen = this.modalOpen.bind(this);
 		this.modalClose = this.modalClose.bind(this);
 
+		this.onIssueEvent = this.onIssueEvent.bind(this);
+		this.removeIssue = this.removeIssue.bind(this);
+		this.editIssue = this.editIssue.bind(this);
+		this.closeIssue = this.closeIssue.bind(this);
+		this.reopenIssue = this.reopenIssue.bind(this);
+
 		this.state = { newIssue: {}, showModal: false };
 	}
 
@@ -62,6 +68,43 @@ export default class CaseIssues extends React.Component {
 
 		const self = this;
 		return Promise.resolve([]).then(() => self.modalClose());
+	}
+
+	onIssueEvent(evt, issue, doc) {
+		switch (evt) {
+			case 'remove': return this.removeIssue(issue);
+			case 'edit': return this.editIssue(issue, doc);
+			case 'close': return this.closeIssue(issue);
+			case 'reopen': return this.reopenIssue(issue);
+			default: throw new Error('Invalid ' + evt);
+		}
+	}
+
+	removeIssue(issue) {
+		// removes the comment from UI
+		const lst = this.props.tbcase.issues;
+		const index = lst.indexOf(issue);
+		this.props.tbcase.issues.splice(index, 1);
+		this.forceUpdate();
+	}
+
+	editIssue(issue, doc) {
+		// refresh the comment on UI
+		issue.title = doc.title;
+		issue.description = doc.description;
+		this.forceUpdate();
+	}
+
+	closeIssue(issue) {
+		// refresh the comment on UI
+		issue.closed = true;
+		this.forceUpdate();
+	}
+
+	reopenIssue(issue) {
+		// refresh the comment on UI
+		issue.closed = false;
+		this.forceUpdate();
 	}
 
 	modalOpen() {
@@ -95,7 +138,7 @@ export default class CaseIssues extends React.Component {
 					!issues && <Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
 				}
 
-				<Issues issues={issues} />
+				<Issues issues={issues} onIssueEvent={this.onIssueEvent} />
 
 				<FormDialog
 					schema={editorDef}

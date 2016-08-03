@@ -1,8 +1,6 @@
 import React from 'react';
-import { Alert, Button } from 'react-bootstrap';
-import { Card, Fa, FormDialog } from '../../../components';
+import { FormDialog } from '../../../components';
 import IssueCard from './issue-card';
-import { app } from '../../../core/app';
 
 // definition of the form fields to edit tags
 const issueEditorDef = {
@@ -31,49 +29,28 @@ export default class Issues extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onIssueEvent = this.onIssueEvent.bind(this);
-		this.removeIssue = this.removeIssue.bind(this);
-		this.editIssue = this.editIssue.bind(this);
-		this.closeIssue = this.closeIssue.bind(this);
-		this.reopenIssue = this.reopenIssue.bind(this);
+		this.modalClose = this.modalClose.bind(this);
+		this.edtConfirm = this.edtConfirm.bind(this);
 
-		this.state = { issue: null, doc: {} };
+		this.state = { edtItem: null, doc: {} };
 	}
 
 	onIssueEvent(evt, issue, doc) {
-		switch (evt) {
-			case 'remove': return this.removeIssue(issue);
-			case 'edit': return this.editIssue(issue, doc);
-			case 'close': return this.closeIssue(issue);
-			case 'reopen': return this.reopenIssue(issue);
-			default: throw new Error('Invalid ' + evt);
+		if (evt === 'openedt') {
+			this.setState({ edtItem: issue, doc: { title: issue.title, description: issue.description } });
+			return null;
 		}
+
+		return this.props.onIssueEvent(evt, issue, doc);
 	}
 
-	removeIssue(issue) {
-		// removes the comment from UI
-		const lst = this.props.issues;
-		const index = lst.indexOf(issue);
-		this.props.issues.splice(index, 1);
-		this.forceUpdate();
+	edtConfirm() {
+		this.props.onIssueEvent('edit', this.state.edtItem, this.state.doc);
+		this.modalClose();
 	}
 
-	editIssue(issue, doc) {
-		// refresh the comment on UI
-		issue.title = doc.title;
-		issue.description = doc.description;
-		this.forceUpdate();
-	}
-
-	closeIssue(issue) {
-		// refresh the comment on UI
-		issue.closed = true;
-		this.forceUpdate();
-	}
-
-	reopenIssue(issue) {
-		// refresh the comment on UI
-		issue.closed = false;
-		this.forceUpdate();
+	modalClose() {
+		this.setState({ edtItem: null, doc: {} });
 	}
 
 	render() {
@@ -104,5 +81,9 @@ export default class Issues extends React.Component {
 
 
 Issues.propTypes = {
-	issues: React.PropTypes.array
+	issues: React.PropTypes.array,
+	/**
+	 * Possible events: edit, remove, reopen, close
+	 */
+	onIssueEvent: React.PropTypes.func
 };
