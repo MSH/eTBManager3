@@ -65,6 +65,7 @@ export default class Issue extends React.Component {
 		// add the new comment on UI
 		const newAnswer = {
 			id: 'fakeid-' + this.props.issue.followups.length,
+			issueId: this.props.issue.id,
 			text: txt,
 			user: {
 				id: app.getState().session.userId,
@@ -207,5 +208,9 @@ export default class Issue extends React.Component {
 
 
 Issue.propTypes = {
-	issue: React.PropTypes.object.isRequired
+	issue: React.PropTypes.object.isRequired,
+	/**
+	 * Possible events: add, edit, remove
+	 */
+	onIssueEvent: React.PropTypes.func
 };
