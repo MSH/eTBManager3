@@ -36,6 +36,10 @@ public class FieldContext {
     public boolean evalBoolProperty(String property) {
         Object res = ObjectUtils.getProperty(field, property);
 
+        if (res == null) {
+            return false;
+        }
+
         if (!(res instanceof JSFuncValue)) {
             return (boolean)res;
         }

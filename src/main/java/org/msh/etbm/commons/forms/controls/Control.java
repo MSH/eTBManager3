@@ -12,6 +12,11 @@ import java.util.List;
  */
 public class Control {
     /**
+     * The control ID, unique in the whole form
+     */
+    private String id;
+
+    /**
      * The control type. Each control will have specific features
      */
     private String type;
@@ -40,6 +45,14 @@ public class Control {
      */
     public List<Control> getControls() {
         return null;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {

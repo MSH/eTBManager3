@@ -172,15 +172,16 @@ public class JavaScriptFormGenerator {
                 Field field = vc.getField();
 
                 // check if control has a field
-                if (field != null) {
-                    Map<String, Object> fprops = PropertyUtils.describe(field);
+                Map<String, Object> fprops = field != null ? PropertyUtils.describe(field) : null;
 
-                    Field modelField = dm.getFieldModel(modelManager, vc.getProperty());
+                Field modelField = dm.getFieldModel(modelManager, vc.getProperty());
 
-                    // check if there is an equivalent field
-                    if (modelField != null) {
-                        // mix model field into properties of the control field
-                        Map<String, Object> fprops2 = PropertyUtils.describe(modelField);
+                // check if there is an equivalent field
+                if (modelField != null) {
+                    // mix model field into properties of the control field
+                    Map<String, Object> fprops2 = PropertyUtils.describe(modelField);
+
+                    if (fprops != null) {
                         for (Map.Entry<String, Object> entry: fprops2.entrySet()) {
                             String propName = entry.getKey();
 
@@ -188,10 +189,12 @@ public class JavaScriptFormGenerator {
                                 fprops.put(propName, entry.getValue());
                             }
                         }
+                    } else {
+                        fprops = fprops2;
                     }
-
-                    props.putAll(fprops);
                 }
+
+                props.putAll(fprops);
             }
 
             // remove unused properties
@@ -230,16 +233,22 @@ public class JavaScriptFormGenerator {
     /**
      * Generate the java script code of a value. Several value types are supported, including
      * number, date, booleans, string, lists and objects
-     * @param value the value to generate the js code
+     * @param val the value to generate the js code
      * @return the js code generated
      */
-    private String convertValue(Object value) {
+    private String convertValue(Object val) {
+        Object value = val;
         if (value == null) {
             return null;
         }
 
+        if (value instanceof JSGeneratorValueWrapper) {
+            value = ((JSGeneratorValueWrapper)value).getValueToGenerateJSCode();
+        }
+
         if (value instanceof String) {
-            return "'" + value + "'";
+            String txt = messages.eval((String)value);
+            return "'" + txt + "'";
         }
 
         if (value instanceof Boolean) {
@@ -329,8 +338,8 @@ public class JavaScriptFormGenerator {
             Map<String, Object> props = PropertyUtils.describe(obj);
             props.remove("class");
 
+            String delim = "";
             for (Map.Entry<String, Object> prop: props.entrySet()) {
-                String delim = "";
                 String sval = convertValue(prop.getValue());
                 if (sval != null) {
                     s.append(delim).append(prop.getKey()).append(": ").append(sval);

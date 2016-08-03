@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.models.data;
+package org.msh.etbm.commons.models.data.options;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.msh.etbm.commons.Item;

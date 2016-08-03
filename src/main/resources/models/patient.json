@@ -33,6 +33,7 @@
       "name": "gender",
       "type": "string",
       "required": { "value": true },
+      "label": "${Gender}",
       "options": {
         "type": "list",
         "list": [
@@ -44,6 +45,7 @@
     {
       "name": "customId",
       "type": "string",
+      "label": "${form.customId}",
       "max": 50
     }
   ]
