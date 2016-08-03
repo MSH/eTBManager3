@@ -3,6 +3,7 @@ import { Card } from '../../components/index';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { app } from '../../core/app';
 
+/* eslint no-console: "off" */
 export default class ShowMessage extends React.Component {
 
 	openInfo() {

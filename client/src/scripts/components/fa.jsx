@@ -16,7 +16,7 @@ export default class Fa extends React.Component {
 
 		const style = p.size ? { fontSize: p.size + 'em' } : null;
 
-		return <i className={clazz} style={ style } />;
+		return <i className={clazz} style={style} />;
 //		return <i className={clazz} />;
 	}
 }

@@ -10,9 +10,9 @@ export default class WaitIcon extends React.Component {
 		if (this.props.type === 'page') {
 			return (
 				<div className="cssload-loading center">
-					<i></i>
-					<i></i>
-					<i></i>
+					<i/>
+					<i/>
+					<i/>
 				</div>
 			);
 		}
