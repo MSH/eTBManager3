@@ -34,8 +34,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
         builder.addProfile(SubstanceQueryParams.PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_DISPLAYORDER, "displayOrder");
-        builder.addOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
 
         if (queryParams.isDstResultForm()) {
             builder.addRestriction("dstResultForm = true");

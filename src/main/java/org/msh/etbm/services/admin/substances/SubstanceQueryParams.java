@@ -17,8 +17,6 @@ public class SubstanceQueryParams extends EntityQueryParams {
      * Available sorting options
      */
     public static final String ORDERBY_NAME = "name";
-    public static final String ORDERBY_DISPLAYORDER = "displayOrder";
-
 
     private boolean prevTreatmentForm;
     private boolean dstResultForm;

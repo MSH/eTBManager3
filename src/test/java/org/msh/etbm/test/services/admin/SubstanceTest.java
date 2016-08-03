@@ -39,9 +39,6 @@ public class SubstanceTest extends CommonEntityServiceTests {
         props.put("name", "Rifampicin");
         props.put("shortName", "R");
         props.put("line", MedicineLine.FIRST_LINE);
-        props.put("prevTreatmentForm", true);
-        props.put("dstResultForm", true);
-        props.put("displayOrder", 1);
 
         // unique properties
         List<String> lst = new ArrayList<>();

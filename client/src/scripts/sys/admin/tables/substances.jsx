@@ -36,22 +36,6 @@ const editorDef = {
 			size: { md: 6 }
 		},
 		{
-			property: 'dstResultForm',
-			type: 'yesNo',
-			label: __('Substance.dstResultForm'),
-			size: { newLine: true, md: 4 },
-			required: true,
-			defaultValue: true
-		},
-		{
-			property: 'prevTreatmentForm',
-			type: 'yesNo',
-			label: __('Substance.prevTreatmentForm'),
-			size: { md: 4 },
-			required: true,
-			defaultValue: true
-		},
-		{
 			property: 'active',
 			type: 'yesNo',
 			label: __('EntityState.ACTIVE'),
