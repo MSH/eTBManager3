@@ -25,6 +25,7 @@ public abstract class FieldOptions implements JSGeneratorValueWrapper {
     public abstract boolean isValueInOptions(Object value);
 
     @Override
+    @JsonIgnore
     public Object getValueToGenerateJSCode() {
         return getOptionsValues();
     }
