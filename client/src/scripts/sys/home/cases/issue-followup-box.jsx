@@ -1,6 +1,6 @@
 import React from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Profile, Fa, FormDialog } from '../../../components';
+import { OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
+import { Profile, Fa, FormDialog, AutoheightInput } from '../../../components';
 import moment from 'moment';
 import { app } from '../../../core/app';
 
@@ -11,90 +11,153 @@ const issueEditorDef = {
 			property: 'text',
 			type: 'text',
 			required: true,
-			label: __('global.comments'),
+			label: __('Issue.answer'),
 			size: { md: 12 }
 		}
 	],
-	title: __('cases.issues.new')
+	title: __('Issue.edtanswer')
 };
 
 export default class IssueFollowUpBox extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.addAnswer = this.addAnswer.bind(this);
 		this.editClick = this.editClick.bind(this);
-		this.saveFollowUp = this.saveFollowUp.bind(this);
-		this.closeForm = this.closeForm.bind(this);
-		this.removeFollowUp = this.removeFollowUp.bind(this);
-		this.showRemConfirmMessage = this.showRemConfirmMessage.bind(this);
+		this.modalClose = this.modalClose.bind(this);
+		this.editConfirm = this.editConfirm.bind(this);
+		this.textChange = this.textChange.bind(this);
 
-		this.state = { doc: {}, showForm: false };
+		this.state = { disabled: true, doc: {} };
 	}
 
-	editClick() {
-		this.setState({ doc: this.props.followup, showForm: true });
+	/**
+	 * Called when user adds a new comment
+	 */
+	addAnswer() {
+		const txt = this.refs.input.getText();
+		this.props.onEvent('add', txt);
+		this.refs.input.setText('');
 	}
 
-	saveFollowUp() {
-		console.log('edit issue FU');
-		this.closeForm();
-		return null;
+	/**
+	 * Return a function to be called when user clicks on the edit link
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	editClick(item) {
+		const self = this;
+		return () => {
+			self.setState({ edtitem: item, doc: { text: item.text } });
+		};
 	}
 
-	closeForm() {
-		this.setState({ doc: {}, showForm: false });
+	/**
+	 * Called when user clicks on the close link
+	 * @return {[type]} [description]
+	 */
+	modalClose() {
+		this.setState({ edtitem: null });
 	}
 
-	removeFollowUp() {
-		console.log('remove issue FU');
+	/**
+	 * Called when user confirms the changed text in the dialog box
+	 * @return {[type]} [description]
+	 */
+	editConfirm() {
+		const item = this.state.edtitem;
+		this.props.onEvent('edit', item, this.state.doc.text);
+		this.modalClose();
 	}
 
-	showRemConfirmMessage() {
-		app.messageDlg({
-					title: 'aSDKLÇJASD',
-					message: 'SALÇKDASÇL',
-					style: 'warning',
-					type: 'YesNo'
-				}).then(res =>
-					{
-						if (res === 'yes') {
-							this.removeFollowUp();
-						}
-					});
+	/**
+	 * Return a function to be called when user clicks on the remove link
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
+	removeClick(item) {
+		return () => app.messageDlg({
+							message: __('form.confirm_remove'),
+							style: 'warning',
+							type: 'YesNo'
+						}).then(res =>
+							{
+								if (res === 'yes') {
+									this.props.onEvent('remove', item);
+								}
+							});
+	}
+
+	/**
+	 * Called when the text of the input box is changed. Enable or disable the add button
+	 */
+	textChange() {
+		this.setState({ disabled: !this.refs.input.getText().trim() });
+	}
+
+	followUpsRender(followups) {
+		if (!followups || followups.length === 0) {
+			return null;
+		}
+
+		return (followups.map(followup => (
+			<div className="media" key={followup.id}>
+				<div className="media-left">
+					<Profile type="user" size="small"/>
+				</div>
+				<div className="media-body">
+					<div className="pull-right">
+						<a className="lnk-muted" onClick={this.editClick(followup)}><Fa icon="pencil"/>{__('action.edit')}</a>
+						<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+							<a className="lnk-muted" onClick={this.removeClick(followup)}><Fa icon="remove"/></a>
+						</OverlayTrigger>
+					</div>
+					<div className="text-muted"><b>{followup.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(followup.followupDate).format('lll')}</b></div>
+					<div className="sub-text">{followup.unit.name}</div>
+					{followup.text.split('\n').map((item, index) =>
+						<span key={index}>
+							{item}
+							<br/>
+						</span>
+						)
+					}
+				</div>
+			</div>
+			)));
 	}
 
 	render() {
-		const followup = this.props.followup;
 
-		return (<div>
-					<div className="media-left">
-						<Profile type="user" size="small"/>
-					</div>
-					<div className="media-body">
-						<div className="pull-right">
-							<a className="lnk-muted" onClick={this.editClick}><Fa icon="pencil"/>{__('action.edit')}</a>
-							<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-								<a className="lnk-muted" onClick={this.showRemConfirmMessage}><Fa icon="remove"/></a>
-							</OverlayTrigger>
+		const followups = this.props.issue.followups;
+
+		return (
+				<div>
+
+					{
+						this.followUpsRender(followups)
+					}
+
+					{
+						this.props.issue.closed === false &&
+						<div className="mtop">
+							<AutoheightInput ref="input" onChange={this.textChange} />
+							<Button bsStyle="primary"
+								disabled={this.state.disabled}
+								onClick={this.addAnswer}
+								bsSize="small"
+								style={{ marginTop: '6px' }}>
+									{__('Issue.answer')}
+							</Button>
 						</div>
-						<div className="text-muted"><b>{followup.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(followup.followupDate).format('lll')}</b></div>
-						<div className="sub-text">{followup.unit.name}</div>
-						{followup.text.split('\n').map((item, index) =>
-							<span key={index}>
-								{item}
-								<br/>
-							</span>
-							)
-						}
-					</div>
+					}
 
 					<FormDialog
 						schema={issueEditorDef}
 						doc={this.state.doc}
-						onCancel={this.closeForm}
-						onConfirm={this.saveFollowUp}
+						onCancel={this.modalClose}
+						onConfirm={this.editConfirm}
 						wrapType={'modal'}
-						modalShow={this.state.showForm} />
+						modalShow={!!this.state.edtitem} />
 
 				</div>
 				);
@@ -103,5 +166,9 @@ export default class IssueFollowUpBox extends React.Component {
 
 
 IssueFollowUpBox.propTypes = {
-	followup: React.PropTypes.object.isRequired
+	issue: React.PropTypes.object.isRequired,
+	/**
+	 * Possible events: add, edit, remove
+	 */
+	onEvent: React.PropTypes.func
 };
