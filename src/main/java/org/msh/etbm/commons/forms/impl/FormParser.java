@@ -58,6 +58,8 @@ public class FormParser {
 
         res.setValidators(frm.getValidators());
 
+        generateControlsId(res.getControls(), null);
+
         return res;
     }
 
@@ -202,5 +204,33 @@ public class FormParser {
         }
 
         throw new FormException("Invalid property " + value);
+    }
+
+
+    /**
+     * Automatically generate an ID for the controls if
+     * @param controls
+     * @param parent
+     */
+    private void generateControlsId(List<Control> controls, String parent) {
+        int index = 0;
+        for (Control control: controls) {
+            if (control.getId() == null || control.getId().trim().isEmpty()) {
+                String ctrlId = "ctrl" + index;
+
+                if (parent != null) {
+                    ctrlId = parent + "." + ctrlId;
+                }
+
+                control.setId(ctrlId);
+            }
+
+            // generate the ID for the child controls
+            if (control.getControls() != null) {
+                generateControlsId(control.getControls(), control.getId());
+            }
+
+            index++;
+        }
     }
 }

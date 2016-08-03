@@ -1,9 +1,7 @@
 package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.db.entities.CaseContact;
 import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.contacts.CaseContactFormData;
 import org.msh.etbm.services.cases.contacts.CaseContactQueryParams;

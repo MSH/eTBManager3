@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.FieldOptions;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Validator;
+import org.msh.etbm.commons.models.data.options.FieldOptions;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public abstract class Field {
     /**
      * Indicate if the field is required or not
      */
-    private JSFuncValue<Boolean> required = new JSFuncValue<>(false);
+    private JSFuncValue<Boolean> required;
 
     /**
      * The description label of the field

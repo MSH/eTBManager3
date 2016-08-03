@@ -1,9 +1,9 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import FormUtils from '../form-utils';
 import { SelectionBox } from '../../components/index';
 import { isPromise } from '../../commons/utils';
+
 
 /**
  * Used in the Form library. Provide input data of string and number types

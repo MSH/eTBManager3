@@ -18,7 +18,8 @@ export default class ShowMessage extends React.Component {
 
 		server.get('/api/test/form')
 		.then(res => {
-			self.setState({ fetching: false });
+			console.log(res);
+			self.setState({ fetching: false, data: res });
 			self.testServerCode(res.schema);
 		});
 	}

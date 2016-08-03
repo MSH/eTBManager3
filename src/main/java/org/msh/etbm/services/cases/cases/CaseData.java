@@ -5,14 +5,9 @@ import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.ValidationState;
-import org.msh.etbm.services.admin.AddressData;
-import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.comments.CaseCommentData;
-import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**

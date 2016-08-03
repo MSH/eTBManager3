@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.models.data.FieldListOptions;
+import org.msh.etbm.commons.models.data.options.FieldListOptions;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
