@@ -79,7 +79,7 @@ export default class CaseIssues extends React.Component {
 
 						})
 						.catch(() => {
-							newIssue.id = 'error-' + this.props.tbcase.comments.length;
+							newIssue.id = 'error-' + this.props.tbcase.issues.length;
 							this.forceUpdate();
 							this.modalClose();
 						});

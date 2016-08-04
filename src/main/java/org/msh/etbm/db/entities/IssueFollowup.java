@@ -37,7 +37,7 @@ public class IssueFollowup extends Synchronizable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
     @NotNull
-    private Tbunit unit;
+    private Unit unit;
 
 
     /**
@@ -99,14 +99,14 @@ public class IssueFollowup extends Synchronizable {
     /**
      * @return the unit
      */
-    public Tbunit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
     /**
      * @param unit the unit to set
      */
-    public void setUnit(Tbunit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }

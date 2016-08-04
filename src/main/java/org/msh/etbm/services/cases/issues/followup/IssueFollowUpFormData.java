@@ -1,11 +1,5 @@
 package org.msh.etbm.services.cases.issues.followup;
 
-import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.services.cases.CaseEntityFormData;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,4 +7,23 @@ import java.util.UUID;
  */
 public class IssueFollowUpFormData {
 
+    private UUID issueId;
+
+    private String text;
+
+    public UUID getIssueId() {
+        return issueId;
+    }
+
+    public void setIssueId(UUID issueId) {
+        this.issueId = issueId;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
