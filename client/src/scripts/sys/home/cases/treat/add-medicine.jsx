@@ -71,7 +71,6 @@ export default class AddMedicine extends React.Component {
 	 * @return {[type]}     [description]
 	 */
 	confirm(doc) {
-		console.log(doc);
 		this.props.onClose(doc);
 	}
 
@@ -80,7 +79,6 @@ export default class AddMedicine extends React.Component {
 	}
 
 	render() {
-		console.log('rendering...');
 		const doc = this.props.doc;
 		if (!doc) {
 			return null;

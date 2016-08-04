@@ -70,8 +70,6 @@ export default class CaseTreatment extends React.Component {
 			return <WaitIcon type="card" />;
 		}
 
-		console.log(data);
-
 		const optionsBtn = (
 			<DropdownButton className="lnk-muted" bsStyle="link"
 				title={<Fa icon="cog" />} id="ttmenu" pullRight
@@ -101,8 +99,7 @@ export default class CaseTreatment extends React.Component {
 					<TreatTimeline treatment={data} />
 				</Card>
 
-				<Card title={__('cases.details.treatment.medintake')}>
-				</Card>
+				<Card title={__('cases.details.treatment.medintake')} />
 				{
 					this.state.show === 'add-med' && <AddMedicine doc={{}} onClose={this.closeDlg}/>
 				}

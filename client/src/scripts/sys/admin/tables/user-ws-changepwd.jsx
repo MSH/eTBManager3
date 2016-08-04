@@ -56,13 +56,13 @@ export default class UserWsChangePwd extends React.Component {
 				return Promise.reject(res.errors);
 			}
 			self.props.onClose(__('changepwd.success1'));
-			self.setState({doc: {}});
+			self.setState({ doc: {} });
 			return true;
 		});
 	}
 
 	onCancel() {
-		this.setState({doc: {}});
+		this.setState({ doc: {} });
 		this.props.onClose(null);
 	}
 
