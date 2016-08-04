@@ -97,6 +97,8 @@ export default class IssueCard extends React.Component {
 	}
 
 	render() {
+		const issue = this.props.issue;
+
 		return (<Card>
 					<div className="media">
 						<div className="media-left">
@@ -104,25 +106,39 @@ export default class IssueCard extends React.Component {
 						</div>
 						<div className="media-body">
 							<div className="pull-right">
-								{
-									this.props.issue.closed ?
-										<a className="lnk-muted" onClick={this.reopenIssueClick}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
-										<a className="lnk-muted" onClick={this.closeIssueClick}><Fa icon="power-off"/>{__('action.close')}</a>
-								}
+								{issue.id.indexOf('fakeid') < 0 && issue.id.indexOf('error') < 0 &&
+										<span>
+											{
+												issue.closed ?
+													<a className="lnk-muted" onClick={this.reopenIssueClick}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
+													<a className="lnk-muted" onClick={this.closeIssueClick}><Fa icon="power-off"/>{__('action.close')}</a>
+											}
 
-								<a className="lnk-muted" onClick={this.editIssueClick}><Fa icon="pencil"/>{__('action.edit')}</a>
-								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-									<a className="lnk-muted" onClick={this.confirmRemove}><Fa icon="trash-o"/></a>
-								</OverlayTrigger>
+											<a className="lnk-muted" onClick={this.editIssueClick}><Fa icon="pencil"/>{__('action.edit')}</a>
+											<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+												<a className="lnk-muted" onClick={this.confirmRemove}><Fa icon="trash-o"/></a>
+											</OverlayTrigger>
+										</span>
+								}
+								{issue.id.indexOf('fakeid') >= 0 &&
+									<span className="lnk-muted">
+										{'Saving...'}
+									</span>
+								}
+								{issue.id.indexOf('error') >= 0 &&
+									<span className="bs-error">
+										{'Error - Comment not saved'}
+									</span>
+								}
 							</div>
 
-							{this.props.issue.closed ? <span className="status-box bg-default2 mright">{__('Issue.closed')}</span> : <span className="status-box bg-danger2 mright">{__('Issue.open')}</span>}
+							{issue.closed ? <span className="status-box bg-default2 mright">{__('Issue.closed')}</span> : <span className="status-box bg-danger2 mright">{__('Issue.open')}</span>}
 
-							<div className="inlineb"><b>{this.props.issue.title}</b></div>
-							<div className="text-muted"><b>{this.props.issue.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(this.props.issue.creationDate).format('lll')}</b></div>
-							<div className="sub-text mbottom">{this.props.issue.unit.name}</div>
+							<div className="inlineb"><b>{issue.title}</b></div>
+							<div className="text-muted"><b>{issue.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(issue.creationDate).format('lll')}</b></div>
+							<div className="sub-text mbottom">{issue.unit.name}</div>
 
-							{this.props.issue.description.split('\n').map((item, i) =>
+							{issue.description.split('\n').map((item, i) =>
 								<span key={i}>
 									{item}
 									<br/>
@@ -130,7 +146,7 @@ export default class IssueCard extends React.Component {
 								)
 							}
 
-							<IssueFollowUpsBox issue={this.props.issue} onEvent={this.onFollowupEvent} />
+							<IssueFollowUpsBox issue={issue} onEvent={this.onFollowupEvent} />
 
 						</div>
 					</div>

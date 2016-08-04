@@ -44,7 +44,7 @@ public class Issue extends CaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
     @NotNull
-    private Tbunit unit;
+    private Unit unit;
 
     /**
      * @return the closed
@@ -147,14 +147,14 @@ public class Issue extends CaseEntity {
     /**
      * @return the unit
      */
-    public Tbunit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
     /**
      * @param unit the unit to set
      */
-    public void setUnit(Tbunit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }
