@@ -7132,6 +7132,9 @@ button.close {
 .mtop {
   margin-top: 10px;
 }
+.mbottom {
+  margin-bottom: 10px;
+}
 .mright {
   margin-right: 10px;
 }
@@ -7521,6 +7524,17 @@ button.close {
 }
 .sc-overflow {
   overflow: scroll;
+}
+.bg-danger2 {
+  color: #ffffff;
+  background-color: #a94442;
+}
+.bg-default2 {
+  color: #000000;
+  background-color: #eceeef;
+}
+.clearb {
+  clear: both;
 }
 @font-face {
   font-family: 'OpenSans';

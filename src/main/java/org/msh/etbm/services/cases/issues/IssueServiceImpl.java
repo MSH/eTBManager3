@@ -13,7 +13,7 @@ import java.util.Date;
  * Created by Mauricio on 03/08/2016.
  */
 @Service
-public class IssueServiceImpl extends CaseEntityServiceImpl<Issue, EntityQueryParams> implements IssueService{
+public class IssueServiceImpl extends CaseEntityServiceImpl<Issue, EntityQueryParams> implements IssueService {
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_CASE_ISSUE;
