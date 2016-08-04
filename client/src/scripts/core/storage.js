@@ -12,6 +12,7 @@ export default class Storage {
 		this.state = inistate || {};
 		this.listeners = [];
 		if (__DEV__) {
+			/* eslint no-console: "off" */
 			console.log('storage', inistate);
 		}
 	}

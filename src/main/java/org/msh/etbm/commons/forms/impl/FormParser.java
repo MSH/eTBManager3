@@ -9,7 +9,10 @@ import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.FormJson;
 import org.msh.etbm.commons.forms.data.MultipleDataModel;
 import org.msh.etbm.commons.forms.data.SingleDataModel;
+import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.options.FieldOptions;
+import org.msh.etbm.commons.models.data.options.FormRequestOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
@@ -158,6 +161,10 @@ public class FormParser {
             return null;
         }
 
+        if (propType == FieldOptions.class) {
+            return convertToFieldOptions(value);
+        }
+
         // check if property is an instance of JSFuncValue
         if (propType == JSFuncValue.class) {
             Class targetType = ObjectUtils.getPropertyGenericType(bean.getClass(), propName, 0);
@@ -170,6 +177,23 @@ public class FormParser {
         }
 
         return value;
+    }
+
+    /**
+     * Convert a value to an instance of {@link FieldOptions}
+     * @param value
+     * @return
+     */
+    private FieldOptions convertToFieldOptions(Object value) {
+        if (value == null) {
+            return null;
+        }
+
+        if (value instanceof String) {
+            return new FormRequestOptions((String)value);
+        }
+
+        throw new ModelException("Not implemented yet list of options for type " + value.getClass());
     }
 
     private Object convertFromMap(Map<String, Object> props, Class destType) {

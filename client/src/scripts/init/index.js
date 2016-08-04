@@ -15,8 +15,8 @@ export function init() {
 	}
 
 	return new Promise((resolve) => {
-		require.ensure(['./home.jsx'], function(require) {
-			const Home = require('./home.jsx');
+		require.ensure(['./home'], function(require) {
+			const Home = require('./home');
 			view = Home;
 			resolve(Home);
 		});

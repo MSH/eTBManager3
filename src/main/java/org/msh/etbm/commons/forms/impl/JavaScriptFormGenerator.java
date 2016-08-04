@@ -238,12 +238,13 @@ public class JavaScriptFormGenerator {
      */
     private String convertValue(Object val) {
         Object value = val;
-        if (value == null) {
-            return null;
-        }
 
         if (value instanceof JSGeneratorValueWrapper) {
             value = ((JSGeneratorValueWrapper)value).getValueToGenerateJSCode();
+        }
+
+        if (value == null) {
+            return null;
         }
 
         if (value instanceof String) {
