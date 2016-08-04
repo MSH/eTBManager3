@@ -16,7 +16,7 @@ import java.util.Date;
  * Created by Mauricio on 04/08/2016.
  */
 @Service
-public class IssueFollowUpServiceImpl extends EntityServiceImpl<IssueFollowup, EntityQueryParams> implements IssueFollowUpService{
+public class IssueFollowUpServiceImpl extends EntityServiceImpl<IssueFollowup, EntityQueryParams> implements IssueFollowUpService {
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_CASE_ISSUEFOLLOWUP;
