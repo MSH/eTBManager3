@@ -27,15 +27,17 @@ public class IssueFollowUpServiceImpl extends EntityServiceImpl<IssueFollowup, E
         IssueFollowup entity = context.getEntity();
         UserWorkspace userw = getEntityManager().find(UserWorkspace.class, userRequestService.getUserSession().getUserWorkspaceId());
 
+        if (entity.getId() == null || entity.getFollowupDate() == null) {
+            entity.setFollowupDate(new Date());
+        }
+
         entity.setUser(userw.getUser());
         entity.setUnit(userw.getUnit());
-        entity.setFollowupDate(new Date());
     }
 
     @Override
     protected void afterSave(EntityServiceContext<IssueFollowup> context, ServiceResult res) {
         Issue issue = context.getEntity().getIssue();
-        issue.setLastAnswerDate(context.getEntity().getFollowupDate());
         getEntityManager().persist(issue);
         getEntityManager().flush();
     }

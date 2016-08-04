@@ -117,12 +117,13 @@ export default class IssueFollowUpsBox extends React.Component {
 						}
 						{followup.id.indexOf('fakeid') >= 0 &&
 							<span className="lnk-muted">
-								{'Saving...'}
+								<Fa icon="circle-o-notch" spin/>
+								{__('global.saving')}
 							</span>
 						}
 						{followup.id.indexOf('error') >= 0 &&
 							<span className="bs-error">
-								{'Error - Comment not saved'}
+								{__('global.errorsaving')}
 							</span>
 						}
 					</div>

@@ -24,8 +24,11 @@ public class IssueServiceImpl extends CaseEntityServiceImpl<Issue, EntityQueryPa
         Issue entity = context.getEntity();
         UserWorkspace userw = getEntityManager().find(UserWorkspace.class, userRequestService.getUserSession().getUserWorkspaceId());
 
+        if (entity.getId() == null || entity.getCreationDate() == null) {
+            entity.setCreationDate(new Date());
+        }
+
         entity.setUser(userw.getUser());
         entity.setUnit(userw.getUnit());
-        entity.setCreationDate(new Date());
     }
 }
