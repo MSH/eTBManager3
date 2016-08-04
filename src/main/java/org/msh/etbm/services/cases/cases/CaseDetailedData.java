@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.date.Period;
+import org.msh.etbm.db.entities.Issue;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
@@ -10,6 +11,7 @@ import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.contacts.CaseContactData;
+import org.msh.etbm.services.cases.issues.IssueData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -70,6 +72,8 @@ public class CaseDetailedData {
     private List<CaseCommentData> comments;
 
     private List<CaseContactData> contacts;
+
+    private List<IssueData> issues;
 
     public UUID getId() {
         return id;
@@ -229,5 +233,13 @@ public class CaseDetailedData {
 
     public void setContacts(List<CaseContactData> contacts) {
         this.contacts = contacts;
+    }
+
+    public List<IssueData> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<IssueData> issues) {
+        this.issues = issues;
     }
 }

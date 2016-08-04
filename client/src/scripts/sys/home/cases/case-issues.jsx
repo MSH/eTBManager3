@@ -3,6 +3,9 @@ import { Alert, Button } from 'react-bootstrap';
 import { Card, Fa, FormDialog } from '../../../components';
 import Issues from './issues';
 import { app } from '../../../core/app';
+import CRUD from '../../../commons/crud';
+
+const crud = new CRUD('issue');
 
 // definition of the form fields to edit tags
 const editorDef = {
@@ -25,84 +28,6 @@ const editorDef = {
 	],
 	title: __('cases.issues.new')
 };
-
-const mockIssues = [
-	{
-		id: '12345-2',
-		title: 'Thia case is no TB',
-		description: 'patient didn\'t receive any attention from the primary health care service and now he is complaining about the treatment.\n' +
-		'Please ask recommendation about what to do.\n\nRegards\nTreatment health care',
-		user: {
-			id: '12345-22',
-			name: 'Nicko McBrain'
-		},
-		unit: {
-			id: '12345-22',
-			name: 'Treatment health care'
-		},
-		creationDate: new Date(2015, 2, 3, 12, 35, 55),
-		lastAnswerDate: new Date(2015, 2, 3, 12, 35, 55),
-		closed: false
-	},
-	{
-		id: '12345-1',
-		title: 'Missing parent name',
-		description: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-		user: {
-			id: '12345-22',
-			name: 'Dave Murray'
-		},
-		unit: {
-			id: '12345-22',
-			name: 'Hospital do pulmão'
-		},
-		closed: true,
-		creationDate: new Date(2015, 1, 1, 5, 20, 5),
-		lastAnswerDate: new Date(2015, 2, 3, 12, 35, 55),
-		followups: [
-			{
-				id: '54333-1',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				unit: {
-					id: '12345-22',
-					name: 'UNIT2asdasd'
-				},
-				followupDate: new Date(2015, 1, 1, 5, 20, 5)
-			},
-			{
-				id: '54333-2',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				unit: {
-					id: '12345-22',
-					name: 'UNIT2asdasd'
-				},
-				followupDate: new Date(2015, 1, 1, 5, 20, 5)
-			},
-			{
-				id: '54333-3',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				unit: {
-					id: '12345-22',
-					name: 'UNIT2asdasd'
-				},
-				followupDate: new Date(2015, 1, 1, 5, 20, 5)
-			}
-		]
-	}
-];
-
 
 export default class CaseIssues extends React.Component {
 
@@ -129,6 +54,7 @@ export default class CaseIssues extends React.Component {
 		}
 
 		// add the new comment on UI
+		newIssue.tbcaseId = this.props.tbcase.id;
 		newIssue.id = 'fakeid-' + this.props.tbcase.issues.length;
 		newIssue.user = {
 							id: app.getState().session.userId,
@@ -144,8 +70,23 @@ export default class CaseIssues extends React.Component {
 		this.props.tbcase.issues.push(newIssue);
 		this.forceUpdate();
 
-		const self = this;
-		return Promise.resolve([]).then(() => self.modalClose());
+		// create the new issue on database
+		const prom = crud.create(newIssue)
+						.then(id => {
+							// updates new comment id, so edit and delete should work.
+							newIssue.id = id;
+							this.forceUpdate();
+
+						})
+						.catch(() => {
+							newIssue.id = 'error-' + this.props.tbcase.comments.length;
+							this.forceUpdate();
+							this.modalClose();
+						});
+
+		this.modalClose();
+
+		return prom;
 	}
 
 	onIssueEvent(evt, issue, doc) {
@@ -164,6 +105,9 @@ export default class CaseIssues extends React.Component {
 		const index = lst.indexOf(issue);
 		this.props.tbcase.issues.splice(index, 1);
 		this.forceUpdate();
+
+		// delete the new comment on database
+		crud.delete(issue.id);
 	}
 
 	editIssue(issue, doc) {
@@ -171,18 +115,24 @@ export default class CaseIssues extends React.Component {
 		issue.title = doc.title;
 		issue.description = doc.description;
 		this.forceUpdate();
+
+		crud.update(issue.id, doc);
 	}
 
 	closeIssue(issue) {
 		// refresh the comment on UI
 		issue.closed = true;
 		this.forceUpdate();
+
+		crud.update(issue.id, issue);
 	}
 
 	reopenIssue(issue) {
 		// refresh the comment on UI
 		issue.closed = false;
 		this.forceUpdate();
+
+		crud.update(issue.id, issue);
 	}
 
 	modalOpen() {
@@ -194,7 +144,7 @@ export default class CaseIssues extends React.Component {
 	}
 
 	render() {
-		const issues = mockIssues;
+		const issues = this.props.tbcase.issues;
 
 		// choose a message to dsplay at the top
 		const openIssues = issues ? issues.find(issue => !issue.closed) : null;

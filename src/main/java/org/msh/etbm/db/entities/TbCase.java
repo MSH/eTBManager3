@@ -269,6 +269,10 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
 
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<Issue> issues = new ArrayList<>();
+
     /**
      * Tags of this case
      */
@@ -1066,6 +1070,13 @@ public class TbCase extends WorkspaceEntity {
         this.tags = tags;
     }
 
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
 
     /**
      * @return the regimenIni
