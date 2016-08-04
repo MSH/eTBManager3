@@ -45,6 +45,13 @@
       "type": "string",
       "visible": { "function": "this.gender === 'MALE'" },
       "size": { "md": 6 }
+    },
+    {
+      "property": "medicine",
+      "label": "${Medicine}",
+      "type": "select",
+      "options": "medicines",
+      "size": { "md": 12 }
     }
   ],
 

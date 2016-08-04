@@ -16,6 +16,14 @@ public class FormRequestOptions extends FieldOptions {
      */
     private String name;
 
+    public FormRequestOptions() {
+        super();
+    }
+
+    public FormRequestOptions(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

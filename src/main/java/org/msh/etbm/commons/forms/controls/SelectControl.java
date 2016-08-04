@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.forms.controls;
 
 import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.models.data.fields.AnyField;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.options.FieldOptions;
 import org.msh.etbm.commons.models.data.options.FormRequestOptions;
@@ -14,7 +15,7 @@ public class SelectControl extends ValuedControl {
 
     @Override
     protected Field createField() {
-        return null;
+        return new AnyField();
     }
 
     @Override

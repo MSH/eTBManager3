@@ -38,7 +38,7 @@ export default class AsyncButton extends React.Component {
 
         return (
             <Button {...btnProps}>
-                {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw"></i>}
+                {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw" />}
                 {!fetching && faIcon ? <i className={'fa fa-fw fa-' + faIcon}/> : null}
                 {fetching && fetchMsg ? fetchMsg : this.props.children}
             </Button>

@@ -18,7 +18,7 @@ export default class Popup extends React.Component {
 		this._remHandler();
 	}
 
-	_togglePopup(evt) {
+	_togglePopup() {
 		const open = !this.state.show;
 
 		if (open) {
