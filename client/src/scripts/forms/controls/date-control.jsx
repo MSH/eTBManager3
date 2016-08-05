@@ -48,12 +48,17 @@ export default class DateControl extends React.Component {
 
 		const label = FormUtils.labelRender(sc.label, sc.required);
 
+		let value = this.props.value;
+		if (isString(value)) {
+			value = moment(this.props.value)._d;
+		}
+
 		return	(
 			<DatePicker ref="input"
 				label={label}
 				onChange={this.onChange}
 				help={this.props.errors}
-				value={this.props.value}
+				value={value}
 				bsStyle={this.props.errors ? 'error' : null} />
 			);
 	}
