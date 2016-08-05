@@ -4,6 +4,9 @@ import { Profile, Fa, Card } from '../../../components';
 import moment from 'moment';
 import { app } from '../../../core/app';
 import IssueFollowUpsBox from './issue-followups-box';
+import CRUD from '../../../commons/crud';
+
+const crud = new CRUD('issuefollowup');
 
 export default class IssueCard extends React.Component {
 
@@ -54,6 +57,20 @@ export default class IssueCard extends React.Component {
 
 		this.props.issue.followups.push(newAnswer);
 		this.forceUpdate();
+
+		// create the new issue on database
+		const prom = crud.create(newAnswer)
+						.then(id => {
+							// updates new comment id, so edit and delete should work.
+							newAnswer.id = id;
+							this.forceUpdate();
+
+						})
+						.catch(() => {
+							newAnswer.id = 'error-' + this.props.issue.followups.length;
+							this.forceUpdate();
+						});
+		return prom;
 	}
 
 	removeAnswer(item) {
@@ -62,12 +79,17 @@ export default class IssueCard extends React.Component {
 		const index = lst.indexOf(item);
 		this.props.issue.followups.splice(index, 1);
 		this.forceUpdate();
+
+		// delete the new comment on database
+		crud.delete(item.id);
 	}
 
 	editAnswer(item, txt) {
 		// refresh the comment on UI
 		item.text = txt;
 		this.forceUpdate();
+
+		crud.update(item.id, item);
 	}
 
 	editIssueClick() {
@@ -122,12 +144,13 @@ export default class IssueCard extends React.Component {
 								}
 								{issue.id.indexOf('fakeid') >= 0 &&
 									<span className="lnk-muted">
-										{'Saving...'}
+										<Fa icon="circle-o-notch" spin/>
+										{__('global.saving')}
 									</span>
 								}
 								{issue.id.indexOf('error') >= 0 &&
 									<span className="bs-error">
-										{'Error - Comment not saved'}
+										{__('global.errorsaving')}
 									</span>
 								}
 							</div>

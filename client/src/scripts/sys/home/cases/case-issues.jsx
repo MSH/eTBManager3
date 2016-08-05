@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert, Button, Row, Col } from 'react-bootstrap';
 import { Card, Fa, FormDialog } from '../../../components';
 import Issues from './issues';
 import { app } from '../../../core/app';
@@ -79,7 +79,7 @@ export default class CaseIssues extends React.Component {
 
 						})
 						.catch(() => {
-							newIssue.id = 'error-' + this.props.tbcase.comments.length;
+							newIssue.id = 'error-' + this.props.tbcase.issues.length;
 							this.forceUpdate();
 							this.modalClose();
 						});
@@ -149,17 +149,20 @@ export default class CaseIssues extends React.Component {
 		// choose a message to dsplay at the top
 		const openIssues = issues ? issues.find(issue => !issue.closed) : null;
 		const header = openIssues ?
-							<h4 className="inlineb"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</h4> :
-							<h4 className="inlineb"><Fa icon="check" />{__('Issue.noopenissuesmg')}</h4>;
+							<Alert bsStyle="warning" className="no-margin-bottom"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</Alert> :
+							<Alert bsStyle="primary" className="no-margin-bottom"><Fa icon="check" />{__('Issue.noopenissuesmg')}</Alert>;
 
 		return (
 			<div>
 				<Card>
-					<div>
-						{header}
-						<Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
-						<div className="clearb"/>
-					</div>
+					<Row>
+						<Col md={10}>
+							{header}
+						</Col>
+						<Col md={2}>
+							<Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
+						</Col>
+					</Row>
 				</Card>
 
 				{

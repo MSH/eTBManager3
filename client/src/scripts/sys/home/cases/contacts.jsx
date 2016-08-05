@@ -90,7 +90,7 @@ export default class Contacts extends React.Component {
 					size: { sm: 12 }
 				}
 			],
-			title: doc => doc && doc.id ? __('admin.ageranges.edt') : __('admin.ageranges.new')
+			title: doc => doc && doc.id ? __('case.casecontact.edt') : __('case.casecontact.new')
 		};
 
 		this.state = { editorSchema: editorSchema };

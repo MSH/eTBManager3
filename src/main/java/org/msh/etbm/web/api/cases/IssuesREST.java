@@ -25,18 +25,21 @@ public class IssuesREST {
     IssueService service;
 
     @RequestMapping(value = "/issue", method = RequestMethod.POST)
+    @Authenticated(permissions = {Permissions.CASES_ISSUES, Permissions.CASES_NEW_ISSUE})
     public StandardResult create(@Valid @NotNull @RequestBody IssueFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = {Permissions.CASES_ISSUES})
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody IssueFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/issue/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = {Permissions.CASES_ISSUES, Permissions.CASES_CLOSEDEL_ISSUE})
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);

@@ -29,9 +29,6 @@ public class Issue extends CaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastAnswerDate;
-
     @Column(length = 200)
     private String title;
 
@@ -86,20 +83,6 @@ public class Issue extends CaseEntity {
      */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * @return the lastAnswerDate
-     */
-    public Date getLastAnswerDate() {
-        return lastAnswerDate;
-    }
-
-    /**
-     * @param lastAnswerDate the answerDate to set
-     */
-    public void setLastAnswerDate(Date lastAnswerDate) {
-        this.lastAnswerDate = lastAnswerDate;
     }
 
     /**

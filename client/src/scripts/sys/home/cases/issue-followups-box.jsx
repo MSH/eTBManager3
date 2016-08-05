@@ -107,10 +107,25 @@ export default class IssueFollowUpsBox extends React.Component {
 				</div>
 				<div className="media-body">
 					<div className="pull-right">
-						<a className="lnk-muted" onClick={this.editClick(followup)}><Fa icon="pencil"/>{__('action.edit')}</a>
-						<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-							<a className="lnk-muted" onClick={this.removeClick(followup)}><Fa icon="remove"/></a>
-						</OverlayTrigger>
+						{followup.id.indexOf('fakeid') < 0 && followup.id.indexOf('error') < 0 &&
+							<span>
+								<a className="lnk-muted" onClick={this.editClick(followup)}><Fa icon="pencil"/>{__('action.edit')}</a>
+								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+									<a className="lnk-muted" onClick={this.removeClick(followup)}><Fa icon="remove"/></a>
+								</OverlayTrigger>
+							</span>
+						}
+						{followup.id.indexOf('fakeid') >= 0 &&
+							<span className="lnk-muted">
+								<Fa icon="circle-o-notch" spin/>
+								{__('global.saving')}
+							</span>
+						}
+						{followup.id.indexOf('error') >= 0 &&
+							<span className="bs-error">
+								{__('global.errorsaving')}
+							</span>
+						}
 					</div>
 					<div className="text-muted"><b>{followup.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(followup.followupDate).format('lll')}</b></div>
 					<div className="sub-text">{followup.unit.name}</div>

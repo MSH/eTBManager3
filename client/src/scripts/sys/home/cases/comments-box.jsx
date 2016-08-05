@@ -156,12 +156,13 @@ export default class CommentsBox extends React.Component {
 									}
 									{it.id.indexOf('fakeid') >= 0 &&
 										<span className="lnk-muted">
-											{'Saving...'}
+											<Fa icon="circle-o-notch" spin/>
+											{__('global.saving')}
 										</span>
 									}
 									{it.id.indexOf('error') >= 0 &&
 										<span className="bs-error">
-											{'Error - Comment not saved'}
+											{__('global.errorsaving')}
 										</span>
 									}
 									</div>

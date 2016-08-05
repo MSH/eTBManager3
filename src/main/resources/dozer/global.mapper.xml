@@ -87,4 +87,14 @@
             <b>language</b>
         </field>
     </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.issues.followup.IssueFollowUpFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.IssueFollowup</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>issueId</a>
+            <b>issue</b>
+        </field>
+    </mapping>
 </mappings>
