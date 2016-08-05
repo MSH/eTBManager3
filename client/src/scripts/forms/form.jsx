@@ -184,7 +184,7 @@ export default class Form extends React.Component {
 	applyRequests() {
 		// check if there is any request to be dispatched
 		if (!this.reqs || this.reqs.length === 0) {
-			if (!this.state.resources) {
+			if (!this.state.resources && !this.props.resources) {
 				this.setState({ resources: [] });
 			}
 			return Promise.resolve([]);

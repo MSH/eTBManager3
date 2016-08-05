@@ -32,7 +32,7 @@ export default class Sidebar extends React.Component {
                         count++;
 
 						if (item.separator) {
-							return <hr key={count}/>;
+							return <NavItem disabled key={count}><hr/></NavItem>;
 						}
 
 						if (item.icon) {
