@@ -53,6 +53,9 @@ public class FormService {
         resp.setSchema(code);
         resp.setDoc(doc);
 
+        Map<String, Object> resources = generateResources(form, doc);
+        resp.setResources(resources);
+
         return resp;
     }
 

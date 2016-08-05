@@ -12,7 +12,7 @@ export default class ShowMessage extends React.Component {
 	}
 
 	click() {
-		this.setState({ fetching: true, code: null });
+		this.setState({ fetching: true, code: null, schema: null });
 
 		const self = this;
 
@@ -47,7 +47,7 @@ export default class ShowMessage extends React.Component {
 				</ButtonToolbar>
 				{
 					schema &&
-					<FormDialog schema={schema} doc={doc} />
+					<FormDialog schema={schema} doc={doc} resources={this.state.data.resources} />
 				}
 			</Card>
 			);

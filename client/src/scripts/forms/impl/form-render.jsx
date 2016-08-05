@@ -12,7 +12,8 @@ import { arrangeGrid } from '../../commons/grid-utils';
  * @return {React.Component} The rendered form content
  */
 export default function formRender(form) {
-	if (!form.state.resources) {
+	const resources = form.state.resources || form.props.resources;
+	if (!resources) {
 		return <WaitIcon type="card" />;
 	}
 
@@ -36,7 +37,7 @@ export default function formRender(form) {
 		const compErrors = snapshot.property ? propertyErrors(snapshot.property, errors, handledErrors) : null;
 		const value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
 
-		const comp = createElement(form, item, value, compErrors);
+		const comp = createElement(form, item, value, compErrors, resources);
 
 		const size = snapshot.size ? snapshot.size : { sm: 12 };
 		return { size: size, content: comp };
@@ -69,10 +70,10 @@ export default function formRender(form) {
  * @param  {[type]} errors [description]
  * @return {[type]}        [description]
  */
-function createElement(form, item, value, errors) {
+function createElement(form, item, value, errors, resources) {
 	const snapshot = item.snapshot;
 	// get any resource that came from the object
-	const res = form.state.resources[snapshot.id];
+	const res = resources[snapshot.id];
 
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
