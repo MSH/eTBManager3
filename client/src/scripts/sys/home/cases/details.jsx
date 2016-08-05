@@ -76,6 +76,7 @@ export default class Details extends React.Component {
 				});
 			}
 			const data = Object.assign({}, mockTbCase, { contacts: contacts }, tbcase);
+			data.followups = ['notloaded'];
 
 			self.setState({
 				tbcase: data

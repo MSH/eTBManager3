@@ -27,7 +27,9 @@ export default class CaseExams extends React.Component {
 	}
 
 	componentWillMount() {
-		this.refreshFollowups();
+		if (this.props.tbcase.followups[0] === 'notloaded') {
+			this.refreshFollowups();
+		}
 	}
 
 	refreshFollowups(afterRefresh) {
@@ -36,10 +38,14 @@ export default class CaseExams extends React.Component {
 
 		return server.get('/api/cases/case/followups/' + id)
 				.then(res => {
-					self.setState({ data: res });
+					self.props.tbcase.followups.splice(0, self.props.tbcase.followups.length);
+					res.list.map((followup) => self.props.tbcase.followups.push(followup));
+
 					if (afterRefresh) {
 						afterRefresh();
 					}
+
+					this.forceUpdate();
 				});
 	}
 
@@ -156,16 +162,16 @@ export default class CaseExams extends React.Component {
 	 * @return {[type]}        [description]
 	 */
 	contentRender() {
-		const data = this.state.data;
+		const data = this.props.tbcase.followups;
 
-		if (!data || !data.list || data.list.length < 1) {
+		if (!data || data.length < 1) {
 			return <Alert bsStyle="warning">{'No result found'}</Alert>;
 		}
 
 		return (
 			<div>
 			{
-				data.list.map((item) => (
+				data.map((item) => (
 					<div key={item.data.id}>
 						{this.isSelected(item) && <FollowupDisplay followup={item} onEdit={this.startOperation('edt', item)} onDelete={this.startOperation('del', item)}/>}
 					</div>
@@ -207,7 +213,7 @@ export default class CaseExams extends React.Component {
 					<Alert bsStyle="success">{this.state.successMsg}</Alert>
 				}
 
-				{!this.state || !this.state.data ? <WaitIcon type="card" /> : this.contentRender()}
+				{this.props.tbcase.followups[0] === 'notloaded' ? <WaitIcon type="card" /> : this.contentRender()}
 
 				<MessageDlg show={this.state.showDelMsg}
 					onClose={this.closeDel}
