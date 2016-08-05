@@ -35,7 +35,7 @@ export default class FormUtils {
 		return (
 			<div className="form-group">
 				{labelelem}
-				<div className="form-control-static sc-overflow">
+				<div className="form-control-static maxh250scroll">
 					{content ? content : '-'}
 				</div>
 			</div>
