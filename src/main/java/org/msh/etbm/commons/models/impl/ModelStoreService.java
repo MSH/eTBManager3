@@ -2,10 +2,13 @@ package org.msh.etbm.commons.models.impl;
 
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.models.CompiledModel;
+import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -22,7 +25,15 @@ public class ModelStoreService {
     @Cacheable(cacheNames = CACHE_ID)
     public CompiledModel get(String modelId, UUID workspaceId) {
         String resName = "/models/" + modelId + ".json";
-        Model model = JsonParser.parseResource(resName, Model.class);
+        JsonModelParser parser = new JsonModelParser();
+        ClassPathResource res = new ClassPathResource(resName);
+
+        Model model = null;
+        try {
+            model = parser.parse(res.getInputStream());
+        } catch (IOException e) {
+            throw new ModelException(e);
+        }
 
         CompiledModel compiledModel = new CompiledModel(model);
 

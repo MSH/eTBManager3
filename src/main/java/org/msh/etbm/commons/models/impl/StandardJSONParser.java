@@ -15,10 +15,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
+ * Standard JSON parser for models and forms. Simplifies the JSON notation for certain elements, like
+ * properties that accepts both a value or a java script function, and the representation of java script
+ * body functions as string properties in JSON format
+ *
  * Created by rmemoria on 6/8/16.
  */
 public class StandardJSONParser<E> {
 
+    /**
+     * Parse a JSON data from an input stream
+     * @param in the instance of InputStream that will fetch the JSON data
+     * @return instance of the object serialized from JSON
+     */
     protected E parseInputStream(InputStream in) {
         Map<String, Object> props = parseJsonStream(in);
 
@@ -40,11 +49,11 @@ public class StandardJSONParser<E> {
      * Convert a Map with property and values to an object of the given bean class
      * @param props the list of properties and values
      * @param beanClass the bean class
-     * @param <E>
+     * @param <K>
      * @return the instance of the bean class
      */
-    protected <E> E convertObject(Map<String, Object> props, Class<E> beanClass) {
-        E bean = ObjectUtils.newInstance(beanClass);
+    protected <K> K convertObject(Map<String, Object> props, Class<K> beanClass) {
+        K bean = createObjectInstance(props, beanClass);
 
         // set the values of the bean
         for (Map.Entry<String, Object> entry: props.entrySet()) {
@@ -69,6 +78,10 @@ public class StandardJSONParser<E> {
         }
 
         return bean;
+    }
+
+    protected <K> K createObjectInstance(Map<String, Object> props, Class<K> beanClass) {
+        return ObjectUtils.newInstance(beanClass);
     }
 
     /**

@@ -35,21 +35,32 @@
       "required": true,
       "label": "${Gender}",
       "options": [
-        {
-          "id": "MALE",
-          "name": "${Gender.MALE}"
-        },
-        {
-          "id": "FEMALE",
-          "name": "${Gender.FEMALE}"
-        }
+        { "id": "MALE", "name": "${Gender.MALE}" },
+        { "id": "FEMALE", "name": "${Gender.FEMALE}" }
       ]
+    },
+    {
+      "name": "age",
+      "type": "int",
+      "required": true,
+      "label": "Age",
+      "options": { "from": 1, "to": 20 }
     },
     {
       "name": "customId",
       "type": "string",
       "label": "${form.customId}",
       "max": 50
+    }
+  ],
+  "validators": [
+    {
+      "rule": "this.age != 10",
+      "message": "Age cannot be 10"
+    },
+    {
+      "rule": "this.name != 'Rio'",
+      "message": "Name cannot be 'Rio'"
     }
   ]
 }

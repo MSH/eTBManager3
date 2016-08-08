@@ -1,4 +1,4 @@
-package org.msh.etbm.test.commons.model;
+package org.msh.etbm.test.commons.forms;
 
 import org.junit.Test;
 import org.msh.etbm.commons.forms.controls.Control;
@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 /**
  * Created by rmemoria on 6/8/16.
  */
-public class JSONParseTest {
+public class JsonFormParserTest {
 
     @Test
     public void parseForm() throws IOException {
