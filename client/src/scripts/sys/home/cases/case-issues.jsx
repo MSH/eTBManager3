@@ -150,7 +150,7 @@ export default class CaseIssues extends React.Component {
 		const openIssues = issues ? issues.find(issue => !issue.closed) : null;
 		const header = openIssues ?
 							<Alert bsStyle="warning" className="no-margin-bottom"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</Alert> :
-							<Alert bsStyle="primary" className="no-margin-bottom"><Fa icon="check" />{__('Issue.noopenissuesmg')}</Alert>;
+							<div><Fa icon="check" />{__('Issue.noopenissuesmg')}</div>;
 
 		return (
 			<div>

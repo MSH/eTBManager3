@@ -192,4 +192,9 @@ public class TestRest {
         Map<String, Object> doc = new HashMap<>();
         return formService.init("patient-edt", doc);
     }
+
+    @RequestMapping(value = "/query")
+    public String testQuery(@RequestParam(value = "foo", required = false) String foo) {
+        return foo + "\n";
+    }
 }

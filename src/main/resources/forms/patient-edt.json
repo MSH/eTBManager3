@@ -1,5 +1,5 @@
 {
-  "model": "patient",
+  "dataModel": "patient",
 
   "title": { "function": "!this.name ? 'New form' : 'Editing form'" },
 

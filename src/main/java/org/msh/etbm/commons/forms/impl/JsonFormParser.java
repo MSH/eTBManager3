@@ -7,6 +7,7 @@ import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.MultipleDataModel;
 import org.msh.etbm.commons.forms.data.SingleDataModel;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.options.FieldOptions;
 import org.msh.etbm.commons.models.impl.StandardJSONParser;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 

@@ -6,6 +6,7 @@ import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.enums.Gender;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -14,12 +15,15 @@ import java.util.Date;
 public class CaseContact extends CaseEntity {
 
     @PropertyLog(operations = {Operation.ALL})
+    @NotNull
     private String name;
 
     @PropertyLog(messageKey = "Gender")
+    @NotNull
     private Gender gender;
 
     @PropertyLog(messageKey = "TbCase.age", operations = {Operation.NEW})
+    @NotNull
     private String age;
 
     //VR: adding 'date of examination'
@@ -37,25 +41,6 @@ public class CaseContact extends CaseEntity {
     @PropertyLog(messageKey = "global.comments")
     private String comments;
 
-
-    // Ricardo: TEMPORARY UNTIL A SOLUTION IS FOUND. Just to attend a request from the XML data model to
-    // map an XML node to a property in the model
-    @Transient
-    private Integer clientId;
-
-    /**
-     * @return
-     */
-    public Integer getClientId() {
-        return clientId;
-    }
-
-    /**
-     * @param clientId
-     */
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
-    }
 
     /**
      * @return the name

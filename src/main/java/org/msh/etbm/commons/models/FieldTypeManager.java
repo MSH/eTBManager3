@@ -24,11 +24,15 @@ public class FieldTypeManager {
         registerCommonFields();
     }
 
+    /**
+     * Register common field declared in the fields package
+     */
     protected void registerCommonFields() {
         register(new StringFieldHandler());
         register(new IntegerFieldHandler());
         register(new BoolFieldHandler());
         register(new DateFieldHandler());
+        register(new EnumFieldHandler());
 
         register(new ForeignKeyFieldHandler<FKSubstanceField>(FKSubstanceField.class));
         register(new ForeignKeyFieldHandler<FKRegimenField>(FKRegimenField.class));

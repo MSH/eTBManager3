@@ -24,7 +24,7 @@ public class ModelStoreService {
     @Cacheable(cacheNames = CACHE_ID)
     public CompiledModel get(String modelId, UUID workspaceId) {
         String resName = "/models/" + modelId + ".json";
-        JsonModelParser2 parser = new JsonModelParser2();
+        JsonModelParser parser = new JsonModelParser();
         ClassPathResource res = new ClassPathResource(resName);
 
         Model model = null;

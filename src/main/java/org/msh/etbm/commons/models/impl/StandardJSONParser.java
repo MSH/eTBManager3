@@ -2,9 +2,14 @@ package org.msh.etbm.commons.models.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.JSFunction;
+import org.msh.etbm.commons.models.data.options.FieldListOptions;
+import org.msh.etbm.commons.models.data.options.FieldOptions;
+import org.msh.etbm.commons.models.data.options.FieldRangeOptions;
+import org.msh.etbm.commons.models.data.options.FormRequestOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
@@ -106,6 +111,10 @@ public class StandardJSONParser<E> {
             }
         }
 
+        if (targetClass == FieldOptions.class) {
+            return (E)convertToFieldOptions(value);
+        }
+
         if (targetClass == JSFuncValue.class) {
             return (E)parseJSFuncValue(value);
         }
@@ -196,4 +205,47 @@ public class StandardJSONParser<E> {
 
         return JSFuncValue.of(value);
     }
+
+    protected FieldOptions convertToFieldOptions(Object source) {
+        // is a list of options ?
+        if (source instanceof Collection) {
+            return collectionToFieldOptions((Collection<Map>)source);
+        }
+
+        if (source instanceof Map) {
+            return mapToFieldOptions((Map)source);
+        }
+
+        if (source instanceof String) {
+            return new FormRequestOptions((String)source);
+        }
+
+        throw new ModelException("Invalid field options representation: " + source);
+    }
+
+    private FieldOptions mapToFieldOptions(Map<String, Object> props) {
+        if (props.size() == 2 && props.containsKey("from") && props.containsKey("to")) {
+            FieldRangeOptions range = new FieldRangeOptions();
+            range.setIni((Integer)props.get("from"));
+            range.setEnd((Integer)props.get("to"));
+            return range;
+        }
+
+        throw new ModelException("Invalid options properties: " + props);
+    }
+
+    private FieldOptions collectionToFieldOptions(Collection<Map> collection) {
+        FieldListOptions options = new FieldListOptions();
+
+        List<Item> list = new ArrayList<>();
+        for (Map props: collection) {
+            Item item = new Item(props.get("id"), (String)props.get("name"));
+            list.add(item);
+        }
+
+        options.setList(list);
+
+        return options;
+    }
+
 }

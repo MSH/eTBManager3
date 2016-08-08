@@ -58,7 +58,8 @@ const data = {
 		type: 'date',
 		property: 'patient.birthDate',
 		label: __('Patient.birthDate'),
-		size: { sm: 4, newLine: true }
+		size: { sm: 4 },
+		newRow: true
 	},
 	{
 		type: 'number',
@@ -100,33 +101,38 @@ const data = {
 		type: 'string',
 		property: 'notifAddress.complement',
 		label: __('Address.complement'),
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'adminUnit',
 		property: 'notifAddress.adminUnit',
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'notifAddress.zipCode',
 		label: __('Address.zipCode'),
 		max: 20,
-		size: { sm: 4, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'phoneNumber',
 		label: __('TbCase.phoneNumber'),
 		max: 20,
-		size: { sm: 4, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'mobileNumber',
 		label: __('global.mobile'),
 		max: 20,
-		size: { sm: 4, smOffset: 2 }
+		size: { sm: 6 },
+		newRow: true
 	},
 
 	{
@@ -145,7 +151,8 @@ const data = {
 		label: __('TbCase.diagnosisDate'),
 		property: 'diagnosisDate',
 		required: true,
-		size: { sm: 4, newLine: true }
+		size: { sm: 4 },
+		newRow: true
 	},
 	{
 		type: 'select',
@@ -160,7 +167,8 @@ const data = {
 			{ id: 'POLY_RESISTANCE_RIF', name: __('DrugResistanceType.POLY_RESISTANCE_RIF') },
 			{ id: 'RIF_RESISTANCE', name: __('DrugResistanceType.RIF_RESISTANCE') }
 		],
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'select',

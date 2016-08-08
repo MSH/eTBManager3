@@ -60,4 +60,5 @@ public class CacheConfiguration {
         cacheManager.setCaches(Arrays.asList(sessionCache, formsCache, modelsCache));
         return cacheManager;
     }
+
 }
