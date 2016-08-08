@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -25,7 +24,7 @@ public class ModelStoreService {
     @Cacheable(cacheNames = CACHE_ID)
     public CompiledModel get(String modelId, UUID workspaceId) {
         String resName = "/models/" + modelId + ".json";
-        JsonModelParser parser = new JsonModelParser();
+        JsonModelParser2 parser = new JsonModelParser2();
         ClassPathResource res = new ClassPathResource(resName);
 
         Model model = null;

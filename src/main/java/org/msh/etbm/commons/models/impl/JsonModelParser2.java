@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -23,7 +22,7 @@ import java.util.Map;
  *
  * Created by rmemoria on 7/8/16.
  */
-public class JsonModelParser extends StandardJSONParser<Model> {
+public class JsonModelParser2 extends StandardJSONParser<Model> {
 
     /**
      * Parse a JSON representation of a {@link Model} from an input stream
