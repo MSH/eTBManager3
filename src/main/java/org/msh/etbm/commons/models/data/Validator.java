@@ -9,18 +9,18 @@ public class Validator {
     /**
      * The java script function expression used in validation process
      */
-    private String rule;
+    private JSFunction rule;
 
     /**
      * The message to be displayed. This one is used if messageKey is not defined
      */
     private String message;
 
-    public String getRule() {
+    public JSFunction getRule() {
         return rule;
     }
 
-    public void setRule(String rule) {
+    public void setRule(JSFunction rule) {
         this.rule = rule;
     }
 

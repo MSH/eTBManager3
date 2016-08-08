@@ -51,6 +51,15 @@ public class ControlFactory {
         return ctrl;
     }
 
+    /**
+     * Return the control class by its type name
+     * @param name the type name of the control, the same name it was registered
+     * @return Class of extended {@link Control} type
+     */
+    public Class<? extends Control> controlClassByTypename(String name) {
+        return controls.get(name);
+    }
+
     public static final ControlFactory instance() {
         return _instance;
     }

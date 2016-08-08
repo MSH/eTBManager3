@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.entities.Issue;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;

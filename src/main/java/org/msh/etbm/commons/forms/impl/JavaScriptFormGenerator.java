@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.forms.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.forms.FormException;
@@ -11,10 +12,12 @@ import org.msh.etbm.commons.models.ModelManager;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -165,21 +168,21 @@ public class JavaScriptFormGenerator {
      */
     private Map<String, Object> collectControlProperties(Control control, DataModel dm) {
         try {
-            Map<String, Object> props = PropertyUtils.describe(control);
+            Map<String, Object> props = selectPropertiesToGenerate(control);
 
             if (control instanceof ValuedControl) {
                 ValuedControl vc = (ValuedControl)control;
                 Field field = vc.getField();
 
                 // check if control has a field
-                Map<String, Object> fprops = field != null ? PropertyUtils.describe(field) : null;
+                Map<String, Object> fprops = field != null ? selectPropertiesToGenerate(field) : null;
 
                 Field modelField = dm.getFieldModel(modelManager, vc.getProperty());
 
                 // check if there is an equivalent field
                 if (modelField != null) {
                     // mix model field into properties of the control field
-                    Map<String, Object> fprops2 = PropertyUtils.describe(modelField);
+                    Map<String, Object> fprops2 = selectPropertiesToGenerate(modelField);
 
                     if (fprops != null) {
                         for (Map.Entry<String, Object> entry: fprops2.entrySet()) {
@@ -194,18 +197,55 @@ public class JavaScriptFormGenerator {
                     }
                 }
 
+                // mix properties from control and field
                 props.putAll(fprops);
             }
-
-            // remove unused properties
-            props.remove("field");
-            props.remove("class");
 
             return props;
         } catch (Exception e) {
             throw new FormException(e);
         }
     }
+
+
+    /**
+     * Select the properties that will be generated to javascript
+     * @param bean The bean to get the properties from
+     * @return
+     */
+    private Map<String, Object> selectPropertiesToGenerate(Object bean) {
+        // get the properties
+        Map<String, Object> props;
+        try {
+            props = PropertyUtils.describe(bean);
+        } catch (Exception e) {
+            throw new FormException(e);
+        }
+
+        Map<String, Object> res = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry: props.entrySet()) {
+            String propName = entry.getKey();
+            Object value = entry.getValue();
+
+            if ("class".equals(propName) || value == null) {
+                continue;
+            }
+
+            // initially, if there is no field (but a get method), the value is not converted to JS
+            java.lang.reflect.Field f = ObjectUtils.findField(bean.getClass(), propName);
+            if (f == null) {
+                continue;
+            }
+
+            if (f.getAnnotation(JsonIgnore.class) == null) {
+                res.put(propName, entry.getValue());
+            }
+        }
+
+        return res;
+    }
+
 
     /**
      * Generate the Java script code of the default properties of the form
@@ -293,7 +333,7 @@ public class JavaScriptFormGenerator {
      */
     private String convertValidator(Validator validator) {
         StringBuilder s = new StringBuilder();
-        s.append("{ rule: function() { return ").append(validator.getRule()).append("; }");
+        s.append("{ rule: function() { return ").append(validator.getRule().getExpression()).append("; }");
 
         if (validator.getMessage() != null) {
             String msg = messages.eval(validator.getMessage());
@@ -302,6 +342,16 @@ public class JavaScriptFormGenerator {
         s.append('}');
 
         return s.toString();
+    }
+
+
+    /**
+     * Convert a string value to a java script function
+     * @param expression
+     * @return
+     */
+    private String convertToJSFunction(String expression) {
+        return "function() { return " + expression + "; }";
     }
 
     /**
@@ -336,8 +386,7 @@ public class JavaScriptFormGenerator {
 
         s.append("{ ");
         try {
-            Map<String, Object> props = PropertyUtils.describe(obj);
-            props.remove("class");
+            Map<String, Object> props = selectPropertiesToGenerate(obj);
 
             String delim = "";
             for (Map.Entry<String, Object> prop: props.entrySet()) {

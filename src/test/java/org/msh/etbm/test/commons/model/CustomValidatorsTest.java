@@ -3,6 +3,7 @@ package org.msh.etbm.test.commons.model;
 import org.junit.Test;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
+import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -117,12 +118,12 @@ public class CustomValidatorsTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator validator = new Validator();
-        validator.setRule("this.value !== 1");
+        validator.setRule(new JSFunction("this.value !== 1"));
         validator.setMessage(ERR1);
         validators.add(validator);
 
         validator = new Validator();
-        validator.setRule("this.value < 10");
+        validator.setRule(new JSFunction("this.value < 10"));
         validator.setMessage(ERR2);
         validators.add(validator);
 

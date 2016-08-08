@@ -4,7 +4,8 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.CaseEntityServiceImpl;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.Issue;
+import org.msh.etbm.db.entities.UserWorkspace;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

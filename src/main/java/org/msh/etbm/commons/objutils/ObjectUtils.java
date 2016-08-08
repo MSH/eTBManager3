@@ -4,6 +4,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
@@ -210,6 +211,16 @@ public class ObjectUtils {
             throw new ObjectAccessException("Class field not found: [" + fieldName + "] in class " + beanClass);
         }
 
+        return getPropertyGenericType(field, typeIndex);
+    }
+
+    /**
+     * Return the generic type declared in the field instance
+     * @param field the field containing the generic type declaration
+     * @param typeIndex the declaration order of the generic type (zero is the first)
+     * @return the generic type declaration, or null if no generic type is declared
+     */
+    public static Class getPropertyGenericType(Field field, int typeIndex) {
         Type type = field.getGenericType();
 
         if (!(type instanceof ParameterizedType)) {
@@ -238,6 +249,30 @@ public class ObjectUtils {
             for (Field field: fields) {
                 if (field.getName().equals(fieldName)) {
                     return field;
+                }
+            }
+
+            clazz = clazz.getSuperclass();
+        }
+
+        return null;
+    }
+
+    /**
+     * Search for a method by its name in the bean class or, if not found, in the super classes
+     * @param beanClass the class to search the method
+     * @param methodName the method name
+     * @return instance of the method from java reflection, or null if not found
+     */
+    public static Method findMethod(Class beanClass, String methodName) {
+        Class clazz = beanClass;
+
+        while (clazz != null && clazz != Object.class) {
+            Method[] methods = clazz.getDeclaredMethods();
+
+            for (Method method: methods) {
+                if (method.getName().equals(methodName)) {
+                    return method;
                 }
             }
 

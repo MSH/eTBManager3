@@ -5,6 +5,7 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
@@ -300,7 +301,7 @@ public class ModelTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator v = new Validator();
-        v.setRule("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true");
+        v.setRule(new JSFunction("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true"));
         v.setMessage("${" + Messages.NOT_VALID_EMAIL + "}");
         validators.add(v);
 

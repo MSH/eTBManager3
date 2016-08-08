@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.forms.controls.*;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.SingleDataModel;
-import org.msh.etbm.commons.forms.impl.FormParser;
+import org.msh.etbm.commons.forms.impl.JsonFormParser;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.data.fields.StringField;
@@ -20,7 +20,7 @@ public class FormParserTest {
     @Test
     public void test() throws Exception {
         ClassPathResource res = new ClassPathResource("/test/forms/parse-test.json");
-        FormParser p = new FormParser();
+        JsonFormParser p = new JsonFormParser();
         Form frm = p.parse(res.getInputStream());
 
         assertNotNull(frm.getDataModel());

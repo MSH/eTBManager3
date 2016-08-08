@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.forms.controls;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.models.data.fields.Field;
@@ -16,6 +17,7 @@ public abstract class ValuedControl extends Control {
 
     private String property;
 
+    @JsonIgnore
     private Field field;
 
     public Field getField() {

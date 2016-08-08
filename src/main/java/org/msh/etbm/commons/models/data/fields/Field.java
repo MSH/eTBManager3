@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.JSFuncValue;
+import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.options.FieldOptions;
 
@@ -53,6 +54,7 @@ public abstract class Field {
     /**
      * If true, this value must be unique in the column
      */
+    @JsonIgnore
     private boolean unique;
 
     /**
@@ -60,6 +62,13 @@ public abstract class Field {
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private FieldOptions options;
+
+    /**
+     * A simple java script expression to validate the field. The return of the expression is the
+     * message to be displayed, or return null or unassigned to indicate it was validated
+     */
+    private JSFunction validate;
+
 
     public Field() {
         super();
@@ -146,5 +155,13 @@ public abstract class Field {
 
     public void setUnique(boolean unique) {
         this.unique = unique;
+    }
+
+    public JSFunction getValidate() {
+        return validate;
+    }
+
+    public void setValidate(JSFunction validate) {
+        this.validate = validate;
     }
 }

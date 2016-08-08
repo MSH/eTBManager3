@@ -7522,8 +7522,10 @@ button.close {
 .cmd-bar a:first-child {
   border-top: none;
 }
-.sc-overflow {
-  overflow: scroll;
+.maxh250scroll {
+  overflow-x: auto;
+  max-height: 250px;
+  overflow-y: overlay;
 }
 .bg-danger2 {
   color: #ffffff;

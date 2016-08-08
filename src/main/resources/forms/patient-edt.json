@@ -51,7 +51,8 @@
       "label": "${Medicine}",
       "type": "select",
       "options": "medicines",
-      "size": { "md": 12 }
+      "size": { "md": 6 },
+      "newRow": true
     }
   ],
 

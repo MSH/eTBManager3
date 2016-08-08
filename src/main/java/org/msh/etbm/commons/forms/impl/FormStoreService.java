@@ -32,7 +32,7 @@ public class FormStoreService {
         try {
             ClassPathResource res = new ClassPathResource(resourcePath);
 
-            FormParser p = new FormParser();
+            JsonFormParser p = new JsonFormParser();
             frm = p.parse(res.getInputStream());
         } catch (IOException e) {
             throw new FormException("Error when trying to load resource " + resourcePath);

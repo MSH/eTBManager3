@@ -40,7 +40,7 @@ export default function formRender(form) {
 		const comp = createElement(form, item, value, compErrors, resources);
 
 		const size = snapshot.size ? snapshot.size : { sm: 12 };
-		return { size: size, content: comp };
+		return { size: size, content: comp, newRow: snapshot.newRow, spanRow: snapshot.spanRow };
 	});
 
 	const lst = arrangeGrid(items);

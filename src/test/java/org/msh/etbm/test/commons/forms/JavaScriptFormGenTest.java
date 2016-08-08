@@ -2,11 +2,9 @@ package org.msh.etbm.test.commons.forms;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.msh.etbm.Application;
 import org.msh.etbm.commons.forms.data.Form;
-import org.msh.etbm.commons.forms.impl.FormParser;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
+import org.msh.etbm.commons.forms.impl.JsonFormParser;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -30,7 +28,7 @@ public class JavaScriptFormGenTest extends AuthenticatedTest {
     @Test
     public void test() throws Exception {
         ClassPathResource resource = new ClassPathResource("/test/forms/parse-test.json");
-        FormParser p = new FormParser();
+        JsonFormParser p = new JsonFormParser();
         Form frm = p.parse(resource.getInputStream());
 
         String script = javaScriptFormGenerator.generate(frm, "newSchema");

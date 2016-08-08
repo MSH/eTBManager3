@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.options.FieldListOptions;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
@@ -81,7 +82,7 @@ public class ModelReadWriteTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator v = new Validator();
-        v.setRule("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true");
+        v.setRule(new JSFunction("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true"));
         v.setMessage("${" + Messages.NOT_VALID_EMAIL + "}");
         validators.add(v);
 
