@@ -54,6 +54,13 @@ public class SysConfigService {
 
         dao.mapToEntity(data);
 
+        SystemConfig config = dao.getEntity();
+        if (!config.isAllowRegPage()) {
+            config.setWorkspace(null);
+            config.setUnit(null);
+            config.setUserProfile(null);
+        }
+
         dao.save();
     }
 
