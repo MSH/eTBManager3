@@ -4,7 +4,7 @@ package org.msh.etbm.commons.models.data.fields;
  * Created by rmemoria on 12/7/16.
  */
 @FieldType("adminUnit")
-public class FKAdminUnitField extends ForeignKeyField {
+public class FKAdminUnitField extends AbstractForeignKeyField {
 
     public FKAdminUnitField() {
         super();

@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Created by rmemoria on 11/7/16.
  */
-public abstract class ForeignKeyField extends SingleField {
+public abstract class AbstractForeignKeyField extends SingleField {
 
-    public ForeignKeyField() {
+    public AbstractForeignKeyField() {
     }
 
-    public ForeignKeyField(String name) {
+    public AbstractForeignKeyField(String name) {
         super(name);
     }
 
-    public ForeignKeyField(String name, String dbFieldName) {
+    public AbstractForeignKeyField(String name, String dbFieldName) {
         super(name, dbFieldName);
     }
 

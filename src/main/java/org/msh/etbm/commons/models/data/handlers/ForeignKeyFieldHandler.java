@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.models.data.fields.ForeignKeyField;
+import org.msh.etbm.commons.models.data.fields.AbstractForeignKeyField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.objutils.ObjectUtils;
@@ -13,7 +13,7 @@ import java.util.UUID;
 /**
  * Created by rmemoria on 11/7/16.
  */
-public class ForeignKeyFieldHandler<E extends ForeignKeyField> extends SingleFieldHandler<E> {
+public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends SingleFieldHandler<E> {
 
     private Class<E> fieldClass;
 

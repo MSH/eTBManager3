@@ -3,6 +3,12 @@
   "table": "casecontact",
   "fields": [
     {
+      "name": "caseId",
+      "field": "case_id",
+      "type": "foreignKey",
+      ""
+    },
+    {
       "name": "name",
       "type": "string",
       "required": true,
