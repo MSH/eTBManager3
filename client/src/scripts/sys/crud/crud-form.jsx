@@ -45,7 +45,9 @@ class CrudForm extends React.Component {
 				/>
 			);
 
-		return this.props.animate ?
+		const animate = this.props.animate && this.props.wrapType !== 'modal';
+
+		return animate ?
 			<Collapse in transitionAppear>
 				{frm}
 			</Collapse> :

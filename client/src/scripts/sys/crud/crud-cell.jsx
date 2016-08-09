@@ -19,6 +19,7 @@ class CrudCell extends React.Component {
 		this.editClick = this.editClick.bind(this);
 		this.deleteClick = this.deleteClick.bind(this);
 		this.selectMenu = this.selectMenu.bind(this);
+		this.eventHandler = this.eventHandler.bind(this);
 	}
 
 	componentWillMount() {
