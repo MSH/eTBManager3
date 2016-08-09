@@ -65,16 +65,11 @@ export default class Contacts extends React.Component {
 					size: { sm: 6 }
 				},
 				{
-					type: 'group',
+					type: 'date',
+					property: 'dateOfExamination',
+					label: __('CaseContact.dateOfExamination'),
 					visible: value => value.examinated,
-					controls: [
-						{
-							type: 'date',
-							property: 'dateOfExamination',
-							label: __('CaseContact.dateOfExamination'),
-							size: { sm: 6 }
-						}
-					]
+					size: { sm: 6 }
 				},
 				{
 					type: 'string',

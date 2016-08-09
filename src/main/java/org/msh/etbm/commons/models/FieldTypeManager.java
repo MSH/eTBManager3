@@ -1,9 +1,6 @@
 package org.msh.etbm.commons.models;
 
-import org.msh.etbm.commons.models.data.fields.FKAdminUnitField;
-import org.msh.etbm.commons.models.data.fields.FKRegimenField;
-import org.msh.etbm.commons.models.data.fields.FKSubstanceField;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.data.handlers.*;
 
 import java.util.HashMap;
@@ -34,6 +31,10 @@ public class FieldTypeManager {
         register(new DateFieldHandler());
         register(new EnumFieldHandler());
 
+        // generic foreign key handler
+        register(new ForeignKeyFieldHandler<>(ForeignKeyField.class));
+
+        register(new ForeignKeyFieldHandler<FKCaseField>(FKCaseField.class));
         register(new ForeignKeyFieldHandler<FKSubstanceField>(FKSubstanceField.class));
         register(new ForeignKeyFieldHandler<FKRegimenField>(FKRegimenField.class));
         register(new ForeignKeyFieldHandler<FKAdminUnitField>(FKAdminUnitField.class));

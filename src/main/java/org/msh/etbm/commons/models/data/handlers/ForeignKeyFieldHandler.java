@@ -44,7 +44,7 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
     @Override
     public void dbFieldsToSelect(E field, DBFieldsDef defs, boolean displaying) {
         defs.add(field.getDbFieldName());
-        if (displaying) {
+        if (displaying && field.getForeignDisplayingFieldName() != null) {
             defs.join(field.getForeignTable(),
                     field.getForeignTable() + "." + field.getForeignTableKeyName() + " = " +
                             defs.getRootTable() + "." + field.getDbFieldName())

@@ -12,7 +12,7 @@ public class FormInitResponse {
     /**
      * The document to be edited
      */
-    private Object doc;
+    private Map<String, Object> doc;
 
     /**
      * The resources to initialize the controls
@@ -24,12 +24,11 @@ public class FormInitResponse {
      */
     private String schema;
 
-
-    public Object getDoc() {
+    public Map<String, Object> getDoc() {
         return doc;
     }
 
-    public void setDoc(Object doc) {
+    public void setDoc(Map<String, Object> doc) {
         this.doc = doc;
     }
 

@@ -190,7 +190,7 @@ public class TestRest {
     @Authenticated
     public FormInitResponse initForm() {
         Map<String, Object> doc = new HashMap<>();
-        return formService.init("patient-edt", doc);
+        return formService.init("patient-edt", doc, false);
     }
 
     @RequestMapping(value = "/query")
