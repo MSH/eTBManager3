@@ -3,6 +3,7 @@ package org.msh.etbm.commons.models.data.fields;
 /**
  * Created by rmemoria on 8/8/16.
  */
+@FieldType("foreignKey")
 public class ForeignKeyField extends AbstractForeignKeyField {
 
     private String fkTable;
