@@ -40,11 +40,11 @@ public class TagCasesReportService {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    public QueryResult getTagCasesWorkspace(TagCasesQueryParams qryParams){
+    public QueryResult getTagCasesWorkspace(TagCasesQueryParams qryParams) {
         return new QueryResult();
     }
-/*
-    public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams){
+
+    /*public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams) {
         QueryResult<CaseData> res = new QueryResult<>();
         res.setList(new ArrayList<>());
 
@@ -60,10 +60,9 @@ public class TagCasesReportService {
         }
 
         return res;
-    }
-*/
+    }*/
 
-    public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams){
+    public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams) {
         QueryBuilder<TbCase> builder = queryBuilderFactory.createQueryBuilder(TbCase.class);
 
         builder.setHqlSelect("select c");
