@@ -6,6 +6,7 @@ import { server } from '../../../commons/server';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
 import AddMedicine from './treat/add-medicine';
+import TreatFollowup from './treat/treat-followup';
 
 
 export default class CaseTreatment extends React.Component {
@@ -17,31 +18,27 @@ export default class CaseTreatment extends React.Component {
 			sc1: {
 				controls: [
 					{
-						property: 'regimen.name',
 						type: 'string',
-						label: 'Regimen',
-						visible: doc => !!doc.regimenIni,
+						label: __('Regimen'),
+						value: doc => doc.regimen ? doc.regimen.name : __('regimens.individualized'),
 						size: { md: 12 }
 					},
 					{
 						type: 'text',
-						property: 'Started as {iniRegimen.name}\n{regimen.name}',
-						label: 'Regimen',
-						visible: doc => !doc.regimenIni,
+						property: 'regimenIni.name',
+						label: __('TbCase.regimenIni'),
+						visible: doc => !!doc.regimenIni && doc.regimenIni.id !== doc.regimen.id,
 						size: { md: 12 }
 					},
 					{
-						type: 'text',
-						property: '{period.ini} to {period.end}',
+						type: 'period',
+						property: 'period',
 						label: __('cases.treat'),
 						size: { md: 12 }
 					}
 				]
 			}
 		};
-
-		this.menuClick = this.menuClick.bind(this);
-		this.closeDlg = this.closeDlg.bind(this);
 	}
 
 	componentWillMount() {
@@ -77,6 +74,7 @@ export default class CaseTreatment extends React.Component {
 				<MenuItem eventKey={1}>{__('Regimen.add')}</MenuItem>
 				<MenuItem eventKey={2}>{__('cases.regimens.change')}</MenuItem>
 				<MenuItem eventKey={3}>{__('cases.treat.undo')}</MenuItem>
+				<MenuItem eventKey={4}>{'Add medicine'}</MenuItem>
 			</DropdownButton>
 			);
 
@@ -99,10 +97,7 @@ export default class CaseTreatment extends React.Component {
 					<TreatTimeline treatment={data} />
 				</Card>
 
-				<Card title={__('cases.details.treatment.medintake')} />
-				{
-					this.state.show === 'add-med' && <AddMedicine doc={{}} onClose={this.closeDlg}/>
-				}
+				<TreatFollowup treatment={data} />
 			</div>
 			);
 	}

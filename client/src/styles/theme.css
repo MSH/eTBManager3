@@ -7522,9 +7522,9 @@ button.close {
 .cmd-bar a:first-child {
   border-top: none;
 }
-.maxh250scroll {
+.autoscroll {
   overflow-x: auto;
-  max-height: 250px;
+  height: auto;
   overflow-y: overlay;
 }
 .bg-danger2 {

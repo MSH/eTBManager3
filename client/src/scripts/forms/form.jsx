@@ -250,6 +250,7 @@ import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
 import SubtitleControl from './controls/subtitle-control';
 import GroupControl from './controls/group-control';
+import PeriodControl from './controls/period-control';
 
 Form.registerType([
 	InputControl,
@@ -258,5 +259,6 @@ Form.registerType([
 	SelectControl,
 	DateControl,
 	SubtitleControl,
-	GroupControl
+	GroupControl,
+	PeriodControl
 ]);

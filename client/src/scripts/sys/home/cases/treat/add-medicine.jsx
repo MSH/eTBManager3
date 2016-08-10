@@ -1,6 +1,9 @@
 import React from 'react';
 import { FormDialog } from '../../../../components';
 
+/**
+ * Display modal dialog to add a new medicine to the treatment regimen
+ */
 export default class AddMedicine extends React.Component {
 
 	constructor(props) {
