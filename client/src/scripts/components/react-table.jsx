@@ -145,6 +145,7 @@ export default class ReactTable extends React.Component {
 	}
 
 	render() {
+		console.log('rendering tagcaselist');
 		// prepare the element class
 		const classes = [];
 		if (this.props.className) {

@@ -144,14 +144,14 @@ export default class Cases extends React.Component {
 		}
 
 		return (
-			<ReactTable className="mtop-2x"
+			<ReactTable
 				columns={[
 					{
 						title: 'Patient',
 						size: { sm: 4 },
 						content: item =>
-							<Profile type={item.patient.gender.toLowerCase()} size="small"
-								title={item.patient.name} subtitle={item.recordNumber} />
+							<Profile type={item.gender.toLowerCase()} size="small"
+								title={item.name} subtitle={item.recordNumber} />
 					},
 					{
 						title: 'Registration date',

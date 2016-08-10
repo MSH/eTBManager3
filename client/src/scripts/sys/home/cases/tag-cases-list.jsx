@@ -1,63 +1,51 @@
 import React from 'react';
-import { Badge, Alert } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
 
 import moment from 'moment';
 import SessionUtils from '../../session-utils';
 
 import CrudPagination from '../../crud/crud-pagination';
+import CrudCounter from '../../crud/crud-counter';
 import CrudController from '../../crud/crud-controller';
 import FakeCRUD from '../../../commons/fake-crud';
-
-const mockCases = [
-		{
-			patient: { name: 'Mauricio Santos', gender: 'MALE' },
-			registrationDate: new Date(),
-			caseCode: '23847',
-			classification: 'TB',
-			diagnosisType: 'SUSPECT',
-			age: 41,
-			state: 'WAITING_TREATMENT'
-		},
-		{
-			patient: { name: 'Ricardo Memoria', gender: 'MALE' },
-			registrationDate: new Date(),
-			caseCode: '03492-3',
-			classification: 'DRTB',
-			diagnosisType: 'CONFIRMED',
-			age: 2,
-			state: 'ONTREATMENT'
-		},
-		{
-			patient: { name: 'Juliana', gender: 'FEMALE' },
-			registrationDate: new Date(),
-			caseCode: '2389478',
-			classification: 'NMT',
-			diagnosisType: 'SUSPECT',
-			age: 5,
-			state: 'CLOSED'
-		}
-	];
 
 export default class TagCasesList extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onClose = this.onClose.bind(this);
+		this.loadList = this.loadList.bind(this);
 
-		this.state = { res: null, lastTagLoaded: null };
+		// create fake-crud controller
+		const path = props.view === 'unit' ? '/api/cases/unit/tag/' : null;
+		const casesfcrud = new FakeCRUD(path);
+		const opts = {
+			pageSize: 10,
+			readOnly: true,
+			editorSchema: {},
+			refreshAll: false
+		};
+
+		const controller = new CrudController(casesfcrud, opts);
+		controller.initList();
+
+		this.state = { controller: controller };
 	}
 
 	componentWillMount() {
-		const self = this;
-		const res = { count: 0, list: mockCases };
-
-		setTimeout(() => { self.setState({ res: res }); }, 2000);
+		this.loadList(this.props.tag.id);
 	}
 
-	onClose() {
-		this.props.onClose();
-		this.setState({ res: null });
+	componentWillUpdate(nextProps) {
+		if (this.props.tag.id !== nextProps.tag.id) {
+			this.loadList(nextProps.tag.id);
+		}
+	}
+
+	eventHandler(evt) {
+		if (evt === 'list' || evt === 'fetching-list') {
+			this.forceUpdate();
+		}
 	}
 
 	/**
@@ -69,12 +57,21 @@ export default class TagCasesList extends React.Component {
 		window.location.hash = SessionUtils.caseHash(item.id);
 	}
 
+	loadList(tagId) {
+		const self = this;
+		const qry = { unitId: this.props.unitId, tagId: tagId };
+		this.state.controller.initList(qry).then(() => self.forceUpdate());
+	}
+
 	render() {
+		console.log('rendering tagcaselist');
 		const tag = this.props.tag;
 
 		if (!tag || !tag.id || !this.props.view || (this.props.view && !this.props.unitId)) {
 			return null;
 		}
+
+		const controller = this.state.controller;
 
 		const type = 'prof-tag-' + tag.type.toLowerCase();
 		const header = (
@@ -85,20 +82,21 @@ export default class TagCasesList extends React.Component {
 				subtitle={tag.count < 1 ? __('form.norecordfound') : tag.count + ' ' + __('form.resultlist')}/>);
 
 		return (
-			<Card header={header} closeBtn onClose={this.onClose}>
+			<Card header={header} closeBtn onClose={this.props.onClose}>
 				{
 					// loading
-					!this.state.res ?
+					controller.isFetching() === true ?
 						<WaitIcon type="card" /> : null
 				}
 				{
 					// no results found
-					this.state.res && (!this.state.res.list || this.state.res.list.length < 1) ?
+					controller.isFetching() !== true && (!controller.getList() || controller.getList().length < 1) ?
 						<Alert bsStyle="warning">{__('form.norecordfound')}</Alert> : null
 				}
 				{
 					// show case list
-					this.state.res && this.state.res.list && this.state.res.list.length > 0 ?
+					controller.isFetching() !== true && controller.getList() && controller.getList().length > 0 ?
+					<span>
 						<ReactTable className="mtop-2x"
 							columns={[
 								{
@@ -114,7 +112,9 @@ export default class TagCasesList extends React.Component {
 									content: item => <div>{moment(item.registrationDate).format('ll')}<br/>
 											<div className="sub-text">{moment(item.registrationDate).format('LT')}</div></div>
 								}
-							]} values={this.state.res.list} onClick={this.caseClick}/> : null
+							]} values={controller.getList()} onClick={this.caseClick}/>
+						<CrudPagination controller={this.state.controller} showCounter />
+					</span> : null
 				}
 			</Card>
 			);
