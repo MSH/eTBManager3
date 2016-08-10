@@ -15,24 +15,28 @@ export default class TagCasesList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.loadList = this.loadList.bind(this);
+		this.eventHandler = this.eventHandler.bind(this);
 
 		// create fake-crud controller
-		const path = props.view === 'unit' ? '/api/cases/unit/tag/' : null;
-		const casesfcrud = new FakeCRUD(path);
+		const casesfcrud = new FakeCRUD('/api/cases/tag/query');
 		const opts = {
-			pageSize: 10,
+			pageSize: 50,
 			readOnly: true,
 			editorSchema: {},
 			refreshAll: false
 		};
 
 		const controller = new CrudController(casesfcrud, opts);
-		controller.initList();
-
 		this.state = { controller: controller };
 	}
 
 	componentWillMount() {
+		const self = this;
+		const handler = this.state.controller.on((evt, data) => {
+			self.eventHandler(evt, data);
+		});
+		this.setState({ handler: handler });
+
 		this.loadList(this.props.tag.id);
 	}
 
@@ -40,6 +44,11 @@ export default class TagCasesList extends React.Component {
 		if (this.props.tag.id !== nextProps.tag.id) {
 			this.loadList(nextProps.tag.id);
 		}
+	}
+
+	componentWillUnmount() {
+		// remove registration
+		this.state.controller.removeListener(this.state.handler);
 	}
 
 	eventHandler(evt) {
@@ -59,15 +68,14 @@ export default class TagCasesList extends React.Component {
 
 	loadList(tagId) {
 		const self = this;
-		const qry = { unitId: this.props.unitId, tagId: tagId };
+		const qry = { unitId: this.props.unitId, adminUnitId: this.props.adminUnitId, tagId: tagId };
 		this.state.controller.initList(qry).then(() => self.forceUpdate());
 	}
 
 	render() {
-		console.log('rendering tagcaselist');
 		const tag = this.props.tag;
 
-		if (!tag || !tag.id || !this.props.view || (this.props.view && !this.props.unitId)) {
+		if (!tag || !tag.id) {
 			return null;
 		}
 
@@ -113,6 +121,8 @@ export default class TagCasesList extends React.Component {
 											<div className="sub-text">{moment(item.registrationDate).format('LT')}</div></div>
 								}
 							]} values={controller.getList()} onClick={this.caseClick}/>
+
+						<CrudCounter controller={controller} />
 						<CrudPagination controller={this.state.controller} showCounter />
 					</span> : null
 				}
@@ -123,7 +133,7 @@ export default class TagCasesList extends React.Component {
 
 TagCasesList.propTypes = {
 	tag: React.PropTypes.object,
-	view: React.PropTypes.oneOf(['workspace', 'unit']),
 	onClose: React.PropTypes.func,
-	unitId: React.PropTypes.string
+	unitId: React.PropTypes.string,
+	adminUnitId: React.PropTypes.string
 };

@@ -10,6 +10,7 @@ import java.util.UUID;
 public class TagCasesQueryParams extends EntityQueryParams {
     UUID tagId;
     UUID unitId;
+    UUID adminUnitId;
 
     public UUID getTagId() {
         return tagId;
@@ -25,5 +26,13 @@ public class TagCasesQueryParams extends EntityQueryParams {
 
     public void setUnitId(UUID unitId) {
         this.unitId = unitId;
+    }
+
+    public UUID getAdminUnitId() {
+        return adminUnitId;
+    }
+
+    public void setAdminUnitId(UUID adminUnitId) {
+        this.adminUnitId = adminUnitId;
     }
 }

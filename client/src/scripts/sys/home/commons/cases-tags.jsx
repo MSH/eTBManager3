@@ -10,7 +10,7 @@ export default class CasesTags extends React.Component {
 				<div>
 					{
 						this.props.tags.map(item => (
-							<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()}>
+							<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()} onClick={this.props.onClick(item)}>
 								<Badge pullRight>{item.count}</Badge>
 								<div className="tag-title">{item.name}</div>
 							</a>
@@ -23,5 +23,6 @@ export default class CasesTags extends React.Component {
 }
 
 CasesTags.propTypes = {
-	tags: React.PropTypes.array
+	tags: React.PropTypes.array,
+	onClick: React.PropTypes.func
 };

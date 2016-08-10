@@ -28,9 +28,6 @@ import java.util.UUID;
 @Service
 public class TagCasesReportService {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Autowired
     UserRequestService userRequestService;
 
@@ -40,29 +37,7 @@ public class TagCasesReportService {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
-    public QueryResult getTagCasesWorkspace(TagCasesQueryParams qryParams) {
-        return new QueryResult();
-    }
-
-    /*public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams) {
-        QueryResult<CaseData> res = new QueryResult<>();
-        res.setList(new ArrayList<>());
-
-        List<TbCase> list = (List<TbCase>)entityManager.createQuery("select c from TbCase c join c.tags t where t.id = :tId and c.ownerUnit.id = :uId")
-                                                        .setParameter("tId", qryParams.getTagId())
-                                                        .setParameter("uId", qryParams.getUnitId())
-                                                        .getResultList();
-
-        res.setCount(list.size());
-
-        for (TbCase c : list) {
-            res.getList().add(mapper.map(c, CaseData.class));
-        }
-
-        return res;
-    }*/
-
-    public QueryResult getTagCasesByUnit(TagCasesQueryParams qryParams) {
+    public QueryResult getTagCases(TagCasesQueryParams qryParams) {
         QueryBuilder<TbCase> builder = queryBuilderFactory.createQueryBuilder(TbCase.class);
 
         builder.setHqlSelect("select c");
@@ -70,7 +45,9 @@ public class TagCasesReportService {
         builder.addDefaultProfile("casedata", CaseData.class);
 
         builder.setHqlJoin("join c.tags t");
-        builder.addRestriction("t.id = :tId and c.ownerUnit.id = :unitId", qryParams.getTagId(), qryParams.getUnitId());
+        builder.addRestriction("t.id = :tId", qryParams.getTagId());
+        builder.addRestriction("c.ownerUnit.id = :unitId", qryParams.getUnitId());
+        //TODO: builder.addRestriction("c.ownerUnit.ADMINUNIT = :unitId", qryParams.getAdminUnitId());
 
         builder.initialize(qryParams);
         return builder.createQueryResult();

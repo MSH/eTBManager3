@@ -64,7 +64,7 @@ export default class CaseTags extends React.Component {
 		req.newTags = this.state.doc.newTags ? this.state.doc.newTags.map(item => item.newTag) : null;
 		req.tagIds = this.state.doc.tagIds;
 
-		return server.post('/api/cases/case/tags', req)
+		return server.post('/api/cases/tag/update', req)
 				.then(res => {
 					if (!res.success) {
 						return Promise.reject(res.errors);

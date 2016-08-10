@@ -26,16 +26,9 @@ public class UnitViewREST {
     @Autowired
     UnitViewService service;
 
-    @Autowired
-    TagCasesReportService tagCasesService;
-
     @RequestMapping(value = "/unit/{unitID}", method = RequestMethod.POST)
     public UnitViewData getUnitView(@PathVariable UUID unitID) {
         return service.getUnitView(unitID);
     }
 
-    @RequestMapping(value = "/unit/tag/", method = RequestMethod.POST)
-    public QueryResult getTagCases(@Valid @RequestBody TagCasesQueryParams query) {
-        return tagCasesService.getTagCasesByUnit(query);
-    }
 }
