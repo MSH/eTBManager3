@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum CaseState {
+import org.msh.etbm.db.MessageKey;
+
+public enum CaseState implements MessageKey {
     WAITING_TREATMENT,
     ONTREATMENT,
     TRANSFERRING,
@@ -22,7 +24,8 @@ public enum CaseState {
     MOVED_SECONDLINE,
     CLOSED;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

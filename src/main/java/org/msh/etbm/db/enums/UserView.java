@@ -1,12 +1,15 @@
 package org.msh.etbm.db.enums;
 
-public enum UserView {
+import org.msh.etbm.db.MessageKey;
+
+public enum UserView implements MessageKey {
     COUNTRY,
     ADMINUNIT,
     UNIT,
     SELECTEDUNITS;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

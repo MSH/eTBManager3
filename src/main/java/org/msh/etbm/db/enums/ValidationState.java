@@ -1,11 +1,14 @@
 package org.msh.etbm.db.enums;
 
-public enum ValidationState {
+import org.msh.etbm.db.MessageKey;
+
+public enum ValidationState implements MessageKey {
 
     WAITING_VALIDATION,
     VALIDATED;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

@@ -1,11 +1,13 @@
 package org.msh.etbm.db.enums;
 
+import org.msh.etbm.db.MessageKey;
+
 /**
  * Actions available for each role
  *
  * @author Ricardo Memoria
  */
-public enum RoleAction {
+public enum RoleAction implements MessageKey {
 
     VIEW,
     NEW,
@@ -13,7 +15,8 @@ public enum RoleAction {
     DELETE,
     EXEC;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

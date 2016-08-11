@@ -1,11 +1,14 @@
 package org.msh.etbm.db.enums;
 
-public enum MedicineLine {
+import org.msh.etbm.db.MessageKey;
+
+public enum MedicineLine implements MessageKey {
     FIRST_LINE,
     SECOND_LINE,
     OTHER;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

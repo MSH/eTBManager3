@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum DstResult {
+import org.msh.etbm.db.MessageKey;
+
+public enum DstResult implements MessageKey {
     NOTDONE,
     RESISTANT,
     SUSCEPTIBLE,
@@ -11,7 +13,8 @@ public enum DstResult {
     NOTRESISTANT,
     ONGOING;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

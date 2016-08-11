@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum ReferredBy {
+import org.msh.etbm.db.MessageKey;
+
+public enum ReferredBy implements MessageKey {
     VCT_CENTER,
     HIV_COMP_CARE_UNIT,
     STI_CLINIC,
@@ -24,7 +26,8 @@ public enum ReferredBy {
     COMMUNITY,
     OTHER;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

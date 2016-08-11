@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum MicroscopyResult {
+import org.msh.etbm.db.MessageKey;
+
+public enum MicroscopyResult implements MessageKey {
 
     NEGATIVE('-'),
     POSITIVE('+'),
@@ -17,7 +19,8 @@ public enum MicroscopyResult {
         this.result = result;
     }
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

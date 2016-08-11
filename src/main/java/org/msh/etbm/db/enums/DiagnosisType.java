@@ -1,11 +1,14 @@
 package org.msh.etbm.db.enums;
 
-public enum DiagnosisType {
+import org.msh.etbm.db.MessageKey;
+
+public enum DiagnosisType implements MessageKey {
 
     SUSPECT,
     CONFIRMED;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum ReferredTo {
+import org.msh.etbm.db.MessageKey;
+
+public enum ReferredTo implements MessageKey {
     NUTRITION_SUPPORT,
     VCT_CENTER,
     HIV_COMP_CARE_UNIT,
@@ -26,7 +28,8 @@ public enum ReferredTo {
     TB_PATIENT,
     OTHER;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

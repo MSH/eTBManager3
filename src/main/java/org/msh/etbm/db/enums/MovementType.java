@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum MovementType {
+import org.msh.etbm.db.MessageKey;
+
+public enum MovementType implements MessageKey {
     DRUGRECEIVING,
     ORDERSHIPPING,
     ORDERRECEIVING,
@@ -10,7 +12,8 @@ public enum MovementType {
     TRANSFEROUT,
     INITIALIZE;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

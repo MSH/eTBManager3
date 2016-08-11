@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum NameComposition {
+import org.msh.etbm.db.MessageKey;
+
+public enum NameComposition implements MessageKey {
 
     FULLNAME(1),
     FIRSTSURNAME(2),
@@ -15,7 +17,7 @@ public enum NameComposition {
         this.numFields = numFields;
     }
 
-    public String getKey() {
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

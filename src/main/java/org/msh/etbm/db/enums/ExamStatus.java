@@ -1,11 +1,13 @@
 package org.msh.etbm.db.enums;
 
+import org.msh.etbm.db.MessageKey;
+
 /**
  * Possible status of an exam, starting in the request from the unit and finishes when exam is performed and results are released
  *
  * @author Ricardo Memoria
  */
-public enum ExamStatus {
+public enum ExamStatus implements MessageKey {
     REQUESTED,
     ONGOING,
     PERFORMED;
@@ -15,7 +17,8 @@ public enum ExamStatus {
      *
      * @return
      */
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }
