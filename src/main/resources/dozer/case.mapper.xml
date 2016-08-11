@@ -15,4 +15,20 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.cases.CaseItem</class-a>
+        <class-b>org.msh.etbm.db.entities.TbCase</class-b>
+
+        <field>
+            <a>name</a>
+            <b>patient.name</b>
+        </field>
+
+        <field>
+            <a>gender</a>
+            <b>patient.gender</b>
+        </field>
+
+    </mapping>
+
 </mappings>

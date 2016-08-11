@@ -8,6 +8,7 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.cases.cases.CaseData;
+import org.msh.etbm.services.cases.cases.CaseItem;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class TagCasesReportService {
 
         builder.setHqlSelect("select c");
         builder.setEntityAlias("c");
-        builder.addDefaultProfile("casedata", CaseData.class);
+        builder.addDefaultProfile("caseitem", CaseItem.class);
 
         builder.setHqlJoin("join c.tags t");
         builder.addRestriction("t.id = :tId", qryParams.getTagId());

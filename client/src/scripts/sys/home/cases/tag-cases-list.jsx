@@ -2,7 +2,6 @@ import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
 
-import moment from 'moment';
 import SessionUtils from '../../session-utils';
 
 import CrudPagination from '../../crud/crud-pagination';
@@ -111,19 +110,25 @@ export default class TagCasesList extends React.Component {
 									title: 'Patient',
 									size: { sm: 4 },
 									content: item =>
-										<Profile type={item.patient.gender.toLowerCase()} size="small"
-											title={item.patient.name} subtitle={item.recordNumber} />
+										<Profile type={item.gender.toLowerCase()} size="small"
+											title={item.name} subtitle={item.caseCode} />
 								},
 								{
-									title: 'Registration date',
+									title: 'Case Info',
 									size: { sm: 2 },
-									content: item => <div>{moment(item.registrationDate).format('ll')}<br/>
-											<div className="sub-text">{moment(item.registrationDate).format('LT')}</div></div>
+									content: item => <div>{item.classification + ' - ' + item.diagnosisType}<br/>
+											<div className="sub-text">{item.state}</div></div>
+								},
+								{
+									title: 'Unit',
+									size: { sm: 6 },
+									content: item => <div>{item.ownerUnit.name}<br/>
+											<div className="sub-text">{item.ownerUnit.adminUnit.name}</div></div>
 								}
 							]} values={controller.getList()} onClick={this.caseClick}/>
 
-						<CrudCounter controller={controller} />
-						<CrudPagination controller={this.state.controller} showCounter />
+						<CrudCounter controller={controller} className="mtop"/>
+						<CrudPagination controller={this.state.controller} showCounter className="mtop" />
 					</span> : null
 				}
 			</Card>
