@@ -57,7 +57,7 @@ export default function formControl(Component) {
 		static snapshot(schema, doc) {
 			// properties to be evaluated
 			const evalProps = [
-				'readOnly', 'visible', 'label', 'required', 'disabled'
+				'readOnly', 'visible', 'label', 'required', 'disabled', 'value'
 			];
 
 			// create the snapshot object as a copy of the property

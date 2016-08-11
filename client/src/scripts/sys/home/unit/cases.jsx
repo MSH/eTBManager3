@@ -45,7 +45,8 @@ export default class Cases extends React.Component {
 			presumptives: res.presumptives,
 			drtbCases: res.drtbCases,
 			tbCases: res.tbCases,
-			tags: res.tags
+			tags: res.tags,
+			sel: res.presumptives.length > 0 ? 0 : 1
 		}));
 	}
 
@@ -91,10 +92,13 @@ export default class Cases extends React.Component {
 			<Nav bsStyle="tabs" activeKey={this.state.sel} justified
 				className="app-tabs2"
 				onSelect={this.tabSelect}>
-				<NavItem key={0} eventKey={0}>
-					{this.listCount(this.state.presumptives)}
-					{__('cases.suspects')}
-				</NavItem>
+				{
+					this.state.presumptives.length > 0 &&
+					<NavItem key={0} eventKey={0}>
+						{this.listCount(this.state.presumptives)}
+						{__('cases.suspects')}
+					</NavItem>
+				}
 				<NavItem key={1} eventKey={1}>
 					{this.listCount(this.state.tbCases)}
 					{__('cases.tb')}
@@ -125,7 +129,7 @@ export default class Cases extends React.Component {
 
 	listCount(lst) {
 		const count = lst.length > 0 ? lst.length : '-';
-		return <div className="value-big text-primary">{count}</div>;
+		return <div className="value-big text-success">{count}</div>;
 	}
 
 	tbCasesRender() {

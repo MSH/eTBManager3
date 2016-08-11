@@ -4,6 +4,8 @@ import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.impl.FormManager;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
+import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +43,9 @@ public class FormService {
      * @param doc the document
      * @return
      */
-    public FormInitResponse init(String formId, Map<String, Object> doc) {
+    public FormInitResponse init(String formId, Object doc, boolean readOnly) {
+        Map<String, Object> propValues = doc instanceof Map ? (Map<String, Object>)doc : ObjectUtils.describeProperties(doc);
+
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();
 
         Form form = formManager.get(formId);
@@ -51,10 +55,12 @@ public class FormService {
         String code = javaScriptFormGenerator.generate(form, null);
 
         resp.setSchema(code);
-        resp.setDoc(doc);
+        resp.setDoc(propValues);
 
-        Map<String, Object> resources = generateResources(form, doc);
-        resp.setResources(resources);
+        if (!readOnly) {
+            Map<String, Object> resources = generateResources(form, propValues);
+            resp.setResources(resources);
+        }
 
         return resp;
     }

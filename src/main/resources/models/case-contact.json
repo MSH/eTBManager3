@@ -3,6 +3,13 @@
   "table": "casecontact",
   "fields": [
     {
+      "name": "caseId",
+      "field": "case_id",
+      "type": "case",
+      "required": true,
+      "label": "${TbCase}"
+    },
+    {
       "name": "name",
       "type": "string",
       "required": true,
@@ -12,17 +19,10 @@
     },
     {
       "name": "gender",
-      "type": "string",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.Gender",
       "required": true,
-      "label": "${Gender}",
-      "options": [
-        {
-          "id": "MALE", "name": "${Gender.MALE}"
-        },
-        {
-          "id": "FEMALE", "name": "${Gender.FEMALE}"
-        }
-      ]
+      "label": "${Gender}"
     },
     {
       "name": "age",

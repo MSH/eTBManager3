@@ -2,7 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.CaseEntity;
-import org.msh.etbm.db.enums.TreatmentDayOption;
+import org.msh.etbm.db.enums.TreatmentDayStatus;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,37 +23,37 @@ public class TreatmentMonitoring extends CaseEntity {
     @Column(name = "YEAR_TREAT")
     private int year;
 
-    private TreatmentDayOption day1 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day2 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day3 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day4 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day5 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day6 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day7 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day8 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day9 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day10 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day11 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day12 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day13 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day14 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day15 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day16 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day17 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day18 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day19 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day20 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day21 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day22 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day23 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day24 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day25 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day26 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day27 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day28 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day29 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day30 = TreatmentDayOption.NOT_TAKEN;
-    private TreatmentDayOption day31 = TreatmentDayOption.NOT_TAKEN;
+    private TreatmentDayStatus day1 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day2 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day3 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day4 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day5 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day6 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day7 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day8 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day9 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day10 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day11 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day12 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day13 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day14 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day15 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day16 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day17 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day18 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day19 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day20 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day21 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day22 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day23 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day24 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day25 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day26 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day27 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day28 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day29 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day30 = TreatmentDayStatus.NOT_TAKEN;
+    private TreatmentDayStatus day31 = TreatmentDayStatus.NOT_TAKEN;
 
 
     /**
@@ -64,8 +64,8 @@ public class TreatmentMonitoring extends CaseEntity {
     public int getNumDispensingDays() {
         int res = 0;
         for (int i = 1; i <= 31; i++) {
-            TreatmentDayOption opt = getDay(i);
-            if ((opt == TreatmentDayOption.DOTS) || (opt == TreatmentDayOption.SELF_ADMIN)) {
+            TreatmentDayStatus opt = getDay(i);
+            if ((opt == TreatmentDayStatus.DOTS) || (opt == TreatmentDayStatus.SELF_ADMIN)) {
                 res++;
             }
         }
@@ -76,19 +76,19 @@ public class TreatmentMonitoring extends CaseEntity {
      * Return information about the treatment for a specific day
      *
      * @param day day of the month
-     * @return instance of {@link TreatmentDayOption}, or null if nothing is found
+     * @return instance of {@link TreatmentDayStatus}, or null if nothing is found
      */
-    public TreatmentDayOption getDay(int day) {
-        return (TreatmentDayOption) ObjectUtils.getProperty(this, "day" + Integer.toString(day));
+    public TreatmentDayStatus getDay(int day) {
+        return (TreatmentDayStatus) ObjectUtils.getProperty(this, "day" + Integer.toString(day));
     }
 
     /**
      * Update the status of a given day of treatment
      *
      * @param day   day of the month (between 1 and 31)
-     * @param value instance of {@link TreatmentDayOption}
+     * @param value instance of {@link TreatmentDayStatus}
      */
-    public void setDay(int day, TreatmentDayOption value) {
+    public void setDay(int day, TreatmentDayStatus value) {
         ObjectUtils.setProperty(this, "day" + Integer.toString(day), value);
     }
 
@@ -123,651 +123,651 @@ public class TreatmentMonitoring extends CaseEntity {
     /**
      * @return the day1
      */
-    public TreatmentDayOption isDay1() {
+    public TreatmentDayStatus isDay1() {
         return day1;
     }
 
     /**
      * @param day1 the day1 to set
      */
-    public void setDay1(TreatmentDayOption day1) {
+    public void setDay1(TreatmentDayStatus day1) {
         this.day1 = day1;
     }
 
     /**
      * @return the day2
      */
-    public TreatmentDayOption isDay2() {
+    public TreatmentDayStatus isDay2() {
         return day2;
     }
 
     /**
      * @param day2 the day2 to set
      */
-    public void setDay2(TreatmentDayOption day2) {
+    public void setDay2(TreatmentDayStatus day2) {
         this.day2 = day2;
     }
 
     /**
      * @return the day3
      */
-    public TreatmentDayOption isDay3() {
+    public TreatmentDayStatus isDay3() {
         return day3;
     }
 
     /**
      * @param day3 the day3 to set
      */
-    public void setDay3(TreatmentDayOption day3) {
+    public void setDay3(TreatmentDayStatus day3) {
         this.day3 = day3;
     }
 
     /**
      * @return the day4
      */
-    public TreatmentDayOption isDay4() {
+    public TreatmentDayStatus isDay4() {
         return day4;
     }
 
     /**
      * @param day4 the day4 to set
      */
-    public void setDay4(TreatmentDayOption day4) {
+    public void setDay4(TreatmentDayStatus day4) {
         this.day4 = day4;
     }
 
     /**
      * @return the day5
      */
-    public TreatmentDayOption isDay5() {
+    public TreatmentDayStatus isDay5() {
         return day5;
     }
 
     /**
      * @param day5 the day5 to set
      */
-    public void setDay5(TreatmentDayOption day5) {
+    public void setDay5(TreatmentDayStatus day5) {
         this.day5 = day5;
     }
 
     /**
      * @return the day6
      */
-    public TreatmentDayOption isDay6() {
+    public TreatmentDayStatus isDay6() {
         return day6;
     }
 
     /**
      * @param day6 the day6 to set
      */
-    public void setDay6(TreatmentDayOption day6) {
+    public void setDay6(TreatmentDayStatus day6) {
         this.day6 = day6;
     }
 
     /**
      * @return the day7
      */
-    public TreatmentDayOption isDay7() {
+    public TreatmentDayStatus isDay7() {
         return day7;
     }
 
     /**
      * @param day7 the day7 to set
      */
-    public void setDay7(TreatmentDayOption day7) {
+    public void setDay7(TreatmentDayStatus day7) {
         this.day7 = day7;
     }
 
     /**
      * @return the day8
      */
-    public TreatmentDayOption isDay8() {
+    public TreatmentDayStatus isDay8() {
         return day8;
     }
 
     /**
      * @param day8 the day8 to set
      */
-    public void setDay8(TreatmentDayOption day8) {
+    public void setDay8(TreatmentDayStatus day8) {
         this.day8 = day8;
     }
 
     /**
      * @return the day9
      */
-    public TreatmentDayOption isDay9() {
+    public TreatmentDayStatus isDay9() {
         return day9;
     }
 
     /**
      * @param day9 the day9 to set
      */
-    public void setDay9(TreatmentDayOption day9) {
+    public void setDay9(TreatmentDayStatus day9) {
         this.day9 = day9;
     }
 
     /**
      * @return the day10
      */
-    public TreatmentDayOption isDay10() {
+    public TreatmentDayStatus isDay10() {
         return day10;
     }
 
     /**
      * @param day10 the day10 to set
      */
-    public void setDay10(TreatmentDayOption day10) {
+    public void setDay10(TreatmentDayStatus day10) {
         this.day10 = day10;
     }
 
     /**
      * @return the day11
      */
-    public TreatmentDayOption isDay11() {
+    public TreatmentDayStatus isDay11() {
         return day11;
     }
 
     /**
      * @param day11 the day11 to set
      */
-    public void setDay11(TreatmentDayOption day11) {
+    public void setDay11(TreatmentDayStatus day11) {
         this.day11 = day11;
     }
 
     /**
      * @return the day12
      */
-    public TreatmentDayOption isDay12() {
+    public TreatmentDayStatus isDay12() {
         return day12;
     }
 
     /**
      * @param day12 the day12 to set
      */
-    public void setDay12(TreatmentDayOption day12) {
+    public void setDay12(TreatmentDayStatus day12) {
         this.day12 = day12;
     }
 
     /**
      * @return the day13
      */
-    public TreatmentDayOption isDay13() {
+    public TreatmentDayStatus isDay13() {
         return day13;
     }
 
     /**
      * @param day13 the day13 to set
      */
-    public void setDay13(TreatmentDayOption day13) {
+    public void setDay13(TreatmentDayStatus day13) {
         this.day13 = day13;
     }
 
     /**
      * @return the day14
      */
-    public TreatmentDayOption isDay14() {
+    public TreatmentDayStatus isDay14() {
         return day14;
     }
 
     /**
      * @param day14 the day14 to set
      */
-    public void setDay14(TreatmentDayOption day14) {
+    public void setDay14(TreatmentDayStatus day14) {
         this.day14 = day14;
     }
 
     /**
      * @return the day15
      */
-    public TreatmentDayOption isDay15() {
+    public TreatmentDayStatus isDay15() {
         return day15;
     }
 
     /**
      * @param day15 the day15 to set
      */
-    public void setDay15(TreatmentDayOption day15) {
+    public void setDay15(TreatmentDayStatus day15) {
         this.day15 = day15;
     }
 
     /**
      * @return the day16
      */
-    public TreatmentDayOption isDay16() {
+    public TreatmentDayStatus isDay16() {
         return day16;
     }
 
     /**
      * @param day16 the day16 to set
      */
-    public void setDay16(TreatmentDayOption day16) {
+    public void setDay16(TreatmentDayStatus day16) {
         this.day16 = day16;
     }
 
     /**
      * @return the day17
      */
-    public TreatmentDayOption isDay17() {
+    public TreatmentDayStatus isDay17() {
         return day17;
     }
 
     /**
      * @param day17 the day17 to set
      */
-    public void setDay17(TreatmentDayOption day17) {
+    public void setDay17(TreatmentDayStatus day17) {
         this.day17 = day17;
     }
 
     /**
      * @return the day18
      */
-    public TreatmentDayOption isDay18() {
+    public TreatmentDayStatus isDay18() {
         return day18;
     }
 
     /**
      * @param day18 the day18 to set
      */
-    public void setDay18(TreatmentDayOption day18) {
+    public void setDay18(TreatmentDayStatus day18) {
         this.day18 = day18;
     }
 
     /**
      * @return the day19
      */
-    public TreatmentDayOption isDay19() {
+    public TreatmentDayStatus isDay19() {
         return day19;
     }
 
     /**
      * @param day19 the day19 to set
      */
-    public void setDay19(TreatmentDayOption day19) {
+    public void setDay19(TreatmentDayStatus day19) {
         this.day19 = day19;
     }
 
     /**
      * @return the day20
      */
-    public TreatmentDayOption isDay20() {
+    public TreatmentDayStatus isDay20() {
         return day20;
     }
 
     /**
      * @param day20 the day20 to set
      */
-    public void setDay20(TreatmentDayOption day20) {
+    public void setDay20(TreatmentDayStatus day20) {
         this.day20 = day20;
     }
 
     /**
      * @return the day21
      */
-    public TreatmentDayOption isDay21() {
+    public TreatmentDayStatus isDay21() {
         return day21;
     }
 
     /**
      * @param day21 the day21 to set
      */
-    public void setDay21(TreatmentDayOption day21) {
+    public void setDay21(TreatmentDayStatus day21) {
         this.day21 = day21;
     }
 
     /**
      * @return the day22
      */
-    public TreatmentDayOption isDay22() {
+    public TreatmentDayStatus isDay22() {
         return day22;
     }
 
     /**
      * @param day22 the day22 to set
      */
-    public void setDay22(TreatmentDayOption day22) {
+    public void setDay22(TreatmentDayStatus day22) {
         this.day22 = day22;
     }
 
     /**
      * @return the day23
      */
-    public TreatmentDayOption isDay23() {
+    public TreatmentDayStatus isDay23() {
         return day23;
     }
 
     /**
      * @param day23 the day23 to set
      */
-    public void setDay23(TreatmentDayOption day23) {
+    public void setDay23(TreatmentDayStatus day23) {
         this.day23 = day23;
     }
 
     /**
      * @return the day24
      */
-    public TreatmentDayOption isDay24() {
+    public TreatmentDayStatus isDay24() {
         return day24;
     }
 
     /**
      * @param day24 the day24 to set
      */
-    public void setDay24(TreatmentDayOption day24) {
+    public void setDay24(TreatmentDayStatus day24) {
         this.day24 = day24;
     }
 
     /**
      * @return the day25
      */
-    public TreatmentDayOption isDay25() {
+    public TreatmentDayStatus isDay25() {
         return day25;
     }
 
     /**
      * @param day25 the day25 to set
      */
-    public void setDay25(TreatmentDayOption day25) {
+    public void setDay25(TreatmentDayStatus day25) {
         this.day25 = day25;
     }
 
     /**
      * @return the day26
      */
-    public TreatmentDayOption isDay26() {
+    public TreatmentDayStatus isDay26() {
         return day26;
     }
 
     /**
      * @param day26 the day26 to set
      */
-    public void setDay26(TreatmentDayOption day26) {
+    public void setDay26(TreatmentDayStatus day26) {
         this.day26 = day26;
     }
 
     /**
      * @return the day27
      */
-    public TreatmentDayOption isDay27() {
+    public TreatmentDayStatus isDay27() {
         return day27;
     }
 
     /**
      * @param day27 the day27 to set
      */
-    public void setDay27(TreatmentDayOption day27) {
+    public void setDay27(TreatmentDayStatus day27) {
         this.day27 = day27;
     }
 
     /**
      * @return the day28
      */
-    public TreatmentDayOption isDay28() {
+    public TreatmentDayStatus isDay28() {
         return day28;
     }
 
     /**
      * @param day28 the day28 to set
      */
-    public void setDay28(TreatmentDayOption day28) {
+    public void setDay28(TreatmentDayStatus day28) {
         this.day28 = day28;
     }
 
     /**
      * @return the day29
      */
-    public TreatmentDayOption isDay29() {
+    public TreatmentDayStatus isDay29() {
         return day29;
     }
 
     /**
      * @param day29 the day29 to set
      */
-    public void setDay29(TreatmentDayOption day29) {
+    public void setDay29(TreatmentDayStatus day29) {
         this.day29 = day29;
     }
 
     /**
      * @return the day30
      */
-    public TreatmentDayOption isDay30() {
+    public TreatmentDayStatus isDay30() {
         return day30;
     }
 
     /**
      * @param day30 the day30 to set
      */
-    public void setDay30(TreatmentDayOption day30) {
+    public void setDay30(TreatmentDayStatus day30) {
         this.day30 = day30;
     }
 
     /**
      * @return the day31
      */
-    public TreatmentDayOption isDay31() {
+    public TreatmentDayStatus isDay31() {
         return day31;
     }
 
     /**
      * @param day31 the day31 to set
      */
-    public void setDay31(TreatmentDayOption day31) {
+    public void setDay31(TreatmentDayStatus day31) {
         this.day31 = day31;
     }
 
     /**
      * @return the day1
      */
-    public TreatmentDayOption getDay1() {
+    public TreatmentDayStatus getDay1() {
         return day1;
     }
 
     /**
      * @return the day2
      */
-    public TreatmentDayOption getDay2() {
+    public TreatmentDayStatus getDay2() {
         return day2;
     }
 
     /**
      * @return the day3
      */
-    public TreatmentDayOption getDay3() {
+    public TreatmentDayStatus getDay3() {
         return day3;
     }
 
     /**
      * @return the day4
      */
-    public TreatmentDayOption getDay4() {
+    public TreatmentDayStatus getDay4() {
         return day4;
     }
 
     /**
      * @return the day5
      */
-    public TreatmentDayOption getDay5() {
+    public TreatmentDayStatus getDay5() {
         return day5;
     }
 
     /**
      * @return the day6
      */
-    public TreatmentDayOption getDay6() {
+    public TreatmentDayStatus getDay6() {
         return day6;
     }
 
     /**
      * @return the day7
      */
-    public TreatmentDayOption getDay7() {
+    public TreatmentDayStatus getDay7() {
         return day7;
     }
 
     /**
      * @return the day8
      */
-    public TreatmentDayOption getDay8() {
+    public TreatmentDayStatus getDay8() {
         return day8;
     }
 
     /**
      * @return the day9
      */
-    public TreatmentDayOption getDay9() {
+    public TreatmentDayStatus getDay9() {
         return day9;
     }
 
     /**
      * @return the day10
      */
-    public TreatmentDayOption getDay10() {
+    public TreatmentDayStatus getDay10() {
         return day10;
     }
 
     /**
      * @return the day11
      */
-    public TreatmentDayOption getDay11() {
+    public TreatmentDayStatus getDay11() {
         return day11;
     }
 
     /**
      * @return the day12
      */
-    public TreatmentDayOption getDay12() {
+    public TreatmentDayStatus getDay12() {
         return day12;
     }
 
     /**
      * @return the day13
      */
-    public TreatmentDayOption getDay13() {
+    public TreatmentDayStatus getDay13() {
         return day13;
     }
 
     /**
      * @return the day14
      */
-    public TreatmentDayOption getDay14() {
+    public TreatmentDayStatus getDay14() {
         return day14;
     }
 
     /**
      * @return the day15
      */
-    public TreatmentDayOption getDay15() {
+    public TreatmentDayStatus getDay15() {
         return day15;
     }
 
     /**
      * @return the day16
      */
-    public TreatmentDayOption getDay16() {
+    public TreatmentDayStatus getDay16() {
         return day16;
     }
 
     /**
      * @return the day17
      */
-    public TreatmentDayOption getDay17() {
+    public TreatmentDayStatus getDay17() {
         return day17;
     }
 
     /**
      * @return the day18
      */
-    public TreatmentDayOption getDay18() {
+    public TreatmentDayStatus getDay18() {
         return day18;
     }
 
     /**
      * @return the day19
      */
-    public TreatmentDayOption getDay19() {
+    public TreatmentDayStatus getDay19() {
         return day19;
     }
 
     /**
      * @return the day20
      */
-    public TreatmentDayOption getDay20() {
+    public TreatmentDayStatus getDay20() {
         return day20;
     }
 
     /**
      * @return the day21
      */
-    public TreatmentDayOption getDay21() {
+    public TreatmentDayStatus getDay21() {
         return day21;
     }
 
     /**
      * @return the day22
      */
-    public TreatmentDayOption getDay22() {
+    public TreatmentDayStatus getDay22() {
         return day22;
     }
 
     /**
      * @return the day23
      */
-    public TreatmentDayOption getDay23() {
+    public TreatmentDayStatus getDay23() {
         return day23;
     }
 
     /**
      * @return the day24
      */
-    public TreatmentDayOption getDay24() {
+    public TreatmentDayStatus getDay24() {
         return day24;
     }
 
     /**
      * @return the day25
      */
-    public TreatmentDayOption getDay25() {
+    public TreatmentDayStatus getDay25() {
         return day25;
     }
 
     /**
      * @return the day26
      */
-    public TreatmentDayOption getDay26() {
+    public TreatmentDayStatus getDay26() {
         return day26;
     }
 
     /**
      * @return the day27
      */
-    public TreatmentDayOption getDay27() {
+    public TreatmentDayStatus getDay27() {
         return day27;
     }
 
     /**
      * @return the day28
      */
-    public TreatmentDayOption getDay28() {
+    public TreatmentDayStatus getDay28() {
         return day28;
     }
 
     /**
      * @return the day29
      */
-    public TreatmentDayOption getDay29() {
+    public TreatmentDayStatus getDay29() {
         return day29;
     }
 
     /**
      * @return the day30
      */
-    public TreatmentDayOption getDay30() {
+    public TreatmentDayStatus getDay30() {
         return day30;
     }
 
     /**
      * @return the day31
      */
-    public TreatmentDayOption getDay31() {
+    public TreatmentDayStatus getDay31() {
         return day31;
     }
 

@@ -14,6 +14,7 @@ import java.util.List;
  *
  * Created by rmemoria on 8/8/16.
  */
+@FieldType("enum")
 public class EnumField extends SingleField {
 
     private Class<? extends Enum> enumClass;

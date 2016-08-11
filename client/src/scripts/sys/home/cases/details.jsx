@@ -27,7 +27,7 @@ export default class Details extends React.Component {
 		this.reopenConfirm = this.reopenConfirm.bind(this);
 		this._onAppChange = this._onAppChange.bind(this);
 
-		this.state = { selTab: 0 };
+		this.state = { selTab: 2 };
 	}
 
 	componentWillMount() {

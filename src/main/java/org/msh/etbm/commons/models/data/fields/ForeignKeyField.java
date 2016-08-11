@@ -1,33 +1,38 @@
 package org.msh.etbm.commons.models.data.fields;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
- * Created by rmemoria on 11/7/16.
+ * Created by rmemoria on 8/8/16.
  */
-public abstract class ForeignKeyField extends SingleField {
+@FieldType("foreignKey")
+public class ForeignKeyField extends AbstractForeignKeyField {
 
-    public ForeignKeyField() {
+    private String fkTable;
+
+    private String fkDisplayField;
+
+    @Override
+    public String getForeignTable() {
+        return fkTable;
     }
 
-    public ForeignKeyField(String name) {
-        super(name);
+    @Override
+    public String getForeignDisplayingFieldName() {
+        return fkDisplayField;
     }
 
-    public ForeignKeyField(String name, String dbFieldName) {
-        super(name, dbFieldName);
+    public String getFkTable() {
+        return fkTable;
     }
 
-    @JsonIgnore
-    public abstract String getForeignTable();
-
-    @JsonIgnore
-    public abstract String getForeignDisplayingFieldName();
-
-    @JsonIgnore
-    public String getForeignTableKeyName() {
-        return "id";
+    public void setFkTable(String fkTable) {
+        this.fkTable = fkTable;
     }
 
+    public String getFkDisplayField() {
+        return fkDisplayField;
+    }
 
+    public void setFkDisplayField(String fkDisplayField) {
+        this.fkDisplayField = fkDisplayField;
+    }
 }

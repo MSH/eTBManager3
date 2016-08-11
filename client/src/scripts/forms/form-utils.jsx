@@ -35,7 +35,7 @@ export default class FormUtils {
 		return (
 			<div className="form-group">
 				{labelelem}
-				<div className="form-control-static maxh250scroll">
+				<div className="form-control-static autoscroll">
 					{content ? content : '-'}
 				</div>
 			</div>

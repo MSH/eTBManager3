@@ -2,7 +2,7 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { WaitIcon, Errors } from '../../components';
-import { getValue } from '../../commons/utils';
+import { getValue, formatString, isString } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
 
 
@@ -35,7 +35,17 @@ export default function formRender(form) {
 	const items = snapshots.map(item => {
 		const snapshot = item.snapshot;
 		const compErrors = snapshot.property ? propertyErrors(snapshot.property, errors, handledErrors) : null;
-		const value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
+
+		// get the value
+		let value;
+		if (snapshot.value) {
+			value = snapshot.value;
+			if (isString(value)) {
+				value = formatString(value, form.props.doc);
+			}
+		} else {
+			value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
+		}
 
 		const comp = createElement(form, item, value, compErrors, resources);
 

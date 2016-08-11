@@ -1,0 +1,58 @@
+@import '../../../../../../less/variables.less';
+
+.treat-followup {
+
+	.treat-legend {
+		color: @text-muted;
+		width: 100%;
+		text-align: right;
+		padding-bottom: 6px;
+		font-size: 0.9em;
+	}
+
+	.treat-table {
+		display: table;
+
+		.treat-cal {
+			max-width: 250px;
+			min-width: 220px;
+			float: left;
+			min-height: 250px;
+			border: 1px solid #f0f0f0;
+		}
+	}
+
+}
+
+.DayPicker-Day {
+	padding: 2px;
+}
+.DayPicker-Day:hover {
+	background-color: #f0f0f0;
+}
+.DayPicker-Day:focus {
+	outline: 0;
+}
+.DayPicker-Day .day {
+	border-radius: 12px;
+	width:24px;
+	height:24px;
+	line-height: 2
+}
+
+.DayPicker-Day--dots .day, .DayPicker-Day--selfadmin .day, .DayPicker-Day--nottaken .day {
+	color: white;
+	font-size: 0.8em;
+	padding-top:2px;
+}
+.DayPicker-Day--dots .day {
+	background-color: @brand-success;
+}
+
+.DayPicker-Day--selfadmin .day {
+	background-color: @brand-primary;
+}
+
+.DayPicker-Day--nottaken .day {
+	background-color: @text-muted;
+}

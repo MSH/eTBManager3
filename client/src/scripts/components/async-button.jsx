@@ -23,12 +23,13 @@ export default class AsyncButton extends React.Component {
             this.props,
             {
                 disabled: fetching || this.props.disabled,
-                bsStyle: props.bsStyle ? props.bsStyle : 'primary'
+                bsStyle: props.bsStyle ? props.bsStyle : 'success'
             });
 
         delete btnProps.fetching;
         delete btnProps.faIcon;
         delete btnProps.fetchMsg;
+        delete btnProps.fetchCaption;
 
         if (fetching) {
             btnProps.onClick = null;

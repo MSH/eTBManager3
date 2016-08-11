@@ -4,15 +4,10 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.entities.PrescribedMedicine;
-import org.msh.etbm.db.entities.Product;
-import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.enums.TreatmentDayStatus;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
-import org.msh.etbm.services.cases.treatment.data.TreatmentData;
-import org.msh.etbm.services.cases.treatment.data.TreatmentUnitData;
+import org.msh.etbm.services.cases.treatment.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,9 +42,6 @@ public class TreatmentService {
             return null;
         }
 
-        System.out.println(tbcase.getTreatmentUnits().size());
-        System.out.println(tbcase.getPrescriptions().size());
-
         TreatmentData data = new TreatmentData();
 
         Period period = tbcase.getTreatmentPeriod();
@@ -77,9 +69,100 @@ public class TreatmentService {
         List<TreatmentUnitData> units = mountTreatmentUnits(tbcase.getTreatmentUnits());
         data.setUnits(units);
 
+        List<MonthlyFollowup> followup = loadTreatmentFollowup(tbcase);
+        data.setFollowup(followup);
+
         return data;
     }
 
+    /**
+     * Create the list of treatment followup data per month of the treatment
+     * @param tbcase
+     * @return
+     */
+    protected List<MonthlyFollowup> loadTreatmentFollowup(TbCase tbcase) {
+        Period p = tbcase.getTreatmentPeriod();
+        if (p == null) {
+            return null;
+        }
+
+        // load data about treatment monitoring
+        List<TreatmentMonitoring> lst = entityManager.createQuery("from TreatmentMonitoring c  " +
+                "where c.tbcase.id = :id ")
+                .setParameter("id", tbcase.getId())
+                .getResultList();
+
+        List<MonthlyFollowup> followup = new ArrayList<>();
+
+        int months = DateUtils.monthsBetween(p.getIniDate(), p.getEndDate());
+
+        int month = DateUtils.monthOf(p.getIniDate());
+        int year = DateUtils.yearOf(p.getIniDate());
+
+        // check if dates are not in the same month
+        if (year != DateUtils.yearOf(p.getEndDate()) || (month != DateUtils.monthOf(p.getEndDate()))) {
+            // adjust the months
+            months++;
+        }
+
+        for (int i = 0; i <= months; i++) {
+            MonthlyFollowup data = createMonthlyFollowup(lst, year, month);
+            followup.add(data);
+            month++;
+            if (month == 12) {
+                month = 0;
+                year++;
+            }
+        }
+
+        return followup;
+    }
+
+    /**
+     * Create a new treatment followup by year/month and fill with information about its treatment monitoring
+     * for each day of the month
+     * @param lst the list containing treatment data
+     * @param year the year to get information from
+     * @param month the month of the year to get information from
+     * @return the instance of {@link MonthlyFollowup} containing treatment followup for the given year/month
+     */
+    private MonthlyFollowup createMonthlyFollowup(List<TreatmentMonitoring> lst, int year, int month) {
+        MonthlyFollowup data = new MonthlyFollowup();
+        data.setYear(year);
+        data.setMonth(month);
+
+        // search for treatment monitoring
+        TreatmentMonitoring item = null;
+        for (TreatmentMonitoring tm: lst) {
+            if (tm.getYear() == year && tm.getMonth() == month) {
+                item = tm;
+                break;
+            }
+        }
+
+        // was found treatment monitoring data for the given month/year
+        if (item != null) {
+            List<FollowupDay> days = new ArrayList<>();
+
+            int numDays = DateUtils.daysInAMonth(year, month);
+
+            for (int day = 1; day <= numDays; day++) {
+                TreatmentDayStatus status = item.getDay(day);
+                if (status != null) {
+                    FollowupDay fd = new FollowupDay();
+                    fd.setDay(day);
+                    fd.setStatus(status);
+                    days.add(fd);
+                }
+            }
+
+            if (days.size() > 0) {
+                data.setDays(days);
+            }
+        }
+
+        return data;
+    }
 
     /**
      * Create the list of treatment units as the response

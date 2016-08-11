@@ -1,0 +1,50 @@
+{
+  "dataModel": "case-contact",
+
+  "title": { "expression": "doc && doc.id ? ${'case.casecontact.edt'} : ${'case.casecontact.new'}" },
+
+  "controls": [
+    {
+      "type": "string",
+      "property": "name",
+      "max": 100,
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "select",
+      "property": "gender",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "number",
+      "property": "age",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "select",
+      "property": "contactType",
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "yesNo",
+      "property": "examinated",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "date",
+      "property": "dateOfExamination",
+      "size": { "sm": 6 },
+      "visible": { "expression": "this.examinated" }
+    },
+    {
+      "type": "string",
+      "property": "conduct",
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "text",
+      "property": "comments",
+      "size": { "sm": 12 }
+    }
+  ]
+}

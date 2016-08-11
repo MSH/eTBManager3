@@ -95,6 +95,7 @@ export default class Login extends React.Component {
 		const err = st && st.errors || {};
 		const fetching = st && st.fetching;
 		const login = app.getState().login || '';
+		const allowRegPage = app.getState().app.allowRegPage;
 
 		return (
 				<Logo>
@@ -163,13 +164,16 @@ export default class Login extends React.Component {
 							<a href="#/pub/forgotpwd">{__('forgotpwd')}</a>
 						</Col>
 					</Row>
-					<Row>
-						<Col sm={12} className="mtop-2x">
-							<a className="btn btn-block btn-lg btn-default" href="#/pub/selfreg">
-								{__('userreg')}
-							</a>
-						</Col>
-					</Row>
+					{
+						allowRegPage &&
+						<Row>
+							<Col sm={12} className="mtop-2x">
+								<a className="btn btn-block btn-lg btn-default" href="#/pub/selfreg">
+									{__('userreg')}
+								</a>
+							</Col>
+						</Row>
+					}
 					</div>
 				</Logo>
 		);

@@ -2,6 +2,8 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormInitResponse;
+import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.contacts.CaseContactFormData;
 import org.msh.etbm.services.cases.contacts.CaseContactQueryParams;
@@ -26,6 +28,14 @@ public class CaseContactsREST {
 
     @Autowired
     CaseContactService service;
+
+    @Autowired
+    FormService formService;
+
+    @RequestMapping(value = "/contact", method = RequestMethod.GET)
+    public FormInitResponse init() {
+        return formService.init("contact.default", new CaseContactData(), false);
+    }
 
     @RequestMapping(value = "/contact/{id}", method = RequestMethod.GET)
     @Authenticated()
