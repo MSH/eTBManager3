@@ -7,7 +7,7 @@ import org.msh.etbm.db.MessageKey;
  *
  * @author Ricardo Memoria
  */
-public enum CaseClassification implements MessageKey{
+public enum CaseClassification implements MessageKey {
     TB,
     DRTB,
     NTM;
