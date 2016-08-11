@@ -43,7 +43,7 @@ public class ManualCaseTagsService {
         // store previous list
         assignManualTags(tbcase.getTags(), res.getPrevManualTags());
 
-        // temporary tag list that will be assigned to the case at the end of ]this method
+        // temporary tag list that will be assigned to the case at the end of this method
         List<Tag> newTagList = new ArrayList<Tag>();
 
         // store the auto generated tags

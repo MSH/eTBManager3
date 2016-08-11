@@ -144,7 +144,7 @@ export default class Cases extends React.Component {
 		}
 
 		return (
-			<ReactTable
+			<ReactTable className="mtop-2x"
 				columns={[
 					{
 						title: 'Patient',
