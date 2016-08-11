@@ -5,7 +5,7 @@ package org.msh.etbm.db.enums;
  *
  * @author Ricardo Memoria
  */
-public enum TreatmentDayOption {
+public enum TreatmentDayStatus {
 
     NOT_TAKEN,
     DOTS,

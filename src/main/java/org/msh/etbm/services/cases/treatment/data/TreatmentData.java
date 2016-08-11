@@ -46,6 +46,11 @@ public class TreatmentData {
      */
     private List<TreatmentUnitData> units;
 
+    /**
+     * Information about treatment followup for each day of the treatment
+     */
+    private List<MonthlyFollowup> followup;
+
     public Period getPeriod() {
         return period;
     }
@@ -100,5 +105,13 @@ public class TreatmentData {
 
     public void setUnits(List<TreatmentUnitData> units) {
         this.units = units;
+    }
+
+    public List<MonthlyFollowup> getFollowup() {
+        return followup;
+    }
+
+    public void setFollowup(List<MonthlyFollowup> followup) {
+        this.followup = followup;
     }
 }
