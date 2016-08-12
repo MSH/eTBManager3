@@ -4,6 +4,7 @@ import { WaitIcon } from '../../../components';
 import { server } from '../../../commons/server';
 import CasesTags from '../commons/cases-tags';
 import CasesDistribution from '../commons/cases-distribution';
+import TagCasesList from '../cases/tag-cases-list';
 
 
 function fetchData(parentId) {
@@ -17,6 +18,9 @@ export default class Cases extends React.Component {
 	componentWillMount() {
 		const self = this;
 
+		this.selTag = this.selTag.bind(this);
+		this.closeTagCasesList = this.closeTagCasesList.bind(this);
+
 		fetchData()
 		.then(res => self.setState({ data: res }));
 
@@ -26,6 +30,14 @@ export default class Cases extends React.Component {
 	getChildren(parent) {
 		const id = parent.id;
 		return fetchData(id);
+	}
+
+	selTag(tagId) {
+		return () => this.setState({ selectedTag: tagId });
+	}
+
+	closeTagCasesList() {
+		this.setState({ selectedTag: null });
 	}
 
 	render() {
@@ -39,14 +51,20 @@ export default class Cases extends React.Component {
 			<Grid fluid>
 				<Row>
 					<Col sm={3}>
-						<CasesTags tags={data.tags} />
+						<CasesTags tags={data.tags} onClick={this.selTag}/>
 					</Col>
 					<Col sm={9}>
-						<Grid fluid>
-							<CasesDistribution
-								root={data.places}
-								onGetChildren={this.getChildren} />
-						</Grid>
+						{
+							this.state.selectedTag ? <TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag}/> : null
+						}
+						{
+							!this.state.selectedTag ?
+								<Grid fluid>
+									<CasesDistribution
+										root={data.places}
+										onGetChildren={this.getChildren} />
+								</Grid> : null
+						}
 					</Col>
 				</Row>
 			</Grid>

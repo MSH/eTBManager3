@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum Nationality {
+import org.msh.etbm.db.MessageKey;
+
+public enum Nationality implements MessageKey {
 
     NATIVE,
     FOREIGN,
@@ -29,7 +31,8 @@ public enum Nationality {
     THAILAND,
     LAO;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

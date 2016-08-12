@@ -1,11 +1,14 @@
 package org.msh.etbm.db.enums;
 
-public enum InfectionSite {
+import org.msh.etbm.db.MessageKey;
+
+public enum InfectionSite implements MessageKey {
     PULMONARY,
     EXTRAPULMONARY,
     BOTH;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

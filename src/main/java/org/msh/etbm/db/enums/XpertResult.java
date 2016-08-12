@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum XpertResult {
+import org.msh.etbm.db.MessageKey;
+
+public enum XpertResult implements MessageKey {
 
     INVALID,
     ERROR,
@@ -10,7 +12,8 @@ public enum XpertResult {
     TB_DETECTED,
     INVALID_NORESULT_ERROR;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

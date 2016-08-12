@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum PatientType {
+import org.msh.etbm.db.MessageKey;
+
+public enum PatientType implements MessageKey {
     NEW,
     RELAPSE,
     AFTER_DEFAULT,
@@ -51,7 +53,8 @@ public enum PatientType {
     UNKNOWN_PREVIOUS_TB_TREAT,//48
     ;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum YesNoType {
+import org.msh.etbm.db.MessageKey;
+
+public enum YesNoType implements MessageKey {
     YES("global.yes"),
     NO("global.no");
 
@@ -10,7 +12,8 @@ public enum YesNoType {
         messageKey = msg;
     }
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return messageKey;
     }
 

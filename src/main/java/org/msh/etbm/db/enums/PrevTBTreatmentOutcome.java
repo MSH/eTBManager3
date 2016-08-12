@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum PrevTBTreatmentOutcome {
+import org.msh.etbm.db.MessageKey;
+
+public enum PrevTBTreatmentOutcome implements MessageKey {
 
     CURED,
     COMPLETED,
@@ -16,8 +18,8 @@ public enum PrevTBTreatmentOutcome {
     OTHER,
     /*Bangladesh*/DELAYED_CONVERTER;
 
-
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

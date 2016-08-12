@@ -1,15 +1,16 @@
 package org.msh.etbm.web.api.cases;
 
+import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.cases.tag.TagCasesReportService;
+import org.msh.etbm.services.cases.tag.TagCasesQueryParams;
 import org.msh.etbm.services.cases.unitview.UnitViewData;
 import org.msh.etbm.services.cases.unitview.UnitViewService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 /**
@@ -29,4 +30,5 @@ public class UnitViewREST {
     public UnitViewData getUnitView(@PathVariable UUID unitID) {
         return service.getUnitView(unitID);
     }
+
 }

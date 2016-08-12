@@ -1,11 +1,14 @@
 package org.msh.etbm.db.enums;
 
-public enum LocalityType {
+import org.msh.etbm.db.MessageKey;
+
+public enum LocalityType implements MessageKey {
 
     URBAN,
     RURAL;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

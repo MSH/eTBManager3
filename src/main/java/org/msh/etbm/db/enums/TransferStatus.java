@@ -1,11 +1,13 @@
 package org.msh.etbm.db.enums;
 
-public enum TransferStatus {
+import org.msh.etbm.db.MessageKey;
+
+public enum TransferStatus implements MessageKey {
     WAITING_RECEIVING,
     DONE,
     CANCELLED;
 
-    public String getKey() {
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

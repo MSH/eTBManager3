@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum DotBy {
+import org.msh.etbm.db.MessageKey;
+
+public enum DotBy implements MessageKey {
     HCW,
     H,
     CHW,
@@ -12,7 +14,8 @@ public enum DotBy {
     COMMUNITY,
     NONDOT;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

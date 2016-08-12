@@ -26,7 +26,7 @@ public class Medicine extends Product {
     private List<Substance> substances = new ArrayList<>();
 
     public String getTbInfoKey() {
-        return line != null ? line.getKey() : null;
+        return line != null ? line.getMessageKey() : null;
     }
 
 

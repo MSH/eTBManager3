@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable, Fa, CommandBar } from '../../../components';
 import AdvancedSearch from '../cases/advanced-search';
+import TagCasesList from '../cases/tag-cases-list';
 import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
 import moment from 'moment';
@@ -15,11 +16,14 @@ export default class Cases extends React.Component {
 		this.state = {
 			sel: 0,
 			presumptives: null,
-			tags: null
+			tags: null,
+			selectedTag: null
 		};
 		this.newPresumptive = this.newPresumptive.bind(this);
 		this.tabSelect = this.tabSelect.bind(this);
 		this.toggleSearch = this.toggleSearch.bind(this);
+		this.closeTagCasesList = this.closeTagCasesList.bind(this);
+		this.selTag = this.selTag.bind(this);
 	}
 
 	componentWillMount() {
@@ -251,8 +255,17 @@ export default class Cases extends React.Component {
 		this.forceUpdate();
 	}
 
+	selTag(tagId) {
+		return () => this.setState({ selectedTag: tagId });
+	}
+
+	closeTagCasesList() {
+		this.setState({ selectedTag: null });
+	}
+
 	render() {
 		const caseSearch = app.getState().caseSearch;
+		const unitId = this.props.route.queryParam('id');
 
 		const popup = (
 				<Popover id="ppmenu" title={'Notify'}>
@@ -292,7 +305,7 @@ export default class Cases extends React.Component {
 								{
 									!this.state.tags ? <WaitIcon type="card" /> :
 									this.state.tags.map(item => (
-										<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()}>
+										<a key={item.id} className={'tag-link tag-' + item.type.toLowerCase()} onClick={this.selTag(item)}>
 											<Badge pullRight>{item.count}</Badge>
 											<div className="tag-title">{item.name}</div>
 										</a>
@@ -305,8 +318,15 @@ export default class Cases extends React.Component {
 				<Col sm={9}>
 				{
 					caseSearch ?
-					<AdvancedSearch onClose={this.toggleSearch}/> :
-					this.casesRender()
+						<AdvancedSearch onClose={this.toggleSearch}/> : null
+				}
+				{
+					!caseSearch && this.state.selectedTag ?
+						<TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag} view="unit" unitId={unitId}/> : null
+				}
+				{
+					!caseSearch && !this.state.selectedTag ?
+						this.casesRender() : null
 				}
 				</Col>
 			</Row>

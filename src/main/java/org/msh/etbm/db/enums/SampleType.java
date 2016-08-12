@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum SampleType {
+import org.msh.etbm.db.MessageKey;
+
+public enum SampleType implements MessageKey {
 
     SPUTUM,
     OTHER,
@@ -12,7 +14,8 @@ public enum SampleType {
     STOOL,
     TISSUE;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }
