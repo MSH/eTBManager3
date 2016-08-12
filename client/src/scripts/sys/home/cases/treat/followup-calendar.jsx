@@ -10,6 +10,8 @@ export default class FollowupCalendar extends React.Component {
 	constructor(props) {
 		super(props);
 		this._calendarClick = this._calendarClick.bind(this);
+		this.isDisabledDay = this.isDisabledDay.bind(this);
+		this._dayClick = this._dayClick.bind(this);
 
 		this.state = { selBtn: 'DOTS' };
 	}
@@ -55,6 +57,41 @@ export default class FollowupCalendar extends React.Component {
 	}
 
 
+	/**
+	 * Check the boundaries of the calendars to disable the days that are
+	 * not part of the treatment
+	 * @param  {[type]}  dt [description]
+	 * @return {Boolean}    [description]
+	 */
+	isDisabledDay(dt) {
+		const day = dt.getDate();
+		const data = this.props.data;
+
+		if (dt.getMonth() === data.month) {
+			if (data.iniDay && day < data.iniDay) {
+				return true;
+			}
+
+			if (data.endDay && day > data.endDay) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	_dayClick(evt, day) {
+		// if date is not enabled, doesn't generate event
+		if (this.isDisabledDay(day)) {
+			return;
+		}
+
+		if (this.props.onDayClick) {
+			this.props.onDayClick(day);
+		}
+	}
+
+
 	render() {
 		const data = this.props.data;
 		const year = data.year;
@@ -74,7 +111,8 @@ export default class FollowupCalendar extends React.Component {
 					initialMonth={inidt}
 					modifiers={modifiers}
 					renderDay={this._renderDay}
-					onDayClick={this.props.onDayClick}
+					disabledDays={this.isDisabledDay}
+					onDayClick={this._dayClick}
 				/>
 				{this.props.children}
 			</div>

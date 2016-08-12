@@ -28,6 +28,11 @@ public class MonthlyFollowup {
     private List<FollowupDay> days;
 
     /**
+     * Number of planned days for the treatment along the month
+     */
+    private int plannedDays;
+
+    /**
      * If informed, the initial day the treatment. It must be informed in the first instance
      * of the list of followup data
      */
@@ -81,5 +86,13 @@ public class MonthlyFollowup {
 
     public void setEndDay(Integer endDay) {
         this.endDay = endDay;
+    }
+
+    public int getPlannedDays() {
+        return plannedDays;
+    }
+
+    public void setPlannedDays(int plannedDays) {
+        this.plannedDays = plannedDays;
     }
 }

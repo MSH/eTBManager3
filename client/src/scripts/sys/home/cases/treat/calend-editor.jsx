@@ -27,7 +27,7 @@ export default class CalendEditor extends React.Component {
 	}
 
 
-	_handleDayClick(e, dt) {
+	_handleDayClick(dt) {
 		const days = this.state.data.days;
 		const day = dt.getDate();
 		let item = days.find(it => it.day === day);
@@ -73,10 +73,15 @@ export default class CalendEditor extends React.Component {
 		const dt = new Date(data.year, data.month + 1, 0);
 		const num = dt.getDate();
 
+		// get boundaries
+		const ini = data.iniDay ? data.iniDay : 1;
+		const end = data.endDay ? data.endDay : num;
+
 		const days = [];
 		const status = this.state.selBtn;
 
-		for (var i = 1; i <= num; i++) {
+
+		for (var i = ini; i <= end; i++) {
 			days.push({ day: i, status: status });
 		}
 
@@ -111,7 +116,11 @@ export default class CalendEditor extends React.Component {
 						<Fa icon="circle" className="text-muted"/>{__('TreatmentDayOption.NOT_TAKEN')}
 					</Button>
 				</ButtonGroup>
-				<a className="text-small" onClick={this.selectAll}>{__('action.selectall')}</a>
+				<a className="text-small"
+					onClick={this.selectAll}
+					style={{ cursor: 'pointer' }}>
+					{__('action.selectall')}
+				</a>
 			</div>
 			);
 	}

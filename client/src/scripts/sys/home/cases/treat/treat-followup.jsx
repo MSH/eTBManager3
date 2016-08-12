@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Fa } from '../../../../components';
+import { format } from '../../../../commons/utils';
 import FollowupCalendar from './followup-calendar';
 import CalendEditor from './calend-editor';
 
@@ -73,12 +74,26 @@ export default class TreatFollowup extends React.Component {
 		lst.forEach(item => {
 			const key = (item.year * 100) + item.month;
 
+			// count the number of days
+			let daysCount = 0;
+			if (item.days) {
+				item.days.forEach(day => {
+					if (day.status !== 'NOT_TAKEN') {
+						daysCount++;
+					}
+				});
+			}
+
+			const txt = __('cases.treat.disp') + ': ' + format(__('cases.treat.days'), daysCount, item.plannedDays);
+
 			res.push(
 				<div key={key} className="pull-left">
 					<FollowupCalendar key={key}
 						className="treat-cal"
 						data={item}
-						onClick={this._calendarClick} />
+						onClick={this._calendarClick} >
+						<div className="treat-info">{txt}</div>
+					</FollowupCalendar>
 					{
 						editor === item &&
 						<CalendEditor data={editor} onClose={this.closeEditor} />
