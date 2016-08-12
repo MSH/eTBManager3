@@ -13,26 +13,60 @@
 	.treat-table {
 		display: table;
 
+		.DayPicker-Day {
+			padding: 2px;
+		}
+
 		.treat-cal {
 			max-width: 250px;
 			min-width: 220px;
 			float: left;
 			min-height: 250px;
 			border: 1px solid #f0f0f0;
+
+		}
+
+		.treat-cal:hover {
+			background-color: #f0f0f0;
+			cursor: pointer;
+		}
+
+		.dropdown-menu {
+			top: -80px;
+			left: -10px;
+			box-shadow: 0px 0px 16px #a0a0a0;
+
+			.editor {
+				max-width: 250px;
+				width: 250px;
+			}
+		}
+
+		.editor {
+			background-color: transparent !important;
+
+			.DayPicker-Day:hover {
+				background-color: #f0f0f0;
+				cursor: pointer;
+			}
 		}
 	}
 
 }
 
-.DayPicker-Day {
-	padding: 2px;
+.treat-table.readonly:hover {
+
+	.treat-cal {
+		background-color: transparent !important;
+		cursor: default;
+	}
+
+	.DayPicker-Day:hover {
+		cursor: default;
+	}
 }
-.DayPicker-Day:hover {
-	background-color: #f0f0f0;
-}
-.DayPicker-Day:focus {
-	outline: 0;
-}
+
+
 .DayPicker-Day .day {
 	border-radius: 12px;
 	width:24px;
