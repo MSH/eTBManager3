@@ -11,6 +11,7 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.issues.IssueData;
+import org.msh.etbm.services.cases.sideeffects.CaseSideEffectData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -69,6 +70,8 @@ public class CaseDetailedData {
     private List<CaseTagsData> tags;
 
     private List<CaseCommentData> comments;
+
+    private List<CaseSideEffectData> sideEffects;
 
     private List<CaseContactData> contacts;
 
@@ -210,6 +213,46 @@ public class CaseDetailedData {
         this.validationState = validationState;
     }
 
+    public AddressData getNotifAddress() {
+        return notifAddress;
+    }
+
+    public void setNotifAddress(AddressData notifAddress) {
+        this.notifAddress = notifAddress;
+    }
+
+    public AddressData getCurrentAddress() {
+        return currentAddress;
+    }
+
+    public void setCurrentAddress(AddressData currentAddress) {
+        this.currentAddress = currentAddress;
+    }
+
+    public boolean isNotifAddressChanged() {
+        return notifAddressChanged;
+    }
+
+    public void setNotifAddressChanged(boolean notifAddressChanged) {
+        this.notifAddressChanged = notifAddressChanged;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
     public List<CaseTagsData> getTags() {
         return tags;
     }
@@ -224,6 +267,14 @@ public class CaseDetailedData {
 
     public void setComments(List<CaseCommentData> comments) {
         this.comments = comments;
+    }
+
+    public List<CaseSideEffectData> getSideEffects() {
+        return sideEffects;
+    }
+
+    public void setSideEffects(List<CaseSideEffectData> sideEffects) {
+        this.sideEffects = sideEffects;
     }
 
     public List<CaseContactData> getContacts() {

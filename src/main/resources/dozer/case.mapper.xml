@@ -46,4 +46,19 @@
 
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.sideeffects.CaseSideEffectFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.CaseSideEffect</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>substanceId</a>
+            <b>substance</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>substance2Id</a>
+            <b>substance2</b>
+        </field>
+    </mapping>
+
 </mappings>
