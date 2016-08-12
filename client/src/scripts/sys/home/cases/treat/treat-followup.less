@@ -1,5 +1,7 @@
 @import '../../../../../../less/variables.less';
 
+@media (min-width: @screen-sm-min) {
+
 .treat-followup {
 
 	.treat-legend {
@@ -59,7 +61,37 @@
 			}
 		}
 	}
+}
+}
 
+@media (max-width: @screen-sm-min) {
+.treat-followup {
+	.treat-table {
+		display: table;
+
+		> div {
+			width: 100%;
+		}
+
+		.treat-cal {
+			float: left;
+			border: 1px solid #f0f0f0;
+			position: relative;
+			text-align: center;
+			width: 100%;
+
+		}
+
+		.DayPicker-Day {
+			font-size: 1.2em;
+			padding: 4px 8px;
+		}
+
+		.dropdown-menu {
+			width: 100%;
+		}
+	}
+}
 }
 
 .treat-table.readonly:hover {
