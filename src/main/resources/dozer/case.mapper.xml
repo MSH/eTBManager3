@@ -29,6 +29,21 @@
             <b>patient.gender</b>
         </field>
 
+        <field custom-converter-id="enum-item">
+            <a>classification</a>
+            <b>classification</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>diagnosisType</a>
+            <b>diagnosisType</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>state</a>
+            <b>state</b>
+        </field>
+
     </mapping>
 
 </mappings>
