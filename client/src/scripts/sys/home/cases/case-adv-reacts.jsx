@@ -67,7 +67,7 @@ export default class CaseAdvReact extends React.Component {
 	cellRender(item) {
 		const subtitle = <div><b>{__('cases.sideeffects.month') + ': '}</b>{item.month}</div>;
 		return (
-			<Profile title={item.sideEffect} subtitle={subtitle} fa="user-md" size="small" />
+			<Profile title={item.sideEffect} subtitle={subtitle} size="small" />
 		);
 	}
 

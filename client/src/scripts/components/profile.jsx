@@ -55,9 +55,10 @@ export default class Profile extends React.Component {
 
 		return (
 			<div className={profileClass}>
-				<div className={imgClass}>
-					<i className={icon} />
-				</div>
+				{
+					(this.props.type || this.props.fa) &&
+					<div className={imgClass}><i className={icon} /></div>
+				}
 				{
 					this.props.title && <div className="profile-title">{this.props.title}</div>
 				}
