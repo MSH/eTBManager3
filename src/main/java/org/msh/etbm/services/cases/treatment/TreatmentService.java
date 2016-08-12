@@ -108,6 +108,19 @@ public class TreatmentService {
         for (int i = 0; i <= months; i++) {
             MonthlyFollowup data = createMonthlyFollowup(lst, year, month);
             followup.add(data);
+
+            if (i == 0) {
+                int iniDay = DateUtils.dayOf(p.getIniDate());
+                data.setIniDay(iniDay);
+            }
+
+            if (i == months) {
+                int endDay = DateUtils.dayOf(p.getEndDate());
+                data.setEndDay(endDay);
+            }
+
+            data.setPlannedDays(DateUtils.daysInAMonth(year, month));
+
             month++;
             if (month == 12) {
                 month = 0;

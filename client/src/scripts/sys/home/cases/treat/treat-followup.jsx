@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, ButtonGroup } from 'react-bootstrap';
 import { Card, Fa } from '../../../../components';
+import { format } from '../../../../commons/utils';
 import FollowupCalendar from './followup-calendar';
+import CalendEditor from './calend-editor';
 
 import './treat-followup.less';
 
@@ -13,6 +14,8 @@ export default class TreatFollowup extends React.Component {
 	constructor(props) {
 		super(props);
 		this._calendarClick = this._calendarClick.bind(this);
+		this.closeEditor = this.closeEditor.bind(this);
+
 		this.state = { selBtn: 'DOTS' };
 	}
 
@@ -22,81 +25,88 @@ export default class TreatFollowup extends React.Component {
 		};
 	}
 
+	_calendarClick(data) {
+		// calendar is being edited already
+		if (this.state.editor) {
+			return;
+		}
+
+		// create a copy of the data
+		this.setState({ editor: data });
+	}
+
+	closeEditor(data) {
+		if (data) {
+			this.saveData(data);
+			const lst = this.props.treatment.followup;
+			const index = lst.indexOf(this.state.editor);
+			lst[index] = data;
+		}
+
+		this.setState({ editor: null });
+	}
+
+	saveData(data) {
+		console.log('save = ', data);
+		// THIS FUNCTION MUST POST THE DATA TO THE SERVER
+	}
+
+	renderLegend() {
+		return (
+				<div className="treat-legend">
+					<Fa icon="circle" className="text-success"/>{__('TreatmentDayOption.DOTS')}
+					<Fa icon="circle" className="text-primary"/>{__('TreatmentDayOption.SELF_ADMIN')}
+					<Fa icon="circle" className="text-muted"/>{__('TreatmentDayOption.NOT_TAKEN')}
+				</div>
+			);
+	}
+
+
 	renderCalendars() {
 		const lst = this.props.treatment.followup;
 		if (!lst) {
 			return null;
 		}
 
+		const editor = this.state.editor;
+
 		const res = [];
 		lst.forEach(item => {
 			const key = (item.year * 100) + item.month;
+
+			// count the number of days
+			let daysCount = 0;
+			if (item.days) {
+				item.days.forEach(day => {
+					if (day.status !== 'NOT_TAKEN') {
+						daysCount++;
+					}
+				});
+			}
+
+			const txt = __('cases.treat.disp') + ': ' + format(__('cases.treat.days'), daysCount, item.plannedDays);
+
 			res.push(
-				<FollowupCalendar key={key} data={item} onClick={this._calendarClick}/>
+				<div key={key} className="pull-left">
+					<FollowupCalendar key={key}
+						className="treat-cal"
+						data={item}
+						onClick={this._calendarClick} >
+						<div className="treat-info">{txt}</div>
+					</FollowupCalendar>
+					{
+						editor === item &&
+						<CalendEditor data={editor} onClose={this.closeEditor} />
+					}
+				</div>
 				);
 		});
 
-		return <div className="treat-table">{res}</div>;
+		const clazz = 'treat-table' + (this.state.editor ? ' readonly' : '');
+
+		return <div className={clazz}>{res}</div>;
 	}
 
-	_calendarClick(date, data) {
-		// get the selected day
-		const day = date.getDate();
-		const lst = data.days ? data.days : [];
-
-		// update day status
-		let item = lst.find(it => it.day === day);
-		const status = this.state.selBtn;
-		if (item) {
-			if (item.status === status) {
-				const index = lst.indexOf(item);
-				lst.splice(index, 1);
-			} else {
-				item.status = status;
-			}
-		} else {
-			item = { day: day, status: status };
-			lst.push(item);
-		}
-
-		// create new treatment monitoring obj for the month/year
-		const newdata = Object.assign({}, data, { days: lst });
-
-		const followup = this.props.treatment.followup;
-
-		const i = followup.indexOf(data);
-		// replace item in the list
-		followup[i] = newdata;
-
-		this.forceUpdate();
-	}
-
-	renderLegend() {
-		const active = this.state.selBtn;
-
-		return (
-			<div className="treat-legend">
-				<ButtonGroup bsSize="small">
-					<Button active={active === 'DOTS'} onClick={this._buttonClick('DOTS')}>
-						<Fa icon="circle" className="text-success"/>{'DOT'}
-					</Button>
-					<Button active={active === 'SELF_ADMIN'} onClick={this._buttonClick('SELF_ADMIN')}>
-						<Fa icon="circle" className="text-primary"/>{'Self administered'}
-					</Button>
-					<Button active={active === 'NOT_TAKEN'} onClick={this._buttonClick('NOT_TAKEN')}>
-						<Fa icon="circle" className="text-muted"/>{'Not taken'}
-					</Button>
-				</ButtonGroup>
-			</div>
-			);
-		// return (
-		// 		<div className="treat-legend">
-		// 			<Fa icon="circle" className="text-success"/>{'DOT  '}
-		// 			<Fa icon="circle" className="text-primary"/>{'Self administered  '}
-		// 			<Fa icon="circle" className="text-muted"/>{'Not taken'}
-		// 		</div>
-		// 	);
-	}
 
 	render() {
 		return (

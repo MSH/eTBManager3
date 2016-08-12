@@ -7006,6 +7006,9 @@ button.close {
   cursor: pointer;
   vertical-align: middle;
 }
+.DayPicker-Day:focus {
+  outline: 0;
+}
 .DayPicker--interactionDisabled .DayPicker-Day {
   cursor: default;
 }
@@ -7134,6 +7137,9 @@ button.close {
 }
 .mbottom {
   margin-bottom: 10px;
+}
+.mbottom-2x {
+  margin-bottom: 20px;
 }
 .mright {
   margin-right: 10px;
