@@ -54,9 +54,9 @@ export default class TreatFollowup extends React.Component {
 	renderLegend() {
 		return (
 				<div className="treat-legend">
-					<Fa icon="circle" className="text-success"/>{__('TreatmentDayOption.DOTS')}
-					<Fa icon="circle" className="text-primary"/>{__('TreatmentDayOption.SELF_ADMIN')}
-					<Fa icon="circle" className="text-muted"/>{__('TreatmentDayOption.NOT_TAKEN')}
+					<Fa icon="circle" className="treat-DOTS"/>{__('TreatmentDayOption.DOTS')}
+					<Fa icon="circle" className="treat-SELF_ADMIN"/>{__('TreatmentDayOption.SELF_ADMIN')}
+					<Fa icon="circle" className="treat-NOT_TAKEN"/>{__('TreatmentDayOption.NOT_TAKEN')}
 				</div>
 			);
 	}

@@ -147,7 +147,8 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         s.append('\n');
 
         if (hqlJoin != null) {
-            s.append(hqlJoin);
+            String join = hqlJoin.replace(" fetch ", " ");
+            s.append(join);
             s.append('\n');
         }
 

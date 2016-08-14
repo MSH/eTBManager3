@@ -27,7 +27,7 @@ export default class Details extends React.Component {
 		this.reopenConfirm = this.reopenConfirm.bind(this);
 		this._onAppChange = this._onAppChange.bind(this);
 
-		this.state = { selTab: 2 };
+		this.state = { selTab: 0 };
 	}
 
 	componentWillMount() {
@@ -212,9 +212,10 @@ export default class Details extends React.Component {
 			commands.splice(2, 1);
 		}
 
+		console.log(tbcase);
 		return (
 			<div>
-				<PatientPanel patient={tbcase.patient} recordNumber={tbcase.recordNumber} />
+				<PatientPanel tbcase={tbcase} />
 				<Grid fluid>
 					<Row className="mtop">
 						<Col sm={3}>

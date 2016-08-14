@@ -107,13 +107,13 @@ export default class CalendEditor extends React.Component {
 			<div style={{ padding: '4px' }}>
 				<ButtonGroup bsSize="small" vertical block>
 					<Button active={active === 'DOTS'} onClick={this._buttonClick('DOTS')}>
-						<Fa icon="circle" className="text-success"/>{__('TreatmentDayOption.DOTS')}
+						<Fa icon="circle" className="treat-DOTS"/>{__('TreatmentDayOption.DOTS')}
 					</Button>
 					<Button active={active === 'SELF_ADMIN'} onClick={this._buttonClick('SELF_ADMIN')}>
-						<Fa icon="circle" className="text-primary"/>{__('TreatmentDayOption.SELF_ADMIN')}
+						<Fa icon="circle" className="treat-SELF_ADMIN"/>{__('TreatmentDayOption.SELF_ADMIN')}
 					</Button>
 					<Button active={active === 'NOT_TAKEN'} onClick={this._buttonClick('NOT_TAKEN')}>
-						<Fa icon="circle" className="text-muted"/>{__('TreatmentDayOption.NOT_TAKEN')}
+						<Fa icon="circle" className="treat-NOT_TAKEN"/>{__('TreatmentDayOption.NOT_TAKEN')}
 					</Button>
 				</ButtonGroup>
 				<a className="text-small"

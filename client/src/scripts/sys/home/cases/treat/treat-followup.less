@@ -1,9 +1,25 @@
 @import '../../../../../../less/variables.less';
 
+@color-DOTS: #48aa8a;
+@color-SELFADMIN: #4073a0;
+@color-NOTTAKEN: #b0b0b0;
+
+.treat-DOTS {
+	color: @color-DOTS;
+}
+
+.treat-SELF_ADMIN {
+	color: @color-SELFADMIN;
+}
+
+.treat-NOT_TAKEN {
+	color: @color-NOTTAKEN;
+}
+
+
 @media (min-width: @screen-sm-min) {
 
 .treat-followup {
-
 	.treat-legend {
 		color: @text-muted;
 		width: 100%;
@@ -43,8 +59,8 @@
 
 		.dropdown-menu {
 			top: -80px;
-			left: -10px;
-			box-shadow: 0px 0px 16px #a0a0a0;
+			left: -15px;
+			box-shadow: 0px 0px 16px #808080;
 
 			.editor {
 				max-width: 250px;
@@ -89,6 +105,7 @@
 
 		.dropdown-menu {
 			width: 100%;
+			box-shadow: 0 0 32px #606060;
 		}
 	}
 }
@@ -117,16 +134,17 @@
 .DayPicker-Day--dots .day, .DayPicker-Day--selfadmin .day, .DayPicker-Day--nottaken .day {
 	color: white;
 	font-size: 0.8em;
-	padding-top:2px;
+	padding:1px 0 0 0;
 }
 .DayPicker-Day--dots .day {
-	background-color: @brand-success;
+	background-color: @color-DOTS;
 }
 
 .DayPicker-Day--selfadmin .day {
-	background-color: @brand-primary;
+	background-color: @color-SELFADMIN;
 }
 
 .DayPicker-Day--nottaken .day {
-	background-color: @text-muted;
+	background-color: @color-NOTTAKEN;
 }
+

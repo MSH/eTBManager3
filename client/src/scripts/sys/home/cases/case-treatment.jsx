@@ -7,8 +7,12 @@ import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
 import AddMedicine from './treat/add-medicine';
 import TreatFollowup from './treat/treat-followup';
+import NoTreatPanel from './treat/no-treat-panel';
 
 
+/**
+ * Display the content of the case treatment tab
+ */
 export default class CaseTreatment extends React.Component {
 
 	constructor(props) {
@@ -43,10 +47,18 @@ export default class CaseTreatment extends React.Component {
 
 	componentWillMount() {
 		const self = this;
-		const id = this.props.tbcase.id;
+		const tbcase = this.props.tbcase;
 
-		server.get('/api/cases/case/treatment/' + id)
-			.then(res => self.setState({ data: res }));
+		// check if case is on treatment and has treatment information
+		if (!tbcase.treatment && tbcase.treatmentPeriod) {
+			const id = tbcase.id;
+
+			server.get('/api/cases/case/treatment/' + id)
+				.then(res => {
+					tbcase.treatment = res;
+					self.forceUpdate();
+				});
+		}
 	}
 
 	menuClick(key) {
@@ -61,7 +73,14 @@ export default class CaseTreatment extends React.Component {
 	}
 
 	render() {
-		const data = this.state.data;
+		const tbcase = this.props.tbcase;
+
+		// is not on treatment
+		if (!tbcase.treatmentPeriod) {
+			return <NoTreatPanel tbcase={this.props.tbcase} />;
+		}
+
+		const data = tbcase.treatment;
 
 		if (!data) {
 			return <WaitIcon type="card" />;

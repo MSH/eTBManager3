@@ -1,0 +1,43 @@
+@import '../../../../../less/variables.less';
+
+.case-subtitle {
+	font-size: 1.2em;
+	text-transform: uppercase;
+	display: table;
+	margin-bottom: 20px;
+
+	.case-unit {
+		font-size: 0.8em;
+		text-transform: none;
+		margin-top:16px;
+	}
+}
+
+@media (max-width: @screen-xs-max)  {
+	.case-subtitle {
+		text-align: center;
+		width: 100%;
+	}
+}
+
+
+.state-box {
+	border-radius: 16px;
+	color: white;
+	text-align: center;
+	padding: 4px;
+	font-weight: bold;
+}
+
+.cs-NOT_ONTREATMENT, .vs-WAITING_VALIDATION {
+	background-color: #ffa457;
+}
+
+.cs-ONTREATMENT, .vs-VALIDATED {
+	background-color: #93ada9;
+}
+
+.cs-CLOSED {
+	background-color: #a0a0a0;
+}
+

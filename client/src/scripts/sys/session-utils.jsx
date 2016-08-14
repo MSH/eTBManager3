@@ -49,7 +49,7 @@ export default class SessionUtils {
 	 * @param  {[type]} addWorkspace [description]
 	 * @return {[type]}              [description]
 	 */
-	static adminUnitDisplay(adminUnit, addWorkspace) {
+	static adminUnitDisplay(adminUnit, addWorkspace, defaultView) {
 		const lst = [];
 
 		// admin unit was informed ?
@@ -64,11 +64,11 @@ export default class SessionUtils {
 				}
 			}
 			// add link of main item
-			lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id)}>{adminUnit.name}</a>);
+			lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id, defaultView)}>{adminUnit.name}</a>);
 		}
 
 		return (
-			<div>
+			<span>
 				{lst}
 				{
 					addWorkspace &&
@@ -76,7 +76,7 @@ export default class SessionUtils {
 						<a href={SessionUtils.workspaceHash()}>{app.getState().session.workspaceName}</a>
 					</div>
 				}
-			</div>
+			</span>
 			);
 	}
 }
