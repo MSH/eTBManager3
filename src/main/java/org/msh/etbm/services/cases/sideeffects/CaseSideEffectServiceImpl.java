@@ -31,12 +31,12 @@ public class CaseSideEffectServiceImpl extends CaseEntityServiceImpl<CaseSideEff
         CaseSideEffect entity = context.getEntity();
 
         String medicines = "";
-        if (entity.getSubstance() != null){
+        if (entity.getSubstance() != null) {
             medicines += entity.getSubstance().getShortName();
         }
 
-        if (entity.getSubstance2() != null){
-            if (!medicines.equals("")){
+        if (entity.getSubstance2() != null) {
+            if (!medicines.equals("")) {
                 medicines += ", ";
             }
 
