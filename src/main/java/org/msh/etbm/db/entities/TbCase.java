@@ -358,7 +358,7 @@ public class TbCase extends WorkspaceEntity {
      */
     public CaseSideEffect findSideEffectData(String sideEffect) {
         for (CaseSideEffect se : getSideEffects()) {
-            if (se.getSideEffect().getValue().equals(sideEffect)) {
+            if (se.getSideEffect().equals(sideEffect)) {
                 return se;
             }
         }

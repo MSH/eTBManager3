@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.cases;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
@@ -14,15 +15,15 @@ public class CaseItem {
 
     private String name;
 
-    private Gender gender;
+    private String gender;
 
     private String caseCode;
 
-    private CaseClassification classification;
+    private Item<CaseClassification> classification;
 
-    private DiagnosisType diagnosisType;
+    private Item<DiagnosisType> diagnosisType;
 
-    private CaseState state;
+    private Item<CaseState> state;
 
     private UnitData ownerUnit;
 
@@ -42,11 +43,11 @@ public class CaseItem {
         this.name = name;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -58,27 +59,27 @@ public class CaseItem {
         this.caseCode = caseCode;
     }
 
-    public CaseClassification getClassification() {
+    public Item<CaseClassification> getClassification() {
         return classification;
     }
 
-    public void setClassification(CaseClassification classification) {
+    public void setClassification(Item<CaseClassification> classification) {
         this.classification = classification;
     }
 
-    public DiagnosisType getDiagnosisType() {
+    public Item<DiagnosisType> getDiagnosisType() {
         return diagnosisType;
     }
 
-    public void setDiagnosisType(DiagnosisType diagnosisType) {
+    public void setDiagnosisType(Item<DiagnosisType> diagnosisType) {
         this.diagnosisType = diagnosisType;
     }
 
-    public CaseState getState() {
+    public Item<CaseState> getState() {
         return state;
     }
 
-    public void setState(CaseState state) {
+    public void setState(Item<CaseState> state) {
         this.state = state;
     }
 

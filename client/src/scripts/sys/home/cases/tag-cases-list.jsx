@@ -116,14 +116,14 @@ export default class TagCasesList extends React.Component {
 								{
 									title: 'Case Info',
 									size: { sm: 2 },
-									content: item => <div>{item.classification + ' - ' + item.diagnosisType}<br/>
-											<div className="sub-text">{item.state}</div></div>
+									content: item => <div>{item.classification.name + ' - ' + item.diagnosisType.name}
+														<br/><div className="sub-text">{item.state.name}</div></div>
 								},
 								{
 									title: 'Unit',
 									size: { sm: 6 },
 									content: item => <div>{item.ownerUnit.name}<br/>
-											<div className="sub-text">{item.ownerUnit.adminUnit.name}</div></div>
+											<div className="sub-text">{SessionUtils.adminUnitSpanDisplay(item.ownerUnit.adminUnit, false)}</div></div>
 								}
 							]} values={controller.getList()} onClick={this.caseClick}/>
 

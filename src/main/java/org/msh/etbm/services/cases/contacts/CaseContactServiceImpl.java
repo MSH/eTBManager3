@@ -2,7 +2,7 @@ package org.msh.etbm.services.cases.contacts;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.commons.entities.EntityServiceImpl;
+import org.msh.etbm.commons.entities.CaseEntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.CaseContact;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by Mauricio on 01/08/2016.
  */
 @Service
-public class CaseContactServiceImpl extends EntityServiceImpl<CaseContact, CaseContactQueryParams> implements CaseContactService {
+public class CaseContactServiceImpl extends CaseEntityServiceImpl<CaseContact, CaseContactQueryParams> implements CaseContactService {
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_CASE_CONTACT;

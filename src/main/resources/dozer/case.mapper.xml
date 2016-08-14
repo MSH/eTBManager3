@@ -29,6 +29,36 @@
             <b>patient.gender</b>
         </field>
 
+        <field custom-converter-id="enum-item">
+            <a>classification</a>
+            <b>classification</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>diagnosisType</a>
+            <b>diagnosisType</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>state</a>
+            <b>state</b>
+        </field>
+
+    </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.sideeffects.CaseSideEffectFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.CaseSideEffect</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>substanceId</a>
+            <b>substance</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>substance2Id</a>
+            <b>substance2</b>
+        </field>
     </mapping>
 
 </mappings>

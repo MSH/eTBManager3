@@ -79,4 +79,41 @@ export default class SessionUtils {
 			</span>
 			);
 	}
+
+	/**
+	 * Generate a node component to display the full name of an administrative unit
+	 * If addWorkspace is true, a second line is included with the workspace name
+	 * @param  {[type]} adminUnit    [description]
+	 * @param  {[type]} addWorkspace [description]
+	 * @return {[type]}              [description]
+	 */
+	static adminUnitSpanDisplay(adminUnit, addWorkspace) {
+		const lst = [];
+
+		// admin unit was informed ?
+		if (adminUnit) {
+			// add links of parents
+			for (var k = 0; k < 4; k++) {
+				const p = adminUnit['p' + k];
+				if (p) {
+					lst.push(<span key={k}>{p.name}</span>);
+					lst.push(<span key={'s' + k}>{', '}</span>);
+				}
+			}
+			// add link of main item
+			lst.push(<span key="sel">{adminUnit.name}</span>);
+		}
+
+		return (
+			<div>
+				{lst}
+				{
+					addWorkspace &&
+					<div>
+						<span>{app.getState().session.workspaceName}</span>
+					</div>
+				}
+			</div>
+			);
+	}
 }
