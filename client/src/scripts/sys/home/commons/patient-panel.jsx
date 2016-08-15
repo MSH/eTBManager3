@@ -28,8 +28,8 @@ export default class PatientPanel extends React.Component {
 
 		const lists = app.getState().app.lists;
 
-		const claName = lists.DiagnosisType[tbcase.diagnosisType] + ' - ' +
-			lists.CaseClassification[tbcase.classification];
+		const claName = lists['CaseClassification' + tbcase.classification][tbcase.diagnosisType];
+
 		const stateName = lists.CaseState[tbcase.state];
 		const validationName = lists.ValidationState[tbcase.validationState];
 		const ownerUnit = tbcase.ownerUnit;

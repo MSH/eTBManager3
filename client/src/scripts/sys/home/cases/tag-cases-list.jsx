@@ -1,6 +1,7 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
+import { app } from '../../../core/app';
 
 import SessionUtils from '../../session-utils';
 
@@ -71,6 +72,12 @@ export default class TagCasesList extends React.Component {
 		this.state.controller.initList(qry).then(() => self.forceUpdate());
 	}
 
+	getClassificatonLabel(classification, diagnosistype) {
+		const lists = app.getState().app.lists;
+		const list = lists['CaseClassification' + classification.id];
+		return list[diagnosistype.id];
+	}
+
 	render() {
 		const tag = this.props.tag;
 
@@ -116,7 +123,7 @@ export default class TagCasesList extends React.Component {
 								{
 									title: 'Case Info',
 									size: { sm: 2 },
-									content: item => <div>{item.classification.name + ' - ' + item.diagnosisType.name}
+									content: item => <div>{this.getClassificatonLabel(item.classification, item.diagnosisType)}
 														<br/><div className="sub-text">{item.state.name}</div></div>
 								},
 								{
