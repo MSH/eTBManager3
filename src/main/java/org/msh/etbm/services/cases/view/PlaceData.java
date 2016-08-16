@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.workspace;
+package org.msh.etbm.services.cases.view;
 
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import org.msh.etbm.db.MessageKey;
 /**
  * Created by Mauricio on 07/07/2016.
  */
-public enum FollowUpType implements MessageKey{
+public enum FollowUpType implements MessageKey {
 
     MEDICAL_EXAMINATION("MedicalExamination", "org.msh.etbm.services.cases.followup.medexam.MedExamData"),
     EXAM_MICROSCOPY("ExamMicroscopy", "org.msh.etbm.services.cases.followup.exammic.ExamMicData"),

@@ -49,7 +49,7 @@ export default class SessionUtils {
 	 * @param  {[type]} addWorkspace [description]
 	 * @return {[type]}              [description]
 	 */
-	static adminUnitDisplay(adminUnit, addWorkspace, defaultView) {
+	static adminUnitDisplay(adminUnit, addWorkspace, addMain, defaultView) {
 		const lst = [];
 
 		// admin unit was informed ?
@@ -64,7 +64,11 @@ export default class SessionUtils {
 				}
 			}
 			// add link of main item
-			lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id, defaultView)}>{adminUnit.name}</a>);
+			if (addMain === true) {
+				lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id, defaultView)}>{adminUnit.name}</a>);
+			} else {
+				lst.pop();
+			}
 		}
 
 		return (
@@ -87,7 +91,7 @@ export default class SessionUtils {
 	 * @param  {[type]} addWorkspace [description]
 	 * @return {[type]}              [description]
 	 */
-	static adminUnitSpanDisplay(adminUnit, addWorkspace) {
+	static adminUnitSpanDisplay(adminUnit, addWorkspace, addMain) {
 		const lst = [];
 
 		// admin unit was informed ?
@@ -101,7 +105,11 @@ export default class SessionUtils {
 				}
 			}
 			// add link of main item
-			lst.push(<span key="sel">{adminUnit.name}</span>);
+			if (addMain === true) {
+				lst.push(<span key="sel">{adminUnit.name}</span>);
+			} else {
+				lst.pop();
+			}
 		}
 
 		return (

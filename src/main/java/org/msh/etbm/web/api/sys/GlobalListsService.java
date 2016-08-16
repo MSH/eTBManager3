@@ -107,7 +107,7 @@ public class GlobalListsService {
      * Puts the different messages combination of case classification and diagnosis types on the param
      * @param res object that will have the values put
      */
-    private void putClassificationDiagnosisOptions(Map<String, Map<String, String>> res){
+    private void putClassificationDiagnosisOptions(Map<String, Map<String, String>> res) {
         Map<String, String> opts = new HashMap<>();
         opts.put(DiagnosisType.SUSPECT.toString(), messages.get(CaseClassification.TB.getKeySuspect()));
         opts.put(DiagnosisType.CONFIRMED.toString(), messages.get(CaseClassification.TB.getKeyConfirmed()));

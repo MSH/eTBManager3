@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.cases.cases.CaseData;
@@ -38,6 +39,9 @@ public class TagCasesReportService {
     @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     public QueryResult getTagCases(TagCasesQueryParams qryParams) {
         QueryBuilder<TbCase> builder = queryBuilderFactory.createQueryBuilder(TbCase.class);
 
@@ -48,7 +52,12 @@ public class TagCasesReportService {
         builder.setHqlJoin("join c.tags t");
         builder.addRestriction("t.id = :tId", qryParams.getTagId());
         builder.addRestriction("c.ownerUnit.id = :unitId", qryParams.getUnitId());
-        //TODO: builder.addRestriction("c.ownerUnit.ADMINUNIT = :unitId", qryParams.getAdminUnitId());
+        // filter by administrative unit
+        if (qryParams.getAdminUnitId() != null) {
+            AdministrativeUnit adminUnit = entityManager.find(AdministrativeUnit.class, qryParams.getAdminUnitId());
+            String pidlevel = "pid" + (adminUnit.getCountryStructure().getLevel() - 1);
+            builder.addRestriction("(c.ownerUnit.address.adminUnit.id = :auId or c.ownerUnit.address.adminUnit." + pidlevel + " = :auId)", qryParams.getAdminUnitId(), qryParams.getAdminUnitId());
+        }
 
         builder.initialize(qryParams);
         return builder.createQueryResult();
