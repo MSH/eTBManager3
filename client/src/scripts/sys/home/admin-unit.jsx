@@ -7,7 +7,7 @@ import SessionUtils from '../session-utils';
 
 import UnderConstruction from './under-construction';
 
-import Cases from './workspace/cases';
+import Cases from './view/cases';
 
 const views = [
 	{
