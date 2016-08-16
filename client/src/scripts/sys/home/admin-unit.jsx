@@ -1,6 +1,5 @@
 import React from 'react';
 import FrontPage from './commons/front-page';
-import { app } from '../../core/app';
 import { server } from '../../commons/server';
 import { WaitIcon } from '../../components';
 import SessionUtils from '../session-utils';
