@@ -166,7 +166,7 @@ export default class CommentsBox extends React.Component {
 										</span>
 									}
 									</div>
-									<div className="text-muted"><b>{it.user.name}</b>{__('global.wrotein')}<b>{moment(it.date).format('lll')}</b></div>
+									<div className="text-muted"><b>{it.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(it.date).format('lll')}</b></div>
 									{it.comment.split('\n').map((item, index) =>
 										<span key={index}>
 											{item}

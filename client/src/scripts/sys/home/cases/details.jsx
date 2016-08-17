@@ -63,7 +63,7 @@ export default class Details extends React.Component {
 
 	fetchData(id) {
 		const self = this;
-		server.get('/api/cases/case/' + id)
+		server.get('/api/tbl/case/' + id)
 		.then(tbcase => {
 			const contacts = [];
 			for (var i = 0; i < 5; i++) {
@@ -122,7 +122,7 @@ export default class Details extends React.Component {
 
 	deleteConfirm(action) {
 		if (action === 'yes') {
-			server.delete('/api/cases/case/' + this.state.tbcase.id)
+			server.delete('/api/tbl/case/' + this.state.tbcase.id)
 				.then(() => {
 					app.messageDlg({
 						title: __('action.delete'),
@@ -212,7 +212,6 @@ export default class Details extends React.Component {
 			commands.splice(2, 1);
 		}
 
-		console.log(tbcase);
 		return (
 			<div>
 				<PatientPanel tbcase={tbcase} />

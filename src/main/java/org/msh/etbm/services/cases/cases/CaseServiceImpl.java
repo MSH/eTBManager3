@@ -1,11 +1,16 @@
 package org.msh.etbm.services.cases.cases;
 
+import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Patient;
+import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.services.admin.tags.TagData;
+import org.msh.etbm.services.admin.tags.TagQueryParams;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,14 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_CASE;
+    }
+
+    @Override
+    protected void buildQuery(QueryBuilder<TbCase> builder, CaseQueryParams queryParams) {
+        // profiles
+        builder.addDefaultProfile(CaseQueryParams.PROFILE_DEFAULT, CaseData.class);
+        builder.addDefaultProfile(CaseQueryParams.PROFILE_DETAILED, CaseDetailedData.class);
+        builder.addDefaultProfile(CaseQueryParams.PROFILE_ITEM, CaseItem.class);
     }
 
     @Override

@@ -98,6 +98,7 @@ export default class CaseAdvReact extends React.Component {
 					crud={crud}
 					onCellRender={this.cellRender}
 					onDetailRender={this.collapseCellRender}
+					queryFilters={{ tbcaseId: tbcase.id }}
 					/>
 			</CaseComments>
 			);

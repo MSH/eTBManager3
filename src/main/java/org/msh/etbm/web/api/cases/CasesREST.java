@@ -20,7 +20,7 @@ import java.util.UUID;
  * Created by msantos on 26/3/16.
  */
 @RestController
-@RequestMapping("/api/cases")
+@RequestMapping("/api/tbl")
 @Authenticated(permissions = {Permissions.CASES})
 public class CasesREST {
 
@@ -30,7 +30,10 @@ public class CasesREST {
     @RequestMapping(value = "/case/{id}", method = RequestMethod.GET)
     @Authenticated()
     public CaseDetailedData get(@PathVariable UUID id) {
-        return service.findOne(id, CaseDetailedData.class);
+        CaseDetailedData ret = service.findOne(id, CaseDetailedData.class);
+        ret.setAlcoholExcessiveUse(true);
+        ret.setAnaemia(true);
+        return ret;
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)
