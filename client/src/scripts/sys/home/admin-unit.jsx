@@ -1,12 +1,12 @@
 import React from 'react';
 import FrontPage from './commons/front-page';
-import { app } from '../../core/app';
 import { server } from '../../commons/server';
 import { WaitIcon } from '../../components';
 import SessionUtils from '../session-utils';
 
 import UnderConstruction from './under-construction';
 
+import Cases from './view/cases';
 
 const views = [
 	{
@@ -18,7 +18,7 @@ const views = [
 	{
 		title: __('cases'),
 		path: '/cases',
-		view: UnderConstruction
+		view: Cases
 	},
 	{
 		title: __('meds.inventory'),
@@ -50,10 +50,13 @@ export default class AdminUnit extends React.Component {
 
 	fetchData(id) {
 		const self = this;
+		self.setState({ data: null });
 
-		// get data of the unit
+		// get data of the admin unit
 		server.get('/api/tbl/adminunit/' + id)
-		.then(res => self.setState({ data: res }));
+		.then(res => {
+			self.setState({ data: res });
+		});
 	}
 
 	render() {
@@ -66,7 +69,7 @@ export default class AdminUnit extends React.Component {
 		return (
 			<FrontPage
 				title={au.name}
-				subtitle={SessionUtils.adminUnitDisplay(au.parents, true)}
+				subtitle={SessionUtils.adminUnitDisplay(au, true, false)}
 				type="place"
 				views={views}
 				route={this.props.route}

@@ -322,7 +322,7 @@ export default class Cases extends React.Component {
 				}
 				{
 					!caseSearch && this.state.selectedTag ?
-						<TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag} view="unit" unitId={unitId}/> : null
+						<TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag} unitId={unitId}/> : null
 				}
 				{
 					!caseSearch && !this.state.selectedTag ?

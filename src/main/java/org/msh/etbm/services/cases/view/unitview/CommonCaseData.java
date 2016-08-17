@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.unitview;
+package org.msh.etbm.services.cases.view.unitview;
 
 import java.util.Date;
 import java.util.UUID;

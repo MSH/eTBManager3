@@ -7,11 +7,15 @@ import CasesDistribution from '../commons/cases-distribution';
 import TagCasesList from '../cases/tag-cases-list';
 
 
-function fetchData(parentId) {
-	const params = parentId ? '/places?id=' + parentId : '';
-	return server.post('/api/cases/workspace' + params);
+function fetchNode(parentId) {
+	const params = parentId ? '/places?parentId=' + parentId : '';
+	return server.post('/api/cases/view' + params);
 }
 
+function fetchView(adminUnitId) {
+	const params = adminUnitId ? '/adminunit?adminUnitId=' + adminUnitId : '';
+	return server.post('/api/cases/view' + params);
+}
 
 export default class Cases extends React.Component {
 
@@ -21,15 +25,17 @@ export default class Cases extends React.Component {
 		this.selTag = this.selTag.bind(this);
 		this.closeTagCasesList = this.closeTagCasesList.bind(this);
 
-		fetchData()
-		.then(res => self.setState({ data: res }));
+		const adminUnitId = this.props.route.queryParam('id');
+
+		fetchView(adminUnitId)
+		.then(res => self.setState({ data: res, oldAuID: adminUnitId }));
 
 		this.state = {};
 	}
 
 	getChildren(parent) {
 		const id = parent.id;
-		return fetchData(id);
+		return fetchNode(id);
 	}
 
 	selTag(tagId) {
@@ -46,6 +52,8 @@ export default class Cases extends React.Component {
 			return <WaitIcon />;
 		}
 
+		const adminUnitId = this.props.route.queryParam('id');
+
 		return (
 			<div className="mtop-2x">
 			<Grid fluid>
@@ -55,7 +63,7 @@ export default class Cases extends React.Component {
 					</Col>
 					<Col sm={9}>
 						{
-							this.state.selectedTag ? <TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag}/> : null
+							this.state.selectedTag ? <TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag} adminUnitId={adminUnitId}/> : null
 						}
 						{
 							!this.state.selectedTag ?
@@ -72,3 +80,7 @@ export default class Cases extends React.Component {
 			);
 	}
 }
+
+Cases.propTypes = {
+	route: React.PropTypes.object
+};

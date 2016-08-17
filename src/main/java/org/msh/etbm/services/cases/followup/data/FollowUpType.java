@@ -1,9 +1,11 @@
 package org.msh.etbm.services.cases.followup.data;
 
+import org.msh.etbm.db.MessageKey;
+
 /**
  * Created by Mauricio on 07/07/2016.
  */
-public enum FollowUpType {
+public enum FollowUpType implements MessageKey {
 
     MEDICAL_EXAMINATION("MedicalExamination", "org.msh.etbm.services.cases.followup.medexam.MedExamData"),
     EXAM_MICROSCOPY("ExamMicroscopy", "org.msh.etbm.services.cases.followup.exammic.ExamMicData"),
@@ -29,7 +31,8 @@ public enum FollowUpType {
         return dataClassCanonicalName;
     }
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

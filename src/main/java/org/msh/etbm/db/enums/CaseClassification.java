@@ -21,7 +21,7 @@ public enum CaseClassification implements MessageKey {
         return getClass().getSimpleName().concat("." + name() + ".suspect");
     }
 
-    public String getKey2() {
-        return name();
+    public String getKeyConfirmed() {
+        return getClass().getSimpleName().concat("." + name() + ".confirmed");
     }
 }

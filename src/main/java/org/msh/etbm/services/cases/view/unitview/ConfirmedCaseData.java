@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.unitview;
+package org.msh.etbm.services.cases.view.unitview;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.enums.InfectionSite;

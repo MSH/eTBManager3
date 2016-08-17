@@ -58,7 +58,7 @@ public class FollowUpService {
 
                 data.setData(caseEventData);
                 data.setMonthOfTreatment(getMonthTreatDisplay(caseEvent.getMonthTreatment()));
-                data.setName(messages.get(type.getKey()));
+                data.setName(messages.get(type.getMessageKey()));
                 data.setType(type.name());
 
                 result.getList().add(data);

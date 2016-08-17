@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.workspace;
+package org.msh.etbm.services.cases.view;
 
 import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Data used to create the workspace view of the system
  * Created by rmemoria on 17/6/16.
  */
-public class WorkspaceViewResponse {
+public class CasesViewResponse {
 
     /**
      * List of the tags and its quantity per case

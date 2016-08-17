@@ -85,7 +85,7 @@ export default class Index extends React.Component {
 		const subtitle = (
 			<div>
 				<a href={SessionUtils.unitHash()}>{session.unitName}</a>
-				{SessionUtils.adminUnitDisplay(session.adminUnit, true)}
+				{SessionUtils.adminUnitDisplay(session.adminUnit, true, true)}
 			</div>
 		);
 

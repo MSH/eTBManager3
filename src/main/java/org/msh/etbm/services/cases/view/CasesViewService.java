@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.workspace;
+package org.msh.etbm.services.cases.view;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
@@ -23,7 +23,7 @@ import java.util.*;
  * Created by rmemoria on 17/6/16.
  */
 @Service
-public class WorkspaceViewService {
+public class CasesViewService {
 
     @Autowired
     CasesTagsReportService casesTagsReportService;
@@ -42,18 +42,23 @@ public class WorkspaceViewService {
      * Generate a report of the workspace about the consolidated cases by administrative units
      * and the quantity of tags by case
      *
-     * @return instance of {@link WorkspaceViewResponse} containing the report view
+     * @return instance of {@link CasesViewResponse} containing the report view
      */
     @Transactional
-    public WorkspaceViewResponse generateView() {
-        WorkspaceViewResponse resp = new WorkspaceViewResponse();
+    public CasesViewResponse generateView(UUID adminUnitId) {
+        CasesViewResponse resp = new CasesViewResponse();
 
         // load information about the tags
-        List<CasesTagsReportItem> tags = casesTagsReportService.generate();
+        List<CasesTagsReportItem> tags;
+        if (adminUnitId == null) {
+            tags = casesTagsReportService.generate();
+        } else {
+            tags = casesTagsReportService.generateByAdminUnit(adminUnitId);
+        }
         resp.setTags(tags);
 
         // load information about the places
-        List<PlaceData> places = loadPlaces(null);
+        List<PlaceData> places = loadPlaces(adminUnitId);
 
         resp.setPlaces(places);
 
