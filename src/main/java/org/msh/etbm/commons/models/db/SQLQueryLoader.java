@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 /**
- * Load records from a table from the query provided by {@link SQLQueryBuilder}
+ * Load records from a table from the query provided by {@link SQLQuerySelectionBuilder}
  * Created by rmemoria on 11/7/16.
  */
 public class SQLQueryLoader {

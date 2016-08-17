@@ -10,7 +10,6 @@ import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.repositories.AdminUnitRepository;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.UnitType;
@@ -18,7 +17,6 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
@@ -29,9 +27,6 @@ import org.springframework.validation.Errors;
  */
 @Service
 public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> implements UnitService {
-
-    @Autowired
-    AdminUnitRepository adminUnitRepository;
 
     @Override
     protected void buildQuery(QueryBuilder<Unit> builder, UnitQueryParams queryParams) {
@@ -74,7 +69,7 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         if (queryParams.getAdminUnitId() != null) {
             // include children?
             if (queryParams.isIncludeSubunits()) {
-                AdministrativeUnit au = adminUnitRepository.findOne(queryParams.getAdminUnitId());
+                AdministrativeUnit au = getEntityManager().find(AdministrativeUnit.class, queryParams.getAdminUnitId());
 
                 // check if admin unit is of same workspace
                 if (au == null || !au.getWorkspace().getId().equals(builder.getWorkspaceId())) {
