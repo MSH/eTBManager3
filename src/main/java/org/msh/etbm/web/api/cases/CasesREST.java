@@ -30,10 +30,7 @@ public class CasesREST {
     @RequestMapping(value = "/case/{id}", method = RequestMethod.GET)
     @Authenticated()
     public CaseDetailedData get(@PathVariable UUID id) {
-        CaseDetailedData ret = service.findOne(id, CaseDetailedData.class);
-        ret.setAlcoholExcessiveUse(true);
-        ret.setAnaemia(true);
-        return ret;
+        return service.findOne(id, CaseDetailedData.class);
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)

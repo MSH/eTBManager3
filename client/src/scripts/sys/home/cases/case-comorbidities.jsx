@@ -4,6 +4,7 @@ import CaseComments from './case-comments';
 import CRUD from '../../../commons/crud';
 import { Card, Fa } from '../../../components';
 
+// TODOMS: ver c ricardo se está ok usar o crud de cases. o log ficou legal, mostrar
 const crud = new CRUD('case');
 
 const comorbidities = [
@@ -75,8 +76,20 @@ export default class CaseComorbidities extends React.Component {
 			const countTrue = com.value === true ? this.state.countTrue + 1 : this.state.countTrue - 1;
 			self.setState({ countTrue: countTrue });
 
-			// mock saving show
-			setTimeout(() => { com.fetch = com.field === 'anaemia' ? 'error' : null; self.forceUpdate(); }, 2000);
+			// mount doc
+			const doc = {};
+			doc[field] = com.value;
+
+			// send request
+			crud.update(self.props.tbcase.id, doc)
+				.then(() => {
+					com.fetch = null;
+					self.forceUpdate();
+				})
+				.catch(() => {
+					com.fetch = 'error';
+					self.forceUpdate();
+				});
 		});
 	}
 
@@ -85,13 +98,14 @@ export default class CaseComorbidities extends React.Component {
 		const data = this.state.data;
 
 		// put 3 cols in each row
+		// TODOMS: ver c ricardo maneira melhor de fazer isso
 		const rows = [];
 		let cols = [];
 		let colcounter = 0;
-		data.map((item) => {
+		data.map((item, index) => {
 			if (colcounter === 3) {
 				rows.push(
-					<Row>
+					<Row key={index}>
 						{
 							cols.map(col => col)
 						}
