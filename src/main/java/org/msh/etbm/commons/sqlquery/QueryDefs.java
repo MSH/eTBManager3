@@ -44,4 +44,5 @@ public interface QueryDefs {
      * @param fields the list of fields separated by comma
      * @return
      */
-    QueryDefs select(String fields);}
+    QueryDefs select(String fields);
+}

@@ -132,7 +132,7 @@ public class SQLQueryBuilder implements QueryDefs {
             }
 
             s.append('\n')
-                    .append(join.isLeftJoin() ? "left join ": "join ")
+                    .append(join.isLeftJoin() ? "left join " : "join ")
                     .append(join.getTableName())
                     .append(' ')
                     .append(join.getTableAlias())
