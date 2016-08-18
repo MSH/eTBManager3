@@ -2,7 +2,8 @@ import React from 'react';
 import { Card } from '../../../components';
 import Form from '../../../forms/form';
 
-import Contacts from './contacts';
+import CasePrevTbTreats from './case-prev-tb-treats';
+import CaseContacts from './case-contacts';
 import CaseAdvReacts from './case-adv-reacts';
 import CaseComorbidities from './case-comorbidities';
 import CaseComments from './case-comments';
@@ -225,7 +226,9 @@ export default class CaseData extends React.Component {
 					</Card>
 				</CaseComments>
 
-				<Contacts tbcase={this.props.tbcase} />
+				<CasePrevTbTreats tbcase={this.props.tbcase} />
+
+				<CaseContacts tbcase={this.props.tbcase} />
 
 				<CaseAdvReacts tbcase={this.props.tbcase} />
 

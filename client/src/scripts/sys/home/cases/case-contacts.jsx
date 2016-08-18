@@ -8,7 +8,7 @@ import moment from 'moment';
 
 const crud = new CRUD('contact');
 
-export default class Contacts extends React.Component {
+export default class CaseContacts extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -137,6 +137,6 @@ export default class Contacts extends React.Component {
 	}
 }
 
-Contacts.propTypes = {
+CaseContacts.propTypes = {
 	tbcase: React.PropTypes.object
 };

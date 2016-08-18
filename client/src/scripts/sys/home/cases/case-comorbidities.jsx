@@ -70,7 +70,7 @@ export default class CaseComorbidities extends React.Component {
 		const doc = {};
 		trueOnes.map(item => { doc[item.property] = true; });
 
-		this.setState({ uidata: trueOnes, countTrue: trueOnes.length, doc: doc });
+		this.setState({ uidata: trueOnes, doc: doc });
 	}
 
 	headerRender() {
@@ -78,7 +78,7 @@ export default class CaseComorbidities extends React.Component {
 		const hasPerm = true;
 
 		let btn;
-		if (hasPerm) {
+		if (hasPerm && this.state.showForm === false) {
 			btn = <Button onClick={this.showForm(true)}><Fa icon="pencil"/>{__('action.edit')}</Button>;
 			size = 10;
 		}
@@ -89,7 +89,7 @@ export default class CaseComorbidities extends React.Component {
 		return (
 			<Row>
 				<Col sm={size}>
-					{__('TbField.COMORBIDITY')} <Badge className="tbl-counter">{this.state.countTrue > 0 ? this.state.countTrue : '-'}</Badge>
+					{__('TbField.COMORBIDITY')} <Badge className="tbl-counter">{this.state.uidata.length > 0 ? this.state.uidata.length : '-'}</Badge>
 				</Col>
 				{
 					btn && <Col sm={2}><div className="pull-right">{btn}</div></Col>
@@ -104,7 +104,15 @@ export default class CaseComorbidities extends React.Component {
 	}
 
 	save() {
-		return crud.update(this.props.tbcase.id, this.state.doc).then(() => { app.dispatch('case_update'); });
+		return crud.update(this.props.tbcase.id, this.state.doc).then(() => {
+			const uidata = [];
+			fschema.controls.map(item => {
+				if (this.state.doc[item.property] === true) {
+					uidata.push(item);
+				}
+			});
+			this.setState({ uidata: uidata, showForm: false });
+		});
 	}
 
 	render() {
