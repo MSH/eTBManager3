@@ -1,11 +1,10 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
 import { Card } from '../../../components';
 import Form from '../../../forms/form';
-import CardWithComments from './card-with-comments';
 
 import Contacts from './contacts';
 import CaseAdvReacts from './case-adv-reacts';
+import CaseComorbidities from './case-comorbidities';
 import CaseComments from './case-comments';
 
 
@@ -230,9 +229,7 @@ export default class CaseData extends React.Component {
 
 				<CaseAdvReacts tbcase={this.props.tbcase} />
 
-				<CardWithComments title={__('TbField.COMORBIDITY')} tbcase={tbcase} group="comorbidities">
-					<Alert bsStyle="warning">{'No record found'}</Alert>
-				</CardWithComments>
+				<CaseComorbidities tbcase={this.props.tbcase} />
 			</div>
 			);
 	}

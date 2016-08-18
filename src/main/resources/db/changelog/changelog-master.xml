@@ -169,21 +169,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet author="rmemoria" id="1433264274749-8">
-        <createTable tableName="casecomorbidity">
-            <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="comment" type="${type.text}"/>
-            <column name="CASE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="duration" type="VARCHAR(100)"/>
-            <column name="otherCaseComorbidity" type="VARCHAR(255)"/>
-            <column name="comorbidity" type="VARCHAR(50)"/>
-        </createTable>
-    </changeSet>
-
     <changeSet author="rmemoria" id="1433264274749-9">
         <createTable tableName="caseresistancepattern">
             <column name="id" type="int">
@@ -1283,6 +1268,25 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <!-- Risk Factors and Concomitant Diagnoses -->
+            <column name="alcoholExcessiveUse" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tobaccoUseWithin" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aids" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="diabetes" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="anaemia" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="malnutrition" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
@@ -1818,9 +1822,6 @@
     <changeSet author="rmemoria" id="1433264274749-85">
         <addPrimaryKey columnNames="id" constraintName="PKCASECOMMENT" tableName="casecomment"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-86">
-        <addPrimaryKey columnNames="id" constraintName="PKCASECOMORBIDITY" tableName="casecomorbidity"/>
-    </changeSet>
     <changeSet author="rmemoria" id="1433264274749-87">
         <addPrimaryKey columnNames="id" constraintName="PKCASERESISTANCEPATTERN" tableName="caseresistancepattern"/>
     </changeSet>
@@ -2252,11 +2253,6 @@
         <addForeignKeyConstraint baseColumnNames="REGIMEN_ID" baseTableName="medicineregimen"
                                  constraintName="FK6A83C3E7FB9ECED7" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="regimen"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-217">
-        <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="casecomorbidity"
-                                 constraintName="FK6A9C8D85A3F04EEB" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-219">
         <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="medicinedispensingcase"

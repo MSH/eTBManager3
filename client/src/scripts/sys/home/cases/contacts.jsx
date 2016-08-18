@@ -130,6 +130,7 @@ export default class Contacts extends React.Component {
 					crud={crud}
 					onCellRender={this.cellRender}
 					onDetailRender={this.collapseCellRender}
+					queryFilters={{ tbcaseId: tbcase.id }}
 					/>
 			</CaseComments>
 			);

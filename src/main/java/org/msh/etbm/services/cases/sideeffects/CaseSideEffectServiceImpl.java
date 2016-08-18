@@ -21,9 +21,13 @@ public class CaseSideEffectServiceImpl extends CaseEntityServiceImpl<CaseSideEff
 
     @Override
     protected void buildQuery(QueryBuilder<CaseSideEffect> builder, CaseSideEffectQueryParams queryParams) {
+        builder.setEntityAlias("se");
+
         // profiles
         builder.addDefaultProfile(CaseSideEffectQueryParams.PROFILE_DEFAULT, CaseSideEffectData.class);
         builder.addProfile(CaseSideEffectQueryParams.PROFILE_ITEM, SynchronizableItem.class);
+
+        builder.addRestriction("se.tbcase.id = :caseId", queryParams.getTbcaseId());
     }
 
     @Override

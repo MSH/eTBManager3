@@ -8,6 +8,7 @@ public enum CaseDataGroup {
     DATA,
     CONTACTS,
     ADV_REACTS,
+    COMORBIDITIES,
     ADDINFO, // not implemented
     TREATMENT, // not implemented
     EXAMS, // not implemented

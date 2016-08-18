@@ -30,7 +30,7 @@ export default class CrudView extends React.Component {
 		};
 
 		const controller = new CrudController(this.props.crud, opts);
-		controller.initList();
+		controller.initList(this.props.queryFilters);
 
 		this.setState({ controller: controller });
 	}

@@ -19,8 +19,12 @@ public class CaseContactServiceImpl extends CaseEntityServiceImpl<CaseContact, C
 
     @Override
     protected void buildQuery(QueryBuilder<CaseContact> builder, CaseContactQueryParams queryParams) {
+        builder.setEntityAlias("c");
+
         // profiles
         builder.addDefaultProfile(CaseContactQueryParams.PROFILE_DEFAULT, CaseContactData.class);
         builder.addProfile(CaseContactQueryParams.PROFILE_ITEM, SynchronizableItem.class);
+
+        builder.addRestriction("c.tbcase.id = :caseId", queryParams.getTbcaseId());
     }
 }

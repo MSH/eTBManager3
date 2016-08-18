@@ -20,7 +20,7 @@ import java.util.UUID;
  * Created by msantos on 26/3/16.
  */
 @RestController
-@RequestMapping("/api/cases")
+@RequestMapping("/api/tbl")
 @Authenticated(permissions = {Permissions.CASES})
 public class CasesREST {
 
