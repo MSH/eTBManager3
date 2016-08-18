@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *
  * Created by rmemoria on 8/7/16.
  */
-public class SQLQueryBuilder {
+public class SQLQuerySelectionBuilder {
 
     public static final String ROOT_TABLE_ALIAS = "a";
     public static final Pattern TABLEALIAS_PATTERN = Pattern.compile("(\\w*\\.)");

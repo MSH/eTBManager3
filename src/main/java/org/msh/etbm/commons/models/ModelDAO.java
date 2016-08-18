@@ -39,7 +39,7 @@ public class ModelDAO {
      * @return
      */
     public List<RecordData> findMany(boolean displaying, String restriction, Map<String, Object> params) {
-        SQLQueryBuilder builder = new SQLQueryBuilder();
+        SQLQuerySelectionBuilder builder = new SQLQuerySelectionBuilder();
         builder.setDisplaying(displaying);
         SQLQueryInfo res = builder.generate(compiledModel.getModel(), restriction, resources.getWorkspaceId());
 

@@ -2,7 +2,7 @@ package org.msh.etbm.commons.models.db;
 
 /**
  * Store information about a joined table used when constructing the SQL Select query in
- * the class {@link SQLQueryBuilder}
+ * the class {@link SQLQuerySelectionBuilder}
  *
  * Created by rmemoria on 9/7/16.
  */

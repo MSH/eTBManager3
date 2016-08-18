@@ -10,8 +10,6 @@ import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.Workspace;
-import org.msh.etbm.db.repositories.WorkspaceRepository;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
@@ -43,9 +41,6 @@ public class TestRest {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Autowired
-    WorkspaceRepository workspaceRepository;
-
     @Resource
     MessageSource messageSource;
 
@@ -61,13 +56,6 @@ public class TestRest {
     @Autowired
     FormService formService;
 
-
-    @RequestMapping("/workspace")
-    public List<Workspace> getWorkspace(@RequestParam("name") String name) {
-        List<Workspace> lst = workspaceRepository.findByName(name);
-        System.out.println(lst.get(0));
-        return lst;
-    }
 
     @RequestMapping("/message")
     public String getMessage() {

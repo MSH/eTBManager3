@@ -7,7 +7,7 @@ import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.db.RecordData;
-import org.msh.etbm.commons.models.db.SQLQueryBuilder;
+import org.msh.etbm.commons.models.db.SQLQuerySelectionBuilder;
 import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.commons.models.db.SQLQueryLoader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class SQLQueryLoaderTest {
     @Test
     public void testLoad() {
         Model model = createModel();
-        SQLQueryBuilder gen = new SQLQueryBuilder();
+        SQLQuerySelectionBuilder gen = new SQLQuerySelectionBuilder();
         SQLQueryInfo data = gen.generate(model, null, UUID.randomUUID());
 
         System.out.println(data.getSql());

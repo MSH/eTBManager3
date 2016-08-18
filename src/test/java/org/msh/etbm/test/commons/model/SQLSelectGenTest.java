@@ -7,7 +7,7 @@ import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.db.SQLQueryBuilder;
+import org.msh.etbm.commons.models.db.SQLQuerySelectionBuilder;
 import org.msh.etbm.commons.models.db.SQLQueryInfo;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Test of the {@link SQLQueryBuilder}
+ * Test of the {@link SQLQuerySelectionBuilder}
  * Created by rmemoria on 9/7/16.
  */
 public class SQLSelectGenTest {
@@ -26,7 +26,7 @@ public class SQLSelectGenTest {
     public void selectGenTest() {
         Model model = createModel();
 
-        SQLQueryBuilder gen = new SQLQueryBuilder();
+        SQLQuerySelectionBuilder gen = new SQLQuerySelectionBuilder();
         gen.setDisplaying(true);
         gen.setCustomTableSuffix("test");
         SQLQueryInfo res = gen.generate(model, model.getTable() + ".id = :id", UUID.randomUUID());
