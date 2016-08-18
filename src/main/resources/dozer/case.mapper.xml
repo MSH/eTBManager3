@@ -61,4 +61,15 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatData</class-a>
+        <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
+
+        <field custom-converter-id="enum-item">
+            <a>outcome</a>
+            <b>outcome</b>
+        </field>
+
+    </mapping>
+
 </mappings>

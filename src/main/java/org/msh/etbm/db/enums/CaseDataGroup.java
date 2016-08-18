@@ -9,9 +9,5 @@ public enum CaseDataGroup {
     CONTACTS,
     ADV_REACTS,
     COMORBIDITIES,
-    ADDINFO, // not implemented
-    TREATMENT, // not implemented
-    EXAMS, // not implemented
-    MEDEXAMS, // not implemented
-    RESUME // not implemented
+    PREV_TREATS
 }

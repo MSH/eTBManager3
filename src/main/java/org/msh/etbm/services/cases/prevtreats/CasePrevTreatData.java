@@ -1,31 +1,24 @@
-package org.msh.etbm.db.entities;
+package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.db.CaseEntity;
+import org.msh.etbm.commons.Item;
+import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.UUID;
 
-
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "prevtbtreatment")
-public class PrevTBTreatment extends CaseEntity {
-
-    @Column(name = "TREATMENT_MONTH")
+/**
+ * Created by Mauricio on 18/08/2016.
+ */
+public class CasePrevTreatData {
+    private UUID id;
     private Integer month;
-
-    @Column(name = "TREATMENT_YEAR")
     private Integer year;
-
-    @Column(name = "OUTCOME_MONTH")
     private Integer outcomeMonth;
-
-    @Column(name = "OUTCOME_YEAR")
     private Integer outcomeYear;
-
-    @NotNull
-    private PrevTBTreatmentOutcome outcome;
+    private Item<PrevTBTreatmentOutcome> outcome;
 
     private boolean am;
     private boolean cfz;
@@ -39,6 +32,14 @@ public class PrevTBTreatment extends CaseEntity {
     private boolean r;
     private boolean s;
     private boolean z;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public Integer getMonth() {
         return month;
@@ -72,11 +73,11 @@ public class PrevTBTreatment extends CaseEntity {
         this.outcomeYear = outcomeYear;
     }
 
-    public PrevTBTreatmentOutcome getOutcome() {
+    public Item<PrevTBTreatmentOutcome> getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(PrevTBTreatmentOutcome outcome) {
+    public void setOutcome(Item<PrevTBTreatmentOutcome> outcome) {
         this.outcome = outcome;
     }
 
