@@ -70,7 +70,7 @@ public class CaseDetailedData {
     // Risk Factors and Concomitant Diagnoses
     private boolean alcoholExcessiveUse;
     private boolean tobaccoUseWithin;
-    private boolean hivPositive;
+    private boolean aids;
     private boolean diabetes;
     private boolean anaemia;
     private boolean malnutrition;
@@ -273,12 +273,12 @@ public class CaseDetailedData {
         this.tobaccoUseWithin = tobaccoUseWithin;
     }
 
-    public boolean isHivPositive() {
-        return hivPositive;
+    public boolean isAids() {
+        return aids;
     }
 
-    public void setHivPositive(boolean hivPositive) {
-        this.hivPositive = hivPositive;
+    public void setAids(boolean aids) {
+        this.aids = aids;
     }
 
     public boolean isDiabetes() {

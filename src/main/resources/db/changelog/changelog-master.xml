@@ -1275,7 +1275,7 @@
             <column name="tobaccoUseWithin" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="hivPositive" type="${type.boolean}">
+            <column name="aids" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
             <column name="diabetes" type="${type.boolean}">

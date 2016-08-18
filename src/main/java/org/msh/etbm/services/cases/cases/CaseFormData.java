@@ -6,11 +6,11 @@ import java.util.Optional;
  * Created by msantos on 26/3/16.
  */
 public class CaseFormData {
-    //TODO: include other relevant case fields
+    //TODO: include other relevant case fields for editing
 
     private Optional<Boolean> alcoholExcessiveUse;
     private Optional<Boolean> tobaccoUseWithin;
-    private Optional<Boolean> hivPositive;
+    private Optional<Boolean> aids;
     private Optional<Boolean> diabetes;
     private Optional<Boolean> anaemia;
     private Optional<Boolean> malnutrition;
@@ -31,12 +31,12 @@ public class CaseFormData {
         this.tobaccoUseWithin = tobaccoUseWithin;
     }
 
-    public Optional<Boolean> getHivPositive() {
-        return hivPositive;
+    public Optional<Boolean> getAids() {
+        return aids;
     }
 
-    public void setHivPositive(Optional<Boolean> hivPositive) {
-        this.hivPositive = hivPositive;
+    public void setAids(Optional<Boolean> aids) {
+        this.aids = aids;
     }
 
     public Optional<Boolean> getDiabetes() {
