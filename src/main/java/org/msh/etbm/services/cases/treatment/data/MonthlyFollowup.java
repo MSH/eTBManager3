@@ -1,9 +1,7 @@
 package org.msh.etbm.services.cases.treatment.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.sql.Date;
 import java.util.List;
 
 /**

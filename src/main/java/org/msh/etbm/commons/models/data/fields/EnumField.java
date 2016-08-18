@@ -5,7 +5,6 @@ import org.msh.etbm.commons.models.data.options.FieldListOptions;
 import org.msh.etbm.commons.models.data.options.FieldOptions;
 import org.msh.etbm.db.MessageKey;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 

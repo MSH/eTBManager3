@@ -1,9 +1,7 @@
 package org.msh.etbm.services.cases.filters;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +24,12 @@ public interface Filter {
 
 
     /**
+     * Return the filter group related to the
+     * @return
+     */
+    FilterGroup getGroup();
+
+    /**
      * Prepare the query to apply the filters
      * @param def the object to enter SQL information
      * @param value the value to be applied to the filter
@@ -40,16 +44,11 @@ public interface Filter {
     String getFilterType();
 
     /**
-     * Return the options of the filter, or null, if no option is available for this filter
-     * @param param is a parameter recognized by the filter to return specific options
-     * @return instance of the {@link List} interface containing the {@link Item}
+     * Return the resources to be sent to the client in order to display the filter control
+     * @param context instance of {@link FilterContext} class, containing other resources that may be used
+     *                during creation of filter resources
+     * @param params the params sent from the client. Null if called during initialization
+     * @return the resources to be sent to the client
      */
-    List<Item> getFilterOptions(Object param);
-
-    /**
-     * True if the filter accept multiple selection of values
-     * @return boolean value
-     */
-    boolean isMultiSelection();
-
+    Map<String, Object> getResources(FilterContext context, Map<String, Object> params);
 }

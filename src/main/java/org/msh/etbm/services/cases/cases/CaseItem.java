@@ -1,7 +1,9 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
 import java.util.UUID;

@@ -1,9 +1,5 @@
 package org.msh.etbm.commons.sqlquery;
 
-import org.hibernate.SQLQuery;
-import org.msh.etbm.commons.models.db.SQLJoinedTable;
-import org.msh.etbm.commons.models.db.SQLQueryInfo;
-
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +39,7 @@ public class QueryDefsImpl implements QueryDefs {
         String s = sqlexpr;
         while ((pos = s.indexOf("?")) >= 0) {
             String pname = generateParamName();
-            s = s.substring(0, pos) + ':' + pname + sqlexpr.substring(pos + 1);
+            s = s.substring(0, pos) + ':' + pname + s.substring(pos + 1);
             builder.addParameter(pname, paramValues[index]);
             index++;
         }

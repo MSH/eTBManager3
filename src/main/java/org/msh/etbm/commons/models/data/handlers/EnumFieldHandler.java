@@ -5,7 +5,6 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.fields.EnumField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
-import java.util.Arrays;
 import java.util.Map;
 
 

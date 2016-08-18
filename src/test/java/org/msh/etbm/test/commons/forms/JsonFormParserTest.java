@@ -6,7 +6,6 @@ import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.data.SingleDataModel;
 import org.msh.etbm.commons.forms.impl.JsonFormParser;
 import org.msh.etbm.commons.models.data.Validator;
-import org.msh.etbm.commons.models.impl.StandardJSONParser;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;

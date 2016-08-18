@@ -6,7 +6,7 @@ import org.msh.etbm.commons.date.DateUtils;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 /**

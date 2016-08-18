@@ -1,9 +1,5 @@
 package org.msh.etbm.services.cases.sideeffects;
 
-import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.db.enums.YesNoType;
-
 import java.util.UUID;
 
 /**

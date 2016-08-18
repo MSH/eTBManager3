@@ -3,6 +3,9 @@ package org.msh.etbm.test.commons.sqlquery;
 import org.junit.Test;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -64,5 +67,19 @@ public class QueryBuilderTest {
 
         // check if LEFT JOIN declaration was found
         assertTrue(sql.indexOf("left join") > 0);
+    }
+
+    @Test
+    public void test() {
+        SQLQueryBuilder builder = new SQLQueryBuilder("test");
+
+        List<Integer> values = new ArrayList<>();
+        values.add(1);
+        values.add(2);
+        builder.restrict("field in (?, ?)", values.toArray());
+
+        String sql = builder.generate();
+
+        System.out.println(sql);
     }
 }

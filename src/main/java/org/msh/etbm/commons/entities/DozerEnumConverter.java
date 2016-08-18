@@ -7,7 +7,7 @@ import org.msh.etbm.db.MessageKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Optional;
 
 /**
  * Dozer custom convert that simplify conversion from/to Item and enum object

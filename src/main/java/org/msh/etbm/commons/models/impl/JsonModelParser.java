@@ -1,20 +1,12 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.FieldTypeManager;
-import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
-import org.msh.etbm.commons.models.data.options.FieldListOptions;
-import org.msh.etbm.commons.models.data.options.FieldOptions;
-import org.msh.etbm.commons.models.data.options.FieldRangeOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.sqlquery;
 
-import java.util.Optional;
-
 /**
  * Store information about a field of a SELECT statement
  * Created by rmemoria on 16/8/16.

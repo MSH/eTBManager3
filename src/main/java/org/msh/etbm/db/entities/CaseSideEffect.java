@@ -1,10 +1,8 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.CaseEntity;
-import org.msh.etbm.db.enums.YesNoType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Holds information about a side effect of a TB case

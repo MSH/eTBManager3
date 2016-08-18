@@ -7,8 +7,8 @@ import org.msh.etbm.commons.models.data.JSFunction;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
 import org.msh.etbm.commons.models.data.fields.*;
-import org.msh.etbm.commons.models.db.SQLQuerySelectionBuilder;
 import org.msh.etbm.commons.models.db.SQLQueryInfo;
+import org.msh.etbm.commons.models.db.SQLQuerySelectionBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

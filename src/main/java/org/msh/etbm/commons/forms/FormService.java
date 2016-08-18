@@ -5,7 +5,6 @@ import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.impl.FormManager;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.msh.etbm.commons.objutils.ObjectValues;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

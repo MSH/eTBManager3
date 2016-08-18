@@ -5,7 +5,10 @@ import org.msh.etbm.services.cases.view.unitview.UnitViewService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
