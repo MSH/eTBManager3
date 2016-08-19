@@ -48,7 +48,8 @@ public class GlobalListsService {
             XRayEvolution.class,
             HIVResult.class,
             ExamStatus.class,
-            DstResult.class
+            DstResult.class,
+            PrevTBTreatmentOutcome.class
     };
 
     /**

@@ -913,40 +913,40 @@
             </column>
             <column name="OUTCOME_MONTH" type="INT"/>
             <column name="OUTCOME_YEAR" type="INT"/>
-            <column name="Am" type="${type.boolean}">
+            <column name="am" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Cfz" type="${type.boolean}">
+            <column name="cfz" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Cm" type="${type.boolean}">
+            <column name="cm" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Cs" type="${type.boolean}">
+            <column name="cs" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="E" type="${type.boolean}">
+            <column name="e" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Eto" type="${type.boolean}">
+            <column name="eto" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="H" type="${type.boolean}">
+            <column name="h" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Lfx" type="${type.boolean}">
+            <column name="lfx" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Ofx" type="${type.boolean}">
+            <column name="ofx" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="R" type="${type.boolean}">
+            <column name="r" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="S" type="${type.boolean}">
+            <column name="s" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="Z" type="${type.boolean}">
+            <column name="z" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
         </createTable>
