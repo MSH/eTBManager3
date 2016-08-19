@@ -23,7 +23,15 @@ export default class YesNoControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		return FormUtils.readOnlyRender(this.props.value, schema.label);
+		const labelelem = schema.label ? <label className="control-label">{FormUtils.labelRender(schema.label)}</label> : null;
+		return (
+			<div className="form-group">
+				{labelelem}
+				<div className="form-control-static autoscroll">
+					{this.props.value === true ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />}
+				</div>
+			</div>
+			);
 	}
 
 	onChange() {

@@ -43,7 +43,7 @@ export function getValue(obj, prop) {
         if (k in value) {
             value = value[k];
             if (!value) {
-                return undefined;
+                return value;
             }
         }
         else {
