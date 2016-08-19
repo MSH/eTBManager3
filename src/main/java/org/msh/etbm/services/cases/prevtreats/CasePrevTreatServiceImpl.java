@@ -39,7 +39,7 @@ public class CasePrevTreatServiceImpl extends CaseEntityServiceImpl<PrevTBTreatm
     protected void beforeSave(EntityServiceContext<PrevTBTreatment> context, Errors errors) {
         PrevTBTreatment treat = context.getEntity();
 
-        if (!isEmpty(treat.getOutcomeMonth()) && isEmpty(treat.getOutcomeYear())){
+        if (!isEmpty(treat.getOutcomeMonth()) && isEmpty(treat.getOutcomeYear())) {
             errors.rejectValue("outcomeMonth", "cases.prevtreat.msg1");
             errors.rejectValue("outcomeYear", "cases.prevtreat.msg1");
         }
