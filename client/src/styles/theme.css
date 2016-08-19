@@ -6832,6 +6832,8 @@ button.close {
   }
   .card .card-content {
     padding: 8px 16px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
   div[class*="col-"] {
     padding-left: 6px;
@@ -7035,32 +7037,6 @@ button.close {
   color: #FFF;
   background-color: #1e9614;
 }
-.filter {
-  min-height: 30px;
-}
-.filter .remove-link {
-  position: absolute;
-  top: 4px;
-}
-.filter .form-group {
-  padding-left: 28px;
-}
-.filter .control-label {
-  padding-top: 8px;
-  font-size: 1em;
-  padding-left: 8px;
-}
-.filter .form-control {
-  border: none !important;
-  box-shadow: none !important;
-  padding-left: 6px;
-}
-.filter .btn-dd {
-  color: #cdcdcd;
-}
-.filter .form-control:hover {
-  background-color: #f8f8f8;
-}
 .list-box .list-box-v {
   display: block;
   padding: 0px;
@@ -7233,6 +7209,7 @@ button.close {
 }
 .size-2 {
   width: 50% !important;
+  min-width: 120px;
 }
 .size-4 {
   width: 25% !important;

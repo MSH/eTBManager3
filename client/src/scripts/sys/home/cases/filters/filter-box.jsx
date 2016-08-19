@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { LinkTooltip } from '../../../../components';
-import SelectFilter from './selection-filter';
+import SelectFilter from './select-filter';
 
 
 export default class FilterBox extends React.Component {

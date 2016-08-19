@@ -36,9 +36,9 @@ public class FilterManager {
      */
     protected void initFilters() {
         // check if filters were already initialized
-//        if (filters != null) {
-//            return;
-//        }
+        if (filters != null) {
+            return;
+        }
 
         // initialize filters
         filters = new ArrayList<>();
