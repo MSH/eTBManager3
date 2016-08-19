@@ -1,6 +1,6 @@
 
 import FormUtils from '../form-utils';
-import { getValue, setValue, isFunction } from '../../commons/utils';
+import { getValue, setValue, isFunction, isEmpty } from '../../commons/utils';
 
 
 /**
@@ -57,12 +57,12 @@ function initFromControls(schema, doc) {
 		.filter(elem => !!elem.property && getValue(doc, elem.property) === undefined)
 		.forEach(elem => {
 			let val = elem.defaultValue;
-			if (!val) {
+			if (isEmpty(val)) {
 				const control = FormUtils.getControl(elem);
 				val = control.defaultValue();
 			}
 
-			if (val) {
+			if (!isEmpty(val)) {
 				setValue(doc, elem.property, val, true);
 			}
 		});

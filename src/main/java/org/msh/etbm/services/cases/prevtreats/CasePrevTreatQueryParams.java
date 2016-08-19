@@ -12,6 +12,8 @@ public class CasePrevTreatQueryParams extends EntityQueryParams {
     public static final String PROFILE_DEFAULT = "default";
     public static final String PROFILE_ITEM = "item";
 
+    public static final String ORDERBY_YEAR_MONTH = "year_month";
+
     private UUID tbcaseId;
 
     public UUID getTbcaseId() {
