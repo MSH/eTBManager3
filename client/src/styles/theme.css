@@ -7035,13 +7035,20 @@ button.close {
   color: #FFF;
   background-color: #1e9614;
 }
+.filter {
+  min-height: 30px;
+}
 .filter .remove-link {
   position: absolute;
-  left: 9px;
   top: 4px;
 }
 .filter .form-group {
   padding-left: 28px;
+}
+.filter .control-label {
+  padding-top: 8px;
+  font-size: 1em;
+  padding-left: 8px;
 }
 .filter .form-control {
   border: none !important;
@@ -7264,6 +7271,7 @@ button.close {
 .lnk-label {
   color: #303030;
   padding: 2px;
+  cursor: pointer;
 }
 .lnk-label:hover {
   text-decoration: underline;
@@ -7543,6 +7551,19 @@ button.close {
 }
 .clearb {
   clear: both;
+}
+.selectable {
+  display: inline-block;
+  width: auto;
+  padding: 2px 4px;
+  color: #303030;
+  text-decoration: none;
+}
+.selectable:hover {
+  cursor: pointer;
+  background-color: #1e9614;
+  color: #ffffff;
+  border-radius: 2px;
 }
 @font-face {
   font-family: 'OpenSans';

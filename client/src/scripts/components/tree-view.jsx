@@ -142,6 +142,18 @@ export default class TreeView extends React.Component {
 			collapse: item => {
 				const node = self.findNode(item);
 				self._expandNode(node);
+			},
+
+			/**
+			 * Toggle the state of the node, i.e, collapse or expand it
+			 */
+			toggle: item => {
+				const node = self.findNode(item);
+				if (node.state === 'collapsed') {
+					self._expandNode(node);
+				} else {
+					self._collapseNode(node);
+				}
 			}
 		};
 	}
@@ -176,6 +188,9 @@ export default class TreeView extends React.Component {
 	 * @param  {parent} parent The parent node to load items into
 	 */
 	loadNodes(parent) {
+		if (!parent && this.props.root) {
+			return this.createNodes(parent, this.props.root);
+		}
 		const func = this.props.onGetNodes;
 
 		if (!func) {

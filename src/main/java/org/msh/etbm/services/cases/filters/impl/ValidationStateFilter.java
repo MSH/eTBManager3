@@ -12,7 +12,7 @@ import java.util.Map;
 public class ValidationStateFilter extends EnumFilter<ValidationState> {
 
     public ValidationStateFilter() {
-        super(FilterGroup.DATA, "validation-status", "${ValidationStatus}");
+        super(FilterGroup.DATA, "validation-state", "${ValidationState}");
     }
 
     @Override

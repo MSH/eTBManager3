@@ -1,0 +1,3 @@
+POST http://localhost:8080/api/sys/session HTTP/1.1
+X-Auth-Token: c0a80168-5676-1db9-8156-7b976e5e0001
+Content-Type: application/json
