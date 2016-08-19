@@ -8,7 +8,8 @@ export default class FilterBox extends React.Component {
 
 	filterComponent(type) {
 		switch (type) {
-			case 'select': return SelectFilter;
+			case 'select':
+			case 'multi-select': return SelectFilter;
 			default: return null;
 		}
 	}

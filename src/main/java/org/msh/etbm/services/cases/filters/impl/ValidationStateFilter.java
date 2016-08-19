@@ -20,9 +20,4 @@ public class ValidationStateFilter extends EnumFilter<ValidationState> {
         String s = sqlRestriction("tbcase.validationState", value);
         def.restrict(s);
     }
-
-    @Override
-    public String getFilterType() {
-        return null;
-    }
 }
