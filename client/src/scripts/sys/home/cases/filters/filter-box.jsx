@@ -6,11 +6,23 @@ import SelectFilter from './select-filter';
 
 export default class FilterBox extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this._onChange = this._onChange.bind(this);
+	}
+
+
 	filterComponent(type) {
 		switch (type) {
 			case 'select':
 			case 'multi-select': return SelectFilter;
 			default: return null;
+		}
+	}
+
+	_onChange(val) {
+		if (this.props.onChange) {
+			this.props.onChange(this.props.filter, val);
 		}
 	}
 
@@ -38,7 +50,9 @@ export default class FilterBox extends React.Component {
 						className="remove-link" />
 				</Col>
 				<Col sm={8}>
-					<FilterComponent filter={filter} value={this.props.value} />
+					<FilterComponent filter={filter}
+						value={this.props.value}
+						onChange={this._onChange} />
 				</Col>
 			</Row>
 		);

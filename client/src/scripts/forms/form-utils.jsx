@@ -31,6 +31,10 @@ export default class FormUtils {
 	}
 
 	static readOnlyRender(content, label) {
+		if (!content) {
+			return null;
+		}
+
 		const labelelem = label ? <label className="control-label">{FormUtils.labelRender(label)}</label> : null;
 		return (
 			<div className="form-group">

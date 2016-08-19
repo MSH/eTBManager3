@@ -18,6 +18,7 @@ export default class FilterCard extends React.Component {
 		this.addFilter = this.addFilter.bind(this);
 		this.hidePopup = this.hidePopup.bind(this);
 		this.togglePopup = this.togglePopup.bind(this);
+		this._onChange = this._onChange.bind(this);
 	}
 
 	componentWillMount() {
@@ -71,8 +72,19 @@ export default class FilterCard extends React.Component {
 		}
 
 		return filters.map(it => (
-			<FilterBox key={it.filter.id} filter={it.filter} value={it.value} />
+			<FilterBox key={it.filter.id}
+				filter={it.filter}
+				value={it.value}
+				onChange={this._onChange} />
 		));
+	}
+
+	_onChange(filter, value) {
+		const lst = this.state.selectedFilters;
+
+		const item = lst.find(it => it.filter === filter);
+		item.value = value;
+		this.setState({ selectedFilters: lst.slice(0) });
 	}
 
     render() {
