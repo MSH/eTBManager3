@@ -3,7 +3,6 @@ import { Badge, Row, Col, Button } from 'react-bootstrap';
 import CaseComments from './case-comments';
 import CRUD from '../../../commons/crud';
 import { Card, Fa, FormDialog } from '../../../components';
-import { app } from '../../../core/app';
 
 const crud = new CRUD('case');
 
