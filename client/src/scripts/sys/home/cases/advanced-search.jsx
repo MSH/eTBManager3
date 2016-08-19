@@ -1,7 +1,9 @@
 import React from 'react';
 import { Grid, Col, Row, FormControl } from 'react-bootstrap';
 import { Card, SelectionBox, LinkTooltip, AsyncButton, ReactTable, Profile } from '../../../components';
+import FiltersCard from './filters/filters-card';
 import { app } from '../../../core/app';
+import { server } from '../../../commons/server';
 
 import { generateName, generateCaseNumber } from '../../mock-data';
 
@@ -77,13 +79,19 @@ export default class AdvancedSearch extends React.Component {
 	}
 
 	componentWillMount() {
+		const self = this;
+
+		// get list of filters from the server
+		server.post('/api/cases/search/init')
+		.then(res => self.setState({ filters: res.filters }));
+
 		const filterValues = [];
 		filterValues.push({
 			filter: filtersMock[0],
 			value: null
 		});
 
-		app.setState({ filters: filtersMock,  filterValues: filterValues });
+		app.setState({ mockFilters: filtersMock,  filterValues: filterValues });
 	}
 
 
@@ -230,15 +238,17 @@ export default class AdvancedSearch extends React.Component {
 	}
 
 	render() {
-		const filters = app.getState().filters;
+		const filters = this.state.filters;
 		const values = app.getState().filterValues;
-
-		if (!filters) {
-			return null;
-		}
 
 		return (
 			<div>
+			<FiltersCard title={__('cases.advancedsearch')}
+				btnLabel={__('action.search')}
+				filters={filters}
+				onSumit={this.searchCases}
+				onClose={this.props.onClose} />
+
 			<Card title={__('cases.advancedsearch')} closeBtn onClose={this.props.onClose}>
 				<div>
 					<Grid fluid>
@@ -246,10 +256,7 @@ export default class AdvancedSearch extends React.Component {
 						values.map(f => (
 							<Row key={f.filter.id}>
 								<Col sm={5} className="filter">
-									<SelectionBox value={f.filter}
-										options={filters}
-										optionDisplay="name"
-										onChange={this.changeFilter(f)} />
+									<label>{'Testing'}</label>
 									<LinkTooltip toolTip="Remove filter"
 										onClick={this.removeFilter(f)}
 										icon="minus"

@@ -1,18 +1,3 @@
-// app variables
-@header-search-bg: #abc1b3;
-@highlight-bg: #D6E4D6;
-
-// the style of the button in input boxes
-@input-btn-color: #a2a2a2;
-
-@content-bgcolor: #E6EEEE; // EBF1F0;
-@row-hover: #f8f8f8;
-
-
-// alternative background color
-@alt-background: #f8fafa;
-
-@link-muted-color: #c8c8c8;
 
 // app components
 @import "callout.less";
@@ -22,7 +7,6 @@
 @import "collapse-row.less";
 @import "selection-box.less";
 @import "day-picker.less";
-@import "filters.less";
 @import "list-box.less";
 
 
@@ -587,4 +571,19 @@
 
 .clearb {
   clear: both;
+}
+
+.selectable {
+	display: inline-block;
+	width: auto;
+	padding:2px 4px;
+	color: @text-color;
+	text-decoration: none;
+}
+
+.selectable:hover {
+	cursor: pointer;
+	background-color: @brand-success;
+	color: #ffffff;
+	border-radius: 2px;
 }

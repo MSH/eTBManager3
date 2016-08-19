@@ -35,7 +35,7 @@ public class FormStoreService {
             JsonFormParser p = new JsonFormParser();
             frm = p.parse(res.getInputStream());
         } catch (IOException e) {
-            throw new FormException("Error when trying to load resource " + resourcePath);
+            throw new FormException(e);
         }
 
         return frm;

@@ -6832,6 +6832,8 @@ button.close {
   }
   .card .card-content {
     padding: 8px 16px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
   div[class*="col-"] {
     padding-left: 6px;
@@ -7035,25 +7037,6 @@ button.close {
   color: #FFF;
   background-color: #1e9614;
 }
-.filter .remove-link {
-  position: absolute;
-  left: 9px;
-  top: 4px;
-}
-.filter .form-group {
-  padding-left: 28px;
-}
-.filter .form-control {
-  border: none !important;
-  box-shadow: none !important;
-  padding-left: 6px;
-}
-.filter .btn-dd {
-  color: #cdcdcd;
-}
-.filter .form-control:hover {
-  background-color: #f8f8f8;
-}
 .list-box .list-box-v {
   display: block;
   padding: 0px;
@@ -7226,6 +7209,7 @@ button.close {
 }
 .size-2 {
   width: 50% !important;
+  min-width: 120px;
 }
 .size-4 {
   width: 25% !important;
@@ -7264,6 +7248,7 @@ button.close {
 .lnk-label {
   color: #303030;
   padding: 2px;
+  cursor: pointer;
 }
 .lnk-label:hover {
   text-decoration: underline;
@@ -7543,6 +7528,19 @@ button.close {
 }
 .clearb {
   clear: both;
+}
+.selectable {
+  display: inline-block;
+  width: auto;
+  padding: 2px 4px;
+  color: #303030;
+  text-decoration: none;
+}
+.selectable:hover {
+  cursor: pointer;
+  background-color: #1e9614;
+  color: #ffffff;
+  border-radius: 2px;
 }
 @font-face {
   font-family: 'OpenSans';

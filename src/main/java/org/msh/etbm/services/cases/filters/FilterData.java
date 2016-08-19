@@ -9,6 +9,7 @@ public class FilterData {
 
     private String id;
     private String label;
+    private String type;
     private Map<String, Object> resources;
 
     public FilterData(String id, String label, Map<String, Object> resources) {
@@ -42,5 +43,13 @@ public class FilterData {
 
     public void setResources(Map<String, Object> resources) {
         this.resources = resources;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
