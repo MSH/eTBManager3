@@ -123,7 +123,7 @@ export default class CaseComorbidities extends React.Component {
 		let cols = [];
 		data.map((item, index) => {
 			cols.push(
-				<Col md={4} key={item.field + '' + index}>
+				<Col md={6} key={item.field + '' + index}>
 					<Card>
 						<span>
 							<Fa icon={'check'} />
@@ -158,7 +158,7 @@ export default class CaseComorbidities extends React.Component {
 						tbcase={tbcase} group="COMORBIDITIES">
 						<Card header={this.headerRender()} padding="combine">
 							{
-								rows.map(row => row)
+								rows
 							}
 						</Card>
 					</CaseComments>

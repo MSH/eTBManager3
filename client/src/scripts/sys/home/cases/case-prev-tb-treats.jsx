@@ -295,6 +295,7 @@ export default class CasePrevTbTreats extends React.Component {
 			<CaseComments
 				tbcase={tbcase} group="PREV_TREATS">
 				<CrudView combine modal
+					cellSize={{ md: 12 }}
 					title={__('cases.prevtreat')}
 					editorSchema={this.state.editorSchema}
 					crud={crud}

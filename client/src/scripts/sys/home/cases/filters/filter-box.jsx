@@ -9,6 +9,7 @@ export default class FilterBox extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onChange = this._onChange.bind(this);
+		this._onRemove = this._onRemove.bind(this);
 	}
 
 
@@ -26,6 +27,10 @@ export default class FilterBox extends React.Component {
 		}
 	}
 
+	_onRemove() {
+		this.props.onRemove(this.props.filter);
+	}
+
 	render() {
 		const filter = this.props.filter;
 
@@ -33,7 +38,7 @@ export default class FilterBox extends React.Component {
 
 		if (__DEV__) {
 			if (!FilterComponent) {
-				throw new Error('Invalid filter type ' + filter.type);
+				throw new Error('Invalid filter type: ' + filter.type);
 			}
 		}
 
@@ -44,8 +49,8 @@ export default class FilterBox extends React.Component {
 						<label className="control-label">{filter.label + ':'}</label>
 					</div>
 					<LinkTooltip
-						toolTip="Remove filter"
-						onClick={this.props.onRemove}
+						toolTip={__('form.filters.remove')}
+						onClick={this._onRemove}
 						icon="minus"
 						className="remove-link" />
 				</Col>
@@ -62,6 +67,6 @@ export default class FilterBox extends React.Component {
 FilterBox.propTypes = {
 	filter: React.PropTypes.object.isRequired,
 	value: React.PropTypes.any,
-	onRemove: React.PropTypes.func,
-	onChange: React.PropTypes.func
+	onRemove: React.PropTypes.func.isRequired,
+	onChange: React.PropTypes.func.isRequired
 };

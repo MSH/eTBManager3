@@ -50,7 +50,6 @@ gulp.task('build', function() {
 gulp.task('run', function() {
     return runSequence(
         'clean',
-       /* 'client-jshint', */
         ['client-msgs', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',

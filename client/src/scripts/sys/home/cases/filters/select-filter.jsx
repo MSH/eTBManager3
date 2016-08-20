@@ -19,6 +19,7 @@ export default class SelectFilter extends React.Component {
 		const filter = this.props.filter;
 		const options = filter.resources && filter.resources.options;
 
+		// this is a mock schema, just to make the control working
 		const schema = { };
 
 		const Control = filter.type === 'multi-select' ?

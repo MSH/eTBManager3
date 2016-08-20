@@ -42,6 +42,22 @@ export default class FilterCard extends React.Component {
 	}
 
 	/**
+	 * Remove a filter from the list of selected filters
+	 */
+	removeFilter(filter) {
+		const lst = this.state.selectedFilters;
+
+		if (!lst) {
+			return;
+		}
+
+		const index = lst.find(item => item.filter === filter);
+
+		lst.pslice(index, 1);
+		this.setState({ selectedFilters: lst.slice(0) });
+	}
+
+	/**
 	 * Toggle the displaying of the filter popup
 	 */
 	togglePopup() {
@@ -75,7 +91,8 @@ export default class FilterCard extends React.Component {
 			<FilterBox key={it.filter.id}
 				filter={it.filter}
 				value={it.value}
-				onChange={this._onChange} />
+				onChange={this._onChange}
+				onRemove={this.removeFilter} />
 		));
 	}
 
@@ -102,7 +119,7 @@ export default class FilterCard extends React.Component {
 								{__('action.search')}
 							</AsyncButton>
 
-							<LinkTooltip ref="btnadd" toolTip="Add filter" icon="plus"
+							<LinkTooltip ref="btnadd" toolTip={__('form.filters.add')} icon="plus"
 								onClick={this.togglePopup} />
 							{
 								this.props.filters &&

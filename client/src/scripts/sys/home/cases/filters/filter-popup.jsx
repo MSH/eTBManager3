@@ -58,7 +58,7 @@ export default class FilterPopup extends React.Component {
 
     render() {
         return (
-			<div style={{ minWidth: '300px', minHeight: '300px', maxHeight: '300px', overflow: 'scroll' }}>
+			<div className="filter-popup">
 				<TreeView ref="tv" root={this.props.filters}
 					innerRender={this.nodeRender}
 					onGetNodes={this.getChildNodes}

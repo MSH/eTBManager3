@@ -1,4 +1,5 @@
 import React from 'react';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Card } from '../../../components';
 import Form from '../../../forms/form';
 
@@ -220,19 +221,33 @@ export default class CaseData extends React.Component {
 
 		return (
 			<div>
-				<CaseComments tbcase={tbcase} group="DATA">
-					<Card padding="combine">
-						<Form schema={data} doc={tbcase} readOnly/>
-					</Card>
-				</CaseComments>
+				<Row>
+					<Col sm={12}>
+						<CaseComments tbcase={tbcase} group="DATA">
+							<Card padding="combine">
+								<Form schema={data} doc={tbcase} readOnly/>
+							</Card>
+						</CaseComments>
+					</Col>
+				</Row>
 
-				<CasePrevTbTreats tbcase={this.props.tbcase} />
+				<Row>
+					<Col sm={6}>
+						<CaseAdvReacts tbcase={this.props.tbcase} />
+					</Col>
+					<Col sm={6}>
+						<CaseComorbidities tbcase={this.props.tbcase} />
+					</Col>
+				</Row>
 
-				<CaseContacts tbcase={this.props.tbcase} />
-
-				<CaseAdvReacts tbcase={this.props.tbcase} />
-
-				<CaseComorbidities tbcase={this.props.tbcase} />
+				<Row>
+					<Col sm={6}>
+						<CasePrevTbTreats tbcase={this.props.tbcase} />
+					</Col>
+					<Col sm={6}>
+						<CaseContacts tbcase={this.props.tbcase} />
+					</Col>
+				</Row>
 			</div>
 			);
 	}
