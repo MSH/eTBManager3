@@ -79,10 +79,7 @@ const readOnlySchema = {
 					type: 'yesNo',
 					label: __('cases.prevtreat.r'),
 					size: { sm: 2 },
-					visible: i => {
-						console.log('heeeeeeey', i);
-						return (i.r === true);
-					}
+					visible: i => i.r === true
 				},
 				{
 					property: 's',
@@ -107,6 +104,21 @@ export default class CasePrevTbTreats extends React.Component {
 		super(props);
 		this.cellRender = this.cellRender.bind(this);
 
+		const monthOptions = [
+								{ id: 0, name: 'Janeiro' },
+								{ id: 1, name: 'Fevereiro' },
+								{ id: 2, name: 'Março' },
+								{ id: 3, name: 'Abril' },
+								{ id: 4, name: 'Maio' },
+								{ id: 5, name: 'Junho' },
+								{ id: 6, name: 'Julho' },
+								{ id: 7, name: 'Agosto' },
+								{ id: 8, name: 'Setembro' },
+								{ id: 9, name: 'Outubro' },
+								{ id: 10, name: 'Novembro' },
+								{ id: 11, name: 'Dezembro' }
+							];
+
 		const editorSchema = {
 			defaultProperties: {
 				tbcaseId: props.tbcase.id
@@ -116,20 +128,7 @@ export default class CasePrevTbTreats extends React.Component {
 					type: 'select',
 					property: 'month',
 					label: __('cases.prevtreat.inimonth'),
-					options: [
-						{ id: 0, name: 'Janeiro' },
-						{ id: 1, name: 'Fevereiro' },
-						{ id: 2, name: 'Março' },
-						{ id: 3, name: 'Abril' },
-						{ id: 4, name: 'Maio' },
-						{ id: 5, name: 'Junho' },
-						{ id: 6, name: 'Julho' },
-						{ id: 7, name: 'Agosto' },
-						{ id: 8, name: 'Setembro' },
-						{ id: 9, name: 'Outubro' },
-						{ id: 10, name: 'Novembro' },
-						{ id: 11, name: 'Dezembro' }
-					],
+					options: monthOptions,
 					size: { sm: 6 },
 					required: true
 				},
@@ -145,20 +144,7 @@ export default class CasePrevTbTreats extends React.Component {
 					type: 'select',
 					property: 'outcomeMonth',
 					label: __('cases.prevtreat.endmonth'),
-					options: [
-						{ id: 0, name: 'Janeiro' },
-						{ id: 1, name: 'Fevereiro' },
-						{ id: 2, name: 'Março' },
-						{ id: 3, name: 'Abril' },
-						{ id: 4, name: 'Maio' },
-						{ id: 5, name: 'Junho' },
-						{ id: 6, name: 'Julho' },
-						{ id: 7, name: 'Agosto' },
-						{ id: 8, name: 'Setembro' },
-						{ id: 9, name: 'Outubro' },
-						{ id: 10, name: 'Novembro' },
-						{ id: 11, name: 'Dezembro' }
-					],
+					options: monthOptions,
 					size: { sm: 6 }
 				},
 				{
@@ -300,6 +286,7 @@ export default class CasePrevTbTreats extends React.Component {
 					crud={crud}
 					onCellRender={this.cellRender}
 					queryFilters={{ tbcaseId: tbcase.id }}
+					refreshAll
 					/>
 			</CaseComments>
 			);
