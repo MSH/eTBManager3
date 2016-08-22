@@ -41,8 +41,6 @@ public class CaseSearchService {
 
 
     public QueryResult<CaseData> searchCases(CaseSearchRequest req) {
-        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
-
         SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
 
         // limit the number of records to return
@@ -76,6 +74,7 @@ public class CaseSearchService {
 
         System.out.println(sql);
 
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
         List<CaseData> lst = template.query(sql, builder.getParameters(), new RowMapper<CaseData>() {
             @Override
             public CaseData mapRow(ResultSet resultSet, int i) throws SQLException {
