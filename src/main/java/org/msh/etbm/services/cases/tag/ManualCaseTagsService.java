@@ -49,7 +49,7 @@ public class ManualCaseTagsService {
         // store the auto generated tags
         for (Tag t : tbcase.getTags()) {
             if (t.getSqlCondition() != null) {
-               newTagList.add(t);
+                newTagList.add(t);
             }
         }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col, Popover, Overlay } from 'react-bootstrap';
 import { Card, AsyncButton, LinkTooltip } from '../../../../components';
+import { isPromise } from '../../../../commons/utils';
 import FilterPopup from './filter-popup';
 import FilterBox from './filter-box';
 
@@ -19,6 +20,7 @@ export default class FilterCard extends React.Component {
 		this.hidePopup = this.hidePopup.bind(this);
 		this.togglePopup = this.togglePopup.bind(this);
 		this._onChange = this._onChange.bind(this);
+		this._submitFilters = this._submitFilters.bind(this);
 	}
 
 	componentWillMount() {
@@ -104,6 +106,23 @@ export default class FilterCard extends React.Component {
 		this.setState({ selectedFilters: lst.slice(0) });
 	}
 
+	/**
+	 * Called when user clicks on the submit button to execute the filters
+	 */
+	_submitFilters() {
+		const res = this.props.onSubmit(this.state.selectedFilters);
+		// check if it is a promise
+		if (!isPromise(res)) {
+			return;
+		}
+
+		this.setState({ fetching: true });
+
+		const self = this;
+		res.then(() => self.setState({ fetching: false }))
+			.catch(() => self.setState({ fetching: false }));
+	}
+
     render() {
         return (
             <Card title={this.props.title} closeBtn onClose={this.props.onClose}>
@@ -113,7 +132,7 @@ export default class FilterCard extends React.Component {
 					<Row>
 						<Col sm={12} className="mtop">
 							<AsyncButton className="pull-right"
-								onClick={this.props.onSubmit}
+								onClick={this._submitFilters}
 								bsStyle="success"
 								fetching={this.state.fetching}>
 								{__('action.search')}

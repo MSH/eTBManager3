@@ -38,9 +38,9 @@ public class TbCase extends WorkspaceEntity {
      */
     @Column(length = 50)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private String registrationCode;
+    private String registrationNumber;
 
-    private String caseCode;
+    private String caseNumber;
 
     private Integer daysTreatPlanned;
 
@@ -73,7 +73,7 @@ public class TbCase extends WorkspaceEntity {
     @AttributeOverrides({
             @AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
             @AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
-    })
+        })
     @PropertyLog(operations = {Operation.ALL}, addProperties = true)
     private Period treatmentPeriod = new Period();
 
@@ -176,10 +176,10 @@ public class TbCase extends WorkspaceEntity {
             @AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
             @AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
     private Address notifAddress;
 
@@ -188,10 +188,10 @@ public class TbCase extends WorkspaceEntity {
             @AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
             @AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "cases.details.addresscurr")
     private Address currentAddress;
 
@@ -729,16 +729,16 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the registrationCode
      */
-    public String getRegistrationCode() {
-        return registrationCode;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
 
     /**
      * @param registrationCode the registrationCode to set
      */
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
+    public void setRegistrationNumber(String registrationCode) {
+        this.registrationNumber = registrationCode;
     }
 
 
@@ -1081,12 +1081,12 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-    public String getCaseCode() {
-        return caseCode;
+    public String getCaseNumber() {
+        return caseNumber;
     }
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode;
+    public void setCaseNumber(String caseCode) {
+        this.caseNumber = caseCode;
     }
 
     /**

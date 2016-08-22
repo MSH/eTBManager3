@@ -16,7 +16,7 @@ import java.util.List;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FieldRangeOptions.class, name = "range"),
         @JsonSubTypes.Type(value = FieldListOptions.class, name = "list")
-})
+    })
 public abstract class FieldOptions implements JSGeneratorValueWrapper {
 
     @JsonIgnore

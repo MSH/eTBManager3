@@ -33,6 +33,21 @@ public class FilterManager {
     }
 
     /**
+     * Search a filter by its ID
+     * @param id the filter ID
+     * @return the filter that matches the ID
+     */
+    public Filter filterById(String id) {
+        for (Filter filter: getFilters()) {
+            if (filter.getId().equals(id)) {
+                return filter;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Initialize the filters, create the list of available filters for cases
      */
     protected void initFilters() {
@@ -46,10 +61,12 @@ public class FilterManager {
 
         filters.add(new EnumFilter(FilterGroup.DATA, CaseClassification.class,
                 "classif", "${CaseClassification}", "tbcase.classification"));
+
         filters.add(new EnumFilter(FilterGroup.DATA, ValidationState.class,
                 "validation-state", "${ValidationState}", "tbcase.validationState"));
 
         filters.add(new GenderFilter());
+
         filters.add(new EnumFilter(FilterGroup.DATA, CaseState.class,
                 "case-state", "${CaseState}", "tbcase.state"));
 

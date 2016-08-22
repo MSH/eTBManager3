@@ -1,6 +1,11 @@
 package org.msh.etbm.commons.sqlquery;
 
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import javax.sql.DataSource;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -10,6 +15,8 @@ import java.util.stream.Collectors;
  */
 public class SQLQueryBuilder implements QueryDefs {
 
+
+    public static final Pattern TABLEALIAS_PATTERN = Pattern.compile("(\\$?\\w*\\.)");
 
     public static final String ROOT_TABLE_ALIAS = "a";
 
@@ -48,6 +55,15 @@ public class SQLQueryBuilder implements QueryDefs {
      */
     private QueryDefs queryDefs;
 
+    /**
+     * Set the initial record of the result set
+     */
+    private Integer firstResult;
+
+    /**
+     * Set the max number of records to be returned
+     */
+    private Integer maxResult;
 
 
 
@@ -82,7 +98,8 @@ public class SQLQueryBuilder implements QueryDefs {
                 .append(generateJoins())
                 .append(generateWhere())
                 .append(generateOrderBy())
-                .append(generateGroupBy());
+                .append(generateGroupBy())
+                .append(limitResultSet());
 
         return s.toString();
     }
@@ -171,7 +188,9 @@ public class SQLQueryBuilder implements QueryDefs {
             return "";
         }
 
-        return "\norder by " + orderBy;
+        String parsedOrderBy = parseTableName(orderBy);
+
+        return "\norder by " + parsedOrderBy;
     }
 
 
@@ -192,6 +211,60 @@ public class SQLQueryBuilder implements QueryDefs {
 
         return s.toString();
     }
+
+    /**
+     * Limit the number of records returned by the query. Support for paginagion
+     * @return the SQL clause to be appended to the SQL
+     */
+    protected String limitResultSet() {
+        StringBuilder s = new StringBuilder();
+
+        if (maxResult != null) {
+            s.append("\nlimit " + maxResult);
+        }
+
+        if (firstResult != null) {
+            s.append("\noffset " + firstResult);
+        }
+
+        return s.toString();
+    }
+
+
+    /**
+     * Parse the SQL expression and remove
+     * @param sqlexpr
+     * @return
+     */
+    protected String parseTableName(String sqlexpr) {
+        Matcher matcher = TABLEALIAS_PATTERN.matcher(sqlexpr);
+        while (matcher.find()) {
+            String s = matcher.group();
+            String tblName = s.substring(0, s.length() - 1);
+            SQLTable tbl = tableByName(tblName);
+            if (tbl == null) {
+                throw new IllegalArgumentException("Table name not found: " + sqlexpr);
+            }
+            sqlexpr = sqlexpr.replace(s, tbl.getTableAlias() + '.');
+        }
+
+        return sqlexpr;
+    }
+
+    /**
+     * Search for a table by its name
+     * @param table the name of the table
+     * @return instance of {@link SQLTable} or null if table is not found
+     */
+    public SQLTable tableByName(String table) {
+        for (SQLTable tbl: joins) {
+            if (tbl.getTableName().equals(table)) {
+                return tbl;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public QueryDefs restrict(String sqlexpr) {
@@ -264,5 +337,21 @@ public class SQLQueryBuilder implements QueryDefs {
 
     protected void addParameter(String param, Object value) {
         parameters.put(param, value);
+    }
+
+    public Integer getFirstResult() {
+        return firstResult;
+    }
+
+    public void setFirstResult(Integer firstResult) {
+        this.firstResult = firstResult;
+    }
+
+    public Integer getMaxResult() {
+        return maxResult;
+    }
+
+    public void setMaxResult(Integer maxResult) {
+        this.maxResult = maxResult;
     }
 }

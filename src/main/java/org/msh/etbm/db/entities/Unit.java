@@ -66,10 +66,10 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
             @AttributeOverride(name = "address", column = @Column(name = "ADDRESS")),
             @AttributeOverride(name = "complement", column = @Column(name = "addressCompl")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "zipcode"))
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "Address", operations = {Operation.NEW}, addProperties = true)
     @NotNull
     private Address address;
@@ -82,10 +82,10 @@ public abstract class Unit extends WorkspaceEntity implements EntityState {
             @AttributeOverride(name = "address", column = @Column(name = "shipAddress")),
             @AttributeOverride(name = "complement", column = @Column(name = "shipAddressCompl")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "shipZipCode")),
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "SHIP_ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "Address.shipAddress", operations = {Operation.EDIT}, addProperties = true)
     private Address shipAddress;
 
