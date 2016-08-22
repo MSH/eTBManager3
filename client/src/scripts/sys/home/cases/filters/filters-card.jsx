@@ -18,6 +18,7 @@ export default class FilterCard extends React.Component {
 		this.addFilter = this.addFilter.bind(this);
 		this.hidePopup = this.hidePopup.bind(this);
 		this.togglePopup = this.togglePopup.bind(this);
+		this._onChange = this._onChange.bind(this);
 	}
 
 	componentWillMount() {
@@ -38,6 +39,22 @@ export default class FilterCard extends React.Component {
 
 		// toggle filter displaying
 		this.setState({ show: !this.state.show, selectedFilters: lst.slice(0) });
+	}
+
+	/**
+	 * Remove a filter from the list of selected filters
+	 */
+	removeFilter(filter) {
+		const lst = this.state.selectedFilters;
+
+		if (!lst) {
+			return;
+		}
+
+		const index = lst.find(item => item.filter === filter);
+
+		lst.pslice(index, 1);
+		this.setState({ selectedFilters: lst.slice(0) });
 	}
 
 	/**
@@ -71,8 +88,20 @@ export default class FilterCard extends React.Component {
 		}
 
 		return filters.map(it => (
-			<FilterBox key={it.filter.id} filter={it.filter} value={it.value} />
+			<FilterBox key={it.filter.id}
+				filter={it.filter}
+				value={it.value}
+				onChange={this._onChange}
+				onRemove={this.removeFilter} />
 		));
+	}
+
+	_onChange(filter, value) {
+		const lst = this.state.selectedFilters;
+
+		const item = lst.find(it => it.filter === filter);
+		item.value = value;
+		this.setState({ selectedFilters: lst.slice(0) });
 	}
 
     render() {
@@ -90,7 +119,7 @@ export default class FilterCard extends React.Component {
 								{__('action.search')}
 							</AsyncButton>
 
-							<LinkTooltip ref="btnadd" toolTip="Add filter" icon="plus"
+							<LinkTooltip ref="btnadd" toolTip={__('form.filters.add')} icon="plus"
 								onClick={this.togglePopup} />
 							{
 								this.props.filters &&

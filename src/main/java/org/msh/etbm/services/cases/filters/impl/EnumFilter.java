@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.MessageKey;
 import org.msh.etbm.services.cases.filters.FilterContext;
 import org.msh.etbm.services.cases.filters.FilterGroup;
@@ -11,18 +12,27 @@ import java.util.*;
 /**
  * Created by rmemoria on 17/8/16.
  */
-public abstract class EnumFilter<E extends Enum> extends AbstractFilter {
+public class EnumFilter extends AbstractFilter {
 
-    private Class<E> enumClass;
+    private Class enumClass;
+    private String fieldName;
 
-    public EnumFilter(FilterGroup group, String id, String label) {
+    public EnumFilter(FilterGroup group, Class enumClass, String id, String label, String fieldName) {
         super(group, id, label);
+        this.fieldName = fieldName;
+        this.enumClass = enumClass;
     }
-
 
     @Override
     public String getFilterType() {
         return isMultiSelectionSupported() ? "multi-select" : "select";
+    }
+
+
+    @Override
+    public void prepareFilterQuery(QueryDefs def, Object value, Map<String, Object> params) {
+        String s = sqlRestriction(fieldName, value);
+        def.restrict(s);
     }
 
     /**
@@ -43,11 +53,11 @@ public abstract class EnumFilter<E extends Enum> extends AbstractFilter {
             List params = new ArrayList<>();
 
             for (String item: lst) {
-                E val = stringToEnum(item);
+                Enum val = stringToEnum(item);
                 s.append(delim).append(val.ordinal());
             }
         } else {
-            E val = stringToEnum((String)value);
+            Enum val = stringToEnum((String)value);
             s.append(field).append(" = ").append(val.ordinal());
         }
 
@@ -59,18 +69,18 @@ public abstract class EnumFilter<E extends Enum> extends AbstractFilter {
      * @param value the string representing the enum
      * @return
      */
-    protected E stringToEnum(String value) {
-        Class<E> clazz = getEnumClass();
+    protected Enum stringToEnum(String value) {
+        Class<Enum> clazz = getEnumClass();
         Enum[] values = clazz.getEnumConstants();
         for (Enum val: values) {
             if (val.toString().equals(value)) {
-                return (E)val;
+                return (Enum)val;
             }
         }
         throw new IllegalArgumentException("Invalid value " + value);
     }
 
-    public Class<E> getEnumClass() {
+    public Class<Enum> getEnumClass() {
         if (enumClass == null) {
             enumClass = ObjectUtils.getGenericType(getClass(), 0);
         }
@@ -91,15 +101,13 @@ public abstract class EnumFilter<E extends Enum> extends AbstractFilter {
             return null;
         }
 
-        Class<E> clazz = ObjectUtils.getGenericType(getClass(), 0);
-
-        Enum[] values = clazz.getEnumConstants();
+        Enum[] values = (Enum[])enumClass.getEnumConstants();
 
         List<Item> options = new ArrayList<>();
 
         for (Enum val: values) {
             String key = val instanceof MessageKey ? ((MessageKey) val).getMessageKey() :
-                    clazz.getSimpleName() + "." + val.toString();
+                    enumClass.getSimpleName() + "." + val.toString();
 
             String txt = context.getMessages().get(key);
 

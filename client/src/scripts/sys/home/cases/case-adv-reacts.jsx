@@ -96,6 +96,7 @@ export default class CaseAdvReact extends React.Component {
 					title={__('cases.sideeffects')}
 					editorSchema={this.state.editorSchema}
 					crud={crud}
+					cellSize={{ md: 12 }}
 					onCellRender={this.cellRender}
 					onDetailRender={this.collapseCellRender}
 					queryFilters={{ tbcaseId: tbcase.id }}

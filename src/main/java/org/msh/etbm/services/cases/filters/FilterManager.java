@@ -1,9 +1,10 @@
 package org.msh.etbm.services.cases.filters;
 
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.services.cases.filters.impl.CaseClassificationFilter;
+import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.cases.filters.impl.DummyFilter;
-import org.msh.etbm.services.cases.filters.impl.ValidationStateFilter;
+import org.msh.etbm.services.cases.filters.impl.EnumFilter;
+import org.msh.etbm.services.cases.filters.impl.GenderFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,17 +44,25 @@ public class FilterManager {
         // initialize filters
         filters = new ArrayList<>();
 
-        filters.add(new CaseClassificationFilter());
-        filters.add(new ValidationStateFilter());
+        filters.add(new EnumFilter(FilterGroup.DATA, CaseClassification.class,
+                "classif", "${CaseClassification}", "tbcase.classification"));
+        filters.add(new EnumFilter(FilterGroup.DATA, ValidationState.class,
+                "validation-state", "${ValidationState}", "tbcase.validationState"));
 
-        filters.add(new DummyFilter(FilterGroup.DATA, "gender", "${Gender}"));
+        filters.add(new GenderFilter());
+        filters.add(new EnumFilter(FilterGroup.DATA, CaseState.class,
+                "case-state", "${CaseState}", "tbcase.state"));
+
+        filters.add(new EnumFilter(FilterGroup.DATA, InfectionSite.class,
+                "infection-site", "${InfectionSite}", "tbcase.infectionSite"));
+
+        filters.add(new EnumFilter(FilterGroup.DATA, DiagnosisType.class,
+                "diag-type", "${DiagnosisType}", "tbcase.diagnosisType"));
+
         filters.add(new DummyFilter(FilterGroup.DATA, "nat", "${Nationality}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "case-state", "${CaseState}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "diag-type", "${DiagnosisType}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "notif-addr", "${Address}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "notif-unit", "${TbCase.notificationUnit}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "drug-resist-type", "${DrugResistanceType}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "infection-site", "${InfectionSite}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "pulmonary-types", "${TbCase.pulmonaryType}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "extrapulmonary-types", "${TbCase.extrapulmonaryType}"));
         filters.add(new DummyFilter(FilterGroup.DATA, "patient-type", "${PatientType}"));

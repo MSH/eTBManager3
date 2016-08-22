@@ -7,7 +7,6 @@ var path = require('path');
 var fs = require('fs');
 var config = require('../config');
 
-
 module.exports = function () {
 
     // First we fire up Webpack an pass in the configuration we
@@ -39,7 +38,7 @@ module.exports = function () {
         hot: true,
 
         // The rest is terminal configurations
-        quiet: false,
+        quiet: true,
         noInfo: true,
         stats: {
             colors: true

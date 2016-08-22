@@ -125,6 +125,7 @@ export default class CaseContacts extends React.Component {
 			<CaseComments
 				tbcase={tbcase} group="CONTACTS">
 				<CrudView combine modal
+					cellSize={{ md: 12 }}
 					title={__('cases.contacts')}
 					editorSchema={this.state.editorSchema}
 					crud={crud}
