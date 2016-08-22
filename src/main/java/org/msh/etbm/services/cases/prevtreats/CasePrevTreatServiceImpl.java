@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.prevtreats;
 
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.DateUtils;
@@ -38,6 +39,14 @@ public class CasePrevTreatServiceImpl extends CaseEntityServiceImpl<PrevTBTreatm
     @Override
     protected void beforeSave(EntityServiceContext<PrevTBTreatment> context, Errors errors) {
         PrevTBTreatment treat = context.getEntity();
+
+        if (treat.getMonth() == null) {
+            errors.rejectValue("month", Messages.REQUIRED);
+        }
+
+        if (treat.getYear() == null) {
+            errors.rejectValue("year", Messages.REQUIRED);
+        }
 
         if (treat.getOutcomeMonth() != null && treat.getOutcomeYear() == null) {
             errors.rejectValue("outcomeMonth", "cases.prevtreat.msg1");

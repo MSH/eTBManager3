@@ -106,7 +106,7 @@ export default class CaseContacts extends React.Component {
 							<dt>{__('CaseContact.examined') + ':'}</dt>
 							<dd><YesNo value={item.examinated} noForm /></dd>
 							<dt>{__('CaseContact.dateOfExamination') + ':'}</dt>
-							<dd>{moment(item.dateOfExamination).format('ll')}</dd>
+							<dd>{item.dateOfExamination ? moment(item.dateOfExamination).format('ll') : '-'}</dd>
 							<dt>{__('CaseContact.conduct') + ':'}</dt>
 							<dd>{item.conduct ? item.conduct : '-'}</dd>
 							<dt>{__('global.comments') + ':'}</dt>
