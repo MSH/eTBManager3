@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card, ReactTable, Profile } from '../../../components';
+import { Card } from '../../../components';
 import FiltersCard from './filters/filters-card';
-import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
+import CasesList from '../commons/cases-list';
 
-import { generateName, generateCaseNumber } from '../../mock-data';
-
+import CrudController from '../../crud/crud-controller';
+import FakeCRUD from '../../../commons/fake-crud';
 
 
 export default class AdvancedSearch extends React.Component {
@@ -14,7 +14,7 @@ export default class AdvancedSearch extends React.Component {
 		super(props);
 		this.searchCases = this.searchCases.bind(this);
 
-		this.state = {};
+		this.state = { };
 	}
 
 	componentWillMount() {
@@ -23,54 +23,6 @@ export default class AdvancedSearch extends React.Component {
 		// get list of filters from the server
 		server.post('/api/cases/search/init')
 		.then(res => self.setState({ filters: res.filters }));
-	}
-
-	/**
-	 * Rend the case search result, if there is any case available
-	 */
-	casesRender() {
-		const lst = this.state.cases;
-
-		if (!lst) {
-			return null;
-		}
-
-		return (
-			<Card title="Search result">
-			<ReactTable className="mtop-2x"
-				columns={[
-					{
-						title: 'Patient',
-						size: { sm: 4 },
-						content: item =>
-							<Profile type={item.gender.toLowerCase()} size="small"
-								title={item.name} subtitle={item.recordNumber} />
-					},
-					{
-						title: 'Registration date',
-						size: { sm: 2 },
-						content: item => <div>{item.recordDate}<br/>
-								<div className="sub-text">{'30 days ago'}</div></div>
-					},
-					{
-						title: 'Registration group',
-						size: { sm: 2 },
-						content: item => <div>{item.regGroup.name}<br/>{item.infectionSite.name}</div>
-					},
-					{
-						title: 'Start treatment date',
-						size: { sm: 2 },
-						content: 'iniTreatmentDate'
-					},
-					{
-						title: 'Progress',
-						size: { sm: 2 },
-						align: 'center',
-						content: () => <img src="images/small_pie2.png" style={{ width: '36px' }} />
-					}
-				]} values={lst} onClick={this.caseClick}/>
-			</Card>
-			);
 	}
 
 	/**
@@ -89,44 +41,13 @@ export default class AdvancedSearch extends React.Component {
 			});
 		}
 
-		const self = this;
-
-		// get list of filters from the server
-		return server.post('/api/cases/search', req)
-		.then(res => {
-			console.log(res);
-			self.setState({ cases: res });
+		const crud = new FakeCRUD('/api/cases/search');
+		const controller = new CrudController(crud, {
+			pageSize: 50
 		});
+		controller.initList(req);
 
-		// return new Promise(resolve => {
-		// 	setTimeout(() => {
-		// 		// generate mock data of the cases to display
-		// 		const lst = [];
-		// 		for (var i = 0; i < 20; i++) {
-		// 			const res = generateName();
-		// 			lst.push({
-		// 				name: res.name,
-		// 				gender: res.gender,
-		// 				id: (123456 + i).toString(),
-		// 				recordNumber: generateCaseNumber(),
-		// 				regGroup: {
-		// 					id: 'AFTER_FAILURE',
-		// 					name: 'After failure of 1st treatment'
-		// 				},
-		// 				infectionSite: {
-		// 					id: 'PULMONARY',
-		// 					name: 'Pulmonary'
-		// 				},
-		// 				recordDate: 'jan 20th, 2016',
-		// 				iniTreatmentDate: 'Jan 31th, 2016',
-		// 				treatProgess: 35
-		// 			});
-		// 		}
-		// 		resolve(true);
-		// 		this.setState({ fetching: false, cases: lst });
-		// 	}, 500);
-
-		// });
+		this.setState({ controller: controller });
 	}
 
 	/**
@@ -143,7 +64,6 @@ export default class AdvancedSearch extends React.Component {
 
 	render() {
 		const filters = this.state.filters;
-		const values = app.getState().filterValues;
 
 		return (
 			<div>
@@ -154,7 +74,10 @@ export default class AdvancedSearch extends React.Component {
 					onClose={this.props.onClose} />
 
 				{
-					this.casesRender()
+					this.state.controller &&
+					<Card>
+						<CasesList controller={this.state.controller}/>
+					</Card>
 				}
 			</div>
 			);

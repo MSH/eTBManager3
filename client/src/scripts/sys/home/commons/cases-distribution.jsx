@@ -4,6 +4,10 @@ import { TreeView, Card, Fa } from '../../../components';
 import SessionUtils from '../../session-utils';
 
 
+/**
+ * Display a card with a consolidated number of cases by administrative units
+ * and units, grouped by suspected and confirmed TB, DR-TB and NTM
+ */
 export default class CasesDistribution extends React.Component {
 
 	constructor(props) {

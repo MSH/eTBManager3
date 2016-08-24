@@ -1,12 +1,8 @@
 package org.msh.etbm.services.cases.prevtreats;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.UUID;
 
 /**

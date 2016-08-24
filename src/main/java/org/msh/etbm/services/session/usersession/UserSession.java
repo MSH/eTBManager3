@@ -1,5 +1,6 @@
 package org.msh.etbm.services.session.usersession;
 
+import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
@@ -44,6 +45,8 @@ public class UserSession {
     private List<String> permissions;
 
     private String language;
+
+    private NameComposition patientNameComposition;
 
     /**
      * Return true if the given permission is granted to the user
@@ -174,5 +177,13 @@ public class UserSession {
 
     public void setUserLoginName(String userLoginName) {
         this.userLoginName = userLoginName;
+    }
+
+    public NameComposition getPatientNameComposition() {
+        return patientNameComposition;
+    }
+
+    public void setPatientNameComposition(NameComposition patientNameComposition) {
+        this.patientNameComposition = patientNameComposition;
     }
 }

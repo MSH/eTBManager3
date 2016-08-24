@@ -9,9 +9,7 @@ import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
-import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.issues.IssueData;
-import org.msh.etbm.services.cases.sideeffects.CaseSideEffectData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;

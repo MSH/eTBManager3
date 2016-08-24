@@ -1,8 +1,5 @@
 package org.msh.etbm.commons.sqlquery;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import javax.sql.DataSource;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,7 +50,7 @@ public class SQLQueryBuilder implements QueryDefs {
     /**
      * Used internally during the construction of the query definition
      */
-    private QueryDefs queryDefs;
+    private QueryDefsImpl queryDefs;
 
     /**
      * Set the initial record of the result set
@@ -64,6 +61,17 @@ public class SQLQueryBuilder implements QueryDefs {
      * Set the max number of records to be returned
      */
     private Integer maxResult;
+
+    /**
+     * Generated when SQL is created. Maps all logical field names to the SQL field object
+     */
+    private Map<String, SQLField> fieldMapping;
+
+    /**
+     * List of named joins that are not initially included in the SQL. These joins are just used
+     * inside queries if there is any reference on them
+     */
+    private Map<String, SQLTable> namedJoins = new HashMap<>();
 
 
 
@@ -105,25 +113,54 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
     /**
+     * Clear all fields in the select operation
+     */
+    public void clearSelect() {
+        fields.clear();
+    }
+
+    /**
      * Generate the SELECT clause of the SQL statement
      * @return
      */
     protected StringBuilder generateSelect() {
         StringBuilder s = new StringBuilder();
 
+        Map<String, SQLField> mapping = new HashMap<>();
+
         String delim = "select ";
+        int index = 1;
         for (SQLField field: fields) {
-            s.append(delim)
-                    .append(field.getTable().getTableAlias())
-                    .append(".")
-                    .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+            field.setIndex(index++);
+
+            // add field to the SELECT clause
+            s.append(delim);
+
+            if (field.isAggregation()) {
+                s.append(field.getFieldName());
+            } else {
+                s.append(field.getTable().getTableAlias())
+                        .append(".")
+                        .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+            }
+
             delim = ", ";
+
+            // mount list of logical names
+            String logicalName = field.getTable().getTableName() + '.' + field.getFieldName();
+            mapping.put(logicalName, field);
         }
+
+        fieldMapping = mapping;
 
         return s;
     }
 
 
+    /**
+     * Generate the FROM clause of the SQL statement
+     * @return instance of StringBuilder containing the FROM clause
+     */
     protected StringBuilder generateFrom() {
         StringBuilder b = new StringBuilder();
 
@@ -206,7 +243,13 @@ public class SQLQueryBuilder implements QueryDefs {
         StringBuilder s = new StringBuilder();
         String delim = "\ngroup by ";
         for (SQLField field: lst) {
+            if (!field.isAggregation()) {
+                s.append(field.getTable().getTableAlias())
+                        .append('.')
+                        .append(field.getFieldName());
+            }
 
+            delim = ", ";
         }
 
         return s.toString();
@@ -258,11 +301,24 @@ public class SQLQueryBuilder implements QueryDefs {
      */
     public SQLTable tableByName(String table) {
         for (SQLTable tbl: joins) {
-            if (tbl.getTableName().equals(table)) {
+            if ((tbl.getTableName().equals(table)) || (tbl.getJoinName().equals(table))) {
                 return tbl;
             }
         }
         return null;
+    }
+
+
+    /**
+     * Search a field by its logical name. The logical name is in the format "tableName.fieldName".
+     * Table name is the name of the main table or any table in the join.
+     * @param fname the name of the table
+     * @return
+     */
+    public SQLField fieldByName(String fname) {
+        String logicalName = fname.indexOf('.') > 0 ? fname : tableName + '.' + fname;
+
+        return fieldMapping.get(logicalName);
     }
 
 
@@ -287,8 +343,47 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
     @Override
+    public QueryDefs join(String joinName) {
+        return queryDefs.join(joinName);
+    }
+
+    @Override
     public QueryDefs select(String fields) {
         return queryDefs.select(fields);
+    }
+
+    /**
+     * Add a named join. A named join can be used as reference
+     * @param name
+     * @param table
+     * @param on
+     */
+    public void addNamedJoin(String name, String table, String on) {
+        SQLTable tbl = new SQLTable();
+        tbl.setTableName(table);
+        tbl.setOn(on);
+        namedJoins.put(name, tbl);
+    }
+
+    public void addNamedLeftJoin(String name, String table, String on) {
+        SQLTable tbl = new SQLTable();
+        tbl.setTableName(table);
+        tbl.setOn(on);
+        tbl.setLeftJoin(true);
+        namedJoins.put(name, tbl);
+    }
+
+    /**
+     * Serach for a named join by its name
+     * @param joinName
+     * @return
+     */
+    public SQLTable findNamedJoin(String joinName) {
+        return namedJoins.get(joinName);
+    }
+
+    public void addGroupExpression(String expr) {
+        queryDefs.createField(expr, true);
     }
 
     /**

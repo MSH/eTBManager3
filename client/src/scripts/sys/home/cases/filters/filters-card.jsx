@@ -21,6 +21,7 @@ export default class FilterCard extends React.Component {
 		this.togglePopup = this.togglePopup.bind(this);
 		this._onChange = this._onChange.bind(this);
 		this._submitFilters = this._submitFilters.bind(this);
+		this.removeFilter = this.removeFilter.bind(this);
 	}
 
 	componentWillMount() {
@@ -55,7 +56,7 @@ export default class FilterCard extends React.Component {
 
 		const index = lst.find(item => item.filter === filter);
 
-		lst.pslice(index, 1);
+		lst.splice(index, 1);
 		this.setState({ selectedFilters: lst.slice(0) });
 	}
 

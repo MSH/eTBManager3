@@ -25,11 +25,6 @@ const Events = {
 export default class CrudController {
 
 	constructor(crud, options) {
-		if (__DEV__) {
-			if (!options || !options.editorSchema) {
-				throw new Error('editorSchema must be specified in CrudController options');
-			}
-		}
 		this.openNewForm = this.openNewForm.bind(this);
 		this.openEditForm = this.openEditForm.bind(this);
 		this.closeForm = this.closeForm.bind(this);

@@ -1,10 +1,15 @@
 package org.msh.etbm.commons.sqlquery;
 
-import java.util.List;
+import org.msh.etbm.commons.objutils.ObjectUtils;
+
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Implementation of {@link QueryDefs}, that exposes query definition commands to an
+ * external object, allowing them to define joins, select fields and define restrictions
+ *
  * Created by rmemoria on 16/8/16.
  */
 public class QueryDefsImpl implements QueryDefs {
@@ -40,7 +45,7 @@ public class QueryDefsImpl implements QueryDefs {
         while ((pos = s.indexOf("?")) >= 0) {
             String pname = generateParamName();
             s = s.substring(0, pos) + ':' + pname + s.substring(pos + 1);
-            builder.addParameter(pname, paramValues[index]);
+            builder.addParameter(pname, checkParamValue(paramValues[index]));
             index++;
         }
 
@@ -52,7 +57,7 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs join(String tableName, String on) {
-        QueryDefsImpl qd = addJoin(tableName, on);
+        QueryDefsImpl qd = addJoin(tableName, tableName, on);
         SQLTable tblJoin = qd.getTableJoin();
 
         return qd;
@@ -60,7 +65,7 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs leftJoin(String tableName, String on) {
-        QueryDefsImpl qd = addJoin(tableName, on);
+        QueryDefsImpl qd = addJoin(tableName, tableName, on);
         SQLTable tblJoin = qd.getTableJoin();
         tblJoin.setLeftJoin(true);
 
@@ -68,18 +73,61 @@ public class QueryDefsImpl implements QueryDefs {
     }
 
     @Override
+    public QueryDefs join(String joinName) {
+        SQLTable joinTable = null;
+
+        // search in the list of existing joins
+        for (SQLTable tbl: builder.getJoins()) {
+            if (tbl.getJoinName().equals(joinName)) {
+                joinTable = tbl;
+                break;
+            }
+        }
+
+        if (joinTable != null) {
+            return new QueryDefsImpl(builder, joinTable, tableJoin);
+        }
+
+        joinTable = builder.findNamedJoin(joinName);
+        if (joinTable == null) {
+            throw new SQLExecException("Invalid join name: " + joinTable);
+        }
+
+        return addJoin(joinName, joinTable.getTableName(), joinTable.getOn());
+    }
+
+    @Override
     public QueryDefs select(String fields) {
         String[] lst = fields.split(",");
         for (String f: lst) {
-            String alias = createFieldAlias();
-            SQLField field = new SQLField(f.trim(), alias, false, tableJoin);
-            builder.addField(field);
+            createField(f.trim(), false);
         }
         return this;
     }
 
+    /**
+     * Check if value is compatible as a parameter value
+     * @param value
+     * @return
+     */
+    protected Object checkParamValue(Object value) {
+        if (value instanceof UUID) {
+            return ObjectUtils.uuidAsBytes((UUID)value);
+        }
 
-    protected QueryDefsImpl addJoin(String tableName, String on) {
+        return value;
+    }
+
+    public SQLField createField(String fieldName, boolean aggregation) {
+        String alias = createFieldAlias();
+        SQLField field = new SQLField(fieldName, alias, false, tableJoin);
+        field.setAggregation(aggregation);
+        builder.addField(field);
+        return field;
+    }
+
+
+    protected QueryDefsImpl addJoin(String joinName, String tableName, String on) {
         SQLTable tblJoin = new SQLTable();
         tblJoin.setTableName(tableName);
         String alias = createTableAlias();
@@ -90,6 +138,7 @@ public class QueryDefsImpl implements QueryDefs {
         QueryDefsImpl qd = new QueryDefsImpl(builder, tblJoin, tableJoin);
         String newOn = qd.parseTableName(on);
         tblJoin.setOn(newOn);
+        tblJoin.setJoinName(joinName);
 
         return qd;
     }
@@ -138,12 +187,11 @@ public class QueryDefsImpl implements QueryDefs {
             return parent != null ? parent.getTableAlias() : builder.ROOT_TABLE_ALIAS;
         }
 
-        List<SQLTable> tables = builder.getJoins();
-        for (SQLTable tbl: tables) {
-            if (tbl.getTableName().equals(tableName)) {
-                return tbl.getTableAlias();
-            }
+        SQLTable tbl = builder.tableByName(tableName);
+        if (tbl != null) {
+            return tbl.getTableAlias();
         }
+
         return tableName;
     }
 

@@ -10,6 +10,10 @@ public class SQLTable {
     private String on;
     private boolean leftJoin;
     private boolean root;
+    /**
+     * The name of the join to be used alternatively as reference in queries
+     */
+    private String joinName;
 
     public String getTableName() {
         return tableName;
@@ -55,7 +59,16 @@ public class SQLTable {
     public static final SQLTable createRoot(String tableName) {
         SQLTable tbl = new SQLTable();
         tbl.setTableName(tableName);
+        tbl.setJoinName(tableName);
         tbl.root = true;
         return tbl;
+    }
+
+    public String getJoinName() {
+        return joinName;
+    }
+
+    public void setJoinName(String joinName) {
+        this.joinName = joinName;
     }
 }

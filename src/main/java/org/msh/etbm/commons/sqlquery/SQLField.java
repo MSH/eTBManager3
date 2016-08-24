@@ -7,6 +7,11 @@ package org.msh.etbm.commons.sqlquery;
 public class SQLField {
 
     /**
+     * The index position of the field in the select clause
+     */
+    private int index;
+
+    /**
      * The field name (or an expression that is not an aggregation involving other fields)
      */
     private String fieldName;
@@ -65,5 +70,13 @@ public class SQLField {
 
     public void setAggregation(boolean aggregation) {
         this.aggregation = aggregation;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

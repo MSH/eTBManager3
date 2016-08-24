@@ -1,12 +1,9 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 import org.msh.etbm.services.cases.CaseEntityFormData;
 
-import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Created by Mauricio on 18/08/2016.

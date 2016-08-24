@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.sqlquery;
 
-import org.msh.etbm.services.cases.search.CaseData;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
@@ -32,12 +31,23 @@ public class SQLQueryExec {
 
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 
+        // create final variables to be used inside the object instance
+        final RowMapper<E> finalMapper = mapper;
+        final RowReaderImpl reader = new RowReaderImpl(builder);
+
         List<E> lst = template.query(sql, builder.getParameters(), new org.springframework.jdbc.core.RowMapper<E>() {
             @Override
             public E mapRow(ResultSet resultSet, int i) throws SQLException {
-                return null;
+                reader.setResultSet(resultSet);
+                return finalMapper.map(reader);
             }
         });
         return lst;
+    }
+
+    public <T> T queryForObject(SQLQueryBuilder builder, Class<T> clazz) {
+        String sql = builder.generate();
+        NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
+        return template.queryForObject(sql, builder.getParameters(), clazz);
     }
 }

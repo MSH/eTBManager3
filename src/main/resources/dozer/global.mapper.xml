@@ -86,6 +86,11 @@
             <a>user.language</a>
             <b>language</b>
         </field>
+
+        <field>
+            <a>workspace.patientNameComposition</a>
+            <b>patientNameComposition</b>
+        </field>
     </mapping>
 
     <mapping>

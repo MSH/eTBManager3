@@ -21,8 +21,8 @@ const data = {
 	},
 	{
 		type: 'string',
-		label: __('TbCase.registrationCode'),
-		property: 'registrationCode',
+		label: __('TbCase.registrationNumber'),
+		property: 'registrationNumber',
 		max: 100,
 		size: { sm: 4 }
 	},

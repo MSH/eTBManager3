@@ -4,7 +4,6 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.services.cases.contacts.CaseContactData;
 import org.msh.etbm.services.cases.prevtreats.CasePrevTreatData;
 import org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData;
 import org.msh.etbm.services.cases.prevtreats.CasePrevTreatQueryParams;

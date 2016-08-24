@@ -16,7 +16,7 @@ public class GenderFilter extends EnumFilter {
 
     @Override
     public void prepareFilterQuery(QueryDefs def, Object value, Map<String, Object> params) {
-        def.join("patient", "patient.id = tbcase.id")
+        def.join("patient")
                 .restrict(sqlRestriction("patient.gender", value));
     }
 }

@@ -69,7 +69,7 @@ export default class AdminUnit extends React.Component {
 		return (
 			<FrontPage
 				title={au.name}
-				subtitle={SessionUtils.adminUnitDisplay(au, true, false)}
+				subtitle={SessionUtils.adminUnitLink(au, true, false)}
 				type="place"
 				views={views}
 				route={this.props.route}
