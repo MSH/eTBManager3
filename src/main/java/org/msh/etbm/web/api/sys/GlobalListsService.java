@@ -49,7 +49,11 @@ public class GlobalListsService {
             HIVResult.class,
             ExamStatus.class,
             DstResult.class,
-            PrevTBTreatmentOutcome.class
+            PrevTBTreatmentOutcome.class,
+            NameComposition.class,
+            CaseValidationOption.class,
+            DisplayCaseNumber.class,
+            TreatMonitoringInput.class
     };
 
     /**
