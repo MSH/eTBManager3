@@ -32,6 +32,11 @@ public class EnumFilter extends AbstractFilter {
     @Override
     public void prepareFilterQuery(QueryDefs def, Object value, Map<String, Object> params) {
         String s = sqlRestriction(fieldName, value);
+
+        if (s == null) {
+            return;
+        }
+
         def.restrict(s);
     }
 
@@ -52,6 +57,9 @@ public class EnumFilter extends AbstractFilter {
         if (lst == null) {
             singleValue = value;
         } else {
+            if (lst.size() == 0) {
+                return null;
+            }
             singleValue = lst.size() == 1 ? lst.toArray()[0] : null;
         }
 

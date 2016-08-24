@@ -28,7 +28,6 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs restrict(String sqlexpr) {
-
         String s = parseTableName(sqlexpr);
 
         builder.addRestriction(s);
