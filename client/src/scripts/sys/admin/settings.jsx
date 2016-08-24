@@ -1,6 +1,6 @@
 
 import React from 'react';
-import PageContent from './page-content';
+import PageContent from '../page-content';
 
 import SysConfig from './settings/sys-config';
 import Workspaces from './settings/workspaces';
@@ -34,7 +34,7 @@ export default class Settings extends React.Component {
 		return (
 			<PageContent route={this.props.route}
 				menu={this.menu}
-				title={__('admin.config')}
+				title={__('admin') + ' - ' + __('admin.config')}
 				path="/sys/admin/settings" />
 			);
 	}

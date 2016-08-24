@@ -303,8 +303,8 @@ public class Workspace extends Synchronizable implements Displayable {
         this.minStockOnHand = minStockOnHand;
     }
 
-    /**
-     * @return the maxStockOnHand
+    /**maxStockOnHand
+     * @return the
      */
     public Integer getMaxStockOnHand() {
         return maxStockOnHand;

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import PageContent from './page-content';
+import PageContent from '../page-content';
 
 import UserSessions from './reports/usersessions';
 import OnlineUsers from './reports/onlineusers';
@@ -57,7 +57,7 @@ export default class Reports extends React.Component {
 		return (
 			<PageContent route={this.props.route}
 				menu={menu}
-				title={__('admin.reports')}
+				title={__('admin') + ' - ' + __('admin.reports')}
 				path="/sys/admin/reports" />
 			);
 	}

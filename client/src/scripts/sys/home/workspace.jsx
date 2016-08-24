@@ -2,7 +2,7 @@ import React from 'react';
 import FrontPage from './commons/front-page';
 import { app } from '../../core/app';
 
-import General from './view/general';
+import General from './workspace/general';
 import Cases from './view/cases';
 import Inventory from './view/inventory';
 

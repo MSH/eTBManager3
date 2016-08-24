@@ -6,13 +6,14 @@ import SessionUtils from '../session-utils';
 
 import UnderConstruction from './under-construction';
 
+import General from './adminunit/general';
 import Cases from './view/cases';
 
 const views = [
 	{
 		title: __('general'),
 		path: '/general',
-		view: UnderConstruction,
+		view: General,
 		default: true
 	},
 	{

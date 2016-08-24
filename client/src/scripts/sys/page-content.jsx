@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { Fluidbar } from '../../components/index';
-import SidebarContent from '../sidebar-content';
+import { Fluidbar } from '../components/index';
+import SidebarContent from './sidebar-content';
 
 
 /**
@@ -12,9 +12,12 @@ export default class PageContent extends React.Component {
 	render() {
 		return (
 			<div>
-				<Fluidbar>
-					<h3>{__('admin') + ' - ' + this.props.title}</h3>
-				</Fluidbar>
+				{
+					this.props.title &&
+					<Fluidbar>
+						<h3>{this.props.title}</h3>
+					</Fluidbar>
+				}
 				<SidebarContent menu={this.props.menu} path={this.props.path} route={this.props.route} />
 			</div>
 
