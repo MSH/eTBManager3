@@ -1206,11 +1206,11 @@
             <column name="state" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="registrationCode" type="VARCHAR(50)"/>
+            <column name="registrationNumber" type="VARCHAR(50)"/>
             <column name="registrationDate" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="caseCode" type="VARCHAR(50)"/>
+            <column name="caseNumber" type="VARCHAR(50)"/>
             <column name="diagnosisDate" type="date"/>
             <column name="category" type="INT"/>
             <column name="CURR_ADDRESS" type="VARCHAR(255)"/>

@@ -31,7 +31,7 @@ export default class CaseTreatment extends React.Component {
 						type: 'text',
 						property: 'regimenIni.name',
 						label: __('TbCase.regimenIni'),
-						visible: doc => !!doc.regimenIni && doc.regimenIni.id !== doc.regimen.id,
+						visible: doc => doc.regimen && doc.regimenIni && doc.regimenIni.id !== doc.regimen.id,
 						size: { md: 12 }
 					},
 					{

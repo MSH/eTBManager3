@@ -18,6 +18,14 @@ public class QueryResult<E> {
      */
     private List<E> list;
 
+    public QueryResult(long count, List<E> list) {
+        this.count = count;
+        this.list = list;
+    }
+
+    public QueryResult() {
+    }
+
     public long getCount() {
         return count;
     }

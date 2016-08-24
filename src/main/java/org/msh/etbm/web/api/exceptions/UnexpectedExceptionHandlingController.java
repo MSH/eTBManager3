@@ -108,7 +108,7 @@ public class UnexpectedExceptionHandlingController {
         //Get admin mails address
         String to = (String) entityManager.createQuery("select adminMail from SystemConfig group by id having id = min(id)").getSingleResult();
         if (to == null || to.isEmpty()) {
-           throw new RuntimeException("Missing admin email");
+            throw new RuntimeException("Missing admin email");
         }
         to = to.replace(" ", "");
         String[] emails = to.split(",");

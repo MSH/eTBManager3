@@ -45,9 +45,18 @@ public class EnumFilter extends AbstractFilter {
     protected String sqlRestriction(String field, Object value) {
         StringBuilder s = new StringBuilder();
 
-        if (value instanceof Collection) {
-            Collection<String> lst = (Collection)value;
+        Collection<String> lst = value instanceof Collection ? (Collection)value : null;
 
+        // check if there is one single value
+        Object singleValue;
+        if (lst == null) {
+            singleValue = value;
+        } else {
+            singleValue = lst.size() == 1 ? lst.toArray()[0] : null;
+        }
+
+        // handle collection
+        if (lst != null && lst.size() > 1) {
             s.append(field).append(" in ");
             String delim = "(";
             List params = new ArrayList<>();
@@ -56,8 +65,9 @@ public class EnumFilter extends AbstractFilter {
                 Enum val = stringToEnum(item);
                 s.append(delim).append(val.ordinal());
             }
+            s.append(")");
         } else {
-            Enum val = stringToEnum((String)value);
+            Enum val = stringToEnum((String)singleValue);
             s.append(field).append(" = ").append(val.ordinal());
         }
 

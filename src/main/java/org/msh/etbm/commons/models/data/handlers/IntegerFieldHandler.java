@@ -17,7 +17,7 @@ public class IntegerFieldHandler extends SingleFieldHandler<IntegerField> {
 
         if (value instanceof String) {
             try {
-            return Integer.parseInt((String)value);
+                return Integer.parseInt((String)value);
             } catch (NumberFormatException e) {
                 registerConversionError(fieldContext);
                 return value;

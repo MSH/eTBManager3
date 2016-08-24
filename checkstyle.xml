@@ -82,7 +82,6 @@
         </module>
         -->
 
-        <!--
         <module name="Indentation">
             <property name="lineWrappingIndentation" value="4"/>
             <property name="basicOffset" value="4"/>
@@ -91,7 +90,7 @@
             <property name="throwsIndent" value="4"/>
             <property name="arrayInitIndent" value="8"/>
         </module>
-        -->
+
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="false"/>
             <property name="tokens" value="PACKAGE_DEF, IMPORT, CLASS_DEF, INTERFACE_DEF, ENUM_DEF, INSTANCE_INIT, METHOD_DEF, CTOR_DEF" />
