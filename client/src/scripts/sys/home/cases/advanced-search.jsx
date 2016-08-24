@@ -37,7 +37,9 @@ export default class AdvancedSearch extends React.Component {
 		// check if filters were declared
 		if (filters) {
 			filters.forEach(it => {
-				req.filters[it.filter.id] = it.value;
+				if (it.value) {
+					req.filters[it.filter.id] = it.value;
+				}
 			});
 		}
 

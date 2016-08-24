@@ -7225,6 +7225,13 @@ button.close {
   width: 100%;
   margin: 20px 0 10px 0;
 }
+.subtitle2 {
+  font-size: 1.0em;
+  color: #c0c0c0;
+  border-bottom: 1px solid #c0c0c0;
+  width: 100%;
+  margin: 20px 0 10px 0;
+}
 .lnk-muted {
   padding: 0 6px;
   color: #c8c8c8;
@@ -7517,6 +7524,7 @@ button.close {
   overflow-x: auto;
   height: auto;
   overflow-y: overlay;
+  max-height: 500px;
 }
 .bg-danger2 {
   color: #ffffff;

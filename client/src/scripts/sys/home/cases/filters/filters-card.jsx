@@ -54,7 +54,7 @@ export default class FilterCard extends React.Component {
 			return;
 		}
 
-		const index = lst.find(item => item.filter === filter);
+		const index = lst.findIndex(item => item.filter === filter);
 
 		lst.splice(index, 1);
 		this.setState({ selectedFilters: lst.slice(0) });
