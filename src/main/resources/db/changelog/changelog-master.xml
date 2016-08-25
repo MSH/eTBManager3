@@ -1684,27 +1684,6 @@
             <column name="patientNameComposition" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="weekFreq1" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq2" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq3" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq4" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq5" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq6" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="weekFreq7" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="patientAddrRequiredLevels" type="INT">
                 <constraints nullable="false"/>
             </column>
@@ -1721,7 +1700,6 @@
             <column name="suspectCaseNumber" type="INT"/>
             <column name="treatMonitoringInput" type="INT"/>
             <column name="customId" type="${type.customId}"/>
-            <column name="extension" type="varchar(20)" />
         </createTable>
     </changeSet>
 

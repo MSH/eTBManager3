@@ -109,7 +109,7 @@ public class GlobalListsService {
     }
 
     /**
-     * Puts the different messages combination of case classification and diagnosis types on the param
+     * Put the different messages combination of case classification and diagnosis types on the param
      * @param res object that will have the values put
      */
     private void putClassificationDiagnosisOptions(Map<String, Map<String, String>> res) {

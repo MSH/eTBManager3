@@ -22,14 +22,6 @@ public class WorkspaceRequest {
 
     private Optional<String> name;
 
-    private Optional<Integer> weekFreq1;
-    private Optional<Integer> weekFreq2;
-    private Optional<Integer> weekFreq3;
-    private Optional<Integer> weekFreq4;
-    private Optional<Integer> weekFreq5;
-    private Optional<Integer> weekFreq6;
-    private Optional<Integer> weekFreq7;
-
     private Optional<NameComposition> patientNameComposition;
 
     private Optional<CaseValidationOption> caseValidationTB;
@@ -55,62 +47,6 @@ public class WorkspaceRequest {
 
     public void setName(Optional<String> name) {
         this.name = name;
-    }
-
-    public Optional<Integer> getWeekFreq1() {
-        return weekFreq1;
-    }
-
-    public void setWeekFreq1(Optional<Integer> weekFreq1) {
-        this.weekFreq1 = weekFreq1;
-    }
-
-    public Optional<Integer> getWeekFreq2() {
-        return weekFreq2;
-    }
-
-    public void setWeekFreq2(Optional<Integer> weekFreq2) {
-        this.weekFreq2 = weekFreq2;
-    }
-
-    public Optional<Integer> getWeekFreq3() {
-        return weekFreq3;
-    }
-
-    public void setWeekFreq3(Optional<Integer> weekFreq3) {
-        this.weekFreq3 = weekFreq3;
-    }
-
-    public Optional<Integer> getWeekFreq4() {
-        return weekFreq4;
-    }
-
-    public void setWeekFreq4(Optional<Integer> weekFreq4) {
-        this.weekFreq4 = weekFreq4;
-    }
-
-    public Optional<Integer> getWeekFreq5() {
-        return weekFreq5;
-    }
-
-    public void setWeekFreq5(Optional<Integer> weekFreq5) {
-        this.weekFreq5 = weekFreq5;
-    }
-
-    public Optional<Integer> getWeekFreq6() {
-        return weekFreq6;
-    }
-
-    public void setWeekFreq6(Optional<Integer> weekFreq6) {
-        this.weekFreq6 = weekFreq6;
-    }
-
-    public Optional<Integer> getWeekFreq7() {
-        return weekFreq7;
-    }
-
-    public void setWeekFreq7(Optional<Integer> weekFreq7) {
-        this.weekFreq7 = weekFreq7;
     }
 
     public Optional<NameComposition> getPatientNameComposition() {

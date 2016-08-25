@@ -19,6 +19,7 @@ public class UserSessionResponse {
 
     // information about the workspace
     private UUID userWorkspaceId;
+    private UUID workspaceId;
     private String workspaceName;
 
     // information about the user unit
@@ -135,5 +136,13 @@ public class UserSessionResponse {
 
     public void setPatientNameComposition(NameComposition patientNameComposition) {
         this.patientNameComposition = patientNameComposition;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
     }
 }

@@ -25,7 +25,6 @@ public class WorkspacesREST {
     @Autowired
     WorkspaceService service;
 
-
     @RequestMapping(value = "/workspace/{id}", method = RequestMethod.GET)
     @Authenticated()
     public WorkspaceDetailData get(@PathVariable UUID id) {

@@ -70,7 +70,8 @@ export default class SelectControl extends React.Component {
 	 */
 	optionById(id) {
 		const options = this.props.resources || this.state.options;
-		return options ? options.find(item => item.id === id) : null;
+		// using id + '' bellow to force the received id to be a string
+		return options ? options.find(item => item.id === id + '') : null;
 	}
 
 	render() {
