@@ -62,9 +62,6 @@ public class FilterManager {
         filters.add(new EnumFilter(FilterGroup.DATA, CaseClassification.class,
                 "classif", "${CaseClassification}", "tbcase.classification"));
 
-        filters.add(new EnumFilter(FilterGroup.DATA, ValidationState.class,
-                "validation-state", "${ValidationState}", "tbcase.validationState"));
-
         filters.add(new GenderFilter());
 
         filters.add(new EnumFilter(FilterGroup.DATA, CaseState.class,

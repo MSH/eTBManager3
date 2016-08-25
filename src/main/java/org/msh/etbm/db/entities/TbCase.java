@@ -26,10 +26,6 @@ import java.util.List;
 @Table(name = "tbcase")
 public class TbCase extends WorkspaceEntity {
 
-    @Version
-    @PropertyLog(ignore = true)
-    private Integer version;
-
     @PropertyLog(messageKey = "CaseClassification")
     private CaseClassification suspectClassification;
 
@@ -41,8 +37,6 @@ public class TbCase extends WorkspaceEntity {
     private String registrationNumber;
 
     private String caseNumber;
-
-    private Integer daysTreatPlanned;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT_ID")
@@ -77,16 +71,11 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.ALL}, addProperties = true)
     private Period treatmentPeriod = new Period();
 
-    @Temporal(TemporalType.DATE)
-    private Date endIntensivePhase;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REGIMEN_ID")
     private Regimen regimen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGIMEN_INI_ID")
-    private Regimen regimenIni;
+    private boolean movedToIndividualized;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_UNIT_ID")
@@ -105,13 +94,10 @@ public class TbCase extends WorkspaceEntity {
     private CaseState state;
 
     @NotNull
-    private ValidationState validationState;
+    private boolean validated;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String registrationGroup;
-
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE}, messageKey = "TbCase.previouslyTreatedType")
-    private PatientType previouslyTreatedType;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private CaseDefinition caseDefinition;
@@ -120,7 +106,7 @@ public class TbCase extends WorkspaceEntity {
     private DiagnosisType diagnosisType;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private DrugResistanceType drugResistanceType;
+    private String drugResistanceType;
 
     @NotNull
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
@@ -141,7 +127,8 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 100)
     private String registrationGroupOther;
 
-    private Nationality nationality;
+    @Column(length = 50)
+    private String nationality;
 
     @Column(length = 50)
     private String outcome;
@@ -159,8 +146,6 @@ public class TbCase extends WorkspaceEntity {
     private Tbunit notificationUnit;
 
     private boolean notifAddressChanged;
-
-    private boolean tbContact;
 
     private boolean movedSecondLineTreatment;
 
@@ -261,9 +246,6 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private SecDrugsReceived secDrugsReceived;
 
-    @PropertyLog(ignore = true)
-    private int issueCounter;
-
     @Temporal(TemporalType.DATE)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Date lastBmuDateTbRegister;
@@ -285,24 +267,6 @@ public class TbCase extends WorkspaceEntity {
             inverseJoinColumns = {@JoinColumn(name = "TAG_ID")})
     @PropertyLog(ignore = true)
     private List<Tag> tags = new ArrayList<>();
-
-
-    /**
-     * Check if the regimen has changed compared to the initial regimen
-     *
-     * @return
-     */
-    public boolean isInitialRegimenChanged() {
-        if (regimen == regimenIni) {
-            return false;
-        }
-
-        if ((regimen == null) || (regimenIni == null)) {
-            return true;
-        }
-
-        return regimen.getId().equals(regimenIni.getId());
-    }
 
 
     /**
@@ -331,7 +295,7 @@ public class TbCase extends WorkspaceEntity {
      * @return true - if the case is validated, false - otherwise
      */
     public boolean isValidated() {
-        return getValidationState() == ValidationState.VALIDATED;
+        return this.validated;
     }
 
     /**
@@ -366,26 +330,6 @@ public class TbCase extends WorkspaceEntity {
             }
         }
         return null;
-    }
-
-
-    /**
-     * Return the unit that transferred the case in
-     *
-     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out
-     */
-    public TreatmentHealthUnit getTransferInUnit() {
-        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 1) : null;
-    }
-
-
-    /**
-     * Return the unit that transferred the case out
-     *
-     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in
-     */
-    public TreatmentHealthUnit getTransferOutUnit() {
-        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 2) : null;
     }
 
 
@@ -426,7 +370,7 @@ public class TbCase extends WorkspaceEntity {
      * @return
      */
     public boolean isOpen() {
-        return state != null ? state.ordinal() <= CaseState.TRANSFERRING.ordinal() : false;
+        return state != CaseState.CLOSED;
     }
 
 
@@ -436,22 +380,7 @@ public class TbCase extends WorkspaceEntity {
      * @return
      */
     public boolean isOnTreatment() {
-        return (state == CaseState.ONTREATMENT) || (state == CaseState.TRANSFERRING);
-    }
-
-    /**
-     * Return the treatment period of the intensive phase
-     *
-     * @return
-     */
-    public Period getIntensivePhasePeriod() {
-        if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty())) {
-            return null;
-        }
-
-        return endIntensivePhase != null ?
-                new Period(treatmentPeriod.getIniDate(), endIntensivePhase) :
-                new Period(treatmentPeriod);
+        return state == CaseState.ONTREATMENT;
     }
 
     /**
@@ -616,12 +545,12 @@ public class TbCase extends WorkspaceEntity {
         this.registrationGroup = registrationGroup;
     }
 
-    public Nationality getNationality() {
+    public String getNationality() {
         return nationality;
     }
 
 
-    public void setNationality(Nationality nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
@@ -745,7 +674,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the drugResistanceType
      */
-    public DrugResistanceType getDrugResistanceType() {
+    public String getDrugResistanceType() {
         return drugResistanceType;
     }
 
@@ -753,7 +682,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @param drugResistanceType the drugResistanceType to set
      */
-    public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
+    public void setDrugResistanceType(String drugResistanceType) {
         this.drugResistanceType = drugResistanceType;
     }
 
@@ -772,23 +701,7 @@ public class TbCase extends WorkspaceEntity {
         this.patientContactName = patientContactName;
     }
 
-
-    /**
-     * @param tbContact the tbContact to set
-     */
-    public void setTbContact(boolean tbContact) {
-        this.tbContact = tbContact;
-    }
-
-
-    /**
-     * @return the tbContact
-     */
-    public boolean isTbContact() {
-        return tbContact;
-    }
-
-
+    
     /**
      * @return the contacts
      */
@@ -853,21 +766,6 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-    /**
-     * @return the daysTreatPlanned
-     */
-    public Integer getDaysTreatPlanned() {
-        return daysTreatPlanned;
-    }
-
-
-    /**
-     * @param daysTreatPlanned the daysTreatPlanned to set
-     */
-    public void setDaysTreatPlanned(Integer daysTreatPlanned) {
-        this.daysTreatPlanned = daysTreatPlanned;
-    }
-
 
     /**
      * @return the phoneNumber
@@ -900,40 +798,8 @@ public class TbCase extends WorkspaceEntity {
         this.mobileNumber = mobileNumber;
     }
 
-
-    /**
-     * @return the validationState
-     */
-    public ValidationState getValidationState() {
-        return validationState;
-    }
-
-
-    /**
-     * @param validationState the validationState to set
-     */
-    public void setValidationState(ValidationState validationState) {
-        this.validationState = validationState;
-    }
-
-
-    /**
-     * @return the issueCounter
-     */
-    public int getIssueCounter() {
-        return issueCounter;
-    }
-
-
-    /**
-     * @param issueCount the issueCounter to set
-     */
-    public void setIssueCounter(int issueCount) {
-        this.issueCounter = issueCount;
-    }
-
-    public void incIssueCounter() {
-        issueCounter++;
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public List<PrescribedMedicine> getPrescriptions() {
@@ -953,15 +819,6 @@ public class TbCase extends WorkspaceEntity {
         this.treatmentPeriod = treatmentPeriod;
     }
 
-
-    public Integer getVersion() {
-        return version;
-    }
-
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 
 
     public List<ExamCulture> getExamsCulture() {
@@ -991,22 +848,6 @@ public class TbCase extends WorkspaceEntity {
 
     public void setExamsDST(List<ExamDST> examsDST) {
         this.examsDST = examsDST;
-    }
-
-
-    /**
-     * @return the endIntensivePhase
-     */
-    public Date getEndIntensivePhase() {
-        return endIntensivePhase;
-    }
-
-
-    /**
-     * @param endIntensivePhase the endIntensivePhase to set
-     */
-    public void setEndIntensivePhase(Date endIntensivePhase) {
-        this.endIntensivePhase = endIntensivePhase;
     }
 
 
@@ -1065,21 +906,6 @@ public class TbCase extends WorkspaceEntity {
         this.issues = issues;
     }
 
-    /**
-     * @return the regimenIni
-     */
-    public Regimen getRegimenIni() {
-        return regimenIni;
-    }
-
-
-    /**
-     * @param regimenIni the regimenIni to set
-     */
-    public void setRegimenIni(Regimen regimenIni) {
-        this.regimenIni = regimenIni;
-    }
-
 
     public String getCaseNumber() {
         return caseNumber;
@@ -1132,14 +958,6 @@ public class TbCase extends WorkspaceEntity {
 
     public SecDrugsReceived getSecDrugsReceived() {
         return this.secDrugsReceived;
-    }
-
-    public PatientType getPreviouslyTreatedType() {
-        return previouslyTreatedType;
-    }
-
-    public void setPreviouslyTreatedType(PatientType previouslyTreatedType) {
-        this.previouslyTreatedType = previouslyTreatedType;
     }
 
     public CaseDefinition getCaseDefinition() {
@@ -1249,5 +1067,13 @@ public class TbCase extends WorkspaceEntity {
     @Override
     public String getDisplayString() {
         return "(" + classification + ") " + patient.getDisplayString();
+    }
+
+    public boolean isMovedToIndividualized() {
+        return movedToIndividualized;
+    }
+
+    public void setMovedToIndividualized(boolean movedToIndividualized) {
+        this.movedToIndividualized = movedToIndividualized;
     }
 }

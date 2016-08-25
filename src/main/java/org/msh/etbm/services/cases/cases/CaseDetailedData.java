@@ -4,7 +4,6 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.db.enums.ValidationState;
 import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
@@ -53,7 +52,7 @@ public class CaseDetailedData {
 
     private UnitData ownerUnit;
 
-    private ValidationState validationState;
+    private boolean validated;
 
     private AddressData notifAddress;
 
@@ -207,12 +206,12 @@ public class CaseDetailedData {
         this.ownerUnit = ownerUnit;
     }
 
-    public ValidationState getValidationState() {
-        return validationState;
+    public boolean isValidated() {
+        return validated;
     }
 
-    public void setValidationState(ValidationState validationState) {
-        this.validationState = validationState;
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public AddressData getNotifAddress() {

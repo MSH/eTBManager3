@@ -61,10 +61,6 @@ public class TreatmentService {
             data.setRegimen(new SynchronizableItem(tbcase.getRegimen().getId(), tbcase.getRegimen().getName()));
         }
 
-        if (tbcase.getRegimenIni() != null) {
-            data.setRegimenIni(new SynchronizableItem(tbcase.getRegimenIni().getId(), tbcase.getRegimenIni().getName()));
-        }
-
         // mount prescriptions
         List<PrescriptionData> prescs = mountPrescriptions(tbcase.getPrescriptions());
         data.setPrescriptions(prescs);
