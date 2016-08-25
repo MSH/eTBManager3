@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.userprofiles.UserProfileDetailedData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileFormData;
 import org.msh.etbm.services.admin.userprofiles.UserProfileQueryParams;
@@ -31,7 +31,7 @@ public class UserProfileREST {
     UserProfileService service;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
 
     /**

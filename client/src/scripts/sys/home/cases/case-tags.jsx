@@ -1,9 +1,11 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 const tfschema = {
-			layout: [{
+			controls: [{
 					property: 'newTag',
 					required: true,
 					type: 'string',
@@ -16,34 +18,14 @@ const tfschema = {
 
 const fschema = {
 			title: __('Permission.CASE_TAG'),
-			layout: [
+			controls: [
 				{
-					property: 'tags',
-					required: true,
-					type: 'multiListBox',
+					property: 'tagIds',
+					type: 'multiSelect',
+					options: 'manualTags',
 					label: __('admin.tags'),
-					options: [
-						{ id: '1', name: 'On Treatment' },
-						{ id: '2', name: 'Tag 2' },
-						{ id: '3', name: 'Tag 3' },
-						{ id: '4', name: 'Tag 4' },
-						{ id: '5', name: 'Tag 5' },
-						{ id: '6', name: 'Tag 6' },
-						{ id: '7', name: 'Tag 7' },
-						{ id: '8', name: 'Tag 8' },
-						{ id: '9', name: 'Tag 9' },
-						{ id: '10', name: 'Tag 23' },
-						{ id: '11', name: 'Tag 25' },
-						{ id: '12', name: 'Tag 28' },
-						{ id: '13', name: 'Tag 29' },
-						{ id: '14', name: 'Tag 20' },
-						{ id: '15', name: 'Tag 21' },
-						{ id: '16', name: 'Tag 22' },
-						{ id: '17', name: 'Tag 23' }
-					],
-					vertical: true,
-					textAlign: 'left',
-					maxHeight: 250
+					size: { sm: 12 },
+					required: true
 				},
 				{
 					property: 'newTags',
@@ -65,10 +47,40 @@ export default class CaseTags extends React.Component {
 
 		this.state = { doc: {} };
 		this.saveTags = this.saveTags.bind(this);
+		this.onCancel = this.onCancel.bind(this);
+	}
+
+	componentWillMount() {
+		const doc = this.state.doc;
+		// set as selected only manual assigned tags
+		doc.tagIds = this.props.tbcase.tags.filter(item => item.type === 'MANUAL');
+		// set only tag ids
+		doc.tagIds = doc.tagIds.map(item => item.id);
 	}
 
 	saveTags() {
-		console.log('go to server and save this case tags! Dont forget to return a promise');
+		const req = {};
+		req.tbcaseId = this.props.tbcase.id;
+		req.newTags = this.state.doc.newTags ? this.state.doc.newTags.map(item => item.newTag) : null;
+		req.tagIds = this.state.doc.tagIds;
+
+		return server.post('/api/cases/tag/update', req)
+				.then(res => {
+					if (!res.success) {
+						return Promise.reject(res.errors);
+					}
+
+					this.setState({ doc: {} });
+					this.props.onClose();
+
+					app.dispatch('case_update');
+
+					return res.result;
+				});
+	}
+
+	onCancel() {
+		this.setState({ doc: {} });
 		this.props.onClose();
 	}
 
@@ -80,7 +92,7 @@ export default class CaseTags extends React.Component {
 				schema={fschema}
 				doc={this.state.doc}
 				onConfirm={this.saveTags}
-				onCancel={this.props.onClose}
+				onCancel={this.onCancel}
 				confirmCaption={__('action.save')}
 				wrapType={'modal'}
 				modalShow={this.props.show}/>

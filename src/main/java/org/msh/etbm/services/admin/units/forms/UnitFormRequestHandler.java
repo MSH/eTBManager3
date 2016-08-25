@@ -107,13 +107,13 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         UnitData unit = unitService.findOne(unitId, UnitData.class);
 
         // get selected administrative unit
-        res.setAdminUnitId(unit.getAdminUnit().getSelected().getId());
+        res.setAdminUnitId(unit.getAdminUnit().getId());
 
         // get the selected type of unit
         String unitType = req.getStringParam("type");
 
         // get the list of units to be displayed
-        res.setUnits(getUnits(unit.getAdminUnit().getSelected().getId(), wsId, unitType));
+        res.setUnits(getUnits(unit.getAdminUnit().getId(), wsId, unitType));
 
         return res;
     }

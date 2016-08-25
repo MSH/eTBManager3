@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum CultureResult {
+import org.msh.etbm.db.MessageKey;
+
+public enum CultureResult implements MessageKey {
     NEGATIVE('-'),
     POSITIVE('+'),
     PLUS('+'),
@@ -21,7 +23,8 @@ public enum CultureResult {
         this.result = result;
     }
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

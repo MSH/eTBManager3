@@ -38,9 +38,9 @@ public class TbCase extends WorkspaceEntity {
      */
     @Column(length = 50)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private String registrationCode;
+    private String registrationNumber;
 
-    private String caseCode;
+    private String caseNumber;
 
     private Integer daysTreatPlanned;
 
@@ -73,7 +73,7 @@ public class TbCase extends WorkspaceEntity {
     @AttributeOverrides({
             @AttributeOverride(name = "iniDate", column = @Column(name = "iniTreatmentDate")),
             @AttributeOverride(name = "endDate", column = @Column(name = "endTreatmentDate"))
-    })
+        })
     @PropertyLog(operations = {Operation.ALL}, addProperties = true)
     private Period treatmentPeriod = new Period();
 
@@ -143,6 +143,9 @@ public class TbCase extends WorkspaceEntity {
 
     private Nationality nationality;
 
+    @Column(length = 50)
+    private String outcome;
+
     @Column(length = 100)
     private String otherOutcome;
 
@@ -164,19 +167,19 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 100)
     private String patientContactName;
 
-    @Lob
-    @PropertyLog(messageKey = "global.comments")
-    private String comments;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<CaseComment> comments = new ArrayList<>();
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "address", column = @Column(name = "NOTIF_ADDRESS")),
             @AttributeOverride(name = "complement", column = @Column(name = "NOTIF_COMPLEMENT")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "NOTIF_ZIPCODE")),
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "NOTIF_ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "cases.details.addressnotif", operations = {Operation.NEW})
     private Address notifAddress;
 
@@ -185,10 +188,10 @@ public class TbCase extends WorkspaceEntity {
             @AttributeOverride(name = "address", column = @Column(name = "CURR_ADDRESS")),
             @AttributeOverride(name = "complement", column = @Column(name = "CURR_COMPLEMENT")),
             @AttributeOverride(name = "zipCode", column = @Column(name = "CURR_ZIPCODE")),
-    })
+        })
     @AssociationOverrides({
             @AssociationOverride(name = "adminUnit", joinColumns = @JoinColumn(name = "CURR_ADMINUNIT_ID"))
-    })
+        })
     @PropertyLog(messageKey = "cases.details.addresscurr")
     private Address currentAddress;
 
@@ -210,10 +213,6 @@ public class TbCase extends WorkspaceEntity {
     private List<CaseSideEffect> sideEffects = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
-    @PropertyLog(ignore = true)
-    private List<CaseComorbidity> comorbidities = new ArrayList<>();
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @OrderBy("date desc")
     @PropertyLog(ignore = true)
     private List<MedicalExamination> examinations = new ArrayList<>();
@@ -224,12 +223,19 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(messageKey = "cases.contacts")
-    private List<TbContact> contacts = new ArrayList<>();
+    private List<CaseContact> contacts = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
     private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 
+    // Risk Factors and Concomitant Diagnoses
+    private boolean alcoholExcessiveUse;
+    private boolean tobaccoUseWithin;
+    private boolean aids;
+    private boolean diabetes;
+    private boolean anaemia;
+    private boolean malnutrition;
 
     /* EXAMS */
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
@@ -265,6 +271,10 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 50)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastBmuTbRegistNumber;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
+    @PropertyLog(ignore = true)
+    private List<Issue> issues = new ArrayList<>();
 
     /**
      * Tags of this case
@@ -351,7 +361,7 @@ public class TbCase extends WorkspaceEntity {
      */
     public CaseSideEffect findSideEffectData(String sideEffect) {
         for (CaseSideEffect se : getSideEffects()) {
-            if (se.getSideEffect().getValue().equals(sideEffect)) {
+            if (se.getSideEffect().equals(sideEffect)) {
                 return se;
             }
         }
@@ -537,6 +547,13 @@ public class TbCase extends WorkspaceEntity {
         this.infectionSite = infectionSite;
     }
 
+    public List<CaseComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CaseComment> comments) {
+        this.comments = comments;
+    }
 
     public Address getNotifAddress() {
         if (notifAddress == null) {
@@ -575,11 +592,17 @@ public class TbCase extends WorkspaceEntity {
         this.notifAddressChanged = notifAddressChanged;
     }
 
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
 
     public String getOtherOutcome() {
         return otherOutcome;
     }
-
 
     public void setOtherOutcome(String otherOutcome) {
         this.otherOutcome = otherOutcome;
@@ -657,22 +680,6 @@ public class TbCase extends WorkspaceEntity {
 
 
     /**
-     * @return the comorbidities
-     */
-    public List<CaseComorbidity> getComorbidities() {
-        return comorbidities;
-    }
-
-
-    /**
-     * @param comorbidities the comorbidities to set
-     */
-    public void setComorbidities(List<CaseComorbidity> comorbidities) {
-        this.comorbidities = comorbidities;
-    }
-
-
-    /**
      * @return the age
      */
     public Integer getAge() {
@@ -722,16 +729,16 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the registrationCode
      */
-    public String getRegistrationCode() {
-        return registrationCode;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
 
     /**
      * @param registrationCode the registrationCode to set
      */
-    public void setRegistrationCode(String registrationCode) {
-        this.registrationCode = registrationCode;
+    public void setRegistrationNumber(String registrationCode) {
+        this.registrationNumber = registrationCode;
     }
 
 
@@ -749,23 +756,6 @@ public class TbCase extends WorkspaceEntity {
     public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
         this.drugResistanceType = drugResistanceType;
     }
-
-
-    /**
-     * @return the comments
-     */
-    public String getComments() {
-        return comments;
-    }
-
-
-    /**
-     * @param comments the comments to set
-     */
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
 
     /**
      * @return the patientContactName
@@ -802,7 +792,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the contacts
      */
-    public List<TbContact> getContacts() {
+    public List<CaseContact> getContacts() {
         return contacts;
     }
 
@@ -810,7 +800,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @param contacts the contacts to set
      */
-    public void setContacts(List<TbContact> contacts) {
+    public void setContacts(List<CaseContact> contacts) {
         this.contacts = contacts;
     }
 
@@ -1067,6 +1057,13 @@ public class TbCase extends WorkspaceEntity {
         this.tags = tags;
     }
 
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
 
     /**
      * @return the regimenIni
@@ -1084,12 +1081,12 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-    public String getCaseCode() {
-        return caseCode;
+    public String getCaseNumber() {
+        return caseNumber;
     }
 
-    public void setCaseCode(String caseCode) {
-        this.caseCode = caseCode;
+    public void setCaseNumber(String caseCode) {
+        this.caseNumber = caseCode;
     }
 
     /**
@@ -1199,6 +1196,54 @@ public class TbCase extends WorkspaceEntity {
 
     public void setCurrLocalityType(LocalityType currLocalityType) {
         this.currLocalityType = currLocalityType;
+    }
+
+    public boolean isAlcoholExcessiveUse() {
+        return alcoholExcessiveUse;
+    }
+
+    public void setAlcoholExcessiveUse(boolean alcoholExcessiveUse) {
+        this.alcoholExcessiveUse = alcoholExcessiveUse;
+    }
+
+    public boolean isTobaccoUseWithin() {
+        return tobaccoUseWithin;
+    }
+
+    public void setTobaccoUseWithin(boolean tobaccoUseWithin) {
+        this.tobaccoUseWithin = tobaccoUseWithin;
+    }
+
+    public boolean isAids() {
+        return aids;
+    }
+
+    public void setAids(boolean aids) {
+        this.aids = aids;
+    }
+
+    public boolean isDiabetes() {
+        return diabetes;
+    }
+
+    public void setDiabetes(boolean diabetes) {
+        this.diabetes = diabetes;
+    }
+
+    public boolean isAnaemia() {
+        return anaemia;
+    }
+
+    public void setAnaemia(boolean anaemia) {
+        this.anaemia = anaemia;
+    }
+
+    public boolean isMalnutrition() {
+        return malnutrition;
+    }
+
+    public void setMalnutrition(boolean malnutrition) {
+        this.malnutrition = malnutrition;
     }
 
     @Override

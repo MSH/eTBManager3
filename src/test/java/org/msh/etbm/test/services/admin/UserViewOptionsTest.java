@@ -4,9 +4,9 @@ import org.junit.Test;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitData;
@@ -33,7 +33,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
     private static final String KEY = "id";
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     @Autowired
     UnitService unitService;
@@ -73,7 +73,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         UnitData data = units.getList().get(0);
 
         assert (data instanceof UnitData);
-        assert (data.getAdminUnit() instanceof AdminUnitSeries);
+        assert (data.getAdminUnit() instanceof AdminUnitData);
 
         Map<String, Object> params = new HashMap<>();
         params.put(UserViewOptions.PARAM_UNITID, data.getId().toString());
@@ -122,7 +122,7 @@ public class UserViewOptionsTest extends AuthenticatedTest {
         List<FormRequest> reqs = new ArrayList<>();
         reqs.add(req);
 
-        Map<String, Object> res = formService.processFormRequests(reqs);
+        Map<String, Object> res = formRequestService.processFormRequests(reqs);
 
         // assert values
         assertNotNull(res);

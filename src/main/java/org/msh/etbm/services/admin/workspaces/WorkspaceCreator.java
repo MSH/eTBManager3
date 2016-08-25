@@ -170,10 +170,7 @@ public class WorkspaceCreator {
 
                 au.setParent(p);
                 p.setUnitsCount(p.getUnitsCount() + 1);
-                p.getUnits().add(au);
-                au.setCode(p.getCode() + format.format(p.getUnitsCount() + 1L));
             } else {
-                au.setCode(format.format(rootCount));
                 rootCount++;
             }
 

@@ -37,7 +37,7 @@ class SnapshotCreator {
 		this.form = form;
 		this.list = [];
 
-		this._traverse(schema.layout, formSnapshot);
+		this._traverse(schema.controls, formSnapshot);
 
 		return this.list;
 	}
@@ -57,8 +57,10 @@ class SnapshotCreator {
 			}
 
 			// the id of the element, composed with the parent name
-			snapshot.id = (pref ? pref + ':' : '') +
-				(schema.property ? schema.property + index : 'ctrl' + index);
+			if (!snapshot.id) {
+				snapshot.id = (pref ? pref + ':' : '') +
+					(schema.property ? schema.property + index : 'ctrl' + index);
+			}
 
 			// list of children elements
 			const children = comp.children(schema);

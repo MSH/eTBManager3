@@ -1,6 +1,6 @@
 package org.msh.etbm.services.admin.userprofiles.perms;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
 import org.msh.etbm.services.security.permissions.Permission;

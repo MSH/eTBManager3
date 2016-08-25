@@ -10,6 +10,13 @@ import java.util.UUID;
 public interface QueryBuilder<E> {
 
     /**
+     * Select the SELECT HQL instruction to be added before the HQL FROM clause
+     *
+     * @param hql HQL join instruction
+     */
+    void setHqlSelect(String hql);
+
+    /**
      * Select the join HQL instruction to be added after the HQL FROM clause
      *
      * @param hql HQL join instruction

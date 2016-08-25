@@ -7,7 +7,7 @@ export default class Workspaces extends React.Component {
 
 	componentWillMount() {
 		const editor = {
-			layout: [
+			controls: [
 			{
 				type: 'string',
 				label: __('form.name'),

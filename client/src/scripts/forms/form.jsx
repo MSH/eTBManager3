@@ -30,6 +30,7 @@ export default class Form extends React.Component {
 
 		if (__DEV__) {
 			if (!name) {
+				/* eslint no-console: "off" */
 				console.log('No name defined for ' + (Comp.typeName ? Comp.typeName() : Comp) + '.typeName()');
 			}
 		}
@@ -59,8 +60,8 @@ export default class Form extends React.Component {
 			}
 
 			// validate the schema
-			if (schema.layout) {
-				schema.layout
+			if (schema.controls) {
+				schema.controls
 				.forEach(elem => {
 					if (!elem.type) {
 						throw new Error('Element type not defined for ' + elem.property);
@@ -183,7 +184,7 @@ export default class Form extends React.Component {
 	applyRequests() {
 		// check if there is any request to be dispatched
 		if (!this.reqs || this.reqs.length === 0) {
-			if (!this.state.resources) {
+			if (!this.state.resources && !this.props.resources) {
 				this.setState({ resources: [] });
 			}
 			return Promise.resolve([]);
@@ -249,6 +250,7 @@ import SelectControl from './controls/select-control';
 import DateControl from './controls/date-control';
 import SubtitleControl from './controls/subtitle-control';
 import GroupControl from './controls/group-control';
+import PeriodControl from './controls/period-control';
 
 Form.registerType([
 	InputControl,
@@ -257,5 +259,6 @@ Form.registerType([
 	SelectControl,
 	DateControl,
 	SubtitleControl,
-	GroupControl
+	GroupControl,
+	PeriodControl
 ]);

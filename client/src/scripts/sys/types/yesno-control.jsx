@@ -23,7 +23,15 @@ export default class YesNoControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
-		return FormUtils.readOnlyRender(this.props.value, schema.label);
+		const labelelem = schema.label ? <label className="control-label">{FormUtils.labelRender(schema.label)}</label> : null;
+		return (
+			<div className="form-group">
+				{labelelem}
+				<div className="form-control-static autoscroll">
+					{this.props.value === true ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />}
+				</div>
+			</div>
+			);
 	}
 
 	onChange() {
@@ -36,7 +44,7 @@ export default class YesNoControl extends React.Component {
 
 	optionRender(val) {
 		return val ?
-			<div><Fa icon="check-circle" className="text-primary"/>{__('global.yes')}</div> :
+			<div><Fa icon="check-circle" className="text-success"/>{__('global.yes')}</div> :
 			<div><Fa icon="times-circle" className="text-danger"/>{__('global.no')}</div>;
 	}
 

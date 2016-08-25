@@ -67,6 +67,7 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
             response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
+            return true;
         }
 
         userRequestService.setUserSession(session);

@@ -1,7 +1,7 @@
 package org.msh.etbm.test.commons.entities;
 
 import org.junit.Test;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
 import org.msh.etbm.commons.entities.dao.EntityDAOFactory;
 import org.msh.etbm.db.entities.Source;

@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.treatment.data;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.date.Period;
+import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
 
 import java.util.List;
 
@@ -45,6 +46,11 @@ public class TreatmentData {
      * List of treatment units that the patient has passed through
      */
     private List<TreatmentUnitData> units;
+
+    /**
+     * Information about treatment followup for each day of the treatment
+     */
+    private List<MonthlyFollowup> followup;
 
     public Period getPeriod() {
         return period;
@@ -100,5 +106,13 @@ public class TreatmentData {
 
     public void setUnits(List<TreatmentUnitData> units) {
         this.units = units;
+    }
+
+    public List<MonthlyFollowup> getFollowup() {
+        return followup;
+    }
+
+    public void setFollowup(List<MonthlyFollowup> followup) {
+        this.followup = followup;
     }
 }

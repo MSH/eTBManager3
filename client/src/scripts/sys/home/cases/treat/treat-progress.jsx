@@ -24,7 +24,7 @@ export default class TreatProgress extends React.Component {
 			<div id="cont" data-pct={this.props.value}>
 			<svg id="svg" width={this.props.width} height={this.props.height} viewBox="0 0 220 220">
 				<circle r="90" cx="110" cy="110"
-					fill="transparent" stroke-dashoffset="0"
+					fill="transparent" strokeDashoffset="0"
 					strokeDasharray="565.48" />
 				<circle id="bar" r="90" cx="110" cy="110"
 					fill="transparent"

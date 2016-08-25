@@ -3,8 +3,8 @@ import FrontPage from './commons/front-page';
 import { app } from '../../core/app';
 
 import General from './workspace/general';
-import Cases from './workspace/cases';
-import Inventory from './workspace/inventory';
+import Cases from './view/cases';
+import Inventory from './view/inventory';
 
 
 const views = [

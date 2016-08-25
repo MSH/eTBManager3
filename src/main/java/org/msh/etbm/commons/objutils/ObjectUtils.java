@@ -3,12 +3,12 @@ package org.msh.etbm.commons.objutils;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * General utility functions involving an object
@@ -169,5 +169,116 @@ public class ObjectUtils {
         }
 
         return values;
+    }
+
+    /**
+     * Convert an array of bytes to an UUID object
+     *
+     * @param val an array of bytes
+     * @return instance of UUID
+     */
+    public static UUID bytesToUUID(byte[] val) {
+        ByteBuffer bb = ByteBuffer.wrap(val);
+        long high = bb.getLong();
+        long low = bb.getLong();
+        return new UUID(high, low);
+    }
+
+    /**
+     * Convert an UUID instance to an array of bytes
+     * @param uuid
+     * @return
+     */
+    public static byte[] uuidAsBytes(UUID uuid) {
+        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+        bb.putLong(uuid.getMostSignificantBits());
+        bb.putLong(uuid.getLeastSignificantBits());
+        return bb.array();
+    }
+
+
+    /**
+     * Return the generic type declared in the field property of the class
+     * @param beanClass
+     * @param fieldName
+     * @param typeIndex
+     * @return
+     */
+    public static Class getPropertyGenericType(Class beanClass, String fieldName, int typeIndex) {
+        Field field = findField(beanClass, fieldName);
+
+        if (field == null) {
+            throw new ObjectAccessException("Class field not found: [" + fieldName + "] in class " + beanClass);
+        }
+
+        return getPropertyGenericType(field, typeIndex);
+    }
+
+    /**
+     * Return the generic type declared in the field instance
+     * @param field the field containing the generic type declaration
+     * @param typeIndex the declaration order of the generic type (zero is the first)
+     * @return the generic type declaration, or null if no generic type is declared
+     */
+    public static Class getPropertyGenericType(Field field, int typeIndex) {
+        Type type = field.getGenericType();
+
+        if (!(type instanceof ParameterizedType)) {
+            return null;
+        }
+
+        ParameterizedType ptype = (ParameterizedType)type;
+        Type[] typeArgs = ptype.getActualTypeArguments();
+
+        return (Class)typeArgs[typeIndex];
+    }
+
+    /**
+     * Search for the instance of the field that declared the property in the given
+     * class or its super classes
+     * @param beanClass the bean class name
+     * @param fieldName the field name to search for
+     * @return the instance of Field or null if field is not found
+     */
+    public static Field findField(Class beanClass, String fieldName) {
+        Class clazz = beanClass;
+
+        while (clazz != null && clazz != Object.class) {
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field: fields) {
+                if (field.getName().equals(fieldName)) {
+                    return field;
+                }
+            }
+
+            clazz = clazz.getSuperclass();
+        }
+
+        return null;
+    }
+
+    /**
+     * Search for a method by its name in the bean class or, if not found, in the super classes
+     * @param beanClass the class to search the method
+     * @param methodName the method name
+     * @return instance of the method from java reflection, or null if not found
+     */
+    public static Method findMethod(Class beanClass, String methodName) {
+        Class clazz = beanClass;
+
+        while (clazz != null && clazz != Object.class) {
+            Method[] methods = clazz.getDeclaredMethods();
+
+            for (Method method: methods) {
+                if (method.getName().equals(methodName)) {
+                    return method;
+                }
+            }
+
+            clazz = clazz.getSuperclass();
+        }
+
+        return null;
     }
 }

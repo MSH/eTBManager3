@@ -1,8 +1,9 @@
 package org.msh.etbm.services.admin.usersws;
 
-import org.msh.etbm.Messages;
-import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.dao.EntityDAO;
@@ -16,10 +17,10 @@ import org.msh.etbm.services.admin.usersws.data.UserWsDetailedData;
 import org.msh.etbm.services.admin.usersws.data.UserWsItemData;
 import org.msh.etbm.services.pub.ForgotPwdService;
 import org.msh.etbm.services.security.UserUtils;
+import org.msh.etbm.services.security.password.ChangePasswordResponse;
 import org.msh.etbm.services.security.password.PasswordLogHandler;
 import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.services.session.usersettings.UserSettingsFormData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +76,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeValidate(UserWorkspace uw, Object request) {
+    protected void beforeValidate(EntityServiceContext<UserWorkspace> context) {
+        UserWorkspace uw = context.getEntity();
+
         // set login to lower case
         User user = uw.getUser();
         if (user != null && user.getLogin() != null) {
@@ -88,7 +91,9 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void beforeSave(UserWorkspace userWorkspace, Errors errors) {
+    protected void beforeSave(EntityServiceContext<UserWorkspace> context, Errors errors) {
+        UserWorkspace userWorkspace = context.getEntity();
+
         if (!checkUnique(User.class, userWorkspace.getUser(), "login", null)) {
             errors.rejectValue("login", Messages.NOT_UNIQUE);
         }
@@ -101,9 +106,10 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
     }
 
     @Override
-    protected void afterSave(UserWorkspace entity, ServiceResult res, boolean isNew) {
-        if (isNew) {
-            sendMessageToNewUser(entity);
+    protected void afterSave(EntityServiceContext<UserWorkspace> context, ServiceResult res) {
+        // is a new entity ?
+        if (context.getRequestedId() == null) {
+            sendMessageToNewUser(context.getEntity());
         }
     }
 
@@ -160,7 +166,7 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
-    public Map<String, Object> changePassword(UserWsChangePwdFormData data) {
+    public ChangePasswordResponse changePassword(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
 
         if (userws == null) {
@@ -183,21 +189,15 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
         ret.put("userModifiedId", userws.getUser().getId());
         ret.put("detail", "The user changed the password of another user throw administrative module.");
 
-        return ret;
+        return new ChangePasswordResponse(userws.getUser().getId(), userws.getUser().getName(), "The user changed the password of another user throw administrative module.");
     }
 
     @Transactional
     @CommandLog(handler = PasswordLogHandler.class, type = "admin.users.changepwd")
-    public Map<String, Object> sendPwdResetLink(UserWsChangePwdFormData data) {
+    public ChangePasswordResponse sendPwdResetLink(UserWsChangePwdFormData data) {
         UserWorkspace userws = getEntityManager().find(UserWorkspace.class, data.getUserWsId());
         forgotPwdService.requestPasswordReset(userws.getLogin());
 
-        // create data for command log
-        HashMap<String, Object> ret = new HashMap<>();
-        ret.put("userModifiedName", userws.getUser().getName());
-        ret.put("userModifiedId", userws.getUser().getId());
-        ret.put("detail", "The user sent a reset password e-mail to another user throw administrative module.");
-
-        return ret;
+        return new ChangePasswordResponse(userws.getUser().getId(), userws.getUser().getName(), "The user sent a reset password e-mail to another user throw administrative module.");
     }
 }

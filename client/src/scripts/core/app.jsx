@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import MainPage from './main-page';
 import { server, onRequestError } from '../commons/server';
 import Storage from './storage';
-import { ERROR } from './actions';
+import { ERROR, SHOW_MESSAGE } from './actions';
 import { router } from '../components/router';
 import moment from 'moment';
 
@@ -108,6 +108,24 @@ export class App {
 			ReactDOM.render(
 				<MainPage />,
 				document.getElementById('content'));
+		});
+	}
+
+	/**
+	 * Show standard dialog message, in order to display information to the user
+	 * @param  {[type]} props [description]
+	 * @return {[type]}       [description]
+	 */
+	messageDlg(props) {
+		return new Promise(resolve => {
+			// close function called when the dialog is closing
+			const closeFunc = evt => {
+				resolve(evt);
+			};
+
+			const dlgProps = Object.assign({}, props, { onClose: closeFunc });
+
+			this.dispatch(SHOW_MESSAGE, dlgProps);
 		});
 	}
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, ButtonToolbar, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
 import { Card, Profile, Fa, AutoheightInput, MessageDlg } from '../../../components';
+import moment from 'moment';
 
 import './comments-box.less';
 
@@ -145,12 +146,27 @@ export default class CommentsBox extends React.Component {
 								</div>
 								<div className="media-body">
 									<div className="pull-right">
-										<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
-										<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-											<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
-										</OverlayTrigger>
+									{it.id.indexOf('fakeid') < 0 && it.id.indexOf('error') < 0 &&
+										<span className="text-small">
+											<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
+											<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+												<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
+											</OverlayTrigger>
+										</span>
+									}
+									{it.id.indexOf('fakeid') >= 0 &&
+										<span className="lnk-muted">
+											<Fa icon="circle-o-notch" spin/>
+											{__('global.saving')}
+										</span>
+									}
+									{it.id.indexOf('error') >= 0 &&
+										<span className="bs-error">
+											{__('global.errorsaving')}
+										</span>
+									}
 									</div>
-									<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
+									<div className="text-muted text-small"><b>{it.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(it.date).format('lll')}</b></div>
 									{it.comment.split('\n').map((item, index) =>
 										<span key={index}>
 											{item}
@@ -170,7 +186,7 @@ export default class CommentsBox extends React.Component {
 							<div className="form-group no-margin-bottom">
 								<AutoheightInput ref="input"
 									onChange={this.textChange} />
-								<Button bsStyle="primary"
+								<Button bsStyle="success"
 									disabled={this.state.disabled}
 									onClick={this.addComment}
 									bsSize="small"
@@ -196,7 +212,7 @@ export default class CommentsBox extends React.Component {
 						}
 						<ButtonToolbar>
 							<Button disabled={this.state.edtdisabled}
-								bsStyle="primary"
+								bsStyle="success"
 								onClick={this.editConfirm}>{__('action.save')}</Button>
 							<Button bsStyle="link" onClick={this.modalClose}>{__('action.cancel')}</Button>
 						</ButtonToolbar>

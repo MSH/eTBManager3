@@ -1,6 +1,8 @@
 package org.msh.etbm.db.enums;
 
-public enum DrugResistanceType {
+import org.msh.etbm.db.MessageKey;
+
+public enum DrugResistanceType implements MessageKey {
 
     MONO_RESISTANCE,
     POLY_RESISTANCE,
@@ -13,8 +15,8 @@ public enum DrugResistanceType {
     //Cambodia
     RIF_RESISTANCE;
 
-
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 

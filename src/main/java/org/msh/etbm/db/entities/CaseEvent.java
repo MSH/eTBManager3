@@ -22,6 +22,7 @@ public class CaseEvent extends CaseEntity {
     private Date date;
 
     @Lob
+    @PropertyLog(messageKey = "global.comments")
     private String comments;
 
 
@@ -43,6 +44,14 @@ public class CaseEvent extends CaseEntity {
         return getTbcase().getMonthTreatment(dt);
     }
 
+    /**
+     * Return displayable month of treatment
+     *
+     * @return
+     */
+    public String getMonthDisplay() {
+        return this.getMonthTreatment().toString();
+    }
 
     public Date getDate() {
         return date;

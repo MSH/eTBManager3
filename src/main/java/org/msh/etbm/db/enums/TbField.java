@@ -1,12 +1,14 @@
 package org.msh.etbm.db.enums;
 
 
+import org.msh.etbm.db.MessageKey;
+
 /**
  * Field
  *
  * @author Ricardo
  */
-public enum TbField {
+public enum TbField implements MessageKey {
 
     TBDETECTION,
     DIAG_CONFIRMATION,
@@ -61,7 +63,8 @@ public enum TbField {
     OCCUPATION,
     REASON_XPERT_EXAM;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

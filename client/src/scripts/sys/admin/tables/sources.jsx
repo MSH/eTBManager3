@@ -10,7 +10,7 @@ const editorDef = {
 	defaultProperties: {
 		active: true
 	},
-	layout: [
+	controls: [
 		{
 			property: 'shortName',
 			required: true,

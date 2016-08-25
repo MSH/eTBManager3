@@ -1,16 +1,17 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { Card } from '../../../components';
 import Form from '../../../forms/form';
-import CardWithComments from './card-with-comments';
 
-import Contacts from './contacts';
+import CasePrevTbTreats from './case-prev-tb-treats';
+import CaseContacts from './case-contacts';
 import CaseAdvReacts from './case-adv-reacts';
+import CaseComorbidities from './case-comorbidities';
 import CaseComments from './case-comments';
 
 
 const data = {
-	layout: [
+	controls: [
 	{
 		type: 'date',
 		label: 'Date entered in SL treatment TB register',
@@ -20,8 +21,8 @@ const data = {
 	},
 	{
 		type: 'string',
-		label: __('TbCase.registrationCode'),
-		property: 'registrationCode',
+		label: __('TbCase.registrationNumber'),
+		property: 'registrationNumber',
 		max: 100,
 		size: { sm: 4 }
 	},
@@ -58,7 +59,8 @@ const data = {
 		type: 'date',
 		property: 'patient.birthDate',
 		label: __('Patient.birthDate'),
-		size: { sm: 4, newLine: true }
+		size: { sm: 4 },
+		newRow: true
 	},
 	{
 		type: 'number',
@@ -100,33 +102,38 @@ const data = {
 		type: 'string',
 		property: 'notifAddress.complement',
 		label: __('Address.complement'),
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'adminUnit',
 		property: 'notifAddress.adminUnit',
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'notifAddress.zipCode',
 		label: __('Address.zipCode'),
 		max: 20,
-		size: { sm: 4, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'phoneNumber',
 		label: __('TbCase.phoneNumber'),
 		max: 20,
-		size: { sm: 4, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'string',
 		property: 'mobileNumber',
 		label: __('global.mobile'),
 		max: 20,
-		size: { sm: 4, smOffset: 2 }
+		size: { sm: 6 },
+		newRow: true
 	},
 
 	{
@@ -145,7 +152,8 @@ const data = {
 		label: __('TbCase.diagnosisDate'),
 		property: 'diagnosisDate',
 		required: true,
-		size: { sm: 4, newLine: true }
+		size: { sm: 4 },
+		newRow: true
 	},
 	{
 		type: 'select',
@@ -160,7 +168,8 @@ const data = {
 			{ id: 'POLY_RESISTANCE_RIF', name: __('DrugResistanceType.POLY_RESISTANCE_RIF') },
 			{ id: 'RIF_RESISTANCE', name: __('DrugResistanceType.RIF_RESISTANCE') }
 		],
-		size: { sm: 6, newLine: true }
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
 		type: 'select',
@@ -212,19 +221,33 @@ export default class CaseData extends React.Component {
 
 		return (
 			<div>
-				<CaseComments tbcase={tbcase} group="data">
-					<Card padding="combine">
-						<Form schema={data} doc={tbcase} readOnly/>
-					</Card>
-				</CaseComments>
+				<Row>
+					<Col sm={12}>
+						<CaseComments tbcase={tbcase} group="DATA">
+							<Card padding="combine">
+								<Form schema={data} doc={tbcase} readOnly/>
+							</Card>
+						</CaseComments>
+					</Col>
+				</Row>
 
-				<Contacts tbcase={this.props.tbcase} />
+				<Row>
+					<Col sm={6}>
+						<CaseAdvReacts tbcase={this.props.tbcase} />
+					</Col>
+					<Col sm={6}>
+						<CaseComorbidities tbcase={this.props.tbcase} />
+					</Col>
+				</Row>
 
-				<CaseAdvReacts tbcase={this.props.tbcase} />
-
-				<CardWithComments title={__('TbField.COMORBIDITY')} tbcase={tbcase} group="comorbidities">
-					<Alert bsStyle="warning">{'No record found'}</Alert>
-				</CardWithComments>
+				<Row>
+					<Col sm={6}>
+						<CasePrevTbTreats tbcase={this.props.tbcase} />
+					</Col>
+					<Col sm={6}>
+						<CaseContacts tbcase={this.props.tbcase} />
+					</Col>
+				</Row>
 			</div>
 			);
 	}

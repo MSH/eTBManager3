@@ -1,21 +1,22 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 const fschema = {
 			title: __('cases.close'),
-			layout: [
+			controls: [
 				{
-					property: 'date',
+					property: 'outcomeDate',
 					required: true,
 					type: 'date',
-					label: __('cases.details.date'),
-					defaultValue: new Date()
+					label: __('cases.details.date')
 				},
 				{
 					property: 'outcome',
 					required: true,
-					type: 'listBox',
+					type: 'select',
 					label: __('form.action'),
 					options: [
 						{ id: 'CURED', name: 'Cured' },
@@ -31,7 +32,7 @@ const fschema = {
 				{
 					type: 'group',
 					visible: value => value.outcome === 'OTHER',
-					layout: [
+					controls: [
 						{
 							property: 'otherOutcome',
 							type: 'string',
@@ -56,8 +57,22 @@ export default class CaseClose extends React.Component {
 	}
 
 	closeCase() {
-		console.log('go to server and close this case! Dont forget to return a promise');
-		this.props.onClose();
+		const doc = this.state.doc;
+		doc.tbcaseId = this.props.tbcase.id;
+
+		return server.post('/api/cases/case/close', doc)
+				.then(res => {
+					if (!res.success) {
+						return Promise.reject(res.errors);
+					}
+
+					this.setState({ doc: {} });
+					this.props.onClose();
+
+					app.dispatch('case_update');
+
+					return res.result;
+				});
 	}
 
 	render() {

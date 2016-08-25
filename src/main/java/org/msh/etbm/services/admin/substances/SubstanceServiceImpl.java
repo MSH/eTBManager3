@@ -1,9 +1,10 @@
 package org.msh.etbm.services.admin.substances;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryResult;
@@ -33,8 +34,7 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
         builder.addProfile(SubstanceQueryParams.PROFILE_ITEM, SynchronizableItem.class);
 
         // add the order by keys
-        builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_DISPLAYORDER, "displayOrder");
-        builder.addOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
+        builder.addDefaultOrderByMap(SubstanceQueryParams.ORDERBY_NAME, "name");
 
         if (queryParams.isDstResultForm()) {
             builder.addRestriction("dstResultForm = true");
@@ -56,7 +56,9 @@ public class SubstanceServiceImpl extends EntityServiceImpl<Substance, Substance
     }
 
     @Override
-    protected void beforeSave(Substance sub, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Substance> context, Errors errors) {
+        Substance sub = context.getEntity();
+
         // check if name is unique
         if (!checkUnique(sub, "name")) {
             errors.rejectValue("name", Messages.NOT_UNIQUE);

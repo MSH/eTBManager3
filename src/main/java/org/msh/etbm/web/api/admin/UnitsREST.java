@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.admin;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.forms.FormRequestService;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
@@ -31,7 +31,7 @@ public class UnitsREST {
     UnitService unitService;
 
     @Autowired
-    FormService formService;
+    FormRequestService formRequestService;
 
     /**
      * Query units (labs or TB units) based on the request query

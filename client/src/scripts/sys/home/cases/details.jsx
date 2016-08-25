@@ -1,9 +1,10 @@
 
 import React from 'react';
-import { Grid, Row, Col, DropdownButton, MenuItem, Nav, NavItem, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
 import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -23,13 +24,17 @@ export default class Details extends React.Component {
 		this.selectTab = this.selectTab.bind(this);
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
+		this.reopenConfirm = this.reopenConfirm.bind(this);
+		this._onAppChange = this._onAppChange.bind(this);
 
-		this.state = { selTab: 2 };
+		this.state = { selTab: 0 };
 	}
 
 	componentWillMount() {
 		const id = this.props.route.queryParam('id');
 		this.fetchData(id);
+
+		app.add(this._onAppChange);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -41,10 +46,24 @@ export default class Details extends React.Component {
 		}
 	}
 
+	componentWillUmount() {
+        app.remove(this._onAppChange);
+    }
+
+    /**
+     * Called when application state changes
+     * @param  {[type]} action [description]
+     * @return {[type]}        [description]
+     */
+    _onAppChange(action) {
+        if (action === 'case_update') {
+            this.fetchData(this.state.tbcase.id);
+        }
+    }
 
 	fetchData(id) {
 		const self = this;
-		server.get('/api/cases/case/' + id)
+		server.get('/api/tbl/case/' + id)
 		.then(tbcase => {
 			const contacts = [];
 			for (var i = 0; i < 5; i++) {
@@ -57,6 +76,7 @@ export default class Details extends React.Component {
 				});
 			}
 			const data = Object.assign({}, mockTbCase, { contacts: contacts }, tbcase);
+			data.followups = ['notloaded'];
 
 			self.setState({
 				tbcase: data
@@ -78,9 +98,9 @@ export default class Details extends React.Component {
 				{
 					!lst ? <WaitIcon type="card" /> :
 					lst.map(item => (
-						<a key={item.id} className={'tag-link tag-' + item.type}>
+						<li key={item.id} className={'tag-' + item.type.toLowerCase()}>
 							<div className="tag-title">{item.name}</div>
-						</a>
+						</li>
 					))
 				}
 			</div>
@@ -102,10 +122,36 @@ export default class Details extends React.Component {
 
 	deleteConfirm(action) {
 		if (action === 'yes') {
-			alert('delete this item on DB');
+			server.delete('/api/tbl/case/' + this.state.tbcase.id)
+				.then(() => {
+					app.messageDlg({
+						title: __('action.delete'),
+						message: __('default.entity_deleted'),
+						style: 'info',
+						type: 'Ok'
+					})
+					.then(() => app.goto('/sys/home/unit/cases?id=' + this.state.tbcase.ownerUnit.id));
+				});
 		}
 
 		this.setState({ showDelConfirm: false });
+	}
+
+	reopenConfirm(action) {
+		if (action === 'yes') {
+			server.get('/api/cases/case/reopen/' + this.state.tbcase.id)
+				.then(res => {
+					if (res && res.errors) {
+						return Promise.reject(res.errors);
+					}
+
+					this.fetchData(this.state.tbcase.id);
+
+					return res;
+				});
+			}
+
+		this.setState({ showReopenConfirm: false });
 	}
 
 	render() {
@@ -149,15 +195,26 @@ export default class Details extends React.Component {
 			icon: 'power-off'
 		},
 		{
+			label: __('cases.reopen'),
+			onClick: this.show('showReopenConfirm', true),
+			icon: 'power-off'
+		},
+		{
 			label: __('cases.move'),
 			onClick: this.show('showMoveCase', true),
 			icon: 'toggle-right'
 		}
 		];
 
+		if (this.state.tbcase.state === 'CLOSED') {
+			commands.splice(1, 1);
+		} else {
+			commands.splice(2, 1);
+		}
+
 		return (
 			<div>
-				<PatientPanel patient={tbcase.patient} recordNumber={tbcase.recordNumber} />
+				<PatientPanel tbcase={tbcase} />
 				<Grid fluid>
 					<Row className="mtop">
 						<Col sm={3}>
@@ -183,6 +240,11 @@ export default class Details extends React.Component {
 					onClose={this.deleteConfirm}
 					title={__('action.delete')}
 					message={__('form.confirm_remove')} style="warning" type="YesNo" />
+
+				<MessageDlg show={this.state.showReopenConfirm}
+					onClose={this.reopenConfirm}
+					title={__('cases.reopen')}
+					message={__('cases.reopen.confirm')} style="warning" type="YesNo" />
 
 				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 

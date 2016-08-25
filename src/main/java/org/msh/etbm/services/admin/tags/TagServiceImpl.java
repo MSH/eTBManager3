@@ -1,13 +1,15 @@
 package org.msh.etbm.services.admin.tags;
 
 import org.hibernate.exception.SQLGrammarException;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.Tag;
+import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -21,7 +23,7 @@ import javax.persistence.PersistenceException;
 public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> implements TagService {
 
     @Autowired
-    CasesTagsUpdateService casesTagsUpdateService;
+    AutoGenTagsCasesService autoGenTagsCasesService;
 
     @Override
     protected void buildQuery(QueryBuilder<Tag> builder, TagQueryParams queryParams) {
@@ -39,8 +41,8 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void afterSave(Tag entity, ServiceResult res, boolean isNew) {
-        casesTagsUpdateService.updateCases(entity.getId());
+    protected void afterSave(EntityServiceContext<Tag> context, ServiceResult res) {
+        autoGenTagsCasesService.updateCases(context.getEntity().getId());
     }
 
     @Override
@@ -49,7 +51,9 @@ public class TagServiceImpl extends EntityServiceImpl<Tag, TagQueryParams> imple
     }
 
     @Override
-    protected void beforeSave(Tag tag, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Tag> context, Errors errors) {
+        Tag tag = context.getEntity();
+
         if (!checkUnique(tag, "name", null)) {
             errors.rejectValue("name", Messages.NOT_UNIQUE);
         }

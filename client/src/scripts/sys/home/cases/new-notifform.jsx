@@ -6,7 +6,7 @@ import { app } from '../../../core/app';
 
 
 const notifForm = {
-	layout: [
+	controls: [
 	{
 		label: 'Date entered in SL treatment TB register',
 		property: 'registrationDate',

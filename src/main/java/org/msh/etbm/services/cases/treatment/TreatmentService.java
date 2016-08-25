@@ -4,17 +4,14 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.entities.PrescribedMedicine;
-import org.msh.etbm.db.entities.Product;
-import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
-import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
-import org.msh.etbm.services.cases.treatment.data.TreatmentData;
-import org.msh.etbm.services.cases.treatment.data.TreatmentUnitData;
+import org.msh.etbm.services.cases.treatment.data.*;
+import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
+import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,6 +29,9 @@ public class TreatmentService {
     @Autowired
     DozerBeanMapper mapper;
 
+    @Autowired
+    TreatmentFollowupService treatmentFollowupService;
+
     /**
      * Return information about a treatment of a given case
      *
@@ -45,9 +45,6 @@ public class TreatmentService {
         if (tbcase.getTreatmentPeriod() == null) {
             return null;
         }
-
-        System.out.println(tbcase.getTreatmentUnits().size());
-        System.out.println(tbcase.getPrescriptions().size());
 
         TreatmentData data = new TreatmentData();
 
@@ -76,9 +73,11 @@ public class TreatmentService {
         List<TreatmentUnitData> units = mountTreatmentUnits(tbcase.getTreatmentUnits());
         data.setUnits(units);
 
+        List<MonthlyFollowup> followup = treatmentFollowupService.loadTreatmentFollowup(tbcase.getId());
+        data.setFollowup(followup);
+
         return data;
     }
-
 
     /**
      * Create the list of treatment units as the response
@@ -160,5 +159,45 @@ public class TreatmentService {
         int prog = (p.getDays() * 100) / days;
 
         return prog;
+    }
+
+
+    @Transactional
+    public void cropTreatmentPeriod(UUID tbcaseId, Period p) {
+        TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
+        int index = 0;
+
+        // crop treatment health units
+        while (index < tbcase.getTreatmentUnits().size()) {
+            TreatmentHealthUnit hu = tbcase.getTreatmentUnits().get(index);
+            // if doesn't intersect, so it's out of the period
+            if (!hu.getPeriod().intersect(p)) {
+                tbcase.getTreatmentUnits().remove(hu);
+                if (entityManager.contains(hu)) {
+                    entityManager.remove(hu);
+                }
+            } else {
+                index++;
+            }
+        }
+
+        // crop prescribed medicines
+        index = 0;
+        while (index < tbcase.getPrescriptions().size()) {
+            PrescribedMedicine pm = tbcase.getPrescriptions().get(index);
+            if (!pm.getPeriod().intersect(p)) {
+                tbcase.getPrescriptions().remove(pm);
+                if (entityManager.contains(pm)) {
+                    entityManager.remove(pm);
+                }
+            } else {
+                index++;
+            }
+        }
+
+        // set the new treatment period, if necessary
+        if (tbcase.getTreatmentPeriod().getIniDate().before(p.getIniDate()) || tbcase.getTreatmentPeriod().getEndDate().after(p.getEndDate())) {
+            tbcase.setTreatmentPeriod(p);
+        }
     }
 }

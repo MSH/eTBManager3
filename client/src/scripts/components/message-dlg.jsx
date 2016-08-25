@@ -59,7 +59,7 @@ export default class MessageDlg extends React.Component {
 		const buttons = this.createButtons();
 
 		let icon = 'fa fa-4x fa-';
-		let icondiv = 'pull-left circle-5x';
+		let icondiv = 'circle-5x';
 		switch (this.props.style) {
 			case 'danger':
 				icon += 'exclamation';
@@ -82,11 +82,13 @@ export default class MessageDlg extends React.Component {
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className={icondiv} >
-						<i className={icon}/>
-					</div>
-					<div style={{ minHeight: '55px' }}>
-						<p className="lead">{this.props.message}</p>
+					<div className="text-center">
+						<div className={icondiv} >
+							<i className={icon}/>
+						</div>
+						<div className="mtop-2x">
+							<p className="lead">{this.props.message}</p>
+						</div>
 					</div>
 				</Modal.Body>
 				<Modal.Footer>

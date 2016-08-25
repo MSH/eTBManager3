@@ -131,7 +131,11 @@ class Crud {
 
                 // check if entity was really deleted?
                 if (opt && opt.testDeleted) {
-                    return self.findOne(id, { expectNotFound: true });
+                    // try to get the record from the database
+                    return self.session.custom(req => {
+                        return req.get('/api/tbl' + self.table + '/' + id)
+                            .expect(404);
+                    });
                 }
                 return data.result;
             });
@@ -168,6 +172,9 @@ function prepareAgentOptions(opt) {
     var res = {};
     if (opt.expectNotFound) {
         res.expect = 404;
+    } else {
+        res.expect = 200;
+        res.contentType = /json/;
     }
     return res;
 }

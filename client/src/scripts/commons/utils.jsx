@@ -13,7 +13,7 @@ export function format(fmtstr) {
 }
 
 
-export function formatDoc(fmtstr, doc) {
+export function formatString(fmtstr, doc) {
     return fmtstr.replace(/\{([\w\.]+)\}/g, function(match) {
         const prop = match.substring(1, match.length - 1);
         return getValue(doc, prop);
@@ -34,10 +34,6 @@ export function getValue(obj, prop) {
         }
     }
 
-    if (prop.indexOf('{') >= 0) {
-        return formatDoc(prop, obj);
-    }
-
 	let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
@@ -46,6 +42,9 @@ export function getValue(obj, prop) {
         var k = a[i];
         if (k in value) {
             value = value[k];
+            if (!value) {
+                return value;
+            }
         }
         else {
             return undefined;

@@ -1,7 +1,8 @@
 package org.msh.etbm.services.admin.ageranges;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
@@ -39,7 +40,9 @@ public class AgeRangeServiceImpl extends EntityServiceImpl<AgeRange, AgeRangesQu
     }
 
     @Override
-    protected void beforeSave(AgeRange entity, Errors errors) {
+    protected void beforeSave(EntityServiceContext<AgeRange> context, Errors errors) {
+        AgeRange entity = context.getEntity();
+
         if (entity.getIniAge() < 0) {
             errors.rejectValue("iniDate", Messages.NOT_VALID);
         }

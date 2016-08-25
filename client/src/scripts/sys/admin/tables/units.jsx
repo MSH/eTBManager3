@@ -18,7 +18,7 @@ const editorDef = {
 				type: 'TBUNIT',
 				active: true
 			},
-			layout: [
+			controls: [
 					{
 						property: 'name',
 						required: true,
@@ -132,7 +132,7 @@ const editorDef = {
 				type: 'LAB',
 				active: true
 			},
-			layout: [
+			controls: [
 					{
 						property: 'name',
 						required: true,

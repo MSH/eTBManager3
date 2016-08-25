@@ -5,8 +5,6 @@ import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.ValidationState;
-import org.msh.etbm.services.admin.AddressData;
-import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
 import java.util.Date;
@@ -35,27 +33,17 @@ public class CaseData {
 
     private Integer age;
 
+    private String outcome;
+
     private Date outcomeDate;
 
     private CaseState state;
 
     private Period treatmentPeriod;
 
-    private RegimenData regimen;
-
     private UnitData ownerUnit;
 
     private ValidationState validationState;
-
-    private AddressData notifAddress;
-
-    private AddressData currentAddress;
-
-    private boolean notifAddressChanged;
-
-    private String phoneNumber;
-
-    private String mobileNumber;
 
     public UUID getId() {
         return id;
@@ -129,6 +117,14 @@ public class CaseData {
         this.age = age;
     }
 
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
+    }
+
     public Date getOutcomeDate() {
         return outcomeDate;
     }
@@ -151,14 +147,6 @@ public class CaseData {
 
     public void setTreatmentPeriod(Period treatmentPeriod) {
         this.treatmentPeriod = treatmentPeriod;
-    }
-
-    public RegimenData getRegimen() {
-        return regimen;
-    }
-
-    public void setRegimen(RegimenData regimen) {
-        this.regimen = regimen;
     }
 
     public UnitData getOwnerUnit() {

@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.XpertResult;
-import org.msh.etbm.db.enums.XpertRifResult;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -14,8 +13,6 @@ public class ExamXpert extends LaboratoryExam {
 
     @PropertyLog(operations = {Operation.ALL})
     private XpertResult result;
-
-    private XpertRifResult rifResult;
 
     @Override
     public ExamResult getExamResult() {
@@ -32,19 +29,5 @@ public class ExamXpert extends LaboratoryExam {
 
     public void setResult(XpertResult result) {
         this.result = result;
-    }
-
-    /**
-     * @return the rifResult
-     */
-    public XpertRifResult getRifResult() {
-        return rifResult;
-    }
-
-    /**
-     * @param rifResult the rifResult to set
-     */
-    public void setRifResult(XpertRifResult rifResult) {
-        this.rifResult = rifResult;
     }
 }

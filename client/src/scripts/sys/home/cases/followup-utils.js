@@ -5,8 +5,8 @@ import { app } from '../../../core/app';
  * @return {[type]} [description]
  */
 const displaySchemas = {
-	medexam: {
-		layout: [
+	MEDICAL_EXAMINATION: {
+		controls: [
 		{
 			type: 'select',
 			label: __('MedAppointmentType'),
@@ -53,8 +53,8 @@ const displaySchemas = {
 		}]
 	},
 
-	microscopy: {
-		layout: [
+	EXAM_MICROSCOPY: {
+		controls: [
 		{
 			type: 'string',
 			visible: value => value.otherSampleType !== null && value.otherSampleType !== '',
@@ -91,7 +91,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -128,8 +128,8 @@ const displaySchemas = {
 		}]
 	},
 
-	culture: {
-		layout: [
+	EXAM_CULTURE: {
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -139,7 +139,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -182,8 +182,8 @@ const displaySchemas = {
 		}]
 	},
 
-	xpert: {
-		layout: [
+	EXAM_XPERT: {
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -193,7 +193,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -231,8 +231,8 @@ const displaySchemas = {
 		}]
 	},
 
-	dst: {
-		layout: [
+	EXAM_DST: {
+		controls: [
 		{
 			type: 'string',
 			label: __('PatientSample.sampleNumber'),
@@ -242,7 +242,7 @@ const displaySchemas = {
 		{
 			type: 'string',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratory.name',
 			size: { sm: 4 }
 		},
 		{
@@ -271,36 +271,97 @@ const displaySchemas = {
 			size: { sm: 4 }
 		},
 		{
-			property: 'results',
-			type: 'tableForm',
-			fschema: {
-				layout: [
-					{
-						property: 'substance',
-						type: 'string',
-						label: __('Medicine.substances'),
-						size: { md: 6 }
-					},
-					{
-						property: 'result',
-						type: 'select',
-						label: __('cases.details.result'),
-						options: app.getState().app.lists.DstResult,
-						size: { md: 6 }
-					}
-				]
-			},
-			label: __('cases.details.result'),
-			size: { sm: 12 }
+			property: 'resultAm',
+			type: 'select',
+			label: __('cases.examdst.resultAm'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCfz',
+			type: 'select',
+			label: __('cases.examdst.resultCfz'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCm',
+			type: 'select',
+			label: __('cases.examdst.resultCm'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultCs',
+			type: 'select',
+			label: __('cases.examdst.resultCs'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultE',
+			type: 'select',
+			label: __('cases.examdst.resultE'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultEto',
+			type: 'select',
+			label: __('cases.examdst.resultEto'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultH',
+			type: 'select',
+			label: __('cases.examdst.resultH'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultLfx',
+			type: 'select',
+			label: __('cases.examdst.resultLfx'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultOfx',
+			type: 'select',
+			label: __('cases.examdst.resultOfx'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultR',
+			type: 'select',
+			label: __('cases.examdst.resultR'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultS',
+			type: 'select',
+			label: __('cases.examdst.resultS'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
+		},
+		{
+			property: 'resultZ',
+			type: 'select',
+			label: __('cases.examdst.resultZ'),
+			options: app.getState().app.lists.DstResult,
+			size: { md: 2 }
 		}]
 	},
 
-	hiv: {
+	EXAM_HIV: {
 		defaultProperties: {
 			startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
 			startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
 		},
-		layout: [
+		controls: [
 		{
 			type: 'string',
 			label: __('Laboratory'),
@@ -346,8 +407,8 @@ const displaySchemas = {
 		}]
 	},
 
-	xray: {
-		layout: [
+	EXAM_XRAY: {
+		controls: [
 		{
 			type: 'string',
 			label: __('TbField.XRAYPRESENTATION'),
@@ -371,8 +432,8 @@ const displaySchemas = {
 };
 
 const editSchemas = {
-	medexam: {
-		layout: [
+	MEDICAL_EXAMINATION: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),
@@ -404,7 +465,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.usingPrescMedicines === 'NO',
-			layout: [
+			controls: [
 				{
 					type: 'string',
 					label: __('MedicalExamination.reasonNotUsingPrescMedicines'),
@@ -435,12 +496,12 @@ const editSchemas = {
 		}]
 	},
 
-	microscopy: {
-		layout: [
+	EXAM_MICROSCOPY: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 12 }
 		},
@@ -454,7 +515,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.sampleType === 'OTHER',
-			layout: [
+			controls: [
 				{
 					type: 'string',
 					label: __('SampleType.OTHER'),
@@ -479,7 +540,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -501,7 +562,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					type: 'select',
 					label: __('cases.exams.afb'),
@@ -519,12 +580,12 @@ const editSchemas = {
 		}]
 	},
 
-	culture: {
-		layout: [
+	EXAM_CULTURE: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},
@@ -537,7 +598,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -559,7 +620,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					property: 'numberOfColonies',
 					type: 'select',
@@ -583,12 +644,12 @@ const editSchemas = {
 		}]
 	},
 
-	xpert: {
-		layout: [
+	EXAM_XPERT: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},
@@ -601,7 +662,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			unitType: 'LAB',
 			required: true,
 			size: { sm: 6 }
@@ -623,7 +684,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'TB_DETECTED',
-			layout: [
+			controls: [
 				{
 					type: 'select',
 					label: __('XpertResult.rifresult'),
@@ -642,12 +703,12 @@ const editSchemas = {
 		}]
 	},
 
-	dst: {
-		layout: [
+	EXAM_DST: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.exams.date'),
-			property: 'dateCollected',
+			property: 'date',
 			required: true,
 			size: { sm: 6 }
 		},
@@ -660,7 +721,7 @@ const editSchemas = {
 		{
 			type: 'unit',
 			label: __('Laboratory'),
-			property: 'laboratory',
+			property: 'laboratoryId',
 			required: true,
 			unitType: 'LAB',
 			size: { sm: 12 }
@@ -678,29 +739,112 @@ const editSchemas = {
 			size: { sm: 6 }
 		},
 		{
-			property: 'results',
-			type: 'tableForm',
-			fschema: {
-				layout: [
-					{
-						property: 'substance',
-						type: 'select',
-						label: __('Medicine.substances'),
-						options: 'substances',
-						size: { md: 6 }
-					},
-					{
-						property: 'result',
-						type: 'select',
-						label: __('cases.details.result'),
-						options: app.getState().app.lists.DstResult,
-						size: { md: 6 }
-					}
-				]
-			},
-			label: __('cases.details.result'),
-			min: 1,
-			size: { sm: 12 }
+			property: 'resultAm',
+			type: 'select',
+			label: __('cases.examdst.resultAm'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCfz',
+			type: 'select',
+			label: __('cases.examdst.resultCfz'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCm',
+			type: 'select',
+			label: __('cases.examdst.resultCm'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultCs',
+			type: 'select',
+			label: __('cases.examdst.resultCs'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultE',
+			type: 'select',
+			label: __('cases.examdst.resultE'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultEto',
+			type: 'select',
+			label: __('cases.examdst.resultEto'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultH',
+			type: 'select',
+			label: __('cases.examdst.resultH'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultLfx',
+			type: 'select',
+			label: __('cases.examdst.resultLfx'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultOfx',
+			type: 'select',
+			label: __('cases.examdst.resultOfx'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultR',
+			type: 'select',
+			label: __('cases.examdst.resultR'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultS',
+			type: 'select',
+			label: __('cases.examdst.resultS'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
+		},
+		{
+			property: 'resultZ',
+			type: 'select',
+			label: __('cases.examdst.resultZ'),
+			options: app.getState().app.lists.DstResult,
+			required: true,
+			defaultValue: 'NOTDONE',
+			size: { md: 4 }
 		},
 		{
 			type: 'text',
@@ -710,8 +854,8 @@ const editSchemas = {
 		}]
 	},
 
-	hiv: {
-		layout: [
+	EXAM_HIV: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),
@@ -736,7 +880,7 @@ const editSchemas = {
 		{
 			type: 'group',
 			visible: value => value.result === 'POSITIVE',
-			layout: [
+			controls: [
 				{
 					type: 'date',
 					label: __('cases.examhiv.art'),
@@ -759,8 +903,8 @@ const editSchemas = {
 		}]
 	},
 
-	xray: {
-		layout: [
+	EXAM_XRAY: {
+		controls: [
 		{
 			type: 'date',
 			label: __('cases.details.date'),
@@ -792,13 +936,13 @@ const editSchemas = {
 };
 
 const folloupTypes = [
-	{ id: 'MEDEXAM', name: __('FollowUpType.MEDEXAM'), dateField: 'date', icon: 'stethoscope', permission: 'CASE_MED_EXAM' },
-	{ id: 'MICROSCOPY', name: __('FollowUpType.MICROSCOPY'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_MICROSCOPY' },
-	{ id: 'CULTURE', name: __('FollowUpType.CULTURE'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_CULTURE' },
-	{ id: 'XPERT', name: __('FollowUpType.XPERT'), dateField: 'dateCollected', icon: 'file-text', permission: 'permision' },
-	{ id: 'DST', name: __('FollowUpType.DST'), dateField: 'dateCollected', icon: 'file-text', permission: 'EXAM_DST' },
-	{ id: 'XRAY', name: __('FollowUpType.XRAY'), dateField: 'date', icon: 'file-text', permission: 'EXAM_XRAY' },
-	{ id: 'HIV', name: __('FollowUpType.HIV'), dateField: 'date', icon: 'file-text', permission: 'EXAM_HIV' }
+	{ id: 'MEDICAL_EXAMINATION', name: __('FollowUpType.MEDICAL_EXAMINATION'), icon: 'stethoscope', permission: 'CASE_MED_EXAM', crud: 'medexam' },
+	{ id: 'EXAM_MICROSCOPY', name: __('FollowUpType.EXAM_MICROSCOPY'), icon: 'file-text', permission: 'EXAM_MICROSCOPY', crud: 'exammic' },
+	{ id: 'EXAM_CULTURE', name: __('FollowUpType.EXAM_CULTURE'), icon: 'file-text', permission: 'EXAM_CULTURE', crud: 'examcul' },
+	{ id: 'EXAM_XPERT', name: __('FollowUpType.EXAM_XPERT'), icon: 'file-text', permission: 'permision', crud: 'examxpert' },
+	{ id: 'EXAM_DST', name: __('FollowUpType.EXAM_DST'), icon: 'file-text', permission: 'EXAM_DST', crud: 'examdst' },
+	{ id: 'EXAM_XRAY', name: __('FollowUpType.EXAM_XRAY'), icon: 'file-text', permission: 'EXAM_XRAY', crud: 'examxray' },
+	{ id: 'EXAM_HIV', name: __('FollowUpType.EXAM_HIV'), icon: 'file-text', permission: 'EXAM_HIV', crud: 'examhiv' }
 ];
 
 export function getFollowUpTypes() {
@@ -810,9 +954,9 @@ export function getFollowUpType(followupId) {
 }
 
 export function getDisplaySchema(followupId) {
-	return displaySchemas[followupId.toLowerCase()];
+	return displaySchemas[followupId];
 }
 
 export function getEditSchema(followupId) {
-	return editSchemas[followupId.toLowerCase()];
+	return editSchemas[followupId];
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import { FormDialog } from '../../components/index';
 
 const fschema = {
-			layout: [
+			controls: [
 				{
 					property: 'date',
 					required: true,
@@ -30,7 +30,7 @@ const fschema = {
 				{
 					type: 'group',
 					visible: value => value.outcome === 'OTHER',
-					layout: [
+					controls: [
 						{
 							property: 'otherOutcome',
 							type: 'string',

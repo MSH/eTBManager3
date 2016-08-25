@@ -45,7 +45,7 @@ export default class TableFormExample extends React.Component {
 	render() {
 
 		// the columns of the table
-		const readOnlyClomuns = [
+		const readOnlyColumns = [
 			{
 				title: 'iniDate',
 				content: item => <span>{moment(item.iniDate).format('L LT')}</span>,
@@ -60,7 +60,7 @@ export default class TableFormExample extends React.Component {
 
 		// The schema of table form
 		const tfschema = {
-			layout: [
+			controls: [
 				{
 					property: 'iniDate',
 					required: true,
@@ -84,7 +84,7 @@ export default class TableFormExample extends React.Component {
 						type: 'Type test default prop',
 						formList: [{ iniDate: new Date(), userName: 'Mauricio' }, { iniDate: new Date(), userName: 'Jesus' }, { iniDate: new Date(), userName: 'Santos' }]
 					},
-					layout: [
+					controls: [
 						{
 							property: 'type',
 							required: false,
@@ -97,7 +97,7 @@ export default class TableFormExample extends React.Component {
 							property: 'formList',
 							type: 'tableForm',
 							fschema: tfschema,
-							readOnlyClomuns: readOnlyClomuns,
+							readOnlyColumns: readOnlyColumns,
 							min: 2,
 							max: 5,
 							size: { sm: 12 }

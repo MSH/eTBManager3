@@ -6,8 +6,13 @@ import { server } from '../../../commons/server';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
 import AddMedicine from './treat/add-medicine';
+import TreatFollowup from './treat/treat-followup';
+import NoTreatPanel from './treat/no-treat-panel';
 
 
+/**
+ * Display the content of the case treatment tab
+ */
 export default class CaseTreatment extends React.Component {
 
 	constructor(props) {
@@ -15,41 +20,45 @@ export default class CaseTreatment extends React.Component {
 
 		this.state = {
 			sc1: {
-				layout: [
+				controls: [
 					{
-						property: 'regimen.name',
 						type: 'string',
-						label: 'Regimen',
-						visible: doc => !!doc.regimenIni,
+						label: __('Regimen'),
+						value: doc => doc.regimen ? doc.regimen.name : __('regimens.individualized'),
 						size: { md: 12 }
 					},
 					{
 						type: 'text',
-						property: 'Started as {iniRegimen.name}\n{regimen.name}',
-						label: 'Regimen',
-						visible: doc => !doc.regimenIni,
+						property: 'regimenIni.name',
+						label: __('TbCase.regimenIni'),
+						visible: doc => doc.regimen && doc.regimenIni && doc.regimenIni.id !== doc.regimen.id,
 						size: { md: 12 }
 					},
 					{
-						type: 'text',
-						property: '{period.ini} to {period.end}',
+						type: 'period',
+						property: 'period',
 						label: __('cases.treat'),
 						size: { md: 12 }
 					}
 				]
 			}
 		};
-
-		this.menuClick = this.menuClick.bind(this);
-		this.closeDlg = this.closeDlg.bind(this);
 	}
 
 	componentWillMount() {
 		const self = this;
-		const id = this.props.tbcase.id;
+		const tbcase = this.props.tbcase;
 
-		server.get('/api/cases/case/treatment/' + id)
-			.then(res => self.setState({ data: res }));
+		// check if case is on treatment and has treatment information
+		if (!tbcase.treatment && tbcase.treatmentPeriod) {
+			const id = tbcase.id;
+
+			server.get('/api/cases/case/treatment/' + id)
+				.then(res => {
+					tbcase.treatment = res;
+					self.forceUpdate();
+				});
+		}
 	}
 
 	menuClick(key) {
@@ -64,13 +73,18 @@ export default class CaseTreatment extends React.Component {
 	}
 
 	render() {
-		const data = this.state.data;
+		const tbcase = this.props.tbcase;
+
+		// is not on treatment
+		if (!tbcase.treatmentPeriod) {
+			return <NoTreatPanel tbcase={this.props.tbcase} />;
+		}
+
+		const data = tbcase.treatment;
 
 		if (!data) {
 			return <WaitIcon type="card" />;
 		}
-
-		console.log(data);
 
 		const optionsBtn = (
 			<DropdownButton className="lnk-muted" bsStyle="link"
@@ -79,6 +93,7 @@ export default class CaseTreatment extends React.Component {
 				<MenuItem eventKey={1}>{__('Regimen.add')}</MenuItem>
 				<MenuItem eventKey={2}>{__('cases.regimens.change')}</MenuItem>
 				<MenuItem eventKey={3}>{__('cases.treat.undo')}</MenuItem>
+				<MenuItem eventKey={4}>{'Add medicine'}</MenuItem>
 			</DropdownButton>
 			);
 
@@ -101,16 +116,12 @@ export default class CaseTreatment extends React.Component {
 					<TreatTimeline treatment={data} />
 				</Card>
 
-				<Card title={__('cases.details.treatment.medintake')}>
-				</Card>
-				{
-					this.state.show === 'add-med' && <AddMedicine doc={{}} onClose={this.closeDlg}/>
-				}
+				<TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 			</div>
 			);
 	}
 }
 
 CaseTreatment.propTypes = {
-	tbcase: React.PropTypes.object
+	tbcase: React.PropTypes.object.isRequired
 };

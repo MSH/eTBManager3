@@ -1,10 +1,11 @@
 
 import React from 'react';
-import PageContent from './page-content';
+import PageContent from '../page-content';
 
 import UserSessions from './reports/usersessions';
 import OnlineUsers from './reports/onlineusers';
 import CommandHistory from './reports/cmdhistory';
+import ErrorLog from './reports/errorlog';
 
 /**
  * Options of the left menu in the reports page
@@ -42,7 +43,8 @@ const menu = [
 		title: 'Error log report',
 		icon: 'bug',
 		perm: 'ERRORLOGREP',
-		path: 'errorlogrep'
+		path: '/errorlog',
+		view: ErrorLog
 	}
 ];
 
@@ -55,7 +57,7 @@ export default class Reports extends React.Component {
 		return (
 			<PageContent route={this.props.route}
 				menu={menu}
-				title={__('admin.reports')}
+				title={__('admin') + ' - ' + __('admin.reports')}
 				path="/sys/admin/reports" />
 			);
 	}

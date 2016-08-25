@@ -11,6 +11,7 @@ import { app } from '../../core/app';
  */
 export default class ReacttableExample extends React.Component {
 
+	/* eslint no-console: "off", no-alert: "off" */
 	constructor(props) {
 		super(props);
 		this.onChangeDoc = this.onChangeDoc.bind(this);
@@ -44,7 +45,7 @@ export default class ReacttableExample extends React.Component {
 	render() {
 		// THE FORM LAYOUT
 		const schema = {
-			layout: [
+			controls: [
 				{
 					property: 'name',
 					required: true,

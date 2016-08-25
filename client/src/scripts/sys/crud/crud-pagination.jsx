@@ -39,13 +39,14 @@ class CrudPagination extends React.Component {
 				items={controller.getPageCount()}
 				maxButtons={5}
 				boundaryLinks
-				onSelect={this.changePage} />
+				onSelect={this.changePage} className={this.props.className}/>
 			);
 	}
 }
 
 CrudPagination.propTypes = {
-	controller: React.PropTypes.object.isRequired
+	controller: React.PropTypes.object.isRequired,
+	className: React.PropTypes.string
 };
 
 export default controlWrapper(CrudPagination);

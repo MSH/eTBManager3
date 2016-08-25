@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 @WebAppConfiguration
 public class LogMessagesTest {
 
-    Pattern MSGKEY_PATTERN = Pattern.compile("\\$([._a-zA-Z]+)");
+    Pattern MSGKEY_PATTERN = Pattern.compile("\\$([._a-zA-Z0-9]+)");
 
     @Resource
     MessageSource messageSource;

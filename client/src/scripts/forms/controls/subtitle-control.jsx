@@ -7,7 +7,8 @@ export default class SubtitleControl extends React.Component {
 	}
 
 	render() {
-		return <div className="subtitle">{this.props.schema.label}</div>;
+		const className = this.props.schema.level ? 'subtitle' + this.props.schema.level : 'subtitle';
+		return <div className={className}>{this.props.schema.label}</div>;
 	}
 }
 

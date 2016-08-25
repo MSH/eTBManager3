@@ -1,10 +1,8 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.CaseEntity;
-import org.msh.etbm.db.enums.YesNoType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Holds information about a side effect of a TB case
@@ -15,18 +13,12 @@ import javax.validation.constraints.NotNull;
 @Table(name = "casesideeffect")
 public class CaseSideEffect extends CaseEntity {
 
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name = "complement", column = @Column(name = "otherAdverseEffect")),
-            @AttributeOverride(name = "value", column = @Column(name = "sideeffect"))})
-    @NotNull
-    private FieldValueComponent sideEffect;
+    private String sideEffect;
 
     private String medicines;
 
     @Column(name = "SE_MONTH")
     private int month;
-
-    private YesNoType resolved;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SUBSTANCE_ID")
@@ -54,35 +46,11 @@ public class CaseSideEffect extends CaseEntity {
         this.comment = comment;
     }
 
-    /**
-     * @return the resolved
-     */
-    public YesNoType getResolved() {
-        return resolved;
-    }
-
-    /**
-     * @param resolved the resolved to set
-     */
-    public void setResolved(YesNoType resolved) {
-        this.resolved = resolved;
-    }
-
-    /**
-     * @return the sideEffect
-     */
-    public FieldValueComponent getSideEffect() {
-        if (sideEffect == null) {
-            sideEffect = new FieldValueComponent();
-        }
-
+    public String getSideEffect() {
         return sideEffect;
     }
 
-    /**
-     * @param sideEffect the sideEffect to set
-     */
-    public void setSideEffect(FieldValueComponent sideEffect) {
+    public void setSideEffect(String sideEffect) {
         this.sideEffect = sideEffect;
     }
 

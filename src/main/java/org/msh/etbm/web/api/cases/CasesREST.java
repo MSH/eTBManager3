@@ -2,7 +2,7 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.cases.cases.CaseData;
+import org.msh.etbm.services.cases.cases.CaseDetailedData;
 import org.msh.etbm.services.cases.cases.CaseFormData;
 import org.msh.etbm.services.cases.cases.CaseQueryParams;
 import org.msh.etbm.services.cases.cases.CaseService;
@@ -20,7 +20,7 @@ import java.util.UUID;
  * Created by msantos on 26/3/16.
  */
 @RestController
-@RequestMapping("/api/cases")
+@RequestMapping("/api/tbl")
 @Authenticated(permissions = {Permissions.CASES})
 public class CasesREST {
 
@@ -29,8 +29,8 @@ public class CasesREST {
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public CaseData get(@PathVariable UUID id) {
-        return service.findOne(id, CaseData.class);
+    public CaseDetailedData get(@PathVariable UUID id) {
+        return service.findOne(id, CaseDetailedData.class);
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)
@@ -46,8 +46,9 @@ public class CasesREST {
     }
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.DELETE)
-    public UUID delete(@PathVariable @NotNull UUID id) {
-        return service.delete(id).getId();
+    public StandardResult delete(@PathVariable @NotNull UUID id) {
+        service.delete(id).getId();
+        return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/case/query", method = RequestMethod.POST)

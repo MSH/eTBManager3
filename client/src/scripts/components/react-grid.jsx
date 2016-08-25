@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import ReactGridCell from './react-grid-cell';
 import Expandable from './expandable';
 import { Size } from '../commons/grid-utils';

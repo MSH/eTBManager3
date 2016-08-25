@@ -1,9 +1,10 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import FormUtils from '../form-utils';
+import { isEmpty } from '../../commons/utils';
 import { SelectionBox } from '../../components/index';
 import { isPromise } from '../../commons/utils';
+
 
 /**
  * Used in the Form library. Provide input data of string and number types
@@ -89,7 +90,7 @@ export default class SelectControl extends React.Component {
 			return null;
 		}
 
-		let value = this.props.value ? this.props.value.toString() : null;
+		let value = !isEmpty(this.props.value) ? this.props.value.toString() : null;
 
 		// get the value according to the option
 		value = options.find(item => item.id.toString() === value);

@@ -1,9 +1,10 @@
 import React from 'react';
 import CrudView from '../../crud/crud-view';
-import { Profile } from '../../../components';
 import CaseComments from './case-comments';
-import { mockCrud } from '../../mock-data';
+import CRUD from '../../../commons/crud';
+import { Profile } from '../../../components';
 
+const crud = new CRUD('sideeffect');
 
 export default class CaseAdvReact extends React.Component {
 
@@ -12,71 +13,77 @@ export default class CaseAdvReact extends React.Component {
 
 		// form fields for contacts
 		const editorSchema = {
-			layout: [
+			defaultProperties: {
+				tbcaseId: props.tbcase.id
+			},
+			controls: [
 				{
 					type: 'select',
-					label: 'Adverse reaction',
-					property: 'adverseReaction',
+					label: __('cases.sideeffects.desc'),
+					property: 'sideEffect',
 					required: true,
 					options: [
-						{ id: 'adv1', name: 'Adverse reaction 1' },
-						{ id: 'adv2', name: 'Adverse reaction 2' },
-						{ id: 'adv3', name: 'Adverse reaction 3' },
-						{ id: 'adv4', name: 'Adverse reaction 4' },
-						{ id: 'adv5', name: 'Adverse reaction 5' },
-						{ id: 'adv6', name: 'Adverse reaction 6' }
+						{ id: 'adv1', name: 'Headache' },
+						{ id: 'adv2', name: 'Constirpação' },
+						{ id: 'adv3', name: 'Dor na coluna' },
+						{ id: 'adv4', name: 'Febre interna' }
 					],
 					size: { sm: 12 }
 				},
 				{
 					type: 'select',
-					label: __('Medicine'),
-					property: 'substance',
-					options: 'substances',
-					size: { sm: 12 }
-				},
-				{
-					type: 'select',
 					property: 'month',
-					label: 'Initial month of treatment',
+					label: __('cases.sideeffects.month'),
 					required: true,
 					options: { from: 1, to: 24 },
 					size: { sm: 6 }
 				},
 				{
+					type: 'select',
+					label: __('cases.sideeffects.medicine'),
+					property: 'substanceId',
+					options: 'substances',
+					size: { sm: 12 }
+				},
+				{
+					type: 'select',
+					label: __('cases.sideeffects.medicine'),
+					property: 'substance2Id',
+					options: 'substances',
+					size: { sm: 12 }
+				},
+				{
 					type: 'text',
-					property: 'comments',
+					property: 'comment',
 					label: __('global.comments'),
 					size: { sm: 12 }
 				}
 			]
 		};
 
-		// create mock data
-		const self = this;
-		const crud = mockCrud()
-			.on((evt) => {
-				switch (evt) {
-					case 'query':
-						return {
-							list: self.props.tbcase.adverseReactions,
-							count: self.props.tbcase.adverseReactions.length
-						};
-					default:
-						return null;
-				}
-			});
-		this.state = { crud: crud, editorSchema: editorSchema };
+		this.state = { editorSchema: editorSchema };
 	}
 
 	cellRender(item) {
+		const subtitle = <div><b>{__('cases.sideeffects.month') + ': '}</b>{item.month}</div>;
 		return (
-			<div>
-				<div>{item.adverseReaction.name}</div>
-				<div className="text-muted"><b>{'Month of treatment: '}</b>{item.month}</div>
-				<div className="text-muted"><b>{__('Medicine') + ': '}</b>{item.medicine}</div>
-			</div>
+			<Profile title={item.sideEffect} subtitle={subtitle} size="small" />
 		);
+	}
+
+	collapseCellRender(item) {
+		const ret = (<div>
+						<hr/>
+						<dl className="dl-horizontal">
+							<dt>{__('cases.sideeffects.medicine') + ':'}</dt>
+							<dd>{item.medicines ? item.medicines : '-'}</dd>
+							<dt>{__('global.comments') + ':'}</dt>
+							<dd>{item.comment ? item.comment : '-'}</dd>
+						</dl>
+						<hr/>
+					</div>);
+
+		return (ret);
 	}
 
 	render() {
@@ -84,13 +91,15 @@ export default class CaseAdvReact extends React.Component {
 
 		return (
 			<CaseComments
-				tbcase={tbcase} group="adv-reacts">
-				<CrudView combine
-					modal
+				tbcase={tbcase} group="ADV_REACTS">
+				<CrudView combine modal
 					title={__('cases.sideeffects')}
 					editorSchema={this.state.editorSchema}
-					crud={this.state.crud}
+					crud={crud}
+					cellSize={{ md: 12 }}
 					onCellRender={this.cellRender}
+					onDetailRender={this.collapseCellRender}
+					queryFilters={{ tbcaseId: tbcase.id }}
 					/>
 			</CaseComments>
 			);

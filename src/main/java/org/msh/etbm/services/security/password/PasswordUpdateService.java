@@ -32,7 +32,7 @@ public class PasswordUpdateService {
             throw new EntityValidationException(req, "password", null, "changepwd.invalidpassword");
         }
 
-        List<User> lst = entityManager.createQuery("from User where passwordResetToken = :req and active = true")
+        List<User> lst = entityManager.createQuery("from User where passwordResetToken = :req")
                 .setParameter("req", req.getToken())
                 .getResultList();
 
@@ -42,10 +42,15 @@ public class PasswordUpdateService {
 
         User user = lst.get(0);
 
+        if (!user.isActive() && user.isEmailConfirmed()) {
+            throw new EntityValidationException(req, "token", null, "changepwd.invalidtoken");
+        }
+
         String hashPwd = UserUtils.hashPassword(req.getPassword());
         user.setPassword(hashPwd);
         user.setPasswordResetToken(null);
         user.setEmailConfirmed(true);
+        user.setActive(true);
 
         entityManager.persist(user);
         entityManager.flush();

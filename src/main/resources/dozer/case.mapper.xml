@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.CaseEntityFormData</class-a>
+        <class-b>org.msh.etbm.db.CaseEntity</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>tbcaseId</a>
+            <b>tbcase</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.cases.CaseItem</class-a>
+        <class-b>org.msh.etbm.db.entities.TbCase</class-b>
+
+        <field>
+            <a>name</a>
+            <b>patient.name</b>
+        </field>
+
+        <field>
+            <a>gender</a>
+            <b>patient.gender</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>classification</a>
+            <b>classification</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>diagnosisType</a>
+            <b>diagnosisType</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>state</a>
+            <b>state</b>
+        </field>
+
+    </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.sideeffects.CaseSideEffectFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.CaseSideEffect</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>substanceId</a>
+            <b>substance</b>
+        </field>
+
+        <field custom-converter-id="entity-id">
+            <a>substance2Id</a>
+            <b>substance2</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatData</class-a>
+        <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
+
+        <field custom-converter-id="enum-item">
+            <a>outcome</a>
+            <b>outcome</b>
+        </field>
+
+    </mapping>
+
+</mappings>

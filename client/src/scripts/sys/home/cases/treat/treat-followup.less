@@ -1,0 +1,150 @@
+@import '../../../../../../less/variables.less';
+
+@color-DOTS: #48aa8a;
+@color-SELFADMIN: #4073a0;
+@color-NOTTAKEN: #b0b0b0;
+
+.treat-DOTS {
+	color: @color-DOTS;
+}
+
+.treat-SELF_ADMIN {
+	color: @color-SELFADMIN;
+}
+
+.treat-NOT_TAKEN {
+	color: @color-NOTTAKEN;
+}
+
+
+@media (min-width: @screen-sm-min) {
+
+.treat-followup {
+	.treat-legend {
+		color: @text-muted;
+		width: 100%;
+		text-align: right;
+		padding-bottom: 6px;
+		font-size: 0.9em;
+	}
+
+	.treat-table {
+		display: table;
+
+		.DayPicker-Day {
+			padding: 2px;
+		}
+
+		.treat-cal {
+			max-width: 250px;
+			min-width: 220px;
+			float: left;
+			min-height: 250px;
+			border: 1px solid #f0f0f0;
+			position: relative;
+
+			.treat-info {
+				position: absolute;
+				right: 4px;
+				bottom: 4px;
+				color: @text-muted;
+				font-size: 0.8em;
+			}
+		}
+
+		.treat-cal:hover {
+			background-color: #f0f0f0;
+			cursor: pointer;
+		}
+
+		.dropdown-menu {
+			top: -80px;
+			left: -15px;
+			box-shadow: 0px 0px 16px #808080;
+
+			.editor {
+				max-width: 250px;
+				width: 250px;
+			}
+		}
+
+		.editor {
+			background-color: transparent !important;
+
+			.DayPicker-Day:hover {
+				background-color: #f0f0f0;
+				cursor: pointer;
+			}
+		}
+	}
+}
+}
+
+@media (max-width: @screen-sm-min) {
+.treat-followup {
+	.treat-table {
+		display: table;
+
+		> div {
+			width: 100%;
+		}
+
+		.treat-cal {
+			float: left;
+			border: 1px solid #f0f0f0;
+			position: relative;
+			text-align: center;
+			width: 100%;
+
+		}
+
+		.DayPicker-Day {
+			font-size: 1.2em;
+			padding: 4px 8px;
+		}
+
+		.dropdown-menu {
+			width: 100%;
+			box-shadow: 0 0 32px #606060;
+		}
+	}
+}
+}
+
+.treat-table.readonly:hover {
+
+	.treat-cal {
+		background-color: transparent !important;
+		cursor: default;
+	}
+
+	.DayPicker-Day:hover {
+		cursor: default;
+	}
+}
+
+
+.DayPicker-Day .day {
+	border-radius: 12px;
+	width:24px;
+	height:24px;
+	line-height: 2
+}
+
+.DayPicker-Day--dots .day, .DayPicker-Day--selfadmin .day, .DayPicker-Day--nottaken .day {
+	color: white;
+	font-size: 0.8em;
+	padding:1px 0 0 0;
+}
+.DayPicker-Day--dots .day {
+	background-color: @color-DOTS;
+}
+
+.DayPicker-Day--selfadmin .day {
+	background-color: @color-SELFADMIN;
+}
+
+.DayPicker-Day--nottaken .day {
+	background-color: @color-NOTTAKEN;
+}
+

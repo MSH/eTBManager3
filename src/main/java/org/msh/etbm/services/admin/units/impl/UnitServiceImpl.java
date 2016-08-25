@@ -1,16 +1,15 @@
 package org.msh.etbm.services.admin.units.impl;
 
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.repositories.AdminUnitRepository;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeriesService;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.UnitType;
@@ -18,7 +17,6 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitDetailedData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 
@@ -29,12 +27,6 @@ import org.springframework.validation.Errors;
  */
 @Service
 public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> implements UnitService {
-
-    @Autowired
-    AdminUnitRepository adminUnitRepository;
-
-    @Autowired
-    AdminUnitSeriesService adminUnitSeriesService;
 
     @Override
     protected void buildQuery(QueryBuilder<Unit> builder, UnitQueryParams queryParams) {
@@ -77,14 +69,14 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
         if (queryParams.getAdminUnitId() != null) {
             // include children?
             if (queryParams.isIncludeSubunits()) {
-                AdministrativeUnit au = adminUnitRepository.findOne(queryParams.getAdminUnitId());
+                AdministrativeUnit au = getEntityManager().find(AdministrativeUnit.class, queryParams.getAdminUnitId());
 
                 // check if admin unit is of same workspace
                 if (au == null || !au.getWorkspace().getId().equals(builder.getWorkspaceId())) {
                     rejectFieldException(queryParams, "adminUnitId", "Invalid administrative unit");
                 }
                 // search for all administrative units
-                builder.addRestriction("a.address.adminUnit.code like :code", au.getCode() + "%");
+                builder.addRestriction("a.address.adminUnit.pid" + au.getLevel() + " = :auid", au.getId());
             } else {
                 // search for units directly registered in this administrative unit
                 builder.addRestriction("a.address.adminUnit.id = :auid", queryParams.getAdminUnitId());
@@ -130,7 +122,9 @@ public class UnitServiceImpl extends EntityServiceImpl<Unit, UnitQueryParams> im
     }
 
     @Override
-    protected void beforeSave(Unit unit, Errors errors) {
+    protected void beforeSave(EntityServiceContext<Unit> context, Errors errors) {
+        Unit unit = context.getEntity();
+
         if (unit.getAddress().getAdminUnit() == null) {
             errors.rejectValue("address.adminUnit", Messages.REQUIRED);
         }

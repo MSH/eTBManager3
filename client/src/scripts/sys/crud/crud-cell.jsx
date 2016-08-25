@@ -19,6 +19,7 @@ class CrudCell extends React.Component {
 		this.editClick = this.editClick.bind(this);
 		this.deleteClick = this.deleteClick.bind(this);
 		this.selectMenu = this.selectMenu.bind(this);
+		this.eventHandler = this.eventHandler.bind(this);
 	}
 
 	componentWillMount() {
@@ -179,7 +180,7 @@ class CrudCell extends React.Component {
 			<div>
 				{content}
 				<ButtonToolbar className="mtop">
-					<AsyncButton bsStyle="primary"
+					<AsyncButton bsStyle="success"
 						fetching={controller.frm && controller.frm.fetching}
 						onClick={this.editClick}>
 						{__('action.edit')}

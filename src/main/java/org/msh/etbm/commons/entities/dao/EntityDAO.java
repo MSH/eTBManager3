@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.entities.dao;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.Synchronizable;
@@ -277,7 +277,6 @@ public class EntityDAO<E> {
         entityManager.remove(entity);
         entityManager.flush();
     }
-
 
     /**
      * Check if the entity workspace is the same as the current workspace. If not, an error is added

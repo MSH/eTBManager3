@@ -42,6 +42,11 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
     private String hqlJoin;
 
     /**
+     * The HQL select to be added before the FROM clause when selecting entities
+     */
+    private String hqlSelect;
+
+    /**
      * List of restrictions to be applied in the query
      */
     private List<String> restrictions;
@@ -141,6 +146,12 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
         }
         s.append('\n');
 
+        if (hqlJoin != null) {
+            String join = hqlJoin.replace(" fetch ", " ");
+            s.append(join);
+            s.append('\n');
+        }
+
         addHQLRestrictions(s);
 
         return s.toString();
@@ -152,7 +163,14 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
      * @return HQL instruction
      */
     public String createHQL() {
-        StringBuilder s = new StringBuilder("from " + entityClass.getSimpleName());
+        StringBuilder s;
+
+        if (hqlSelect != null) {
+            s = new StringBuilder(hqlSelect + " from " + entityClass.getSimpleName());
+        } else {
+            s = new StringBuilder("from " + entityClass.getSimpleName());
+        }
+
         if (entityAlias != null) {
             s.append(' ');
             s.append(entityAlias);
@@ -562,5 +580,9 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
 
     public void setWorkspaceId(UUID workspaceId) {
         this.workspaceId = workspaceId;
+    }
+
+    public void setHqlSelect(String hqlSelect) {
+        this.hqlSelect = hqlSelect;
     }
 }

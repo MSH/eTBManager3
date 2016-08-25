@@ -1,10 +1,13 @@
 package org.msh.etbm.db.enums;
 
-public enum Gender {
+import org.msh.etbm.db.MessageKey;
+
+public enum Gender implements MessageKey {
     MALE,
     FEMALE;
 
-    public String getKey() {
+    @Override
+    public String getMessageKey() {
         return getClass().getSimpleName().concat("." + name());
     }
 }

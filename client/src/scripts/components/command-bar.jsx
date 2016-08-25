@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import { NavItem } from 'react-bootstrap';
 import Fa from './fa';
 
 export default class CommandBar extends React.Component {
@@ -23,12 +23,12 @@ export default class CommandBar extends React.Component {
 		}
 
 		return (
-			<Nav className="cmd-bar">
+			<div className="cmd-bar nav">
 				<div className="title">{__('form.options')}</div>
 			{
 				cmds.map((item, index) => this.renderItem(item, index))
 			}
-			</Nav>
+			</div>
 			);
 	}
 }

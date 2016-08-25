@@ -1,8 +1,9 @@
 package org.msh.etbm.services.session.usersession;
 
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class UserSessionResponse {
     private String unitName;
 
     // the administrative unit of the unit
-    private AdminUnitSeries adminUnit;
+    private AdminUnitData adminUnit;
 
     private UserView view;
 
@@ -37,8 +38,7 @@ public class UserSessionResponse {
     // list of permissions granted to the user
     private List<String> permissions;
 
-    // list of user workspaces
-    private List<SynchronizableItem> workspaces;
+    private NameComposition patientNameComposition;
 
 
     public String getUserName() {
@@ -121,19 +121,19 @@ public class UserSessionResponse {
         this.permissions = permissions;
     }
 
-    public List<SynchronizableItem> getWorkspaces() {
-        return workspaces;
-    }
-
-    public void setWorkspaces(List<SynchronizableItem> workspaces) {
-        this.workspaces = workspaces;
-    }
-
-    public AdminUnitSeries getAdminUnit() {
+    public AdminUnitData getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdminUnitSeries adminUnit) {
+    public void setAdminUnit(AdminUnitData adminUnit) {
         this.adminUnit = adminUnit;
+    }
+
+    public NameComposition getPatientNameComposition() {
+        return patientNameComposition;
+    }
+
+    public void setPatientNameComposition(NameComposition patientNameComposition) {
+        this.patientNameComposition = patientNameComposition;
     }
 }

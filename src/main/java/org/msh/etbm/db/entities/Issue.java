@@ -20,7 +20,6 @@ import java.util.List;
 @Table(name = "issue")
 public class Issue extends CaseEntity {
 
-
     private boolean closed;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,9 +28,6 @@ public class Issue extends CaseEntity {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date answerDate;
 
     @Column(length = 200)
     private String title;
@@ -45,8 +41,7 @@ public class Issue extends CaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
     @NotNull
-    private Tbunit unit;
-
+    private Unit unit;
 
     /**
      * @return the closed
@@ -88,20 +83,6 @@ public class Issue extends CaseEntity {
      */
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * @return the answerDate
-     */
-    public Date getAnswerDate() {
-        return answerDate;
-    }
-
-    /**
-     * @param answerDate the answerDate to set
-     */
-    public void setAnswerDate(Date answerDate) {
-        this.answerDate = answerDate;
     }
 
     /**
@@ -149,14 +130,14 @@ public class Issue extends CaseEntity {
     /**
      * @return the unit
      */
-    public Tbunit getUnit() {
+    public Unit getUnit() {
         return unit;
     }
 
     /**
      * @param unit the unit to set
      */
-    public void setUnit(Tbunit unit) {
+    public void setUnit(Unit unit) {
         this.unit = unit;
     }
 }

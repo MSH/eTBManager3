@@ -8,7 +8,7 @@ import Profile from '../../../components/profile';
 const crud = new CRUD('regimen');
 
 const tfschema = {
-			layout: [
+			controls: [
 				{
 					property: 'medicineId',
 					required: true,
@@ -62,7 +62,7 @@ const editorDef = {
 	defaultProperties: {
 		medicines: [{}]
 	},
-	layout: [
+	controls: [
 		{
 			property: 'name',
 			required: true,

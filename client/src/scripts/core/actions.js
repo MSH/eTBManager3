@@ -16,3 +16,5 @@ export const DOC_CREATE = 'doc-create';
 export const DOC_UPDATE = 'doc-update';
 export const DOC_DELETE = 'doc-delete';
 
+// show messages
+export const SHOW_MESSAGE = 'show-message';

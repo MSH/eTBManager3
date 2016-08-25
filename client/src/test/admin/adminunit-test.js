@@ -21,7 +21,7 @@ describe('Administrative unit', function() {
             return cslist;
         })
         .then(cslist => {
-            adminUnit.csId = cslist[0].id;
+            adminUnit.countryStructure = cslist.find(item => item.level === 1).id;
         });
     });
 

@@ -56,7 +56,8 @@ export default class UserReg extends React.Component {
 		server.post('/api/pub/selfreg', res.value)
 		.then(resp => {
 			if (!resp.success) {
-				self.setState({ errors: resp.errors });
+				self.setState({ errors: resp.errors, fetching: false });
+				return;
 			}
 
 			self.setState({ success: true, 	fetching: false });
@@ -89,7 +90,14 @@ export default class UserReg extends React.Component {
 	 * Render the component
 	 */
 	render() {
-		const err = this.state.errors ? this.state.errors : {};
+		const err = {};
+		if (this.state.errors) {
+			// transform error from an array to an object
+			this.state.errors.forEach(item => {
+				err[item.field] = item.msg;
+			});
+		}
+
 		const fetching = !!this.state.fetching;
 		const success = !!this.state.success;
 

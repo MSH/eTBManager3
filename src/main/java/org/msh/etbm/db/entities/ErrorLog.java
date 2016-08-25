@@ -89,9 +89,9 @@ public class ErrorLog {
     }
 
     /**
-     * @param user the user to set
+     * @param userName the user to set
      */
-    public void setUserName(String user) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 

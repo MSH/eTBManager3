@@ -9,6 +9,10 @@ import org.msh.etbm.commons.commands.impl.RootCommandType;
  */
 public class CommandTypes {
 
+    private CommandTypes() {
+        // avoid this class being instantiated inadvertently
+    }
+
     // main group commands
     public static final String INIT = "init";
     public static final String PUBLIC = "pub";
@@ -32,7 +36,7 @@ public class CommandTypes {
     public static final String ADMIN_PRODUCTS = "admin.products";
     public static final String ADMIN_REGIMENS = "admin.regimens";
     public static final String ADMIN_SUBSTANCES = "admin.substances";
-    public static final String ADMIN_TAGS = "admin.substances";
+    public static final String ADMIN_TAGS = "admin.tags";
     public static final String ADMIN_USERPROFILES = "admin.profiles";
     public static final String ADMIN_WORKSPACES = "admin.workspaces";
 
@@ -40,6 +44,22 @@ public class CommandTypes {
 
     // case module
     public static final String CASES_CASE = "cases.case";
+    public static final String CASES_CASE_CLOSE = "cases.case.close";
+    public static final String CASES_CASE_REOPEN = "cases.case.reopen";
+    public static final String CASES_CASE_TAG = "cases.case.manualtags";
+    public static final String CASES_CASE_COMMENT = "cases.case.comment";
+    public static final String CASES_CASE_ISSUE = "cases.case.issues";
+    public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.case.issuefollowups";
+    public static final String CASES_CASE_PREVTREAT = "cases.case.prevtreat";
+    public static final String CASES_CASE_CONTACT = "cases.case.contact";
+    public static final String CASES_CASE_SIDEEFFECT = "cases.case.sideeffect";
+    public static final String CASES_CASE_MED_EXAM = "cases.case.medexam";
+    public static final String CASES_CASE_EXAM_MIC = "cases.case.exammic";
+    public static final String CASES_CASE_EXAM_CUL = "cases.case.examcul";
+    public static final String CASES_CASE_EXAM_XPERT = "cases.case.examxpert";
+    public static final String CASES_CASE_EXAM_DST = "cases.case.examdst";
+    public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
+    public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -78,13 +98,29 @@ public class CommandTypes {
         ROOT.addCRUD(ADMIN_SUBSTANCES);
         ROOT.addCRUD(ADMIN_TAGS);
         ROOT.addCRUD(ADMIN_USERS);
-        ROOT.add(ADMIN_USERS_CHANGE_PWD, "changepwd");
+        ROOT.add(ADMIN_USERS_CHANGE_PWD);
         ROOT.addCRUD(ADMIN_USERPROFILES);
         ROOT.addCRUD(ADMIN_WORKSPACES);
         ROOT.add(SYSTEM_SETUP);
 
         // cases module
-        ROOT.add(CASES_CASE);
+        ROOT.addCRUD(CASES_CASE);
+        ROOT.add(CASES_CASE_CLOSE);
+        ROOT.add(CASES_CASE_REOPEN);
+        ROOT.add(CASES_CASE_TAG);
+        ROOT.addCRUD(CASES_CASE_PREVTREAT);
+        ROOT.addCRUD(CASES_CASE_CONTACT);
+        ROOT.addCRUD(CASES_CASE_SIDEEFFECT);
+        ROOT.addCRUD(CASES_CASE_COMMENT);
+        ROOT.addCRUD(CASES_CASE_ISSUE);
+        ROOT.addCRUD(CASES_CASE_ISSUEFOLLOWUP);
+        ROOT.addCRUD(CASES_CASE_MED_EXAM);
+        ROOT.addCRUD(CASES_CASE_EXAM_MIC);
+        ROOT.addCRUD(CASES_CASE_EXAM_CUL);
+        ROOT.addCRUD(CASES_CASE_EXAM_XPERT);
+        ROOT.addCRUD(CASES_CASE_EXAM_DST);
+        ROOT.addCRUD(CASES_CASE_EXAM_HIV);
+        ROOT.addCRUD(CASES_CASE_EXAM_XRAY);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

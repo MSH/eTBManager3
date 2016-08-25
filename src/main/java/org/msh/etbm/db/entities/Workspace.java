@@ -20,6 +20,12 @@ public class Workspace extends Synchronizable implements Displayable {
     @Size(min = 2, max = 50)
     private String name;
 
+    /**
+     * Extension is used as a suffix when creating custom tables. Once set, this value cannot be changed
+     */
+    @Column(length = 20)
+    private String extension;
+
     @OneToMany(mappedBy = "workspace", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PropertyLog(ignore = true)
     private List<UserWorkspace> users = new ArrayList<>();
@@ -297,8 +303,8 @@ public class Workspace extends Synchronizable implements Displayable {
         this.minStockOnHand = minStockOnHand;
     }
 
-    /**
-     * @return the maxStockOnHand
+    /**maxStockOnHand
+     * @return the
      */
     public Integer getMaxStockOnHand() {
         return maxStockOnHand;
@@ -420,5 +426,13 @@ public class Workspace extends Synchronizable implements Displayable {
 
     public void setCustomId(String customId) {
         this.customId = customId;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 }

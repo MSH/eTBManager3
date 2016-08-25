@@ -3,7 +3,8 @@ package org.msh.etbm;
 import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.DozerEntityConverter;
-import org.msh.etbm.services.admin.admunits.parents.DozerAdminUnitSeriesConverter;
+import org.msh.etbm.commons.entities.DozerEnumConverter;
+import org.msh.etbm.services.admin.admunits.impl.DozerAdminUnitConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -44,11 +45,12 @@ public class Application {
      * @return instance of DozerBeanMapper
      */
     @Bean
-    public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitSeriesConverter admconv) {
+    public DozerBeanMapper mapper(DozerEntityConverter entityConverter, DozerAdminUnitConverter admconv, DozerEnumConverter enumConverter) {
         DozerBeanMapper m = new DozerBeanMapper();
 
         List<CustomConverter> customConverters = new ArrayList<>();
         customConverters.add(admconv);
+        customConverters.add(enumConverter);
         m.setCustomConverters(customConverters);
 
         List<String> lst = new ArrayList<>();
@@ -63,11 +65,14 @@ public class Application {
         lst.add("dozer/userws.mapper.xml");
         lst.add("dozer/regimen.mapper.xml");
         lst.add("dozer/sysconfig.mapper.xml");
+        lst.add("dozer/followup.mapper.xml");
+        lst.add("dozer/case.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();
         convs.put("entity-id", entityConverter);
         convs.put("adminunit", admconv);
+        convs.put("enum-item", enumConverter);
 
         m.setCustomConvertersWithId(convs);
 

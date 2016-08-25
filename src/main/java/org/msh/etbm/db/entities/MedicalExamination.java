@@ -25,7 +25,6 @@ public class MedicalExamination extends CaseEvent {
     @PropertyLog(operations = {Operation.NEW})
     private Double height;
 
-
     private MedAppointmentType appointmentType;
 
     private YesNoType usingPrescMedicines;

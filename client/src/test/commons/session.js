@@ -15,7 +15,10 @@ class ClientSession {
      * @return {[type]}     [description]
      */
     get(url) {
-        var req = agent().get(url);
+        var req = agent()
+            .get(url)
+            .expect('Content-Type', /json/)
+            .expect(200);
 
         prepareReq(req, this.options);
 
@@ -47,7 +50,16 @@ class ClientSession {
     delete(url) {
         var req = agent()
             .delete(url)
-            .expect('Content-Type', /json/);
+            .set('Accept', 'application/json');
+
+        prepareReq(req, this.options);
+
+        return requestInPromise(req);
+    }
+
+    custom(func) {
+        var req = agent();
+        req = func(req);
 
         prepareReq(req, this.options);
 

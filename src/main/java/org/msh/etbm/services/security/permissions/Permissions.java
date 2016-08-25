@@ -118,7 +118,7 @@ public class Permissions {
     public static final String CASES_EXAM_XRAY = "EXAM_XRAY";
     public static final String CASES_EXAM_HIV = "EXAM_HIV";
     public static final String CASES_COMORBIDITIES = "COMIRBIDITIES";
-    public static final String CASES_TBCONTACT = "TBCONTACT";
+    public static final String CASES_CASE_CONTACT = "CASECONTACT";
     public static final String CASES_ADV_EFFECTS = "ADV_EFFECTS";
     public static final String CASES_MED_EXAM = "CASE_MED_EXAM";
     public static final String CASES_ISSUES = "ISSUES";
@@ -196,9 +196,9 @@ public class Permissions {
                 add(CASES_REM_COMMENTS),
                 add(CASES_TAG),
                 addChangeable(CASES_COMORBIDITIES, "cases.comorbidities"),
-                addChangeable(CASES_TBCONTACT, "cases.contacts"),
+                addChangeable(CASES_CASE_CONTACT, "cases.contacts"),
                 addChangeable(CASES_ADV_EFFECTS, "cases.sideeffects"),
-                add(CASES_MED_EXAM, "cases.details.medexam"),
+                addChangeable(CASES_MED_EXAM, "cases.details.medexam"),
                 add(CASES_ISSUES, "cases.issues",
                         add(CASES_NEW_ISSUE, "cases.issues.new"),
                         add(CASES_ANSWER_ISSUE),

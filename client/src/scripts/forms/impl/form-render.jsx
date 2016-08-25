@@ -2,7 +2,7 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import { WaitIcon, Errors } from '../../components';
-import { getValue } from '../../commons/utils';
+import { getValue, formatString, isString } from '../../commons/utils';
 import { arrangeGrid } from '../../commons/grid-utils';
 
 
@@ -12,7 +12,8 @@ import { arrangeGrid } from '../../commons/grid-utils';
  * @return {React.Component} The rendered form content
  */
 export default function formRender(form) {
-	if (!form.state.resources) {
+	const resources = form.state.resources || form.props.resources;
+	if (!resources) {
 		return <WaitIcon type="card" />;
 	}
 
@@ -34,12 +35,22 @@ export default function formRender(form) {
 	const items = snapshots.map(item => {
 		const snapshot = item.snapshot;
 		const compErrors = snapshot.property ? propertyErrors(snapshot.property, errors, handledErrors) : null;
-		const value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
 
-		const comp = createElement(form, item, value, compErrors);
+		// get the value
+		let value;
+		if (snapshot.value) {
+			value = snapshot.value;
+			if (isString(value)) {
+				value = formatString(value, form.props.doc);
+			}
+		} else {
+			value = snapshot.property ? getValue(form.props.doc, snapshot.property) : null;
+		}
+
+		const comp = createElement(form, item, value, compErrors, resources);
 
 		const size = snapshot.size ? snapshot.size : { sm: 12 };
-		return { size: size, content: comp };
+		return { size: size, content: comp, newRow: snapshot.newRow, spanRow: snapshot.spanRow };
 	});
 
 	const lst = arrangeGrid(items);
@@ -69,10 +80,10 @@ export default function formRender(form) {
  * @param  {[type]} errors [description]
  * @return {[type]}        [description]
  */
-function createElement(form, item, value, errors) {
+function createElement(form, item, value, errors, resources) {
 	const snapshot = item.snapshot;
 	// get any resource that came from the object
-	const res = form.state.resources[snapshot.id];
+	const res = resources[snapshot.id];
 
 	// simplify error handling, sending just a string if there is
 	// just one single error for the property
@@ -115,7 +126,7 @@ function propertyErrors(propname, errors, handledErrors) {
 	}
 
 	const res = errors.filter(msg => {
-		if (msg.field && msg.field.startsWith(propname)) {
+		if (msg.field && msg.field === propname) {
 			handledErrors.push(msg.field);
 			return true;
 		}

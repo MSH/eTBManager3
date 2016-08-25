@@ -1,8 +1,10 @@
 package org.msh.etbm.web.api.sys;
 
-import org.msh.etbm.Messages;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandAction;
+import org.msh.etbm.db.MessageKey;
 import org.msh.etbm.db.enums.*;
+import org.msh.etbm.services.cases.followup.data.FollowUpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +34,11 @@ public class GlobalListsService {
             MedicineCategory.class,
             CaseClassification.class,
             CaseState.class,
+            DiagnosisType.class,
+            ValidationState.class,
             CommandAction.class,
             FollowUpType.class,
             MedAppointmentType.class,
-            YesNoType.class,
             VisualAppearance.class,
             SampleType.class,
             MicroscopyResult.class,
@@ -45,7 +48,12 @@ public class GlobalListsService {
             XRayEvolution.class,
             HIVResult.class,
             ExamStatus.class,
-            DstResult.class
+            DstResult.class,
+            PrevTBTreatmentOutcome.class,
+            NameComposition.class,
+            CaseValidationOption.class,
+            DisplayCaseNumber.class,
+            TreatMonitoringInput.class
     };
 
     /**
@@ -62,6 +70,8 @@ public class GlobalListsService {
 
             res.put(name, options);
         }
+
+        putClassificationDiagnosisOptions(res);
 
         return res;
     }
@@ -82,13 +92,41 @@ public class GlobalListsService {
         Map<String, String> opts = new HashMap<>();
 
         for (Object val : vals) {
-            String messageKey = clazz.getSimpleName() + '.' + val.toString();
+            String messageKey;
+
+            if (val instanceof MessageKey) {
+                messageKey = ((MessageKey) val).getMessageKey();
+            } else {
+                messageKey = clazz.getSimpleName() + '.' + val.toString();
+            }
+
             String message = messages.get(messageKey);
 
             opts.put(val.toString(), message);
         }
 
         return opts;
+    }
+
+    /**
+     * Puts the different messages combination of case classification and diagnosis types on the param
+     * @param res object that will have the values put
+     */
+    private void putClassificationDiagnosisOptions(Map<String, Map<String, String>> res) {
+        Map<String, String> opts = new HashMap<>();
+        opts.put(DiagnosisType.SUSPECT.toString(), messages.get(CaseClassification.TB.getKeySuspect()));
+        opts.put(DiagnosisType.CONFIRMED.toString(), messages.get(CaseClassification.TB.getKeyConfirmed()));
+        res.put("CaseClassificationTB", opts);
+
+        opts = new HashMap<>();
+        opts.put(DiagnosisType.SUSPECT.toString(), messages.get(CaseClassification.DRTB.getKeySuspect()));
+        opts.put(DiagnosisType.CONFIRMED.toString(), messages.get(CaseClassification.DRTB.getKeyConfirmed()));
+        res.put("CaseClassificationDRTB", opts);
+
+        opts = new HashMap<>();
+        opts.put(DiagnosisType.SUSPECT.toString(), messages.get(CaseClassification.NTM.getKeySuspect()));
+        opts.put(DiagnosisType.CONFIRMED.toString(), messages.get(CaseClassification.NTM.getKeyConfirmed()));
+        res.put("CaseClassificationNTM", opts);
     }
 
 }

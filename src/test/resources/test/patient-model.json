@@ -1,0 +1,66 @@
+{
+  "name": "patient",
+  "table": "patient",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "label": "${Patient.firstName}",
+      "max": 100,
+      "unique": true
+    },
+    {
+      "name": "middleName",
+      "type": "string",
+      "required": true,
+      "label": "${Patient.middleName}",
+      "max": 100
+    },
+    {
+      "name": "lastName",
+      "type": "string",
+      "required": true,
+      "label": "${Patient.lastName}",
+      "max": 100
+    },
+    {
+      "name": "birthDate",
+      "type": "date",
+      "label": "${Patient.birthDate}"
+    },
+    {
+      "name": "gender",
+      "type": "string",
+      "required": true,
+      "label": "${Gender}",
+      "options": [
+        { "id": "MALE", "name": "${Gender.MALE}" },
+        { "id": "FEMALE", "name": "${Gender.FEMALE}" }
+      ]
+    },
+    {
+      "name": "age",
+      "type": "int",
+      "required": true,
+      "label": "Age",
+      "options": { "from": 1, "to": 20 }
+    },
+    {
+      "name": "customId",
+      "type": "string",
+      "label": "${form.customId}",
+      "max": 50
+    }
+  ],
+  "validators": [
+    {
+      "rule": "this.age != 10",
+      "message": "Age cannot be 10"
+    },
+    {
+      "rule": "this.name != 'Rio'",
+      "message": "Name cannot be 'Rio'"
+    }
+  ]
+}

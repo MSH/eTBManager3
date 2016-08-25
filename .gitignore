@@ -125,3 +125,6 @@ maven*.deb.1
 client/messages/messages*.json
 src/main/resources/static/
 src/main/resources/templates/entrypoint.js
+
+# Created by Visual Studio Code
+jsconfig.json

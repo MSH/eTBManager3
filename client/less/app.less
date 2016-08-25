@@ -1,18 +1,3 @@
-// app variables
-@header-search-bg: #abc1b3;
-@highlight-bg: #D6E4D6;
-
-// the style of the button in input boxes
-@input-btn-color: #a2a2a2;
-
-@content-bgcolor: #E6EEEE; // EBF1F0;
-@row-hover: #f8f8f8;
-
-
-// alternative background color
-@alt-background: #f8fafa;
-
-@link-muted-color: #c8c8c8;
 
 // app components
 @import "callout.less";
@@ -22,7 +7,6 @@
 @import "collapse-row.less";
 @import "selection-box.less";
 @import "day-picker.less";
-@import "filters.less";
 @import "list-box.less";
 
 
@@ -87,6 +71,14 @@
 	margin-top:10px;
 }
 
+.mbottom {
+	margin-bottom:10px;
+}
+
+.mbottom-2x {
+	margin-bottom:20px;
+}
+
 .mright {
 	margin-right:10px;
 }
@@ -144,6 +136,7 @@
 	text-align: center;
 	margin-right:20px;
 	padding-top:10px;
+	display: inline-block;
 }
 
 .wait-icon-field {
@@ -157,7 +150,7 @@
 	text-align: center;
 }
 .wait-icon-card {
-	color: @brand-primary;
+	color: @brand-success;
 	font-size:4em !important;
 	margin: 10px 10px 30px 10px;
 }
@@ -172,7 +165,7 @@
 }
 
 .text-small {
-	font-size: 0.8em;
+	font-size: 0.9em;
 }
 
 .text-big {
@@ -194,6 +187,7 @@
 
 .size-2 {
 	width: 100% / 2 !important;
+	min-width: 120px;
 }
 .size-4 {
 	width: 100% / 4 !important;
@@ -207,6 +201,14 @@
     font-weight: bold;
     color: #c0c0c0;
     border-bottom: 2px solid #c0c0c0;
+    width: 100%;
+    margin: 20px 0 10px 0;
+}
+
+.subtitle2 {
+	font-size: 1.0em;
+    color: #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
     width: 100%;
     margin: 20px 0 10px 0;
 }
@@ -237,6 +239,7 @@
 .lnk-label {
 	color: @text-color;
 	padding: 2px;
+	cursor: pointer;
 }
 
 .lnk-label:hover {
@@ -306,9 +309,9 @@
       border-left: none !important;
       border-right: none !important;
       border-top: none !important;
-      border-bottom: 4px solid @brand-primary !important;
+      border-bottom: 4px solid @brand-success !important;
       font-weight: bold;
-      color: @brand-primary;
+      color: @brand-success;
       background-color: transparent !important;
     }
   }
@@ -328,7 +331,7 @@
     }
     a:hover {
       background-color: transparent;
-      border-color:@brand-primary;
+      border-color:@brand-success;
     }
   }
 }
@@ -508,7 +511,7 @@
 	}
 }
 
-@cmd-background: lighten(@navbar-inverse-bg, 45%);
+@cmd-background: lighten(@navbar-inverse-bg, 50%);
 
 .cmd-bar {
 	background-color: @cmd-background;
@@ -530,6 +533,7 @@
 	    border-left: none;
 	    border-right: none;
 	    padding: 6px 6px !important;
+		transition: background-color 0.5s ease;
 
 		.fa {
 		    width: 32px;
@@ -542,13 +546,53 @@
 	}
 
 	a:hover, a:focus {
-		background-color: darken(@cmd-background, 55%) !important;
+		background-color: darken(@cmd-background, 30%) !important;
 		color: #fff;
     	border-bottom: 1px solid lighten(@cmd-background, 10%) !important;
     	border-top: 1px solid darken(@cmd-background, 10%) !important;
+
+    	.fa {
+    		background-color: darken(@cmd-background, 50%);
+    	}
 	}
 
 	a:first-child {
 		border-top: none;
 	}
+}
+
+.autoscroll {
+	overflow-x: auto;
+    height: auto;
+    overflow-y: overlay;
+    max-height: 500px;
+}
+
+.bg-danger2 {
+  color: #ffffff;
+  background-color: #a94442;
+}
+
+.bg-default2 {
+  color: #000000;
+  background-color: #eceeef;
+}
+
+.clearb {
+  clear: both;
+}
+
+.selectable {
+	display: inline-block;
+	width: auto;
+	padding:2px 4px;
+	color: @text-color;
+	text-decoration: none;
+}
+
+.selectable:hover {
+	cursor: pointer;
+	background-color: @brand-success;
+	color: #ffffff;
+	border-radius: 2px;
 }

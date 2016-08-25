@@ -10,7 +10,7 @@ import javax.persistence.Entity;
  * or participate on the TB management flow
  */
 @Entity
-@DiscriminatorValue("unit")
+@DiscriminatorValue(Unit.DISCRIMINATOR_UNIT)
 public class Tbunit extends Unit {
 
     /**

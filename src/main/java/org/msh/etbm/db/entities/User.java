@@ -115,7 +115,6 @@ public class User extends Synchronizable implements Displayable {
     @Column(length = 10)
     private String language;
 
-
     /**
      * Search the user workspace by the workspace
      *

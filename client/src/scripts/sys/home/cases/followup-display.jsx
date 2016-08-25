@@ -37,7 +37,7 @@ export default class FollowupDisplay extends React.Component {
 
 		const subtitle = (<div>
 							{
-								moment(doc[followUpType.dateField]).format('ll')
+								moment(doc.date).format('ll')
 							}
 							{
 								followup.monthOfTreatment && <span>{month}</span>

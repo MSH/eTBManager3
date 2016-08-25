@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.followup.data.LaboratoryExamFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.LaboratoryExam</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>laboratoryId</a>
+            <b>laboratory</b>
+        </field>
+    </mapping>
+
+</mappings>

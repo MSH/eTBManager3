@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Tabs, Tab, Row, Col, Button, Badge } from 'react-bootstrap';
+import { Tabs, Tab, Row, Col, Button, Badge, Alert } from 'react-bootstrap';
 import { Card, ReactTable, WaitIcon, Profile } from '../../../components/index';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import { server } from '../../../commons/server';
@@ -8,7 +8,7 @@ import Form from '../../../forms/form';
 import moment from 'moment';
 
 const fschema = {
-			layout: [
+			controls: [
 				{
 					property: 'iniDate',
 					required: true,
@@ -120,6 +120,10 @@ export default class UserSessions extends React.Component {
 	}
 
 	tableRender() {
+		if (!this.state.values || !this.state.values.list || this.state.values.list.length < 1) {
+			return <Alert className="mtop" bsStyle="warning">{__('form.norecordfound')}</Alert>;
+		}
+
 		const colschema = [
 			{
 				title: __('User'),

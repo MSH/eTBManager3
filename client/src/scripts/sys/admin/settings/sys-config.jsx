@@ -12,7 +12,7 @@ export default class SysConfig extends React.Component {
 
 		this.state = {
 			schema: {
-				layout: [
+				controls: [
 					{
 						property: 'systemURL',
 						label: __('SystemConfig.systemURL'),
@@ -48,7 +48,12 @@ export default class SysConfig extends React.Component {
 						property: 'allowRegPage',
 						label: __('SystemConfig.allowRegPage'),
 						type: 'bool',
-						size: { sm: 12 }
+						size: { sm: 12 },
+						onChange: doc => {
+							if (!doc.allowRegPage) {
+								doc.workspace = null; doc.unit = null; doc.userProfile = null;
+							}
+						}
 					},
 					{
 						property: 'workspace',

@@ -63,6 +63,8 @@ export default class CrudAddButton extends React.Component {
 
 		const props = Object.assign({}, this.props, { onClick: this.openNewForm });
 
+		delete props.controller;
+
 		return ppMenu ? ppMenu : (
 			<Button {...props}>
 				{

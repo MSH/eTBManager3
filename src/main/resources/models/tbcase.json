@@ -1,0 +1,11 @@
+{
+  "name": "tbcase",
+  "table": "tbcase",
+  "fields": [
+    {
+      "name": "age",
+      "type": "int",
+      "required": { "value": true }
+    }
+  ]
+}

@@ -52,7 +52,9 @@ export default class FormDialog extends React.Component {
 			// wait for the end of the promise
 			prom
 				.then(() => this._mounted && self.setState({ fetching: false }))
-				.catch(res => this._mounted && self.setState({ errors: res, fetching: false }));
+				.catch(res => {
+					return this._mounted && self.setState({ errors: res, fetching: false });
+				});
 		}
 	}
 
@@ -82,7 +84,7 @@ export default class FormDialog extends React.Component {
 				<div className="mtop">
 					<ButtonToolbar>
 						<AsyncButton fetching={this.state.fetching} faIcon="check"
-							bsStyle="primary"
+							bsStyle="success"
 							onClick={this.confirmClick}>{this.props.confirmCaption}
 						</AsyncButton>
 						{

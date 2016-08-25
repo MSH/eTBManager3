@@ -2,8 +2,8 @@ package org.msh.etbm.commons.entities;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Displayable;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
@@ -47,7 +47,7 @@ import java.util.UUID;
 public abstract class EntityServiceImpl<E extends Synchronizable, Q extends EntityQueryParams> implements EntityService<Q> {
 
     @Autowired
-    UserRequestService userRequestService;
+    protected UserRequestService userRequestService;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -87,10 +87,12 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         dao.setEntity(entity);
 
-        // set values from request to entity object (must ignore null values)
-        mapRequest(req, dao.getEntity());
+        EntityServiceContext<E> context = createContext(null, entity, req);
 
-        validateAndSave(dao, req);
+        // set values from request to entity object (must ignore null values)
+        mapRequest(context);
+
+        validateAndSave(context, dao);
 
         // create the result of the service
         ServiceResult res = createResult(entity);
@@ -99,7 +101,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
         res.setOperation(Operation.NEW);
 
-        afterSave(dao.getEntity(), res, true);
+        afterSave(context, res);
 
         return res;
     }
@@ -123,8 +125,10 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // get initial state
         ObjectValues prevVals = createValuesToLog(dao.getEntity(), Operation.EDIT);
 
+        EntityServiceContext<E> context = createContext(id, dao.getEntity(), req);
+
         // set the values to the entity
-        mapRequest(req, dao.getEntity());
+        mapRequest(context);
 
         // create diff list
         ObjectValues newVals = createValuesToLog(dao.getEntity(), Operation.EDIT);
@@ -135,7 +139,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
             return createResult(dao.getEntity());
         }
 
-        validateAndSave(dao, req);
+        validateAndSave(context, dao);
 
         // create result object
         ServiceResult res = createResult(dao.getEntity());
@@ -143,7 +147,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setLogDiffs(diffs);
         res.setOperation(Operation.EDIT);
 
-        afterSave(dao.getEntity(), res, false);
+        afterSave(context, res);
 
         return res;
     }
@@ -160,8 +164,10 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         // create result to be sent back to the client
         ServiceResult res = createResult(dao.getEntity());
 
+        EntityServiceContext<E> context = createContext(id, dao.getEntity(), null);
+
         // prepare entity to be deleted
-        beforeDelete(dao.getEntity(), dao.getErrors());
+        beforeDelete(context, dao.getErrors());
 
         // check if there is any error
         if (dao.hasErrors()) {
@@ -176,7 +182,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         res.setOperation(Operation.DELETE);
 
-        afterDelete(dao.getEntity(), res);
+        afterDelete(context, res);
 
         return res;
     }
@@ -265,8 +271,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         return checkUnique((Class<Synchronizable>) getEntityClass(), entity, field, restriction);
     }
 
-    protected void validateAndSave(EntityDAO<E> dao, Object req) {
-        beforeValidate(dao.getEntity(), req);
+    protected void validateAndSave(EntityServiceContext<E> context, EntityDAO<E> dao) {
+        beforeValidate(context);
 
         // validate entity data
         if (!dao.validate()) {
@@ -274,7 +280,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         }
 
         // prepare entity to be saved
-        beforeSave(dao.getEntity(), dao.getErrors());
+        beforeSave(context, dao.getErrors());
 
         if (dao.hasErrors()) {
             dao.raiseValidationError();
@@ -287,64 +293,72 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
     /**
      * Method that must be override in order to make any initialization before validation
      *
-     * @param entity
-     * @param request
+     * @param context object containing information about the requested operation
      */
-    protected void beforeValidate(E entity, Object request) {
+    protected void beforeValidate(EntityServiceContext<E> context) {
         // do nothing... To be implemented in the child class
     }
 
     /**
      * Prepare entity for saving, called right after the validation
      *
-     * @param entity the instance of the entity to be saved
+     * @param context object with information about the entity being saved
      * @param errors a container to receive any validation error found during the method call
      */
-    protected void beforeSave(E entity, Errors errors) {
+    protected void beforeSave(EntityServiceContext<E> context, Errors errors) {
         // do nothing... To be implemented in the child class
     }
 
     /**
      * Called after the entity is saved
      *
-     * @param entity the saved entity
+     * @param context object containing information about the entity
      * @param res    the result to be returned to the caller
-     * @param isNew  indicate if a new entity was saved, or if it is an update
      */
-    protected void afterSave(E entity, ServiceResult res, boolean isNew) {
+    protected void afterSave(EntityServiceContext<E> context, ServiceResult res) {
         // do nothing... To be implemented in the child class
     }
 
     /**
      * Make any preparation before deleting the entity
      *
-     * @param entity the entity to be deleted
+     * @param context object containing information about the entity
      * @param errors the list of possible validation errors
      */
-    protected void beforeDelete(E entity, Errors errors) {
+    protected void beforeDelete(EntityServiceContext<E> context, Errors errors) {
         // do nothing... To be implemented in the child class
     }
 
     /**
      * Called after the entity is deleted
      *
-     * @param entity the deleted entity
+     * @param context object containing information about the entity
      * @param res    the data to be returned to the caller
      */
-    protected void afterDelete(E entity, ServiceResult res) {
+    protected void afterDelete(EntityServiceContext<E> context, ServiceResult res) {
         // do nothing... To be implemented in the child class
+    }
+
+    /**
+     * Create a new object context to be passed to interceptors during CRUD operations
+     * @param id the ID of the entity (if available)
+     * @param entity the entity
+     * @param request the request object that originated the operation
+     * @return
+     */
+    protected EntityServiceContext<E> createContext(UUID id, E entity, Object request) {
+        return new EntityServiceContext<>(id, entity, request);
     }
 
     /**
      * Copy the values of the request to the entity
      *
-     * @param request
-     * @param entity
+     * @param context The context shared among interceptors, with information about the entity
      */
-    protected void mapRequest(Object request, E entity) {
+    protected void mapRequest(EntityServiceContext<E> context) {
         EntityDAO<E> dao = createEntityDAO();
-        dao.setEntity(entity);
-        dao.mapToEntity(request);
+        dao.setEntity(context.getEntity());
+        dao.mapToEntity(context.getRequest());
     }
 
     /**

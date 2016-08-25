@@ -1,8 +1,8 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
-import org.msh.etbm.Messages;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.commons.commands.details.CommandLogDiff;
@@ -66,7 +66,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
         qry.addRestriction("a.user.id = :userId", query.getUserId());
         qry.addLikeRestriction("a.type", query.getType());
         if (adminUnit != null) {
-            qry.addRestriction("a.unit.address.adminUnit.code like :code", adminUnit.getCode() + "%");
+            qry.addRestriction("a.unit.address.adminUnit.pid" + adminUnit.getLevel() + " = :auid", adminUnit.getId());
         }
         if (query.getSearchKey() != null && !query.getSearchKey().isEmpty()) {
             qry.addRestriction("(a.data like :searchKey or a.entityName like :searchKey)", "%" + query.getSearchKey() + "%", "%" + query.getSearchKey() + "%");
@@ -81,8 +81,8 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             String unitName = c.getUnit() != null ? c.getUnit().getName() : null;
             String adminUnitName = c.getUnit() != null ? c.getUnit().getAddress().getAdminUnit().getFullDisplayName() : null;
 
-            ret.getList().add(new CmdHistoryRepData(c.getType(),
-                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getKey())),
+            ret.getList().add(new CmdHistoryRepData( messages.get(c.getType()),
+                    new Item<CommandAction>(c.getAction(), messages.get(c.getAction().getMessageKey())),
                     c.getExecDate(),
                     c.getEntityName(),
                     userName,
@@ -95,6 +95,10 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     }
 
     private CommandLogDetail processJsonData(String data) {
+        if (data == null) {
+            return null;
+        }
+
         CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
         if (c == null) {
             return null;

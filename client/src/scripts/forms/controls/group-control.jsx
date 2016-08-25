@@ -1,5 +1,4 @@
 import React from 'react';
-import formControl from './form-control';
 
 export default class GroupControl extends React.Component {
 
@@ -8,7 +7,7 @@ export default class GroupControl extends React.Component {
 	}
 
 	static children(snapshot) {
-		return snapshot.layout;
+		return snapshot.controls;
 	}
 
 	render() {

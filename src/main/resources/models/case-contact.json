@@ -1,0 +1,67 @@
+{
+  "name": "case-contact",
+  "table": "casecontact",
+  "fields": [
+    {
+      "name": "caseId",
+      "field": "case_id",
+      "type": "case",
+      "required": true,
+      "label": "${TbCase}"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "label": "${CaseContact.name}",
+      "max": 100,
+      "unique": true
+    },
+    {
+      "name": "gender",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.Gender",
+      "required": true,
+      "label": "${Gender}"
+    },
+    {
+      "name": "age",
+      "type": "string",
+      "required": true,
+      "max": 50
+    },
+    {
+      "name": "dateOfExamination",
+      "type": "date",
+      "required": true,
+      "label": "${CaseContact.dateOfExamination}"
+    },
+    {
+      "name": "contactType",
+      "type": "string",
+      "label": "${CaseContact.contactType}",
+      "options": [
+        { "id": "household", "name": "Household" },
+        { "id": "institutional", "name": "Institutional (asylum, shelter, orphanage, etc.)" },
+        { "id": "nosocomial", "name": "Nosocomial" }
+      ]
+    },
+    {
+      "name": "examined",
+      "type": "bool",
+      "required": true,
+      "label": "${CaseContact.examined}"
+    },
+    {
+      "name": "conduct",
+      "type": "string",
+      "label": "${CaseContact.conduct}",
+      "max": 50
+    },
+    {
+      "name": "comments",
+      "type": "string",
+      "label": "${CaseContact.conduct}"
+    }
+  ]
+}

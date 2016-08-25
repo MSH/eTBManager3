@@ -6,9 +6,9 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.CountryStructure;
 import org.msh.etbm.services.admin.AddressRequest;
-import org.msh.etbm.services.admin.admunits.AdminUnitData;
-import org.msh.etbm.services.admin.admunits.AdminUnitFormData;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitFormData;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
@@ -79,7 +79,7 @@ public class DataTestSupport {
                     .createQuery("from AdministrativeUnit where id = :id")
                     .setParameter("id", parentId)
                     .getSingleResult();
-            level = parent.getLevel() + 1;
+            level = parent.getLevel() + 2;
         } else {
             level = 1;
         }
@@ -97,7 +97,7 @@ public class DataTestSupport {
         }
 
         au.setName(Optional.of(name));
-        au.setCsId(Optional.of(cs.getId()));
+        au.setCountryStructure(Optional.of(cs.getId()));
         au.setParentId(parentId != null ? Optional.of(parentId) : Optional.<UUID>empty());
         ServiceResult res = adminUnitService.create(au);
 

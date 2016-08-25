@@ -1,7 +1,8 @@
 package org.msh.etbm.services.session.usersession;
 
+import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.admunits.parents.AdminUnitSeries;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ public class UserSession {
     // information about the user
     private String userName;
     private UUID userId;
+    private String userLoginName;
 
     // information about the workspace
     private UUID workspaceId;
@@ -30,7 +32,7 @@ public class UserSession {
     private String unitName;
 
     // administrative unit of the user
-    private AdminUnitSeries adminUnit;
+    private AdminUnitData adminUnit;
 
     private UserView view;
 
@@ -43,6 +45,8 @@ public class UserSession {
     private List<String> permissions;
 
     private String language;
+
+    private NameComposition patientNameComposition;
 
     /**
      * Return true if the given permission is granted to the user
@@ -151,11 +155,11 @@ public class UserSession {
         this.permissions = permissions;
     }
 
-    public AdminUnitSeries getAdminUnit() {
+    public AdminUnitData getAdminUnit() {
         return adminUnit;
     }
 
-    public void setAdminUnit(AdminUnitSeries adminUnit) {
+    public void setAdminUnit(AdminUnitData adminUnit) {
         this.adminUnit = adminUnit;
     }
 
@@ -165,5 +169,21 @@ public class UserSession {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getUserLoginName() {
+        return userLoginName;
+    }
+
+    public void setUserLoginName(String userLoginName) {
+        this.userLoginName = userLoginName;
+    }
+
+    public NameComposition getPatientNameComposition() {
+        return patientNameComposition;
+    }
+
+    public void setPatientNameComposition(NameComposition patientNameComposition) {
+        this.patientNameComposition = patientNameComposition;
     }
 }

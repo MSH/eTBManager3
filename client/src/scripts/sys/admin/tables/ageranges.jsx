@@ -7,7 +7,7 @@ const crud = new CRUD('agerange');
 
 // definition of the form fields to edit substances
 const editorDef = {
-	layout: [
+	controls: [
 		{
 			property: 'iniAge',
 			required: true,

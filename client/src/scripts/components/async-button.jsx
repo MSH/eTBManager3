@@ -23,10 +23,13 @@ export default class AsyncButton extends React.Component {
             this.props,
             {
                 disabled: fetching || this.props.disabled,
-                bsStyle: props.bsStyle ? props.bsStyle : 'primary'
+                bsStyle: props.bsStyle ? props.bsStyle : 'success'
             });
 
         delete btnProps.fetching;
+        delete btnProps.faIcon;
+        delete btnProps.fetchMsg;
+        delete btnProps.fetchCaption;
 
         if (fetching) {
             btnProps.onClick = null;
@@ -36,7 +39,7 @@ export default class AsyncButton extends React.Component {
 
         return (
             <Button {...btnProps}>
-                {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw"></i>}
+                {fetching && <i className="fa fa-circle-o-notch fa-spin fa-fw" />}
                 {!fetching && faIcon ? <i className={'fa fa-fw fa-' + faIcon}/> : null}
                 {fetching && fetchMsg ? fetchMsg : this.props.children}
             </Button>

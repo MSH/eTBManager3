@@ -1,170 +1,185 @@
 import React from 'react';
-import { Alert, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Card, Profile, Fa } from '../../../components';
+import { Alert, Button, Row, Col } from 'react-bootstrap';
+import { Card, Fa, FormDialog } from '../../../components';
+import Issues from './issues';
+import { app } from '../../../core/app';
+import CRUD from '../../../commons/crud';
 
-const mockIssues = [
-	{
-		id: '12345-1',
-		text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-		user: {
-			id: '12345-22',
-			name: 'Dave Murray'
+const crud = new CRUD('issue');
+
+// definition of the form fields to edit tags
+const editorDef = {
+	controls: [
+		{
+			property: 'title',
+			required: true,
+			type: 'string',
+			max: 200,
+			label: __('Issue.title'),
+			size: { md: 12 }
 		},
-		status: { id: 'CLOSED', name: 'Closed' },
-		date: new Date(2015, 1, 1, 5, 20, 5),
-		answers: [
-			{
-				id: '54333-1',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				date: new Date(2015, 1, 1, 5, 20, 5)
-			},
-			{
-				id: '54333-2',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				date: new Date(2015, 1, 1, 5, 20, 5)
-			},
-			{
-				id: '54333-3',
-				text: 'is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into',
-				user: {
-					id: '12345-22',
-					name: 'Dave Murray'
-				},
-				date: new Date(2015, 1, 1, 5, 20, 5)
-			}
-		]
-	},
-	{
-		id: '12345-2',
-		text: 'patient didn\'t receive any attention from the primary health care service and now he is complaining about the treatment.\n' +
-		'Please ask recommendation about what to do.\n\nRegards\nTreatment health care',
-		user: {
-			id: '12345-22',
-			name: 'Nicko McBrain'
-		},
-		date: new Date(2015, 2, 3, 12, 35, 55)
-	}
-];
+		{
+			property: 'description',
+			type: 'text',
+			required: true,
+			label: __('global.description'),
+			size: { md: 12 }
+		}
+	],
+	title: __('cases.issues.new')
+};
 
 export default class CaseIssues extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.addIssue = this.addIssue.bind(this);
+		this.modalOpen = this.modalOpen.bind(this);
+		this.modalClose = this.modalClose.bind(this);
 
-	editClick(issue) {
-		return null;
+		this.onIssueEvent = this.onIssueEvent.bind(this);
+		this.removeIssue = this.removeIssue.bind(this);
+		this.editIssue = this.editIssue.bind(this);
+		this.closeIssue = this.closeIssue.bind(this);
+		this.reopenIssue = this.reopenIssue.bind(this);
+
+		this.state = { newIssue: {}, showModal: false };
 	}
 
-	removeClick(issue) {
-		return null;
-	}
+	addIssue() {
+		const newIssue = this.state.newIssue;
 
-	/**
-	 * Render the issues to be displayed
-	 * @param  {[type]} issues [description]
-	 * @return {[type]}        [description]
-	 */
-	contentRender(issues) {
-		if (!issues || issues.length === 0) {
-			return <Alert bsStyle="warning">{'No issue found'}</Alert>;
+		if (!this.props.tbcase.issues) {
+			this.props.tbcase.issues = [];
 		}
 
-		const self = this;
+		// add the new comment on UI
+		newIssue.tbcaseId = this.props.tbcase.id;
+		newIssue.id = 'fakeid-' + this.props.tbcase.issues.length;
+		newIssue.user = {
+							id: app.getState().session.userId,
+							name: app.getState().session.userName
+						};
+		newIssue.unit = {
+							id: app.getState().session.unitId,
+							name: app.getState().session.unitName
+						};
+		newIssue.creationDate = new Date();
+		newIssue.closed = false;
 
-		return (
-			<div>
-			{
-				issues.map((issue, index) => (
-					<div key={issue.id}>
-					<div className="media">
-						<div className="media-left">
-							<Profile type="user" size="small"/>
-						</div>
-						<div className="media-body">
-							<div className="pull-right">
-								<a className="lnk-muted" onClick={this.editClick(issue)}><Fa icon="pencil"/>{__('action.edit')}</a>
-								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-									<a className="lnk-muted" onClick={this.removeClick(issue)}><Fa icon="trash-o"/></a>
-								</OverlayTrigger>
-							</div>
-							<span className="status-box bg-primary">
-								{'Open'}
-							</span>
-							<div className="text-muted"><b>{issue.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
-							{issue.text.split('\n').map((item, i) =>
-								<span key={i}>
-									{item}
-									<br/>
-								</span>
-								)
-							}
-							{
-								self.answersRender(issue.answers)
-							}
-						</div>
-					</div>
-					{
-						(index !== issues.length - 1) && <hr/>
-					}
-					</div>
-					))
-			}
-			</div>
-			);
+		this.props.tbcase.issues.push(newIssue);
+		this.forceUpdate();
+
+		// create the new issue on database
+		const prom = crud.create(newIssue)
+						.then(id => {
+							// updates new comment id, so edit and delete should work.
+							newIssue.id = id;
+							this.forceUpdate();
+
+						})
+						.catch(() => {
+							newIssue.id = 'error-' + this.props.tbcase.issues.length;
+							this.forceUpdate();
+							this.modalClose();
+						});
+
+		this.modalClose();
+
+		return prom;
 	}
 
-	answersRender(answers) {
-		if (!answers || answers.length === 0) {
-			return null;
+	onIssueEvent(evt, issue, doc) {
+		switch (evt) {
+			case 'remove': return this.removeIssue(issue);
+			case 'edit': return this.editIssue(issue, doc);
+			case 'close': return this.closeIssue(issue);
+			case 'reopen': return this.reopenIssue(issue);
+			default: throw new Error('Invalid ' + evt);
 		}
+	}
 
-		return answers.map(it => (
-			<div className="media" key={it.id}>
-				<div className="media-left">
-					<Profile type="user" size="small"/>
-				</div>
-				<div className="media-body">
-					<div className="pull-right">
-						<a className="lnk-muted" onClick={this.editClick(it)}><Fa icon="pencil"/>{__('action.edit')}</a>
-						<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-							<a className="lnk-muted" onClick={this.removeClick(it)}><Fa icon="remove"/></a>
-						</OverlayTrigger>
-					</div>
-					<div className="text-muted"><b>{it.user.name}</b>{' wrote in '}<b>{'dec 20th, 2015'}</b></div>
-					{it.text.split('\n').map((item, index) =>
-						<span key={index}>
-							{item}
-							<br/>
-						</span>
-						)
-					}
-				</div>
-			</div>
-			));
+	removeIssue(issue) {
+		// removes the comment from UI
+		const lst = this.props.tbcase.issues;
+		const index = lst.indexOf(issue);
+		this.props.tbcase.issues.splice(index, 1);
+		this.forceUpdate();
+
+		// delete the new comment on database
+		crud.delete(issue.id);
+	}
+
+	editIssue(issue, doc) {
+		// refresh the comment on UI
+		issue.title = doc.title;
+		issue.description = doc.description;
+		this.forceUpdate();
+
+		crud.update(issue.id, doc);
+	}
+
+	closeIssue(issue) {
+		// refresh the comment on UI
+		issue.closed = true;
+		this.forceUpdate();
+
+		crud.update(issue.id, issue);
+	}
+
+	reopenIssue(issue) {
+		// refresh the comment on UI
+		issue.closed = false;
+		this.forceUpdate();
+
+		crud.update(issue.id, issue);
+	}
+
+	modalOpen() {
+		this.setState({ showModal: true });
+	}
+
+	modalClose() {
+		this.setState({ newIssue: {}, showModal: false });
 	}
 
 	render() {
-		const issues = mockIssues;
+		const issues = this.props.tbcase.issues;
 
-		const header = (
-			<div>
-				<Button className="pull-right">{'Add issue'}</Button>
-				<h4>{'Issues'}</h4>
-			</div>
-			);
+		// choose a message to dsplay at the top
+		const openIssues = issues ? issues.find(issue => !issue.closed) : null;
+		const header = openIssues ?
+							<Alert bsStyle="warning" className="no-margin-bottom"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</Alert> :
+							<div><Fa icon="check" />{__('Issue.noopenissuesmg')}</div>;
 
 		return (
-			<Card header={header}>
-			{
-				this.contentRender(issues)
-			}
-			</Card>
+			<div>
+				<Card>
+					<Row>
+						<Col md={10}>
+							{header}
+						</Col>
+						<Col md={2}>
+							<Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
+						</Col>
+					</Row>
+				</Card>
+
+				{
+					!issues && <Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
+				}
+
+				<Issues issues={issues} onIssueEvent={this.onIssueEvent} />
+
+				<FormDialog
+					schema={editorDef}
+					doc={this.state.newIssue}
+					onCancel={this.modalClose}
+					onConfirm={this.addIssue}
+					wrapType={'modal'}
+					modalShow={this.state.showModal} />
+
+			</div>
 			);
 	}
 }

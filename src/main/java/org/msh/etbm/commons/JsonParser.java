@@ -2,10 +2,12 @@ package org.msh.etbm.commons;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -34,15 +36,24 @@ public class JsonParser {
      */
     public static <T> T parseResource(String resource, Class<T> type) {
         ClassPathResource res = new ClassPathResource(resource);
+
         try {
             InputStream in = res.getInputStream();
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(in, type);
+            return parse(in, type);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
 
+    public static <T> T parse(InputStream in, Class<T> type) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(in, type);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -70,8 +81,13 @@ public class JsonParser {
      * @param obj object to serialize
      * @return JSON in string format
      */
-    public static String objectToJSONString(Object obj) {
+    public static String objectToJSONString(Object obj, boolean pretty) {
         ObjectMapper mapper = new ObjectMapper();
+
+        if (pretty) {
+            mapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        }
+
         try {
             return mapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {

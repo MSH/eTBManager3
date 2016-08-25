@@ -50,7 +50,6 @@ gulp.task('build', function() {
 gulp.task('run', function() {
     return runSequence(
         'clean',
-       /* 'client-jshint', */
         ['client-msgs', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',
@@ -145,8 +144,8 @@ gulp.task('open', function() {
         uri: 'http://localhost:' + config.proxy.port
     };
 
-//    return gulp.src(__filename)
-//        .pipe(open(options));
+    // return gulp.src(__filename)
+    //     .pipe(open(options));
 });
 
 

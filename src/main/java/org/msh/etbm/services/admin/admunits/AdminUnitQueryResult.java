@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.admunits;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitItemData;
 
 import java.util.List;
 

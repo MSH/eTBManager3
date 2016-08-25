@@ -9,4 +9,8 @@ public class FormException extends RuntimeException {
     public FormException(String message) {
         super(message);
     }
+
+    public FormException(Throwable cause) {
+        super(cause);
+    }
 }

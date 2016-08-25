@@ -51,7 +51,7 @@ export default class UserSettings extends React.Component {
 		}
 
 		const schema = {
-			layout: [
+			controls: [
 				{
 					property: 'name',
 					label: __('User.name'),

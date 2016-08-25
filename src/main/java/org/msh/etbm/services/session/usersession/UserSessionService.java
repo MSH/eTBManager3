@@ -155,8 +155,6 @@ public class UserSessionService {
 
         UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
 
-        resp.setWorkspaces(getUserWorkspaces());
-
         return resp;
     }
 

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import PageContent from './page-content';
+import PageContent from '../page-content';
 
 import AdmUnits from './tables/admunits';
 import Sources from './tables/sources';
@@ -101,7 +101,7 @@ export default class Tables extends React.Component {
 		return (
 			<PageContent route={this.props.route}
 				menu={menu}
-				title={__('admin.tables')}
+				title={__('admin') + ' - ' + __('admin.tables')}
 				path="/sys/admin/tables" />
 			);
 	}

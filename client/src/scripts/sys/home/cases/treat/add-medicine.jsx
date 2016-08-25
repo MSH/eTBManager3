@@ -1,6 +1,9 @@
 import React from 'react';
 import { FormDialog } from '../../../../components';
 
+/**
+ * Display modal dialog to add a new medicine to the treatment regimen
+ */
 export default class AddMedicine extends React.Component {
 
 	constructor(props) {
@@ -8,7 +11,7 @@ export default class AddMedicine extends React.Component {
 		this.state = {
 			schema: {
 				title: __('Regimen.add'),
-				layout: [
+				controls: [
 					{
 						property: 'medicine',
 						type: 'select',
@@ -71,7 +74,6 @@ export default class AddMedicine extends React.Component {
 	 * @return {[type]}     [description]
 	 */
 	confirm(doc) {
-		console.log(doc);
 		this.props.onClose(doc);
 	}
 
@@ -80,7 +82,6 @@ export default class AddMedicine extends React.Component {
 	}
 
 	render() {
-		console.log('rendering...');
 		const doc = this.props.doc;
 		if (!doc) {
 			return null;

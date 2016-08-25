@@ -61,7 +61,7 @@ export default class Unit extends React.Component {
 		return (
 			<FrontPage
 				title={unit.name}
-				subtitle={SessionUtils.adminUnitDisplay(unit.address.adminUnit, true)}
+				subtitle={SessionUtils.adminUnitLink(unit.address.adminUnit, true, true)}
 				type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
 				views={views}
 				route={this.props.route}

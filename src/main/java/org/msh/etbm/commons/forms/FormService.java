@@ -1,71 +1,102 @@
 package org.msh.etbm.commons.forms;
 
-import org.springframework.stereotype.Component;
+import org.msh.etbm.commons.forms.controls.ValuedControl;
+import org.msh.etbm.commons.forms.data.Form;
+import org.msh.etbm.commons.forms.impl.FormManager;
+import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
+import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
- * Services to handle form operations. Initialize field contents that need resources
- * from the server side, for example, list of units needed in a drop down
- * Created by rmemoria on 17/1/16.
+ * Form services used for initialization and submission of data
+ *
+ * Created by rmemoria on 27/7/16.
  */
-@Component
+@Service
 public class FormService {
 
-    private Map<String, FormRequestHandler> handlers = new HashMap<>();
+    @Autowired
+    FormManager formManager;
+
+    @Autowired
+    UserRequestService userRequestService;
+
+    @Autowired
+    JavaScriptFormGenerator javaScriptFormGenerator;
+
+    @Autowired
+    FormRequestService formRequestService;
 
 
     /**
-     * Register a new form request handler. The request handler will be called to generate response
-     * of form requests based on the command issued
-     *
-     * @param handler the request handler to be registered
+     * Generate an initialization response to be sent to the client containing the form schema,
+     * the document to be applied to the form and the resources for the form controls
+     * @param formId the unique form ID
+     * @param doc the document
+     * @return
      */
-    public void registerRequestHandler(FormRequestHandler handler) {
-        String cmdName = handler.getFormCommandName();
-        if (handlers.containsKey(cmdName)) {
-            throw new FormException("There is already a form request handler to the name " + cmdName);
+    public FormInitResponse init(String formId, Object doc, boolean readOnly) {
+        Map<String, Object> propValues = doc instanceof Map ? (Map<String, Object>)doc : ObjectUtils.describeProperties(doc);
+
+        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+
+        Form form = formManager.get(formId);
+
+        FormInitResponse resp = new FormInitResponse();
+
+        String code = javaScriptFormGenerator.generate(form, null);
+
+        resp.setSchema(code);
+        resp.setDoc(propValues);
+
+        if (!readOnly) {
+            Map<String, Object> resources = generateResources(form, propValues);
+            resp.setResources(resources);
         }
 
-        // more than one name can be registered to the same handle using ; or , as separators
-        String delimiters = ",\\s*|\\;\\s*";
-        String[] names = cmdName.split(delimiters);
-
-        // register each name
-        for (String name : names) {
-            handlers.put(name, handler);
-        }
+        return resp;
     }
 
+    /**
+     * Generate the control resources to be sent to the client. The resources will be serialized to JSON
+     * and sent back to the client
+     *
+     * @param form the form containing the resources
+     * @param doc the document with the control values
+     * @return the map containing control ID and its resource
+     */
+    protected Map<String, Object> generateResources(Form form, Map<String, Object> doc) {
+        List<FormRequest> reqs = generateFormRequests(form, doc);
+        return formRequestService.processFormRequests(reqs);
+    }
 
     /**
-     * Process form requests, invoking the specific handler for each request
-     *
-     * @param reqs list of requests of a form
-     * @return form response, in a map format
+     * Generate the control requests to be processed in order to create the client control resources
+     * @param form
+     * @param doc
+     * @return
      */
-    public Map<String, Object> processFormRequests(List<FormRequest> reqs) {
-        if (reqs == null) {
-            return null;
-        }
+    protected List<FormRequest> generateFormRequests(Form form, Map<String, Object> doc) {
+        List<FormRequest> reqs = new ArrayList<>();
 
-        Map<String, Object> resps = new HashMap<>();
+        List<ValuedControl> controls = form.collectAllValuedControls();
+        for (ValuedControl ctrl: controls) {
 
-        for (FormRequest req : reqs) {
-            // get the handler for the given command
-            FormRequestHandler handler = handlers.get(req.getCmd());
-
-            // handler was found ?
-            if (handler == null) {
-                throw new FormException("No form handler found for command request: " + req.getCmd());
+            FormRequest req = ctrl.generateFormRequest(doc);
+            if (req == null) {
+                continue;
             }
 
-            Object res = handler.execFormRequest(req);
-            resps.put(req.getId(), res);
+            reqs.add(req);
         }
 
-        return resps;
+        return reqs;
     }
 }
