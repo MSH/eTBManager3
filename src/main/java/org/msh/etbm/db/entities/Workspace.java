@@ -20,39 +20,9 @@ public class Workspace extends Synchronizable implements Displayable {
     @Size(min = 2, max = 50)
     private String name;
 
-    /**
-     * Extension is used as a suffix when creating custom tables. Once set, this value cannot be changed
-     */
-    @Column(length = 20)
-    private String extension;
-
     @OneToMany(mappedBy = "workspace", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PropertyLog(ignore = true)
     private List<UserWorkspace> users = new ArrayList<>();
-
-    /**
-     * frequency of doses in a weekly basis
-     */
-    @PropertyLog(ignore = true)
-    private Integer weekFreq1;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq2;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq3;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq4;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq5;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq6;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq7;
 
     @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
@@ -359,62 +329,6 @@ public class Workspace extends Synchronizable implements Displayable {
         this.treatMonitoringInput = treatMonitoringInput;
     }
 
-    public Integer getWeekFreq1() {
-        return weekFreq1;
-    }
-
-    public void setWeekFreq1(Integer weekFreq1) {
-        this.weekFreq1 = weekFreq1;
-    }
-
-    public Integer getWeekFreq2() {
-        return weekFreq2;
-    }
-
-    public void setWeekFreq2(Integer weekFreq2) {
-        this.weekFreq2 = weekFreq2;
-    }
-
-    public Integer getWeekFreq3() {
-        return weekFreq3;
-    }
-
-    public void setWeekFreq3(Integer weekFreq3) {
-        this.weekFreq3 = weekFreq3;
-    }
-
-    public Integer getWeekFreq4() {
-        return weekFreq4;
-    }
-
-    public void setWeekFreq4(Integer weekFreq4) {
-        this.weekFreq4 = weekFreq4;
-    }
-
-    public Integer getWeekFreq5() {
-        return weekFreq5;
-    }
-
-    public void setWeekFreq5(Integer weekFreq5) {
-        this.weekFreq5 = weekFreq5;
-    }
-
-    public Integer getWeekFreq6() {
-        return weekFreq6;
-    }
-
-    public void setWeekFreq6(Integer weekFreq6) {
-        this.weekFreq6 = weekFreq6;
-    }
-
-    public Integer getWeekFreq7() {
-        return weekFreq7;
-    }
-
-    public void setWeekFreq7(Integer weekFreq7) {
-        this.weekFreq7 = weekFreq7;
-    }
-
     @Override
     public String getDisplayString() {
         return name;
@@ -426,13 +340,5 @@ public class Workspace extends Synchronizable implements Displayable {
 
     public void setCustomId(String customId) {
         this.customId = customId;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
     }
 }

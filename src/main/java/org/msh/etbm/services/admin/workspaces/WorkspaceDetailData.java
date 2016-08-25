@@ -12,14 +12,6 @@ import org.msh.etbm.db.enums.TreatMonitoringInput;
  */
 public class WorkspaceDetailData extends WorkspaceData {
 
-    private Integer weekFreq1;
-    private Integer weekFreq2;
-    private Integer weekFreq3;
-    private Integer weekFreq4;
-    private Integer weekFreq5;
-    private Integer weekFreq6;
-    private Integer weekFreq7;
-
     /**
      * Setup the patient name composition to be used in data entry forms and displaying
      */
@@ -83,63 +75,6 @@ public class WorkspaceDetailData extends WorkspaceData {
      * received medicine
      */
     private TreatMonitoringInput treatMonitoringInput;
-
-
-    public Integer getWeekFreq1() {
-        return weekFreq1;
-    }
-
-    public void setWeekFreq1(Integer weekFreq1) {
-        this.weekFreq1 = weekFreq1;
-    }
-
-    public Integer getWeekFreq2() {
-        return weekFreq2;
-    }
-
-    public void setWeekFreq2(Integer weekFreq2) {
-        this.weekFreq2 = weekFreq2;
-    }
-
-    public Integer getWeekFreq3() {
-        return weekFreq3;
-    }
-
-    public void setWeekFreq3(Integer weekFreq3) {
-        this.weekFreq3 = weekFreq3;
-    }
-
-    public Integer getWeekFreq4() {
-        return weekFreq4;
-    }
-
-    public void setWeekFreq4(Integer weekFreq4) {
-        this.weekFreq4 = weekFreq4;
-    }
-
-    public Integer getWeekFreq5() {
-        return weekFreq5;
-    }
-
-    public void setWeekFreq5(Integer weekFreq5) {
-        this.weekFreq5 = weekFreq5;
-    }
-
-    public Integer getWeekFreq6() {
-        return weekFreq6;
-    }
-
-    public void setWeekFreq6(Integer weekFreq6) {
-        this.weekFreq6 = weekFreq6;
-    }
-
-    public Integer getWeekFreq7() {
-        return weekFreq7;
-    }
-
-    public void setWeekFreq7(Integer weekFreq7) {
-        this.weekFreq7 = weekFreq7;
-    }
 
     public NameComposition getPatientNameComposition() {
         return patientNameComposition;

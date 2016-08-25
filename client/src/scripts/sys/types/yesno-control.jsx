@@ -2,6 +2,7 @@
 import React from 'react';
 import FormUtils from '../../forms/form-utils';
 import { Fa, SelectionBox } from '../../components/index';
+import { isEmpty } from '../../commons/utils';
 
 
 /**
@@ -23,12 +24,20 @@ export default class YesNoControl extends React.Component {
 	}
 
 	readOnlyRender(schema) {
+		let valueDisplay;
+
+		if (isEmpty(this.props.value)) {
+			valueDisplay = <span>{'-'}</span>;
+		} else {
+			valueDisplay = this.props.value === true ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />;
+		}
+
 		const labelelem = schema.label ? <label className="control-label">{FormUtils.labelRender(schema.label)}</label> : null;
 		return (
 			<div className="form-group">
 				{labelelem}
 				<div className="form-control-static autoscroll">
-					{this.props.value === true ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />}
+					{valueDisplay}
 				</div>
 			</div>
 			);

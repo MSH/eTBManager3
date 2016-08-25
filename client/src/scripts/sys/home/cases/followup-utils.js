@@ -21,10 +21,9 @@ const displaySchemas = {
 			size: { sm: 4 }
 		},
 		{
-			type: 'select',
-			label: __('MedicalExamination.usingPrescMedicines'),
 			property: 'usingPrescMedicines',
-			options: app.getState().app.lists.YesNoType,
+			type: 'yesNo',
+			label: __('MedicalExamination.usingPrescMedicines'),
 			size: { sm: 4 }
 		},
 		{
@@ -455,12 +454,11 @@ const editSchemas = {
 			size: { sm: 12 }
 		},
 		{
-			type: 'select',
-			label: __('MedicalExamination.usingPrescMedicines'),
 			property: 'usingPrescMedicines',
-			options: app.getState().app.lists.YesNoType,
-			required: true,
-			size: { sm: 12 }
+			type: 'yesNo',
+			label: __('MedicalExamination.usingPrescMedicines'),
+			size: { sm: 12 },
+			required: true
 		},
 		{
 			type: 'group',
