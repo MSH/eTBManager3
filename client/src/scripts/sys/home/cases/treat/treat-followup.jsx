@@ -3,6 +3,7 @@ import { Card, Fa } from '../../../../components';
 import { format } from '../../../../commons/utils';
 import FollowupCalendar from './followup-calendar';
 import CalendEditor from './calend-editor';
+import { server } from '../../../../commons/server';
 
 import './treat-followup.less';
 
@@ -37,18 +38,41 @@ export default class TreatFollowup extends React.Component {
 
 	closeEditor(data) {
 		if (data) {
-			this.saveData(data);
-			const lst = this.props.treatment.followup;
-			const index = lst.indexOf(this.state.editor);
-			lst[index] = data;
+			const self = this;
+
+			return this.saveData(data)
+			.then(() => {
+				const lst = self.props.treatment.followup;
+				const index = lst.indexOf(self.state.editor);
+				lst[index] = data;
+				self.setState({ editor: null });
+			});
 		}
 
 		this.setState({ editor: null });
+		return null;
 	}
 
+	/**
+	 * Post follow-up data to the server in order to update the treatment followup
+	 * of a given year/month
+	 */
 	saveData(data) {
-		console.log('save = ', data);
-		// THIS FUNCTION MUST POST THE DATA TO THE SERVER
+		const req = {
+			caseId: this.props.tbcase.id,
+			year: data.year,
+			month: data.month,
+			days: data.days
+		};
+
+		return server.post('/api/cases/case/treatment/followup', req)
+		.then(res => {
+			if (res.success) {
+				return;
+			}
+
+			throw new Error(res.error);
+		});
 	}
 
 	renderLegend() {
@@ -125,5 +149,6 @@ export default class TreatFollowup extends React.Component {
 }
 
 TreatFollowup.propTypes = {
-	treatment: React.PropTypes.object
+	treatment: React.PropTypes.object.isRequired,
+	tbcase: React.PropTypes.object.isRequired
 };

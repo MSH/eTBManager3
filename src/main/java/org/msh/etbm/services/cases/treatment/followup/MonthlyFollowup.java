@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.treatment.data;
+package org.msh.etbm.services.cases.treatment.followup;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

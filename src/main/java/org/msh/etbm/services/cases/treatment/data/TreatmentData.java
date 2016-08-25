@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.treatment.data;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.date.Period;
+import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
 
 import java.util.List;
 

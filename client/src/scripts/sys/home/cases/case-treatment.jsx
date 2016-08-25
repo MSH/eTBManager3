@@ -116,12 +116,12 @@ export default class CaseTreatment extends React.Component {
 					<TreatTimeline treatment={data} />
 				</Card>
 
-				<TreatFollowup treatment={data} />
+				<TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 			</div>
 			);
 	}
 }
 
 CaseTreatment.propTypes = {
-	tbcase: React.PropTypes.object
+	tbcase: React.PropTypes.object.isRequired
 };
