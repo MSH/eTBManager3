@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.followup.medexam;
 
 import org.msh.etbm.db.enums.MedAppointmentType;
-import org.msh.etbm.db.enums.YesNoType;
 import org.msh.etbm.services.cases.CaseEventFormData;
 
 import java.util.Optional;
@@ -15,7 +14,7 @@ public class MedExamFormData extends CaseEventFormData {
     private Optional<Double> weight;
     private Optional<Double> height;
     private Optional<MedAppointmentType> appointmentType;
-    private Optional<YesNoType> usingPrescMedicines;
+    private Optional<Boolean> usingPrescMedicines;
     private Optional<String> reasonNotUsingPrescMedicines;
     private Optional<String> responsible;
     private Optional<String> positionResponsible;
@@ -45,11 +44,11 @@ public class MedExamFormData extends CaseEventFormData {
         this.appointmentType = appointmentType;
     }
 
-    public Optional<YesNoType> getUsingPrescMedicines() {
+    public Optional<Boolean> getUsingPrescMedicines() {
         return usingPrescMedicines;
     }
 
-    public void setUsingPrescMedicines(Optional<YesNoType> usingPrescMedicines) {
+    public void setUsingPrescMedicines(Optional<Boolean> usingPrescMedicines) {
         this.usingPrescMedicines = usingPrescMedicines;
     }
 

@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.enums.MedAppointmentType;
-import org.msh.etbm.db.enums.YesNoType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ public class MedicalExamination extends CaseEvent {
 
     private MedAppointmentType appointmentType;
 
-    private YesNoType usingPrescMedicines;
+    private Boolean usingPrescMedicines;
 
     @Column(length = 200)
     private String reasonNotUsingPrescMedicines;
@@ -69,11 +68,11 @@ public class MedicalExamination extends CaseEvent {
         this.height = height;
     }
 
-    public YesNoType getUsingPrescMedicines() {
+    public Boolean getUsingPrescMedicines() {
         return usingPrescMedicines;
     }
 
-    public void setUsingPrescMedicines(YesNoType usingPrescMedicines) {
+    public void setUsingPrescMedicines(Boolean usingPrescMedicines) {
         this.usingPrescMedicines = usingPrescMedicines;
     }
 

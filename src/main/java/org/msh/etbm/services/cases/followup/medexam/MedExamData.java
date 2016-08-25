@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.followup.medexam;
 
 import org.msh.etbm.db.enums.MedAppointmentType;
-import org.msh.etbm.db.enums.YesNoType;
 import org.msh.etbm.services.cases.CaseEventData;
 
 /**
@@ -12,7 +11,7 @@ public class MedExamData extends CaseEventData {
     private Double weight;
     private Double height;
     private MedAppointmentType appointmentType;
-    private YesNoType usingPrescMedicines;
+    private Boolean usingPrescMedicines;
     private String reasonNotUsingPrescMedicines;
     private String responsible;
     private String positionResponsible;
@@ -41,11 +40,11 @@ public class MedExamData extends CaseEventData {
         this.appointmentType = appointmentType;
     }
 
-    public YesNoType getUsingPrescMedicines() {
+    public Boolean getUsingPrescMedicines() {
         return usingPrescMedicines;
     }
 
-    public void setUsingPrescMedicines(YesNoType usingPrescMedicines) {
+    public void setUsingPrescMedicines(Boolean usingPrescMedicines) {
         this.usingPrescMedicines = usingPrescMedicines;
     }
 

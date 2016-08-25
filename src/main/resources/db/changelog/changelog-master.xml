@@ -485,7 +485,7 @@
             <column name="reasonNotUsingPrescMedicines" type="VARCHAR(200)"/>
             <column name="responsible" type="VARCHAR(100)"/>
             <column name="positionResponsible" type="VARCHAR(100)"/>
-            <column name="usingPrescMedicines" type="INT"/>
+            <column name="usingPrescMedicines" type="${type.boolean}"/>
             <column name="weight" type="${type.float}"/>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>

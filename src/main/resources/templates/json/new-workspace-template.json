@@ -1,13 +1,6 @@
 {
   "workspace": {
     "name": "Workspace name",
-    "weekFreq1": 2,
-    "weekFreq2": 18,
-    "weekFreq3": 30,
-    "weekFreq4": 42,
-    "weekFreq5": 62,
-    "weekFreq6": 126,
-    "weekFreq7": 127,
     "patientNameComposition": "SURNAME_FIRSTNAME",
     "caseValidationTB": "ENABLED",
     "caseValidationDRTB": "ENABLED",
