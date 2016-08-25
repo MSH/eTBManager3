@@ -14,6 +14,7 @@ class PermissionTree extends React.Component {
 		super(props);
 		this.nodeRender = this.nodeRender.bind(this);
 		this.checkboxClick = this.checkboxClick.bind(this);
+		this.getNodes = this.getNodes.bind(this);
 		this.nodeInfo = this.nodeInfo.bind(this);
 	}
 
@@ -35,7 +36,25 @@ class PermissionTree extends React.Component {
 	 * @return {Array}       Array of object representing the children, or null if there is no children
 	 */
 	getNodes(item) {
-		return item.children;
+		return this.adjustNodes(item.children);
+	}
+
+	/**
+	 * Adjust nodes to include a property that indicates
+	 * @param  {[type]} lst [description]
+	 * @return {[type]}     [description]
+	 */
+	adjustNodes(lst) {
+		if (!lst) {
+			return null;
+		}
+
+		const vals = this.props.value ? this.props.value : [];
+		// includes an extra property that indicates the state of the node (user value)
+		lst.forEach(p => {
+			p.value = vals.find(item => item.permission === p.id);
+		});
+		return lst;
 	}
 
 	nodeInfo(item) {
@@ -132,6 +151,35 @@ class PermissionTree extends React.Component {
 		resources.forEach(it => traverse(it));
 	}
 
+	/**
+	 * Remove selected children of the given node (called when unchecked)
+	 * @param  {[type]} item [description]
+	 * @param  {[type]} lst  [description]
+	 * @return {[type]}      [description]
+	 */
+	removeChildren(item, lst) {
+		const index = lst.indexOf(item.value);
+		if (index === -1) {
+			return;
+		}
+
+		delete item.value;
+		lst.splice(index, 1);
+
+		if (item.children) {
+			item.children.forEach(c => {
+				if (c.value) {
+					this.removeChildren(c, lst);
+				}
+			});
+		}
+	}
+
+	/**
+	 * Render the node content
+	 * @param  {[type]} item [description]
+	 * @return {[type]}      [description]
+	 */
 	nodeRender(item) {
 		const noBorder = { margin: '4px 0 0 0' };
 		return (

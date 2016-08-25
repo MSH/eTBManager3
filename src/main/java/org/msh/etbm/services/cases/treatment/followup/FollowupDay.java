@@ -1,6 +1,7 @@
-package org.msh.etbm.services.cases.treatment.data;
+package org.msh.etbm.services.cases.treatment.followup;
 
 import org.msh.etbm.db.enums.TreatmentDayStatus;
+import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
 
 /**
  * Store the status of the treatment monitoring for an specific day of the treatment. This class

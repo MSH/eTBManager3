@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
-import { Popup, Fa } from '../../../../components';
+import { AsyncButton, Popup, Fa } from '../../../../components';
 import FollowupCalendar from './followup-calendar';
 
 
@@ -58,7 +58,14 @@ export default class CalendEditor extends React.Component {
 
 	_close(data) {
 		if (this.props.onClose) {
-			this.props.onClose(data);
+			const p = this.props.onClose(data);
+
+			if (p && p.then) {
+				this.setState({ saving: true });
+
+				const self = this;
+				p.catch(() => self.setState({ saving: false }));
+			}
 		}
 	}
 
@@ -139,11 +146,12 @@ export default class CalendEditor extends React.Component {
 							onDayClick={this._handleDayClick}
 							/>
 						<ButtonToolbar style={{ margin: '4px' }}>
-							<Button bsStyle="success"
+							<AsyncButton bsStyle="success"
 								bsSize="small"
+								fetching={this.state.saving}
 								onClick={this.saveClick}>
 								{__('action.save')}
-							</Button>
+							</AsyncButton>
 							<Button bsStyle="link"
 								bsSize="small"
 								onClick={this.cancelClick}>

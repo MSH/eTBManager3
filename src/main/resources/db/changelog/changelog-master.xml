@@ -1454,110 +1454,48 @@
     <changeSet author="rmemoria" id="1433264274749-69">
         <createTable tableName="treatmentmonitoring">
             <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="case_id" type="${type.id}">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="month_treat" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="year_treat" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="day1" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day2" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day3" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day4" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day5" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day6" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day7" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day8" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day9" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day10" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day11" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day12" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day13" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day14" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day15" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day16" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day17" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day18" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day19" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day20" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day21" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day22" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day23" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day24" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day25" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day26" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day27" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day28" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day29" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day30" type="INT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="day31" type="INT">
-                <constraints nullable="false"/>
-            </column>
+            <column name="day1" type="INT"/>
+            <column name="day2" type="INT"/>
+            <column name="day3" type="INT"/>
+            <column name="day4" type="INT"/>
+            <column name="day5" type="INT"/>
+            <column name="day6" type="INT"/>
+            <column name="day7" type="INT"/>
+            <column name="day8" type="INT"/>
+            <column name="day9" type="INT"/>
+            <column name="day10" type="INT"/>
+            <column name="day11" type="INT"/>
+            <column name="day12" type="INT"/>
+            <column name="day13" type="INT"/>
+            <column name="day14" type="INT"/>
+            <column name="day15" type="INT"/>
+            <column name="day16" type="INT"/>
+            <column name="day17" type="INT"/>
+            <column name="day18" type="INT"/>
+            <column name="day19" type="INT"/>
+            <column name="day20" type="INT"/>
+            <column name="day21" type="INT"/>
+            <column name="day22" type="INT"/>
+            <column name="day23" type="INT"/>
+            <column name="day24" type="INT"/>
+            <column name="day25" type="INT"/>
+            <column name="day26" type="INT"/>
+            <column name="day27" type="INT"/>
+            <column name="day28" type="INT"/>
+            <column name="day29" type="INT"/>
+            <column name="day30" type="INT"/>
+            <column name="day31" type="INT"/>
         </createTable>
     </changeSet>
 

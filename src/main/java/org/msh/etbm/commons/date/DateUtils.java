@@ -390,6 +390,17 @@ public class DateUtils {
 
 
     /**
+     * Return the date with the last day in the given month/year
+     * @param year the year to create the date
+     * @param month the month to create the date
+     * @return instance of Date
+     */
+    public static Date lastDayInAMonth(int year, int month) {
+        return newDate(year, month, daysInAMonth(year, month));
+    }
+
+
+    /**
      * Return the difference between two dates. The result is stored in an instance
      * of {@link Calendar} class
      *
