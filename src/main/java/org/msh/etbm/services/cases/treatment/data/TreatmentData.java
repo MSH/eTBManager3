@@ -25,7 +25,7 @@ public class TreatmentData {
     /**
      * The initial regimen, in case it was moved to an individualized
      */
-    private SynchronizableItem regimenIni;
+    private boolean movedToIndividualized;
 
     /**
      * The treatment category
@@ -68,12 +68,12 @@ public class TreatmentData {
         this.regimen = regimen;
     }
 
-    public SynchronizableItem getRegimenIni() {
-        return regimenIni;
+    public boolean isMovedToIndividualized() {
+        return movedToIndividualized;
     }
 
-    public void setRegimenIni(SynchronizableItem regimenIni) {
-        this.regimenIni = regimenIni;
+    public void setMovedToIndividualized(boolean movedToIndividualized) {
+        this.movedToIndividualized = movedToIndividualized;
     }
 
     public Item<String> getCategory() {

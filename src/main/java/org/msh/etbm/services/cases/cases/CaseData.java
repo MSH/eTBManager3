@@ -4,7 +4,6 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.db.enums.ValidationState;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
 import java.util.Date;
@@ -43,7 +42,7 @@ public class CaseData {
 
     private UnitData ownerUnit;
 
-    private ValidationState validationState;
+    private boolean validated;
 
     public UUID getId() {
         return id;
@@ -157,11 +156,11 @@ public class CaseData {
         this.ownerUnit = ownerUnit;
     }
 
-    public ValidationState getValidationState() {
-        return validationState;
+    public boolean isValidated() {
+        return validated;
     }
 
-    public void setValidationState(ValidationState validationState) {
-        this.validationState = validationState;
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 }

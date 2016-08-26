@@ -35,7 +35,6 @@ public class GlobalListsService {
             CaseClassification.class,
             CaseState.class,
             DiagnosisType.class,
-            ValidationState.class,
             CommandAction.class,
             FollowUpType.class,
             MedAppointmentType.class,

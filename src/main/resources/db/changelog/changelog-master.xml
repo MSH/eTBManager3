@@ -33,7 +33,7 @@
     <property name="type.name" value="VARCHAR(100)"/>
     <property name="type.shortName" value="VARCHAR(30)"/>
     <property name="type.customId" value="VARCHAR(50)"/>
-    <property name="type.optionId" value="VARCHAR(100)" />
+    <property name="type.optionId" value="VARCHAR(50)" />
 
 
     <changeSet author="rmemoria" id="1433264274749-1">
@@ -1206,68 +1206,61 @@
             <column name="state" type="INT">
                 <constraints nullable="false"/>
             </column>
+            <column name="outcome" type="${type.optionId}"/>
+            <column name="otherOutcome" type="VARCHAR(100)"/>
             <column name="registrationNumber" type="VARCHAR(50)"/>
             <column name="registrationDate" type="date">
                 <constraints nullable="false"/>
             </column>
             <column name="caseNumber" type="VARCHAR(50)"/>
             <column name="diagnosisDate" type="date"/>
-            <column name="category" type="INT"/>
             <column name="CURR_ADDRESS" type="VARCHAR(255)"/>
             <column name="CURR_COMPLEMENT" type="VARCHAR(255)"/>
             <column name="CURR_LOCALITYTYPE" type="INT"/>
             <column name="CURR_ZIPCODE" type="VARCHAR(255)"/>
-            <column name="endTreatmentDate" type="date"/>
-            <column name="infectionSite" type="INT"/>
-            <column name="iniTreatmentDate" type="date"/>
-            <column name="customId" type="${type.customId}"/>
-            <column name="nationality" type="INT"/>
             <column name="NOTIF_ADDRESS" type="VARCHAR(255)"/>
             <column name="NOTIF_COMPLEMENT" type="VARCHAR(255)"/>
             <column name="NOTIF_LOCALITYTYPE" type="INT"/>
-            <column name="MOBILENUMBER" type="VARCHAR(100)"/>
-            <column name="PHONENUMBER" type="VARCHAR(100)"/>
             <column name="NOTIF_ZIPCODE" type="VARCHAR(255)"/>
             <column name="notifAddressChanged" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="outcome" type="varchar(50)"/>
-            <column name="otherOutcome" type="VARCHAR(100)"/>
-            <column name="outcomeDate" type="date"/>
-            <column name="registrationGroup" type="VARCHAR(100)"/>
-            <column name="registrationGroupOther" type="VARCHAR(100)"/>
             <column name="CURR_ADMINUNIT_ID" type="${type.id}"/>
             <column name="NOTIF_ADMINUNIT_ID" type="${type.id}"/>
-            <column name="NOTIFICATION_UNIT_ID" type="${type.id}"/>
+            <column name="MOBILENUMBER" type="VARCHAR(100)"/>
+            <column name="PHONENUMBER" type="VARCHAR(100)"/>
+            <column name="endTreatmentDate" type="date"/>
+            <column name="iniTreatmentDate" type="date"/>
+            <column name="infectionSite" type="int"/>
+            <column name="caseDefinition" type="INT"/>
+            <column name="customId" type="${type.customId}"/>
+            <column name="nationality" type="${type.optionId}"/>
+            <column name="outcomeDate" type="date"/>
+            <column name="registrationGroup" type="${type.optionId}"/>
+            <column name="registrationGroupOther" type="VARCHAR(100)"/>
+            <column name="diagnosisType" type="INT"/>
             <column name="PATIENT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="diagnosisType" type="INT"/>
-            <column name="drugResistanceType" type="INT"/>
+            <column name="NOTIFICATION_UNIT_ID" type="${type.id}"/>
+            <column name="drugResistanceType" type="${type.optionId}"/>
             <column name="patientContactName" type="VARCHAR(100)"/>
-            <column name="tbContact" type="${type.boolean}"/>
-            <column name="extrapulmonaryType" type="VARCHAR(50)"/>
-            <column name="extrapulmonaryType2" type="VARCHAR(50)"/>
-            <column name="pulmonaryType" type="VARCHAR(50)"/>
-            <column name="daysTreatPlanned" type="INT"/>
-            <column name="validationState" type="INT"/>
-            <column name="issueCounter" type="INT"/>
-            <column name="version" type="INT"/>
-            <column name="REGIMEN_ID" type="${type.id}"/>
-            <column name="endIntensivePhase" type="date"/>
-            <column name="REGIMEN_INI_ID" type="${type.id}"/>
-            <column name="OWNER_UNIT_ID" type="${type.id}"/>
-            <column name="suspectRegistrationCode" type="VARCHAR(50)"/>
-            <column name="suspectClassification" type="INT"/>
-            <column name="secDrugsReceived" type="INT"/>
-            <column name="previouslytreatedtype" type="INT"/>
-            <column name="caseDefinition" type="INT"/>
-            <column name="lastBmuDateTbRegister" type="date"/>
-            <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
-            <column name="movedSecondLineTreatment" type="${type.boolean}"/>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="OWNER_UNIT_ID" type="${type.id}"/>
+            <column name="REGIMEN_ID" type="${type.id}"/>
+            <column name="movedToIndividualized" type="${type.boolean}"/>
+            <column name="extrapulmonaryType" type="VARCHAR(50)"/>
+            <column name="extrapulmonaryType2" type="VARCHAR(50)"/>
+            <column name="pulmonaryType" type="VARCHAR(50)"/>
+            <column name="validated" type="${type.boolean}"/>
+            <column name="suspectClassification" type="INT"/>
+            <column name="secDrugsReceived" type="INT"/>
+            <column name="lastBmuDateTbRegister" type="date"/>
+            <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
+            <column name="movedSecondLineTreatment" type="${type.boolean}"/>
+
             <!-- Risk Factors and Concomitant Diagnoses -->
             <column name="alcoholExcessiveUse" type="${type.boolean}">
                 <constraints nullable="false"/>
@@ -2418,12 +2411,6 @@
         <addForeignKeyConstraint baseColumnNames="PATIENT_ID" baseTableName="tbcase" constraintName="FKCB85A29E8B5B7C57"
                                  deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="patient"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-281">
-        <addForeignKeyConstraint baseColumnNames="REGIMEN_INI_ID" baseTableName="tbcase"
-                                 constraintName="FKCB85A29ECEBEE212" deferrable="false" onDelete="CASCADE"
-                                 onUpdate="CASCADE" initiallyDeferred="false" referencedColumnNames="id"
-                                 referencedTableName="regimen"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-282">
         <addForeignKeyConstraint baseColumnNames="NOTIF_ADMINUNIT_ID" baseTableName="tbcase"

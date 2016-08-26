@@ -69,7 +69,7 @@ public class CaseCloseService {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
-            tbcase.setState(CaseState.WAITING_TREATMENT);
+            tbcase.setState(CaseState.NOT_ONTREATMENT);
         } else {
             tbcase.setState(CaseState.ONTREATMENT);
         }
