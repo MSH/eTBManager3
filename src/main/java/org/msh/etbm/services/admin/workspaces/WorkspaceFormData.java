@@ -19,7 +19,6 @@ public class WorkspaceFormData {
 
     private Optional<NameComposition> patientNameComposition;
     private Optional<TreatMonitoringInput> treatMonitoringInput;
-    private Optional<Integer> patientAddrRequiredLevels;
 
     private Optional<DisplayCaseNumber> suspectCaseNumber;
     private Optional<DisplayCaseNumber> confirmedCaseNumber;
@@ -62,14 +61,6 @@ public class WorkspaceFormData {
 
     public void setTreatMonitoringInput(Optional<TreatMonitoringInput> treatMonitoringInput) {
         this.treatMonitoringInput = treatMonitoringInput;
-    }
-
-    public Optional<Integer> getPatientAddrRequiredLevels() {
-        return patientAddrRequiredLevels;
-    }
-
-    public void setPatientAddrRequiredLevels(Optional<Integer> patientAddrRequiredLevels) {
-        this.patientAddrRequiredLevels = patientAddrRequiredLevels;
     }
 
     public Optional<DisplayCaseNumber> getSuspectCaseNumber() {

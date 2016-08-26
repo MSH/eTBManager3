@@ -60,11 +60,6 @@ public class Workspace extends Synchronizable implements Displayable {
     private DisplayCaseNumber confirmedCaseNumber;
 
     /**
-     * Required levels of administrative unit for patient address
-     */
-    private Integer patientAddrRequiredLevels;
-
-    /**
      * Indicate if system will send e-mail messages to the users in certain system events (like new orders, orders authorized, etc)
      */
     private boolean sendSystemMessages;
@@ -157,20 +152,6 @@ public class Workspace extends Synchronizable implements Displayable {
      */
     public void setPatientNameComposition(NameComposition patientNameComposition) {
         this.patientNameComposition = patientNameComposition;
-    }
-
-    /**
-     * @return the patientAddrRequiredLevels
-     */
-    public Integer getPatientAddrRequiredLevels() {
-        return patientAddrRequiredLevels;
-    }
-
-    /**
-     * @param patientAddrRequiredLevels the patientAddrRequiredLevels to set
-     */
-    public void setPatientAddrRequiredLevels(Integer patientAddrRequiredLevels) {
-        this.patientAddrRequiredLevels = patientAddrRequiredLevels;
     }
 
     /**

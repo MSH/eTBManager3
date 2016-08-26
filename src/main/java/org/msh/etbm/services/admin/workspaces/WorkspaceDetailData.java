@@ -43,11 +43,6 @@ public class WorkspaceDetailData extends WorkspaceData {
     private DisplayCaseNumber confirmedCaseNumber;
 
     /**
-     * Required levels of administrative unit for patient address
-     */
-    private Integer patientAddrRequiredLevels;
-
-    /**
      * Indicate if system will send e-mail messages to the users in certain system events (like new orders, orders authorized, etc)
      */
     private boolean sendSystemMessages;
@@ -122,14 +117,6 @@ public class WorkspaceDetailData extends WorkspaceData {
 
     public void setConfirmedCaseNumber(DisplayCaseNumber confirmedCaseNumber) {
         this.confirmedCaseNumber = confirmedCaseNumber;
-    }
-
-    public Integer getPatientAddrRequiredLevels() {
-        return patientAddrRequiredLevels;
-    }
-
-    public void setPatientAddrRequiredLevels(Integer patientAddrRequiredLevels) {
-        this.patientAddrRequiredLevels = patientAddrRequiredLevels;
     }
 
     public boolean isSendSystemMessages() {

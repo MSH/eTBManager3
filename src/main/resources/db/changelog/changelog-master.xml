@@ -1622,9 +1622,6 @@
             <column name="patientNameComposition" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="patientAddrRequiredLevels" type="INT">
-                <constraints nullable="false"/>
-            </column>
             <column name="confirmedCaseNumber" type="INT"/>
             <column name="sendSystemMessages" type="${type.boolean}">
                 <constraints nullable="false"/>

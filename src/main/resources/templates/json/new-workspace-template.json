@@ -7,7 +7,6 @@
     "caseValidationNTM": "ENABLED",
     "suspectCaseNumber": "USER_DEFINED",
     "confirmedCaseNumber": "USER_DEFINED",
-    "patientAddrRequiredLevels": 1,
     "sendSystemMessages": true,
     "monthsToAlertExpiredMedicines": 1,
     "minStockOnHand": 1,

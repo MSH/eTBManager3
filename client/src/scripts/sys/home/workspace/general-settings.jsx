@@ -43,14 +43,6 @@ const editorDef = {
 			size: { sm: 4 },
 			required: true
 		},
-		{
-			type: 'select',
-			label: __('Workspace.patientAddrRequiredLevels'),
-			property: 'patientAddrRequiredLevels',
-			options: 'countrystructures',
-			size: { sm: 4 },
-			required: true
-		},
 
 		{
 			type: 'subtitle',

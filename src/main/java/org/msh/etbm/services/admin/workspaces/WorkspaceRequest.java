@@ -31,7 +31,6 @@ public class WorkspaceRequest {
     private Optional<DisplayCaseNumber> suspectCaseNumber;
     private Optional<DisplayCaseNumber> confirmedCaseNumber;
 
-    private Optional<Integer> patientAddrRequiredLevels;
     private Optional<Boolean> sendSystemMessages;
 
     private Optional<Integer> monthsToAlertExpiredMedicines;
@@ -95,14 +94,6 @@ public class WorkspaceRequest {
 
     public void setConfirmedCaseNumber(Optional<DisplayCaseNumber> confirmedCaseNumber) {
         this.confirmedCaseNumber = confirmedCaseNumber;
-    }
-
-    public Optional<Integer> getPatientAddrRequiredLevels() {
-        return patientAddrRequiredLevels;
-    }
-
-    public void setPatientAddrRequiredLevels(Optional<Integer> patientAddrRequiredLevels) {
-        this.patientAddrRequiredLevels = patientAddrRequiredLevels;
     }
 
     public Optional<Boolean> getSendSystemMessages() {
