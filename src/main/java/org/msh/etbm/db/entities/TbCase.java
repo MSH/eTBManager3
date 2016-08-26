@@ -105,7 +105,7 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private DiagnosisType diagnosisType;
 
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE}, messageKey = "DrugResistanceType")
     private String drugResistanceType;
 
     @NotNull
@@ -128,6 +128,7 @@ public class TbCase extends WorkspaceEntity {
     private String registrationGroupOther;
 
     @Column(length = 50)
+    @PropertyLog(messageKey = "Nationality")
     private String nationality;
 
     @Column(length = 50)
@@ -701,7 +702,7 @@ public class TbCase extends WorkspaceEntity {
         this.patientContactName = patientContactName;
     }
 
-    
+
     /**
      * @return the contacts
      */
