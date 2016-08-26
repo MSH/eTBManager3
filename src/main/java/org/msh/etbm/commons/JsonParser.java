@@ -42,7 +42,7 @@ public class JsonParser {
             return parse(in, type);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new JsonParserException(e);
+            throw new JsonParser2Exception(e);
         }
     }
 
@@ -52,7 +52,7 @@ public class JsonParser {
             return mapper.readValue(in, type);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
-            throw new JsonParserException(e);
+            throw new JsonParser2Exception(e);
         }
     }
 
@@ -70,7 +70,7 @@ public class JsonParser {
             return mapper.readValue(jsonString, type);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new JsonParserException(e);
+            throw new JsonParser2Exception(e);
         }
 
     }
