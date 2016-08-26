@@ -146,8 +146,6 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Tbunit notificationUnit;
 
-    private boolean notifAddressChanged;
-
     private boolean movedSecondLineTreatment;
 
     @Column(length = 100)
@@ -183,9 +181,6 @@ public class TbCase extends WorkspaceEntity {
 
     @Column(name = "NOTIF_LOCALITYTYPE")
     private LocalityType localityType;
-
-    @Column(name = "CURR_LOCALITYTYPE")
-    private LocalityType currLocalityType;
 
     @Column(length = 50)
     private String phoneNumber;
@@ -507,19 +502,8 @@ public class TbCase extends WorkspaceEntity {
         return currentAddress;
     }
 
-
     public void setCurrentAddress(Address currentAddress) {
         this.currentAddress = currentAddress;
-    }
-
-
-    public boolean isNotifAddressChanged() {
-        return notifAddressChanged;
-    }
-
-
-    public void setNotifAddressChanged(boolean notifAddressChanged) {
-        this.notifAddressChanged = notifAddressChanged;
     }
 
     public String getOutcome() {
@@ -1007,14 +991,6 @@ public class TbCase extends WorkspaceEntity {
 
     public void setLocalityType(LocalityType localityType) {
         this.localityType = localityType;
-    }
-
-    public LocalityType getCurrLocalityType() {
-        return currLocalityType;
-    }
-
-    public void setCurrLocalityType(LocalityType currLocalityType) {
-        this.currLocalityType = currLocalityType;
     }
 
     public boolean isAlcoholExcessiveUse() {

@@ -1216,15 +1216,11 @@
             <column name="diagnosisDate" type="date"/>
             <column name="CURR_ADDRESS" type="VARCHAR(255)"/>
             <column name="CURR_COMPLEMENT" type="VARCHAR(255)"/>
-            <column name="CURR_LOCALITYTYPE" type="INT"/>
             <column name="CURR_ZIPCODE" type="VARCHAR(255)"/>
             <column name="NOTIF_ADDRESS" type="VARCHAR(255)"/>
             <column name="NOTIF_COMPLEMENT" type="VARCHAR(255)"/>
             <column name="NOTIF_LOCALITYTYPE" type="INT"/>
             <column name="NOTIF_ZIPCODE" type="VARCHAR(255)"/>
-            <column name="notifAddressChanged" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
             <column name="CURR_ADMINUNIT_ID" type="${type.id}"/>
             <column name="NOTIF_ADMINUNIT_ID" type="${type.id}"/>
             <column name="MOBILENUMBER" type="VARCHAR(100)"/>
