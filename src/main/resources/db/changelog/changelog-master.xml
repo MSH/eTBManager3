@@ -855,11 +855,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="lastName" type="${type.name}"/>
-            <column name="customId" type="${type.customId}"/>
             <column name="middleName" type="${type.name}"/>
+            <column name="customId" type="${type.customId}"/>
             <column name="motherName" type="${type.name}"/>
-            <column name="recordNumber" type="INT"/>
-            <column name="securityNumber" type="VARCHAR(50)"/>
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>

@@ -50,7 +50,7 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
     }
 
     @Override
-    public Object readMultipleValuesFromDb(FKUnitField field, Map<String, Object> values) {
+    public Object readMultipleValuesFromDb(FKUnitField field, Map<String, Object> values, boolean displaying) {
         byte[] data = (byte[])values.get(field.getDbFieldName());
         if (data == null) {
             return null;

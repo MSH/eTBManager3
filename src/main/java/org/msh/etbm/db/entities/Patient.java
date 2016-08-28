@@ -42,8 +42,6 @@ public class Patient extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW})
     private Date birthDate;
 
-    private Integer recordNumber;
-
     @NotNull
     @PropertyLog(operations = {Operation.NEW}, messageKey = "Gender")
     private String gender;
@@ -87,14 +85,6 @@ public class Patient extends WorkspaceEntity {
 
     public void setMotherName(String motherName) {
         this.motherName = motherName;
-    }
-
-    public Integer getRecordNumber() {
-        return recordNumber;
-    }
-
-    public void setRecordNumber(Integer recordNumber) {
-        this.recordNumber = recordNumber;
     }
 
     public void setName(String name) {

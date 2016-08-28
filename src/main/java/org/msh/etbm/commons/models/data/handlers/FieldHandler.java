@@ -197,7 +197,7 @@ public abstract class FieldHandler<E extends Field> {
      * @param values a map containing DB field name and its value
      * @return the object that will be set in the model object
      */
-    public Object readMultipleValuesFromDb(E field, Map<String, Object> values) {
+    public Object readMultipleValuesFromDb(E field, Map<String, Object> values, boolean displaying) {
         throw new ModelException("this method must be implemented");
     }
 }

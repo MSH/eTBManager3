@@ -2,12 +2,12 @@ package org.msh.etbm.services.cases.treatment.followup;
 
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandLog;
-import org.msh.etbm.commons.commands.CommandType;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.TreatmentMonitoring;
 import org.msh.etbm.db.enums.TreatmentDayStatus;
 import org.msh.etbm.services.cases.treatment.TreatmentCmdLogHandler;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 

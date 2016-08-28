@@ -40,7 +40,7 @@ public class SQLQueryLoaderTest {
         System.out.println(data.getSql());
 
         SQLQueryLoader loader = new SQLQueryLoader();
-        List<RecordData> list = loader.loadData(dataSource, data);
+        List<RecordData> list = loader.loadData(dataSource, data, false);
 
         for (RecordData rec: list) {
             System.out.println(rec);

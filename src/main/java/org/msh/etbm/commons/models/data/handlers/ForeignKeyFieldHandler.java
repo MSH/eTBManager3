@@ -62,7 +62,7 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
     }
 
     @Override
-    public Object readMultipleValuesFromDb(E field, Map<String, Object> values) {
+    public Object readMultipleValuesFromDb(E field, Map<String, Object> values, boolean displaying) {
         byte[] data = (byte[])values.get(field.getDbFieldName());
         if (data == null) {
             return null;

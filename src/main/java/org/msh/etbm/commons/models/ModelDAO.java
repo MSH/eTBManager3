@@ -52,7 +52,7 @@ public class ModelDAO {
         }
 
         SQLQueryLoader loader = new SQLQueryLoader();
-        return loader.loadData(resources.getDataSource(), res);
+        return loader.loadData(resources.getDataSource(), res, displaying);
     }
 
     /**

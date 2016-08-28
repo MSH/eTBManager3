@@ -1,6 +1,5 @@
 package org.msh.etbm.services.session.usersession;
 
-import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;

@@ -1,7 +1,10 @@
 package org.msh.etbm.services.cases.filters;
 
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.enums.InfectionSite;
 import org.msh.etbm.services.cases.filters.impl.DummyFilter;
 import org.msh.etbm.services.cases.filters.impl.EnumFilter;
 import org.msh.etbm.services.cases.filters.impl.GenderFilter;
