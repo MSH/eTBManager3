@@ -32,9 +32,6 @@ public class Patient extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String lastName;
 
-    @Column(length = 50)
-    private String securityNumber;
-
     @Column(length = 100)
     private String motherName;
 
@@ -69,14 +66,6 @@ public class Patient extends WorkspaceEntity {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getSecurityNumber() {
-        return securityNumber;
-    }
-
-    public void setSecurityNumber(String securityNumber) {
-        this.securityNumber = securityNumber;
     }
 
     public String getMotherName() {

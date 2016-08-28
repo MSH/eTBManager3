@@ -40,6 +40,17 @@ public class RecordData {
     }
 
     /**
+     * Return a field value as an object of a specific class
+     * @param fieldName the field name
+     * @param clazz the class to be casted to
+     * @param <E>
+     * @return
+     */
+    public <E> E getAs(String fieldName, Class<E> clazz) {
+        return (E)getValues().get(fieldName);
+    }
+
+    /**
      * Return the field value as an integer
      * @param field the name of the field in the model
      * @return Integer value
