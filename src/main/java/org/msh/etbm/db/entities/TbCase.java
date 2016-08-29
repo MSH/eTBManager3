@@ -134,6 +134,11 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 50)
     private String outcome;
 
+    /**
+     * If true, case is being transferred to another unit
+     */
+    private boolean transferring;
+
     @Column(length = 100)
     private String otherOutcome;
 
@@ -1052,5 +1057,13 @@ public class TbCase extends WorkspaceEntity {
 
     public void setMovedToIndividualized(boolean movedToIndividualized) {
         this.movedToIndividualized = movedToIndividualized;
+    }
+
+    public boolean isTransferring() {
+        return transferring;
+    }
+
+    public void setTransferring(boolean transferring) {
+        this.transferring = transferring;
     }
 }

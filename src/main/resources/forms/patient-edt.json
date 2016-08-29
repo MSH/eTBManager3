@@ -24,8 +24,7 @@
     {
       "property": "gender",
       "type": "select",
-      "size": { "md": 6 },
-      "newRow": true
+      "size": { "md": 6 }
     },
     {
       "property": "customId",

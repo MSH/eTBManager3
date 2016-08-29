@@ -142,14 +142,38 @@ export default class SessionUtils {
 		}
 	}
 
+	/**
+	 * Display the classification based on its diagnosis
+	 */
 	static classifDisplay(cla, diag) {
 		const lists = app.getState().app.lists;
 		const list = lists['CaseClassification' + cla];
 		return list[diag];
 	}
 
+	/**
+	 * Display the state of a case
+	 */
 	static caseStateDisplay(state) {
 		const list = app.getState().app.lists.CaseState;
 		return list[state];
+	}
+
+	/**
+	 * Display an address using the tag address
+	 */
+	static addressDisplay(addr) {
+		const lst = [addr.address, addr.complement, addr.zipCode, SessionUtils.adminUnitDisplay(addr.adminUnit)]
+			.filter(it => !!it);
+
+		return (
+			<address>
+			{
+				lst.map(s => (
+					<span>{s}<br/></span>
+				))
+			}
+			</address>
+		);
 	}
 }
