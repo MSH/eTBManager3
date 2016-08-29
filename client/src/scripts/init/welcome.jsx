@@ -60,7 +60,7 @@ export default class Welcome extends React.Component {
                         </Col>
                         <Col md={6} mdOffset={3}>
                             <div className="pull-right">
-                                <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>{__('action.continue')}
+                                <Button bsStyle="primary" bsSize="large" onClick={this.contClick}>{__('action.continue')}
                                 </Button>
                             </div>
                         </Col>

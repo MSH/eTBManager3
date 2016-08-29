@@ -31,7 +31,7 @@ export default class PatientPanel extends React.Component {
 		const claName = lists['CaseClassification' + tbcase.classification][tbcase.diagnosisType];
 
 		const stateName = lists.CaseState[tbcase.state];
-		const validationName = tbcase.validated === true ? __('Tbcase.validated') : __('Tbcase.waitingvalidation');
+		const validationName = tbcase.validated ? __('TbCase.validated') : __('TbCase.waitingValidation');
 		const ownerUnit = tbcase.ownerUnit;
 		const adminUnit = SessionUtils.adminUnitLink(tbcase.ownerUnit.adminUnit, false, true, '/cases');
 
@@ -71,7 +71,7 @@ export default class PatientPanel extends React.Component {
 							</div>
 						</Col>
 						<Col xs={6} sm={3} md={2} >
-							<div className={'state-box ' + (tbcase.validated === true ? 'vs-validated' : 'vs-notvalidated')}>
+							<div className={'state-box ' + (tbcase.validated ? 'vs-validated' : 'vs-notvalidated')}>
 							{validationName}
 							</div>
 						</Col>

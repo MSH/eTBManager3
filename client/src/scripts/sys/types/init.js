@@ -8,6 +8,7 @@ import MultiSelect from './multi-select';
 import ListBoxControl from './list-box-control';
 import TableFormControl from './table-form-control';
 import MultiListBoxControl from './multi-list-box-control';
+import PersonNameControl from './person-name-control';
 
 function register() {
 	Form.registerType([
@@ -17,7 +18,8 @@ function register() {
 		MultiSelect,
 		ListBoxControl,
 		TableFormControl,
-		MultiListBoxControl
+		MultiListBoxControl,
+		PersonNameControl
 		]);
 }
 

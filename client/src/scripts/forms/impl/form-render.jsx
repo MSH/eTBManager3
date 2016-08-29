@@ -53,7 +53,11 @@ export default function formRender(form) {
 		return { size: size, content: comp, newRow: snapshot.newRow, spanRow: snapshot.spanRow };
 	});
 
-	const lst = arrangeGrid(items);
+	const lst = (
+		<div className={form.props.readOnly ? 'form-readonly' : 'form-edit'}>
+			{arrangeGrid(items)}
+		</div>
+	);
 
 	// called after the elements loop to search for unhandled messages
 	if (!globalMsg) {

@@ -153,7 +153,7 @@ export default class NewWorkspace extends React.Component {
                                 <Row>
                                     <Col sm={12}>
                                         <div className="pull-right">
-                                            <AsyncButton fetching={fetching} pullRight bsSize="large" onClick={this.contClick}>
+                                            <AsyncButton fetching={fetching} bsSize="large" onClick={this.contClick}>
                                                 {__('action.create')}
                                             </AsyncButton>
                                         </div>

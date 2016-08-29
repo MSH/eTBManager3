@@ -10,6 +10,8 @@ import formControl from './controls/form-control';
 import { initDefaultValues } from './impl/form-init';
 import FormUtils from './form-utils';
 
+import './form.less';
+
 
 /**
  * Create a form based on a given json layout and a data model
