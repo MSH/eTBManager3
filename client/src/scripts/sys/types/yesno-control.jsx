@@ -29,7 +29,7 @@ export default class YesNoControl extends React.Component {
 		if (isEmpty(this.props.value)) {
 			valueDisplay = <span>{'-'}</span>;
 		} else {
-			valueDisplay = this.props.value === true ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />;
+			valueDisplay = this.props.value ? <Fa icon="check" className="text-primary" /> : <Fa icon="times-circle" className="text-danger" />;
 		}
 
 		const labelelem = schema.label ? <label className="control-label">{FormUtils.labelRender(schema.label)}</label> : null;

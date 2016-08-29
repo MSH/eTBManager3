@@ -16,84 +16,84 @@ const readOnlySchema = {
 					type: 'yesNo',
 					label: __('cases.prevtreat.am'),
 					size: { sm: 2 },
-					visible: i => i.am === true
+					visible: i => i.am
 				},
 				{
 					property: 'cfz',
 					type: 'yesNo',
 					label: __('cases.prevtreat.cfz'),
 					size: { sm: 2 },
-					visible: i => i.cfz === true
+					visible: i => i.cfz
 				},
 				{
 					property: 'cm',
 					type: 'yesNo',
 					label: __('cases.prevtreat.cm'),
 					size: { sm: 2 },
-					visible: i => i.cm === true
+					visible: i => i.cm
 				},
 				{
 					property: 'cs',
 					type: 'yesNo',
 					label: __('cases.prevtreat.cs'),
 					size: { sm: 2 },
-					visible: i => i.cs === true
+					visible: i => i.cs
 				},
 				{
 					property: 'e',
 					type: 'yesNo',
 					label: __('cases.prevtreat.e'),
 					size: { sm: 2 },
-					visible: i => i.e === true
+					visible: i => i.e
 				},
 				{
 					property: 'eto',
 					type: 'yesNo',
 					label: __('cases.prevtreat.eto'),
 					size: { sm: 2 },
-					visible: i => i.eto === true
+					visible: i => i.eto
 				},
 				{
 					property: 'h',
 					type: 'yesNo',
 					label: __('cases.prevtreat.h'),
 					size: { sm: 2 },
-					visible: i => i.h === true
+					visible: i => i.h
 				},
 				{
 					property: 'lfx',
 					type: 'yesNo',
 					label: __('cases.prevtreat.lfx'),
 					size: { sm: 2 },
-					visible: i => i.lfx === true
+					visible: i => i.lfx
 				},
 				{
 					property: 'ofx',
 					type: 'yesNo',
 					label: __('cases.prevtreat.ofx'),
 					size: { sm: 2 },
-					visible: i => i.ofx === true
+					visible: i => i.ofx
 				},
 				{
 					property: 'r',
 					type: 'yesNo',
 					label: __('cases.prevtreat.r'),
 					size: { sm: 2 },
-					visible: i => i.r === true
+					visible: i => i.r
 				},
 				{
 					property: 's',
 					type: 'yesNo',
 					label: __('cases.prevtreat.s'),
 					size: { sm: 2 },
-					visible: i => i.s === true
+					visible: i => i.s
 				},
 				{
 					property: 'z',
 					type: 'yesNo',
 					label: __('cases.prevtreat.z'),
 					size: { sm: 2 },
-					visible: i => i.z === true
+					visible: i => i.z
 				}
 			]
 		};

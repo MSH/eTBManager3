@@ -99,7 +99,7 @@ export default class TagCasesList extends React.Component {
 			<Card header={header} closeBtn onClose={this.props.onClose}>
 				{
 					// loading
-					controller.isFetching() === true ?
+					controller.isFetching() ?
 						<WaitIcon type="card" /> : null
 				}
 				{

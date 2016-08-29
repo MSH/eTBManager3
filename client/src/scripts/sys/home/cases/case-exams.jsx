@@ -222,7 +222,7 @@ export default class CaseExams extends React.Component {
 					style="warning"
 					type="YesNo" />
 
-				{this.state.showForm === true &&
+				{this.state.showForm &&
 					<FollowupModal onClose={this.endOperation}
 						operation={this.state.operation} />
 				}
