@@ -127,28 +127,6 @@ public class FilterManager {
                 "${TbCase.extrapulmonaryType}", // label
                 "tbcase",   // model
                 "extrapulmonary")); // field
-//        filters.add(new OutcomeFilter());
-
-//        filters.add(new DummyFilter(FilterGroup.DATA, "notif-addr", "${Address}"));
-//        filters.add(new DummyFilter(FilterGroup.DATA, "notif-unit", "${TbCase.notificationUnit}"));
-//        filters.add(new DummyFilter(FilterGroup.DATA, "drug-resist-type", "${DrugResistanceType}"));
-//        filters.add(new DummyFilter(FilterGroup.DATA, "pulmonary-types", "${TbCase.pulmonaryType}"));
-//        filters.add(new DummyFilter(FilterGroup.DATA, "extrapulmonary-types", "${TbCase.extrapulmonaryType}"));
-//        filters.add(new DummyFilter(FilterGroup.DATA, "patient-type", "${PatientType}"));
-//
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "cult-diag", "Culture filter 1"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-res", "Culture filter 2"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-month", "Culture filter 3"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter1", "Filter 1"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter2", "Filter 2"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter3", "Filter 3"));
-//
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-res", "Microscopy filter 1"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-diag", "Microscopy filter 2"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-month", "Microscopy filter 3"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter1", "Filter 1"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter2", "Filter 2"));
-//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter3", "Filter 3"));
 
         for (Filter filter: filters) {
             filter.initialize(applicationContext);
