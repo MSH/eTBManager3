@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Card, Fa } from '../../../../components';
+import { Card, Fa, Callout } from '../../../../components';
 import { app } from '../../../../core/app';
 
 export default class NoTreatPanel extends React.Component {
@@ -17,11 +17,13 @@ export default class NoTreatPanel extends React.Component {
 	render() {
 		return (
 			<Card>
-				<h4>
-					<Fa icon="exclamation-triangle" className="text-warning"/>
-					{__('cases.details.notreatment')}
-				</h4>
-				<Button bsSize="large" onClick={this.startTreatClick}>{__('cases.details.starttreatment')}</Button>
+				<Fa icon="exclamation-triangle" className="text-warning"/>
+				<span className="text-muted">
+				{__('cases.details.notreatment')}
+				</span>
+				<div className="mtop">
+					<Button bsSize="large" onClick={this.startTreatClick}>{__('cases.details.starttreatment')}</Button>
+				</div>
 			</Card>
 			);
 	}

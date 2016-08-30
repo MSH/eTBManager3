@@ -52,11 +52,9 @@ export default class CasesList extends React.Component {
      * Called when user clicks on a case
      */
     _caseClick(item) {
-        return () => {
-            if (this.props.onCaseClick) {
-                this.props.onCaseClick(item);
-            }
-        };
+		if (this.props.onCaseClick) {
+			this.props.onCaseClick(item);
+		}
     }
 
     render() {
@@ -106,7 +104,7 @@ export default class CasesList extends React.Component {
                                             </div>
                                         </div>
 								}
-							]} values={controller.getList()} onClick={this.caseClick}/>
+							]} values={controller.getList()} onClick={this._caseClick}/>
 
 						<CrudPagination controller={this.props.controller} showCounter className="mtop" />
 					</span> : null
