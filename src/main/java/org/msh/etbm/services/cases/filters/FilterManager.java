@@ -1,14 +1,16 @@
 package org.msh.etbm.services.cases.filters;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.InfectionSite;
-import org.msh.etbm.services.cases.filters.impl.DummyFilter;
 import org.msh.etbm.services.cases.filters.impl.EnumFilter;
 import org.msh.etbm.services.cases.filters.impl.GenderFilter;
+import org.msh.etbm.services.cases.filters.impl.ModelFieldOptionsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,12 +27,20 @@ public class FilterManager {
     @Autowired
     Messages messages;
 
+    @Autowired
+    ModelDAOFactory modelDAOFactory;
+
+    @Autowired
+    ApplicationContext applicationContext;
+
     /**
      * Store the list of filters
      */
     private List<Filter> filters;
 
     public List<Filter> getFilters() {
+        // TODO Temporary - Remove filters = null;
+        filters = null;
         initFilters();
         return filters;
     }
@@ -76,27 +86,73 @@ public class FilterManager {
         filters.add(new EnumFilter(FilterGroup.DATA, DiagnosisType.class,
                 "diag-type", "${DiagnosisType}", "tbcase.diagnosisType"));
 
-        filters.add(new DummyFilter(FilterGroup.DATA, "nat", "${Nationality}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "notif-addr", "${Address}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "notif-unit", "${TbCase.notificationUnit}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "drug-resist-type", "${DrugResistanceType}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "pulmonary-types", "${TbCase.pulmonaryType}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "extrapulmonary-types", "${TbCase.extrapulmonaryType}"));
-        filters.add(new DummyFilter(FilterGroup.DATA, "patient-type", "${PatientType}"));
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "nat",
+                "${Nationality}",
+                "tbcase",
+                "nationality"));
 
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "cult-diag", "Culture filter 1"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-res", "Culture filter 2"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-month", "Culture filter 3"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter1", "Filter 1"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter2", "Filter 2"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter3", "Filter 3"));
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "outc",
+                "${TbCase.outcome}",
+                "tbcase",
+                "outcome"));
 
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-res", "Microscopy filter 1"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-diag", "Microscopy filter 2"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-month", "Microscopy filter 3"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter1", "Filter 1"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter2", "Filter 2"));
-        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter3", "Filter 3"));
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "reggroup",
+                "${TbCase.registrationGroup}",
+                "tbcase",
+                "registrationGroup"));
+
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "drugRegType", // ID
+                "${DrugResistanceType}", // label
+                "tbcase",   // model
+                "drugResistanceType")); // field
+
+        filters.add(new EnumFilter(FilterGroup.DATA,
+                InfectionSite.class,
+                "inf-site",
+                "${InfectionSite}",
+                "infectionSite"));
+
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "pulmonary-forms", // ID
+                "${TbCase.pulmonaryType}", // label
+                "tbcase",   // model
+                "pulmonary")); // field
+
+        filters.add(new ModelFieldOptionsFilter(FilterGroup.DATA,
+                "extrapulmonary-forms", // ID
+                "${TbCase.extrapulmonaryType}", // label
+                "tbcase",   // model
+                "extrapulmonary")); // field
+//        filters.add(new OutcomeFilter());
+
+//        filters.add(new DummyFilter(FilterGroup.DATA, "notif-addr", "${Address}"));
+//        filters.add(new DummyFilter(FilterGroup.DATA, "notif-unit", "${TbCase.notificationUnit}"));
+//        filters.add(new DummyFilter(FilterGroup.DATA, "drug-resist-type", "${DrugResistanceType}"));
+//        filters.add(new DummyFilter(FilterGroup.DATA, "pulmonary-types", "${TbCase.pulmonaryType}"));
+//        filters.add(new DummyFilter(FilterGroup.DATA, "extrapulmonary-types", "${TbCase.extrapulmonaryType}"));
+//        filters.add(new DummyFilter(FilterGroup.DATA, "patient-type", "${PatientType}"));
+//
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "cult-diag", "Culture filter 1"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-res", "Culture filter 2"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "culture-month", "Culture filter 3"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter1", "Filter 1"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter2", "Filter 2"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_CULTURE, "filter3", "Filter 3"));
+//
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-res", "Microscopy filter 1"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-diag", "Microscopy filter 2"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "mic-month", "Microscopy filter 3"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter1", "Filter 1"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter2", "Filter 2"));
+//        filters.add(new DummyFilter(FilterGroup.EXAM_MICROSCOPY, "filter3", "Filter 3"));
+
+        for (Filter filter: filters) {
+            filter.initialize(applicationContext);
+        }
     }
 
     /**
@@ -106,7 +162,7 @@ public class FilterManager {
     public List<FilterGroupData> getFiltersData() {
         List<FilterGroupData> res = new ArrayList<>();
 
-        FilterContext context = new FilterContext(true, messages);
+        FilterContext context = new FilterContext(true, messages, modelDAOFactory);
 
         for (Filter filter: getFilters()) {
             String label = messages.get(filter.getGroup().getMessageKey());

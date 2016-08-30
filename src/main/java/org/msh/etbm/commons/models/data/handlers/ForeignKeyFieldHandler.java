@@ -38,16 +38,16 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     public Map<String, Object> mapFieldsToSave(E field, Object value) {
-        return Collections.singletonMap(field.getDbFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
+        return Collections.singletonMap(field.getFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
     }
 
     @Override
     public void dbFieldsToSelect(E field, DBFieldsDef defs, boolean displaying) {
-        defs.add(field.getDbFieldName());
+        defs.add(field.getFieldName());
         if (displaying && field.getForeignDisplayingFieldName() != null) {
             defs.join(field.getForeignTable(),
                     field.getForeignTable() + "." + field.getForeignTableKeyName() + " = " +
-                            defs.getRootTable() + "." + field.getDbFieldName())
+                            defs.getRootTable() + "." + field.getFieldName())
                     .add(field.getForeignDisplayingFieldName());
         }
     }
@@ -63,7 +63,7 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     public Object readMultipleValuesFromDb(E field, Map<String, Object> values, boolean displaying) {
-        byte[] data = (byte[])values.get(field.getDbFieldName());
+        byte[] data = (byte[])values.get(field.getFieldName());
         if (data == null) {
             return null;
         }

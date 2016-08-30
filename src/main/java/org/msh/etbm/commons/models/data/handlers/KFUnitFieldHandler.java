@@ -34,8 +34,8 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
     public void dbFieldsToSelect(FKUnitField field, DBFieldsDef defs, boolean displaying) {
         // since the model can change from required to not required, it is wise to
         // keep join as left join
-        defs.add(field.getDbFieldName())
-                .leftJoin("unit", "$this.id = $parent." + field.getDbFieldName())
+        defs.add(field.getFieldName())
+                .leftJoin("unit", "$this.id = $parent." + field.getFieldName())
                 .add("name")
                 .add("discriminator");
     }
@@ -51,7 +51,7 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
 
     @Override
     public Object readMultipleValuesFromDb(FKUnitField field, Map<String, Object> values, boolean displaying) {
-        byte[] data = (byte[])values.get(field.getDbFieldName());
+        byte[] data = (byte[])values.get(field.getFieldName());
         if (data == null) {
             return null;
         }

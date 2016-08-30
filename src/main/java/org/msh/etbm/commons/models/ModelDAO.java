@@ -1,6 +1,8 @@
 package org.msh.etbm.commons.models;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.db.*;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
@@ -11,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Expose CRUD operations to a model defined in the {@link org.msh.etbm.commons.models.data.Model} class.
@@ -133,10 +136,41 @@ public class ModelDAO {
     }
 
 
+    /**
+     * Remove a record from the model by its ID
+     * @param id the ID of the record to be deleted
+     */
     public void delete(UUID id) {
         Model model = compiledModel.getModel();
         JdbcTemplate template = new JdbcTemplate(resources.getDataSource());
         template.update("delete from " + model.getTable() + " where id = ?", ObjectUtils.uuidAsBytes(id));
     }
 
+
+    /**
+     * Return the options of a given field
+     * @param fieldName the name of the field to get the options from
+     * @return List of {@link Item} objects, or null if the list is not found
+     */
+    public List<Item> getFieldOptions(String fieldName) {
+        Model model = compiledModel.getModel();
+        Field field = model.findFieldByName(fieldName);
+
+        if (field == null) {
+            throw new ModelException("Field not found: " + fieldName);
+        }
+
+        if (field.getOptions() == null) {
+            return null;
+        }
+
+        List<Item> options = field.getOptions().getOptionsValues();
+        if (options == null) {
+            return null;
+        }
+
+        return options.stream()
+                .map(item -> new Item(item.getId(), resources.getMessages().eval(item.getName())))
+                .collect(Collectors.toList());
+    }
 }

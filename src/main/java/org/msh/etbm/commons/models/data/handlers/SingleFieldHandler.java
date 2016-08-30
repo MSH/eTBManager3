@@ -17,7 +17,7 @@ public abstract class SingleFieldHandler<E extends SingleField> extends FieldHan
         Map<String, Object> map = new HashMap<>();
 
         // get the name of the field to map
-        String dbfield = field.getDbFieldName();
+        String dbfield = field.getFieldName();
         if (dbfield == null) {
             dbfield = field.getName();
         }
@@ -28,7 +28,7 @@ public abstract class SingleFieldHandler<E extends SingleField> extends FieldHan
 
     @Override
     public void dbFieldsToSelect(SingleField field, DBFieldsDef defs, boolean displaying) {
-        String s = field.getDbFieldName() != null ? field.getDbFieldName() : field.getName();
+        String s = field.getFieldName() != null ? field.getFieldName() : field.getName();
         defs.add(s);
     }
 }

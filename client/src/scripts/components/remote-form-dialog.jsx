@@ -2,7 +2,7 @@ import React from 'react';
 import FormDialog from './form-dialog';
 import WaitIcon from './wait-icon';
 import { server } from '../commons/server';
-import { isFunction, isPromise } from '../commons/utils';
+import { isFunction } from '../commons/utils';
 
 /**
  * Remote form - Load the schema, document and resources from a remote path.

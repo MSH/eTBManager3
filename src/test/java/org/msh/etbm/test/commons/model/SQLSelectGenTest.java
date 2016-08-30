@@ -71,7 +71,7 @@ public class SQLSelectGenTest {
 
         FKRegimenField fldRegimen = new FKRegimenField();
         fldRegimen.setName("regimen");
-        fldRegimen.setDbFieldName("regimen_id");
+        fldRegimen.setFieldName("regimen_id");
         fldRegimen.setCustom(true);
         fields.add(fldRegimen);
 
