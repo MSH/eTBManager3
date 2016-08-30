@@ -81,13 +81,6 @@ public class Workspace extends Synchronizable implements Displayable {
      */
     private Integer maxStockOnHand;
 
-    /**
-     * If true, in the medicine in-take monitoring of the case, user will specify if administered the treatment
-     * in DOTS or if it was self-administered by the patient. If false, the user will just select the day patient
-     * received medicine
-     */
-    private TreatMonitoringInput treatMonitoringInput;
-
     @PropertyLog(messageKey = "form.customId")
     private String customId;
 
@@ -294,20 +287,6 @@ public class Workspace extends Synchronizable implements Displayable {
      */
     public void setConfirmedCaseNumber(DisplayCaseNumber confirmedCaseNumber) {
         this.confirmedCaseNumber = confirmedCaseNumber;
-    }
-
-    /**
-     * @return the treatMonitoringInput
-     */
-    public TreatMonitoringInput getTreatMonitoringInput() {
-        return treatMonitoringInput;
-    }
-
-    /**
-     * @param treatMonitoringInput the treatMonitoringInput to set
-     */
-    public void setTreatMonitoringInput(TreatMonitoringInput treatMonitoringInput) {
-        this.treatMonitoringInput = treatMonitoringInput;
     }
 
     @Override

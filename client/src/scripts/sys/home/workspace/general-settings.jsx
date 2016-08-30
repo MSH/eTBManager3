@@ -11,16 +11,18 @@ const editorDef = {
 			type: 'string',
 			label: __('form.name'),
 			property: 'name',
-			size: { sm: 4 },
-			required: true
+			min: 2,
+			max: 50,
+			required: true,
+			size: { sm: 6 }
 		},
 		{
 			property: 'sendSystemMessages',
 			type: 'yesNo',
 			label: __('Workspace.sendSystemMessages'),
-			size: { sm: 5 },
 			defaultValue: false,
-			required: true
+			required: true,
+			size: { sm: 6 }
 		},
 		{
 			type: 'subtitle',
@@ -35,15 +37,6 @@ const editorDef = {
 			size: { sm: 4 },
 			required: true
 		},
-		{
-			type: 'select',
-			label: __('Workspace.treatMonitoringInput'),
-			property: 'treatMonitoringInput',
-			options: app.getState().app.lists.TreatMonitoringInput,
-			size: { sm: 4 },
-			required: true
-		},
-
 		{
 			type: 'subtitle',
 			label: __('DisplayCaseNumber'),

@@ -3,7 +3,6 @@ package org.msh.etbm.services.admin.workspaces;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
-import org.msh.etbm.db.enums.TreatMonitoringInput;
 
 /**
  * Detailed data about a workspace to be sent by the service to the client
@@ -63,13 +62,6 @@ public class WorkspaceDetailData extends WorkspaceData {
      * the system will alert about that
      */
     private Integer maxStockOnHand;
-
-    /**
-     * If true, in the medicine in-take monitoring of the case, user will specify if administered the treatment
-     * in DOTS or if it was self-administered by the patient. If false, the user will just select the day patient
-     * received medicine
-     */
-    private TreatMonitoringInput treatMonitoringInput;
 
     public NameComposition getPatientNameComposition() {
         return patientNameComposition;
@@ -149,13 +141,5 @@ public class WorkspaceDetailData extends WorkspaceData {
 
     public void setMaxStockOnHand(Integer maxStockOnHand) {
         this.maxStockOnHand = maxStockOnHand;
-    }
-
-    public TreatMonitoringInput getTreatMonitoringInput() {
-        return treatMonitoringInput;
-    }
-
-    public void setTreatMonitoringInput(TreatMonitoringInput treatMonitoringInput) {
-        this.treatMonitoringInput = treatMonitoringInput;
     }
 }

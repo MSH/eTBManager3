@@ -1621,7 +1621,6 @@
             <column name="minStockOnHand" type="INT"/>
             <column name="maxStockOnHand" type="INT"/>
             <column name="suspectCaseNumber" type="INT"/>
-            <column name="treatMonitoringInput" type="INT"/>
             <column name="customId" type="${type.customId}"/>
         </createTable>
     </changeSet>

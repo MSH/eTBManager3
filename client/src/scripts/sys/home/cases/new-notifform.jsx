@@ -249,25 +249,25 @@ export default class NotifForm extends React.Component {
 		this.setState({ schema: notifForm });
 	}
 
-	cancelClick() {
-		app.goto('/sys/home/unit/cases');
-	}
-
 	render() {
 		const schema = this.state && this.state.schema;
 		if (!schema) {
 			return null;
 		}
 
+		const lists = app.getState().app.lists;
+		const list = lists['CaseClassification' + this.props.classification];
+		const typeLabel = list[this.props.diagnosisType];
+
 		return (
 			<Grid fluid className="mtop-2x">
 				<Row>
 					<Col mdOffset={2} md={9}>
-						<Card title="New notification - TB Case">
+						<Card title={__('cases.newnotifof') + ' ' + typeLabel}>
 							<Form schema={schema} doc={this.props.patient} />
 							<ButtonToolbar>
 								<AsyncButton bsStyle="primary">{__('action.save')}</AsyncButton>
-								<Button bsStyle="link" onClick={this.cancelClick}>{__('action.cancel')}</Button>
+								<Button bsStyle="link" onClick={this.props.onCancel}>{__('action.cancel')}</Button>
 							</ButtonToolbar>
 						</Card>
 					</Col>
@@ -278,5 +278,8 @@ export default class NotifForm extends React.Component {
 }
 
 NotifForm.propTypes = {
-	patient: React.PropTypes.object
+	patient: React.PropTypes.object,
+	onCancel: React.PropTypes.func,
+	diagnosisType: React.PropTypes.string,
+	classification: React.PropTypes.string
 };

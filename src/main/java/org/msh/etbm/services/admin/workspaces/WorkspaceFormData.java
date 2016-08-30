@@ -3,7 +3,6 @@ package org.msh.etbm.services.admin.workspaces;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
-import org.msh.etbm.db.enums.TreatMonitoringInput;
 
 import java.util.Optional;
 
@@ -18,7 +17,6 @@ public class WorkspaceFormData {
     private Optional<Boolean> sendSystemMessages;
 
     private Optional<NameComposition> patientNameComposition;
-    private Optional<TreatMonitoringInput> treatMonitoringInput;
 
     private Optional<DisplayCaseNumber> suspectCaseNumber;
     private Optional<DisplayCaseNumber> confirmedCaseNumber;
@@ -53,14 +51,6 @@ public class WorkspaceFormData {
 
     public void setPatientNameComposition(Optional<NameComposition> patientNameComposition) {
         this.patientNameComposition = patientNameComposition;
-    }
-
-    public Optional<TreatMonitoringInput> getTreatMonitoringInput() {
-        return treatMonitoringInput;
-    }
-
-    public void setTreatMonitoringInput(Optional<TreatMonitoringInput> treatMonitoringInput) {
-        this.treatMonitoringInput = treatMonitoringInput;
     }
 
     public Optional<DisplayCaseNumber> getSuspectCaseNumber() {

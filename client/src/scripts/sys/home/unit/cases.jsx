@@ -20,6 +20,8 @@ export default class Cases extends React.Component {
 			selectedTag: null
 		};
 		this.newPresumptive = this.newPresumptive.bind(this);
+		this.newTB = this.newTB.bind(this);
+		this.newDRTB = this.newDRTB.bind(this);
 		this.tabSelect = this.tabSelect.bind(this);
 		this.toggleSearch = this.toggleSearch.bind(this);
 		this.closeTagCasesList = this.closeTagCasesList.bind(this);
@@ -42,6 +44,7 @@ export default class Cases extends React.Component {
 		// get data from the server
 		server.post('/api/cases/unit/' + unitId, {})
 		.then(res => self.setState({
+			unitId: unitId,
 			presumptives: res.presumptives,
 			drtbCases: res.drtbCases,
 			tbCases: res.tbCases,
@@ -55,15 +58,15 @@ export default class Cases extends React.Component {
 	 * @return {[type]} [description]
 	 */
 	newPresumptive() {
-		app.goto('/sys/home/cases/newnotif');
+		app.goto('/sys/home/cases/newnotif?diag=SUSPECT&cla=TB&id=' + this.state.unitId);
 	}
 
 	newTB() {
-		app.goto('/sys/home/cases/newnotif');
+		app.goto('/sys/home/cases/newnotif?diag=CONFIRMED&cla=TB&id=' + this.state.unitId);
 	}
 
 	newDRTB() {
-		app.goto('/sys/home/cases/newnotif');
+		app.goto('/sys/home/cases/newnotif?diag=CONFIRMED&cla=DRTB&id=' + this.state.unitId);
 	}
 
 	/**

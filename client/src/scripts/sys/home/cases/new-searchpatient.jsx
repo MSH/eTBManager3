@@ -1,13 +1,50 @@
 import React from 'react';
-import { Grid, Row, Col, Input, Button, ButtonToolbar } from 'react-bootstrap';
+import { Grid, Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
 import { Profile, Card, AsyncButton, ReactTable } from '../../../components/index';
 import { app } from '../../../core/app';
+import Form from '../../../forms/form';
 
 
 /**
  * TEMPORARY - JUST FOR PROTOTYPING
  */
 import { generateName } from '../../mock-data';
+
+const fschema = {
+			controls: [
+				{
+					property: 'firstName',
+					required: true,
+					type: 'string',
+					max: 100,
+					label: __('Patient.firstName'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'middleName',
+					required: false,
+					type: 'string',
+					max: 100,
+					label: __('Patient.middleName'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'lastName',
+					required: false,
+					type: 'string',
+					max: 100,
+					label: __('Patient.lastName'),
+					size: { sm: 3 }
+				},
+				{
+					property: 'birthDate',
+					required: true,
+					type: 'date',
+					label: __('Patient.birthDate'),
+					size: { md: 3 }
+				}
+			]
+		};
 
 /**
  * Component that displays and handle notification form
@@ -17,7 +54,8 @@ export default class SearchPatient extends React.Component {
 	constructor(props) {
 		super(props);
 		this.searchClick = this.searchClick.bind(this);
-		this.state = {};
+
+		this.state = { doc: {} };
 	}
 
 	loadPatients() {
@@ -40,15 +78,13 @@ export default class SearchPatient extends React.Component {
 
 
 	searchClick() {
+		const errors = this.refs.form.validate();
+		this.setState({ errors: errors });
+		if (errors) {
+			return;
+		}
+
 		this.loadPatients();
-	}
-
-
-	/**
-	 * Called when user wants to cancel the notification
-	 */
-	cancelClick() {
-		app.goto('/sys/home/unit/cases');
 	}
 
 	patientsRender() {
@@ -60,29 +96,18 @@ export default class SearchPatient extends React.Component {
 
 		return (
 			<div>
-				<Card className="mtop" title="Search result" >
+				<Card className="mtop">
 					<ReactTable values={lst}
 						className="mtop"
 						onClick={this.props.onSelect}
 						columns={[
 							{
-								title: 'Patient',
+								title: __('Patient'),
 								size: { sm: 6, xs: 9 },
 								content: item =>
 									<Profile type={item.gender.toLowerCase()}
 										size="small"
-										title={item.name}
-										/>
-							},
-							{
-								title: 'Age',
-								size: { sm: 2, xs: 3 },
-								content: 'age'
-							},
-							{
-								title: 'Status',
-								size: { sm: 4, xs: 12 },
-								content: () => 'TO BE DONE'
+										title={item.name} />
 							}
 						]} />
 				</Card>
@@ -90,29 +115,17 @@ export default class SearchPatient extends React.Component {
 			);
 	}
 
-
 	render() {
 		return (
 			<Grid fluid>
 				<Row>
 					<Col mdOffset={2} md={9}>
-						<h1>{'New notification'} </h1>
-						<Card title="Search patient">
+						<Card title={__('cases.searchpatient')} className='mtop'>
 							<div>
-								<Row>
-									<Col sm={3}>
-										<Input type="text" label="First name:" />
-									</Col>
-									<Col sm={3}>
-										<Input type="text" label="Middle name:" />
-									</Col>
-									<Col sm={3}>
-										<Input type="text" label="Last name:" />
-									</Col>
-									<Col sm={3}>
-										<Input type="text" label="Age:" />
-									</Col>
-								</Row>
+								<Form ref="form"
+									schema={fschema}
+									doc={this.state.doc}
+									errors={this.state.errors} />
 								<Row>
 									<Col sm={12}>
 										<ButtonToolbar>
@@ -122,7 +135,7 @@ export default class SearchPatient extends React.Component {
 											bsStyle="primary">
 											{'Search'}
 										</AsyncButton>
-										<Button bsStyle="link" onClick={this.cancelClick}>{__('action.cancel')}</Button>
+										<Button bsStyle="link" onClick={this.props.onCancel}>{__('action.cancel')}</Button>
 										</ButtonToolbar>
 									</Col>
 								</Row>
@@ -137,5 +150,6 @@ export default class SearchPatient extends React.Component {
 }
 
 SearchPatient.propTypes = {
-	onSelect: React.PropTypes.func
+	onSelect: React.PropTypes.func,
+	onCancel: React.PropTypes.func
 };

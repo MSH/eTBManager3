@@ -51,8 +51,7 @@ public class GlobalListsService {
             PrevTBTreatmentOutcome.class,
             NameComposition.class,
             CaseValidationOption.class,
-            DisplayCaseNumber.class,
-            TreatMonitoringInput.class
+            DisplayCaseNumber.class
     };
 
     /**

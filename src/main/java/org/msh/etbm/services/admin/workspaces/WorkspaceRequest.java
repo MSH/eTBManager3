@@ -3,7 +3,6 @@ package org.msh.etbm.services.admin.workspaces;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
-import org.msh.etbm.db.enums.TreatMonitoringInput;
 
 import java.util.Optional;
 
@@ -36,8 +35,6 @@ public class WorkspaceRequest {
     private Optional<Integer> monthsToAlertExpiredMedicines;
     private Optional<Integer> minStockOnHand;
     private Optional<Integer> maxStockOnHand;
-
-    private Optional<TreatMonitoringInput> treatMonitoringInput;
 
 
     public Optional<String> getName() {
@@ -126,14 +123,6 @@ public class WorkspaceRequest {
 
     public void setMaxStockOnHand(Optional<Integer> maxStockOnHand) {
         this.maxStockOnHand = maxStockOnHand;
-    }
-
-    public Optional<TreatMonitoringInput> getTreatMonitoringInput() {
-        return treatMonitoringInput;
-    }
-
-    public void setTreatMonitoringInput(Optional<TreatMonitoringInput> treatMonitoringInput) {
-        this.treatMonitoringInput = treatMonitoringInput;
     }
 
     public boolean isAddTemplateData() {
