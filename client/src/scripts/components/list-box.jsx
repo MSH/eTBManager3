@@ -145,16 +145,16 @@ export default class ListBox extends React.Component {
 		}
 
 		const ctrlClass = this.props.wrapperClassName;
-		const controlClass = (this.props.vertical === true ? 'list-box-v' : 'list-box-h') + ' form-control' + (ctrlClass ? ' ' + ctrlClass : '');
+		const controlClass = (this.props.vertical ? 'list-box-v' : 'list-box-h') + ' form-control' + (ctrlClass ? ' ' + ctrlClass : '');
 
 		var ret = null;
 
 		var stl = null;
-		if (this.props.vertical === true && this.props.maxHeight) {
+		if (this.props.vertical && this.props.maxHeight) {
 			stl = { maxHeight: this.props.maxHeight + 'px', overflowY: 'auto' };
 		}
 
-		if (this.props.vertical === true && opts.length > 0) {
+		if (this.props.vertical && opts.length > 0) {
 			ret = <ButtonGroup vertical className={controlClass} style={stl}>{opts}</ButtonGroup>;
 		} else if (opts.length > 0) {
 			ret = <ButtonGroup justified className={controlClass} style={stl}>{opts}</ButtonGroup>;

@@ -63,7 +63,7 @@ export default class CaseComorbidities extends React.Component {
 		const tbcase = this.props.tbcase;
 
 		// create data for UI controlling
-		const trueOnes = fschema.controls.filter(item => tbcase[item.property] === true);
+		const trueOnes = fschema.controls.filter(item => tbcase[item.property]);
 
 		// create doc
 		const doc = {};
@@ -106,7 +106,7 @@ export default class CaseComorbidities extends React.Component {
 		return crud.update(this.props.tbcase.id, this.state.doc).then(() => {
 			const uidata = [];
 			fschema.controls.map(item => {
-				if (this.state.doc[item.property] === true) {
+				if (this.state.doc[item.property]) {
 					uidata.push(item);
 				}
 			});
