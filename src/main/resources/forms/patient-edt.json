@@ -40,6 +40,13 @@
       "options": "medicines",
       "size": { "md": 6 },
       "newRow": true
+    },
+    {
+      "property": "address",
+      "label": "${Patient.address}",
+      "type": "address",
+      "size": { "md": 6 },
+      "newRow": true
     }
   ],
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Card } from '../../../components';
 import Form from '../../../forms/form';
 
@@ -123,7 +123,7 @@ const data = {
 		type: 'unit',
 		property: 'notificationUnit',
 		label: __('TbCase.notificationUnit'),
-		size: { sm: 6 }
+		size: { sm: 12 }
 	},
 	{
 		type: 'date',

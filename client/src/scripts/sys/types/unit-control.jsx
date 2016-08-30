@@ -2,7 +2,6 @@
 import React from 'react';
 import { WaitIcon, SelectionBox } from '../../components';
 import FormUtils from '../../forms/form-utils';
-import AdminUnitControl from './admin-unit-control';
 import su from '../session-utils';
 
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col, FormControl, ControlLabel } from 'react-bootstrap';
-import { app } from '../../core/app';
+import { Row, Col, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import su from '../session-utils';
 import FormUtils from '../../forms/form-utils';
+import AdminUnitControl from './admin-unit-control';
 
 import './person-name-control.less';
 
@@ -15,6 +15,18 @@ export default class AddressControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
+		this.adminUnitChange = this.adminUnitChange.bind(this);
+	}
+
+	serverRequest(nextSchema, nextValue, nextResources) {
+		const auCtrl = this.refs.adminUnit;
+		if (!auCtrl) {
+			return null;
+		}
+
+		return auCtrl.serverRequest(nextSchema,
+			nextValue ? nextValue.adminUnit : null,
+			nextResources);
 	}
 
 	/**
@@ -36,54 +48,67 @@ export default class AddressControl extends React.Component {
 				val = Object.assign({}, this.props.value, field);
 			}
 
-			console.log(val);
 			this.props.onChange({ schema: this.props.schema, value: val });
 		}
 	}
 
-	calcFields() {
-		const nameComp = app.getState().session.patientNameComposition;
-
-		switch (nameComp) {
-			case 'FIRSTSURNAME': return ['name', 'middleName'];
-			case 'SURNAME_FIRSTNAME': return ['middleName', 'name'];
-			case 'FIRST_MIDDLE_LASTNAME': return ['name', 'middleName', 'lastName'];
-			case 'LAST_FIRST_MIDDLENAME': return ['lastName', 'name', 'middleName'];
-			case 'LAST_FIRST_MIDDLENAME_WITHOUT_COMMAS': return ['lastName', 'name'];
-			default: return ['fullName'];
-		}
+	adminUnitChange(evt) {
+		const value = Object.assign({}, this.props.value, { adminUnit: evt.value });
+		this.props.onChange({ schema: this.props.schema, value: value });
 	}
-
-
-	placeHolder(id) {
-		switch (id) {
-			case 'middleName': return __('Patient.middleName');
-			case 'lastName': return __('Patient.lastName');
-			case 'fullName': return __('Patient.fullName');
-			default: return __('Patient.firstName');
-		}
-	}
-
 
 	render() {
-        const value = this.props.value;
+		const value = this.props.value || {};
+		const schema = this.props.schema;
 
 		// field is just for displaying ?
-		if (this.props.schema.readOnly) {
-            console.log(value);
+		if (schema.readOnly) {
 			const content = su.addressDisplay(value);
-			return FormUtils.readOnlyRender(content, this.props.schema.label);
+			return FormUtils.readOnlyRender(content, schema.label);
 		}
 
+		const auSchema = {
+			required: schema.required
+		};
+		const adminUnit = value && value.adminUnit ? value.adminUnit : null;
 
 		return (
-			<div className="form-group address-edt">
-                <ControlLabel>{__('Address.address')}</ControlLabel>
-                <FormControl type="text" id="address" value={value} />
-			<Row>
-			{
-			}
-			</Row>
+			<div className="address-edt">
+				<FormGroup>
+					<ControlLabel>{__('Address.address')}</ControlLabel>
+					<FormControl id="address"
+						type="text"
+						value={value.address}
+						onChange={this.onChange}
+						/>
+				</FormGroup>
+				<FormGroup>
+					<ControlLabel>{__('Address.complement')}</ControlLabel>
+					<FormControl id="complement"
+						type="text"
+						value={value.address}
+						onChange={this.onChange}
+						/>
+				</FormGroup>
+				<Row>
+					<Col sm={6}>
+						<FormGroup>
+							<ControlLabel>{__('Address.zipCode')}</ControlLabel>
+							<FormControl id="zipCode"
+								type="text"
+								value={value.zipCode}
+								onChange={this.onChange}
+								/>
+						</FormGroup>
+					</Col>
+				</Row>
+				<AdminUnitControl
+					ref="adminUnit"
+					value={adminUnit}
+					onChange={this.adminUnitChange}
+					schema={auSchema}
+					resources={this.props.resources}
+					/>
 			</div>
 		);
 	}
@@ -94,5 +119,6 @@ AddressControl.propTypes = {
 	value: React.PropTypes.object,
 	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
-	schema: React.PropTypes.object
+	schema: React.PropTypes.object,
+	resources: React.PropTypes.any
 };
