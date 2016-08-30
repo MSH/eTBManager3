@@ -85,39 +85,18 @@ const data = {
 		label: __('Patient.motherName'),
 		size: { sm: 6 }
 	},
-
 	{
-		type: 'subtitle',
+		type: 'address',
 		label: __('cases.details.addressnotif'),
-		size: { sm: 12 }
+		property: 'notifAddress',
+		size: { sm: 6 },
+		newRow: true
 	},
 	{
-		type: 'string',
-		property: 'notifAddress.address',
-		required: true,
-		label: __('Address.address'),
+		type: 'address',
+		label: __('cases.details.addresscurr'),
+		property: 'currentAddress',
 		size: { sm: 6 }
-	},
-	{
-		type: 'string',
-		property: 'notifAddress.complement',
-		label: __('Address.complement'),
-		size: { sm: 6 },
-		newRow: true
-	},
-	{
-		type: 'adminUnit',
-		property: 'notifAddress.adminUnit',
-		size: { sm: 6 },
-		newRow: true
-	},
-	{
-		type: 'string',
-		property: 'notifAddress.zipCode',
-		label: __('Address.zipCode'),
-		max: 20,
-		size: { sm: 6 },
-		newRow: true
 	},
 	{
 		type: 'string',
@@ -132,8 +111,7 @@ const data = {
 		property: 'mobileNumber',
 		label: __('global.mobile'),
 		max: 20,
-		size: { sm: 6 },
-		newRow: true
+		size: { sm: 6 }
 	},
 
 	{

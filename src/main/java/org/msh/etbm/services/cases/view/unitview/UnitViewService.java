@@ -68,6 +68,7 @@ public class UnitViewService {
         data.setPresumptives(new ArrayList<>());
         data.setDrtbCases(new ArrayList<>());
         data.setTbCases(new ArrayList<>());
+        data.setNtmCases(new ArrayList<>());
 
         for (TbCase tbcase : lst) {
 
@@ -78,11 +79,12 @@ public class UnitViewService {
                 // get confirmed case data
                 ConfirmedCaseData caseData = createConfirmedData(tbcase);
 
-                // put case in the right list
-                if (tbcase.getClassification() == CaseClassification.TB) {
-                    data.getTbCases().add(caseData);
-                } else {
-                    data.getDrtbCases().add(caseData);
+                switch (tbcase.getClassification()) {
+                    case DRTB: data.getDrtbCases().add(caseData);
+                        break;
+                    case NTM: data.getNtmCases().add(caseData);
+                        break;
+                    default: data.getTbCases().add(caseData);
                 }
             }
         }

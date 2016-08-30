@@ -13,6 +13,7 @@
       "property": "name",
       "type": "personName",
       "label": "${Patient.name}",
+      "required": true,
       "size": { "md": 6 }
     },
     {

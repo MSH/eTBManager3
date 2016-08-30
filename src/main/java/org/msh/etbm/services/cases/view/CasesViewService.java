@@ -127,7 +127,7 @@ public class CasesViewService {
                     .append("where a.pid0 is null\n");
         }
 
-        s.append("and a.workspace_id = :wsid and d.state < 3 and d.diagnosisType is not null\n")
+        s.append("and a.workspace_id = :wsid and d.state < 2 and d.diagnosisType is not null\n")
                 .append("group by a.id, a.name, d.diagnosisType, d.classification\n")
                 .append("order by a.name");
 
@@ -150,7 +150,7 @@ public class CasesViewService {
         String sql = "select a.id, a.name, 0 as unitsCount, b.diagnosisType, b.classification, count(*) as total " +
                 "from unit a\n" +
                 "inner join tbcase b on b.owner_unit_id = a.id\n" +
-                "where b.state < 3 and b.diagnosisType is not null\n" +
+                "where b.state < 2 and b.diagnosisType is not null\n" +
                 "and a.adminunit_id = :auId\n" +
                 "group by a.id, a.name, b.diagnosisType, b.classification\n" +
                 "order by a.name";

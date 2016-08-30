@@ -6,10 +6,10 @@ import FormUtils from '../../forms/form-utils';
 
 import './person-name-control.less';
 
-export default class PersonNameControl extends React.Component {
+export default class AddressControl extends React.Component {
 
 	static typeName() {
-		return 'personName';
+		return 'address';
 	}
 
 	constructor(props) {
@@ -36,9 +36,7 @@ export default class PersonNameControl extends React.Component {
 				val = Object.assign({}, this.props.value, field);
 			}
 
-			// if name is empty, send null
-			val = Object.keys(val).find(p => !!val[p]) ? val : null;
-
+			console.log(val);
 			this.props.onChange({ schema: this.props.schema, value: val });
 		}
 	}
@@ -68,34 +66,22 @@ export default class PersonNameControl extends React.Component {
 
 
 	render() {
-		const schema = this.props.schema;
+        const value = this.props.value;
+
 		// field is just for displaying ?
-		if (schema.readOnly) {
-			const content = su.nameDisplay(this.props.value);
-			return FormUtils.readOnlyRender(content, schema.label);
+		if (this.props.schema.readOnly) {
+            console.log(value);
+			const content = su.addressDisplay(value);
+			return FormUtils.readOnlyRender(content, this.props.schema.label);
 		}
 
-		const fields = this.calcFields();
-
-		const size = { sm: 12 / fields.length };
 
 		return (
-			<div className="form-group person-name">
-			<Row>
-				<Col sm={12}>
-					<ControlLabel>{FormUtils.labelRender(schema.label, schema.required)}</ControlLabel>
-				</Col>
-			</Row>
+			<div className="form-group address-edt">
+                <ControlLabel>{__('Address.address')}</ControlLabel>
+                <FormControl type="text" id="address" value={value} />
 			<Row>
 			{
-				fields.map(id => (
-					<Col {...size} key={id} >
-						<FormControl id={id}
-							type="text"
-							placeholder={this.placeHolder(id)}
-							onChange={this.onChange} />
-					</Col>
-				))
 			}
 			</Row>
 			</div>
@@ -104,9 +90,9 @@ export default class PersonNameControl extends React.Component {
 }
 
 
-PersonNameControl.propTypes = {
+AddressControl.propTypes = {
 	value: React.PropTypes.object,
-	onChange: React.PropTypes.func.isRequired,
+	onChange: React.PropTypes.func,
 	errors: React.PropTypes.any,
-	schema: React.PropTypes.object.isRequired
+	schema: React.PropTypes.object
 };
