@@ -29,6 +29,7 @@ import MaskedInput from './masked-input';
 import CommandBar from './command-bar';
 import Errors from './errors';
 import PopupControl from './popup-control';
+import RemoteFormDialog from './remote-form-dialog';
 
 export { Callout,
 	AsyncButton,
@@ -56,5 +57,6 @@ export { Callout,
 	MaskedInput,
 	CommandBar,
 	Errors,
-	PopupControl
+	PopupControl,
+	RemoteFormDialog
 };
