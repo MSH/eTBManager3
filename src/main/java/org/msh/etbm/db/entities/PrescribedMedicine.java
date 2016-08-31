@@ -43,14 +43,6 @@ public class PrescribedMedicine extends CaseEntity {
     private int frequency;
 
     /**
-     * Medicine source
-     */
-    @ManyToOne
-    @JoinColumn(name = "SOURCE_ID")
-    @NotNull
-    private Source source;
-
-    /**
      * Optional comments entered by the user
      */
     @Lob
@@ -66,24 +58,6 @@ public class PrescribedMedicine extends CaseEntity {
         return (comments != null) && (!comments.isEmpty());
     }
 
-
-    /**
-     * Initialize the attributes from a {@link MedicineRegimen} object
-     *
-     * @param medReg
-     * @param iniDate
-     */
-    public void initializeFromRegimen(MedicineRegimen medReg, Date iniDate) {
-        Period p = new Period();
-        p.setIniDate(iniDate);
-        Date dtend = DateUtils.incDays(DateUtils.incDays(iniDate, medReg.getDays()), -1);
-        p.setEndDate(dtend);
-
-        doseUnit = medReg.getDefaultDoseUnit();
-        frequency = medReg.getDefaultFrequency();
-        product = medReg.getMedicine();
-        period = p;
-    }
 
     /**
      * Return the month of treatment according to the beginning of the treatment and the initial date of the period
@@ -197,14 +171,6 @@ public class PrescribedMedicine extends CaseEntity {
 
     public void setFrequency(int frequency) {
         this.frequency = frequency;
-    }
-
-    public Source getSource() {
-        return source;
-    }
-
-    public void setSource(Source source) {
-        this.source = source;
     }
 
     public String getComments() {

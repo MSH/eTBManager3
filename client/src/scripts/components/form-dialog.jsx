@@ -80,22 +80,22 @@ export default class FormDialog extends React.Component {
 					resources={this.props.resources}/>
 				);
 
-			const buttons = (
-				<div className="mtop">
-					<ButtonToolbar>
-						<AsyncButton fetching={this.state.fetching} faIcon="check"
-							bsStyle="success"
-							onClick={this.confirmClick}>{this.props.confirmCaption}
-						</AsyncButton>
-						{
-							!this.props.hideCancel &&
-							<Button onClick={this.props.onCancel} disabled={this.state.fetching}>
-								<i className="fa fa-times fa-fw"/>{__('action.cancel')}
-							</Button>
-						}
-					</ButtonToolbar>
-				</div>
-				);
+		const buttons = (
+			<div className="mtop">
+				<ButtonToolbar>
+					<AsyncButton fetching={this.state.fetching} faIcon="check"
+						bsStyle="success"
+						onClick={this.confirmClick}>{this.props.confirmCaption}
+					</AsyncButton>
+					{
+						!this.props.hideCancel &&
+						<Button onClick={this.props.onCancel} disabled={this.state.fetching}>
+							<i className="fa fa-times fa-fw"/>{__('action.cancel')}
+						</Button>
+					}
+				</ButtonToolbar>
+			</div>
+			);
 
 		switch (this.props.wrapType) {
 			case 'card': return (

@@ -1,6 +1,7 @@
 package org.msh.etbm.services.admin.regimens;
 
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
+import org.msh.etbm.db.enums.CaseClassification;
 
 /**
  * Created by rmemoria on 6/1/16.
@@ -19,11 +20,21 @@ public class RegimenQueryParams extends EntityQueryParams {
      */
     private boolean includeDisabled;
 
+    private CaseClassification caseClassification;
+
     public boolean isIncludeDisabled() {
         return includeDisabled;
     }
 
     public void setIncludeDisabled(boolean includeDisabled) {
         this.includeDisabled = includeDisabled;
+    }
+
+    public CaseClassification getCaseClassification() {
+        return caseClassification;
+    }
+
+    public void setCaseClassification(CaseClassification caseClassification) {
+        this.caseClassification = caseClassification;
     }
 }
