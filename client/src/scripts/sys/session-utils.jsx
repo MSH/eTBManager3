@@ -1,4 +1,5 @@
 import React from 'react';
+import { Fa } from '../components';
 import { app } from '../core/app';
 
 export default class SessionUtils {
@@ -54,20 +55,20 @@ export default class SessionUtils {
 
 		// admin unit was informed ?
 		if (adminUnit) {
-			// add links of parents
-			for (var k = 0; k < 4; k++) {
-				const p = adminUnit['p' + k];
-				if (p) {
-					const hash = SessionUtils.adminUnitHash(p.id);
-					lst.push(<a key={k} href={hash}>{p.name}</a>);
-					lst.push(<span key={'s' + k}>{', '}</span>);
-				}
-			}
 			// add link of main item
 			if (addMain) {
 				lst.push(<a key="sel" href={SessionUtils.adminUnitHash(adminUnit.id, defaultView)}>{adminUnit.name}</a>);
-			} else {
-				lst.pop();
+			}
+			// add links of parents
+			for (var k = 3; k >= 0; k--) {
+				const p = adminUnit['p' + k];
+				if (p) {
+					if (lst.length > 0) {
+						lst.push(<span key={'s' + k}>{', '}</span>);
+					}
+					const hash = SessionUtils.adminUnitHash(p.id);
+					lst.push(<a key={k} href={hash}>{p.name}</a>);
+				}
 			}
 		}
 
@@ -96,9 +97,9 @@ export default class SessionUtils {
 
 		// admin unit was informed ?
 		if (adminUnit) {
-			const lst = [];
+			const lst = [adminUnit.name];
 			// add links of parents
-			for (var k = 0; k < 4; k++) {
+			for (var k = 3; k >= 0; k--) {
 				const p = adminUnit['p' + k];
 				if (p && p.name) {
 					lst.push(p.name);
@@ -163,17 +164,41 @@ export default class SessionUtils {
 	 * Display an address using the tag address
 	 */
 	static addressDisplay(addr) {
-		const lst = [addr.address, addr.complement, addr.zipCode, SessionUtils.adminUnitDisplay(addr.adminUnit)]
-			.filter(it => !!it);
+		const zipCode = addr.zipCode ? __('Address.zipCode') + ': ' + addr.zipCode : null;
+		const lst = [addr.address,
+			addr.complement,
+			zipCode,
+			SessionUtils.adminUnitLink(addr.adminUnit, false, true)
+			].filter(it => !!it);
+
+		let index = 0;
 
 		return (
 			<address>
 			{
 				lst.map(s => (
-					<span>{s}<br/></span>
+					<div key={index++}>{s}</div>
 				))
 			}
 			</address>
+		);
+	}
+
+	/**
+	 * Display an unit with its name and administrative unit below it.
+	 * Also include a link to go to the unit
+	 */
+	static unitDisplay(unit, view) {
+		const adminUnit = SessionUtils.adminUnitLink(unit.adminUnit, false, true, view);
+
+		return (
+			<div>
+				<Fa icon="hospital-o"/>
+				<a href={SessionUtils.unitHash(unit.id, '/cases')}>{unit.name}</a>
+				<br/>
+				<Fa icon="map-marker"/>
+				{adminUnit}
+			</div>
 		);
 	}
 }

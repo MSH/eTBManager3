@@ -52,6 +52,8 @@ public class CaseDetailedData {
 
     private UnitData ownerUnit;
 
+    private UnitData notificationUnit;
+
     private boolean validated;
 
     private AddressData notifAddress;
@@ -324,5 +326,13 @@ public class CaseDetailedData {
 
     public void setIssues(List<IssueData> issues) {
         this.issues = issues;
+    }
+
+    public UnitData getNotificationUnit() {
+        return notificationUnit;
+    }
+
+    public void setNotificationUnit(UnitData notificationUnit) {
+        this.notificationUnit = notificationUnit;
     }
 }

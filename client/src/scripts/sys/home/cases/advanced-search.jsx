@@ -3,6 +3,7 @@ import { Card } from '../../../components';
 import FiltersCard from './filters/filters-card';
 import { server } from '../../../commons/server';
 import CasesList from '../commons/cases-list';
+import SU from '../../session-utils';
 
 import CrudController from '../../crud/crud-controller';
 import FakeCRUD from '../../../commons/fake-crud';
@@ -64,6 +65,10 @@ export default class AdvancedSearch extends React.Component {
 		};
 	}
 
+	caseClick(data) {
+		window.location = SU.caseHash(data.id);
+	}
+
 	render() {
 		const filters = this.state.filters;
 
@@ -78,7 +83,8 @@ export default class AdvancedSearch extends React.Component {
 				{
 					this.state.controller &&
 					<Card>
-						<CasesList controller={this.state.controller}/>
+						<CasesList controller={this.state.controller}
+							onCaseClick={this.caseClick}/>
 					</Card>
 				}
 			</div>

@@ -158,7 +158,9 @@
     },
     {
       "name": "patient",
-      "type": "patient",
+      "fieldName": "patient_id",
+      "type": "foreignKey",
+      "fkTable": "patient",
       "required": true
     },
     {

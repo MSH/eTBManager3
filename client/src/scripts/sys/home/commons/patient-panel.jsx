@@ -11,7 +11,7 @@ export default class PatientPanel extends React.Component {
 
 	stateClass() {
 		switch (this.props.tbcase.state) {
-			case 'WAITING_TREATMENT': return 'cs-NOT_ONTREATMENT';
+			case 'NOT_ONTREATMENT': return 'cs-NOT_ONTREATMENT';
 			case 'ONTREATMENT': return 'cs-ONTREATMENT';
 			default: return 'cs-CLOSED';
 		}
@@ -33,7 +33,6 @@ export default class PatientPanel extends React.Component {
 		const stateName = lists.CaseState[tbcase.state];
 		const validationName = tbcase.validated ? __('TbCase.validated') : __('TbCase.waitingValidation');
 		const ownerUnit = tbcase.ownerUnit;
-		const adminUnit = SessionUtils.adminUnitLink(tbcase.ownerUnit.adminUnit, false, true, '/cases');
 
 		const subtitle = (
 			<div className="case-subtitle">
@@ -41,11 +40,9 @@ export default class PatientPanel extends React.Component {
 				<div>{tbcase.caseCode}</div>
 				<div className="case-unit">
 					<div>
-						<Fa icon="hospital-o"/>
-						<a href={SessionUtils.unitHash(ownerUnit.id, '/cases')}>{ownerUnit.name}</a>
-						<br/>
-						<Fa icon="map-marker"/>
-						{adminUnit}
+					{
+						SessionUtils.unitDisplay(ownerUnit, '/cases')
+					}
 					</div>
 				</div>
 			</div>);

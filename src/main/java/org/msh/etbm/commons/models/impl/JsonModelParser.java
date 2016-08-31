@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models.impl;
 
 import org.msh.etbm.commons.models.FieldTypeManager;
+import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.handlers.FieldHandler;
@@ -39,6 +40,10 @@ public class JsonModelParser extends StandardJSONParser<Model> {
     private Field createFieldInstance(Map<String, Object> props) {
         String ftypeName = (String)props.get("type");
         FieldHandler handler = FieldTypeManager.instance().getHandler(ftypeName);
+        if (handler == null) {
+            throw new ModelException("Invalid field type: " + ftypeName);
+        }
+
         Class<? extends Field> fieldClass = handler.getFieldClass();
 
         props.remove("type");

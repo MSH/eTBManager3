@@ -13,12 +13,14 @@ export default class FollowupDisplay extends React.Component {
 	}
 
 	renderButtons() {
-		return (<div className="pull-right">
-								<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
-								<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-									<a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
-								</OverlayTrigger>
-							</div>);
+		return (
+			<div className="pull-right">
+				<a className="lnk-muted" onClick={this.props.onEdit}><Fa icon="pencil"/>{__('action.edit')}</a>
+				<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+					<a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
+				</OverlayTrigger>
+			</div>
+			);
 	}
 
 	renderHeader() {
@@ -44,22 +46,23 @@ export default class FollowupDisplay extends React.Component {
 							}
 						</div>);
 
-		const header = (<Row className="profile profile-medium">
-							<Col sm={10}>
-								<div className="profile-image">
-									<Fa icon={followUpType.icon} />
-								</div>
-								<div className="profile-title">{followup.name}</div>
-								<div className="profile-subtitle">{subtitle}</div>
-							</Col>
-							<Col sm={2}>
-								<div className="text-right">{this.renderButtons()}</div>
-							</Col>
-							<Col sm={12}>
-								<hr/>
-							</Col>
-						</Row>
-						);
+		const header = (
+			<Row className="profile profile-medium">
+				<Col sm={10}>
+					<div className="profile-image">
+						<Fa icon={followUpType.icon} />
+					</div>
+					<div className="profile-title">{followup.name}</div>
+					<div className="profile-subtitle">{subtitle}</div>
+				</Col>
+				<Col sm={2}>
+					<div className="text-right">{this.renderButtons()}</div>
+				</Col>
+				<Col sm={12}>
+					<hr/>
+				</Col>
+			</Row>
+			);
 
 		return header;
 	}

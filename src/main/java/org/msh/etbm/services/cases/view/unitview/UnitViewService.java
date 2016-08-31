@@ -5,7 +5,10 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.enums.MicroscopyResult;
+import org.msh.etbm.db.enums.XpertResult;
 import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
 import org.msh.etbm.services.cases.tag.CasesTagsReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +71,7 @@ public class UnitViewService {
         data.setPresumptives(new ArrayList<>());
         data.setDrtbCases(new ArrayList<>());
         data.setTbCases(new ArrayList<>());
+        data.setNtmCases(new ArrayList<>());
 
         for (TbCase tbcase : lst) {
 
@@ -78,11 +82,12 @@ public class UnitViewService {
                 // get confirmed case data
                 ConfirmedCaseData caseData = createConfirmedData(tbcase);
 
-                // put case in the right list
-                if (tbcase.getClassification() == CaseClassification.TB) {
-                    data.getTbCases().add(caseData);
-                } else {
-                    data.getDrtbCases().add(caseData);
+                switch (tbcase.getClassification()) {
+                    case DRTB: data.getDrtbCases().add(caseData);
+                        break;
+                    case NTM: data.getNtmCases().add(caseData);
+                        break;
+                    default: data.getTbCases().add(caseData);
                 }
             }
         }

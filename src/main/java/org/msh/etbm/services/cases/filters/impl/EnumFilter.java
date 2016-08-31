@@ -10,6 +10,8 @@ import org.msh.etbm.services.cases.filters.FilterGroup;
 import java.util.*;
 
 /**
+ * Filter for fields of enum type
+ *
  * Created by rmemoria on 17/8/16.
  */
 public class EnumFilter extends AbstractFilter {

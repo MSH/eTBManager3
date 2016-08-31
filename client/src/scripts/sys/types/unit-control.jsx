@@ -2,7 +2,7 @@
 import React from 'react';
 import { WaitIcon, SelectionBox } from '../../components';
 import FormUtils from '../../forms/form-utils';
-import AdminUnitControl from './admin-unit-control';
+import su from '../session-utils';
 
 
 /**
@@ -196,7 +196,7 @@ export default class UnitControl extends React.Component {
 		const unit = this.props.value;
 		var text = unit ? unit.name : null;
 		if (unit && unit.adminUnit) {
-			text = <div><div>{text}</div><div>{AdminUnitControl.displayText(unit.adminUnit)}</div></div>;
+			text = su.unitDisplay(unit, '/cases');
 		}
 		return FormUtils.readOnlyRender(text, schema.label);
 	}

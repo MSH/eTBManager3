@@ -9,6 +9,7 @@ import ListBoxControl from './list-box-control';
 import TableFormControl from './table-form-control';
 import MultiListBoxControl from './multi-list-box-control';
 import PersonNameControl from './person-name-control';
+import AddressControl from './address-control';
 
 function register() {
 	Form.registerType([
@@ -19,7 +20,8 @@ function register() {
 		ListBoxControl,
 		TableFormControl,
 		MultiListBoxControl,
-		PersonNameControl
+		PersonNameControl,
+		AddressControl
 		]);
 }
 

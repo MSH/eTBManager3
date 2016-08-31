@@ -73,7 +73,7 @@ public class StandardJSONParser<E> {
 
             Class propClass = ObjectUtils.getPropertyType(bean2, propName);
             if (propClass == null) {
-                throw new ModelException("Invalid property: " + propName);
+                throw new ModelException("Invalid property: " + propName + " in class " + bean2.getClass());
             }
 
             Field field = ObjectUtils.findField(bean2.getClass(), propName);

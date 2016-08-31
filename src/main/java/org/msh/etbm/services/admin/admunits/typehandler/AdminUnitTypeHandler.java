@@ -90,16 +90,16 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
 
         // number of levels in the admin unit series
         int seriesLevels = adminUnit.getLevel();
-        int l = 1;
+        int l = 0;
         while (l <= seriesLevels) {
             SynchronizableItem item = adminUnit.getItemAtLevel(l);
 
-            vals[l - 1].setSelected(item.getId());
+            vals[l].setSelected(item.getId());
 
             if (l < level) {
                 qry.setParentId(item.getId());
                 qr = (AdminUnitQueryResult) adminUnitService.findMany(qry);
-                vals[l].setList(qr.getList());
+                vals[l + 1].setList(qr.getList());
             }
             l++;
         }

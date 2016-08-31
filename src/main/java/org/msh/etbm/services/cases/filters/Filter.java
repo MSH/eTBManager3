@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.filters;
 
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.springframework.context.ApplicationContext;
 
 import java.util.Map;
 
@@ -28,6 +29,14 @@ public interface Filter {
      * @return
      */
     FilterGroup getGroup();
+
+    /**
+     * Initialize the filter passing the instance of the ApplicationContext.
+     * This is called just once when filter is created and before any other method,
+     * in order to give the filter the possibility to get beans
+     * @param context instance of ApplicationContext interface
+     */
+    void initialize(ApplicationContext context);
 
     /**
      * Prepare the query to apply the filters

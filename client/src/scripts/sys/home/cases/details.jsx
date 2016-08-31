@@ -14,8 +14,6 @@ import CaseMove from './case-move';
 import CaseIssues from './case-issues';
 import CaseTags from './case-tags';
 
-import { generateName, mockTbCase } from '../../mock-data';
-
 
 export default class Details extends React.Component {
 
@@ -64,24 +62,7 @@ export default class Details extends React.Component {
 	fetchData(id) {
 		const self = this;
 		server.get('/api/tbl/case/' + id)
-		.then(tbcase => {
-			const contacts = [];
-			for (var i = 0; i < 5; i++) {
-				const res = generateName();
-				contacts.push({
-					id: res.id,
-					name: res.name,
-					gender: res.gender,
-					age: res.age
-				});
-			}
-			const data = Object.assign({}, mockTbCase, { contacts: contacts }, tbcase);
-			data.followups = ['notloaded'];
-
-			self.setState({
-				tbcase: data
-			});
-		});
+		.then(tbcase => self.setState({	tbcase: tbcase }));
 
 		this.setState({ tbcase: null });
 	}

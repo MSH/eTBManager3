@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, AsyncButton, FormDialog } from '../../components/index';
-import { ButtonToolbar } from 'react-bootstrap';
+import { Card, RemoteFormDialog } from '../../components/index';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { server } from '../../commons/server';
 
 export default class ShowMessage extends React.Component {
@@ -8,46 +8,36 @@ export default class ShowMessage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.click = this.click.bind(this);
+		this.click2 = this.click2.bind(this);
 		this.state = {};
 	}
 
 	click() {
-		this.setState({ fetching: true, code: null, schema: null });
+		// using a path
+		this.setState({ remotePath: '/api/test/form' });
+	}
 
-		const self = this;
-
-		server.get('/api/test/form')
-		.then(res => {
-			console.log(res);
-			self.setState({ fetching: false, data: res });
-			self.testServerCode(res.schema);
+	click2() {
+		// using a function that will return a prosise with form data
+		this.setState({
+			remotePath: () => server.get('/api/test/form')
 		});
 	}
 
-	testServerCode(code) {
-		/* eslint no-new-func: "off" */
-		const func = new Function('', 'return ' + code + ';');
-
-		const res = func();
-		/* eslint no-console: "off" */
-		console.log(res);
-		this.setState({ schema: res });
-	}
-
 	render() {
-
-		const fetching = this.state.fetching;
-		const schema = this.state.schema;
-		const doc = {};
+		const remotePath = this.state.remotePath;
 
 		return (
 			<Card title="Server forms example">
 				<ButtonToolbar>
-					<AsyncButton bsStyle="primary" onClick={this.click} fetching={fetching}>{'Get it'}</AsyncButton>
+					<Button bsStyle="primary" onClick={this.click} >{'Get it'}</Button>
+					<Button bsStyle="primary" onClick={this.click2}>{'Get it 2'}</Button>
 				</ButtonToolbar>
 				{
-					schema &&
-					<FormDialog schema={schema} doc={doc} resources={this.state.data.resources} />
+					remotePath &&
+					<RemoteFormDialog
+						remotePath={remotePath}
+						/>
 				}
 			</Card>
 			);

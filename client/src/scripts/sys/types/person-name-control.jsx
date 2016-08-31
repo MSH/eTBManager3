@@ -36,7 +36,9 @@ export default class PersonNameControl extends React.Component {
 				val = Object.assign({}, this.props.value, field);
 			}
 
-			console.log(val);
+			// if name is empty, send null
+			val = Object.keys(val).find(p => !!val[p]) ? val : null;
+
 			this.props.onChange({ schema: this.props.schema, value: val });
 		}
 	}
@@ -66,10 +68,11 @@ export default class PersonNameControl extends React.Component {
 
 
 	render() {
+		const schema = this.props.schema;
 		// field is just for displaying ?
-		if (this.props.schema.readOnly) {
+		if (schema.readOnly) {
 			const content = su.nameDisplay(this.props.value);
-			return FormUtils.readOnlyRender(content, this.props.schema.label);
+			return FormUtils.readOnlyRender(content, schema.label);
 		}
 
 		const fields = this.calcFields();
@@ -80,7 +83,7 @@ export default class PersonNameControl extends React.Component {
 			<div className="form-group person-name">
 			<Row>
 				<Col sm={12}>
-					<ControlLabel>{'Patient name:'}</ControlLabel>
+					<ControlLabel>{FormUtils.labelRender(schema.label, schema.required)}</ControlLabel>
 				</Col>
 			</Row>
 			<Row>
@@ -103,7 +106,7 @@ export default class PersonNameControl extends React.Component {
 
 PersonNameControl.propTypes = {
 	value: React.PropTypes.object,
-	onChange: React.PropTypes.func,
+	onChange: React.PropTypes.func.isRequired,
 	errors: React.PropTypes.any,
-	schema: React.PropTypes.object
+	schema: React.PropTypes.object.isRequired
 };
