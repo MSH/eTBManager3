@@ -10,8 +10,7 @@
     "sendSystemMessages": true,
     "monthsToAlertExpiredMedicines": 1,
     "minStockOnHand": 1,
-    "maxStockOnHand": 6,
-    "treatMonitoringInput": "SIMPLE"
+    "maxStockOnHand": 6
   },
   "countryStructures": [
     {
