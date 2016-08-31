@@ -66,8 +66,8 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
 
         builder.addDefaultOrderByMap("default", "c.patient.name, c.patient.middleName, c.patient.lastName");
 
-                // get most recent case registered
-                builder.addRestriction("c.registrationDate = (select max(c2.registrationDate) from TbCase c2 where c2.patient.id = c.patient.id)");
+        // get most recent case registered
+        builder.addRestriction("c.registrationDate = (select max(c2.registrationDate) from TbCase c2 where c2.patient.id = c.patient.id)");
 
         builder.initialize(params);
 

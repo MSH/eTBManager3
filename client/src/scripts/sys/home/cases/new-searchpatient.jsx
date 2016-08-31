@@ -143,7 +143,7 @@ export default class SearchPatient extends React.Component {
 				<div style={{ fontSize: '0.9em' }} className="pull-right">
 					{item.state.name}
 				</div>
-				<div style={{ fontWeight: 'bold' }}>
+				<div className="bold">
 					{typeLabel}
 				</div>
 				<div>
