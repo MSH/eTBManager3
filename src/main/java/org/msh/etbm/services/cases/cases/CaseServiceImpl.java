@@ -5,6 +5,8 @@ import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
+import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
@@ -20,6 +22,9 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
 
+    @Autowired
+    QueryBuilderFactory queryBuilderFactory;
+
     @Override
     public String getCommandType() {
         return CommandTypes.CASES_CASE;
@@ -28,8 +33,7 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
     @Override
     protected void buildQuery(QueryBuilder<TbCase> builder, CaseQueryParams queryParams) {
         // profiles
-        builder.addDefaultProfile(CaseQueryParams.PROFILE_DEFAULT, CaseData.class);
-        builder.addDefaultProfile(CaseQueryParams.PROFILE_DETAILED, CaseDetailedData.class);
+        builder.addProfile(CaseQueryParams.PROFILE_DETAILED, CaseDetailedData.class);
         builder.addDefaultProfile(CaseQueryParams.PROFILE_ITEM, CaseItem.class);
     }
 
@@ -46,5 +50,27 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         if (count == 0) {
             getEntityManager().remove(patient);
         }
+    }
+
+    public QueryResult<PatientSearchItem> searchPatient(PatientSearchQueryParams params) {
+        QueryBuilder<TbCase> builder = queryBuilderFactory.createQueryBuilder(TbCase.class);
+
+        builder.addDefaultProfile(PatientSearchQueryParams.PROFILE_DEFAULT, PatientSearchItem.class);
+        builder.setEntityAlias("c");
+
+        builder.addLikeRestriction("c.patient.name", params.getName());
+        builder.addLikeRestriction("c.patient.middleName", params.getMiddleName());
+        builder.addLikeRestriction("c.patient.lastName", params.getLastName());
+        builder.addLikeRestriction("c.patient.motherName", params.getMotherName());
+        builder.addRestriction("c.patient.birthDate = :birthDate", params.getBirthDate());
+
+        builder.addDefaultOrderByMap("default", "c.patient.name, c.patient.middleName, c.patient.lastName");
+
+                // get most recent case registered
+                builder.addRestriction("c.registrationDate = (select max(c2.registrationDate) from TbCase c2 where c2.patient.id = c.patient.id)");
+
+        builder.initialize(params);
+
+        return builder.createQueryResult();
     }
 }

@@ -901,8 +901,8 @@ public class TbCase extends WorkspaceEntity {
         return caseNumber;
     }
 
-    public void setCaseNumber(String caseCode) {
-        this.caseNumber = caseCode;
+    public void setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
     }
 
     /**
