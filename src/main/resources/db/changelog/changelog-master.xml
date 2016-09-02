@@ -879,9 +879,6 @@
             <column name="PRODUCT_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="SOURCE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
@@ -1903,11 +1900,6 @@
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="resistancepattern"
                                  constraintName="FK12719137B3B1717" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-156">
-        <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="prescribedmedicine"
-                                 constraintName="FK142181D11CBB077D" deferrable="false" initiallyDeferred="false"
-                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-157">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prescribedmedicine"

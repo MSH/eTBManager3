@@ -281,4 +281,22 @@ public class ObjectUtils {
 
         return null;
     }
+
+    /**
+     * Convert a string to an enum value of the given enum class
+     * @param value the string representation of the enum value
+     * @param enumClass the enum class
+     * @param <E>
+     * @return the enum value
+     */
+    public static <E extends Enum> E stringToEnum(String value, Class<E> enumClass) {
+        Object[] vals = enumClass.getEnumConstants();
+
+        for (Object val: vals) {
+            if (val.toString().equals(value)) {
+                return (E)val;
+            }
+        }
+        return null;
+    }
 }

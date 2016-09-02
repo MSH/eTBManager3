@@ -3,9 +3,11 @@ package org.msh.etbm.services.admin.units.forms;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.commons.forms.FormRequestHandler;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryParams;
 import org.msh.etbm.services.admin.admunits.AdminUnitQueryResult;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.UnitQueryParams;
 import org.msh.etbm.services.admin.units.UnitService;
 import org.msh.etbm.services.admin.units.UnitType;
@@ -106,14 +108,17 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
         // get information about the unit
         UnitData unit = unitService.findOne(unitId, UnitData.class);
 
-        // get selected administrative unit
-        res.setAdminUnitId(unit.getAdminUnit().getId());
-
         // get the selected type of unit
         String unitType = req.getStringParam("type");
 
+        AdminUnitData au = adminUnitService.findOne(unit.getAdminUnit().getId(), AdminUnitData.class);
+        UUID auId = au.getP0() != null ? au.getP0().getId() : au.getId();
+
+        // get selected administrative unit
+        res.setAdminUnitId(auId);
+
         // get the list of units to be displayed
-        res.setUnits(getUnits(unit.getAdminUnit().getId(), wsId, unitType));
+        res.setUnits(getUnits(auId, wsId, unitType));
 
         return res;
     }
@@ -129,6 +134,7 @@ public class UnitFormRequestHandler implements FormRequestHandler<UnitFormRespon
     protected List<UnitItemData> getUnits(UUID adminUnitId, UUID workspaceId, String unitType) {
         // query the units of administrative unit as parent
         UnitQueryParams uqry = new UnitQueryParams();
+
         uqry.setAdminUnitId(adminUnitId);
         if (workspaceId != null) {
             uqry.setWorkspaceId(workspaceId);
