@@ -9,6 +9,7 @@ import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.issues.IssueData;
+import org.msh.etbm.services.cases.patient.PatientDetailedData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class CaseDetailedData {
 
     private UUID id;
 
-    private PatientData patient;
+    private PatientDetailedData patient;
 
     private String registrationCode;
 
@@ -88,11 +89,11 @@ public class CaseDetailedData {
         this.id = id;
     }
 
-    public PatientData getPatient() {
+    public PatientDetailedData getPatient() {
         return patient;
     }
 
-    public void setPatient(PatientData patient) {
+    public void setPatient(PatientDetailedData patient) {
         this.patient = patient;
     }
 

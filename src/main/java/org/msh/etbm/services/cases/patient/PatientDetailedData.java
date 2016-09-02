@@ -1,16 +1,17 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.patient;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.Gender;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Patient information returned as a response from client request
  * <p>
  * Created by rmemoria on 20/6/16.
  */
-public class PatientData extends SynchronizableItem {
+public class PatientDetailedData extends SynchronizableItem {
 
     private String name;
 

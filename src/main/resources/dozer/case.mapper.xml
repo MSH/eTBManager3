@@ -73,7 +73,7 @@
     </mapping>
 
     <mapping>
-        <class-a>org.msh.etbm.services.cases.cases.PatientSearchItem</class-a>
+        <class-a>org.msh.etbm.services.cases.patient.PatientSearchItem</class-a>
         <class-b>org.msh.etbm.db.entities.TbCase</class-b>
 
         <field custom-converter-id="enum-item">
