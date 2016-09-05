@@ -10,7 +10,7 @@ import { isFunction } from '../commons/utils';
  * server using the *remotePath* property, which is a string pointing to a
  * server resource (using GET) or a function that returns a promise to be
  * resolved with (schema, doc, resources)
- * 
+ *
  */
 export default class RemoteFormDialog extends React.Component {
 
@@ -47,11 +47,19 @@ export default class RemoteFormDialog extends React.Component {
 		const func = new Function('', 'return ' + data.schema + ';');
 
 		const res = func();
-		this.setState({ schema: res,
+
+        // set values on UI
+        if (this.props.afterResolve) {
+            data.doc = this.props.afterResolve(data.doc);
+        }
+
+        this.setState({ schema: res,
             doc: data.doc,
             resources: data.resources,
             fetching: false
         });
+
+        console.log(data.doc);
     }
 
     render() {
@@ -78,8 +86,9 @@ export default class RemoteFormDialog extends React.Component {
 RemoteFormDialog.propTypes = {
     // the location in the server where form is located
     remotePath: React.PropTypes.any.isRequired,
+    afterResolve: React.PropTypes.func,
 
-    // the properties used by FormDialog 
+    // the properties used by FormDialog
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
 	onInit: React.PropTypes.func,

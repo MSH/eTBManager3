@@ -32,9 +32,9 @@ public class PatientServiceImpl implements PatientService {
         builder.addDefaultProfile(PatientQueryParams.PROFILE_DEFAULT, PatientSearchItem.class);
         builder.setEntityAlias("c");
 
-        builder.addLikeRestriction("c.patient.name", params.getName());
-        builder.addLikeRestriction("c.patient.middleName", params.getMiddleName());
-        builder.addLikeRestriction("c.patient.lastName", params.getLastName());
+        builder.addLikeRestriction("c.patient.name", params.getName().getName());
+        builder.addLikeRestriction("c.patient.middleName", params.getName().getMiddleName());
+        builder.addLikeRestriction("c.patient.lastName", params.getName().getLastName());
         builder.addLikeRestriction("c.patient.motherName", params.getMotherName());
         builder.addRestriction("c.patient.birthDate = :birthDate", params.getBirthDate());
 

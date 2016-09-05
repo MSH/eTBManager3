@@ -17,14 +17,13 @@ export default class NewNotif extends React.Component {
 		this.onCancel = this.onCancel.bind(this);
 
 		this.state = { };
-		// this.state = { patient: { name: 'Juan Suarez', age: 44, gender: 'MALE' } };
 	}
 
 	componentWillMount() {
 		const id = this.props.route.queryParam('id');
 		const self = this;
 
-		// get data of the unit
+		// get data of the notification unit
 		server.get('/api/tbl/unit/' + id).then(res => self.setState({ unit: res }));
 	}
 
@@ -35,15 +34,15 @@ export default class NewNotif extends React.Component {
 	 */
 	onSelectPatient(patient) {
 		// prepare data model
-		this.setState({ patient: {
-			id: patient.id,
-			name: patient.name,
-			middleName: patient.middleName,
-			lastName: patient.lastName,
-			motherName: patient.motherName,
-			birthDate: patient.birthDate,
-			gender: patient.gender
-		} });
+		this.setState({
+			patient: {
+				id: patient.id,
+				name: patient.name,
+				motherName: patient.motherName,
+				birthDate: patient.birthDate,
+				gender: patient.gender
+			}
+		});
 	}
 
 	onCancel() {
@@ -82,7 +81,12 @@ export default class NewNotif extends React.Component {
 				</Fluidbar>
 				{
 					this.state.patient ?
-						<NotifForm patient={this.state.patient} onCancel={this.onCancel} diagnosisType={diag} classification={cla} /> :
+						<NotifForm
+							onCancel={this.onCancel}
+							patient={this.state.patient}
+							diagnosisType={diag}
+							classification={cla}
+							tbunit={this.state.unit} /> :
 						<SearchPatient onSelect={this.onSelectPatient} onCancel={this.onCancel} />
 				}
 			</div>

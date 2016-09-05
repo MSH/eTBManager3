@@ -1,275 +1,54 @@
 import React from 'react';
-import { Button, ButtonToolbar, Grid, Col, Row } from 'react-bootstrap';
-import { Card, AsyncButton } from '../../../components';
-import Form from '../../../forms/form';
-import { app } from '../../../core/app';
+import CRUD from '../../../commons/crud';
+import { Grid, Col, Row } from 'react-bootstrap';
+import { RemoteFormDialog } from '../../../components';
 
-
-const notifForm = {
-	controls: [
-	{
-		label: 'Date entered in SL treatment TB register',
-		property: 'registrationDate',
-		type: 'date',
-		required: true,
-		size: { sm: 4 }
-	},
-	{
-		label: 'BMU TB register number',
-		property: 'registrationCode',
-		type: 'string',
-		max: 100,
-		size: { sm: 4 }
-	},
-	{
-		label: 'Date entered in BMU TB register',
-		property: 'registrationDate2',
-		type: 'date',
-		size: { sm: 4 }
-	},
-	{
-		type: 'subtitle',
-		label: 'Patient data',
-		size: { sm: 12 }
-	},
-	{
-		property: 'name',
-		label: 'Patient name',
-		type: 'string',
-		required: true,
-		size: { sm: 6 }
-	},
-	{
-		property: 'gender',
-		label: __('Gender'),
-		required: true,
-		type: 'select',
-		options: [
-			{ id: 'MALE', name: __('Gender.MALE') },
-			{ id: 'FEMALE', name: __('Gender.FEMALE') }
-		],
-		size: { sm: 4 }
-	},
-	{
-		property: 'birthDate',
-		label: __('Patient.birthDate'),
-		type: 'date',
-		size: { sm: 4, newLine: true }
-	},
-	{
-		property: 'age',
-		label: __('TbCase.age'),
-		required: true,
-		type: 'number',
-		size: { sm: 2 }
-	},
-	{
-		property: 'nationality',
-		label: __('Nationality'),
-		type: 'select',
-		options: [
-			{ id: 'NATIVE', name: 'Native' },
-			{ id: 'FOREIGN', name: 'Foreign' }
-		],
-		size: { sm: 4 }
-	},
-	{
-		property: 'motherName',
-		label: __('Patient.motherName'),
-		type: 'string',
-		size: { sm: 6 }
-	},
-
-	{
-		type: 'subtitle',
-		label: __('cases.details.addressnotif'),
-		size: { sm: 12 }
-	},
-	{
-		property: 'notifAddress.address',
-		type: 'string',
-		required: true,
-		label: __('Address.address'),
-		size: { sm: 6 }
-	},
-	{
-		property: 'notifAddress.complement',
-		type: 'string',
-		label: __('Address.complement'),
-		size: { sm: 6, newLine: true }
-	},
-	{
-		property: 'notifAddress.adminUnit',
-		type: 'adminUnit',
-		size: { sm: 6, newLine: true }
-	},
-	{
-		property: 'notifAddress.zipCode',
-		label: __('Address.zipCode'),
-		type: 'string',
-		max: 20,
-		size: { sm: 4, newLine: true }
-	},
-	{
-		property: 'phoneNumber',
-		label: __('TbCase.phoneNumber'),
-		type: 'string',
-		max: 20,
-		size: { sm: 4, newLine: true }
-	},
-	{
-		property: 'mobileNumber',
-		label: __('global.mobile'),
-		type: 'string',
-		max: 20,
-		size: { sm: 4, smOffset: 2 }
-	},
-
-	{
-		type: 'subtitle',
-		label: __('cases.details.case'),
-		size: { sm: 12 }
-	},
-	{
-		property: 'notificationUnit',
-		label: __('TbCase.notificationUnit'),
-		type: 'unit',
-		size: { sm: 6 }
-	},
-	{
-		label: __('TbCase.diagnosisDate'),
-		property: 'diagnosisDate',
-		type: 'date',
-		required: true,
-		size: { sm: 4, newLine: true }
-	},
-	{
-		label: __('DrugResistanceType'),
-		property: 'drugResistanceType',
-		type: 'select',
-		options: [
-			{ id: 'EXTENSIVEDRUG_RESISTANCE', name: __('DrugResistanceType.EXTENSIVEDRUG_RESISTANCE') },
-			{ id: 'MONO_RESISTANCE', name: __('DrugResistanceType.MONO_RESISTANCE') },
-			{ id: 'MONO_RESISTANCE_RIF', name: __('DrugResistanceType.MONO_RESISTANCE_RIF') },
-			{ id: 'MULTIDRUG_RESISTANCE', name: __('DrugResistanceType.MULTIDRUG_RESISTANCE') },
-			{ id: 'POLY_RESISTANCE', name: __('DrugResistanceType.POLY_RESISTANCE') },
-			{ id: 'POLY_RESISTANCE_RIF', name: __('DrugResistanceType.POLY_RESISTANCE_RIF') },
-			{ id: 'RIF_RESISTANCE', name: __('DrugResistanceType.RIF_RESISTANCE') }
-		],
-		size: { sm: 6, newLine: true }
-	},
-	{
-		label: 'Registration group',
-		property: 'registrationGroup',
-		type: 'select',
-		options: [
-			{ id: 'NEW', name: 'New' },
-			{ id: 'RELAPSE', name: 'Relapse' },
-			{ id: 'AFTER_DEFAULT', name: 'After loss follow-up' },
-			{ id: 'FAILURE_FT', name: __('PatientType.FAILURE_FT') },
-			{ id: 'FAILURE_RT', name: __('PatientType.FAILURE_RT') },
-			{ id: 'OTHER', name: __('PatientType.OTHER') }
-		],
-		size: { sm: 6 }
-	},
-	{
-		label: __('InfectionSite'),
-		property: 'infectionSite',
-		type: 'select',
-		options: [
-			{ id: 'PULMONARY', name: __('InfectionSite.PULMONARY') },
-			{ id: 'EXTRAPULMONARY', name: __('InfectionSite.EXTRAPULMONARY') },
-			{ id: 'BOTH', name: __('InfectionSite.BOTH') }
-		],
-		size: { sm: 6 }
-	},
-	{
-		label: __('TbCase.pulmonaryType'),
-		property: 'pulmonaryType',
-		visible: doc => doc.infectionSite === 'PULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
-		options: [
-			{ id: 'UNILATERAL_INF', name: 'Unilateral Infiltrate' },
-			{ id: 'UNILATERAL_CAV', name: 'Unilateral Cavitary' },
-			{ id: 'BILATERAL_INF', name: 'Bilateral infiltrate' },
-			{ id: 'BILATERAL_CAV', name: 'Bilateral Cavitary' },
-			{ id: 'DESTRUCTIOn', name: 'Destruction' },
-			{ id: 'NORMAL', name: 'Normal' },
-			{ id: 'OTHER', name: 'Other' }
-		],
-		size: { sm: 6 }
-	},
-	{
-		label: __('TbCase.extrapulmonaryType'),
-		property: 'pulmonaryType',
-		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
-		options: [
-			{ id: 'PLEURA', name: 'Pleura' },
-			{ id: 'LYMPH', name: 'Lymph Nodes' },
-			{ id: 'ABDOMEN', name: 'Abdomen' },
-			{ id: 'GENITOURINARY', name: 'Genitourinary Tract' },
-			{ id: 'SKIN', name: 'Skin' },
-			{ id: 'JOINTS', name: 'Joints and Bones' },
-			{ id: 'MENINGES', name: 'Meninges' },
-			{ id: 'INTRA_THORACIC', name: 'Tuberculous Intra-thoracic Lymphadenopathy' },
-			{ id: 'PLEURAL', name: 'Tuberculous Pleural Effusion' },
-			{ id: 'OTHER', name: 'Other' }
-		],
-		size: { sm: 6 }
-	},
-	{
-		label: __('TbCase.extrapulmonaryType2'),
-		property: 'pulmonaryType',
-		visible: doc => doc.infectionSite === 'EXTRAPULMONARY' || doc.infectionSite === 'BOTH',
-		type: 'select',
-		options: [
-			{ id: 'PLEURA', name: 'Pleura' },
-			{ id: 'LYMPH', name: 'Lymph Nodes' },
-			{ id: 'ABDOMEN', name: 'Abdomen' },
-			{ id: 'GENITOURINARY', name: 'Genitourinary Tract' },
-			{ id: 'SKIN', name: 'Skin' },
-			{ id: 'JOINTS', name: 'Joints and Bones' },
-			{ id: 'MENINGES', name: 'Meninges' },
-			{ id: 'INTRA_THORACIC', name: 'Tuberculous Intra-thoracic Lymphadenopathy' },
-			{ id: 'PLEURAL', name: 'Tuberculous Pleural Effusion' },
-			{ id: 'OTHER', name: 'Other' }
-		],
-		size: { sm: 6 }
-	}
-	]
-};
+const crud = new CRUD('case');
 
 /**
  * Component that displays and handle notification form
  */
 export default class NotifForm extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.setValues = this.setValues.bind(this);
+		this.save = this.save.bind(this);
+	}
+
 	componentWillMount() {
-		this.setState({ schema: notifForm });
+
+	}
+
+	setValues(doc) {
+		if (!doc.patient) {
+			doc.patient = {};
+		}
+
+		doc.notificationUnitId = this.props.tbunit.id;
+		doc.name = this.props.patient.name;
+		doc.birthDate = this.props.patient.birthDate;
+		doc.classification = this.props.classification;
+		doc.classification = this.props.diagnosisType;
+
+		return doc;
+	}
+
+	save(doc) {
+		return crud.create(doc);
 	}
 
 	render() {
-		const schema = this.state && this.state.schema;
-		if (!schema) {
-			return null;
-		}
-
-		const lists = app.getState().app.lists;
-		const list = lists['CaseClassification' + this.props.classification];
-		const typeLabel = list[this.props.diagnosisType];
-
 		return (
 			<Grid fluid className="mtop-2x">
 				<Row>
 					<Col mdOffset={2} md={9}>
-						<Card title={__('cases.newnotifof') + ' ' + typeLabel}>
-							<Form schema={schema} doc={this.props.patient} />
-							<ButtonToolbar>
-								<AsyncButton bsStyle="primary">{__('action.save')}</AsyncButton>
-								<Button bsStyle="link" onClick={this.props.onCancel}>{__('action.cancel')}</Button>
-							</ButtonToolbar>
-						</Card>
+						<RemoteFormDialog
+							wrapType="card"
+							remotePath={'/api/tbl/case/initform'}
+							onCancel={this.props.onCancel}
+							onConfirm={this.save}
+							afterResolve={this.setValues} />
 					</Col>
 				</Row>
 			</Grid>
@@ -281,5 +60,6 @@ NotifForm.propTypes = {
 	patient: React.PropTypes.object,
 	onCancel: React.PropTypes.func,
 	diagnosisType: React.PropTypes.string,
-	classification: React.PropTypes.string
+	classification: React.PropTypes.string,
+	tbunit: React.PropTypes.object
 };

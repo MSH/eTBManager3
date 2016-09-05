@@ -5,9 +5,9 @@ import java.util.Optional;
 /**
  * Created by msantos on 26/3/16.
  */
-public class CaseFormData {
-    //TODO: include other relevant case fields for editing
+public class ComorbidityFormData {
 
+    // Risk Factors and Concomitant Diagnoses
     private Optional<Boolean> alcoholExcessiveUse;
     private Optional<Boolean> tobaccoUseWithin;
     private Optional<Boolean> aids;

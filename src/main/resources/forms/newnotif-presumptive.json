@@ -1,0 +1,38 @@
+{
+  "dataModel": "patient",
+
+  "title": { "function": "true ? 'TODOMS: VER COMO EXIBIR ESSE TITULO' : 'Editing form'" },
+
+  "controls": [
+    {
+      "property": "name",
+      "type": "personName",
+      "label": "${Patient.name}",
+      "required": true,
+      "size": { "md": 6 }
+    },
+    {
+      "property": "birthDate",
+      "type": "date",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "gender",
+      "type": "select",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "notifAddress",
+      "label": "${Patient.address}",
+      "type": "address",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "currentAddress",
+      "label": "${Patient.address}",
+      "type": "address",
+      "size": { "md": 6 }
+    }
+  ]
+}

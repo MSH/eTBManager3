@@ -18,27 +18,10 @@ const fschema = {
 			controls: [
 				{
 					property: 'name',
+					type: 'personName',
+					label: __('Patient.name'),
 					required: true,
-					type: 'string',
-					max: 100,
-					label: __('Patient.firstName'),
-					size: { sm: 3 }
-				},
-				{
-					property: 'middleName',
-					required: false,
-					type: 'string',
-					max: 100,
-					label: __('Patient.middleName'),
-					size: { sm: 3 }
-				},
-				{
-					property: 'lastName',
-					required: false,
-					type: 'string',
-					max: 100,
-					label: __('Patient.lastName'),
-					size: { sm: 3 }
+					size: { md: 6 }
 				},
 				{
 					property: 'birthDate',

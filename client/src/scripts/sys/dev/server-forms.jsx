@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { Card, RemoteFormDialog } from '../../components/index';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { server } from '../../commons/server';

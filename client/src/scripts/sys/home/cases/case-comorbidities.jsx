@@ -1,10 +1,8 @@
 import React from 'react';
 import { Badge, Row, Col, Button } from 'react-bootstrap';
 import CaseComments from './case-comments';
-import CRUD from '../../../commons/crud';
 import { Card, Fa, FormDialog } from '../../../components';
-
-const crud = new CRUD('case');
+import { server } from '../../../commons/server';
 
 const fschema = {
 			title: __('cases.comorbidities'),
@@ -103,7 +101,7 @@ export default class CaseComorbidities extends React.Component {
 	}
 
 	save() {
-		return crud.update(this.props.tbcase.id, this.state.doc).then(() => {
+		return this.update(this.props.tbcase.id, this.state.doc).then(() => {
 			const uidata = [];
 			fschema.controls.map(item => {
 				if (this.state.doc[item.property]) {
@@ -111,6 +109,16 @@ export default class CaseComorbidities extends React.Component {
 				}
 			});
 			this.setState({ uidata: uidata, showForm: false });
+		});
+	}
+
+	update(id, data) {
+		return server.post('/api/tbl/case/comorbidity/' + id, data)
+		.then(res => {
+			if (!res.success) {
+				return Promise.reject(res.errors);
+			}
+			return res.result;
 		});
 	}
 
