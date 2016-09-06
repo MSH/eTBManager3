@@ -2,6 +2,7 @@ package org.msh.etbm.db.entities;
 
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
+import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.*;
@@ -19,18 +20,9 @@ import java.util.List;
 @Table(name = "patient")
 public class Patient extends WorkspaceEntity {
 
-    @Column(length = 100)
-    @NotNull
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private String name;
-
-    @Column(length = 100)
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private String middleName;
-
-    @Column(length = 100)
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private String lastName;
+    @Embedded
+    @PropertyLog(addProperties = true)
+    private PersonName name;
 
     @Column(length = 100)
     private String motherName;
@@ -76,11 +68,11 @@ public class Patient extends WorkspaceEntity {
         this.motherName = motherName;
     }
 
-    public void setName(String name) {
+    public void setName(PersonName name) {
         this.name = name;
     }
 
-    public String getName() {
+    public PersonName getName() {
         return name;
     }
 
@@ -90,34 +82,6 @@ public class Patient extends WorkspaceEntity {
 
     public void setCustomId(String customId) {
         this.customId = customId;
-    }
-
-    /**
-     * @return the middleName
-     */
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    /**
-     * @param middleName the middleName to set
-     */
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    /**
-     * @return the lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     * @param lastName the lastName to set
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     /**
@@ -136,8 +100,6 @@ public class Patient extends WorkspaceEntity {
 
     @Override
     public String getDisplayString() {
-        return name +
-                (middleName != null && !middleName.isEmpty() ? " " + middleName + " " : "") +
-                (lastName != null && !lastName.isEmpty() ? " " + lastName + " " : "");
+        return name != null ? name.getName() + ' ' + name.getMiddleName() + ' ' + name.getLastName() : "<no name>";
     }
 }

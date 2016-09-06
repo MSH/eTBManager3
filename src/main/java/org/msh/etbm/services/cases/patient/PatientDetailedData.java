@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.patient;
 
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.enums.Gender;
 
 import java.util.Date;
@@ -11,13 +12,11 @@ import java.util.UUID;
  * <p>
  * Created by rmemoria on 20/6/16.
  */
-public class PatientDetailedData extends SynchronizableItem {
+public class PatientDetailedData {
 
-    private String name;
+    private UUID id;
 
-    private String middleName;
-
-    private String lastName;
+    private PersonName name;
 
     private String motherName;
 
@@ -25,30 +24,20 @@ public class PatientDetailedData extends SynchronizableItem {
 
     private Gender gender;
 
-    @Override
-    public String getName() {
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public PersonName getName() {
         return name;
     }
 
-    @Override
-    public void setName(String name) {
+    public void setName(PersonName name) {
         this.name = name;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getMotherName() {

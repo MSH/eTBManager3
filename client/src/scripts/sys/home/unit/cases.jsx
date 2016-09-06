@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
-import { Card, Profile, WaitIcon, ReactTable, Fa, CommandBar } from '../../../components';
+import { Grid, Row, Col, Badge } from 'react-bootstrap';
+import { Card, WaitIcon, CommandBar, Sidebar } from '../../../components';
 import AdvancedSearch from '../cases/advanced-search';
 import TagCasesList from '../cases/tag-cases-list';
+import CasesUnit from './cases-unit';
 import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
-import moment from 'moment';
-import SessionUtils from '../../session-utils';
+
 
 
 export default class Cases extends React.Component {
@@ -14,15 +14,10 @@ export default class Cases extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			sel: 0,
-			presumptives: null,
-			tags: null,
 			selectedTag: null
 		};
-		this.newPresumptive = this.newPresumptive.bind(this);
-		this.newTB = this.newTB.bind(this);
-		this.newDRTB = this.newDRTB.bind(this);
-		this.tabSelect = this.tabSelect.bind(this);
+		this.newNotif = this.newNotif.bind(this);
+
 		this.toggleSearch = this.toggleSearch.bind(this);
 		this.closeTagCasesList = this.closeTagCasesList.bind(this);
 		this.selTag = this.selTag.bind(this);
@@ -45,207 +40,25 @@ export default class Cases extends React.Component {
 		server.post('/api/cases/unit/' + unitId, {})
 		.then(res => self.setState({
 			unitId: unitId,
-			presumptives: res.presumptives,
-			drtbCases: res.drtbCases,
-			tbCases: res.tbCases,
+			cases: {
+				presumptives: res.presumptives,
+				drtbCases: res.drtbCases,
+				tbCases: res.tbCases
+			},
 			tags: res.tags,
 			sel: res.presumptives.length > 0 ? 0 : 1
 		}));
 	}
 
 	/**
-	 * Called when selection the 'New presumptive' command
-	 * @return {[type]} [description]
+	 * Called when user clicks on a new case/suspect
 	 */
-	newPresumptive() {
-		app.goto('/sys/home/cases/newnotif?diag=SUSPECT&cla=TB&id=' + this.state.unitId);
+	newNotif(item) {
+		const k = item.key.split('.');
+		app.goto('/sys/home/cases/newnotif?diag=' + k[1] +
+			'&cla=' + k[0] +
+			'&id=' + this.state.unitId);
 	}
-
-	newTB() {
-		app.goto('/sys/home/cases/newnotif?diag=CONFIRMED&cla=TB&id=' + this.state.unitId);
-	}
-
-	newDRTB() {
-		app.goto('/sys/home/cases/newnotif?diag=CONFIRMED&cla=DRTB&id=' + this.state.unitId);
-	}
-
-	/**
-	 * Called when user clicks on a case
-	 * @param  {[type]} id [description]
-	 * @return {[type]}    [description]
-	 */
-	caseClick(item) {
-		window.location.hash = SessionUtils.caseHash(item.id);
-	}
-
-	tabSelect(evt) {
-		this.setState({ sel: evt });
-	}
-
-	/**
-	 * Rendering of the cases tab
-	 * @return {React.Element} [description]
-	 */
-	casesRender() {
-		if (this.state.presumptives === null) {
-			return <WaitIcon type="card"/>;
-		}
-
-		const tabs = (
-			<Nav bsStyle="tabs" activeKey={this.state.sel} justified
-				className="app-tabs2"
-				onSelect={this.tabSelect}>
-				{
-					this.state.presumptives.length > 0 &&
-					<NavItem key={0} eventKey={0}>
-						{this.listCount(this.state.presumptives)}
-						{__('cases.suspects')}
-					</NavItem>
-				}
-				<NavItem key={1} eventKey={1}>
-					{this.listCount(this.state.tbCases)}
-					{__('cases.tb')}
-				</NavItem>
-				<NavItem key={2} eventKey={2}>
-					{this.listCount(this.state.drtbCases)}
-					{__('cases.drtb')}
-				</NavItem>
-			</Nav>
-			);
-
-		return (
-			<Card padding="none">
-				{tabs}
-				{
-					this.state.sel === 0 ? this.presumptiveRender() : null
-				}
-				{
-					this.state.sel === 1 ? this.tbCasesRender() : null
-				}
-				{
-					this.state.sel === 2 ? this.drtbCasesRender() : null
-				}
-			</Card>
-			);
-	}
-
-
-	listCount(lst) {
-		const count = lst.length > 0 ? lst.length : '-';
-		return <div className="value-big text-success">{count}</div>;
-	}
-
-	tbCasesRender() {
-		const lst = this.state.tbCases;
-		return this.confirmRender(lst);
-	}
-
-	drtbCasesRender() {
-		const lst = this.state.drtbCases;
-		return this.confirmRender(lst);
-	}
-
-	confirmRender(lst) {
-		if (lst.length === 0) {
-			return this.noRecFoundRender();
-		}
-
-		return (
-			<ReactTable className="mtop-2x"
-				columns={[
-					{
-						title: 'Patient',
-						size: { sm: 4 },
-						content: item =>
-							<Profile type={item.gender.toLowerCase()} size="small"
-								title={item.name} subtitle={item.recordNumber} />
-					},
-					{
-						title: 'Registration date',
-						size: { sm: 2 },
-						content: item => <div>{item.registrationDate}<br/>
-								<div className="sub-text">{'30 days ago'}</div></div>
-					},
-					{
-						title: 'Registration group',
-						size: { sm: 2 },
-						content: item => <div>{item.registrationGroup.name}<br/>{item.infectionSite}</div>
-					},
-					{
-						title: 'Start treatment date',
-						size: { sm: 2 },
-						content: 'iniTreatmentDate'
-					},
-					{
-						title: 'Progress',
-						size: { sm: 2 },
-						align: 'center',
-						content: () => <img src="images/small_pie2.png" style={{ width: '36px' }} />
-					}
-				]} values={lst} onClick={this.caseClick}/>
-			);
-	}
-
-	/**
-	 * Return the list of cases to be displayed
-	 * @return {React.Component} Component displaying the cases
-	 */
-	presumptiveRender() {
-		const lst = this.state.presumptives;
-
-		// is there any case to display ?
-		if (lst.length === 0) {
-			return this.noRecFoundRender();
-		}
-
-		return (
-			<ReactTable columns={
-				[{
-					title: __('Patient'),
-					size: { sm: 4 },
-					content: item =>
-							<Profile type={item.gender.toLowerCase()} size="small"
-								title={item.name} subtitle={item.recordNumber} />
-				},
-				{
-					title: __('TbCase.registrationDate'),
-					size: { sm: 3 },
-					content: item => {
-						const dt = moment(item.registrationDate);
-						return (<div>{dt.format('L')}
-							<div className="sub-text">{dt.fromNow()}</div>
-						</div>);
-					},
-					align: 'center'
-				},
-				{
-					title: 'Xpert',
-					size: { sm: 2 },
-					content: item => item.xpertResult.name
-				},
-				{
-					title: 'Microscopy',
-					size: { sm: 2 },
-					content: item => item.microscopyResult
-				}
-				]} values={lst} className="mtop-2x" onClick={this.caseClick} />
-		);
-	}
-
-	/**
-	 * Return a message displaying 'No record found'
-	 * @return {[type]} [description]
-	 */
-	noRecFoundRender() {
-		return (
-			<div className="card-default mtop-2x">
-				<div className="card-content">
-					<Alert bsStyle="warning">{__('form.norecordfound')}</Alert>
-				</div>
-			</div>
-			);
-	}
-
 
 	/**
 	 * Called when user clicks on the advanced search button. Toggles the state
@@ -270,25 +83,51 @@ export default class Cases extends React.Component {
 		const caseSearch = app.getState().caseSearch;
 		const unitId = this.props.route.queryParam('id');
 
-		const popup = (
-				<Popover id="ppmenu" title={'Notify'}>
-					<ButtonGroup vertical style={{ minWidth: '200px' }}>
-						<Button bsStyle="link" onClick={this.newPresumptive}>{'Presumptive'}</Button>
-						<Button bsStyle="link" onClick={this.newTB}>{'TB Case'}</Button>
-						<Button bsStyle="link" onClick={this.newDRTB}>{'DR-TB Case'}</Button>
-					</ButtonGroup>
-				</Popover>
-			);
-
-		const commands = [
+		const cmds = [
 			{
-				node: (
-					<OverlayTrigger key="pp" trigger="click" placement="right"
-						overlay={popup} rootClose>
-						<NavItem><Fa icon="coffee" />{'New notification'}</NavItem>
-					</OverlayTrigger>
-					)
+				title: __('cases.notifycase'),
+				icon: 'file-text',
+				submenu: [
+					{
+						title: __('CaseClassification.TB.confirmed'),
+						onClick: this.newNotif,
+						key: 'TB.CONFIRMED'
+					},
+					{
+						title: __('CaseClassification.DRTB.confirmed'),
+						onClick: this.newNotif,
+						key: 'DR-TB.CONFIRMED'
+					},
+					{
+						title: __('CaseClassification.NTM.confirmed'),
+						onClick: this.newNotif,
+						key: 'NTM.CONFIRMED'
+					}
+				]
 			},
+			{
+				title: __('cases.notifysusp'),
+				icon: 'file-text',
+				submenu: [
+					{
+						title: __('CaseClassification.TB.suspect'),
+						onClick: this.newNotif,
+						key: 'TB.SUSPECT'
+					},
+					{
+						title: __('CaseClassification.DRTB.suspect'),
+						onClick: this.newNotif,
+						key: 'DR-TB.SUSPECT'
+					},
+					{
+						title: __('CaseClassification.NTM.suspect'),
+						onClick: this.newNotif,
+						key: 'NTM-SUSPECT'
+					}
+				]
+			}
+		];
+		const commands = [
 			{
 				label: __('cases.advancedsearch'),
 				icon: 'feed',
@@ -300,7 +139,24 @@ export default class Cases extends React.Component {
 			<Grid fluid>
 			<Row className="mtop">
 				<Col sm={3}>
-					<CommandBar commands={commands} />
+					<Card>
+						<CommandBar commands={cmds} />
+						<div className="text-muted">{'Views'}</div>
+						<Sidebar route={this.props.route} items={[
+							{
+								title: 'Cases browse',
+								icon: 'anchor'
+							},
+							{
+								title: 'Advanced search',
+								icon: 'arrows'
+							},
+							{
+								title: 'Cases by tag',
+								icon: 'bell'
+							}
+						]}/>
+					</Card>
 					{
 						this.state.tags &&
 						<Card className="mtop" title="Tags">
@@ -328,8 +184,8 @@ export default class Cases extends React.Component {
 						<TagCasesList onClose={this.closeTagCasesList} tag={this.state.selectedTag} unitId={unitId}/> : null
 				}
 				{
-					!caseSearch && !this.state.selectedTag ?
-						this.casesRender() : null
+					!(caseSearch || this.state.selectedTag) &&
+						<CasesUnit cases={this.state.cases} />
 				}
 				</Col>
 			</Row>

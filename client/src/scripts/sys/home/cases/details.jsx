@@ -166,22 +166,22 @@ export default class Details extends React.Component {
 
 		const commands = [
 		{
-			label: __('cases.delete'),
+			title: __('cases.delete'),
 			onClick: this.show('showDelConfirm', true),
 			icon: 'remove'
 		},
 		{
-			label: __('cases.close'),
+			title: __('cases.close'),
 			onClick: this.show('showCloseCase', true),
 			icon: 'power-off'
 		},
 		{
-			label: __('cases.reopen'),
+			title: __('cases.reopen'),
 			onClick: this.show('showReopenConfirm', true),
 			icon: 'power-off'
 		},
 		{
-			label: __('cases.move'),
+			title: __('cases.move'),
 			onClick: this.show('showMoveCase', true),
 			icon: 'toggle-right'
 		}
