@@ -38,7 +38,7 @@ const data = {
 		size: { sm: 12 }
 	},
 	{
-		type: 'string',
+		type: 'personName',
 		property: 'patient.name',
 		label: __('Patient.name'),
 		required: true,

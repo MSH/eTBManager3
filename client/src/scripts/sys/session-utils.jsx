@@ -131,7 +131,7 @@ export default class SessionUtils {
 	static nameDisplay(name) {
 		const nameComp = app.getState().session.patientNameComposition;
 
-		const joins = (names, separator) => names.join(separator);
+		const joins = (names, separator) => names.filter(s => !!s).join(separator);
 
 		switch (nameComp) {
 			case 'FIRSTSURNAME': return joins([name.name, name.middleName], ' ');

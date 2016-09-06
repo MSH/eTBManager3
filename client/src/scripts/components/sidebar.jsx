@@ -13,37 +13,38 @@ import './sidebar.less';
 
 export default class Sidebar extends React.Component {
 
-    itemClick(param) {
+    itemClick(item) {
 		if (this.props.onSelect) {
-			this.props.onSelect(param);
+			this.props.onSelect(item);
 		}
+
+		if (!item.path) {
+			return;
+		}
+
+		window.location.hash = this.props.path + item.path;
     }
 
     render() {
 		// get the items to fill in the sidebar
 		const items = this.props.items || [];
 
-        let count = 0;
-
         return (
 			<div className="sidebar">
 				<Nav onSelect={this.props.onSelect} activeKey={this.props.selected}>
-					{items.map(item => {
-                        count++;
-
+					{items.map((item, index) => {
 						if (item.separator) {
-							return <NavItem disabled key={count}><hr/></NavItem>;
+							return <NavItem disabled key={index}><hr/></NavItem>;
 						}
 
-						if (item.icon) {
-							return (
-                                <NavItem eventKey={item} key={count}>
-                                    <i className={'fa fa-fw fa-' + item.icon}/>{item.title}
-                                </NavItem>
-                                );
-						}
-
-						return <NavItem eventKey={item} key={count}>{item.title}</NavItem>;
+						return (
+							<NavItem eventKey={item} key={index}>
+							{
+								item.icon && <i className={'fa fa-fw fa-' + item.icon} />
+							}
+							{item.title}
+							</NavItem>
+							);
 					})}
 				</Nav>
 			</div>
@@ -55,6 +56,7 @@ export default class Sidebar extends React.Component {
 Sidebar.propTypes = {
 	items: React.PropTypes.array,
     onSelect: React.PropTypes.func,
-    children: React.PropTypes.any,
-    selected: React.PropTypes.object
+    selected: React.PropTypes.object,
+	path: React.PropTypes.string,
+	route: React.PropTypes.object
 };

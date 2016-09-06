@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.view.unitview;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
@@ -62,7 +63,7 @@ public class UnitViewService {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
                 "join fetch c.patient where c.ownerUnit.id = :unitId " +
                 "and c.state in (:st1, :st2) " +
-                "order by c.patient.name")
+                "order by c.patient.name.name")
                 .setParameter("unitId", unitId)
                 .setParameter("st1", CaseState.ONTREATMENT)
                 .setParameter("st2", CaseState.NOT_ONTREATMENT)
@@ -147,7 +148,7 @@ public class UnitViewService {
         Patient p = tbcase.getPatient();
 
         data.setId(tbcase.getId());
-        data.setName(p.getDisplayString());
+        data.setName(p.getName());
         data.setGender(p.getGender());
         data.setRegistrationDate(tbcase.getRegistrationDate());
 

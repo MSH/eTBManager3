@@ -47,13 +47,15 @@ export default class PatientPanel extends React.Component {
 				</div>
 			</div>);
 
+		const patientName = SessionUtils.nameDisplay(patient.name);
+
 		return (
 			<Fluidbar>
 				<Grid>
 					<Row>
 						<div className="margin-2x">
 						<Col md={12}>
-								<Profile title={patient.name}
+								<Profile title={patientName}
 									subtitle={subtitle}
 									type={type}
 									size="large"
