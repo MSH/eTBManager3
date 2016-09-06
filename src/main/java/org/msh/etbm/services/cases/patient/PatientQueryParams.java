@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.patient;
 
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 
@@ -7,8 +7,9 @@ import java.util.Date;
 /**
  * Created by Mauricio on 30/08/2016.
  */
-public class PatientSearchQueryParams extends EntityQueryParams {
+public class PatientQueryParams extends EntityQueryParams {
     public static final String PROFILE_DEFAULT = "default";
+    public static final String PROFILE_ITEM = "item";
 
     private String name;
 

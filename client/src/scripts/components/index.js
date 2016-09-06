@@ -30,6 +30,7 @@ import CommandBar from './command-bar';
 import Errors from './errors';
 import PopupControl from './popup-control';
 import RemoteFormDialog from './remote-form-dialog';
+import CaseState from './case-state';
 
 export { Callout,
 	AsyncButton,
@@ -58,5 +59,6 @@ export { Callout,
 	CommandBar,
 	Errors,
 	PopupControl,
-	RemoteFormDialog
+	RemoteFormDialog,
+	CaseState
 };

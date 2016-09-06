@@ -2,7 +2,6 @@
 import React from 'react';
 import SearchPatient from './new-searchpatient';
 import NotifForm from './new-notifform';
-import UnitPanel from '../commons/unit-panel';
 import { server } from '../../../commons/server';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Profile, Fluidbar } from '../../../components/index';
@@ -34,14 +33,16 @@ export default class NewNotif extends React.Component {
 	 * @param  {[type]} pat [description]
 	 * @return {[type]}     [description]
 	 */
-	onSelectPatient(pat) {
+	onSelectPatient(patient) {
 		// prepare data model
 		this.setState({ patient: {
-			name: pat.name,
-			age: pat.age,
-			patientId: pat.id,
-			birthDate: pat.birthDate,
-			gender: pat.gender
+			id: patient.id,
+			name: patient.name,
+			middleName: patient.middleName,
+			lastName: patient.lastName,
+			motherName: patient.motherName,
+			birthDate: patient.birthDate,
+			gender: patient.gender
 		} });
 	}
 

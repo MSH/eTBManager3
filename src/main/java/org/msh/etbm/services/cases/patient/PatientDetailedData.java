@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.patient;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.PersonName;
@@ -12,7 +12,7 @@ import java.util.UUID;
  * <p>
  * Created by rmemoria on 20/6/16.
  */
-public class PatientData {
+public class PatientDetailedData extends SynchronizableItem {
 
     private UUID id;
 

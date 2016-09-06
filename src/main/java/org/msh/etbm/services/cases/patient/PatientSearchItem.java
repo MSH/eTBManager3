@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.patient;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.enums.CaseClassification;
@@ -9,12 +9,12 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import java.util.Date;
 
 /**
- * Stores information about patient search of new notification flush
+ * Stores information about patient search in new notification flow
  * Created by Mauricio on 30/08/2016.
  */
 public class PatientSearchItem {
 
-    private PatientData patient;
+    private PatientDetailedData patient;
 
     private String caseNumber;
 
@@ -36,11 +36,11 @@ public class PatientSearchItem {
 
     private String outcome;
 
-    public PatientData getPatient() {
+    public PatientDetailedData getPatient() {
         return patient;
     }
 
-    public void setPatient(PatientData patient) {
+    public void setPatient(PatientDetailedData patient) {
         this.patient = patient;
     }
 

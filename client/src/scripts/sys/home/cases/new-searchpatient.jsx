@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
-import { Profile, Card, AsyncButton, ReactTable, WaitIcon, Fa } from '../../../components/index';
+import { Profile, Card, AsyncButton, ReactTable, WaitIcon, Fa, CaseState } from '../../../components/index';
 import Form from '../../../forms/form';
 
 import { app } from '../../../core/app';
@@ -59,9 +59,10 @@ export default class SearchPatient extends React.Component {
 		super(props);
 		this.searchClick = this.searchClick.bind(this);
 		this.eventHandler = this.eventHandler.bind(this);
+		this.selectPatient = this.selectPatient.bind(this);
 
 		// create fake-crud controller
-		const casesfcrud = new FakeCRUD('/api/tbl/case/searchpatient');
+		const casesfcrud = new FakeCRUD('/api/tbl/patient/search');
 		const opts = {
 			pageSize: 20,
 			readOnly: true,
@@ -114,8 +115,16 @@ export default class SearchPatient extends React.Component {
 		this.loadPatients();
 	}
 
-	createNewPatient() {
-		console.log('TODOMS');
+	selectPatient(item) {
+		let patientInfo;
+
+		if (item && item.patient) {
+			patientInfo = item.patient;
+		} else {
+			patientInfo = this.state.doc;
+		}
+
+		this.props.onSelect(patientInfo);
 	}
 
 	latestCaseRender(item) {
@@ -141,7 +150,7 @@ export default class SearchPatient extends React.Component {
 		return (
 			<div>
 				<div style={{ fontSize: '0.9em' }} className="pull-right">
-					{item.state.name}
+					<CaseState state={item.state} />
 				</div>
 				<div className="bold">
 					{typeLabel}
@@ -214,7 +223,7 @@ export default class SearchPatient extends React.Component {
 					<CrudPagination controller={controller} showCounter className="mtop" />
 				</Card>
 				<Card header={newPatientHeader} className="no-padding" style={{ backgroundColor: '#f6f6f6' }}>
-					<Button bsStyle="success" onClick={this.props.onCancel}>{__('cases.newpatient')}</Button>
+					<Button bsStyle="success" onClick={this.selectPatient}>{__('cases.newpatient')}</Button>
 				</Card>
 			</div>
 			);

@@ -3,6 +3,8 @@ package org.msh.etbm.web.api.cases;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.cases.*;
+import org.msh.etbm.services.cases.patient.PatientSearchItem;
+import org.msh.etbm.services.cases.patient.PatientQueryParams;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -58,11 +59,5 @@ public class CasesREST {
     @RequestMapping(value = "/case/form/{id}", method = RequestMethod.GET)
     public CaseFormData getForm(@PathVariable UUID id) {
         return service.findOne(id, CaseFormData.class);
-    }
-
-    @RequestMapping(value = "/case/searchpatient", method = RequestMethod.POST)
-    @Authenticated()
-    public QueryResult<PatientSearchItem> query(@Valid @RequestBody PatientSearchQueryParams query) {
-        return service.searchPatient(query);
     }
 }
