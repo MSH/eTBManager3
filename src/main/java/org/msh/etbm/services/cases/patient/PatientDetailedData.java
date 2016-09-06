@@ -12,7 +12,7 @@ import java.util.UUID;
  * <p>
  * Created by rmemoria on 20/6/16.
  */
-public class PatientDetailedData extends SynchronizableItem {
+public class PatientDetailedData {
 
     private UUID id;
 
