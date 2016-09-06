@@ -29,7 +29,7 @@ public class NewNotificationService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void create(CaseFormData data){
+    public void create(CaseFormData data) {
         ModelDAO patientDao = factory.create("patient");
         ModelDAOResult resPatient = patientDao.insert(getPatientData(data.getDoc()));
         Patient patient = entityManager.find(Patient.class, resPatient.getId());
@@ -41,7 +41,7 @@ public class NewNotificationService {
         System.out.println("hey");
     }
 
-    private Map<String, Object> getPatientData(Map<String, Object> source){
+    private Map<String, Object> getPatientData(Map<String, Object> source) {
         Map<String, Object> patientData = new HashMap<>();
 
         // mount personName
@@ -63,7 +63,7 @@ public class NewNotificationService {
         return patientData;
     }
 
-    private Map<String, Object> getCaseData(Map<String, Object> source, UUID patientId){
+    private Map<String, Object> getCaseData(Map<String, Object> source, UUID patientId) {
         Map<String, Object> caseData = new HashMap<>(source);
 
         caseData.remove("name");
