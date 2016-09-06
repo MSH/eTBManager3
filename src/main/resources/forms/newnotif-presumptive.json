@@ -12,6 +12,12 @@
       "size": { "md": 6 }
     },
     {
+      "property": "motherName",
+      "type": "string",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
       "property": "birthDate",
       "type": "date",
       "size": { "md": 6 },
@@ -20,18 +26,6 @@
     {
       "property": "gender",
       "type": "select",
-      "size": { "md": 6 }
-    },
-    {
-      "property": "notifAddress",
-      "label": "${Patient.address}",
-      "type": "address",
-      "size": { "md": 6 }
-    },
-    {
-      "property": "currentAddress",
-      "label": "${Patient.address}",
-      "type": "address",
       "size": { "md": 6 }
     }
   ]

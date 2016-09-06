@@ -21,8 +21,8 @@ export default class NotifForm extends React.Component {
 	}
 
 	setValues(doc) {
-		if (!doc.patient) {
-			doc.patient = {};
+		if (!doc) {
+			doc = {};
 		}
 
 		doc.notificationUnitId = this.props.tbunit.id;
@@ -35,7 +35,8 @@ export default class NotifForm extends React.Component {
 	}
 
 	save(doc) {
-		return crud.create(doc);
+		const req = { doc: doc }
+		return crud.create(req);
 	}
 
 	render() {

@@ -56,6 +56,13 @@ export default class PersonNameControl extends React.Component {
 		}
 	}
 
+	getInitValue(id) {
+		if (id === 'fullName') {
+			return this.props.value.name ? this.props.value.name : '';
+		}
+
+		return this.props.value[id] ? this.props.value[id] : '';
+	}
 
 	placeHolder(id) {
 		switch (id) {
@@ -91,6 +98,7 @@ export default class PersonNameControl extends React.Component {
 				fields.map(id => (
 					<Col {...size} key={id} >
 						<FormControl id={id}
+							value={this.props.value ? this.getInitValue(id) : ''}
 							type="text"
 							placeholder={this.placeHolder(id)}
 							onChange={this.onChange} />
