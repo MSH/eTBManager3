@@ -32,13 +32,13 @@ public class PatientServiceImpl implements PatientService {
         builder.addDefaultProfile(PatientQueryParams.PROFILE_DEFAULT, PatientSearchItem.class);
         builder.setEntityAlias("c");
 
-        builder.addLikeRestriction("c.patient.name", params.getName().getName());
-        builder.addLikeRestriction("c.patient.middleName", params.getName().getMiddleName());
-        builder.addLikeRestriction("c.patient.lastName", params.getName().getLastName());
+        builder.addLikeRestriction("c.patient.name.name", params.getName().getName());
+        builder.addLikeRestriction("c.patient.name.middleName", params.getName().getMiddleName());
+        builder.addLikeRestriction("c.patient.name.lastName", params.getName().getLastName());
         builder.addLikeRestriction("c.patient.motherName", params.getMotherName());
         builder.addRestriction("c.patient.birthDate = :birthDate", params.getBirthDate());
 
-        builder.addDefaultOrderByMap("default", "c.patient.name, c.patient.middleName, c.patient.lastName");
+        builder.addDefaultOrderByMap("default", "c.patient.name.name, c.patient.name.middleName, c.patient.name.lastName");
 
         // get most recent case registered
         builder.addRestriction("c.registrationDate = (select max(c2.registrationDate) from TbCase c2 where c2.patient.id = c.patient.id)");
