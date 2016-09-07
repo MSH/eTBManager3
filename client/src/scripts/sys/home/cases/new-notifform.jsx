@@ -21,21 +21,15 @@ export default class NotifForm extends React.Component {
 	}
 
 	setValues(doc) {
-		if (!doc) {
-			doc = {};
-		}
-
 		doc.notificationUnitId = this.props.tbunit.id;
-		doc.name = this.props.patient.name;
-		doc.birthDate = this.props.patient.birthDate;
-		doc.classification = this.props.classification;
-		doc.classification = this.props.diagnosisType;
+		doc.state = 'NOT_ONTREATMENT';
+		doc.patient = this.props.patient;
 
 		return doc;
 	}
 
 	save(doc) {
-		const req = { doc: doc }
+		const req = { doc: doc };
 		return crud.create(req);
 	}
 

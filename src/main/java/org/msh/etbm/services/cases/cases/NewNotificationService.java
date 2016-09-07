@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.date.DateUtils;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,50 +31,52 @@ public class NewNotificationService {
     @PersistenceContext
     EntityManager entityManager;
 
+    private Map<String, Object> temporaryVar;
+
+    @Transactional
     public void create(CaseFormData data) {
+        // temporary until data comes with right format
+        mountTempVar(data.getDoc());
+        // end of temporary code
+
+        ((Map)temporaryVar.get("patient")).put("gender", null);
+
         ModelDAO patientDao = factory.create("patient");
-        ModelDAOResult resPatient = patientDao.insert(getPatientData(data.getDoc()));
-        Patient patient = entityManager.find(Patient.class, resPatient.getId());
+        ModelDAOResult resPatient = patientDao.insert((Map)temporaryVar.get("patient"));
+
+        if (resPatient.getErrors() != null) {
+            throw new EntityValidationException(temporaryVar.get("patient"), resPatient.getErrors());
+        }
 
         ModelDAO tbcaseDao = factory.create("tbcase");
-        ModelDAOResult resTbcase = tbcaseDao.insert(getCaseData(data.getDoc(), resPatient.getId()));
-        TbCase tbcase = entityManager.find(TbCase.class, resTbcase.getId());
+        ModelDAOResult resTbcase = tbcaseDao.insert((Map)temporaryVar.get("tbcase"));
 
-        System.out.println("hey");
+        if (resTbcase.getErrors() != null) {
+            throw new EntityValidationException(data, "Deu erro no caso", "Deu erro no caso", "Deu erro no caso");
+        }
     }
 
-    private Map<String, Object> getPatientData(Map<String, Object> source) {
+    /**
+     * THIS IS TEMPORARY UNTIL ui SENDS THE REQUEST WITH THE RIGHT FORMAT
+     * @param source
+     */
+    private void mountTempVar(Map<String, Object> source) {
+        temporaryVar = new HashMap<>();
+
         Map<String, Object> patientData = new HashMap<>();
-
-        // mount personName
-        Map<String, Object> name = (Map<String, Object>) source.get("name");
-        PersonName pName = new PersonName((String)name.get("name"), (String)name.get("middleName"), (String)name.get("lastName"));
-
-        /* mount birthDate
-        Date birthDate = null;
-        if (source.get("birthDate") != null) {
-            birthDate = DateUtils.newDate((String) source.get("birthDate"));
-        }
-        */
-
-        patientData.put("name", pName);
-        /*patientData.put("birthDate", birthDate);*/
+        patientData.put("name", source.get("name"));
+        patientData.put("birthDate", source.get("birthDate"));
         patientData.put("motherName", source.get("motherName"));
         patientData.put("gender", source.get("gender"));
 
-        return patientData;
-    }
-
-    private Map<String, Object> getCaseData(Map<String, Object> source, UUID patientId) {
         Map<String, Object> caseData = new HashMap<>(source);
-
         caseData.remove("name");
         caseData.remove("birthDate");
         caseData.remove("motherName");
         caseData.remove("gender");
-        caseData.put("patient", patientId);
+        caseData.put("patient", null);
 
-        return caseData;
+        temporaryVar.put("tbcase", caseData);
+        temporaryVar.put("patient", patientData);
     }
-
 }

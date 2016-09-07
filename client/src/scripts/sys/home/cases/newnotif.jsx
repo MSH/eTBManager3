@@ -35,13 +35,7 @@ export default class NewNotif extends React.Component {
 	onSelectPatient(patient) {
 		// prepare data model
 		this.setState({
-			patient: {
-				id: patient.id,
-				name: patient.name,
-				motherName: patient.motherName,
-				birthDate: patient.birthDate,
-				gender: patient.gender
-			}
+			patient: patient
 		});
 	}
 

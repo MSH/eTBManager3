@@ -48,7 +48,7 @@ export default class RemoteFormDialog extends React.Component {
 
 		const res = func();
 
-        // set values on UI
+        // set values using UI variables
         if (this.props.afterResolve) {
             data.doc = this.props.afterResolve(data.doc);
         }
@@ -58,8 +58,6 @@ export default class RemoteFormDialog extends React.Component {
             resources: data.resources,
             fetching: false
         });
-
-        console.log(data.doc);
     }
 
     render() {

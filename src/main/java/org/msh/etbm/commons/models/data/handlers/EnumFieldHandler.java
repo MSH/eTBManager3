@@ -42,6 +42,10 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
 
     @Override
     protected void validateValue(EnumField field, FieldContext context, Object value) {
+        if (value instanceof Enum) {
+            return;
+        }
+
         if (!(value instanceof String)) {
             context.rejectValue(Messages.NOT_VALID, null);
         }

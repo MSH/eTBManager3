@@ -127,6 +127,10 @@ public class StandardJSONParser<E> {
             return (E)parseCollection((Collection) value, targetClass, field);
         }
 
+        if (field != null && field.getName() != null && field.getName().equals("enumClass")) {
+            return (E)ObjectUtils.forClass((String)value);
+        }
+
         if (value instanceof Map) {
             Map map = (Map)value;
             if (Map.class.isAssignableFrom(targetClass)) {

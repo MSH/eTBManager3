@@ -5,6 +5,7 @@ import org.msh.etbm.commons.models.data.fields.DateField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -24,8 +25,10 @@ public class DateFieldHandler extends SingleFieldHandler<DateField> {
 
         if (value instanceof String) {
             try {
-                return ISO8601DateFormat.getInstance().parse((String)value);
-            } catch (ParseException e) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                Date date = sdf.parse((String)value);
+                return date;
+            } catch (Exception e) {
                 registerConversionError(context);
             }
         }
