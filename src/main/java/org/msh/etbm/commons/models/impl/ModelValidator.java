@@ -56,6 +56,10 @@ public class ModelValidator {
                 continue;
             }
 
+            if( field.getName().equals("iniTreatmentDate")) {
+                System.out.println("achou");
+            }
+
             FieldContext fieldContext = context.createFieldContext(field);
             boolean required = fieldContext.evalBoolProperty("required");
             if (required) {

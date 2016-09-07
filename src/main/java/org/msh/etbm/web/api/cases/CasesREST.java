@@ -59,8 +59,9 @@ public class CasesREST {
     @RequestMapping(value = "/case/initform")
     public FormInitResponse initForm() {
         Map<String, Object> doc = new HashMap<>();
-        doc.put("tbcase", new HashMap<>());
-        doc.put("patient", new HashMap<>());
+        // Implement lines bellow when remoteForm is working well
+        //doc.put("tbcase", new HashMap<>());
+        //doc.put("patient", new HashMap<>());
         return formService.init("newnotif-presumptive", doc, false);
     }
 

@@ -102,12 +102,12 @@
     {
       "name": "iniTreatmentDate",
       "type": "date",
-      "required": { "function": "state === 'ONTREATMENT'" }
+      "required": { "function": "this.state === 'ONTREATMENT'" }
     },
     {
       "name": "endTreatmentDate",
       "type": "date",
-      "required": { "function": "!!iniTreatmentDate" }
+      "required": { "function": "!!this.iniTreatmentDate" }
     },
     {
       "name": "caseDefinition",

@@ -47,7 +47,9 @@ public class NewNotificationService {
         }
 
         ModelDAO tbcaseDao = factory.create("tbcase");
-        ModelDAOResult resTbcase = tbcaseDao.insert((Map)temporaryVar.get("tbcase"));
+        Map caseData = (Map)temporaryVar.get("tbcase");
+        caseData.put("state", "NOT_ONTREATMENT");
+        ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
 
         if (resTbcase.getErrors() != null) {
             throw new EntityValidationException(resTbcase.getErrors());
