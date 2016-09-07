@@ -34,6 +34,7 @@ export default class NotifForm extends React.Component {
 	}
 
 	render() {
+		// TODOMS: CRIAR UMA FUNÇÃO PARA PASSAR COMO REMOTEPATH E NELA EU VOU SETAR OS VALORES DA TELA.
 		return (
 			<Grid fluid className="mtop-2x">
 				<Row>
@@ -42,8 +43,7 @@ export default class NotifForm extends React.Component {
 							wrapType="card"
 							remotePath={'/api/tbl/case/initform'}
 							onCancel={this.props.onCancel}
-							onConfirm={this.save}
-							afterResolve={this.setValues} />
+							onConfirm={this.save} />
 					</Col>
 				</Row>
 			</Grid>

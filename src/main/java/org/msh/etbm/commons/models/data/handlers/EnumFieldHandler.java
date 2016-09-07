@@ -19,7 +19,7 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
             return null;
         }
 
-        Class<? extends Enum> enumClass = field.getEnumClass();
+        Class<? extends Enum> enumClass = field.resolveEnumClass();
 
         if (enumClass.isAssignableFrom(value.getClass())) {
             return value;
@@ -54,7 +54,7 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
             throw new ModelException("Field enumeration class not available");
         }
 
-        Enum[] vals = field.getEnumClass().getEnumConstants();
+        Enum[] vals = field.resolveEnumClass().getEnumConstants();
         String key = (String)value;
 
         boolean found = false;

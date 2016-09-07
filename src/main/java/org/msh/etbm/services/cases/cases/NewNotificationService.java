@@ -39,20 +39,18 @@ public class NewNotificationService {
         mountTempVar(data.getDoc());
         // end of temporary code
 
-        ((Map)temporaryVar.get("patient")).put("gender", null);
-
         ModelDAO patientDao = factory.create("patient");
         ModelDAOResult resPatient = patientDao.insert((Map)temporaryVar.get("patient"));
 
         if (resPatient.getErrors() != null) {
-            throw new EntityValidationException(temporaryVar.get("patient"), resPatient.getErrors());
+            throw new EntityValidationException(resPatient.getErrors());
         }
 
         ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert((Map)temporaryVar.get("tbcase"));
 
         if (resTbcase.getErrors() != null) {
-            throw new EntityValidationException(data, "Deu erro no caso", "Deu erro no caso", "Deu erro no caso");
+            throw new EntityValidationException(resTbcase.getErrors());
         }
     }
 

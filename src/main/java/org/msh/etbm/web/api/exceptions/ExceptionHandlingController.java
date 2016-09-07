@@ -8,10 +8,7 @@ import org.msh.etbm.web.api.Message;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -84,7 +81,7 @@ public class ExceptionHandlingController {
      * @param res list of error messages
      * @return instance of {@link StandardResult}
      */
-    protected StandardResult convertErrorsToStandardResult(BindingResult res) {
+    protected StandardResult convertErrorsToStandardResult(Errors res) {
         if (!res.hasErrors()) {
             return new StandardResult(null, null, false);
         }

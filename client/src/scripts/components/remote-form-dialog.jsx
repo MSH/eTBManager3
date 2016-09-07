@@ -48,11 +48,6 @@ export default class RemoteFormDialog extends React.Component {
 
 		const res = func();
 
-        // set values using UI variables
-        if (this.props.afterResolve) {
-            data.doc = this.props.afterResolve(data.doc);
-        }
-
         this.setState({ schema: res,
             doc: data.doc,
             resources: data.resources,
@@ -84,7 +79,6 @@ export default class RemoteFormDialog extends React.Component {
 RemoteFormDialog.propTypes = {
     // the location in the server where form is located
     remotePath: React.PropTypes.any.isRequired,
-    afterResolve: React.PropTypes.func,
 
     // the properties used by FormDialog
 	onConfirm: React.PropTypes.func,
