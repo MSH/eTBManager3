@@ -24,17 +24,17 @@ export default class NotifForm extends React.Component {
 	getRemoteForm() {
 		return server.get('/api/tbl/case/initform').then(res => {
 			// set patient values
-			res.doc.patientId = this.props.patient.id;
-			res.doc.name = this.props.patient.name;
-			res.doc.motherName = this.props.patient.motherName;
-			res.doc.birthDate = this.props.patient.birthDate;
-			res.doc.gender = this.props.patient.gender;
+			res.doc.patient.id = this.props.patient.id;
+			res.doc.patient.name = this.props.patient.name;
+			res.doc.patient.motherName = this.props.patient.motherName;
+			res.doc.patient.birthDate = this.props.patient.birthDate;
+			res.doc.patient.gender = this.props.patient.gender;
 
 			// set tbcase values
-			res.doc.notificationUnit = this.props.tbunit.id;
-			res.doc.state = 'NOT_ONTREATMENT';
-			res.doc.diagnosisType = this.props.diagnosisType;
-			res.doc.classification = this.props.classification;
+			res.doc.tbcase.notificationUnit = this.props.tbunit.id;
+			res.doc.tbcase.state = 'NOT_ONTREATMENT';
+			res.doc.tbcase.diagnosisType = this.props.diagnosisType;
+			res.doc.tbcase.classification = this.props.classification;
 
 			return res;
 		});
@@ -46,7 +46,6 @@ export default class NotifForm extends React.Component {
 	}
 
 	render() {
-		// TODOMS: CRIAR UMA FUNÇÃO PARA PASSAR COMO REMOTEPATH E NELA EU VOU SETAR OS VALORES DA TELA.
 		return (
 			<Grid fluid className="mtop-2x">
 				<Row>

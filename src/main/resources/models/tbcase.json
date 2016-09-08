@@ -168,14 +168,16 @@
     },
     {
       "name": "notificationUnit",
-      "fieldName": "notificationUnitId",
-      "type": "unit",
+      "fieldName": "NOTIFICATION_UNIT_ID",
+      "type": "foreignKey",
+      "fkTable": "unit",
       "required": true
     },
     {
       "name": "ownerUnit",
-      "fieldName": "ownerUnitId",
-      "type": "unit",
+      "fieldName": "OWNER_UNIT_ID",
+      "type": "foreignKey",
+      "fkTable": "unit",
       "required": true
     },
     {
@@ -207,7 +209,7 @@
       "required": true
     },
     {
-      "name": "pulmonary",
+      "name": "pulmonaryType",
       "type": "string",
       "max": 50,
       "options": [
@@ -221,7 +223,7 @@
       ]
     },
     {
-      "name": "extrapulmonary",
+      "name": "extrapulmonaryType",
       "type": "string",
       "max": 50,
       "options": [
@@ -238,7 +240,7 @@
       ]
     },
     {
-      "name": "extrapulmonary2",
+      "name": "extrapulmonaryType2",
       "type": "string",
       "max": 50,
       "options": [

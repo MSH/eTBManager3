@@ -57,6 +57,10 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
 
         Map<String, Object> fields = new HashMap<>();
 
+        if (addr == null) {
+            return fields;
+        }
+
         fields.put(field.getFieldAddress(), addr.getAddress());
         fields.put(field.getFieldComplement(), addr.getComplement());
         fields.put(field.getFieldZipCode(), addr.getZipCode());

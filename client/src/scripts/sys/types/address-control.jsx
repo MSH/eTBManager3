@@ -86,7 +86,7 @@ export default class AddressControl extends React.Component {
 					<ControlLabel>{__('Address.complement')}</ControlLabel>
 					<FormControl id="complement"
 						type="text"
-						value={value.address}
+						value={value.complement}
 						onChange={this.onChange}
 						/>
 				</FormGroup>

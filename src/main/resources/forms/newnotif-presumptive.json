@@ -4,9 +4,21 @@
     "tbcase": "tbcase"
   },
 
-  "title": { "function": "true ? 'TODOMS: VER COMO EXIBIR ESSE TITULO' : 'Editing form'" },
+  "title": "TODO: preciso saber como exibir esse titulo",
 
   "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.registrationDate}",
+      "property": "tbcase.registrationDate",
+      "required": true,
+      "size": { "sm": 4 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.patientdata}",
+      "size": { "sm": 12 }
+    },
     {
       "property": "patient.name",
       "type": "personName",
@@ -23,13 +35,66 @@
     {
       "property": "patient.birthDate",
       "type": "date",
-      "size": { "md": 6 },
+      "size": { "md": 4 },
       "newRow": true
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 4 },
+      "label": "${TbCase.age}",
+      "required": true
     },
     {
       "property": "patient.gender",
       "type": "select",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.details.addressnotif}",
+      "level": 2,
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "tbcase.notifAddress",
+      "label": "${Patient.address}",
+      "type": "address",
       "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.addressChanged",
+      "type": "yesNo",
+      "label": "${TbCase.notifAddressChanged}",
+      "defaultValue": false,
+      "size": { "md": 6 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.details.addresscurr}",
+      "level": 2,
+      "size": { "sm": 12 },
+      "visible": { "function": "this.addressChanged" },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${Patient.address}",
+      "type": "address",
+      "size": { "md": 6 },
+      "visible": { "function": "this.addressChanged" }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.details.case}",
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "tbcase.notificationUnit",
+      "required": true,
+      "type": "unit",
+      "label": "${TbCase.notificationUnit}",
+      "size": { "sm": 6 }
     }
   ]
 }

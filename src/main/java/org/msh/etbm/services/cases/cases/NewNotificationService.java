@@ -28,59 +28,28 @@ public class NewNotificationService {
     @Autowired
     ModelDAOFactory factory;
 
-    private Map<String, Object> temporaryVar;
-
     @Transactional
     public void create(CaseFormData data) {
-        // temporary until data comes with right format
-        mountTempVar(data.getDoc());
-        // end of temporary code
-
         ModelDAO patientDao = factory.create("patient");
-        ModelDAOResult resPatient = patientDao.insert((Map)temporaryVar.get("patient"));
+        ModelDAOResult resPatient = patientDao.insert((Map) data.getDoc().get("patient"));
 
         if (resPatient.getErrors() != null) {
             throw new EntityValidationException(resPatient.getErrors());
         }
 
-        ModelDAO tbcaseDao = factory.create("tbcase");
         // prepare case data
-        Map caseData = (Map)temporaryVar.get("tbcase");
+        Map caseData = (Map)data.getDoc().get("tbcase");
         caseData.put("patient", resPatient.getId());
         caseData.put("movedToIndividualized", false);
         caseData.put("validated", false);
         caseData.put("movedSecondLineTreatment", false);
         caseData.put("ownerUnit", caseData.get("notificationUnit"));
 
-
+        ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
 
         if (resTbcase.getErrors() != null) {
             throw new EntityValidationException(resTbcase.getErrors());
         }
-    }
-
-    /**
-     * THIS IS TEMPORARY UNTIL ui SENDS THE REQUEST WITH THE RIGHT FORMAT
-     * @param source
-     */
-    private void mountTempVar(Map<String, Object> source) {
-        temporaryVar = new HashMap<>();
-
-        Map<String, Object> patientData = new HashMap<>();
-        patientData.put("name", source.get("name"));
-        patientData.put("birthDate", source.get("birthDate"));
-        patientData.put("motherName", source.get("motherName"));
-        patientData.put("gender", source.get("gender"));
-
-        Map<String, Object> caseData = new HashMap<>(source);
-        caseData.remove("name");
-        caseData.remove("birthDate");
-        caseData.remove("motherName");
-        caseData.remove("gender");
-        caseData.put("patient", null);
-
-        temporaryVar.put("tbcase", caseData);
-        temporaryVar.put("patient", patientData);
     }
 }
