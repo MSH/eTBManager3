@@ -1,5 +1,6 @@
 import React from 'react';
 import CRUD from '../../../commons/crud';
+import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { RemoteFormDialog } from '../../../components';
 
@@ -12,7 +13,7 @@ export default class NotifForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.setValues = this.setValues.bind(this);
+		this.getRemoteForm = this.getRemoteForm.bind(this);
 		this.save = this.save.bind(this);
 	}
 
@@ -20,12 +21,23 @@ export default class NotifForm extends React.Component {
 
 	}
 
-	setValues(doc) {
-		doc.notificationUnitId = this.props.tbunit.id;
-		doc.state = 'NOT_ONTREATMENT';
-		doc.patient = this.props.patient;
+	getRemoteForm() {
+		return server.get('/api/tbl/case/initform').then(res => {
+			// set patient values
+			res.doc.patientId = this.props.patient.id;
+			res.doc.name = this.props.patient.name;
+			res.doc.motherName = this.props.patient.motherName;
+			res.doc.birthDate = this.props.patient.birthDate;
+			res.doc.gender = this.props.patient.gender;
 
-		return doc;
+			// set tbcase values
+			res.doc.notificationUnit = this.props.tbunit.id;
+			res.doc.state = 'NOT_ONTREATMENT';
+			res.doc.diagnosisType = this.props.diagnosisType;
+			res.doc.classification = this.props.classification;
+
+			return res;
+		});
 	}
 
 	save(doc) {
@@ -41,7 +53,7 @@ export default class NotifForm extends React.Component {
 					<Col mdOffset={2} md={9}>
 						<RemoteFormDialog
 							wrapType="card"
-							remotePath={'/api/tbl/case/initform'}
+							remotePath={this.getRemoteForm}
 							onCancel={this.props.onCancel}
 							onConfirm={this.save} />
 					</Col>

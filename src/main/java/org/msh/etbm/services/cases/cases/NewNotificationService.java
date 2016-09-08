@@ -28,9 +28,6 @@ public class NewNotificationService {
     @Autowired
     ModelDAOFactory factory;
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     private Map<String, Object> temporaryVar;
 
     @Transactional
@@ -47,8 +44,15 @@ public class NewNotificationService {
         }
 
         ModelDAO tbcaseDao = factory.create("tbcase");
+        // prepare case data
         Map caseData = (Map)temporaryVar.get("tbcase");
-        caseData.put("state", "NOT_ONTREATMENT");
+        caseData.put("patient", resPatient.getId());
+        caseData.put("movedToIndividualized", false);
+        caseData.put("validated", false);
+        caseData.put("movedSecondLineTreatment", false);
+        caseData.put("ownerUnit", caseData.get("notificationUnit"));
+
+
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
 
         if (resTbcase.getErrors() != null) {

@@ -83,7 +83,6 @@
     {
       "name": "currentAddress",
       "type": "address",
-      "required": true,
       "fieldAddress": "curr_address",
       "fieldComplement": "curr_complement",
       "fieldZipCode": "curr_zipcode",
@@ -146,7 +145,7 @@
         { "id": "UNKNOWN_PREVIOUS_TB_TREAT", "name": "${PatientType.UNKNOWN_PREVIOUS_TB_TREAT}" },
         { "id": "OTHER", "name": "${PatientType.OTHER}" }
       ],
-      "required": true
+      "required": { "function": "this.diagnosisType === 'CONFIRMED'" }
     },
     {
       "name": "registrationGroupOther",
@@ -169,12 +168,13 @@
     },
     {
       "name": "notificationUnit",
-      "fieldName": "notification_unit_id",
-      "type": "unit"
+      "fieldName": "notificationUnitId",
+      "type": "unit",
+      "required": true
     },
     {
       "name": "ownerUnit",
-      "fieldName": "owner_unit_id",
+      "fieldName": "ownerUnitId",
       "type": "unit",
       "required": true
     },
