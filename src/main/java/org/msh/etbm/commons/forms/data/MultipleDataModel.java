@@ -44,6 +44,6 @@ public class MultipleDataModel implements DataModel {
             return null;
         }
 
-        return compModel.getModel().findFieldByName(fieldRef);
+        return compModel.getModel().findFieldByName(value);
     }
 }
