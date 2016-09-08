@@ -1,30 +1,33 @@
 {
-  "dataModel": "patient",
+  "dataModel": {
+    "patient": "patient",
+    "tbcase": "tbcase"
+  },
 
   "title": { "function": "true ? 'TODOMS: VER COMO EXIBIR ESSE TITULO' : 'Editing form'" },
 
   "controls": [
     {
-      "property": "name",
+      "property": "patient.name",
       "type": "personName",
       "label": "${Patient.name}",
       "required": true,
       "size": { "md": 6 }
     },
     {
-      "property": "motherName",
+      "property": "patient.motherName",
       "type": "string",
       "size": { "md": 6 },
       "newRow": true
     },
     {
-      "property": "birthDate",
+      "property": "patient.birthDate",
       "type": "date",
       "size": { "md": 6 },
       "newRow": true
     },
     {
-      "property": "gender",
+      "property": "patient.gender",
       "type": "select",
       "size": { "md": 6 }
     }
