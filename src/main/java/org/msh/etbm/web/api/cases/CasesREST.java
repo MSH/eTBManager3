@@ -58,11 +58,18 @@ public class CasesREST {
 
     @RequestMapping(value = "/case/initform")
     public FormInitResponse initForm(@Valid @NotNull @RequestBody CaseInitFormReq req) {
+
+        // mount doc
         Map<String, Object> doc = new HashMap<>();
-        // Implement lines bellow when remoteForm is working well
         doc.put("tbcase", new HashMap<>());
         doc.put("patient", new HashMap<>());
-        return formService.init("newnotif-presumptive", doc, false);
+
+        // generate form id
+        String formid = "newnotif-";
+        formid = formid.concat(req.getDiagnosisType().name().toLowerCase()).concat("-");
+        formid = formid.concat(req.getCaseClassification().name().toLowerCase());
+
+        return formService.init(formid, doc, false);
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)

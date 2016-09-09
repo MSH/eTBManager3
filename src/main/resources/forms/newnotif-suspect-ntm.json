@@ -4,7 +4,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "TODO: preciso saber como exibir esse titulo",
+  "title": "${cases.newnotifof} ${CaseClassification.NTM.suspect}",
 
   "controls": [
     {
@@ -12,7 +12,7 @@
       "label": "${TbCase.registrationDate}",
       "property": "tbcase.registrationDate",
       "required": true,
-      "size": { "sm": 4 }
+      "size": { "md": 4 }
     },
     {
       "type": "subtitle",
@@ -33,22 +33,43 @@
       "newRow": true
     },
     {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "defaultValue": "NATIVE",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "patient.gender",
+      "type": "select",
+      "size": { "md": 6 }
+    },
+    {
       "property": "patient.birthDate",
       "type": "date",
-      "size": { "md": 4 },
+      "size": { "md": 6 },
       "newRow": true
     },
     {
       "property": "tbcase.age",
       "type": "int",
-      "size": { "md": 4 },
+      "size": { "md": 6 },
       "label": "${TbCase.age}",
       "required": true
     },
     {
-      "property": "patient.gender",
-      "type": "select",
-      "size": { "md": 4 }
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 6 }
     },
     {
       "property": "tbcase.addressChanged",
@@ -70,19 +91,6 @@
       "type": "address",
       "size": { "md": 6 },
       "visible": { "function": "this.tbcase.addressChanged" }
-    },
-    {
-      "property": "tbcase.phoneNumber",
-      "type": "string",
-      "label": "${TbCase.phoneNumber}",
-      "size": { "md": 6 },
-      "newRow": true
-    },
-    {
-      "property": "tbcase.mobileNumber",
-      "type": "string",
-      "label": "${global.mobile}",
-      "size": { "md": 6 }
     },
     {
       "type": "subtitle",
