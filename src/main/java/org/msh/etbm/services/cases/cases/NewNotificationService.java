@@ -2,12 +2,14 @@ package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class NewNotificationService {
     ModelDAOFactory factory;
 
     @Transactional
-    public void create(CaseFormData data) {
+    public StandardResult create(CaseFormData data) {
         ModelDAO patientDao = factory.create("patient");
         ModelDAOResult resPatient = patientDao.insert((Map) data.getDoc().get("patient"));
 
@@ -51,5 +53,7 @@ public class NewNotificationService {
         if (resTbcase.getErrors() != null) {
             throw new EntityValidationException(resTbcase.getErrors());
         }
+
+        return new StandardResult(resTbcase.getId().toString(), null, true);
     }
 }

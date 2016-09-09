@@ -47,7 +47,6 @@ export default class RemoteFormDialog extends React.Component {
 		const func = new Function('', 'return ' + data.schema + ';');
 
 		const res = func();
-        console.log(res);
 
         this.setState({ schema: res,
             doc: data.doc,

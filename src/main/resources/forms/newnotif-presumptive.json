@@ -51,18 +51,6 @@
       "size": { "md": 4 }
     },
     {
-      "type": "subtitle",
-      "label": "${cases.details.addressnotif}",
-      "level": 2,
-      "size": { "sm": 12 }
-    },
-    {
-      "property": "tbcase.notifAddress",
-      "label": "${Patient.address}",
-      "type": "address",
-      "size": { "md": 6 }
-    },
-    {
       "property": "tbcase.addressChanged",
       "type": "yesNo",
       "label": "${TbCase.notifAddressChanged}",
@@ -70,19 +58,31 @@
       "size": { "md": 6 }
     },
     {
-      "type": "subtitle",
-      "label": "${cases.details.addresscurr}",
-      "level": 2,
-      "size": { "sm": 12 },
-      "visible": { "function": "this.addressChanged" },
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 6 },
       "newRow": true
     },
     {
       "property": "tbcase.currentAddress",
-      "label": "${Patient.address}",
+      "label": "${cases.details.addresscurr}",
       "type": "address",
       "size": { "md": 6 },
-      "visible": { "function": "this.addressChanged" }
+      "visible": { "function": "this.tbcase.addressChanged" }
+    },
+    {
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 6 }
     },
     {
       "type": "subtitle",

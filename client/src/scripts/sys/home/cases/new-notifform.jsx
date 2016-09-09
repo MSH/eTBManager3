@@ -3,6 +3,7 @@ import CRUD from '../../../commons/crud';
 import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { RemoteFormDialog } from '../../../components';
+import { app } from '../../../core/app';
 
 const crud = new CRUD('case');
 
@@ -22,7 +23,8 @@ export default class NotifForm extends React.Component {
 	}
 
 	getRemoteForm() {
-		return server.get('/api/tbl/case/initform').then(res => {
+		const req = { diagnosisType: this.props.diagnosisType, caseClassification: this.props.classification };
+		return server.post('/api/tbl/case/initform', req).then(res => {
 			// set patient values
 			res.doc.patient.id = this.props.patient.id;
 			res.doc.patient.name = this.props.patient.name;
@@ -42,7 +44,9 @@ export default class NotifForm extends React.Component {
 
 	save(doc) {
 		const req = { doc: doc };
-		return crud.create(req);
+		return crud.create(req).then(id => {
+			app.goto('/sys/home/cases/details?id=' + id);
+		});
 	}
 
 	render() {

@@ -57,7 +57,7 @@ public class CasesREST {
     */
 
     @RequestMapping(value = "/case/initform")
-    public FormInitResponse initForm() {
+    public FormInitResponse initForm(@Valid @NotNull @RequestBody CaseInitFormReq req) {
         Map<String, Object> doc = new HashMap<>();
         // Implement lines bellow when remoteForm is working well
         doc.put("tbcase", new HashMap<>());
@@ -67,8 +67,7 @@ public class CasesREST {
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody CaseFormData req) {
-        newNotificationService.create(req);
-        return new StandardResult();
+        return newNotificationService.create(req);
     }
 
     @RequestMapping(value = "/case/comorbidity/{id}", method = RequestMethod.POST)
