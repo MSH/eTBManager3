@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.indicators;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 
 
@@ -33,25 +34,13 @@ public final class ReportConfiguration {
         this.resourceProvider = resourceProvider;
     }
 
-
     /**
-     * Resolve a name to an object
-     * @param name
+     * Return an instance of the DataSource to run the queries
      * @return
      */
-    public Object resolveName(String name) {
-        return checkResourceProvider().resolveName(name);
+    public DataSource getDataSource() {
+        return checkResourceProvider().getDataSource();
     }
-
-
-    /**
-     * Return a database connection
-     * @return
-     */
-    public Connection getConnection() {
-        return checkResourceProvider().getConnection();
-    }
-
 
     /**
      * @return

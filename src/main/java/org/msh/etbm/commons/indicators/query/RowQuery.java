@@ -16,7 +16,7 @@ public class RowQuery extends RowImpl {
     public Object getValue(String fieldName) {
         for (ColumnQuery col: ((DataTableQuery)getDataTable()).getQueryColumns()) {
             if (col.getFieldName().equals(fieldName)) {
-                return getValue(getIndex());
+                return getValue(col.getIndex());
             }
         }
         throw new IllegalArgumentException("Field name not found: " + fieldName);

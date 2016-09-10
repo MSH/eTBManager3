@@ -82,7 +82,6 @@ public class IndicatorSqlBuilder {
      * the specific fields and its indicators
      */
     public String createSql() {
-        fieldList = null;
         varRestrictions.clear();
         sqlBuilder.clearSelect();
 
@@ -94,7 +93,9 @@ public class IndicatorSqlBuilder {
             }
         }
 
-        if (variables.size() > 0) {
+        if (fieldList != null) {
+            sqlBuilder.select(fieldList);
+        } else if (variables.size() > 0) {
             try {
                 for (Variable var: variables) {
                     currentVariable = var;
@@ -114,7 +115,6 @@ public class IndicatorSqlBuilder {
 
         return sqlBuilder.generate();
     }
-
 
 
     /**
@@ -218,5 +218,22 @@ public class IndicatorSqlBuilder {
      */
     public void setFilters(Map<Filter, Object> filters) {
         this.filters = filters;
+    }
+
+
+    public void setFirstResult(Integer firstResult) {
+        sqlBuilder.setFirstResult(firstResult);
+    }
+
+    public Integer getFirstResult() {
+        return sqlBuilder.getFirstResult();
+    }
+
+    public void setMaxResult(Integer maxResult) {
+        sqlBuilder.setMaxResult(maxResult);
+    }
+
+    public Integer getMaxResult() {
+        return sqlBuilder.getMaxResult();
     }
 }

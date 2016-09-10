@@ -2,6 +2,7 @@ package org.msh.etbm.commons.indicators.query;
 
 import org.msh.etbm.commons.indicators.datatable.impl.ColumnImpl;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
+import org.msh.etbm.commons.indicators.datatable.impl.RowImpl;
 
 import java.util.AbstractList;
 import java.util.List;
@@ -28,9 +29,14 @@ public class DataTableQueryImpl extends DataTableImpl implements DataTableQuery 
         return new ColumnQuery(this);
     }
 
+    @Override
+    protected RowImpl createRow() {
+        return new RowQuery(this);
+    }
+
     /* (non-Javadoc)
-     * @see org.msh.etbm.commons.indicators.query.DataTableQuery#getQueryColumns()
-     */
+         * @see org.msh.etbm.commons.indicators.query.DataTableQuery#getQueryColumns()
+         */
     @Override
     public List<ColumnQuery> getQueryColumns() {
         return new AbstractList<ColumnQuery>() {

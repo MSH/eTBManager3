@@ -6,7 +6,6 @@ import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.DataTableFactory;
 import org.msh.etbm.commons.indicators.datatable.Row;
 
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 

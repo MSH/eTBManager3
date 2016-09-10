@@ -91,7 +91,7 @@ public class IndicatorReport {
         builder.getVariables().clear();
 
         // calculate record count
-        DataTableQuery dt = createDataTableFromQuery(builder, null, null);
+        DataTableQuery dt = createDataTableFromQuery(builder);
         recordCount = (Long) dt.getValue(0, 0);
 
         // prepare to generate detailed report
@@ -99,7 +99,11 @@ public class IndicatorReport {
 
         builder.setOrderBy(orderBy);
 
-        return createDataTableFromQuery(builder, inipage * recordsPerPage, recordsPerPage);
+        // limit the amount of records
+        builder.setFirstResult(inipage * recordsPerPage);
+        builder.setMaxResult(recordsPerPage);
+
+        return createDataTableFromQuery(builder);
     }
 
     /**
@@ -153,7 +157,7 @@ public class IndicatorReport {
 
             // is the last item?
             if (varindex == sqlBuilder.getVariables().size() - 1) {
-                DataTable tbl = createDataTableFromQuery(sqlBuilder, null, null);
+                DataTable tbl = createDataTableFromQuery(sqlBuilder);
                 ConcatTables.insertRows(target, tbl);
             } else {
                 runVariableIteration(target, sqlBuilder, varindex + 1);
@@ -169,25 +173,15 @@ public class IndicatorReport {
      * called to all variables
      *
      * @param builder    the SQL builder that contains the variables and filters
-     * @param iniResult  the initial record to be returned, or null if the first record must be returned
-     * @param maxResults the maximum number of records to be returned, or null if all records should be returned
      * @return instance of the {@link DataTableQuery} containing the result of the SQL executed in the server
      */
-    protected DataTableQuery createDataTableFromQuery(IndicatorSqlBuilder builder, Integer iniResult, Integer maxResults) {
+    protected DataTableQuery createDataTableFromQuery(IndicatorSqlBuilder builder) {
         String sql = builder.createSql();
 
         // load data
         SQLQuery qry = new SQLQuery();
 
-        // include parameter values
-        for (String paramname : sqlBuilder.getParameters().keySet()) {
-            qry.setParameter(paramname, sqlBuilder.getParameters().get(paramname));
-        }
-
-        qry.setIniResult(iniResult);
-        qry.setMaxResults(maxResults);
-
-        return qry.execute(sql);
+        return qry.execute(builder.createSql(), builder.getParameters());
     }
 
 
