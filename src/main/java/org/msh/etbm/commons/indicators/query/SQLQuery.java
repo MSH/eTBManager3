@@ -34,7 +34,6 @@ public class SQLQuery {
 
             String parsedSql = parseParameters(sql);
             parsedSql = applyPagination(parsedSql);
-            System.out.println(parsedSql);
             PreparedStatement smt = conn.prepareStatement(parsedSql);
             fillParameters(smt);
             rs = smt.executeQuery();

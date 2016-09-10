@@ -1,4 +1,6 @@
-package org.msh.etbm.services.cases.filters;
+package org.msh.etbm.commons.filters;
+
+import org.msh.etbm.commons.filters.FilterData;
 
 import java.util.List;
 

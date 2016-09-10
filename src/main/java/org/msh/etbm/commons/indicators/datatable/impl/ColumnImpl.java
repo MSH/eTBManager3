@@ -3,6 +3,9 @@ package org.msh.etbm.commons.indicators.datatable.impl;
 import org.msh.etbm.commons.indicators.datatable.Column;
 import org.msh.etbm.commons.indicators.datatable.Row;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ColumnImpl implements Column {
 
     private DataTableImpl dataTable;
@@ -25,6 +28,18 @@ public class ColumnImpl implements Column {
     @Override
     public int getIndex() {
         return dataTable.getColumns().indexOf(this);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public List getValues() {
+        List lst = new ArrayList<>();
+        for (int i = 0; i < dataTable.getRowCount(); i++) {
+            lst.add(dataTable.getValue(getIndex(), i));
+        }
+        return lst;
     }
 
 

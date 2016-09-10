@@ -1,8 +1,10 @@
 package org.msh.etbm.commons.indicators;
 
 
+import org.msh.etbm.commons.filters.Filter;
+
 /**
- * Represent an element of the report, which may be a {@link org.msh.etbm.services.cases.filters.Filter}
+ * Represent an element of the report, which may be a {@link Filter}
  * or a {@link org.msh.etbm.commons.indicators.variables.Variable}
  *
  * @author Ricardo Memoria

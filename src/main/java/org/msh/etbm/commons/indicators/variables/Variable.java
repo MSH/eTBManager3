@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.indicators.variables;
 
 import org.msh.etbm.commons.indicators.ReportElement;
-import org.msh.etbm.commons.indicators.query.SQLDefs;
+import org.msh.etbm.commons.sqlquery.QueryDefs;
 
 /**
  * Interface that must be implemented by classes that want to expose itself as a
@@ -15,10 +15,10 @@ public interface Variable extends ReportElement {
     /**
      * Prepare the query to return the data necessary to be handled by the variable.
      * This method basically includes the fields to be returned, table joins and its restrictions (where clause)
-     * @param def are the fields
+     * @param def interface of {@link QueryDefs} to inject fields to select, joins and restrictions
      * @param iteration
      */
-    void prepareVariableQuery(SQLDefs def, int iteration);
+    void prepareVariableQuery(QueryDefs def, int iteration);
 
     /**
      * Convert a value returned from the database to another value. For example, a number that must be displayed as a string.

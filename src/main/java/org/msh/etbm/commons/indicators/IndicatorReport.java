@@ -1,23 +1,19 @@
 package org.msh.etbm.commons.indicators;
 
+import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
-import org.msh.etbm.commons.indicators.filters.Filter;
-import org.msh.etbm.commons.indicators.filters.FilterOperation;
-import org.msh.etbm.commons.indicators.filters.ValueHandler;
 import org.msh.etbm.commons.indicators.indicator.DataTableIndicator;
 import org.msh.etbm.commons.indicators.indicator.DataTableIndicatorImpl;
 import org.msh.etbm.commons.indicators.query.DataTableQuery;
+import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.query.SQLQuery;
-import org.msh.etbm.commons.indicators.query.SqlBuilder;
-import org.msh.etbm.commons.indicators.query.TableJoin;
 import org.msh.etbm.commons.indicators.tableoperations.ConcatTables;
 import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,14 +24,11 @@ import java.util.Map;
  */
 public class IndicatorReport {
 
-    private List<Variable> columnVariables = new ArrayList<Variable>();
-    private List<Variable> rowVariables = new ArrayList<Variable>();
-    private Map<Filter, FilterValue> filters = new HashMap<Filter, FilterValue>();
+    private IndicatorRequest request;
 
-    private SqlBuilder sqlBuilder;
+    private IndicatorSqlBuilder sqlBuilder;
 
     private DataTable res1, res2;
-    private DataTableIndicator result;
 
     // new size after conversion
     private int rowsize;
@@ -49,27 +42,32 @@ public class IndicatorReport {
 
     /**
      * Create the indicator result
+     * @param req The instance of {@link IndicatorRequest} containing the information about
+     *            the indicator to be produced
+     * @return instance of {@link DataTableIndicator} containing the indicator report
      */
-    public void execute() {
+    public DataTableIndicator execute(IndicatorRequest req) {
+        this.request = req;
+
         DataTable data = loadData();
         res1 = data;
 
         // no data was returned from the database ?
         if (data.getRowCount() == 0) {
             // return an empty data table
-            result = new DataTableIndicatorImpl();
-            return;
+            return new DataTableIndicatorImpl();
         }
 
         data = convertDataToVariableKeys(data);
         res2 = data;
 
-        colsize = calcVariablesSize(columnVariables);
-        rowsize = calcVariablesSize(rowVariables);
+        colsize = calcVariablesSize(req.getColumnVariables());
+        rowsize = calcVariablesSize(req.getRowVariables());
 
-        result = indicatorTransform(data, columnVariables, rowVariables);
+        DataTableIndicator result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
 
         rowsize = 1;
+        return result;
     }
 
 
@@ -80,30 +78,24 @@ public class IndicatorReport {
      * @return instance of {@link DataTableQuery}
      */
     public DataTableQuery getDetailedReport(String fields, String orderBy, int inipage, int recordsPerPage) {
-        SqlBuilder builder = getSqlBuilder();
+        IndicatorSqlBuilder builder = getSqlBuilder();
 
+        Map<Filter, Object> filters = request.getFilterValues();
 
         for (Filter filter : filters.keySet()) {
-            FilterValue fvalue = filters.get(filter);
-            String val = fvalue.getValue() != null ? fvalue.getValue() : null;
-            ValueHandler handler = new ValueHandler(val, filter.isMultiSelection());
-
-            filter.prepareFilterQuery(builder, fvalue.getComparator(), handler);
+            Object fvalue = filters.get(filter);
+            filter.prepareFilterQuery(builder.getQueryDefs(), fvalue, null);
         }
 
         // prepare to get counting
         builder.getVariables().clear();
-        builder.setDetailed(false);
 
         // calculate record count
         DataTableQuery dt = createDataTableFromQuery(builder, null, null);
         recordCount = (Long) dt.getValue(0, 0);
 
         // prepare to generate detailed report
-        builder.setDetailed(true);
-        for (String fld : fields.split(",")) {
-            builder.select(fld);
-        }
+        builder.setDetailedField(fields);
 
         builder.setOrderBy(orderBy);
 
@@ -116,18 +108,18 @@ public class IndicatorReport {
     protected DataTableImpl loadData() {
         // create SQL instruction
 
-        SqlBuilder sqlBuilder = getSqlBuilder();
+        IndicatorSqlBuilder sqlBuilder = getSqlBuilder();
 
         // add variables to SQL builder
-        for (Variable v : columnVariables) {
+        for (Variable v : request.getColumnVariables()) {
             sqlBuilder.addVariable(v);
         }
 
-        for (Variable v : rowVariables) {
+        for (Variable v : request.getRowVariables()) {
             sqlBuilder.addVariable(v);
         }
 
-        sqlBuilder.setFilters(filters);
+        sqlBuilder.setFilters(request.getFilterValues());
 
         // create an empty table
         DataTableImpl tbl = new DataTableImpl();
@@ -147,7 +139,7 @@ public class IndicatorReport {
      * @param sqlBuilder to do
      * @param varindex   to do
      */
-    protected void runVariableIteration(DataTable target, SqlBuilder sqlBuilder, int varindex) {
+    protected void runVariableIteration(DataTable target, IndicatorSqlBuilder sqlBuilder, int varindex) {
         Variable var = sqlBuilder.getVariables().get(varindex);
         int num = var.getIteractionCount();
 
@@ -181,7 +173,7 @@ public class IndicatorReport {
      * @param maxResults the maximum number of records to be returned, or null if all records should be returned
      * @return instance of the {@link DataTableQuery} containing the result of the SQL executed in the server
      */
-    protected DataTableQuery createDataTableFromQuery(SqlBuilder builder, Integer iniResult, Integer maxResults) {
+    protected DataTableQuery createDataTableFromQuery(IndicatorSqlBuilder builder, Integer iniResult, Integer maxResults) {
         String sql = builder.createSql();
 
         // load data
@@ -199,7 +191,7 @@ public class IndicatorReport {
     }
 
 
-    private SqlBuilder getSqlBuilder() {
+    private IndicatorSqlBuilder getSqlBuilder() {
         if (sqlBuilder == null) {
             sqlBuilder = createSqlBuilder();
         }
@@ -209,83 +201,12 @@ public class IndicatorReport {
 
 
     /**
-     * Add another variable to the group of columns variables
-     *
-     * @param var
-     */
-    public IndicatorReport addColumnVariable(Variable var) {
-        columnVariables.add(var);
-        return this;
-    }
-
-
-    /**
-     * Clear the list of column variables
-     */
-    public void clearColumnVariables() {
-        columnVariables.clear();
-    }
-
-    /**
-     * Add another variable to the group of row variables
-     *
-     * @param var
-     * @return
-     */
-    public IndicatorReport addRowVariable(Variable var) {
-        rowVariables.add(var);
-        return this;
-    }
-
-    /**
-     * Clear all row variables
-     */
-    public void clearRowVariables() {
-        rowVariables.clear();
-    }
-
-    /**
-     * Add a new filter to the indicator report
-     *
-     * @param filter
-     * @param value
-     * @return
-     */
-    public IndicatorReport addFilter(Filter filter, String value) {
-        FilterValue val = new FilterValue(filter, FilterOperation.EQUALS, value);
-        filters.put(filter, val);
-        return this;
-    }
-
-
-    /**
-     * Add a filter and its value to the report indicating the operation to be done
-     *
-     * @param filter
-     * @param oper
-     * @param value
-     * @return
-     */
-    public IndicatorReport addFilter(Filter filter, FilterOperation oper, String value) {
-        FilterValue val = new FilterValue(filter, oper, value);
-        filters.put(filter, val);
-        return this;
-    }
-
-    /**
-     * Clear all filters applied to the indicator
-     */
-    public void clearFilters() {
-        filters.clear();
-    }
-
-    /**
-     * Create a new instance of a {@link SqlBuilder} class
+     * Create a new instance of a {@link IndicatorSqlBuilder} class
      *
      * @return
      */
-    protected SqlBuilder createSqlBuilder() {
-        return new SqlBuilder();
+    protected IndicatorSqlBuilder createSqlBuilder() {
+        return new IndicatorSqlBuilder(request.getMainTable());
     }
 
 
@@ -302,7 +223,7 @@ public class IndicatorReport {
         List<Variable> vars = new ArrayList<Variable>();
         List<int[]> varcols = new ArrayList<int[]>();
 
-        SqlBuilder sqlbuilder = getSqlBuilder();
+        IndicatorSqlBuilder sqlbuilder = getSqlBuilder();
         for (Variable var : sqlbuilder.getVariables()) {
             vars.add(var);
             varcols.add(sqlBuilder.getColumnsVariable(var));
@@ -339,76 +260,6 @@ public class IndicatorReport {
     protected DataTableIndicator indicatorTransform(DataTable tbl, List<Variable> varColumns, List<Variable> varRows) {
         IndicatorTransform trans = new IndicatorTransform();
         return trans.excute(tbl, varColumns, varRows, tbl.getColumnCount() - 1);
-    }
-
-
-    /**
-     * Add a table join to the main table
-     *
-     * @param tableField the field name
-     * @param foreignKey the foreign key representation
-     * @return
-     */
-    public TableJoin addTableJoin(String tableField, String foreignKey) {
-        return getSqlBuilder().table(sqlBuilder.getTableName()).join(tableField, foreignKey);
-    }
-
-    /**
-     * Return the result of the report
-     *
-     * @return
-     */
-    public DataTableIndicator getResult() {
-        if (result == null) {
-            execute();
-        }
-
-        return result;
-    }
-
-    /**
-     * @return the columnVariables
-     */
-    public List<Variable> getColumnVariables() {
-        return columnVariables;
-    }
-
-    /**
-     * @return the rowVariables
-     */
-    public List<Variable> getRowVariables() {
-        return rowVariables;
-    }
-
-    /**
-     * @return the filters
-     */
-    public Map<Filter, FilterValue> getFilters() {
-        return filters;
-    }
-
-
-    /**
-     * @return the tableName
-     */
-    public String getTableName() {
-        return getSqlBuilder().getTableName();
-    }
-
-
-    /**
-     * @param tableName the tableName to set
-     */
-    public void setTableName(String tableName) {
-        getSqlBuilder().setTableName(tableName);
-    }
-
-
-    /**
-     * @param sqlRestriction the sqlCondition to set
-     */
-    public void addRestriction(String sqlRestriction) {
-        getSqlBuilder().addRestriction(sqlRestriction);
     }
 
 

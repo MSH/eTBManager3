@@ -74,6 +74,9 @@ public class SQLQueryBuilder implements QueryDefs {
     private Map<String, SQLTable> namedJoins = new HashMap<>();
 
 
+    private List<QueryDefsListener> listeners;
+
+
 
     /**
      * The default constructor
@@ -382,8 +385,41 @@ public class SQLQueryBuilder implements QueryDefs {
         return namedJoins.get(joinName);
     }
 
+    /**
+     * Add an expression to the SQL SELECT clause that will be considered an expression, like a COUNT or SUM
+     * @param expr
+     */
     public void addGroupExpression(String expr) {
         queryDefs.createField(expr, true);
+    }
+
+    /**
+     * Add a new listener to receive information about certain injections done by {@link QueryDefs} interface
+     * @param listener the instance of {@link QueryDefsListener}
+     */
+    public void addListener(QueryDefsListener listener) {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        listeners.add(listener);
+    }
+
+    /**
+     * Remove a listener previously included with the {@link SQLQueryBuilder#addListener(QueryDefsListener)} method
+     * @param listener
+     */
+    public void remListener(QueryDefsListener listener) {
+        if (listeners == null) {
+            return;
+        }
+        listeners.remove(listener);
+    }
+
+    /**
+     * Remove all listeners previously included
+     */
+    public void clearListeners() {
+        listeners = null;
     }
 
     /**
@@ -418,8 +454,19 @@ public class SQLQueryBuilder implements QueryDefs {
         return Collections.unmodifiableList(joins);
     }
 
+    /**
+     * Add a field to the list of fields to select
+     * @param field
+     */
     protected void addField(SQLField field) {
         fields.add(field);
+
+        // check if there are listeners to that event
+        if (listeners != null) {
+            for (QueryDefsListener listener: listeners) {
+                listener.onInjectedField(field);
+            }
+        }
     }
 
     protected void addJoin(SQLTable join) {

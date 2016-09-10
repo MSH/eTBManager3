@@ -1,6 +1,9 @@
 package org.msh.etbm.services.cases.filters;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.filters.Filter;
+import org.msh.etbm.commons.filters.FilterData;
+import org.msh.etbm.commons.filters.FilterGroupData;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;

@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.indicators.datatable;
 
+import java.util.List;
+
 /**
  * Represent a column of the {@link DataTable} interface
  *
@@ -44,4 +46,9 @@ public interface Column {
      */
     int getIndex();
 
+    /**
+     * Return the list of values of the column
+     * @return the index of the column
+     */
+    List getValues();
 }

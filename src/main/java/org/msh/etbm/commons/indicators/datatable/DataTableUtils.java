@@ -7,16 +7,15 @@ public class DataTableUtils {
 
 
     /**
-     * Compare an array of object
-     * @param vals1
-     * @param vals2
-     * @return
+     * Compare an array of object. Return -1 if vals1 is before vals2. Return 0 if both arrays are equals,
+     * i.e, if all elements in the correspondent index position of both arrays are the same, otherwise
+     * return 1 if vals2 is before vals1
+     * @param vals1 the array to be compared to vals2
+     * @param vals2 the array to be compared to vals1
+     * @return -1, 0 or 1
      */
     public static int compareArray(Object[] vals1, Object[] vals2) {
-        int len = vals1.length;
-        if (vals2.length != len) {
-            return ((Integer)len).compareTo(vals2.length);
-        }
+        int len = vals1.length < vals2.length ? vals1.length : vals2.length;
 
         int res = 0;
         for (int i = 0; i < len; i++) {
@@ -25,6 +24,12 @@ public class DataTableUtils {
                 break;
             }
         }
+
+        // check if the result is equal but array sizes are different
+        if (res == 0 && vals1.length != vals2.length) {
+            return Integer.compare(vals1.length, vals2.length);
+        }
+
         return res;
     }
 
@@ -49,9 +54,15 @@ public class DataTableUtils {
             return 1;
         }
 
-        return (obj1 instanceof Comparable) && (obj1.getClass() == obj2.getClass()) ?
+        int res = (obj1 instanceof Comparable) && (obj1.getClass() == obj2.getClass()) ?
                 ((Comparable)obj1).compareTo(obj2) :
                 obj1.toString().compareTo(obj2.toString());
+
+        if (res < 0) {
+            return -1;
+        }
+
+        return res > 0 ? 1 : 0;
     }
 
     /**

@@ -119,9 +119,9 @@ public class QueryDefsImpl implements QueryDefs {
 
     public SQLField createField(String fieldName, boolean aggregation) {
         String alias = createFieldAlias();
-        SQLField field = new SQLField(fieldName, alias, false, tableJoin);
-        field.setAggregation(aggregation);
+        SQLField field = new SQLField(fieldName, alias, aggregation, tableJoin);
         builder.addField(field);
+
         return field;
     }
 
