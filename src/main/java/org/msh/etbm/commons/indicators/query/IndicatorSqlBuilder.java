@@ -26,10 +26,9 @@ public class IndicatorSqlBuilder {
 
     // the list of fields to return by the query. If this property is set, the query will not be used
     // for indicator generator, but for query details
-    private String detailedField;
+    private String fieldList;
 
     private Variable currentVariable;
-    private String fieldList;
     private List<String> varRestrictions = new ArrayList<String>();
     private Map<Variable, Integer> varIteration = new HashMap<Variable, Integer>();
     private Map<Filter, Object> filters;
@@ -111,6 +110,7 @@ public class IndicatorSqlBuilder {
             } finally {
                 currentVariable = null;
             }
+            sqlBuilder.addGroupExpression("count(*)");
         }
 
         return sqlBuilder.generate();
@@ -168,22 +168,12 @@ public class IndicatorSqlBuilder {
         return variables;
     }
 
-
-    /**
-     * Return true if the builder will generate a detailed query (where other fields may be included)
-     * or a consolidated query (where just the variable fields will be used with a count(*) declaration)
-     * @return boolean value
-     */
-    public boolean isDetailed() {
-        return detailedField != null;
+    public String getFieldList() {
+        return fieldList;
     }
 
-    public void setDetailedField(String detailedField) {
-        this.detailedField = detailedField;
-    }
-
-    public String getDetailedField() {
-        return detailedField;
+    public void setFieldList(String fieldList) {
+        this.fieldList = fieldList;
     }
 
     /**

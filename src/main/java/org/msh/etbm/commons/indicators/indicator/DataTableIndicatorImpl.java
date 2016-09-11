@@ -6,10 +6,7 @@ import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
 import org.msh.etbm.commons.indicators.datatable.impl.RowImpl;
 
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Base implementation of the {@link DataTableIndicator} interface
@@ -28,7 +25,8 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
     }
 
     public DataTableIndicatorImpl(int colcount, int rowcount) {
-        super(colcount, rowcount);
+        super();
+        resize(colcount, rowcount);
     }
 
 
@@ -51,7 +49,7 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
         }
 
         IndicatorRow row = (IndicatorRow)insertRow(index);
-        parent.addChildRow(row);
+        ((IndicatorRowImpl)parent).addChildRow(row);
 
         return row;
     }
@@ -107,7 +105,7 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
             HeaderRow headerRow = headerRows.get(level);
 
             // create the column
-            IndicatorColumn indColumn = new IndicatorColumn(parent);
+            IndicatorColumn indColumn = new IndicatorColumnImpl(parent);
 
             // if this is the only child of the parent, so no new column
             // must be included, because it was already by the parent
@@ -335,6 +333,7 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
      */
     @Override
     public List<IndicatorRow> getIndicatorRows() {
+        // return an unmodifiable list of rows
         return new AbstractList<IndicatorRow>() {
             @Override
             public IndicatorRow get(int index) {
@@ -353,7 +352,7 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
      */
     @Override
     protected RowImpl createRow() {
-        return new IndicatorRow(this);
+        return new IndicatorRowImpl(this);
     }
 
     /* (non-Javadoc)
@@ -413,7 +412,7 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
             while (col.getParent() != null) {
                 int level = col.getLevel();
                 headerRows.get(level).getColumns().remove(col);
-                col.getParent().removeColumn(col);
+                ((IndicatorColumnImpl)col.getParent()).removeColumn(col);
                 col = col.getParent();
                 if (!col.isEndPointColumn()) {
                     break;

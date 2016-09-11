@@ -10,10 +10,10 @@ public class RowImpl implements Row {
 
     private Object[] values;
     private Object key;
-    private DataTableImpl dataTable;
+    private DataTable dataTable;
 
 
-    public RowImpl(DataTableImpl dataTable) {
+    public RowImpl(DataTable dataTable) {
         super();
         this.dataTable = dataTable;
         if (dataTable.getColumnCount() > 0) {

@@ -24,10 +24,6 @@ import java.util.Map;
  */
 public class IndicatorReport {
 
-    private IndicatorRequest request;
-
-    private IndicatorSqlBuilder sqlBuilder;
-
     private DataTable res1, res2;
 
     // new size after conversion
@@ -47,9 +43,9 @@ public class IndicatorReport {
      * @return instance of {@link DataTableIndicator} containing the indicator report
      */
     public DataTableIndicator execute(IndicatorRequest req) {
-        this.request = req;
+        IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
 
-        DataTable data = loadData();
+        DataTable data = loadData(req, builder);
         res1 = data;
 
         // no data was returned from the database ?
@@ -58,7 +54,7 @@ public class IndicatorReport {
             return new DataTableIndicatorImpl();
         }
 
-        data = convertDataToVariableKeys(data);
+        data = convertDataToVariableKeys(data, builder);
         res2 = data;
 
         colsize = calcVariablesSize(req.getColumnVariables());
@@ -74,13 +70,13 @@ public class IndicatorReport {
     /**
      * Return an instance of the {@link DataTableQuery} containing detailed list of cases
      *
-     * @param fields is a list of comma separated fields to be returned
+     * @param req Request object with information to generate a detailed list of values from the indicator
      * @return instance of {@link DataTableQuery}
      */
-    public DataTableQuery getDetailedReport(String fields, String orderBy, int inipage, int recordsPerPage) {
-        IndicatorSqlBuilder builder = getSqlBuilder();
+    public DataTableQuery getDetailedReport(DetailedIndicatorRequest req) {
+        IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
 
-        Map<Filter, Object> filters = request.getFilterValues();
+        Map<Filter, Object> filters = req.getFilterValues();
 
         for (Filter filter : filters.keySet()) {
             Object fvalue = filters.get(filter);
@@ -95,13 +91,13 @@ public class IndicatorReport {
         recordCount = (Long) dt.getValue(0, 0);
 
         // prepare to generate detailed report
-        builder.setDetailedField(fields);
+        builder.setFieldList(req.getDetailedFields());
 
-        builder.setOrderBy(orderBy);
+        builder.setOrderBy(req.getOrderBy());
 
         // limit the amount of records
-        builder.setFirstResult(inipage * recordsPerPage);
-        builder.setMaxResult(recordsPerPage);
+        builder.setFirstResult(req.getFirstResult());
+        builder.setMaxResult(req.getMaxResult());
 
         return createDataTableFromQuery(builder);
     }
@@ -109,21 +105,17 @@ public class IndicatorReport {
     /**
      * Load data from the data base
      */
-    protected DataTableImpl loadData() {
-        // create SQL instruction
-
-        IndicatorSqlBuilder sqlBuilder = getSqlBuilder();
-
+    protected DataTableImpl loadData(IndicatorRequest req, IndicatorSqlBuilder sqlBuilder) {
         // add variables to SQL builder
-        for (Variable v : request.getColumnVariables()) {
+        for (Variable v : req.getColumnVariables()) {
             sqlBuilder.addVariable(v);
         }
 
-        for (Variable v : request.getRowVariables()) {
+        for (Variable v : req.getRowVariables()) {
             sqlBuilder.addVariable(v);
         }
 
-        sqlBuilder.setFilters(request.getFilterValues());
+        sqlBuilder.setFilters(req.getFilterValues());
 
         // create an empty table
         DataTableImpl tbl = new DataTableImpl();
@@ -185,22 +177,13 @@ public class IndicatorReport {
     }
 
 
-    private IndicatorSqlBuilder getSqlBuilder() {
-        if (sqlBuilder == null) {
-            sqlBuilder = createSqlBuilder();
-        }
-
-        return sqlBuilder;
-    }
-
-
     /**
      * Create a new instance of a {@link IndicatorSqlBuilder} class
      *
      * @return
      */
-    protected IndicatorSqlBuilder createSqlBuilder() {
-        return new IndicatorSqlBuilder(request.getMainTable());
+    protected IndicatorSqlBuilder createSqlBuilder(String mainTable) {
+        return new IndicatorSqlBuilder(mainTable);
     }
 
 
@@ -210,17 +193,16 @@ public class IndicatorReport {
      * @param sourcedt
      * @return
      */
-    protected DataTable convertDataToVariableKeys(DataTable sourcedt) {
+    protected DataTable convertDataToVariableKeys(DataTable sourcedt, IndicatorSqlBuilder builder) {
         KeyConverter conv = new KeyConverter();
 
         // mount list of variables and columns
         List<Variable> vars = new ArrayList<Variable>();
         List<int[]> varcols = new ArrayList<int[]>();
 
-        IndicatorSqlBuilder sqlbuilder = getSqlBuilder();
-        for (Variable var : sqlbuilder.getVariables()) {
+        for (Variable var : builder.getVariables()) {
             vars.add(var);
-            varcols.add(sqlBuilder.getColumnsVariable(var));
+            varcols.add(builder.getColumnsVariable(var));
         }
 
         DataTable dt = conv.execute(sourcedt, vars, varcols);

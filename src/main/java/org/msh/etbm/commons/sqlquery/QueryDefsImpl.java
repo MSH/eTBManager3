@@ -199,7 +199,7 @@ public class QueryDefsImpl implements QueryDefs {
      * @return
      */
     protected String createTableAlias() {
-        int count = builder.getJoins().size() + 1;
+        int count = builder.getJoins().size();
 
         int index = count / 27;
         int letter = count % 27;

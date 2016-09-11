@@ -1,135 +1,66 @@
 package org.msh.etbm.commons.indicators.indicator;
 
+import org.msh.etbm.commons.indicators.datatable.Column;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndicatorColumn  {
-
-    private String title;
-    private Object key;
-    private IndicatorColumn parent;
-    private List<IndicatorColumn> columns;
-    private int index;
-
-    public IndicatorColumn(IndicatorColumn parent) {
-        super();
-        this.parent = parent;
-        if (parent != null) {
-            parent.addColumn(this);
-        }
-    }
-
-    /**
-     * Add a child column
-     * @param col child column to be included
-     */
-    protected void addColumn(IndicatorColumn col) {
-        if (columns == null) {
-            columns = new ArrayList<IndicatorColumn>();
-        }
-        columns.add(col);
-    }
-
-    /**
-     * Remove a child column from the column
-     * @param col is the child column to be removed
-     */
-    protected void removeColumn(IndicatorColumn col) {
-        if ((columns == null) || (columns.indexOf(col) == -1)) {
-            throw new IllegalArgumentException("Column not found");
-        }
-        columns.remove(col);
-    }
+public interface IndicatorColumn {
 
     /**
      * Calculate the number of end point columns, including the sub columns
      * @return number of end points under this column
      */
-    public int getEndPointCount() {
-        if (columns == null) {
-            return 1;
-        }
-
-        int endpoints = 0;
-        for (IndicatorColumn col: columns) {
-            endpoints += col.getEndPointCount();
-        }
-
-        return endpoints;
-    }
+    int getEndPointCount();
 
     /**
      * Return true if the column is the last column in the list of column childs
      * @return true if there is no other child column for this column
      */
-    public boolean isEndPointColumn() {
-        return columns == null;
-    }
+    boolean isEndPointColumn();
 
     /**
      * Return the level of the column. The level determines the position
      * of the columns in its column rows
      * @return level of the column starting at 0
      */
-    public int getLevel() {
-        int lev = 0;
-        IndicatorColumn p = parent;
-        while (p != null) {
-            p = p.getParent();
-            lev++;
-        }
-        return lev;
-    }
+    int getLevel();
 
 
     /**
      * @return the index
      */
-    public int getIndex() {
-        return index;
-    }
+    int getIndex();
 
     /**
      * @return the title
      */
-    public String getTitle() {
-        return title;
-    }
+    String getTitle();
 
     /**
      * @param title the title to set
      */
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    void setTitle(String title);
 
     /**
      * @return the key
      */
-    public Object getKey() {
-        return key;
-    }
+    Object getKey();
 
     /**
      * @param key the key to set
      */
-    public void setKey(Object key) {
-        this.key = key;
-    }
+    void setKey(Object key);
 
     /**
      * @return the parent
      */
-    public IndicatorColumn getParent() {
-        return parent;
-    }
+    IndicatorColumn getParent();
 
     /**
      * @return the columns
      */
-    public List<IndicatorColumn> getColumns() {
-        return columns;
-    }
+    List<IndicatorColumn> getColumns();
 
     /**
      * If this column is an end point column, add it to the list, otherwise
@@ -137,20 +68,10 @@ public class IndicatorColumn  {
      * end point columns
      * @param lst list that will be populated with the end point columns
      */
-    public void addEndPointColumns(List<IndicatorColumn> lst) {
-        if (columns == null) {
-            lst.add(this);
-        } else {
-            for (IndicatorColumn col: columns) {
-                col.addEndPointColumns(lst);
-            }
-        }
-    }
+    void addEndPointColumns(List<IndicatorColumn> lst);
 
     /**
      * @param index the index to set
      */
-    public void setIndex(int index) {
-        this.index = index;
-    }
+    void setIndex(int index);
 }

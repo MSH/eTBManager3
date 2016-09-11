@@ -245,11 +245,9 @@ public class SQLQueryBuilder implements QueryDefs {
 
         StringBuilder s = new StringBuilder();
         String delim = "\ngroup by ";
-        for (SQLField field: lst) {
+        for (SQLField field: fields) {
             if (!field.isAggregation()) {
-                s.append(field.getTable().getTableAlias())
-                        .append('.')
-                        .append(field.getFieldName());
+                s.append(delim).append(field.getFieldAlias());
             }
 
             delim = ", ";

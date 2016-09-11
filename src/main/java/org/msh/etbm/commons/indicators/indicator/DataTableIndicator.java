@@ -7,7 +7,14 @@ import java.util.List;
 /**
  * Extension of the {@link DataTable} interface that supports
  * an indicator data table, i.e, a data table that supports row and
- * column grouping in several levels
+ * column grouping in several levels. For an indicator, rows and columns are grouped in
+ * a different way. Columns are grouped one over the other. A new column group doesn't mean
+ * that a new column will be created, since the new group may be over existing columns.
+ * <p/>
+ * Although rows are grouped too, a grouped row take its own row in the {@link DataTable},
+ * over the child rows and having its own values.
+ * <p/>
+ * Both group rows and columns, when they are deleted, its children are deleted too.
  *
  * @author Ricardo Memoria
  *

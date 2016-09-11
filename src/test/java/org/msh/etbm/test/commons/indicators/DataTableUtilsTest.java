@@ -3,7 +3,7 @@ package org.msh.etbm.test.commons.indicators;
 import org.junit.Test;
 import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test the {@link DataTableUtils} class

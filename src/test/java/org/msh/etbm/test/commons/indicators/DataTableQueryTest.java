@@ -11,7 +11,8 @@ import org.msh.etbm.commons.indicators.query.RowQuery;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by rmemoria on 10/9/16.
@@ -48,7 +49,7 @@ public class DataTableQueryTest {
 
         RowQuery rq = rows.get(0);
         assertNotNull(rq);
-        
+
         assertEquals(12345, rq.getValue("ID"));
         assertEquals("Person name", rq.getValue("Name"));
         assertEquals(dt, rq.getValue("BirthDate"));
