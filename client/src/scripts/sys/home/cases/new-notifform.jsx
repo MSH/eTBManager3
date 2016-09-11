@@ -1,5 +1,6 @@
 import React from 'react';
 import CRUD from '../../../commons/crud';
+import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { RemoteFormDialog } from '../../../components';
 
@@ -12,7 +13,7 @@ export default class NotifForm extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.setValues = this.setValues.bind(this);
+		this.getRemoteForm = this.getRemoteForm.bind(this);
 		this.save = this.save.bind(this);
 	}
 
@@ -20,12 +21,23 @@ export default class NotifForm extends React.Component {
 
 	}
 
-	setValues(doc) {
-		doc.notificationUnitId = this.props.tbunit.id;
-		doc.state = 'NOT_ONTREATMENT';
-		doc.patient = this.props.patient;
+	getRemoteForm() {
+		return server.get('/api/tbl/case/initform').then(res => {
+			// set patient values
+			res.doc.patient.id = this.props.patient.id;
+			res.doc.patient.name = this.props.patient.name;
+			res.doc.patient.motherName = this.props.patient.motherName;
+			res.doc.patient.birthDate = this.props.patient.birthDate;
+			res.doc.patient.gender = this.props.patient.gender;
 
-		return doc;
+			// set tbcase values
+			res.doc.tbcase.notificationUnit = this.props.tbunit.id;
+			res.doc.tbcase.state = 'NOT_ONTREATMENT';
+			res.doc.tbcase.diagnosisType = this.props.diagnosisType;
+			res.doc.tbcase.classification = this.props.classification;
+
+			return res;
+		});
 	}
 
 	save(doc) {
@@ -34,14 +46,13 @@ export default class NotifForm extends React.Component {
 	}
 
 	render() {
-		// TODOMS: CRIAR UMA FUNÇÃO PARA PASSAR COMO REMOTEPATH E NELA EU VOU SETAR OS VALORES DA TELA.
 		return (
 			<Grid fluid className="mtop-2x">
 				<Row>
 					<Col mdOffset={2} md={9}>
 						<RemoteFormDialog
 							wrapType="card"
-							remotePath={'/api/tbl/case/initform'}
+							remotePath={this.getRemoteForm}
 							onCancel={this.props.onCancel}
 							onConfirm={this.save} />
 					</Col>

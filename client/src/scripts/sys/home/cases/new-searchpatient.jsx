@@ -189,7 +189,7 @@ export default class SearchPatient extends React.Component {
 										content: item =>
 											<Profile type={item.patient.gender.toLowerCase()}
 												size="small"
-												title={item.patient.name} subtitle={item.caseNumber} />
+												title={item.patient.name.name} subtitle={item.caseNumber} />
 									},
 									{
 										title: __('Patient.birthDate'),

@@ -29,6 +29,7 @@ public class ControlFactory {
         register("select", SelectControl.class);
         register("personName", PersonNameControl.class);
         register("address", AddressControl.class);
+        register("unit", UnitControl.class);
     }
 
     /**
