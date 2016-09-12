@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
@@ -15,7 +16,7 @@ public class CaseItem {
 
     private UUID id;
 
-    private String name;
+    private PersonName name;
 
     private String gender;
 
@@ -37,11 +38,11 @@ public class CaseItem {
         this.id = id;
     }
 
-    public String getName() {
+    public PersonName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(PersonName name) {
         this.name = name;
     }
 

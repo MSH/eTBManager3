@@ -118,7 +118,7 @@ export default class TagCasesList extends React.Component {
 									size: { sm: 4 },
 									content: item =>
 										<Profile type={item.gender.toLowerCase()} size="small"
-											title={item.name} subtitle={item.caseCode} />
+											title={SessionUtils.nameDisplay(item.name)} subtitle={item.caseCode} />
 								},
 								{
 									title: 'Case Info',

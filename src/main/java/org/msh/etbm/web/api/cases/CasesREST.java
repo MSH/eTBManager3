@@ -4,6 +4,7 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.cases.cases.*;
+import org.msh.etbm.services.cases.comorbidity.ComorbidityFormData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -75,12 +76,6 @@ public class CasesREST {
     @RequestMapping(value = "/case", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody CaseFormData req) {
         return newNotificationService.create(req);
-    }
-
-    @RequestMapping(value = "/case/comorbidity/{id}", method = RequestMethod.POST)
-    public StandardResult updateComorbidity(@PathVariable UUID id, @Valid @NotNull @RequestBody ComorbidityFormData req) {
-        ServiceResult res = service.update(id, req);
-        return new StandardResult(res);
     }
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.DELETE)

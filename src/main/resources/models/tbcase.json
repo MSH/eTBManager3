@@ -148,6 +148,11 @@
       "required": { "function": "this.diagnosisType === 'CONFIRMED'" }
     },
     {
+      "name": "infectionSite",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.InfectionSite"
+    },
+    {
       "name": "registrationGroupOther",
       "type": "string",
       "max": 100,

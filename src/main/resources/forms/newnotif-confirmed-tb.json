@@ -1,0 +1,122 @@
+{
+  "dataModel": {
+    "patient": "patient",
+    "tbcase": "tbcase"
+  },
+
+  "title": "${cases.newnotifof} ${CaseClassification.TB.confirmed}",
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.registrationDate}",
+      "property": "tbcase.registrationDate",
+      "required": true,
+      "size": { "md": 4 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.patientdata}",
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "patient.name",
+      "type": "personName",
+      "label": "${Patient.name}",
+      "required": true,
+      "size": { "md": 6 }
+    },
+    {
+      "property": "patient.motherName",
+      "type": "string",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "defaultValue": "NATIVE",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "patient.gender",
+      "type": "select",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "patient.birthDate",
+      "type": "date",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 6 },
+      "label": "${TbCase.age}",
+      "required": true
+    },
+    {
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.addressChanged",
+      "type": "yesNo",
+      "label": "${TbCase.notifAddressChanged}",
+      "defaultValue": false,
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "size": { "md": 6 },
+      "visible": { "function": "this.tbcase.addressChanged" }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.details.case}",
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "tbcase.notificationUnit",
+      "required": true,
+      "type": "unit",
+      "label": "${TbCase.notificationUnit}",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "date",
+      "label": "${TbCase.diagnosisDate}",
+      "property": "tbcase.diagnosisDate",
+      "required": true,
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.registrationGroup",
+      "label": "${TbCase.registrationGroup}",
+      "size": { "md": 6 },
+      "newRow": true
+    }
+  ]
+}

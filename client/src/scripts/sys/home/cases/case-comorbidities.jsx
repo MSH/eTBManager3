@@ -113,7 +113,7 @@ export default class CaseComorbidities extends React.Component {
 	}
 
 	update(id, data) {
-		return server.post('/api/tbl/case/comorbidity/' + id, data)
+		return server.post('/api/cases/case/comorbidity/' + id, data)
 		.then(res => {
 			if (!res.success) {
 				return Promise.reject(res.errors);
