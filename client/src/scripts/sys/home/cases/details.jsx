@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
+import { Card, WaitIcon, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
@@ -192,39 +192,48 @@ export default class Details extends React.Component {
 						</Button>
 					</span>);
 
+		// create command list
 		const commands = [
-		{
-			title: __('cases.validate'),
-			onClick: () => this.showConfirmDlg(__('cases.validate'), __('cases.validate.confirm'), this.validationConfirm),
-			icon: 'check'
-		},
 		{
 			title: __('cases.delete'),
 			onClick: () => this.showConfirmDlg(__('action.delete'), __('form.confirm_remove'), this.deleteConfirm),
 			icon: 'remove'
-		},
-		{
-			title: __('cases.close'),
-			onClick: this.show('showCloseCase', true),
-			icon: 'power-off'
-		},
-		{
-			title: __('cases.reopen'),
-			onClick: () => this.showConfirmDlg(__('cases.reopen'), __('cases.reopen.confirm'), this.reopenConfirm),
-			icon: 'power-off'
-		},
-		{
-			title: __('cases.move'),
-			onClick: this.show('showMoveCase', true),
-			icon: 'toggle-right'
+		}];
+
+		if (!this.state.tbcase.validated) {
+			const cmd = {
+							title: __('cases.validate'),
+							onClick: () => this.showConfirmDlg(__('cases.validate'), __('cases.validate.confirm'), this.validationConfirm),
+							icon: 'check'
+						};
+			commands.push(cmd);
 		}
-		];
 
 		if (this.state.tbcase.state === 'CLOSED') {
-			commands.splice(2, 1);
+			const cmd = {
+							title: __('cases.reopen'),
+							onClick: () => this.showConfirmDlg(__('cases.reopen'), __('cases.reopen.confirm'), this.reopenConfirm),
+							icon: 'power-off'
+						};
+			commands.push(cmd);
 		} else {
-			commands.splice(3, 1);
+			const cmd = {
+							title: __('cases.close'),
+							onClick: this.show('showCloseCase', true),
+							icon: 'power-off'
+						};
+			commands.push(cmd);
 		}
+
+		if (this.state.tbcase.state === 'ONTREATMENT') {
+			const cmd = {
+							title: __('cases.move'),
+							onClick: this.show('showMoveCase', true),
+							icon: 'toggle-right'
+						};
+			commands.push(cmd);
+		}
+
 
 		return (
 			<div>

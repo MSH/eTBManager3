@@ -3,6 +3,7 @@ import React from 'react';
 import { FormDialog } from '../../../components/index';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
+import SessionUtils from '../../session-utils';
 
 const fschema = {
 			title: __('cases.close'),
@@ -76,7 +77,7 @@ export default class CaseClose extends React.Component {
 	}
 
 	render() {
-		fschema.title = __('cases.close') + ' - ' + this.props.tbcase.patient.name;
+		fschema.title = __('cases.close') + ' - ' + SessionUtils.nameDisplay(this.props.tbcase.patient.name);
 		return (
 			<FormDialog
 				schema={fschema}

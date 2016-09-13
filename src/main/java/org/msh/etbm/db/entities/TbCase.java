@@ -11,9 +11,7 @@ import org.msh.etbm.db.enums.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -1065,5 +1063,20 @@ public class TbCase extends WorkspaceEntity {
 
     public void setTransferring(boolean transferring) {
         this.transferring = transferring;
+    }
+
+    /**
+     * Return list of treatment health units sorted by period
+     * @return
+     */
+    public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
+        // sort the periods
+        Collections.sort(treatmentUnits, new Comparator<TreatmentHealthUnit>() {
+            public int compare(TreatmentHealthUnit o1, TreatmentHealthUnit o2) {
+                return o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate());
+            }
+        });
+
+        return treatmentUnits;
     }
 }

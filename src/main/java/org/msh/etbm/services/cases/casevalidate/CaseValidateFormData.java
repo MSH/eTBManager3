@@ -1,11 +1,9 @@
-package org.msh.etbm.services.cases.validate;
-
-import java.util.Optional;
+package org.msh.etbm.services.cases.casevalidate;
 
 /**
  * Created by msantos on 26/3/16.
  */
-public class ValidateFormData {
+public class CaseValidateFormData {
 
     private Boolean validated;
 
