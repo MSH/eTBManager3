@@ -35,18 +35,12 @@ export default class AddressControl extends React.Component {
 	onChange(evt) {
 		if (this.props.onChange) {
 			const fieldVal = evt.target.value;
-			const id = evt.target.id;
-			let val;
 
-			if (id === 'fullName') {
-				val = { name: fieldVal };
-			} else {
-				// update just the changed field
-				const field = {};
-				field[evt.target.id] = fieldVal;
-				// create a new person name object
-				val = Object.assign({}, this.props.value, field);
-			}
+			// update just the changed field
+			const field = {};
+			field[evt.target.id] = fieldVal;
+			// create a new person name object
+			const val = Object.assign({}, this.props.value, field);
 
 			this.props.onChange({ schema: this.props.schema, value: val });
 		}
@@ -73,42 +67,50 @@ export default class AddressControl extends React.Component {
 		const adminUnit = value && value.adminUnit ? value.adminUnit : null;
 
 		return (
-			<div className="address-edt">
-				<FormGroup>
-					<ControlLabel>{__('Address.address')}</ControlLabel>
-					<FormControl id="address"
-						type="text"
-						value={value.address}
-						onChange={this.onChange}
-						/>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>{__('Address.complement')}</ControlLabel>
-					<FormControl id="complement"
-						type="text"
-						value={value.complement}
-						onChange={this.onChange}
-						/>
-				</FormGroup>
-				<Row>
-					<Col sm={6}>
-						<FormGroup>
-							<ControlLabel>{__('Address.zipCode')}</ControlLabel>
-							<FormControl id="zipCode"
-								type="text"
-								value={value.zipCode}
-								onChange={this.onChange}
-								/>
-						</FormGroup>
-					</Col>
-				</Row>
-				<AdminUnitControl
-					ref="adminUnit"
-					value={adminUnit}
-					onChange={this.adminUnitChange}
-					schema={auSchema}
-					resources={this.props.resources}
-					/>
+			<div>
+				{schema.label &&
+					<Row>
+						<Col sm={12}>
+							<div className="addresstitle">{schema.label}</div>
+						</Col>
+					</Row>
+				}
+				<div className="address-edt">
+					<FormGroup>
+						<ControlLabel>{__('Address.address')}</ControlLabel>
+						<FormControl id="address"
+							type="text"
+							value={value.address}
+							onChange={this.onChange}
+							/>
+					</FormGroup>
+					<FormGroup>
+						<ControlLabel>{__('Address.complement')}</ControlLabel>
+						<FormControl id="complement"
+							type="text"
+							value={value.complement}
+							onChange={this.onChange}
+							/>
+					</FormGroup>
+					<Row>
+						<Col sm={6}>
+							<FormGroup>
+								<ControlLabel>{__('Address.zipCode')}</ControlLabel>
+								<FormControl id="zipCode"
+									type="text"
+									value={value.zipCode}
+									onChange={this.onChange}
+									/>
+							</FormGroup>
+						</Col>
+					</Row>
+					<AdminUnitControl
+						ref="adminUnit"
+						value={adminUnit}
+						onChange={this.adminUnitChange}
+						schema={auSchema}
+						resources={this.props.resources} />
+				</div>
 			</div>
 		);
 	}

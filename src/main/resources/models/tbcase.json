@@ -148,6 +148,11 @@
       "required": { "function": "this.diagnosisType === 'CONFIRMED'" }
     },
     {
+      "name": "infectionSite",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.InfectionSite"
+    },
+    {
       "name": "registrationGroupOther",
       "type": "string",
       "max": 100,
@@ -169,15 +174,13 @@
     {
       "name": "notificationUnit",
       "fieldName": "NOTIFICATION_UNIT_ID",
-      "type": "foreignKey",
-      "fkTable": "unit",
+      "type": "unit",
       "required": true
     },
     {
       "name": "ownerUnit",
       "fieldName": "OWNER_UNIT_ID",
-      "type": "foreignKey",
-      "fkTable": "unit",
+      "type": "unit",
       "required": true
     },
     {

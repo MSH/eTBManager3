@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, MessageDlg, Fa, CommandBar } from '../../../components';
+import { Card, WaitIcon, Fa, CommandBar } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
@@ -23,6 +23,7 @@ export default class Details extends React.Component {
 		this.show = this.show.bind(this);
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 		this.reopenConfirm = this.reopenConfirm.bind(this);
+		this.validationConfirm = this.validationConfirm.bind(this);
 		this._onAppChange = this._onAppChange.bind(this);
 
 		this.state = { selTab: 0 };
@@ -101,6 +102,16 @@ export default class Details extends React.Component {
 		};
 	}
 
+	showConfirmDlg(title, message, onConfirm) {
+		app.messageDlg({
+			title: title,
+			message: message,
+			style: 'warning',
+			type: 'YesNo'
+		})
+		.then(res => onConfirm(res));
+	}
+
 	deleteConfirm(action) {
 		if (action === 'yes') {
 			server.delete('/api/tbl/case/' + this.state.tbcase.id)
@@ -116,6 +127,23 @@ export default class Details extends React.Component {
 		}
 
 		this.setState({ showDelConfirm: false });
+	}
+
+	validationConfirm(action) {
+		if (action === 'yes') {
+			server.get('/api/cases/case/validate/' + this.state.tbcase.id)
+				.then(res => {
+					if (res && res.errors) {
+						return Promise.reject(res.errors);
+					}
+
+					this.fetchData(this.state.tbcase.id);
+
+					return res;
+				});
+			}
+
+		this.setState({ showValidationConfirm: false });
 	}
 
 	reopenConfirm(action) {
@@ -164,33 +192,42 @@ export default class Details extends React.Component {
 						</Button>
 					</span>);
 
+		// create command list
 		const commands = [
 		{
 			title: __('cases.delete'),
-			onClick: this.show('showDelConfirm', true),
+			onClick: () => this.showConfirmDlg(__('action.delete'), __('form.confirm_remove'), this.deleteConfirm),
 			icon: 'remove'
-		},
-		{
-			title: __('cases.close'),
-			onClick: this.show('showCloseCase', true),
-			icon: 'power-off'
-		},
-		{
-			title: __('cases.reopen'),
-			onClick: this.show('showReopenConfirm', true),
-			icon: 'power-off'
 		},
 		{
 			title: __('cases.move'),
 			onClick: this.show('showMoveCase', true),
 			icon: 'toggle-right'
+		}];
+
+		if (!this.state.tbcase.validated) {
+			const cmd = {
+							title: __('cases.validate'),
+							onClick: () => this.showConfirmDlg(__('cases.validate'), __('cases.validate.confirm'), this.validationConfirm),
+							icon: 'check'
+						};
+			commands.push(cmd);
 		}
-		];
 
 		if (this.state.tbcase.state === 'CLOSED') {
-			commands.splice(1, 1);
+			const cmd = {
+							title: __('cases.reopen'),
+							onClick: () => this.showConfirmDlg(__('cases.reopen'), __('cases.reopen.confirm'), this.reopenConfirm),
+							icon: 'power-off'
+						};
+			commands.push(cmd);
 		} else {
-			commands.splice(2, 1);
+			const cmd = {
+							title: __('cases.close'),
+							onClick: this.show('showCloseCase', true),
+							icon: 'power-off'
+						};
+			commands.push(cmd);
 		}
 
 		return (
@@ -216,16 +253,6 @@ export default class Details extends React.Component {
 						</Col>
 					</Row>
 				</Grid>
-
-				<MessageDlg show={this.state.showDelConfirm}
-					onClose={this.deleteConfirm}
-					title={__('action.delete')}
-					message={__('form.confirm_remove')} style="warning" type="YesNo" />
-
-				<MessageDlg show={this.state.showReopenConfirm}
-					onClose={this.reopenConfirm}
-					title={__('cases.reopen')}
-					message={__('cases.reopen.confirm')} style="warning" type="YesNo" />
 
 				<CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 

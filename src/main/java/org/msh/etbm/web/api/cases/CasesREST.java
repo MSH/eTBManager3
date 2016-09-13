@@ -4,6 +4,7 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.cases.cases.*;
+import org.msh.etbm.services.cases.comorbidity.ComorbidityFormData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -57,24 +58,29 @@ public class CasesREST {
     */
 
     @RequestMapping(value = "/case/initform")
-    public FormInitResponse initForm() {
+    public FormInitResponse initForm(@Valid @NotNull @RequestBody CaseInitFormReq req) {
+
+        // mount case data
+        Map<String, Object> caseData = new HashMap<>();
+        caseData.put("diagnosisType", req.getDiagnosisType().name());
+        caseData.put("classification", req.getCaseClassification().name());
+
+        // mount doc
         Map<String, Object> doc = new HashMap<>();
-        // Implement lines bellow when remoteForm is working well
-        doc.put("tbcase", new HashMap<>());
+        doc.put("tbcase", caseData);
         doc.put("patient", new HashMap<>());
-        return formService.init("newnotif-presumptive", doc, false);
+
+        // generate form id
+        String formid = "newnotif-";
+        formid = formid.concat(req.getDiagnosisType().name().toLowerCase()).concat("-");
+        formid = formid.concat(req.getCaseClassification().name().toLowerCase());
+
+        return formService.init(formid, doc, false);
     }
 
     @RequestMapping(value = "/case", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody CaseFormData req) {
-        newNotificationService.create(req);
-        return new StandardResult();
-    }
-
-    @RequestMapping(value = "/case/comorbidity/{id}", method = RequestMethod.POST)
-    public StandardResult updateComorbidity(@PathVariable UUID id, @Valid @NotNull @RequestBody ComorbidityFormData req) {
-        ServiceResult res = service.update(id, req);
-        return new StandardResult(res);
+        return newNotificationService.create(req);
     }
 
     @RequestMapping(value = "/case/{id}", method = RequestMethod.DELETE)

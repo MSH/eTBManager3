@@ -2,12 +2,15 @@ package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +32,7 @@ public class NewNotificationService {
     ModelDAOFactory factory;
 
     @Transactional
-    public void create(CaseFormData data) {
+    public StandardResult create(CaseFormData data) {
         ModelDAO patientDao = factory.create("patient");
         ModelDAOResult resPatient = patientDao.insert((Map) data.getDoc().get("patient"));
 
@@ -40,10 +43,12 @@ public class NewNotificationService {
         // prepare case data
         Map caseData = (Map)data.getDoc().get("tbcase");
         caseData.put("patient", resPatient.getId());
+        caseData.put("state", CaseState.NOT_ONTREATMENT);
         caseData.put("movedToIndividualized", false);
         caseData.put("validated", false);
         caseData.put("movedSecondLineTreatment", false);
-        caseData.put("ownerUnit", caseData.get("notificationUnit"));
+        caseData.put("notificationUnit", data.getUnitId());
+        caseData.put("ownerUnit", data.getUnitId());
 
         ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
@@ -51,5 +56,7 @@ public class NewNotificationService {
         if (resTbcase.getErrors() != null) {
             throw new EntityValidationException(resTbcase.getErrors());
         }
+
+        return new StandardResult(resTbcase.getId().toString(), null, true);
     }
 }

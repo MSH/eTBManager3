@@ -4,7 +4,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "TODO: preciso saber como exibir esse titulo",
+  "title": "${cases.newnotifof} ${CaseClassification.TB.confirmed}",
 
   "controls": [
     {
@@ -12,7 +12,7 @@
       "label": "${TbCase.registrationDate}",
       "property": "tbcase.registrationDate",
       "required": true,
-      "size": { "sm": 4 }
+      "size": { "md": 4 }
     },
     {
       "type": "subtitle",
@@ -33,33 +33,42 @@
       "newRow": true
     },
     {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "defaultValue": "NATIVE",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "patient.gender",
+      "type": "select",
+      "size": { "md": 6 }
+    },
+    {
       "property": "patient.birthDate",
       "type": "date",
-      "size": { "md": 4 },
+      "size": { "md": 6 },
       "newRow": true
     },
     {
       "property": "tbcase.age",
       "type": "int",
-      "size": { "md": 4 },
+      "size": { "md": 6 },
       "label": "${TbCase.age}",
       "required": true
     },
     {
-      "property": "patient.gender",
-      "type": "select",
-      "size": { "md": 4 }
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 6 },
+      "newRow": true
     },
     {
-      "type": "subtitle",
-      "label": "${cases.details.addressnotif}",
-      "level": 2,
-      "size": { "sm": 12 }
-    },
-    {
-      "property": "tbcase.notifAddress",
-      "label": "${Patient.address}",
-      "type": "address",
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
       "size": { "md": 6 }
     },
     {
@@ -70,19 +79,18 @@
       "size": { "md": 6 }
     },
     {
-      "type": "subtitle",
-      "label": "${cases.details.addresscurr}",
-      "level": 2,
-      "size": { "sm": 12 },
-      "visible": { "function": "this.addressChanged" },
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 6 },
       "newRow": true
     },
     {
       "property": "tbcase.currentAddress",
-      "label": "${Patient.address}",
+      "label": "${cases.details.addresscurr}",
       "type": "address",
       "size": { "md": 6 },
-      "visible": { "function": "this.addressChanged" }
+      "visible": { "function": "this.tbcase.addressChanged" }
     },
     {
       "type": "subtitle",
@@ -95,6 +103,20 @@
       "type": "unit",
       "label": "${TbCase.notificationUnit}",
       "size": { "sm": 6 }
+    },
+    {
+      "type": "date",
+      "label": "${TbCase.diagnosisDate}",
+      "property": "tbcase.diagnosisDate",
+      "required": true,
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.registrationGroup",
+      "label": "${TbCase.registrationGroup}",
+      "size": { "md": 6 },
+      "newRow": true
     }
   ]
 }

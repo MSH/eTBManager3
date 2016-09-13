@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { FormDialog } from '../../../components/index';
+import SessionUtils from '../../session-utils';
 
 const fschema = {
 			title: __('cases.move'),
@@ -39,7 +40,7 @@ export default class CaseMove extends React.Component {
 	}
 
 	render() {
-		fschema.title = __('cases.move') + ' - ' + this.props.tbcase.patient.name;
+		fschema.title = __('cases.move') + ' - ' + SessionUtils.nameDisplay(this.props.tbcase.patient.name);
 		return (
 			<FormDialog
 				schema={fschema}

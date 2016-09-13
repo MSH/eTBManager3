@@ -3,6 +3,7 @@ import CRUD from '../../../commons/crud';
 import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { RemoteFormDialog } from '../../../components';
+import { app } from '../../../core/app';
 
 const crud = new CRUD('case');
 
@@ -22,27 +23,26 @@ export default class NotifForm extends React.Component {
 	}
 
 	getRemoteForm() {
-		return server.get('/api/tbl/case/initform').then(res => {
-			// set patient values
-			res.doc.patient.id = this.props.patient.id;
-			res.doc.patient.name = this.props.patient.name;
-			res.doc.patient.motherName = this.props.patient.motherName;
-			res.doc.patient.birthDate = this.props.patient.birthDate;
-			res.doc.patient.gender = this.props.patient.gender;
-
-			// set tbcase values
-			res.doc.tbcase.notificationUnit = this.props.tbunit.id;
-			res.doc.tbcase.state = 'NOT_ONTREATMENT';
-			res.doc.tbcase.diagnosisType = this.props.diagnosisType;
-			res.doc.tbcase.classification = this.props.classification;
-
+		const req = { diagnosisType: this.props.diagnosisType, caseClassification: this.props.classification };
+		console.log(req);
+		return server.post('/api/tbl/case/initform', req).then(res => {
+			res.doc.patient = this.props.patient;
 			return res;
 		});
 	}
 
 	save(doc) {
 		const req = { doc: doc };
-		return crud.create(req);
+
+		// TODOMS: tirar daqui
+		req.doc.tbcase.diagnosisType = this.props.diagnosisType;
+		req.doc.tbcase.classification = this.props.classification;
+
+		req.unitId = this.props.tbunit.id;
+
+		return crud.create(req).then(id => {
+			app.goto('/sys/home/cases/details?id=' + id);
+		});
 	}
 
 	render() {

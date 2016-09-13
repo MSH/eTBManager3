@@ -22,12 +22,6 @@ import javax.persistence.PersistenceContext;
 public class TagCasesReportService {
 
     @Autowired
-    UserRequestService userRequestService;
-
-    @Autowired
-    DozerBeanMapper mapper;
-
-    @Autowired
     QueryBuilderFactory queryBuilderFactory;
 
     @PersistenceContext

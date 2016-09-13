@@ -92,7 +92,9 @@ public class SQLGenerator {
 
             Map<String, Object> dbfields = handler.mapFieldsToSave(field, value);
 
-            res.putAll(dbfields);
+            if (dbfields != null) {
+                res.putAll(dbfields);
+            }
         }
 
         return res;

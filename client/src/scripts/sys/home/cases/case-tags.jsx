@@ -3,6 +3,7 @@ import React from 'react';
 import { FormDialog } from '../../../components/index';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
+import SessionUtils from '../../session-utils';
 
 const tfschema = {
 			controls: [{
@@ -85,7 +86,7 @@ export default class CaseTags extends React.Component {
 	}
 
 	render() {
-		fschema.title = __('Permission.CASE_TAG') + ' - ' + this.props.tbcase.patient.name;
+		fschema.title = __('Permission.CASE_TAG') + ' - ' + SessionUtils.nameDisplay(this.props.tbcase.patient.name);
 
 		return (
 			<FormDialog

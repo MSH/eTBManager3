@@ -7232,6 +7232,13 @@ button.close {
   width: 100%;
   margin: 20px 0 10px 0;
 }
+.addresstitle {
+  font-size: 1.0em;
+  color: #a0a0a0;
+  border-bottom: 1px solid #cecece;
+  width: 100%;
+  margin: 0px 0 10px 0;
+}
 .lnk-muted {
   padding: 0 6px;
   color: #c8c8c8;
