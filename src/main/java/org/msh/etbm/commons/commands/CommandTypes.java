@@ -43,25 +43,26 @@ public class CommandTypes {
     public static final String SYSTEM_SETUP = "admin.syssetup";
 
     // case module
-    public static final String CASES_CASE = "cases.case";
-    public static final String CASES_CASE_CLOSE = "cases.case.close";
-    public static final String CASES_CASE_REOPEN = "cases.case.reopen";
-    public static final String CASES_CASE_TAG = "cases.case.manualtags";
-    public static final String CASES_CASE_COMMENT = "cases.case.comment";
-    public static final String CASES_CASE_ISSUE = "cases.case.issues";
-    public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.case.issuefollowups";
-    public static final String CASES_CASE_PREVTREAT = "cases.case.prevtreat";
-    public static final String CASES_CASE_CONTACT = "cases.case.contact";
-    public static final String CASES_CASE_SIDEEFFECT = "cases.case.sideeffect";
-    public static final String CASES_CASE_MED_EXAM = "cases.case.medexam";
-    public static final String CASES_CASE_EXAM_MIC = "cases.case.exammic";
-    public static final String CASES_CASE_EXAM_CUL = "cases.case.examcul";
-    public static final String CASES_CASE_EXAM_XPERT = "cases.case.examxpert";
-    public static final String CASES_CASE_EXAM_DST = "cases.case.examdst";
-    public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
-    public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
+    public static final String CASES_CASE = "cases";
+    public static final String CASES_CASE_CLOSE = "cases.close";
+    public static final String CASES_CASE_REOPEN = "cases.reopen";
+    public static final String CASES_CASE_TAG = "cases.manualtags";
+    public static final String CASES_CASE_COMMENT = "cases.comment";
+    public static final String CASES_CASE_ISSUE = "cases.issues";
+    public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.issuefollowups";
+    public static final String CASES_CASE_PREVTREAT = "cases.prevtreat";
+    public static final String CASES_CASE_CONTACT = "cases.contact";
+    public static final String CASES_CASE_SIDEEFFECT = "cases.sideeffect";
+    public static final String CASES_CASE_MED_EXAM = "cases.medexam";
+    public static final String CASES_CASE_EXAM_MIC = "cases.exammic";
+    public static final String CASES_CASE_EXAM_CUL = "cases.examcul";
+    public static final String CASES_CASE_EXAM_XPERT = "cases.examxpert";
+    public static final String CASES_CASE_EXAM_DST = "cases.examdst";
+    public static final String CASES_CASE_EXAM_HIV = "cases.examhiv";
+    public static final String CASES_CASE_EXAM_XRAY = "cases.examxray";
 
-    public static final String CASES_TREAT_FOLLOWUP = "cases.case.treatfollowup";
+    public static final String CASES_TREAT_FOLLOWUP = "cases.treatfollowup";
+    public static final String CASES_TREAT_UNDO = "cases.treatundo";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -124,6 +125,7 @@ public class CommandTypes {
         ROOT.addCRUD(CASES_CASE_EXAM_HIV);
         ROOT.addCRUD(CASES_CASE_EXAM_XRAY);
         ROOT.add(CASES_TREAT_FOLLOWUP);
+        ROOT.add(CASES_TREAT_UNDO);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);

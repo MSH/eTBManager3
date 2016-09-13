@@ -3,6 +3,7 @@ import { Grid, Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
 import { Card, WaitIcon, Fa } from '../../../components';
 import Form from '../../../forms/form';
 import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
 import AddMedicine from './treat/add-medicine';
@@ -17,6 +18,8 @@ export default class CaseTreatment extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		this.menuClick = this.menuClick.bind(this);
 
 		this.state = {
 			sc1: {
@@ -62,10 +65,44 @@ export default class CaseTreatment extends React.Component {
 	}
 
 	menuClick(key) {
-		if (key === 1) {
-			this.setState({ show: 'add-med' });
-			return;
+		switch (key) {
+			case 1:
+				this.addMedicine();
+				break;
+			case 3:
+				this.undoTreatment();
+				break;
+			default:
 		}
+	}
+
+	/**
+	 * Called when user select the command to add a new medicine to the treatment regimen
+	 */
+	addMedicine() {
+		this.setState({ show: 'add-med' });
+	}
+
+	/**
+	 * Undo the treatment, moving the case back to the 'not on treatment' state
+	 */
+	undoTreatment() {
+		app.messageDlg({
+			title: __('cases.treat.undo'),
+			message: __('cases.treat.undo.confirm'),
+			style: 'warning',
+			type: 'YesNo'
+		})
+		.then(res => {
+			if (res !== 'yes') {
+				return Promise.reject();
+			}
+
+			const caseId = this.props.tbcase.id;
+			return server.post('/api/cases/case/treatment/undo/' + caseId);
+		})
+		.then(() => app.dispatch('case_update'))
+		.catch(() => {});
 	}
 
 	closeDlg() {

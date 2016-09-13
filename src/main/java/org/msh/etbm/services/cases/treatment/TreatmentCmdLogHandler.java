@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import java.util.UUID;
 
 /**
  * Service responsible for the command registration log of treatment services
@@ -25,10 +26,20 @@ public class TreatmentCmdLogHandler implements CommandLogHandler<Object, Object>
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, Object response) {
         switch (in.getType()) {
-            case CommandTypes.CASES_TREAT_FOLLOWUP: handleTreatmentFollowup(in, (TreatFollowupUpdateRequest)request);
+            case CommandTypes.CASES_TREAT_FOLLOWUP:
+                handleTreatmentFollowup(in, (TreatFollowupUpdateRequest)request);
+                break;
+            case CommandTypes.CASES_TREAT_UNDO:
+                registerTreatmentUndo(in, (UUID)request);
+                break;
         }
     }
 
+    /**
+     * Register the treatment followup
+     * @param in
+     * @param request
+     */
     private void handleTreatmentFollowup(CommandHistoryInput in, TreatFollowupUpdateRequest request) {
         TbCase tbcase = entityManager.find(TbCase.class, request.getCaseId());
 
@@ -38,4 +49,19 @@ public class TreatmentCmdLogHandler implements CommandLogHandler<Object, Object>
 
         in.addItem("$period.monthyear", (request.getMonth() + 1) + "/" + request.getYear());
     }
+
+
+    /**
+     * Register in the command log the undo of the treatment
+     * @param in the instance of {@link CommandHistoryInput} to log
+     * @param caseId the ID of the case
+     */
+    private void registerTreatmentUndo(CommandHistoryInput in, UUID caseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, caseId);
+
+        in.setEntityId(caseId);
+        in.setEntityName(tbcase.getDisplayString());
+        in.setAction(CommandAction.EXEC);
+    }
+
 }

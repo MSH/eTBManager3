@@ -36,6 +36,10 @@ public class TreatmentREST {
     @Autowired
     StartTreatmentService startTreatmentService;
 
+    @Autowired
+    TreatmentService treatmentService;
+
+
     /**
      * Return treatment information of a case
      * @param caseId the ID of the case to get information from
@@ -43,7 +47,7 @@ public class TreatmentREST {
      */
     @RequestMapping(value = "/treatment/{caseId}", method = RequestMethod.GET)
     @Authenticated
-    public TreatmentData get(@PathVariable UUID caseId) {
+    public TreatmentData get(@PathVariable @NotNull UUID caseId) {
         return service.getData(caseId);
     }
 
@@ -79,6 +83,18 @@ public class TreatmentREST {
     @RequestMapping(value = "/treatment/start/indiv", method = RequestMethod.POST)
     public StandardResult startStandardRegimen(@RequestBody @Valid @NotNull StartIndividualizedRegimenRequest req) {
         startTreatmentService.startInividualizedRegimen(req);
+
+        return StandardResult.createSuccessResult();
+    }
+
+    /**
+     * Undo a treatment for a case
+     * @param caseId
+     * @return
+     */
+    @RequestMapping(value = "/treatment/undo/{caseId}", method = RequestMethod.POST)
+    public StandardResult undoTreatment(@PathVariable @NotNull UUID caseId) {
+        treatmentService.undoTreatment(caseId);
 
         return StandardResult.createSuccessResult();
     }
