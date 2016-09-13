@@ -60,8 +60,8 @@ export default class SearchPatient extends React.Component {
 
 	componentWillMount() {
 		const self = this;
-		const handler = this.state.controller.on((evt, data) => {
-			self.eventHandler(evt, data);
+		const handler = this.state.controller.on(evt => {
+			self.eventHandler(evt);
 		});
 		this.setState({ handler: handler });
 	}

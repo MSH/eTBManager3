@@ -1,7 +1,7 @@
 package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.sqlquery.QueryDefs;
-import org.msh.etbm.services.cases.filters.Filter;
+import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.services.cases.filters.FilterContext;
 import org.msh.etbm.services.cases.filters.FilterGroup;
 import org.springframework.context.ApplicationContext;

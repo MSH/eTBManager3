@@ -13,7 +13,7 @@ import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.filters.Filter;
+import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.services.cases.filters.FilterManager;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -119,9 +119,9 @@ public class QueryDefsImpl implements QueryDefs {
 
     public SQLField createField(String fieldName, boolean aggregation) {
         String alias = createFieldAlias();
-        SQLField field = new SQLField(fieldName, alias, false, tableJoin);
-        field.setAggregation(aggregation);
+        SQLField field = new SQLField(fieldName, alias, aggregation, tableJoin);
         builder.addField(field);
+
         return field;
     }
 
@@ -199,7 +199,7 @@ public class QueryDefsImpl implements QueryDefs {
      * @return
      */
     protected String createTableAlias() {
-        int count = builder.getJoins().size() + 1;
+        int count = builder.getJoins().size();
 
         int index = count / 27;
         int letter = count % 27;
