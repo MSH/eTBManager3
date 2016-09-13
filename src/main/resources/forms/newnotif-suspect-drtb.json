@@ -91,18 +91,6 @@
       "type": "address",
       "size": { "md": 6 },
       "visible": { "function": "this.tbcase.addressChanged" }
-    },
-    {
-      "type": "subtitle",
-      "label": "${cases.details.case}",
-      "size": { "sm": 12 }
-    },
-    {
-      "property": "tbcase.notificationUnit",
-      "required": true,
-      "type": "unit",
-      "label": "${TbCase.notificationUnit}",
-      "size": { "sm": 6 }
     }
   ]
 }

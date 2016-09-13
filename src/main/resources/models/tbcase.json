@@ -174,15 +174,13 @@
     {
       "name": "notificationUnit",
       "fieldName": "NOTIFICATION_UNIT_ID",
-      "type": "foreignKey",
-      "fkTable": "unit",
+      "type": "unit",
       "required": true
     },
     {
       "name": "ownerUnit",
       "fieldName": "OWNER_UNIT_ID",
-      "type": "foreignKey",
-      "fkTable": "unit",
+      "type": "unit",
       "required": true
     },
     {

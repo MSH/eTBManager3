@@ -198,6 +198,11 @@ export default class Details extends React.Component {
 			title: __('cases.delete'),
 			onClick: () => this.showConfirmDlg(__('action.delete'), __('form.confirm_remove'), this.deleteConfirm),
 			icon: 'remove'
+		},
+		{
+			title: __('cases.move'),
+			onClick: this.show('showMoveCase', true),
+			icon: 'toggle-right'
 		}];
 
 		if (!this.state.tbcase.validated) {
@@ -224,16 +229,6 @@ export default class Details extends React.Component {
 						};
 			commands.push(cmd);
 		}
-
-		if (this.state.tbcase.state === 'ONTREATMENT') {
-			const cmd = {
-							title: __('cases.move'),
-							onClick: this.show('showMoveCase', true),
-							icon: 'toggle-right'
-						};
-			commands.push(cmd);
-		}
-
 
 		return (
 			<div>

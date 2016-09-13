@@ -58,7 +58,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         Map<String, Object> fields = new HashMap<>();
 
         if (addr == null) {
-            return fields;
+            return null;
         }
 
         fields.put(field.getFieldAddress(), addr.getAddress());

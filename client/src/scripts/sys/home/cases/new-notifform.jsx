@@ -24,26 +24,22 @@ export default class NotifForm extends React.Component {
 
 	getRemoteForm() {
 		const req = { diagnosisType: this.props.diagnosisType, caseClassification: this.props.classification };
+		console.log(req);
 		return server.post('/api/tbl/case/initform', req).then(res => {
-			// set patient values
-			res.doc.patient.id = this.props.patient.id;
-			res.doc.patient.name = this.props.patient.name;
-			res.doc.patient.motherName = this.props.patient.motherName;
-			res.doc.patient.birthDate = this.props.patient.birthDate;
-			res.doc.patient.gender = this.props.patient.gender;
-
-			// set tbcase values
-			res.doc.tbcase.notificationUnit = this.props.tbunit.id;
-			res.doc.tbcase.state = 'NOT_ONTREATMENT';
-			res.doc.tbcase.diagnosisType = this.props.diagnosisType;
-			res.doc.tbcase.classification = this.props.classification;
-
+			res.doc.patient = this.props.patient;
 			return res;
 		});
 	}
 
 	save(doc) {
 		const req = { doc: doc };
+
+		// TODOMS: tirar daqui
+		req.doc.tbcase.diagnosisType = this.props.diagnosisType;
+		req.doc.tbcase.classification = this.props.classification;
+
+		req.unitId = this.props.tbunit.id;
+
 		return crud.create(req).then(id => {
 			app.goto('/sys/home/cases/details?id=' + id);
 		});

@@ -96,7 +96,7 @@ export default class Cases extends React.Component {
 					{
 						title: __('CaseClassification.DRTB.confirmed'),
 						onClick: this.newNotif,
-						key: 'DR-TB.CONFIRMED'
+						key: 'DRTB.CONFIRMED'
 					},
 					{
 						title: __('CaseClassification.NTM.confirmed'),
@@ -117,12 +117,12 @@ export default class Cases extends React.Component {
 					{
 						title: __('CaseClassification.DRTB.suspect'),
 						onClick: this.newNotif,
-						key: 'DR-TB.SUSPECT'
+						key: 'DRTB.SUSPECT'
 					},
 					{
 						title: __('CaseClassification.NTM.suspect'),
 						onClick: this.newNotif,
-						key: 'NTM-SUSPECT'
+						key: 'NTM.SUSPECT'
 					}
 				]
 			}

@@ -38,17 +38,7 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     public Map<String, Object> mapFieldsToSave(E field, Object value) {
-        UUID id;
-
-        if (value instanceof String) {
-            id = UUID.fromString((String)value);
-        } else if (value instanceof UUID) {
-            id = (UUID)value;
-        } else {
-            throw new RuntimeException("id type is not valid");
-        }
-
-        return Collections.singletonMap(field.getFieldName(), ObjectUtils.uuidAsBytes(id));
+        return Collections.singletonMap(field.getFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
     }
 
     @Override

@@ -7,17 +7,30 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
 /**
  * Created by rmemoria on 12/7/16.
  */
-public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
+public class FKUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
 
     @Override
     protected Object convertValue(FKUnitField field, FieldContext fieldContext, Object value) {
-        return null;
+        if (value == null) {
+            return null;
+        }
+
+        if (value instanceof String) {
+            return UUID.fromString((String) value);
+        }
+
+        if (value instanceof UUID) {
+            return value;
+        }
+
+        throw new RuntimeException("Unit id value must be a String or UUID");
     }
 
     @Override
@@ -27,7 +40,7 @@ public class KFUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
 
     @Override
     public Map<String, Object> mapFieldsToSave(FKUnitField field, Object value) {
-        return null;
+        return Collections.singletonMap(field.getFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
     }
 
     @Override

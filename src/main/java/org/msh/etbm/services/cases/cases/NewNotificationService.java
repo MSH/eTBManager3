@@ -9,6 +9,7 @@ import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,12 @@ public class NewNotificationService {
         // prepare case data
         Map caseData = (Map)data.getDoc().get("tbcase");
         caseData.put("patient", resPatient.getId());
+        caseData.put("state", CaseState.NOT_ONTREATMENT);
         caseData.put("movedToIndividualized", false);
         caseData.put("validated", false);
         caseData.put("movedSecondLineTreatment", false);
-        caseData.put("ownerUnit", caseData.get("notificationUnit"));
+        caseData.put("notificationUnit", data.getUnitId());
+        caseData.put("ownerUnit", data.getUnitId());
 
         ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
