@@ -43,12 +43,12 @@ public class CommandTypes {
     public static final String SYSTEM_SETUP = "admin.syssetup";
 
     // case module
-    public static final String CASES_CASE = "cases";
-    public static final String CASES_CASE_CLOSE = "cases.close";
-    public static final String CASES_CASE_REOPEN = "cases.reopen";
-    public static final String CASES_CASE_TAG = "cases.manualtags";
-    public static final String CASES_CASE_COMMENT = "cases.comment";
-    public static final String CASES_CASE_ISSUE = "cases.issues";
+    public static final String CASES_CASE = "cases.case";
+    public static final String CASES_CASE_CLOSE = "cases.caseclose";
+    public static final String CASES_CASE_REOPEN = "cases.casereopen";
+    public static final String CASES_CASE_TAG = "cases.casemanualtags";
+    public static final String CASES_CASE_COMMENT = "cases.casecomment";
+    public static final String CASES_CASE_ISSUE = "cases.caseissues";
     public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.issuefollowups";
     public static final String CASES_CASE_PREVTREAT = "cases.prevtreat";
     public static final String CASES_CASE_CONTACT = "cases.contact";
