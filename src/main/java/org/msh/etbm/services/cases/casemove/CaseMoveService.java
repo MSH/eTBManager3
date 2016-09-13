@@ -32,9 +32,10 @@ public class CaseMoveService {
     @Autowired
     UserRequestService userRequestService;
 
-    // TODO: Falta implementar o commandlog
-    // TODO: Falta implementar a atualização da owner unit
-    // TODO: Falta implementar os envios de email
+    // TODO: [MSANTOS] Missing implementation of commandlog
+    // TODO: [MSANTOS] Missing implementation of ownerunit selection
+    // TODO: [MSANTOS] Missing email dispatcher implementation
+    // TODO: [MSANTOS] Prepare this flush to allow transfer for cases on NOT_ON_TREATMENT state
 
     /**
      * Execute the transfer of a case to another health unit
@@ -98,7 +99,7 @@ public class CaseMoveService {
 
         Date moveDate = tin.getPeriod().getIniDate();
 
-        /*TODO: acho que esse trecho se faz desnecessário
+        /*TODO: [MSANTOS] what to do now that this date field doesn't exists?
         Date iniContPhase = tbcase.getIniContinuousPhase();
         if ((iniContPhase != null) && (!iniContPhase.equals(movdt))) {
             prescribedMedicineHome.joinPeriods(movdt);
@@ -194,7 +195,7 @@ public class CaseMoveService {
         return aux;
     }
 
-    /** TODO: não deveria estar aqui, extraí do userSession da versão antiga
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
      * Check if user is working on its working unit. It depends on the case state and the user profile.
      * 1) If user can play activities of all other units, so it's the working unit;
      * 2) If case is waiting for treatment, the user unit is compared to the case notification unit;
@@ -222,8 +223,7 @@ public class CaseMoveService {
         return true;
     }
 
-    /** TODO: é realmente necessário fazer esse desmembramento?
-     *  TODO: nao deveria estar aqui, extraí do prescribedMedicineHome
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
      * Split the prescribed medicines periods in two based on the date parameters
      * @param dt
      */
@@ -247,7 +247,7 @@ public class CaseMoveService {
         }
     }
 
-    /** TODO: nao deveria estar aqui, extraí do prescribedMedicineHome
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
      * Create a clone of the prescribed medicine object
      * @param pm
      * @return
@@ -262,7 +262,7 @@ public class CaseMoveService {
         return aux;
     }
 
-    /** TODO: nao deveria estar aqui, extraí do prescribedMedicineHome
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
      * Join two periods that were split in a date dt
      * @param dt date to join two adjacent periods
      */
@@ -292,7 +292,7 @@ public class CaseMoveService {
         }
     }
 
-    /** TODO: nao deveria estar aqui, extraí do prescribedMedicineHome
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
      * Find a compatible left adjacent prescribed medicine of the prescribed medicine pm
      * @param pm
      * @return

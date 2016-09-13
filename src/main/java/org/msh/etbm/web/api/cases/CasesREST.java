@@ -60,9 +60,14 @@ public class CasesREST {
     @RequestMapping(value = "/case/initform")
     public FormInitResponse initForm(@Valid @NotNull @RequestBody CaseInitFormReq req) {
 
+        // mount case data
+        Map<String, Object> caseData = new HashMap<>();
+        caseData.put("diagnosisType", req.getDiagnosisType().name());
+        caseData.put("classification", req.getCaseClassification().name());
+
         // mount doc
         Map<String, Object> doc = new HashMap<>();
-        doc.put("tbcase", new HashMap<>());
+        doc.put("tbcase", caseData);
         doc.put("patient", new HashMap<>());
 
         // generate form id
