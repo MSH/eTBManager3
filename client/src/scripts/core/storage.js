@@ -34,6 +34,16 @@ export default class Storage {
 	 * @return {[type]}          [description]
 	 */
 	removeListener(listener) {
+		if (__DEV__) {
+			// simple check to avoid memory leak
+			if (!listener) {
+				throw new Error('Invalid listener to remove from app: ' + listener);
+			}
+
+			if (this.listeners.indexOf(listener) === -1) {
+				throw new Error('Listener not found: ' + listener);
+			}
+		}
 		var index = this.listeners.indexOf(listener);
 		if (index >= 0) {
 			this.listeners.splice(index, 1);

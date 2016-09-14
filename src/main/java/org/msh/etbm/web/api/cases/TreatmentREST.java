@@ -4,8 +4,7 @@ import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.msh.etbm.services.cases.treatment.followup.TreatFollowupUpdateRequest;
 import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
-import org.msh.etbm.services.cases.treatment.start.StartIndividualizedRegimenRequest;
-import org.msh.etbm.services.cases.treatment.start.StartStandardRegimenRequest;
+import org.msh.etbm.services.cases.treatment.start.StartTreatmentRequest;
 import org.msh.etbm.services.cases.treatment.start.StartTreatmentService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
@@ -65,24 +64,12 @@ public class TreatmentREST {
 
     /**
      * Start a treatment of a case using a standard regimen
-     * @param req instance of {@link StartStandardRegimenRequest} containing the treatment data
+     * @param req instance of {@link StartTreatmentRequest} containing the treatment data
      * @return instance of {@link StandardResult}
      */
-    @RequestMapping(value = "/treatment/start/standard", method = RequestMethod.POST)
-    public StandardResult startStandardRegimen(@RequestBody @Valid @NotNull StartStandardRegimenRequest req) {
-        startTreatmentService.startStandardRegimen(req);
-
-        return StandardResult.createSuccessResult();
-    }
-
-    /**
-     * Start a treatment of a case using an individualized regimen
-     * @param req instance of {@link StartIndividualizedRegimenRequest} containing the treatment data
-     * @return instance of {@link StandardResult}
-     */
-    @RequestMapping(value = "/treatment/start/indiv", method = RequestMethod.POST)
-    public StandardResult startStandardRegimen(@RequestBody @Valid @NotNull StartIndividualizedRegimenRequest req) {
-        startTreatmentService.startInividualizedRegimen(req);
+    @RequestMapping(value = "/treatment/start", method = RequestMethod.POST)
+    public StandardResult startStandardRegimen(@RequestBody @Valid @NotNull StartTreatmentRequest req) {
+        startTreatmentService.startTreatment(req);
 
         return StandardResult.createSuccessResult();
     }

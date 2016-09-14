@@ -1,10 +1,11 @@
 
 import React from 'react';
 import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
-import { Card, WaitIcon, Fa, CommandBar } from '../../../components';
+import { Card, WaitIcon, Fa, CommandBar, observer } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
+import Events from './events';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -15,7 +16,7 @@ import CaseIssues from './case-issues';
 import CaseTags from './case-tags';
 
 
-export default class Details extends React.Component {
+class Details extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -24,7 +25,6 @@ export default class Details extends React.Component {
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 		this.reopenConfirm = this.reopenConfirm.bind(this);
 		this.validationConfirm = this.validationConfirm.bind(this);
-		this._onAppChange = this._onAppChange.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -32,8 +32,6 @@ export default class Details extends React.Component {
 	componentWillMount() {
 		const id = this.props.route.queryParam('id');
 		this.fetchData(id);
-
-		app.add(this._onAppChange);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -45,19 +43,13 @@ export default class Details extends React.Component {
 		}
 	}
 
-	componentWillUmount() {
-        app.remove(this._onAppChange);
-    }
-
     /**
-     * Called when application state changes
+     * Called when case details must be updated
      * @param  {[type]} action [description]
      * @return {[type]}        [description]
      */
-    _onAppChange(action) {
-        if (action === 'case_update') {
-            this.fetchData(this.state.tbcase.id);
-        }
+    handleEvent() {
+        this.fetchData(this.state.tbcase.id);
     }
 
 	fetchData(id) {
@@ -265,6 +257,7 @@ export default class Details extends React.Component {
 	}
 }
 
+export default observer(Details, Events.caseUpdate);
 
 Details.propTypes = {
 	route: React.PropTypes.object
