@@ -62,7 +62,8 @@ public class CommandTypes {
     public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
     public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
-    public static final String CASES_TREAT_FOLLOWUP = "cases.case.treatfollowup";
+    public static final String CASES_TREAT_FOLLOWUP = "cases.treatfollowup";
+    public static final String CASES_TREAT_UNDO = "cases.treatundo";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";

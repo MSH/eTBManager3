@@ -2,13 +2,18 @@ package org.msh.etbm.services.cases.treatment;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.PrescribedMedicine;
 import org.msh.etbm.db.entities.Product;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
@@ -202,4 +207,32 @@ public class TreatmentService {
             tbcase.setTreatmentPeriod(p);
         }
     }
+
+
+    /**
+     * Undo the treatment of a case. The case must be open and on treatment in order to have
+     * its treatment undone
+     * @param caseId the ID of the case
+     */
+    @Transactional
+    @CommandLog(type = CommandTypes.CASES_TREAT_UNDO, handler = TreatmentCmdLogHandler.class)
+    public void undoTreatment(UUID caseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, caseId);
+        if (tbcase.getState() != CaseState.ONTREATMENT) {
+            throw new EntityValidationException(tbcase, "state", "Case is not on treatment", null);
+        }
+
+        tbcase.setState(CaseState.NOT_ONTREATMENT);
+        tbcase.setTreatmentPeriod(null);
+        tbcase.setRegimen(null);
+
+        entityManager.createQuery("delete from PrescribedMedicine where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+
+        entityManager.createQuery("delete from TreatmentHealthUnit where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+    }
+
 }
