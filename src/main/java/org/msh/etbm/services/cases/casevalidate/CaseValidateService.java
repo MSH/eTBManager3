@@ -11,10 +11,9 @@ import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.UUID;
 
@@ -36,18 +35,15 @@ public class CaseValidateService {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if (tbcase == null) {
-            // TODO: [MSANTOS] dessa maneira vai dar nullpointer, o primeiro parametro nao pode ser null
-            throw new EntityValidationException(null, null, "Case not found", null);
+            throw new EntityNotFoundException();
         }
 
         if (tbcase.isValidated()) {
-            // TODO: [MSANTOS] dessa maneira vai dar nullpointer, o primeiro parametro nao pode ser null
-            throw new EntityValidationException(null, null, "Case is already validated", null);
+            throw new EntityValidationException(tbcase, "validated", "Case is already validated", null);
         }
 
         if (tbcase.getState().equals(CaseState.CLOSED)) {
-            // TODO: [MSANTOS] dessa maneira vai dar nullpointer, o primeiro parametro nao pode ser null
-            throw new EntityValidationException(null, null, "Case must not be closed", null);
+            throw new EntityValidationException(tbcase, "state", "Case must not be closed", null);
         }
 
         tbcase.setValidated(true);
