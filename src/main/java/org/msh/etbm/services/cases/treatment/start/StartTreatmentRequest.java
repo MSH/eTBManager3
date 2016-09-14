@@ -2,14 +2,15 @@ package org.msh.etbm.services.cases.treatment.start;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
- * Request data to start a standard regimen treatment
+ * Request containing data to start an individualized regimen treatment for a case
  *
  * Created by rmemoria on 31/8/16.
  */
-public class StartStandardRegimenRequest {
+public class StartTreatmentRequest {
 
     /**
      * The ID of the unit to start the treatment. If null, the owner unit of the case
@@ -24,9 +25,8 @@ public class StartStandardRegimenRequest {
     private UUID caseId;
 
     /**
-     * The regimen ID
+     * The regimen ID, required if it is a standardized regimen (so the prescriptions must be null)
      */
-    @NotNull
     private UUID regimenId;
 
     /**
@@ -34,6 +34,11 @@ public class StartStandardRegimenRequest {
      */
     @NotNull
     private Date iniDate;
+
+    /**
+     * List of prescribed medicines, required if the regimen is not informed (so it is an individualized regimen)
+     */
+    private List<PrescriptionRequest> prescriptions;
 
 
     public UUID getUnitId() {
@@ -66,5 +71,13 @@ public class StartStandardRegimenRequest {
 
     public void setIniDate(Date iniDate) {
         this.iniDate = iniDate;
+    }
+
+    public List<PrescriptionRequest> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<PrescriptionRequest> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 }

@@ -6,6 +6,7 @@ import org.msh.etbm.commons.commands.CommandLogHandler;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.cases.treatment.followup.TreatFollowupUpdateRequest;
+import org.msh.etbm.services.cases.treatment.start.StartTreatmentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,15 @@ public class TreatmentCmdLogHandler implements CommandLogHandler<Object, Object>
             case CommandTypes.CASES_TREAT_UNDO:
                 registerTreatmentUndo(in, (UUID)request);
                 break;
+            case CommandTypes.CASES_TREAT_INI:
+                registerTreatmentIni(in, (StartTreatmentRequest)request);
+                break;
         }
+    }
+
+
+    private void registerTreatmentIni(CommandHistoryInput in, StartTreatmentRequest request) {
+        in.setAction(CommandAction.EXEC);
     }
 
     /**

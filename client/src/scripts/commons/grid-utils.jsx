@@ -38,10 +38,11 @@ function arrangeGrid(lst) {
 
 		// is next item a new line ?
 		const nextItem = index < lst.length ? lst[index] : null;
+		const nextSize = nextItem && nextItem.size ? nextItem.size : { sm: 12 };
 		const newRow = (nextItem && nextItem.size ? nextItem.newRow : false) || item.spanRow;
 
 		// check if next cell fits in ermaining size or if it is the last item
-		if (!rowsize.fitInSize(colsize) || index === lst.length || newRow) {
+		if (newRow || !rowsize.fitInSize(nextSize) || index === lst.length) {
 			// add cells to the row
 			rows.push(
 				<Row key={index}>

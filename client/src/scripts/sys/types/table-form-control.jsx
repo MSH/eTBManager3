@@ -6,6 +6,8 @@ import Fa from '../../components/fa';
 import ReactTable from '../../components/react-table';
 import msgs from '../../commons/messages';
 
+import './table-form-control.less';
+
 /**
  * Used in the Form library. Provide input data of string and number types
  */
@@ -21,17 +23,6 @@ export default class TableFormControl extends React.Component {
 		this.state = { errorsarr: [] };
 		this.addRow = this.addRow.bind(this);
 		this.remRow = this.remRow.bind(this);
-	}
-
-	componentWillMount() {
-		const sc = this.props.schema;
-		sc.fschema.controls.forEach(item => {
-			if (item.options) {
-				console.log(item.property);
-			}
-		});
-
-		this.setState({ resources: null });
 	}
 
 	/**
@@ -115,7 +106,7 @@ export default class TableFormControl extends React.Component {
 			rows[i] = this.getNewRow(i);
 		}
 
-		return (<div>{rows.map(row => row)}</div>);
+		return (<div className="table-form">{rows.map(row => row)}</div>);
 	}
 
 	getNewRow(key) {
@@ -125,7 +116,7 @@ export default class TableFormControl extends React.Component {
 			return null;
 		}
 
-		return 	(<Row key={key}>
+		return 	(<div key={key} className="row tbl-form-row">
 					<Col sm={12}>
 						<Form ref={'form' + key}
 							schema={sc.fschema}
@@ -135,7 +126,7 @@ export default class TableFormControl extends React.Component {
 							errors={this.state.errorsarr[key]}
 							resources={this.state.resources} />
 					</Col>
-				</Row>
+				</div>
 				);
 	}
 
@@ -154,18 +145,6 @@ export default class TableFormControl extends React.Component {
 			return null;
 		}
 
-		var buttons =	(<ButtonToolbar className={'def-margin-bottom'}>
-							<Button onClick={this.addRow}
-								bsStyle={this.state.qttError ? 'danger' : 'default'} >
-									<Fa icon={'plus'}/>
-							</Button>
-
-							<Button onClick={this.remRow} bsStyle={this.state.qttError ? 'danger' : 'default'}
-								disabled={!this.props.value || this.props.value.length <= 0}>
-									<Fa icon={'minus'}/>
-							</Button>
-						</ButtonToolbar>);
-
 		return (
 			<div>
 				{
@@ -176,9 +155,16 @@ export default class TableFormControl extends React.Component {
 						<div className="help-block">{this.state.qttError}</div>
 					</div>
 				}
-				{
-					buttons
-				}
+				<ButtonToolbar className={'def-margin-bottom'}>
+					<Button onClick={this.addRow}>
+						<Fa icon="plus"/>
+					</Button>
+
+					<Button onClick={this.remRow}
+						disabled={!this.props.value || this.props.value.length <= 0}>
+						<Fa icon="minus"/>
+					</Button>
+				</ButtonToolbar>
 			</div>
 			);
 	}

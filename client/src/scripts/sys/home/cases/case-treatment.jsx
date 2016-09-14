@@ -101,7 +101,7 @@ export default class CaseTreatment extends React.Component {
 			const caseId = this.props.tbcase.id;
 			return server.post('/api/cases/case/treatment/undo/' + caseId);
 		})
-		.then(() => app.dispatch('case_update'))
+		.then(() => app.dispatch('case-update'))
 		.catch(() => {});
 	}
 

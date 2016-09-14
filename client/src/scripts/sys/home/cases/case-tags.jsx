@@ -74,7 +74,7 @@ export default class CaseTags extends React.Component {
 					this.setState({ doc: {} });
 					this.props.onClose();
 
-					app.dispatch('case_update');
+					app.dispatch('case-update');
 
 					return res.result;
 				});

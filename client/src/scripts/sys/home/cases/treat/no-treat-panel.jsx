@@ -2,7 +2,8 @@ import React from 'react';
 import { Popover, ButtonGroup, Button, OverlayTrigger } from 'react-bootstrap';
 import { Card, Fa } from '../../../../components';
 import { app } from '../../../../core/app';
-import StartStandRegimen from './start-stand-regimen';
+import StartRegimen from './start-regimen';
+import Events from '../events';
 
 /**
  * Display a card informing the treatment has not started, with a command
@@ -15,23 +16,15 @@ export default class NoTreatPanel extends React.Component {
 
 		this.startStandard = this.startStandard.bind(this);
 		this.startIndiv = this.startIndiv.bind(this);
-		this.closeDialog = this.closeDialog.bind(this);
 		this.state = {};
 	}
 
 	startStandard() {
-		this.setState({ openStandard: true });
+		app.dispatch(Events.startStandardRegimen, this.props.tbcase);
 	}
 
 	startIndiv() {
-		this.setState({ openIndiv: true });
-	}
-
-	closeDialog(res) {
-		if (res) {
-			app.dispatch('case_update');
-		}
-		this.setState({ openIndiv: null, openStandard: null });
+		app.dispatch(Events.startInvidRegimen, this.props.tbcase);
 	}
 
 	render() {
@@ -56,10 +49,7 @@ export default class NoTreatPanel extends React.Component {
 							<Button bsSize="large">{__('cases.details.starttreatment')}</Button>
 					</OverlayTrigger>
 				</div>
-				{
-					this.state.openStandard &&
-					<StartStandRegimen tbcase={this.props.tbcase} onClose={this.closeDialog} />
-				}
+				<StartRegimen />
 			</Card>
 			);
 	}
