@@ -24,7 +24,6 @@ export default class NotifForm extends React.Component {
 
 	getRemoteForm() {
 		const req = { diagnosisType: this.props.diagnosisType, caseClassification: this.props.classification };
-		console.log(req);
 		return server.post('/api/tbl/case/initform', req).then(res => {
 			res.doc.patient = this.props.patient;
 			return res;
