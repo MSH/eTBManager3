@@ -31,7 +31,7 @@ public class CaseValidateService {
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_VALIDATE)
-    public CaseActionResponse validateCase(UUID tbcaseId){
+    public CaseActionResponse validateCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if (tbcase == null) {

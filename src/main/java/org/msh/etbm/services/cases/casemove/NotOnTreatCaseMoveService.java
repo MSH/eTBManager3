@@ -21,10 +21,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Mauricio on 12/09/2016.
+ * Created by Mauricio on 14/09/2016.
  */
 @Service
-public class CaseMoveService {
+public class NotOnTreatCaseMoveService {
+
     @PersistenceContext
     EntityManager entityManager;
 
@@ -34,39 +35,45 @@ public class CaseMoveService {
     @Autowired
     UserRequestService userRequestService;
 
-    @Autowired
-    OnTreatCaseMoveService onTreatCaseMoveService;
-
-    @Autowired
-    NotOnTreatCaseMoveService notOnTreatCaseMoveService;
-
     // TODO: [MSANTOS] Missing implementation of commandlog
     // TODO: [MSANTOS] Missing implementation of ownerunit selection
     // TODO: [MSANTOS] Missing email dispatcher implementation
-    // TODO: [MSANTOS] Prepare this flush to allow transfer for cases on NOT_ON_TREATMENT state
 
+    /**
+     * Execute the transfer of an on treat case to another health unit
+     */
+    @Transactional
     public ServiceResult transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
+        Date moveDate = req.getMoveDate();
 
-        if (tbcase == null) {
-            throw new EntityNotFoundException();
+        // check state
+        if (!tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
+            throw new EntityValidationException(tbcase, "state", "Case state should be Not On Treatment", null);
         }
 
-        if (!(unitTo instanceof Tbunit)) {
-            throw new EntityValidationException(unitTo, "DISCRIMINATOR", "Destiny unit must be a TbUnit", null);
-        }
+        // TODO
+        return null;
+    }
 
-        if (unitTo == null) {
-            throw new EntityNotFoundException();
-        }
+    /**
+     * Roll back an on-going transfer from one unit to another, restoring the previous state before the transfer
+     * @return
+     */
+    @Transactional
+    public ServiceResult rollbackTransferOut(UUID tbcaseId) {
+        // TODO
+        return null;
+    }
 
-        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            return onTreatCaseMoveService.transferOut(req);
-        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            return notOnTreatCaseMoveService.transferOut(req);
-        }
-
-        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+    /**
+     * Register the transfer in of the case
+     * @return
+     */
+    @Transactional
+    public ServiceResult transferIn(CaseMoveRequest req) {
+        // TODO
+        return null;
     }
 }
