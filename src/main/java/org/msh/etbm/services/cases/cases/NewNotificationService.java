@@ -31,6 +31,8 @@ public class NewNotificationService {
     @Autowired
     ModelDAOFactory factory;
 
+    // TODO: registrar commandlog
+
     @Transactional
     public StandardResult create(CaseFormData data) {
         ModelDAO patientDao = factory.create("patient");
