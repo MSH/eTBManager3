@@ -20,14 +20,17 @@ import java.util.UUID;
  * Created by msantos 22/07/2016.
  */
 @Component
-public class CaseLogHandler implements CommandLogHandler<Object, Object> {
+public class CaseLogHandler implements CommandLogHandler<Object, CaseActionResponse> {
 
     @PersistenceContext
     EntityManager entityManager;
 
 
     @Override
-    public void prepareLog(CommandHistoryInput in, Object request, Object response) {
+    public void prepareLog(CommandHistoryInput in, Object request, CaseActionResponse response) {
+        in.setEntityId(response.getTbcaseId());
+        in.setEntityName(response.getTbcaseDisplayString());
+        in.setAction(CommandAction.EXEC);
 
         switch (in.getType()) {
             case CommandTypes.CASES_CASE_CLOSE:
@@ -39,14 +42,14 @@ public class CaseLogHandler implements CommandLogHandler<Object, Object> {
             case CommandTypes.CASES_CASE_TAG:
                 prepareCaseTagsLog(in, request, (ManualCaseTagsResponse) response);
                 break;
+            case CommandTypes.CASES_CASE_VALIDATE:
+                prepareCaseValidationLog(in, request, response);
+                break;
         }
 
     }
 
-    private void prepareCaseCloseLog(CommandHistoryInput in, Object request, CaseCloseResponse response) {
-        in.setEntityId(response.getTbcaseId());
-        in.setEntityName(response.getTbcaseDisplayString());
-        in.setAction(CommandAction.EXEC);
+    public void prepareCaseCloseLog(CommandHistoryInput in, Object request, CaseCloseResponse response) {
         in.addItem("$TbCase.state", CaseState.CLOSED);
 
         in.addItem("$TbCase.outcomeDate", response.getOutcomeDate());
@@ -57,17 +60,15 @@ public class CaseLogHandler implements CommandLogHandler<Object, Object> {
         }
     }
 
-    private void prepareReopenCaseLog(CommandHistoryInput in, Object request, ReopenCaseResponse response) {
-        in.setEntityId(response.getTbcaseId());
-        in.setEntityName(response.getTbcaseDisplayString());
-        in.setAction(CommandAction.EXEC);
+    public void prepareReopenCaseLog(CommandHistoryInput in, Object request, ReopenCaseResponse response) {
         in.addItem("$TbCase.state", response.getState());
     }
 
     public void prepareCaseTagsLog(CommandHistoryInput in, Object request, ManualCaseTagsResponse response) {
-        in.setEntityId(response.getTbcaseId());
-        in.setEntityName(response.getTbcaseDisplayString());
-        in.setAction(CommandAction.EXEC);
         in.addDiff("$TbCase.manualtags", response.getPrevManualTags(), response.getNewManualTags());
+    }
+
+    public void prepareCaseValidationLog(CommandHistoryInput in, Object request, CaseActionResponse response) {
+        // do nothing
     }
 }

@@ -44,22 +44,23 @@ public class CommandTypes {
 
     // case module
     public static final String CASES_CASE = "cases.case";
-    public static final String CASES_CASE_CLOSE = "cases.caseclose";
-    public static final String CASES_CASE_REOPEN = "cases.casereopen";
-    public static final String CASES_CASE_TAG = "cases.casemanualtags";
-    public static final String CASES_CASE_COMMENT = "cases.casecomment";
-    public static final String CASES_CASE_ISSUE = "cases.caseissues";
-    public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.issuefollowups";
-    public static final String CASES_CASE_PREVTREAT = "cases.prevtreat";
-    public static final String CASES_CASE_CONTACT = "cases.contact";
-    public static final String CASES_CASE_SIDEEFFECT = "cases.sideeffect";
-    public static final String CASES_CASE_MED_EXAM = "cases.medexam";
-    public static final String CASES_CASE_EXAM_MIC = "cases.exammic";
-    public static final String CASES_CASE_EXAM_CUL = "cases.examcul";
-    public static final String CASES_CASE_EXAM_XPERT = "cases.examxpert";
-    public static final String CASES_CASE_EXAM_DST = "cases.examdst";
-    public static final String CASES_CASE_EXAM_HIV = "cases.examhiv";
-    public static final String CASES_CASE_EXAM_XRAY = "cases.examxray";
+    public static final String CASES_CASE_CLOSE = "cases.case.close";
+    public static final String CASES_CASE_REOPEN = "cases.case.reopen";
+    public static final String CASES_CASE_TAG = "cases.case.manualtags";
+    public static final String CASES_CASE_VALIDATE = "cases.case.validate";
+    public static final String CASES_CASE_COMMENT = "cases.case.comment";
+    public static final String CASES_CASE_ISSUE = "cases.case.issues";
+    public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.case.issuefollowups";
+    public static final String CASES_CASE_PREVTREAT = "cases.case.prevtreat";
+    public static final String CASES_CASE_CONTACT = "cases.case.contact";
+    public static final String CASES_CASE_SIDEEFFECT = "cases.case.sideeffect";
+    public static final String CASES_CASE_MED_EXAM = "cases.case.medexam";
+    public static final String CASES_CASE_EXAM_MIC = "cases.case.exammic";
+    public static final String CASES_CASE_EXAM_CUL = "cases.case.examcul";
+    public static final String CASES_CASE_EXAM_XPERT = "cases.case.examxpert";
+    public static final String CASES_CASE_EXAM_DST = "cases.case.examdst";
+    public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
+    public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
     public static final String CASES_TREAT_FOLLOWUP = "cases.treatfollowup";
     public static final String CASES_TREAT_INI = "cases.treatini";
@@ -112,6 +113,7 @@ public class CommandTypes {
         ROOT.add(CASES_CASE_CLOSE);
         ROOT.add(CASES_CASE_REOPEN);
         ROOT.add(CASES_CASE_TAG);
+        ROOT.add(CASES_CASE_VALIDATE);
         ROOT.addCRUD(CASES_CASE_PREVTREAT);
         ROOT.addCRUD(CASES_CASE_CONTACT);
         ROOT.addCRUD(CASES_CASE_SIDEEFFECT);

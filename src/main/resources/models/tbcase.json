@@ -67,6 +67,11 @@
       "max": 50
     },
     {
+      "name": "registrationNumber",
+      "type": "string",
+      "max": 50
+    },
+    {
       "name": "diagnosisDate",
       "type": "date",
       "required": { "function": "this.diagnosisType == 'CONFIRMED'" }

@@ -1,8 +1,6 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.services.cases.cases.CaseService;
-import org.msh.etbm.services.cases.casevalidate.CaseValidateFormData;
+import org.msh.etbm.services.cases.casevalidate.CaseValidateService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -17,19 +15,14 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/cases/case")
 @Authenticated(permissions = {Permissions.CASES})
-public class CaseValidationREST {
+public class CaseValidateREST {
 
     @Autowired
-    CaseService service;
+    CaseValidateService service;
 
     @RequestMapping(value = "/validate/{id}", method = RequestMethod.GET)
     public StandardResult get(@PathVariable UUID id) {
-        // mount request
-        CaseValidateFormData req = new CaseValidateFormData();
-        req.setValidated(new Boolean(true));
-
-        // update tbcase
-        ServiceResult res = service.update(id, req);
-        return new StandardResult(res);
+        service.validateCase(id);
+        return new StandardResult(null, null, true);
     }
 }
