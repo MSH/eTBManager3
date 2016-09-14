@@ -8,10 +8,10 @@ import java.util.UUID;
 /**
  * Created by Mauricio on 14/09/2016.
  */
-public class TransferOutResponse extends CaseActionResponse {
+public class CaseMoveResponse extends CaseActionResponse {
     UUID unitToId;
 
-    TransferOutResponse(UUID tbcaseId, String tbcaseDisplayString, UUID unitToId) {
+    CaseMoveResponse(UUID tbcaseId, String tbcaseDisplayString, UUID unitToId) {
         super(tbcaseId, tbcaseDisplayString);
         this.unitToId = unitToId;
     }

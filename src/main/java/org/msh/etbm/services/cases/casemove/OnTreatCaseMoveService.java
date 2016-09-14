@@ -3,11 +3,11 @@ package org.msh.etbm.services.cases.casemove;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
+import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,20 +35,42 @@ public class OnTreatCaseMoveService {
     @Autowired
     UserRequestService userRequestService;
 
-    // TODO: [MSANTOS] Missing implementation of commandlog
     // TODO: [MSANTOS] Missing implementation of ownerunit selection
-    // TODO: [MSANTOS] Missing email dispatcher implementation
 
     /**
      * Execute the transfer of an on treat case to another health unit
      */
     @Transactional
-    public TransferOutResponse transferOut(CaseMoveRequest req) {
+    public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
         Date moveDate = req.getMoveDate();
 
-        TreatmentHealthUnit currentTreatUnit = validateTransferOut(tbcase, unitTo, moveDate, req);
+        // get the current treatment unit
+        TreatmentHealthUnit currentTreatUnit = findTransferOutTreatUnit(tbcase);
+        if (currentTreatUnit == null) {
+            throw new EntityNotFoundException();
+        }
+
+        // check if user can modify the case
+        if (isWorkingUnit(tbcase)) {
+            throw new ForbiddenException();
+        }
+
+        // check state
+        if (!tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            throw new EntityValidationException(tbcase, "state", "Case state should be On Treatment", null);
+        }
+
+        // checks if date is before beginning treatment date
+        if (!currentTreatUnit.getPeriod().isDateInside(moveDate)) {
+            throw new EntityValidationException(req, "moveDate", null, "cases.move.errortreatdate");
+        }
+
+        // checks if units are different
+        if (currentTreatUnit.getTbunit().equals(unitTo)) {
+            throw new EntityValidationException(req, "unitTo", null, "cases.move.errorunit");
+        }
 
         // create the period of treatment for the new health unit
         Period newPeriod = new Period(DateUtils.incDays(moveDate, 1), tbcase.getTreatmentPeriod().getEndDate());
@@ -67,35 +89,12 @@ public class OnTreatCaseMoveService {
         splitPeriod(tbcase, newPeriod.getIniDate());
 
         tbcase.setTransferring(true);
+        tbcase.setOwnerUnit((Tbunit)unitTo);
 
         entityManager.persist(tbcase);
+        entityManager.flush();
 
-        return new TransferOutResponse(tbcase.getId(), tbcase.getDisplayString(), unitTo.getId());
-    }
-
-    private TreatmentHealthUnit validateTransferOut(TbCase tbcase, Unit unitTo, Date moveDate, CaseMoveRequest req) {
-        // check state
-        if (!tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            throw new EntityValidationException(tbcase, "state", "Case state should be On Treatment", null);
-        }
-
-        // get the current treatment unit
-        TreatmentHealthUnit currentTreatUnit = findTransferOutTreatUnit(tbcase);
-        if (currentTreatUnit == null) {
-            throw new EntityNotFoundException();
-        }
-
-        // checks if date is before beginning treatment date
-        if (!currentTreatUnit.getPeriod().isDateInside(moveDate)) {
-            throw new EntityValidationException(req, "moveDate", null, "cases.move.errortreatdate");
-        }
-
-        // checks if units are different
-        if (currentTreatUnit.getTbunit().equals(unitTo)) {
-            throw new EntityValidationException(req, "unitTo", null, "cases.move.errorunit");
-        }
-
-        return currentTreatUnit;
+        return new CaseMoveResponse(tbcase.getId(), tbcase.getDisplayString(), unitTo.getId());
     }
 
     /**
@@ -138,7 +137,7 @@ public class OnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public CaseActionResponse transferIn(CaseMoveRequest req) {
+    public CaseMoveResponse transferIn(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Date moveDate = req.getMoveDate();
 
@@ -164,7 +163,7 @@ public class OnTreatCaseMoveService {
         tbcase.setState(CaseState.ONTREATMENT);
         entityManager.persist(tbcase);
 
-        return new CaseActionResponse(tbcase.getId(), tbcase.getDisplayString());
+        return new CaseMoveResponse(tbcase.getId(), tbcase.getDisplayString(), hu.getTbunit().getId());
     }
 
     private TreatmentHealthUnit findTransferInHealthUnit(TbCase tbcase) {

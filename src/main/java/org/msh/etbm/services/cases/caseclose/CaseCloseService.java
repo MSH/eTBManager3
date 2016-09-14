@@ -101,6 +101,10 @@ public class CaseCloseService {
             errors.rejectValue("outcomeDate", "cases.close.msg2");
         }
 
+        if (tbcase.isTransferring()) {
+            errors.rejectValue("transferring", "cases.close.msg3");
+        }
+
         if (errors.hasErrors()) {
             throw new EntityValidationException(errors);
         }

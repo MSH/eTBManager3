@@ -1,11 +1,9 @@
 package org.msh.etbm.services.cases.casemove;
 
-import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +12,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -41,11 +35,9 @@ public class CaseMoveService {
     NotOnTreatCaseMoveService notOnTreatCaseMoveService;
 
     // TODO: [MSANTOS] Missing implementation of commandlog
-    // TODO: [MSANTOS] Missing implementation of ownerunit selection
     // TODO: [MSANTOS] Missing email dispatcher implementation
-    // TODO: [MSANTOS] Prepare this flush to allow transfer for cases on NOT_ON_TREATMENT state
 
-    public ServiceResult transferOut(CaseMoveRequest req) {
+    public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
 
@@ -59,6 +51,46 @@ public class CaseMoveService {
 
         if (unitTo == null) {
             throw new EntityNotFoundException();
+        }
+
+        if (req.getMoveDate() == null) {
+            throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
+        }
+
+        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            return onTreatCaseMoveService.transferOut(req);
+        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            return notOnTreatCaseMoveService.transferOut(req);
+        }
+
+        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+    }
+
+    public CaseActionResponse rollbackTransferOut(UUID tbcaseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
+
+        if (tbcase == null) {
+            throw new EntityNotFoundException();
+        }
+
+        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            return onTreatCaseMoveService.rollbackTransferOut(tbcaseId);
+        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            return notOnTreatCaseMoveService.rollbackTransferOut(tbcaseId);
+        }
+
+        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+    }
+
+    public CaseActionResponse transferIn(CaseMoveRequest req) {
+        TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
+
+        if (tbcase == null) {
+            throw new EntityNotFoundException();
+        }
+
+        if (req.getMoveDate() == null) {
+            throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
         }
 
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {

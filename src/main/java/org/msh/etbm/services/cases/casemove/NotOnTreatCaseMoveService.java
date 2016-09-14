@@ -1,23 +1,18 @@
 package org.msh.etbm.services.cases.casemove;
 
-import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -43,7 +38,7 @@ public class NotOnTreatCaseMoveService {
      * Execute the transfer of an on treat case to another health unit
      */
     @Transactional
-    public ServiceResult transferOut(CaseMoveRequest req) {
+    public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
         Date moveDate = req.getMoveDate();
@@ -62,7 +57,7 @@ public class NotOnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public ServiceResult rollbackTransferOut(UUID tbcaseId) {
+    public CaseActionResponse rollbackTransferOut(UUID tbcaseId) {
         // TODO
         return null;
     }
@@ -72,7 +67,7 @@ public class NotOnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public ServiceResult transferIn(CaseMoveRequest req) {
+    public CaseActionResponse transferIn(CaseMoveRequest req) {
         // TODO
         return null;
     }
