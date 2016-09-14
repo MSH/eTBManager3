@@ -1,8 +1,5 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.services.cases.cases.CaseService;
-import org.msh.etbm.services.cases.casevalidate.CaseValidateFormData;
 import org.msh.etbm.services.cases.casevalidate.CaseValidateService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
