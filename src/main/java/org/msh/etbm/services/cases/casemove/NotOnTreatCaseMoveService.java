@@ -57,7 +57,7 @@ public class NotOnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public CaseActionResponse rollbackTransferOut(UUID tbcaseId) {
+    public CaseMoveResponse rollbackTransferOut(UUID tbcaseId) {
         // TODO
         return null;
     }
@@ -67,7 +67,7 @@ public class NotOnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public CaseActionResponse transferIn(CaseMoveRequest req) {
+    public CaseMoveResponse transferIn(CaseMoveRequest req) {
         // TODO
         return null;
     }

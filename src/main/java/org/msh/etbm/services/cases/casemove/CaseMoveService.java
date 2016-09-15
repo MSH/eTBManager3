@@ -1,10 +1,12 @@
 package org.msh.etbm.services.cases.casemove;
 
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.services.cases.CaseActionResponse;
-import org.msh.etbm.services.cases.treatment.TreatmentService;
+import org.msh.etbm.services.cases.CaseLogHandler;
+import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,6 @@ public class CaseMoveService {
     EntityManager entityManager;
 
     @Autowired
-    TreatmentService treatmentService;
-
-    @Autowired
     UserRequestService userRequestService;
 
     @Autowired
@@ -34,9 +33,9 @@ public class CaseMoveService {
     @Autowired
     NotOnTreatCaseMoveService notOnTreatCaseMoveService;
 
-    // TODO: [MSANTOS] Missing implementation of commandlog
     // TODO: [MSANTOS] Missing email dispatcher implementation
 
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_OUT)
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
         Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
@@ -57,20 +56,29 @@ public class CaseMoveService {
             throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
         }
 
+        if (!isWorkingUnit(tbcase)) {
+            throw new ForbiddenException();
+        }
+
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
             return onTreatCaseMoveService.transferOut(req);
         } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
             return notOnTreatCaseMoveService.transferOut(req);
         }
 
-        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", tbcase.getTransferOutUnit().getAddress().getAdminUnit().getDisplayString());
     }
 
-    public CaseActionResponse rollbackTransferOut(UUID tbcaseId) {
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_ROLLBACK)
+    public CaseMoveResponse rollbackTransferOut(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
         if (tbcase == null) {
             throw new EntityNotFoundException();
+        }
+
+        if (!isWorkingUnit(tbcase)) {
+            throw new ForbiddenException();
         }
 
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
@@ -82,7 +90,8 @@ public class CaseMoveService {
         throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
     }
 
-    public CaseActionResponse transferIn(CaseMoveRequest req) {
+    @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_IN)
+    public CaseMoveResponse transferIn(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
 
         if (tbcase == null) {
@@ -93,12 +102,44 @@ public class CaseMoveService {
             throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
         }
 
+        if (!isWorkingUnit(tbcase)) {
+            throw new ForbiddenException();
+        }
+
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            return onTreatCaseMoveService.transferOut(req);
+            return onTreatCaseMoveService.transferIn(req);
         } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            return notOnTreatCaseMoveService.transferOut(req);
+            return notOnTreatCaseMoveService.transferIn(req);
         }
 
         throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+    }
+
+    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+     * Check if user is working on its working unit. It depends on the case state and the user profile.
+     * 1) If user can play activities of all other units, so it's the working unit;
+     * 2) If case is waiting for treatment, the user unit is compared to the case notification unit;
+     * 3) If case is on treatment, the user unit is compared to the case treatment unit;
+     * @return
+     */
+    private boolean isWorkingUnit(TbCase tbcase) {
+        UserWorkspace uw = entityManager.find(UserWorkspace.class, userRequestService.getUserSession().getUserWorkspaceId());
+
+        if (uw.isPlayOtherUnits()) {
+            return true;
+        }
+
+        Tbunit treatmentUnit = tbcase.getOwnerUnit();
+
+        if (treatmentUnit != null) {
+            return (treatmentUnit.getId().equals(uw.getUnit().getId()));
+        }
+
+        Tbunit unit = tbcase.getNotificationUnit();
+        if (unit != null) {
+            return ((unit != null) && (unit.getId().equals(uw.getUnit().getId())));
+        }
+
+        return true;
     }
 }

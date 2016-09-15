@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { Profile, Fluidbar, Fa } from '../../../components/index';
+import { Profile, Fluidbar } from '../../../components/index';
 import { app } from '../../../core/app';
 import SessionUtils from '../../session-utils';
 

@@ -1,11 +1,12 @@
 
 import React from 'react';
-import { Grid, Row, Col, Nav, NavItem, Button } from 'react-bootstrap';
+import { Grid, Row, Col, Nav, NavItem, Button, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Card, WaitIcon, Fa, CommandBar, observer } from '../../../components';
 import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import Events from './events';
+import SessionUtils from '../../session-utils';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';
@@ -25,6 +26,7 @@ class Details extends React.Component {
 		this.deleteConfirm = this.deleteConfirm.bind(this);
 		this.reopenConfirm = this.reopenConfirm.bind(this);
 		this.validationConfirm = this.validationConfirm.bind(this);
+		this.rollbackTransfer = this.rollbackTransfer.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -155,6 +157,45 @@ class Details extends React.Component {
 		this.setState({ showReopenConfirm: false });
 	}
 
+	rollbackTransfer() {
+		return server.get('/api/cases/case/undotransferout/' + this.state.tbcase.id)
+				.then(res => {
+					if (!res.success) {
+						return Promise.reject(res.errors);
+					}
+
+					app.dispatch('case-update');
+
+					return res.result;
+				});
+	}
+
+	renderTransferMessage() {
+		const tbcase = this.state.tbcase;
+
+		if (!tbcase.transferring) {
+			return null;
+		}
+
+		const confirmlnk = <a className="mright-2x" onClick={this.show('showMoveCase', true)}><Fa icon="check"/>{__('cases.move.confirm')}</a>;
+		const confirmlbl = (
+					<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('cases.move.confirm.notallow')}</Tooltip>}>
+						<span className="mright-2x"><Fa icon="check"/>{__('cases.move.confirm')}</span>
+					</OverlayTrigger>
+				);
+
+
+		return (
+			<Alert bsStyle="warning" className="transf-alert">
+				<Fa icon="exchange" className="mright" />
+				{__('cases.move.msg') + ' ' + tbcase.ownerUnit.name + '. '}
+				<br/>
+				{app.getState().session.playOtherUnits || app.getState().session.unitId === tbcase.ownerUnit.id ? confirmlnk : confirmlbl}
+				<a onClick={this.rollbackTransfer}><Fa icon="undo"/>{__('cases.move.cancel') + ' ' + tbcase.transferOutUnit.name}</a>
+			</Alert>
+		);
+	}
+
 	render() {
 		const tbcase = this.state.tbcase;
 
@@ -185,16 +226,10 @@ class Details extends React.Component {
 					</span>);
 
 		// create command list
-		const commands = [
-		{
+		const commands = [{
 			title: __('cases.delete'),
 			onClick: () => this.showConfirmDlg(__('action.delete'), __('form.confirm_remove'), this.deleteConfirm),
 			icon: 'remove'
-		},
-		{
-			title: __('cases.move'),
-			onClick: this.show('showMoveCase', true),
-			icon: 'toggle-right'
 		}];
 
 		if (!this.state.tbcase.validated) {
@@ -222,6 +257,15 @@ class Details extends React.Component {
 			commands.push(cmd);
 		}
 
+		if (!this.state.tbcase.transferring) {
+			const cmd = {
+							title: __('cases.move'),
+							onClick: this.show('showMoveCase', true),
+							icon: 'exchange'
+						};
+			commands.push(cmd);
+		}
+
 		return (
 			<div>
 				<PatientPanel tbcase={tbcase} />
@@ -237,6 +281,7 @@ class Details extends React.Component {
 							<Card title="Other cases of this patient" />
 						</Col>
 						<Col sm={9}>
+							{this.renderTransferMessage()}
 							{tabs}
 							{seltab === 0 && <CaseData tbcase={tbcase} />}
 							{seltab === 1 && <CaseExams tbcase={tbcase} />}

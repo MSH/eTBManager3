@@ -17,7 +17,6 @@ export default class CommandBar extends React.Component {
 
 	clickItem(item) {
 		return () => {
-			console.log(item);
 			if (item.onClick) {
 				item.onClick(item);
 			} else {

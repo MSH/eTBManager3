@@ -62,7 +62,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
     public String getFullDisplayName() {
         String s = getName();
 
-        String delim = "";
+        String delim = ", ";
         if (pname3 != null) {
             s += delim + pname3;
             delim = ", ";

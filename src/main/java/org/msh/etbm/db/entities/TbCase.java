@@ -80,6 +80,10 @@ public class TbCase extends WorkspaceEntity {
     @NotNull
     private Tbunit ownerUnit;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TRANSFER_OUT_UNIT_ID")
+    private Tbunit transferOutUnit;
+
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
     @PropertyLog(ignore = true)
     private List<TreatmentHealthUnit> treatmentUnits = new ArrayList<>();
@@ -870,6 +874,13 @@ public class TbCase extends WorkspaceEntity {
         this.ownerUnit = ownerUnit;
     }
 
+    public Tbunit getTransferOutUnit() {
+        return transferOutUnit;
+    }
+
+    public void setTransferOutUnit(Tbunit transferOutUnit) {
+        this.transferOutUnit = transferOutUnit;
+    }
 
     /**
      * @return the tags
