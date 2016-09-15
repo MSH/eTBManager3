@@ -24,7 +24,7 @@ class StartRegimen extends React.Component {
 		const formSchema = individualized ?
 			// structure of the individualized form
 			{
-				title: __('cases.treatment.startstandard'),
+				title: __('cases.treatment.startindiv'),
 				controls: [
 					{
 						property: 'unitId',
@@ -48,12 +48,12 @@ class StartRegimen extends React.Component {
 						fschema: {
 							controls: [
 								{
-									property: 'product',
+									property: 'productId',
 									required: true,
 									type: 'select',
 									label: __('Medicine'),
 									options: 'medicines',
-									size: { sm: 5 }
+									size: { sm: 6 }
 								},
 								{
 									property: 'doseUnit',
@@ -61,15 +61,23 @@ class StartRegimen extends React.Component {
 									required: true,
 									label: __('PrescribedMedicine.doseUnit'),
 									options: { from: 1, to: 12 },
-									size: { sm: 2 }
+									size: { sm: 3 }
 								},
 								{
-									property: 'iniMonth',
+									property: 'frequency',
+									type: 'select',
+									required: true,
+									label: __('PrescribedMedicine.frequency'),
+									options: { from: 1, to: 7 },
+									size: { sm: 3 }
+								},
+								{
+									property: 'monthIni',
 									type: 'select',
 									required: true,
 									label: __('PrescribedMedicine.iniMonth'),
 									options: { from: 1, to: 24 },
-									size: { sm: 2 }
+									size: { sm: 3, smOffset: 6 }
 								},
 								{
 									property: 'months',
@@ -133,7 +141,12 @@ class StartRegimen extends React.Component {
 	 */
 	save(doc) {
 		return server.post('/api/cases/case/treatment/start', doc)
-		.then(() => app.dispatch(Events.caseUpdate));
+		.then(res => {
+			if (res.success) {
+				app.dispatch(Events.caseUpdate);
+				return;
+			}
+		});
 	}
 
 	/**
