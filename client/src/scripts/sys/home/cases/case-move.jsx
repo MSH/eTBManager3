@@ -5,7 +5,7 @@ import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import SessionUtils from '../../session-utils';
 
-const transfOut = {
+const transfOutOnTreat = {
 	controls: [
 		{
 			property: 'moveDate',
@@ -14,6 +14,18 @@ const transfOut = {
 			label: __('cases.move.date'),
 			defaultValue: new Date()
 		},
+		{
+			property: 'unitToId',
+			type: 'unit',
+			unitType: 'TBUNIT',
+			label: __('Tbunit'),
+			required: true
+		}
+	]
+};
+
+const transfOutNotOnTreat = {
+	controls: [
 		{
 			property: 'unitToId',
 			type: 'unit',
@@ -70,7 +82,12 @@ export default class CaseMove extends React.Component {
 	}
 
 	render() {
-		const fschema = !this.props.tbcase.transferring ? transfOut : transfIn;
+		let fschema;
+		if (!this.props.tbcase.transferring) {
+			fschema = this.props.tbcase.state === 'ONTREATMENT' ? transfOutOnTreat : transfOutNotOnTreat;
+		} else {
+			fschema = transfIn;
+		}
 
 		let title = this.props.tbcase.transferring ? __('cases.move.regtransferin') : __('cases.move');
 		title = title + ' - ' + SessionUtils.nameDisplay(this.props.tbcase.patient.name);

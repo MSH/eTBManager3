@@ -27,6 +27,8 @@ class Details extends React.Component {
 		this.reopenConfirm = this.reopenConfirm.bind(this);
 		this.validationConfirm = this.validationConfirm.bind(this);
 		this.rollbackTransfer = this.rollbackTransfer.bind(this);
+		this.transferInNotOnTreat = this.transferInNotOnTreat.bind(this);
+		this.transferIn = this.transferIn.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -170,6 +172,28 @@ class Details extends React.Component {
 				});
 	}
 
+	transferIn() {
+		if (this.state.tbcase.state === 'ONTREATMENT') {
+			return this.show('showMoveCase', true);
+		}
+
+		return () => this.transferInNotOnTreat();
+	}
+
+	transferInNotOnTreat() {
+		const doc = { tbcaseId: this.state.tbcase.id };
+		return server.post('/api/cases/case/transferin', doc)
+				.then(res => {
+					if (!res.success) {
+						return Promise.reject(res.errors);
+					}
+
+					app.dispatch('case-update');
+
+					return res.result;
+				});
+	}
+
 	renderTransferMessage() {
 		const tbcase = this.state.tbcase;
 
@@ -177,7 +201,7 @@ class Details extends React.Component {
 			return null;
 		}
 
-		const confirmlnk = <a className="mright-2x" onClick={this.show('showMoveCase', true)}><Fa icon="check"/>{__('cases.move.confirm')}</a>;
+		const confirmlnk = <a className="mright-2x" onClick={this.transferIn()}><Fa icon="check"/>{__('cases.move.confirm')}</a>;
 		const confirmlbl = (
 					<OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('cases.move.confirm.notallow')}</Tooltip>}>
 						<span className="mright-2x"><Fa icon="check"/>{__('cases.move.confirm')}</span>

@@ -43,8 +43,8 @@ public class NotOnTreatCaseMoveService {
         Tbunit unitTo = entityManager.find(Tbunit.class, req.getUnitToId());
 
         // check state
-        if (!tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            throw new EntityValidationException(tbcase, "state", "Case state should be On Treatment", null);
+        if (!tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
+            throw new EntityValidationException(tbcase, "state", "Case state should be Not On Treatment", null);
         }
 
         tbcase.setTransferring(true);
