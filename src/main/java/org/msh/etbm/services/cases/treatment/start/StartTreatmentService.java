@@ -14,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Services available to start the case treatment
@@ -34,7 +38,7 @@ public class StartTreatmentService {
      */
     @Transactional
     @CommandLog(type = CommandTypes.CASES_TREAT_INI, handler = TreatmentCmdLogHandler.class)
-    public void startTreatment(StartTreatmentRequest req) {
+    public void startTreatment(@NotNull @Valid StartTreatmentRequest req) {
         // check if values were right informed to know if it is a standardized or individualized regimen
         if (req.getRegimenId() != null && req.getPrescriptions() != null && req.getPrescriptions().size() > 0) {
             throw new EntityValidationException(req, "regimenId", "Cannot provide both regimen and prescriptions to start a treatment", null);
@@ -129,7 +133,49 @@ public class StartTreatmentService {
     }
 
 
+    /**
+     * Start the individualized regimen for the given case in the given treatment unit
+     * @param req The request containing information about the individualized regimen
+     * @param tbcase The case where treatment will start in
+     * @param unit The treatment unit to handle the treatment
+     */
     protected void startInividualizedRegimen(StartTreatmentRequest req, TbCase tbcase, Tbunit unit) {
-        // TODO Ricardo: Start inidvidualized regimen
+        int months = 0;
+        // create list of prescribed medicines
+        List<PrescribedMedicine> lst = new ArrayList<>();
+        for (PrescriptionRequest presc: req.getPrescriptions()) {
+            // get the length for this prescription (-1 because the initial month is 1 based)
+            int len = presc.getMonths() + presc.getMonthIni() - 1;
+            if (len > months) {
+                months = len;
+            }
+
+            PrescribedMedicine pm = new PrescribedMedicine();
+            Date ini = DateUtils.incMonths(req.getIniDate(), presc.getMonthIni() - 1);
+            Date end = DateUtils.incMonths(ini, presc.getMonths());
+            pm.setPeriod(new Period(ini, end));
+
+            Product prod = entityManager.find(Product.class, presc.getProductId());
+            pm.setProduct(prod);
+            pm.setFrequency(presc.getFrequency());
+            pm.setDoseUnit(presc.getDoseUnit());
+            pm.setTbcase(tbcase);
+            lst.add(pm);
+        }
+        tbcase.setPrescriptions(lst);
+
+        // update data
+        Date ini = req.getIniDate();
+        Date end = DateUtils.incMonths(ini, months);
+        tbcase.setTreatmentPeriod(new Period(ini, end));
+        tbcase.setState(CaseState.ONTREATMENT);
+        tbcase.setOwnerUnit(unit);
+
+        TreatmentHealthUnit hu = new TreatmentHealthUnit();
+        hu.setTbunit(unit);
+        hu.setPeriod(new Period(ini, end));
+        hu.setTbcase(tbcase);
+        tbcase.getTreatmentUnits().add(hu);
+
     }
 }

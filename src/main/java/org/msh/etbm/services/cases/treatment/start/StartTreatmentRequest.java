@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.treatment.start;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,7 @@ public class StartTreatmentRequest {
     /**
      * List of prescribed medicines, required if the regimen is not informed (so it is an individualized regimen)
      */
+    @Valid
     private List<PrescriptionRequest> prescriptions;
 
 

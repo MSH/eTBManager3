@@ -1,5 +1,8 @@
 package org.msh.etbm.services.cases.treatment.start;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -7,10 +10,23 @@ import java.util.UUID;
  */
 public class PrescriptionRequest {
 
+    @NotNull
     private UUID productId;
+
+    @Min(1)
+    @Max(30)
     private int monthIni;
+
+    @Min(1)
+    @Max(30)
     private int months;
+
+    @Min(1)
+    @Max(10)
     private int doseUnit;
+
+    @Min(1)
+    @Max(7)
     private int frequency;
 
     public UUID getProductId() {
