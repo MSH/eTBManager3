@@ -35,7 +35,7 @@ public class OnTreatCaseMoveService {
     @Transactional
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
-        Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
+        Tbunit unitTo = entityManager.find(Tbunit.class, req.getUnitToId());
         Date moveDate = req.getMoveDate();
 
         // get the current treatment unit
@@ -69,7 +69,7 @@ public class OnTreatCaseMoveService {
         newhu.setTbcase(tbcase);
         newhu.setTransferring(true);
         tbcase.getTreatmentUnits().add(newhu);
-        newhu.setTbunit((Tbunit)unitTo);
+        newhu.setTbunit(unitTo);
 
         // changes the period of current treat unit
         currentTreatUnit.getPeriod().intersect(prevPeriod);

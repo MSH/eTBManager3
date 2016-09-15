@@ -52,17 +52,17 @@ public class CaseMoveService {
             throw new EntityNotFoundException();
         }
 
-        if (req.getMoveDate() == null) {
-            throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
-        }
-
         if (!isWorkingUnit(tbcase)) {
             throw new ForbiddenException();
         }
 
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            if (req.getMoveDate() == null) {
+                throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
+            }
+
             return onTreatCaseMoveService.transferOut(req);
-        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
             return notOnTreatCaseMoveService.transferOut(req);
         }
 
@@ -83,7 +83,7 @@ public class CaseMoveService {
 
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
             return onTreatCaseMoveService.rollbackTransferOut(tbcaseId);
-        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
             return notOnTreatCaseMoveService.rollbackTransferOut(tbcaseId);
         }
 
@@ -98,17 +98,17 @@ public class CaseMoveService {
             throw new EntityNotFoundException();
         }
 
-        if (req.getMoveDate() == null) {
-            throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
-        }
-
         if (!isWorkingUnit(tbcase)) {
             throw new ForbiddenException();
         }
 
         if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+            if (req.getMoveDate() == null) {
+                throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
+            }
+
             return onTreatCaseMoveService.transferIn(req);
-        } else if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
+        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
             return notOnTreatCaseMoveService.transferIn(req);
         }
 
