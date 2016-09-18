@@ -8,10 +8,18 @@
   "controls": [
     {
       "type": "date",
-      "label": "${TbCase.diagnosisDate}",
-      "property": "diagnosisDate",
+      "label": "${TbCase.outcomeDate}",
+      "property": "tbcase.outcomeDate",
       "required": true,
       "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.outcome",
+      "label": "${TbCase.outcome}",
+      "size": { "md": 8 },
+      "required": true,
+      "newRow": true
     }
   ]
 }

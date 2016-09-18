@@ -27,6 +27,7 @@ public class SuspectFollowUpREST {
     @RequestMapping(value = "/suspectfollowup/initform/{cla}", method = RequestMethod.GET)
     public FormInitResponse initForm(@PathVariable String cla) {
         Map<String, Object> doc = new HashMap<>();
+        doc.put("tbcase", new HashMap<>());
 
         if (cla.equals("NOT_TB")) {
             return formService.init("suspect-followup-not-tb", doc, false);
