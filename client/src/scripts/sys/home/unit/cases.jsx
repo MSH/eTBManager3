@@ -7,8 +7,6 @@ import CasesUnit from './cases-unit';
 import { app } from '../../../core/app';
 import { server } from '../../../commons/server';
 
-
-
 export default class Cases extends React.Component {
 
 	constructor(props) {

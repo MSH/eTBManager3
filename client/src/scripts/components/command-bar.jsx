@@ -30,6 +30,11 @@ export default class CommandBar extends React.Component {
 			return item.node;
 		}
 
+		// if empty should not return null
+		if (item.visible === false) {
+			return null;
+		}
+
 		return (
 			<li key={index} role="presentation">
 			<a onClick={this.clickItem(item)}>
@@ -40,12 +45,19 @@ export default class CommandBar extends React.Component {
 				<Collapse in={item === this.state.item}>
 					<ul className="cmd-bar-sub nav">
 						{
-							item.submenu.map((cmd, i) => (
-								<NavItem key={cmd.key ? cmd.key : i} onClick={this.clickItem(cmd)}>
-									{cmd.icon && <Fa icon={cmd.icon} />}
-									{cmd.title}
-								</NavItem>
-							))
+							item.submenu.map((cmd, i) => {
+								// if empty should not return null
+								if (cmd.visible === false) {
+									return null;
+								}
+
+								return (
+									<NavItem key={cmd.key ? cmd.key : i} onClick={this.clickItem(cmd)}>
+										{cmd.icon && <Fa icon={cmd.icon} />}
+										{cmd.title}
+									</NavItem>
+								);
+							})
 						}
 					</ul>
 				</Collapse>

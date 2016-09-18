@@ -1,0 +1,17 @@
+{
+  "dataModel": {
+    "tbcase": "tbcase"
+  },
+
+  "title": "${cases.suspect.followup}",
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.diagnosisDate}",
+      "property": "diagnosisDate",
+      "required": true,
+      "size": { "md": 4 }
+    }
+  ]
+}

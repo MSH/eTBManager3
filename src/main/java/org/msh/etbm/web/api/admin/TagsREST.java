@@ -28,7 +28,6 @@ public class TagsREST {
     TagService service;
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public TagData get(@PathVariable UUID id) {
         return service.findOne(id, TagData.class);
     }

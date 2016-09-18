@@ -15,6 +15,7 @@ import CaseClose from './case-close';
 import CaseMove from './case-move';
 import CaseIssues from './case-issues';
 import CaseTags from './case-tags';
+import SuspectFollowUp from './suspect-followup';
 
 
 class Details extends React.Component {
@@ -29,6 +30,7 @@ class Details extends React.Component {
 		this.rollbackTransfer = this.rollbackTransfer.bind(this);
 		this.transferInNotOnTreat = this.transferInNotOnTreat.bind(this);
 		this.transferIn = this.transferIn.bind(this);
+		this.closeSuspectFU = this.closeSuspectFU.bind(this);
 
 		this.state = { selTab: 0 };
 	}
@@ -220,6 +222,10 @@ class Details extends React.Component {
 		);
 	}
 
+	closeSuspectFU() {
+		this.setState({ showSuspectFollowUp: false, suspectFUCla: null });
+	}
+
 	render() {
 		const tbcase = this.state.tbcase;
 
@@ -250,45 +256,55 @@ class Details extends React.Component {
 					</span>);
 
 		// create command list
-		const commands = [{
+		const commands = [
+		{
 			title: __('cases.delete'),
 			onClick: () => this.showConfirmDlg(__('action.delete'), __('form.confirm_remove'), this.deleteConfirm),
 			icon: 'remove'
+		},
+		{
+			title: __('cases.validate'),
+			onClick: () => this.showConfirmDlg(__('cases.validate'), __('cases.validate.confirm'), this.validationConfirm),
+			icon: 'check',
+			visible: !this.state.tbcase.validated
+		},
+		{
+			title: __('cases.reopen'),
+			onClick: () => this.showConfirmDlg(__('cases.reopen'), __('cases.reopen.confirm'), this.reopenConfirm),
+			icon: 'power-off',
+			visible: this.state.tbcase.state === 'CLOSED'
+		},
+		{
+			title: __('cases.close'),
+			onClick: this.show('showCloseCase', true),
+			icon: 'power-off',
+			visible: this.state.tbcase.state !== 'CLOSED'
+		},
+		{
+			title: __('cases.move'),
+			onClick: this.show('showMoveCase', true),
+			icon: 'exchange',
+			visible: !this.state.tbcase.transferring
+		},
+		{
+			title: __('cases.suspect.followup'),
+			icon: 'user-md',
+			visible: this.state.tbcase.diagnosisType === 'SUSPECT' && this.state.tbcase.state !== 'CLOSED',
+			submenu: [
+				{
+					title: __('CaseClassification.TB.confirmed'),
+					onClick: () => this.setState({ showSuspectFollowUp: true, suspectFUCla: 'TB' })
+				},
+				{
+					title: __('CaseClassification.DRTB.confirmed'),
+					onClick: () => this.setState({ showSuspectFollowUp: true, suspectFUCla: 'DRTB' })
+				},
+				{
+					title: __('cases.suspect.nottb'),
+					onClick: () => this.setState({ showSuspectFollowUp: true, suspectFUCla: 'NOT_TB' })
+				}
+			]
 		}];
-
-		if (!this.state.tbcase.validated) {
-			const cmd = {
-							title: __('cases.validate'),
-							onClick: () => this.showConfirmDlg(__('cases.validate'), __('cases.validate.confirm'), this.validationConfirm),
-							icon: 'check'
-						};
-			commands.push(cmd);
-		}
-
-		if (this.state.tbcase.state === 'CLOSED') {
-			const cmd = {
-							title: __('cases.reopen'),
-							onClick: () => this.showConfirmDlg(__('cases.reopen'), __('cases.reopen.confirm'), this.reopenConfirm),
-							icon: 'power-off'
-						};
-			commands.push(cmd);
-		} else {
-			const cmd = {
-							title: __('cases.close'),
-							onClick: this.show('showCloseCase', true),
-							icon: 'power-off'
-						};
-			commands.push(cmd);
-		}
-
-		if (!this.state.tbcase.transferring) {
-			const cmd = {
-							title: __('cases.move'),
-							onClick: this.show('showMoveCase', true),
-							icon: 'exchange'
-						};
-			commands.push(cmd);
-		}
 
 		return (
 			<div>
@@ -320,6 +336,12 @@ class Details extends React.Component {
 				<CaseMove show={this.state.showMoveCase} onClose={this.show('showMoveCase', false)} tbcase={tbcase}/>
 
 				<CaseTags show={this.state.showTagEdt} onClose={this.show('showTagEdt', false)} tbcase={tbcase}/>
+
+				<SuspectFollowUp
+					show={this.state.showSuspectFollowUp}
+					onClose={this.closeSuspectFU}
+					tbcase={tbcase}
+					classification={this.state.suspectFUCla}/>
 
 			</div>
 			);
