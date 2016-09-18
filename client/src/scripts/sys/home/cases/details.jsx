@@ -6,7 +6,6 @@ import PatientPanel from '../commons/patient-panel';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import Events from './events';
-import SessionUtils from '../../session-utils';
 
 import CaseData from './case-data';
 import CaseExams from './case-exams';

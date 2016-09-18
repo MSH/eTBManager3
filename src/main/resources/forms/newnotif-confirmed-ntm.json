@@ -4,7 +4,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.newnotifof} ${CaseClassification.TB.confirmed}",
+  "title": "${cases.newnotifof} ${CaseClassification.NTM.confirmed}",
 
   "controls": [
     {
@@ -13,6 +13,13 @@
       "property": "tbcase.registrationDate",
       "required": true,
       "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.caseNumber",
+      "label": "${TbCase.caseNumber}",
+      "required": true,
+      "type": "string",
+      "size": { "md": 6 }
     },
     {
       "type": "subtitle",
@@ -72,25 +79,11 @@
       "size": { "md": 6 }
     },
     {
-      "property": "tbcase.addressChanged",
-      "type": "yesNo",
-      "label": "${TbCase.notifAddressChanged}",
-      "defaultValue": false,
-      "size": { "md": 6 }
-    },
-    {
       "property": "tbcase.notifAddress",
       "label": "${cases.details.addressnotif}",
       "type": "address",
-      "size": { "md": 6 },
+      "size": { "md": 8 },
       "newRow": true
-    },
-    {
-      "property": "tbcase.currentAddress",
-      "label": "${cases.details.addresscurr}",
-      "type": "address",
-      "size": { "md": 6 },
-      "visible": { "function": "this.tbcase.addressChanged" }
     },
     {
       "type": "subtitle",
@@ -98,24 +91,49 @@
       "size": { "sm": 12 }
     },
     {
-      "property": "tbcase.notificationUnit",
-      "required": true,
-      "type": "unit",
-      "label": "${TbCase.notificationUnit}",
-      "size": { "sm": 6 }
-    },
-    {
       "type": "date",
       "label": "${TbCase.diagnosisDate}",
       "property": "tbcase.diagnosisDate",
       "required": true,
-      "size": { "md": 4 }
+      "size": { "md": 8 }
     },
     {
       "type": "select",
       "property": "tbcase.registrationGroup",
       "label": "${TbCase.registrationGroup}",
-      "size": { "md": 6 },
+      "size": { "md": 8 },
+      "required": true,
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.infectionSite",
+      "label": "${InfectionSite}",
+      "size": { "md": 8 },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.pulmonaryType",
+      "label": "${TbCase.pulmonaryType}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY'" },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType",
+      "label": "${TbCase.extrapulmonaryType}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType2",
+      "label": "${TbCase.extrapulmonaryType2}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" },
       "newRow": true
     }
   ]

@@ -155,7 +155,12 @@
     {
       "name": "infectionSite",
       "type": "enum",
-      "enumClass": "org.msh.etbm.db.enums.InfectionSite"
+      "enumClass": "org.msh.etbm.db.enums.InfectionSite",
+      "options": [
+        { "id": "PULMONARY", "name": "${InfectionSite.PULMONARY}" },
+        { "id": "EXTRAPULMONARY", "name": "${InfectionSite.EXTRAPULMONARY}" },
+        { "id": "BOTH", "name": "${InfectionSite.BOTH}" }
+      ]
     },
     {
       "name": "registrationGroupOther",

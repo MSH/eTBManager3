@@ -74,7 +74,7 @@ export default class NewNotif extends React.Component {
 					</Grid>
 				</Fluidbar>
 				{
-					this.state.patient ?
+					!this.state.patient ?
 						<NotifForm
 							onCancel={this.onCancel}
 							patient={this.state.patient}
