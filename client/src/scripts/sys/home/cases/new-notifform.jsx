@@ -16,7 +16,8 @@ export default class NotifForm extends React.Component {
 	}
 
 	componentWillMount() {
-
+		this.setState({ patientId: this.props.patient.id });
+		delete this.props.patient.id;
 	}
 
 	getRemoteForm() {
@@ -30,6 +31,7 @@ export default class NotifForm extends React.Component {
 	save(doc) {
 		const req = { doc: doc };
 		req.unitId = this.props.tbunit.id;
+		req.patientId = this.state.patientId;
 
 		return server.post('/api/cases/case/newnotif', req).then(res => {
 			if (res.errors) {

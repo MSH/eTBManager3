@@ -32,10 +32,10 @@ export default class NewNotif extends React.Component {
 	 * @param  {[type]} pat [description]
 	 * @return {[type]}     [description]
 	 */
-	onSelectPatient(data) {
+	onSelectPatient(patient) {
 		// prepare data model
 		this.setState({
-			patient: data.patient ? data.patient : {}
+			patient: patient ? patient : {}
 		});
 	}
 

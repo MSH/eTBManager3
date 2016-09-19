@@ -66,8 +66,12 @@ public class NewNotificationService {
 
     @Transactional
     public StandardResult save(CaseFormData data) {
+
         ModelDAO patientDao = factory.create("patient");
-        ModelDAOResult resPatient = patientDao.insert((Map) data.getDoc().get("patient"));
+        Map<String, Object> patientData = (Map)data.getDoc().get("patient");
+
+        ModelDAOResult resPatient;
+        resPatient = data.getPatientId() == null ? patientDao.insert(patientData) : patientDao.update(data.getPatientId(), patientData);
 
         if (resPatient.getErrors() != null) {
             throw new EntityValidationException(resPatient.getErrors());
@@ -82,6 +86,10 @@ public class NewNotificationService {
         caseData.put("movedSecondLineTreatment", false);
         caseData.put("notificationUnit", data.getUnitId());
         caseData.put("ownerUnit", data.getUnitId());
+
+        if (caseData.get("diagnosisType").equals(DiagnosisType.SUSPECT)) {
+            caseData.put("suspectClassification", caseData.get("classification"));
+        }
 
         ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);

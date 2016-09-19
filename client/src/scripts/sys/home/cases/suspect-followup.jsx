@@ -13,23 +13,22 @@ export default class SuspectFollowUp extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { doc: {} };
 		this.onConfirm = this.onConfirm.bind(this);
 		this.getRemoteForm = this.getRemoteForm.bind(this);
 	}
 
 	getRemoteForm() {
 		return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification).then(res => {
-			// prepare doc here
+			res.doc.classification = this.props.classification;
 			return res;
 		});
 	}
 
-	onConfirm() {
-		const doc = this.state.doc;
-		doc.tbcaseId = this.props.tbcase.id;
+	onConfirm(doc) {
+		const req = { doc: doc };
+		req.tbcaseId = this.props.tbcase.id;
 
-		return server.post('pathhere', doc)
+		return server.post('/api/cases/case/suspectfollowup', req)
 				.then(res => {
 					if (!res.success) {
 						return Promise.reject(res.errors);

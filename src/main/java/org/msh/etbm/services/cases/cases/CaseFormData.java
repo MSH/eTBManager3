@@ -11,6 +11,16 @@ public class CaseFormData {
 
     private UUID unitId;
 
+    private UUID patientId;
+
+    public UUID getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(UUID patientId) {
+        this.patientId = patientId;
+    }
+
     public UUID getUnitId() {
         return unitId;
     }
