@@ -41,7 +41,7 @@ public class NewNotificationService {
 
     // TODO: registrar commandlog
 
-    public FormInitResponse initForm (CaseClassification cla, DiagnosisType diag){
+    public FormInitResponse initForm (CaseClassification cla, DiagnosisType diag) {
         if (cla == null || diag == null) {
             return null;
         }
