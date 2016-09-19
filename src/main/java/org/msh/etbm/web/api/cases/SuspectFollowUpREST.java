@@ -1,9 +1,11 @@
 package org.msh.etbm.web.api.cases;
 
+import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.services.cases.suspectfollowup.SuspectFollowUpService;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -22,24 +24,18 @@ import java.util.Map;
 public class SuspectFollowUpREST {
 
     @Autowired
-    FormService formService;
+    SuspectFollowUpService suspectFollowUpService;
 
     @RequestMapping(value = "/suspectfollowup/initform/{cla}", method = RequestMethod.GET)
     public FormInitResponse initForm(@PathVariable String cla) {
-        Map<String, Object> doc = new HashMap<>();
-        doc.put("tbcase", new HashMap<>());
 
-        if (cla.equals("NOT_TB")) {
-            return formService.init("suspect-followup-not-tb", doc, false);
+        if (cla == null || !(cla.equals("NOT_TB") || cla.equals("TB") || cla.equals("DRTB"))) {
+            throw new InvalidArgumentException("Suspect confirm classification should be TB, DRTB or NOT TB");
         }
 
-        if (cla.equals("TB") || cla.equals("DRTB")) {
-            String formId = "suspect-followup-" + cla.toLowerCase();
-            doc.put("classification", CaseClassification.valueOf(cla));
-            return formService.init(formId, doc, false);
-        }
+        CaseClassification classification = cla.equals("NOT_TB") ? null : CaseClassification.valueOf(cla);
 
-        throw new ForbiddenException("Suspect confirm classification should be TB, DRTB or NOT TB");
+        return suspectFollowUpService.initForm(classification);
     }
 
 }
