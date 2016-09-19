@@ -28,9 +28,6 @@ public class CasesREST {
     @Autowired
     CaseService service;
 
-    @Autowired
-    FormService formService;
-
     @RequestMapping(value = "/case/{id}", method = RequestMethod.GET)
     public CaseDetailedData get(@PathVariable UUID id) {
         return service.findOne(id, CaseDetailedData.class);
