@@ -1,7 +1,7 @@
 import React from 'react';
 import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
-import { RemoteFormDialog } from '../../../components';
+import { FormDialog } from '../../../components';
 import { app } from '../../../core/app';
 
 /**
@@ -49,7 +49,7 @@ export default class NotifForm extends React.Component {
 			<Grid fluid className="mtop-2x">
 				<Row>
 					<Col mdOffset={2} md={9}>
-						<RemoteFormDialog
+						<FormDialog
 							wrapType="card"
 							remotePath={this.getRemoteForm}
 							onCancel={this.props.onCancel}

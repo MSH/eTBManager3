@@ -3,7 +3,7 @@ import React from 'react';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 
-import { RemoteFormDialog } from '../../../components';
+import { FormDialog } from '../../../components';
 
 /**
  * The page controller of the public module
@@ -49,7 +49,7 @@ export default class SuspectFollowUp extends React.Component {
 		}
 
 		return (
-			<RemoteFormDialog
+			<FormDialog
 				wrapType="modal"
 				remotePath={this.getRemoteForm}
 				onCancel={this.props.onClose}

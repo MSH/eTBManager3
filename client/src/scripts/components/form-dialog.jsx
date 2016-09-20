@@ -5,6 +5,7 @@ import Card from './card';
 import Form from '../forms/form';
 import { isFunction } from '../commons/utils';
 import AsyncButton from './async-button';
+import RemoteForm from './remote-form';
 
 /**
  * The page controller of the public module
@@ -13,8 +14,11 @@ export default class FormDialog extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
 		this.confirmClick = this.confirmClick.bind(this);
+		this.remoteFormMounted = this.remoteFormMounted.bind(this);
+
+		const title = this.props.schema ? this.props.schema.title : undefined;
+		this.state = { title: title, remoteFormMounted: false };
 	}
 
 	componentDidMount() {
@@ -58,9 +62,19 @@ export default class FormDialog extends React.Component {
 		}
 	}
 
+	/**
+	 * Called when using remoteForm to flag when it is mounted
+	 * @param {[string, function, node]} title The title that will be used on dialog
+	 */
+	remoteFormMounted(title) {
+		this.setState({ title: title, remoteFormMounted: true });
+	}
+
 	render() {
 		const schema = this.props.schema;
-		if (!schema) {
+		const remotePath = this.props.remotePath;
+
+		if (!schema && !remotePath) {
 			return null;
 		}
 
@@ -68,19 +82,30 @@ export default class FormDialog extends React.Component {
 		const doc = this.props.doc;
 
 		// get the title of the form
-		const title = isFunction(schema.title) ? schema.title(doc) : schema.title;
+		const title = isFunction(this.state.title) ? this.state.title(doc) : this.state.title;
 
 		// get validation errors, if any available
 		const errors = this.state ? this.state.errors : null;
 
-		const form = (
-				<Form ref="form" schema={schema}
-					onInit={this.props.onInit}
-					doc={doc} errors={errors}
-					resources={this.props.resources}/>
-				);
+		let form;
+		if (remotePath) {
+			form = (
+					<RemoteForm ref="form"
+						remoteFormMounted={this.remoteFormMounted}
+						remotePath={remotePath}
+						errors={errors} />
+					);
+		} else {
+			form = (
+					<Form ref="form" schema={schema}
+						onInit={this.props.onInit}
+						doc={doc} errors={errors}
+						resources={this.props.resources}/>
+					);
+		}
 
-		const buttons = (
+		// if it is a remoteForm and it is not mounted, don't display buttons
+		const buttons = remotePath && !this.state.remoteFormMounted ? null : (
 			<div className="mtop">
 				<ButtonToolbar>
 					<AsyncButton fetching={this.state.fetching} faIcon="check"
@@ -131,8 +156,8 @@ export default class FormDialog extends React.Component {
 }
 
 FormDialog.propTypes = {
-	schema: React.PropTypes.object.isRequired,
-	doc: React.PropTypes.object.isRequired,
+	schema: React.PropTypes.object,
+	doc: React.PropTypes.object,
 	onConfirm: React.PropTypes.func,
 	onCancel: React.PropTypes.func,
 	onInit: React.PropTypes.func,
@@ -143,7 +168,9 @@ FormDialog.propTypes = {
 	className: React.PropTypes.string,
 
 	modalShow: React.PropTypes.bool,
-	modalBsSize: React.PropTypes.string
+	modalBsSize: React.PropTypes.string,
+
+	remotePath: React.PropTypes.any
 };
 
 FormDialog.defaultProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import FormDialog from './form-dialog';
+import Form from '../forms/form';
 import WaitIcon from './wait-icon';
 import { server } from '../commons/server';
 import { isFunction } from '../commons/utils';
@@ -12,7 +12,7 @@ import { isFunction } from '../commons/utils';
  * resolved with (schema, doc, resources)
  *
  */
-export default class RemoteFormDialog extends React.Component {
+export default class RemoteForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -48,6 +48,10 @@ export default class RemoteFormDialog extends React.Component {
 
 		const res = func();
 
+        if (this.props.remoteFormMounted) {
+            this.props.remoteFormMounted(res.title);
+        }
+
         this.setState({ schema: res,
             doc: data.doc,
             resources: data.resources,
@@ -71,24 +75,19 @@ export default class RemoteFormDialog extends React.Component {
         delete props.remotePath;
 
         return (
-            <FormDialog {...props} />
+            <Form {...props} />
         );
     }
 }
 
-RemoteFormDialog.propTypes = {
+RemoteForm.propTypes = {
     // the location in the server where form is located
     remotePath: React.PropTypes.any.isRequired,
+    remoteFormMounted: React.PropTypes.func,
 
-    // the properties used by FormDialog
-	onConfirm: React.PropTypes.func,
-	onCancel: React.PropTypes.func,
-	onInit: React.PropTypes.func,
-	confirmCaption: React.PropTypes.any,
-	resources: React.PropTypes.object,
-	wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
-	hideCancel: React.PropTypes.bool,
-	className: React.PropTypes.string,
-	modalShow: React.PropTypes.bool,
-	modalBsSize: React.PropTypes.string
+    // Form props
+    errors: React.PropTypes.array,
+    onChange: React.PropTypes.func,
+    readOnly: React.PropTypes.bool,
+    className: React.PropTypes.string
 };
