@@ -48,8 +48,8 @@ export default class RemoteForm extends React.Component {
 
 		const res = func();
 
-        if (this.props.remoteFormMounted) {
-            this.props.remoteFormMounted(res.title, data.doc);
+        if (this.props.onLoadForm) {
+            this.props.onLoadForm(res, data.doc);
         }
 
         this.setState({ schema: res,
@@ -83,7 +83,7 @@ export default class RemoteForm extends React.Component {
 RemoteForm.propTypes = {
     // the location in the server where form is located
     remotePath: React.PropTypes.any.isRequired,
-    remoteFormMounted: React.PropTypes.func,
+    onLoadForm: React.PropTypes.func,
 
     // Form props
     errors: React.PropTypes.array,

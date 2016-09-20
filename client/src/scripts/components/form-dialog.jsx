@@ -15,7 +15,7 @@ export default class FormDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.confirmClick = this.confirmClick.bind(this);
-		this.remoteFormMounted = this.remoteFormMounted.bind(this);
+		this.remoteFormLoad = this.remoteFormLoad.bind(this);
 
 		const title = this.props.schema ? this.props.schema.title : undefined;
 		this.state = { title: title, remoteFormMounted: false };
@@ -66,8 +66,8 @@ export default class FormDialog extends React.Component {
 	 * Called when using remoteForm to flag when it is mounted
 	 * @param {[string, function, node]} title The title that will be used on dialog
 	 */
-	remoteFormMounted(title) {
-		this.setState({ title: title, remoteFormMounted: true });
+	remoteFormLoad(schema) {
+		this.setState({ title: schema.title, remoteFormMounted: true });
 	}
 
 	render() {
@@ -91,7 +91,7 @@ export default class FormDialog extends React.Component {
 		if (remotePath) {
 			form = (
 					<RemoteForm ref="form"
-						remoteFormMounted={this.remoteFormMounted}
+						onLoadForm={this.remoteFormLoad}
 						remotePath={remotePath}
 						errors={errors} />
 					);
