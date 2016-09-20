@@ -192,13 +192,8 @@ public class TestRest {
         formid = formid.concat(tbcase.getClassification().name().toLowerCase());
 
         CaseDetailedData caseData = mapper.map(tbcase, CaseDetailedData.class);
-        PatientDetailedData patData = mapper.map(tbcase.getPatient(), PatientDetailedData.class);
 
-        Map<String, Object> doc = new HashMap<>();
-        doc.put("tbcase", caseData);
-        doc.put("patient", patData);
-
-        return formService.init(formid, doc, true);
+        return formService.init(formid, caseData, true);
     }
 
     @RequestMapping(value = "/query")

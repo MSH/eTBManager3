@@ -49,7 +49,7 @@ export default class RemoteForm extends React.Component {
 		const res = func();
 
         if (this.props.remoteFormMounted) {
-            this.props.remoteFormMounted(res.title);
+            this.props.remoteFormMounted(res.title, data.doc);
         }
 
         this.setState({ schema: res,
