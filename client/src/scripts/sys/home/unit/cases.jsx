@@ -6,7 +6,6 @@ import { RouteView } from '../../../components/router';
 import CasesUnit from './cases-unit';
 import AdvancedSearch from '../cases/advanced-search';
 
-
 const views = [
 	{
 		title: 'Active cases',

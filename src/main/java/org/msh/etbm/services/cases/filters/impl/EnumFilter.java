@@ -6,7 +6,10 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.MessageKey;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Filter for fields of enum type

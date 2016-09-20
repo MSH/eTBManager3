@@ -1,11 +1,8 @@
 import React from 'react';
-import CRUD from '../../../commons/crud';
 import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
 import { RemoteFormDialog } from '../../../components';
 import { app } from '../../../core/app';
-
-const crud = new CRUD('case');
 
 /**
  * Component that displays and handle notification form
@@ -24,7 +21,7 @@ export default class NotifForm extends React.Component {
 
 	getRemoteForm() {
 		const req = { diagnosisType: this.props.diagnosisType, caseClassification: this.props.classification };
-		return server.post('/api/tbl/case/initform', req).then(res => {
+		return server.post('/api/cases/case/newnotif/form', req).then(res => {
 			res.doc.patient = this.props.patient;
 			return res;
 		});
@@ -32,11 +29,16 @@ export default class NotifForm extends React.Component {
 
 	save(doc) {
 		const req = { doc: doc };
-
 		req.unitId = this.props.tbunit.id;
 
-		return crud.create(req).then(id => {
-			app.goto('/sys/home/cases/details?id=' + id);
+		return server.post('/api/cases/case/newnotif', req).then(res => {
+			if (res.errors) {
+				return Promise.reject(res.errors);
+			}
+
+			app.goto('/sys/home/cases/details?id=' + res.result);
+
+			return res.result;
 		});
 	}
 

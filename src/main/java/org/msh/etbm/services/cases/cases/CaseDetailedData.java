@@ -53,7 +53,11 @@ public class CaseDetailedData {
 
     private UnitData ownerUnit;
 
+    private UnitData transferOutUnit;
+
     private UnitData notificationUnit;
+
+    private boolean transferring;
 
     private boolean validated;
 
@@ -335,5 +339,21 @@ public class CaseDetailedData {
 
     public void setNotificationUnit(UnitData notificationUnit) {
         this.notificationUnit = notificationUnit;
+    }
+
+    public boolean isTransferring() {
+        return transferring;
+    }
+
+    public void setTransferring(boolean transferring) {
+        this.transferring = transferring;
+    }
+
+    public UnitData getTransferOutUnit() {
+        return transferOutUnit;
+    }
+
+    public void setTransferOutUnit(UnitData transferOutUnit) {
+        this.transferOutUnit = transferOutUnit;
     }
 }

@@ -18,6 +18,7 @@
       "property": "tbcase.registrationNumber",
       "label": "${TbCase.registrationNumber}",
       "type": "string",
+      "required": true,
       "size": { "md": 6 }
     },
     {

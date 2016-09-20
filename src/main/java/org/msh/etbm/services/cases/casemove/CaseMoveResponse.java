@@ -2,24 +2,46 @@ package org.msh.etbm.services.cases.casemove;
 
 import org.msh.etbm.services.cases.CaseActionResponse;
 
-import java.util.UUID;
-
 /**
  * Created by Mauricio on 14/09/2016.
  */
 public class CaseMoveResponse extends CaseActionResponse {
-    UUID unitToId;
 
-    CaseMoveResponse(UUID tbcaseId, String tbcaseDisplayString, UUID unitToId) {
-        super(tbcaseId, tbcaseDisplayString);
-        this.unitToId = unitToId;
+    String currentOwnerUnitName;
+    String currentOwnerUnitAU;
+
+    String previousOwnerUnitName;
+    String previousOwnerUnitAU;
+
+    public String getCurrentOwnerUnitName() {
+        return currentOwnerUnitName;
     }
 
-    public UUID getUnitToId() {
-        return unitToId;
+    public void setCurrentOwnerUnitName(String currentOwnerUnitName) {
+        this.currentOwnerUnitName = currentOwnerUnitName;
     }
 
-    public void setUnitToId(UUID unitToId) {
-        this.unitToId = unitToId;
+    public String getCurrentOwnerUnitAU() {
+        return currentOwnerUnitAU;
+    }
+
+    public void setCurrentOwnerUnitAU(String currentOwnerUnitAU) {
+        this.currentOwnerUnitAU = currentOwnerUnitAU;
+    }
+
+    public String getPreviousOwnerUnitName() {
+        return previousOwnerUnitName;
+    }
+
+    public void setPreviousOwnerUnitName(String previousOwnerUnitName) {
+        this.previousOwnerUnitName = previousOwnerUnitName;
+    }
+
+    public String getPreviousOwnerUnitAU() {
+        return previousOwnerUnitAU;
+    }
+
+    public void setPreviousOwnerUnitAU(String previousOwnerUnitAU) {
+        this.previousOwnerUnitAU = previousOwnerUnitAU;
     }
 }

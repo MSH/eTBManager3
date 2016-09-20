@@ -4,19 +4,19 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.newnotifof} ${CaseClassification.TB.confirmed}",
+  "title": "${cases.newnotifof} ${CaseClassification.NTM.confirmed}",
 
   "controls": [
     {
       "type": "date",
-      "label": "${TbCase.registrationDate.TB}",
+      "label": "${TbCase.registrationDate}",
       "property": "tbcase.registrationDate",
       "required": true,
       "size": { "md": 4 }
     },
     {
       "property": "tbcase.caseNumber",
-      "label": "${DisplayCaseNumber.TB}",
+      "label": "${TbCase.caseNumber}",
       "required": true,
       "type": "string",
       "size": { "md": 6 }

@@ -7127,6 +7127,9 @@ button.close {
 .mright {
   margin-right: 10px;
 }
+.mright-2x {
+  margin-right: 20px;
+}
 .mtop-2x {
   margin-top: 20px;
 }
@@ -7484,6 +7487,15 @@ button.close {
   background-color: #1e9614;
   color: #ffffff;
   border-radius: 2px;
+}
+.transf-alert {
+  margin-bottom: 5px;
+}
+.transf-alert {
+  margin-bottom: 5px;
+}
+.transf-alert a {
+  cursor: pointer;
 }
 @font-face {
   font-family: 'OpenSans';

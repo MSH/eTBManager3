@@ -3,11 +3,11 @@ package org.msh.etbm.services.cases.casemove;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.PrescribedMedicine;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.Tbunit;
+import org.msh.etbm.db.entities.TreatmentHealthUnit;
 import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.services.cases.CaseActionResponse;
-import org.msh.etbm.services.cases.treatment.TreatmentService;
-import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +30,7 @@ public class OnTreatCaseMoveService {
     EntityManager entityManager;
 
     @Autowired
-    TreatmentService treatmentService;
-
-    @Autowired
     UserRequestService userRequestService;
-
-    // TODO: [MSANTOS] Missing implementation of ownerunit selection
 
     /**
      * Execute the transfer of an on treat case to another health unit
@@ -43,18 +38,13 @@ public class OnTreatCaseMoveService {
     @Transactional
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
-        Unit unitTo = entityManager.find(Unit.class, req.getUnitToId());
+        Tbunit unitTo = entityManager.find(Tbunit.class, req.getUnitToId());
         Date moveDate = req.getMoveDate();
 
         // get the current treatment unit
         TreatmentHealthUnit currentTreatUnit = findTransferOutTreatUnit(tbcase);
         if (currentTreatUnit == null) {
             throw new EntityNotFoundException();
-        }
-
-        // check if user can modify the case
-        if (isWorkingUnit(tbcase)) {
-            throw new ForbiddenException();
         }
 
         // check state
@@ -82,19 +72,31 @@ public class OnTreatCaseMoveService {
         newhu.setTbcase(tbcase);
         newhu.setTransferring(true);
         tbcase.getTreatmentUnits().add(newhu);
-        newhu.setTbunit((Tbunit)unitTo);
+        newhu.setTbunit(unitTo);
 
+        // changes the period of current treat unit
         currentTreatUnit.getPeriod().intersect(prevPeriod);
 
+        // split periods of prescribed medicines
         splitPeriod(tbcase, newPeriod.getIniDate());
 
         tbcase.setTransferring(true);
-        tbcase.setOwnerUnit((Tbunit)unitTo);
+        tbcase.setTransferOutUnit(currentTreatUnit.getTbunit());
+        tbcase.setOwnerUnit(newhu.getTbunit());
 
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        return new CaseMoveResponse(tbcase.getId(), tbcase.getDisplayString(), unitTo.getId());
+        // create response
+        CaseMoveResponse res = new CaseMoveResponse();
+        res.setTbcaseId(tbcase.getId());
+        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
+        res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
+        res.setPreviousOwnerUnitName(tbcase.getTransferOutUnit().getName());
+        res.setPreviousOwnerUnitAU(tbcase.getTransferOutUnit().getAddress().getAdminUnit().getFullDisplayName());
+
+        return res;
     }
 
     /**
@@ -102,7 +104,7 @@ public class OnTreatCaseMoveService {
      * @return
      */
     @Transactional
-    public CaseActionResponse rollbackTransferOut(UUID tbcaseId) {
+    public CaseMoveResponse rollbackTransferOut(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
         if (tbcase.getTreatmentUnits().size() <= 1) {
             throw new EntityValidationException(null, null, "No unit to roll back transfer", null);
@@ -117,19 +119,22 @@ public class OnTreatCaseMoveService {
 
         tout.getPeriod().setEndDate(tin.getPeriod().getEndDate());
 
-        Date moveDate = tin.getPeriod().getIniDate();
+        Date date = tin.getPeriod().getIniDate();
 
-        /*TODO: [MSANTOS] what to do now that this date field doesn't exists?
-        Date iniContPhase = tbcase.getIniContinuousPhase();
-        if ((iniContPhase != null) && (!iniContPhase.equals(movdt))) {
-            prescribedMedicineHome.joinPeriods(movdt);
-        }
-        */
+        joinPeriods(tbcase, date);
 
-        tbcase.setState(CaseState.ONTREATMENT);
+        tbcase.setTransferOutUnit(null);
+        tbcase.setOwnerUnit(tout.getTbunit());
+        tbcase.setTransferring(false);
         entityManager.persist(tbcase);
 
-        return new CaseActionResponse(tbcase.getId(), tbcase.getDisplayString());
+        CaseMoveResponse res = new CaseMoveResponse();
+        res.setTbcaseId(tbcase.getId());
+        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
+        res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
+
+        return res;
     }
 
     /**
@@ -160,10 +165,20 @@ public class OnTreatCaseMoveService {
         hu.setTransferring(false);
         entityManager.persist(hu);
 
-        tbcase.setState(CaseState.ONTREATMENT);
+        // create response
+        CaseMoveResponse res = new CaseMoveResponse();
+        res.setPreviousOwnerUnitName(tbcase.getTransferOutUnit().getName());
+        res.setPreviousOwnerUnitAU(tbcase.getTransferOutUnit().getAddress().getAdminUnit().getFullDisplayName());
+        res.setTbcaseId(tbcase.getId());
+        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
+        res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
+
+        tbcase.setTransferOutUnit(null);
+        tbcase.setTransferring(false);
         entityManager.persist(tbcase);
 
-        return new CaseMoveResponse(tbcase.getId(), tbcase.getDisplayString(), hu.getTbunit().getId());
+        return res;
     }
 
     private TreatmentHealthUnit findTransferInHealthUnit(TbCase tbcase) {
@@ -190,34 +205,6 @@ public class OnTreatCaseMoveService {
         }
 
         return aux;
-    }
-
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
-     * Check if user is working on its working unit. It depends on the case state and the user profile.
-     * 1) If user can play activities of all other units, so it's the working unit;
-     * 2) If case is waiting for treatment, the user unit is compared to the case notification unit;
-     * 3) If case is on treatment, the user unit is compared to the case treatment unit;
-     * @return
-     */
-    private boolean isWorkingUnit(TbCase tbcase) {
-        UserWorkspace uw = entityManager.find(UserWorkspace.class, userRequestService.getUserSession().getUserWorkspaceId());
-
-        if (uw.isPlayOtherUnits()) {
-            return true;
-        }
-
-        Tbunit treatmentUnit = tbcase.getOwnerUnit();
-
-        if (treatmentUnit != null) {
-            return (treatmentUnit.getId().equals(uw.getUnit().getId()));
-        }
-
-        Tbunit unit = tbcase.getNotificationUnit();
-        if (unit != null) {
-            return ((unit != null) && (unit.getId().equals(uw.getUnit().getId())));
-        }
-
-        return true;
     }
 
     /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.

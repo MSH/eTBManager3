@@ -1241,6 +1241,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="OWNER_UNIT_ID" type="${type.id}"/>
+            <column name="TRANSFER_OUT_UNIT_ID" type="${type.id}"/>
             <column name="REGIMEN_ID" type="${type.id}"/>
             <column name="movedToIndividualized" type="${type.boolean}"/>
             <column name="extrapulmonaryType" type="VARCHAR(50)"/>

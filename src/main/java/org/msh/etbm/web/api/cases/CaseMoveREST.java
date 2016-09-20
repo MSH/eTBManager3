@@ -30,7 +30,7 @@ public class CaseMoveREST {
     }
 
     @RequestMapping(value = "/undotransferout/{caseId}", method = RequestMethod.GET)
-    public StandardResult unDoTransferOut(@PathVariable UUID caseId) {
+    public StandardResult undoTransferOut(@PathVariable UUID caseId) {
         service.rollbackTransferOut(caseId);
         return new StandardResult(null, null, true);
     }
