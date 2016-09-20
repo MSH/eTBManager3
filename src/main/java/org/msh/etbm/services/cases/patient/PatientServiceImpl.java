@@ -1,19 +1,9 @@
 package org.msh.etbm.services.cases.patient;
 
-import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.commons.entities.EntityServiceContext;
-import org.msh.etbm.commons.entities.EntityServiceImpl;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.services.cases.cases.CaseDetailedData;
-import org.msh.etbm.services.cases.cases.CaseItem;
-import org.msh.etbm.services.cases.cases.CaseQueryParams;
-import org.msh.etbm.services.cases.cases.CaseService;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

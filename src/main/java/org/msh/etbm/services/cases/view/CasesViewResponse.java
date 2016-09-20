@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases.view;
 
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
-
 import java.util.List;
 
 /**
@@ -11,22 +9,9 @@ import java.util.List;
 public class CasesViewResponse {
 
     /**
-     * List of the tags and its quantity per case
-     */
-    private List<CasesTagsReportItem> tags;
-
-    /**
      * List of places (admin units and units) with quantity of cases
      */
     private List<PlaceData> places;
-
-    public List<CasesTagsReportItem> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<CasesTagsReportItem> tags) {
-        this.tags = tags;
-    }
 
     public List<PlaceData> getPlaces() {
         return places;

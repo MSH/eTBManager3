@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { TreeView, Card, Fa } from '../../../components';
 import SessionUtils from '../../session-utils';
+import { server } from '../../../commons/server';
 
 
 /**
@@ -15,6 +16,28 @@ export default class CasesDistribution extends React.Component {
 		this.nodeRender = this.nodeRender.bind(this);
 	}
 
+	componentWillMount() {
+		const auId = this.props.scope === 'ADMINUNIT' ?
+			this.props.route.queryParam('id') : null;
+
+		const self = this;
+
+		this.fetchView(auId)
+		.then(res => self.setState({ root: res.places }));
+
+		this.setState({ root: null });
+	}
+
+
+	fetchView(adminUnitId) {
+		const params = adminUnitId ? '/adminunit?adminUnitId=' + adminUnitId : '';
+		return server.post('/api/cases/view' + params);
+	}
+
+	getNodes(parent) {
+		return server.post('/api/cases/view/places?parentId=' + parent.id);
+	}
+
 	nodeRender(node) {
 		const hash = node.type === 'UNIT' ?
 			SessionUtils.unitHash(node.id, '/cases') :
@@ -26,7 +49,6 @@ export default class CasesDistribution extends React.Component {
 	}
 
 	outerRender(content, node) {
-
 		function addRow(value) {
 			return <Col xs={2} className="text-right">{value ? value : '-'}</Col>;
 		}
@@ -64,9 +86,9 @@ export default class CasesDistribution extends React.Component {
 	}
 
 	render() {
-		const root = this.props.root;
+		const root = this.state.root;
 
-		if (!this.props.root) {
+		if (!root) {
 			return null;
 		}
 
@@ -76,7 +98,7 @@ export default class CasesDistribution extends React.Component {
 					<TreeView root={root}
 						title={this.titles()}
 						iconSize={1.4}
-						onGetNodes={this.props.onGetChildren}
+						onGetNodes={this.getNodes}
 						innerRender={this.nodeRender}
 						outerRender={this.outerRender}
 						iconLeaf={this.iconLeaf}
@@ -88,6 +110,6 @@ export default class CasesDistribution extends React.Component {
 }
 
 CasesDistribution.propTypes = {
-	root: React.PropTypes.array,
-	onGetChildren: React.PropTypes.func
+	scope: React.PropTypes.string,
+	route: React.PropTypes.object
 };

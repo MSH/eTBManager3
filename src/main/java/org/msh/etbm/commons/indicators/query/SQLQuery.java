@@ -3,14 +3,13 @@ package org.msh.etbm.commons.indicators.query;
 import org.msh.etbm.commons.indicators.ReportConfiguration;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
 import org.msh.etbm.commons.sqlquery.SQLExecException;
-import org.msh.etbm.commons.sqlquery.SQLQueryExec;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 
 import javax.sql.DataSource;
-import java.sql.*;
-import java.util.HashMap;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**

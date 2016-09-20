@@ -1,13 +1,11 @@
 package org.msh.etbm.services.cases.tag;
 
-import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.cases.cases.CaseItem;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +13,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- * Service to generate a report about the quantity of cases per tag
+ * Service to generate a list about the cases of a given tag
+ *
  * Created by Mauricio on 09/08/2016.
  */
 @Service
-public class TagCasesReportService {
+public class TagCasesQueryService {
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;

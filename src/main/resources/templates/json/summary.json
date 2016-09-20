@@ -1,0 +1,32 @@
+[
+  {
+    "id": "not-on-treat",
+    "name": "${cases.ongoing.notontreat}",
+    "filters": {
+      "case-state": "NOT_ONTREATMENT"
+    }
+  },
+  {
+    "id": "confirmed-ontreat",
+    "name": "${cases.confirmedOnTreatment}",
+    "filters": {
+      "case-state": "ONTREATMENT",
+      "diagnosis-type": "CONFIRMED"
+    }
+  },
+  {
+    "id": "confirmed-not-ontreat",
+    "name": "${cases.confirmedNotOnTreatment}",
+    "filters": {
+      "case-state": "NOT_ONTREATMENT",
+      "diagnosis-type": "CONFIRMED"
+    }
+  },
+  {
+    "id": "closed",
+    "name": "${cases.closed}",
+    "filters": {
+      "case-state": "CLOSED"
+    }
+  }
+]

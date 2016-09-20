@@ -21,7 +21,7 @@ import java.util.UUID;
  * Created by rmemoria on 17/6/16.
  */
 @Service
-public class CasesTagsReportService {
+public class TagsReportService {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -29,13 +29,22 @@ public class CasesTagsReportService {
     @Autowired
     UserRequestService userRequestService;
 
+
+    @Transactional
+    public List<CasesTagsReportItem> generate(TagsReportRequest req) {
+        switch (req.getScope()) {
+            case ADMINUNIT: return generateByAdminUnit(req.getScopeId());
+            case UNIT: return generateByUnit(req.getScopeId());
+            default: return generateByWorkspace();
+        }
+    }
+
     /**
      * Generate a report of quantity of cases per tag of the whole workspace
      *
      * @return list of tags and its quantity of cases
      */
-    @Transactional
-    public List<CasesTagsReportItem> generate() {
+    protected List<CasesTagsReportItem> generateByWorkspace() {
         String sql = "select t.id, t.name, t.sqlCondition is null, t.consistencyCheck, count(*) " +
                 "from tags_case tc " +
                 "inner join tag t on t.id = tc.tag_id " +
@@ -56,8 +65,7 @@ public class CasesTagsReportService {
      *
      * @return list of tags and its quantity of cases
      */
-    @Transactional
-    public List<CasesTagsReportItem> generateByAdminUnit(@NotNull UUID adminUnitId) {
+    protected List<CasesTagsReportItem> generateByAdminUnit(@NotNull UUID adminUnitId) {
         AdministrativeUnit adminUnit = entityManager.find(AdministrativeUnit.class, adminUnitId);
         String pidlevel = "pid" + (adminUnit.getCountryStructure().getLevel() - 1);
 
@@ -82,8 +90,7 @@ public class CasesTagsReportService {
      * @param unitId the ID of the unit to generate the report from
      * @return list of tags and its quantity of cases
      */
-    @Transactional
-    public List<CasesTagsReportItem> generateByUnit(@NotNull UUID unitId) {
+    protected List<CasesTagsReportItem> generateByUnit(@NotNull UUID unitId) {
         String sql = "select t.id, t.name, t.sqlCondition is null, t.consistencyCheck, count(*) " +
                 "from tags_case tc " +
                 "inner join tag t on t.id = tc.tag_id " +

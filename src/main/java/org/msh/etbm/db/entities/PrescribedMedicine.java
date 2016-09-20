@@ -1,13 +1,10 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.db.CaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Store information about a medicine prescribed to a case
@@ -57,7 +54,6 @@ public class PrescribedMedicine extends CaseEntity {
     public boolean isHasComments() {
         return (comments != null) && (!comments.isEmpty());
     }
-
 
 
     @Override

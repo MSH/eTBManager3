@@ -1,22 +1,17 @@
 package org.msh.etbm.services.cases.casemove;
 
-import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**

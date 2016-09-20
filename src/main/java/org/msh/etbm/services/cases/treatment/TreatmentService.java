@@ -13,7 +13,6 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.TreatmentHealthUnit;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;

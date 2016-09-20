@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases;
 
-import org.msh.etbm.db.enums.CaseState;
-
 import java.util.UUID;
 
 /**

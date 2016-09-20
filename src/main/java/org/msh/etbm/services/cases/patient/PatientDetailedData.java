@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.patient;
 
-import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.enums.Gender;
 

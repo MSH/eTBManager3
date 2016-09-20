@@ -76,7 +76,7 @@ export default class FrontPage extends React.Component {
 			</Fluidbar>
 			{
 				routes &&
-				<RouteView routes={routes} />
+				<RouteView routes={routes} viewProps={this.props.viewProps}/>
 			}
 			</div>
 			);
@@ -88,5 +88,6 @@ FrontPage.propTypes = {
 	title: React.PropTypes.any.isRequired,
 	subtitle: React.PropTypes.any,
 	views: React.PropTypes.array,
+	viewProps: React.PropTypes.any,
 	route: React.PropTypes.object
 };

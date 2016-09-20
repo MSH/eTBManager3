@@ -160,6 +160,11 @@ export default class SessionUtils {
 		return list[state];
 	}
 
+	static diagnosisTypeDisplay(diagType) {
+		const lst = app.getState().app.lists.DiagnosisType;
+		return lst[diagType];
+	}
+
 	/**
 	 * Display an address using the tag address
 	 */

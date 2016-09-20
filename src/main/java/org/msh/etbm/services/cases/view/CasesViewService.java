@@ -4,8 +4,6 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
-import org.msh.etbm.services.cases.tag.CasesTagsReportService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -26,9 +24,6 @@ import java.util.*;
 public class CasesViewService {
 
     @Autowired
-    CasesTagsReportService casesTagsReportService;
-
-    @Autowired
     UserRequestService userRequestService;
 
     @PersistenceContext
@@ -47,15 +42,6 @@ public class CasesViewService {
     @Transactional
     public CasesViewResponse generateView(UUID adminUnitId) {
         CasesViewResponse resp = new CasesViewResponse();
-
-        // load information about the tags
-        List<CasesTagsReportItem> tags;
-        if (adminUnitId == null) {
-            tags = casesTagsReportService.generate();
-        } else {
-            tags = casesTagsReportService.generateByAdminUnit(adminUnitId);
-        }
-        resp.setTags(tags);
 
         // load information about the places
         List<PlaceData> places = loadPlaces(adminUnitId);

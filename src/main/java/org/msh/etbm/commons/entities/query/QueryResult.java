@@ -11,7 +11,7 @@ public class QueryResult<E> {
     /**
      * Number of entities found
      */
-    private long count;
+    private Long count;
 
     /**
      * List of entities returned
@@ -26,11 +26,11 @@ public class QueryResult<E> {
     public QueryResult() {
     }
 
-    public long getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void setCount(long count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 

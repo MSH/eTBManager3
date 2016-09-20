@@ -1,9 +1,8 @@
 package org.msh.etbm.services.cases.filters.impl;
 
-import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.Filter;
-import org.msh.etbm.services.cases.filters.FilterContext;
-import org.msh.etbm.services.cases.filters.FilterGroup;
+import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.springframework.context.ApplicationContext;
 
 import java.util.ArrayList;
@@ -18,21 +17,13 @@ import java.util.Map;
  */
 public abstract class AbstractFilter implements Filter {
 
-    private String id;
     private String label;
-    private FilterGroup group;
     private ApplicationContext applicationContext;
+    private Messages messages;
 
-    public AbstractFilter(FilterGroup group, String id, String label) {
+    public AbstractFilter(String label) {
         super();
-        this.group = group;
-        this.id = id;
         this.label = label;
-    }
-
-    @Override
-    public String getId() {
-        return id;
     }
 
     @Override
@@ -41,18 +32,24 @@ public abstract class AbstractFilter implements Filter {
     }
 
     @Override
-    public FilterGroup getGroup() {
-        return group;
-    }
-
-    @Override
-    public Map<String, Object> getResources(FilterContext context, Map<String, Object> params) {
+    public Map<String, Object> getResources(Map<String, Object> params) {
         return null;
     }
 
     @Override
     public void initialize(ApplicationContext context) {
         this.applicationContext = context;
+    }
+
+    /**
+     * Return the instance of {@link Messages} for translation of messages to the correct locale
+     * @return instance of {@link Messages}
+     */
+    protected Messages getMessages() {
+        if (messages == null) {
+            messages = applicationContext.getBean(Messages.class);
+        }
+        return messages;
     }
 
     /**

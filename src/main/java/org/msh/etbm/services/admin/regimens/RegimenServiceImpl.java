@@ -1,7 +1,6 @@
 package org.msh.etbm.services.admin.regimens;
 
 
-import org.hibernate.engine.spi.QueryParameters;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;

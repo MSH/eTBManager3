@@ -9,6 +9,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +38,21 @@ public class Messages {
     public static final String MAX_SIZE = "javax.validation.constraints.Max.message";
     public static final String MIN_SIZE = "javax.validation.constraints.Min.message";
 
+    public static final String PERIOD_INIDATE_BEFORE = "period.msgdt1";
+
+    /**
+     * keys in the message bundle to get information about date format in the selected locale
+     */
+    // convert from string to date
+    public static final String LOCALE_DATE_FORMAT = "locale.dateFormat";
+    // mask in editing control
+    public static final String LOCALE_DATE_MASK = "locale.dateMask";
+    // hint to be displayed as a place holder in date controls
+    public static final String LOCALE_DATE_HINT = "locale.dateHint";
+    // convert a date to a displayable string
+    public static final String LOCALE_DISPLAY_DATE_FORMAT = "locale.displayDateFormat";
+
+
     /**
      * The pattern to get the keys to be replaced inside the string
      */
@@ -60,6 +78,7 @@ public class Messages {
         }
     }
 
+
     /**
      * Get the message using a message source resolvable object
      *
@@ -76,6 +95,7 @@ public class Messages {
         return res.getDefaultMessage();
     }
 
+
     /**
      * Evaluate a string and replace message keys between ${key} by the message in the resource bundle file
      * @param text the string to be evaluated
@@ -91,5 +111,44 @@ public class Messages {
         }
 
         return text;
+    }
+
+
+    /**
+     * Get the message from the given key and process the arguments inside the message
+     * @param msg
+     * @param args
+     * @return
+     */
+    public String format(String msg, Object... args) {
+        Object[] dest = new Object[args.length];
+        int index = 0;
+        for (Object obj: args) {
+            Object obj2 = obj instanceof Date ? dateToDisplay((Date)obj) : obj;
+            dest[index++] = obj2;
+        }
+
+        return MessageFormat.format(msg, dest);
+    }
+
+
+    /**
+     * Convert a date object to a displayable string
+     * @param dt the date to be displayed
+     * @return
+     */
+    public String dateToDisplay(Date dt) {
+        Locale locale = LocaleContextHolder.getLocale();
+        String pattern;
+        try {
+            pattern = messageSource.getMessage(LOCALE_DISPLAY_DATE_FORMAT, null, locale);
+        } catch (NoSuchMessageException e) {
+            LOGGER.info("Date format key in message bunldle not found for key " + LOCALE_DISPLAY_DATE_FORMAT +
+                    " in locale " + locale.getDisplayName());
+            pattern = "dd-MMM-yyyy";
+        }
+
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
+        return format.format(dt);
     }
 }

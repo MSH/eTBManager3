@@ -68,6 +68,10 @@ public class CommandTypes {
     public static final String CASES_TREAT_FOLLOWUP = "cases.treatfollowup";
     public static final String CASES_TREAT_INI = "cases.treatini";
     public static final String CASES_TREAT_UNDO = "cases.treatundo";
+    public static final String CASES_TREAT_EDIT = "cases.treatedit";
+    public static final String CASES_TREAT_ADDMED = "cases.treat-addmed";
+    public static final String CASES_TREAT_PRESCEDT = "cases.treat-prescedt";
+    public static final String CASES_TREAT_PRESCDEL = "cases.treat-prescdel";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
@@ -136,6 +140,10 @@ public class CommandTypes {
         ROOT.add(CASES_TREAT_FOLLOWUP);
         ROOT.add(CASES_TREAT_UNDO);
         ROOT.add(CASES_TREAT_INI);
+        ROOT.add(CASES_TREAT_EDIT);
+        ROOT.add(CASES_TREAT_ADDMED);
+        ROOT.add(CASES_TREAT_PRESCEDT);
+        ROOT.add(CASES_TREAT_PRESCDEL);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);
