@@ -1,10 +1,13 @@
 import React from 'react';
-import { Button, ButtonGroup, Grid, Row, Col, OverlayTrigger, Popover, Nav, NavItem, Badge, Alert } from 'react-bootstrap';
-import { Card, Profile, WaitIcon, ReactTable, Fa, CommandBar, Sidebar } from '../../../components';
+import { Nav, NavItem, Alert } from 'react-bootstrap';
+import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
+import { server } from '../../../commons/server';
 import moment from 'moment';
 import SessionUtils from '../../session-utils';
 
-
+/**
+ * Display the active cases of the selected unit. The unit ID is in the URL
+ */
 export default class CasesUnit extends React.Component {
 
 	constructor(props) {
@@ -24,12 +27,22 @@ export default class CasesUnit extends React.Component {
 	}
 
 	updateState(props) {
-		const cases = props.cases;
-		if (!cases) {
+		const newId = props.route.queryParam('id');
+		const id = this.state.id;
+
+		if (!id === newId) {
 			return;
 		}
 
-		this.setState({ sel: cases.presumptives && cases.presumptives.length > 0 ? 0 : 1 });
+		const self = this;
+
+		server.post('/api/cases/unit/' + newId)
+		.then(res => self.setState({
+				cases: res,
+				id: newId,
+				sel: res.presumptives && res.presumptives.length > 0 ? 0 : 1
+		}));
+
 	}
 
 	listCount(lst) {
@@ -38,12 +51,12 @@ export default class CasesUnit extends React.Component {
 	}
 
 	tbCasesRender() {
-		const lst = this.props.cases.tbCases;
+		const lst = this.state.cases.tbCases;
 		return this.confirmRender(lst);
 	}
 
 	drtbCasesRender() {
-		const lst = this.props.cases.drtbCases;
+		const lst = this.state.cases.drtbCases;
 		return this.confirmRender(lst);
 	}
 
@@ -93,7 +106,7 @@ export default class CasesUnit extends React.Component {
 	 * @return {React.Component} Component displaying the cases
 	 */
 	presumptiveRender() {
-		const lst = this.props.cases.presumptives;
+		const lst = this.state.cases.presumptives;
 
 		// is there any case to display ?
 		if (lst.length === 0) {
@@ -162,7 +175,7 @@ export default class CasesUnit extends React.Component {
 	}
 
     render() {
-		const cases = this.props.cases;
+		const cases = this.state.cases;
 		const sel = this.state.sel;
 
 		if (!cases) {
@@ -209,5 +222,5 @@ export default class CasesUnit extends React.Component {
 }
 
 CasesUnit.propTypes = {
-    cases: React.PropTypes.object
+    route: React.PropTypes.object.isRequired
 };

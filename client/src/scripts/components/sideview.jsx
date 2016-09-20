@@ -6,9 +6,8 @@
  */
 
 import React from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
-import { RouteView, router } from '../components/router';
-import { hasPerm } from '../sys/session';
+import { Badge } from 'react-bootstrap';
+import { isFunction } from '../commons/utils';
 
 
 // load style
@@ -16,27 +15,20 @@ import './sideview.less';
 
 export default class Sideview extends React.Component {
 
-    componentWillMount() {
-        this.updateRoutes(this.props.items);
-    }
+    hash(item) {
+		const hash = this.props.route.path + item.path;
 
-    componentWillReceiveProps(nextProps) {
-        this.updateRoutes(nextProps.items);
-    }
+		// check if there is any query params
+		let qry = this.props.queryParams;
+		if (isFunction(qry)) {
+			qry = qry(item);
+		}
 
-	/**
-	 * Create the route list from the list of items
-	 */
-	updateRoutes(items) {
-		const routes = items !== null ?
-            RouteView.createRoutes(items.filter(item => !item.separator)) :
-            null;
+		qry = qry ?
+			'?' + Object.keys(qry).map(p => p + '=' + encodeURIComponent(qry[p])).join('&') :
+			'';
 
-		this.setState({ routes: routes });
-	}
-
-    itemClick(item) {
-		window.location.hash = this.props.route.path + item.path;
+		return '#' + hash + qry;
     }
 
     /**
@@ -44,7 +36,7 @@ export default class Sideview extends React.Component {
      */
     getSelected() {
         const forpath = this.props.route.forpath;
-        const items = this.props.items;
+        const items = this.props.views;
 
         return forpath ?
             items.find(it => it.path === forpath) :
@@ -52,37 +44,43 @@ export default class Sideview extends React.Component {
     }
 
     render() {
-        if (!this.state.routes) {
+		// get the items to fill in the sidebar
+		const views = this.props.views;
+
+        if (!views) {
             return null;
         }
-		// get the items to fill in the sidebar
-		const items = this.props.items;
 
         return (
-			<div className="sideview">
-				<Nav onSelect={this.itemClick} activeKey={this.props.selected}>
-					{items.map((item, index) => {
-						if (item.separator) {
-							return <NavItem disabled key={index}><hr/></NavItem>;
-						}
+			<ul className="sideview nav">
+				{views.map((item, index) => {
+					if (!item.path) {
+						const title = item.title ? item.title : <hr/>;
+						return <li key={index} className="disabled">{title}</li>;
+					}
 
-						return (
-							<NavItem eventKey={item} key={index}>
+					return (
+						<li key={index} role="presentation">
+							<a href={this.hash(item)} className={item.className}>
 							{
 								item.icon && <i className={'fa fa-fw fa-' + item.icon} />
 							}
+							{
+								!!item.count && <Badge pullRight>{item.count}</Badge>
+							}
 							{item.title}
-							</NavItem>
-							);
-					})}
-				</Nav>
-			</div>
+							</a>
+						</li>
+						);
+				})}
+			</ul>
         );
     }
 }
 
 
 Sideview.propTypes = {
-	items: React.PropTypes.array.isRequired,
-	route: React.PropTypes.object.isRequired
+	views: React.PropTypes.array.isRequired,
+	route: React.PropTypes.object.isRequired,
+	queryParams: React.PropTypes.object
 };

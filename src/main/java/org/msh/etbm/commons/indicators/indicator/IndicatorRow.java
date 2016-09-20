@@ -1,11 +1,8 @@
 package org.msh.etbm.commons.indicators.indicator;
 
 import org.msh.etbm.commons.indicators.datatable.Row;
-import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
-import org.msh.etbm.commons.indicators.datatable.impl.RowImpl;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IndicatorRow extends Row {

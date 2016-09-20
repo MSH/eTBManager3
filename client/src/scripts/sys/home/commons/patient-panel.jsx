@@ -48,6 +48,7 @@ export default class PatientPanel extends React.Component {
 			</div>);
 
 		const patientName = SessionUtils.nameDisplay(patient.name);
+		const diagnosisType = SessionUtils.diagnosisTypeDisplay(tbcase.diagnosisType);
 
 		return (
 			<Fluidbar>
@@ -65,6 +66,11 @@ export default class PatientPanel extends React.Component {
 					</Row>
 					<Row>
 						<Col xs={6} sm={3} smOffset={3} md={2} mdOffset={1}>
+							<div className={'state-box dt-' + tbcase.diagnosisType}>
+							{diagnosisType}
+							</div>
+						</Col>
+						<Col xs={6} sm={3} md={2}>
 							<div className={'state-box ' + this.stateClass()}>
 							{stateName}
 							</div>

@@ -48,7 +48,7 @@ public class ErrorLogRepServiceImpl implements ErrorLogRepService {
     private QueryResult createQueryResult(List<ErrorLog> result) {
         QueryResult ret = new QueryResult<OnlineUsersRepData>();
         ret.setList(new ArrayList<UserSessionRepData>());
-        ret.setCount((result == null ? 0 : result.size()));
+        ret.setCount((result == null ? 0L : result.size()));
 
         for (ErrorLog e : result) {
             ret.getList().add(new ErrorLogRepData(e.getErrorDate(), e.getExceptionClass(), e.getExceptionMessage(), e.getUrl(), e.getUserName(), e.getStackTrace(), e.getWorkspace(), e.getRequest()));

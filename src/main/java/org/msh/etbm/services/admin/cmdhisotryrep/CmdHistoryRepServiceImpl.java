@@ -74,7 +74,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
 
         List<CommandHistory> list = qry.getResultList();
         ret.setList(new ArrayList<>());
-        ret.setCount(list.size());
+        ret.setCount((long)list.size());
 
         for (CommandHistory c : list) {
             String userName = c.getUser() != null ? c.getUser().getName() : null;

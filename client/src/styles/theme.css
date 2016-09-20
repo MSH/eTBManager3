@@ -7374,43 +7374,14 @@ button.close {
   text-align: center;
   width: 100%;
 }
-.tag-link {
-  cursor: pointer;
+.tag-autodanger .badge {
+  background-color: #ec451f;
 }
-.tag-link:hover {
-  background: #f0f0f0;
+.tag-manual .badge {
+  background-color: #869a92;
 }
-.tag-autodanger,
-.tag-manual,
-.tag-auto,
-.tag-subtitle {
-  display: block;
-  color: #909090;
-  margin-top: 2px;
-  margin-bottom: 2px;
-  clear: both;
-  padding: 10px;
-  border: 0 solid #fff;
-  border-style: solid;
-  border-left-width: 5px;
-  margin-bottom: 4px;
-  font-size: 13px;
-}
-.tag-autodanger {
-  border-left-color: #d9534f;
-  font-weight: bold;
-}
-.tag-manual {
-  border-left-color: #1f69ad;
-}
-.tag-auto {
-  border-left-color: #1e9614;
-}
-.tag-subtitle {
-  border-left-color: #909090;
-  font-weight: bold;
-  padding-left: 10px;
-  margin-left: -5px;
+.tag-auto .badge {
+  background-color: #528eda;
 }
 .tbl-hover .tbl-row:hover {
   background-color: #f8f8f8;

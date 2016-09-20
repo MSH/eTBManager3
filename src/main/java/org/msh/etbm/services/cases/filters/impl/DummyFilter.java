@@ -10,7 +10,7 @@ import java.util.Map;
  */
 public class DummyFilter extends AbstractFilter {
     public DummyFilter(FilterGroup group, String id, String label) {
-        super(group, id, label);
+        super(label);
     }
 
     @Override

@@ -3,16 +3,12 @@ package org.msh.etbm.services.cases.view.unitview;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.msh.etbm.db.PersonName;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.XpertResult;
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
-import org.msh.etbm.services.cases.tag.CasesTagsReportService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +29,6 @@ public class UnitViewService {
     @PersistenceContext
     EntityManager entityManager;
 
-    @Autowired
-    CasesTagsReportService casesTagsReportService;
 
     /**
      * Get data related to the unit view of the cases module
@@ -47,8 +41,6 @@ public class UnitViewService {
         UnitViewData data = new UnitViewData();
 
         loadCases(unitId, data);
-
-        loadTags(unitId, data);
 
         return data;
     }
@@ -153,18 +145,5 @@ public class UnitViewService {
         data.setRegistrationDate(tbcase.getRegistrationDate());
 
         return data;
-    }
-
-
-    /**
-     * Load the tags and its total of cases for the given unit
-     *
-     * @param unitId the unit ID to load tags from
-     * @param data   the view to include the results
-     */
-    private void loadTags(UUID unitId, UnitViewData data) {
-        List<CasesTagsReportItem> tags = casesTagsReportService.generateByUnit(unitId);
-
-        data.setTags(tags);
     }
 }

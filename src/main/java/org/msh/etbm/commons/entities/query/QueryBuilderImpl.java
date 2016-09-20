@@ -424,7 +424,7 @@ public class QueryBuilderImpl<E> implements QueryBuilder<E> {
                 res.setCount(getCount());
             } else {
                 // if there is no paging, avoid unnecessary database query
-                res.setCount(res.getList().size());
+                res.setCount((long)res.getList().size());
             }
 
             return res;

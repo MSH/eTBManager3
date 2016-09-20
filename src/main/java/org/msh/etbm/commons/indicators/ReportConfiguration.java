@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.indicators;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 
 
 /**

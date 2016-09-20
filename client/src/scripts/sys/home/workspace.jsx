@@ -36,6 +36,7 @@ export default class Workspace extends React.Component {
 				title={session.workspaceName}
 				type="ws"
 				views={views}
+				viewProps={{ scope: 'WORKSPACE' }}
 				route={this.props.route}
 			/>
 			);

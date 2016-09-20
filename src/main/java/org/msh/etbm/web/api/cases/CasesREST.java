@@ -1,10 +1,8 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.services.cases.cases.*;
-import org.msh.etbm.services.cases.comorbidity.ComorbidityFormData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;

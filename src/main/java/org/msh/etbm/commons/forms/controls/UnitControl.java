@@ -2,7 +2,6 @@ package org.msh.etbm.commons.forms.controls;
 
 import org.msh.etbm.commons.models.data.fields.FKUnitField;
 import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.fields.StringField;
 
 /**
  * Created by rmemoria on 25/7/16.

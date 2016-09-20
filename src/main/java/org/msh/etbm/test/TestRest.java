@@ -9,8 +9,6 @@ import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Laboratory;
-import org.msh.etbm.db.entities.Patient;
-import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;

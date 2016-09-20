@@ -73,6 +73,7 @@ export default class AdminUnit extends React.Component {
 				subtitle={SessionUtils.adminUnitLink(au, true, false)}
 				type="place"
 				views={views}
+				viewProps={{ scope: 'ADMINUNIT' }}
 				route={this.props.route}
 			/>
 			);

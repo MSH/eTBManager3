@@ -4,7 +4,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.tag.CaseTagsFormData;
 import org.msh.etbm.services.cases.tag.ManualCaseTagsService;
 import org.msh.etbm.services.cases.tag.TagCasesQueryParams;
-import org.msh.etbm.services.cases.tag.TagCasesReportService;
+import org.msh.etbm.services.cases.tag.TagCasesQueryService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -29,7 +29,7 @@ public class CaseTagsREST {
     ManualCaseTagsService service;
 
     @Autowired
-    TagCasesReportService tagCasesService;
+    TagCasesQueryService tagCasesQueryService;
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public StandardResult updateManualTags(@Valid @NotNull @RequestBody CaseTagsFormData req) {
@@ -39,7 +39,7 @@ public class CaseTagsREST {
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public QueryResult getTagCases(@Valid @RequestBody TagCasesQueryParams query) {
-        return tagCasesService.getTagCases(query);
+        return tagCasesQueryService.getTagCases(query);
     }
 
 }

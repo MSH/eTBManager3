@@ -1,14 +1,8 @@
-/*!
- * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
 
 .sideview {
     margin-top: 6px;
-    margin-bottom: 16px;
-//    min-height: 550px;
     margin-left: -5px;
+    font-size: 1.1em;
 
     li {
         margin-left: 4px;
@@ -22,9 +16,24 @@
     	}
     }
 
-    font-size: 1.1em;
+    li.disabled {
+        border-left: none !important;
+        margin-left:0;
+        color: #b0b0b0;
+        font-weight: bold;
+        font-size: 0.8em;
+        margin-top:8px;
+    }
+
     a {
-    	color: #8D9895;
+    	color: darken(#8D9895, 10%);
+        font-size:0.95em;
+
+        i {
+            color: #007b00;
+            font-weight: bold;
+            margin-right: 4px;
+        }
 	}
 
     li:hover {

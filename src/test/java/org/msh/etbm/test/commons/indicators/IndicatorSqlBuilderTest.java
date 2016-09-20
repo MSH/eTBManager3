@@ -26,7 +26,7 @@ public class IndicatorSqlBuilderTest {
         builder.setFieldList("myfield1, myfield2");
 
         Map<Filter, Object> filters = new HashMap<>();
-        Filter filter = new SimpleFieldFilter("id", "My filter", "myfield1");
+        Filter filter = new SimpleFieldFilter("My filter", "myfield1");
         filters.put(filter, "VALUE");
 
         builder.setFilters(filters);

@@ -1,24 +1,30 @@
 package org.msh.etbm.services.cases.search;
 
 import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.sqlquery.RowReader;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.commons.sqlquery.SQLQueryExec;
 import org.msh.etbm.db.PersonName;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.Gender;
+import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.commons.filters.Filter;
-import org.msh.etbm.services.cases.filters.FilterManager;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +40,7 @@ import java.util.UUID;
 public class CaseSearchService {
 
     @Autowired
-    FilterManager filterManager;
+    CaseFilters caseFilters;
 
     @Autowired
     DataSource dataSource;
@@ -42,18 +48,52 @@ public class CaseSearchService {
     @Autowired
     UserRequestService userRequestService;
 
+    @PersistenceContext
+    EntityManager entityManager;
 
+
+    /**
+     * Return the resources to the client in order to query cases
+     * @return instance of {@link CaseSearchInitResponse}
+     */
     public CaseSearchInitResponse init() {
         CaseSearchInitResponse resp = new CaseSearchInitResponse();
 
-        resp.setFilters(filterManager.getFiltersData());
+        resp.setFilters(caseFilters.getFiltersData());
 
         return resp;
     }
 
 
+    /**
+     * Execute the case search
+     * @param req
+     * @return
+     */
     public QueryResult<CaseData> searchCases(CaseSearchRequest req) {
-        SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
+        QueryResult<CaseData> res = new QueryResult<>();
+
+        List<CaseData> lst = loadCases(req);
+        res.setList(lst);
+
+        long count = calcCount(req);
+        res.setCount(count);
+
+        return res;
+    }
+
+
+    /**
+     * Load the cases based on the request object
+     * @param req instance of {@link CaseSearchRequest} containing the criteria
+     * @return
+     */
+    protected List<CaseData> loadCases(CaseSearchRequest req) {
+        if (req.getResultType() == ResultType.COUNT_ONLY) {
+            return null;
+        }
+
+        SQLQueryBuilder builder = createSQLQueryBuilder();
 
         // limit the number of records to return
         int maxResult = req.getPageSize() != null ? req.getPageSize() : 50;
@@ -62,36 +102,24 @@ public class CaseSearchService {
         builder.setFirstResult(firstResult);
         builder.setMaxResult(maxResult);
 
-        // add named joins to be used throughout the queries
-        builder.addNamedJoin("patient", "patient", "patient.id = tbcase.id");
-        builder.addNamedJoin("ownerUnit", "unit", "$this.id = tbcase.owner_unit_id");
-        builder.addNamedJoin("notifUnit", "unit", "$this.id = tbcase.notification_unit_id");
-        builder.addNamedJoin("regimen", "regimen", "$this.id = tbcase.regimen_id");
-
-        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
-
         // get fields to be selected
         builder.select("id, registrationNumber, caseNumber, state, classification, diagnosisType")
                 .join("patient", "$this.id = tbcase.patient_id")
-                .restrict("tbcase.workspace_id = ?", wsId)
                 .select("name, middleName, lastName, gender")
-                .join("unit", "$this.id = tbcase.owner_unit_id")
+                .join("ownerUnit")
                 .select("id, name, active")
-                .join("administrativeunit", "$this.id = $parent.adminunit_id")
+                .join("ownerAdminUnit")
                 .select("id, name, pid0, pid1, pid2, pid3, pname0, pname1, pname2, pname3");
 
-        Map<Filter, Object> filterValues = resolveFilters(req.getFilters());
+        // apply scope restrictions
+        applyScopeRestrictions(req, builder);
+        applyFilters(builder, req.getFilters());
 
-        for (Map.Entry<Filter, Object> entry: filterValues.entrySet()) {
-            Filter filter = entry.getKey();
-            Object value = entry.getValue();
-
-            filter.prepareFilterQuery(builder, value, null);
-        }
         builder.setOrderBy("patient.name");
 
         SQLQueryExec exec = new SQLQueryExec(dataSource);
 
+        // load cases and fill result
         List<CaseData> lst = exec.query(builder, new org.msh.etbm.commons.sqlquery.RowMapper<CaseData>() {
             @Override
             public CaseData map(RowReader reader) {
@@ -99,22 +127,103 @@ public class CaseSearchService {
             }
         });
 
-        int count = calcCount(builder);
-
-        return new QueryResult<>(count, lst);
+        return lst;
     }
 
-    protected int calcCount(SQLQueryBuilder builder) {
-        builder.clearSelect();
+
+    /**
+     * Apply restrictions to the query according to the scope (workspace, admin unit or unit)
+     * @param req instance of {@link CaseSearchRequest}
+     * @param builder instance of {@link SQLQueryBuilder}
+     */
+    protected void applyScopeRestrictions(CaseSearchRequest req, SQLQueryBuilder builder) {
+        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+        builder.restrict("tbcase.workspace_id = ?", wsId);
+
+        if (req.getScope() == null || req.getScope() == RequestScope.WORKSPACE) {
+            return;
+        }
+
+        if (req.getScopeId() == null) {
+            throw new EntityValidationException(req, "scopeId", null, Messages.NOT_NULL);
+        }
+
+        // set the scope by unit
+        if (req.getScope() == RequestScope.UNIT) {
+            builder.join("ownerUnit")
+                    .restrict("ownerUnit.id = ?", req.getScopeId());
+            return;
+        }
+
+        // assumes that scope is by administrative unit
+        AdministrativeUnit adminUnit = entityManager.find(AdministrativeUnit.class, req.getScopeId());
+        builder.join("ownerUnit")
+                .join("ownerAdminUnit")
+                .restrict("(ownerAdminUnit.pid" + adminUnit.getLevel() + " = ? or ownerAdminUnit.id = ?)",
+                        req.getScopeId(), req.getScopeId());
+    }
+
+
+    /**
+     * Apply the filters in the query builder
+     * @param builder
+     * @param filters
+     */
+    protected void applyFilters(SQLQueryBuilder builder, Map<String, Object> filters) {
+        Map<Filter, Object> filterValues = resolveFilters(filters);
+
+        // apply filters
+        for (Map.Entry<Filter, Object> entry : filterValues.entrySet()) {
+            Filter filter = entry.getKey();
+            Object value = entry.getValue();
+
+            filter.prepareFilterQuery(builder, value, null);
+        }
+    }
+
+
+    /**
+     * Create the query builder
+     * @return
+     */
+    protected SQLQueryBuilder createSQLQueryBuilder() {
+        SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
+
+        // add named joins to be used throughout the queries
+        builder.addNamedJoin("patient", "patient", "patient.id = tbcase.id");
+        builder.addNamedJoin("ownerUnit", "unit", "$this.id = tbcase.owner_unit_id");
+        builder.addNamedJoin("ownerAdminUnit", "administrativeunit", "$this.id = ownerUnit.adminunit_id");
+        builder.addNamedJoin("notifUnit", "unit", "$this.id = tbcase.notification_unit_id");
+        builder.addNamedJoin("regimen", "regimen", "$this.id = tbcase.regimen_id");
+
+        return builder;
+    }
+
+
+    /**
+     * Calculate the number of cases returned from the request
+     * @return
+     */
+    protected Long calcCount(CaseSearchRequest req) {
+        if (req.getResultType() == ResultType.CASES_ONLY) {
+            return null;
+        }
+
+        SQLQueryBuilder builder = createSQLQueryBuilder();
+
         builder.addGroupExpression("count(*)");
-        builder.setMaxResult(null);
-        builder.setFirstResult(null);
-        builder.setOrderBy(null);
+        applyScopeRestrictions(req, builder);
+        applyFilters(builder, req.getFilters());
 
         SQLQueryExec exec = new SQLQueryExec(dataSource);
-        return exec.queryForObject(builder, Integer.class);
+        return exec.queryForObject(builder, Long.class);
     }
 
+    /**
+     * Convert a database row data to an object data
+     * @param reader the instance of RowReader containing the row values
+     * @return instance of {@link CaseData}
+     */
     protected CaseData rowToCaseData(RowReader reader) {
         CaseData data = new CaseData();
 
@@ -175,7 +284,7 @@ public class CaseSearchService {
 
         if (filters != null) {
             for (Map.Entry<String, Object> entry: filters.entrySet()) {
-                Filter filter = filterManager.filterById(entry.getKey());
+                Filter filter = caseFilters.filterById(entry.getKey());
                 if (filter == null) {
                     throw new InvalidArgumentException("Filter not found: " + entry.getKey());
                 }
@@ -185,4 +294,5 @@ public class CaseSearchService {
 
         return res;
     }
+
 }

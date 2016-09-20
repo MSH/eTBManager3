@@ -1,5 +1,7 @@
 
 import React from 'react';
+import { isFunction } from '../commons/utils';
+
 
 // pattern to extract the params from the route
 const paramsPattern = /{(\w+)}/g;
@@ -148,8 +150,14 @@ export class RouteView extends React.Component {
 		const path = this._currentPath();
 		const forpath = path.replace(route.pathExp, '');
 
+		// check if view props passed by the parent is a function
+		let vp = this.props.viewProps;
+		if (isFunction(vp)) {
+			vp = vp(route.data);
+		}
+
 		// set the properties to be passed to the view that will be rendered
-		const viewProps = Object.assign({}, this.props.viewProps);
+		const viewProps = Object.assign({}, vp);
 		viewProps.route = {
 			params: params ? params : {},
 			path: this.context.path + route.data.path,
@@ -175,7 +183,7 @@ RouteView.propTypes = {
     loadingView: React.PropTypes.object,
     pageNotFoundView: React.PropTypes.func,
     routes: React.PropTypes.object,
-    viewProps: React.PropTypes.object
+    viewProps: React.PropTypes.any
 };
 
 RouteView.childContextTypes = {
@@ -296,25 +304,6 @@ export class Route {
 		}
 
 		return null;
-
-		// this._resPromise = new Promise((resolve, reject) => {
-		// 	if (data.view) {
-		// 		return resolve(data.view);
-		// 	}
-
-		// 	if (data.viewResolver) {
-		// 		return resolve(data.viewResolver(data.path, this));
-		// 	}
-		// 	return reject('No view or viewResolver');
-		// });
-
-		// const self = this;
-		// this._resPromise.then(res => {
-		// 	delete self._resPromise;
-		// 	return res;
-		// });
-
-		// return this._resPromise;
 	}
 }
 

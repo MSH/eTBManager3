@@ -1,7 +1,8 @@
 package org.msh.etbm.services.cases.casemove;
 
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.treatment.TreatmentService;

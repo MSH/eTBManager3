@@ -1,6 +1,5 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.services.cases.caseclose.CaseCloseData;
 import org.msh.etbm.services.cases.casemove.CaseMoveRequest;
 import org.msh.etbm.services.cases.casemove.CaseMoveService;
 import org.msh.etbm.services.security.permissions.Permissions;

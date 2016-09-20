@@ -1,8 +1,5 @@
 package org.msh.etbm.commons.indicators.indicator;
 
-import org.msh.etbm.commons.indicators.datatable.Column;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public interface IndicatorColumn {

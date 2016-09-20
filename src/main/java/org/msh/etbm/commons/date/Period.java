@@ -148,15 +148,23 @@ public class Period {
 
 
     /**
-     * Check if a period is empty, i.e, if either the initial or the final date was not defined
+     * Check if a period is empty, i.e, if either the initial and the final date was not defined
      *
      * @return true if period is empty, otherwise false
      */
     @JsonIgnore
     public boolean isEmpty() {
-        return (iniDate == null) || (endDate == null);
+        return (iniDate == null) && (endDate == null);
     }
 
+    /**
+     * Return true if period is broken, i.e, if the initial date or the final date is null
+     * @return
+     */
+    @JsonIgnore
+    public boolean isBroken() {
+        return (iniDate == null) || (endDate == null);
+    }
 
     /**
      * Cut the period from the given date until the final date, turning in a small period
@@ -198,7 +206,7 @@ public class Period {
      * @param newIniDate the initial date of the period
      */
     public void movePeriod(Date newIniDate) {
-        if (isEmpty()) {
+        if (isBroken()) {
             return;
         }
 
@@ -218,7 +226,7 @@ public class Period {
      * @param days
      */
     public void movePeriod(int days) {
-        if (isEmpty()) {
+        if (isBroken()) {
             return;
         }
 
@@ -280,7 +288,7 @@ public class Period {
      * @return true if period is inside period p
      */
     public boolean isInside(Period p) {
-        if (isEmpty()) {
+        if (isBroken()) {
             return false;
         }
 

@@ -13,29 +13,17 @@ import java.util.Map;
  */
 public class SimpleFieldFilter implements Filter {
 
-    private String id;
     private String label;
     private String fieldName;
 
-    public SimpleFieldFilter(String id, String label, String fieldName) {
-        this.id = id;
+    public SimpleFieldFilter(String label, String fieldName) {
         this.label = label;
         this.fieldName = fieldName;
     }
 
     @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
     public String getLabel() {
         return label;
-    }
-
-    @Override
-    public FilterGroup getGroup() {
-        return FilterGroup.DATA;
     }
 
     @Override
@@ -57,7 +45,7 @@ public class SimpleFieldFilter implements Filter {
     }
 
     @Override
-    public Map<String, Object> getResources(FilterContext context, Map<String, Object> params) {
+    public Map<String, Object> getResources(Map<String, Object> params) {
         return null;
     }
 }

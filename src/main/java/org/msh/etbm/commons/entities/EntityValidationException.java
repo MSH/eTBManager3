@@ -1,9 +1,7 @@
 package org.msh.etbm.commons.entities;
 
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 
 /**
  * Exception generated inside an entity to indicate that an error occured and operation

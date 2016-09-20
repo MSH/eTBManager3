@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.casemove;
 
-import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.services.cases.CaseActionResponse;
 
 import java.util.UUID;

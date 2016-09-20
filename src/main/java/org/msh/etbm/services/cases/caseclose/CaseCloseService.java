@@ -42,7 +42,7 @@ public class CaseCloseService {
 
         validateClose(tbcase, data);
 
-        if ((tbcase.getTreatmentPeriod() != null) && (!tbcase.getTreatmentPeriod().isEmpty())) {
+        if ((tbcase.getTreatmentPeriod() != null) && (!tbcase.getTreatmentPeriod().isBroken())) {
             treatmentService.cropTreatmentPeriod(tbcase.getId(), new Period(tbcase.getTreatmentPeriod().getIniDate(), data.getOutcomeDate()));
         }
 
@@ -68,7 +68,7 @@ public class CaseCloseService {
     public ReopenCaseResponse reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
-        if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
+        if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isBroken())) {
             tbcase.setState(CaseState.NOT_ONTREATMENT);
         } else {
             tbcase.setState(CaseState.ONTREATMENT);
