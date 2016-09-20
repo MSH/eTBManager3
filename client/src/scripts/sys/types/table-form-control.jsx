@@ -106,7 +106,7 @@ export default class TableFormControl extends React.Component {
 			rows[i] = this.getNewRow(i);
 		}
 
-		return (<div className="table-form">{rows.map(row => row)}</div>);
+		return (<div className="table-form">{rows}</div>);
 	}
 
 	getNewRow(key) {
