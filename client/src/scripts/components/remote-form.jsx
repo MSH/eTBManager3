@@ -36,17 +36,17 @@ export default class RemoteForm extends React.Component {
         this.setState({ fetching: true });
 
         const p = isFunction(remotePath) ? remotePath() : server.get(remotePath);
-		p.then(this.resolveForm);
+        p.then(this.resolveForm);
     }
 
     /**
      * Resolve a form by a given string containing java script code
      */
     resolveForm(data) {
-		/* eslint no-new-func: "off" */
-		const func = new Function('', 'return ' + data.schema + ';');
+        /* eslint no-new-func: "off" */
+        const func = new Function('', 'return ' + data.schema + ';');
 
-		const res = func();
+        const res = func();
 
         if (this.props.onLoadForm) {
             this.props.onLoadForm(res, data.doc);

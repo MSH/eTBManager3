@@ -10,16 +10,16 @@ var view;
 
 export function init() {
 
-	if (view) {
-		return view;
-	}
+    if (view) {
+        return view;
+    }
 
-	return new Promise((resolve) => {
-		require.ensure(['./home'], function(require) {
-			const Home = require('./home');
-			view = Home;
-			resolve(Home);
-		});
+    return new Promise((resolve) => {
+        require.ensure(['./home'], function(require) {
+            const Home = require('./home');
+            view = Home;
+            resolve(Home);
+        });
 
-	});
+    });
 }

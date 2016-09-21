@@ -2,12 +2,12 @@ package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.MessageKey;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +29,9 @@ public class EnumFilter extends AbstractFilter {
 
     @Override
     public String getFilterType() {
-        return isMultiSelectionSupported() ? "multi-select" : "select";
+        return isMultiSelectionSupported() ?
+                FilterTypes.MULTI_SELECT :
+                FilterTypes.SELECT;
     }
 
 
@@ -83,11 +85,7 @@ public class EnumFilter extends AbstractFilter {
     }
 
     @Override
-    public Map<String, Object> getResources(Map<String, Object> params) {
-        if (params == null && isRemoteOptions()) {
-            return null;
-        }
-
+    public List<Item> getOptions() {
         Enum[] values = (Enum[])enumClass.getEnumConstants();
 
         List<Item> options = new ArrayList<>();
@@ -103,6 +101,7 @@ public class EnumFilter extends AbstractFilter {
             options.add(new Item(val, txt));
         }
 
-        return Collections.singletonMap("options", options);
+        return options;
     }
+
 }

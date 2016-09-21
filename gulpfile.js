@@ -36,7 +36,7 @@ gulp.task('default', function() {
 gulp.task('build', function() {
     return runSequence(
         'clean',
-        'client-lint',
+        'eslint',
         ['client-msgs', 'bootstrap-fonts', 'client-copy', 'less'],
         'webpack-prod',
         // transpile is being called in order to be analysed by sonar
@@ -100,7 +100,7 @@ gulp.task('client-copy', function() {
 /**
  * Check JS quality of syntax in client code
  */
-gulp.task('client-lint', function() {
+gulp.task('eslint', function() {
     return gulp.src(clientPath + '/src/scripts/**/*.{js,jsx}')
         .pipe(eslint())
         .pipe(eslint.format())

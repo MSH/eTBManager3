@@ -42,6 +42,12 @@ public class CaseSearchRequest {
      */
     private ResultType resultType;
 
+    /**
+     * If true, it will also include filter description in the result of the query
+     * to make it easier to display its result
+     */
+    private boolean addFilterDisplay;
+
     public RequestScope getScope() {
         return scope;
     }
@@ -88,5 +94,13 @@ public class CaseSearchRequest {
 
     public void setResultType(ResultType resultType) {
         this.resultType = resultType;
+    }
+
+    public boolean isAddFilterDisplay() {
+        return addFilterDisplay;
+    }
+
+    public void setAddFilterDisplay(boolean addFilterDisplay) {
+        this.addFilterDisplay = addFilterDisplay;
     }
 }

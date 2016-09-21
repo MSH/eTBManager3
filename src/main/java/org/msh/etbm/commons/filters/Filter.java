@@ -44,4 +44,11 @@ public interface Filter {
      * @return the resources to be sent to the client
      */
     Map<String, Object> getResources(Map<String, Object> params);
+
+    /**
+     * Return a displayable string of the filter value
+     * @param value the filter value
+     * @return string representation of the value to be displayed
+     */
+    String valueToDisplay(Object value);
 }

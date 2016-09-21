@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col, Input, Fade, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import Success from './success';

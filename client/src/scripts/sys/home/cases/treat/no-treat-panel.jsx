@@ -11,50 +11,50 @@ import Events from '../events';
  */
 export default class NoTreatPanel extends React.Component {
 
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.startStandard = this.startStandard.bind(this);
-		this.startIndiv = this.startIndiv.bind(this);
-		this.state = {};
-	}
+        this.startStandard = this.startStandard.bind(this);
+        this.startIndiv = this.startIndiv.bind(this);
+        this.state = {};
+    }
 
-	startStandard() {
-		app.dispatch(Events.startStandardRegimen, this.props.tbcase);
-	}
+    startStandard() {
+        app.dispatch(Events.startStandardRegimen, this.props.tbcase);
+    }
 
-	startIndiv() {
-		app.dispatch(Events.startInvidRegimen, this.props.tbcase);
-	}
+    startIndiv() {
+        app.dispatch(Events.startInvidRegimen, this.props.tbcase);
+    }
 
-	render() {
-		const popup = (
-				<Popover id="ppmenu">
-					<ButtonGroup vertical>
-						<Button bsStyle="link" onClick={this.startStandard}>{__('regimens.standard')}</Button>
-						<Button bsStyle="link" onClick={this.startIndiv}>{__('regimens.individualized')}</Button>
-					</ButtonGroup>
-				</Popover>
-			);
+    render() {
+        const popup = (
+                <Popover id="ppmenu">
+                    <ButtonGroup vertical>
+                        <Button bsStyle="link" onClick={this.startStandard}>{__('regimens.standard')}</Button>
+                        <Button bsStyle="link" onClick={this.startIndiv}>{__('regimens.individualized')}</Button>
+                    </ButtonGroup>
+                </Popover>
+            );
 
-		return (
-			<Card>
-				<Fa icon="exclamation-triangle" className="text-warning"/>
-				<span className="text-muted">
-				{__('cases.details.notreatment')}
-				</span>
-				<div className="mtop">
-					<OverlayTrigger key="ppstarttreat" trigger="click" placement="bottom"
-						overlay={popup} rootClose>
-							<Button bsSize="large">{__('cases.details.starttreatment')}</Button>
-					</OverlayTrigger>
-				</div>
-				<StartRegimen />
-			</Card>
-			);
-	}
+        return (
+            <Card>
+                <Fa icon="exclamation-triangle" className="text-warning"/>
+                <span className="text-muted">
+                {__('cases.details.notreatment')}
+                </span>
+                <div className="mtop">
+                    <OverlayTrigger key="ppstarttreat" trigger="click" placement="bottom"
+                        overlay={popup} rootClose>
+                            <Button bsSize="large">{__('cases.details.starttreatment')}</Button>
+                    </OverlayTrigger>
+                </div>
+                <StartRegimen />
+            </Card>
+            );
+    }
 }
 
 NoTreatPanel.propTypes = {
-	tbcase: React.PropTypes.object.isRequired
+    tbcase: React.PropTypes.object.isRequired
 };

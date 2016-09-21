@@ -4,7 +4,6 @@ import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.sqlquery.RowReader;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
@@ -19,6 +18,7 @@ import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.filters.CaseFilters;
+import org.msh.etbm.services.cases.filters.FilterDisplay;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,8 +70,8 @@ public class CaseSearchService {
      * @param req
      * @return
      */
-    public QueryResult<CaseData> searchCases(CaseSearchRequest req) {
-        QueryResult<CaseData> res = new QueryResult<>();
+    public CaseSearchResponse execute(CaseSearchRequest req) {
+        CaseSearchResponse res = new CaseSearchResponse();
 
         List<CaseData> lst = loadCases(req);
         res.setList(lst);
@@ -79,9 +79,36 @@ public class CaseSearchService {
         long count = calcCount(req);
         res.setCount(count);
 
+        // check if it should include displayable data about the filters
+        if (req.isAddFilterDisplay()) {
+            Map<String, FilterDisplay> filtersDisplay = generateFilterDescriptions(req.getFilters());
+            res.setFilters(filtersDisplay);
+        }
+
         return res;
     }
 
+
+    /**
+     * Generate a map with the filter ID and its displayable format
+     * @param filters the map with filter ID and its filter value
+     */
+    protected Map<String, FilterDisplay> generateFilterDescriptions(Map<String, Object> filters) {
+        if (filters == null) {
+            return null;
+        }
+
+        Map<String, FilterDisplay> res = new HashMap<>();
+
+        for (Map.Entry<String, Object> entry: filters.entrySet()) {
+            FilterDisplay f = caseFilters.filterToDisplay(entry.getKey(), entry.getValue());
+            if (f != null) {
+                res.put(entry.getKey(), f);
+            }
+        }
+
+        return res;
+    }
 
     /**
      * Load the cases based on the request object

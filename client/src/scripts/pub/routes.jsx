@@ -15,15 +15,15 @@ import ConfirmEmail from './confirm-email';
  */
 export default class Routes extends React.Component {
 
-	render() {
-		const routes = RouteView.createRoutes([
-			{ path: '/login', view: Login },
+    render() {
+        const routes = RouteView.createRoutes([
+            { path: '/login', view: Login },
             { path: '/forgotpwd', view: ForgotPwd },
             { path: '/selfreg', view: SelfReg },
             { path: '/resetpwd/{id}', view: ResetPwd },
             { path: '/confirmemail/{id}', view: ConfirmEmail }
-		]);
+        ]);
 
-		return <RouteView routes={routes} />;
-	}
+        return <RouteView routes={routes} />;
+    }
 }

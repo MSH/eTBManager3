@@ -12,17 +12,17 @@ import PersonNameControl from './person-name-control';
 import AddressControl from './address-control';
 
 function register() {
-	Form.registerType([
-		AdminUnitControl,
-		YesNoControl,
-		UnitControl,
-		MultiSelect,
-		ListBoxControl,
-		TableFormControl,
-		MultiListBoxControl,
-		PersonNameControl,
-		AddressControl
-		]);
+    Form.registerType([
+        AdminUnitControl,
+        YesNoControl,
+        UnitControl,
+        MultiSelect,
+        ListBoxControl,
+        TableFormControl,
+        MultiListBoxControl,
+        PersonNameControl,
+        AddressControl
+    ]);
 }
 
 export { register };

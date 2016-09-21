@@ -78,7 +78,7 @@ public class SummaryService {
         csreq.setScope(req.getScope());
         csreq.setScopeId(req.getScopeId());
 
-        QueryResult<CaseData> res = caseSearchService.searchCases(csreq);
+        QueryResult<CaseData> res = caseSearchService.execute(csreq);
 
         String name = messages.eval(item.getName());
 

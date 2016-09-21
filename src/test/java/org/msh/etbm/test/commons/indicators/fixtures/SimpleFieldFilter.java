@@ -48,4 +48,9 @@ public class SimpleFieldFilter implements Filter {
     public Map<String, Object> getResources(Map<String, Object> params) {
         return null;
     }
+
+    @Override
+    public String valueToDisplay(Object value) {
+        return null;
+    }
 }

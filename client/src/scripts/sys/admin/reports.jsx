@@ -12,40 +12,40 @@ import ErrorLog from './reports/errorlog';
  * @type {Array}
  */
 const menu = [
-	{
-		title: __('admin.websessions'),
-		icon: 'users',
-		perm: 'ONLINE',
-		path: '/onlineusers',
-		view: OnlineUsers
-	},
-	{
-		title: __('admin.reports.usersession'),
-		icon: 'file-text-o',
-		perm: 'USERSESREP',
-		path: '/usersessions',
-		view: UserSessions
-	},
-	{
-		title: 'Command history',
-		icon: 'file-text-o',
-		perm: 'CMDHISTORY',
-		path: '/cmdhistory',
-		view: CommandHistory
-	},
-	{
-		title: 'Command statistics',
-		icon: 'file-text-o',
-		perm: 'CMDSTATISTICS',
-		path: 'cmdstatistics'
-	},
-	{
-		title: 'Error log report',
-		icon: 'bug',
-		perm: 'ERRORLOGREP',
-		path: '/errorlog',
-		view: ErrorLog
-	}
+    {
+        title: __('admin.websessions'),
+        icon: 'users',
+        perm: 'ONLINE',
+        path: '/onlineusers',
+        view: OnlineUsers
+    },
+    {
+        title: __('admin.reports.usersession'),
+        icon: 'file-text-o',
+        perm: 'USERSESREP',
+        path: '/usersessions',
+        view: UserSessions
+    },
+    {
+        title: 'Command history',
+        icon: 'file-text-o',
+        perm: 'CMDHISTORY',
+        path: '/cmdhistory',
+        view: CommandHistory
+    },
+    {
+        title: 'Command statistics',
+        icon: 'file-text-o',
+        perm: 'CMDSTATISTICS',
+        path: 'cmdstatistics'
+    },
+    {
+        title: 'Error log report',
+        icon: 'bug',
+        perm: 'ERRORLOGREP',
+        path: '/errorlog',
+        view: ErrorLog
+    }
 ];
 
 /**
@@ -53,17 +53,17 @@ const menu = [
  */
 export default class Reports extends React.Component {
 
-	render() {
-		return (
-			<PageContent route={this.props.route}
-				menu={menu}
-				title={__('admin') + ' - ' + __('admin.reports')}
-				path="/sys/admin/reports" />
-			);
-	}
+    render() {
+        return (
+            <PageContent route={this.props.route}
+                menu={menu}
+                title={__('admin') + ' - ' + __('admin.reports')}
+                path="/sys/admin/reports" />
+            );
+    }
 }
 
 Reports.propTypes = {
-	app: React.PropTypes.object,
-	route: React.PropTypes.object
+    app: React.PropTypes.object,
+    route: React.PropTypes.object
 };

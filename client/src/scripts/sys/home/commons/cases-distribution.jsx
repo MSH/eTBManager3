@@ -11,105 +11,105 @@ import { server } from '../../../commons/server';
  */
 export default class CasesDistribution extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.nodeRender = this.nodeRender.bind(this);
-	}
+    constructor(props) {
+        super(props);
+        this.nodeRender = this.nodeRender.bind(this);
+    }
 
-	componentWillMount() {
-		const auId = this.props.scope === 'ADMINUNIT' ?
-			this.props.route.queryParam('id') : null;
+    componentWillMount() {
+        const auId = this.props.scope === 'ADMINUNIT' ?
+            this.props.route.queryParam('id') : null;
 
-		const self = this;
+        const self = this;
 
-		this.fetchView(auId)
-		.then(res => self.setState({ root: res.places }));
+        this.fetchView(auId)
+        .then(res => self.setState({ root: res.places }));
 
-		this.setState({ root: null });
-	}
+        this.setState({ root: null });
+    }
 
 
-	fetchView(adminUnitId) {
-		const params = adminUnitId ? '/adminunit?adminUnitId=' + adminUnitId : '';
-		return server.post('/api/cases/view' + params);
-	}
+    fetchView(adminUnitId) {
+        const params = adminUnitId ? '/adminunit?adminUnitId=' + adminUnitId : '';
+        return server.post('/api/cases/view' + params);
+    }
 
-	getNodes(parent) {
-		return server.post('/api/cases/view/places?parentId=' + parent.id);
-	}
+    getNodes(parent) {
+        return server.post('/api/cases/view/places?parentId=' + parent.id);
+    }
 
-	nodeRender(node) {
-		const hash = node.type === 'UNIT' ?
-			SessionUtils.unitHash(node.id, '/cases') :
-			SessionUtils.adminUnitHash(node.id, '/cases');
+    nodeRender(node) {
+        const hash = node.type === 'UNIT' ?
+            SessionUtils.unitHash(node.id, '/cases') :
+            SessionUtils.adminUnitHash(node.id, '/cases');
 
-		return (
-			<a href={hash} className="lnk-label">{node.name}</a>
-			);
-	}
+        return (
+            <a href={hash} className="lnk-label">{node.name}</a>
+            );
+    }
 
-	outerRender(content, node) {
-		function addRow(value) {
-			return <Col xs={2} className="text-right">{value ? value : '-'}</Col>;
-		}
+    outerRender(content, node) {
+        function addRow(value) {
+            return <Col xs={2} className="text-right">{value ? value : '-'}</Col>;
+        }
 
-		return (
-			<Row key={node.id} className="tbl-cell">
-				<Col xs={4}>{content}</Col>
-				{addRow(node.suspectCount)}
-				{addRow(node.tbCount)}
-				{addRow(node.drtbCount)}
-				{addRow(node.ntmCount)}
-			</Row>
-			);
-	}
+        return (
+            <Row key={node.id} className="tbl-cell">
+                <Col xs={4}>{content}</Col>
+                {addRow(node.suspectCount)}
+                {addRow(node.tbCount)}
+                {addRow(node.drtbCount)}
+                {addRow(node.ntmCount)}
+            </Row>
+            );
+    }
 
-	nodeInfo(node) {
-		return { leaf: !node.hasChildren };
-	}
+    nodeInfo(node) {
+        return { leaf: !node.hasChildren };
+    }
 
-	iconLeaf(node) {
-		const icon = node.type === 'UNIT' ? 'hospital-o' : 'circle-thin';
-		return <Fa icon={icon} size={1.4} className="text-muted" />;
-	}
+    iconLeaf(node) {
+        const icon = node.type === 'UNIT' ? 'hospital-o' : 'circle-thin';
+        return <Fa icon={icon} size={1.4} className="text-muted" />;
+    }
 
-	titles() {
-		return (
-			<Row key="title" className="tbl-title">
-				<Col xs={4}>{__('cases.title.places')}</Col>
-				<Col xs={2} className="text-right">{__('cases.suspects')}</Col>
-				<Col xs={2} className="text-right">{__('cases.title.tbcases')}</Col>
-				<Col xs={2} className="text-right">{__('cases.title.drtbcases')}</Col>
-				<Col xs={2} className="text-right">{__('cases.title.ntmcases')}</Col>
-			</Row>
-			);
-	}
+    titles() {
+        return (
+            <Row key="title" className="tbl-title">
+                <Col xs={4}>{__('cases.title.places')}</Col>
+                <Col xs={2} className="text-right">{__('cases.suspects')}</Col>
+                <Col xs={2} className="text-right">{__('cases.title.tbcases')}</Col>
+                <Col xs={2} className="text-right">{__('cases.title.drtbcases')}</Col>
+                <Col xs={2} className="text-right">{__('cases.title.ntmcases')}</Col>
+            </Row>
+            );
+    }
 
-	render() {
-		const root = this.state.root;
+    render() {
+        const root = this.state.root;
 
-		if (!root) {
-			return null;
-		}
+        if (!root) {
+            return null;
+        }
 
-		return (
-			<Card title={__('cases.distrib.places')}>
-				<Grid fluid>
-					<TreeView root={root}
-						title={this.titles()}
-						iconSize={1.4}
-						onGetNodes={this.getNodes}
-						innerRender={this.nodeRender}
-						outerRender={this.outerRender}
-						iconLeaf={this.iconLeaf}
-						nodeInfo={this.nodeInfo} />
-				</Grid>
-			</Card>
-			);
-	}
+        return (
+            <Card title={__('cases.distrib.places')}>
+                <Grid fluid>
+                    <TreeView root={root}
+                        title={this.titles()}
+                        iconSize={1.4}
+                        onGetNodes={this.getNodes}
+                        innerRender={this.nodeRender}
+                        outerRender={this.outerRender}
+                        iconLeaf={this.iconLeaf}
+                        nodeInfo={this.nodeInfo} />
+                </Grid>
+            </Card>
+            );
+    }
 }
 
 CasesDistribution.propTypes = {
-	scope: React.PropTypes.string,
-	route: React.PropTypes.object
+    scope: React.PropTypes.string,
+    route: React.PropTypes.object
 };

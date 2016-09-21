@@ -1,5 +1,5 @@
 var request = require('supertest'),
-	Promise = require('bluebird');
+    Promise = require('bluebird');
 
 
 /**
@@ -27,7 +27,7 @@ function StandardAgent(url) {
     /**
      * Sends a get to the server that will respond with a json data
      * @param  {[type]}   basepath  the base path of the request over the server
-     * @param  {Function} callback 	function called when it's finished
+     * @param  {Function} callback     function called when it's finished
      */
     this.get = function(basepath, opt) {
         var req = this.agent
@@ -37,19 +37,19 @@ function StandardAgent(url) {
 
         // include authentication token
         if (this.authToken) {
-        	req.set('X-Auth-Token', this.authToken);
+            req.set('X-Auth-Token', this.authToken);
         }
 
         return new Promise( function (resolve, reject) {
-        	req.end(function(err, res) {
-        		if (err) {
+            req.end(function(err, res) {
+                if (err) {
                     console.log(err);
-        			reject(err);
-        		}
-        		else {
-        			resolve(res);
-        		}
-        	});
+                    reject(err);
+                }
+                else {
+                    resolve(res);
+                }
+            });
         });
     };
 
@@ -70,18 +70,18 @@ function StandardAgent(url) {
 
         // include authentication token
         if (this.authToken) {
-        	req.set('X-Auth-Token', this.authToken);
+            req.set('X-Auth-Token', this.authToken);
         }
 
         return new Promise( function (resolve, reject) {
-        	req.end(function (err, res) {
-        		if (err) {
-        			reject(err);
-        		}
-        		else {
-        			resolve(res);
-        		}
-        	});
+            req.end(function (err, res) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(res);
+                }
+            });
         });
     };
 
@@ -94,18 +94,18 @@ function StandardAgent(url) {
 
         // include authentication token
         if (this.authToken) {
-        	req.set('X-Auth-Token', this.authToken);
+            req.set('X-Auth-Token', this.authToken);
         }
 
         return new Promise( function (resolve, reject) {
-        	req.end(function (err, res) {
-        		if (err) {
-        			reject(err);
-        		}
-        		else {
-        			resolve(res);
-        		}
-        	});
+            req.end(function (err, res) {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(res);
+                }
+            });
         });
     };
 

@@ -8,36 +8,36 @@ import { Collapse, Row } from 'react-bootstrap';
  */
 export default class CollapseRow extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.onClick = this.onClick.bind(this);
-		this.state = { collapse: this.props.collapse };
-	}
+    constructor(props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
+        this.state = { collapse: this.props.collapse };
+    }
 
-	/**
-	 * Called when user clicks on the row
-	 * @param  {[type]} evt [description]
-	 * @return {[type]}     [description]
-	 */
-	onClick(evt) {
-		if (!evt.isPropagationStopped()) {
-			this.setState({ collapse: !this.state.collapse });
-		}
-	}
+    /**
+     * Called when user clicks on the row
+     * @param  {[type]} evt [description]
+     * @return {[type]}     [description]
+     */
+    onClick(evt) {
+        if (!evt.isPropagationStopped()) {
+            this.setState({ collapse: !this.state.collapse });
+        }
+    }
 
-	render() {
-		const props = Object.assign({}, this.props);
-		delete props.collapsable;
+    render() {
+        const props = Object.assign({}, this.props);
+        delete props.collapsable;
 
-		return (
-			<Row {...props} onClick={this.onClick} className={'collapse-row ' + props.className}>
-					{this.props.children}
-					<Collapse in={!this.state.collapse}>
-						{this.props.collapsable}
-					</Collapse>
-			</Row>
-			);
-	}
+        return (
+            <Row {...props} onClick={this.onClick} className={'collapse-row ' + props.className}>
+                    {this.props.children}
+                    <Collapse in={!this.state.collapse}>
+                        {this.props.collapsable}
+                    </Collapse>
+            </Row>
+            );
+    }
 }
 
 
@@ -51,5 +51,5 @@ CollapseRow.propTypes = {
 };
 
 CollapseRow.defaultProps = {
-	collapse: true
+    collapse: true
 };

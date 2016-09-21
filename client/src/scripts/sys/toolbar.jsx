@@ -59,7 +59,7 @@ export default class Toolbar extends React.Component {
     render() {
         var Logo = (
             <a>
-                <img src="images/logo2.png"></img>
+                <img src="images/logo2.png" />
             </a>
         );
 
@@ -67,7 +67,7 @@ export default class Toolbar extends React.Component {
 
         const settings = (
             <span className="tb-icon">
-                <i className="fa fa-cogs"></i>
+                <i className="fa fa-cogs" />
             </span>
         );
 

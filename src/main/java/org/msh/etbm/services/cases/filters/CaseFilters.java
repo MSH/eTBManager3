@@ -8,10 +8,7 @@ import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.InfectionSite;
-import org.msh.etbm.services.cases.filters.impl.EnumFilter;
-import org.msh.etbm.services.cases.filters.impl.GenderFilter;
-import org.msh.etbm.services.cases.filters.impl.ModelFieldOptionsFilter;
-import org.msh.etbm.services.cases.filters.impl.TagFilter;
+import org.msh.etbm.services.cases.filters.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -39,6 +36,7 @@ public class CaseFilters {
     public static final String PULMONARY_FORMS = "pulmonary-forms";
     public static final String EXTRAPULMONARY_FORMS = "extrapulmonary-forms";
     public static final String TAG = "tag";
+    public static final String SUMMARY = "summary";
 
 
     @Autowired
@@ -111,6 +109,7 @@ public class CaseFilters {
 
     private void createOtherFilters(Map<String, Filter> filters) {
         filters.put(TAG, new TagFilter());
+        filters.put(SUMMARY, new SummaryFilter());
     }
 
     private Map<String, Filter> createGroup(String messageKey) {
@@ -187,6 +186,27 @@ public class CaseFilters {
         }
 
         return res;
+    }
+
+
+    /**
+     * Convert a filter to its display representation
+     * @param filterId
+     * @param value
+     * @return
+     */
+    public FilterDisplay filterToDisplay(String filterId, Object value) {
+        Filter filter = filterById(filterId);
+        if (filter == null) {
+            return null;
+        }
+
+        String name = messages.eval(filter.getLabel());
+        String valueDisplay = filter.valueToDisplay(value);
+
+        FilterDisplay f = new FilterDisplay(name, valueDisplay);
+
+        return f;
     }
 
 }
