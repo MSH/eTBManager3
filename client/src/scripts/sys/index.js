@@ -3,7 +3,7 @@ import { authenticate, isAuthenticated, initSession } from './session';
 
 export function init() {
 
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		require.ensure(['./routes', './types/init'], require => {
 			var Routes = require('./routes');
 			var Types = require('./types/init');
@@ -12,7 +12,6 @@ export function init() {
 
 			// initialize session
 			initSession();
-
 
 			// check if user was already authenticated, to avoid multiple requests to the server
 			// of data already requested
@@ -24,8 +23,9 @@ export function init() {
 			return authenticate()
 			.then(() => {
 				// return the list of routes
-				resolve(Routes);
-			});
+				return resolve(Routes);
+			})
+			.catch(err => reject(err));
 		});
 
 	});
