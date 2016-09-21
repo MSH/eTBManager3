@@ -116,7 +116,7 @@ public class ModelDAO {
         }
 
         // validate new record data
-        ValidationResult validationRes = compiledModel.validate(values, resources);
+        ValidationResult validationRes = compiledModel.validate(rec.getValues(), resources);
 
         // there are errors from validation ?
         if (validationRes.getErrors().hasErrors()) {

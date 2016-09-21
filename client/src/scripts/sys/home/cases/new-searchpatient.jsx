@@ -182,7 +182,7 @@ export default class SearchPatient extends React.Component {
 					{
 						lst.length > 0 &&
 							<ReactTable values={lst}
-								onClick={this.props.onSelect}
+								onClick={this.selectPatient}
 								columns={[
 									{
 										title: __('Patient'),

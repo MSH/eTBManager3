@@ -29,7 +29,7 @@ import MaskedInput from './masked-input';
 import CommandBar from './command-bar';
 import Errors from './errors';
 import PopupControl from './popup-control';
-import RemoteFormDialog from './remote-form-dialog';
+import RemoteForm from './remote-form';
 import CaseState from './case-state';
 import observer from './observer';
 import Sideview from './sideview';
@@ -61,7 +61,7 @@ export { Callout,
 	CommandBar,
 	Errors,
 	PopupControl,
-	RemoteFormDialog,
+	RemoteForm,
 	CaseState,
 	observer,
 	Sideview

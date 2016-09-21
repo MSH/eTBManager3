@@ -24,6 +24,7 @@ public class FieldListOptions extends FieldOptions {
             return false;
         }
 
+        // TODO [MSANTOS]: REMOVER ESTE IF E EXECUTAR APENAS O CODIGO DO ELSE, QUANDO A LISTA DE ENUMS ESTIVER FUNCIONANDO.
         if (value instanceof Enum) {
             for (Item item: list) {
                 if (item.getId().equals(((Enum)value).name())) {

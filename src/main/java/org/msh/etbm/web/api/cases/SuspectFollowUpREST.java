@@ -3,14 +3,16 @@ package org.msh.etbm.web.api.cases;
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.services.cases.suspectfollowup.SuspectFollowUpData;
 import org.msh.etbm.services.cases.suspectfollowup.SuspectFollowUpService;
 import org.msh.etbm.services.security.permissions.Permissions;
+import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by msantos on 17/9/16.
@@ -35,4 +37,12 @@ public class SuspectFollowUpREST {
         return suspectFollowUpService.initForm(classification);
     }
 
+    @RequestMapping(value = "/suspectfollowup", method = RequestMethod.POST)
+    public StandardResult save(@Valid @NotNull @RequestBody SuspectFollowUpData req) {
+        if (req.getTbcaseId() == null) {
+            throw new InvalidArgumentException("TbCase id (caseId) must be informed");
+        }
+
+        return suspectFollowUpService.save(req);
+    }
 }

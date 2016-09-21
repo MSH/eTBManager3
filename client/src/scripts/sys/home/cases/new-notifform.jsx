@@ -1,7 +1,7 @@
 import React from 'react';
 import { server } from '../../../commons/server';
 import { Grid, Col, Row } from 'react-bootstrap';
-import { RemoteFormDialog } from '../../../components';
+import { FormDialog } from '../../../components';
 import { app } from '../../../core/app';
 
 /**
@@ -16,7 +16,8 @@ export default class NotifForm extends React.Component {
 	}
 
 	componentWillMount() {
-
+		this.setState({ patientId: this.props.patient.id });
+		delete this.props.patient.id;
 	}
 
 	getRemoteForm() {
@@ -30,6 +31,7 @@ export default class NotifForm extends React.Component {
 	save(doc) {
 		const req = { doc: doc };
 		req.unitId = this.props.tbunit.id;
+		req.patientId = this.state.patientId;
 
 		return server.post('/api/cases/case/newnotif', req).then(res => {
 			if (res.errors) {
@@ -47,7 +49,7 @@ export default class NotifForm extends React.Component {
 			<Grid fluid className="mtop-2x">
 				<Row>
 					<Col mdOffset={2} md={9}>
-						<RemoteFormDialog
+						<FormDialog
 							wrapType="card"
 							remotePath={this.getRemoteForm}
 							onCancel={this.props.onCancel}

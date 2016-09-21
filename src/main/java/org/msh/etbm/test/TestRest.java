@@ -9,10 +9,13 @@ import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Laboratory;
+import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
+import org.msh.etbm.services.cases.cases.CaseDetailedData;
+import org.msh.etbm.services.cases.patient.PatientDetailedData;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +29,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by rmemoria on 9/5/15.
@@ -179,6 +179,20 @@ public class TestRest {
     public FormInitResponse initForm() {
         Map<String, Object> doc = new HashMap<>();
         return formService.init("patient-edt", doc, false);
+    }
+
+    @RequestMapping(value = "/form/readonly/{id}")
+    @Authenticated
+    public FormInitResponse initFormReadOnly(@PathVariable UUID id) {
+        TbCase tbcase = entityManager.find(TbCase.class, id);
+
+        String formid = "newnotif-";
+        formid = formid.concat(tbcase.getDiagnosisType().name().toLowerCase()).concat("-");
+        formid = formid.concat(tbcase.getClassification().name().toLowerCase());
+
+        CaseDetailedData caseData = mapper.map(tbcase, CaseDetailedData.class);
+
+        return formService.init(formid, caseData, true);
     }
 
     @RequestMapping(value = "/query")

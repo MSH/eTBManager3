@@ -3,7 +3,7 @@ import React from 'react';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 
-import { RemoteFormDialog } from '../../../components';
+import { FormDialog } from '../../../components';
 
 /**
  * The page controller of the public module
@@ -13,23 +13,22 @@ export default class SuspectFollowUp extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { doc: {} };
 		this.onConfirm = this.onConfirm.bind(this);
 		this.getRemoteForm = this.getRemoteForm.bind(this);
 	}
 
 	getRemoteForm() {
 		return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification).then(res => {
-			// prepare doc here
+			res.doc.classification = this.props.classification;
 			return res;
 		});
 	}
 
-	onConfirm() {
-		const doc = this.state.doc;
-		doc.tbcaseId = this.props.tbcase.id;
+	onConfirm(doc) {
+		const req = { doc: doc };
+		req.tbcaseId = this.props.tbcase.id;
 
-		return server.post('pathhere', doc)
+		return server.post('/api/cases/case/suspectfollowup', req)
 				.then(res => {
 					if (!res.success) {
 						return Promise.reject(res.errors);
@@ -50,7 +49,7 @@ export default class SuspectFollowUp extends React.Component {
 		}
 
 		return (
-			<RemoteFormDialog
+			<FormDialog
 				wrapType="modal"
 				remotePath={this.getRemoteForm}
 				onCancel={this.props.onClose}

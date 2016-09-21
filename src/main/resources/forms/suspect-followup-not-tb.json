@@ -3,7 +3,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.suspect.followup}",
+  "title": "${cases.suspect.followup} - ${TbCase.outcome}",
 
   "controls": [
     {

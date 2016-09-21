@@ -65,7 +65,7 @@ export default class CaseComorbidities extends React.Component {
 
 		// create doc
 		const doc = {};
-		trueOnes.map(item => { doc[item.property] = true; });
+		trueOnes.forEach(item => { doc[item.property] = true; });
 
 		this.setState({ uidata: trueOnes, doc: doc });
 	}
@@ -103,7 +103,7 @@ export default class CaseComorbidities extends React.Component {
 	save() {
 		return this.update(this.props.tbcase.id, this.state.doc).then(() => {
 			const uidata = [];
-			fschema.controls.map(item => {
+			fschema.controls.forEach(item => {
 				if (this.state.doc[item.property]) {
 					uidata.push(item);
 				}
@@ -129,7 +129,7 @@ export default class CaseComorbidities extends React.Component {
 		// put 3 or less cols in each row
 		const rows = [];
 		let cols = [];
-		data.map((item, index) => {
+		data.forEach((item, index) => {
 			cols.push(
 				<Col md={6} key={item.field + '' + index}>
 					<Card>
@@ -144,7 +144,7 @@ export default class CaseComorbidities extends React.Component {
 				rows.push(
 					<Row key={index}>
 						{
-							cols.map(col => col)
+							cols
 						}
 					</Row>
 					);
