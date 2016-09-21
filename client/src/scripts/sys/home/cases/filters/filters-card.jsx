@@ -125,8 +125,10 @@ export default class FilterCard extends React.Component {
 	}
 
     render() {
+		const onClose = this.props.onClose;
+
         return (
-            <Card title={this.props.title} closeBtn onClose={this.props.onClose}>
+            <Card title={this.props.title} closeBtn={!!onClose} onClose={onClose}>
 					{
 						this.renderFilters()
 					}

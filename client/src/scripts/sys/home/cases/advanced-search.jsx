@@ -32,7 +32,9 @@ export default class AdvancedSearch extends React.Component {
 	searchCases(filters) {
 		const req = {
 			pageSize: 50,
-			filters: {}
+			filters: {},
+			scope: this.props.scope,
+			scopeId: this.props.scopeId
 		};
 
 		// check if filters were declared
@@ -78,7 +80,7 @@ export default class AdvancedSearch extends React.Component {
 					btnLabel={__('action.search')}
 					filters={filters}
 					onSubmit={this.searchCases}
-					onClose={this.props.onClose} />
+					/>
 
 				{
 					this.state.controller &&
@@ -93,5 +95,6 @@ export default class AdvancedSearch extends React.Component {
 }
 
 AdvancedSearch.propTypes = {
-	onClose: React.PropTypes.func
+	scope: React.PropTypes.string.isRequired,
+	scopeId: React.PropTypes.string
 };

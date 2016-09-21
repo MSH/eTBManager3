@@ -101,7 +101,7 @@ export default class CasesSideView extends React.Component {
 
 		// display the summary
 		if (data.summary) {
-			res.push({ title: 'Summary' });
+			res.push({ title: __('global.summary') });
 			data.summary.forEach(it => {
 				res.push({
 					title: it.name,
@@ -113,7 +113,7 @@ export default class CasesSideView extends React.Component {
 
 		// display the tags
 		if (data.tags) {
-			res.push({ title: 'Tags' });
+			res.push({ title: __('admin.tags') });
 			data.tags.forEach(it => {
 				res.push({
 					title: it.name,

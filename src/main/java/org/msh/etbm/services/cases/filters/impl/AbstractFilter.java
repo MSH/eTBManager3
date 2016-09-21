@@ -1,14 +1,13 @@
 package org.msh.etbm.services.cases.filters.impl;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.Filter;
+import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.springframework.context.ApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Simple filter implementation to act as an starting point implementation
@@ -33,6 +32,12 @@ public abstract class AbstractFilter implements Filter {
 
     @Override
     public Map<String, Object> getResources(Map<String, Object> params) {
+        List<Item> options = getOptions();
+
+        if (options != null) {
+            return Collections.singletonMap("options", options);
+        }
+
         return null;
     }
 
@@ -129,7 +134,67 @@ public abstract class AbstractFilter implements Filter {
         }
     }
 
+    /**
+     * Return the instance of ApplicationContext, which provides an interface to return
+     * managed beans by the spring framework
+     *
+     * @return instance of ApplicationContext
+     */
     public ApplicationContext getApplicationContext() {
         return applicationContext;
+    }
+
+
+    /**
+     * Return the list of options for select or multiselect controls
+     *
+     * @return List of {@link Item} objects
+     */
+    public List<Item> getOptions() {
+        return null;
+    }
+
+    @Override
+    public String valueToDisplay(Object value) {
+        String type = getFilterType();
+        if (!FilterTypes.SELECT.equals(type) && !FilterTypes.MULTI_SELECT.equals(type)) {
+            return getMessages().get("global.notdef");
+        }
+
+        List<Item> options = getOptions();
+
+        String s = convertValuesToDisplay(value, options);
+
+        return s;
+    }
+
+    protected String convertValuesToDisplay(Object value, Collection<Item> options) {
+        if (value == null) {
+            return "";
+        }
+
+        // check if value is a collection
+        if (value instanceof Collection) {
+            Collection lst = (Collection)value;
+
+            StringBuilder s = new StringBuilder();
+            String delim = "";
+            for (Object val: lst) {
+                s.append(delim)
+                        .append(convertValuesToDisplay(val, options));
+                delim = ", ";
+            }
+
+            return s.toString();
+        }
+
+        // search for the item in the list of options
+        for (Item item: options) {
+            if (item.getId().toString().equals(value.toString())) {
+                return item.getName();
+            }
+        }
+
+        return getMessages().get("NotValid");
     }
 }

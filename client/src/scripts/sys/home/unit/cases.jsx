@@ -6,6 +6,7 @@ import { RouteView } from '../../../components/router';
 import CasesUnit from './cases-unit';
 import AdvancedSearch from '../cases/advanced-search';
 import TagCasesList from '../cases/tag-cases-list';
+import SummaryList from '../commons/summary-list';
 
 
 const views = [
@@ -14,18 +15,25 @@ const views = [
 		icon: 'clone',
 		path: '/active',
 		default: true,
-		view: CasesUnit
+		view: CasesUnit,
+		sideView: true
 	},
 	{
 		title: 'Advanced search',
 		icon: 'search',
 		path: '/search',
-		view: AdvancedSearch
+		view: AdvancedSearch,
+		sideView: true
 	},
 	{
 		title: __('admin.tags'),
 		path: '/tag',
 		view: TagCasesList
+	},
+	{
+		title: __('global.summary'),
+		path: '/summary',
+		view: SummaryList
 	}
 ];
 
@@ -56,6 +64,7 @@ export default class Cases extends React.Component {
 		const unitId = this.props.route.queryParam('id');
 
 		const routes = RouteView.createRoutes(views);
+		const sideViews = views.filter(v => v.sideView);
 
 		return (
 			<Grid fluid>
@@ -63,11 +72,11 @@ export default class Cases extends React.Component {
 				<Col sm={3}>
 					<CasesSideView route={this.props.route}
 						scope="UNIT"
-						views={views}
+						views={sideViews}
 						scopeId={unitId}/>
 				</Col>
 				<Col sm={9}>
-					<RouteView routes={routes} viewProps={{ scope: 'UNIT' }} />
+					<RouteView routes={routes} viewProps={{ scope: 'UNIT', scopeId: unitId }} />
 				</Col>
 			</Row>
 			</Grid>

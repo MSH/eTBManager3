@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Row, Col } from 'react-bootstrap';
 import { Profile, WaitIcon, ReactTable } from '../../../components';
 
 import U from '../../session-utils';
@@ -75,8 +75,14 @@ export default class CasesList extends React.Component {
 					// show case list
 					!controller.isFetching() && controller.getList() && controller.getList().length > 0 ?
 					<span>
-						<CrudCounter controller={controller} className="mtop"/>
-						<CrudPagination controller={controller} showCounter className="mtop" />
+						<Row>
+							<Col sm={6}>
+								<CrudCounter controller={controller} className="mtop-=2x text-muted"/>
+							</Col>
+							<Col sm={6}>
+								<CrudPagination controller={controller} showCounter className="pull-right" />
+							</Col>
+						</Row>
 						<ReactTable className="mtop-2x"
 							columns={[
 								{
