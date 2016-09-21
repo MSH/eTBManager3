@@ -9,11 +9,11 @@ var view;
 
 export function init() {
 
-	return view || new Promise(resolve => {
-		require.ensure('./routes', function(require) {
-			var Routes = require('./routes');
-			view = Routes;
-			resolve(Routes);
-		});
-	});
+    return view || new Promise(resolve => {
+        require.ensure('./routes', function(require) {
+            var Routes = require('./routes');
+            view = Routes;
+            resolve(Routes);
+        });
+    });
 }

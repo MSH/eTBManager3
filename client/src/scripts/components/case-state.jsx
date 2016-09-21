@@ -8,27 +8,27 @@ import React from 'react';
 
 export default class CaseState extends React.Component {
 
-	render() {
-		let style;
+    render() {
+        let style;
 
-		switch (this.props.state.id) {
-			case 'NOT_ONTREATMENT':
-				style = 'warning';
-				break;
-			case 'ONTREATMENT':
-				style = 'danger';
-				break;
-			case 'CLOSED':
-				style = 'default';
-				break;
-			default:
-				return null;
-		}
+        switch (this.props.state.id) {
+            case 'NOT_ONTREATMENT':
+                style = 'warning';
+                break;
+            case 'ONTREATMENT':
+                style = 'danger';
+                break;
+            case 'CLOSED':
+                style = 'default';
+                break;
+            default:
+                return null;
+        }
 
-		return <Label bsStyle={style}>{this.props.state.name}</Label>;
-	}
+        return <Label bsStyle={style}>{this.props.state.name}</Label>;
+    }
 }
 
 CaseState.propTypes = {
-	state: React.PropTypes.object.isRequired
+    state: React.PropTypes.object.isRequired
 };

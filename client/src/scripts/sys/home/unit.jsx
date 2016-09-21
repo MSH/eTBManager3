@@ -12,64 +12,64 @@ import Inventory from './unit/inventory';
 
 
 const views = [
-	{
-		title: __('general'),
-		path: '/general',
-		view: General,
-		default: true
-	},
-	{
-		title: __('cases'),
-		path: '/cases',
-		view: Cases
-	},
-	{
-		title: __('meds.inventory'),
-		path: '/inventory',
-		view: Inventory
-	}
+    {
+        title: __('general'),
+        path: '/general',
+        view: General,
+        default: true
+    },
+    {
+        title: __('cases'),
+        path: '/cases',
+        view: Cases
+    },
+    {
+        title: __('meds.inventory'),
+        path: '/inventory',
+        view: Inventory
+    }
 ];
 
 
 export default class Unit extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
 
-	componentWillMount() {
-		const id = this.props.route.queryParam('id');
-		this.fetchData(id);
-	}
+    componentWillMount() {
+        const id = this.props.route.queryParam('id');
+        this.fetchData(id);
+    }
 
-	fetchData(id) {
-		const self = this;
+    fetchData(id) {
+        const self = this;
 
-		// get data of the unit
-		server.get('/api/tbl/unit/' + id)
-		.then(res => self.setState({ data: res }));
-	}
+        // get data of the unit
+        server.get('/api/tbl/unit/' + id)
+        .then(res => self.setState({ data: res }));
+    }
 
-	render() {
-		const unit = this.state.data;
+    render() {
+        const unit = this.state.data;
 
-		if (!unit) {
-			return <WaitIcon />;
-		}
+        if (!unit) {
+            return <WaitIcon />;
+        }
 
-		return (
-			<FrontPage
-				title={unit.name}
-				subtitle={SessionUtils.adminUnitLink(unit.address.adminUnit, true, true)}
-				type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
-				views={views}
-				route={this.props.route}
-				/>
-			);
-	}
+        return (
+            <FrontPage
+                title={unit.name}
+                subtitle={SessionUtils.adminUnitLink(unit.address.adminUnit, true, true)}
+                type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
+                views={views}
+                route={this.props.route}
+                />
+            );
+    }
 }
 
 Unit.propTypes = {
-	route: React.PropTypes.object
+    route: React.PropTypes.object
 };

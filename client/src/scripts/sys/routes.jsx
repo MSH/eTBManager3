@@ -21,62 +21,62 @@ import ChangePassword from './others/change-password.jsx';
  */
 export default class Routes extends React.Component {
 
-	constructor() {
-		super();
-		this._onAppChange = this._onAppChange.bind(this);
-	}
+    constructor() {
+        super();
+        this._onAppChange = this._onAppChange.bind(this);
+    }
 
-	componentDidMount() {
-		app.add(this._onAppChange);
-	}
+    componentDidMount() {
+        app.add(this._onAppChange);
+    }
 
-	componentDidUmount() {
-		app.remove(this._onAppChange);
-	}
+    componentDidUmount() {
+        app.remove(this._onAppChange);
+    }
 
-	_onAppChange(action) {
-		if (action === WORKSPACE_CHANGING) {
-			this.setState({ changing: true });
-			return;
-		}
+    _onAppChange(action) {
+        if (action === WORKSPACE_CHANGING) {
+            this.setState({ changing: true });
+            return;
+        }
 
-		if (action === WORKSPACE_CHANGE) {
-			this.setState({ changing: false });
-			return;
-		}
-	}
+        if (action === WORKSPACE_CHANGE) {
+            this.setState({ changing: false });
+            return;
+        }
+    }
 
-	render() {
-		const changing = this.state && this.state.changing;
-		if (changing) {
-			return <WaitIcon />;
-		}
+    render() {
+        const changing = this.state && this.state.changing;
+        if (changing) {
+            return <WaitIcon />;
+        }
 
-		const routesInfo = [
-			{ path: '/home', view: HomeRoutes },
-			{ path: '/reports', view: ReportRoutes },
-			{ path: '/admin', view: AdminRoutes },
-			{ path: '/usersettings', view: UserSettings },
-			{ path: '/changepassword', view: ChangePassword }
-			];
+        const routesInfo = [
+            { path: '/home', view: HomeRoutes },
+            { path: '/reports', view: ReportRoutes },
+            { path: '/admin', view: AdminRoutes },
+            { path: '/usersettings', view: UserSettings },
+            { path: '/changepassword', view: ChangePassword }
+        ];
 
-		// playground for dev is available just in dev module
-		if (__DEV__) {
-			const DevIndex = require('./dev/index');
-			routesInfo.push({ path: '/dev', view: DevIndex.default, title: 'Developers playground' });
-		}
+        // playground for dev is available just in dev module
+        if (__DEV__) {
+            const DevIndex = require('./dev/index');
+            routesInfo.push({ path: '/dev', view: DevIndex.default, title: 'Developers playground' });
+        }
 
-		const routes = RouteView.createRoutes(routesInfo);
+        const routes = RouteView.createRoutes(routesInfo);
 
-		return (
-			<div>
-				<Toolbar />
-				<div className="tb-margin">
-					<RouteView id="routes-index" routes={routes} />
-				</div>
-				<LanguageSel />
-				<WorkspaceSel />
-			</div>
-			);
-	}
+        return (
+            <div>
+                <Toolbar />
+                <div className="tb-margin">
+                    <RouteView id="routes-index" routes={routes} />
+                </div>
+                <LanguageSel />
+                <WorkspaceSel />
+            </div>
+            );
+    }
 }

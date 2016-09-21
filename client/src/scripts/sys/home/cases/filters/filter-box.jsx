@@ -6,67 +6,67 @@ import SelectFilter from './select-filter';
 
 export default class FilterBox extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this._onChange = this._onChange.bind(this);
-		this._onRemove = this._onRemove.bind(this);
-	}
+    constructor(props) {
+        super(props);
+        this._onChange = this._onChange.bind(this);
+        this._onRemove = this._onRemove.bind(this);
+    }
 
 
-	filterComponent(type) {
-		switch (type) {
-			case 'select':
-			case 'multi-select': return SelectFilter;
-			default: return null;
-		}
-	}
+    filterComponent(type) {
+        switch (type) {
+            case 'select':
+            case 'multi-select': return SelectFilter;
+            default: return null;
+        }
+    }
 
-	_onChange(val) {
-		if (this.props.onChange) {
-			this.props.onChange(this.props.filter, val);
-		}
-	}
+    _onChange(val) {
+        if (this.props.onChange) {
+            this.props.onChange(this.props.filter, val);
+        }
+    }
 
-	_onRemove() {
-		this.props.onRemove(this.props.filter);
-	}
+    _onRemove() {
+        this.props.onRemove(this.props.filter);
+    }
 
-	render() {
-		const filter = this.props.filter;
+    render() {
+        const filter = this.props.filter;
 
-		const FilterComponent = this.filterComponent(filter.type);
+        const FilterComponent = this.filterComponent(filter.type);
 
-		if (__DEV__) {
-			if (!FilterComponent) {
-				throw new Error('Invalid filter type: ' + filter.type);
-			}
-		}
+        if (__DEV__) {
+            if (!FilterComponent) {
+                throw new Error('Invalid filter type: ' + filter.type);
+            }
+        }
 
-		return (
-			<Row>
-				<Col sm={4} className="filter">
-					<div className="form-group">
-						<label className="control-label">{filter.label + ':'}</label>
-					</div>
-					<LinkTooltip
-						toolTip={__('form.filters.remove')}
-						onClick={this._onRemove}
-						icon="minus"
-						className="remove-link" />
-				</Col>
-				<Col sm={8}>
-					<FilterComponent filter={filter}
-						value={this.props.value}
-						onChange={this._onChange} />
-				</Col>
-			</Row>
-		);
-	}
+        return (
+            <Row>
+                <Col sm={4} className="filter">
+                    <div className="form-group">
+                        <label className="control-label">{filter.label + ':'}</label>
+                    </div>
+                    <LinkTooltip
+                        toolTip={__('form.filters.remove')}
+                        onClick={this._onRemove}
+                        icon="minus"
+                        className="remove-link" />
+                </Col>
+                <Col sm={8}>
+                    <FilterComponent filter={filter}
+                        value={this.props.value}
+                        onChange={this._onChange} />
+                </Col>
+            </Row>
+        );
+    }
 }
 
 FilterBox.propTypes = {
-	filter: React.PropTypes.object.isRequired,
-	value: React.PropTypes.any,
-	onRemove: React.PropTypes.func.isRequired,
-	onChange: React.PropTypes.func.isRequired
+    filter: React.PropTypes.object.isRequired,
+    value: React.PropTypes.any,
+    onRemove: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired
 };

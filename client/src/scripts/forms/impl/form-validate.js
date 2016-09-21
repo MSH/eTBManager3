@@ -13,40 +13,40 @@ import msgs from '../../commons/messages';
  * @return {array}           List of errors found
  */
 export default function validateForm(form) {
-	let errors = null;
+    let errors = null;
 
-	const snapshots = form.state.snapshots;
-	const doc = form.props.doc;
+    const snapshots = form.state.snapshots;
+    const doc = form.props.doc;
 
-	// browse all fields
-	snapshots
-		.filter(it => !!it.snapshot.property)
-		.forEach(elem => {
-			const snapshot = elem.snapshot;
-			const value = getValue(doc, snapshot.property);
+    // browse all fields
+    snapshots
+        .filter(it => !!it.snapshot.property)
+        .forEach(elem => {
+            const snapshot = elem.snapshot;
+            const value = getValue(doc, snapshot.property);
 
-			let msg;
-			// no value informed ?
-			if (isEmpty(value)) {
-				// value is required ?
-				if (snapshot.required) {
-					// if required and empty, so show required message
-					msg = msgs.NotNull;
-				}
-			}
-			else {
-				// validate value
-				const comp = form.refs[snapshot.id];
-				msg = comp.validate(snapshot, value, doc);
-			}
+            let msg;
+            // no value informed ?
+            if (isEmpty(value)) {
+                // value is required ?
+                if (snapshot.required) {
+                    // if required and empty, so show required message
+                    msg = msgs.NotNull;
+                }
+            }
+            else {
+                // validate value
+                const comp = form.refs[snapshot.id];
+                msg = comp.validate(snapshot, value, doc);
+            }
 
-			if (msg) {
-				if (!errors) {
-					errors = [];
-				}
-				errors.push({ field: snapshot.property, msg: msg });
-			}
-		});
+            if (msg) {
+                if (!errors) {
+                    errors = [];
+                }
+                errors.push({ field: snapshot.property, msg: msg });
+            }
+        });
 
-	return errors;
+    return errors;
 }

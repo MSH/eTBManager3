@@ -8,17 +8,17 @@ import { isString } from '../commons/utils';
  * @param {[type]} props [description]
  */
 export default function Error(props) {
-	const error = props.msg;
+    const error = props.msg;
 
-	if (!error) {
-		return null;
-	}
+    if (!error) {
+        return null;
+    }
 
-	const msg = isString(error) ? error : error.msg;
+    const msg = isString(error) ? error : error.msg;
 
-	return <HelpBlock>{msg}</HelpBlock>;
+    return <HelpBlock>{msg}</HelpBlock>;
 }
 
 Error.propTypes = {
-	msg: React.PropTypes.any
+    msg: React.PropTypes.any
 };

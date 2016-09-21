@@ -17,43 +17,43 @@ import Details from './cases/details';
  */
 export default class HomeRoutes extends React.Component {
 
-	render() {
-		const routes = RouteView.createRoutes([
-			{
-				path: '/index',
-				view: Index,
-				title: __('home'),
-				default: true
-			},
-			{
-				path: '/unit',
-				view: Unit,
-				title: 'Unit'
-			},
-			{
-				path: '/cases/newnotif',
-				view: NewNotif,
-				title: __('cases.newnotif')
-			},
-			{
-				path: '/cases/details',
-				view: Details,
-				title: __('cases.details')
-			},
-			{
-				path: '/workspace',
-				view: Workspace,
-				title: __('Workspace')
-			},
-			{
-				path: '/adminunit',
-				view: AdminUnit,
-				title: __('AdministrativeUnit')
-			}
-		]);
+    render() {
+        const routes = RouteView.createRoutes([
+            {
+                path: '/index',
+                view: Index,
+                title: __('home'),
+                default: true
+            },
+            {
+                path: '/unit',
+                view: Unit,
+                title: 'Unit'
+            },
+            {
+                path: '/cases/newnotif',
+                view: NewNotif,
+                title: __('cases.newnotif')
+            },
+            {
+                path: '/cases/details',
+                view: Details,
+                title: __('cases.details')
+            },
+            {
+                path: '/workspace',
+                view: Workspace,
+                title: __('Workspace')
+            },
+            {
+                path: '/adminunit',
+                view: AdminUnit,
+                title: __('AdministrativeUnit')
+            }
+        ]);
 
-		return (
-			<RouteView routes={routes} />
-			);
-	}
+        return (
+            <RouteView routes={routes} />
+            );
+    }
 }

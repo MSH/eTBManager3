@@ -13,77 +13,77 @@ import FakeCRUD from '../../../commons/fake-crud';
  */
 export default class SummaryList extends React.Component {
 
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		const crud = new FakeCRUD('/api/cases/search');
-		const controller = new CrudController(crud, {
-			pageSize: 50
-		});
+        const crud = new FakeCRUD('/api/cases/search');
+        const controller = new CrudController(crud, {
+            pageSize: 50
+        });
 
-		this._controller = controller;
-		this.state = {};
-	}
+        this._controller = controller;
+        this.state = {};
+    }
 
-	componentWillMount() {
-		this.updateList(this.props);
-	}
+    componentWillMount() {
+        this.updateList(this.props);
+    }
 
-	componentWillReceiveProps(nextProps) {
-		const sum = nextProps.route.queryParam('sum');
-		const changed = nextProps.scopeId !== this.props.scopeId || sum !== this.state.sum;
+    componentWillReceiveProps(nextProps) {
+        const sum = nextProps.route.queryParam('sum');
+        const changed = nextProps.scopeId !== this.props.scopeId || sum !== this.state.sum;
 
-		if (changed) {
-			this.updateList(nextProps);
-		}
-	}
+        if (changed) {
+            this.updateList(nextProps);
+        }
+    }
 
-	/**
-	 * Update the list of cases based on the properties
-	 */
-	updateList(props) {
-		const summaryId = props.route.queryParam('sum');
+    /**
+     * Update the list of cases based on the properties
+     */
+    updateList(props) {
+        const summaryId = props.route.queryParam('sum');
 
-		const req = {
-			pageSize: 50,
-			filters: {
-				summary: summaryId
-			},
-			scope: props.scope,
-			scopeId: props.scopeId,
-			addFilterDisplay: true
-		};
+        const req = {
+            pageSize: 50,
+            filters: {
+                summary: summaryId
+            },
+            scope: props.scope,
+            scopeId: props.scopeId,
+            addFilterDisplay: true
+        };
 
-		const self = this;
-		this._controller.initList(req)
-			.then(res => self.setState({
-				data: res.serverData,
-				sum: summaryId
-			}));
-	}
+        const self = this;
+        this._controller.initList(req)
+            .then(res => self.setState({
+                data: res.serverData,
+                sum: summaryId
+            }));
+    }
 
-	caseClick(data) {
-		window.location = SU.caseHash(data.id);
-	}
+    caseClick(data) {
+        window.location = SU.caseHash(data.id);
+    }
 
-	render() {
-		const res = this.state.data;
+    render() {
+        const res = this.state.data;
 
-		if (!res) {
-			return <WaitIcon />;
-		}
+        if (!res) {
+            return <WaitIcon />;
+        }
 
-		return (
-			<Card title={res.filters.summary.value}>
-				<CasesList
-					controller={this._controller}
-					onCaseClick={this.caseClick} />
-			</Card>
-		);
-	}
+        return (
+            <Card title={res.filters.summary.value}>
+                <CasesList
+                    controller={this._controller}
+                    onCaseClick={this.caseClick} />
+            </Card>
+        );
+    }
 }
 
 SummaryList.propTypes = {
-	scope: React.PropTypes.string.isRequired,
-	scopeId: React.PropTypes.string
+    scope: React.PropTypes.string.isRequired,
+    scopeId: React.PropTypes.string
 };

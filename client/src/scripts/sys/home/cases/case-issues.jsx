@@ -9,182 +9,184 @@ const crud = new CRUD('issue');
 
 // definition of the form fields to edit tags
 const editorDef = {
-	controls: [
-		{
-			property: 'title',
-			required: true,
-			type: 'string',
-			max: 200,
-			label: __('Issue.title'),
-			size: { md: 12 }
-		},
-		{
-			property: 'description',
-			type: 'text',
-			required: true,
-			label: __('global.description'),
-			size: { md: 12 }
-		}
-	],
-	title: __('cases.issues.new')
+    controls: [
+        {
+            property: 'title',
+            required: true,
+            type: 'string',
+            max: 200,
+            label: __('Issue.title'),
+            size: { md: 12 }
+        },
+        {
+            property: 'description',
+            type: 'text',
+            required: true,
+            label: __('global.description'),
+            size: { md: 12 }
+        }
+    ],
+    title: __('cases.issues.new')
 };
 
 export default class CaseIssues extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.addIssue = this.addIssue.bind(this);
-		this.modalOpen = this.modalOpen.bind(this);
-		this.modalClose = this.modalClose.bind(this);
+    constructor(props) {
+        super(props);
+        this.addIssue = this.addIssue.bind(this);
+        this.modalOpen = this.modalOpen.bind(this);
+        this.modalClose = this.modalClose.bind(this);
 
-		this.onIssueEvent = this.onIssueEvent.bind(this);
-		this.removeIssue = this.removeIssue.bind(this);
-		this.editIssue = this.editIssue.bind(this);
-		this.closeIssue = this.closeIssue.bind(this);
-		this.reopenIssue = this.reopenIssue.bind(this);
+        this.onIssueEvent = this.onIssueEvent.bind(this);
+        this.removeIssue = this.removeIssue.bind(this);
+        this.editIssue = this.editIssue.bind(this);
+        this.closeIssue = this.closeIssue.bind(this);
+        this.reopenIssue = this.reopenIssue.bind(this);
 
-		this.state = { newIssue: {}, showModal: false };
-	}
+        this.state = { newIssue: {}, showModal: false };
+    }
 
-	addIssue() {
-		const newIssue = this.state.newIssue;
+    addIssue() {
+        const newIssue = this.state.newIssue;
 
-		if (!this.props.tbcase.issues) {
-			this.props.tbcase.issues = [];
-		}
+        if (!this.props.tbcase.issues) {
+            this.props.tbcase.issues = [];
+        }
 
-		// add the new comment on UI
-		newIssue.tbcaseId = this.props.tbcase.id;
-		newIssue.id = 'fakeid-' + this.props.tbcase.issues.length;
-		newIssue.user = {
-							id: app.getState().session.userId,
-							name: app.getState().session.userName
-						};
-		newIssue.unit = {
-							id: app.getState().session.unitId,
-							name: app.getState().session.unitName
-						};
-		newIssue.creationDate = new Date();
-		newIssue.closed = false;
+        // add the new comment on UI
+        newIssue.tbcaseId = this.props.tbcase.id;
+        newIssue.id = 'fakeid-' + this.props.tbcase.issues.length;
+        newIssue.user = {
+            id: app.getState().session.userId,
+            name: app.getState().session.userName
+        };
 
-		this.props.tbcase.issues.push(newIssue);
-		this.forceUpdate();
+        newIssue.unit = {
+            id: app.getState().session.unitId,
+            name: app.getState().session.unitName
+        };
 
-		// create the new issue on database
-		const prom = crud.create(newIssue)
-						.then(id => {
-							// updates new comment id, so edit and delete should work.
-							newIssue.id = id;
-							this.forceUpdate();
+        newIssue.creationDate = new Date();
+        newIssue.closed = false;
 
-						})
-						.catch(() => {
-							newIssue.id = 'error-' + this.props.tbcase.issues.length;
-							this.forceUpdate();
-							this.modalClose();
-						});
+        this.props.tbcase.issues.push(newIssue);
+        this.forceUpdate();
 
-		this.modalClose();
+        // create the new issue on database
+        const prom = crud.create(newIssue)
+                        .then(id => {
+                            // updates new comment id, so edit and delete should work.
+                            newIssue.id = id;
+                            this.forceUpdate();
 
-		return prom;
-	}
+                        })
+                        .catch(() => {
+                            newIssue.id = 'error-' + this.props.tbcase.issues.length;
+                            this.forceUpdate();
+                            this.modalClose();
+                        });
 
-	onIssueEvent(evt, issue, doc) {
-		switch (evt) {
-			case 'remove': return this.removeIssue(issue);
-			case 'edit': return this.editIssue(issue, doc);
-			case 'close': return this.closeIssue(issue);
-			case 'reopen': return this.reopenIssue(issue);
-			default: throw new Error('Invalid ' + evt);
-		}
-	}
+        this.modalClose();
 
-	removeIssue(issue) {
-		// removes the comment from UI
-		const lst = this.props.tbcase.issues;
-		const index = lst.indexOf(issue);
-		this.props.tbcase.issues.splice(index, 1);
-		this.forceUpdate();
+        return prom;
+    }
 
-		// delete the new comment on database
-		crud.delete(issue.id);
-	}
+    onIssueEvent(evt, issue, doc) {
+        switch (evt) {
+            case 'remove': return this.removeIssue(issue);
+            case 'edit': return this.editIssue(issue, doc);
+            case 'close': return this.closeIssue(issue);
+            case 'reopen': return this.reopenIssue(issue);
+            default: throw new Error('Invalid ' + evt);
+        }
+    }
 
-	editIssue(issue, doc) {
-		// refresh the comment on UI
-		issue.title = doc.title;
-		issue.description = doc.description;
-		this.forceUpdate();
+    removeIssue(issue) {
+        // removes the comment from UI
+        const lst = this.props.tbcase.issues;
+        const index = lst.indexOf(issue);
+        this.props.tbcase.issues.splice(index, 1);
+        this.forceUpdate();
 
-		crud.update(issue.id, doc);
-	}
+        // delete the new comment on database
+        crud.delete(issue.id);
+    }
 
-	closeIssue(issue) {
-		// refresh the comment on UI
-		issue.closed = true;
-		this.forceUpdate();
+    editIssue(issue, doc) {
+        // refresh the comment on UI
+        issue.title = doc.title;
+        issue.description = doc.description;
+        this.forceUpdate();
 
-		crud.update(issue.id, issue);
-	}
+        crud.update(issue.id, doc);
+    }
 
-	reopenIssue(issue) {
-		// refresh the comment on UI
-		issue.closed = false;
-		this.forceUpdate();
+    closeIssue(issue) {
+        // refresh the comment on UI
+        issue.closed = true;
+        this.forceUpdate();
 
-		crud.update(issue.id, issue);
-	}
+        crud.update(issue.id, issue);
+    }
 
-	modalOpen() {
-		this.setState({ showModal: true });
-	}
+    reopenIssue(issue) {
+        // refresh the comment on UI
+        issue.closed = false;
+        this.forceUpdate();
 
-	modalClose() {
-		this.setState({ newIssue: {}, showModal: false });
-	}
+        crud.update(issue.id, issue);
+    }
 
-	render() {
-		const issues = this.props.tbcase.issues;
+    modalOpen() {
+        this.setState({ showModal: true });
+    }
 
-		// choose a message to dsplay at the top
-		const openIssues = issues ? issues.find(issue => !issue.closed) : null;
-		const header = openIssues ?
-							<Alert bsStyle="warning" className="no-margin-bottom"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</Alert> :
-							<div><Fa icon="check" />{__('Issue.noopenissuesmg')}</div>;
+    modalClose() {
+        this.setState({ newIssue: {}, showModal: false });
+    }
 
-		return (
-			<div>
-				<Card>
-					<Row>
-						<Col md={10}>
-							{header}
-						</Col>
-						<Col md={2}>
-							<Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
-						</Col>
-					</Row>
-				</Card>
+    render() {
+        const issues = this.props.tbcase.issues;
 
-				{
-					!issues && <Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
-				}
+        // choose a message to dsplay at the top
+        const openIssues = issues ? issues.find(issue => !issue.closed) : null;
+        const header = openIssues ?
+                            <Alert bsStyle="warning" className="no-margin-bottom"><Fa icon="exclamation-triangle" />{__('Issue.openissuesmg')}</Alert> :
+                            <div><Fa icon="check" />{__('Issue.noopenissuesmg')}</div>;
 
-				<Issues issues={issues} onIssueEvent={this.onIssueEvent} />
+        return (
+            <div>
+                <Card>
+                    <Row>
+                        <Col md={10}>
+                            {header}
+                        </Col>
+                        <Col md={2}>
+                            <Button className="pull-right" onClick={this.modalOpen}>{__('cases.issues.new')}</Button>
+                        </Col>
+                    </Row>
+                </Card>
 
-				<FormDialog
-					schema={editorDef}
-					doc={this.state.newIssue}
-					onCancel={this.modalClose}
-					onConfirm={this.addIssue}
-					wrapType={'modal'}
-					modalShow={this.state.showModal} />
+                {
+                    !issues && <Alert bsStyle="warning">{__('Issue.notfound')}</Alert>
+                }
 
-			</div>
-			);
-	}
+                <Issues issues={issues} onIssueEvent={this.onIssueEvent} />
+
+                <FormDialog
+                    schema={editorDef}
+                    doc={this.state.newIssue}
+                    onCancel={this.modalClose}
+                    onConfirm={this.addIssue}
+                    wrapType={'modal'}
+                    modalShow={this.state.showModal} />
+
+            </div>
+            );
+    }
 }
 
 
 CaseIssues.propTypes = {
-	tbcase: React.PropTypes.object.isRequired
+    tbcase: React.PropTypes.object.isRequired
 };

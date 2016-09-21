@@ -10,58 +10,58 @@ import { FormDialog } from '../../../components';
  */
 export default class SuspectFollowUp extends React.Component {
 
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.onConfirm = this.onConfirm.bind(this);
-		this.getRemoteForm = this.getRemoteForm.bind(this);
-	}
+        this.onConfirm = this.onConfirm.bind(this);
+        this.getRemoteForm = this.getRemoteForm.bind(this);
+    }
 
-	getRemoteForm() {
-		return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification).then(res => {
-			res.doc.classification = this.props.classification;
-			return res;
-		});
-	}
+    getRemoteForm() {
+        return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification).then(res => {
+            res.doc.classification = this.props.classification;
+            return res;
+        });
+    }
 
-	onConfirm(doc) {
-		const req = { doc: doc };
-		req.tbcaseId = this.props.tbcase.id;
+    onConfirm(doc) {
+        const req = { doc: doc };
+        req.tbcaseId = this.props.tbcase.id;
 
-		return server.post('/api/cases/case/suspectfollowup', req)
-				.then(res => {
-					if (!res.success) {
-						return Promise.reject(res.errors);
-					}
+        return server.post('/api/cases/case/suspectfollowup', req)
+                .then(res => {
+                    if (!res.success) {
+                        return Promise.reject(res.errors);
+                    }
 
-					this.setState({ doc: {} });
-					this.props.onClose();
+                    this.setState({ doc: {} });
+                    this.props.onClose();
 
-					app.dispatch('case-update');
+                    app.dispatch('case-update');
 
-					return res.result;
-				});
-	}
+                    return res.result;
+                });
+    }
 
-	render() {
-		if (!this.props.classification) {
-			return null;
-		}
+    render() {
+        if (!this.props.classification) {
+            return null;
+        }
 
-		return (
-			<FormDialog
-				wrapType="modal"
-				remotePath={this.getRemoteForm}
-				onCancel={this.props.onClose}
-				onConfirm={this.onConfirm}
-				modalShow={this.props.show} />
-		);
-	}
+        return (
+            <FormDialog
+                wrapType="modal"
+                remotePath={this.getRemoteForm}
+                onCancel={this.props.onClose}
+                onConfirm={this.onConfirm}
+                modalShow={this.props.show} />
+        );
+    }
 }
 
 SuspectFollowUp.propTypes = {
-	tbcase: React.PropTypes.object,
-	show: React.PropTypes.bool,
-	onClose: React.PropTypes.func,
-	classification: React.PropTypes.string
+    tbcase: React.PropTypes.object,
+    show: React.PropTypes.bool,
+    onClose: React.PropTypes.func,
+    classification: React.PropTypes.string
 };

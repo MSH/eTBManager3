@@ -36,11 +36,11 @@ export default class Welcome extends React.Component {
     /**
      * Render the component
      */
-	render() {
-		const langs = app.getState().app.languages;
-		const lg = this.state.lang;
+    render() {
+        const langs = app.getState().app.languages;
+        const lg = this.state.lang;
 
-		return (
+        return (
             <Fade in transitionAppear>
                 <Grid>
                     <Row>
@@ -67,6 +67,6 @@ export default class Welcome extends React.Component {
                     </Row>
                 </Grid>
             </Fade>
-			);
-	}
+            );
+    }
 }

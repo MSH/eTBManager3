@@ -8,11 +8,11 @@ import CrudGrid from './crud-grid';
 import CrudView from './crud-view';
 
 export {
-	CrudController,
-	CrudForm,
-	CrudPagination,
-	CrudTable,
-	CrudMessage,
-	CrudGrid,
-	CrudView
+    CrudController,
+    CrudForm,
+    CrudPagination,
+    CrudTable,
+    CrudMessage,
+    CrudGrid,
+    CrudView
 };

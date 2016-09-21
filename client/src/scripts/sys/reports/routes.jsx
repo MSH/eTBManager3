@@ -11,13 +11,13 @@ import Index from './index';
  */
 export default class ReportRoutes extends React.Component {
 
-	render() {
-		const routes = RouteView.createRoutes([
-			{ path: '/index', view: Index }
-		]);
+    render() {
+        const routes = RouteView.createRoutes([
+            { path: '/index', view: Index }
+        ]);
 
-		return (
-			<RouteView routes={routes} />
-			);
-	}
+        return (
+            <RouteView routes={routes} />
+            );
+    }
 }

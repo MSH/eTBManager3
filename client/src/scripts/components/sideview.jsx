@@ -16,19 +16,19 @@ import './sideview.less';
 export default class Sideview extends React.Component {
 
     hash(item) {
-		const hash = this.props.route.path + item.path;
+        const hash = this.props.route.path + item.path;
 
-		// check if there is any query params
-		let qry = this.props.queryParams;
-		if (isFunction(qry)) {
-			qry = qry(item);
-		}
+        // check if there is any query params
+        let qry = this.props.queryParams;
+        if (isFunction(qry)) {
+            qry = qry(item);
+        }
 
-		qry = qry ?
-			'?' + Object.keys(qry).map(p => p + '=' + encodeURIComponent(qry[p])).join('&') :
-			'';
+        qry = qry ?
+            '?' + Object.keys(qry).map(p => p + '=' + encodeURIComponent(qry[p])).join('&') :
+            '';
 
-		return '#' + hash + qry;
+        return '#' + hash + qry;
     }
 
     /**
@@ -44,43 +44,43 @@ export default class Sideview extends React.Component {
     }
 
     render() {
-		// get the items to fill in the sidebar
-		const views = this.props.views;
+        // get the items to fill in the sidebar
+        const views = this.props.views;
 
         if (!views) {
             return null;
         }
 
         return (
-			<ul className="sideview nav">
-				{views.map((item, index) => {
-					if (!item.path) {
-						const title = item.title ? item.title : <hr/>;
-						return <li key={index} className="disabled">{title}</li>;
-					}
+            <ul className="sideview nav">
+                {views.map((item, index) => {
+                    if (!item.path) {
+                        const title = item.title ? item.title : <hr/>;
+                        return <li key={index} className="disabled">{title}</li>;
+                    }
 
-					return (
-						<li key={index} role="presentation">
-							<a href={this.hash(item)} className={item.className}>
-							{
-								item.icon && <i className={'fa fa-fw fa-' + item.icon} />
-							}
-							{
-								!!item.count && <Badge pullRight>{item.count}</Badge>
-							}
-							{item.title}
-							</a>
-						</li>
-						);
-				})}
-			</ul>
+                    return (
+                        <li key={index} role="presentation">
+                            <a href={this.hash(item)} className={item.className}>
+                            {
+                                item.icon && <i className={'fa fa-fw fa-' + item.icon} />
+                            }
+                            {
+                                !!item.count && <Badge pullRight>{item.count}</Badge>
+                            }
+                            {item.title}
+                            </a>
+                        </li>
+                        );
+                })}
+            </ul>
         );
     }
 }
 
 
 Sideview.propTypes = {
-	views: React.PropTypes.array.isRequired,
-	route: React.PropTypes.object.isRequired,
-	queryParams: React.PropTypes.object
+    views: React.PropTypes.array.isRequired,
+    route: React.PropTypes.object.isRequired,
+    queryParams: React.PropTypes.object
 };
