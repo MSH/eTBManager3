@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
@@ -87,8 +86,8 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         data.put("patient", resPatient.getValues());
 
         // mount form name
-        DiagnosisType diag = DiagnosisType.valueOf(((Item<String>) resTbcase.getValues().get("diagnosisType")).getId());
-        CaseClassification cla = CaseClassification.valueOf(((Item<String>) resTbcase.getValues().get("classification")).getId());
+        DiagnosisType diag = DiagnosisType.valueOf(((String) resTbcase.getValues().get("diagnosisType")));
+        CaseClassification cla = CaseClassification.valueOf(((String) resTbcase.getValues().get("classification")));
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {
