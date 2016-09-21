@@ -11,7 +11,6 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
-import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
@@ -78,17 +77,17 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         HashMap<String, Object> data = new HashMap<>();
 
         ModelDAO tbcaseDao = factory.create("tbcase");
-        RecordData resTbcase = tbcaseDao.findOne(id);
+        RecordData resTbcase = tbcaseDao.findOne(id, true);
 
         ModelDAO patientDao = factory.create("patient");
-        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"));
+        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"), true);
 
         data.put("tbcase", resTbcase.getValues());
         data.put("patient", resPatient.getValues());
 
         // mount form name
-        DiagnosisType diag = DiagnosisType.values()[(Integer)resTbcase.getValues().get("diagnosisType")];
-        CaseClassification cla = CaseClassification.values()[(Integer)resTbcase.getValues().get("classification")];
+        DiagnosisType diag = DiagnosisType.valueOf(((String) resTbcase.getValues().get("diagnosisType")));
+        CaseClassification cla = CaseClassification.valueOf(((String) resTbcase.getValues().get("classification")));
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {

@@ -62,7 +62,7 @@ public class ModelDAOTest extends AuthenticatedTest {
         UUID id = res.getId();
 
         // find record
-        RecordData p2 = dao.findOne(id);
+        RecordData p2 = dao.findOne(id, false);
         assertNotNull(p2);
         assertNotNull(p2.getId());
         assertNotNull(p2.getValues());
@@ -83,7 +83,7 @@ public class ModelDAOTest extends AuthenticatedTest {
         assertNotNull(res);
 
         // find to check the changes
-        p2 = dao.findOne(p2.getId());
+        p2 = dao.findOne(p2.getId(), false);
         assertNotNull(p2);
         pn = p2.getAs("name", PersonName.class);
         assertEquals(pn.getName(), UPDT_NAME);
@@ -100,7 +100,7 @@ public class ModelDAOTest extends AuthenticatedTest {
         }
 
         // try to find it again
-        RecordData rd = dao.findOne(res.getId());
+        RecordData rd = dao.findOne(res.getId(), false);
         assertNull(rd);
     }
 }

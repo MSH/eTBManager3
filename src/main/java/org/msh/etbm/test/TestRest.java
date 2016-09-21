@@ -150,7 +150,7 @@ public class TestRest {
 
         // find record
         s.append("\n\n## FindOne ##\n");
-        RecordData p2 = daoPatient.findOne(res.getId());
+        RecordData p2 = daoPatient.findOne(res.getId(), false);
         s.append("Name = ").append(p2.getValues().get("name"));
 
         // update record
@@ -160,7 +160,7 @@ public class TestRest {
         daoPatient.update(p2.getId(), vals);
 
         // find to check the changes
-        p2 = daoPatient.findOne(p2.getId());
+        p2 = daoPatient.findOne(p2.getId(), false);
         if (!p2.getValues().get("name").equals("Karla")) {
             s.append("Update didn't work");
             return s.toString();
