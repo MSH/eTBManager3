@@ -5,6 +5,7 @@ import CasesSideView from '../cases/cases-side-view';
 
 import CasesDistribution from '../commons/cases-distribution';
 import AdvancedSearch from '../cases/advanced-search';
+import TagCasesList from '../cases/tag-cases-list';
 
 
 const views = [
@@ -20,6 +21,11 @@ const views = [
 		icon: 'search',
 		path: '/search',
 		view: AdvancedSearch
+	},
+	{
+		title: __('admin.tags'),
+		path: '/tag',
+		view: TagCasesList
 	}
 ];
 

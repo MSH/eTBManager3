@@ -97,6 +97,8 @@ export default class CasesSideView extends React.Component {
 
 		res.splice(0, 0, { title: 'Views' });
 
+		const qryparams = this.props.scopeId ? '&id=' + this.props.scopeId : '';
+
 		// display the summary
 		if (data.summary) {
 			res.push({ title: 'Summary' });
@@ -104,7 +106,7 @@ export default class CasesSideView extends React.Component {
 				res.push({
 					title: it.name,
 					count: it.count,
-					path: 'result?sum=' + it.id
+					path: '/summary?sum=' + it.id + qryparams
 				});
 			});
 		}
@@ -116,7 +118,7 @@ export default class CasesSideView extends React.Component {
 				res.push({
 					title: it.name,
 					count: it.count,
-					path: 'result?tag=' + it.id,
+					path: '/tag?tag=' + it.id + qryparams,
 					className: 'tag-link tag-' + it.type.toLowerCase()
 				});
 			});
