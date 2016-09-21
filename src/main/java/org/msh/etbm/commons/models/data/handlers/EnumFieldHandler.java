@@ -1,11 +1,19 @@
 package org.msh.etbm.commons.models.data.handlers;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.fields.AddressField;
 import org.msh.etbm.commons.models.data.fields.EnumField;
 import org.msh.etbm.commons.models.impl.FieldContext;
+import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.MessageKey;
+import org.msh.etbm.services.admin.AddressData;
+import org.msh.etbm.services.admin.AddressEditData;
+import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
 import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -87,4 +95,20 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
         return res;
     }
 
+    @Override
+    public Object readSingleValueFromDb(EnumField field, Object value) {
+        if (value == null) {
+            return null;
+        }
+
+        Enum e = null;
+
+        if (value instanceof Integer) {
+            Class<? extends Enum> enumClass = field.resolveEnumClass();
+            e = enumClass.getEnumConstants()[(Integer) value];
+            return new Item(e.name(), ((MessageKey)e).getMessageKey());
+        }
+
+        throw new RuntimeException("Check enum field handler");
+    }
 }

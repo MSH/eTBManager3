@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.dozer.DozerBeanMapper;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
@@ -11,7 +12,6 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
-import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
@@ -87,8 +87,8 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         data.put("patient", resPatient.getValues());
 
         // mount form name
-        DiagnosisType diag = DiagnosisType.values()[(Integer)resTbcase.getValues().get("diagnosisType")];
-        CaseClassification cla = CaseClassification.values()[(Integer)resTbcase.getValues().get("classification")];
+        DiagnosisType diag = DiagnosisType.valueOf(((Item<String>) resTbcase.getValues().get("diagnosisType")).getId());
+        CaseClassification cla = CaseClassification.valueOf(((Item<String>) resTbcase.getValues().get("classification")).getId());
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {
