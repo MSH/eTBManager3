@@ -84,7 +84,7 @@ export default class CasesSideView extends React.Component {
 	 */
 	newNotif(item) {
 		const k = item.key.split('.');
-		window.location = '/sys/home/cases/newnotif?diag=' + k[1] +
+		window.location = '#/sys/home/cases/newnotif?diag=' + k[1] +
 			'&cla=' + k[0] +
 			'&id=' + this.props.scopeId;
 	}

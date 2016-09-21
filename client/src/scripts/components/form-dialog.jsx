@@ -21,6 +21,12 @@ export default class FormDialog extends React.Component {
 		this.state = { title: title, remoteFormMounted: false };
 	}
 
+	componentWillMount() {
+		if (!this.props.remotePath) {
+			this.setState({ doc: this.props.doc });
+		}
+	}
+
 	componentDidMount() {
 		this._mounted = true;
 	}
@@ -46,7 +52,7 @@ export default class FormDialog extends React.Component {
 		// the promise to be called when confirming
 		let prom;
 		if (this.props.onConfirm) {
-			prom = this.props.onConfirm(this.props.doc);
+			prom = this.props.onConfirm(this.state.doc);
 		}
 
 		// it is expected that a promise is returned, in order to be informed about errors
@@ -66,8 +72,8 @@ export default class FormDialog extends React.Component {
 	 * Called when using remoteForm to flag when it is mounted
 	 * @param {[string, function, node]} title The title that will be used on dialog
 	 */
-	remoteFormLoad(schema) {
-		this.setState({ title: schema.title, remoteFormMounted: true });
+	remoteFormLoad(schema, doc) {
+		this.setState({ title: schema.title, remoteFormMounted: true, doc: doc });
 	}
 
 	render() {
@@ -79,7 +85,7 @@ export default class FormDialog extends React.Component {
 		}
 
 		// get instance to be edited
-		const doc = this.props.doc;
+		const doc = this.state.doc;
 
 		// get the title of the form
 		const title = isFunction(this.state.title) ? this.state.title(doc) : this.state.title;

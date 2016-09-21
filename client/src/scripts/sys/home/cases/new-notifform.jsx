@@ -51,6 +51,7 @@ export default class NotifForm extends React.Component {
 					<Col mdOffset={2} md={9}>
 						<FormDialog
 							wrapType="card"
+							doc={{}}
 							remotePath={this.getRemoteForm}
 							onCancel={this.props.onCancel}
 							onConfirm={this.save} />

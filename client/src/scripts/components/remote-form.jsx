@@ -59,6 +59,14 @@ export default class RemoteForm extends React.Component {
         });
     }
 
+    /**
+     * Validate the form and return validation messages, if any erro is found
+     * @return {[type]}           [description]
+     */
+    validate() {
+        return this.refs.form.validate();
+    }
+
     render() {
         if (this.state.fetching) {
             return <WaitIcon type="card" />;
@@ -75,7 +83,7 @@ export default class RemoteForm extends React.Component {
         delete props.remotePath;
 
         return (
-            <Form {...props} />
+            <Form ref="form" {...props} />
         );
     }
 }

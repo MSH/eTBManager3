@@ -1,0 +1,66 @@
+{
+  "dataModel": {
+    "patient": "patient",
+    "tbcase": "tbcase"
+  },
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.registrationDate}",
+      "property": "tbcase.registrationDate",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.registrationNumber",
+      "label": "${TbCase.registrationNumber}",
+      "type": "string",
+      "size": { "md": 6 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.patientdata}",
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "patient.motherName",
+      "type": "string",
+      "size": { "md": 6 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "patient.birthDate",
+      "type": "date",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 6 },
+      "label": "${TbCase.age}"
+    },
+    {
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 8 }
+    }
+  ]
+}

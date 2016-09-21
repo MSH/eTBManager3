@@ -9,12 +9,19 @@ import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
+import org.msh.etbm.commons.models.ModelDAO;
+import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.commons.models.ModelDAOResult;
+import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -34,6 +41,9 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
 
     @Autowired
     FormService formService;
+
+    @Autowired
+    ModelDAOFactory factory;
 
     @Override
     public String getCommandType() {
@@ -64,14 +74,30 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
 
     @Override
     public FormInitResponse getReadOnlyForm(UUID id) {
-        TbCase tbcase = super.findEntity(id);
+        // mount data
+        HashMap<String, Object> data = new HashMap<>();
 
-        String formid = "newnotif-";
-        formid = formid.concat(tbcase.getDiagnosisType().name().toLowerCase()).concat("-");
-        formid = formid.concat(tbcase.getClassification().name().toLowerCase());
+        ModelDAO tbcaseDao = factory.create("tbcase");
+        RecordData resTbcase = tbcaseDao.findOne(id);
 
-        CaseDetailedData caseData = mapper.map(tbcase, CaseDetailedData.class);
+        ModelDAO patientDao = factory.create("patient");
+        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"));
 
-        return formService.init(formid, caseData, true);
+        data.put("tbcase", resTbcase.getValues());
+        data.put("patient", resPatient.getValues());
+
+        // mount form name
+        DiagnosisType diag = DiagnosisType.values()[(Integer)resTbcase.getValues().get("diagnosisType")];
+        CaseClassification cla = CaseClassification.values()[(Integer)resTbcase.getValues().get("classification")];
+
+        String formid;
+        if (diag.equals(DiagnosisType.CONFIRMED)) {
+            formid = "display-confirmed-";
+            formid = formid.concat(cla.name().toLowerCase());
+        } else {
+            formid = "display-suspect";
+        }
+
+        return formService.init(formid, data, true);
     }
 }
