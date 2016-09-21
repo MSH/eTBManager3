@@ -89,11 +89,11 @@ public class ModelDAO {
      * @param id the record ID
      * @return instance of {@link RecordData} containing record information, or null if record not found
      */
-    public RecordData findOne(UUID id) {
+    public RecordData findOne(UUID id, boolean displaying) {
         String tblName = compiledModel.getModel().resolveTableName();
         Map<String, Object> params = Collections.singletonMap("id", ObjectUtils.uuidAsBytes(id));
 
-        List<RecordData> lst = findMany(false, tblName + ".id = :id", params);
+        List<RecordData> lst = findMany(displaying, tblName + ".id = :id", params);
 
         return lst.size() == 1 ? lst.get(0) : null;
     }
@@ -104,7 +104,7 @@ public class ModelDAO {
      * @param values
      */
     public ModelDAOResult update(UUID id, Map<String, Object> values) {
-        RecordData rec = findOne(id);
+        RecordData rec = findOne(id, false);
 
         if (rec == null) {
             throw new ModelException("Record not found");

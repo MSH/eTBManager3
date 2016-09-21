@@ -78,10 +78,10 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         HashMap<String, Object> data = new HashMap<>();
 
         ModelDAO tbcaseDao = factory.create("tbcase");
-        RecordData resTbcase = tbcaseDao.findOne(id);
+        RecordData resTbcase = tbcaseDao.findOne(id, true);
 
         ModelDAO patientDao = factory.create("patient");
-        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"));
+        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"), true);
 
         data.put("tbcase", resTbcase.getValues());
         data.put("patient", resPatient.getValues());

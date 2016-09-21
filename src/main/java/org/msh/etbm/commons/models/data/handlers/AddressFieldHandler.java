@@ -114,10 +114,12 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
             if (id != null) {
                 AdminUnitData au = new AdminUnitData();
                 au.setId(id);
+                au.setName((String)values.get("name"));
                 au.setP0(getItem(values.get("pid0"), values.get("pname0")));
                 au.setP1(getItem(values.get("pid1"), values.get("pname1")));
                 au.setP2(getItem(values.get("pid2"), values.get("pname2")));
                 au.setP3(getItem(values.get("pid3"), values.get("pname3")));
+                addr.setAdminUnit(au);
             }
             return addr;
         }
@@ -137,8 +139,8 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
             defs.add(field.getFieldAddress())
                 .add(field.getFieldComplement())
                 .add(field.getFieldZipCode())
-                .join("admininistrativeunit", "$this.id = $parent." + field.getFieldAdminUnit())
-                .add("id")
+                    .leftJoin("administrativeunit", "$this.id = $parent." + field.getFieldAdminUnit())
+                    .add("id")
                 .add("pid0")
                 .add("pid1")
                 .add("pid2")
