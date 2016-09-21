@@ -36,11 +36,11 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         AddressEditData addr = new AddressEditData();
 
         Map<String, String> map = (Map)value;
-        addr.setAddress(map.get(field.getFieldAddress()));
-        addr.setComplement(map.get(field.getFieldComplement()));
-        addr.setZipCode(map.get(field.getFieldZipCode()));
+        addr.setAddress(map.get("address"));
+        addr.setComplement(map.get("complement"));
+        addr.setZipCode(map.get("zipCode"));
 
-        String auId = map.get(field.getFieldAdminUnit());
+        String auId = map.get("adminUnit");
         UUID id = auId != null && !auId.isEmpty() ? UUID.fromString(auId) : null;
         addr.setAdminUnitId(id);
         return addr;
@@ -64,7 +64,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         fields.put(field.getFieldAddress(), addr.getAddress());
         fields.put(field.getFieldComplement(), addr.getComplement());
         fields.put(field.getFieldZipCode(), addr.getZipCode());
-        fields.put(field.getFieldAdminUnit(), addr.getAdminUnitId());
+        fields.put(field.getFieldAdminUnit(), ObjectUtils.uuidAsBytes(addr.getAdminUnitId()));
 
         return fields;
     }
