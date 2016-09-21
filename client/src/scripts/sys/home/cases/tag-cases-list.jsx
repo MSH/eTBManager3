@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Row, Col } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactTable } from '../../../components';
 import { app } from '../../../core/app';
 
@@ -37,12 +37,16 @@ export default class TagCasesList extends React.Component {
 		});
 		this.setState({ handler: handler });
 
-		this.loadList(this.props.tag.id);
+		this.loadList(this.props);
 	}
 
-	componentWillUpdate(nextProps) {
-		if (this.props.tag.id !== nextProps.tag.id) {
-			this.loadList(nextProps.tag.id);
+	componentWillReceiveProps(nextProps) {
+		const id = nextProps.route.queryParam('id');
+		const tag = nextProps.route.queryParam('tagId');
+		const changed = id !== this.state.id || tag !== this.state.tagId;
+
+		if (changed) {
+			this.loadList();
 		}
 	}
 
@@ -66,10 +70,19 @@ export default class TagCasesList extends React.Component {
 		window.location.hash = SessionUtils.caseHash(item.id);
 	}
 
-	loadList(tagId) {
+	loadList() {
 		const self = this;
-		const qry = { unitId: this.props.unitId, adminUnitId: this.props.adminUnitId, tagId: tagId };
-		this.state.controller.initList(qry).then(() => self.forceUpdate());
+		const scope = this.props.scope;
+		const id = this.props.route.queryParam('id');
+		const tagId = this.props.route.queryParam('tag');
+
+		const qry = {
+			unitId: scope === 'UNIT' ? id : null,
+			adminUnitId: scope === 'ADMINUNIT' ? id : null,
+			tagId: tagId
+		};
+
+		this.state.controller.initList(qry).then(() => self.setState({ id: id, tagId: tagId }));
 	}
 
 	getClassificatonLabel(classification, diagnosistype) {
@@ -79,13 +92,14 @@ export default class TagCasesList extends React.Component {
 	}
 
 	render() {
-		const tag = this.props.tag;
+		const controller = this.state.controller;
 
-		if (!tag || !tag.id) {
-			return null;
+		if (controller.isFetching()) {
+			return <WaitIcon type="card" />;
 		}
 
-		const controller = this.state.controller;
+		const res = controller.getServerResult();
+		const tag = res ? res.tag : {};
 
 		const type = 'prof-tag-' + tag.type.toLowerCase();
 		const header = (
@@ -93,25 +107,29 @@ export default class TagCasesList extends React.Component {
 				imgClass={type}
 				fa="tag" title={tag.name}
 				size="small"
-				subtitle={tag.count < 1 ? __('form.norecordfound') : tag.count + ' ' + __('form.resultlist')}/>);
+				/>
+			);
 
 		return (
-			<Card header={header} closeBtn onClose={this.props.onClose}>
-				{
-					// loading
-					controller.isFetching() ?
-						<WaitIcon type="card" /> : null
-				}
+			<Card header={header}>
 				{
 					// no results found
-					controller.isFetching() !== true && (!controller.getList() || controller.getList().length < 1) ?
+					(!controller.getList() || controller.getList().length < 1) ?
 						<Alert bsStyle="warning">{__('form.norecordfound')}</Alert> : null
 				}
 				{
 					// show case list
-					controller.isFetching() !== true && controller.getList() && controller.getList().length > 0 ?
+					controller.getList() && controller.getList().length > 0 ?
 					<span>
-						<ReactTable className="mtop-2x"
+						<Row>
+							<Col sm={6}>
+								<CrudCounter controller={controller} className="mtop-2x text-muted" />
+							</Col>
+							<Col sm={6}>
+								<CrudPagination controller={this.state.controller} showCounter className="pull-right"/>
+							</Col>
+						</Row>
+						<ReactTable
 							columns={[
 								{
 									title: 'Patient',
@@ -134,8 +152,11 @@ export default class TagCasesList extends React.Component {
 								}
 							]} values={controller.getList()} onClick={this.caseClick}/>
 
-						<CrudCounter controller={controller} className="mtop"/>
-						<CrudPagination controller={this.state.controller} showCounter className="mtop" />
+						<Row>
+							<Col sm={12}>
+								<CrudPagination controller={this.state.controller} showCounter className="pull-right" />
+							</Col>
+						</Row>
 					</span> : null
 				}
 			</Card>
@@ -144,8 +165,6 @@ export default class TagCasesList extends React.Component {
 }
 
 TagCasesList.propTypes = {
-	tag: React.PropTypes.object,
-	onClose: React.PropTypes.func,
-	unitId: React.PropTypes.string,
-	adminUnitId: React.PropTypes.string
+	route: React.PropTypes.object.isRequired,
+	scope: React.PropTypes.string.isRequired
 };

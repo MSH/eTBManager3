@@ -463,6 +463,13 @@ export default class CrudController {
 	}
 
 	/**
+	 * Return the original data returned from the server
+	 */
+	getServerResult() {
+		return this.result && this.result.serverData;
+	}
+
+	/**
 	 * raise an event notifying it to the listeners
 	 * @param  {[type]} event [description]
 	 * @param  {[type]} data  [description]
@@ -492,7 +499,8 @@ export default class CrudController {
 				list: res.list,
 				pageCount: paging ? Math.ceil(res.count / this.options.pageSize) : null,
 				page: qry.page,
-				query: qry
+				query: qry,
+				serverData: res
 			};
 
 			// save current list

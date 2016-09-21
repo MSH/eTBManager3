@@ -23,9 +23,10 @@ export default class AddressControl extends React.Component {
 		if (!auCtrl) {
 			return null;
 		}
+		console.log('hi');
 
 		return auCtrl.serverRequest(nextSchema,
-			nextValue ? nextValue.adminUnit : null,
+			nextValue && nextValue.adminUnit ? nextValue.adminUnit : null,
 			nextResources);
 	}
 

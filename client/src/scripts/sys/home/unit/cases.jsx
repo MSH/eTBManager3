@@ -5,6 +5,8 @@ import { RouteView } from '../../../components/router';
 
 import CasesUnit from './cases-unit';
 import AdvancedSearch from '../cases/advanced-search';
+import TagCasesList from '../cases/tag-cases-list';
+
 
 const views = [
 	{
@@ -19,6 +21,11 @@ const views = [
 		icon: 'search',
 		path: '/search',
 		view: AdvancedSearch
+	},
+	{
+		title: __('admin.tags'),
+		path: '/tag',
+		view: TagCasesList
 	}
 ];
 
@@ -60,7 +67,7 @@ export default class Cases extends React.Component {
 						scopeId={unitId}/>
 				</Col>
 				<Col sm={9}>
-					<RouteView routes={routes} />
+					<RouteView routes={routes} viewProps={{ scope: 'UNIT' }} />
 				</Col>
 			</Row>
 			</Grid>

@@ -5,6 +5,8 @@ import org.msh.etbm.commons.entities.query.QueryBuilderFactory;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.services.admin.tags.TagData;
+import org.msh.etbm.services.admin.tags.TagService;
 import org.msh.etbm.services.cases.cases.CaseItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class TagCasesQueryService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    TagService tagService;
+
     public QueryResult getTagCases(TagCasesQueryParams qryParams) {
         QueryBuilder<TbCase> builder = queryBuilderFactory.createQueryBuilder(TbCase.class);
 
@@ -44,6 +49,16 @@ public class TagCasesQueryService {
         }
 
         builder.initialize(qryParams);
-        return builder.createQueryResult();
+        QueryResult<CaseItem> data = builder.createQueryResult();
+
+        // prepare result
+        TagQueryResult res = new TagQueryResult();
+        res.setCount(data.getCount());
+        res.setList(data.getList());
+
+        TagData tag = tagService.findOne(qryParams.getTagId(), TagData.class);
+        res.setTag(tag);
+
+        return res;
     }
 }
