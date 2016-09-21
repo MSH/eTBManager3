@@ -47,7 +47,6 @@ export default class Routes extends React.Component {
 	}
 
 	render() {
-
 		const changing = this.state && this.state.changing;
 		if (changing) {
 			return <WaitIcon />;

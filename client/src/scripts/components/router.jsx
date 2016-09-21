@@ -298,6 +298,10 @@ export class Route {
 				res.then(ret => {
 					delete self._resPromise;
 					return ret;
+				})
+				.catch(err => {
+					delete self._resPromise;
+					return Promise.reject(err);
 				});
 			}
 			return res;
