@@ -25,7 +25,7 @@ import java.util.UUID;
  * Created by Mauricio on 14/09/2016.
  */
 @Service
-public class OnTreatCaseMoveService {
+public class CaseOnTreatMoveService {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -264,7 +264,7 @@ public class OnTreatCaseMoveService {
         }
 
         // commit deleted medicines
-        if (deletedMedicines == null || deletedMedicines.size() < 1) {
+        if (deletedMedicines.isEmpty()) {
             return;
         }
 

@@ -31,10 +31,10 @@ public class CaseMoveService {
     UserRequestService userRequestService;
 
     @Autowired
-    OnTreatCaseMoveService onTreatCaseMoveService;
+    CaseOnTreatMoveService onTreatCaseMoveService;
 
     @Autowired
-    NotOnTreatCaseMoveService notOnTreatCaseMoveService;
+    CaseNotOnTreatMoveService notOnTreatCaseMoveService;
 
     // TODO: [MSANTOS] Missing email dispatcher implementation
 
@@ -49,10 +49,6 @@ public class CaseMoveService {
 
         if (!(unitTo instanceof Tbunit)) {
             throw new EntityValidationException(unitTo, "DISCRIMINATOR", "Destiny unit must be a TbUnit", null);
-        }
-
-        if (unitTo == null) {
-            throw new EntityNotFoundException();
         }
 
         if (!isWorkingUnit(tbcase)) {
@@ -140,7 +136,7 @@ public class CaseMoveService {
 
         Tbunit unit = tbcase.getNotificationUnit();
         if (unit != null) {
-            return ((unit != null) && (unit.getId().equals(uw.getUnit().getId())));
+            return (unit.getId().equals(uw.getUnit().getId()));
         }
 
         return true;

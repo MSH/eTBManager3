@@ -18,7 +18,7 @@ import java.util.UUID;
  * Created by Mauricio on 14/09/2016.
  */
 @Service
-public class NotOnTreatCaseMoveService {
+public class CaseNotOnTreatMoveService {
 
     @PersistenceContext
     EntityManager entityManager;
