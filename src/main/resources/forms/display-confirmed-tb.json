@@ -7,13 +7,13 @@
   "controls": [
     {
       "type": "date",
-      "label": "${TbCase.registrationDate}",
+      "label": "${TbCase.registrationDate.TB}",
       "property": "tbcase.registrationDate",
       "size": { "md": 6 }
     },
     {
       "property": "tbcase.registrationNumber",
-      "label": "${TbCase.registrationNumber}",
+      "label": "${DisplayCaseNumber.TB}",
       "type": "string",
       "size": { "md": 6 }
     },

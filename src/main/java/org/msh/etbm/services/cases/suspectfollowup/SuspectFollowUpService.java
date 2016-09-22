@@ -8,6 +8,7 @@ import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +53,22 @@ public class SuspectFollowUpService {
 
     @Transactional
     public StandardResult save(SuspectFollowUpData data) {
+        // validate if it is a suspect
         TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
         if (!tbcase.getDiagnosisType().equals(DiagnosisType.SUSPECT)) {
             throw new EntityValidationException(tbcase, "diagnosisType", "TbCase must be a suspect", null);
         }
 
-        ModelDAO dao = factory.create("tbcase");
-
         Map caseData = (Map) data.getDoc().get("tbcase");
-        caseData.put("diagnosisType", DiagnosisType.CONFIRMED);
 
+        if (caseData.get("classification") != null) {
+            caseData.put("diagnosisType", DiagnosisType.CONFIRMED);
+        } else {
+            caseData.put("state", CaseState.CLOSED);
+        }
+
+        ModelDAO dao = factory.create("tbcase");
         ModelDAOResult res = dao.update(tbcase.getId(), caseData);
 
         if (res.getErrors() != null) {

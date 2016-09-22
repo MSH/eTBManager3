@@ -18,10 +18,7 @@ export default class SuspectFollowUp extends React.Component {
     }
 
     getRemoteForm() {
-        return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification).then(res => {
-            res.doc.classification = this.props.classification;
-            return res;
-        });
+        return server.get('/api/cases/case/suspectfollowup/initform/' + this.props.classification);
     }
 
     onConfirm(doc) {
