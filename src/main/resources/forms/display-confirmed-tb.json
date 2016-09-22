@@ -70,6 +70,12 @@
       "size": { "sm": 12 }
     },
     {
+      "type": "unit",
+      "label": "${TbCase.notificationUnit}",
+      "property": "tbcase.notificationUnit",
+      "size": { "md": 12 }
+    },
+    {
       "type": "date",
       "label": "${TbCase.diagnosisDate}",
       "property": "tbcase.diagnosisDate",
