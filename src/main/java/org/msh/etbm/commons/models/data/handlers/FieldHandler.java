@@ -120,7 +120,7 @@ public abstract class FieldHandler<E extends Field> {
     private boolean validateOptions(FieldContext fieldContext, Object value) {
         // check if there is any option available
         Field field = fieldContext.getField();
-        if (field.getOptions() == null) {
+        if (field.getOptions() == null || value == null) {
             return true;
         }
 

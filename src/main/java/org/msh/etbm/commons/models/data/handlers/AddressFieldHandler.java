@@ -64,7 +64,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         fields.put(field.getFieldAddress(), addr.getAddress());
         fields.put(field.getFieldComplement(), addr.getComplement());
         fields.put(field.getFieldZipCode(), addr.getZipCode());
-        fields.put(field.getFieldAdminUnit(), ObjectUtils.uuidAsBytes(addr.getAdminUnitId()));
+        fields.put(field.getFieldAdminUnit(), addr.getAdminUnitId() != null ? ObjectUtils.uuidAsBytes(addr.getAdminUnitId()) : null);
 
         return fields;
     }

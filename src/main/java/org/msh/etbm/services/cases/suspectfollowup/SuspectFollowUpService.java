@@ -37,15 +37,16 @@ public class SuspectFollowUpService {
 
     public FormInitResponse initForm (CaseClassification cla) {
         Map<String, Object> doc = new HashMap<>();
-        doc.put("tbcase", new HashMap<>());
+        Map<String, Object> caseData = new HashMap<>();
+
+        doc.put("tbcase", caseData);
 
         if (cla == null) {
             return formService.init("suspect-followup-not-tb", doc, false);
         }
 
         String formId = "suspect-followup-" + cla.name().toLowerCase();
-        doc.put("classification", cla);
-        doc.put("diagnosisType", DiagnosisType.CONFIRMED);
+        caseData.put("classification", cla);
         return formService.init(formId, doc, false);
     }
 
@@ -59,9 +60,10 @@ public class SuspectFollowUpService {
 
         ModelDAO dao = factory.create("tbcase");
 
-        data.getDoc().put("diagnosisType", DiagnosisType.CONFIRMED);
+        Map caseData = (Map) data.getDoc().get("tbcase");
+        caseData.put("diagnosisType", DiagnosisType.CONFIRMED);
 
-        ModelDAOResult res = dao.update(tbcase.getId(), data.getDoc());
+        ModelDAOResult res = dao.update(tbcase.getId(), caseData);
 
         if (res.getErrors() != null) {
             throw new EntityValidationException(res.getErrors());

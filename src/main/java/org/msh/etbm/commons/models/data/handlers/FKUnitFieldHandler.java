@@ -26,6 +26,10 @@ public class FKUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
             return UUID.fromString((String) value);
         }
 
+        if (value instanceof UnitItemData) {
+           return ((UnitItemData)value).getId();
+        }
+
         if (value instanceof UUID) {
             return value;
         }

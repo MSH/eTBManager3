@@ -86,8 +86,8 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         data.put("patient", resPatient.getValues());
 
         // mount form name
-        DiagnosisType diag = DiagnosisType.valueOf(((String) resTbcase.getValues().get("diagnosisType")));
-        CaseClassification cla = CaseClassification.valueOf(((String) resTbcase.getValues().get("classification")));
+        DiagnosisType diag = (DiagnosisType) resTbcase.getValues().get("diagnosisType");
+        CaseClassification cla = (CaseClassification) resTbcase.getValues().get("classification");
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {

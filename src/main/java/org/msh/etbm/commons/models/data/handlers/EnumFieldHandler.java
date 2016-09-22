@@ -101,12 +101,12 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
             return null;
         }
 
-        Enum e = null;
+        Enum e;
 
         if (value instanceof Integer) {
             Class<? extends Enum> enumClass = field.resolveEnumClass();
             e = enumClass.getEnumConstants()[(Integer) value];
-            return e.name();
+            return e;
         }
 
         throw new RuntimeException("Check enum field handler");
