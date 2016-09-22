@@ -24,7 +24,7 @@ public class DateFieldHandler extends SingleFieldHandler<DateField> {
 
         if (value instanceof String) {
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
                 Date date = sdf.parse((String)value);
                 return date;
             } catch (ParseException e) {
