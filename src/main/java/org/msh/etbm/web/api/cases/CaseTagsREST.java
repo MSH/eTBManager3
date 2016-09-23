@@ -34,7 +34,7 @@ public class CaseTagsREST {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public StandardResult updateManualTags(@Valid @NotNull @RequestBody CaseTagsFormData req) {
         service.updateTags(req);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
