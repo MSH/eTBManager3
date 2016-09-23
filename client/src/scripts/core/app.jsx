@@ -29,6 +29,7 @@ export class App {
         this.listeners = [];
         // attach API to handle user session tasks
         onRequestError(this._serverErrorHandler.bind(this));
+        window.onhashchange = () => window.scrollTo(0, 0);
     }
 
     /**
