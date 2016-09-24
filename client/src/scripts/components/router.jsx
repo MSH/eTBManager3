@@ -317,6 +317,11 @@ export class Route {
  * found, the navigator notifies the root RouteView in order to update the view
  */
 class Router {
+
+    constructor() {
+        window.onhashchange = () => window.scrollTo(0, 0);
+    }
+
     /**
      * Initialize the navigator passing a callback function that will receive notification
      * about changes in the URL. The initialization is just done once (during app startup),
