@@ -43,8 +43,6 @@ export default class CasesReports extends React.Component {
             return <WaitIcon />;
         }
 
-        console.log(this.props.route);
-
         return (
             <Card title={__('reports')}>
                 <ReactTable
