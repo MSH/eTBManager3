@@ -13,7 +13,7 @@ export default class CasesSideView extends React.Component {
             cmds: [
                 {
                     title: __('cases.notifycase'),
-                    icon: 'file-text',
+                    icon: 'book',
                     submenu: [
                         {
                             title: __('CaseClassification.TB.confirmed'),
@@ -34,7 +34,7 @@ export default class CasesSideView extends React.Component {
                 },
                 {
                     title: __('cases.notifysusp'),
-                    icon: 'file-text',
+                    icon: 'book',
                     submenu: [
                         {
                             title: __('CaseClassification.TB.suspect'),

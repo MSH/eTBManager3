@@ -7,6 +7,8 @@ import CasesDistribution from '../commons/cases-distribution';
 import AdvancedSearch from '../cases/advanced-search';
 import TagCasesList from '../cases/tag-cases-list';
 import SummaryList from '../commons/summary-list';
+import CasesReports from '../commons/cases-reports';
+import ReportView from '../cases/report-view';
 
 
 const views = [
@@ -26,6 +28,13 @@ const views = [
         sideView: true
     },
     {
+        title: __('reports'),
+        icon: 'table',
+        path: '/reports',
+        view: CasesReports,
+        sideView: true
+    },
+    {
         title: __('admin.tags'),
         path: '/tag',
         view: TagCasesList
@@ -34,6 +43,11 @@ const views = [
         title: __('global.summary'),
         path: '/summary',
         view: SummaryList
+    },
+    {
+        title: __('reports'),
+        path: '/report',
+        view: ReportView
     }
 ];
 
