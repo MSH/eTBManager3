@@ -110,8 +110,8 @@ public class TreatmentEditService {
 
         // get and validate period
         Period p = new Period(req.getIniDate(), req.getEndDate());
-        if (!p.isBroken()) {
-            return;
+        if (p.isBroken()) {
+            throw new InvalidArgumentException("Missing information on prescription period.");
         }
 
         Period treatPeriod = tbcase.getTreatmentPeriod();

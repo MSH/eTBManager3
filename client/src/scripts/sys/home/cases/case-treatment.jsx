@@ -24,6 +24,7 @@ export default class CaseTreatment extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.handleEvent = this.handleEvent.bind(this);
         this.closeDlg = this.closeDlg.bind(this);
+        this.addMedicine = this.addMedicine.bind(this);
 
         this.state = {
             sc1: {
@@ -102,8 +103,8 @@ export default class CaseTreatment extends React.Component {
     /**
      * Called when user select the command to add a new medicine to the treatment regimen
      */
-    addMedicine() {
-        this.setState({ show: 'add-med' });
+    addMedicine(data) {
+        this.setState({ show: 'add-med', prescDataEdt: data });
     }
 
     /**
@@ -129,7 +130,7 @@ export default class CaseTreatment extends React.Component {
     }
 
     closeDlg() {
-        this.setState({ show: null });
+        this.setState({ show: null, prescDataEdt: null });
     }
 
     render() {
@@ -172,12 +173,18 @@ export default class CaseTreatment extends React.Component {
                 </Card>
 
                 <Card title={__('cases.details.treatment.prescmeds')} headerRight={optionsBtn}>
-                    <TreatTimeline treatment={data} />
+                    <TreatTimeline treatment={data} onPopupEdit={this.addMedicine} />
                 </Card>
 
                 <TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 
-                <AddMedicine show={this.state.show === 'add-med'} tbcase={tbcase} onClose={this.closeDlg} />
+                {
+                    this.state.show === 'add-med' &&
+                    <AddMedicine 
+                        tbcase={tbcase}
+                        onClose={this.closeDlg}
+                        prescData={this.state.prescDataEdt} />
+                }
             </div>
             );
     }

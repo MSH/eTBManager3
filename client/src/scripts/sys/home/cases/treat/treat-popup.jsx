@@ -12,6 +12,7 @@ export default class TreatPopup extends React.Component {
         super(props);
         this._getTarget = this._getTarget.bind(this);
         this.renderPresc = this.renderPresc.bind(this);
+        this.onEditClick = this.onEditClick.bind(this);
     }
 
 
@@ -54,6 +55,12 @@ export default class TreatPopup extends React.Component {
             );
     }
 
+    onEditClick() {
+        if (this.props.onEdit) {
+            this.props.onEdit(this.props.data.data);
+        }
+    }
+
     renderPresc(data) {
         const deleteMsg = () => app.messageDlg({
             title: __('cases.treat.prescription.delete'),
@@ -84,7 +91,7 @@ export default class TreatPopup extends React.Component {
                 </div>
                 <div className="mtop-2x">
                 <ButtonToolbar>
-                    <Button bsStyle="primary">{__('action.edit')}</Button>
+                    <Button onClick={this.onEditClick} bsStyle="primary">{__('action.edit')}</Button>
                     <Button onClick={deleteMsg}>{__('action.delete')}</Button>
                 </ButtonToolbar>
                 </div>
@@ -131,5 +138,6 @@ TreatPopup.propTypes = {
     show: React.PropTypes.bool,
     target: React.PropTypes.any,
     data: React.PropTypes.object,
-    onHide: React.PropTypes.func
+    onHide: React.PropTypes.func,
+    onEdit: React.PropTypes.func
 };
