@@ -5,5 +5,7 @@ export default {
     // open the dialog to start a standard regimen
     startStandardRegimen: 'start-std-reg',
     // open the dialog to start an individualized regimen
-    startInvidRegimen: 'start-ind-reg'
+    startInvidRegimen: 'start-ind-reg',
+    // update tratment timeline
+    updateTreatment: 'update-treatment'
 };

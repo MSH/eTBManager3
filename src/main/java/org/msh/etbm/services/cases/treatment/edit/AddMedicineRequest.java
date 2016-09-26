@@ -29,6 +29,7 @@ public class AddMedicineRequest {
     @NotNull
     private Integer frequency;
 
+    private String comments;
 
     public UUID getCaseId() {
         return caseId;
@@ -76,5 +77,13 @@ public class AddMedicineRequest {
 
     public void setFrequency(Integer frequency) {
         this.frequency = frequency;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 }

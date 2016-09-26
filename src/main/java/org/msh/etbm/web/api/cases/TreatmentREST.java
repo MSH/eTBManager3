@@ -2,6 +2,9 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
+import org.msh.etbm.services.cases.treatment.edit.AddMedicineRequest;
+import org.msh.etbm.services.cases.treatment.edit.PrescriptionUpdateRequest;
+import org.msh.etbm.services.cases.treatment.edit.TreatmentEditService;
 import org.msh.etbm.services.cases.treatment.followup.TreatFollowupUpdateRequest;
 import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
 import org.msh.etbm.services.cases.treatment.start.StartTreatmentRequest;
@@ -27,9 +30,6 @@ import java.util.UUID;
 public class TreatmentREST {
 
     @Autowired
-    TreatmentService service;
-
-    @Autowired
     TreatmentFollowupService treatmentFollowupService;
 
     @Autowired
@@ -38,6 +38,8 @@ public class TreatmentREST {
     @Autowired
     TreatmentService treatmentService;
 
+    @Autowired
+    TreatmentEditService treatmentEditService;
 
     /**
      * Return treatment information of a case
@@ -47,7 +49,7 @@ public class TreatmentREST {
     @RequestMapping(value = "/treatment/{caseId}", method = RequestMethod.GET)
     @Authenticated
     public TreatmentData get(@PathVariable @NotNull UUID caseId) {
-        return service.getData(caseId);
+        return treatmentService.getData(caseId);
     }
 
     /**
@@ -82,6 +84,42 @@ public class TreatmentREST {
     @RequestMapping(value = "/treatment/undo/{caseId}", method = RequestMethod.POST)
     public StandardResult undoTreatment(@PathVariable @NotNull UUID caseId) {
         treatmentService.undoTreatment(caseId);
+
+        return StandardResult.createSuccessResult();
+    }
+
+    /**
+     * remove a prescription from the case treatment
+     * @param prescriptionId
+     * @return
+     */
+    @RequestMapping(value = "/treatment/prescription/delete/{prescriptionId}", method = RequestMethod.DELETE)
+    public StandardResult deletePrescription(@PathVariable @NotNull UUID prescriptionId) {
+        treatmentEditService.removePrescription(prescriptionId, null);
+
+        return StandardResult.createSuccessResult();
+    }
+
+    /**
+     * creates a prescription from the case treatment
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/treatment/prescription/add", method = RequestMethod.POST)
+    public StandardResult addPrescription(@RequestBody @Valid @NotNull AddMedicineRequest req) {
+        treatmentEditService.addMedicine(req);
+
+        return StandardResult.createSuccessResult();
+    }
+
+    /**
+     * creates a prescription from the case treatment
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/treatment/prescription/update", method = RequestMethod.POST)
+    public StandardResult updatePrescription(@RequestBody @Valid @NotNull PrescriptionUpdateRequest req) {
+        treatmentEditService.updatePrescription(req);
 
         return StandardResult.createSuccessResult();
     }

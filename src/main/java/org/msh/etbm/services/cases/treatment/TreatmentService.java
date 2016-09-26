@@ -133,6 +133,7 @@ public class TreatmentService {
             }
 
             PrescriptionPeriod p = new PrescriptionPeriod();
+            p.setPrescriptionId(pm.getId());
             p.setIni(pm.getPeriod().getIniDate());
             p.setEnd(pm.getPeriod().getEndDate());
             p.setComments(pm.getComments());

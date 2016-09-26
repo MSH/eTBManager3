@@ -2,6 +2,8 @@ import React from 'react';
 import { Overlay, Popover, ButtonToolbar, Button } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { durationDisplay } from '../../../../commons/utils';
+import { server } from '../../../../commons/server';
+import { app } from '../../../../core/app';
 
 
 export default class TreatPopup extends React.Component {
@@ -9,6 +11,7 @@ export default class TreatPopup extends React.Component {
     constructor(props) {
         super(props);
         this._getTarget = this._getTarget.bind(this);
+        this.renderPresc = this.renderPresc.bind(this);
     }
 
 
@@ -52,6 +55,20 @@ export default class TreatPopup extends React.Component {
     }
 
     renderPresc(data) {
+        const deleteMsg = () => app.messageDlg({
+            title: __('cases.treat.prescription.delete'),
+            message: __('form.confirm_remove'),
+            style: 'warning',
+            type: 'YesNo'
+        }).then(res => {
+            if (res === 'yes') {
+                server.delete('/api/cases/case/treatment/prescription/delete/' + data.data.prescriptionId)
+                    .then(() => {
+                        app.dispatch('update-treatment');
+                    });
+            }
+        });
+
         return (
             <div style={{ minWidth: '230px' }}>
                 {
@@ -68,7 +85,7 @@ export default class TreatPopup extends React.Component {
                 <div className="mtop-2x">
                 <ButtonToolbar>
                     <Button bsStyle="primary">{__('action.edit')}</Button>
-                    <Button>{__('action.delete')}</Button>
+                    <Button onClick={deleteMsg}>{__('action.delete')}</Button>
                 </ButtonToolbar>
                 </div>
             </div>
