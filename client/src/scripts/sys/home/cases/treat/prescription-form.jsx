@@ -50,7 +50,7 @@ const newSchema = {
             options: { from: 1, to: 7 }
         },
         {
-            property: 'comments',
+            property: 'comment',
             type: 'text',
             label: __('global.comments')
         }
@@ -60,6 +60,13 @@ const newSchema = {
 const edtSchema = {
     title: __('cases.treat.prescription.edit'),
     controls: [
+        {
+            property: 'preservePrevPeriod',
+            type: 'yesNo',
+            label: __('cases.treat.preservePreviousPeriod'),
+            required: true,
+            size: { md: 12 }
+        },
         {
             property: 'iniDate',
             type: 'date',
@@ -96,7 +103,7 @@ const edtSchema = {
             options: { from: 1, to: 7 }
         },
         {
-            property: 'comments',
+            property: 'comment',
             type: 'text',
             label: __('global.comments')
         }
@@ -107,6 +114,10 @@ const edtSchema = {
  * Display modal dialog to add a new medicine to the treatment regimen
  */
 export default class PrescriptionForm extends React.Component {
+
+    //TODO [MSANTOS]: dividir em 2 componentes um para edição e outro para novas prescrições
+    //TODO [MSANTOS]: quando é edição as datas enviadas ao servidor possuem uma diferença
+    //TODO [MSANTOS]: colocar o case-treatment para fazer as alterações no banco, usar e abusar dos events app.dispatch
 
     constructor(props) {
         super(props);
@@ -119,7 +130,6 @@ export default class PrescriptionForm extends React.Component {
         const doc = {};
         const prescData = this.props.prescData;
         if (prescData) {
-            console.log(prescData);
             // load editing prescription data
             doc.prescriptionId = prescData.prescriptionId;
             doc.iniDate = prescData.ini;
@@ -149,7 +159,6 @@ export default class PrescriptionForm extends React.Component {
     }
 
     saveNew(doc) {
-        console.log('saving new', doc);
         return server.post('/api/cases/case/treatment/prescription/add', doc)
                 .then(res => {
                     if (!res.success) {
@@ -166,7 +175,6 @@ export default class PrescriptionForm extends React.Component {
     }
 
     saveEdt(doc) {
-        console.log('saving edt', doc);
         return server.post('/api/cases/case/treatment/prescription/update', doc)
                 .then(res => {
                     if (!res.success) {

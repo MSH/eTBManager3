@@ -95,7 +95,7 @@ public class TreatmentREST {
      */
     @RequestMapping(value = "/treatment/prescription/delete/{prescriptionId}", method = RequestMethod.DELETE)
     public StandardResult deletePrescription(@PathVariable @NotNull UUID prescriptionId) {
-        treatmentEditService.removePrescription(prescriptionId, null);
+        treatmentEditService.removePrescription(prescriptionId);
 
         return StandardResult.createSuccessResult();
     }

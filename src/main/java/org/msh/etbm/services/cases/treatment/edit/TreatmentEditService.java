@@ -34,6 +34,9 @@ public class TreatmentEditService {
     @Autowired
     Messages messages;
 
+    //TODO: [MSANTOS] registrar commandlog
+    //TODO: [MSANTOS] quando inicia um regime padronizado ele inclui apenas as prescriptions da antiga 'fase intensiva'. verificar
+    //TODO: [MSANTOS] criar um treatmentutils que manipule as prescriptions
 
     /**
      * Update the treatment regimen of a case
@@ -42,7 +45,7 @@ public class TreatmentEditService {
     @Transactional
     @CommandLog(type = CommandTypes.CASES_TREAT_EDIT, handler = TreatmentCmdLogHandler.class)
     public void updateTreatment(TreatmentUpdateRequest req) {
-
+        // TODO: [MSANTOS] SERIA AQUI O CHANGE REGIMEN? "Edit Treatment"
     }
 
     /**
@@ -52,9 +55,6 @@ public class TreatmentEditService {
      */
     @Transactional
     public void addPrescription(AddMedicineRequest req) {
-        //TODO: [MSANTOS] há mais alguma validação à fazer?
-        //TODO: [MSANTOS] registrar commandlog?
-
         // get and validate tbcase
         TbCase tbcase = entityManager.find(TbCase.class, req.getCaseId());
         if (tbcase == null) {
@@ -102,11 +102,6 @@ public class TreatmentEditService {
      */
     @Transactional
     public void updatePrescription(PrescriptionUpdateRequest req) {
-        //TODO: [MSANTOS] há mais alguma validação à fazer?
-        //TODO: [MSANTOS] registrar commandlog?
-        //TODO: [MSANTOS] implementar 'preserve previous period'
-        //TODO: [MSANTOS] deve permitir trocar o medicamento, como na versão anterior?
-
         // get and validate prescription
         PrescribedMedicine pm = entityManager.find(PrescribedMedicine.class, req.getPrescriptionId());
         if (pm == null) {
@@ -129,6 +124,14 @@ public class TreatmentEditService {
             throw new EntityValidationException(req, "iniDate", msg, null);
         }
 
+        // should preserve previous prescription?
+        if (req.isPreservePrevPeriod() && !pm.getPeriod().isInside(p)) {
+            // only preserves it, if the old prescribed medicine period is not inside the new period
+            // The old period will be adjusted when calling checkPrescriptionsInterceptions method
+            PrescribedMedicine aux = clonePrescribedMedicine(pm);
+            tbcase.getPrescriptions().add(aux);
+        }
+
         pm.setPeriod(p);
         pm.setDoseUnit(req.getDoseUnit());
         pm.setFrequency(req.getFrequency());
@@ -141,10 +144,7 @@ public class TreatmentEditService {
     }
 
     @Transactional
-    public void removePrescription(UUID prescriptionId, Period p) {
-        // TODO: [MSANTOS] pq desse parametro period?
-        // TODO: [MSANTOS] se o prescribed medicine deletado for o que esta puxando o periodo do tratamento, deve-se reduzir o treatmentPeriod?
-        // TODO: [MSANTOS] Se for a ultima prescription do caso deleta, assim mesmo?
+    public void removePrescription(UUID prescriptionId) {
 
         PrescribedMedicine pm = entityManager.find(PrescribedMedicine.class, prescriptionId);
         if (pm == null) {
@@ -160,7 +160,7 @@ public class TreatmentEditService {
     }
 
     /**
-     * Checks if endDate of treatment should be updated.
+     * Checks if treatment endDate should be updated, based on new prescriptions. IniDate will not be modified.
      * @param tbcase modified tbcase
      */
     private void checkTreatPeriod(TbCase tbcase) {
@@ -201,12 +201,17 @@ public class TreatmentEditService {
         }
     }
 
+    /**
+     * Update same product prescriptions period if the new prescription period intercepts other prescription period.
+     * @param mainPresc Prescription that will not have its period changed
+     * @param tbcase modified tbcase
+     */
     private void checkPrescriptionsInterceptions(PrescribedMedicine mainPresc, TbCase tbcase) {
         List<PrescribedMedicine> sameProdList = new ArrayList<>();
 
         for (PrescribedMedicine pm : tbcase.getPrescriptions()) {
             if (pm.getProduct().getId().equals(mainPresc.getProduct().getId())
-                    && (mainPresc.getId() == null || !pm.getId().equals(mainPresc.getId()))) {
+                    && (mainPresc.getId() == null || (pm.getId() == null || !pm.getId().equals(mainPresc.getId())))) {
                 sameProdList.add(pm);
             }
         }

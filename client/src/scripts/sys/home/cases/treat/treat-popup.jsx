@@ -89,6 +89,13 @@ export default class TreatPopup extends React.Component {
                     <b>{__('PrescribedMedicine.doseUnit') + ': '}</b>
                     {data.data.doseUnit}
                 </div>
+                {
+                    data.data.comments &&
+                    <div>
+                        <b>{__('global.comments') + ': '}</b>
+                        {data.data.comments}
+                    </div>
+                }
                 <div className="mtop-2x">
                 <ButtonToolbar>
                     <Button onClick={this.onEditClick} bsStyle="primary">{__('action.edit')}</Button>

@@ -63,10 +63,9 @@ export default class CaseTreatment extends React.Component {
      * @return {[type]}        [description]
      */
     handleEvent() {
-        // show wait icon
+        // remove treatment information
         const tbcase = this.props.tbcase;
         delete tbcase.treatment;
-        this.forceUpdate();
 
         // start updating treatment
         this.fetchData();
@@ -181,7 +180,7 @@ export default class CaseTreatment extends React.Component {
 
                 {
                     this.state.show === 'presc-form' &&
-                    <PrescriptionForm 
+                    <PrescriptionForm
                         tbcase={tbcase}
                         onClose={this.closeDlg}
                         prescData={this.state.prescDataEdt} />
