@@ -6,7 +6,7 @@ import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
-import AddMedicine from './treat/add-medicine';
+import PrescriptionForm from './treat/prescription-form';
 import TreatFollowup from './treat/treat-followup';
 import NoTreatPanel from './treat/no-treat-panel';
 
@@ -24,7 +24,7 @@ export default class CaseTreatment extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.handleEvent = this.handleEvent.bind(this);
         this.closeDlg = this.closeDlg.bind(this);
-        this.addMedicine = this.addMedicine.bind(this);
+        this.showPrescriptionForm = this.showPrescriptionForm.bind(this);
 
         this.state = {
             sc1: {
@@ -91,7 +91,7 @@ export default class CaseTreatment extends React.Component {
     menuClick(key) {
         switch (key) {
             case 1:
-                this.addMedicine();
+                this.showPrescriptionForm();
                 break;
             case 3:
                 this.undoTreatment();
@@ -101,10 +101,11 @@ export default class CaseTreatment extends React.Component {
     }
 
     /**
-     * Called when user select the command to add a new medicine to the treatment regimen
+     * Called when user select the command to add a new medicine to the treatment regimen, or edit an existing one
      */
-    addMedicine(data) {
-        this.setState({ show: 'add-med', prescDataEdt: data });
+    showPrescriptionForm(data) {
+        // if data is null it is a new prescription
+        this.setState({ show: 'presc-form', prescDataEdt: data });
     }
 
     /**
@@ -173,14 +174,14 @@ export default class CaseTreatment extends React.Component {
                 </Card>
 
                 <Card title={__('cases.details.treatment.prescmeds')} headerRight={optionsBtn}>
-                    <TreatTimeline treatment={data} onPopupEdit={this.addMedicine} />
+                    <TreatTimeline treatment={data} onPopupEdit={this.showPrescriptionForm} />
                 </Card>
 
                 <TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 
                 {
-                    this.state.show === 'add-med' &&
-                    <AddMedicine 
+                    this.state.show === 'presc-form' &&
+                    <PrescriptionForm 
                         tbcase={tbcase}
                         onClose={this.closeDlg}
                         prescData={this.state.prescDataEdt} />

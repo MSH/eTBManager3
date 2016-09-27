@@ -106,7 +106,7 @@ const edtSchema = {
 /**
  * Display modal dialog to add a new medicine to the treatment regimen
  */
-export default class AddMedicine extends React.Component {
+export default class PrescriptionForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -205,7 +205,7 @@ export default class AddMedicine extends React.Component {
     }
 }
 
-AddMedicine.propTypes = {
+PrescriptionForm.propTypes = {
     tbcase: React.PropTypes.object,
     onClose: React.PropTypes.func,
     prescData: React.PropTypes.object
