@@ -107,7 +107,7 @@ public class TreatmentREST {
      */
     @RequestMapping(value = "/treatment/prescription/add", method = RequestMethod.POST)
     public StandardResult addPrescription(@RequestBody @Valid @NotNull AddMedicineRequest req) {
-        treatmentEditService.addMedicine(req);
+        treatmentEditService.addPrescription(req);
 
         return StandardResult.createSuccessResult();
     }

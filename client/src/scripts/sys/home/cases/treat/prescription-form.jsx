@@ -27,7 +27,7 @@ const newSchema = {
             label: __('Period.endDate'),
             required: true,
             size: { md: 6 },
-            validate: doc => doc.ini < doc.end,
+            validate: doc => doc.iniDate < doc.endDate,
             validateMessage: __('period.inienddate')
         },
         {
@@ -73,7 +73,7 @@ const edtSchema = {
             label: __('Period.endDate'),
             required: true,
             size: { md: 6 },
-            validate: doc => doc.ini < doc.end,
+            validate: doc => doc.iniDate < doc.endDate,
             validateMessage: __('period.inienddate')
         },
         {
