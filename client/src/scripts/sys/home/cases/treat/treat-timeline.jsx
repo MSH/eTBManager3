@@ -217,14 +217,12 @@ export default class TreatTimeline extends React.Component {
                     data={this.state.data}
                     show={this.state.ppshow}
                     onHide={this._popupHide}
-                    target={this.state.pptarget}
-                    onEdit={this.props.onPopupEdit} />
+                    target={this.state.pptarget} />
             </Grid>
             );
     }
 }
 
 TreatTimeline.propTypes = {
-    treatment: React.PropTypes.object,
-    onPopupEdit: React.PropTypes.func
+    treatment: React.PropTypes.object
 };

@@ -125,7 +125,7 @@ public class TreatmentEditService {
         }
 
         // should preserve previous prescription?
-        if (req.isPreservePrevPeriod() && !pm.getPeriod().isInside(p)) {
+        if (req.isPreservePrevPeriod() && !pm.getPeriod().isInside(p) && !pm.getPeriod().equals(p)) {
             // only preserves it, if the old prescribed medicine period is not inside the new period
             // The old period will be adjusted when calling checkPrescriptionsInterceptions method
             PrescribedMedicine aux = clonePrescribedMedicine(pm);
@@ -135,7 +135,7 @@ public class TreatmentEditService {
         pm.setPeriod(p);
         pm.setDoseUnit(req.getDoseUnit());
         pm.setFrequency(req.getFrequency());
-        pm.setComments(req.getComment());
+        pm.setComments(req.getComments());
 
         checkPrescriptionsInterceptions(pm, tbcase);
 

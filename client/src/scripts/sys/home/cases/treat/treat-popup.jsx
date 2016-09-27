@@ -12,7 +12,6 @@ export default class TreatPopup extends React.Component {
         super(props);
         this._getTarget = this._getTarget.bind(this);
         this.renderPresc = this.renderPresc.bind(this);
-        this.onEditClick = this.onEditClick.bind(this);
     }
 
 
@@ -55,14 +54,8 @@ export default class TreatPopup extends React.Component {
             );
     }
 
-    onEditClick() {
-        if (this.props.onEdit) {
-            this.props.onEdit(this.props.data.data);
-        }
-    }
-
     renderPresc(data) {
-        const deleteMsg = () => app.messageDlg({
+        const onDeleteClick = () => app.messageDlg({
             title: __('cases.treat.prescription.delete'),
             message: __('form.confirm_remove'),
             style: 'warning',
@@ -75,6 +68,8 @@ export default class TreatPopup extends React.Component {
                     });
             }
         });
+
+        const onEditClick = () => app.dispatch('edt-prescription', this.props.data.data);
 
         return (
             <div style={{ minWidth: '230px' }}>
@@ -98,8 +93,8 @@ export default class TreatPopup extends React.Component {
                 }
                 <div className="mtop-2x">
                 <ButtonToolbar>
-                    <Button onClick={this.onEditClick} bsStyle="primary">{__('action.edit')}</Button>
-                    <Button onClick={deleteMsg}>{__('action.delete')}</Button>
+                    <Button onClick={onEditClick} bsStyle="primary">{__('action.edit')}</Button>
+                    <Button onClick={onDeleteClick}>{__('action.delete')}</Button>
                 </ButtonToolbar>
                 </div>
             </div>
@@ -145,6 +140,5 @@ TreatPopup.propTypes = {
     show: React.PropTypes.bool,
     target: React.PropTypes.any,
     data: React.PropTypes.object,
-    onHide: React.PropTypes.func,
-    onEdit: React.PropTypes.func
+    onHide: React.PropTypes.func
 };

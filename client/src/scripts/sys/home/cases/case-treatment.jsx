@@ -6,7 +6,8 @@ import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
-import PrescriptionForm from './treat/prescription-form';
+import EdtPrescription from './treat/edt-prescription';
+import AddPrescription from './treat/add-prescription';
 import TreatFollowup from './treat/treat-followup';
 import NoTreatPanel from './treat/no-treat-panel';
 
@@ -24,7 +25,6 @@ export default class CaseTreatment extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.handleEvent = this.handleEvent.bind(this);
         this.closeDlg = this.closeDlg.bind(this);
-        this.showPrescriptionForm = this.showPrescriptionForm.bind(this);
 
         this.state = {
             sc1: {
@@ -90,21 +90,13 @@ export default class CaseTreatment extends React.Component {
     menuClick(key) {
         switch (key) {
             case 1:
-                this.showPrescriptionForm();
+                app.dispatch('add-prescription');
                 break;
             case 3:
                 this.undoTreatment();
                 break;
             default:
         }
-    }
-
-    /**
-     * Called when user select the command to add a new medicine to the treatment regimen, or edit an existing one
-     */
-    showPrescriptionForm(data) {
-        // if data is null it is a new prescription
-        this.setState({ show: 'presc-form', prescDataEdt: data });
     }
 
     /**
@@ -173,18 +165,13 @@ export default class CaseTreatment extends React.Component {
                 </Card>
 
                 <Card title={__('cases.details.treatment.prescmeds')} headerRight={optionsBtn}>
-                    <TreatTimeline treatment={data} onPopupEdit={this.showPrescriptionForm} />
+                    <TreatTimeline treatment={data} />
                 </Card>
 
                 <TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 
-                {
-                    this.state.show === 'presc-form' &&
-                    <PrescriptionForm
-                        tbcase={tbcase}
-                        onClose={this.closeDlg}
-                        prescData={this.state.prescDataEdt} />
-                }
+                <AddPrescription tbcase={tbcase} />
+                <EdtPrescription tbcase={tbcase} />
             </div>
             );
     }

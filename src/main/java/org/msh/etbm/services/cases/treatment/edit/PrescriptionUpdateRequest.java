@@ -46,7 +46,7 @@ public class PrescriptionUpdateRequest {
     /**
      * Any comment given by the user
      */
-    private String comment;
+    private String comments;
 
     /**
      * If the period is changed to a narrow period, and this flag is true, the remaining period outside
@@ -95,12 +95,12 @@ public class PrescriptionUpdateRequest {
         this.doseUnit = doseUnit;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public boolean isPreservePrevPeriod() {
