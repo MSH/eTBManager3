@@ -1,9 +1,72 @@
 import React from 'react';
 import { Card, CommandBar, Sideview } from '../../../components';
 import { server } from '../../../commons/server';
+import { RouteView } from '../../../components/router';
+
+import AdvancedSearch from '../cases/advanced-search';
+import TagCasesList from '../cases/tag-cases-list';
+import SummaryList from '../commons/summary-list';
+import CasesReports from '../commons/cases-reports';
+import ReportView from '../cases/report-view';
+import ReportEditor from '../cases/report-editor';
+
+/**
+ * These are common views used in the side view of workspace, admin units and units
+ */
+const commonViews = [
+    {
+        title: __('cases.search'),
+        icon: 'search',
+        path: '/search',
+        view: AdvancedSearch,
+        sideView: true
+    },
+    {
+        title: __('reports'),
+        icon: 'table',
+        path: '/reports',
+        view: CasesReports,
+        sideView: true
+    },
+    {
+        title: __('admin.tags'),
+        path: '/tag',
+        view: TagCasesList
+    },
+    {
+        title: __('global.summary'),
+        path: '/summary',
+        view: SummaryList
+    },
+    {
+        title: __('reports'),
+        path: '/reportedt',
+        view: ReportEditor
+    },
+    {
+        title: __('reports'),
+        path: '/report',
+        view: ReportView
+    }
+];
 
 
+/**
+ * Display a common left side view with commands, views and tags related to the
+ * provided scope in the properties
+ */
 export default class CasesSideView extends React.Component {
+
+    /**
+     * Create a route table with the specific views of the page and the common views.
+     * This is to help the parent component to create a route table for its RouteView
+     * component
+     */
+    static createRoutes(views) {
+        const lst = views ? views.slice(0).concat(commonViews) : commonViews;
+
+        return RouteView.createRoutes(lst);
+    }
 
     constructor(props) {
         super(props);
@@ -90,10 +153,14 @@ export default class CasesSideView extends React.Component {
     }
 
     generateViews() {
+        let views = this.props.views;
+        // get only the views to dislay
+        views = (views ? views.concat(commonViews) : commonViews).filter(it => it.sideView);
+
         const data = this.state.data;
-        const res = this.props.views.map(it =>
+        const res = this.props.scopeId ? views.map(it =>
             Object.assign({}, it, { path: it.path + '?id=' + this.props.scopeId }
-        ));
+        )) : views;
 
         res.splice(0, 0, { title: 'Views' });
 

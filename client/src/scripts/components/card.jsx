@@ -50,7 +50,7 @@ export default class Card extends React.Component {
             <div className={className} style={this.props.style} onClick={this.props.onClick}>
                 {
                     this.props.closeBtn &&
-                    <a className="lnk-muted pull-right card-btn-close" onClick={this.props.onClose}>
+                    <a className="pull-right card-btn-close" onClick={this.props.onClose}>
                         <Fa icon="close"/>
                     </a>
                 }

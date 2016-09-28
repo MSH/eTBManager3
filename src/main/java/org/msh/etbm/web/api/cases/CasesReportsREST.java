@@ -28,6 +28,11 @@ public class CasesReportsREST {
     @Autowired
     ReportsService reportsService;
 
+    /**
+     * Return the list of available report for the give scope
+     * @param req
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public List<Item> getResult(@RequestBody @Valid @NotNull ReportRequest req) {
         return reportsService.getReports(req);

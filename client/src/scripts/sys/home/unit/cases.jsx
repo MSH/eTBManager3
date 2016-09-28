@@ -4,53 +4,23 @@ import CasesSideView from '../cases/cases-side-view';
 import { RouteView } from '../../../components/router';
 
 import CasesUnit from './cases-unit';
-import AdvancedSearch from '../cases/advanced-search';
-import TagCasesList from '../cases/tag-cases-list';
-import SummaryList from '../commons/summary-list';
-import CasesReports from '../commons/cases-reports';
-import ReportView from '../cases/report-view';
 
 
 const views = [
     {
-        title: 'Active cases',
+        title: __('cases.open'),
         icon: 'clone',
         path: '/active',
         default: true,
         view: CasesUnit,
         sideView: true
-    },
-    {
-        title: 'Advanced search',
-        icon: 'search',
-        path: '/search',
-        view: AdvancedSearch,
-        sideView: true
-    },
-    {
-        title: __('reports'),
-        icon: 'table',
-        path: '/reports',
-        view: CasesReports,
-        sideView: true
-    },
-    {
-        title: __('admin.tags'),
-        path: '/tag',
-        view: TagCasesList
-    },
-    {
-        title: __('global.summary'),
-        path: '/summary',
-        view: SummaryList
-    },
-    {
-        title: __('reports'),
-        path: '/report',
-        view: ReportView
     }
 ];
 
+
+/**
+ * Display the cases tab content of the unit page
+ */
 export default class Cases extends React.Component {
 
     constructor(props) {
@@ -77,7 +47,7 @@ export default class Cases extends React.Component {
     render() {
         const unitId = this.props.route.queryParam('id');
 
-        const routes = RouteView.createRoutes(views);
+        const routes = CasesSideView.createRoutes(views);
         const sideViews = views.filter(v => v.sideView);
 
         return (

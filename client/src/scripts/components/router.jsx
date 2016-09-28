@@ -163,7 +163,8 @@ export class RouteView extends React.Component {
             path: this.context.path + route.data.path,
             forpath: forpath,
             data: route.data,
-            queryParam: getParameterByName
+            queryParam: getParameterByName,
+            parentPath: this.context.path
         };
 
         if (typeof View === 'object' && View.default) {

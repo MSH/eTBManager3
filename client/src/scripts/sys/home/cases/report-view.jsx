@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card } from '../../../components';
+import './reports/report.less';
 
 export default class ReportView extends React.Component {
 

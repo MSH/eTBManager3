@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { Card, ReactTable, WaitIcon, Fa } from '../../../components';
 import { server } from '../../../commons/server';
 
@@ -43,8 +44,21 @@ export default class CasesReports extends React.Component {
             return <WaitIcon />;
         }
 
+        const params = this.props.scopeId ? '?id=' + this.props.scopeId : '';
+
+        const newPath = '#' + this.props.route.parentPath + '/reportedt' + params;
+
+        const header = (
+            <div className="class-header">
+                <div className="pull-right">
+                    <Button bsStyle="success" bsSize="small" href={newPath}>{'New report'}</Button>
+                </div>
+                <h4>{__('reports')}</h4>
+            </div>
+        );
+
         return (
-            <Card title={__('reports')}>
+            <Card header={header}>
                 <ReactTable
                     columns={[
                         {

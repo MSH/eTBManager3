@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 /**
  * Arrange the components in a bootstrap grid component,
  * declaring rows and columns
- * @param  {[type]} lst [description]
+ * @param  {[type]} lst An array of objects containing 2 properties - content and size
  * @return {[type]}     [description]
  */
 function arrangeGrid(lst) {
