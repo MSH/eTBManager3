@@ -62,10 +62,7 @@ export default class TreatPopup extends React.Component {
             type: 'YesNo'
         }).then(res => {
             if (res === 'yes') {
-                server.delete('/api/cases/case/treatment/prescription/delete/' + data.data.prescriptionId)
-                    .then(() => {
-                        app.dispatch('update-treatment');
-                    });
+                app.dispatch('del-prescription', data);
             }
         });
 

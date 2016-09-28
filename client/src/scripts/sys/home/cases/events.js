@@ -10,6 +10,8 @@ export default {
     updateTreatment: 'update-treatment',
     // open add prescription form
     addPrescription: 'add-prescription',
-    // open add prescription form
-    edtPrescription: 'edt-prescription'
+    // open edt prescription form
+    edtPrescription: 'edt-prescription',
+    // send request to delete a prescription
+    delPrescription: 'del-prescription'
 };

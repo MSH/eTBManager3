@@ -25,6 +25,7 @@ export default class CaseTreatment extends React.Component {
         this.fetchData = this.fetchData.bind(this);
         this.handleEvent = this.handleEvent.bind(this);
         this.closeDlg = this.closeDlg.bind(this);
+        this.updateTreatment = this.updateTreatment.bind(this);
 
         this.state = {
             sc1: {
@@ -62,7 +63,26 @@ export default class CaseTreatment extends React.Component {
      * @param  {[type]} action [description]
      * @return {[type]}        [description]
      */
-    handleEvent() {
+    handleEvent(evt, doc) {
+        switch (evt) {
+            case Events.delPrescription:
+                this.deletePrescription(doc);
+                break;
+            case Events.updateTreatment:
+                this.updateTreatment();
+                break;
+            default:
+        }
+    }
+
+    deletePrescription(doc) {
+        return server.delete('/api/cases/case/treatment/prescription/delete/' + doc.data.prescriptionId)
+                .then(() => {
+                    this.updateTreatment();
+                });
+    }
+
+    updateTreatment() {
         // remove treatment information
         const tbcase = this.props.tbcase;
         delete tbcase.treatment;
@@ -177,7 +197,7 @@ export default class CaseTreatment extends React.Component {
     }
 }
 
-export default observer(CaseTreatment, Events.updateTreatment);
+export default observer(CaseTreatment, [Events.delPrescription, Events.updateTreatment]);
 
 CaseTreatment.propTypes = {
     tbcase: React.PropTypes.object.isRequired
