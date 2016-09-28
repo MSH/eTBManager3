@@ -35,8 +35,7 @@ public class TreatmentEditService {
     Messages messages;
 
     //TODO: [MSANTOS] registrar commandlog
-    //TODO: [MSANTOS] quando inicia um regime padronizado ele inclui apenas as prescriptions da antiga 'fase intensiva'. verificar
-    //TODO: [MSANTOS] criar um treatmentutils que manipule as prescriptions
+    //TODO: [MSANTOS] VERIFICAR SE O REGIME VIROU INDIVIDUALIZADO
 
     /**
      * Update the treatment regimen of a case
@@ -46,14 +45,15 @@ public class TreatmentEditService {
     @CommandLog(type = CommandTypes.CASES_TREAT_EDIT, handler = TreatmentCmdLogHandler.class)
     public void updateTreatment(TreatmentUpdateRequest req) {
         // TODO: [MSANTOS] SERIA AQUI O CHANGE REGIMEN? "Edit Treatment"
+        // TODO: [MSANTOS] registrar commandlog
     }
 
     /**
-     * Add medicine to the treatment regimen of a case
+     * Add a prescription to the treatment regimen of a case
      * @param req
-     * @CommandLog(type = CommandTypes.CASES_TREAT_ADDMED, handler = TreatmentCmdLogHandler.class)
      */
     @Transactional
+    @CommandLog(type = CommandTypes.CASES_TREAT_ADDMED, handler = TreatmentCmdLogHandler.class)
     public void addPrescription(AddMedicineRequest req) {
         // get and validate tbcase
         TbCase tbcase = entityManager.find(TbCase.class, req.getCaseId());

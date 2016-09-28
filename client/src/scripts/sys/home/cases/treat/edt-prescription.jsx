@@ -62,9 +62,6 @@ const schema = {
  */
 export default class EdtPrescription extends React.Component {
 
-    //TODO [MSANTOS]: se as datas carregadas no form nao forem editadas, será convertida pelo servidor com uma diferença.
-    //TODO [MSANTOS]: colocar o case-treatment para fazer as alterações no banco, usar e abusar dos events app.dispatch
-
     constructor(props) {
         super(props);
 
