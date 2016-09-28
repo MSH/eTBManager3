@@ -1,25 +1,31 @@
 import React from 'react';
 import { Grid, Col, Row, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Card, WaitIcon, Fa } from '../../../components';
+import { Card, WaitIcon, Fa, observer } from '../../../components';
 import Form from '../../../forms/form';
 import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
-import AddMedicine from './treat/add-medicine';
+import EdtPrescription from './treat/edt-prescription';
+import AddPrescription from './treat/add-prescription';
 import TreatFollowup from './treat/treat-followup';
 import NoTreatPanel from './treat/no-treat-panel';
 
+import Events from './events';
 
 /**
  * Display the content of the case treatment tab
  */
-export default class CaseTreatment extends React.Component {
+class CaseTreatment extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.menuClick = this.menuClick.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+        this.handleEvent = this.handleEvent.bind(this);
+        this.closeDlg = this.closeDlg.bind(this);
+        this.updateTreatment = this.updateTreatment.bind(this);
 
         this.state = {
             sc1: {
@@ -49,6 +55,43 @@ export default class CaseTreatment extends React.Component {
     }
 
     componentWillMount() {
+        this.fetchData();
+    }
+
+    /**
+     * Called when treatment timeline must be updated
+     * @param  {[type]} action [description]
+     * @return {[type]}        [description]
+     */
+    handleEvent(evt, doc) {
+        switch (evt) {
+            case Events.delPrescription:
+                this.deletePrescription(doc);
+                break;
+            case Events.updateTreatment:
+                this.updateTreatment();
+                break;
+            default:
+        }
+    }
+
+    deletePrescription(doc) {
+        return server.delete('/api/cases/case/treatment/prescription/delete/' + doc.data.prescriptionId)
+                .then(() => {
+                    this.updateTreatment();
+                });
+    }
+
+    updateTreatment() {
+        // remove treatment information
+        const tbcase = this.props.tbcase;
+        delete tbcase.treatment;
+
+        // start updating treatment
+        this.fetchData();
+    }
+
+    fetchData() {
         const self = this;
         const tbcase = this.props.tbcase;
 
@@ -67,20 +110,13 @@ export default class CaseTreatment extends React.Component {
     menuClick(key) {
         switch (key) {
             case 1:
-                this.addMedicine();
+                app.dispatch('add-prescription');
                 break;
             case 3:
                 this.undoTreatment();
                 break;
             default:
         }
-    }
-
-    /**
-     * Called when user select the command to add a new medicine to the treatment regimen
-     */
-    addMedicine() {
-        this.setState({ show: 'add-med' });
     }
 
     /**
@@ -106,7 +142,7 @@ export default class CaseTreatment extends React.Component {
     }
 
     closeDlg() {
-        this.setState({ show: null });
+        this.setState({ show: null, prescDataEdt: null });
     }
 
     render() {
@@ -130,7 +166,6 @@ export default class CaseTreatment extends React.Component {
                 <MenuItem eventKey={1}>{__('Regimen.add')}</MenuItem>
                 <MenuItem eventKey={2}>{__('cases.regimens.change')}</MenuItem>
                 <MenuItem eventKey={3}>{__('cases.treat.undo')}</MenuItem>
-                <MenuItem eventKey={4}>{'Add medicine'}</MenuItem>
             </DropdownButton>
             );
 
@@ -154,10 +189,15 @@ export default class CaseTreatment extends React.Component {
                 </Card>
 
                 <TreatFollowup treatment={data} tbcase={this.props.tbcase} />
+
+                <AddPrescription tbcase={tbcase} />
+                <EdtPrescription tbcase={tbcase} />
             </div>
             );
     }
 }
+
+export default observer(CaseTreatment, [Events.updateTreatment, Events.delPrescription]);
 
 CaseTreatment.propTypes = {
     tbcase: React.PropTypes.object.isRequired

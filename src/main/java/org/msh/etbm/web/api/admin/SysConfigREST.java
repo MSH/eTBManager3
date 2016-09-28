@@ -33,6 +33,6 @@ public class SysConfigREST {
     @RequestMapping(method = RequestMethod.POST)
     public StandardResult postConfig(@RequestBody @NotNull @Valid SysConfigFormData data) {
         sysConfigService.updateConfig(data);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 }

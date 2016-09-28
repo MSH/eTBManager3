@@ -26,13 +26,13 @@ public class CaseCloseREST {
     @RequestMapping(value = "/reopen/{caseId}", method = RequestMethod.GET)
     public StandardResult reopenCase(@PathVariable UUID caseId) {
         service.reopenCase(caseId);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
     @RequestMapping(value = "/close", method = RequestMethod.POST)
     public StandardResult closeCase(@Valid @NotNull @RequestBody CaseCloseData req) {
         service.closeCase(req);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
 }

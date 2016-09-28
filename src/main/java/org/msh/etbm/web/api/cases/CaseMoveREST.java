@@ -26,19 +26,19 @@ public class CaseMoveREST {
     @RequestMapping(value = "/transferout", method = RequestMethod.POST)
     public StandardResult transferOut(@Valid @NotNull @RequestBody CaseMoveRequest req) {
         service.transferOut(req);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
     @RequestMapping(value = "/undotransferout/{caseId}", method = RequestMethod.GET)
     public StandardResult undoTransferOut(@PathVariable UUID caseId) {
         service.rollbackTransferOut(caseId);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
     @RequestMapping(value = "/transferin", method = RequestMethod.POST)
     public StandardResult transferIn(@Valid @NotNull @RequestBody CaseMoveRequest req) {
         service.transferIn(req);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 
 }

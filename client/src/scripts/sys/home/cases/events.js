@@ -5,5 +5,13 @@ export default {
     // open the dialog to start a standard regimen
     startStandardRegimen: 'start-std-reg',
     // open the dialog to start an individualized regimen
-    startInvidRegimen: 'start-ind-reg'
+    startInvidRegimen: 'start-ind-reg',
+    // update tratment timeline
+    updateTreatment: 'update-treatment',
+    // open add prescription form
+    addPrescription: 'add-prescription',
+    // open edt prescription form
+    edtPrescription: 'edt-prescription',
+    // send request to delete a prescription
+    delPrescription: 'del-prescription'
 };

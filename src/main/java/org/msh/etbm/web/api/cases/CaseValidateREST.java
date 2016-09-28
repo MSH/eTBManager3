@@ -26,6 +26,6 @@ public class CaseValidateREST {
     @RequestMapping(value = "/validate/{id}", method = RequestMethod.GET)
     public StandardResult get(@PathVariable UUID id) {
         service.validateCase(id);
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 }
