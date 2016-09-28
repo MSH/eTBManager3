@@ -34,7 +34,6 @@ public class TreatmentEditService {
     @Autowired
     Messages messages;
 
-    //TODO: [MSANTOS] registrar commandlog
     //TODO: [MSANTOS] VERIFICAR SE O REGIME VIROU INDIVIDUALIZADO
 
     /**
@@ -42,10 +41,9 @@ public class TreatmentEditService {
      * @param req instance of {@link TreatmentUpdateRequest} containing the data to change
      */
     @Transactional
-    @CommandLog(type = CommandTypes.CASES_TREAT_EDIT, handler = TreatmentCmdLogHandler.class)
+    // @CommandLog(type = CommandTypes.CASES_TREAT_EDIT, handler = TreatmentCmdLogHandler.class)
     public void updateTreatment(TreatmentUpdateRequest req) {
         // TODO: [MSANTOS] SERIA AQUI O CHANGE REGIMEN? "Edit Treatment"
-        // TODO: [MSANTOS] registrar commandlog
     }
 
     /**
@@ -53,7 +51,7 @@ public class TreatmentEditService {
      * @param req
      */
     @Transactional
-    @CommandLog(type = CommandTypes.CASES_TREAT_ADDMED, handler = TreatmentCmdLogHandler.class)
+    // @CommandLog(type = CommandTypes.CASES_TREAT_ADDMED, handler = TreatmentCmdLogHandler.class)
     public void addPrescription(AddMedicineRequest req) {
         // get and validate tbcase
         TbCase tbcase = entityManager.find(TbCase.class, req.getCaseId());
@@ -98,9 +96,9 @@ public class TreatmentEditService {
     /**
      * Update a prescription of the treatment regimen
      * @param req
-     *     @CommandLog(type = CommandTypes.CASES_TREAT_PRESCEDT, handler = TreatmentCmdLogHandler.class)
      */
     @Transactional
+    // @CommandLog(type = CommandTypes.CASES_TREAT_PRESCEDT, handler = TreatmentCmdLogHandler.class)
     public void updatePrescription(PrescriptionUpdateRequest req) {
         // get and validate prescription
         PrescribedMedicine pm = entityManager.find(PrescribedMedicine.class, req.getPrescriptionId());
@@ -144,6 +142,7 @@ public class TreatmentEditService {
     }
 
     @Transactional
+    // @CommandLog
     public void removePrescription(UUID prescriptionId) {
 
         PrescribedMedicine pm = entityManager.find(PrescribedMedicine.class, prescriptionId);
