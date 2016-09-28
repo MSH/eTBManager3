@@ -60,7 +60,7 @@ const schema = {
 /**
  * Display modal dialog to add a new medicine to the treatment regimen
  */
-export default class EdtPrescription extends React.Component {
+class EdtPrescription extends React.Component {
 
     constructor(props) {
         super(props);

@@ -16,7 +16,7 @@ import Events from './events';
 /**
  * Display the content of the case treatment tab
  */
-export default class CaseTreatment extends React.Component {
+class CaseTreatment extends React.Component {
 
     constructor(props) {
         super(props);
@@ -197,7 +197,7 @@ export default class CaseTreatment extends React.Component {
     }
 }
 
-export default observer(CaseTreatment, [Events.delPrescription, Events.updateTreatment]);
+export default observer(CaseTreatment, [Events.updateTreatment, Events.delPrescription]);
 
 CaseTreatment.propTypes = {
     tbcase: React.PropTypes.object.isRequired
