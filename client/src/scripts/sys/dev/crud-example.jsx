@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { Card, Profile } from '../../components/index';
+import { Card, Profile } from '../../components';
 
-import { CrudController, CrudTable, CrudPagination, CrudForm, CrudMessage, CrudGrid } from '../crud';
+import { CrudController, CrudTable, CrudPagination, CrudForm, CrudMessage, CrudGrid } from '../packages/crud';
 
 import { generateName, mockCrud } from '../mock-data';
 

@@ -20,27 +20,27 @@ export default class SessionUtils {
         const session = app.getState().session;
         switch (session.view) {
             case 'COUNTRY': return SessionUtils.workspaceHash();
-            case 'ADMINUNIT': return '#/sys/home/adminunit';
+            case 'ADMINUNIT': return '#/sys/adminunit';
             // default is the unit page
             default: return SessionUtils.unitHash();
         }
     }
 
     static workspaceHash(defaultView) {
-        return '#/sys/home/workspace' + (defaultView ? defaultView : '');
+        return '#/sys/workspace' + (defaultView ? defaultView : '');
     }
 
     static unitHash(unitId, defaultView) {
-        const url = '#/sys/home/unit' + (defaultView ? defaultView : '') + '?id=';
+        const url = '#/sys/unit' + (defaultView ? defaultView : '') + '?id=';
         return url + (unitId ? unitId : app.getState().session.unitId);
     }
 
     static adminUnitHash(auId, defaultView) {
-        return '#/sys/home/adminunit' + (defaultView ? defaultView : '') + '?id=' + auId;
+        return '#/sys/adminunit' + (defaultView ? defaultView : '') + '?id=' + auId;
     }
 
     static caseHash(caseId) {
-        return '#/sys/home/cases/details?id=' + caseId;
+        return '#/sys/case?id=' + caseId;
     }
 
     /**

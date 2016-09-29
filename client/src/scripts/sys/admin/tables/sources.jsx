@@ -1,6 +1,6 @@
 
 import React from 'react';
-import CrudView from '../../crud/crud-view';
+import CrudView from '../../packages/crud/crud-view';
 import CRUD from '../../../commons/crud';
 
 const crud = new CRUD('source');

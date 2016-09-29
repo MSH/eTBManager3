@@ -1,17 +1,22 @@
 
 import React from 'react';
 import { RouteView } from '../components/router';
-import WaitIcon from '../components/wait-icon';
+import { WaitIcon, observer } from '../components';
 import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
 import { app } from '../core/app';
 import LanguageSel from './others/language-sel';
 import WorkspaceSel from './others/workspace-sel';
 import Toolbar from './toolbar';
 
-/** Pages of the public module */
-import HomeRoutes from './home/routes';
-import ReportRoutes from './reports/routes';
+/** Pages of the system module */
 import AdminRoutes from './admin/routes';
+
+import WorkspaceView from './workspace';
+import AdminUnitView from './adminunit';
+import UnitView from './unit';
+import CaseView from './case';
+import CaseNewView from './case/new';
+
 import UserSettings from './others/user-settings';
 import ChangePassword from './others/change-password.jsx';
 
@@ -19,22 +24,9 @@ import ChangePassword from './others/change-password.jsx';
 /**
  * Initial page that declare all routes of the module
  */
-export default class Routes extends React.Component {
+class Routes extends React.Component {
 
-    constructor() {
-        super();
-        this._onAppChange = this._onAppChange.bind(this);
-    }
-
-    componentDidMount() {
-        app.add(this._onAppChange);
-    }
-
-    componentDidUmount() {
-        app.remove(this._onAppChange);
-    }
-
-    _onAppChange(action) {
+    handleEvent(action) {
         if (action === WORKSPACE_CHANGING) {
             this.setState({ changing: true });
             return;
@@ -53,9 +45,12 @@ export default class Routes extends React.Component {
         }
 
         const routesInfo = [
-            { path: '/home', view: HomeRoutes },
-            { path: '/reports', view: ReportRoutes },
+            { path: '/adminunit', view: AdminUnitView },
             { path: '/admin', view: AdminRoutes },
+            { path: '/workspace', view: WorkspaceView },
+            { path: '/unit', view: UnitView },
+            { path: '/case/new', view: CaseNewView },
+            { path: '/case', view: CaseView },
             { path: '/usersettings', view: UserSettings },
             { path: '/changepassword', view: ChangePassword }
         ];
@@ -80,3 +75,5 @@ export default class Routes extends React.Component {
             );
     }
 }
+
+export default observer(Routes);

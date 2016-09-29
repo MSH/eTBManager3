@@ -3,10 +3,10 @@ import React from 'react';
 import { RouteView } from '../../components/router';
 
 /** Pages of the public module */
-import Workspace from './workspace';
-import Index from './index';
-import Unit from './unit';
-import AdminUnit from './admin-unit';
+import Workspace from '../workspace/workspace';
+import Index from '../user/index';
+import Unit from '../unit/unit';
+import AdminUnit from '../adminunit/admin-unit';
 
 import NewNotif from './cases/newnotif';
 import Details from './cases/details';

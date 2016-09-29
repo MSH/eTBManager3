@@ -96,7 +96,7 @@ export class App {
             if (!window.location.hash) {
                 // if ready, go to the main page
                 if (res.state === 'READY') {
-                    gotoModule('/sys', '/home/index');
+                    gotoModule('/sys', '/workspace/cases');
                 }
                 else {
                     // if not, go to the login page

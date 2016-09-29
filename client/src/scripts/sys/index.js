@@ -1,12 +1,16 @@
 
 import { authenticate, isAuthenticated, initSession } from './session';
 
+/**
+ * Bootstrap code for the system module. It loads the main
+ * code of the application
+ */
 export function init() {
 
     return new Promise((resolve, reject) => {
-        require.ensure(['./routes', './types/init'], require => {
+        require.ensure(['./routes', './packages/types/init'], require => {
             var Routes = require('./routes');
-            var Types = require('./types/init');
+            var Types = require('./packages/types/init');
 
             Types.register();
 

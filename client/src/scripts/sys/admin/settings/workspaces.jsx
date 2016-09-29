@@ -1,6 +1,6 @@
 import React from 'react';
 import { Profile } from '../../../components';
-import { CrudView } from '../../crud';
+import { CrudView } from '../../packages/crud';
 import CRUD from '../../../commons/crud';
 
 export default class Workspaces extends React.Component {

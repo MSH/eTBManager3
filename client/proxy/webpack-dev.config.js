@@ -105,7 +105,7 @@ module.exports = config.languages.dev.map( function(lang) {
 
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin(),
+//            new webpack.NoErrorsPlugin(),
             new I18nPlugin(messages),
             new webpack.DefinePlugin({
                 __DEV__: true
