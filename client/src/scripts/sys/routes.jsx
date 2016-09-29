@@ -3,7 +3,6 @@ import React from 'react';
 import { RouteView } from '../components/router';
 import { WaitIcon, observer } from '../components';
 import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
-import { app } from '../core/app';
 import LanguageSel from './others/language-sel';
 import WorkspaceSel from './others/workspace-sel';
 import Toolbar from './toolbar';
