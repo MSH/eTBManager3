@@ -1,10 +1,10 @@
 
 import React from 'react';
 import { Grid, Row, Col, Nav, NavItem, Button, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Card, WaitIcon, Fa, CommandBar, observer } from '../../../components';
-import PatientPanel from '../commons/patient-panel';
-import { server } from '../../../commons/server';
-import { app } from '../../../core/app';
+import { Card, WaitIcon, Fa, CommandBar, observer } from '../../components';
+import PatientPanel from './patient-panel';
+import { server } from '../../commons/server';
+import { app } from '../../core/app';
 import Events from './events';
 
 import CaseData from './case-data';
