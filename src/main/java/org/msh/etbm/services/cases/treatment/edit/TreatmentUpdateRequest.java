@@ -15,13 +15,8 @@ public class TreatmentUpdateRequest {
     @NotNull
     private UUID caseId;
 
-    private Date iniDate;
-
+    @NotNull
     private Date endDate;
-
-    private UUID regimenId;
-
-    private UUID unitId;
 
     public UUID getCaseId() {
         return caseId;
@@ -31,35 +26,11 @@ public class TreatmentUpdateRequest {
         this.caseId = caseId;
     }
 
-    public Date getIniDate() {
-        return iniDate;
-    }
-
-    public void setIniDate(Date iniDate) {
-        this.iniDate = iniDate;
-    }
-
     public Date getEndDate() {
         return endDate;
     }
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public UUID getRegimenId() {
-        return regimenId;
-    }
-
-    public void setRegimenId(UUID regimenId) {
-        this.regimenId = regimenId;
-    }
-
-    public UUID getUnitId() {
-        return unitId;
-    }
-
-    public void setUnitId(UUID unitId) {
-        this.unitId = unitId;
     }
 }

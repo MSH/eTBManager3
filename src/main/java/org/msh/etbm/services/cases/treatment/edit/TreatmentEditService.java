@@ -37,13 +37,62 @@ public class TreatmentEditService {
     //TODO: [MSANTOS] VERIFICAR SE O REGIME VIROU INDIVIDUALIZADO
 
     /**
-     * Update the treatment regimen of a case
+     * It will update only the endDate ate the first version. It will be evaluated if this functionality
+     * should update anything else
      * @param req instance of {@link TreatmentUpdateRequest} containing the data to change
      */
     @Transactional
     // @CommandLog(type = CommandTypes.CASES_TREAT_EDIT, handler = TreatmentCmdLogHandler.class)
     public void updateTreatment(TreatmentUpdateRequest req) {
-        // TODO: [MSANTOS] SERIA AQUI O CHANGE REGIMEN? "Edit Treatment"
+        Date newEndDate = req.getEndDate();
+
+        // get and validate tbcase
+        TbCase tbcase = entityManager.find(TbCase.class, req.getCaseId());
+        if (tbcase == null) {
+            throw new EntityNotFoundException("Tb case with ID " + req.getCaseId().toString() + " was not found");
+        }
+
+        // get and validate treatment period
+        Period newTreatmentP = new Period(tbcase.getTreatmentPeriod().getIniDate(), newEndDate);
+        if (newTreatmentP.isBroken() || !tbcase.getTreatmentPeriod().getIniDate().equals(newTreatmentP.getIniDate())) {
+            throw new InvalidArgumentException("Treatment period is not valid");
+        }
+
+        // get latest healthunit
+        TreatmentHealthUnit latestHU = getLatestTreatHU(tbcase);
+
+        // get and validate treatment HU period
+        Period newHealthUnitP = new Period(latestHU.getPeriod().getIniDate(), newEndDate);
+        if (newHealthUnitP.isBroken() || !latestHU.getPeriod().getIniDate().equals(newHealthUnitP.getIniDate())) {
+            throw new InvalidArgumentException("Treatment health unit period is not valid");
+        }
+
+        // update the prescriptions
+        List<PrescribedMedicine> newPrescriptions = new ArrayList<>();
+        for (PrescribedMedicine pm : tbcase.getPrescriptions()) {
+            PrescribedMedicine newPm = clonePrescribedMedicine(pm);
+
+            if (newPm.getPeriod().getIniDate().after(newEndDate)) {
+                break;
+            }
+
+            // updates prescription period if newEndDate is inside this period or if prescription end date is equals old treatment end date
+            if (newPm.getPeriod().isDateInside(newEndDate)
+                    || newPm.getPeriod().getEndDate().equals(tbcase.getTreatmentPeriod().getEndDate())) {
+                Period p = new Period(pm.getPeriod().getIniDate(), newEndDate);
+                newPm.setPeriod(p);
+            }
+
+            newPrescriptions.add(newPm);
+            entityManager.remove(pm);
+        }
+        tbcase.setPrescriptions(newPrescriptions);
+
+        // update tbcase treatment period and health unit period
+        tbcase.setTreatmentPeriod(newTreatmentP);
+        latestHU.setPeriod(newHealthUnitP);
+
+        entityManager.persist(tbcase);
     }
 
     /**
@@ -178,13 +227,7 @@ public class TreatmentEditService {
         }
 
         // get latest health unit
-        TreatmentHealthUnit latestTreatHU = tbcase.getTreatmentUnits().get(0);
-
-        for (TreatmentHealthUnit thu : tbcase.getTreatmentUnits()) {
-            if (latestTreatHU.getPeriod().getEndDate().before(thu.getPeriod().getEndDate())) {
-                latestTreatHU = thu;
-            }
-        }
+        TreatmentHealthUnit latestTreatHU = getLatestTreatHU(tbcase);
 
         // get latest prescription date
         Date latestPrescDate = latestPrescription.getPeriod().getEndDate();
@@ -265,5 +308,22 @@ public class TreatmentEditService {
         aux.setProduct(pm.getProduct());
         aux.setTbcase(pm.getTbcase());
         return aux;
+    }
+
+    /**
+     * find the latest treatment health unit
+     * @param tbcase
+     * @return the latest treatment health unit
+     */
+    private TreatmentHealthUnit getLatestTreatHU(TbCase tbcase) {
+        TreatmentHealthUnit latestTreatHU = tbcase.getTreatmentUnits().get(0);
+
+        for (TreatmentHealthUnit thu : tbcase.getTreatmentUnits()) {
+            if (latestTreatHU.getPeriod().getEndDate().before(thu.getPeriod().getEndDate())) {
+                latestTreatHU = thu;
+            }
+        }
+
+        return latestTreatHU;
     }
 }

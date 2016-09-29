@@ -5,6 +5,7 @@ import org.msh.etbm.services.cases.treatment.data.TreatmentData;
 import org.msh.etbm.services.cases.treatment.edit.AddMedicineRequest;
 import org.msh.etbm.services.cases.treatment.edit.PrescriptionUpdateRequest;
 import org.msh.etbm.services.cases.treatment.edit.TreatmentEditService;
+import org.msh.etbm.services.cases.treatment.edit.TreatmentUpdateRequest;
 import org.msh.etbm.services.cases.treatment.followup.TreatFollowupUpdateRequest;
 import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
 import org.msh.etbm.services.cases.treatment.start.StartTreatmentRequest;
@@ -113,13 +114,25 @@ public class TreatmentREST {
     }
 
     /**
-     * creates a prescription from the case treatment
+     * updates a prescription from the case treatment
      * @param req
      * @return
      */
     @RequestMapping(value = "/treatment/prescription/update", method = RequestMethod.POST)
     public StandardResult updatePrescription(@RequestBody @Valid @NotNull PrescriptionUpdateRequest req) {
         treatmentEditService.updatePrescription(req);
+
+        return StandardResult.createSuccessResult();
+    }
+
+    /**
+     * updates the treatment end date of the case
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/treatment/update", method = RequestMethod.POST)
+    public StandardResult updateTreatment(@RequestBody @Valid @NotNull TreatmentUpdateRequest req) {
+        treatmentEditService.updateTreatment(req);
 
         return StandardResult.createSuccessResult();
     }

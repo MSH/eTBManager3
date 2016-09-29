@@ -2,7 +2,6 @@ import React from 'react';
 import { Overlay, Popover, ButtonToolbar, Button } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { durationDisplay } from '../../../commons/utils';
-import { server } from '../../../commons/server';
 import { app } from '../../../core/app';
 
 
@@ -44,12 +43,6 @@ export default class TreatPopup extends React.Component {
                 {
                     this.renderPeriod(data)
                 }
-                <div className="mtop-2x">
-                <ButtonToolbar>
-                    <Button bsStyle="primary">{__('action.edit')}</Button>
-                    <Button>{__('action.delete')}</Button>
-                </ButtonToolbar>
-                </div>
             </div>
             );
     }

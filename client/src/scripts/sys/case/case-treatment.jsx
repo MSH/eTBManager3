@@ -6,6 +6,7 @@ import { server } from '../../commons/server';
 import { app } from '../../core/app';
 import TreatProgress from './treat/treat-progress';
 import TreatTimeline from './treat/treat-timeline';
+import TreatmentUpdate from './treat/treat-update';
 import EdtPrescription from './treat/edt-prescription';
 import AddPrescription from './treat/add-prescription';
 import TreatFollowup from './treat/treat-followup';
@@ -102,6 +103,7 @@ class CaseTreatment extends React.Component {
             server.get('/api/cases/case/treatment/' + id)
                 .then(res => {
                     tbcase.treatment = res;
+                    tbcase.treatmentPeriod = res.period;
                     self.forceUpdate();
                 });
         }
@@ -110,7 +112,10 @@ class CaseTreatment extends React.Component {
     menuClick(key) {
         switch (key) {
             case 1:
-                app.dispatch('add-prescription');
+                app.dispatch(Events.addPrescription);
+                break;
+            case 2:
+                app.dispatch(Events.treatUpdateForm);
                 break;
             case 3:
                 this.undoTreatment();
@@ -164,7 +169,7 @@ class CaseTreatment extends React.Component {
                 title={<Fa icon="cog" />} id="ttmenu" pullRight
                 onSelect={this.menuClick}>
                 <MenuItem eventKey={1}>{__('Regimen.add')}</MenuItem>
-                <MenuItem eventKey={2}>{__('cases.regimens.change')}</MenuItem>
+                <MenuItem eventKey={2}>{__('cases.regimens.changeperiod')}</MenuItem>
                 <MenuItem eventKey={3}>{__('cases.treat.undo')}</MenuItem>
             </DropdownButton>
             );
@@ -190,7 +195,10 @@ class CaseTreatment extends React.Component {
 
                 <TreatFollowup treatment={data} tbcase={this.props.tbcase} />
 
+                <TreatmentUpdate tbcase={tbcase} />
+
                 <AddPrescription tbcase={tbcase} />
+
                 <EdtPrescription tbcase={tbcase} />
             </div>
             );
