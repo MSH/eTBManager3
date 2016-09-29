@@ -8,6 +8,7 @@ import { app } from '../../core/app';
 import Events from './events';
 
 import CaseData from './case-data';
+import OtherCases from './other-cases';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
@@ -317,6 +318,7 @@ class Details extends React.Component {
                                 this.tagsRender()
                             }
                             </Card>
+                            <OtherCases tbcase={tbcase} />
                         </Col>
                         <Col sm={9}>
                             {this.renderTransferMessage()}
