@@ -69,23 +69,11 @@ class Details extends React.Component {
     tagsRender() {
         const lst = this.state.tbcase.tags;
 
-        const style = {
-            fontSize: '4em',
-            textAlign: 'center',
-            color: 'rgba(240, 240, 240, 0.64)'
-        };
-
-        const style2 = {
-            fontSize: '0.3em',
-            textAlign: 'center',
-            fontWeight: '900'
-        };
-
         if (!lst || lst.length < 1) {
             return (
-                    <div style={style}>
-                        <Fa icon="slack" />
-                        <div style={style2}>{'No tags attched to this case'}</div>
+                    <div className="message-muted">
+                        <Fa icon="tags" />
+                        <div>{__('cases.details.tags.noresult')}</div>
                     </div>
                 );
         }
@@ -262,14 +250,9 @@ class Details extends React.Component {
             </Nav>
             );
 
-        const tagh = (<span>
-                        <h4 className="inlineb mright">
-                            {__('admin.tags')}
-                        </h4>
-                        <Button onClick={this.show('showTagEdt', true)} bsSize="small">
+        const tagBtn = (<Button onClick={this.show('showTagEdt', true)} bsSize="small">
                             <Fa icon="pencil"/>
-                        </Button>
-                    </span>);
+                        </Button>);
 
         // create command list
         const commands = [
@@ -329,7 +312,7 @@ class Details extends React.Component {
                     <Row className="mtop">
                         <Col sm={3}>
                             <CommandBar commands={commands} />
-                            <Card className="mtop" header={tagh}>
+                            <Card className="mtop" title={__('admin.tags')} headerRight={tagBtn}>
                             {
                                 this.tagsRender()
                             }

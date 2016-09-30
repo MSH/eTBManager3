@@ -1,6 +1,5 @@
 import React from 'react';
-import { Label } from 'react-bootstrap';
-import { Card, Profile, Fa } from '../../components';
+import { Card, Fa } from '../../components';
 import SessionUtils from '../session-utils';
 
 import moment from 'moment';
@@ -12,32 +11,19 @@ export default class OtherCases extends React.Component {
             return null;
         }
 
-        const title = SessionUtils.classifDisplay(data.classification.id, data.diagnosisType.id);
-
-        const subtitle = (
-                <div>
-                    <div>
+        return (
+            <a key={index} href={SessionUtils.caseHash(data.id)} className="other-cases">
+                <div className="content">
+                    <div>{SessionUtils.classifDisplay(data.classification.id, data.diagnosisType.id)}</div>
+                    <div className="text-muted text-small">
                         {__('TbCase.registrationDate') + ': '}
                         {moment(data.registrationDate).format('L')}
                     </div>
-                    <div><Fa icon="hospital-o"/>{data.ownerUnit.name}</div>
-                </div>
-            );
-
-        const state = data.state.id !== 'CLOSED' ? <Label bsStyle="danger" >{data.state.name}</Label> : data.state.name;
-
-        return (
-            <div className="other-case" key={index}>
-                <a href={SessionUtils.caseHash(data.id)} className="mbottom-2x">
-                    <div className="pull-right text-muted">
-                        {state}
+                    <div>
+                        {SessionUtils.caseStateDisplay(data.state)}
                     </div>
-                    <Profile
-                        title={title}
-                        subtitle={subtitle}
-                        size="small"/>
-                </a>
-            </div>
+                </div>
+            </a>
         );
     }
 
@@ -45,13 +31,22 @@ export default class OtherCases extends React.Component {
         const tbcase = this.props.tbcase;
 
         // don't have other cases
-        if (tbcase.allCases.length < 2) {
-            return null;
+        if (tbcase.allCases.length <= 1) {
+            return (
+                    <Card title={__('cases.details.others')}>
+                        <div className="message-muted">
+                            <Fa icon="book" />
+                            <div>{__('cases.details.othercases.noresult')}</div>
+                        </div>
+                    </Card>
+                );
         }
 
-        const otherCases = tbcase.allCases.map((item, i) => this.renderOtherCase(item, i));
-
-        return (<Card title="Other Cases">{otherCases}</Card>);
+        return (<Card title={__('cases.details.others')}>
+                    {
+                        tbcase.allCases.map((item, i) => this.renderOtherCase(item, i))
+                    }
+                </Card>);
     }
 }
 
