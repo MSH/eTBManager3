@@ -69,14 +69,30 @@ class Details extends React.Component {
     tagsRender() {
         const lst = this.state.tbcase.tags;
 
-        if (!lst) {
-            return null;
+        const style = {
+            fontSize: '4em',
+            textAlign: 'center',
+            color: 'rgba(240, 240, 240, 0.64)'
+        };
+
+        const style2 = {
+            fontSize: '0.3em',
+            textAlign: 'center',
+            fontWeight: '900'
+        };
+
+        if (!lst || lst.length < 1) {
+            return (
+                    <div style={style}>
+                        <Fa icon="slack" />
+                        <div style={style2}>{'No tags attched to this case'}</div>
+                    </div>
+                );
         }
 
         return (
             <div>
                 {
-                    !lst ? <WaitIcon type="card" /> :
                     lst.map(item => (
                         <li key={item.id} className={'tag-' + item.type.toLowerCase()}>
                             <div className="tag-title">{item.name}</div>

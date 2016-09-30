@@ -391,19 +391,52 @@
 	width: 100%;
 }
 
+.tag-autodanger, .tag-manual, .tag-auto, .tag-subtitle {
+  display: block;
+  color: #909090;
+  margin-top:2px;
+  margin-bottom:2px;
+  clear: both;
+  padding:10px;
+  border: 0 solid #fff;
+  border-style: solid;
+  border-left-width: 3px;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+
 .tag-autodanger {
+  border-left-color: @brand-danger;
+}
+
+.tag-manual {
+  border-left-color: @brand-primary;
+}
+
+.tag-auto {
+  border-left-color: @brand-success;
+}
+
+.tag-subtitle {
+  border-left-color: #909090;
+  font-weight: bold;
+  padding-left:10px;
+  margin-left: -5px;
+}
+
+.tag-link-autodanger {
 	.badge {
 		background-color: #ec451f;
 	}
 }
 
-.tag-manual {
+.tag-link-manual {
 	.badge {
 		background-color: #869a92;
 	}
 }
 
-.tag-auto {
+.tag-link-auto {
 	.badge {
 		background-color: #528eda;
 	}

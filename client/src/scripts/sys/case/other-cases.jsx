@@ -27,8 +27,8 @@ export default class OtherCases extends React.Component {
         const state = data.state.id !== 'CLOSED' ? <Label bsStyle="danger" >{data.state.name}</Label> : data.state.name;
 
         return (
-            <div className="other-case">
-                <a href={SessionUtils.caseHash(data.id)} key={index} className="mbottom-2x">
+            <div className="other-case" key={index}>
+                <a href={SessionUtils.caseHash(data.id)} className="mbottom-2x">
                     <div className="pull-right text-muted">
                         {state}
                     </div>
