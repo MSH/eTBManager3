@@ -5,7 +5,7 @@ import { Card, FormDialog, WaitIcon } from '../../components';
 import { server } from '../../commons/server';
 
 
-export default class UserSettings extends React.Component {
+export default class Settings extends React.Component {
 
     constructor(props) {
         super(props);
@@ -102,6 +102,6 @@ export default class UserSettings extends React.Component {
     }
 }
 
-UserSettings.propTypes = {
+Settings.propTypes = {
 
 };

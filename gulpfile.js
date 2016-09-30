@@ -37,7 +37,7 @@ gulp.task('build', function() {
     return runSequence(
         'clean',
         'eslint',
-        ['client-msgs', 'bootstrap-fonts', 'client-copy', 'less'],
+        ['msgs', 'bootstrap-fonts', 'copy', 'less'],
         'webpack-prod',
         // transpile is being called in order to be analysed by sonar
         'transpile');
@@ -50,7 +50,7 @@ gulp.task('build', function() {
 gulp.task('run', function() {
     return runSequence(
         'clean',
-        ['client-msgs', 'bootstrap-fonts', 'less'],
+        ['msgs', 'bootstrap-fonts', 'less'],
         'watches',
         'proxy-server',
         'open'
@@ -80,7 +80,7 @@ gulp.task('bootstrap-fonts', function() {
 /**
  * Copy static files that are not automatically processed
  */
-gulp.task('client-copy', function() {
+gulp.task('copy', function() {
     console.log(srcPath);
     console.log('TO -> ' + distPath);
     gulp.src([
@@ -185,7 +185,7 @@ gulp.task('less', function() {
 /**
  * Generate message files from the message files in server side
  */
-gulp.task('client-msgs', function(cb) {
+gulp.task('msgs', function(cb) {
     var spawn = require('child_process').spawn;
 
     var dir = path.join(clientPath, 'messages');
@@ -199,15 +199,15 @@ gulp.task('client-msgs', function(cb) {
     );
 
     proc.stdout.on('data', function (data) {
-        console.log('[client-messages]: ' + data);
+        console.log('[messages]: ' + data);
     });
 
     proc.stderr.on('data', function (data) {
-        console.log('[client-messages]: ' + data);
+        console.log('[messages]: ' + data);
     });
 
     proc.stdout.on('close', function(code) {
-        console.log('[client-message]: FINISHED');
+        console.log('[message]: FINISHED');
         cb(code);
     })
 });
@@ -219,6 +219,6 @@ gulp.task('client-msgs', function(cb) {
 gulp.task('watches', function() {
     gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
     gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
-    gulp.watch( 'src/main/resources/messages*.properties', ['client-msgs', 'proxy-server']);
+    gulp.watch( 'src/main/resources/messages*.properties', ['msgs', 'proxy-server']);
     gulp.watch( 'gulpfile.js', ['run']);
 });

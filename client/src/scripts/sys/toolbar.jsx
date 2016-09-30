@@ -101,13 +101,13 @@ export default class Toolbar extends React.Component {
                             {session.userName}
                         </NavItem>
                         <NavDropdown id="ddUser" eventKey={3} title={settings} onSelect={userMenuSel} >
-                            <MenuItem href="#/sys/usersettings">
+                            <MenuItem href="#/sys/user/settings">
                                 <div>
                                     <Fa icon="cog" />
                                     {__('session.usersettings')}
                                 </div>
                             </MenuItem>
-                            <MenuItem href="#/sys/changepassword">
+                            <MenuItem href="#/sys/user/changepassword">
                                 <div>
                                     <Fa icon="key" />
                                     {__('changepwd')}

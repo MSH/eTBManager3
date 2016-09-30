@@ -38,7 +38,7 @@ module.exports = function () {
         hot: true,
 
         // The rest is terminal configurations
-        quiet: true,
+        quiet: false,
         noInfo: true,
         stats: {
             colors: true
