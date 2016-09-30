@@ -1,22 +1,21 @@
 import React from 'react';
 import { Card } from '../../../components';
-import ReactHighcharts from 'react-highcharts';
+import Chart from './chart';
 
-import './theme';
 
 // generate integer random numbers
 const rand = num => Math.round(Math.random() * num);
 
 export default class IndicatorEditor extends React.Component {
 
-    randomValues() {
+    randomSeries() {
         const count = rand(10) + 1;
 
         const res = [];
         for (var k = 0; k < count; k++) {
             res.push({
                 name: 'Item ' + (k + 1),
-                y: rand(50)
+                value: rand(50)
             });
         }
 
@@ -26,52 +25,28 @@ export default class IndicatorEditor extends React.Component {
         res[i].sliced = true;
         res[i].selected = true;
 
-        return res;
+        return [
+            {
+                name: 'Diagnosis type',
+                values: res
+            }
+        ];
     }
 
     render() {
         const ind = this.props.indicator;
-        const Highcharts = ReactHighcharts.Highcharts;
+        const series = this.randomSeries();
+        const types = [
+            'pie', 'bar', 'spline', 'line', 'column', 'area'
+        ];
+        const index = ind.index % types.length;
+        const type = types[index];
 
-        const config = {
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false,
-                type: 'pie'
-            },
-            title: {
-                text: 'Graph random values'
-            },
-            credits: {
-                enabled: false
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                        style: {
-                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                        }
-                    }
-                }
-            },
-            series: [{
-                name: 'Brands',
-                colorByPoint: true,
-                data: this.randomValues()
-            }]
-        };
+        console.log(type, index, ind);
 
         return (
-            <Card title={ind.title} closeBtn>
-                <ReactHighcharts config={config} neverReflow />
+            <Card title={'Diagnosis type x Age range'} closeBtn>
+                <Chart series={series} type={type} />
             </Card>
         );
     }

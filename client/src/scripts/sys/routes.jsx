@@ -3,8 +3,8 @@ import React from 'react';
 import { RouteView } from '../components/router';
 import { WaitIcon, observer } from '../components';
 import { WORKSPACE_CHANGING, WORKSPACE_CHANGE } from '../core/actions';
-import LanguageSel from './others/language-sel';
-import WorkspaceSel from './others/workspace-sel';
+import LanguageSel from './user/language-sel';
+import WorkspaceSel from './user/workspace-sel';
 import Toolbar from './toolbar';
 
 /** Pages of the system module */
@@ -16,8 +16,8 @@ import UnitView from './unit';
 import CaseView from './case';
 import CaseNewView from './case/new';
 
-import UserSettings from './others/user-settings';
-import ChangePassword from './others/change-password.jsx';
+import Settings from './user/settings';
+import ChangePassword from './user/change-password.jsx';
 
 
 /**
@@ -50,8 +50,8 @@ class Routes extends React.Component {
             { path: '/unit', view: UnitView },
             { path: '/case/new', view: CaseNewView },
             { path: '/case', view: CaseView },
-            { path: '/usersettings', view: UserSettings },
-            { path: '/changepassword', view: ChangePassword }
+            { path: '/user/settings', view: Settings },
+            { path: '/user/changepassword', view: ChangePassword }
         ];
 
         // playground for dev is available just in dev module

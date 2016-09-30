@@ -19,7 +19,8 @@ export default class ReportEditor extends React.Component {
             indicators: [
                 {
                     title: 'Indicator title (click to change)',
-                    size: 12
+                    size: 12,
+                    index: 0
                 }
             ]
         };
@@ -34,7 +35,8 @@ export default class ReportEditor extends React.Component {
         const rep = this.state.report;
         rep.indicators.push({
             title: 'Indicator title (click to change)',
-            size: 6
+            size: 6,
+            index: rep.indicators.length
         });
 
         this.setState({ report: rep });
