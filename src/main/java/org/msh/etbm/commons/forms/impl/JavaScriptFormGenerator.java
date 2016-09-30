@@ -2,6 +2,7 @@ package org.msh.etbm.commons.forms.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.controls.Control;
@@ -289,6 +290,7 @@ public class JavaScriptFormGenerator {
 
         if (value instanceof String) {
             String txt = messages.eval((String)value);
+            txt = StringEscapeUtils.escapeEcmaScript(txt);
             return "'" + txt + "'";
         }
 
