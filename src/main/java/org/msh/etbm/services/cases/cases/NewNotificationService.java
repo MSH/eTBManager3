@@ -47,7 +47,7 @@ public class NewNotificationService {
         doc.put("patient", new HashMap<>());
 
         // generate form id
-        String formid = "newnotif-";
+        String formid = "case-new-notif/";
         formid = formid.concat(diag.name().toLowerCase()).concat("-");
         formid = formid.concat(cla.name().toLowerCase());
 

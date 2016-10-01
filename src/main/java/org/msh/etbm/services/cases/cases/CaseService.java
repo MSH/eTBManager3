@@ -10,4 +10,5 @@ import java.util.UUID;
  */
 public interface CaseService extends EntityService<CaseQueryParams> {
     FormInitResponse getReadOnlyForm(UUID id);
+    FormInitResponse getEditForm(UUID id);
 }

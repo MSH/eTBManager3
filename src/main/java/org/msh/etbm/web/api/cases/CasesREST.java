@@ -35,11 +35,12 @@ public class CasesREST {
     }
 
     @RequestMapping(value = "/case/form/readonly/{id}")
-    public FormInitResponse initFormReadOnly(@PathVariable UUID id) {
-        if (id == null) {
-            throw new InvalidArgumentException("Id must be informed.");
-        }
-
+    public FormInitResponse initReadOnlyForm(@PathVariable @NotNull UUID id) {
         return service.getReadOnlyForm(id);
+    }
+
+    @RequestMapping(value = "/case/form/{id}")
+    public FormInitResponse initEditForm(@PathVariable @NotNull UUID id) {
+        return service.getEditForm(id);
     }
 }

@@ -91,14 +91,41 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {
-            formid = "display-confirmed-";
+            formid = "case-display/confirmed-";
             formid = formid.concat(cla.name().toLowerCase());
         } else {
-            formid = "display-suspect";
+            formid = "case-display/suspect";
         }
 
         return formService.init(formid, data, true);
     }
 
+    @Override
+    public FormInitResponse getEditForm(UUID id) {
+        // mount data
+        HashMap<String, Object> data = new HashMap<>();
 
+        ModelDAO tbcaseDao = factory.create("tbcase");
+        RecordData resTbcase = tbcaseDao.findOne(id, true);
+
+        ModelDAO patientDao = factory.create("patient");
+        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"), true);
+
+        data.put("tbcase", resTbcase.getValues());
+        data.put("patient", resPatient.getValues());
+
+        // mount form name
+        DiagnosisType diag = (DiagnosisType) resTbcase.getValues().get("diagnosisType");
+        CaseClassification cla = (CaseClassification) resTbcase.getValues().get("classification");
+
+        String formid;
+        if (diag.equals(DiagnosisType.CONFIRMED)) {
+            formid = "update-confirmed-";
+            formid = formid.concat(cla.name().toLowerCase());
+        } else {
+            formid = "update-suspect";
+        }
+
+        return formService.init(formid, data, true);
+    }
 }

@@ -43,10 +43,10 @@ public class SuspectFollowUpService {
         doc.put("tbcase", caseData);
 
         if (cla == null) {
-            return formService.init("suspect-followup-not-tb", doc, false);
+            return formService.init("suspect-followup/not-tb", doc, false);
         }
 
-        String formId = "suspect-followup-" + cla.name().toLowerCase();
+        String formId = "suspect-followup/" + cla.name().toLowerCase();
         caseData.put("classification", cla);
         return formService.init(formId, doc, false);
     }
