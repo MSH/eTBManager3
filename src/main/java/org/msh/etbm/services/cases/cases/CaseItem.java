@@ -7,6 +7,7 @@ import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -29,6 +30,8 @@ public class CaseItem {
     private Item<CaseState> state;
 
     private UnitData ownerUnit;
+
+    private Date registrationDate;
 
     public UUID getId() {
         return id;
@@ -92,5 +95,13 @@ public class CaseItem {
 
     public void setOwnerUnit(UnitData ownerUnit) {
         this.ownerUnit = ownerUnit;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

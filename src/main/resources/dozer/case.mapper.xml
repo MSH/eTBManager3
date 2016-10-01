@@ -95,7 +95,16 @@
             <a>iniTreatmentDate</a>
             <b>treatmentPeriod.iniDate</b>
         </field>
+    </mapping>
 
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.cases.CaseDetailedData</class-a>
+        <class-b>org.msh.etbm.db.entities.TbCase</class-b>
+
+        <field>
+            <a>allCases</a>
+            <b>patient.cases</b>
+        </field>
     </mapping>
 
 </mappings>

@@ -8,6 +8,7 @@ import { app } from '../../core/app';
 import Events from './events';
 
 import CaseData from './case-data';
+import OtherCases from './other-cases';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
 import CaseClose from './case-close';
@@ -68,14 +69,18 @@ class Details extends React.Component {
     tagsRender() {
         const lst = this.state.tbcase.tags;
 
-        if (!lst) {
-            return null;
+        if (!lst || lst.length < 1) {
+            return (
+                    <div className="message-muted">
+                        <Fa icon="tags" />
+                        <div>{__('cases.details.tags.noresult')}</div>
+                    </div>
+                );
         }
 
         return (
             <div>
                 {
-                    !lst ? <WaitIcon type="card" /> :
                     lst.map(item => (
                         <li key={item.id} className={'tag-' + item.type.toLowerCase()}>
                             <div className="tag-title">{item.name}</div>
@@ -245,14 +250,9 @@ class Details extends React.Component {
             </Nav>
             );
 
-        const tagh = (<span>
-                        <h4 className="inlineb mright">
-                            {__('admin.tags')}
-                        </h4>
-                        <Button onClick={this.show('showTagEdt', true)} bsSize="small">
+        const tagBtn = (<Button onClick={this.show('showTagEdt', true)} bsSize="small">
                             <Fa icon="pencil"/>
-                        </Button>
-                    </span>);
+                        </Button>);
 
         // create command list
         const commands = [
@@ -312,11 +312,12 @@ class Details extends React.Component {
                     <Row className="mtop">
                         <Col sm={3}>
                             <CommandBar commands={commands} />
-                            <Card className="mtop" header={tagh}>
+                            <Card className="mtop" title={__('admin.tags')} headerRight={tagBtn}>
                             {
                                 this.tagsRender()
                             }
                             </Card>
+                            <OtherCases tbcase={tbcase} />
                         </Col>
                         <Col sm={9}>
                             {this.renderTransferMessage()}

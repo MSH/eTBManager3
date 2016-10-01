@@ -1,6 +1,7 @@
 import React from 'react';
 import { Fa } from '../components';
 import { app } from '../core/app';
+import { Label } from 'react-bootstrap';
 
 export default class SessionUtils {
 
@@ -205,5 +206,25 @@ export default class SessionUtils {
                 {adminUnit}
             </div>
         );
+    }
+
+    static caseStateDisplay(state) {
+        let style;
+
+        switch (state.id) {
+            case 'NOT_ONTREATMENT':
+                style = 'warning';
+                break;
+            case 'ONTREATMENT':
+                style = 'danger';
+                break;
+            case 'CLOSED':
+                style = 'default';
+                break;
+            default:
+                return null;
+        }
+
+        return <Label bsStyle={style}>{state.name}</Label>;
     }
 }

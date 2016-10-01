@@ -7382,13 +7382,44 @@ button.close {
   text-align: center;
   width: 100%;
 }
-.tag-autodanger .badge {
+.tag-autodanger,
+.tag-manual,
+.tag-auto,
+.tag-subtitle {
+  display: block;
+  color: #909090;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  clear: both;
+  padding: 10px;
+  border: 0 solid #fff;
+  border-style: solid;
+  border-left-width: 3px;
+  margin-bottom: 4px;
+  font-size: 13px;
+}
+.tag-autodanger {
+  border-left-color: #d9534f;
+}
+.tag-manual {
+  border-left-color: #277796;
+}
+.tag-auto {
+  border-left-color: #389a44;
+}
+.tag-subtitle {
+  border-left-color: #909090;
+  font-weight: bold;
+  padding-left: 10px;
+  margin-left: -5px;
+}
+.tag-link-autodanger .badge {
   background-color: #ec451f;
 }
-.tag-manual .badge {
+.tag-link-manual .badge {
   background-color: #869a92;
 }
-.tag-auto .badge {
+.tag-link-auto .badge {
   background-color: #528eda;
 }
 .tbl-hover .tbl-row:hover {
@@ -7501,6 +7532,31 @@ button.close {
 }
 .transf-alert a {
   cursor: pointer;
+}
+.other-cases div.content {
+  padding: 3px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: #606060;
+  border-left: 4px solid #fff;
+}
+.other-cases:hover {
+  text-decoration: none;
+}
+.other-cases:hover div.content {
+  border-left: 4px solid #d9534f;
+  text-decoration: none;
+  background-color: #e6ebe6;
+}
+.message-muted {
+  font-size: 4em;
+  text-align: center;
+  color: #f5f5f5;
+}
+.message-muted div {
+  font-size: 0.3em;
+  text-align: center;
+  font-weight: 900;
 }
 @font-face {
   font-family: 'OpenSans';

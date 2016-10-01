@@ -36,8 +36,6 @@ public class CaseMoveService {
     @Autowired
     CaseNotOnTreatMoveService notOnTreatCaseMoveService;
 
-    // TODO: [MSANTOS] Missing email dispatcher implementation
-
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_OUT)
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());

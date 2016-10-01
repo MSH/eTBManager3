@@ -10,6 +10,7 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.issues.IssueData;
 import org.msh.etbm.services.cases.patient.PatientDetailedData;
+import org.msh.etbm.services.cases.search.CaseData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;
@@ -84,6 +85,8 @@ public class CaseDetailedData {
     private List<CaseCommentData> comments;
 
     private List<IssueData> issues;
+
+    private List<CaseItem> allCases;
 
     public UUID getId() {
         return id;
@@ -355,5 +358,13 @@ public class CaseDetailedData {
 
     public void setTransferOutUnit(UnitData transferOutUnit) {
         this.transferOutUnit = transferOutUnit;
+    }
+
+    public List<CaseItem> getAllCases() {
+        return allCases;
+    }
+
+    public void setAllCases(List<CaseItem> allCases) {
+        this.allCases = allCases;
     }
 }

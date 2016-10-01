@@ -8,6 +8,8 @@ export default {
     startInvidRegimen: 'start-ind-reg',
     // update tratment timeline
     updateTreatment: 'update-treatment',
+    // shows treatment update form
+    treatUpdateForm: 'treatment-update-form',
     // open add prescription form
     addPrescription: 'add-prescription',
     // open edt prescription form

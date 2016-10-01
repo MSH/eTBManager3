@@ -186,7 +186,7 @@ export default class CasesSideView extends React.Component {
                     title: it.name,
                     count: it.count,
                     path: '/tag?tag=' + it.id + qryparams,
-                    className: 'tag-link tag-' + it.type.toLowerCase()
+                    className: 'tag-link-' + it.type.toLowerCase()
                 });
             });
         }

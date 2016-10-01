@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col, Button, ButtonToolbar } from 'react-bootstrap';
-import { Profile, Card, AsyncButton, ReactTable, WaitIcon, Fa, CaseState } from '../../../components/index';
+import { Profile, Card, AsyncButton, ReactTable, WaitIcon, Fa } from '../../../components/index';
 import Form from '../../../forms/form';
 import su from '../../session-utils';
 
@@ -134,7 +134,7 @@ export default class SearchPatient extends React.Component {
         return (
             <div>
                 <div style={{ fontSize: '0.9em' }} className="pull-right">
-                    <CaseState state={item.state} />
+                    {su.caseStateDisplay(item.state)}
                 </div>
                 <div className="bold">
                     {typeLabel}
