@@ -34,7 +34,7 @@ export default class Chart extends React.Component {
             }));
         }
 
-        return {
+        const chart = {
             chart: {
                 plotBackgroundColor: null,
                 plotBorderWidth: null,
@@ -46,9 +46,6 @@ export default class Chart extends React.Component {
             },
             credits: {
                 enabled: false
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
             plotOptions: {
                 pie: {
@@ -68,6 +65,14 @@ export default class Chart extends React.Component {
                 categories: this.props.series[0].values.map(v => v.name)
             }
         };
+
+        if (type === 'pie') {
+            chart.tooltip = {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            };
+        }
+
+        return chart;
     }
 
 

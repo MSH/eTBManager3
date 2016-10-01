@@ -14,15 +14,17 @@ export default class ReportEditor extends React.Component {
     }
 
     componentWillMount() {
+        const lst = [];
+        for (var i = 0; i < 7; i++) {
+            lst.push({
+                title: 'Indicator title (click to change)',
+                size: 6,
+                index: lst.length
+            });
+        }
         const report = {
             title: 'Report title (click to change)',
-            indicators: [
-                {
-                    title: 'Indicator title (click to change)',
-                    size: 12,
-                    index: 0
-                }
-            ]
+            indicators: lst
         };
 
         this.setState({ report: report });
@@ -61,7 +63,6 @@ export default class ReportEditor extends React.Component {
 
         return (
             <div className="report">
-                <ReportHeader report={report}/>
                 {
                     this.renderIndicators(report.indicators)
                 }

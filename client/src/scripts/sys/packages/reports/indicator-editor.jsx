@@ -37,7 +37,7 @@ export default class IndicatorEditor extends React.Component {
         const ind = this.props.indicator;
         const series = this.randomSeries();
         const types = [
-            'pie', 'bar', 'spline', 'line', 'column', 'area'
+            'pie', 'bar', 'spline', 'line', 'column', 'area', 'areaspline'
         ];
         const index = ind.index % types.length;
         const type = types[index];
