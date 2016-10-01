@@ -8,6 +8,7 @@ import { app } from '../../core/app';
 import Events from './events';
 
 import CaseData from './case-data';
+import CaseEditForm from './case-edit-form';
 import OtherCases from './other-cases';
 import CaseExams from './case-exams';
 import CaseTreatment from './case-treatment';
@@ -329,6 +330,8 @@ class Details extends React.Component {
                         </Col>
                     </Row>
                 </Grid>
+
+                <CaseEditForm tbcase={tbcase} />
 
                 <CaseClose show={this.state.showCloseCase} onClose={this.show('showCloseCase', false)} tbcase={tbcase}/>
 

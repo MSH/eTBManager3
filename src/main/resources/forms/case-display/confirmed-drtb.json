@@ -73,7 +73,14 @@
       "property": "tbcase.notifAddress",
       "label": "${cases.details.addressnotif}",
       "type": "address",
-      "size": { "md": 8 }
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "visible": { "function": "this.tbcase.currentAddress" },
+      "size": { "md": 6 }
     },
     {
       "type": "subtitle",

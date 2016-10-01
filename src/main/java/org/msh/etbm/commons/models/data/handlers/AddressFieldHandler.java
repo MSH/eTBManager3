@@ -104,23 +104,28 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
     @Override
     public Object readMultipleValuesFromDb(AddressField field, Map<String, Object> values, boolean displaying) {
         if (displaying) {
+            byte[] b = (byte[])values.get("id");
+            UUID id = b != null && b.length > 0 ? ObjectUtils.bytesToUUID(b) : null;
+
+            // admin unit is required. if it is null, address is null
+            if (id == null) {
+                return null;
+            }
+
             AddressData addr = new AddressData();
             addr.setAddress((String)values.get(field.getFieldAddress()));
             addr.setComplement((String) values.get(field.getFieldComplement()) );
             addr.setZipCode( (String)values.get(field.getFieldZipCode()) );
 
-            byte[] b = (byte[])values.get("id");
-            UUID id = b != null && b.length > 0 ? ObjectUtils.bytesToUUID(b) : null;
-            if (id != null) {
-                AdminUnitData au = new AdminUnitData();
-                au.setId(id);
-                au.setName((String)values.get("name"));
-                au.setP0(getItem(values.get("pid0"), values.get("pname0")));
-                au.setP1(getItem(values.get("pid1"), values.get("pname1")));
-                au.setP2(getItem(values.get("pid2"), values.get("pname2")));
-                au.setP3(getItem(values.get("pid3"), values.get("pname3")));
-                addr.setAdminUnit(au);
-            }
+            AdminUnitData au = new AdminUnitData();
+            au.setId(id);
+            au.setName((String)values.get("name"));
+            au.setP0(getItem(values.get("pid0"), values.get("pname0")));
+            au.setP1(getItem(values.get("pid1"), values.get("pname1")));
+            au.setP2(getItem(values.get("pid2"), values.get("pname2")));
+            au.setP3(getItem(values.get("pid3"), values.get("pname3")));
+            addr.setAdminUnit(au);
+
             return addr;
         }
 

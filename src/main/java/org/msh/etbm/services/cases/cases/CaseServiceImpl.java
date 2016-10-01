@@ -118,14 +118,11 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         DiagnosisType diag = (DiagnosisType) resTbcase.getValues().get("diagnosisType");
         CaseClassification cla = (CaseClassification) resTbcase.getValues().get("classification");
 
-        String formid;
-        if (diag.equals(DiagnosisType.CONFIRMED)) {
-            formid = "update-confirmed-";
-            formid = formid.concat(cla.name().toLowerCase());
-        } else {
-            formid = "update-suspect";
-        }
+        // generate form id
+        String formid = "case-update/";
+        formid = formid.concat(diag.name().toLowerCase()).concat("-");
+        formid = formid.concat(cla.name().toLowerCase());
 
-        return formService.init(formid, data, true);
+        return formService.init(formid, data, false);
     }
 }

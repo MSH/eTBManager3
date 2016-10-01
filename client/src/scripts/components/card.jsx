@@ -22,8 +22,8 @@ export default class Card extends React.Component {
         // header was not defined ?
         if (!header) {
             const title = this.props.title;
-            // title was defined?
-            if (title) {
+            // title or headerRight was defined?
+            if (title || this.props.headerRight) {
                 header = <h4>{title}</h4>;
             }
         }

@@ -2,6 +2,8 @@
 export default {
     // update the detail page of the case
     caseUpdate: 'case-update',
+    // update the detail page of the case
+    caseEditForm: 'case-edit-form',
     // open the dialog to start a standard regimen
     startStandardRegimen: 'start-std-reg',
     // open the dialog to start an individualized regimen

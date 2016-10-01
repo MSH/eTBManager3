@@ -1,6 +1,8 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
-import { Card, RemoteForm } from '../../components';
+import { Row, Col, Button } from 'react-bootstrap';
+import { Card, RemoteForm, Fa } from '../../components';
+import { app } from '../../core/app';
+import Events from './events';
 
 import CasePrevTbTreats from './case-prev-tb-treats';
 import CaseContacts from './case-contacts';
@@ -9,6 +11,10 @@ import CaseComorbidities from './case-comorbidities';
 import CaseComments from './case-comments';
 
 export default class CaseData extends React.Component {
+
+    onEditClick() {
+        app.dispatch(Events.caseEditForm);
+    }
 
     render() {
         const tbcase = this.props.tbcase;
@@ -19,12 +25,16 @@ export default class CaseData extends React.Component {
 
         const path = '/api/tbl/case/form/readonly/' + tbcase.id;
 
+        const editBtn = (<Button onClick={this.onEditClick} bsSize="small">
+                                    <Fa icon="pencil"/>
+                         </Button>);
+
         return (
             <div>
                 <Row>
                     <Col sm={12}>
                         <CaseComments tbcase={tbcase} group="DATA">
-                            <Card padding="combine">
+                            <Card padding="combine" headerRight={editBtn}>
                                 <RemoteForm
                                     remotePath={path}
                                     onLoadForm={this.props.onLoad}
