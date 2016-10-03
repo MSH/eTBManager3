@@ -53,7 +53,7 @@ public class GroupedDataTableImpl implements GroupedDataTable {
 
         int rowindex = findRow(rowKeys);
         if (rowindex < 0) {
-            rowindex = -(rowindex - 1);
+            rowindex = -(rowindex + 1);
             rowindex = addRow(rowindex, rowKeys);
         }
 
@@ -87,12 +87,16 @@ public class GroupedDataTableImpl implements GroupedDataTable {
 
     @Override
     public void removeColumn(Object[] key) {
-        table.removeColumn(findColumn(key));
+        int index = findColumn(key);
+        columnKeys.remove(index);
+        table.removeColumn(index);
     }
 
     @Override
     public void removeRow(Object[] key) {
-        table.removeRow(findRow(key));
+        int index = findRow(key);
+        rowKeys.remove(index);
+        table.removeRow(index);
     }
 
     /**
