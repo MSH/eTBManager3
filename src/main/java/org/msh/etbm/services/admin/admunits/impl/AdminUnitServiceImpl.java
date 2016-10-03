@@ -346,23 +346,6 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
         return count.intValue() == 0;
     }
 
-    /**
-     * Update number of units under parent units
-     *
-     * @param prevParent the previous parent unit
-     * @param newParent  the new parent unit
-     */
-    protected void updateUnitsCount(AdministrativeUnit prevParent, AdministrativeUnit newParent) {
-        if (prevParent == newParent) {
-            return;
-        }
-
-        // adjust count of previous parent
-        prevParent.setUnitsCount(prevParent.getUnitsCount() - 1);
-
-        // adjust count of new parent
-        newParent.setUnitsCount(newParent.getUnitsCount() + 1);
-    }
 
 
     /**

@@ -100,5 +100,10 @@ public class GroupedDataTableTest {
 
         values = tbl.getRowValues(2);
         assertEquals(33, values.get(2));
+
+        Object[] keya0b0 = {"a0", "b0"};
+        tbl.setValue(keya0b0, key1, "TOT");
+        keys = tbl.getColumnKeys();
+        System.out.println(keys);
     }
 }

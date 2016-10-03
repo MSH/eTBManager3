@@ -98,7 +98,7 @@ public class RowImpl implements Row {
         int count = getColumCount() + 1;
         resize( count );
         // move values to the right
-        for (int i = count - 1; i >= colindex; i-- ) {
+        for (int i = count - 1; i > colindex; i-- ) {
             values[i] = values[i - 1];
         }
 

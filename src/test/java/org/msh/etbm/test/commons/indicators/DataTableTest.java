@@ -152,6 +152,26 @@ public class DataTableTest {
                 assertEquals(r * c, tbl.getValue(c, r));
             }
         }
+
+        // add a new column in position 0
+        int count = tbl.getColumnCount();
+        tbl.insertColumn(0);
+        assertEquals(count + 1, tbl.getColumnCount());
+        for (int r = 0; r < tbl.getRowCount(); r++) {
+            for (int c = 1; c < tbl.getColumnCount(); c++) {
+                assertEquals(r * (c - 1), tbl.getValue(c, r));
+            }
+        }
+
+        // add a new row at position 0
+        count = tbl.getRowCount();
+        tbl.insertRow(0);
+        assertEquals(count + 1, tbl.getRowCount());
+        for (int r = 1; r < tbl.getRowCount(); r++) {
+            for (int c = 1; c < tbl.getColumnCount(); c++) {
+                assertEquals((r - 1) * (c - 1), tbl.getValue(c, r));
+            }
+        }
     }
 
     @Test
