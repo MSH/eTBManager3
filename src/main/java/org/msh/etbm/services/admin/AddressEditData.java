@@ -10,7 +10,7 @@ public class AddressEditData {
     private String address;
     private String complement;
     private String zipCode;
-    private UUID adminUnitId;
+    private UUID adminUnit;
 
     public String getAddress() {
         return address;
@@ -36,11 +36,11 @@ public class AddressEditData {
         this.zipCode = zipCode;
     }
 
-    public UUID getAdminUnitId() {
-        return adminUnitId;
+    public UUID getAdminUnit() {
+        return adminUnit;
     }
 
-    public void setAdminUnitId(UUID adminUnitId) {
-        this.adminUnitId = adminUnitId;
+    public void setAdminUnit(UUID adminUnitId) {
+        this.adminUnit = adminUnitId;
     }
 }

@@ -73,6 +73,12 @@ public class FKUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
             return null;
         }
         UUID id = ObjectUtils.bytesToUUID(data);
+
+        // if is editing only id should be returned
+        if (!displaying) {
+            return id;
+        }
+
         String label = (String)values.get("name");
         String discriminator = (String)values.get("discriminator");
 

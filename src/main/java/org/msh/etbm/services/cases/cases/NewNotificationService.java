@@ -30,9 +30,9 @@ public class NewNotificationService {
     @Autowired
     FormService formService;
 
-    // TODO: registrar commandlog
+    // TODO: [MSANTOS] registrar commandlog
 
-    public FormInitResponse initForm (CaseClassification cla, DiagnosisType diag) {
+    public FormInitResponse initForm(CaseClassification cla, DiagnosisType diag) {
         if (cla == null || diag == null) {
             return null;
         }

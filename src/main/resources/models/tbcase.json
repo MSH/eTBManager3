@@ -213,8 +213,8 @@
     {
       "name": "regimen",
       "fieldName": "regimen_id",
-      "type": "string",
-      "max": 100
+      "type": "foreignKey",
+      "fkTable": "regimen"
     },
     {
       "name": "movedToIndividualized",

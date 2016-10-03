@@ -1,6 +1,6 @@
 import React from 'react';
-import { server } from '../../commons/server';
 import { FormDialog, observer } from '../../components';
+import { server } from '../../commons/server';
 import { app } from '../../core/app';
 import Events from './events';
 
@@ -28,7 +28,21 @@ class CaseEditForm extends React.Component {
     }
 
     confirm(doc) {
-        this.onClose();
+        const req = {
+            doc: doc,
+            caseId: this.props.tbcase.id,
+            patientId: this.props.tbcase.patient.id
+        };
+
+        return server.post('/api/cases/case/edit/save', req).then(res => {
+            if (res.errors) {
+                return Promise.reject(res.errors);
+            }
+
+            app.dispatch('case-update');
+
+            return res.result;
+        });
     }
 
     onClose() {

@@ -42,7 +42,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
 
         String auId = map.get("adminUnit");
         UUID id = auId != null && !auId.isEmpty() ? UUID.fromString(auId) : null;
-        addr.setAdminUnitId(id);
+        addr.setAdminUnit(id);
         return addr;
     }
 
@@ -64,7 +64,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         fields.put(field.getFieldAddress(), addr.getAddress());
         fields.put(field.getFieldComplement(), addr.getComplement());
         fields.put(field.getFieldZipCode(), addr.getZipCode());
-        fields.put(field.getFieldAdminUnit(), addr.getAdminUnitId() != null ? ObjectUtils.uuidAsBytes(addr.getAdminUnitId()) : null);
+        fields.put(field.getFieldAdminUnit(), addr.getAdminUnit() != null ? ObjectUtils.uuidAsBytes(addr.getAdminUnit()) : null);
 
         return fields;
     }
@@ -133,7 +133,7 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         addr.setAddress((String)values.get(field.getFieldAddress()));
         addr.setComplement((String) values.get(field.getFieldComplement()) );
         addr.setZipCode( (String)values.get(field.getFieldZipCode()) );
-        addr.setAdminUnitId( asUUID(values.get(field.getFieldAdminUnit())));
+        addr.setAdminUnit( asUUID(values.get(field.getFieldAdminUnit())));
 
         return addr;
     }
