@@ -22,7 +22,7 @@ import java.util.Map;
  * @author Ricardo Memoria
  *
  */
-public class IndicatorReport {
+public class IndicatorGenerator {
 
     private DataTable res1, res2;
 

@@ -5,6 +5,7 @@ import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
 import org.msh.etbm.commons.indicators.datatable.impl.RowImpl;
+import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
 
     // indicate if it's an internal operation
     private boolean internalOperation;
+
+    private List<Variable> columnVariables;
+    private List<Variable> rowVariables;
 
     public DataTableIndicatorImpl() {
         super();
@@ -441,9 +445,27 @@ public class DataTableIndicatorImpl extends DataTableImpl implements DataTableIn
         removeRow(index);
     }
 
+    @Override
+    public List<Variable> getColumnVariables() {
+        return columnVariables;
+    }
+
+    @Override
+    public List<Variable> getRowVariables() {
+        return rowVariables;
+    }
+
+    public void setColumnVariables(List<Variable> columnVariables) {
+        this.columnVariables = columnVariables;
+    }
+
+    public void setRowVariables(List<Variable> rowVariables) {
+        this.rowVariables = rowVariables;
+    }
+
     /* (non-Javadoc)
-     * @see org.msh.etbm.commons.indicators.indicator.DataTableIndicator#getIndicatorColumn(int)
-     */
+         * @see org.msh.etbm.commons.indicators.indicator.DataTableIndicator#getIndicatorColumn(int)
+         */
     @Override
     public IndicatorColumn getIndicatorColumn(int colindex) {
         return getIndicatorColumns().get(colindex);

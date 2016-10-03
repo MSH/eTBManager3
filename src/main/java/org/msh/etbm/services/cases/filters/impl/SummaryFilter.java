@@ -28,7 +28,7 @@ public class SummaryFilter extends AbstractFilter {
     private CaseFilters filters;
 
     public SummaryFilter() {
-        super("${global.summary}");
+        super("summary", "${global.summary}");
     }
 
     @Override

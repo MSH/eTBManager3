@@ -21,8 +21,8 @@ public class EnumFilter extends AbstractFilter {
     private Class enumClass;
     private String fieldName;
 
-    public EnumFilter(Class enumClass, String label, String fieldName) {
-        super(label);
+    public EnumFilter(String id, Class enumClass, String label, String fieldName) {
+        super(id, label);
         this.fieldName = fieldName;
         this.enumClass = enumClass;
     }

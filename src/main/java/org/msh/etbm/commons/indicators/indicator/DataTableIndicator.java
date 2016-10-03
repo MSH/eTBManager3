@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.indicators.indicator;
 
 import org.msh.etbm.commons.indicators.datatable.DataTable;
+import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.List;
 
@@ -120,4 +121,16 @@ public interface DataTableIndicator extends DataTable {
      * @param index is the 0-based index position of the row in the indicator table
      */
     void removeIndicatorRow(int index);
+
+    /**
+     * Return the list of variables used in the column, order by the level they are used
+     * @return list of instances of {@link Variable}
+     */
+    List<Variable> getColumnVariables();
+
+    /**
+     * Return the list of variables used in the rows, order by the level they are used
+     * @return list of instances of {@link Variable}
+     */
+    List<Variable> getRowVariables();
 }

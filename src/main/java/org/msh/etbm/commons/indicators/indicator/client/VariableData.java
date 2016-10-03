@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.indicators.client;
+package org.msh.etbm.commons.indicators.indicator.client;
 
 import org.msh.etbm.commons.Item;
 
@@ -10,6 +10,12 @@ import org.msh.etbm.commons.Item;
 public class VariableData extends Item<String> {
     private boolean grouped;
     private boolean total;
+
+    public VariableData(String id, String name, boolean grouped, boolean total) {
+        super(id, name);
+        this.grouped = grouped;
+        this.total = total;
+    }
 
     public boolean isGrouped() {
         return grouped;

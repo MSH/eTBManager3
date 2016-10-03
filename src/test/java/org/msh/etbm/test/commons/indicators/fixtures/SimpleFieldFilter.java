@@ -2,8 +2,6 @@ package org.msh.etbm.test.commons.indicators.fixtures;
 
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
-import org.msh.etbm.services.cases.filters.FilterContext;
-import org.msh.etbm.services.cases.filters.FilterGroup;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Map;
@@ -13,12 +11,18 @@ import java.util.Map;
  */
 public class SimpleFieldFilter implements Filter {
 
+    private String id;
     private String label;
     private String fieldName;
 
-    public SimpleFieldFilter(String label, String fieldName) {
+    public SimpleFieldFilter(String id, String label, String fieldName) {
         this.label = label;
         this.fieldName = fieldName;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override

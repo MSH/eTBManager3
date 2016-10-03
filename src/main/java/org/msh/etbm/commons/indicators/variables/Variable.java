@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.indicators.variables;
 
-import org.msh.etbm.commons.indicators.ReportElement;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
 /**
@@ -10,7 +9,19 @@ import org.msh.etbm.commons.sqlquery.QueryDefs;
  * @author Ricardo Memoria
  *
  */
-public interface Variable extends ReportElement {
+public interface Variable {
+
+    /**
+     * Return the ID of the variable
+     * @return The String ID
+     */
+    String getId();
+
+    /**
+     * Display name of the report element
+     * @return
+     */
+    String getLabel();
 
     /**
      * Prepare the query to return the data necessary to be handled by the variable.
