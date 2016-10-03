@@ -43,7 +43,7 @@ class CaseEditForm extends React.Component {
             return null;
         }
 
-        const path = '/api/tbl/case/form/' + this.props.tbcase.id;
+        const path = '/api/cases/case/edit/form/' + this.props.tbcase.id;
 
         return (
                 <FormDialog

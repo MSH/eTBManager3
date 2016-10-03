@@ -7,7 +7,7 @@ import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.admin.tags.TagService;
-import org.msh.etbm.services.cases.cases.CaseItem;
+import org.msh.etbm.services.cases.cases.data.CaseItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

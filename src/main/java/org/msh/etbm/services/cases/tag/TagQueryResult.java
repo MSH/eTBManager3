@@ -2,7 +2,7 @@ package org.msh.etbm.services.cases.tag;
 
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.admin.tags.TagData;
-import org.msh.etbm.services.cases.cases.CaseItem;
+import org.msh.etbm.services.cases.cases.data.CaseItem;
 
 /**
  * Created by rmemoria on 21/9/16.

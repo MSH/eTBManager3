@@ -16,7 +16,7 @@
     </mapping>
 
     <mapping>
-        <class-a>org.msh.etbm.services.cases.cases.CaseItem</class-a>
+        <class-a>org.msh.etbm.services.cases.cases.data.CaseItem</class-a>
         <class-b>org.msh.etbm.db.entities.TbCase</class-b>
 
         <field>
@@ -98,7 +98,7 @@
     </mapping>
 
     <mapping>
-        <class-a>org.msh.etbm.services.cases.cases.CaseDetailedData</class-a>
+        <class-a>org.msh.etbm.services.cases.cases.data.CaseDetailedData</class-a>
         <class-b>org.msh.etbm.db.entities.TbCase</class-b>
 
         <field>

@@ -9,6 +9,7 @@ import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.services.cases.cases.data.NewNotificationFormData;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ public class NewNotificationService {
     }
 
     @Transactional
-    public StandardResult save(CaseFormData data) {
+    public StandardResult save(NewNotificationFormData data) {
 
         ModelDAO patientDao = factory.create("patient");
         Map<String, Object> patientData = (Map)data.getDoc().get("patient");

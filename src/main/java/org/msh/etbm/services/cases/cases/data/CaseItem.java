@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.cases.data;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.PersonName;

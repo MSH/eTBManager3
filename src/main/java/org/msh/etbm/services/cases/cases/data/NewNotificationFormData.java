@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.cases.data;
 
 import java.util.Map;
 import java.util.UUID;
@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * Created by Mauricio on 05/09/2016.
  */
-public class CaseFormData {
+public class NewNotificationFormData {
     private Map<String, Object> doc;
 
     private UUID unitId;

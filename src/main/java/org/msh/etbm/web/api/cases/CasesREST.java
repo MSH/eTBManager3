@@ -1,8 +1,8 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.services.cases.cases.*;
+import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -39,8 +39,4 @@ public class CasesREST {
         return service.getReadOnlyForm(id);
     }
 
-    @RequestMapping(value = "/case/form/{id}")
-    public FormInitResponse initEditForm(@PathVariable @NotNull UUID id) {
-        return service.getEditForm(id);
-    }
 }

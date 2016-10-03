@@ -16,6 +16,9 @@ import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
+import org.msh.etbm.services.cases.cases.data.CaseItem;
+import org.msh.etbm.services.cases.cases.data.CaseQueryParams;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -98,31 +101,5 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
         }
 
         return formService.init(formid, data, true);
-    }
-
-    @Override
-    public FormInitResponse getEditForm(UUID id) {
-        // mount data
-        HashMap<String, Object> data = new HashMap<>();
-
-        ModelDAO tbcaseDao = factory.create("tbcase");
-        RecordData resTbcase = tbcaseDao.findOne(id, true);
-
-        ModelDAO patientDao = factory.create("patient");
-        RecordData resPatient = patientDao.findOne((UUID)resTbcase.getValues().get("patient"), true);
-
-        data.put("tbcase", resTbcase.getValues());
-        data.put("patient", resPatient.getValues());
-
-        // mount form name
-        DiagnosisType diag = (DiagnosisType) resTbcase.getValues().get("diagnosisType");
-        CaseClassification cla = (CaseClassification) resTbcase.getValues().get("classification");
-
-        // generate form id
-        String formid = "case-update/";
-        formid = formid.concat(diag.name().toLowerCase()).concat("-");
-        formid = formid.concat(cla.name().toLowerCase());
-
-        return formService.init(formid, data, false);
     }
 }
