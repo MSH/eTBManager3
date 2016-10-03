@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.enums.Gender;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  */
 public class GenderFilter extends EnumFilter {
     public GenderFilter() {
-        super(Gender.class, "${Gender}", "patient.gender");
+        super(CaseFilters.GENDER, Gender.class, "${Gender}", "patient.gender");
     }
 
     @Override

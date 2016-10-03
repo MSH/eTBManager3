@@ -65,36 +65,37 @@ public class CaseFilters {
     }
 
     private void createCaseDataFilters(Map<String, Filter> filters) {
-        filters.put(CASE_CLASSIFICATION, new EnumFilter(
+
+        add(filters, new EnumFilter(CASE_CLASSIFICATION,
                 CaseClassification.class, "${CaseClassification}", "tbcase.classification"));
 
-        filters.put(GENDER, new GenderFilter());
+        add(filters, new GenderFilter());
 
-        filters.put(CASE_STATE, new EnumFilter(
+        add(filters, new EnumFilter(CASE_STATE,
                 CaseState.class, "${CaseState}", "tbcase.state"));
 
-        filters.put(INFECTION_SITE, new EnumFilter(
+        add(filters, new EnumFilter(INFECTION_SITE,
                 InfectionSite.class, "${InfectionSite}", "tbcase.infectionSite"));
 
-        filters.put(DIAGNOSIS_TYPE, new EnumFilter(
+        add(filters, new EnumFilter(DIAGNOSIS_TYPE,
                 DiagnosisType.class, "${DiagnosisType}", "tbcase.diagnosisType"));
 
-        filters.put(NATIONALITY, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(NATIONALITY,
                 "${Nationality}", "tbcase", "nationality"));
 
-        filters.put(OUTCOME, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(OUTCOME,
                 "${TbCase.outcome}", "tbcase", "outcome"));
 
-        filters.put(REGISTRATION_GROUP, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(REGISTRATION_GROUP,
                 "${TbCase.registrationGroup}", "tbcase", "registrationGroup"));
 
-        filters.put(DRUG_RESISTANCE_TYPE, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(DRUG_RESISTANCE_TYPE,
                 "${DrugResistanceType}", "tbcase", "drugResistanceType"));
 
-        filters.put(PULMONARY_FORMS, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(PULMONARY_FORMS,
                 "${TbCase.pulmonaryType}", "tbcase", "pulmonaryType"));
 
-        filters.put(EXTRAPULMONARY_FORMS, new ModelFieldOptionsFilter(
+        add(filters, new ModelFieldOptionsFilter(EXTRAPULMONARY_FORMS,
                 "${TbCase.extrapulmonaryType}", "tbcase", "extrapulmonaryType"));
 
     }
@@ -128,6 +129,10 @@ public class CaseFilters {
                 filter.getValue().initialize(applicationContext);
             }
         }
+    }
+
+    protected void add(Map<String, Filter> filters, Filter filter) {
+        filters.put(filter.getId(), filter);
     }
 
     /**

@@ -19,8 +19,8 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
     private ModelDAOFactory modelDAOFactory;
 
 
-    public ModelFieldOptionsFilter(String label, String modelName, String fieldName) {
-        super(label);
+    public ModelFieldOptionsFilter(String id, String label, String modelName, String fieldName) {
+        super(id, label);
         this.modelName = modelName;
         this.fieldName = fieldName;
     }

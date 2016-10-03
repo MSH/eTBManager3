@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Request passed to {@link IndicatorReport} to generate an indicator
+ * Request passed to {@link IndicatorGenerator} to generate an indicator
  *
  * Created by rmemoria on 10/9/16.
  */

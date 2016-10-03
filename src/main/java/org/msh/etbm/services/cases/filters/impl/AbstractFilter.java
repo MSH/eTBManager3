@@ -16,13 +16,20 @@ import java.util.*;
  */
 public abstract class AbstractFilter implements Filter {
 
+    private String id;
     private String label;
     private ApplicationContext applicationContext;
     private Messages messages;
 
-    public AbstractFilter(String label) {
+    public AbstractFilter(String id, String label) {
         super();
+        this.id = id;
         this.label = label;
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override

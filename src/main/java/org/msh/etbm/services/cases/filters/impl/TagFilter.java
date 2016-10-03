@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.services.admin.tags.TagQueryParams;
 import org.msh.etbm.services.admin.tags.TagService;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.UUID;
 public class TagFilter extends AbstractFilter {
 
     public TagFilter() {
-        super("${Tag}");
+        super(CaseFilters.TAG, "${Tag}");
     }
 
     @Override

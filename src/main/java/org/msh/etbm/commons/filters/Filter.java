@@ -11,6 +11,12 @@ import java.util.Map;
 public interface Filter {
 
     /**
+     * Return the filter ID
+     * @return
+     */
+    String getId();
+
+    /**
      * Return the filter's label to be displayed to the user
      * @return
      */
