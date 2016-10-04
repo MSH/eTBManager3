@@ -25,36 +25,36 @@
     {
       "property": "patient.motherName",
       "type": "string",
-      "size": { "md": 6 }
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 4 },
+      "label": "${TbCase.age}"
+    },
+    {
+      "property": "patient.birthDate",
+      "type": "date",
+      "size": { "md": 4 }
     },
     {
       "type": "select",
       "property": "tbcase.nationality",
       "label": "${Nationality}",
-      "size": { "md": 6 }
-    },
-    {
-      "property": "patient.birthDate",
-      "type": "date",
-      "size": { "md": 6 }
-    },
-    {
-      "property": "tbcase.age",
-      "type": "int",
-      "size": { "md": 6 },
-      "label": "${TbCase.age}"
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.phoneNumber",
       "type": "string",
       "label": "${TbCase.phoneNumber}",
-      "size": { "md": 6 }
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.mobileNumber",
       "type": "string",
       "label": "${global.mobile}",
-      "size": { "md": 6 }
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.notifAddress",
