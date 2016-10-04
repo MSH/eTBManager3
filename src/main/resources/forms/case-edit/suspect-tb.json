@@ -4,7 +4,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.newnotifof} ${CaseClassification.TB.suspect}",
+  "title": "${action.edit} ${CaseClassification.TB.suspect}",
 
   "controls": [
     {
@@ -82,8 +82,14 @@
       "property": "tbcase.notifAddress",
       "label": "${cases.details.addressnotif}",
       "type": "address",
-      "size": { "md": 8 },
+      "size": { "md": 6 },
       "newRow": true
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "size": { "md": 6 }
     }
   ]
 }

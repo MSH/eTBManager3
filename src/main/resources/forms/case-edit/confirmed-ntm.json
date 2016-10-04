@@ -4,32 +4,20 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.newnotifof} ${CaseClassification.TB.confirmed}",
+  "title": "${action.edit} ${CaseClassification.NTM.confirmed}",
 
   "controls": [
     {
       "type": "date",
-      "label": "${TbCase.registrationDate.DRTB}",
+      "label": "${TbCase.registrationDate}",
       "property": "tbcase.registrationDate",
       "required": true,
       "size": { "md": 4 }
     },
     {
       "property": "tbcase.caseNumber",
-      "label": "${DisplayCaseNumber.DRTB}",
-      "type": "string",
+      "label": "${TbCase.caseNumber}",
       "required": true,
-      "size": { "md": 6 }
-    },
-    {
-      "type": "date",
-      "label": "${TbCase.lastBmuDateTbRegister}",
-      "property": "tbcase.lastBmuDateTbRegister",
-      "size": { "md": 4 }
-    },
-    {
-      "property": "tbcase.lastBmuTbRegistNumber",
-      "label": "${TbCase.lastBmuTbRegistNumber}",
       "type": "string",
       "size": { "md": 6 }
     },
@@ -94,8 +82,14 @@
       "property": "tbcase.notifAddress",
       "label": "${cases.details.addressnotif}",
       "type": "address",
-      "size": { "md": 8 },
+      "size": { "md": 6 },
       "newRow": true
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "size": { "md": 6 }
     },
     {
       "type": "subtitle",
@@ -108,14 +102,6 @@
       "property": "tbcase.diagnosisDate",
       "required": true,
       "size": { "md": 8 }
-    },
-    {
-      "type": "select",
-      "property": "tbcase.drugResistanceType",
-      "label": "${DrugResistanceType}",
-      "size": { "md": 8 },
-      "required": true,
-      "newRow": true
     },
     {
       "type": "select",

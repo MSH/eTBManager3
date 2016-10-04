@@ -77,6 +77,7 @@ public class NewNotificationService {
         caseData.put("movedSecondLineTreatment", false);
         caseData.put("notificationUnit", data.getUnitId());
         caseData.put("ownerUnit", data.getUnitId());
+        caseData.put("currentAddress", caseData.get("notifAddress"));
 
         if (caseData.get("diagnosisType").equals(DiagnosisType.SUSPECT)) {
             caseData.put("suspectClassification", caseData.get("classification"));

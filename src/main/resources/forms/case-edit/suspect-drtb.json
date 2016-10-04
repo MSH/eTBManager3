@@ -4,7 +4,7 @@
     "tbcase": "tbcase"
   },
 
-  "title": "${cases.newnotifof} ${CaseClassification.NTM.confirmed}",
+  "title": "${action.edit} ${CaseClassification.DRTB.suspect}",
 
   "controls": [
     {
@@ -12,13 +12,13 @@
       "label": "${TbCase.registrationDate}",
       "property": "tbcase.registrationDate",
       "required": true,
-      "size": { "md": 4 }
+      "size": { "md": 6 }
     },
     {
-      "property": "tbcase.caseNumber",
-      "label": "${TbCase.caseNumber}",
-      "required": true,
+      "property": "tbcase.registrationNumber",
+      "label": "${TbCase.registrationNumber}",
       "type": "string",
+      "required": true,
       "size": { "md": 6 }
     },
     {
@@ -82,59 +82,14 @@
       "property": "tbcase.notifAddress",
       "label": "${cases.details.addressnotif}",
       "type": "address",
-      "size": { "md": 8 },
+      "size": { "md": 6 },
       "newRow": true
     },
     {
-      "type": "subtitle",
-      "label": "${cases.details.case}",
-      "size": { "sm": 12 }
-    },
-    {
-      "type": "date",
-      "label": "${TbCase.diagnosisDate}",
-      "property": "tbcase.diagnosisDate",
-      "required": true,
-      "size": { "md": 8 }
-    },
-    {
-      "type": "select",
-      "property": "tbcase.registrationGroup",
-      "label": "${TbCase.registrationGroup}",
-      "size": { "md": 8 },
-      "required": true,
-      "newRow": true
-    },
-    {
-      "type": "select",
-      "property": "tbcase.infectionSite",
-      "label": "${InfectionSite}",
-      "size": { "md": 8 },
-      "newRow": true
-    },
-    {
-      "type": "select",
-      "property": "tbcase.pulmonaryType",
-      "label": "${TbCase.pulmonaryType}",
-      "size": { "md": 8 },
-      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY'" },
-      "newRow": true
-    },
-    {
-      "type": "select",
-      "property": "tbcase.extrapulmonaryType",
-      "label": "${TbCase.extrapulmonaryType}",
-      "size": { "md": 8 },
-      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" },
-      "newRow": true
-    },
-    {
-      "type": "select",
-      "property": "tbcase.extrapulmonaryType2",
-      "label": "${TbCase.extrapulmonaryType2}",
-      "size": { "md": 8 },
-      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" },
-      "newRow": true
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "size": { "md": 6 }
     }
   ]
 }

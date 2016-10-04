@@ -49,7 +49,7 @@ public class CaseEditService {
         CaseClassification cla = (CaseClassification) resTbcase.getValues().get("classification");
 
         // generate form id
-        String formid = "case-update/";
+        String formid = "case-edit/";
         formid = formid.concat(diag.name().toLowerCase()).concat("-");
         formid = formid.concat(cla.name().toLowerCase());
 

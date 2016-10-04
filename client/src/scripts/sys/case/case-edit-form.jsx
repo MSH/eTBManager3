@@ -39,6 +39,7 @@ class CaseEditForm extends React.Component {
                 return Promise.reject(res.errors);
             }
 
+            this.onClose();
             app.dispatch('case-update');
 
             return res.result;
