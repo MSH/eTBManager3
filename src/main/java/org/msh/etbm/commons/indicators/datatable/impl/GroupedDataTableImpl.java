@@ -61,6 +61,27 @@ public class GroupedDataTableImpl implements GroupedDataTable {
     }
 
     @Override
+    public void incValue(Object[] colKey, Object[] rowKey, double value) {
+        int colindex = findColumn(colKey);
+        if (colindex < 0) {
+            colindex = -(colindex + 1);
+            colindex = addColumn(colindex, colKey);
+        }
+
+        int rowindex = findRow(rowKey);
+        if (rowindex < 0) {
+            rowindex = -(rowindex + 1);
+            rowindex = addRow(rowindex, rowKey);
+        }
+
+        Object currValue = table.getValue(colindex, rowindex);
+        double newValue = (currValue instanceof Number ? ((Number) currValue).doubleValue() : 0) + value;
+
+        table.setValue(colindex, rowindex, newValue);
+    }
+
+
+    @Override
     public int getColumnCount() {
         return columnKeys.size();
     }
@@ -134,7 +155,7 @@ public class GroupedDataTableImpl implements GroupedDataTable {
      * Add a new column respecting the order of the key among the other keys
      * @param key the key to be included
      */
-    private int addColumn(int index, Object[] key) {
+    protected int addColumn(int index, Object[] key) {
         if (index >= columnKeys.size()) {
             columnKeys.add(key);
             table.addColumn();
@@ -150,7 +171,7 @@ public class GroupedDataTableImpl implements GroupedDataTable {
      * Add a new row respecting the order of the key among the other keys
      * @param key the key to be included
      */
-    private int addRow(int index, Object[] key) {
+    protected int addRow(int index, Object[] key) {
         if (index >= rowKeys.size()) {
             rowKeys.add(key);
             table.addRow();
@@ -161,4 +182,5 @@ public class GroupedDataTableImpl implements GroupedDataTable {
         table.insertRow(index);
         return index;
     }
+
 }

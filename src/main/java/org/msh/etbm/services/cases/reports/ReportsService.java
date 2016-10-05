@@ -3,7 +3,9 @@ package org.msh.etbm.services.cases.reports;
 import org.msh.etbm.commons.Item;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Basic service to handle reports of the case management module

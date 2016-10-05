@@ -3,7 +3,6 @@ package org.msh.etbm.services.cases.search;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.filters.FilterDisplay;
 
-import java.util.List;
 import java.util.Map;
 
 /**

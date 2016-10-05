@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.indicators.indicator.client;
 
-import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class ColumnData {
     private List<VariableData> variables;
 
-    private List<Item<String>> keys;
+    private List<KeyDescriptor> keys;
 
     private int levels;
 
@@ -23,11 +23,11 @@ public class ColumnData {
         this.variables = variables;
     }
 
-    public List<Item<String>> getKeys() {
+    public List<KeyDescriptor> getKeys() {
         return keys;
     }
 
-    public void setKeys(List<Item<String>> keys) {
+    public void setKeys(List<KeyDescriptor> keys) {
         this.keys = keys;
     }
 

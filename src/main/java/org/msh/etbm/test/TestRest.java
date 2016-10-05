@@ -1,13 +1,16 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.commons.models.ModelDAO;
+import org.msh.etbm.commons.indicators.IndicatorGenerator;
+import org.msh.etbm.commons.indicators.IndicatorRequest;
+import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
+import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
+import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
+import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
+import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.models.ModelDAOFactory;
-import org.msh.etbm.commons.models.ModelDAOResult;
-import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
@@ -15,13 +18,12 @@ import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -55,6 +57,8 @@ public class TestRest {
     @Autowired
     FormService formService;
 
+    @Autowired
+    CaseFilters caseFilters;
 
     @RequestMapping("/message")
     public String getMessage() {
@@ -86,92 +90,6 @@ public class TestRest {
     }
 
 
-    @RequestMapping(value = "/model")
-    @Authenticated
-    public String modelTest() {
-        ModelDAO dao = modelDAOFactory.create("patient");
-
-        StringBuilder s = new StringBuilder();
-
-        Map<String, Object> vals = new HashMap<>();
-        vals.put("name", "Ricardo3");
-        vals.put("middleName", "Memória");
-        vals.put("lastName", "Lima");
-        vals.put("birthDate", DateUtils.newDate(1971, 11, 13));
-        vals.put("gender", "MALE");
-        ModelDAOResult res = dao.insert(vals);
-
-        // there are errors ?
-        if (res.getErrors() != null) {
-            s.append("\nTHERE ARE ERRORS:\n");
-            for (FieldError err: res.getErrors().getFieldErrors()) {
-                s.append(err.toString()).append('\n');
-            }
-            return s.toString();
-        }
-
-        s.append('\n').append("ID = ").append(res.getId()).append('\n');
-
-        List<RecordData> lst = dao.findMany(true, null, null);
-
-        s.append("DATA: \n");
-        for (RecordData data: lst) {
-            s.append(data).append('\n');
-        }
-
-        return s.toString();
-    }
-
-    @RequestMapping(value = "/load")
-    @Authenticated
-    public String dataLoad() {
-        StringBuilder s = new StringBuilder();
-
-        ModelDAO daoPatient = modelDAOFactory.create("patient");
-
-        s.append("\n## CREATING##\n");
-        Map<String, Object> p = new HashMap<>();
-        p.put("name", "Ricardo");
-        p.put("middleName", "Memoria");
-        p.put("lastName", "Lima");
-        p.put("birthDate", DateUtils.newDate(1971, 11, 13));
-        p.put("gender", "MALE");
-        ModelDAOResult res = daoPatient.insert(p);
-
-        if (res.getErrors() != null) {
-            s.append("\nERRORS:\n");
-            for (ObjectError err: res.getErrors().getAllErrors()) {
-                s.append(err).append('\n');
-            }
-            return s.toString();
-        }
-        s.append("\nID = ").append(res.getId());
-
-        // find record
-        s.append("\n\n## FindOne ##\n");
-        RecordData p2 = daoPatient.findOne(res.getId(), false);
-        s.append("Name = ").append(p2.getValues().get("name"));
-
-        // update record
-        s.append("\n\n## Updating ###");
-        Map<String, Object> vals = p2.getValues();
-        vals.put("name", "Karla");
-        daoPatient.update(p2.getId(), vals);
-
-        // find to check the changes
-        p2 = daoPatient.findOne(p2.getId(), false);
-        if (!p2.getValues().get("name").equals("Karla")) {
-            s.append("Update didn't work");
-            return s.toString();
-        }
-
-        // delete record
-        s.append("\n\n## Deleting ##\n");
-        daoPatient.delete(res.getId());
-        s.append("  deleted...\n");
-
-        return s.toString();
-    }
 
     @RequestMapping(value = "/form")
     @Authenticated
@@ -197,5 +115,53 @@ public class TestRest {
     @RequestMapping(value = "/query")
     public String testQuery(@RequestParam(value = "foo", required = false) String foo) {
         return foo + "\n";
+    }
+
+    @RequestMapping(value = "/indicator")
+    public StandardResult generateIndicator() {
+        IndicatorGenerator gen = new IndicatorGenerator();
+
+        IndicatorRequest req = new IndicatorRequest();
+        req.setMainTable("tbcase");
+        Variable varClassif = caseFilters.variableById(CaseFilters.CASE_CLASSIFICATION);
+        Variable varState = caseFilters.variableById(CaseFilters.CASE_STATE);
+        Variable varDiagType = caseFilters.variableById(CaseFilters.DIAGNOSIS_TYPE);
+
+        List<Variable> vars = new ArrayList<>();
+        vars.add(varClassif);
+        vars.add(varDiagType);
+        req.setColumnVariables(vars);
+        req.setRowVariables(Collections.singletonList(varState));
+
+        IndicatorDataTable tbl = gen.execute(dataSource, req);
+
+        System.out.println("Column Keys:");
+        for (KeyDescriptor kd: tbl.getColumnKeyDescriptors().getGroups()) {
+            System.out.println(kd);
+        }
+        for (Object[] key: tbl.getColumnKeys()) {
+            System.out.println(Arrays.toString(key));
+        }
+        System.out.println("Row Keys:");
+        for (KeyDescriptor kd: tbl.getRowKeyDescriptors().getGroups()) {
+            System.out.println(kd);
+        }
+        for (Object[] key: tbl.getRowKeys()) {
+            System.out.println(Arrays.toString(key));
+        }
+
+        System.out.println("\nDATA:");
+        for (int r = 0; r < tbl.getRowCount(); r++) {
+            List vals = tbl.getRowValues(r);
+            for (Object val: vals) {
+                System.out.print(val + ", ");
+            }
+            System.out.println('\n');
+        }
+
+        IndicatorDataConverter conv = new IndicatorDataConverter();
+        IndicatorData data = conv.convertFromDataTableIndicator(tbl);
+
+        return new StandardResult(data, null, true);
     }
 }

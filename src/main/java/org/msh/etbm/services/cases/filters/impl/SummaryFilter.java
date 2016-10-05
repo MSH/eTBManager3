@@ -10,11 +10,9 @@ import org.msh.etbm.services.cases.summary.SummaryItem;
 import org.msh.etbm.services.cases.summary.SummaryService;
 import org.springframework.context.ApplicationContext;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

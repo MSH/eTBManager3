@@ -142,9 +142,15 @@ public class SQLQueryBuilder implements QueryDefs {
             if (field.isAggregation()) {
                 s.append(field.getFieldName());
             } else {
-                s.append(field.getTable().getTableAlias())
-                        .append(".")
-                        .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+                String fname = field.getFieldName();
+                if (fname.indexOf(".") > 0) {
+                    fname = parseTableName(fname);
+                    s.append(fname).append(' ').append(field.getFieldAlias());
+                } else {
+                    s.append(field.getTable().getTableAlias())
+                            .append(".")
+                            .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+                }
             }
 
             delim = ", ";

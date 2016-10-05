@@ -82,6 +82,7 @@ public class IndicatorSqlBuilder {
      */
     public String createSql() {
         varRestrictions.clear();
+        variableFields.clear();
         sqlBuilder.clearSelect();
 
         // include filters in the SQL

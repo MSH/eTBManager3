@@ -5,6 +5,7 @@ package org.msh.etbm.commons.indicators.datatable;
  */
 public class DataTableUtils {
 
+    public static final String TOTAL = "total";
 
     /**
      * Compare an array of object. Return -1 if vals1 is before vals2. Return 0 if both arrays are equals,
@@ -51,6 +52,15 @@ public class DataTableUtils {
         }
 
         if (obj2 == null) {
+            return 1;
+        }
+
+        // exclusive for table comparision
+        if (TOTAL.equals(obj1)) {
+            return -1;
+        }
+
+        if (TOTAL.equals(obj2)) {
             return 1;
         }
 

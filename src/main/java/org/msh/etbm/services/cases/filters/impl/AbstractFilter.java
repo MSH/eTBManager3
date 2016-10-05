@@ -4,6 +4,8 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.filters.FilterTypes;
+import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.springframework.context.ApplicationContext;
 
@@ -14,17 +16,24 @@ import java.util.*;
  *
  * Created by rmemoria on 17/8/16.
  */
-public abstract class AbstractFilter implements Filter {
+public abstract class AbstractFilter implements Filter, Variable {
+
+    public static final String KEY_NULL = "null";
+
+    private static final VariableOptions DEFAULT_VAR_OPTIONS =
+            new VariableOptions(false, true, 0, new Item<>("cases", "Cases"));
 
     private String id;
     private String label;
     private ApplicationContext applicationContext;
     private Messages messages;
+    private VariableOptions variableOptions;
 
     public AbstractFilter(String id, String label) {
         super();
         this.id = id;
         this.label = label;
+        setVariableOptions(DEFAULT_VAR_OPTIONS);
     }
 
     @Override
@@ -204,4 +213,70 @@ public abstract class AbstractFilter implements Filter {
 
         return getMessages().get("NotValid");
     }
+
+
+    @Override
+    public int compareValues(Object val1, Object val2) {
+        if (val1 == val2) {
+            return 0;
+        }
+
+        if ((val1 == null) || (KEY_NULL.equals(val1))) {
+            return 1;
+        }
+
+        if ((val2 == null) || (KEY_NULL.equals(val2))) {
+            return -1;
+        }
+
+        if (val1 instanceof Comparable) {
+            return ((Comparable)val1).compareTo(val2);
+        }
+
+        return 0;
+    }
+
+    protected void setVariableOptions(VariableOptions variableOptions) {
+        this.variableOptions = variableOptions;
+    }
+
+    @Override
+    public VariableOptions getVariableOptions() {
+        return variableOptions;
+    }
+
+    @Override
+    public int compareGroupValues(Object val1, Object val2) {
+        return 0;
+    }
+
+    @Override
+    public Object[] getDomain() {
+        return new Object[0];
+    }
+
+    @Override
+    public Object createGroupKey(Object values) {
+        return null;
+    }
+
+    @Override
+    public String getGroupKeyDisplay(Object key) {
+        return null;
+    }
+
+    @Override
+    public void prepareVariableQuery(QueryDefs def, int iteration) {
+    }
+
+    @Override
+    public Object createKey(Object values) {
+        return null;
+    }
+
+    @Override
+    public String getKeyDisplay(Object key) {
+        return null;
+    }
+
 }
