@@ -17,7 +17,7 @@ import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
-import org.msh.etbm.services.cases.cases.CaseDetailedData;
+import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;

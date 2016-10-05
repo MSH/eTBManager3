@@ -16,6 +16,9 @@ import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
+import org.msh.etbm.services.cases.cases.data.CaseItem;
+import org.msh.etbm.services.cases.cases.data.CaseQueryParams;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,14 +94,12 @@ public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> 
 
         String formid;
         if (diag.equals(DiagnosisType.CONFIRMED)) {
-            formid = "display-confirmed-";
+            formid = "case-display/confirmed-";
             formid = formid.concat(cla.name().toLowerCase());
         } else {
-            formid = "display-suspect";
+            formid = "case-display/suspect";
         }
 
         return formService.init(formid, data, true);
     }
-
-
 }

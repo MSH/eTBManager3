@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.forms.FormInitResponse;
+import org.msh.etbm.services.cases.cases.data.CaseQueryParams;
 
 import java.util.UUID;
 

@@ -9,6 +9,7 @@ import org.msh.etbm.commons.models.ModelDAOResult;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.services.cases.cases.data.NewNotificationFormData;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,9 @@ public class NewNotificationService {
     @Autowired
     FormService formService;
 
-    // TODO: registrar commandlog
+    // TODO: [MSANTOS] registrar commandlog
 
-    public FormInitResponse initForm (CaseClassification cla, DiagnosisType diag) {
+    public FormInitResponse initForm(CaseClassification cla, DiagnosisType diag) {
         if (cla == null || diag == null) {
             return null;
         }
@@ -47,7 +48,7 @@ public class NewNotificationService {
         doc.put("patient", new HashMap<>());
 
         // generate form id
-        String formid = "newnotif-";
+        String formid = "case-new-notif/";
         formid = formid.concat(diag.name().toLowerCase()).concat("-");
         formid = formid.concat(cla.name().toLowerCase());
 
@@ -55,7 +56,7 @@ public class NewNotificationService {
     }
 
     @Transactional
-    public StandardResult save(CaseFormData data) {
+    public StandardResult save(NewNotificationFormData data) {
 
         ModelDAO patientDao = factory.create("patient");
         Map<String, Object> patientData = (Map)data.getDoc().get("patient");

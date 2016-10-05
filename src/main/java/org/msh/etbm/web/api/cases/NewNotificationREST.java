@@ -2,9 +2,9 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.forms.FormInitResponse;
-import org.msh.etbm.services.cases.cases.CaseFormData;
-import org.msh.etbm.services.cases.cases.CaseInitFormReq;
 import org.msh.etbm.services.cases.cases.NewNotificationService;
+import org.msh.etbm.services.cases.cases.data.NewNotificationFormData;
+import org.msh.etbm.services.cases.cases.data.NewNotificationInitFormReq;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -29,7 +29,7 @@ public class NewNotificationREST {
     NewNotificationService newNotificationService;
 
     @RequestMapping(value = "/newnotif/form")
-    public FormInitResponse initForm(@Valid @NotNull @RequestBody CaseInitFormReq req) {
+    public FormInitResponse initForm(@Valid @NotNull @RequestBody NewNotificationInitFormReq req) {
 
         if (req == null || req.getCaseClassification() == null || req.getDiagnosisType() == null) {
             throw new InvalidArgumentException("Classificaton and diagnosisType must be informed.");
@@ -39,7 +39,7 @@ public class NewNotificationREST {
     }
 
     @RequestMapping(value = "/newnotif", method = RequestMethod.POST)
-    public StandardResult create(@Valid @NotNull @RequestBody CaseFormData req) {
+    public StandardResult create(@Valid @NotNull @RequestBody NewNotificationFormData req) {
         return newNotificationService.save(req);
     }
 }

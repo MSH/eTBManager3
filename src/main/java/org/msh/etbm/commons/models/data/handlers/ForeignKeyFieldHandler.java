@@ -28,6 +28,20 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     protected Object convertValue(E field, FieldContext fieldContext, Object value) {
+
+        if (value == null) {
+            return null;
+        }
+
+        if (value instanceof UUID) {
+            return value;
+        }
+
+        if (value instanceof String) {
+            return UUID.fromString((String) value);
+        }
+
+        registerConversionError(fieldContext);
         return value;
     }
 
@@ -38,6 +52,10 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     public Map<String, Object> mapFieldsToSave(E field, Object value) {
+        // TODO: [MSANTOS] check this
+        if (value == null) {
+            return Collections.singletonMap(field.getFieldName(), null);
+        }
         return Collections.singletonMap(field.getFieldName(), ObjectUtils.uuidAsBytes((UUID)value));
     }
 

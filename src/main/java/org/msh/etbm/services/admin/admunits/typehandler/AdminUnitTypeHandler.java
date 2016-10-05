@@ -96,7 +96,7 @@ public class AdminUnitTypeHandler implements FormRequestHandler<AdminUnitFieldRe
 
             vals[l].setSelected(item.getId());
 
-            if (l < level) {
+            if (l < level - 1) {
                 qry.setParentId(item.getId());
                 qr = (AdminUnitQueryResult) adminUnitService.findMany(qry);
                 vals[l + 1].setList(qr.getList());

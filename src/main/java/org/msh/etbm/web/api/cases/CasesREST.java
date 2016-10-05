@@ -1,9 +1,8 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.forms.FormInitResponse;
-import org.msh.etbm.services.cases.cases.CaseDetailedData;
 import org.msh.etbm.services.cases.cases.CaseService;
+import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -39,11 +38,8 @@ public class CasesREST {
     }
 
     @RequestMapping(value = "/case/form/readonly/{id}")
-    public FormInitResponse initFormReadOnly(@PathVariable UUID id) {
-        if (id == null) {
-            throw new InvalidArgumentException("Id must be informed.");
-        }
-
+    public FormInitResponse initReadOnlyForm(@PathVariable @NotNull UUID id) {
         return service.getReadOnlyForm(id);
     }
+
 }

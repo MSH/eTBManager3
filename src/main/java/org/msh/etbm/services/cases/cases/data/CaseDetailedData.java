@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.cases;
+package org.msh.etbm.services.cases.cases.data;
 
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.db.enums.CaseClassification;
