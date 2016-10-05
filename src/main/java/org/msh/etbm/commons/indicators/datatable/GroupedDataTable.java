@@ -35,6 +35,15 @@ public interface GroupedDataTable {
     void setValue(Object[] colKeys, Object[] rowKeys, Object value);
 
     /**
+     * Increment the value of a cell that contains a number. If cell doesn't contain a
+     * number, its value is reset to the given value
+     * @param colKey the key of the column
+     * @param rowKey the key of the row
+     * @param value the value to be incremented
+     */
+    void incValue(Object[] colKey, Object[] rowKey, double value);
+
+    /**
      * Return the number of columns in the table
      * @return int value
      */

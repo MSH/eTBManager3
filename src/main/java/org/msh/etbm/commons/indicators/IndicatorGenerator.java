@@ -3,8 +3,8 @@ package org.msh.etbm.commons.indicators;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
-import org.msh.etbm.commons.indicators.indicator.DataTableIndicator;
-import org.msh.etbm.commons.indicators.indicator.DataTableIndicatorImpl;
+import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
+import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
 import org.msh.etbm.commons.indicators.query.DataTableQuery;
 import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.query.SQLQuery;
@@ -13,6 +13,7 @@ import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,18 +41,18 @@ public class IndicatorGenerator {
      * Create the indicator result
      * @param req The instance of {@link IndicatorRequest} containing the information about
      *            the indicator to be produced
-     * @return instance of {@link DataTableIndicator} containing the indicator report
+     * @return instance of {@link IndicatorDataTable} containing the indicator report
      */
-    public DataTableIndicator execute(IndicatorRequest req) {
+    public IndicatorDataTable execute(DataSource dataSource, IndicatorRequest req) {
         IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
 
-        DataTable data = loadData(req, builder);
+        DataTable data = loadData(dataSource, req, builder);
         res1 = data;
 
         // no data was returned from the database ?
         if (data.getRowCount() == 0) {
             // return an empty data table
-            return new DataTableIndicatorImpl();
+            return new IndicatorDataTableImpl();
         }
 
         data = convertDataToVariableKeys(data, builder);
@@ -60,7 +61,7 @@ public class IndicatorGenerator {
         colsize = calcVariablesSize(req.getColumnVariables());
         rowsize = calcVariablesSize(req.getRowVariables());
 
-        DataTableIndicator result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
+        IndicatorDataTable result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
 
         rowsize = 1;
         return result;
@@ -73,7 +74,7 @@ public class IndicatorGenerator {
      * @param req Request object with information to generate a detailed list of values from the indicator
      * @return instance of {@link DataTableQuery}
      */
-    public DataTableQuery getDetailedReport(DetailedIndicatorRequest req) {
+    public DataTableQuery getDetailedReport(DataSource dataSource, DetailedIndicatorRequest req) {
         IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
 
         Map<Filter, Object> filters = req.getFilterValues();
@@ -87,7 +88,7 @@ public class IndicatorGenerator {
         builder.getVariables().clear();
 
         // calculate record count
-        DataTableQuery dt = createDataTableFromQuery(builder);
+        DataTableQuery dt = createDataTableFromQuery(dataSource, builder);
         recordCount = (Long) dt.getValue(0, 0);
 
         // prepare to generate detailed report
@@ -99,13 +100,13 @@ public class IndicatorGenerator {
         builder.setFirstResult(req.getFirstResult());
         builder.setMaxResult(req.getMaxResult());
 
-        return createDataTableFromQuery(builder);
+        return createDataTableFromQuery(dataSource, builder);
     }
 
     /**
      * Load data from the data base
      */
-    protected DataTableImpl loadData(IndicatorRequest req, IndicatorSqlBuilder sqlBuilder) {
+    protected DataTableImpl loadData(DataSource dataSource, IndicatorRequest req, IndicatorSqlBuilder sqlBuilder) {
         // add variables to SQL builder
         for (Variable v : req.getColumnVariables()) {
             sqlBuilder.addVariable(v);
@@ -121,7 +122,7 @@ public class IndicatorGenerator {
         DataTableImpl tbl = new DataTableImpl();
 
         // run the iteration over all variables
-        runVariableIteration(tbl, sqlBuilder, 0);
+        runVariableIteration(dataSource, tbl, sqlBuilder, 0);
 
         return tbl;
     }
@@ -135,9 +136,9 @@ public class IndicatorGenerator {
      * @param sqlBuilder to do
      * @param varindex   to do
      */
-    protected void runVariableIteration(DataTable target, IndicatorSqlBuilder sqlBuilder, int varindex) {
+    protected void runVariableIteration(DataSource dataSource, DataTable target, IndicatorSqlBuilder sqlBuilder, int varindex) {
         Variable var = sqlBuilder.getVariables().get(varindex);
-        int num = var.getIteractionCount();
+        int num = var.getVariableOptions().getIterationCount();
 
         // consider at least 1 iteration for each variable
         if (num == 0) {
@@ -149,10 +150,10 @@ public class IndicatorGenerator {
 
             // is the last item?
             if (varindex == sqlBuilder.getVariables().size() - 1) {
-                DataTable tbl = createDataTableFromQuery(sqlBuilder);
+                DataTable tbl = createDataTableFromQuery(dataSource, sqlBuilder);
                 ConcatTables.insertRows(target, tbl);
             } else {
-                runVariableIteration(target, sqlBuilder, varindex + 1);
+                runVariableIteration(dataSource, target, sqlBuilder, varindex + 1);
             }
         }
     }
@@ -167,13 +168,13 @@ public class IndicatorGenerator {
      * @param builder    the SQL builder that contains the variables and filters
      * @return instance of the {@link DataTableQuery} containing the result of the SQL executed in the server
      */
-    protected DataTableQuery createDataTableFromQuery(IndicatorSqlBuilder builder) {
-        String sql = builder.createSql();
-
+    protected DataTableQuery createDataTableFromQuery(DataSource dataSource, IndicatorSqlBuilder builder) {
         // load data
         SQLQuery qry = new SQLQuery();
 
-        return qry.execute(builder.createSql(), builder.getParameters());
+        System.out.println(builder.createSql());
+
+        return qry.execute(dataSource, builder.createSql(), builder.getParameters());
     }
 
 
@@ -218,7 +219,7 @@ public class IndicatorGenerator {
     protected int calcVariablesSize(List<Variable> lst) {
         int len = 0;
         for (Variable var : lst) {
-            len += var.isGrouped() ? 2 : 1;
+            len += var.getVariableOptions().isGrouped() ? 2 : 1;
         }
         return len;
     }
@@ -231,11 +232,11 @@ public class IndicatorGenerator {
      * @param tbl        the table to be transformed
      * @param varColumns is the list of variables that compound the columns
      * @param varRows    is the list of variables that compound the rows
-     * @return a new instance of the {@link DataTableIndicator}
+     * @return a new instance of the {@link IndicatorDataTable}
      */
-    protected DataTableIndicator indicatorTransform(DataTable tbl, List<Variable> varColumns, List<Variable> varRows) {
+    protected IndicatorDataTable indicatorTransform(DataTable tbl, List<Variable> varColumns, List<Variable> varRows) {
         IndicatorTransform trans = new IndicatorTransform();
-        return trans.excute(tbl, varColumns, varRows, tbl.getColumnCount() - 1);
+        return trans.execute(tbl, varColumns, varRows, tbl.getColumnCount() - 1);
     }
 
 

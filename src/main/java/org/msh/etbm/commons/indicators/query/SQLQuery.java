@@ -1,8 +1,6 @@
 package org.msh.etbm.commons.indicators.query;
 
-import org.msh.etbm.commons.indicators.ReportConfiguration;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
-import org.msh.etbm.commons.sqlquery.SQLExecException;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -25,16 +23,12 @@ public class SQLQuery {
 
     /**
      * Execute the query and return an instance of the {@link DataTableImpl} with its content
+     * @param dataSource The data source for the database
      * @param sql Query to be executed in a SQL format
      * @return {@link DataTableImpl} instance containing result of the query
      */
-    public DataTableQuery execute(String sql, Map<String, Object> parameters) {
-        // check connection
-        DataSource ds = ReportConfiguration.instance().getDataSource();
-        if (ds == null) {
-            throw new SQLExecException("No data source available from ReportConfiguration");
-        }
-        NamedParameterJdbcTemplate tmpl = new NamedParameterJdbcTemplate(ds);
+    public DataTableQuery execute(DataSource dataSource, String sql, Map<String, Object> parameters) {
+        NamedParameterJdbcTemplate tmpl = new NamedParameterJdbcTemplate(dataSource);
 
         // create the DataTable that will receive result from query
         DataTableQuery tbl = new DataTableQueryImpl();

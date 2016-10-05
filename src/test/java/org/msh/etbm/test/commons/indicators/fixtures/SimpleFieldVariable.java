@@ -1,7 +1,10 @@
 package org.msh.etbm.test.commons.indicators.fixtures;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Implementation of {@link Variable} representing a single field in a table (just for testing)
@@ -10,6 +13,7 @@ import org.msh.etbm.commons.sqlquery.QueryDefs;
  */
 public class SimpleFieldVariable implements Variable {
 
+    private static final VariableOptions OPTIONS = new VariableOptions(false, false, 0, new Item<>("cases", "Cases"));
     private String id;
     private String label;
     private String fieldName;
@@ -31,7 +35,7 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public String getDisplayText(Object key) {
+    public String getKeyDisplay(Object key) {
         return key != null ? key.toString() : "-";
     }
 
@@ -51,8 +55,8 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public boolean isGrouped() {
-        return false;
+    public VariableOptions getVariableOptions() {
+        return OPTIONS;
     }
 
     @Override
@@ -61,28 +65,13 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public String getGroupDisplayText(Object key) {
+    public String getGroupKeyDisplay(Object key) {
         return key != null ? key.toString() : "-";
     }
 
     @Override
-    public int getIteractionCount() {
-        return 0;
-    }
+    public void initialize(ApplicationContext context) {
 
-    @Override
-    public boolean isTotalEnabled() {
-        return false;
-    }
-
-    @Override
-    public Object getUnitType() {
-        return "units";
-    }
-
-    @Override
-    public String getUnitTypeLabel() {
-        return "Units";
     }
 
     @Override

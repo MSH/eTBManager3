@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.filters.impl;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterTypes;
+import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.MessageKey;
@@ -21,10 +22,14 @@ public class EnumFilter extends AbstractFilter {
     private Class enumClass;
     private String fieldName;
 
+    private static final VariableOptions variableOptions = new VariableOptions(false, true, 0,
+            new Item<>("cases", "Cases"));
+
     public EnumFilter(String id, Class enumClass, String label, String fieldName) {
         super(id, label);
         this.fieldName = fieldName;
         this.enumClass = enumClass;
+        setVariableOptions(variableOptions);
     }
 
     @Override
@@ -85,6 +90,46 @@ public class EnumFilter extends AbstractFilter {
     }
 
     @Override
+    public void prepareVariableQuery(QueryDefs def, int iteration) {
+        def.select(fieldName);
+    }
+
+    @Override
+    public Object createKey(Object values) {
+        if (values == null) {
+            return KEY_NULL;
+        }
+
+        // the object that returns from the table is always an integer
+        Enum[] vals = getEnumClass().getEnumConstants();
+        int index = (Integer)values;
+
+        return vals[index].toString();
+    }
+
+
+    @Override
+    public String getKeyDisplay(Object key) {
+        if ((key == null) || (KEY_NULL.equals(key))) {
+            return getMessages().get("global.notdef");
+        }
+
+        // the object that returns from the table is always an integer
+        Enum[] vals = getEnumClass().getEnumConstants();
+        for (Enum e: vals) {
+            if (e.toString().equals(key)) {
+                String msgKey = key instanceof MessageKey ? ((MessageKey) key).getMessageKey() :
+                        enumClass.getSimpleName() + "." + key.toString();
+
+                String txt = getMessages().get(msgKey);
+                return txt;
+            }
+        }
+
+        return key.toString();
+    }
+
+    @Override
     public List<Item> getOptions() {
         Enum[] values = (Enum[])enumClass.getEnumConstants();
 
@@ -98,10 +143,20 @@ public class EnumFilter extends AbstractFilter {
 
             String txt = messages.get(key);
 
-            options.add(new Item(val, txt));
+            options.add(new Item(val.toString(), txt));
         }
 
         return options;
+    }
+
+    @Override
+    public Object createGroupKey(Object values) {
+        return null;
+    }
+
+    @Override
+    public String getGroupKeyDisplay(Object key) {
+        return null;
     }
 
 }

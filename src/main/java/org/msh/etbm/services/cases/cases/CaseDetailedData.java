@@ -10,7 +10,6 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
 import org.msh.etbm.services.cases.issues.IssueData;
 import org.msh.etbm.services.cases.patient.PatientDetailedData;
-import org.msh.etbm.services.cases.search.CaseData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
 
 import java.util.Date;

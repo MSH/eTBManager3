@@ -3,7 +3,7 @@ package org.msh.etbm.test.commons.indicators;
 import org.junit.Test;
 import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Test the {@link DataTableUtils} class
@@ -50,6 +50,16 @@ public class DataTableUtilsTest {
         c[1] = c[1].toString().toUpperCase();
         res = DataTableUtils.compareArray(a, c);
         assertEquals(1, res);
+    }
+
+    @Test
+    public void compareArraysWithDiffTypes() {
+        Object[] a = {"A", "TEST"};
+        Object[] b = {"A", 100};
+
+        // because different types are converted to string, b is supposed to be bigger than a
+        int res = DataTableUtils.compareArray(a, b);
+        assertTrue(res > 0);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.indicators.variables;
 
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Interface that must be implemented by classes that want to expose itself as a
@@ -45,7 +46,7 @@ public interface Variable {
      * @param key is the object key created by the method <code>createKey()</code>
      * @return the text to be displayed for the key
      */
-    String getDisplayText(Object key);
+    String getKeyDisplay(Object key);
 
     /**
      * Compare two values of the variable. It follows the implementation of the {@link Comparable} interface. If more than 1 field is specified
@@ -74,10 +75,10 @@ public interface Variable {
     Object[] getDomain();
 
     /**
-     * If the variable must display information in a two-level structure, so this method must return true
-     * @return true if variable is grouped
+     * Return the configuration options of a variable
+     * @return instance of {@link VariableOptions}
      */
-    boolean isGrouped();
+    VariableOptions getVariableOptions();
 
     /**
      * If the variable is grouped in two levels (by the method <code>isGrouped()</code>, this method is called
@@ -92,39 +93,14 @@ public interface Variable {
      * @param key is the group key created before by <code>createGroupKey()</code> method
      * @return a text ready for displaying representing the key
      */
-    String getGroupDisplayText(Object key);
+    String getGroupKeyDisplay(Object key);
 
     /**
-     * Return the number of iterations that this variable will be called, i.e,
-     * the number of times the report will query the database using different
-     * conditions based on its iteration.
-     *
-     * @return the number of iterations this variable will be executed. If it supports
-     * just one iteration, return a value equals or lower than 1
+     * Initialize the variable passing the instance of the ApplicationContext.
+     * This is called just once when variable is created and before any other method,
+     * in order to give the filter the possibility to get beans
+     * @param context instance of ApplicationContext interface
      */
-    int getIteractionCount();
+    void initialize(ApplicationContext context);
 
-    /**
-     * Return true if the total of the values can be achieved by calculating
-     * the sum of the values. If false, the total will not be calculated
-     * @return true if total can be calculated by summing the values, otherwise
-     * returns false if the total doesn't exist
-     */
-    boolean isTotalEnabled();
-
-
-    /**
-     * Return the unit of measure returned by the variable. Example, patients, cases, exams, etc.
-     * Object can be anything that represents this unit. It's basically used to compare
-     * if a variable is compatible with another variable
-     * @return unit type
-     */
-    Object getUnitType();
-
-
-    /**
-     * Return the label of the units used in the variable to measure the numbers returned
-     * @return display label of the units used by the variable
-     */
-    String getUnitTypeLabel();
 }

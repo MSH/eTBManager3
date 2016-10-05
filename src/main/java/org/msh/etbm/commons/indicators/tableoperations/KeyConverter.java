@@ -48,7 +48,7 @@ public class KeyConverter implements Comparator<Row> {
         boolean isMultikey = false;
 
         for (Variable var: variables) {
-            if (var.isGrouped()) {
+            if (var.getVariableOptions().isGrouped()) {
                 varsByColumn.add(var);
                 varsByColumn.add(var);
                 isMultikey = true;
@@ -121,7 +121,7 @@ public class KeyConverter implements Comparator<Row> {
             Object[] vals = sourcerow.getValues(cols);
 
             // support for key creation
-            if (var.isGrouped()) {
+            if (var.getVariableOptions().isGrouped()) {
                 Object groupkey;
                 if (vals.length == 1) {
                     groupkey = var.createGroupKey(vals[0]);
@@ -182,7 +182,7 @@ public class KeyConverter implements Comparator<Row> {
             }
 
             colpos[index] = pos;
-            if (var.isGrouped()) {
+            if (var.getVariableOptions().isGrouped()) {
                 pos += 2;
             } else {
                 pos++;
@@ -309,7 +309,7 @@ public class KeyConverter implements Comparator<Row> {
         Variable prevvar = null;
         int index = 0;
         for (Variable var: varsByColumn) {
-            boolean isGrouped = (var.isGrouped() && (prevvar != var));
+            boolean isGrouped = (var.getVariableOptions().isGrouped() && (prevvar != var));
             Object key1 = row1.getValue(index);
             Object key2 = row2.getValue(index);
             int res = isGrouped ? var.compareGroupValues(key1, key2) : var.compareValues(key1, key2);

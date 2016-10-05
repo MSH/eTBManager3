@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.indicators.datatable;
 
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
+import org.msh.etbm.commons.indicators.datatable.impl.GroupedDataTableImpl;
 
 /**
  * Standard {@link DataTable} factory.
@@ -26,5 +27,13 @@ public class DataTableFactory {
      */
     public static DataTable newDataTable(int colcount, int rowcount) {
         return new DataTableImpl(colcount, rowcount);
+    }
+
+    /**
+     * Create a new instance of {@link GroupedDataTable}
+     * @return instance of {@link GroupedDataTable}
+     */
+    public static GroupedDataTable newGroupedDataTable() {
+        return new GroupedDataTableImpl();
     }
 }
