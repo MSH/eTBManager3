@@ -110,21 +110,21 @@
       "property": "tbcase.pulmonaryType",
       "label": "${TbCase.pulmonaryType}",
       "size": { "md": 4 },
-      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY'" }
+      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
     },
     {
       "type": "select",
       "property": "tbcase.extrapulmonaryType",
       "label": "${TbCase.extrapulmonaryType}",
       "size": { "md": 4 },
-      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" }
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
     },
     {
       "type": "select",
       "property": "tbcase.extrapulmonaryType2",
       "label": "${TbCase.extrapulmonaryType2}",
       "size": { "md": 4 },
-      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY'" }
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
     }
   ]
 }
