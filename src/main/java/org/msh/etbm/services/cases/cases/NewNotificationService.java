@@ -6,6 +6,7 @@ import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelDAOResult;
+import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
@@ -14,9 +15,12 @@ import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by Mauricio on 05/09/2016.
@@ -29,6 +33,9 @@ public class NewNotificationService {
 
     @Autowired
     FormService formService;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     // TODO: [MSANTOS] registrar commandlog
 
@@ -61,6 +68,7 @@ public class NewNotificationService {
         ModelDAO patientDao = factory.create("patient");
         Map<String, Object> patientData = (Map)data.getDoc().get("patient");
 
+        // validating and saving patient
         ModelDAOResult resPatient;
         resPatient = data.getPatientId() == null ? patientDao.insert(patientData) : patientDao.update(data.getPatientId(), patientData);
 
@@ -70,18 +78,9 @@ public class NewNotificationService {
 
         // prepare case data
         Map caseData = (Map)data.getDoc().get("tbcase");
-        caseData.put("patient", resPatient.getId());
-        caseData.put("state", CaseState.NOT_ONTREATMENT);
-        caseData.put("movedToIndividualized", false);
-        caseData.put("validated", false);
-        caseData.put("movedSecondLineTreatment", false);
-        caseData.put("notificationUnit", data.getUnitId());
-        caseData.put("ownerUnit", data.getUnitId());
+        beforeSaveCaseData(caseData, data, resPatient.getId());
 
-        if (caseData.get("diagnosisType").equals(DiagnosisType.SUSPECT)) {
-            caseData.put("suspectClassification", caseData.get("classification"));
-        }
-
+        // validating and saving tbcase
         ModelDAO tbcaseDao = factory.create("tbcase");
         ModelDAOResult resTbcase = tbcaseDao.insert(caseData);
 
@@ -89,6 +88,36 @@ public class NewNotificationService {
             throw new EntityValidationException(resTbcase.getErrors());
         }
 
+        //TODO: [MSANTOS] improve this archtecture
+        //update tbcase age field
+        TbCase tbcase = entityManager.find(TbCase.class, resTbcase.getId());
+        int updatedAge = tbcase.getUpdatedAge();
+        if (updatedAge > 0) {
+            tbcase.setAge(updatedAge);
+            entityManager.persist(tbcase);
+        }
+
         return new StandardResult(resTbcase.getId().toString(), null, true);
+    }
+
+    /**
+     * Prepares case data to be saved setting default parameters
+     * @param caseData
+     * @param data
+     * @param patientId
+     */
+    private void beforeSaveCaseData (Map<String, Object> caseData, NewNotificationFormData data, UUID patientId) {
+        caseData.put("patient", patientId);
+        caseData.put("state", CaseState.NOT_ONTREATMENT);
+        caseData.put("movedToIndividualized", false);
+        caseData.put("validated", false);
+        caseData.put("movedSecondLineTreatment", false);
+        caseData.put("notificationUnit", data.getUnitId());
+        caseData.put("ownerUnit", data.getUnitId());
+        caseData.put("currentAddress", caseData.get("notifAddress"));
+
+        if (caseData.get("diagnosisType").equals(DiagnosisType.SUSPECT)) {
+            caseData.put("suspectClassification", caseData.get("classification"));
+        }
     }
 }

@@ -387,22 +387,17 @@ public class TbCase extends WorkspaceEntity {
     }
 
     /**
-     * Returns patient age at the date of the notification
-     *
+     * Calculates the age based on birthDate and registrationDate
      * @return
      */
-    public int getPatientAge() {
-        if (age != null) {
-            return age;
-        }
-
+    public int getUpdatedAge() {
         Patient p = getPatient();
         if (p == null) {
             return 0;
         }
 
         Date dt = p.getBirthDate();
-        Date dt2 = diagnosisDate;
+        Date dt2 = registrationDate;
 
         if (dt == null) {
             return 0;
@@ -414,7 +409,6 @@ public class TbCase extends WorkspaceEntity {
 
         return DateUtils.yearsBetween(dt, dt2);
     }
-
 
     public Patient getPatient() {
         return patient;

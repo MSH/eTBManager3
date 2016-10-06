@@ -26,7 +26,7 @@ export default class CaseData extends React.Component {
         const path = '/api/tbl/case/form/readonly/' + tbcase.id;
 
         const editBtn = (<Button onClick={this.onEditClick} bsSize="small">
-                                    <Fa icon="pencil"/>
+                            <Fa icon="pencil"/>{__('action.edit')}
                          </Button>);
 
         return (
