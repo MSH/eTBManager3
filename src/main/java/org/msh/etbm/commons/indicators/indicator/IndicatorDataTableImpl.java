@@ -1,33 +1,35 @@
 package org.msh.etbm.commons.indicators.indicator;
 
 import org.msh.etbm.commons.indicators.IndicatorException;
-import org.msh.etbm.commons.indicators.datatable.DataTableFactory;
-import org.msh.etbm.commons.indicators.datatable.GroupedDataTable;
 import org.msh.etbm.commons.indicators.datatable.impl.GroupedDataTableImpl;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
+ * Default implementation of a {@link IndicatorDataTable}
+ *
  * Created by rmemoria on 3/10/16.
  */
 public class IndicatorDataTableImpl extends GroupedDataTableImpl implements IndicatorDataTable {
 
-    private KeyDescriptorList columnKeyDescriptors = new KeyDescriptorList();
-    private KeyDescriptorList rowKeyDescriptors = new KeyDescriptorList();
+    private List<Map<String, String>> columnKeyDescriptors = new ArrayList<>();
+    private List<Map<String, String>> rowKeyDescriptors = new ArrayList<>();
+
     private List<Variable> columnVariables = new ArrayList<>();
     private List<Variable> rowVariables = new ArrayList<>();
 
-    private GroupedDataTable dataTable = DataTableFactory.newGroupedDataTable();
 
     @Override
-    public KeyDescriptorList getColumnKeyDescriptors() {
+    public List<Map<String, String>> getColumnKeyDescriptors() {
         return columnKeyDescriptors;
     }
 
     @Override
-    public KeyDescriptorList getRowKeyDescriptors() {
+    public List<Map<String, String>> getRowKeyDescriptors() {
         return rowKeyDescriptors;
     }
 
@@ -51,9 +53,13 @@ public class IndicatorDataTableImpl extends GroupedDataTableImpl implements Indi
 
     @Override
     protected int addColumn(int index, Object[] key) {
+        int i = key.length - 1;
         // the column descriptor must be included before adding values
-        KeyDescriptor desc = columnKeyDescriptors.findKey(key);
-        if (desc == null) {
+        String title = key.length <= columnKeyDescriptors.size() ?
+                columnKeyDescriptors.get(i).get(key[i]) :
+                null;
+
+        if (title == null) {
             throw new IndicatorException("Column descriptor not found");
         }
         return super.addColumn(index, key);
@@ -61,9 +67,13 @@ public class IndicatorDataTableImpl extends GroupedDataTableImpl implements Indi
 
     @Override
     protected int addRow(int index, Object[] key) {
+        int i = key.length - 1;
         // the row descriptor must be included before adding values
-        KeyDescriptor desc = rowKeyDescriptors.findKey(key);
-        if (desc == null) {
+        String title = key.length <= rowKeyDescriptors.size() ?
+                rowKeyDescriptors.get(i).get(key[i]) :
+                null;
+
+        if (title == null) {
             throw new IndicatorException("Row descriptor not found");
         }
         return super.addRow(index, key);

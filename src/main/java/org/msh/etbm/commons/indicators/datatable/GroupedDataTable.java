@@ -26,6 +26,14 @@ public interface GroupedDataTable {
     Object getValue(Object[] colKeys, Object[] rowKeys);
 
     /**
+     * Return the value of a given cell by its column and row position
+     * @param col the column zero-based index
+     * @param row the row zero-based index
+     * @return the cell value
+     */
+    Object getValueByPosition(int col, int row);
+
+    /**
      * Set the value of a cell by its keys. If the cell exists, the value is replaced,
      * otherwise, a new column and/or row will be created and the value set
      * @param colKeys the keys that represent the column

@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.indicators.tableoperations;
 
+import org.msh.etbm.commons.indicators.IndicatorException;
 import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
@@ -8,7 +9,9 @@ import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
 import org.msh.etbm.commons.indicators.indicator.KeyDescriptorList;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generates an indicator table from a data table and the variables
@@ -73,32 +76,55 @@ public class IndicatorTransform {
     }
 
     /**
-     * Mount the list of descriptors for the given dimension (col or row)
+     * Mount the list of descriptors for the given dimension (col or row) containing the title
      * @param source the source with keys
      * @param variables the list of variables
      * @param cols the position of each variable value in the source
-     * @param lst the instance of {@link KeyDescriptorList} to be fed
+     * @param descriptors the descriptors of the indicator
      */
-    protected void createDescriptors(DataTable source, List<Variable> variables, int[] cols, KeyDescriptorList lst) {
+    protected void createDescriptors(DataTable source, List<Variable> variables, int[] cols, List<Map<String, String>> descriptors) {
+        // clear descriptors, just in case
+        descriptors.clear();
+
+        // search for all keys
         for (int r = 0; r < source.getRowCount(); r++) {
             Object[] vals = source.getRow(r).getValues(cols);
             int index = 0;
-            KeyDescriptor parent = null;
 
             for (Variable var: variables) {
                 String s = var.getKeyDisplay(vals[index]);
 
-                KeyDescriptor kd = parent == null ? lst.add(vals[index], s) : parent.add(vals[index], s);
+                String id = vals[index].toString();
+
+                addDescriptor(descriptors, index, id, s);
+
                 index++;
 
                 if (var.getVariableOptions().isGrouped()) {
-                    String s2 = var.getGroupKeyDisplay(vals[index + 1]);
-                    kd = kd.add(vals[index], s);
+                    String id2 = vals[index + 1].toString();
+                    String s2 = var.getGroupKeyDisplay(id2);
+                    addDescriptor(descriptors, index, id2, s2);
                     index++;
                 }
-                parent = kd;
             }
         }
+    }
+
+    private void addDescriptor(List<Map<String, String>> descriptors, int level, String id, String title) {
+        if (level > descriptors.size()) {
+            throw new IndicatorException("Must include previous descriptor to the column levels");
+        }
+
+        Map<String, String> map;
+
+        if (level == descriptors.size()) {
+            map = new HashMap<>();
+            descriptors.add(map);
+        } else {
+            map = descriptors.get(level);
+        }
+
+        map.put(id, title);
     }
 
 }

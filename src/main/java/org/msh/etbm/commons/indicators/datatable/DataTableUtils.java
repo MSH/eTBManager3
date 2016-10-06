@@ -7,6 +7,13 @@ public class DataTableUtils {
 
     public static final String TOTAL = "total";
 
+    // total that is included in the left side of a group key
+    public static final String LG_TOTAL = "lgtotal";
+
+    // total that is included in the right side of a group key
+    public static final String RG_TOTAL = "rgtotal";
+
+
     /**
      * Compare an array of object. Return -1 if vals1 is before vals2. Return 0 if both arrays are equals,
      * i.e, if all elements in the correspondent index position of both arrays are the same, otherwise
@@ -56,12 +63,12 @@ public class DataTableUtils {
         }
 
         // exclusive for table comparision
-        if (TOTAL.equals(obj1)) {
-            return -1;
+        if (TOTAL.equals(obj1) || RG_TOTAL.equals(obj1) || LG_TOTAL.equals(obj2)) {
+            return 1;
         }
 
-        if (TOTAL.equals(obj2)) {
-            return 1;
+        if (TOTAL.equals(obj2) || RG_TOTAL.equals(obj2) || LG_TOTAL.equals(obj1)) {
+            return -1;
         }
 
         int res = (obj1 instanceof Comparable) && (obj1.getClass() == obj2.getClass()) ?
