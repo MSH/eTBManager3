@@ -3,7 +3,6 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.db.enums.SearchableType;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -28,11 +27,11 @@ public class Searchable {
     @NotNull
     private SearchableType type;
 
-    @Max(100)
+    @Column(length = 100)
     @NotNull
     private String title;
 
-    @Max(200)
+    @Column(length = 200)
     private String subtitle;
 
     @ManyToOne(fetch = FetchType.LAZY)

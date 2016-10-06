@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.services.cases.cases.NewNotificationService;
 import org.msh.etbm.services.cases.cases.data.NewNotificationFormData;
@@ -40,6 +41,7 @@ public class NewNotificationREST {
 
     @RequestMapping(value = "/newnotif", method = RequestMethod.POST)
     public StandardResult create(@Valid @NotNull @RequestBody NewNotificationFormData req) {
-        return newNotificationService.save(req);
+        ServiceResult res = newNotificationService.save(req);
+        return new StandardResult(res);
     }
 }

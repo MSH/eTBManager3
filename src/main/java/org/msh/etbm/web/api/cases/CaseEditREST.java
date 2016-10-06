@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.cases;
 
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.services.cases.cases.CaseEditService;
 import org.msh.etbm.services.cases.cases.data.CaseEditFormData;
@@ -31,6 +32,7 @@ public class CaseEditREST {
 
     @RequestMapping(value = "/edit/save", method = RequestMethod.POST)
     public StandardResult saveEdit(@Valid @NotNull @RequestBody CaseEditFormData req) {
-        return service.save(req);
+        ServiceResult res = service.save(req);
+        return new StandardResult(res);
     }
 }

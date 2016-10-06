@@ -6,6 +6,7 @@ import PatientPanel from './patient-panel';
 import { server } from '../../commons/server';
 import { app } from '../../core/app';
 import Events from './events';
+import SessionUtils from '../session-utils';
 
 import CaseData from './case-data';
 import CaseEditForm from './case-edit-form';
@@ -125,7 +126,7 @@ class Details extends React.Component {
                         style: 'info',
                         type: 'Ok'
                     })
-                    .then(() => app.goto('/sys/home/unit/cases?id=' + this.state.tbcase.ownerUnit.id));
+                    .then(() => { window.location.hash = SessionUtils.unitHash(this.state.tbcase.ownerUnit.id); });
                 });
         }
 

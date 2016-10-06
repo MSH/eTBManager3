@@ -1,6 +1,8 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
@@ -11,8 +13,9 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.cases.cases.data.CaseEditFormData;
-import org.msh.etbm.web.api.StandardResult;
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -36,6 +39,9 @@ public class CaseEditService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     public FormInitResponse initForm(UUID id) {
         // mount data
@@ -63,7 +69,7 @@ public class CaseEditService {
     }
 
     @Transactional
-    public StandardResult save(CaseEditFormData data) {
+    public ServiceResult save(CaseEditFormData data) {
         Map<String, Object> patientData = (Map)data.getDoc().get("patient");
         Map<String, Object> caseData = (Map)data.getDoc().get("tbcase");
 
@@ -95,6 +101,13 @@ public class CaseEditService {
             entityManager.persist(tbcase);
         }
 
-        return new StandardResult(resTbcase.getId().toString(), null, true);
+        ServiceResult res = new ServiceResult();
+        res.setOperation(Operation.EDIT);
+        res.setEntityClass(TbCase.class);
+        res.setId(tbcase.getId());
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
+
+        return res;
     }
 }
