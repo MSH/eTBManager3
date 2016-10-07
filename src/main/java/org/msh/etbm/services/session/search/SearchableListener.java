@@ -1,9 +1,9 @@
 package org.msh.etbm.services.session.search;
 
 import org.msh.etbm.commons.entities.EntityServiceEvent;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.entities.*;
-import org.msh.etbm.db.enums.Gender;
 import org.msh.etbm.db.enums.SearchableType;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
+ * Listener that creates, updates or remove a searchable based on an entity
  * Created by Mauricio on 05/10/2016.
  */
 @Component
@@ -26,8 +27,12 @@ public class SearchableListener {
     @Autowired
     UserRequestService userRequestService;
 
+    /**
+     * Called when a Searchable entity was created
+     * @param event
+     */
     @Transactional
-    @TransactionalEventListener(condition = "#event.isSearchableEntity() and #event.result.operation.name() == 'NEW'")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isCreatingSearchable(#event)")
     public void copyToSearchable(EntityServiceEvent event) {
         Object entity = entityManager.find(event.getResult().getEntityClass(), event.getResult().getId());
 
@@ -40,8 +45,12 @@ public class SearchableListener {
         entityManager.persist(searchable);
     }
 
+    /**
+     * Called when a Searchable entity was updated
+     * @param event
+     */
     @Transactional
-    @TransactionalEventListener(condition = "#event.isSearchableEntity() and #event.result.operation.name() == 'EDIT'")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isUpdatingSearchable(#event)")
     public void updateSearchable(EntityServiceEvent event) {
         Searchable searchable = entityManager.find(Searchable.class, event.getResult().getId());
         Object entity = entityManager.find(event.getResult().getEntityClass(), event.getResult().getId());
@@ -55,8 +64,12 @@ public class SearchableListener {
         entityManager.persist(searchable);
     }
 
+    /**
+     * Called when a Searchable entity was removed
+     * @param event
+     */
     @Transactional
-    @TransactionalEventListener(condition = "#event.isSearchableEntity() and #event.result.operation.name() == 'DELETE'")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isRemovingSearchable(#event)")
     public void removeSearchable(EntityServiceEvent event) {
         Searchable searchable = entityManager.find(Searchable.class, event.getResult().getId());
         if (searchable != null) {
@@ -64,6 +77,13 @@ public class SearchableListener {
         }
     }
 
+    /**
+     * Builds a searchable checking the type of the entity
+     * If param searchable is null a new searchable will be instantiated
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(Object entity, Searchable searchable) {
         // if searchable is null a searchable is being created
         if (searchable == null) {
@@ -97,17 +117,28 @@ public class SearchableListener {
         throw new RuntimeException("Entity is not a searchable");
     }
 
+    /**
+     * Builds a TbCase searchable
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(TbCase entity, Searchable searchable) {
-        // TODO: [MSANTOS] o icone na exibição esta trocado
-        searchable.setType(Gender.MALE.equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
+        searchable.setType("MALE".equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
         searchable.setUnit(entity.getOwnerUnit());
         searchable.setSubtitle(entity.getCaseNumber());
-        //TODO: [MSANTOS] COMO PEGAR O NOME? QUALÇ A ORDEM? MIDLE, LAST, FIRST?
+        //TODO: [MSANTOS] COMO PEGAR O NOME? QUAL A ORDEM? MIDLE, LAST, FIRST?
         searchable.setTitle(entity.getPatient().getName().getName());
 
         return searchable;
     }
 
+    /**
+     * Builds a Tbunit searchable
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(Tbunit entity, Searchable searchable) {
         searchable.setType(SearchableType.TBUNIT);
         searchable.setUnit(entity);
@@ -117,6 +148,12 @@ public class SearchableListener {
         return searchable;
     }
 
+    /**
+     * Builds a Laboratory searchable
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(Laboratory entity, Searchable searchable) {
         searchable.setType(SearchableType.LAB);
         searchable.setUnit(entity);
@@ -126,6 +163,12 @@ public class SearchableListener {
         return searchable;
     }
 
+    /**
+     * Builds a AdministrativeUnit searchable
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(AdministrativeUnit entity, Searchable searchable) {
         searchable.setType(SearchableType.ADMINUNIT);
         searchable.setUnit(null);
@@ -135,6 +178,12 @@ public class SearchableListener {
         return searchable;
     }
 
+    /**
+     * Builds a Workspace searchable
+     * @param entity
+     * @param searchable
+     * @return
+     */
     private Searchable buildSearchable(Workspace entity, Searchable searchable) {
         searchable.setType(SearchableType.WORKSPACE);
         searchable.setUnit(null);
@@ -142,5 +191,66 @@ public class SearchableListener {
         searchable.setTitle(entity.getName());
 
         return searchable;
+    }
+
+    /**
+     * Checks if a searchable entity is being created based on the service result
+     * @param event
+     * @return
+     */
+    public static boolean isCreatingSearchable(EntityServiceEvent event) {
+        if (event == null || event.getResult() == null || !Operation.NEW.equals(event.getResult().getOperation())) {
+            return false;
+        }
+
+        return isSearchableEntity(event);
+    }
+
+    /**
+     * Checks if a searchable entity is being updated based on the service result
+     * @param event
+     * @return
+     */
+    public static boolean isUpdatingSearchable(EntityServiceEvent event) {
+        if (event == null || event.getResult() == null || !Operation.EDIT.equals(event.getResult().getOperation())) {
+            return false;
+        }
+
+        return isSearchableEntity(event);
+    }
+
+    /**
+     * Checks if a searchable entity is being removed based on the service result
+     * @param event
+     * @return
+     */
+    public static boolean isRemovingSearchable(EntityServiceEvent event) {
+        if (event == null || event.getResult() == null || !Operation.DELETE.equals(event.getResult().getOperation())) {
+            return false;
+        }
+
+        return isSearchableEntity(event);
+    }
+
+    /**
+     * Checks if the entity is a searchable entity
+     * @param event
+     * @return true if it is a searchable
+     */
+    private static boolean isSearchableEntity(EntityServiceEvent event) {
+        if (event.getResult().getEntityClass() == null) {
+            return false;
+        }
+
+        String entityClassName = event.getResult().getEntityClass().getSimpleName();
+
+        // check if is a searchable entity
+        for (SearchableType s : SearchableType.values()) {
+            if (entityClassName.equals(s.getEntityClassName()) || entityClassName.equals(s.getParentClassName())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
