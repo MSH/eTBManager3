@@ -17,17 +17,14 @@ public abstract class CaseEntityServiceImpl<E extends CaseEntity, Q extends Enti
     protected ServiceResult createResult(E caseEntity) {
         ServiceResult res = new ServiceResult();
 
-        res.setId(caseEntity.getId());
-        res.setEntityClass(getEntityClass());
+        res.setId(caseEntity.getTbcase().getId());
+        res.setEntityClass(TbCase.class);
 
         String cmdPath = getCommandType();
         res.setCommandType(CommandTypes.get(cmdPath));
 
         res.setEntityName(caseEntity.getTbcase().getDisplayString());
-        res.setId(caseEntity.getTbcase().getId());
-        res.setEntityClass(TbCase.class);
 
         return res;
     }
-
 }

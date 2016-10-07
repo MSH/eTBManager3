@@ -7,11 +7,12 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.UserWorkspace;
-import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -31,10 +32,13 @@ public class CaseMoveService {
     UserRequestService userRequestService;
 
     @Autowired
-    CaseOnTreatMoveService onTreatCaseMoveService;
+    CaseOnTreatMoveService caseOnTreatMoveService;
 
     @Autowired
     CaseNotOnTreatMoveService notOnTreatCaseMoveService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_OUT)
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
@@ -53,17 +57,25 @@ public class CaseMoveService {
             throw new ForbiddenException();
         }
 
-        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            if (req.getMoveDate() == null) {
-                throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
-            }
+        CaseMoveResponse res = null;
 
-            return onTreatCaseMoveService.transferOut(req);
-        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
-            return notOnTreatCaseMoveService.transferOut(req);
+        switch (tbcase.getState()) {
+            case NOT_ONTREATMENT:
+                res = notOnTreatCaseMoveService.transferOut(req);
+                break;
+            case ONTREATMENT:
+                if (req.getMoveDate() == null) {
+                    throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
+                }
+                res = caseOnTreatMoveService.transferOut(req);
+                break;
+            case CLOSED:
+                throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
 
-        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", tbcase.getTransferOutUnit().getAddress().getAdminUnit().getDisplayString());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_ROLLBACK)
@@ -78,13 +90,22 @@ public class CaseMoveService {
             throw new ForbiddenException();
         }
 
-        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            return onTreatCaseMoveService.rollbackTransferOut(tbcaseId);
-        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
-            return notOnTreatCaseMoveService.rollbackTransferOut(tbcaseId);
+        CaseMoveResponse res = null;
+
+        switch (tbcase.getState()) {
+            case NOT_ONTREATMENT:
+                res = notOnTreatCaseMoveService.rollbackTransferOut(tbcaseId);
+                break;
+            case ONTREATMENT:
+                res = caseOnTreatMoveService.rollbackTransferOut(tbcaseId);
+                break;
+            case CLOSED:
+                throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
 
-        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_IN)
@@ -99,17 +120,25 @@ public class CaseMoveService {
             throw new ForbiddenException();
         }
 
-        if (tbcase.getState().equals(CaseState.ONTREATMENT)) {
-            if (req.getMoveDate() == null) {
-                throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
-            }
+        CaseMoveResponse res = null;
 
-            return onTreatCaseMoveService.transferIn(req);
-        } else if (tbcase.getState().equals(CaseState.NOT_ONTREATMENT)) {
-            return notOnTreatCaseMoveService.transferIn(req);
+        switch (tbcase.getState()) {
+            case NOT_ONTREATMENT:
+                res = notOnTreatCaseMoveService.transferIn(req);
+                break;
+            case ONTREATMENT:
+                if (req.getMoveDate() == null) {
+                    throw new EntityValidationException(req, "moveDate", null, "javax.validation.constraints.NotNull.message");
+                }
+                res = caseOnTreatMoveService.transferIn(req);
+                break;
+            case CLOSED:
+                throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
 
-        throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.

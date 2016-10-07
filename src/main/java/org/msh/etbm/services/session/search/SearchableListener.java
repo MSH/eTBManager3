@@ -127,7 +127,7 @@ public class SearchableListener {
         searchable.setType("MALE".equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
         searchable.setUnit(entity.getOwnerUnit());
         searchable.setSubtitle(entity.getCaseNumber());
-        //TODO: [MSANTOS] COMO PEGAR O NOME? QUAL A ORDEM? MIDLE, LAST, FIRST?
+        //TODO: [MSANTOS] COMO PEGAR O NOME? QUAL A ORDEM? MIDLE, LAST, FIRST? criar PersonNmaeUtils @component
         searchable.setTitle(entity.getPatient().getName().getName());
 
         return searchable;

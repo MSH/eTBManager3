@@ -21,10 +21,6 @@ import javax.persistence.PersistenceContext;
 @Component
 public class CaseLogHandler implements CommandLogHandler<Object, CaseActionResponse> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, CaseActionResponse response) {
         in.setEntityId(response.getTbcaseId());

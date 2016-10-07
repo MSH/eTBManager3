@@ -101,6 +101,7 @@ public class CaseEditService {
             entityManager.persist(tbcase);
         }
 
+        //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();
         res.setOperation(Operation.EDIT);
         res.setEntityClass(TbCase.class);

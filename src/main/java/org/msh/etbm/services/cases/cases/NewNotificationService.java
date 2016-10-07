@@ -103,6 +103,7 @@ public class NewNotificationService {
             entityManager.persist(tbcase);
         }
 
+        //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();
         res.setOperation(Operation.NEW);
         res.setEntityClass(TbCase.class);

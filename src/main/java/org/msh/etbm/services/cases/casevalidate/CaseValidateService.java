@@ -5,10 +5,11 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseActionResponse;
 import org.msh.etbm.services.cases.CaseLogHandler;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public class CaseValidateService {
     EntityManager entityManager;
 
     @Autowired
-    AutoGenTagsCasesService autoGenTagsCasesService;
+    ApplicationContext applicationContext;
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_VALIDATE)
@@ -50,9 +51,10 @@ public class CaseValidateService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update case tags
-        autoGenTagsCasesService.updateTags(tbcase.getId());
+        CaseActionResponse res = new CaseActionResponse(tbcase.getId(), tbcase.getDisplayString());
 
-        return new CaseActionResponse(tbcase.getId(), tbcase.getDisplayString());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 }
