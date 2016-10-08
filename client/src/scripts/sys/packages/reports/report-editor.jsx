@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-import { arrangeGrid } from '../../../commons/grid-utils';
+import { WaitIcon } from '../../../components';
+import { server } from '../../../commons/server';
 
 import ReportHeader from './report-header';
 import IndicatorEditor from './indicator-editor';
@@ -11,20 +12,18 @@ export default class ReportEditor extends React.Component {
     constructor(props) {
         super(props);
         this.addIndicator = this.addIndicator.bind(this);
+        this.filtersChange = this.filtersChange.bind(this);
+        this.indicatorChange = this.indicatorChange.bind(this);
     }
 
     componentWillMount() {
-        const lst = [];
-        for (var i = 0; i < 7; i++) {
-            lst.push({
-                title: 'Indicator title (click to change)',
-                size: 6,
-                index: lst.length
-            });
-        }
+        const self = this;
+        server.post('/api/cases/indicator/init')
+        .then(res => self.setState({ filters: res.filters, variables: res.variables }));
+
         const report = {
             title: 'Report title (click to change)',
-            indicators: lst
+            indicators: []
         };
 
         this.setState({ report: report });
@@ -44,25 +43,67 @@ export default class ReportEditor extends React.Component {
         this.setState({ report: rep });
     }
 
+    /**
+     * Called when the report filters change
+     */
+    filtersChange(filterValues) {
+        const rep = Object.assign({ },
+            this.state.report,
+            {
+                filterValues: filterValues
+            });
+
+        this.setState({ report: rep });
+    }
+
+    /**
+     * Called when a property of an indicator changes
+     */
+    indicatorChange(ind) {
+        const rep = this.state.report;
+        const index = rep.indicators.indexOf(ind);
+
+        rep.indicators[index] = Object.assign({}, ind);
+        this.forceUpdate();
+    }
+
+    /**
+     * Render the given indicator
+     */
     renderIndicators(indicators) {
         if (!indicators || indicators.length === 0) {
             return null;
         }
 
-        // generate the list of indicators and its size to be arranged in a grid
-        const lst = indicators.map(ind => ({
-            content: <IndicatorEditor indicator={ind} />,
-            size: { sm: ind.size }
-        }));
-
-        return arrangeGrid(lst);
+        return indicators.map((ind, index) => (
+            <Row key={index}>
+                <Col sm={12}>
+                    <IndicatorEditor
+                        indicator={ind}
+                        filters={this.state.filters}
+                        variables={this.state.variables}
+                        onChange={this.indicatorChange}
+                        />
+                </Col>
+            </Row>
+        ));
     }
 
     render() {
         const report = this.state.report;
+        const filters = this.state.filters;
+
+        if (!filters) {
+            return <WaitIcon />;
+        }
 
         return (
             <div className="report">
+                <ReportHeader report={report}
+                    filters={filters}
+                    filterValues={report.filterValues}
+                    onChangeFilters={this.filtersChange}
+                    />
                 {
                     this.renderIndicators(report.indicators)
                 }

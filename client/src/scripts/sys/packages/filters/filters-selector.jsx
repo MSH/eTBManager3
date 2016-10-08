@@ -29,16 +29,12 @@ export default class FiltersSelector extends React.Component {
     /**
      * Add a filter to the card
      */
-    addFilter(item) {
-        let lst = this.props.filterValues;
+    addFilter(filter) {
+        const fvalues = Object.assign({}, this.props.filterValues);
 
-        if (!lst) {
-            lst = [];
-        }
+        fvalues[filter.id] = null;
 
-        lst.push({ filter: item, value: null });
-
-        this.notifyChange(lst.slice(0));
+        this.notifyChange(fvalues);
         this.setState({ show: false });
     }
 
@@ -46,16 +42,15 @@ export default class FiltersSelector extends React.Component {
      * Remove a filter from the list of selected filters
      */
     removeFilter(filter) {
-        const lst = this.props.filterValues;
+        const fvalues = this.props.filterValues;
 
-        if (!lst) {
+        if (!fvalues) {
             return;
         }
 
-        const index = lst.findIndex(item => item.filter === filter);
+        delete fvalues[filter.id];
 
-        lst.splice(index, 1);
-        this.notifyChange(lst);
+        this.notifyChange(fvalues);
         this.setState({ show: false });
     }
 
@@ -93,29 +88,44 @@ export default class FiltersSelector extends React.Component {
      * Render the filters and its selected values
      */
     renderFilters() {
-        const filters = this.props.filterValues;
-        if (!filters) {
+        const filterValues = this.props.filterValues;
+        if (!filterValues) {
             return null;
         }
 
-        return filters.map(it => (
-            <FilterBox key={it.filter.id}
-                filter={it.filter}
-                value={it.value}
-                onChange={this._onValueChange}
-                onRemove={this.removeFilter} />
-        ));
+        const filters = this.props.filters;
+
+        // function to search for a filter for its ID
+        const filterByID = id => {
+            let f = null;
+            for (var i = 0; i < filters.length; i++) {
+                f = filters[i].filters.find(filter => filter.id === id);
+                if (f) {
+                    break;
+                }
+            }
+            return f;
+        };
+
+        // render the filter boxes
+        return Object.keys(filterValues)
+            .map(id => ({ filter: filterByID(id), value: filterValues[id] }))
+            .map(it => (
+                <FilterBox key={it.filter.id}
+                    filter={it.filter}
+                    value={it.value}
+                    onChange={this._onValueChange}
+                    onRemove={this.removeFilter} />
+            ));
     }
 
     /**
      * Called when a filter value is changed
      */
     _onValueChange(filter, value) {
-        const lst = this.props.filterValues;
-
-        const item = lst.find(it => it.filter === filter);
-        item.value = value;
-        this.notifyChange(lst.slice(0));
+        const fvals = Object.assign({}, this.props.filterValues);
+        fvals[filter.id] = value;
+        this.notifyChange(fvals);
     }
 
 
@@ -160,8 +170,8 @@ export default class FiltersSelector extends React.Component {
 }
 
 FiltersSelector.propTypes = {
-    filters: React.PropTypes.array,
-    filterValues: React.PropTypes.array,
+    filters: React.PropTypes.array.isRequired,
+    filterValues: React.PropTypes.object,
     onChange: React.PropTypes.func,
     showPopup: React.PropTypes.bool,
     footer: React.PropTypes.node

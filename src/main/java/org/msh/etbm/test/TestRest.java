@@ -1,16 +1,9 @@
 package org.msh.etbm.test;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.commons.indicators.IndicatorGenerator;
-import org.msh.etbm.commons.indicators.IndicatorRequest;
-import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
-import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
-import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
-import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
@@ -20,11 +13,9 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.cases.filters.CaseFilters;
-import org.msh.etbm.services.cases.filters.impl.WorkspaceFilter;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;

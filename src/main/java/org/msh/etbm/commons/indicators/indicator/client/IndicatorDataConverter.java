@@ -2,6 +2,7 @@ package org.msh.etbm.commons.indicators.indicator.client;
 
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.indicators.variables.VariableData;
 
 import java.util.ArrayList;
 import java.util.List;

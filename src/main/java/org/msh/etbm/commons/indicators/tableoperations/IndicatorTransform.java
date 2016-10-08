@@ -5,8 +5,6 @@ import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
-import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
-import org.msh.etbm.commons.indicators.indicator.KeyDescriptorList;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.HashMap;

@@ -4,11 +4,13 @@ import org.apache.commons.collections.map.HashedMap;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.filters.Filter;
+import org.msh.etbm.commons.filters.FilterGroupData;
 import org.msh.etbm.commons.indicators.IndicatorGenerator;
 import org.msh.etbm.commons.indicators.IndicatorRequest;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
+import org.msh.etbm.commons.indicators.variables.VariableGroupData;
 import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.cases.filters.impl.WorkspaceFilter;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -40,6 +43,26 @@ public class CaseIndicatorsService {
     Messages messages;
 
 
+    /**
+     * Generate initialization data for a client to request indicators
+     * @return
+     */
+    public CaseIndicatorInitResponse getInitData() {
+        List<FilterGroupData> filters = caseFilters.getFiltersData();
+        List<VariableGroupData> variables = caseFilters.getVariablesData();
+
+        CaseIndicatorInitResponse res = new CaseIndicatorInitResponse();
+        res.setFilters(filters);
+        res.setVariables(variables);
+
+        return res;
+    }
+
+    /**
+     * Generate a new case indicator based on the request
+     * @param req the instance of {@link CaseIndicatorRequest} containing the indicator request
+     * @return return the indicator data
+     */
     public CaseIndicatorResponse execute(CaseIndicatorRequest req) {
         IndicatorRequest indReq = new IndicatorRequest();
         indReq.setMainTable("tbcase");

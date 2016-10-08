@@ -5,7 +5,6 @@ import org.msh.etbm.commons.indicators.datatable.impl.GroupedDataTableImpl;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
