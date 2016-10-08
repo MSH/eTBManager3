@@ -78,8 +78,8 @@ public class ManualCaseTagsService {
 
         // finish preparing response
         assignManualTags(tbcase.getTags(), res.getNewManualTags());
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
 
         applicationContext.publishEvent(new CaseActionEvent(this, res));
 

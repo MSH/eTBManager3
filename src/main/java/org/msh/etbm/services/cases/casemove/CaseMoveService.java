@@ -37,9 +37,6 @@ public class CaseMoveService {
     @Autowired
     CaseNotOnTreatMoveService notOnTreatCaseMoveService;
 
-    @Autowired
-    ApplicationContext applicationContext;
-
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TRANSFER_OUT)
     public CaseMoveResponse transferOut(CaseMoveRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
@@ -73,8 +70,6 @@ public class CaseMoveService {
                 throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
 
-        applicationContext.publishEvent(new CaseActionEvent(this, res));
-
         return res;
     }
 
@@ -102,8 +97,6 @@ public class CaseMoveService {
             case CLOSED:
                 throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
-
-        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }
@@ -135,8 +128,6 @@ public class CaseMoveService {
             case CLOSED:
                 throw new EntityValidationException(tbcase, "state", "Closed cases can't be transfered", null);
         }
-
-        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }

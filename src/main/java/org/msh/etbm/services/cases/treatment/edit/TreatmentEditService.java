@@ -9,7 +9,9 @@ import org.msh.etbm.db.entities.PrescribedMedicine;
 import org.msh.etbm.db.entities.Product;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,9 @@ public class TreatmentEditService {
 
     @Autowired
     Messages messages;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     //TODO: [MSANTOS] VERIFICAR SE O REGIME VIROU INDIVIDUALIZADO
 
@@ -92,6 +97,8 @@ public class TreatmentEditService {
         latestHU.setPeriod(newHealthUnitP);
 
         entityManager.persist(tbcase);
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
     /**
@@ -139,6 +146,8 @@ public class TreatmentEditService {
 
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
     /**
@@ -187,6 +196,8 @@ public class TreatmentEditService {
 
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
     @Transactional
@@ -204,6 +215,8 @@ public class TreatmentEditService {
         checkTreatPeriod(tbcase);
         entityManager.remove(pm);
         entityManager.persist(tbcase);
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
     /**

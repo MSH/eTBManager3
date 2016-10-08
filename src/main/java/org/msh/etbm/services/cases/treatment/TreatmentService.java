@@ -13,6 +13,7 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.TreatmentHealthUnit;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.units.data.UnitData;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
 import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
 import org.msh.etbm.services.cases.treatment.data.TreatmentData;
@@ -20,6 +21,7 @@ import org.msh.etbm.services.cases.treatment.data.TreatmentUnitData;
 import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
 import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,9 @@ public class TreatmentService {
 
     @Autowired
     TreatmentFollowupService treatmentFollowupService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Return information about a treatment of a given case
@@ -233,6 +238,8 @@ public class TreatmentService {
         entityManager.createQuery("delete from TreatmentHealthUnit where tbcase.id = :id")
                 .setParameter("id", caseId)
                 .executeUpdate();
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
 }

@@ -9,7 +9,10 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.TreatmentMonitoring;
 import org.msh.etbm.db.enums.TreatmentDayStatus;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.treatment.TreatmentCmdLogHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,9 @@ public class TreatmentFollowupService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Create the list of treatment followup data per month of the treatment
@@ -150,6 +156,8 @@ public class TreatmentFollowupService {
         // save the new treatment monitoring
         entityManager.persist(tm);
         entityManager.flush();
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
 

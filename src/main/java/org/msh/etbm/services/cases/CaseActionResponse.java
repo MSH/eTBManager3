@@ -6,31 +6,31 @@ import java.util.UUID;
  * Created by Mauricio on 13/09/2016.
  */
 public class CaseActionResponse {
-    UUID tbcaseId;
-    String tbcaseDisplayString;
+    UUID caseId;
+    String caseDisplayString;
 
     public CaseActionResponse() {
 
     }
 
-    public CaseActionResponse(UUID tbcaseId, String tbcaseDisplayString) {
-        this.tbcaseId = tbcaseId;
-        this.tbcaseDisplayString = tbcaseDisplayString;
+    public CaseActionResponse(UUID caseId, String caseDisplayString) {
+        this.caseId = caseId;
+        this.caseDisplayString = caseDisplayString;
     }
 
-    public UUID getTbcaseId() {
-        return tbcaseId;
+    public UUID getCaseId() {
+        return caseId;
     }
 
-    public void setTbcaseId(UUID tbcaseId) {
-        this.tbcaseId = tbcaseId;
+    public void setCaseId(UUID caseId) {
+        this.caseId = caseId;
     }
 
-    public String getTbcaseDisplayString() {
-        return tbcaseDisplayString;
+    public String getCaseDisplayString() {
+        return caseDisplayString;
     }
 
-    public void setTbcaseDisplayString(String tbcaseDisplayString) {
-        this.tbcaseDisplayString = tbcaseDisplayString;
+    public void setCaseDisplayString(String caseDisplayString) {
+        this.caseDisplayString = caseDisplayString;
     }
 }

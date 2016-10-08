@@ -4,9 +4,11 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,6 +30,9 @@ public class CaseNotOnTreatMoveService {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Execute the transfer of an on treat case to another health unit
@@ -51,12 +56,14 @@ public class CaseNotOnTreatMoveService {
 
         // create response
         CaseMoveResponse res = new CaseMoveResponse();
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
         res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
         res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
         res.setPreviousOwnerUnitName(tbcase.getTransferOutUnit().getName());
         res.setPreviousOwnerUnitAU(tbcase.getTransferOutUnit().getAddress().getAdminUnit().getFullDisplayName());
+
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }
@@ -75,10 +82,12 @@ public class CaseNotOnTreatMoveService {
         entityManager.persist(tbcase);
 
         CaseMoveResponse res = new CaseMoveResponse();
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
         res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
         res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
+
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }
@@ -95,14 +104,16 @@ public class CaseNotOnTreatMoveService {
         CaseMoveResponse res = new CaseMoveResponse();
         res.setPreviousOwnerUnitName(tbcase.getTransferOutUnit().getName());
         res.setPreviousOwnerUnitAU(tbcase.getTransferOutUnit().getAddress().getAdminUnit().getFullDisplayName());
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
         res.setCurrentOwnerUnitName(tbcase.getOwnerUnit().getName());
         res.setCurrentOwnerUnitAU(tbcase.getOwnerUnit().getAddress().getAdminUnit().getFullDisplayName());
 
         tbcase.setTransferOutUnit(null);
         tbcase.setTransferring(false);
         entityManager.persist(tbcase);
+
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }
