@@ -72,10 +72,15 @@ export default class CaseContacts extends React.Component {
                     size: { sm: 6 }
                 },
                 {
-                    type: 'string',
+                    type: 'select',
                     label: __('CaseContact.conduct'),
                     property: 'conduct',
-                    max: 50,
+                    options: [
+                        { id: 'conduct1', name: 'Guidance/clarification' },
+                        { id: 'conduct2', name: 'Start TB treatment' },
+                        { id: 'conduct3', name: 'Start Chemoprophylaxis' },
+                        { id: 'conduct4', name: 'Other' }
+                    ],
                     size: { sm: 12 }
                 },
                 {

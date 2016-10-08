@@ -94,11 +94,13 @@ export default class Toolbar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight >
-                        <NavItem className="tb-user" href="#/sys/home/index">
+                        <NavItem className="tb-user" href="#/sys/home/index" disabled>
                             <div className="tb-icon">
                                 <i className="fa fa-user fa-inverse" />
                             </div>
-                            {session.userName}
+                            <span style={{ color: '#889987' }}>
+                                {session.userName}
+                            </span>
                         </NavItem>
                         <NavDropdown id="ddUser" eventKey={3} title={settings} onSelect={userMenuSel} >
                             <MenuItem href="#/sys/user/settings">

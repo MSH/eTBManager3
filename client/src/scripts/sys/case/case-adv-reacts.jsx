@@ -23,10 +23,10 @@ export default class CaseAdvReact extends React.Component {
                     property: 'sideEffect',
                     required: true,
                     options: [
-                        { id: 'adv1', name: 'Headache' },
-                        { id: 'adv2', name: 'Constirpação' },
-                        { id: 'adv3', name: 'Dor na coluna' },
-                        { id: 'adv4', name: 'Febre interna' }
+                        { id: 'adv1', name: 'Abdominal Pain' },
+                        { id: 'adv2', name: 'Anorexia' },
+                        { id: 'adv3', name: 'Cardiac Arrythmias' },
+                        { id: 'adv4', name: 'Change in Skin Texture' }
                     ],
                     size: { sm: 12 }
                 },
@@ -58,7 +58,8 @@ export default class CaseAdvReact extends React.Component {
                     label: __('global.comments'),
                     size: { sm: 12 }
                 }
-            ]
+            ],
+            title: doc => doc && doc.id ? __('case.sideeffect.edt') : __('case.sideeffect.new')
         };
 
         this.state = { editorSchema: editorSchema };
