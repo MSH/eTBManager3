@@ -4,6 +4,7 @@ import { Profile } from '../../components';
 import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import Form from '../../forms/form';
+import { getOptionName } from '../mock-option-lists';
 import moment from 'moment';
 
 const crud = new CRUD('contact');
@@ -99,7 +100,7 @@ export default class CaseContacts extends React.Component {
     cellRender(item) {
         return (
             <Profile size="small" type={item.gender.toLowerCase()}
-                title={item.name} subtitle={__('TbCase.age') + ': ' + item.age + ' - ' + item.contactType} />
+                title={item.name} subtitle={__('TbCase.age') + ': ' + item.age + ' - ' + getOptionName('contactType', item.contactType)} />
         );
     }
 
@@ -113,7 +114,7 @@ export default class CaseContacts extends React.Component {
                             <dt>{__('CaseContact.dateOfExamination') + ':'}</dt>
                             <dd>{item.dateOfExamination ? moment(item.dateOfExamination).format('ll') : '-'}</dd>
                             <dt>{__('CaseContact.conduct') + ':'}</dt>
-                            <dd>{item.conduct ? item.conduct : '-'}</dd>
+                            <dd>{item.conduct ? getOptionName('contactConduct', item.conduct) : '-'}</dd>
                             <dt>{__('global.comments') + ':'}</dt>
                             <dd>{item.comments ? item.comments : '-'}</dd>
                         </dl>

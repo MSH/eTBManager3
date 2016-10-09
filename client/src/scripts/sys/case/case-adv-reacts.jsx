@@ -3,6 +3,7 @@ import CrudView from '../packages/crud/crud-view';
 import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import { Profile } from '../../components';
+import { getOptionName } from '../mock-option-lists';
 
 const crud = new CRUD('sideeffect');
 
@@ -67,8 +68,11 @@ export default class CaseAdvReact extends React.Component {
 
     cellRender(item) {
         const subtitle = <div><b>{__('cases.sideeffects.month') + ': '}</b>{item.month}</div>;
+
         return (
-            <Profile title={item.sideEffect} subtitle={subtitle} size="small" />
+            <Profile title={getOptionName('advReactions', item.sideEffect)}
+                subtitle={subtitle}
+                size="small" />
         );
     }
 
