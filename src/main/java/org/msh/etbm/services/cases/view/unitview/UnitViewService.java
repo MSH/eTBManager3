@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.view.unitview;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Patient;
@@ -9,6 +10,7 @@ import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.XpertResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,9 @@ public class UnitViewService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    Messages messages;
 
 
     /**
@@ -90,8 +95,8 @@ public class UnitViewService {
         PresumptiveCaseData data = createCaseData(tbcase, PresumptiveCaseData.class);
 
         data.setCaseNumber("TO BE DONE");
-        data.setMicroscopyResult(MicroscopyResult.NEGATIVE);
-        data.setXpertResult(XpertResult.NO_RESULT);
+        data.setMicroscopyResult(new Item<>(MicroscopyResult.NEGATIVE, messages.get(MicroscopyResult.NEGATIVE.getMessageKey())));
+        data.setXpertResult(new Item<>(XpertResult.NO_RESULT, messages.get(XpertResult.NO_RESULT.getMessageKey())));
 
         return data;
     }
@@ -100,8 +105,8 @@ public class UnitViewService {
         ConfirmedCaseData data = createCaseData(tbcase, ConfirmedCaseData.class);
 
         data.setCaseNumber("TO BE DONE");
-        data.setInfectionSite(tbcase.getInfectionSite());
-        data.setRegistrationGroup(new Item<String>(tbcase.getRegistrationGroup(), tbcase.getRegistrationGroup()));
+        data.setInfectionSite(new Item(tbcase.getInfectionSite(), messages.get(tbcase.getInfectionSite().getMessageKey())));
+        data.setRegistrationGroup(tbcase.getRegistrationGroup());
 
         // is case on treatment ?
         if (tbcase.isOnTreatment()) {

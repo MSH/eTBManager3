@@ -4,6 +4,7 @@ import { Card, Profile, WaitIcon, ReactTable } from '../../components';
 import { server } from '../../commons/server';
 import moment from 'moment';
 import SessionUtils from '../session-utils';
+import { getOptionName } from '../mock-option-lists';
 
 /**
  * Display the active cases of the selected unit. The unit ID is in the URL
@@ -78,18 +79,27 @@ export default class CasesUnit extends React.Component {
                     {
                         title: 'Registration date',
                         size: { sm: 2 },
-                        content: item => <div>{item.registrationDate}<br/>
-                                <div className="sub-text">{'30 days ago'}</div></div>
+                        content: item => {
+                            const dt = moment(item.registrationDate);
+                            return (<div>{dt.format('L')}
+                                <div className="sub-text">{dt.fromNow()}</div>
+                            </div>);
+                        }
                     },
                     {
                         title: 'Registration group',
                         size: { sm: 2 },
-                        content: item => <div>{item.registrationGroup.name}<br/>{item.infectionSite}</div>
+                        content: item => <div>{getOptionName('registrationGroup', item.registrationGroup)}<br/>{item.infectionSite.name}</div>
                     },
                     {
                         title: 'Start treatment date',
                         size: { sm: 2 },
-                        content: 'iniTreatmentDate'
+                        content: item => {
+                            const dt = moment(item.iniTreatmentDate);
+                            return (<div>{dt.format('L')}
+                                <div className="sub-text">{dt.fromNow()}</div>
+                            </div>);
+                        }
                     },
                     {
                         title: 'Progress',
@@ -130,8 +140,7 @@ export default class CasesUnit extends React.Component {
                         return (<div>{dt.format('L')}
                             <div className="sub-text">{dt.fromNow()}</div>
                         </div>);
-                    },
-                    align: 'center'
+                    }
                 },
                 {
                     title: 'Xpert',
@@ -141,7 +150,7 @@ export default class CasesUnit extends React.Component {
                 {
                     title: 'Microscopy',
                     size: { sm: 2 },
-                    content: item => item.microscopyResult
+                    content: item => item.microscopyResult.name
                 }
                 ]} values={lst} className="mtop-2x" onClick={this.caseClick} />
         );

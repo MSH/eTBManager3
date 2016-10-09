@@ -4,6 +4,7 @@
  * @return {[type]} [description]
  */
 
+
 const mockLists = [
     {
         id: 'advReactions',
@@ -30,6 +31,22 @@ const mockLists = [
             { id: 'conduct3', name: 'Start Chemoprophylaxis' },
             { id: 'conduct4', name: 'Other' }
         ]
+    },
+    {
+        id: 'registrationGroup',
+        options: [
+            { id: 'NEW', name: 'New' },
+            { id: 'RELAPSE', name: 'Relapse' },
+            { id: 'AFTER_DEFAULT', name: 'After loss to follow-up' },
+            { id: 'FAILURE_FT', name: 'After failure of first treatment with first-line drugs' },
+            { id: 'FAILURE_RT', name: 'After failure of retreatment with first-line drugs' },
+            { id: 'PREVIOUSLY_TREATED', name: 'Previously treated' },
+            { id: 'TREATMENT_AFTER_FAILURE', name: 'Treatment after failure' },
+            { id: 'TREATMENT_AFTER_LOSS_FOLLOW_UP', name: 'Treatment after loss to follow-up' },
+            { id: 'OTHER_PREVIOUSLY_TREATED', name: 'Other previously treated' },
+            { id: 'UNKNOWN_PREVIOUS_TB_TREAT', name: 'Unknown previous TB treatment history' },
+            { id: 'OTHER', name: 'Other' }
+        ]
     }
 ];
 
@@ -46,5 +63,5 @@ export function getOptionName(listId, optionId) {
 
     const option = list.options.find(i => i.id === optionId);
 
-    return option ? option.name : null;
+    return option ? option.name : optionId;
 }
