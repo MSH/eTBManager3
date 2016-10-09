@@ -43,7 +43,7 @@ public abstract class AbstractFilter implements Filter, Variable {
 
     @Override
     public String getLabel() {
-        return label;
+        return getMessages().eval(label);
     }
 
     @Override

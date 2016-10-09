@@ -3,13 +3,7 @@ package org.msh.etbm.test;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.commons.indicators.IndicatorGenerator;
-import org.msh.etbm.commons.indicators.IndicatorRequest;
-import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
-import org.msh.etbm.commons.indicators.indicator.KeyDescriptor;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
-import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
-import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
@@ -19,6 +13,9 @@ import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.cases.filters.CaseFilters;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +55,8 @@ public class TestRest {
     FormService formService;
 
     @Autowired
-    CaseFilters caseFilters;
+    CaseIndicatorsService caseIndicatorsService;
+
 
     @RequestMapping("/message")
     public String getMessage() {
@@ -118,50 +116,29 @@ public class TestRest {
     }
 
     @RequestMapping(value = "/indicator")
+    @Authenticated
     public StandardResult generateIndicator() {
-        IndicatorGenerator gen = new IndicatorGenerator();
+        CaseIndicatorRequest req = new CaseIndicatorRequest();
+        String[] colvars = { CaseFilters.CASE_CLASSIFICATION, CaseFilters.DIAGNOSIS_TYPE };
+        String[] rowVars = { CaseFilters.CASE_STATE };
 
-        IndicatorRequest req = new IndicatorRequest();
-        req.setMainTable("tbcase");
-        Variable varClassif = caseFilters.variableById(CaseFilters.CASE_CLASSIFICATION);
-        Variable varState = caseFilters.variableById(CaseFilters.CASE_STATE);
-        Variable varDiagType = caseFilters.variableById(CaseFilters.DIAGNOSIS_TYPE);
+        req.setColumnVariables(Arrays.asList(colvars));
+        req.setRowVariables(Arrays.asList(rowVars));
 
-        List<Variable> vars = new ArrayList<>();
-        vars.add(varClassif);
-        vars.add(varDiagType);
-        req.setColumnVariables(vars);
-        req.setRowVariables(Collections.singletonList(varState));
+        CaseIndicatorResponse resp = caseIndicatorsService.execute(req);
 
-        IndicatorDataTable tbl = gen.execute(dataSource, req);
+        IndicatorData ind = resp.getIndicator();
 
         System.out.println("Column Keys:");
-        for (KeyDescriptor kd: tbl.getColumnKeyDescriptors().getGroups()) {
-            System.out.println(kd);
-        }
-        for (Object[] key: tbl.getColumnKeys()) {
-            System.out.println(Arrays.toString(key));
-        }
-        System.out.println("Row Keys:");
-        for (KeyDescriptor kd: tbl.getRowKeyDescriptors().getGroups()) {
-            System.out.println(kd);
-        }
-        for (Object[] key: tbl.getRowKeys()) {
-            System.out.println(Arrays.toString(key));
+        for (Map<String, String> map: ind.getColumns().getDescriptors()) {
+            System.out.println(map.toString());
         }
 
         System.out.println("\nDATA:");
-        for (int r = 0; r < tbl.getRowCount(); r++) {
-            List vals = tbl.getRowValues(r);
-            for (Object val: vals) {
-                System.out.print(val + ", ");
-            }
-            System.out.println('\n');
+        for (List row: ind.getValues()) {
+            System.out.println(row);
         }
 
-        IndicatorDataConverter conv = new IndicatorDataConverter();
-        IndicatorData data = conv.convertFromDataTableIndicator(tbl);
-
-        return new StandardResult(data, null, true);
+        return new StandardResult(ind, null, true);
     }
 }

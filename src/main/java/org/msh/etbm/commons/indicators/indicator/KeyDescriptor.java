@@ -47,9 +47,8 @@ public class KeyDescriptor extends Item<Object> {
         return grp;
     }
 
-    @JsonIgnore
     public List<KeyDescriptor> getChildren() {
-        return children != null ? Collections.unmodifiableList(children) : Collections.emptyList();
+        return children != null ? Collections.unmodifiableList(children) : null;
     }
 
     @JsonIgnore

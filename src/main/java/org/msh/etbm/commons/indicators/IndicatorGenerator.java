@@ -1,7 +1,9 @@
 package org.msh.etbm.commons.indicators;
 
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.datatable.DataTable;
+import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
@@ -25,12 +27,6 @@ import java.util.Map;
  */
 public class IndicatorGenerator {
 
-    private DataTable res1, res2;
-
-    // new size after conversion
-    private int rowsize;
-    private int colsize;
-
     /**
      * Number of records contained in the detailed report
      */
@@ -43,11 +39,10 @@ public class IndicatorGenerator {
      *            the indicator to be produced
      * @return instance of {@link IndicatorDataTable} containing the indicator report
      */
-    public IndicatorDataTable execute(DataSource dataSource, IndicatorRequest req) {
+    public IndicatorDataTable execute(IndicatorRequest req, DataSource dataSource, Messages messages) {
         IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
 
         DataTable data = loadData(dataSource, req, builder);
-        res1 = data;
 
         // no data was returned from the database ?
         if (data.getRowCount() == 0) {
@@ -56,14 +51,11 @@ public class IndicatorGenerator {
         }
 
         data = convertDataToVariableKeys(data, builder);
-        res2 = data;
-
-        colsize = calcVariablesSize(req.getColumnVariables());
-        rowsize = calcVariablesSize(req.getRowVariables());
 
         IndicatorDataTable result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
 
-        rowsize = 1;
+        calcTotals(req, result, messages);
+
         return result;
     }
 
@@ -108,12 +100,16 @@ public class IndicatorGenerator {
      */
     protected DataTableImpl loadData(DataSource dataSource, IndicatorRequest req, IndicatorSqlBuilder sqlBuilder) {
         // add variables to SQL builder
-        for (Variable v : req.getColumnVariables()) {
-            sqlBuilder.addVariable(v);
+        if (req.getColumnVariables() != null) {
+            for (Variable v : req.getColumnVariables()) {
+                sqlBuilder.addVariable(v);
+            }
         }
 
-        for (Variable v : req.getRowVariables()) {
-            sqlBuilder.addVariable(v);
+        if (req.getRowVariables() != null) {
+            for (Variable v : req.getRowVariables()) {
+                sqlBuilder.addVariable(v);
+            }
         }
 
         sqlBuilder.setFilters(req.getFilterValues());
@@ -213,19 +209,6 @@ public class IndicatorGenerator {
 
 
     /**
-     * @param lst
-     * @return
-     */
-    protected int calcVariablesSize(List<Variable> lst) {
-        int len = 0;
-        for (Variable var : lst) {
-            len += var.getVariableOptions().isGrouped() ? 2 : 1;
-        }
-        return len;
-    }
-
-
-    /**
      * Transform a data table into a cube using specific columns
      * to generate the new columns and rows.
      *
@@ -239,41 +222,55 @@ public class IndicatorGenerator {
         return trans.execute(tbl, varColumns, varRows, tbl.getColumnCount() - 1);
     }
 
+    protected void calcTotals(IndicatorRequest req, IndicatorDataTable tbl, Messages messages) {
+        // check if columns can be totalized
+        boolean totalEnabled = req.isColumnTotal() && !req.getColumnVariables()
+                .stream().anyMatch(v -> !v.getVariableOptions().isTotalEnabled());
 
-    /**
-     * @return the res1
-     */
-    public DataTable getRes1() {
-        return res1;
+        // the key to store the information
+        Object[] totalKey = { DataTableUtils.TOTAL };
+
+        // calculate the total for each row
+        if (totalEnabled) {
+            // add the key descriptor
+            tbl.getColumnKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
+
+            List<Object[]> keys = tbl.getRowKeys();
+            for (int r = 0; r < tbl.getRowCount(); r++) {
+                List values = tbl.getRowValues(r);
+                double total = values.stream().mapToDouble(w -> w instanceof Double ? (Double)w : 0).sum();
+                tbl.setValue(totalKey, keys.get(r), total);
+            }
+        }
+
+        // check if rows can be totalized
+        totalEnabled = req.isRowTotal() && !req.getRowVariables()
+                .stream().anyMatch(v -> !v.getVariableOptions().isTotalEnabled());
+
+        double total = 0;
+
+        // calculate the total for each column
+        if (totalEnabled) {
+            // add the key descriptor
+            tbl.getRowKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
+
+            List<Object[]> keys = tbl.getColumnKeys();
+            for (int c = 0; c < tbl.getColumnCount(); c++) {
+                double sum = 0;
+                for (int r = 0; r < tbl.getRowCount(); r++) {
+                    Object val = tbl.getValueByPosition(c, r);
+                    if (val instanceof Number) {
+                        sum += ((Number)val).doubleValue();
+                    }
+                }
+
+                tbl.setValue(keys.get(c), totalKey, sum);
+                total += sum;
+            }
+        }
+
+        tbl.setValue(totalKey, totalKey, total);
     }
-
-
-    /**
-     * @return the res2
-     */
-    public DataTable getRes2() {
-        return res2;
-    }
-
-
-    /**
-     * Return the number of rows that the column header uses in the indicator table
-     *
-     * @return
-     */
-    public int getColumnHeaderSize() {
-        return colsize;
-    }
-
-    /**
-     * Return the number of columns that the row header uses in the indicator table
-     *
-     * @return
-     */
-    public int getRowHeaderSize() {
-        return rowsize;
-    }
-
 
     /**
      * @return the recordCount

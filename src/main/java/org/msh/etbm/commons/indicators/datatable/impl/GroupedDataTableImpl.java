@@ -44,6 +44,11 @@ public class GroupedDataTableImpl implements GroupedDataTable {
     }
 
     @Override
+    public Object getValueByPosition(int col, int row) {
+        return table.getValue(col, row);
+    }
+
+    @Override
     public void setValue(Object[] colKeys, Object[] rowKeys, Object value) {
         int colindex = findColumn(colKeys);
         if (colindex < 0) {

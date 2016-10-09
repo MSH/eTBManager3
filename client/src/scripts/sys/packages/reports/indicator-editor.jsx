@@ -1,12 +1,20 @@
 import React from 'react';
 import { Card } from '../../../components';
 import Chart from './chart';
+import FiltersSelector from '../filters/filters-selector';
+import VariablesSelector from './variables-selector';
 
 
 // generate integer random numbers
 const rand = num => Math.round(Math.random() * num);
 
 export default class IndicatorEditor extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.filtersChange = this.filtersChange.bind(this);
+        this.variablesChange = this.variablesChange.bind(this);
+    }
 
     randomSeries() {
         const count = rand(10) + 1;
@@ -33,6 +41,20 @@ export default class IndicatorEditor extends React.Component {
         ];
     }
 
+
+    filtersChange(filterValues) {
+        const ind = this.props.indicator;
+        ind.filters = filterValues;
+        this.props.onChange(ind);
+    }
+
+    variablesChange(colVars, rowVars) {
+        const ind = this.props.indicator;
+        ind.columnVars = colVars;
+        ind.rowVars = rowVars;
+        this.props.onChange(ind);
+    }
+
     render() {
         const ind = this.props.indicator;
         const series = this.randomSeries();
@@ -46,6 +68,13 @@ export default class IndicatorEditor extends React.Component {
 
         return (
             <Card title={'Diagnosis type x Age range'} closeBtn>
+                <FiltersSelector filters={this.props.filters}
+                    filterValues={ind.filters}
+                    onChange={this.filtersChange} />
+                <VariablesSelector
+                    variables={this.props.variables}
+                    indicator={ind}
+                    onChange={this.variablesChange} />
                 <Chart series={series} type={type} />
             </Card>
         );
@@ -54,5 +83,7 @@ export default class IndicatorEditor extends React.Component {
 
 IndicatorEditor.propTypes = {
     indicator: React.PropTypes.object.isRequired,
-    onChange: React.PropTypes.func
+    filters: React.PropTypes.array.isRequired,
+    variables: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired
 };

@@ -80,7 +80,9 @@ export default class Chart extends React.Component {
         const cfg = this.config();
 
         return (
+            <div style={{ marginTop: '0' }}>
             <ReactHighcharts config={cfg} neverReflow />
+            </div>
         );
     }
 }

@@ -8,7 +8,7 @@ Highcharts.theme = {
         '#0f3c27',
         '#5e6c77',
         '#bababc',
-        '#f0eef1',
+        '#e0dde1',
         '#b2ca7e',
         // Other palette
         '#006906',

@@ -5,6 +5,8 @@ import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.filters.FilterData;
 import org.msh.etbm.commons.filters.FilterGroupData;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.indicators.variables.VariableData;
+import org.msh.etbm.commons.indicators.variables.VariableGroupData;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by rmemoria on 17/9/16.
@@ -177,6 +180,32 @@ public class CaseFilters {
         return res;
     }
 
+
+    /**
+     * Return variable information ready for client serialization
+     * @return List of {@link VariableGroupData} containing the variable groups
+     */
+    public List<VariableGroupData> getVariablesData() {
+        createFiltersVariables();
+
+        List<VariableGroupData> res = groups.stream()
+                .filter(grp -> grp.getVariables() != null && grp.getVariables().size() > 0)
+                .map(grp -> {
+                    VariableGroupData vgd = new VariableGroupData();
+                    vgd.setLabel(messages.eval(grp.getLabel()));
+
+                    vgd.setVariables(grp.getVariables().stream()
+                        .map(v -> new VariableData(v.getId(), v.getLabel(),
+                                v.getVariableOptions().isGrouped(),
+                                v.getVariableOptions().isTotalEnabled()))
+                        .collect(Collectors.toList()));
+
+                    return vgd;
+                })
+                .collect(Collectors.toList());
+
+        return res;
+    }
 
     protected void createFiltersVariables() {
         if (groups != null) {

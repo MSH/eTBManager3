@@ -2,7 +2,6 @@ import React from 'react';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import { Card, Fa } from '../../../components';
 import FiltersSelector from '../filters/filters-selector';
-import { server } from '../../../commons/server';
 
 
 /**
@@ -12,23 +11,10 @@ export default class ReportHeader extends React.Component {
 
     constructor(props) {
         super(props);
-        this._onChangeFilterValue = this._onChangeFilterValue.bind(this);
-    }
-
-    componentWillMount() {
-        const self = this;
-        server.post('/api/cases/search/init')
-        .then(res => self.setState({ filters: res.filters }));
-
-        this.state = { };
     }
 
     close() {
         console.log('close');
-    }
-
-    _onChangeFilterValue(filterValues) {
-        this.setState({ filterValues: filterValues });
     }
 
     render() {
@@ -69,9 +55,9 @@ export default class ReportHeader extends React.Component {
         return (
             <Card header={header} className="rep-editor">
                 <FiltersSelector
-                    filters={this.state.filters}
-                    filterValues={this.state.filterValues}
-                    onChange={this._onChangeFilterValue}
+                    filters={this.props.filters}
+                    filterValues={this.props.filterValues}
+                    onChange={this.props.onChangeFilters}
                     footer={btnSubmit}
                     />
             </Card>
@@ -80,5 +66,8 @@ export default class ReportHeader extends React.Component {
 }
 
 ReportHeader.propTypes = {
-    report: React.PropTypes.object.isRequired
+    report: React.PropTypes.object.isRequired,
+    filters: React.PropTypes.array.isRequired,
+    filterValues: React.PropTypes.object,
+    onChangeFilters: React.PropTypes.func
 };
