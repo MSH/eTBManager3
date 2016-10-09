@@ -1,5 +1,6 @@
 package org.msh.etbm.services.session.search;
 
+import org.msh.etbm.commons.PersonNameUtils;
 import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.db.Synchronizable;
@@ -26,6 +27,9 @@ public class SearchableListener {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    PersonNameUtils personNameUtils;
 
     /**
      * Called when a Searchable entity was created
@@ -127,8 +131,7 @@ public class SearchableListener {
         searchable.setType("MALE".equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
         searchable.setUnit(entity.getOwnerUnit());
         searchable.setSubtitle(entity.getCaseNumber());
-        //TODO: [MSANTOS] COMO PEGAR O NOME? QUAL A ORDEM? MIDLE, LAST, FIRST? criar PersonNmaeUtils @component
-        searchable.setTitle(entity.getPatient().getName().getName());
+        searchable.setTitle(personNameUtils.displayPersonName(entity.getPatient().getName()));
 
         return searchable;
     }
