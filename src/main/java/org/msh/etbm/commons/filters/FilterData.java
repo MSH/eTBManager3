@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.filters;
 
+import org.msh.etbm.commons.Item;
+
 import java.util.Map;
 
 /**
@@ -7,17 +9,7 @@ import java.util.Map;
  *
  * Created by rmemoria on 17/8/16.
  */
-public class FilterData {
-
-    /**
-     * The unique filter ID, used when doing reference to a filter
-     */
-    private String id;
-
-    /**
-     * The label to be displayed for the user
-     */
-    private String label;
+public class FilterData extends Item<String> {
 
     /**
      * The type of filter, that determines the control to be used
@@ -31,28 +23,11 @@ public class FilterData {
 
 
     public FilterData(String id, String label, Map<String, Object> resources) {
-        this.id = id;
-        this.label = label;
+        super(id, label);
         this.resources = resources;
     }
 
     public FilterData() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
     }
 
     public Map<String, Object> getResources() {

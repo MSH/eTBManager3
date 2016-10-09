@@ -1,34 +1,43 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { LinkTooltip } from '../../../components';
+import VariablesBox from './variables-box';
 
 export default class VariablesSelector extends React.Component {
 
     constructor(props) {
         super(props);
-        this.addColumnVar = this.addColumnVar.bind(this);
-        this.addRowVar = this.addRowVar.bind(this);
+        this.changeColumnVars = this.changeColumnVars.bind(this);
+        this.changeRowVars = this.changeRowVars.bind(this);
     }
 
-    addColumnVar() {
-        console.log('add var to column');
+    changeColumnVars(vars) {
+        this.props.indicator.columnVariables = vars;
+        this.props.onChange(this.props.indicator);
+        this.forceUpdate();
     }
 
-    addRowVar() {
-        console.log('add var to row');
+    changeRowVars(vars) {
+        this.props.indicator.rowVariables = vars;
+        this.props.onChange(this.props.indicator);
+        this.forceUpdate();
     }
 
     render() {
+        const ind = this.props.indicator;
+
         return (
-            <div style={{ backgroundColor: '#f8f8f8', padding: '8px', margin: '8px -8px' }}>
+            <div className="var-selector">
             <Row>
                 <Col md={6}>
                     <div className="text-muted text-uppercase">
                         {__('global.table.columns')}
                     </div>
                     <div className="mtop">
-                        <LinkTooltip ref="btnadd" toolTip={__('indicators.vars.add')} icon="plus"
-                            onClick={this.addColumnVar} />
+                        <VariablesBox
+                            variables={this.props.variables}
+                            values={ind.columnVariables}
+                            onChange={this.changeColumnVars}
+                            />
                     </div>
                 </Col>
                 <Col md={6}>
@@ -36,8 +45,11 @@ export default class VariablesSelector extends React.Component {
                         {__('global.table.rows')}
                     </div>
                     <div className="mtop">
-                        <LinkTooltip ref="btnadd" toolTip={__('indicators.vars.add')} icon="plus"
-                            onClick={this.addRowVar} />
+                        <VariablesBox
+                            variables={this.props.variables}
+                            values={ind.rowVariables}
+                            onChange={this.changeRowVars}
+                            />
                     </div>
                 </Col>
             </Row>
@@ -48,6 +60,6 @@ export default class VariablesSelector extends React.Component {
 
 VariablesSelector.propTypes = {
     variables: React.PropTypes.array.isRequired,
-    values: React.PropTypes.array,
+    indicator: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired
 };

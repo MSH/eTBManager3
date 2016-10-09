@@ -192,7 +192,7 @@ public class CaseFilters {
                 .filter(grp -> grp.getVariables() != null && grp.getVariables().size() > 0)
                 .map(grp -> {
                     VariableGroupData vgd = new VariableGroupData();
-                    vgd.setLabel(grp.getLabel());
+                    vgd.setLabel(messages.eval(grp.getLabel()));
 
                     vgd.setVariables(grp.getVariables().stream()
                         .map(v -> new VariableData(v.getId(), v.getLabel(),

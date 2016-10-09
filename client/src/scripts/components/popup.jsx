@@ -18,7 +18,7 @@ export default class Popup extends React.Component {
         this._remHandler();
     }
 
-    _togglePopup() {
+    _togglePopup(evt) {
         const open = !this.state.show;
 
         if (open) {
@@ -28,7 +28,7 @@ export default class Popup extends React.Component {
             const prevHide = this._prevHide;
             delete this._prevHide;
 
-            if (!prevHide) {
+            if (!prevHide && !evt.defaultPrevented) {
                 this.hide();
             }
         }

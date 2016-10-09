@@ -73,6 +73,7 @@ export default class IndicatorEditor extends React.Component {
                     onChange={this.filtersChange} />
                 <VariablesSelector
                     variables={this.props.variables}
+                    indicator={ind}
                     onChange={this.variablesChange} />
                 <Chart series={series} type={type} />
             </Card>

@@ -40,8 +40,8 @@ public class CaseFiltersTest extends AuthenticatedTest {
             assertTrue(grp.getFilters().size() > 0);
 
             for (FilterData filter: grp.getFilters()) {
-                assertNotNull(filter.getLabel());
-                assertFalse(filter.getLabel().contains("${"));
+                assertNotNull(filter.getName());
+                assertFalse(filter.getName().contains("${"));
                 assertNotNull(filter.getId());
                 assertNotNull(filter.getType());
             }

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col, Popover, Overlay } from 'react-bootstrap';
 import { LinkTooltip } from '../../../components';
-import FilterPopup from './filter-popup';
+import GroupPopup from './group-popup';
 import FilterBox from './filter-box';
 
 import './filters.less';
@@ -156,8 +156,9 @@ export default class FiltersSelector extends React.Component {
                                 onHide={this.hidePopup} >
 
                                 <Popover id="filter-popover" style={{ minWidth: '330px' }}>
-                                    <FilterPopup
-                                        filters={this.props.filters}
+                                    <GroupPopup
+                                        groups={this.props.filters}
+                                        childrenProperty="filters"
                                         onSelect={this.addFilter} />
                                 </Popover>
                             </Overlay>
@@ -170,7 +171,7 @@ export default class FiltersSelector extends React.Component {
 }
 
 FiltersSelector.propTypes = {
-    filters: React.PropTypes.array.isRequired,
+    filters: React.PropTypes.array,
     filterValues: React.PropTypes.object,
     onChange: React.PropTypes.func,
     showPopup: React.PropTypes.bool,

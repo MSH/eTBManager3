@@ -9,7 +9,7 @@ import Popup from './popup';
  *
  * Used as base to many popup controls
  */
-export default class SelectionBox extends React.Component {
+export default class PopupControl extends React.Component {
 
     constructor(props) {
         super(props);
@@ -98,11 +98,16 @@ export default class SelectionBox extends React.Component {
     }
 }
 
-SelectionBox.propTypes = {
+PopupControl.propTypes = {
     label: React.PropTypes.node,
     bsStyle: React.PropTypes.oneOf(['success', 'warning', 'error']),
     help: React.PropTypes.string,
     wrapperClassName: React.PropTypes.string,
     content: React.PropTypes.node,
-    popupContent: React.PropTypes.node
+    popupContent: React.PropTypes.node,
+    autoHide: React.PropTypes.bool
+};
+
+PopupControl.defaultProps = {
+    autoHide: true
 };

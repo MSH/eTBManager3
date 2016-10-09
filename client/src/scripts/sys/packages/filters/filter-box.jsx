@@ -46,7 +46,7 @@ export default class FilterBox extends React.Component {
             <Row>
                 <Col sm={4} className="filter">
                     <div className="form-group">
-                        <label className="control-label">{filter.label + ':'}</label>
+                        <label className="control-label">{filter.name + ':'}</label>
                     </div>
                     <LinkTooltip
                         toolTip={__('form.filters.remove')}
