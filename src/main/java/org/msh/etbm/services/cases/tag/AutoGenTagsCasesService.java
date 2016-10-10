@@ -78,26 +78,23 @@ public class AutoGenTagsCasesService {
         }
 
         // erase all tags of the current case
-        entityManager.createNativeQuery("delete from tags_case where case_id = '" + caseId.toString() + "' " +
+        entityManager.createNativeQuery("delete from tags_case where case_id = :caseId " +
                 "and tag_id in (select id from tag where sqlCondition is not null)")
+                .setParameter("caseId", caseId)
                 .executeUpdate();
 
         // update tags
-        String sql = "";
-        for (Tag tag: tags) {
-            if (!sql.isEmpty()) {
-                sql += " union ";
-            }
-
-            sql += "select a.id, '" + tag.getId() + "'" +
+        for (Tag tag : tags) {
+            entityManager.createNativeQuery("insert into tags_case (case_id, tag_id) " +
+                    "select a.id, :tagId " +
                     " from tbcase a join patient p on p.id=a.patient_id " +
-                    " and p.workspace_id = '" + wsid.toString() + "'" +
-                    " and a.id = '" + caseId.toString() + "'" +
-                    " and " + tag.getSqlCondition();
+                    " and p.workspace_id = :wId" +
+                    " and a.id = :tbcaseId " +
+                    " and " + tag.getSqlCondition())
+                    .setParameter("tagId", tag.getId())
+                    .setParameter("wId", wsid)
+                    .setParameter("tbcaseId", caseId)
+                    .executeUpdate();
         }
-
-        sql = "insert into tags_case (case_id, tag_id) " + sql;
-
-        entityManager.createNativeQuery(sql).executeUpdate();
     }
 }

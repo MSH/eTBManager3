@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { TreeView, Card, Fa } from '../../../components';
+import { TreeView, Card, Fa, WaitIcon } from '../../../components';
 import SessionUtils from '../../session-utils';
 import { server } from '../../../commons/server';
 
@@ -89,7 +89,7 @@ export default class CasesDistribution extends React.Component {
         const root = this.state.root;
 
         if (!root) {
-            return null;
+            return <WaitIcon type="card"/>;
         }
 
         return (
