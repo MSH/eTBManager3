@@ -92,6 +92,7 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         ServiceResult res = createResult(entity);
         res.setId(entity.getId());
         res.setOperation(Operation.NEW);
+        res.setCommandType(CommandTypes.get(CommandTypes.ADMIN_WORKSPACES));
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
 

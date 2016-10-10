@@ -1,11 +1,15 @@
 package org.msh.etbm.commons.entities;
 
-import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.PersonNameUtils;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.db.CaseEntity;
 import org.msh.etbm.db.entities.TbCase;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class CaseEntityServiceImpl<E extends CaseEntity, Q extends EntityQueryParams> extends EntityServiceImpl<E, Q> {
+
+    @Autowired
+    PersonNameUtils personNameUtils;
 
     /**
      * Create the result to be returned by the create, update or delete operation of CaseEntity
@@ -15,15 +19,13 @@ public abstract class CaseEntityServiceImpl<E extends CaseEntity, Q extends Enti
      */
     @Override
     protected ServiceResult createResult(E caseEntity) {
-        ServiceResult res = new ServiceResult();
+        ServiceResult res = super.createResult(caseEntity);
 
-        res.setId(caseEntity.getTbcase().getId());
-        res.setEntityClass(TbCase.class);
+        TbCase tbcase = caseEntity.getTbcase();
 
-        String cmdPath = getCommandType();
-        res.setCommandType(CommandTypes.get(cmdPath));
-
-        res.setEntityName(caseEntity.getTbcase().getDisplayString());
+        res.setParentId(caseEntity.getTbcase().getId());
+        res.setEntityName("(" + tbcase.getClassification() + ") " +
+                personNameUtils.displayPersonName(tbcase.getPatient().getName()));
 
         return res;
     }

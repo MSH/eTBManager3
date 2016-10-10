@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.cases;
 
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
@@ -106,6 +107,7 @@ public class CaseEditService {
         res.setOperation(Operation.EDIT);
         res.setEntityClass(TbCase.class);
         res.setId(tbcase.getId());
+        res.setCommandType(CommandTypes.get(CommandTypes.CASES_CASE));
 
         applicationContext.publishEvent(new EntityServiceEvent(this, res));
 
