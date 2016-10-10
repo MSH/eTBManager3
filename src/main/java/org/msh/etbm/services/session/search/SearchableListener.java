@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.SearchableType;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +131,7 @@ public class SearchableListener {
     private Searchable buildSearchable(TbCase entity, Searchable searchable) {
         searchable.setType("MALE".equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
         searchable.setUnit(entity.getOwnerUnit());
-        searchable.setSubtitle(entity.getCaseNumber());
+        searchable.setSubtitle(entity.getDiagnosisType().equals(DiagnosisType.SUSPECT) ? entity.getRegistrationNumber() : entity.getCaseNumber());
         searchable.setTitle(personNameUtils.displayPersonName(entity.getPatient().getName()));
 
         return searchable;

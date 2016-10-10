@@ -5,6 +5,7 @@ import { server } from '../../commons/server';
 import moment from 'moment';
 import SessionUtils from '../session-utils';
 import { getOptionName } from '../mock-option-lists';
+import TreatProgress from '../case/treat/treat-progress';
 
 /**
  * Display the active cases of the selected unit. The unit ID is in the URL
@@ -70,14 +71,14 @@ export default class CasesUnit extends React.Component {
             <ReactTable className="mtop-2x"
                 columns={[
                     {
-                        title: 'Patient',
+                        title: __('Patient'),
                         size: { sm: 4 },
                         content: item =>
                             <Profile type={item.gender.toLowerCase()} size="small"
-                                title={SessionUtils.nameDisplay(item.name)} subtitle={item.recordNumber} />
+                                title={SessionUtils.nameDisplay(item.name)} subtitle={item.caseNumber} />
                     },
                     {
-                        title: 'Registration date',
+                        title: __('TbCase.registrationDate'),
                         size: { sm: 2 },
                         content: item => {
                             const dt = moment(item.registrationDate);
@@ -87,14 +88,17 @@ export default class CasesUnit extends React.Component {
                         }
                     },
                     {
-                        title: 'Registration group',
+                        title: __('TbCase.registrationGroup'),
                         size: { sm: 2 },
-                        content: item => <div>{getOptionName('registrationGroup', item.registrationGroup)}<br/>{item.infectionSite.name}</div>
+                        content: item => <div>{getOptionName('registrationGroup', item.registrationGroup)}<br/>{item.infectionSite ? item.infectionSite.name : null}</div>
                     },
                     {
-                        title: 'Start treatment date',
+                        title: __('TbCase.iniTreatmentDate'),
                         size: { sm: 2 },
                         content: item => {
+                            if (!item.iniTreatmentDate) {
+                                return <div>{'-'}</div>;
+                            }
                             const dt = moment(item.iniTreatmentDate);
                             return (<div>{dt.format('L')}
                                 <div className="sub-text">{dt.fromNow()}</div>
@@ -102,10 +106,10 @@ export default class CasesUnit extends React.Component {
                         }
                     },
                     {
-                        title: 'Progress',
+                        title: __('cases.mantreatment'),
                         size: { sm: 2 },
                         align: 'center',
-                        content: () => <img src="images/small_pie2.png" style={{ width: '36px' }} />
+                        content: i => i.treatmentProgress ? <TreatProgress value={i.treatmentProgress} width={45} height={45}/> : '-'
                     }
                 ]} values={lst} onClick={this.caseClick}/>
             );
@@ -130,7 +134,7 @@ export default class CasesUnit extends React.Component {
                     size: { sm: 4 },
                     content: item =>
                             <Profile type={item.gender.toLowerCase()} size="small"
-                                title={SessionUtils.nameDisplay(item.name)} subtitle={item.recordNumber} />
+                                title={SessionUtils.nameDisplay(item.name)} subtitle={item.caseNumber} />
                 },
                 {
                     title: __('TbCase.registrationDate'),
@@ -143,14 +147,14 @@ export default class CasesUnit extends React.Component {
                     }
                 },
                 {
-                    title: 'Xpert',
+                    title: __('FollowUpType.XPERT'),
                     size: { sm: 2 },
-                    content: item => item.xpertResult.name
+                    content: item => item.xpertResult ? item.xpertResult.name : '-'
                 },
                 {
-                    title: 'Microscopy',
+                    title: __('FollowUpType.EXAM_MICROSCOPY'),
                     size: { sm: 2 },
-                    content: item => item.microscopyResult.name
+                    content: item => item.microscopyResult ? item.microscopyResult.name : '-'
                 }
                 ]} values={lst} className="mtop-2x" onClick={this.caseClick} />
         );

@@ -42,7 +42,6 @@ public class GlobalListsService {
             SampleType.class,
             MicroscopyResult.class,
             CultureResult.class,
-            XpertRifResult.class,
             XpertResult.class,
             XRayEvolution.class,
             HIVResult.class,

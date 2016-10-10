@@ -236,6 +236,7 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
+    @OrderBy(value = "date")
     private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
@@ -244,6 +245,7 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
+    @OrderBy(value = "date")
     private List<ExamXpert> examsXpert = new ArrayList<>();
 
     @PropertyLog(ignore = true)
@@ -349,21 +351,6 @@ public class TbCase extends WorkspaceEntity {
      */
     public void setSideEffects(List<CaseSideEffect> sideEffects) {
         this.sideEffects = sideEffects;
-    }
-
-
-    /**
-     * Formats the case number to be displayed to the user
-     *
-     * @param patientNumber - patient record number
-     * @param caseNumber    - case number associated to the patient
-     * @return - formated case number
-     */
-    static public String formatCaseNumber(int patientNumber, int caseNumber) {
-        DecimalFormat df = new DecimalFormat("000");
-        String s = df.format(patientNumber);
-
-        return caseNumber > 1 ? s + "-" + Integer.toString(caseNumber) : s;
     }
 
 

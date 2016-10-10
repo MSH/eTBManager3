@@ -66,7 +66,6 @@ public class AutoGenTagsCasesService {
     @Transactional
     public void updateTags(UUID caseId) {
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
-        entityManager.joinTransaction();
 
         // get tags
         List<Tag> tags = entityManager.createQuery("from Tag t where t.active = true " +
@@ -92,7 +91,7 @@ public class AutoGenTagsCasesService {
 
             sql += "select a.id, '" + tag.getId() + "'" +
                     " from tbcase a join patient p on p.id=a.patient_id " +
-                    " and p.workspace_id = '" + wsid + "'" +
+                    " and p.workspace_id = '" + wsid.toString() + "'" +
                     " and a.id = '" + caseId.toString() + "'" +
                     " and " + tag.getSqlCondition();
         }

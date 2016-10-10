@@ -12,7 +12,7 @@
       "size": { "md": 6 }
     },
     {
-      "property": "tbcase.registrationNumber",
+      "property": "tbcase.caseNumber",
       "label": "${DisplayCaseNumber.TB}",
       "type": "string",
       "size": { "md": 6 }

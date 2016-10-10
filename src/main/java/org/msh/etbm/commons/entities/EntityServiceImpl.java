@@ -100,7 +100,6 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         // create the result of the service
         ServiceResult res = createResult(entity);
-        res.setId(entity.getId());
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
         res.setOperation(Operation.NEW);
