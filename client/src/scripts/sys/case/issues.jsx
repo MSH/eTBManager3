@@ -37,7 +37,9 @@ export default class Issues extends React.Component {
 
     onIssueEvent(evt, issue, doc) {
         if (evt === 'openedt') {
-            this.setState({ edtItem: issue, doc: { title: issue.title, description: issue.description } });
+            const doc = { title: issue.title, description: issue.description };
+            console.log(doc);
+            this.setState({ edtItem: issue, doc: doc });
             return null;
         }
 
@@ -67,13 +69,16 @@ export default class Issues extends React.Component {
                     issues.map((issue) => (<IssueCard key={issue.id} issue={issue} onIssueEvent={this.onIssueEvent}/>))
                 }
 
-                <FormDialog
-                    schema={issueEditorDef}
-                    doc={this.state.doc}
-                    onCancel={this.modalClose}
-                    onConfirm={this.edtConfirm}
-                    wrapType={'modal'}
-                    modalShow={!!this.state.edtItem} />
+                {
+                    !!this.state.edtItem &&
+                        <FormDialog
+                            schema={issueEditorDef}
+                            doc={this.state.doc}
+                            onCancel={this.modalClose}
+                            onConfirm={this.edtConfirm}
+                            wrapType={'modal'}
+                            modalShow />
+                }
             </div>
             );
     }

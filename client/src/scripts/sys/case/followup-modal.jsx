@@ -19,13 +19,14 @@ export default class FollowupModal extends React.Component {
 
     componentWillMount() {
         const op = this.props.operation;
+        const self = this;
 
-        if (this.props.operation.opType === 'edt') {
-            this.setState({ showForm: false });
+        if (self.props.operation.opType === 'edt') {
+            self.setState({ showForm: false });
 
             op.crud.getEdit(op.followUpId)
                 .then(res => {
-                    this.setState({ doc: res, showForm: true });
+                    self.setState({ doc: res, showForm: true });
                 });
         }
     }
@@ -87,6 +88,10 @@ export default class FollowupModal extends React.Component {
         const fschema = getEditSchema(this.props.operation.followUpType.id);
         fschema.title = this.renderTitle(op);
 
+        if (!this.state.showForm) {
+            return null;
+        }
+
         return (
             <FormDialog
                 schema={fschema}
@@ -94,7 +99,7 @@ export default class FollowupModal extends React.Component {
                 onCancel={this.props.onClose}
                 onConfirm={this.save}
                 wrapType={'modal'}
-                modalShow={this.state.showForm}/>
+                modalShow/>
         );
     }
 }
