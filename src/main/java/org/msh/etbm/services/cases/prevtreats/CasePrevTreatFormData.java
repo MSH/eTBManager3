@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 import org.msh.etbm.services.cases.CaseEntityFormData;
 
 import java.util.Optional;
@@ -13,7 +12,7 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
     private Optional<Integer> year;
     private Optional<Integer> outcomeMonth;
     private Optional<Integer> outcomeYear;
-    private Optional<PrevTBTreatmentOutcome> outcome;
+    private Optional<String> outcome;
 
     private Optional<Boolean> am;
     private Optional<Boolean> cfz;
@@ -60,11 +59,11 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
         this.outcomeYear = outcomeYear;
     }
 
-    public Optional<PrevTBTreatmentOutcome> getOutcome() {
+    public Optional<String> getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(Optional<PrevTBTreatmentOutcome> outcome) {
+    public void setOutcome(Optional<String> outcome) {
         this.outcome = outcome;
     }
 

@@ -3,7 +3,7 @@ import CrudView from '../packages/crud/crud-view';
 import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import { Profile } from '../../components';
-import { getOptionName } from '../mock-option-lists';
+import { getOptionName, getOptionList } from '../mock-option-lists';
 
 const crud = new CRUD('sideeffect');
 
@@ -23,12 +23,7 @@ export default class CaseAdvReact extends React.Component {
                     label: __('cases.sideeffects.desc'),
                     property: 'sideEffect',
                     required: true,
-                    options: [
-                        { id: 'adv1', name: 'Abdominal Pain' },
-                        { id: 'adv2', name: 'Anorexia' },
-                        { id: 'adv3', name: 'Cardiac Arrythmias' },
-                        { id: 'adv4', name: 'Change in Skin Texture' }
-                    ],
+                    options: getOptionList('advReactions'),
                     size: { sm: 12 }
                 },
                 {

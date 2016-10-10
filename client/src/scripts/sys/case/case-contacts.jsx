@@ -4,7 +4,7 @@ import { Profile } from '../../components';
 import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import Form from '../../forms/form';
-import { getOptionName } from '../mock-option-lists';
+import { getOptionName, getOptionList } from '../mock-option-lists';
 import moment from 'moment';
 
 const crud = new CRUD('contact');
@@ -52,11 +52,7 @@ export default class CaseContacts extends React.Component {
                     property: 'contactType',
                     label: __('TbField.CONTACTTYPE'),
                     required: true,
-                    options: [
-                        { id: 'household', name: 'Household' },
-                        { id: 'institutional', name: 'Institutional (asylum, shelter, orphanage, etc.)' },
-                        { id: 'nosocomial', name: 'Nosocomial' }
-                    ]
+                    options: getOptionList('contactType'),
                 },
                 {
                     type: 'yesNo',
@@ -76,12 +72,7 @@ export default class CaseContacts extends React.Component {
                     type: 'select',
                     label: __('CaseContact.conduct'),
                     property: 'conduct',
-                    options: [
-                        { id: 'conduct1', name: 'Guidance/clarification' },
-                        { id: 'conduct2', name: 'Start TB treatment' },
-                        { id: 'conduct3', name: 'Start Chemoprophylaxis' },
-                        { id: 'conduct4', name: 'Other' }
-                    ],
+                    options: getOptionList('contactConduct'),
                     size: { sm: 12 }
                 },
                 {

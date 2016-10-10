@@ -47,7 +47,6 @@ public class GlobalListsService {
             HIVResult.class,
             ExamStatus.class,
             DstResult.class,
-            PrevTBTreatmentOutcome.class,
             NameComposition.class,
             CaseValidationOption.class,
             DisplayCaseNumber.class

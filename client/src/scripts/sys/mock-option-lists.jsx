@@ -47,6 +47,22 @@ const mockLists = [
             { id: 'UNKNOWN_PREVIOUS_TB_TREAT', name: 'Unknown previous TB treatment history' },
             { id: 'OTHER', name: 'Other' }
         ]
+    },
+    {
+        id: 'prevTbTreatOutcome',
+        options: [
+            { id: 'prevOutcome01', name: __('PrevTBTreatmentOutcome.COMPLETED') },
+            { id: 'prevOutcome02', name: __('PrevTBTreatmentOutcome.CURED') },
+            { id: 'prevOutcome03', name: __('PrevTBTreatmentOutcome.DEFAULTED') },
+            { id: 'prevOutcome04', name: __('PrevTBTreatmentOutcome.DIAGNOSTIC_CHANGED') },
+            { id: 'prevOutcome05', name: __('PrevTBTreatmentOutcome.FAILURE') },
+            { id: 'prevOutcome07', name: __('PrevTBTreatmentOutcome.ONGOING') },
+            { id: 'prevOutcome08', name: __('PrevTBTreatmentOutcome.OTHER') },
+            { id: 'prevOutcome09', name: __('PrevTBTreatmentOutcome.SCHEME_CHANGED') },
+            { id: 'prevOutcome10', name: __('PrevTBTreatmentOutcome.SHIFT_CATIV') },
+            { id: 'prevOutcome10', name: __('PrevTBTreatmentOutcome.TRANSFERRED_OUT') },
+            { id: 'prevOutcome11', name: __('PrevTBTreatmentOutcome.UNKNOWN') }
+        ]
     }
 ];
 
@@ -58,10 +74,20 @@ export function getOptionName(listId, optionId) {
     const list = mockLists.find(i => i.id === listId);
 
     if (list === undefined || list === null) {
-        return null;
+    return null;
     }
 
     const option = list.options.find(i => i.id === optionId);
 
     return option ? option.name : optionId;
+}
+
+export function getOptionList(listId) {
+    if (!listId) {
+        return null;
+    }
+
+    const list = mockLists.find(i => i.id === listId);
+
+    return list ? list.options : null;
 }
