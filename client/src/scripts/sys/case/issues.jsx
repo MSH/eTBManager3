@@ -37,9 +37,7 @@ export default class Issues extends React.Component {
 
     onIssueEvent(evt, issue, doc) {
         if (evt === 'openedt') {
-            const doc = { title: issue.title, description: issue.description };
-            console.log(doc);
-            this.setState({ edtItem: issue, doc: doc });
+            this.setState({ edtItem: issue, doc: { title: issue.title, description: issue.description } });
             return null;
         }
 
