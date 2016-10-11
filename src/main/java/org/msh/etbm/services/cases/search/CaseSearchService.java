@@ -217,7 +217,7 @@ public class CaseSearchService {
         SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
 
         // add named joins to be used throughout the queries
-        builder.addNamedJoin("patient", "patient", "patient.id = tbcase.id");
+        builder.addNamedJoin("patient", "patient", "patient.id = tbcase.patient_id");
         builder.addNamedJoin("ownerUnit", "unit", "$this.id = tbcase.owner_unit_id");
         builder.addNamedJoin("ownerAdminUnit", "administrativeunit", "$this.id = ownerUnit.adminunit_id");
         builder.addNamedJoin("notifUnit", "unit", "$this.id = tbcase.notification_unit_id");

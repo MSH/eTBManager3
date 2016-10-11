@@ -14,6 +14,7 @@ import org.msh.etbm.commons.indicators.tableoperations.ConcatTables;
 import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class IndicatorGenerator {
      * @return instance of {@link IndicatorDataTable} containing the indicator report
      */
     public IndicatorDataTable execute(IndicatorRequest req, DataSource dataSource, Messages messages) {
-        IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
+        IndicatorSqlBuilder builder = createSqlBuilder(req.getQueryBuilder());
 
         DataTable data = loadData(dataSource, req, builder);
 
@@ -67,7 +68,11 @@ public class IndicatorGenerator {
      * @return instance of {@link DataTableQuery}
      */
     public DataTableQuery getDetailedReport(DataSource dataSource, DetailedIndicatorRequest req) {
-        IndicatorSqlBuilder builder = createSqlBuilder(req.getMainTable());
+        if (req.getQueryBuilder() == null) {
+            throw new IndicatorException("The queryBuilder must be informed in order to generate indicators");
+        }
+
+        IndicatorSqlBuilder builder = createSqlBuilder(req.getQueryBuilder());
 
         Map<Filter, Object> filters = req.getFilterValues();
 
@@ -179,8 +184,8 @@ public class IndicatorGenerator {
      *
      * @return
      */
-    protected IndicatorSqlBuilder createSqlBuilder(String mainTable) {
-        return new IndicatorSqlBuilder(mainTable);
+    protected IndicatorSqlBuilder createSqlBuilder(SQLQueryBuilder queryBuilder) {
+        return new IndicatorSqlBuilder(queryBuilder);
     }
 
 
@@ -230,6 +235,8 @@ public class IndicatorGenerator {
         // the key to store the information
         Object[] totalKey = { DataTableUtils.TOTAL };
 
+        int columnCount = tbl.getColumnCount();
+
         // calculate the total for each row
         if (totalEnabled) {
             // add the key descriptor
@@ -255,7 +262,7 @@ public class IndicatorGenerator {
             tbl.getRowKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
 
             List<Object[]> keys = tbl.getColumnKeys();
-            for (int c = 0; c < tbl.getColumnCount(); c++) {
+            for (int c = 0; c < columnCount; c++) {
                 double sum = 0;
                 for (int r = 0; r < tbl.getRowCount(); r++) {
                     Object val = tbl.getValueByPosition(c, r);

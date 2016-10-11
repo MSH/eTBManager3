@@ -36,10 +36,10 @@ public class IndicatorSqlBuilder {
 
     /**
      * Constructor using a root table name as argument
-     * @param tableName the main table of the query
+     * @param sqlBuilder The query builder containing the main table and the joins
      */
-    public IndicatorSqlBuilder(String tableName) {
-        sqlBuilder = new SQLQueryBuilder(tableName);
+    public IndicatorSqlBuilder(SQLQueryBuilder sqlBuilder) {
+        this.sqlBuilder = sqlBuilder;
         sqlBuilder.addListener(field -> {
             variableFields.add(new VariableField(field, currentVariable));
         });

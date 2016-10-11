@@ -11,6 +11,7 @@ import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
 import org.msh.etbm.commons.indicators.variables.VariableGroupData;
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.cases.filters.impl.WorkspaceFilter;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -65,7 +66,16 @@ public class CaseIndicatorsService {
      */
     public CaseIndicatorResponse execute(CaseIndicatorRequest req) {
         IndicatorRequest indReq = new IndicatorRequest();
-        indReq.setMainTable("tbcase");
+
+        SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
+
+        // add named joins to be used throughout the queries
+        builder.addNamedJoin("patient", "patient", "patient.id = tbcase.patient_id");
+        builder.addNamedJoin("ownerUnit", "unit", "$this.id = tbcase.owner_unit_id");
+        builder.addNamedJoin("ownerAdminUnit", "administrativeunit", "$this.id = ownerUnit.adminunit_id");
+        builder.addNamedJoin("notifUnit", "unit", "$this.id = tbcase.notification_unit_id");
+        builder.addNamedJoin("regimen", "regimen", "$this.id = tbcase.regimen_id");
+        indReq.setQueryBuilder(builder);
 
         // get list of column variables
         if (req.getColumnVariables() != null) {
@@ -99,6 +109,9 @@ public class CaseIndicatorsService {
             }
         }
         indReq.setFilterValues(fvalues);
+
+        indReq.setColumnTotal(true);
+        indReq.setRowTotal(true);
 
         IndicatorGenerator generator = new IndicatorGenerator();
 

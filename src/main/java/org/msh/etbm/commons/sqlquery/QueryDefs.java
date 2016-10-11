@@ -55,4 +55,10 @@ public interface QueryDefs {
      * @return instance of {@link QueryDefs}
      */
     QueryDefs select(String fields);
+
+    /**
+     * Return the main table used in the query
+     * @return the name of the main table
+     */
+    String getMainTable();
 }

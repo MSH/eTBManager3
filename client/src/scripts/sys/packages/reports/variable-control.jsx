@@ -13,7 +13,6 @@ export default class VariableControl extends React.Component {
     }
 
     varSelected(variable) {
-        console.log('var = ', variable);
         this.props.onChange(variable);
     }
 

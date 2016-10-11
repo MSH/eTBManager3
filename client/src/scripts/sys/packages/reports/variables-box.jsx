@@ -11,6 +11,9 @@ export default class VariablesBox extends React.Component {
         this.varRemove = this.varRemove.bind(this);
     }
 
+    /**
+     * Remove a variable by its index position
+     */
     varRemove(index) {
         if (index === -1) {
             return null;
@@ -23,20 +26,38 @@ export default class VariablesBox extends React.Component {
         };
     }
 
+    /**
+     * Serach for a variable object by its ID
+     */
+    variableById(varId) {
+        const groups = this.props.variables;
+        for (var i = 0; i < groups.length; i++) {
+            const grp = groups[i];
+            const va = grp.variables.find(v => v.id === varId);
+            if (va) {
+                return va;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Called when user selects a variable in the variable control
+     */
     varChange(index) {
         return variable => {
             const vars = this.props.values ? this.props.values.slice(0) : [];
 
-            const i = vars.findIndex(v => v.id === variable.id);
-            if (i !== index) {
+            const i = vars.findIndex(id => id === variable.id);
+            if (i >= 0) {
                 return;
             }
 
             // is a new variable ?
             if (index === -1) {
-                vars.push(variable);
+                vars.push(variable.id);
             } else {
-                vars[index] = variable;
+                vars[index] = variable.id;
             }
             this.props.onChange(vars);
         };
@@ -55,7 +76,7 @@ export default class VariablesBox extends React.Component {
                 <div className="var-control">
                     <VariableControl
                         variables={this.props.variables}
-                        value={variable}
+                        value={this.variableById(variable)}
                         onChange={this.varChange(index)}
                         />
                 </div>

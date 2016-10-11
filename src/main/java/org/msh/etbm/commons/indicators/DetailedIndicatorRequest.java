@@ -2,6 +2,7 @@ package org.msh.etbm.commons.indicators;
 
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -21,14 +22,14 @@ public class DetailedIndicatorRequest extends IndicatorRequest {
     public DetailedIndicatorRequest() {
     }
 
-    public DetailedIndicatorRequest(String mainTable, Map<Filter, Object> filterValues,
+    public DetailedIndicatorRequest(SQLQueryBuilder queryBuilder, Map<Filter, Object> filterValues,
                                     List<Variable> columnVariables,
                                     List<Variable> rowVariables,
                                     String detailedFields,
                                     Integer firstResult,
                                     Integer maxResult,
                                     String orderBy) {
-        super(mainTable, filterValues, columnVariables, rowVariables);
+        super(queryBuilder, filterValues, columnVariables, rowVariables);
         this.detailedFields = detailedFields;
         this.firstResult = firstResult;
         this.maxResult = maxResult;
