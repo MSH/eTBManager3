@@ -56,7 +56,6 @@ public class CaseFilters {
 
         grp.add(new EnumFilter(CASE_CLASSIFICATION,
                 CaseClassification.class, "${CaseClassification}", "tbcase.classification"));
-//        grp.add(new GenderFilter());
         grp.add(new ModelFieldOptionsFilter(GENDER, "${Gender}", "patient", "gender"));
         grp.add(new EnumFilter(CASE_STATE, CaseState.class, "${CaseState}", "tbcase.state"));
         grp.add(new EnumFilter(INFECTION_SITE, InfectionSite.class, "${InfectionSite}", "tbcase.infectionSite"));
