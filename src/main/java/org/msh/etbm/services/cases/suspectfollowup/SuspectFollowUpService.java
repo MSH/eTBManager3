@@ -1,6 +1,9 @@
 package org.msh.etbm.services.cases.suspectfollowup;
 
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
@@ -10,8 +13,8 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -34,7 +37,10 @@ public class SuspectFollowUpService {
     @Autowired
     EntityManager entityManager;
 
-    // TODO: registrar commandlog
+    @Autowired
+    protected ApplicationContext applicationContext;
+
+    // TODO: [MSANTOS] registrar commandlog
 
     public FormInitResponse initForm (CaseClassification cla) {
         Map<String, Object> doc = new HashMap<>();
@@ -52,7 +58,7 @@ public class SuspectFollowUpService {
     }
 
     @Transactional
-    public StandardResult save(SuspectFollowUpData data) {
+    public ServiceResult save(SuspectFollowUpData data) {
         // validate if it is a suspect
         TbCase tbcase = entityManager.find(TbCase.class, data.getTbcaseId());
 
@@ -69,12 +75,20 @@ public class SuspectFollowUpService {
         }
 
         ModelDAO dao = factory.create("tbcase");
-        ModelDAOResult res = dao.update(tbcase.getId(), caseData);
+        ModelDAOResult resTbCase = dao.update(tbcase.getId(), caseData);
 
-        if (res.getErrors() != null) {
-            throw new EntityValidationException(res.getErrors());
+        if (resTbCase.getErrors() != null) {
+            throw new EntityValidationException(resTbCase.getErrors());
         }
 
-        return new StandardResult(res.getId().toString(), null, true);
+        //TODO: [MSANTOS] improve this archtecture
+        ServiceResult serviceRes = new ServiceResult();
+        serviceRes.setOperation(Operation.EDIT);
+        serviceRes.setEntityClass(TbCase.class);
+        serviceRes.setId(tbcase.getId());
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, serviceRes));
+
+        return serviceRes;
     }
 }

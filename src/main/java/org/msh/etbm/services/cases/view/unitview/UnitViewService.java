@@ -1,14 +1,12 @@
 package org.msh.etbm.services.cases.view.unitview;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.msh.etbm.db.entities.Patient;
-import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.db.enums.MicroscopyResult;
-import org.msh.etbm.db.enums.XpertResult;
+import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.enums.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +26,9 @@ public class UnitViewService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    Messages messages;
 
 
     /**
@@ -89,9 +90,21 @@ public class UnitViewService {
     private PresumptiveCaseData createPresumptiveData(TbCase tbcase) {
         PresumptiveCaseData data = createCaseData(tbcase, PresumptiveCaseData.class);
 
-        data.setCaseNumber("TO BE DONE");
-        data.setMicroscopyResult(MicroscopyResult.NEGATIVE);
-        data.setXpertResult(XpertResult.NO_RESULT);
+        data.setCaseNumber(tbcase.getRegistrationNumber());
+
+        List<ExamMicroscopy> micList = tbcase.getExamsMicroscopy();
+        if (micList != null && micList.size() > 0) {
+            // get the last exam microscopy
+            ExamMicroscopy examMic = micList.get(micList.size() - 1);
+            data.setMicroscopyResult(new Item<>(examMic.getResult(), messages.get(examMic.getResult().getMessageKey())));
+        }
+
+        List<ExamXpert> xpertList = tbcase.getExamsXpert();
+        if (xpertList != null && xpertList.size() > 0) {
+            // get the last exam microscopy
+            ExamXpert examXpert = xpertList.get(xpertList.size() - 1);
+            data.setXpertResult(new Item<>(examXpert.getResult(), messages.get(examXpert.getResult().getMessageKey())));
+        }
 
         return data;
     }
@@ -99,9 +112,11 @@ public class UnitViewService {
     private ConfirmedCaseData createConfirmedData(TbCase tbcase) {
         ConfirmedCaseData data = createCaseData(tbcase, ConfirmedCaseData.class);
 
-        data.setCaseNumber("TO BE DONE");
-        data.setInfectionSite(tbcase.getInfectionSite());
-        data.setRegistrationGroup(new Item<String>(tbcase.getRegistrationGroup(), tbcase.getRegistrationGroup()));
+        data.setCaseNumber(tbcase.getCaseNumber());
+        if (tbcase.getInfectionSite() != null) {
+            data.setInfectionSite(new Item(tbcase.getInfectionSite(), messages.get(tbcase.getInfectionSite().getMessageKey())));
+        }
+        data.setRegistrationGroup(tbcase.getRegistrationGroup());
 
         // is case on treatment ?
         if (tbcase.isOnTreatment()) {

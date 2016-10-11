@@ -21,14 +21,10 @@ import javax.persistence.PersistenceContext;
 @Component
 public class CaseLogHandler implements CommandLogHandler<Object, CaseActionResponse> {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, CaseActionResponse response) {
-        in.setEntityId(response.getTbcaseId());
-        in.setEntityName(response.getTbcaseDisplayString());
+        in.setEntityId(response.getCaseId());
+        in.setEntityName(response.getCaseDisplayString());
         in.setAction(CommandAction.EXEC);
 
         switch (in.getType()) {

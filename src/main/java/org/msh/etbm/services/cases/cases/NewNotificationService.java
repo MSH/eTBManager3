@@ -1,6 +1,9 @@
 package org.msh.etbm.services.cases.cases;
 
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.entities.ServiceResult;
+import org.msh.etbm.commons.entities.cmdlog.Operation;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.models.ModelDAO;
@@ -11,8 +14,9 @@ import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.cases.cases.data.NewNotificationFormData;
-import org.msh.etbm.web.api.StandardResult;
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -36,6 +40,9 @@ public class NewNotificationService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     // TODO: [MSANTOS] registrar commandlog
 
@@ -63,7 +70,7 @@ public class NewNotificationService {
     }
 
     @Transactional
-    public StandardResult save(NewNotificationFormData data) {
+    public ServiceResult save(NewNotificationFormData data) {
 
         ModelDAO patientDao = factory.create("patient");
         Map<String, Object> patientData = (Map)data.getDoc().get("patient");
@@ -97,7 +104,16 @@ public class NewNotificationService {
             entityManager.persist(tbcase);
         }
 
-        return new StandardResult(resTbcase.getId().toString(), null, true);
+        //TODO: [MSANTOS] improve this archtecture
+        ServiceResult res = new ServiceResult();
+        res.setOperation(Operation.NEW);
+        res.setEntityClass(TbCase.class);
+        res.setId(tbcase.getId());
+        res.setCommandType(CommandTypes.get(CommandTypes.CASES_CASE));
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
+
+        return res;
     }
 
     /**

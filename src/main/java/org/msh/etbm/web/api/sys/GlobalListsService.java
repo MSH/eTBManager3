@@ -42,13 +42,11 @@ public class GlobalListsService {
             SampleType.class,
             MicroscopyResult.class,
             CultureResult.class,
-            XpertRifResult.class,
             XpertResult.class,
             XRayEvolution.class,
             HIVResult.class,
             ExamStatus.class,
             DstResult.class,
-            PrevTBTreatmentOutcome.class,
             NameComposition.class,
             CaseValidationOption.class,
             DisplayCaseNumber.class

@@ -6,10 +6,11 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -33,7 +34,7 @@ public class CaseCloseService {
     TreatmentService treatmentService;
 
     @Autowired
-    AutoGenTagsCasesService autoGenTagsCasesService;
+    ApplicationContext applicationContext;
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
@@ -57,10 +58,11 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update case tags
-        autoGenTagsCasesService.updateTags(tbcase.getId());
+        CaseCloseResponse res = new CaseCloseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getOutcomeDate(), tbcase.getOutcome(), tbcase.getOtherOutcome());
 
-        return new CaseCloseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getOutcomeDate(), tbcase.getOutcome(), tbcase.getOtherOutcome());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     @Transactional
@@ -83,10 +85,11 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update case tags
-        autoGenTagsCasesService.updateTags(tbcase.getId());
+        ReopenCaseResponse res = new ReopenCaseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getState());
 
-        return new ReopenCaseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getState());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     private void validateClose(TbCase tbcase, CaseCloseData data) {

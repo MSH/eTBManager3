@@ -20,7 +20,13 @@ public class ExamXpert extends LaboratoryExam {
             return ExamResult.UNDEFINED;
         }
 
-        return result == XpertResult.TB_DETECTED ? ExamResult.POSITIVE : ExamResult.NEGATIVE;
+        if (result == XpertResult.TB_DETECTED_RIF_DETECTED ||
+                result == XpertResult.TB_DETECTED_RIF_INDETERMINATE ||
+                result == XpertResult.TB_DETECTED_RIF_NOT_DETECTED) {
+            return ExamResult.POSITIVE;
+        }
+
+        return ExamResult.NEGATIVE;
     }
 
     public XpertResult getResult() {

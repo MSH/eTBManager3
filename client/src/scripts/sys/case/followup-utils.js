@@ -216,13 +216,6 @@ const displaySchemas = {
                 size: { sm: 4 }
             },
             {
-                type: 'select',
-                label: __('XpertResult.rifresult'),
-                property: 'rifResult',
-                options: app.getState().app.lists.XpertRifResult,
-                size: { sm: 4 }
-            },
-            {
                 type: 'string',
                 label: __('global.comments'),
                 property: 'comments',
@@ -677,21 +670,7 @@ const editSchemas = {
                 property: 'result',
                 options: app.getState().app.lists.XpertResult,
                 required: true,
-                size: { sm: 6 }
-            },
-            {
-                type: 'group',
-                visible: value => value.result === 'TB_DETECTED',
-                controls: [
-                    {
-                        type: 'select',
-                        label: __('XpertResult.rifresult'),
-                        property: 'rifResult',
-                        options: app.getState().app.lists.XpertRifResult,
-                        required: true,
-                        size: { sm: 6 }
-                    }
-                ]
+                size: { sm: 12 }
             },
             {
                 type: 'text',

@@ -9,7 +9,9 @@ public enum XpertResult implements MessageKey {
     NO_RESULT,
     ONGOING,
     TB_NOT_DETECTED,
-    TB_DETECTED,
+    TB_DETECTED_RIF_DETECTED,
+    TB_DETECTED_RIF_NOT_DETECTED,
+    TB_DETECTED_RIF_INDETERMINATE,
     INVALID_NORESULT_ERROR;
 
     @Override

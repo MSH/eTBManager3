@@ -6,6 +6,7 @@ import Form from '../../forms/form';
 import moment from 'moment';
 import { app } from '../../core/app';
 import { isEmpty } from '../../commons/utils';
+import { getOptionName, getOptionList } from '../mock-option-lists';
 
 const crud = new CRUD('prevtreat');
 
@@ -158,7 +159,7 @@ export default class CasePrevTbTreats extends React.Component {
                     type: 'select',
                     label: __('cases.prevtreat.outcome'),
                     property: 'outcome',
-                    options: app.getState().app.lists.PrevTBTreatmentOutcome,
+                    options: getOptionList('prevTbTreatOutcome'),
                     size: { sm: 12 },
                     required: true
                 },
@@ -266,7 +267,7 @@ export default class CasePrevTbTreats extends React.Component {
         return (
             <span>
                 <div>
-                    <b>{title + ' - ' + item.outcome.name}</b>
+                    <b>{title + ' - ' + getOptionName('prevTbTreatOutcome', item.outcome)}</b>
                 </div>
                 <hr/>
                 <Form readOnly schema={readOnlySchema} doc={item} />

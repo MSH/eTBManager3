@@ -14,6 +14,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,8 +91,12 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         // create the result of the service
         ServiceResult res = createResult(entity);
         res.setId(entity.getId());
+        res.setOperation(Operation.NEW);
+        res.setCommandType(CommandTypes.get(CommandTypes.ADMIN_WORKSPACES));
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
 
         return res;
     }

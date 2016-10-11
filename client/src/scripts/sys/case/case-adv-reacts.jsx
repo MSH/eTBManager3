@@ -3,6 +3,7 @@ import CrudView from '../packages/crud/crud-view';
 import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import { Profile } from '../../components';
+import { getOptionName, getOptionList } from '../mock-option-lists';
 
 const crud = new CRUD('sideeffect');
 
@@ -22,12 +23,7 @@ export default class CaseAdvReact extends React.Component {
                     label: __('cases.sideeffects.desc'),
                     property: 'sideEffect',
                     required: true,
-                    options: [
-                        { id: 'adv1', name: 'Headache' },
-                        { id: 'adv2', name: 'Constirpação' },
-                        { id: 'adv3', name: 'Dor na coluna' },
-                        { id: 'adv4', name: 'Febre interna' }
-                    ],
+                    options: getOptionList('advReactions'),
                     size: { sm: 12 }
                 },
                 {
@@ -58,7 +54,8 @@ export default class CaseAdvReact extends React.Component {
                     label: __('global.comments'),
                     size: { sm: 12 }
                 }
-            ]
+            ],
+            title: doc => doc && doc.id ? __('case.sideeffect.edt') : __('case.sideeffect.new')
         };
 
         this.state = { editorSchema: editorSchema };
@@ -66,8 +63,11 @@ export default class CaseAdvReact extends React.Component {
 
     cellRender(item) {
         const subtitle = <div><b>{__('cases.sideeffects.month') + ': '}</b>{item.month}</div>;
+
         return (
-            <Profile title={item.sideEffect} subtitle={subtitle} size="small" />
+            <Profile title={getOptionName('advReactions', item.sideEffect)}
+                subtitle={subtitle}
+                size="small" />
         );
     }
 

@@ -32,8 +32,10 @@ export default class TreatProgress extends React.Component {
                     style={{ strokeDashoffset: pct }} />
                 <text x="110" y="130" fontSize="56" textAnchor="middle">{this.props.value + '%'}</text>
             </svg>
-            <div>{__('cases.mantreatment')}
-            </div>
+            {
+                this.props.label &&
+                <div>{this.props.label}</div>
+            }
             </div>
             );
     }
@@ -42,7 +44,8 @@ export default class TreatProgress extends React.Component {
 TreatProgress.propTypes = {
     value: React.PropTypes.number,
     width: React.PropTypes.number,
-    height: React.PropTypes.number
+    height: React.PropTypes.number,
+    label: React.PropTypes.string
 };
 
 TreatProgress.defaultProps = {

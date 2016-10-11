@@ -142,7 +142,6 @@
         { "id": "AFTER_DEFAULT", "name": "${PatientType.AFTER_DEFAULT}" },
         { "id": "FAILURE_FT", "name": "${PatientType.FAILURE_FT}" },
         { "id": "FAILURE_RT", "name": "${PatientType.FAILURE_RT}" },
-        { "id": "ALL_RETREATMENT", "name": "${PatientType.ALL_RETREATMENT}" },
         { "id": "PREVIOUSLY_TREATED", "name": "${PatientType.PREVIOUSLY_TREATED}" },
         { "id": "TREATMENT_AFTER_FAILURE", "name": "${PatientType.TREATMENT_AFTER_FAILURE}" },
         { "id": "TREATMENT_AFTER_LOSS_FOLLOW_UP", "name": "${PatientType.TREATMENT_AFTER_LOSS_FOLLOW_UP}" },

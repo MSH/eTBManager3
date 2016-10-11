@@ -65,13 +65,13 @@ public class CommandTypes {
     public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
     public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
-    public static final String CASES_TREAT_FOLLOWUP = "cases.treatfollowup";
-    public static final String CASES_TREAT_INI = "cases.treatini";
-    public static final String CASES_TREAT_UNDO = "cases.treatundo";
-    public static final String CASES_TREAT_EDIT = "cases.treatedit";
-    public static final String CASES_TREAT_ADDMED = "cases.treat-addmed";
-    public static final String CASES_TREAT_PRESCEDT = "cases.treat-prescedt";
-    public static final String CASES_TREAT_PRESCDEL = "cases.treat-prescdel";
+    public static final String CASES_TREAT_FOLLOWUP = "cases.case.treatfollowup";
+    public static final String CASES_TREAT_INI = "cases.case.treatini";
+    public static final String CASES_TREAT_UNDO = "cases.case.treatundo";
+    public static final String CASES_TREAT_EDIT = "cases.case.treatedit";
+    public static final String CASES_TREAT_ADDMED = "cases.case.treat-addmed";
+    public static final String CASES_TREAT_PRESCEDT = "cases.case.treat-prescedt";
+    public static final String CASES_TREAT_PRESCDEL = "cases.case.treat-prescdel";
 
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";

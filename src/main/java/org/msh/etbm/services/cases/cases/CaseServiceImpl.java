@@ -19,7 +19,6 @@ import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
 import org.msh.etbm.services.cases.cases.data.CaseItem;
 import org.msh.etbm.services.cases.cases.data.CaseQueryParams;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +30,6 @@ import java.util.UUID;
  */
 @Service
 public class CaseServiceImpl extends EntityServiceImpl<TbCase, CaseQueryParams> implements CaseService {
-
-    @Autowired
-    AutoGenTagsCasesService autoGenTagsCasesService;
 
     @Autowired
     QueryBuilderFactory queryBuilderFactory;

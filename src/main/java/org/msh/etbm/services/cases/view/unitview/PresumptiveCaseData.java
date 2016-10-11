@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.view.unitview;
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.db.enums.MicroscopyResult;
 import org.msh.etbm.db.enums.XpertResult;
 
@@ -9,8 +10,8 @@ import org.msh.etbm.db.enums.XpertResult;
 public class PresumptiveCaseData extends CommonCaseData {
 
     private String caseNumber;
-    private XpertResult xpertResult;
-    private MicroscopyResult microscopyResult;
+    private Item<XpertResult> xpertResult;
+    private Item<MicroscopyResult> microscopyResult;
 
     public String getCaseNumber() {
         return caseNumber;
@@ -20,19 +21,19 @@ public class PresumptiveCaseData extends CommonCaseData {
         this.caseNumber = caseNumber;
     }
 
-    public XpertResult getXpertResult() {
+    public Item<XpertResult> getXpertResult() {
         return xpertResult;
     }
 
-    public void setXpertResult(XpertResult xpertResult) {
+    public void setXpertResult(Item<XpertResult> xpertResult) {
         this.xpertResult = xpertResult;
     }
 
-    public MicroscopyResult getMicroscopyResult() {
+    public Item<MicroscopyResult> getMicroscopyResult() {
         return microscopyResult;
     }
 
-    public void setMicroscopyResult(MicroscopyResult microscopyResult) {
+    public void setMicroscopyResult(Item<MicroscopyResult> microscopyResult) {
         this.microscopyResult = microscopyResult;
     }
 }

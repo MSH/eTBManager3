@@ -18,7 +18,7 @@ const fschema = {
             property: 'outcome',
             required: true,
             type: 'select',
-            label: __('form.action'),
+            label: __('TbCase.outcome'),
             options: [
                 { id: 'CURED', name: 'Cured' },
                 { id: 'TREAT_COMPLETED', name: 'Treatment completed' },
@@ -26,9 +26,7 @@ const fschema = {
                 { id: 'LOST_FOLLOWUP', name: 'Lost follow-up' },
                 { id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' },
                 { id: 'OTHER', name: 'Other' }
-            ],
-            vertical: true,
-            textAlign: 'left'
+            ]
         },
         {
             type: 'group',

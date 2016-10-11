@@ -67,13 +67,16 @@ export default class Issues extends React.Component {
                     issues.map((issue) => (<IssueCard key={issue.id} issue={issue} onIssueEvent={this.onIssueEvent}/>))
                 }
 
-                <FormDialog
-                    schema={issueEditorDef}
-                    doc={this.state.doc}
-                    onCancel={this.modalClose}
-                    onConfirm={this.edtConfirm}
-                    wrapType={'modal'}
-                    modalShow={!!this.state.edtItem} />
+                {
+                    !!this.state.edtItem &&
+                        <FormDialog
+                            schema={issueEditorDef}
+                            doc={this.state.doc}
+                            onCancel={this.modalClose}
+                            onConfirm={this.edtConfirm}
+                            wrapType={'modal'}
+                            modalShow />
+                }
             </div>
             );
     }

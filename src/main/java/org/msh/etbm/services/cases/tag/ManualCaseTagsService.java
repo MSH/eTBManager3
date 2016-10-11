@@ -3,12 +3,15 @@ package org.msh.etbm.services.cases.tag;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,9 @@ public class ManualCaseTagsService {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TAG)
@@ -72,8 +78,10 @@ public class ManualCaseTagsService {
 
         // finish preparing response
         assignManualTags(tbcase.getTags(), res.getNewManualTags());
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
+
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }

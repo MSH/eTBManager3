@@ -20,12 +20,14 @@ const views = [
         title: __('cases'),
         path: '/cases',
         view: Cases
-    },
+    }
+    /*
     {
         title: __('meds.inventory'),
         path: '/inventory',
         view: UnderConstruction
     }
+    */
 ];
 
 export default class AdminUnit extends React.Component {

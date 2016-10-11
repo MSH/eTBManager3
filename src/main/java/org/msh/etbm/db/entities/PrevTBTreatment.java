@@ -1,7 +1,6 @@
 package org.msh.etbm.db.entities;
 
 import org.msh.etbm.db.CaseEntity;
-import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,7 +24,7 @@ public class PrevTBTreatment extends CaseEntity {
     private Integer outcomeYear;
 
     @NotNull
-    private PrevTBTreatmentOutcome outcome;
+    private String outcome;
 
     private boolean am;
     private boolean cfz;
@@ -72,11 +71,11 @@ public class PrevTBTreatment extends CaseEntity {
         this.outcomeYear = outcomeYear;
     }
 
-    public PrevTBTreatmentOutcome getOutcome() {
+    public String getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(PrevTBTreatmentOutcome outcome) {
+    public void setOutcome(String outcome) {
         this.outcome = outcome;
     }
 

@@ -899,7 +899,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="TREATMENT_MONTH" type="INT"/>
-            <column name="outcome" type="INT">
+            <column name="outcome" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
             <column name="TREATMENT_YEAR" type="INT"/>

@@ -18,12 +18,14 @@ const views = [
         title: __('cases'),
         path: '/cases',
         view: Cases
-    },
+    }
+    /*
     {
         title: __('meds.inventory'),
         path: '/inventory',
         view: Inventory
     }
+    */
 ];
 
 export default class Workspace extends React.Component {

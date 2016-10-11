@@ -183,7 +183,7 @@ class CaseTreatment extends React.Component {
                                 <Form doc={data} schema={this.state.sc1} readOnly />
                             </Col>
                             <Col md={6}>
-                                <TreatProgress value={data.progress}/>
+                                <TreatProgress value={data.progress} label={__('cases.mantreatment')}/>
                             </Col>
                         </Row>
                     </Grid>

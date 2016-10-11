@@ -1,6 +1,7 @@
 package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.services.cases.suspectfollowup.SuspectFollowUpData;
@@ -43,6 +44,8 @@ public class SuspectFollowUpREST {
             throw new InvalidArgumentException("TbCase id (caseId) must be informed");
         }
 
-        return suspectFollowUpService.save(req);
+        ServiceResult res = suspectFollowUpService.save(req);
+
+        return new StandardResult(res);
     }
 }

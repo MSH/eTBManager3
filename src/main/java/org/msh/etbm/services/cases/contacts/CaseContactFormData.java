@@ -25,6 +25,8 @@ public class CaseContactFormData extends CaseEntityFormData {
 
     private Optional<String> conduct;
 
+    private Optional<String> comments;
+
     public Optional<String> getName() {
         return name;
     }
@@ -79,5 +81,13 @@ public class CaseContactFormData extends CaseEntityFormData {
 
     public void setConduct(Optional<String> conduct) {
         this.conduct = conduct;
+    }
+
+    public Optional<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(Optional<String> comments) {
+        this.comments = comments;
     }
 }

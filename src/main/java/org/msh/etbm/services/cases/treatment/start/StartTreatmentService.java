@@ -8,7 +8,10 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.treatment.TreatmentCmdLogHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ public class StartTreatmentService {
     @PersistenceContext
     EntityManager entityManager;
 
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Start a treatment based on the
@@ -73,6 +78,8 @@ public class StartTreatmentService {
         } else {
             startInividualizedRegimen(req, tbcase, (Tbunit)unit);
         }
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
     /**
