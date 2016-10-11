@@ -170,6 +170,11 @@ public class CaseOnTreatMoveService {
             throw new EntityValidationException(req, null, "Transfer date must be before the final treatment date of the new treatment unit.", null);
         }
 
+        // split  prescriptions if move date changed
+        if (!moveDate.equals(hu.getPeriod().getIniDate())) {
+            splitPeriod(tbcase, moveDate);
+        }
+
         hu.getPeriod().setIniDate(moveDate);
         hu.setTransferring(false);
         entityManager.persist(hu);
