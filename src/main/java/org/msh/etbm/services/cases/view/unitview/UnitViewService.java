@@ -2,6 +2,7 @@ package org.msh.etbm.services.cases.view.unitview;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.*;
@@ -121,20 +122,7 @@ public class UnitViewService {
         // is case on treatment ?
         if (tbcase.isOnTreatment()) {
             data.setIniTreatmentDate(tbcase.getTreatmentPeriod().getIniDate());
-
-            // calculate the treatment progress based on the current date
-            Period p = new Period(tbcase.getTreatmentPeriod().getIniDate(), new Date());
-
-            int daysTreatment = tbcase.getTreatmentPeriod().getDays();
-
-            int prog = daysTreatment > 0 ? (p.getDays() * 100) / daysTreatment * 100 : 0;
-
-            // limit in case the treatment should have finished
-            if (prog > 100) {
-                prog = 100;
-            }
-
-            data.setTreatmentProgress(prog);
+            data.setTreatmentProgress(calcTreatmentProgress(tbcase.getTreatmentPeriod()));
         }
 
         return data;
@@ -160,5 +148,28 @@ public class UnitViewService {
         data.setRegistrationDate(tbcase.getRegistrationDate());
 
         return data;
+    }
+
+    /**
+     * TODO: [MSANTOS] CODIGO COPIADO DO TREATMENT SERVICE, encontrar uma arquitetura MELHOR
+     * Calculate the treatment progress based on the today's date
+     *
+     * @param period
+     * @return
+     */
+    private int calcTreatmentProgress(Period period) {
+        Date today = DateUtils.getDate();
+
+        // the date today is not inside the treatment period ?
+        if (!period.isDateInside(today)) {
+            return today.before(period.getIniDate()) ? 0 : 100;
+        }
+
+        int days = period.getDays();
+
+        Period p = new Period(period.getIniDate(), today);
+        int prog = (p.getDays() * 100) / days;
+
+        return prog;
     }
 }
