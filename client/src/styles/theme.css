@@ -7558,6 +7558,9 @@ button.close {
   text-align: center;
   font-weight: 900;
 }
+.ctrl-space {
+  margin-right: 16px;
+}
 @font-face {
   font-family: 'OpenSans';
   font-style: normal;

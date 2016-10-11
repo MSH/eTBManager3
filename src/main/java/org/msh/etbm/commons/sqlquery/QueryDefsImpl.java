@@ -16,6 +16,10 @@ public class QueryDefsImpl implements QueryDefs {
 
     public static final Pattern TABLEALIAS_PATTERN = Pattern.compile("(\\$?\\w*\\.)");
 
+    public static final String TABLE_THIS = "$this";
+    public static final String TABLE_ROOT = "$root";
+    public static final String TABLE_PARENT = "$parent";
+
     private SQLQueryBuilder builder;
     private SQLTable tableJoin;
     private SQLTable parent;
@@ -89,7 +93,7 @@ public class QueryDefsImpl implements QueryDefs {
 
         joinTable = builder.findNamedJoin(joinName);
         if (joinTable == null) {
-            throw new SQLExecException("Invalid join name: " + joinTable);
+            throw new SQLExecException("Invalid join name: " + joinName);
         }
 
         return addJoin(joinName, joinTable.getTableName(), joinTable.getOn());
@@ -102,6 +106,11 @@ public class QueryDefsImpl implements QueryDefs {
             createField(f.trim(), false);
         }
         return this;
+    }
+
+    @Override
+    public String getMainTable() {
+        return builder.getMainTable();
     }
 
     /**
@@ -174,15 +183,15 @@ public class QueryDefsImpl implements QueryDefs {
      * @return
      */
     protected String getTableAlias(String tableName) {
-        if ("$this".equals(tableName) || tableJoin.getTableName().equals(tableName)) {
+        if (TABLE_THIS.equals(tableName) || tableJoin.getTableName().equals(tableName)) {
             return tableJoin.getTableAlias();
         }
 
-        if ("$root".equals(tableName)) {
+        if (TABLE_ROOT.equals(tableName)) {
             return builder.ROOT_TABLE_ALIAS;
         }
 
-        if ("$parent".equals(tableName)) {
+        if (TABLE_PARENT.equals(tableName)) {
             return parent != null ? parent.getTableAlias() : builder.ROOT_TABLE_ALIAS;
         }
 

@@ -359,6 +359,11 @@ public class SQLQueryBuilder implements QueryDefs {
         return queryDefs.select(fields);
     }
 
+    @Override
+    public String getMainTable() {
+        return tableName;
+    }
+
     /**
      * Add a named join. A named join can be used as reference
      * @param name

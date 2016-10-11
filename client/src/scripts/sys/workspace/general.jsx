@@ -13,6 +13,7 @@ const menu = [
         path: '/dashboard',
         view: UnderConstruction
     },
+/*
     {
         title: __('admin.users'),
         icon: 'user',
@@ -25,6 +26,7 @@ const menu = [
         path: '/units',
         view: UnderConstruction
     },
+*/
     {
         title: __('admin.config'),
         icon: 'cogs',
@@ -40,7 +42,7 @@ export default class General extends React.Component {
         <PageContent
             route={this.props.route}
             menu={menu}
-            path="/sys/home/workspace/general" />
+            path={this.props.route.path} />
         );
     }
 }

@@ -5,6 +5,7 @@ import { server } from '../../../commons/server';
 
 import ReportHeader from './report-header';
 import IndicatorEditor from './indicator-editor';
+import Indicator from './indicator';
 
 
 export default class ReportEditor extends React.Component {
@@ -33,14 +34,18 @@ export default class ReportEditor extends React.Component {
      * Add an indicator to the report
      */
     addIndicator() {
-        const rep = this.state.report;
-        rep.indicators.push({
+        const ind = new Indicator({
             title: 'Indicator title (click to change)',
             size: 6,
-            index: rep.indicators.length
+            chart: 'pie',
+            display: 0
         });
 
-        this.setState({ report: rep });
+        let inds = this.state.indicators;
+
+        inds = inds ? inds.slice(0).push(ind) : [ind];
+
+        this.setState({ indicators: inds });
     }
 
     /**
@@ -70,7 +75,9 @@ export default class ReportEditor extends React.Component {
     /**
      * Render the given indicator
      */
-    renderIndicators(indicators) {
+    renderIndicators() {
+        const indicators = this.state.indicators;
+
         if (!indicators || indicators.length === 0) {
             return null;
         }
@@ -105,11 +112,11 @@ export default class ReportEditor extends React.Component {
                     onChangeFilters={this.filtersChange}
                     />
                 {
-                    this.renderIndicators(report.indicators)
+                    this.renderIndicators()
                 }
                 <Row>
                     <Col sm={12}>
-                        <Button bsStyle="success" onClick={this.addIndicator}>
+                        <Button onClick={this.addIndicator}>
                             {__('indicators.add')}
                         </Button>
                     </Col>

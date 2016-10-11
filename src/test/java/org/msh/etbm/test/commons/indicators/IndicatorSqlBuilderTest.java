@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.test.commons.indicators.fixtures.SimpleFieldFilter;
 import org.msh.etbm.test.commons.indicators.fixtures.SimpleFieldVariable;
 
@@ -21,7 +22,7 @@ public class IndicatorSqlBuilderTest {
 
     @Test
     public void testGeneration() {
-        IndicatorSqlBuilder builder = new IndicatorSqlBuilder("mytable");
+        IndicatorSqlBuilder builder = new IndicatorSqlBuilder(new SQLQueryBuilder("mytable"));
 
         builder.setFieldList("myfield1, myfield2");
 
@@ -50,7 +51,7 @@ public class IndicatorSqlBuilderTest {
 
     @Test
     public void testVariables() {
-        IndicatorSqlBuilder builder = new IndicatorSqlBuilder("mytable");
+        IndicatorSqlBuilder builder = new IndicatorSqlBuilder(new SQLQueryBuilder("mytable"));
 
         Variable v1 = new SimpleFieldVariable("id1", "label1", "field1");
         Variable v2 = new SimpleFieldVariable("id2", "label2", "field2");

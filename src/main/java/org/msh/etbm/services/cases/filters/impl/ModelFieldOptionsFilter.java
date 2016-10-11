@@ -1,8 +1,12 @@
 package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.commons.models.ModelManager;
+import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
 import java.util.Collections;
@@ -18,6 +22,7 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
     private String fieldName;
     private String modelName;
     private ModelDAOFactory modelDAOFactory;
+    private ModelManager modelManager;
     private List<Item> options;
 
 
@@ -82,7 +87,17 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
 
     @Override
     public void prepareVariableQuery(QueryDefs def, int iteration) {
-        def.select(fieldName);
+        CompiledModel model = getModelManager().get(modelName);
+        Field field = model.getModel().findFieldByName(fieldName);
+
+        String tableName = model.getModel().getTable();
+        String fieldName = field.getName();
+
+        if (tableName.equals(def.getMainTable())) {
+            def.select(fieldName);
+        } else {
+            def.join(tableName).select(fieldName);
+        }
     }
 
     @Override
@@ -103,5 +118,17 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
                 .findFirst();
 
         return item.isPresent() ? item.get().getDisplayString() : key.toString();
+    }
+
+    /**
+     * Return an instance of the model manager
+     * @return instance of {@link ModelManager}
+     */
+    protected ModelManager getModelManager() {
+        if (modelManager == null) {
+            modelManager = getApplicationContext().getBean(ModelManager.class);
+        }
+
+        return modelManager;
     }
 }

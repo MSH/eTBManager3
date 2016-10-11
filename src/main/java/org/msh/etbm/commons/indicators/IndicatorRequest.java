@@ -1,7 +1,9 @@
 package org.msh.etbm.commons.indicators;
 
+import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.variables.Variable;
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +25,7 @@ public class IndicatorRequest {
     private Map<Filter, Object> filterValues;
     private List<Variable> columnVariables;
     private List<Variable> rowVariables;
-    private String mainTable;
+    private SQLQueryBuilder queryBuilder;
     private boolean rowTotal = true;
     private boolean columnTotal = true;
     private GroupTotal rowGroupTotal = GroupTotal.NONE;
@@ -32,19 +34,19 @@ public class IndicatorRequest {
     public IndicatorRequest() {
     }
 
-    public IndicatorRequest(String mainTable, Map<Filter, Object> filterValues, List<Variable> columnVariables, List<Variable> rowVariables) {
-        this.mainTable = mainTable;
+    public IndicatorRequest(SQLQueryBuilder queryBuilder, Map<Filter, Object> filterValues, List<Variable> columnVariables, List<Variable> rowVariables) {
+        this.queryBuilder = queryBuilder;
         this.filterValues = filterValues;
         this.columnVariables = columnVariables;
         this.rowVariables = rowVariables;
     }
 
-    public String getMainTable() {
-        return mainTable;
+    public SQLQueryBuilder getQueryBuilder() {
+        return queryBuilder;
     }
 
-    public void setMainTable(String mainTable) {
-        this.mainTable = mainTable;
+    public void setQueryBuilder(SQLQueryBuilder queryBuilder) {
+        this.queryBuilder = queryBuilder;
     }
 
     public Map<Filter, Object> getFilterValues() {
