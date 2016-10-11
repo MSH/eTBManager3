@@ -89,7 +89,7 @@ export default class IndicatorEditor extends React.Component {
             <Row>
                 <Col sm={8}>
                     <span className="ctrl-space">
-                        <label className="text-muted">{'Display:'}</label>
+                        <label className="text-muted">{__('indicators.display') + ':'}</label>
                         <DropdownButton id="btnDisp" bsSize="small"
                             title={displays[ind.schema.display]}
                             onSelect={this.changeDisplay}>
@@ -101,7 +101,7 @@ export default class IndicatorEditor extends React.Component {
                     </span>
 
                     <span className="ctrl-space">
-                        <label className="text-muted">{'Size:'}</label>
+                        <label className="text-muted">{__('indicators.size') + ':'}</label>
                         <DropdownButton id="btnSize" bsSize="small"
                             title={ind.schema.size}
                             onSelect={this.changeSize}>
@@ -112,7 +112,7 @@ export default class IndicatorEditor extends React.Component {
                         </DropdownButton>
                     </span>
 
-                    <label className="text-muted">{'Chart:'}</label>
+                    <label className="text-muted">{__('indicators.chart') + ':'}</label>
                     <DropdownButton id="btnChart" bsSize="small"
                         title={ind.schema.chart}
                         onSelect={this.changeChart}>
