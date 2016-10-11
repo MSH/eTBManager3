@@ -52,7 +52,7 @@ export default class CaseContacts extends React.Component {
                     property: 'contactType',
                     label: __('TbField.CONTACTTYPE'),
                     required: true,
-                    options: getOptionList('contactType'),
+                    options: getOptionList('contactType')
                 },
                 {
                     type: 'yesNo',

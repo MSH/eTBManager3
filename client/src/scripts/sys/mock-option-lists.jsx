@@ -74,7 +74,7 @@ export function getOptionName(listId, optionId) {
     const list = mockLists.find(i => i.id === listId);
 
     if (list === undefined || list === null) {
-    return null;
+        return null;
     }
 
     const option = list.options.find(i => i.id === optionId);
