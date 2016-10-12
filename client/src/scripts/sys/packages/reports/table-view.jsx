@@ -40,11 +40,12 @@ export default class TableView extends React.Component {
                         {__('global.total')}
                         </th>
                     </tr>
-                    {colTitles.map((colrow, index) => (
+                    {
+                        colTitles.map((colrow, index) => (
                         <tr key={index}>
                         {
                             colrow.map(c => (
-                                <th>
+                                <th key={c.id}>
                                 {
                                     c.title
                                 }
@@ -52,22 +53,21 @@ export default class TableView extends React.Component {
                             ))
                         }
                         </tr>
-                        ))}
+                        ))
+                    }
                     {
-                        data.values.map((vals, index) => {
-                            return (
-                                <tr key={index}>
-                                    <th>
-                                    {rowTitles[index]}
-                                    </th>
-                                    {
-                                        vals.map(val => (
-                                            <td>{val}</td>
-                                        ))
-                                    }
-                                </tr>
-                            )
-                        })
+                        data.values.map((vals, index) =>
+                            <tr key={index}>
+                                <th>
+                                {rowTitles[index]}
+                                </th>
+                                {
+                                    vals.map((val, ind2) => (
+                                        <td key={ind2}>{val}</td>
+                                    ))
+                                }
+                            </tr>
+                        )
                     }
                 </tbody>
                 </table>

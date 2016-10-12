@@ -13,6 +13,7 @@ export default class Report {
             };
 
         this.indicators = [];
+        this.addIndicator();
     }
 
     /**
@@ -37,7 +38,7 @@ export default class Report {
         const lst = this.indicators.map(ind => ind.schema);
         req.indicators = lst;
 
-        console.log(req);
-        return Promise.resolve(req);
+        return server.post('/api/cases/report/save', req)
+        .then(res => console.log(res));
     }
 }
