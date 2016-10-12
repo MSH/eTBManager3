@@ -30,7 +30,7 @@ export default class IndicatorEditor extends React.Component {
      */
     filtersChange(filterValues) {
         const ind = this.props.indicator;
-        ind.filters = filterValues;
+        ind.schema.filters = filterValues;
         this.props.onChange(ind);
     }
 

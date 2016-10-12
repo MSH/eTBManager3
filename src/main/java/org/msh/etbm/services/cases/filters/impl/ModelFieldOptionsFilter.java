@@ -35,6 +35,16 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
     @Override
     public void prepareFilterQuery(QueryDefs def, Object value, Map<String, Object> params) {
         final List<Item> options = getOptions();
+        CompiledModel model = getModelManager().get(modelName);
+        Field field = model.getModel().findFieldByName(fieldName);
+
+        String tableName = model.getModel().getTable();
+        String fieldName = field.getName();
+
+        if (!tableName.equals(def.getMainTable())) {
+            def = def.join(tableName);
+            fieldName = tableName + '.' + fieldName;
+        }
 
         addValuesRestriction(def, fieldName, value, item -> {
             // check if item is a valid option
