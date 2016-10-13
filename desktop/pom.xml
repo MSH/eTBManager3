@@ -29,7 +29,7 @@
                     <mainClass>org.msh.etbm.desktop.Application</mainClass>
                     <vendor>Management Science for Health</vendor>
 					<appName>etbm-desktop</appName>
-					<additionalAppResources>../target/dist</additionalAppResources>
+					<additionalAppResources>target/extras</additionalAppResources>
 					<bundleArguments>
 						<jnlp.outfile>etbm-desktop</jnlp.outfile>
 					</bundleArguments>
@@ -48,6 +48,28 @@
                         <goals>
                             <goal>build-native</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copy the files from etbm3 project to be included in the package -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Using env.test.properties</echo>
+                                <copy file="../target/etbmanager-2.9.2.jar" tofile="${basedir}/target/extras/etbmanager-2.9.2.jar"/>
+                                <copy file="../resources/production/local/etbmanager.properties" tofile="${basedir}/target/extras/etbmanager.properties"/>
+                            </tasks>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
