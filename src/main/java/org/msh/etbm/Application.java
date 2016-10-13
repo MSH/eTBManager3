@@ -12,10 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -35,7 +32,6 @@ public class Application {
      * @param args
      */
     public static void main(String[] args) {
-        // run app
         SpringApplication.run(Application.class, args);
     }
 
