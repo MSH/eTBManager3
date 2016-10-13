@@ -9,6 +9,7 @@
     <version>1.0</version>
 
     <build>
+		<finalName>etbm-desktop</finalName>
         <plugins>
             <!-- Inform the compiler version to use -->
             <plugin>
@@ -27,6 +28,11 @@
                 <configuration>
                     <mainClass>org.msh.etbm.desktop.Application</mainClass>
                     <vendor>Management Science for Health</vendor>
+					<appName>etbm-desktop</appName>
+					<additionalAppResources>../target/dist</additionalAppResources>
+					<bundleArguments>
+						<jnlp.outfile>etbm-desktop</jnlp.outfile>
+					</bundleArguments>
                 </configuration>
                 <executions>
                     <execution>
