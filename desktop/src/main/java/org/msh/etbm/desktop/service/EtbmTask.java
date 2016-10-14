@@ -5,6 +5,7 @@ import javafx.concurrent.Task;
 import org.msh.etbm.desktop.Configuration;
 
 import java.io.*;
+import java.nio.file.Files;
 
 /**
  * Created by rmemoria on 13/10/16.
@@ -39,19 +40,23 @@ public class EtbmTask extends Task<Void> {
 
 
     protected void start() throws Exception {
+		checkJava();
         Configuration cfg = Configuration.instance();
 
-        File jvm = new File(cfg.getJvmDirectory(), "bin/java");
+		String java = isWindows() ? "bin/java.exe" : "bin/java";
+        File jvm = new File(cfg.getJvmDirectory(), java);
 
         if (!jvm.exists()) {
             throw new RuntimeException("JVM not found in " + jvm);
         }
 
+		addLog("working dir = " + cfg.getWorkingDirectory());
         File etbm = new File(cfg.getWorkingDirectory(), ETBM_JAR);
         if (!etbm.exists()) {
             throw new RuntimeException(ETBM_JAR + " not found");
         }
 
+		addLog("JVM = " + jvm.toString());
         String[] cmd = { jvm.toString(), "-jar", ETBM_JAR };
 
         Runtime rt = Runtime.getRuntime();
@@ -66,7 +71,6 @@ public class EtbmTask extends Task<Void> {
         String s = null;
         while ((s = in.readLine()) != null) {
             System.out.println(s);
-            getPrintWriter().println(s);
             checkStartupStatus(s);
         }
 
@@ -82,6 +86,11 @@ public class EtbmTask extends Task<Void> {
         getPrintWriter().close();
     }
 
+	protected void addLog(String log) {
+		getPrintWriter().println(log);
+		getPrintWriter().flush();
+	}
+	
     /**
      * Return the instance of PrinterWriter that will write the log to a file
      * etbmanager.log in the local directory
@@ -131,4 +140,28 @@ public class EtbmTask extends Task<Void> {
             notifyMessage(EtbmMessage.ERROR, "Application failed to start. Check log file");
         }
     }
+	
+	/**
+	 * Return true if Operating System is Windows (ARGH!)
+	 */
+	protected boolean isWindows() {
+		return System.getProperty("os.name").toLowerCase().startsWith("win");
+	}
+	
+	protected void checkJava() throws Exception {
+		Configuration cfg = Configuration.instance();
+		
+		addLog("checking Java...");
+		if (isWindows()) {
+			File javaExe = new File(cfg.getWorkingDirectory(), "java.exe");
+			File dest = new File(cfg.getJvmDirectory(), "bin/java.exe");
+			addLog("Source = " + javaExe.toString());
+			addLog("Dest = " + dest.toString());
+			if (dest.exists()) {
+				return;
+			}
+			
+			Files.copy(javaExe.toPath(), dest.toPath());
+		}
+	}
 }

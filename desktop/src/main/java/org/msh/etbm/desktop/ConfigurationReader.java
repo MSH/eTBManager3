@@ -11,6 +11,7 @@ public class ConfigurationReader {
         Configuration cfg = Configuration.instance();
 
         cfg.setJvmDirectory(System.getProperty("java.home"));
+		cfg.setWorkingDirectory(System.getProperty("user.dir"));
 
         for (String arg: args) {
             String[] p = arg.split("=");

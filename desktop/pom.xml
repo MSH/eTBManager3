@@ -68,6 +68,7 @@
                                 <echo>Using env.test.properties</echo>
                                 <copy file="../target/etbmanager-2.9.2.jar" tofile="${basedir}/target/extras/etbmanager-2.9.2.jar"/>
                                 <copy file="../resources/production/local/etbmanager.properties" tofile="${basedir}/target/extras/etbmanager.properties"/>
+								<copy file="C:\Desenv\Java\jdk1.8.0_91\bin\java.exe" tofile="${basedir}/target/extras/java.exe" />
                             </tasks>
                         </configuration>
                     </execution>
