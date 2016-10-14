@@ -9,6 +9,7 @@ import { app } from '../core/app';
 import { server } from '../commons/server';
 import Logo from './logo';
 import BorderlessForm from './borderless-form';
+import { authenticate } from '../sys/session';
 
 
 /**
@@ -54,7 +55,15 @@ export default class Login extends React.Component {
         this.login(val.user, val.pwd)
         .then(data => {
             if (data) {
-                app.goto('/sys/workspace/cases');
+                authenticate()
+                .then(session => {
+                    // check which page to go based on session data
+                    if (session.unitsCount === 1) {
+                        app.goto('/sys/unit/cases?id=' + session.unitId);
+                    } else {
+                        app.goto('/sys/workspace/cases');
+                    }
+                });
             }
             else {
                 self.setState({ fetching: false, invalid: true });

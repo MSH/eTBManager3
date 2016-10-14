@@ -28,6 +28,7 @@ public class EtbmTask extends Task<Void> {
         try {
             start();
         } catch (Exception e) {
+            e.printStackTrace();
             getPrintWriter().print(e.getMessage());
             notifyMessage(EtbmMessage.ERROR, e.getMessage());
             notifyMessage(EtbmMessage.STOPPED, null);
@@ -66,7 +67,7 @@ public class EtbmTask extends Task<Void> {
         while ((s = in.readLine()) != null) {
             System.out.println(s);
             getPrintWriter().println(s);
-            checkStarted(s);
+            checkStartupStatus(s);
         }
 
         notifyMessage(EtbmMessage.STOPPED, null);
@@ -74,9 +75,11 @@ public class EtbmTask extends Task<Void> {
         // read any errors from the attempted command
         while ((s = error.readLine()) != null) {
             String log = "[ERROR] " + s;
-            getPrintWriter().println(log);
             System.out.println(log);
         }
+
+        getPrintWriter().println("Finishing e-TB Manager web");
+        getPrintWriter().close();
     }
 
     /**
@@ -103,10 +106,6 @@ public class EtbmTask extends Task<Void> {
         notifyMessage(EtbmMessage.STOPPING, null);
         proc.destroy();
 
-        if (printWriter != null) {
-            printWriter.close();
-        }
-
         try {
             proc.waitFor();
         } catch (InterruptedException e) {
@@ -123,9 +122,13 @@ public class EtbmTask extends Task<Void> {
     }
 
 
-    protected void checkStarted(String s) {
+    protected void checkStartupStatus(String s) {
         if (s.contains("Started Application")) {
             notifyMessage(EtbmMessage.STARTED, null);
+        }
+
+        if (s.contains("Application failed to start")) {
+            notifyMessage(EtbmMessage.ERROR, "Application failed to start. Check log file");
         }
     }
 }

@@ -40,6 +40,11 @@ public class UserSessionResponse {
 
     private NameComposition patientNameComposition;
 
+    /**
+     * Number of units registered in the system
+     */
+    private long unitsCount;
+
 
     public String getUserName() {
         return userName;
@@ -143,5 +148,13 @@ public class UserSessionResponse {
 
     public void setWorkspaceId(UUID workspaceId) {
         this.workspaceId = workspaceId;
+    }
+
+    public long getUnitsCount() {
+        return unitsCount;
+    }
+
+    public void setUnitsCount(long unitsCount) {
+        this.unitsCount = unitsCount;
     }
 }

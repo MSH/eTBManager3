@@ -46,7 +46,7 @@ public class EtbmService {
     }
 
     public boolean isStarted() {
-        return thread != null;
+        return thread != null && thread.isAlive();
     }
 
     public static EtbmService instance() {
