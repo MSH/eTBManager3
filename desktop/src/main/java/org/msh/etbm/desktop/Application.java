@@ -1,6 +1,7 @@
 package org.msh.etbm.desktop;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -77,6 +78,17 @@ public class Application extends javafx.application.Application implements EtbmL
             case STOPPING:
                 btn.setDisable(true);
                 break;
+            case ERROR:
+                btn.setDisable(false);
+                showError(msg);
+                break;
         }
+    }
+
+    protected void showError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

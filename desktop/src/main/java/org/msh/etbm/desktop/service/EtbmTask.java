@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import org.msh.etbm.desktop.Configuration;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Created by rmemoria on 13/10/16.
@@ -20,12 +17,27 @@ public class EtbmTask extends Task<Void> {
 
     private EtbmListener listener;
 
+    private PrintWriter printWriter;
+
     public EtbmTask(EtbmListener listener) {
         this.listener = listener;
     }
 
     @Override
     protected Void call() throws Exception {
+        try {
+            start();
+        } catch (Exception e) {
+            getPrintWriter().print(e.getMessage());
+            notifyMessage(EtbmMessage.ERROR, e.getMessage());
+            notifyMessage(EtbmMessage.STOPPED, null);
+        }
+
+        return null;
+    }
+
+
+    protected void start() throws Exception {
         Configuration cfg = Configuration.instance();
 
         File jvm = new File(cfg.getJvmDirectory(), "bin/java");
@@ -43,7 +55,7 @@ public class EtbmTask extends Task<Void> {
 
         Runtime rt = Runtime.getRuntime();
 
-        notifyMessage(EtbmMessage.STARTING);
+        notifyMessage(EtbmMessage.STARTING, null);
 
         proc = rt.exec(cmd, null, new File(cfg.getWorkingDirectory()));
 
@@ -53,22 +65,48 @@ public class EtbmTask extends Task<Void> {
         String s = null;
         while ((s = in.readLine()) != null) {
             System.out.println(s);
+            getPrintWriter().println(s);
             checkStarted(s);
         }
 
-        notifyMessage(EtbmMessage.STOPPED);
+        notifyMessage(EtbmMessage.STOPPED, null);
 
         // read any errors from the attempted command
         while ((s = error.readLine()) != null) {
-            System.out.println("[ERROR] " + s);
+            String log = "[ERROR] " + s;
+            getPrintWriter().println(log);
+            System.out.println(log);
         }
-
-        return null;
     }
 
+    /**
+     * Return the instance of PrinterWriter that will write the log to a file
+     * etbmanager.log in the local directory
+     * @return
+     */
+    protected PrintWriter getPrintWriter() {
+        if (printWriter == null) {
+            String dir = Configuration.instance().getWorkingDirectory();
+            File file = new File(dir, "etbmanager.log");
+            try {
+                printWriter = new PrintWriter(file);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return printWriter;
+    }
+
+
     public void stop() {
-        notifyMessage(EtbmMessage.STOPPING);
+        notifyMessage(EtbmMessage.STOPPING, null);
         proc.destroy();
+
+        if (printWriter != null) {
+            printWriter.close();
+        }
+
         try {
             proc.waitFor();
         } catch (InterruptedException e) {
@@ -76,10 +114,10 @@ public class EtbmTask extends Task<Void> {
         }
     }
 
-    public void notifyMessage(EtbmMessage type) {
+    public void notifyMessage(EtbmMessage type, String msg) {
         Platform.runLater(new Runnable() {
             @Override public void run() {
-                listener.onEtbmMessage(type, null);
+                listener.onEtbmMessage(type, msg);
             }
         });
     }
@@ -87,7 +125,7 @@ public class EtbmTask extends Task<Void> {
 
     protected void checkStarted(String s) {
         if (s.contains("Started Application")) {
-            notifyMessage(EtbmMessage.STARTED);
+            notifyMessage(EtbmMessage.STARTED, null);
         }
     }
 }

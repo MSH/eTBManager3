@@ -7,8 +7,6 @@ package org.msh.etbm.desktop.service;
  */
 public class EtbmService {
 
-    public static final String ETBM_JAR = "etbmanager-2.9.2.jar";
-
     private static final EtbmService _instance = new EtbmService();
 
     private Thread thread;
@@ -22,7 +20,7 @@ public class EtbmService {
     }
 
     public void start(EtbmListener listener) {
-        if (thread != null) {
+        if (thread != null && thread.isAlive()) {
             return;
         }
 
@@ -34,7 +32,7 @@ public class EtbmService {
 
 
     public void stop() {
-        if (thread == null) {
+        if (thread == null || !thread.isAlive()) {
             return;
         }
 
