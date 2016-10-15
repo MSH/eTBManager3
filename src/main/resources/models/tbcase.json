@@ -332,6 +332,12 @@
       "type": "bool",
       "required": true,
       "defaultValue": false
+    },
+    {
+      "name": "transferring",
+      "type": "bool",
+      "required": true,
+      "defaultValue": false
     }
   ]
 }
