@@ -26,7 +26,7 @@
     {
       "property": "patient.motherName",
       "type": "string",
-      "size": { "md": 4 }
+      "size": { "md": 12 }
     },
     {
       "property": "tbcase.age",

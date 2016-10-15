@@ -43,17 +43,18 @@
       "type": "personName",
       "label": "${Patient.name}",
       "required": true,
-      "size": { "md": 8 }
-    },
-    {
-      "property": "patient.gender",
-      "type": "select",
-      "size": { "md": 4 }
+      "size": { "md": 10 }
     },
     {
       "property": "patient.motherName",
       "type": "string",
-      "size": { "md": 8 }
+      "size": { "md": 10 }
+    },
+    {
+      "property": "patient.gender",
+      "type": "select",
+      "newRow": true,
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.age",
@@ -64,26 +65,26 @@
     {
       "property": "patient.birthDate",
       "type": "date",
-      "size": { "md": 3 }
+      "size": { "md": 4 }
     },
     {
       "type": "select",
       "property": "tbcase.nationality",
       "label": "${Nationality}",
       "defaultValue": "NATIVE",
-      "size": { "md": 3 }
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.phoneNumber",
       "type": "string",
       "label": "${TbCase.phoneNumber}",
-      "size": { "md": 3 }
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.mobileNumber",
       "type": "string",
       "label": "${global.mobile}",
-      "size": { "md": 3 }
+      "size": { "md": 4 }
     },
     {
       "property": "tbcase.notifAddress",
