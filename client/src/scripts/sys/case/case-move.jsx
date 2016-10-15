@@ -81,11 +81,18 @@ export default class CaseMove extends React.Component {
     }
 
     render() {
+        if (!this.props.show) {
+            return null;
+        }
+
+        const doc = this.state.doc;
+
         let fschema;
         if (!this.props.tbcase.transferring) {
             fschema = this.props.tbcase.state === 'ONTREATMENT' ? transfOutOnTreat : transfOutNotOnTreat;
         } else {
             fschema = transfIn;
+            doc.moveDate = this.props.tbcase.moveDate;
         }
 
         let title = this.props.tbcase.transferring ? __('cases.move.regtransferin') : __('cases.move');
@@ -95,11 +102,11 @@ export default class CaseMove extends React.Component {
         return (
             <FormDialog
                 schema={fschema}
-                doc={this.state.doc}
+                doc={doc}
                 onConfirm={this.onConfirm}
                 onCancel={this.props.onClose}
                 wrapType={'modal'}
-                modalShow={this.props.show}/>
+                modalShow/>
         );
     }
 }
