@@ -36,12 +36,13 @@ public class ModelConverter {
 
                 FieldContext fieldContext = context.createFieldContext(field);
 
-                Object newval = convertValue(field, fieldContext, val);
-
                 // check default values
-                if (newval == null && field.getDefaultValue() != null) {
-                    newval = fieldContext.evalProperty(field.getName());
+                if (val == null && field.getDefaultValue() != null) {
+                    val = fieldContext.evalProperty("defaultValue");
                 }
+
+                // convert to the proper value
+                Object newval = convertValue(field, fieldContext, val);
 
                 newvals.put(fname, newval);
             }
