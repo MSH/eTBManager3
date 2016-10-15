@@ -33,7 +33,9 @@ export default class TreatFollowup extends React.Component {
         }
 
         // create a copy of the data
-        this.setState({ editor: data });
+        if (this.props.tbcase.state === 'ONTREATMENT') {
+            this.setState({ editor: data });
+        }
     }
 
     closeEditor(data) {

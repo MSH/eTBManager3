@@ -19,6 +19,10 @@ export default class SessionUtils {
      */
     static homeHash() {
         const session = app.getState().session;
+        if (session.unitsCount === 1) {
+            return SessionUtils.unitHash();
+        }
+
         switch (session.view) {
             case 'COUNTRY': return SessionUtils.workspaceHash();
             case 'ADMINUNIT': return '#/sys/adminunit';
