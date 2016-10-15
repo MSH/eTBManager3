@@ -296,6 +296,12 @@
       "name": "movedSecondLineTreatment",
       "type": "bool",
       "required": true
+    },
+    {
+      "name": "alcoholExcessiveUse",
+      "type": "bool",
+      "required": true,
+      "defaultValue": false
     }
   ]
 }

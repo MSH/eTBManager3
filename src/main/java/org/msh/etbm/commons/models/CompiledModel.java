@@ -50,11 +50,12 @@ public class CompiledModel {
 
         // call validation
         ModelValidator validator = new ModelValidator();
-        context = createContext(doc);
+        context = createContext(newdoc);
         Errors errors = validator.validate(context, newdoc, modelResources);
 
         return new ValidationResult(errors, newdoc);
     }
+
 
     public ScriptObjectMirror getJsModel() {
         if (jsModel == null) {

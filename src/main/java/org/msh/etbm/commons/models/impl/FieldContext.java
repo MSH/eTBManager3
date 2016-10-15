@@ -33,25 +33,39 @@ public class FieldContext {
         this.jsField = jsField;
     }
 
-    public boolean evalBoolProperty(String property) {
-        Object res = ObjectUtils.getProperty(field, property);
+    /**
+     * Evalue a property that can be a Java Script function or a constant value
+     * @param propertyName
+     * @return
+     */
+    public Object evalProperty(String propertyName) {
+        Object res = ObjectUtils.getProperty(field, propertyName);
 
         if (res == null) {
             return false;
         }
 
         if (!(res instanceof JSFuncValue)) {
-            return (boolean)res;
+            return res;
         }
 
         JSFuncValue value = (JSFuncValue)res;
 
         if (value.isValuePresent()) {
-            return value.getValue() != null ? (boolean)value.getValue() : false;
+            return value.getValue() != null ? value.getValue() : false;
         }
 
-        JSObject func = (JSObject)jsField.get(property);
-        return (boolean)func.call(context.getDoc());
+        JSObject func = (JSObject)jsField.get(propertyName);
+        return func.call(context.getDoc());
+    }
+
+    /**
+     * Eval a property that always return a boolean value
+     * @param property
+     * @return
+     */
+    public boolean evalBoolProperty(String property) {
+        return (boolean)evalProperty(property);
     }
 
     public Field getField() {
