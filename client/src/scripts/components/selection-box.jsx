@@ -166,6 +166,7 @@ export default class SelectionBox extends React.Component {
         return () => {
             if (self.props.mode === 'single') {
                 self.notifyChange(item);
+                this.refs.popup.hide();
                 return;
             }
 
