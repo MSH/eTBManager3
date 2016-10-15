@@ -5,10 +5,8 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.PrescribedMedicine;
-import org.msh.etbm.db.entities.Product;
-import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.enums.MedicineLine;
 import org.msh.etbm.services.cases.CaseActionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,8 +36,6 @@ public class TreatmentEditService {
 
     @Autowired
     ApplicationContext applicationContext;
-
-    //TODO: [MSANTOS] VERIFICAR SE O REGIME VIROU INDIVIDUALIZADO
 
     /**
      * It will update only the endDate ate the first version. It will be evaluated if this functionality
@@ -144,6 +141,10 @@ public class TreatmentEditService {
         checkPrescriptionsInterceptions(pm, tbcase);
         tbcase.getPrescriptions().add(pm);
 
+        if (regimenMovedToIndivid(tbcase)) {
+            tbcase.setRegimen(null);
+        }
+
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
 
@@ -194,6 +195,10 @@ public class TreatmentEditService {
 
         checkPrescriptionsInterceptions(pm, tbcase);
 
+        if (regimenMovedToIndivid(tbcase)) {
+            tbcase.setRegimen(null);
+        }
+
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
 
@@ -211,6 +216,10 @@ public class TreatmentEditService {
 
         TbCase tbcase = pm.getTbcase();
         tbcase.getPrescriptions().remove(pm);
+
+        if (regimenMovedToIndivid(tbcase)) {
+            tbcase.setRegimen(null);
+        }
 
         checkTreatPeriod(tbcase);
         entityManager.remove(pm);
@@ -337,5 +346,73 @@ public class TreatmentEditService {
         }
 
         return latestTreatHU;
+    }
+
+    /**
+     * Check if changes in the medicine turned the regimen to an individualized
+     */
+    public boolean regimenMovedToIndivid(TbCase tbcase) {
+        Regimen reg = tbcase.getRegimen();
+
+        if (reg == null) {
+            return true;
+        }
+
+        // get list of substances in the regimen
+        List<Object> subsInRegimen = entityManager.createQuery("select s.id from Regimen r, in(r.medicines) med, in(med.medicine.substances) s " +
+                "where r.id = :id and med.medicine.line <> :line")
+                .setParameter("id", reg.getId())
+                .setParameter("line", MedicineLine.OTHER)
+                .getResultList();
+
+        // get list of medicines prescribed
+        List<Medicine> prescribedMeds = new ArrayList<Medicine>();
+        for (PrescribedMedicine pm: tbcase.getPrescriptions()) {
+            if (pm.getProduct() instanceof Medicine) {
+                Medicine med = (Medicine) pm.getProduct();
+
+                if ((med.getLine() != MedicineLine.OTHER) && (!prescribedMeds.contains(med))) {
+                    prescribedMeds.add(med);
+                }
+            }
+        }
+
+        if (prescribedMeds.size() == 0) {
+            return true;
+        }
+
+        // create query to select substances of the regimen
+        String medCondition = null;
+        for (int i = 0; i < prescribedMeds.size(); i++) {
+            if (medCondition == null) {
+                medCondition = " m.id = :medId" + i ;
+            } else {
+                medCondition = medCondition.concat(" or m.id = :medId" + i);
+            }
+        }
+
+        Query query = entityManager.createQuery("select distinct s.id from Medicine m, in(m.substances) s where " + medCondition);
+
+        for (int i = 0; i < prescribedMeds.size(); i++) {
+            query.setParameter("medId" + i, prescribedMeds.get(i).getId());
+        }
+
+        List<Object> subsPrescribedId = query.getResultList();
+
+        // check if patient is NOT TAKING any substance that is not on the Standard Regimen
+        for (Object id: subsPrescribedId) {
+            if (!subsInRegimen.contains(id)) {
+                return true;
+            }
+        }
+
+        // check if patient is TAKING any substance that is not on the Standard Regimen
+        for (Object id: subsInRegimen) {
+            if (!subsPrescribedId.contains(id)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

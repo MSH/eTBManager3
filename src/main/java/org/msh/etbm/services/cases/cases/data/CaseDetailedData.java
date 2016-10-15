@@ -79,6 +79,8 @@ public class CaseDetailedData {
     private boolean anaemia;
     private boolean malnutrition;
 
+    private Date moveDate;
+
     private List<CaseTagsData> tags;
 
     private List<CaseCommentData> comments;
@@ -365,5 +367,13 @@ public class CaseDetailedData {
 
     public void setAllCases(List<CaseItem> allCases) {
         this.allCases = allCases;
+    }
+
+    public Date getMoveDate() {
+        return moveDate;
+    }
+
+    public void setMoveDate(Date moveDate) {
+        this.moveDate = moveDate;
     }
 }

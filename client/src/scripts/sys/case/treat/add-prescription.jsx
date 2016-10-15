@@ -112,19 +112,22 @@ class AddPrescription extends React.Component {
     }
 
     render() {
-        const doc = this.state.doc;
         const tbcase = this.props.tbcase;
 
         if (!tbcase || !tbcase.id || !tbcase.treatmentPeriod) {
             return null;
         }
 
+        if (!this.state.show) {
+            return null;
+        }
+
         return (
             <FormDialog
                 schema={schema}
-                doc={doc}
+                doc={this.state.doc}
                 wrapType="modal"
-                modalShow={this.state.show}
+                modalShow
                 onConfirm={this.confirm}
                 onCancel={this.onClose} />
             );

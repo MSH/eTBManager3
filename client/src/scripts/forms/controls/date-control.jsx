@@ -35,6 +35,10 @@ export default class DateControl extends React.Component {
     }
 
     displayText(val) {
+        if (!val) {
+            return null;
+        }
+
         const dt = isString(val) ? Date.parse(val) : val;
         return moment(dt).format('LL');
     }

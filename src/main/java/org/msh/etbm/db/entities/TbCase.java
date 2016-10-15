@@ -1071,4 +1071,18 @@ public class TbCase extends WorkspaceEntity {
 
         return treatmentUnits;
     }
+
+    /**
+     * Return move date during the transference
+     * @return
+     */
+    public Date getMoveDate() {
+        List<TreatmentHealthUnit> sortedHU = getSortedTreatmentHealthUnits();
+
+        if (!isTransferring() || sortedHU == null || sortedHU.size() < 1) {
+            return null;
+        }
+
+        return sortedHU.get(sortedHU.size() - 1 ).getPeriod().getIniDate();
+    }
 }

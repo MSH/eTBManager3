@@ -97,14 +97,18 @@ public class UnitViewService {
         if (micList != null && micList.size() > 0) {
             // get the last exam microscopy
             ExamMicroscopy examMic = micList.get(micList.size() - 1);
-            data.setMicroscopyResult(new Item<>(examMic.getResult(), messages.get(examMic.getResult().getMessageKey())));
+            if (examMic.getResult() != null) {
+                data.setMicroscopyResult(new Item<>(examMic.getResult(), messages.get(examMic.getResult().getMessageKey())));
+            }
         }
 
         List<ExamXpert> xpertList = tbcase.getExamsXpert();
         if (xpertList != null && xpertList.size() > 0) {
             // get the last exam microscopy
             ExamXpert examXpert = xpertList.get(xpertList.size() - 1);
-            data.setXpertResult(new Item<>(examXpert.getResult(), messages.get(examXpert.getResult().getMessageKey())));
+            if (examXpert.getResult() != null) {
+                data.setXpertResult(new Item<>(examXpert.getResult(), messages.get(examXpert.getResult().getMessageKey())));
+            }
         }
 
         return data;
