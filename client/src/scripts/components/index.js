@@ -32,6 +32,7 @@ import PopupControl from './popup-control';
 import RemoteForm from './remote-form';
 import observer from './observer';
 import Sideview from './sideview';
+import InlineEditor from './inline-editor';
 
 export { Callout,
     AsyncButton,
@@ -62,5 +63,6 @@ export { Callout,
     PopupControl,
     RemoteForm,
     observer,
-    Sideview
+    Sideview,
+    InlineEditor
 };

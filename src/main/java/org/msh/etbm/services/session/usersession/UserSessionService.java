@@ -155,6 +155,13 @@ public class UserSessionService {
 
         UserSessionResponse resp = mapper.map(userSession, UserSessionResponse.class);
 
+        // calculate the number of units available for the user
+        Number count = (Number)entityManager.createQuery("select count(*) from Unit where workspace.id = :id")
+                .setParameter("id", userSession.getWorkspaceId())
+                .getSingleResult();
+
+        resp.setUnitsCount(count.longValue());
+
         return resp;
     }
 

@@ -4,7 +4,7 @@ import { app } from '../../core/app';
 
 import General from './general';
 import Cases from '../packages/cases/cases';
-import Inventory from '../packages/inventory/inventory';
+// import Inventory from '../packages/inventory/inventory';
 
 
 const views = [

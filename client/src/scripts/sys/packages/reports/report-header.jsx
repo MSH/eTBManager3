@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
-import { Card, Fa } from '../../../components';
+import { Card, Fa, InlineEditor } from '../../../components';
 import FiltersSelector from '../filters/filters-selector';
 
 
@@ -11,23 +11,49 @@ export default class ReportHeader extends React.Component {
 
     constructor(props) {
         super(props);
+        this.titleChanged = this.titleChanged.bind(this);
+        this.saveClick = this.saveClick.bind(this);
+        this.filtersChanged = this.filtersChanged.bind(this);
     }
 
     close() {
         console.log('close');
     }
 
+    saveClick() {
+        this.props.report.save()
+            .then(() => this.forceUpdate());
+    }
+
+    filtersChanged(filterValues) {
+        console.log(filterValues);
+        this.props.report.schema.filters = filterValues;
+        this.forceUpdate();
+    }
+
+    /**
+     * Called when the title of the report is changed
+     */
+    titleChanged(title) {
+        this.props.report.schema.title = title;
+        this.forceUpdate();
+    }
+
     render() {
+        const report = this.props.report;
+
         const header = (
             <Row>
                 <Col sm={8}>
-                    <div className="title">
-                    {'Report title'}
+                    <div>
+                        <InlineEditor value={report.schema.title}
+                            className="title"
+                            onChange={this.titleChanged} />
                     </div>
                 </Col>
                 <Col sm={4} xs={12}>
                         <ButtonGroup bsSize="sm" justified>
-                            <Button href="#">
+                            <Button href="#" onClick={this.saveClick}>
                                 <Fa icon="save"/>
                                 {__('action.save')}
                             </Button>
@@ -56,8 +82,8 @@ export default class ReportHeader extends React.Component {
             <Card header={header} className="rep-editor">
                 <FiltersSelector
                     filters={this.props.filters}
-                    filterValues={this.props.filterValues}
-                    onChange={this.props.onChangeFilters}
+                    filterValues={report.schema.filters}
+                    onChange={this.filtersChanged}
                     footer={btnSubmit}
                     />
             </Card>
@@ -67,7 +93,5 @@ export default class ReportHeader extends React.Component {
 
 ReportHeader.propTypes = {
     report: React.PropTypes.object.isRequired,
-    filters: React.PropTypes.array.isRequired,
-    filterValues: React.PropTypes.object,
-    onChangeFilters: React.PropTypes.func
+    filters: React.PropTypes.array.isRequired
 };

@@ -5,7 +5,7 @@ import { server } from '../../../commons/server';
 
 import ReportHeader from './report-header';
 import IndicatorEditor from './indicator-editor';
-import Indicator from './indicator';
+import Report from './report';
 
 
 export default class ReportEditor extends React.Component {
@@ -13,62 +13,35 @@ export default class ReportEditor extends React.Component {
     constructor(props) {
         super(props);
         this.addIndicator = this.addIndicator.bind(this);
-        this.filtersChange = this.filtersChange.bind(this);
         this.indicatorChange = this.indicatorChange.bind(this);
     }
 
     componentWillMount() {
         const self = this;
-        server.post('/api/cases/indicator/init')
+        server.post('/api/cases/report/init')
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
-        const report = {
-            title: 'Report title (click to change)',
-            indicators: []
-        };
+        const rep = new Report();
 
-        this.setState({ report: report });
+        this.setState({ report: rep });
     }
 
     /**
      * Add an indicator to the report
      */
     addIndicator() {
-        const ind = new Indicator({
-            title: 'Indicator title (click to change)',
-            size: 6,
-            chart: 'pie',
-            display: 0
-        });
-
-        let inds = this.state.indicators;
-
-        inds = inds ? inds.slice(0).push(ind) : [ind];
-
-        this.setState({ indicators: inds });
-    }
-
-    /**
-     * Called when the report filters change
-     */
-    filtersChange(filterValues) {
-        const rep = Object.assign({ },
-            this.state.report,
-            {
-                filterValues: filterValues
-            });
-
-        this.setState({ report: rep });
+        this.state.report.addIndicator();
+        this.forceUpdate();
     }
 
     /**
      * Called when a property of an indicator changes
      */
     indicatorChange(ind) {
-        const rep = this.state.report;
-        const index = rep.indicators.indexOf(ind);
+        // const rep = this.state.report;
+        // const index = rep.indicators.indexOf(ind);
 
-        rep.indicators[index] = Object.assign({}, ind);
+        // rep.indicators[index] = Object.assign({}, ind);
         this.forceUpdate();
     }
 
@@ -76,13 +49,9 @@ export default class ReportEditor extends React.Component {
      * Render the given indicator
      */
     renderIndicators() {
-        const indicators = this.state.indicators;
+        const rep = this.state.report;
 
-        if (!indicators || indicators.length === 0) {
-            return null;
-        }
-
-        return indicators.map((ind, index) => (
+        return rep.indicators.map((ind, index) => (
             <Row key={index}>
                 <Col sm={12}>
                     <IndicatorEditor
@@ -108,8 +77,6 @@ export default class ReportEditor extends React.Component {
             <div className="report">
                 <ReportHeader report={report}
                     filters={filters}
-                    filterValues={report.filterValues}
-                    onChangeFilters={this.filtersChange}
                     />
                 {
                     this.renderIndicators()

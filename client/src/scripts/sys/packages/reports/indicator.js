@@ -21,14 +21,13 @@ export default class Indicator {
         const ind = this.schema;
         const self = this;
 
-        return server.post('/api/cases/indicator/exec', {
+        return server.post('/api/cases/report/ind/exec', {
             filters: ind.filters,
             columnVariables: ind.columnVars,
             rowVariables: ind.rowVars
         })
         .then(res => {
             self.data = res.indicator;
-            console.log('Indicator data = ', res.indicator);
             return res.data;
         });
     }
@@ -121,7 +120,7 @@ export default class Indicator {
                 } else {
                     if (k1) {
                         const title = cols.descriptors[i][k1];
-                        lst.push({ title: title, span: span });
+                        lst.push({ id: k1, title: title, span: span });
                     }
                     k1 = k2;
                     span = 1;
