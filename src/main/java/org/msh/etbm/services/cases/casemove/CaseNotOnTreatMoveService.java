@@ -73,8 +73,8 @@ public class CaseNotOnTreatMoveService {
      * @return
      */
     @Transactional
-    public CaseMoveResponse rollbackTransferOut(UUID tbcaseId) {
-        TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
+    public CaseMoveResponse rollbackTransferOut(UUID caseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, caseId);
 
         tbcase.setOwnerUnit(tbcase.getTransferOutUnit());
         tbcase.setTransferOutUnit(null);
@@ -97,8 +97,8 @@ public class CaseNotOnTreatMoveService {
      * @return
      */
     @Transactional
-    public CaseMoveResponse transferIn(CaseMoveRequest req) {
-        TbCase tbcase = entityManager.find(TbCase.class, req.getTbcaseId());
+    public CaseMoveResponse transferIn(UUID caseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, caseId);
 
         // create response
         CaseMoveResponse res = new CaseMoveResponse();

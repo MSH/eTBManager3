@@ -117,7 +117,7 @@ public class CaseMoveService {
 
         switch (tbcase.getState()) {
             case NOT_ONTREATMENT:
-                res = notOnTreatCaseMoveService.transferIn(req);
+                res = notOnTreatCaseMoveService.transferIn(req.getTbcaseId());
                 break;
             case ONTREATMENT:
                 if (req.getMoveDate() == null) {
