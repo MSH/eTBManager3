@@ -1243,11 +1243,15 @@
             <column name="OWNER_UNIT_ID" type="${type.id}"/>
             <column name="TRANSFER_OUT_UNIT_ID" type="${type.id}"/>
             <column name="REGIMEN_ID" type="${type.id}"/>
-            <column name="movedToIndividualized" type="${type.boolean}"/>
+            <column name="movedToIndividualized" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
             <column name="extrapulmonaryType" type="VARCHAR(50)"/>
             <column name="extrapulmonaryType2" type="VARCHAR(50)"/>
             <column name="pulmonaryType" type="VARCHAR(50)"/>
-            <column name="validated" type="${type.boolean}"/>
+            <column name="validated" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
             <column name="suspectClassification" type="INT"/>
             <column name="secDrugsReceived" type="INT"/>
             <column name="lastBmuDateTbRegister" type="date"/>

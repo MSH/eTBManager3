@@ -11,36 +11,42 @@ const fschema = {
             property: 'alcoholExcessiveUse',
             type: 'yesNo',
             label: __('TbCase.alcoholExcessiveUse'),
+            defaultValue: false,
             size: { md: 12 }
         },
         {
             property: 'tobaccoUseWithin',
             type: 'yesNo',
             label: __('TbCase.tobaccoUseWithin'),
+            defaultValue: false,
             size: { md: 12 }
         },
         {
             property: 'aids',
             type: 'yesNo',
             label: __('TbCase.aids'),
+            defaultValue: false,
             size: { md: 12 }
         },
         {
             property: 'diabetes',
             type: 'yesNo',
             label: __('TbCase.diabetes'),
+            defaultValue: false,
             size: { md: 12 }
         },
         {
             property: 'anaemia',
             type: 'yesNo',
             label: __('TbCase.anaemia'),
+            defaultValue: false,
             size: { md: 12 }
         },
         {
             property: 'malnutrition',
             type: 'yesNo',
             label: __('TbCase.malnutrition'),
+            defaultValue: false,
             size: { md: 12 }
         }
     ]
