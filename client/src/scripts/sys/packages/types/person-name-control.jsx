@@ -1,8 +1,11 @@
 import React from 'react';
-import { Row, Col, FormControl, ControlLabel } from 'react-bootstrap';
+import { Row, Col, FormControl, ControlLabel, FormGroup, HelpBlock } from 'react-bootstrap';
 import { app } from '../../../core/app';
 import su from '../../session-utils';
 import FormUtils from '../../../forms/form-utils';
+import ReactDOM from 'react-dom';
+import { isEmpty } from '../../../commons/utils';
+import msgs from '../../../commons/messages';
 
 import './person-name-control.less';
 
@@ -15,6 +18,7 @@ export default class PersonNameControl extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.validate = this.validate.bind(this);
     }
 
     /**
@@ -73,6 +77,24 @@ export default class PersonNameControl extends React.Component {
         }
     }
 
+    validate(snapshot, value) {
+        if (snapshot.required && !isEmpty(value)) {
+
+            const fields = this.calcFields();
+            const val = fields.length === 1 ? value : value.name;
+
+            if (isEmpty(val)) {
+                return msgs.NotNull;
+            }
+
+        } else if (snapshot.required && isEmpty(value)) {
+
+            return msgs.NotNull;
+
+        }
+
+        return null;
+    }
 
     render() {
         const schema = this.props.schema;
@@ -86,8 +108,11 @@ export default class PersonNameControl extends React.Component {
 
         const size = { sm: 12 / fields.length };
 
+        const errors = this.props.errors;
+
         return (
-            <div className="form-group person-name">
+            <FormGroup validationState={errors ? 'error' : null}>
+            <div className="person-name">
             <Row>
                 <Col sm={12}>
                     <ControlLabel>{FormUtils.labelRender(schema.label, schema.required)}</ControlLabel>
@@ -98,15 +123,20 @@ export default class PersonNameControl extends React.Component {
                 fields.map(id => (
                     <Col {...size} key={id} >
                         <FormControl id={id}
+                            ref={id}
                             value={this.props.value ? this.getInitValue(id) : ''}
                             type="text"
                             placeholder={this.placeHolder(id)}
                             onChange={this.onChange} />
+                        {
+                            (id === 'name' || id === 'fullName') && errors && <HelpBlock>{errors}</HelpBlock>
+                        }
                     </Col>
                 ))
             }
             </Row>
             </div>
+            </FormGroup>
         );
     }
 }

@@ -157,9 +157,9 @@ export default function formControl(Component) {
          * Validate the control. In case of failure, return a string or a complex error structure
          * @return {String} If validation fails, return the message in string or object format, otherwise return null
          */
-        validate() {
+        validate(snapshot, value, doc) {
             const comp = this.refs.input;
-            return comp.validate ? comp.validate() : null;
+            return comp.validate ? comp.validate(snapshot, value, doc) : null;
         }
 
         /**
