@@ -5,5 +5,5 @@ package org.msh.etbm.desktop.service;
  */
 public interface EtbmListener {
 
-    void onEtbmMessage(EtbmMessage type, String msg);
+    void onEtbmMessage(EtbmMessage type, String msg, int progress);
 }
