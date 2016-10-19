@@ -1,0 +1,39 @@
+
+#background {
+    -light-black: rgb(174, 175, 178);
+    -dark-highlight: rgb(187, 189, 192);
+    -dark-black: rgb(239, 240, 240);
+    -darkest-black: rgb(205, 205, 205);
+    -mid-gray: rgb(116, 122, 127);
+    -fx-background-color: -mid-gray;
+}
+
+.tool-bar {
+    -fx-base: -dark-black;
+    -fx-font-size: 10pt;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: .2em 0.416667em .2em 0.416667em;
+}
+
+.segmented-button-bar .button {
+    /*-fx-background-insets: 0, 1 1 1 0, 2 1 1 1;*/
+    -fx-background-radius: 0;
+    -fx-padding: 0.4em 1.833333em 0.4em 1.833333em;
+}
+
+.segmented-button-bar .button.first {
+    /*-fx-background-insets: 0, 1, 2 1 1 1;*/
+    -fx-background-radius: 3 0 0 3, 2 0 0 2, 2 0 0 2;
+}
+
+.segmented-button-bar .button.last {
+    /*-fx-background-insets: 0, 1 1 1 0, 2 1 1 1;*/
+    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 2 2 0;
+}
+
+.segmented-button-bar .button:pressed {
+    -fx-background-color:
+            -darkest-black,
+            rgb(55, 57, 58),
+            linear-gradient(to top, -light-black 2%, -dark-black 98%);
+}

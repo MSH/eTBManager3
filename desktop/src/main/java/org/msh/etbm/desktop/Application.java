@@ -39,7 +39,7 @@ public class Application extends javafx.application.Application implements Event
 
         EventService.addListener(this);
 
-        primaryStage.setTitle("eTB Manager");
+        primaryStage.setTitle("eTB Manager 3 - Desktop");
 
         primaryStage.setOnCloseRequest(evt -> EtbmService.instance().stop());
 
@@ -52,14 +52,23 @@ public class Application extends javafx.application.Application implements Event
     @Override
     public void onEvent(Object event, Object data) {
         if (event == AppEvent.SHOW_APP) {
-            try {
-                Parent parent = FXMLLoader.load(getClass().getResource("AppView.fxml"));
-                Scene scene = new Scene(parent);
+            openApp();
+        }
+    }
 
-                stage.setScene(scene);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    protected void openApp() {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("AppView.fxml"));
+            parent.setId("background");
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("app.css");
+
+            stage.setScene(scene);
+
+            stage.setX(100);
+            stage.setY(50);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

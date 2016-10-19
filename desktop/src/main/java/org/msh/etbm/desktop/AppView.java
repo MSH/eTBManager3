@@ -1,7 +1,9 @@
 package org.msh.etbm.desktop;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -21,4 +23,20 @@ public class AppView implements Initializable {
         WebEngine webEngine = webView.getEngine();
         webEngine.load("http://localhost:8080/");
     }
+
+    @FXML
+    protected void btnBackAction(ActionEvent evt) {
+        webView.getEngine().executeScript("history.back()");
+    }
+
+    @FXML
+    protected void btnForwardAction(ActionEvent evt) {
+        webView.getEngine().executeScript("history.forward()");
+    }
+
+    @FXML
+    protected void btnRefreshAction(ActionEvent evt) {
+        webView.getEngine().executeScript("location.reload()");
+    }
+
 }

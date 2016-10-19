@@ -134,5 +134,7 @@ public class StartupView implements EtbmListener, Initializable {
         showProgress(false);
         Image imgLogo = new Image(StartupView.class.getClassLoader().getResourceAsStream("etbm_icon_128x128.png"));
         logo.setImage(imgLogo);
+
+        btnStart.fire();
     }
 }
