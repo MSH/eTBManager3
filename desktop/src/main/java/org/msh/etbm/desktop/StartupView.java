@@ -72,9 +72,6 @@ public class StartupView implements EtbmListener, Initializable {
     }
 
     protected void handleStarting(String msg, int progress) {
-        txtStatus.setText(msg);
-        pbStarting.setProgress((double)progress / 100.0);
-
         if (progress == 100) {
             btnStart.setDisable(false);
             btnStart.setText("Stop e-TB Manager");
@@ -84,6 +81,9 @@ public class StartupView implements EtbmListener, Initializable {
             btnStart.setDisable(true);
             btnStart.setText("Starting e-TB Manager");
         }
+
+        txtStatus.setText(msg);
+        pbStarting.setProgress((double)progress / 100.0);
     }
 
     protected void handleStoping(String msg, int progress) {
@@ -132,7 +132,7 @@ public class StartupView implements EtbmListener, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         showProgress(false);
-        Image imgLogo = new Image(StartupView.class.getResourceAsStream("/etbm_icon_128x128.png"));
+        Image imgLogo = new Image(StartupView.class.getClassLoader().getResourceAsStream("etbm_icon_128x128.png"));
         logo.setImage(imgLogo);
     }
 }
