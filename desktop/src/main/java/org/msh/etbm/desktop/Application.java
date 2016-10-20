@@ -1,10 +1,15 @@
 package org.msh.etbm.desktop;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.msh.etbm.desktop.event.AppEvent;
+import org.msh.etbm.desktop.event.EventListener;
+import org.msh.etbm.desktop.event.EventService;
 import org.msh.etbm.desktop.service.EtbmListener;
 import org.msh.etbm.desktop.service.EtbmMessage;
 import org.msh.etbm.desktop.service.EtbmService;
@@ -19,9 +24,9 @@ import java.net.URL;
  *
  * Created by rmemoria on 12/10/16.
  */
-public class Application extends javafx.application.Application implements EtbmListener {
+public class Application extends javafx.application.Application implements EventListener {
 
-    private Button btn;
+    private Stage stage;
 
     public static void main(String[] args) {
         Configuration cfg = ConfigurationReader.read(args);
@@ -30,65 +35,40 @@ public class Application extends javafx.application.Application implements EtbmL
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("eTB Manager");
-        btn = new Button();
-        btn.setText("Start eTB Manager");
-        btn.setOnAction(evt -> startApp());
+        this.stage = primaryStage;
+
+        EventService.addListener(this);
+
+        primaryStage.setTitle("eTB Manager 3 - Desktop");
 
         primaryStage.setOnCloseRequest(evt -> EtbmService.instance().stop());
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
+        Parent parent = FXMLLoader.load(getClass().getResource("StartupView.fxml"));
+        Scene scene = new Scene(parent);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public void startApp() {
-        EtbmService service = EtbmService.instance();
-
-        if (service.isStarted()) {
-            service.stop();
-        } else {
-            service.start(this);
-        }
-    }
-
     @Override
-    public void onEtbmMessage(EtbmMessage type, String msg) {
-        switch (type) {
-            case STARTING:
-                btn.setDisable(true);
-                btn.setText("Starting eTB Manager");
-                break;
-            case STARTED:
-                btn.setDisable(false);
-                btn.setText("Stop eTB Manager");
-                try {
-                    Desktop.getDesktop().browse(new URL("http://localhost:8080").toURI());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case STOPPED:
-                btn.setDisable(false);
-                btn.setText("Start eTB Manager");
-                break;
-            case STOPPING:
-                btn.setDisable(true);
-                break;
-            case ERROR:
-                btn.setDisable(false);
-                showError(msg);
-                break;
+    public void onEvent(Object event, Object data) {
+        if (event == AppEvent.SHOW_APP) {
+            openApp();
         }
     }
 
-    protected void showError(String msg) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(msg);
-        alert.showAndWait();
+    protected void openApp() {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getResource("AppView.fxml"));
+            parent.setId("background");
+            Scene scene = new Scene(parent);
+            scene.getStylesheets().add("app.css");
+
+            stage.setScene(scene);
+
+            stage.setX(100);
+            stage.setY(50);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

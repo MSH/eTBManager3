@@ -10,6 +10,22 @@
 
     <build>
 		<finalName>etbm-desktop</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.fxml</include>
+                </includes>
+            </resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+        </resources>
+
         <plugins>
             <!-- Inform the compiler version to use -->
             <plugin>
