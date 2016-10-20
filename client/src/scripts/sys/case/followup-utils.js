@@ -34,14 +34,14 @@ const displaySchemas = {
             },
             {
                 type: 'number',
-                property: '{weight} Kg',
+                property: 'weight',
                 label: __('MedicalExamination.weight'),
                 size: { sm: 4 }
             },
             {
                 type: 'number',
                 label: __('MedicalExamination.height'),
-                property: '{height} cm',
+                property: 'height',
                 size: { sm: 4 }
             },
             {
@@ -55,17 +55,10 @@ const displaySchemas = {
     EXAM_MICROSCOPY: {
         controls: [
             {
-                type: 'string',
-                visible: value => value.otherSampleType !== null && value.otherSampleType !== '',
-                label: __('SpecimenType'),
-                property: '{sampleType} - {otherSampleType}',
-                size: { sm: 4 }
-            },
-            {
-                type: 'string',
-                visible: value => value.otherSampleType === null || value.otherSampleType === '',
+                type: 'select',
                 label: __('SpecimenType'),
                 property: 'sampleType',
+                options: app.getState().app.lists.SampleType,
                 size: { sm: 4 }
             },
             {
@@ -454,17 +447,12 @@ const editSchemas = {
                 required: true
             },
             {
-                type: 'group',
-                visible: value => value.usingPrescMedicines === 'NO',
-                controls: [
-                    {
-                        type: 'string',
-                        label: __('MedicalExamination.reasonNotUsingPrescMedicines'),
-                        property: 'reasonNotUsingPrescMedicines',
-                        required: true,
-                        size: { sm: 12 }
-                    }
-                ]
+                type: 'string',
+                label: __('MedicalExamination.reasonNotUsingPrescMedicines'),
+                property: 'reasonNotUsingPrescMedicines',
+                required: true,
+                size: { sm: 12 },
+                visible: value => value.usingPrescMedicines === false
             },
             {
                 type: 'number',
@@ -504,16 +492,11 @@ const editSchemas = {
                 size: { sm: 6 }
             },
             {
-                type: 'group',
-                visible: value => value.sampleType === 'OTHER',
-                controls: [
-                    {
-                        type: 'string',
-                        label: __('SampleType.OTHER'),
-                        property: 'otherSampleType',
-                        size: { sm: 6 }
-                    }
-                ]
+                type: 'string',
+                label: __('SampleType.OTHER'),
+                property: 'otherSampleType',
+                size: { sm: 6 },
+                visible: value => value.sampleType === 'OTHER'
             },
             {
                 type: 'string',
@@ -609,17 +592,12 @@ const editSchemas = {
                 size: { sm: 6 }
             },
             {
-                type: 'group',
-                visible: value => value.result === 'POSITIVE',
-                controls: [
-                    {
-                        property: 'numberOfColonies',
-                        type: 'select',
-                        label: __('ExamCulture.numberOfColonies'),
-                        options: { from: 1, to: 9 },
-                        size: { sm: 6 }
-                    }
-                ]
+                property: 'numberOfColonies',
+                type: 'select',
+                label: __('ExamCulture.numberOfColonies'),
+                options: { from: 1, to: 9 },
+                size: { sm: 6 },
+                visible: value => value.result === 'POSITIVE'
             },
             {
                 type: 'string',
