@@ -6,6 +6,7 @@ import { server } from '../commons/server';
 import Success from './success';
 import Callout from '../components/callout';
 import Card from '../components/card';
+import YesNoControl from '../sys/packages/types/yesno-control';
 import AsyncButton from '../components/async-button';
 
 
@@ -42,7 +43,8 @@ export default class NewWorkspace extends React.Component {
     constructor(props) {
         super(props);
         this.contClick = this.contClick.bind(this);
-        this.state = { data: {} };
+        this.onDemoChange = this.onDemoChange.bind(this);
+        this.state = { data: { demoData: true } };
     }
 
     /**
@@ -63,7 +65,8 @@ export default class NewWorkspace extends React.Component {
         const data = {
             workspaceName: v.wsname,
             adminPassword: v.pwd,
-            adminEmail: v.email
+            adminEmail: v.email,
+            demoData: this.state.data.demoData
         };
 
         const self = this;
@@ -81,6 +84,11 @@ export default class NewWorkspace extends React.Component {
             .catch(() => self.setState({ fetching: false }));
     }
 
+    onDemoChange(comp) {
+        const data = this.state.data;
+        data.demoData = comp.value;
+        this.setState({ data: data });
+    }
 
     /**
      * Render the component
@@ -147,6 +155,15 @@ export default class NewWorkspace extends React.Component {
                                             <ControlLabel>{__('init.ws.adminpwd2') + ':'}</ControlLabel>
                                             <FormControl type="password" ref="pwd2" />
                                             <HelpBlock>{err.pwd2}</HelpBlock>
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm={6}>
+                                        <FormGroup validationState={err.demoData ? 'error' : undefined}>
+                                            <ControlLabel>{'Include demonstration data?'}</ControlLabel>
+                                            <YesNoControl ref="demoData" value={this.state.data.demoData} onChange={this.onDemoChange} />
+                                            <HelpBlock>{err.demoData}</HelpBlock>
                                         </FormGroup>
                                     </Col>
                                 </Row>

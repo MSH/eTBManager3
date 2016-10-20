@@ -29,7 +29,6 @@ public class Medicine extends Product {
         return line != null ? line.getMessageKey() : null;
     }
 
-
     @Override
     public ProductType getType() {
         return ProductType.MEDICINE;
@@ -42,7 +41,6 @@ public class Medicine extends Product {
     public void setCategory(MedicineCategory category) {
         this.category = category;
     }
-
 
     public MedicineLine getLine() {
         return line;

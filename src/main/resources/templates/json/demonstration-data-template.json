@@ -1,0 +1,190 @@
+{
+  "substances": [
+    {"name": "Amikacin", "shortName": "Am", "line": "SECOND_LINE"},
+    {"name": "Ciprofloxacin", "shortName": "Cfx", "line": "SECOND_LINE"},
+    {"name": "Capreomycin", "shortName": "Cm", "line": "SECOND_LINE"},
+    {"name": "Cycloserine", "shortName": "Cs", "line": "SECOND_LINE"},
+    {"name": "Ethambutol", "shortName": "E", "line": "FIRST_LINE"},
+    {"name": "Ethionamide", "shortName": "Eto", "line": "SECOND_LINE"},
+    {"name": "Gatifloxacin", "shortName": "Gati", "line": "SECOND_LINE"},
+    {"name": "Isoniazid", "shortName": "H", "line": "FIRST_LINE"},
+    {"name": "Kanamycin", "shortName": "Km", "line": "SECOND_LINE"},
+    {"name": "Levofloxacin", "shortName": "Lfx", "line": "SECOND_LINE"},
+    {"name": "Moxifloxacin", "shortName": "Mfx", "line": "SECOND_LINE"},
+    {"name": "Ofloxacin", "shortName": "Ofx", "line": "SECOND_LINE"},
+    {"name": "P-Aminosalicylic Acid", "shortName": "PAS", "line": "SECOND_LINE"},
+    {"name": "Protionamide", "shortName": "Pto", "line": "SECOND_LINE"},
+    {"name": "Rifampicin", "shortName": "R", "line": "FIRST_LINE"},
+    {"name": "Rifabutin", "shortName": "Rfb", "line": "FIRST_LINE"},
+    {"name": "Streptomycin", "shortName": "S", "line": "FIRST_LINE"},
+    {"name": "Terizidone", "shortName": "Trd", "line": "SECOND_LINE"},
+    {"name": "Pyrazinamide", "shortName": "Z", "line": "FIRST_LINE"},
+    {"name": "Clofazimine", "shortName": "Cfz", "line": "SECOND_LINE"},
+    {"name": "Linezolide", "shortName": "Lnz", "line": "SECOND_LINE"},
+    {"name": "PAS-Sodium", "shortName": "PAS-Na", "line": "SECOND_LINE"}
+  ],
+  "medicines": [
+    {"name": "Amikacin 1000mg Powder/Vial", "shortName": "Am", "line": "SECOND_LINE", "category": "INJECTABLE", "substancesAbbrevName": "Am"},
+    {"name": "Capreomycin 1000mg Powder/Vial", "shortName": "Cm", "line": "SECOND_LINE", "category": "INJECTABLE", "substancesAbbrevName": "Cm"},
+    {"name": "Cycloserine 250mg Tablet or Capsule", "shortName": "Cs", "line": "SECOND_LINE", "category": "ORAL", "substancesAbbrevName": "Cs", "customId": "3"},
+    {"name": "Ethambutol 400mg Tablet", "shortName": "E", "line": "FIRST_LINE", "category": "ORAL", "substancesAbbrevName": "E"},
+    {"name": "Ethionamide 250mg Tablets", "shortName": "Eto", "line": "SECOND_LINE", "category": "ORAL", "substancesAbbrevName": "Eto", "customId": "4"},
+    {"name": "Isoniazid 100mg Tablet", "shortName": "H", "line": "FIRST_LINE", "category": "ORAL", "substancesAbbrevName": "H"},
+    {"name": "4FDC - HRZE 75/150/400/275mg Tablet", "shortName": "HRZE", "line": "FIRST_LINE", "category": "ORAL", "substancesAbbrevName": "H,Z,R,E", "customId": "1"},
+    {"name": "Kanamycin 1000mg Powder/Vial", "shortName": "Km", "line": "SECOND_LINE", "category": "INJECTABLE", "substancesAbbrevName": "Km", "customId": "5"},
+    {"name": "Levofloxacin 500mg Tablet", "shortName": "Lfx", "line": "SECOND_LINE", "category": "ORAL", "substancesAbbrevName": "Lfx", "customId": "7"},
+    {"name": "Ofloxacin 200mg Tablets", "shortName": "Ofx", "line": "SECOND_LINE", "category": "ORAL", "substancesAbbrevName": "Ofx", "customId": "8"},
+    {"name": "Pyrazinamide 500mg Tablet", "shortName": "Z", "line": "FIRST_LINE", "category": "ORAL", "substancesAbbrevName": "Z", "customId": "6"},
+    {"name": "2FDC - HR 225mg tablet", "shortName": "HR", "line": "FIRST_LINE", "category": "ORAL", "substancesAbbrevName": "H,R", "customId": "2"}
+  ],
+  "regimens": [
+    {
+      "name": "Category I",
+      "classification": "TB",
+      "customId": "1",
+      "medicineRegimenDemoDatas": [
+        {"medicineCustomId": "1", "defaultDoseUnit": 3, "defaultFrequency": 7, "iniDay": 0, "days": 60},
+        {"medicineCustomId": "2", "defaultDoseUnit": 3, "defaultFrequency": 7, "iniDay": 61, "days": 120}
+      ]
+    },
+    {
+      "name": "Category IV - Gen.",
+      "classification": "DRTB",
+      "medicineRegimenDemoDatas": [
+        {"medicineCustomId": "3", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 0, "days": 240},
+        {"medicineCustomId": "4", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 0, "days": 240},
+        {"medicineCustomId": "5", "defaultDoseUnit": 1, "defaultFrequency": 7, "iniDay": 0, "days": 240},
+        {"medicineCustomId": "6", "defaultDoseUnit": 3, "defaultFrequency": 7, "iniDay": 0, "days": 240},
+        {"medicineCustomId": "7", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 0, "days": 240},
+        {"medicineCustomId": "3", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 241, "days": 360},
+        {"medicineCustomId": "4", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 241, "days": 360},
+        {"medicineCustomId": "8", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 241, "days": 360},
+        {"medicineCustomId": "6", "defaultDoseUnit": 3, "defaultFrequency": 7, "iniDay": 241, "days": 360},
+        {"medicineCustomId": "7", "defaultDoseUnit": 2, "defaultFrequency": 7, "iniDay": 241, "days": 360}
+      ]
+    }
+  ],
+  "tbcases": [
+    {
+      "age": 16,
+      "classification": "TB",
+      "state": "ONTREATMENT",
+      "registrationDate": "2016-10-19",
+      "caseNumber": "2514",
+      "diagnosisDate": "2016-10-19",
+      "notifAddress": {
+        "address": "Street 1",
+        "complement": "House 4",
+        "zipCode": "85001"
+      },
+      "currentAddress": {
+        "address": "Street 1",
+        "complement": "House 4",
+        "zipCode": "85001"
+      },
+      "phoneNumber": "854 845 784 325",
+      "treatmentPeriod": {
+        "ini": "2016-10-19",
+        "end": "2017-04-18"
+      },
+      "diagnosisType": "CONFIRMED",
+      "registrationGroup": "NEW",
+      "infectionSite": "EXTRAPULMONARY",
+      "nationality": "NATIVE",
+      "patient": {
+        "birthDate": "2000-10-19",
+        "gender": "MALE",
+        "name": {
+          "name": "John",
+          "middleName": "Smith"
+        },
+        "motherName": "Helena Smith"
+      },
+      "extrapulmonaryType": "TPE",
+      "extrapulmonaryType2": "TITL",
+      "customRegimenId": "1",
+      "notifAddrAdminUnitName": "City 1",
+      "currAddrAdminUnitName": "City 1",
+      "ownerUnitName": "Working unit",
+      "notifUnitName": "Working unit",
+      "prescriptionDemoData": [
+        {
+          "customMedicineId": "1",
+          "doseUnit": 3,
+          "frequency": 7,
+          "period": {
+            "ini": "2016-10-19",
+            "end": "2016-12-18"
+          }
+        },
+        {
+          "customMedicineId": "2",
+          "doseUnit": 3,
+          "frequency": 7,
+          "period": {
+            "ini": "2016-12-19",
+            "end": "2017-04-18"
+          }
+        }
+      ],
+      "treatmentUnitDemoDatas": [
+        {
+          "unitName": "Working unit",
+          "period": {
+            "ini": "2016-10-19",
+            "end": "2017-04-18"
+          }
+        }
+      ]
+    },
+    {
+      "age": 65,
+      "classification": "DRTB",
+      "state": "NOT_ONTREATMENT",
+      "registrationDate": "2016-10-19",
+      "caseNumber": "5245",
+      "diagnosisDate": "2016-10-19",
+      "notifAddress": {
+        "address": "Street 5",
+        "complement": "House 1",
+        "zipCode": "84510"
+      },
+      "currentAddress": {
+        "address": "Street 5",
+        "complement": "House 1",
+        "zipCode": "84510"
+      },
+      "phoneNumber": "458 745 965 222",
+      "mobileNumber": "471 524 896 555",
+      "diagnosisType": "CONFIRMED",
+      "registrationGroup": "RELAPSE",
+      "drugResistanceType": "POLY_RESISTANCE",
+      "infectionSite": "BOTH",
+      "nationality": "NATIVE",
+      "validated": true,
+      "patient": {
+        "gender": "FEMALE",
+        "name": {
+          "name": "Mary",
+          "middleName": "Robinson"
+        }
+      },
+      "pulmonaryType": "UI",
+      "extrapulmonaryType": "P",
+      "extrapulmonaryType2": "P",
+      "alcoholExcessiveUse": true,
+      "aids": true,
+      "notifAddrAdminUnitName": "City 1",
+      "currAddrAdminUnitName": "City 1",
+      "ownerUnitName": "Working unit",
+      "notifUnitName": "Working unit"
+    }
+  ],
+  "tags": [
+    {
+      "name": "AIDS as comorbidity without HIV result",
+      "sqlCondition": "(diagnosistype=1 and aids=true and not exists(select * from examhiv where result=0 and case_id=a.id))",
+      "consistencyCheck": true
+    }
+  ]
+}
