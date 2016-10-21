@@ -8,6 +8,7 @@
 import React from 'react';
 import Fa from './fa';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { Alert } from 'react-bootstrap';
 
 import './tree-view.less';
 
@@ -460,6 +461,10 @@ export default class TreeView extends React.Component {
 
         if (!root) {
             return null;
+        }
+
+        if (root.length < 1) {
+            return <Alert bsStyle="warning">{__('form.norecordfound')}</Alert>;
         }
 
         return (
