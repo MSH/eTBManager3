@@ -2,6 +2,9 @@ package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.services.cases.indicators.*;
+import org.msh.etbm.services.cases.reports.CaseReportFormData;
+import org.msh.etbm.services.cases.reports.CaseReportService;
+import org.msh.etbm.services.cases.reports.ReportExecRequest;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -55,5 +58,11 @@ public class CaseReportsREST {
     public StandardResult queryReports() {
         List<Item<String>> lst = caseReportService.getReportList();
         return new StandardResult(lst, null, true);
+    }
+
+    @RequestMapping(value = "/exec", method = RequestMethod.POST)
+    public StandardResult get(@RequestBody @Valid @NotNull ReportExecRequest req) {
+        CaseReportFormData res = caseReportService.execute(req);
+        return new StandardResult(res, null, true);
     }
 }

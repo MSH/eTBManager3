@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, DropdownButton, Button, MenuItem } from 'react-bootstrap';
-import { Card, Fa, WaitIcon } from '../../../components';
+import { Card, Fa, WaitIcon, InlineEditor } from '../../../components';
 import Chart from './chart';
 import TableView from './table-view';
 
@@ -21,6 +21,8 @@ export default class IndicatorEditor extends React.Component {
         this.changeDisplay = this.changeDisplay.bind(this);
         this.changeChart = this.changeChart.bind(this);
         this.refreshClick = this.refreshClick.bind(this);
+        this.titleChanged = this.titleChanged.bind(this);
+
         // initialize an empty state
         this.state = { };
     }
@@ -39,8 +41,8 @@ export default class IndicatorEditor extends React.Component {
      */
     variablesChange(colVars, rowVars) {
         const ind = this.props.indicator;
-        ind.schema.columnVars = colVars;
-        ind.schema.rowVars = rowVars;
+        ind.schema.columnVariables = colVars;
+        ind.schema.rowVariables = rowVars;
         this.props.onChange(ind);
     }
 
@@ -132,14 +134,26 @@ export default class IndicatorEditor extends React.Component {
         );
     }
 
+
+    titleChanged(value) {
+        this.props.indicator.schema.title = value;
+        this.forceUpdate();
+    }
+
     render() {
         const ind = this.props.indicator;
         const schema = ind.schema;
         const series = ind.selectedSeries();
         const fetching = this.state.fetching;
 
+        const title = (
+            <InlineEditor value={ind.schema.title}
+                className="title"
+                onChange={this.titleChanged} />
+        ); 
+
         return (
-            <Card title={'Diagnosis type x Age range'} closeBtn>
+            <Card title={title} closeBtn>
                 <FiltersSelector filters={this.props.filters}
                     filterValues={schema.filters}
                     onChange={this.filtersChange} />

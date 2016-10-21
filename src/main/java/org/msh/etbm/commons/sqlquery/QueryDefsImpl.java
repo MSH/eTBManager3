@@ -24,6 +24,7 @@ public class QueryDefsImpl implements QueryDefs {
     private SQLTable tableJoin;
     private SQLTable parent;
 
+
     public QueryDefsImpl(SQLQueryBuilder builder, SQLTable tableJoin, SQLTable parent) {
         this.builder = builder;
         this.tableJoin = tableJoin;
@@ -138,15 +139,15 @@ public class QueryDefsImpl implements QueryDefs {
     protected QueryDefsImpl addJoin(String joinName, String tableName, String on) {
         SQLTable tblJoin = new SQLTable();
         tblJoin.setTableName(tableName);
-        String alias = createTableAlias();
+        String alias = builder.createTableAlias();
         tblJoin.setTableAlias(alias);
-
-        builder.addJoin(tblJoin);
 
         QueryDefsImpl qd = new QueryDefsImpl(builder, tblJoin, tableJoin);
         String newOn = qd.parseTableName(on);
         tblJoin.setOn(newOn);
         tblJoin.setJoinName(joinName);
+
+        builder.addJoin(tblJoin);
 
         return qd;
     }
@@ -200,22 +201,10 @@ public class QueryDefsImpl implements QueryDefs {
             return tbl.getTableAlias();
         }
 
-        return tableName;
+        join(tableName);
+        return getTableAlias(tableName);
     }
 
-    /**
-     * Create a new alias for a table join
-     * @return
-     */
-    protected String createTableAlias() {
-        int count = builder.getJoins().size();
-
-        int index = count / 27;
-        int letter = count % 27;
-
-        String alias = (char)(97 + letter) + Integer.toString(index);
-        return alias;
-    }
 
     /**
      * Create a new alias to be used in field declaration

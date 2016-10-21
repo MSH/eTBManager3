@@ -23,8 +23,8 @@ export default class CasesReports extends React.Component {
         };
 
         // get the list of reports from the server
-        server.post('/api/cases/reports', req)
-        .then(res => self.setState({ values: res }));
+        server.post('/api/cases/report/query', req)
+        .then(res => self.setState({ values: res.result }));
 
         this.setState({ values: null });
     }
@@ -33,8 +33,10 @@ export default class CasesReports extends React.Component {
         const route = this.props.route;
         const path = route.path;
         const pg = route.data.path;
+        const id = route.queryParam('id');
+
         const dest = path.slice(0, path.length - pg.length) + '/report?rep=' + item.id +
-            '&id=' + route.queryParam('id');
+            (id ? '&id=' + id : '');
         location.hash = '#' + dest;
     }
 
@@ -51,7 +53,7 @@ export default class CasesReports extends React.Component {
         const header = (
             <div className="class-header">
                 <div className="pull-right">
-                    <Button bsStyle="success" bsSize="small" href={newPath}>{'New report'}</Button>
+                    <Button bsStyle="success" bsSize="small" href={newPath}>{__('reports.new')}</Button>
                 </div>
                 <h4>{__('reports')}</h4>
             </div>

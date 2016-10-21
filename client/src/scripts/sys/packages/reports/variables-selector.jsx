@@ -11,11 +11,11 @@ export default class VariablesSelector extends React.Component {
     }
 
     changeColumnVars(vars) {
-        this.props.onChange(vars, this.props.indicator.rowVars);
+        this.props.onChange(vars, this.props.indicator.rowVariables);
     }
 
     changeRowVars(vars) {
-        this.props.onChange(this.props.indicator.columnVars, vars);
+        this.props.onChange(this.props.indicator.columnVariables, vars);
     }
 
     render() {
@@ -31,7 +31,7 @@ export default class VariablesSelector extends React.Component {
                     <div className="mtop">
                         <VariablesBox
                             variables={this.props.variables}
-                            values={ind.columnVars}
+                            values={ind.columnVariables}
                             onChange={this.changeColumnVars}
                             />
                     </div>
@@ -43,7 +43,7 @@ export default class VariablesSelector extends React.Component {
                     <div className="mtop">
                         <VariablesBox
                             variables={this.props.variables}
-                            values={ind.rowVars}
+                            values={ind.rowVariables}
                             onChange={this.changeRowVars}
                             />
                     </div>

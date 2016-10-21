@@ -25,6 +25,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * View displayed when the desktop app runs. It starts the web version and displays the progress bar
+ * during the start up process
+ *
  * Created by rmemoria on 16/10/16.
  */
 public class StartupView implements EtbmListener, Initializable {
@@ -71,6 +74,11 @@ public class StartupView implements EtbmListener, Initializable {
         }
     }
 
+    /**
+     * Called when e-TB Manager in starting the web version
+     * @param msg the message to display
+     * @param progress the progress of the starting process. 100 means the startup process finished
+     */
     protected void handleStarting(String msg, int progress) {
         if (progress == 100) {
             btnStart.setDisable(false);
@@ -86,6 +94,11 @@ public class StartupView implements EtbmListener, Initializable {
         pbStarting.setProgress((double)progress / 100.0);
     }
 
+    /**
+     * Called when the web version is stopping
+     * @param msg
+     * @param progress
+     */
     protected void handleStoping(String msg, int progress) {
         if (progress == 100) {
             btnStart.setText("Start e-TB Manager");
@@ -110,13 +123,6 @@ public class StartupView implements EtbmListener, Initializable {
 
     protected void openApp() {
         EventService.raise(AppEvent.SHOW_APP, null);
-//        try {
-//            Desktop.getDesktop().browse(new URL("http://localhost:8080").toURI());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**

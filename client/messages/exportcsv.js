@@ -74,7 +74,7 @@ const res = Object.keys(msgs)
     });
 
 // insert CSV header
-const header = ['"id"','"English"'];
+const header = ['"id"','"Default"'];
 config.langs.forEach(lang => header.push('"' + lang + '"'));
 
 res.splice(0, 0, header.join(','));
