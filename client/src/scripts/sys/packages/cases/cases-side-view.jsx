@@ -179,7 +179,7 @@ export default class CasesSideView extends React.Component {
         }
 
         // display the tags
-        if (data.tags) {
+        if (data.tags && data.tags.length > 0) {
             res.push({ title: __('admin.tags') });
             data.tags.forEach(it => {
                 res.push({
@@ -189,6 +189,14 @@ export default class CasesSideView extends React.Component {
                     className: 'tag-link-' + it.type.toLowerCase()
                 });
             });
+        } else {
+            const tagNoResult = {
+                noResultMsg: __('cases.details.tags.noresult2'),
+                title: __('admin.tags'),
+                icon: 'tags'
+            };
+
+            res.push(tagNoResult);
         }
 
         return res;

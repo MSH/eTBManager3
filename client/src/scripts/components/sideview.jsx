@@ -54,6 +54,20 @@ export default class Sideview extends React.Component {
         return (
             <ul className="sideview nav">
                 {views.map((item, index) => {
+                    if (item.noResultMsg) {
+                        const title = item.title ? item.title : <hr/>;
+
+                        return (
+                            <span key={index}>
+                                <li className="disabled">{title}</li>
+                                <div className="message-muted">
+                                    <i className={'fa fa-fw fa-' + item.icon} />
+                                    <div>{item.noResultMsg}</div>
+                                </div>
+                            </span>
+                            );
+                    }
+
                     if (!item.path) {
                         const title = item.title ? item.title : <hr/>;
                         return <li key={index} className="disabled">{title}</li>;
