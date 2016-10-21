@@ -21,16 +21,7 @@ import javax.persistence.PersistenceContext;
  * Created by Mauricio on 05/10/2016.
  */
 @Component
-public class SearchableListener {
-
-    @PersistenceContext
-    EntityManager entityManager;
-
-    @Autowired
-    UserRequestService userRequestService;
-
-    @Autowired
-    PersonNameUtils personNameUtils;
+public class SearchableListener extends SearchableBuilder {
 
     /**
      * Called when a Searchable entity was created
@@ -45,7 +36,7 @@ public class SearchableListener {
             throw new RuntimeException("Entity doesn't exists");
         }
 
-        Searchable searchable = buildSearchable(entity, null);
+        Searchable searchable = buildSearchable(entity);
 
         entityManager.persist(searchable);
     }
@@ -80,121 +71,6 @@ public class SearchableListener {
         if (searchable != null) {
             entityManager.remove(searchable);
         }
-    }
-
-    /**
-     * Builds a searchable checking the type of the entity
-     * If param searchable is null a new searchable will be instantiated
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(Object entity, Searchable searchable) {
-        // if searchable is null a searchable is being created
-        if (searchable == null) {
-            Workspace workspace = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
-
-            searchable = new Searchable();
-            searchable.setWorkspace(workspace);
-            searchable.setId(((Synchronizable) entity).getId());
-        }
-
-        if (entity instanceof TbCase) {
-            return buildSearchable((TbCase)entity, searchable);
-        }
-
-        if (entity instanceof Tbunit) {
-            return buildSearchable((Tbunit)entity, searchable);
-        }
-
-        if (entity instanceof Laboratory) {
-            return buildSearchable((Laboratory)entity, searchable);
-        }
-
-        if (entity instanceof AdministrativeUnit) {
-            return buildSearchable((AdministrativeUnit)entity, searchable);
-        }
-
-        if (entity instanceof Workspace) {
-            return buildSearchable((Workspace)entity, searchable);
-        }
-
-        throw new RuntimeException("Entity is not a searchable");
-    }
-
-    /**
-     * Builds a TbCase searchable
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(TbCase entity, Searchable searchable) {
-        searchable.setType("MALE".equals(entity.getPatient().getGender()) ? SearchableType.CASE_MAN : SearchableType.CASE_WOMAN );
-        searchable.setUnit(entity.getOwnerUnit());
-        searchable.setSubtitle(entity.getDiagnosisType().equals(DiagnosisType.SUSPECT) ? entity.getRegistrationNumber() : entity.getCaseNumber());
-        searchable.setTitle(personNameUtils.displayPersonName(entity.getPatient().getName()));
-
-        return searchable;
-    }
-
-    /**
-     * Builds a Tbunit searchable
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(Tbunit entity, Searchable searchable) {
-        searchable.setType(SearchableType.TBUNIT);
-        searchable.setUnit(entity);
-        searchable.setSubtitle(entity.getAddress().getAdminUnit().getFullDisplayName());
-        searchable.setTitle(entity.getName());
-
-        return searchable;
-    }
-
-    /**
-     * Builds a Laboratory searchable
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(Laboratory entity, Searchable searchable) {
-        searchable.setType(SearchableType.LAB);
-        searchable.setUnit(entity);
-        searchable.setSubtitle(entity.getAddress().getAdminUnit().getFullDisplayName());
-        searchable.setTitle(entity.getName());
-
-        return searchable;
-    }
-
-    /**
-     * Builds a AdministrativeUnit searchable
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(AdministrativeUnit entity, Searchable searchable) {
-        searchable.setType(SearchableType.ADMINUNIT);
-        searchable.setUnit(null);
-        searchable.setSubtitle(null);
-        searchable.setTitle(entity.getFullDisplayName());
-
-        return searchable;
-    }
-
-    /**
-     * Builds a Workspace searchable
-     * @param entity
-     * @param searchable
-     * @return
-     */
-    private Searchable buildSearchable(Workspace entity, Searchable searchable) {
-        searchable.setType(SearchableType.WORKSPACE);
-        searchable.setUnit(null);
-        searchable.setSubtitle(null);
-        searchable.setTitle(entity.getName());
-
-        return searchable;
     }
 
     /**

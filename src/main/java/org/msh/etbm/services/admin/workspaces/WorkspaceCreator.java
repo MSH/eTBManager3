@@ -8,6 +8,7 @@ import org.msh.etbm.services.admin.workspaces.impl.AdminUnitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.NewWorkspaceTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.TbunitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.UserProfileTemplate;
+import org.msh.etbm.services.init.demodata.DemoDataSearchableCreator;
 import org.msh.etbm.services.security.permissions.Permission;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class WorkspaceCreator {
     @Autowired
     Permissions permissions;
 
+    @Autowired
+    DemoDataSearchableCreator searchableCreator;
+
     @Transactional
     public WorkspaceData create(String name) {
 
@@ -53,6 +57,10 @@ public class WorkspaceCreator {
         createUnits(template, lst);
 
         createProfiles(template);
+
+        searchableCreator.create(Workspace.class, ws.getId());
+        searchableCreator.create(AdministrativeUnit.class, ws.getId());
+        searchableCreator.create(Unit.class, ws.getId());
 
         return mapper.map(ws, WorkspaceData.class);
     }

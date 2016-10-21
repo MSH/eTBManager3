@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Mauricio on 08/10/2016.
@@ -24,7 +25,12 @@ public class PersonNameUtils {
     UserRequestService userRequestService;
 
     public String displayPersonName (PersonName personName) {
-        Workspace workspace = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+        return displayPersonName(personName, workspaceId);
+    }
+
+    public String displayPersonName (PersonName personName, UUID workspaceId) {
+        Workspace workspace = entityManager.find(Workspace.class, workspaceId);
         ArrayList names = new ArrayList();
 
         if (personName == null) {
@@ -72,6 +78,6 @@ public class PersonNameUtils {
             }
         }
 
-        return ret;
+        return ret.substring(0, ret.length() - 2);
     }
 }

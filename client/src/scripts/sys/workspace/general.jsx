@@ -23,7 +23,7 @@ const menu = [
     },
 */
     {
-        title: __('admin.units'),
+        title: __('admin.tbunits'),
         icon: 'hospital-o',
         path: '/units',
         view: WokspaceTbUnits

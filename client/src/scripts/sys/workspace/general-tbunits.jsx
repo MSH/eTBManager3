@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert, Row, Col } from 'react-bootstrap';
 import { Card, Profile, WaitIcon, ReactGrid } from '../../components';
-import { app } from '../../core/app';
 import Form from '../../forms/form';
 
 import SessionUtils from '../session-utils';
@@ -16,11 +15,12 @@ export default class WorkspaceTbUnits extends React.Component {
     constructor(props) {
         super(props);
         this.loadList = this.loadList.bind(this);
+        this.eventHandler = this.eventHandler.bind(this);
 
         // create fake-crud controller
         const unitFakeCRUD = new FakeCRUD('/api/tbl/unit/query');
         const opts = {
-            pageSize: 10,
+            pageSize: 50,
             readOnly: true,
             editorSchema: {},
             refreshAll: false
@@ -31,7 +31,24 @@ export default class WorkspaceTbUnits extends React.Component {
     }
 
     componentWillMount() {
+        const self = this;
+        const handler = this.state.controller.on(evt => {
+            self.eventHandler(evt);
+        });
+        this.setState({ handler: handler });
+
         this.loadList();
+    }
+
+    componentWillUnmount() {
+        // remove registration
+        this.state.controller.removeListener(this.state.handler);
+    }
+
+    eventHandler(evt) {
+        if (evt === 'list' || evt === 'fetching-list') {
+            this.forceUpdate();
+        }
     }
 
     loadList() {
@@ -63,7 +80,7 @@ export default class WorkspaceTbUnits extends React.Component {
         }
 
         return (
-            <Card>
+            <Card title={__('admin.tbunits')}>
                 {
                     // no results found
                     (!controller.getList() || controller.getList().length < 1) ?

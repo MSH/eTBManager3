@@ -33,6 +33,9 @@ public class DemonstrationDataCreator {
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
 
+    @Autowired
+    DemoDataSearchableCreator searchableCreator;
+
     // Medicines with custom id
     List<Medicine> relevantMedicines;
 
@@ -57,6 +60,8 @@ public class DemonstrationDataCreator {
         insertCases(template, workspace);
 
         insertTags(template, workspace);
+
+        searchableCreator.create(TbCase.class, workspaceId);
 
         runAutoGenTags(workspace);
     }
