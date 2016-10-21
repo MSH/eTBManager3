@@ -112,7 +112,11 @@ public class TagsReportService {
 
         for (Object[] vals : lst) {
             Tag.TagType type = null;
-            if ((Integer) vals[2] == 1) {
+
+            // workaround - MySQL returns a number and HSQLDB returns a boolean
+            boolean valType = vals[2] instanceof Number ? ((Number)vals[2]).intValue() == 1 : (Boolean)vals[2];
+
+            if (valType) {
                 type = Tag.TagType.MANUAL;
             } else {
                 type = (Boolean) vals[3] == Boolean.TRUE ? Tag.TagType.AUTODANGER : Tag.TagType.AUTO;
