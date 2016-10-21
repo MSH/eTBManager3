@@ -20,7 +20,8 @@ const tfschema = {
         {
             property: 'defaultDoseUnit',
             required: true,
-            type: 'number',
+            type: 'select',
+            options: { from: 1, to: 10 },
             label: __('Regimen.doseunit'),
             size: { sm: 2 }
         },
