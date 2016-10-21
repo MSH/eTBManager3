@@ -1,36 +1,42 @@
 package org.msh.etbm.services.cases.indicators;
 
+import org.msh.etbm.services.RequestScope;
+
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 /**
+ * Request to generate a new indicator from cases
  * Created by rmemoria on 10/9/16.
  */
 public class CaseIndicatorRequest {
 
-    private UUID adminUnitId;
-    private UUID unitId;
+    @NotNull
+    private RequestScope scope;
+
+    private UUID scopeId;
 
     private Map<String, Object> filters;
 
     private List<String> columnVariables;
     private List<String> rowVariables;
 
-    public UUID getAdminUnitId() {
-        return adminUnitId;
+    public RequestScope getScope() {
+        return scope;
     }
 
-    public void setAdminUnitId(UUID adminUnitId) {
-        this.adminUnitId = adminUnitId;
+    public void setScope(RequestScope scope) {
+        this.scope = scope;
     }
 
-    public UUID getUnitId() {
-        return unitId;
+    public UUID getScopeId() {
+        return scopeId;
     }
 
-    public void setUnitId(UUID unitId) {
-        this.unitId = unitId;
+    public void setScopeId(UUID scopeId) {
+        this.scopeId = scopeId;
     }
 
     public Map<String, Object> getFilters() {

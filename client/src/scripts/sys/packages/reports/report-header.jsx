@@ -26,7 +26,6 @@ export default class ReportHeader extends React.Component {
     }
 
     filtersChanged(filterValues) {
-        console.log(filterValues);
         this.props.report.schema.filters = filterValues;
         this.forceUpdate();
     }

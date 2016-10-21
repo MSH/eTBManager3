@@ -4,6 +4,23 @@ import { server } from '../../../commons/server';
 
 export default class Report {
 
+    /**
+     * Load a report with its indicator data
+     */
+    static load(id, scope, scopeId) {
+        const req = {
+            scope: scope,
+            scopeId: scopeId,
+            reportId: id
+        };
+
+        return server.post('/api/cases/report/exec', req)
+        .then(res => new Report(res.result));
+    }
+
+    /**
+     * Default constructor, passing the report schema (filters, variables, etc)
+     */
     constructor(schema) {
         this.schema = schema ? schema :
             // report template
@@ -13,7 +30,12 @@ export default class Report {
             };
 
         this.indicators = [];
-        this.addIndicator();
+        // check if there are indicators to construct
+        if (this.schema.indicators) {
+            this.schema.indicators.forEach(sc =>
+                this.indicators.push(new Indicator(sc, sc.data))
+            );
+        }
     }
 
     /**

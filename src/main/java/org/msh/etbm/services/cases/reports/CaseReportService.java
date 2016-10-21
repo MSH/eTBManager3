@@ -1,16 +1,22 @@
-package org.msh.etbm.services.cases.indicators;
+package org.msh.etbm.services.cases.reports;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorFormData;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +36,9 @@ public class CaseReportService {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    CaseIndicatorsService caseIndicatorsService;
 
 
     @Transactional
@@ -98,5 +107,42 @@ public class CaseReportService {
                 .collect(Collectors.toList());
 
         return res;
+    }
+
+
+    public CaseReportFormData execute(ReportExecRequest req) {
+        Report rep = entityManager.find(Report.class, req.getReportId());
+
+        if (rep == null) {
+            throw new EntityNotFoundException("Report not found");
+        }
+
+        CaseReportFormData schema = JsonParser.parseString(rep.getData(), CaseReportFormData.class);
+
+        // generate the indicators
+        List<CaseIndicatorFormData> lst = schema.getIndicators()
+                .stream()
+                .map(ind -> {
+                    // generate indicator
+                    CaseIndicatorRequest indreq = new CaseIndicatorRequest();
+                    indreq.setFilters(ind.getFilters());
+                    indreq.setColumnVariables(ind.getColumnVariables());
+                    indreq.setRowVariables(ind.getRowVariables());
+                    indreq.setScope(req.getScope());
+                    indreq.setScopeId(req.getScopeId());
+                    CaseIndicatorResponse resp = caseIndicatorsService.execute(indreq);
+
+                    // pack response
+                    CaseIndicatorData inddata = new CaseIndicatorData();
+                    ObjectUtils.copyObject(ind, inddata);
+                    inddata.setData(resp.getIndicator());
+
+                    return inddata;
+                })
+                .collect(Collectors.toList());
+
+        schema.setIndicators(lst);
+
+        return schema;
     }
 }

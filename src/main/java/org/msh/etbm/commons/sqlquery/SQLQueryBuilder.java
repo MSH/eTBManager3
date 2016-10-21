@@ -76,6 +76,8 @@ public class SQLQueryBuilder implements QueryDefs {
 
     private List<QueryDefsListener> listeners;
 
+    private int aliasCounter;
+
 
 
     /**
@@ -101,6 +103,8 @@ public class SQLQueryBuilder implements QueryDefs {
         if (fields.size() == 0) {
             return null;
         }
+
+        aliasCounter = 0;
 
         StringBuilder s = new StringBuilder();
 
@@ -505,4 +509,20 @@ public class SQLQueryBuilder implements QueryDefs {
     public void setMaxResult(Integer maxResult) {
         this.maxResult = maxResult;
     }
+
+
+    /**
+     * Create a new alias for a table join
+     * @return
+     */
+    protected String createTableAlias() {
+        int index = aliasCounter / 27;
+        int letter = aliasCounter % 27;
+
+        aliasCounter++;
+
+        String alias = (char)(97 + letter) + Integer.toString(index);
+        return alias;
+    }
+
 }

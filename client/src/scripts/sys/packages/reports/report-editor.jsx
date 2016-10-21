@@ -22,6 +22,7 @@ export default class ReportEditor extends React.Component {
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
         const rep = new Report();
+        rep.addIndicator();
 
         this.setState({ report: rep });
     }

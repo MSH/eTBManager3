@@ -56,6 +56,9 @@ public class Application extends javafx.application.Application implements Event
         }
     }
 
+    /**
+     * Called after the initialization of the web version
+     */
     protected void openApp() {
         try {
             Parent parent = FXMLLoader.load(getClass().getResource("AppView.fxml"));

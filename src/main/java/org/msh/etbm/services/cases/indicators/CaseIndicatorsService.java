@@ -12,15 +12,19 @@ import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
 import org.msh.etbm.commons.indicators.variables.VariableGroupData;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.cases.filters.CaseFilters;
-import org.msh.etbm.services.cases.filters.impl.WorkspaceFilter;
+import org.msh.etbm.services.cases.filters.impl.ScopeFilter;
+import org.msh.etbm.services.cases.filters.impl.ScopeFilterValue;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -43,6 +47,9 @@ public class CaseIndicatorsService {
     @Autowired
     Messages messages;
 
+    @Autowired
+    IndicatorGenerator indicatorGenerator;
+
 
     /**
      * Generate initialization data for a client to request indicators
@@ -64,7 +71,7 @@ public class CaseIndicatorsService {
      * @param req the instance of {@link CaseIndicatorRequest} containing the indicator request
      * @return return the indicator data
      */
-    public CaseIndicatorResponse execute(CaseIndicatorRequest req) {
+    public CaseIndicatorResponse execute(@Valid CaseIndicatorRequest req) {
         IndicatorRequest indReq = new IndicatorRequest();
 
         SQLQueryBuilder builder = new SQLQueryBuilder("tbcase");
@@ -96,8 +103,8 @@ public class CaseIndicatorsService {
         // set the filters
         Map<Filter, Object> fvalues = new HashedMap();
 
-        // fixed filter to restrict view by workspace
-        fvalues.put(new WorkspaceFilter(), userRequestService.getUserSession().getWorkspaceId());
+        // add restrictions by scope
+        addScopeRestriction(fvalues, req);
 
         if (req.getFilters() != null) {
             for (Map.Entry<String, Object> entry: req.getFilters().entrySet()) {
@@ -113,9 +120,7 @@ public class CaseIndicatorsService {
         indReq.setColumnTotal(true);
         indReq.setRowTotal(true);
 
-        IndicatorGenerator generator = new IndicatorGenerator();
-
-        IndicatorDataTable indDataTable = generator.execute(indReq, dataSource, messages);
+        IndicatorDataTable indDataTable = indicatorGenerator.execute(indReq, dataSource, messages);
 
         IndicatorData data = IndicatorDataConverter.convertFromDataTableIndicator(indDataTable);
 
@@ -123,5 +128,22 @@ public class CaseIndicatorsService {
         resp.setIndicator(data);
 
         return resp;
+    }
+
+    /**
+     * Restrict the data by the administrative unit and its children
+     * @param filterValues
+     * @param req
+     */
+    private void addScopeRestriction(Map<Filter, Object> filterValues, CaseIndicatorRequest req) {
+        UUID id = req.getScope() == RequestScope.WORKSPACE ?
+                userRequestService.getUserSession().getWorkspaceId() :
+                req.getScopeId();
+
+        ScopeFilterValue val = new ScopeFilterValue(req.getScope(), id,
+                "$root", "$root.owner_unit_id", "ownerAdminUnit");
+
+        // fixed filter to restrict view by workspace
+        filterValues.put(new ScopeFilter(), val);
     }
 }

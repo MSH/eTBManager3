@@ -9,9 +9,12 @@ export default class Indicator {
 
     /**
      * Constructor, receiving the indicator schema and the result data from server
+     * @param schema The indicator schema, containing variables and filters
+     * @param data The indicator data
      */
-    constructor(schema) {
+    constructor(schema, data) {
         this.schema = schema;
+        this.data = data;
     }
 
     /**
@@ -23,8 +26,8 @@ export default class Indicator {
 
         return server.post('/api/cases/report/ind/exec', {
             filters: ind.filters,
-            columnVariables: ind.columnVars,
-            rowVariables: ind.rowVars
+            columnVariables: ind.columnVariables,
+            rowVariables: ind.rowVariables
         })
         .then(res => {
             self.data = res.indicator;

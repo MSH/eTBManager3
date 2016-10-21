@@ -299,4 +299,26 @@ public class ObjectUtils {
         }
         return null;
     }
+
+
+    /**
+     * Copy the properties of the source object to the target object.
+     * Source and target objects doesn't have to be of same type, and just shared
+     * properties available in target are copied. Properties with the same name must
+     * have the same type, otherwise an exception will be thrown
+     *
+     * @param source the source object
+     * @param target the target object that will receive the property values from source
+     */
+    public static void copyObject(Object source, Object target) {
+        Map<String, Object> props = describeProperties(source);
+        Map<String, Object> targProps = describeProperties(target);
+
+        for (Map.Entry<String, Object> entry: props.entrySet()) {
+            String prop = entry.getKey();
+            if (targProps.containsKey(prop)) {
+                setProperty(target, prop, entry.getValue());
+            }
+        }
+    }
 }

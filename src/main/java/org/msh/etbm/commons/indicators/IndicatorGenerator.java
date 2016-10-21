@@ -15,6 +15,9 @@ import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -26,12 +29,16 @@ import java.util.Map;
  * @author Ricardo Memoria
  *
  */
+@Service
 public class IndicatorGenerator {
 
     /**
      * Number of records contained in the detailed report
      */
     private Long recordCount;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
 
     /**
@@ -41,6 +48,8 @@ public class IndicatorGenerator {
      * @return instance of {@link IndicatorDataTable} containing the indicator report
      */
     public IndicatorDataTable execute(IndicatorRequest req, DataSource dataSource, Messages messages) {
+        initializeFilters(req.getFilterValues());
+
         IndicatorSqlBuilder builder = createSqlBuilder(req.getQueryBuilder());
 
         DataTable data = loadData(dataSource, req, builder);
@@ -60,6 +69,12 @@ public class IndicatorGenerator {
         return result;
     }
 
+
+    protected void initializeFilters(Map<Filter, Object> filters) {
+        for (Map.Entry<Filter, Object> entry: filters.entrySet()) {
+            entry.getKey().initialize(applicationContext);
+        }
+    }
 
     /**
      * Return an instance of the {@link DataTableQuery} containing detailed list of cases
@@ -127,7 +142,6 @@ public class IndicatorGenerator {
 
         return tbl;
     }
-
 
 
     /**
