@@ -1,7 +1,7 @@
 {
   "workspace": {
     "name": "Workspace name",
-    "patientNameComposition": "SURNAME_FIRSTNAME",
+    "patientNameComposition": "LAST_FIRST_MIDDLENAME",
     "caseValidationTB": "ENABLED",
     "caseValidationDRTB": "ENABLED",
     "caseValidationNTM": "ENABLED",
