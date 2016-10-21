@@ -106,18 +106,18 @@ export default class CasePrevTbTreats extends React.Component {
         this.cellRender = this.cellRender.bind(this);
 
         const monthOptions = [
-            { id: 0, name: 'Janeiro' },
-            { id: 1, name: 'Fevereiro' },
-            { id: 2, name: 'Março' },
-            { id: 3, name: 'Abril' },
-            { id: 4, name: 'Maio' },
-            { id: 5, name: 'Junho' },
-            { id: 6, name: 'Julho' },
-            { id: 7, name: 'Agosto' },
-            { id: 8, name: 'Setembro' },
-            { id: 9, name: 'Outubro' },
-            { id: 10, name: 'Novembro' },
-            { id: 11, name: 'Dezembro' }
+            { id: 0, name: 'January' },
+            { id: 1, name: 'February' },
+            { id: 2, name: 'March' },
+            { id: 3, name: 'April' },
+            { id: 4, name: 'May' },
+            { id: 5, name: 'June' },
+            { id: 6, name: 'July' },
+            { id: 7, name: 'August' },
+            { id: 8, name: 'September' },
+            { id: 9, name: 'Octuber' },
+            { id: 10, name: 'November' },
+            { id: 11, name: 'Dezember' }
         ];
 
         const editorSchema = {

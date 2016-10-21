@@ -30,7 +30,7 @@ import java.util.UUID;
  * Created by Mauricio on 03/10/2016.
  */
 @Service
-public class CaseEditService {
+public class CaseEditService extends CaseValidator {
 
     @Autowired
     FormService formService;
@@ -101,6 +101,9 @@ public class CaseEditService {
             tbcase.setAge(updatedAge);
             entityManager.persist(tbcase);
         }
+
+        //TODO: [MSANTOS] find a better archtecture for this
+        validateTbCase(tbcase, data.getDoc());
 
         //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();

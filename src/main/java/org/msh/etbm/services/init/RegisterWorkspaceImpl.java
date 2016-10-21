@@ -5,6 +5,7 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserLog;
+import org.msh.etbm.services.init.demodata.DemonstrationDataCreator;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.admin.workspaces.WorkspaceCreator;
@@ -44,6 +45,8 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     @Autowired
     WorkspaceCreator workspaceCreator;
 
+    @Autowired
+    DemonstrationDataCreator demonstrationDataCreator;
 
     /**
      * Register a new workspace during the initialization process
@@ -60,6 +63,10 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         createAdminUser(form, ws);
 
         updateConfiguration(form);
+
+        if (form.isDemoData()) {
+            demonstrationDataCreator.create(ws.getId());
+        }
 
         return ws.getId();
     }

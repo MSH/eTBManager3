@@ -35,6 +35,11 @@ public class RegisterWorkspaceRequest {
     @Pattern(regexp = UserConstants.EMAIL_PATTERN)
     private String adminEmail;
 
+    /**
+     * if system should insert on database medicines, substances, regimens, tag and cases
+     * @return
+     */
+    private boolean demoData;
 
     public String getWorkspaceName() {
         return workspaceName;
@@ -58,5 +63,13 @@ public class RegisterWorkspaceRequest {
 
     public void setAdminEmail(String adminEmail) {
         this.adminEmail = adminEmail;
+    }
+
+    public boolean isDemoData() {
+        return demoData;
+    }
+
+    public void setDemoData(boolean demoData) {
+        this.demoData = demoData;
     }
 }

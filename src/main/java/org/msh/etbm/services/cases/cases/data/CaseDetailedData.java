@@ -4,6 +4,7 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.enums.InfectionSite;
 import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
@@ -31,11 +32,19 @@ public class CaseDetailedData {
 
     private String caseCode;
 
+    private String caseNumber;
+
     private Date diagnosisDate;
 
     private CaseClassification classification;
 
     private DiagnosisType diagnosisType;
+
+    private String registrationGroup;
+
+    private InfectionSite infectionSite;
+
+    private String nationality;
 
     private Integer age;
 
@@ -80,6 +89,12 @@ public class CaseDetailedData {
     private boolean malnutrition;
 
     private Date moveDate;
+
+    private String extrapulmonaryType;
+    private String extrapulmonaryType2;
+    private String pulmonaryType;
+
+    private String drugResistanceType;
 
     private List<CaseTagsData> tags;
 
@@ -375,5 +390,69 @@ public class CaseDetailedData {
 
     public void setMoveDate(Date moveDate) {
         this.moveDate = moveDate;
+    }
+
+    public String getCaseNumber() {
+        return caseNumber;
+    }
+
+    public void setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
+    }
+
+    public String getRegistrationGroup() {
+        return registrationGroup;
+    }
+
+    public void setRegistrationGroup(String registrationGroup) {
+        this.registrationGroup = registrationGroup;
+    }
+
+    public InfectionSite getInfectionSite() {
+        return infectionSite;
+    }
+
+    public void setInfectionSite(InfectionSite infectionSite) {
+        this.infectionSite = infectionSite;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
+
+    public String getExtrapulmonaryType() {
+        return extrapulmonaryType;
+    }
+
+    public void setExtrapulmonaryType(String extrapulmonaryType) {
+        this.extrapulmonaryType = extrapulmonaryType;
+    }
+
+    public String getExtrapulmonaryType2() {
+        return extrapulmonaryType2;
+    }
+
+    public void setExtrapulmonaryType2(String extrapulmonaryType2) {
+        this.extrapulmonaryType2 = extrapulmonaryType2;
+    }
+
+    public String getPulmonaryType() {
+        return pulmonaryType;
+    }
+
+    public void setPulmonaryType(String pulmonaryType) {
+        this.pulmonaryType = pulmonaryType;
+    }
+
+    public String getDrugResistanceType() {
+        return drugResistanceType;
+    }
+
+    public void setDrugResistanceType(String drugResistanceType) {
+        this.drugResistanceType = drugResistanceType;
     }
 }

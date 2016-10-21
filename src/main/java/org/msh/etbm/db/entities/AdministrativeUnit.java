@@ -119,7 +119,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
         switch (parent.getLevel()) {
             case 0:
                 pid0 = parent.getId();
-                pname0 = parent.getPname0();
+                pname0 = parent.getName();
                 break;
             case 1:
                 pid1 = parent.getPid1();

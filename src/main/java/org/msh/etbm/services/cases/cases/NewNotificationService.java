@@ -30,7 +30,7 @@ import java.util.UUID;
  * Created by Mauricio on 05/09/2016.
  */
 @Service
-public class NewNotificationService {
+public class NewNotificationService extends CaseValidator {
 
     @Autowired
     ModelDAOFactory factory;
@@ -104,6 +104,9 @@ public class NewNotificationService {
             entityManager.persist(tbcase);
         }
 
+        //TODO: [MSANTOS] should validation be here?
+        validateTbCase(tbcase, data.getDoc());
+
         //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();
         res.setOperation(Operation.NEW);
@@ -136,4 +139,6 @@ public class NewNotificationService {
             caseData.put("suspectClassification", caseData.get("classification"));
         }
     }
+
+
 }

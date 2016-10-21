@@ -2,6 +2,9 @@ package org.msh.etbm.commons.entities;
 
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
+
+import java.util.Map;
 
 /**
  * Exception generated inside an entity to indicate that an error occured and operation
@@ -24,6 +27,24 @@ public class EntityValidationException extends RuntimeException {
         super(message);
 
         this.bindingResult = new BeanPropertyBindingResult(entity, entity.getClass().getSimpleName());
+        if (message != null) {
+            this.bindingResult.reject(field, message);
+        } else {
+            this.bindingResult.rejectValue(field, code);
+        }
+    }
+
+    /**
+     * Constructor when there is just one single validation error message
+     *
+     * @param field
+     * @param message
+     * @param code
+     */
+    public EntityValidationException(Map entity, String field, String message, String code) {
+        super(message);
+
+        this.bindingResult = new MapBindingResult(entity, "target");
         if (message != null) {
             this.bindingResult.reject(field, message);
         } else {
