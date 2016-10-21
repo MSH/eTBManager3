@@ -122,16 +122,16 @@ public class AdministrativeUnit extends WorkspaceEntity {
                 pname0 = parent.getName();
                 break;
             case 1:
-                pid1 = parent.getPid1();
-                pname1 = parent.getPname1();
+                pid1 = parent.getId();
+                pname1 = parent.getName();
                 break;
             case 2:
-                pid2 = parent.getPid2();
-                pname2 = parent.getPname2();
+                pid2 = parent.getId();
+                pname2 = parent.getName();
                 break;
             case 3:
-                pid3 = parent.getPid3();
-                pname3 = parent.getPname3();
+                pid3 = parent.getId();
+                pname3 = parent.getName();
                 break;
         }
     }

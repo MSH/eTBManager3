@@ -110,8 +110,11 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
                     qry.addRestriction("1 = 0");
                 }
             } else {
-                qry.addRestriction("a.pid" + parent.getLevel() + " = :pid and a.pid" +
-                        (parent.getLevel() + 1) + " is null", q.getParentId());
+                String r = "a.pid" + parent.getLevel() + " = :pid ";
+                if ((parent.getLevel() + 1) < 4) {
+                    r = r.concat("and a.pid" + (parent.getLevel() + 1) + " is null");
+                }
+                qry.addRestriction(r, q.getParentId());
             }
         } else {
             if (q.isRootUnits()) {
@@ -320,7 +323,7 @@ public class AdminUnitServiceImpl extends EntityServiceImpl<AdministrativeUnit, 
 
         // set the condition to check just items from the same parent
         if (au.getParentId() != null) {
-            hql += " and pid" + au.getLevel() + " = :parentid";
+            hql += " and pid" + (au.getLevel() - 1) + " = :parentid";
         } else {
             hql += " and pid0 is null";
         }
