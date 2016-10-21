@@ -54,7 +54,7 @@ export default class Profile extends React.Component {
         const profileClass = 'profile profile-' + (this.props.size || 'medium');
 
         return (
-            <div className={profileClass}>
+            <div className={profileClass} style={this.props.style}>
                 {
                     (this.props.type || this.props.fa) &&
                     <div className={imgClass}><i className={icon} /></div>
@@ -81,6 +81,7 @@ Profile.propTypes = {
     size: React.PropTypes.string,
     imgClass: React.PropTypes.string,
     bottomline: React.PropTypes.bool,
-    type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user', 'place'])
+    type: React.PropTypes.oneOf(['male', 'female', 'tbunit', 'lab', 'ws', 'product', 'medicine', 'user', 'place']),
+    style: React.PropTypes.object
 };
 

@@ -31,7 +31,8 @@ export default class ReactGrid extends React.Component {
                 <ReactGridCell key={index} initialSize={cellSize}
                     value={item}
                     onRender={this.cellRender}
-                    index={index} />
+                    index={index}
+                    onClick={this.props.onReactCellClick} />
             );
 
             cells.push(cell);
@@ -109,7 +110,12 @@ ReactGrid.propTypes = {
      * Function to return custom cell size in format func(item)
      * @type {object} Object containing the size in several bootstrap sizes
      */
-    onCellSize: React.PropTypes.func
+    onCellSize: React.PropTypes.func,
+    /**
+     * function that will be called when the user clicks on the reactCell
+     * @type {[type]}
+     */
+    onReactCellClick: React.PropTypes.func
 };
 
 ReactGrid.defaultProps = {

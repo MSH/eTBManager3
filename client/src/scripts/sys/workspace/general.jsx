@@ -2,6 +2,7 @@ import React from 'react';
 import UnderConstruction from '../under-construction';
 import PageContent from '../page-content';
 import WorkspaceSettings from './general-settings';
+import WokspaceTbUnits from './general-tbunits';
 
 /**
  * List of all items displayed in the left side box
@@ -20,13 +21,13 @@ const menu = [
         path: '/users',
         view: UnderConstruction
     },
+*/
     {
         title: __('admin.units'),
         icon: 'hospital-o',
         path: '/units',
-        view: UnderConstruction
+        view: WokspaceTbUnits
     },
-*/
     {
         title: __('admin.config'),
         icon: 'cogs',
