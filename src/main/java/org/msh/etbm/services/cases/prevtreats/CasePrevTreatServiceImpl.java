@@ -55,8 +55,8 @@ public class CasePrevTreatServiceImpl extends CaseEntityServiceImpl<PrevTBTreatm
 
         // if both periods are filled in
         if (treat.getMonth() != null && treat.getYear() != null && treat.getOutcomeMonth() != null && treat.getOutcomeYear() != null) {
-            Date iniDate = DateUtils.newDate(treat.getYear(), treat.getMonth(), 1);
-            Date endDate = DateUtils.newDate(treat.getOutcomeYear(), treat.getOutcomeMonth(), 1);
+            Date iniDate = DateUtils.newDate(treat.getYear(), treat.getMonth() - 1, 1);
+            Date endDate = DateUtils.newDate(treat.getOutcomeYear(), treat.getOutcomeMonth() - 1, 1);
 
             if (iniDate.compareTo(endDate) > 0) {
                 errors.rejectValue("outcomeMonth", "cases.prevtreat.msg0");
