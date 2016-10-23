@@ -129,6 +129,7 @@ export default class CaseContacts extends React.Component {
                     onCellRender={this.cellRender}
                     onDetailRender={this.collapseCellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}
+                    perm={'CASECONTACT'}
                     />
             </CaseComments>
             );

@@ -289,6 +289,7 @@ export default class CasePrevTbTreats extends React.Component {
                     onCellRender={this.cellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}
                     refreshAll
+                    perm={'CASEMAN'}
                     />
             </CaseComments>
             );

@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.authentication;
 
+import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.msh.etbm.services.session.usersession.UserSessionService;
@@ -66,8 +67,10 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
-            response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
-            return true;
+            // TODO: the code commented bellow was not showing forbidden message to the user and interrupting the system of executing the service
+            //response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
+            //return true;
+            throw new ForbiddenException();
         }
 
         userRequestService.setUserSession(session);

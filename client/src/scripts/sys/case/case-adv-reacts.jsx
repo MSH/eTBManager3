@@ -100,6 +100,7 @@ export default class CaseAdvReact extends React.Component {
                     onCellRender={this.cellRender}
                     onDetailRender={this.collapseCellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}
+                    perm={'ADV_EFFECTS'}
                     />
             </CaseComments>
             );
