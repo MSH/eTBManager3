@@ -3,29 +3,40 @@ package org.msh.etbm.services.cases.reports;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 
 import java.util.List;
+import java.util.Map;
 
 /**
+ * Result of a report execution service, called by {@link CaseReportService#execute(ReportExecRequest)}
+ *
  * Created by rmemoria on 20/10/16.
  */
 public class ReportExecResult {
 
-    private List<CaseIndicatorResponse> indicators;
+    private String title;
+    private Map<String, Object> filters;
+    private List<CaseReportIndicatorData> indicators;
 
-    private CaseReportFormData schema;
+    public String getTitle() {
+        return title;
+    }
 
-    public List<CaseIndicatorResponse> getIndicators() {
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Map<String, Object> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Map<String, Object> filters) {
+        this.filters = filters;
+    }
+
+    public List<CaseReportIndicatorData> getIndicators() {
         return indicators;
     }
 
-    public void setIndicators(List<CaseIndicatorResponse> indicators) {
+    public void setIndicators(List<CaseReportIndicatorData> indicators) {
         this.indicators = indicators;
-    }
-
-    public CaseReportFormData getSchema() {
-        return schema;
-    }
-
-    public void setSchema(CaseReportFormData schema) {
-        this.schema = schema;
     }
 }

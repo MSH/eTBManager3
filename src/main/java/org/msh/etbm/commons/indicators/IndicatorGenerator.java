@@ -16,6 +16,7 @@ import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,9 @@ public class IndicatorGenerator {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Value("${development:false}")
+    boolean development;
 
 
     /**
@@ -187,7 +191,9 @@ public class IndicatorGenerator {
         // load data
         SQLQuery qry = new SQLQuery();
 
-        System.out.println(builder.createSql());
+        if (development) {
+            System.out.println(builder.createSql());
+        }
 
         return qry.execute(dataSource, builder.createSql(), builder.getParameters());
     }

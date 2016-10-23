@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
@@ -121,6 +122,10 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
 
     @Override
     public String getKeyDisplay(Object key) {
+        if (key == KEY_NULL) {
+            return getMessages().get(Messages.UNDEFINED);
+        }
+
         List<Item> options = getOptions();
 
         Optional<Item> item = options.stream()

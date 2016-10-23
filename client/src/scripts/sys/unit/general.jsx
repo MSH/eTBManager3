@@ -1,8 +1,8 @@
 import React from 'react';
-import SidebarContent from '../sidebar-content';
+import PageContent from '../page-content';
 
-import Dashboard from './general-dashboard';
-import Activities from './general-activities';
+import DashboardView from '../packages/dashboard/dashboard-view';
+// import Activities from './general-activities';
 
 
 const menu = [
@@ -10,14 +10,14 @@ const menu = [
         title: 'Dashboard',
         path: '/dashboard',
         icon: 'dashboard',
-        view: Dashboard,
+        view: DashboardView,
         default: true
-    },
-    {
-        title: 'Activities',
-        path: 'activities',
-        icon: 'flash',
-        view: Activities
+    // },
+    // {
+    //     title: 'Activities',
+    //     path: 'activities',
+    //     icon: 'flash',
+    //     view: Activities
     }
 ];
 
@@ -25,11 +25,16 @@ export default class UnitGeneral extends React.Component {
 
     render() {
         return (
-            <SidebarContent menu={menu} path="/sys/home/unit/general" route={this.props.route} />
-            );
+            <PageContent
+                route={this.props.route}
+                menu={menu}
+                path={this.props.route.path}
+                viewProps={{ scope: 'UNIT', scopeId: this.props.scopeId }} />
+        );
     }
 }
 
 UnitGeneral.propTypes = {
+    scopeId: React.PropTypes.string,
     route: React.PropTypes.object
 };

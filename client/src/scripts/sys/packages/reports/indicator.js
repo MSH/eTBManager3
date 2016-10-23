@@ -12,9 +12,11 @@ export default class Indicator {
      * @param schema The indicator schema, containing variables and filters
      * @param data The indicator data
      */
-    constructor(schema, data) {
+    constructor(schema, data, scope, scopeId) {
         this.schema = schema;
         this.data = data;
+        this.scope = scope;
+        this.scopeId = scopeId;
     }
 
     /**
@@ -27,7 +29,9 @@ export default class Indicator {
         return server.post('/api/cases/report/ind/exec', {
             filters: ind.filters,
             columnVariables: ind.columnVariables,
-            rowVariables: ind.rowVariables
+            rowVariables: ind.rowVariables,
+            scope: this.scope,
+            scopeId: this.scopeId
         })
         .then(res => {
             self.data = res.indicator;

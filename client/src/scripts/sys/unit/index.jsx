@@ -8,7 +8,7 @@ import SessionUtils from '../session-utils';
 
 import General from './general';
 import Cases from './cases';
-import Inventory from './inventory';
+// import Inventory from './inventory';
 
 
 const views = [
@@ -45,6 +45,15 @@ export default class Unit extends React.Component {
         this.fetchData(id);
     }
 
+    componentWillReceiveProps(nextProps) {
+        // check if page must be updated
+        const id = nextProps.route.queryParam('id');
+        const oldId = this.state.data ? this.state.data.id : null;
+        if (id !== oldId) {
+            this.fetchData(id);
+        }
+    }
+
     fetchData(id) {
         const self = this;
 
@@ -67,6 +76,7 @@ export default class Unit extends React.Component {
                 type={unit.type === 'TBUNIT' ? 'tbunit' : 'lab'}
                 views={views}
                 route={this.props.route}
+                viewProps={{ scope: 'UNIT', scopeId: unit.id }}
                 />
             );
     }

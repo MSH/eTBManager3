@@ -18,7 +18,11 @@ export default class PageContent extends React.Component {
                         <h3>{this.props.title}</h3>
                     </Fluidbar>
                 }
-                <SidebarContent menu={this.props.menu} path={this.props.path} route={this.props.route} />
+                <SidebarContent menu={this.props.menu}
+                    path={this.props.path}
+                    route={this.props.route}
+                    viewProps={this.props.viewProps}
+                    queryParams={this.props.queryParams} />
             </div>
 
             );
@@ -33,5 +37,8 @@ PageContent.propTypes = {
     // the route object given from the route lib
     route: React.PropTypes.object,
     // the main path of the pages in the admin menu
-    path: React.PropTypes.string
+    path: React.PropTypes.string,
+    // properties passed forward to the route view component
+    viewProps: React.PropTypes.object,
+    queryParams: React.PropTypes.any
 };

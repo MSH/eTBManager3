@@ -7,8 +7,9 @@ import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 /**
  * Created by rmemoria on 20/10/16.
  */
-public class CaseIndicatorData extends CaseIndicatorFormData {
+public class CaseReportIndicatorData {
 
+    private CaseIndicatorFormData schema;
     private IndicatorData data;
 
     public IndicatorData getData() {
@@ -17,5 +18,13 @@ public class CaseIndicatorData extends CaseIndicatorFormData {
 
     public void setData(IndicatorData data) {
         this.data = data;
+    }
+
+    public CaseIndicatorFormData getSchema() {
+        return schema;
+    }
+
+    public void setSchema(CaseIndicatorFormData schema) {
+        this.schema = schema;
     }
 }

@@ -1,16 +1,19 @@
 import React from 'react';
 import { Alert, Row, Col } from 'react-bootstrap';
-import { Card, Profile, WaitIcon, ReactGrid } from '../../components';
-import Form from '../../forms/form';
+import { Card, Profile, WaitIcon, ReactGrid } from '../../../components';
+import Form from '../../../forms/form';
 
-import SessionUtils from '../session-utils';
+import SessionUtils from '../../session-utils';
 
-import CrudPagination from '../packages/crud/crud-pagination';
-import CrudCounter from '../packages/crud/crud-counter';
-import CrudController from '../packages/crud/crud-controller';
-import FakeCRUD from '../../commons/fake-crud';
+import CrudPagination from '../crud/crud-pagination';
+import CrudCounter from '../crud/crud-counter';
+import CrudController from '../crud/crud-controller';
+import FakeCRUD from '../../../commons/fake-crud';
 
-export default class WorkspaceTbUnits extends React.Component {
+/**
+ * Display a list of untis
+ */
+export default class UnitsCard extends React.Component {
 
     constructor(props) {
         super(props);
@@ -53,7 +56,17 @@ export default class WorkspaceTbUnits extends React.Component {
 
     loadList() {
         const self = this;
-        this.state.controller.initList({ type: 'TBUNIT' }).then(() => self.forceUpdate());
+
+        const params = {
+            type: 'TBUNIT',
+            adminUnitId: this.props.scope === 'ADMINUNIT' ? this.props.scopeId : null
+        };
+
+        console.log(this.props);
+
+        this.state.controller
+            .initList(params)
+            .then(() => self.forceUpdate());
     }
 
     cellRender(item) {
@@ -118,6 +131,8 @@ export default class WorkspaceTbUnits extends React.Component {
     }
 }
 
-WorkspaceTbUnits.propTypes = {
+UnitsCard.propTypes = {
+    scope: React.PropTypes.oneOf(['WORKSPACE', 'ADMINUNIT']).isRequired,
+    scopeId: React.PropTypes.string,
     route: React.PropTypes.object.isRequired
 };

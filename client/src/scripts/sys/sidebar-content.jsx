@@ -53,16 +53,20 @@ export default class SidebarContent extends React.Component {
         // remove items with no permission
         const menu = this.props.menu.filter(item => item.perm && !hasPerm(item.perm) ? null : item);
 
-
         return (
             <Grid fluid>
                 <Row>
                     <Col sm={3}>
-                        <Sidebar items={menu} selected={selItem} onSelect={this.menuSelect} />
+                        <Sidebar items={menu} selected={selItem}
+                            onSelect={this.menuSelect}
+                            route={this.props.route}
+                            queryParams={this.props.queryParams} />
                     </Col>
                     <Col sm={9}>
                         <div className="mtop-2x">
-                            <RouteView routes={this.state.routes} loadingIcon={<WaitIcon />} />
+                            <RouteView routes={this.state.routes}
+                                loadingIcon={<WaitIcon />}
+                                viewProps={this.props.viewProps} />
                         </div>
                     </Col>
                 </Row>
@@ -78,5 +82,9 @@ SidebarContent.propTypes = {
     // the route object given from the route lib
     route: React.PropTypes.object,
     // the main path of the pages in the admin menu
-    path: React.PropTypes.string
+    path: React.PropTypes.string,
+    // object containing properties to be passed to the route view
+    viewProps: React.PropTypes.object,
+    // the query param object to be included in the query path of the URL hash
+    queryParams: React.PropTypes.object
 };
