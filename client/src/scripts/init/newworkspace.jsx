@@ -6,7 +6,6 @@ import { server } from '../commons/server';
 import Success from './success';
 import Callout from '../components/callout';
 import Card from '../components/card';
-import YesNoControl from '../sys/packages/types/yesno-control';
 import AsyncButton from '../components/async-button';
 
 

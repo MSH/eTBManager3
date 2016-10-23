@@ -1,8 +1,9 @@
 import React from 'react';
-import UnderConstruction from '../under-construction';
 import PageContent from '../page-content';
 import WorkspaceSettings from './general-settings';
-import WokspaceTbUnits from './general-tbunits';
+import UnitsCard from '../packages/others/units-card';
+import DashboardView from '../packages/dashboard/dashboard-view';
+
 
 /**
  * List of all items displayed in the left side box
@@ -12,7 +13,8 @@ const menu = [
         title: __('Dashboard'),
         icon: 'dashboard',
         path: '/dashboard',
-        view: UnderConstruction
+        view: DashboardView,
+        default: true
     },
 /*
     {
@@ -26,7 +28,7 @@ const menu = [
         title: __('admin.tbunits'),
         icon: 'hospital-o',
         path: '/units',
-        view: WokspaceTbUnits
+        view: UnitsCard
     },
     {
         title: __('admin.config'),
@@ -40,10 +42,11 @@ export default class General extends React.Component {
 
     render() {
         return (
-        <PageContent
-            route={this.props.route}
-            menu={menu}
-            path={this.props.route.path} />
+            <PageContent
+                route={this.props.route}
+                menu={menu}
+                path={this.props.route.path}
+                viewProps={{ scope: 'WORKSPACE' }} />
         );
     }
 }

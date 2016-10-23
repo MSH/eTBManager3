@@ -150,10 +150,10 @@ export default class IndicatorEditor extends React.Component {
             <InlineEditor value={ind.schema.title}
                 className="title"
                 onChange={this.titleChanged} />
-        ); 
+        );
 
         return (
-            <Card title={title} closeBtn>
+            <Card header={title} closeBtn>
                 <FiltersSelector filters={this.props.filters}
                     filterValues={schema.filters}
                     onChange={this.filtersChange} />

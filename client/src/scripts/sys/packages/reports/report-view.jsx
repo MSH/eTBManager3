@@ -17,7 +17,7 @@ export default class ReportView extends React.Component {
         const self = this;
 
         Report.load(id, this.props.scope, this.props.scopeId)
-        .then(res => self.setState({ report: res }));
+            .then(res => self.setState({ report: res }));
 
         this.setState({ report: null });
     }
@@ -48,7 +48,7 @@ export default class ReportView extends React.Component {
 }
 
 ReportView.propTypes = {
-    scope: React.PropTypes.string.isRequired,
+    scope: React.PropTypes.oneOf(['WORKSPACE', 'ADMINUNIT', 'UNIT']).isRequired,
     scopeId: React.PropTypes.string,
     route: React.PropTypes.object
 };

@@ -2,10 +2,12 @@ package org.msh.etbm.services.cases.reports;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorFormData;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
@@ -110,7 +112,7 @@ public class CaseReportService {
     }
 
 
-    public CaseReportFormData execute(ReportExecRequest req) {
+    public ReportExecResult execute(ReportExecRequest req) {
         Report rep = entityManager.find(Report.class, req.getReportId());
 
         if (rep == null) {
@@ -120,7 +122,25 @@ public class CaseReportService {
         CaseReportFormData schema = JsonParser.parseString(rep.getData(), CaseReportFormData.class);
 
         // generate the indicators
-        List<CaseIndicatorFormData> lst = schema.getIndicators()
+        List<CaseReportIndicatorData> lst = generateIndicators(schema, req.getScope(), req.getScopeId());
+
+        ReportExecResult res = new ReportExecResult();
+        res.setTitle(schema.getTitle());
+        res.setFilters(schema.getFilters());
+        res.setIndicators(lst);
+
+        return res;
+    }
+
+    /**
+     * Generate the list of indicator data based on the report form data
+     * @param rep
+     * @param scope
+     * @param scopeId
+     * @return
+     */
+    public List<CaseReportIndicatorData> generateIndicators(CaseReportFormData rep, RequestScope scope, UUID scopeId) {
+        List<CaseReportIndicatorData> lst = rep.getIndicators()
                 .stream()
                 .map(ind -> {
                     // generate indicator
@@ -128,21 +148,19 @@ public class CaseReportService {
                     indreq.setFilters(ind.getFilters());
                     indreq.setColumnVariables(ind.getColumnVariables());
                     indreq.setRowVariables(ind.getRowVariables());
-                    indreq.setScope(req.getScope());
-                    indreq.setScopeId(req.getScopeId());
+                    indreq.setScope(scope);
+                    indreq.setScopeId(scopeId);
                     CaseIndicatorResponse resp = caseIndicatorsService.execute(indreq);
 
                     // pack response
-                    CaseIndicatorData inddata = new CaseIndicatorData();
-                    ObjectUtils.copyObject(ind, inddata);
+                    CaseReportIndicatorData inddata = new CaseReportIndicatorData();
                     inddata.setData(resp.getIndicator());
+                    inddata.setSchema(ind);
 
                     return inddata;
                 })
                 .collect(Collectors.toList());
 
-        schema.setIndicators(lst);
-
-        return schema;
+        return lst;
     }
 }

@@ -7,6 +7,8 @@
 
 import React from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
+import { isFunction } from '../commons/utils';
+
 
 // load style
 import './sidebar.less';
@@ -25,20 +27,38 @@ export default class Sidebar extends React.Component {
         window.location.hash = this.props.path + item.path;
     }
 
+    hash(item) {
+        const hash = this.props.route.path + item.path;
+
+        // check if there is any query params
+        let qry = this.props.queryParams;
+        if (isFunction(qry)) {
+            qry = qry(item);
+        }
+
+        qry = qry ?
+            '?' + Object.keys(qry).map(p => p + '=' + encodeURIComponent(qry[p])).join('&') :
+            '';
+
+        return '#' + hash + qry;
+    }
+
     render() {
         // get the items to fill in the sidebar
         const items = this.props.items || [];
 
+        console.log('sidebar = ', this.props.queryParams);
+
         return (
             <div className="sidebar">
-                <Nav onSelect={this.props.onSelect} activeKey={this.props.selected}>
+                <Nav activeKey={this.props.selected}>
                     {items.map((item, index) => {
                         if (item.separator) {
                             return <NavItem disabled key={index}><hr/></NavItem>;
                         }
 
                         return (
-                            <NavItem eventKey={item} key={index}>
+                            <NavItem eventKey={item} key={index} href={this.hash(item)}>
                             {
                                 item.icon && <i className={'fa fa-fw fa-' + item.icon} />
                             }
@@ -58,5 +78,6 @@ Sidebar.propTypes = {
     onSelect: React.PropTypes.func,
     selected: React.PropTypes.object,
     path: React.PropTypes.string,
-    route: React.PropTypes.object
+    route: React.PropTypes.object,
+    queryParams: React.PropTypes.any
 };

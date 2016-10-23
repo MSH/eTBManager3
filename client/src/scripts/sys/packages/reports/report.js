@@ -15,13 +15,17 @@ export default class Report {
         };
 
         return server.post('/api/cases/report/exec', req)
-        .then(res => new Report(res.result));
+        .then(res => {
+            const rep = new Report(res.result);
+            res.result.indicators.forEach(ind => rep.addIndicator(ind.schema, ind.data));
+            return rep;
+        });
     }
 
     /**
      * Default constructor, passing the report schema (filters, variables, etc)
      */
-    constructor(schema) {
+    constructor(schema, scope, scopeId) {
         this.schema = schema ? schema :
             // report template
             {
@@ -29,25 +33,22 @@ export default class Report {
                 dashboard: false
             };
 
+        this.scope = scope ? scope : 'WORKSPACE';
+        this.scopeId = scopeId ? scopeId : null;
+
         this.indicators = [];
-        // check if there are indicators to construct
-        if (this.schema.indicators) {
-            this.schema.indicators.forEach(sc =>
-                this.indicators.push(new Indicator(sc, sc.data))
-            );
-        }
     }
 
     /**
      * Add a new indicator to the report
      */
-    addIndicator() {
-        const ind = new Indicator({
+    addIndicator(schema, data) {
+        const ind = new Indicator(schema ? schema : {
             title: 'Indicator title (click to change)',
             size: 6,
             chart: 'pie',
             display: 0
-        });
+        }, data, this.scope, this.scopeId);
 
         this.indicators.push(ind);
     }
@@ -60,7 +61,6 @@ export default class Report {
         const lst = this.indicators.map(ind => ind.schema);
         req.indicators = lst;
 
-        return server.post('/api/cases/report/save', req)
-        .then(res => console.log(res));
+        return server.post('/api/cases/report/save', req);
     }
 }

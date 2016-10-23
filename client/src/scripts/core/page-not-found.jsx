@@ -7,7 +7,7 @@ import { app } from './app';
 export default class PageNotFound extends React.Component {
 
     homeClick() {
-        app.goto('/sys/home/index');
+        window.hash = '/sys';
     }
 
     render() {

@@ -21,7 +21,7 @@ export default class ReportEditor extends React.Component {
         server.post('/api/cases/report/init')
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
-        const rep = new Report();
+        const rep = new Report(null, this.props.scope, this.props.scopeId);
         rep.addIndicator();
 
         this.setState({ report: rep });

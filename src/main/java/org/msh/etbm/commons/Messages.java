@@ -52,6 +52,8 @@ public class Messages {
     // convert a date to a displayable string
     public static final String LOCALE_DISPLAY_DATE_FORMAT = "locale.displayDateFormat";
 
+    public static final String UNDEFINED = "global.notdef";
+
 
     /**
      * The pattern to get the keys to be replaced inside the string
