@@ -12,13 +12,15 @@ const menu = [
         icon: 'dashboard',
         view: DashboardView,
         default: true
-    // },
-    // {
-    //     title: 'Activities',
-    //     path: 'activities',
-    //     icon: 'flash',
-    //     view: Activities
     }
+    /*
+    {
+        title: 'Activities',
+        path: 'activities',
+        icon: 'flash',
+        view: Activities
+    }
+    */
 ];
 
 export default class UnitGeneral extends React.Component {

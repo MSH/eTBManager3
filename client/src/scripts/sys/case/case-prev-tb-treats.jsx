@@ -106,18 +106,18 @@ export default class CasePrevTbTreats extends React.Component {
         this.cellRender = this.cellRender.bind(this);
 
         const monthOptions = [
-            { id: 0, name: 'January' },
-            { id: 1, name: 'February' },
-            { id: 2, name: 'March' },
-            { id: 3, name: 'April' },
-            { id: 4, name: 'May' },
-            { id: 5, name: 'June' },
-            { id: 6, name: 'July' },
-            { id: 7, name: 'August' },
-            { id: 8, name: 'September' },
-            { id: 9, name: 'Octuber' },
-            { id: 10, name: 'November' },
-            { id: 11, name: 'Dezember' }
+            { id: 1, name: __('January') },
+            { id: 2, name: __('February') },
+            { id: 3, name: __('March') },
+            { id: 4, name: __('April') },
+            { id: 5, name: __('May') },
+            { id: 6, name: __('June') },
+            { id: 7, name: __('July') },
+            { id: 8, name: __('August') },
+            { id: 9, name: __('September') },
+            { id: 10, name: __('October') },
+            { id: 11, name: __('November') },
+            { id: 12, name: __('December') }
         ];
 
         const editorSchema = {
@@ -260,8 +260,8 @@ export default class CasePrevTbTreats extends React.Component {
     }
 
     cellRender(item) {
-        let title = moment([2000, item.month, 1]).format('MMMM') + '/' + item.year;
-        const outcomeMonth = !isEmpty(item.outcomeMonth) ? moment([2000, item.outcomeMonth, 1]).format('MMMM') + '/' : '';
+        let title = moment([2000, item.month - 1, 1]).format('MMMM') + '/' + item.year;
+        const outcomeMonth = !isEmpty(item.outcomeMonth) ? moment([2000, item.outcomeMonth - 1, 1]).format('MMMM') + '/' : '';
         title = title + (item.outcomeYear ? ' ' + __('global.until') + ' ' + outcomeMonth + item.outcomeYear : '');
 
         return (

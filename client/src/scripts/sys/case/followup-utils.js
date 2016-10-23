@@ -149,6 +149,20 @@ const displaySchemas = {
             },
             {
                 type: 'select',
+                label: __('cases.exams.media'),
+                property: 'method',
+                options: [
+                    { id: 'LJ', name: 'Lowenstein-Jensen' },
+                    { id: 'MGIT960', name: 'MGIT 960' },
+                    { id: 'MGIT320', name: 'MGIT 320' },
+                    { id: 'LPA', name: 'Line Probe Assay' },
+                    { id: 'OK', name: 'Ogawa-Kudoh' },
+                    { id: 'OTHER', name: 'Other' }
+                ],
+                size: { sm: 4 }
+            },
+            {
+                type: 'select',
                 label: __('cases.details.result'),
                 property: 'result',
                 options: app.getState().app.lists.CultureResult,
@@ -158,12 +172,6 @@ const displaySchemas = {
                 type: 'number',
                 label: __('ExamCulture.numberOfColonies'),
                 property: 'numberOfColonies',
-                size: { sm: 4 }
-            },
-            {
-                type: 'string',
-                label: __('cases.exams.media'),
-                property: 'method',
                 size: { sm: 4 }
             },
             {
@@ -244,9 +252,16 @@ const displaySchemas = {
                 size: { sm: 4 }
             },
             {
-                type: 'string',
+                type: 'select',
                 label: __('cases.exams.method'),
                 property: 'method',
+                options: [
+                    { id: 'PROPORTIONS', name: 'Proportions' },
+                    { id: 'MGIT960', name: 'MGIT 960' },
+                    { id: 'MGIT320', name: 'MGIT 320' },
+                    { id: 'LPA', name: 'Line Probe Assay' },
+                    { id: 'OTHER', name: 'Other' }
+                ],
                 size: { sm: 4 }
             },
             {
@@ -343,8 +358,8 @@ const displaySchemas = {
 
     EXAM_HIV: {
         defaultProperties: {
-            startedART: doc => doc.startedARTdate === null ? 'No' : 'Yes',
-            startedCPT: doc => doc.startedCPTdate === null ? 'No' : 'Yes'
+            startedART: doc => !doc.startedARTdate ? 'No' : 'Yes',
+            startedCPT: doc => !doc.startedCPTdate ? 'No' : 'Yes'
         },
         controls: [
             {
@@ -395,9 +410,16 @@ const displaySchemas = {
     EXAM_XRAY: {
         controls: [
             {
-                type: 'string',
+                type: 'select',
                 label: __('TbField.XRAYPRESENTATION'),
                 property: 'presentation',
+                options: [
+                    { id: 'CAVITARY', name: 'Cavitary' },
+                    { id: 'INFILTRATE', name: 'Infiltrate' },
+                    { id: 'NORMAL', name: 'Normal' },
+                    { id: 'OTHER', name: 'Other' },
+                    { id: 'PENDING', name: 'Pending' }
+                ],
                 size: { sm: 2 }
             },
             {
@@ -585,6 +607,20 @@ const editSchemas = {
             },
             {
                 type: 'select',
+                label: __('cases.exams.media'),
+                property: 'method',
+                options: [
+                    { id: 'LJ', name: 'Lowenstein-Jensen' },
+                    { id: 'MGIT960', name: 'MGIT 960' },
+                    { id: 'MGIT320', name: 'MGIT 320' },
+                    { id: 'LPA', name: 'Line Probe Assay' },
+                    { id: 'OK', name: 'Ogawa-Kudoh' },
+                    { id: 'OTHER', name: 'Other' }
+                ],
+                size: { sm: 12, newLine: true }
+            },
+            {
+                type: 'select',
                 label: __('cases.details.result'),
                 property: 'result',
                 options: app.getState().app.lists.CultureResult,
@@ -598,12 +634,6 @@ const editSchemas = {
                 options: { from: 1, to: 9 },
                 size: { sm: 6 },
                 visible: value => value.result === 'POSITIVE'
-            },
-            {
-                type: 'string',
-                label: __('cases.exams.media'),
-                property: 'method',
-                size: { sm: 12, newLine: true }
             },
             {
                 type: 'text',
@@ -688,9 +718,16 @@ const editSchemas = {
                 size: { sm: 6 }
             },
             {
-                type: 'string',
+                type: 'select',
                 label: __('cases.exams.method'),
                 property: 'method',
+                options: [
+                    { id: 'PROPORTIONS', name: 'Proportions' },
+                    { id: 'MGIT960', name: 'MGIT 960' },
+                    { id: 'MGIT320', name: 'MGIT 320' },
+                    { id: 'LPA', name: 'Line Probe Assay' },
+                    { id: 'OTHER', name: 'Other' }
+                ],
                 size: { sm: 6 }
             },
             {
@@ -868,9 +905,16 @@ const editSchemas = {
                 size: { sm: 4 }
             },
             {
-                type: 'string',
+                type: 'select',
                 label: __('TbField.XRAYPRESENTATION'),
                 property: 'presentation',
+                options: [
+                    { id: 'CAVITARY', name: 'Cavitary' },
+                    { id: 'INFILTRATE', name: 'Infiltrate' },
+                    { id: 'NORMAL', name: 'Normal' },
+                    { id: 'OTHER', name: 'Other' },
+                    { id: 'PENDING', name: 'Pending' }
+                ],
                 required: true,
                 size: { sm: 4 }
             },
