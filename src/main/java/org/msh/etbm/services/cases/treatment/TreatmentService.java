@@ -239,6 +239,10 @@ public class TreatmentService {
                 .setParameter("id", caseId)
                 .executeUpdate();
 
+        entityManager.createQuery("delete from TreatmentMonitoring where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+
         applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
