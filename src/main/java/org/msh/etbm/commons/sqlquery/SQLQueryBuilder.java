@@ -120,6 +120,20 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
     /**
+     * Initialize the SQL generator for a new query, cleaning all restrictions, fields, joins
+     */
+    public void initialize() {
+        parameters.clear();
+        fields.clear();
+
+        SQLTable tbl = joins.get(0);
+        joins.clear();
+        joins.add(tbl);
+
+        restrictions.clear();
+    }
+
+    /**
      * Clear all fields in the select operation
      */
     public void clearSelect() {
@@ -151,9 +165,11 @@ public class SQLQueryBuilder implements QueryDefs {
                     fname = parseTableName(fname);
                     s.append(fname).append(' ').append(field.getFieldAlias());
                 } else {
-                    s.append(field.getTable().getTableAlias())
-                            .append(".")
-                            .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+                    if (!isFieldExpression(fname)) {
+                        s.append(field.getTable().getTableAlias()).append(".");
+                    }
+
+                    s.append(fname).append(' ').append(field.getFieldAlias());
                 }
             }
 
@@ -167,6 +183,23 @@ public class SQLQueryBuilder implements QueryDefs {
         fieldMapping = mapping;
 
         return s;
+    }
+
+    /**
+     * Check if field is an expression (constant, subquery, etc) or is a literal
+     * @param fname
+     * @return
+     */
+    protected boolean isFieldExpression(String fname) {
+        char[] vals = {'"', '\'', ' ', '(' };
+
+        for (char c: vals) {
+            if (fname.indexOf(c) >= 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

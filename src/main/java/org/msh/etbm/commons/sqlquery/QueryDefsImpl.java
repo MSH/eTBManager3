@@ -177,7 +177,6 @@ public class QueryDefsImpl implements QueryDefs {
         return sqlexpr;
     }
 
-
     /**
      * Return the table alias by the table name
      * @param tableName
@@ -201,8 +200,12 @@ public class QueryDefsImpl implements QueryDefs {
             return tbl.getTableAlias();
         }
 
-        join(tableName);
-        return getTableAlias(tableName);
+        if (builder.findNamedJoin(tableName) != null) {
+            join(tableName);
+            return getTableAlias(tableName);
+        }
+
+        return tableName;
     }
 
 

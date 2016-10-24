@@ -5,6 +5,7 @@ import org.msh.etbm.commons.indicators.datatable.impl.GroupedDataTableImpl;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,7 @@ public class IndicatorDataTableImpl extends GroupedDataTableImpl implements Indi
                 null;
 
         if (title == null) {
-            throw new IndicatorException("Column descriptor not found");
+            throw new IndicatorException("Column descriptor not found for " + Arrays.toString(key) + " at " + i);
         }
         return super.addColumn(index, key);
     }

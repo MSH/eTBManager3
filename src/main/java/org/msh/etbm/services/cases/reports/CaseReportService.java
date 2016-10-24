@@ -2,13 +2,10 @@ package org.msh.etbm.services.cases.reports;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.JsonParser;
-import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
-import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.RequestScope;
-import org.msh.etbm.services.cases.indicators.CaseIndicatorFormData;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
@@ -51,9 +48,12 @@ public class CaseReportService {
         updateData(rep, repdata);
 
         UUID userid = userRequestService.getUserSession().getUserId();
-        User user = entityManager.find(User.class, userid);
+        if (userid != null) {
+            User user = entityManager.find(User.class, userid);
 
-        rep.setOwner(user);
+            rep.setOwner(user);
+        }
+
         rep.setRegistrationDate(new Date());
 
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();

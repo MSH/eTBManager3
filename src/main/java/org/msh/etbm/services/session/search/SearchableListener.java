@@ -1,20 +1,12 @@
 package org.msh.etbm.services.session.search;
 
-import org.msh.etbm.commons.PersonNameUtils;
 import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
-import org.msh.etbm.db.Synchronizable;
-import org.msh.etbm.db.entities.*;
-import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
-import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * Listener that creates, updates or remove a searchable based on an entity

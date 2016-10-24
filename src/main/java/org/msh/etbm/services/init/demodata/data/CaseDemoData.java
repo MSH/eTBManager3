@@ -1,6 +1,7 @@
 package org.msh.etbm.services.init.demodata.data;
 
 import org.msh.etbm.services.cases.cases.data.CaseDetailedData;
+
 import java.util.List;
 
 /**

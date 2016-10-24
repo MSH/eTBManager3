@@ -1,0 +1,61 @@
+[
+  {
+  "title":"Dashboard",
+  "filters":null,
+  "indicators":[
+    {
+      "title":"Treatment outcome by gender",
+      "filters":null,
+      "chart":"bar",
+      "display":0,
+      "rowVariables":[
+        "outcome"
+      ],
+      "columnVariables":[
+        "gender"
+      ],
+      "size":6
+    },
+    {
+      "title":"HIV result by cases on treatment",
+      "filters":{
+        "case-state":[
+          "ONTREATMENT"
+        ]
+      },
+      "chart":"pie",
+      "display":0,
+      "rowVariables":[
+        "classification"
+      ],
+      "columnVariables":[
+        "hiv-result"
+      ],
+      "size":6
+    }
+  ],
+  "published":false,
+  "dashboard":true
+},
+  {
+    "title":"Dashboard",
+    "filters":null,
+    "indicators":[
+      {
+        "title":"Treatment outcome",
+        "filters":null,
+        "chart":"bar",
+        "display":0,
+        "rowVariables":[
+          "outcome"
+        ],
+        "columnVariables":[
+          "classification"
+        ],
+        "size":12
+      }
+    ],
+    "published":false,
+    "dashboard":false
+  }
+  ]

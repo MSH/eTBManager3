@@ -7,7 +7,8 @@ import org.msh.etbm.commons.indicators.datatable.impl.GroupedDataTableImpl;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Test the {@link GroupedDataTable}

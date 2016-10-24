@@ -3,7 +3,6 @@ package org.msh.etbm.services.cases.tag;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Workspace;

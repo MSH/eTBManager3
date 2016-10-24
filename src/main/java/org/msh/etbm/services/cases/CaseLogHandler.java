@@ -11,9 +11,6 @@ import org.msh.etbm.services.cases.casemove.CaseMoveResponse;
 import org.msh.etbm.services.cases.tag.ManualCaseTagsResponse;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 /**
  * Register log for case features
  * Created by msantos 22/07/2016.

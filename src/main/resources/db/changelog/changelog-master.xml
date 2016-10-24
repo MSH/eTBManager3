@@ -984,7 +984,7 @@
             <column name="registrationDate" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="owner_id" type="${type.id}">
+            <column name="owner_id" type="${type.id}" >
                 <constraints nullable="false"/>
             </column>
             <column name="dashboard" type="${type.boolean}">

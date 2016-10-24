@@ -9,6 +9,8 @@ import org.msh.etbm.commons.Item;
  */
 public class VariableOptions {
 
+    public static final Item CASE_COUNTS = new Item("cases", "Cases");
+
     /**
      * If the variable must display information in a two-level structure, so this method must return true
      * @return true if variable is grouped
@@ -71,5 +73,13 @@ public class VariableOptions {
 
     public void setIterationCount(int iterationCount) {
         this.iterationCount = iterationCount;
+    }
+
+    public Item<String> getCountingUnit() {
+        return countingUnit;
+    }
+
+    public void setCountingUnit(Item<String> countingUnit) {
+        this.countingUnit = countingUnit;
     }
 }

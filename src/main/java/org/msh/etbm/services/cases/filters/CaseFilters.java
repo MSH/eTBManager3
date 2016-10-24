@@ -7,10 +7,7 @@ import org.msh.etbm.commons.filters.FilterGroupData;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.indicators.variables.VariableData;
 import org.msh.etbm.commons.indicators.variables.VariableGroupData;
-import org.msh.etbm.db.enums.CaseClassification;
-import org.msh.etbm.db.enums.CaseState;
-import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.db.enums.InfectionSite;
+import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.cases.filters.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -40,6 +37,9 @@ public class CaseFilters {
     public static final String EXTRAPULMONARY_FORMS = "extrapulmonary-forms";
     public static final String TAG = "tag";
     public static final String SUMMARY = "summary";
+    public static final String CASE_DEFINITION = "case-definition";
+    public static final String AGE_RANGE = "age-range";
+    public static final String HIV_RESULT = "hiv-result";
 
 
     @Autowired
@@ -53,27 +53,43 @@ public class CaseFilters {
 
 
     private void createCaseDataFilters(FilterGroup grp) {
-
         grp.add(new EnumFilter(CASE_CLASSIFICATION,
                 CaseClassification.class, "${CaseClassification}", "tbcase.classification"));
+
         grp.add(new ModelFieldOptionsFilter(GENDER, "${Gender}", "patient", "gender"));
-        grp.add(new EnumFilter(CASE_STATE, CaseState.class, "${CaseState}", "tbcase.state"));
-        grp.add(new EnumFilter(INFECTION_SITE, InfectionSite.class, "${InfectionSite}", "tbcase.infectionSite"));
+
         grp.add(new EnumFilter(DIAGNOSIS_TYPE, DiagnosisType.class, "${DiagnosisType}", "tbcase.diagnosisType"));
+
+        grp.add(new EnumFilter(CASE_STATE, CaseState.class, "${CaseState}", "tbcase.state"));
+
+        grp.add(new EnumFilter(INFECTION_SITE, InfectionSite.class, "${InfectionSite}", "tbcase.infectionSite"));
+
         grp.add(new ModelFieldOptionsFilter(NATIONALITY, "${Nationality}", "tbcase", "nationality"));
+
         grp.add(new ModelFieldOptionsFilter(OUTCOME, "${TbCase.outcome}", "tbcase", "outcome"));
+
         grp.add(new ModelFieldOptionsFilter(REGISTRATION_GROUP,
                 "${TbCase.registrationGroup}", "tbcase", "registrationGroup"));
+
         grp.add(new ModelFieldOptionsFilter(DRUG_RESISTANCE_TYPE,
                 "${DrugResistanceType}", "tbcase", "drugResistanceType"));
+
         grp.add(new ModelFieldOptionsFilter(PULMONARY_FORMS,
                 "${TbCase.pulmonaryType}", "tbcase", "pulmonaryType"));
+
         grp.add(new ModelFieldOptionsFilter(EXTRAPULMONARY_FORMS,
                 "${TbCase.extrapulmonaryType}", "tbcase", "extrapulmonaryType"));
+
+        grp.add(new EnumFilter(CASE_DEFINITION, CaseDefinition.class, "${CaseDefinition}", "tbcase.caseDefinition"));
+
+        grp.add(new AgeRangeFilter());
+    }
+
+    private void createHivGroup(FilterGroup grp) {
+        grp.add(new HIVResultFilter());
     }
 
     private void createMicroscopyFilters(FilterGroup grp) {
-
     }
 
     private void createCultureFilters(FilterGroup grp) {
@@ -217,6 +233,7 @@ public class CaseFilters {
         createCaseDataFilters(createGroup("${cases.details.case}"));
         createMicroscopyFilters(createGroup("${cases.exammicroscopy}"));
         createCultureFilters(createGroup("${cases.examculture}"));
+        createHivGroup(createGroup("${cases.examhiv}"));
         createOtherFilters(createGroup("${cases.filters.others}"));
 
         initFilters();

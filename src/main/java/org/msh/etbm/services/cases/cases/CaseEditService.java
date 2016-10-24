@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.cases;
 
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
@@ -14,7 +15,6 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.services.cases.cases.data.CaseEditFormData;
-import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;

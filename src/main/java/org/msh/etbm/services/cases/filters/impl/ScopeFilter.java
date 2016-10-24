@@ -3,7 +3,6 @@ package org.msh.etbm.services.cases.filters.impl;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
-import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.admin.admunits.AdminUnitService;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 

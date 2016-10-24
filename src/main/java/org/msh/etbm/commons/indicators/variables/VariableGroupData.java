@@ -1,7 +1,5 @@
 package org.msh.etbm.commons.indicators.variables;
 
-import org.msh.etbm.commons.indicators.variables.VariableData;
-
 import java.util.List;
 
 /**
