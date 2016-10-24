@@ -50,8 +50,9 @@ export default class IndicatorEditor extends React.Component {
     refreshClick() {
         const ind = this.props.indicator;
 
-        if (!ind.columnVariables || ind.columnVariables.length === 0 ||
-            !ind.rowVariables || ind.rowVariables.length === 0) {
+        const schema = ind.schema;
+        if (!schema.columnVariables || schema.columnVariables.length === 0 ||
+            !schema.rowVariables || schema.rowVariables.length === 0) {
             app.messageDlg({ title: 'Indicator', message: 'Please select a varibale for column and row', style: 'warning' });
             return;
         }

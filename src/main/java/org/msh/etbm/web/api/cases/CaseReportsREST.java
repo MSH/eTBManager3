@@ -69,4 +69,10 @@ public class CaseReportsREST {
         ReportExecResult res = caseReportService.execute(req);
         return new StandardResult(res, null, true);
     }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
+    public StandardResult delete(@PathVariable UUID id) {
+        caseReportService.delete(id);
+        return StandardResult.createSuccessResult();
+    }
 }

@@ -30,7 +30,7 @@ module.exports = {
         // just two languages in dev, to speed-up refreshes
         dev:  ['en', 'pt_BR'],
         // all languages available in production mode
-        prod: ['en', 'pt_BR', 'uk', 'ru']
+        prod: ['en', 'pt_BR', 'ru']
     },
 
     defaultLanguage: 'en',

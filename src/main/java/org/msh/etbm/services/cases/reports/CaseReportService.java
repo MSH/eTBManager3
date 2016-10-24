@@ -163,4 +163,15 @@ public class CaseReportService {
 
         return lst;
     }
+
+    @Transactional
+    public void delete(UUID id) {
+        Report rep = entityManager.find(Report.class, id);
+        if (rep == null) {
+            throw new EntityNotFoundException("Report not found");
+        }
+
+        entityManager.remove(rep);
+        entityManager.flush();
+    }
 }
