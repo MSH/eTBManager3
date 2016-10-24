@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, DropdownButton, Button, MenuItem } from 'react-bootstrap';
 import { Card, Fa, WaitIcon, InlineEditor } from '../../../components';
+import { app } from '../../../core/app';
 import Chart from './chart';
 import TableView from './table-view';
 
@@ -48,6 +49,12 @@ export default class IndicatorEditor extends React.Component {
 
     refreshClick() {
         const ind = this.props.indicator;
+
+        if (!ind.columnVariables || ind.columnVariables.length === 0 ||
+            !ind.rowVariables || ind.rowVariables.length === 0) {
+            app.messageDlg({ title: 'Indicator', message: 'Please select a varibale for column and row', style: 'warning' });
+            return;
+        }
 
         const self = this;
 
