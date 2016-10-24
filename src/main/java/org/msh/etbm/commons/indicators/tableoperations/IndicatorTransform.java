@@ -91,6 +91,9 @@ public class IndicatorTransform {
 
             for (Variable var: variables) {
                 String s = var.getKeyDisplay(vals[index]);
+                if (s == null) {
+                    throw new IndicatorException("Invalid key display for value " + vals[index]);
+                }
 
                 String id = vals[index].toString();
 

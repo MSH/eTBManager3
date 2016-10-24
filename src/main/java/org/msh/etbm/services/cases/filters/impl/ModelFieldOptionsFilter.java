@@ -6,7 +6,6 @@ import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelManager;
-import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 

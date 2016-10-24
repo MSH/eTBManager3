@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;

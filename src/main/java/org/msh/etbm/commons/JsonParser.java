@@ -3,6 +3,7 @@ package org.msh.etbm.commons;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -40,6 +41,26 @@ public class JsonParser {
         try {
             InputStream in = res.getInputStream();
             return parse(in, type);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new JsonParserException(e);
+        }
+    }
+
+    /**
+     * Read a json file as an array from the application resources
+     * @param resource
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public static <T> T[] parseArrayResource(String resource, Class<T> type) {
+        ClassPathResource res = new ClassPathResource(resource);
+
+        try {
+            InputStream in = res.getInputStream();
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(in, TypeFactory.defaultInstance().constructArrayType(type));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new JsonParserException(e);

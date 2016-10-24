@@ -76,6 +76,14 @@ public class IndicatorSqlBuilder {
 
 
     /**
+     * Clear all definitions for the query, making it ready for a new query definition
+     */
+    public void initialize() {
+        sqlBuilder.initialize();
+        varRestrictions.clear();
+    }
+
+    /**
      * Create the SQL instruction
      * @return SQL instruction to be executed in the database server in order to return
      * the specific fields and its indicators
@@ -83,7 +91,7 @@ public class IndicatorSqlBuilder {
     public String createSql() {
         varRestrictions.clear();
         variableFields.clear();
-        sqlBuilder.clearSelect();
+        sqlBuilder.initialize();
 
         // include filters in the SQL
         if (filters != null) {

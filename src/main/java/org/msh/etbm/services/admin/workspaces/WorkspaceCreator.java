@@ -8,6 +8,7 @@ import org.msh.etbm.services.admin.workspaces.impl.AdminUnitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.NewWorkspaceTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.TbunitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.UserProfileTemplate;
+import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.init.demodata.DemoDataSearchableCreator;
 import org.msh.etbm.services.security.permissions.Permission;
 import org.msh.etbm.services.security.permissions.Permissions;
@@ -20,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,9 +46,9 @@ public class WorkspaceCreator {
     @Autowired
     DemoDataSearchableCreator searchableCreator;
 
-    @Transactional
-    public WorkspaceData create(String name) {
 
+    @Transactional
+    public WorkspaceData create(String name, UUID userId) {
         // read the template data
         NewWorkspaceTemplate template = JsonParser.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
 
@@ -57,6 +59,14 @@ public class WorkspaceCreator {
         createUnits(template, lst);
 
         createProfiles(template);
+
+        addUserToWorkspace(userId, ws.getId());
+
+        entityManager.flush();
+
+        User user = entityManager.find(User.class, userId);
+
+        createReports(ws, user);
 
         searchableCreator.create(Workspace.class, ws.getId());
         searchableCreator.create(AdministrativeUnit.class, ws.getId());
@@ -279,4 +289,23 @@ public class WorkspaceCreator {
         profile.getPermissions().add(perm);
     }
 
+
+    /**
+     * Create the standard reports
+     */
+    protected void createReports(Workspace ws, User user) {
+        CaseReportFormData[] lst = JsonParser.parseArrayResource("/templates/json/reports.json", CaseReportFormData.class);
+        for (CaseReportFormData data: lst) {
+            Report rep = new Report();
+            rep.setDashboard(data.isDashboard());
+            rep.setPublished(data.isPublished());
+            rep.setData(JsonParser.objectToJSONString(data, false));
+            rep.setOwner(user);
+            rep.setWorkspace(ws);
+            rep.setRegistrationDate(new Date());
+            rep.setTitle(data.getTitle());
+            entityManager.persist(rep);
+            entityManager.flush();
+        }
+    }
 }

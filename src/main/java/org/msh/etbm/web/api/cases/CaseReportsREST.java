@@ -1,7 +1,10 @@
 package org.msh.etbm.web.api.cases;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.services.cases.indicators.*;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorInitResponse;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
+import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
 import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.cases.reports.CaseReportService;
 import org.msh.etbm.services.cases.reports.ReportExecRequest;

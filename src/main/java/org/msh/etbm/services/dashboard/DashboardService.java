@@ -2,7 +2,6 @@ package org.msh.etbm.services.dashboard;
 
 import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.db.entities.Report;
-import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
 import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.cases.reports.CaseReportIndicatorData;
 import org.msh.etbm.services.cases.reports.CaseReportService;

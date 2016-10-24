@@ -5,11 +5,11 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.UserLog;
-import org.msh.etbm.services.init.demodata.DemonstrationDataCreator;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.admin.workspaces.WorkspaceCreator;
 import org.msh.etbm.services.admin.workspaces.WorkspaceData;
+import org.msh.etbm.services.init.demodata.DemonstrationDataCreator;
 import org.msh.etbm.services.security.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,10 +57,9 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     @CommandLog(type = CommandTypes.INIT_REGWORKSPACE, handler = RegisterWorkspaceLog.class)
     @Override
     public UUID run(@Valid @NotNull RegisterWorkspaceRequest form) {
+        User user = createAdminUser(form);
 
-        WorkspaceData ws = workspaceCreator.create(form.getWorkspaceName());
-
-        createAdminUser(form, ws);
+        WorkspaceData ws = workspaceCreator.create(form.getWorkspaceName(), user.getId());
 
         updateConfiguration(form);
 
@@ -75,7 +74,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
     /**
      * Create the account of the administrator user called admin using the given password
      */
-    private void createAdminUser(RegisterWorkspaceRequest form, WorkspaceData ws) {
+    private User createAdminUser(RegisterWorkspaceRequest form) {
         User user = new User();
         user.setLogin(ADMIN_LOGIN);
         user.setName(ADMIN_NAME);
@@ -96,7 +95,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
         entityManager.persist(ulog);
         entityManager.flush();
 
-        workspaceCreator.addUserToWorkspace(user.getId(), ws.getId());
+        return user;
     }
 
 

@@ -1,12 +1,5 @@
 package org.msh.etbm.services.init.demodata.data;
 
-import org.msh.etbm.db.entities.Medicine;
-import org.msh.etbm.db.entities.Regimen;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-
 /**
  * Stores data about MedicineRegimen created as demonstration data
  * Created by Mauricio on 19/10/2016.

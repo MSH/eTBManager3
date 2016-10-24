@@ -5,6 +5,7 @@ import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
+import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.cmdlog.EntityCmdLogHandler;
@@ -14,13 +15,11 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormRequest;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
-import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -81,12 +80,10 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         checkUniqueWorkspaceName(ws);
 
         // create a new workspace using the template file
-        WorkspaceData data = workspaceCreator.create(frmdata.getName().get());
+        WorkspaceData data = workspaceCreator.create(frmdata.getName().get(), userRequestService.getUserSession().getUserId());
 
         // get the 'real' workspace
         Workspace entity = getEntityManager().find(Workspace.class, data.getId());
-
-        addCurrentUser(entity);
 
         // create the result of the service
         ServiceResult res = createResult(entity);
@@ -101,18 +98,6 @@ public class WorkspaceServiceImpl extends EntityServiceImpl<Workspace, Workspace
         return res;
     }
 
-    /**
-     * Add the current user to the new workspace, so he will be able to enter there
-     *
-     * @param workspace the new workspace
-     */
-    private void addCurrentUser(Workspace workspace) {
-        EntityManager em = getEntityManager();
-
-        UUID userId = userRequestService.getUserSession().getUserId();
-
-        workspaceCreator.addUserToWorkspace(userId, workspace.getId());
-    }
 
     private void checkUniqueWorkspaceName(Workspace ws) {
         if (!checkUnique(ws, "name")) {

@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases.reports;
 
-import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
-
 import java.util.List;
 import java.util.Map;
 

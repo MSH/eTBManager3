@@ -7,7 +7,8 @@ import org.msh.etbm.services.cases.search.CaseSearchService;
 import org.msh.etbm.test.AuthenticatedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by rmemoria on 17/9/16.

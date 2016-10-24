@@ -105,6 +105,24 @@ public abstract class AbstractFilter implements Filter, Variable {
         }
     }
 
+    /**
+     * Iterate over the given value. If value is an instance of a collection, it calls iterator for
+     * each value. If value is a single value, iterate over itself
+     * @param value
+     * @param iterator
+     */
+    protected void iterateValues(Object value, ValueIterator iterator) {
+        Collection lst = value instanceof Collection ? (Collection)value : null;
+
+        if (lst != null) {
+            for (Object val: lst) {
+                iterator.iterate(val);
+            }
+        } else {
+            iterator.iterate(value);
+        }
+    }
+
 
     /**
      * Add value restrictions when it is informed as an array of values
@@ -271,7 +289,10 @@ public abstract class AbstractFilter implements Filter, Variable {
 
     @Override
     public Object createKey(Object values) {
-        return null;
+        if (values == null) {
+            return getMessages().get(Messages.UNDEFINED);
+        }
+        return values;
     }
 
     @Override

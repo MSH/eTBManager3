@@ -7,12 +7,10 @@ import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Tbunit;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.UserWorkspace;
-import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;

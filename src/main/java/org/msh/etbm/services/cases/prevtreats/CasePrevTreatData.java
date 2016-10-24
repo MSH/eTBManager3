@@ -1,7 +1,5 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.commons.Item;
-
 import java.util.UUID;
 
 /**

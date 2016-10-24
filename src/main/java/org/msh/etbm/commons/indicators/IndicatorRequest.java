@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.indicators;
 
-import org.msh.etbm.commons.entities.query.QueryBuilder;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
