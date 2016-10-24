@@ -113,6 +113,7 @@ public class CommandTypes {
         ROOT.add(ADMIN_USERS_CHANGE_PWD);
         ROOT.addCRUD(ADMIN_USERPROFILES);
         ROOT.addCRUD(ADMIN_WORKSPACES);
+        ROOT.addCRUD(ADMIN_AGERANGES);
         ROOT.add(SYSTEM_SETUP);
 
         // cases module

@@ -126,7 +126,7 @@ class Details extends React.Component {
                         style: 'info',
                         type: 'Ok'
                     })
-                    .then(() => { window.location.hash = SessionUtils.unitHash(this.state.tbcase.ownerUnit.id); });
+                    .then(() => { window.location.hash = SessionUtils.unitHash(this.state.tbcase.ownerUnit.id, '/cases'); });
                 });
         }
 
@@ -285,7 +285,7 @@ class Details extends React.Component {
                 title: __('cases.move'),
                 onClick: this.show('showMoveCase', true),
                 icon: 'exchange',
-                visible: !this.state.tbcase.transferring
+                visible: !this.state.tbcase.transferring && this.state.tbcase.state !== 'CLOSED'
             },
             {
                 title: __('cases.suspect.followup'),

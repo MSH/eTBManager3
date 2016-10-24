@@ -902,7 +902,7 @@ const editSchemas = {
                 label: __('cases.details.date'),
                 property: 'date',
                 required: true,
-                size: { sm: 4 }
+                size: { sm: 6 }
             },
             {
                 type: 'select',
@@ -916,14 +916,14 @@ const editSchemas = {
                     { id: 'PENDING', name: 'Pending' }
                 ],
                 required: true,
-                size: { sm: 4 }
+                size: { sm: 6 }
             },
             {
                 type: 'select',
                 label: __('XRayEvolution'),
                 property: 'evolution',
                 options: app.getState().app.lists.XRayEvolution,
-                size: { sm: 4 }
+                size: { sm: 6 }
             },
             {
                 type: 'text',
