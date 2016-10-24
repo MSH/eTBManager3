@@ -46,8 +46,6 @@ public class LocaleRequestInterceptorTest {
 
         assertLocale("ru", "ru");
         assertLocale("ru_RU", "ru");
-        assertLocale("uk", "uk");
-        assertLocale("uk_UK", "uk");
 
         assertLocale("de", defaultLanguage);
         assertLocale("fr", defaultLanguage);
