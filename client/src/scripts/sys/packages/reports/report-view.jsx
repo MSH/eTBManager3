@@ -1,5 +1,7 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { Card, WaitIcon } from '../../../components';
+import { app } from '../../../core/app';
 import Report from './report';
 import IndicatorView from './indicator-view';
 import { arrangeGrid } from '../../../commons/grid-utils';
@@ -12,6 +14,11 @@ import './report.less';
  */
 export default class ReportView extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.delete = this.delete.bind(this);
+    }
+
     componentWillMount() {
         const id = this.props.route.queryParam('rep');
         const self = this;
@@ -20,6 +27,28 @@ export default class ReportView extends React.Component {
             .then(res => self.setState({ report: res }));
 
         this.setState({ report: null });
+    }
+
+    /**
+     * Called when user clicks on the delete button to delete a report
+     */
+    delete() {
+        const self = this;
+
+        app.messageDlg({
+            title: __('action.delete'),
+            message: __('form.confirm_remove'),
+            type: 'YesNo'
+        })
+        .then(res => {
+            if (res === 'yes') {
+                // delete the report
+                self.state.report.delete()
+                .then(() => {
+                    location.hash = self.props.route.parentPath + '/reports';
+                });
+            }
+        });
     }
 
     render() {
@@ -36,9 +65,21 @@ export default class ReportView extends React.Component {
 
         const inds = arrangeGrid(lst);
 
+        const header = (
+            <div>
+                <div className="pull-right">
+                <Button href={'#' + this.props.route.parentPath + '/reportedt?id=' + rep.id} bsSize="sm">{__('action.edit')}</Button>
+                <Button bsSize="sm" onClick={this.delete}>{__('action.delete')}</Button>
+                </div>
+                <div className="title">
+                    {rep.schema.title}
+                </div>
+            </div>
+        );
+
         return (
             <div>
-                <Card title={rep.schema.title} />
+                <Card header={header} />
                 {
                     inds
                 }

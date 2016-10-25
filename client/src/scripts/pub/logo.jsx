@@ -12,8 +12,11 @@ export default function Logo(props) {
         <div className="logo container central-container-md">
             <div className="text-center">
                 <img src={path + 'etbm_icon_128x128.png'}/>
-                <div className="title">{'eTB Manager'}</div>
+                <div className="title">{'eTB Manager'}
+                    <div style={{ fontSize: '0.4em' }}>{'version 3.0-beta'}</div>
+                </div>
             </div>
+            <div className="mtop-2x">
             <Fade in transitionAppear>
                 <Grid fluid>
                     {props.children}
@@ -29,6 +32,7 @@ export default function Logo(props) {
                     }
                 </Grid>
             </Fade>
+            </div>
         </div>
         );
 }

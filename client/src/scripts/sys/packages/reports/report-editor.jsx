@@ -21,9 +21,22 @@ export default class ReportEditor extends React.Component {
         server.post('/api/cases/report/init')
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
-        const rep = new Report(null, this.props.scope, this.props.scopeId);
-        rep.addIndicator();
+        const id = this.props.route.queryParam('id');
 
+        let rep;
+
+        if (id) {
+            // load the report
+            Report.load(id, this.props.scope, this.props.scopeId)
+            .then(report => self.setState({ report: report }));
+
+            // temporarily, while loading the report
+            rep = null;
+        } else {
+            // create a new report from the editor
+            rep = new Report(null, this.props.scope, this.props.scopeId);
+            rep.addIndicator();
+        }
         this.setState({ report: rep });
     }
 
@@ -70,7 +83,7 @@ export default class ReportEditor extends React.Component {
         const report = this.state.report;
         const filters = this.state.filters;
 
-        if (!filters) {
+        if (!filters || !report) {
             return <WaitIcon />;
         }
 
@@ -96,5 +109,6 @@ export default class ReportEditor extends React.Component {
 
 ReportEditor.propTypes = {
     scope: React.PropTypes.oneOf(['WORKSPACE', 'ADMINUNIT', 'UNIT']).isRequired,
-    scopeId: React.PropTypes.string
+    scopeId: React.PropTypes.string,
+    route: React.PropTypes.object
 };

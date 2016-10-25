@@ -16,7 +16,8 @@ export default class Report {
 
         return server.post('/api/cases/report/exec', req)
         .then(res => {
-            const rep = new Report(res.result);
+            const rep = new Report(res.result, scope, scopeId);
+            rep.id = id;
             res.result.indicators.forEach(ind => rep.addIndicator(ind.schema, ind.data));
             return rep;
         });
@@ -29,7 +30,7 @@ export default class Report {
         this.schema = schema ? schema :
             // report template
             {
-                title: 'Report title (click to change)',
+                title: __('reports.new.title'),
                 dashboard: false
             };
 
@@ -44,7 +45,7 @@ export default class Report {
      */
     addIndicator(schema, data) {
         const ind = new Indicator(schema ? schema : {
-            title: 'Indicator title (click to change)',
+            title: __('indicators.new.title'),
             size: 6,
             chart: 'pie',
             display: 0
@@ -61,6 +62,28 @@ export default class Report {
         const lst = this.indicators.map(ind => ind.schema);
         req.indicators = lst;
 
-        return server.post('/api/cases/report/save', req);
+        if (this.id) {
+            return server.post('/api/cases/report/save/' + this.id, req);
+        }
+
+        const self = this;
+        return server.post('/api/cases/report/save', req)
+            .then(res => {
+                self.id = res.result;
+            });
+    }
+
+    /**
+     * Delete the current report, setting this to the state of 'NEW', i.e,
+     * if it is saved again, it will be created a new one
+     */
+    delete() {
+        const self = this;
+
+        return server.post('/api/cases/report/delete/' + this.id)
+            .then(res => {
+                delete self.id;
+                return res;
+            });
     }
 }

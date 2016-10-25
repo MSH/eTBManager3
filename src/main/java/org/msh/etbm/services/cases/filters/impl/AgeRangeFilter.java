@@ -113,6 +113,10 @@ public class AgeRangeFilter extends AbstractFilter {
 
     @Override
     public String getKeyDisplay(Object key) {
+        if (key == null) {
+            return super.getKeyDisplay(key);
+        }
+
         AgeRangeData ageRange = ageRangeById(key.toString());
         return ageRange.getName();
     }
