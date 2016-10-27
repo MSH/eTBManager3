@@ -13,6 +13,7 @@ public class ReportExecResult {
     private String title;
     private Map<String, Object> filters;
     private List<CaseReportIndicatorData> indicators;
+    private boolean dashboard;
 
     public String getTitle() {
         return title;
@@ -36,5 +37,13 @@ public class ReportExecResult {
 
     public void setIndicators(List<CaseReportIndicatorData> indicators) {
         this.indicators = indicators;
+    }
+
+    public boolean isDashboard() {
+        return dashboard;
+    }
+
+    public void setDashboard(boolean dashboard) {
+        this.dashboard = dashboard;
     }
 }

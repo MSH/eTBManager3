@@ -1,7 +1,9 @@
 import Indicator from './indicator';
 import { server } from '../../../commons/server';
 
-
+/**
+ * Report class to handle business rules for case reporting generation
+ */
 export default class Report {
 
     /**
@@ -85,5 +87,29 @@ export default class Report {
                 delete self.id;
                 return res;
             });
+    }
+
+    /**
+     * Generate the indicators
+     */
+    generate() {
+        let index = 0;
+        const self = this;
+
+        // local function to run it recursively
+        const execInd = ind => ind
+            .refresh()
+            .then(() => {
+                index++;
+                if (index < self.indicators.length) {
+                    execInd(self.indicators[index]);
+                }
+            });
+
+        if (this.indicators.length > 0) {
+            return execInd(this.indicators[index]);
+        }
+
+        return null;
     }
 }

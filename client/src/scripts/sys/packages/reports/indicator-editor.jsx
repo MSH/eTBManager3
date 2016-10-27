@@ -1,9 +1,10 @@
 import React from 'react';
 import { Row, Col, DropdownButton, Button, MenuItem } from 'react-bootstrap';
-import { Card, Fa, WaitIcon, InlineEditor } from '../../../components';
+import { Card, Fa, WaitIcon, InlineEditor, observer } from '../../../components';
 import { app } from '../../../core/app';
 import Chart from './chart';
 import TableView from './table-view';
+import Indicator from './indicator';
 
 import FiltersSelector from '../filters/filters-selector';
 import VariablesSelector from './variables-selector';
@@ -12,7 +13,7 @@ import VariablesSelector from './variables-selector';
 /**
  * Display a card for editing of an indicator
  */
-export default class IndicatorEditor extends React.Component {
+class IndicatorEditor extends React.Component {
 
     constructor(props) {
         super(props);
@@ -23,6 +24,7 @@ export default class IndicatorEditor extends React.Component {
         this.changeChart = this.changeChart.bind(this);
         this.refreshClick = this.refreshClick.bind(this);
         this.titleChanged = this.titleChanged.bind(this);
+        this.handleEvent = this.handleEvent.bind(this);
 
         // initialize an empty state
         this.state = { };
@@ -34,7 +36,12 @@ export default class IndicatorEditor extends React.Component {
     filtersChange(filterValues) {
         const ind = this.props.indicator;
         ind.schema.filters = filterValues;
-        this.props.onChange(ind);
+    }
+
+    handleEvent(evt, data) {
+        if (this.props.indicator === data) {
+            this.forceUpdate();
+        }
     }
 
     /**
@@ -44,7 +51,7 @@ export default class IndicatorEditor extends React.Component {
         const ind = this.props.indicator;
         ind.schema.columnVariables = colVars;
         ind.schema.rowVariables = rowVars;
-        this.props.onChange(ind);
+        this.forceUpdate();
     }
 
     refreshClick() {
@@ -152,7 +159,7 @@ export default class IndicatorEditor extends React.Component {
         const ind = this.props.indicator;
         const schema = ind.schema;
         const series = ind.selectedSeries();
-        const fetching = this.state.fetching;
+        const fetching = ind.refreshing;
 
         const title = (
             <InlineEditor value={ind.schema.title}
@@ -190,6 +197,7 @@ export default class IndicatorEditor extends React.Component {
 IndicatorEditor.propTypes = {
     indicator: React.PropTypes.object.isRequired,
     filters: React.PropTypes.array.isRequired,
-    variables: React.PropTypes.array.isRequired,
-    onChange: React.PropTypes.func.isRequired
+    variables: React.PropTypes.array.isRequired
 };
+
+export default observer(IndicatorEditor, [Indicator.UPDATE_EVT]);

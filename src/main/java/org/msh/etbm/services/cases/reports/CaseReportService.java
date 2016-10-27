@@ -128,6 +128,7 @@ public class CaseReportService {
         res.setTitle(schema.getTitle());
         res.setFilters(schema.getFilters());
         res.setIndicators(lst);
+        res.setDashboard(rep.isDashboard());
 
         return res;
     }

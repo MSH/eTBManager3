@@ -79,8 +79,6 @@ export default class Chart extends React.Component {
     render() {
         const cfg = this.config();
 
-        console.log('chart type = ' + this.props.type);
-
         return (
             <div style={{ marginTop: '0' }}>
             <ReactHighcharts config={cfg} />
