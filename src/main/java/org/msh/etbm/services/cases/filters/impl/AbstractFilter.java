@@ -274,13 +274,13 @@ public abstract class AbstractFilter implements Filter, Variable {
     }
 
     @Override
-    public Object createGroupKey(Object values) {
-        return null;
+    public String createGroupKey(Object values) {
+        return values != null ? values.toString() : null;
     }
 
     @Override
-    public String getGroupKeyDisplay(Object key) {
-        return null;
+    public String getGroupKeyDisplay(String key) {
+        return key;
     }
 
     @Override
@@ -288,16 +288,16 @@ public abstract class AbstractFilter implements Filter, Variable {
     }
 
     @Override
-    public Object createKey(Object values) {
+    public String createKey(Object values) {
         if (values == null) {
             return getMessages().get(Messages.UNDEFINED);
         }
-        return values;
+        return values.toString();
     }
 
     @Override
-    public String getKeyDisplay(Object key) {
-        return null;
+    public String getKeyDisplay(String key) {
+        return key;
     }
 
 }

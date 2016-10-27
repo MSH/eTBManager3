@@ -111,16 +111,16 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
     }
 
     @Override
-    public Object createKey(Object values) {
+    public String createKey(Object values) {
         if (values == null) {
             return AbstractFilter.KEY_NULL;
         }
 
-        return values;
+        return values.toString();
     }
 
     @Override
-    public String getKeyDisplay(Object key) {
+    public String getKeyDisplay(String key) {
         if (key == KEY_NULL) {
             return getMessages().get(Messages.UNDEFINED);
         }

@@ -30,12 +30,12 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public Object createKey(Object values) {
-        return values;
+    public String createKey(Object values) {
+        return values != null ? values.toString() : null;
     }
 
     @Override
-    public String getKeyDisplay(Object key) {
+    public String getKeyDisplay(String key) {
         return key != null ? key.toString() : "-";
     }
 
@@ -60,12 +60,12 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public Object createGroupKey(Object values) {
-        return values;
+    public String createGroupKey(Object values) {
+        return values != null ? values.toString() : null;
     }
 
     @Override
-    public String getGroupKeyDisplay(Object key) {
+    public String getGroupKeyDisplay(String key) {
         return key != null ? key.toString() : "-";
     }
 
