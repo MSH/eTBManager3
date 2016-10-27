@@ -38,7 +38,7 @@ public interface Variable {
      * @param values
      * @return
      */
-    Object createKey(Object values);
+    String createKey(Object values);
 
 
     /**
@@ -46,7 +46,7 @@ public interface Variable {
      * @param key is the object key created by the method <code>createKey()</code>
      * @return the text to be displayed for the key
      */
-    String getKeyDisplay(Object key);
+    String getKeyDisplay(String key);
 
     /**
      * Compare two values of the variable. It follows the implementation of the {@link Comparable} interface. If more than 1 field is specified
@@ -86,14 +86,14 @@ public interface Variable {
      * @param values
      * @return Object instance representing the group key
      */
-    Object createGroupKey(Object values);
+    String createGroupKey(Object values);
 
     /**
      * Convert a group object key to a text to be displayed to the user
      * @param key is the group key created before by <code>createGroupKey()</code> method
      * @return a text ready for displaying representing the key
      */
-    String getGroupKeyDisplay(Object key);
+    String getGroupKeyDisplay(String key);
 
     /**
      * Initialize the variable passing the instance of the ApplicationContext.

@@ -93,7 +93,7 @@ public class AgeRangeFilter extends AbstractFilter {
     }
 
     @Override
-    public Object createKey(Object values) {
+    public String createKey(Object values) {
         if (values == null) {
             return null;
         }
@@ -112,7 +112,7 @@ public class AgeRangeFilter extends AbstractFilter {
     }
 
     @Override
-    public String getKeyDisplay(Object key) {
+    public String getKeyDisplay(String key) {
         if (key == null) {
             return super.getKeyDisplay(key);
         }

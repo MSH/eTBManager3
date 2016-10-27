@@ -70,7 +70,7 @@ public class HIVResultFilter extends AbstractFilter {
     }
 
     @Override
-    public Object createKey(Object value) {
+    public String createKey(Object value) {
         if (value == null) {
             return super.createKey(value);
         }
@@ -113,7 +113,7 @@ public class HIVResultFilter extends AbstractFilter {
     }
 
     @Override
-    public String getKeyDisplay(Object key) {
+    public String getKeyDisplay(String key) {
         if (key == null) {
             return getMessages().get(Messages.UNDEFINED);
         }

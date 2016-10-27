@@ -90,7 +90,8 @@ public class IndicatorTransform {
             int index = 0;
 
             for (Variable var: variables) {
-                String s = var.getKeyDisplay(vals[index]);
+                String key = vals[index] != null ? vals[index].toString() : null;
+                String s = var.getKeyDisplay(key);
                 if (s == null) {
                     throw new IndicatorException("Invalid key display for value " + vals[index]);
                 }

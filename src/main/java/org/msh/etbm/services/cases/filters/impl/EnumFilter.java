@@ -95,7 +95,7 @@ public class EnumFilter extends AbstractFilter {
     }
 
     @Override
-    public Object createKey(Object values) {
+    public String createKey(Object values) {
         if (values == null) {
             return KEY_NULL;
         }
@@ -109,7 +109,7 @@ public class EnumFilter extends AbstractFilter {
 
 
     @Override
-    public String getKeyDisplay(Object key) {
+    public String getKeyDisplay(String key) {
         if ((key == null) || (KEY_NULL.equals(key))) {
             return getMessages().get("global.notdef");
         }
@@ -118,7 +118,7 @@ public class EnumFilter extends AbstractFilter {
         Enum[] vals = getEnumClass().getEnumConstants();
         for (Enum e: vals) {
             if (e.toString().equals(key)) {
-                String msgKey = key instanceof MessageKey ? ((MessageKey) key).getMessageKey() :
+                String msgKey = e instanceof MessageKey ? ((MessageKey) e).getMessageKey() :
                         enumClass.getSimpleName() + "." + key.toString();
 
                 String txt = getMessages().get(msgKey);
@@ -147,16 +147,6 @@ public class EnumFilter extends AbstractFilter {
         }
 
         return options;
-    }
-
-    @Override
-    public Object createGroupKey(Object values) {
-        return null;
-    }
-
-    @Override
-    public String getGroupKeyDisplay(Object key) {
-        return null;
     }
 
 }

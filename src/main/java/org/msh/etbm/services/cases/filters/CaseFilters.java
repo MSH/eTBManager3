@@ -40,6 +40,7 @@ public class CaseFilters {
     public static final String CASE_DEFINITION = "case-definition";
     public static final String AGE_RANGE = "age-range";
     public static final String HIV_RESULT = "hiv-result";
+    public static final String CULTURE_RESULT_GROUP = "culture-res-group";
 
 
     @Autowired
