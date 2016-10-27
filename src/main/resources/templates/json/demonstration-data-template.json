@@ -172,8 +172,10 @@
       "pulmonaryType": "UI",
       "extrapulmonaryType": "P",
       "extrapulmonaryType2": "P",
-      "alcoholExcessiveUse": true,
-      "aids": true,
+      "comorbidities": {
+        "alcoholExcessiveUse": true,
+        "aids": true
+      },
       "notifAddrAdminUnitName": "City 1",
       "currAddrAdminUnitName": "City 1",
       "ownerUnitName": "Working unit",
@@ -183,7 +185,7 @@
   "tags": [
     {
       "name": "AIDS as comorbidity without HIV result",
-      "sqlCondition": "(diagnosistype=1 and aids=true and not exists(select * from examhiv where result=0 and case_id=a.id))",
+      "sqlCondition": "diagnosistype=1 and not exists(select * from examhiv where result=0 and case_id=a.id) and exists(select * from casecomorbidities where aids=true and case_id=a.id)",
       "consistencyCheck": true
     }
   ]

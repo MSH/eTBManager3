@@ -216,14 +216,6 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 
-    // Risk Factors and Concomitant Diagnoses
-    private boolean alcoholExcessiveUse;
-    private boolean tobaccoUseWithin;
-    private boolean aids;
-    private boolean diabetes;
-    private boolean anaemia;
-    private boolean malnutrition;
-
     /* EXAMS */
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
@@ -272,6 +264,9 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<Tag> tags = new ArrayList<>();
 
+    @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "tbCase")
+    @PropertyLog(ignore = true)
+    private CaseComorbidities comorbidities;
 
     /**
      * Return number of month of treatment based on the date
@@ -947,6 +942,14 @@ public class TbCase extends WorkspaceEntity {
         this.caseDefinition = caseDefinition;
     }
 
+    public CaseComorbidities getComorbidities() {
+        return comorbidities;
+    }
+
+    public void setComorbidities(CaseComorbidities comorbidities) {
+        this.comorbidities = comorbidities;
+    }
+
     public Date getLastBmuDateTbRegister() {
         return lastBmuDateTbRegister;
     }
@@ -985,54 +988,6 @@ public class TbCase extends WorkspaceEntity {
 
     public void setLocalityType(LocalityType localityType) {
         this.localityType = localityType;
-    }
-
-    public boolean isAlcoholExcessiveUse() {
-        return alcoholExcessiveUse;
-    }
-
-    public void setAlcoholExcessiveUse(boolean alcoholExcessiveUse) {
-        this.alcoholExcessiveUse = alcoholExcessiveUse;
-    }
-
-    public boolean isTobaccoUseWithin() {
-        return tobaccoUseWithin;
-    }
-
-    public void setTobaccoUseWithin(boolean tobaccoUseWithin) {
-        this.tobaccoUseWithin = tobaccoUseWithin;
-    }
-
-    public boolean isAids() {
-        return aids;
-    }
-
-    public void setAids(boolean aids) {
-        this.aids = aids;
-    }
-
-    public boolean isDiabetes() {
-        return diabetes;
-    }
-
-    public void setDiabetes(boolean diabetes) {
-        this.diabetes = diabetes;
-    }
-
-    public boolean isAnaemia() {
-        return anaemia;
-    }
-
-    public void setAnaemia(boolean anaemia) {
-        this.anaemia = anaemia;
-    }
-
-    public boolean isMalnutrition() {
-        return malnutrition;
-    }
-
-    public void setMalnutrition(boolean malnutrition) {
-        this.malnutrition = malnutrition;
     }
 
     @Override

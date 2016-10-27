@@ -9,6 +9,7 @@ import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.regimens.RegimenData;
 import org.msh.etbm.services.admin.units.data.UnitData;
 import org.msh.etbm.services.cases.comments.CaseCommentData;
+import org.msh.etbm.services.cases.comorbidity.CaseComorbiditiesData;
 import org.msh.etbm.services.cases.issues.IssueData;
 import org.msh.etbm.services.cases.patient.PatientDetailedData;
 import org.msh.etbm.services.cases.tag.CaseTagsData;
@@ -80,13 +81,7 @@ public class CaseDetailedData {
 
     private String mobileNumber;
 
-    // Risk Factors and Concomitant Diagnoses
-    private boolean alcoholExcessiveUse;
-    private boolean tobaccoUseWithin;
-    private boolean aids;
-    private boolean diabetes;
-    private boolean anaemia;
-    private boolean malnutrition;
+    private CaseComorbiditiesData comorbidities;
 
     private Date moveDate;
 
@@ -280,52 +275,12 @@ public class CaseDetailedData {
         this.mobileNumber = mobileNumber;
     }
 
-    public boolean isAlcoholExcessiveUse() {
-        return alcoholExcessiveUse;
+    public CaseComorbiditiesData getComorbidities() {
+        return comorbidities;
     }
 
-    public void setAlcoholExcessiveUse(boolean alcoholExcessiveUse) {
-        this.alcoholExcessiveUse = alcoholExcessiveUse;
-    }
-
-    public boolean isTobaccoUseWithin() {
-        return tobaccoUseWithin;
-    }
-
-    public void setTobaccoUseWithin(boolean tobaccoUseWithin) {
-        this.tobaccoUseWithin = tobaccoUseWithin;
-    }
-
-    public boolean isAids() {
-        return aids;
-    }
-
-    public void setAids(boolean aids) {
-        this.aids = aids;
-    }
-
-    public boolean isDiabetes() {
-        return diabetes;
-    }
-
-    public void setDiabetes(boolean diabetes) {
-        this.diabetes = diabetes;
-    }
-
-    public boolean isAnaemia() {
-        return anaemia;
-    }
-
-    public void setAnaemia(boolean anaemia) {
-        this.anaemia = anaemia;
-    }
-
-    public boolean isMalnutrition() {
-        return malnutrition;
-    }
-
-    public void setMalnutrition(boolean malnutrition) {
-        this.malnutrition = malnutrition;
+    public void setComorbidities(CaseComorbiditiesData comorbidities) {
+        this.comorbidities = comorbidities;
     }
 
     public List<CaseTagsData> getTags() {

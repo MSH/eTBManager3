@@ -186,6 +186,7 @@ public class DemonstrationDataCreator {
      */
     private void insertCases(DemonstrationDataTemplate template, Workspace workspace) {
         for (CaseDemoData caseData  : template.getTbcases()) {
+            CaseComorbidities comorbidities = null;
             TbCase c = new TbCase();
             mapper.map(caseData, c);
 
@@ -200,8 +201,20 @@ public class DemonstrationDataCreator {
                 c.setRegimen((Regimen) findSingleEntity(Regimen.class, "customId like '" + caseData.getCustomRegimenId() + "'"));
             }
 
+            if (c.getComorbidities() != null) {
+                comorbidities = c.getComorbidities();
+                c.setComorbidities(null);
+            }
+
             entityManager.persist(c.getPatient());
             entityManager.persist(c);
+
+            if (comorbidities != null) {
+                comorbidities.setTbCase(c);
+                c.setComorbidities(comorbidities);
+
+                entityManager.persist(comorbidities);
+            }
 
             //create prescriptions
             if (caseData.getPrescriptionDemoData() != null) {

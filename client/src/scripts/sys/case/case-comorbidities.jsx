@@ -67,7 +67,7 @@ export default class CaseComorbidities extends React.Component {
         const tbcase = this.props.tbcase;
 
         // create data for UI controlling
-        const trueOnes = fschema.controls.filter(item => tbcase[item.property]);
+        const trueOnes = !tbcase || !tbcase.comorbidities ? [] : fschema.controls.filter(item => tbcase.comorbidities[item.property]);
 
         // create doc
         const doc = {};
@@ -132,7 +132,7 @@ export default class CaseComorbidities extends React.Component {
         const tbcase = this.props.tbcase;
         const data = this.state.uidata;
 
-        // put 3 or less cols in each row
+        // put 2 or less cols in each row
         const rows = [];
         let cols = [];
         data.forEach((item, index) => {
@@ -146,7 +146,7 @@ export default class CaseComorbidities extends React.Component {
                     </Card>
                 </Col>);
 
-            if (cols.length === 3 || index === data.length - 1) {
+            if (cols.length === 2 || index === data.length - 1) {
                 rows.push(
                     <Row key={index}>
                         {

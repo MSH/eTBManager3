@@ -298,42 +298,6 @@
       "required": true
     },
     {
-      "name": "alcoholExcessiveUse",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
-      "name": "tobaccoUseWithin",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
-      "name": "aids",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
-      "name": "diabetes",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
-      "name": "anaemia",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
-      "name": "malnutrition",
-      "type": "bool",
-      "required": true,
-      "defaultValue": false
-    },
-    {
       "name": "transferring",
       "type": "bool",
       "required": true,

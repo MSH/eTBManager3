@@ -1257,29 +1257,8 @@
             <column name="lastBmuDateTbRegister" type="date"/>
             <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
             <column name="movedSecondLineTreatment" type="${type.boolean}"/>
-
-            <!-- Risk Factors and Concomitant Diagnoses -->
-            <column name="alcoholExcessiveUse" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="tobaccoUseWithin" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="aids" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="diabetes" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="anaemia" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="malnutrition" type="${type.boolean}">
-                <constraints nullable="false"/>
-            </column>
         </createTable>
     </changeSet>
-
 
     <changeSet author="rmemoria" id="1433264274749-62">
         <createTable tableName="casecontact">
@@ -1694,9 +1673,41 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="casecomorbidities-1" author="msantos">
+        <createTable tableName="casecomorbidities">
+            <column name="id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="case_id" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
+            <column name="alcoholExcessiveUse" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tobaccoUseWithin" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aids" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="diabetes" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="anaemia" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="malnutrition" type="${type.boolean}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
 
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>
+    </changeSet>
+
+    <changeSet author="msantos" id="casecomorbidities-2">
+        <addPrimaryKey columnNames="id" constraintName="PKcomorbidity" tableName="casecomorbidities"/>
     </changeSet>
 
     <changeSet author="rmemoria" id="searchable-2">
@@ -1909,6 +1920,11 @@
     <changeSet author="rmemoria" id="1433264274749-157">
         <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="prescribedmedicine"
                                  constraintName="FK142181D1A3F04EEB" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
+    </changeSet>
+    <changeSet author="msantos" id="casecomorbidities-3">
+        <addForeignKeyConstraint baseColumnNames="CASE_ID" baseTableName="casecomorbidities"
+                                 constraintName="FKcasecomorbidities" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbcase"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-158">
