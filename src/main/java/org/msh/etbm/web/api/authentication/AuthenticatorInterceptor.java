@@ -68,11 +68,8 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
-            // TODO: [MSANTOS] the code commented bellow was not showing forbidden message to the user and interrupting the system of executing the service
-            // TODO: retornar falso e testar
-            //response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
-            //return true;
-            throw new ForbiddenException();
+            response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
+            return false;
         }
 
         userRequestService.setUserSession(session);
