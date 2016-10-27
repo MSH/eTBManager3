@@ -17,6 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -67,7 +68,8 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
-            // TODO: the code commented bellow was not showing forbidden message to the user and interrupting the system of executing the service
+            // TODO: [MSANTOS] the code commented bellow was not showing forbidden message to the user and interrupting the system of executing the service
+            // TODO: retornar falso e testar
             //response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
             //return true;
             throw new ForbiddenException();
@@ -75,6 +77,10 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
         userRequestService.setUserSession(session);
         userRequestService.setAuthToken(authToken);
+
+        // Force Spring to convert dates to UTC Timezone
+        // Fixing problem when converting from JSON to Date Object
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
         return true;
     }
