@@ -125,7 +125,7 @@ export default class UnitControl extends React.Component {
         }
     }
 
-    createAdmUnitList() {
+    createAdmUnitList(unitlist) {
         const res = this.props.resources;
         // admin unit is being loaded ?
         if (!res || !res.adminUnits) {
@@ -146,7 +146,9 @@ export default class UnitControl extends React.Component {
                     onChange={this.onAuChange}
                     noSelectionLabel="-"
                     optionDisplay="name"
-                    options={res.adminUnits} />
+                    options={res.adminUnits}
+                    help={!unitlist ? this.props.errors : null}
+                    bsStyle={(!unitlist) && this.props.errors ? 'error' : null} />
                 );
     }
 
@@ -171,7 +173,9 @@ export default class UnitControl extends React.Component {
                     onChange={this.onUnitChange}
                     noSelectionLabel="-"
                     optionDisplay="name"
-                    options={resources.units} />
+                    options={resources.units}
+                    help={this.props.errors}
+                    bsStyle={this.props.errors ? 'error' : null} />
                 );
     }
 
@@ -180,9 +184,9 @@ export default class UnitControl extends React.Component {
      * @return {[type]} [description]
      */
     editorRender() {
-        const aulist = this.createAdmUnitList();
-
         const unitlist = this.createUnitList();
+
+        const aulist = this.createAdmUnitList(unitlist);
 
         return (
             <div>
