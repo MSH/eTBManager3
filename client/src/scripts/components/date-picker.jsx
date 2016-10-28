@@ -26,8 +26,14 @@ export default class DatePicker extends React.Component {
      * @return {[type]}     [description]
      */
     dayClick(evt, day) {
+        let d = day;
+
+        if (!day) {
+            d = null;
+        }
+
         if (this.props.onChange) {
-            this.props.onChange(evt, day);
+            this.props.onChange(evt, d);
         }
 
         this.refs.textfield.value = this.dateToStr(day);
@@ -39,6 +45,10 @@ export default class DatePicker extends React.Component {
      * @return {[type]}     [description]
      */
     dateToStr(day) {
+        if (!day) {
+            return null;
+        }
+
         var date = day.getDate().toString();
         if (date.length === 1) {
             date = '0' + date;
@@ -96,6 +106,7 @@ export default class DatePicker extends React.Component {
      * @return {[type]} [description]
      */
     valueChange() {
+        console.log('hey');
         const s = this.refs.textfield.value;
         if (!s) {
             this.dayClick(null, dt);
