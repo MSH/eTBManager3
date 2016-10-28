@@ -65,10 +65,12 @@ export default class ReportView extends React.Component {
 
         const inds = arrangeGrid(lst);
 
+        const params = this.props.scopeId ? '&id=' + this.props.scopeId : '';
+
         const header = (
             <div>
                 <div className="pull-right">
-                <Button href={'#' + this.props.route.parentPath + '/reportedt?id=' + rep.id} bsSize="sm">{__('action.edit')}</Button>
+                <Button href={'#' + this.props.route.parentPath + '/reportedt?rep=' + rep.id + params} bsSize="sm">{__('action.edit')}</Button>
                 <Button bsSize="sm" onClick={this.delete}>{__('action.delete')}</Button>
                 </div>
                 <div className="title">

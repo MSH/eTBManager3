@@ -13,7 +13,6 @@ export default class ReportEditor extends React.Component {
     constructor(props) {
         super(props);
         this.addIndicator = this.addIndicator.bind(this);
-        this.indicatorChange = this.indicatorChange.bind(this);
     }
 
     componentWillMount() {
@@ -21,7 +20,7 @@ export default class ReportEditor extends React.Component {
         server.post('/api/cases/report/init')
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
-        const id = this.props.route.queryParam('id');
+        const id = this.props.route.queryParam('rep');
 
         let rep;
 
@@ -49,17 +48,6 @@ export default class ReportEditor extends React.Component {
     }
 
     /**
-     * Called when a property of an indicator changes
-     */
-    indicatorChange(ind) {
-        // const rep = this.state.report;
-        // const index = rep.indicators.indexOf(ind);
-
-        // rep.indicators[index] = Object.assign({}, ind);
-        this.forceUpdate();
-    }
-
-    /**
      * Render the given indicator
      */
     renderIndicators() {
@@ -72,7 +60,6 @@ export default class ReportEditor extends React.Component {
                         indicator={ind}
                         filters={this.state.filters}
                         variables={this.state.variables}
-                        onChange={this.indicatorChange}
                         />
                 </Col>
             </Row>

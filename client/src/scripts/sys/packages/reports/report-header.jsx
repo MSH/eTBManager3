@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col, Button, ButtonGroup, Checkbox } from 'react-bootstrap';
 import { Card, Fa, InlineEditor } from '../../../components';
 import FiltersSelector from '../filters/filters-selector';
 
@@ -14,6 +14,22 @@ export default class ReportHeader extends React.Component {
         this.titleChanged = this.titleChanged.bind(this);
         this.saveClick = this.saveClick.bind(this);
         this.filtersChanged = this.filtersChanged.bind(this);
+        this.dashboardClick = this.dashboardClick.bind(this);
+        this.generate = this.generate.bind(this);
+    }
+
+    dashboardClick(evt) {
+        const value = evt.target.checked;
+        this.props.report.schema.dashboard = value;
+        this.forceUpdate();
+    }
+
+    generate() {
+        const rep = this.props.report;
+        const self = this;
+
+        rep.generate()
+            .then(() => self.forceUpdate());
     }
 
     close() {
@@ -57,10 +73,6 @@ export default class ReportHeader extends React.Component {
                                 {__('action.save')}
                             </Button>
                             <Button href="#">
-                                <Fa icon="cog"/>
-                                {__('form.options')}
-                            </Button>
-                            <Button href="#">
                                 <Fa icon="close" />
                                 {__('action.close')}
                             </Button>
@@ -71,14 +83,17 @@ export default class ReportHeader extends React.Component {
 
         const btnSubmit = (
             <div className="pull-right">
-                <Button bsStyle="success">
-                    {'Generate'}
+                <Button bsStyle="success" onClick={this.generate}>
+                    {__('action.generate')}
                 </Button>
             </div>
         );
 
         return (
             <Card header={header} className="rep-editor">
+                <Checkbox checked={report.schema.dashboard} onClick={this.dashboardClick}>
+                    {__('indicators.showdashboard')}
+                </Checkbox>
                 <FiltersSelector
                     filters={this.props.filters}
                     filterValues={report.schema.filters}

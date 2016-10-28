@@ -1,5 +1,6 @@
 
 import { server } from '../../../commons/server';
+import { app } from '../../../core/app';
 
 
 /**
@@ -24,7 +25,17 @@ export default class Indicator {
      */
     refresh() {
         const ind = this.schema;
+
+        // TO DO: [Ricardo] just a temporary protection to avoid errors if no variable is defined
+        if (!ind.columnVariables || ind.columnVariables.length === 0 ||
+            !ind.rowVariables || ind.rowVariables.length === 0) {
+            return Promise.resolve(false);
+        }
+
         const self = this;
+
+        this.refreshing = true;
+        this._raiseEvent();
 
         return server.post('/api/cases/report/ind/exec', {
             filters: ind.filters,
@@ -35,6 +46,8 @@ export default class Indicator {
         })
         .then(res => {
             self.data = res.indicator;
+            self.refreshing = false;
+            self._raiseEvent();
             return res.data;
         });
     }
@@ -152,4 +165,13 @@ export default class Indicator {
 
         return res;
     }
+
+    _raiseEvent() {
+        app.dispatch(Indicator.UPDATE_EVT, this);
+    }
 }
+
+/**
+ * Event sent to application to indicate the indicator has changed
+ */
+Indicator.UPDATE_EVT = 'ind-update';
