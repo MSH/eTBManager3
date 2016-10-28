@@ -184,6 +184,7 @@ export default class SelectionBox extends React.Component {
      */
     noSelClick() {
         this.notifyChange(null);
+        this.refs.popup.hide();
     }
 
     /**
