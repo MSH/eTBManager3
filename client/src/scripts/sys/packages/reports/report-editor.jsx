@@ -20,7 +20,7 @@ export default class ReportEditor extends React.Component {
         server.post('/api/cases/report/init')
         .then(res => self.setState({ filters: res.filters, variables: res.variables }));
 
-        const id = this.props.route.queryParam('id');
+        const id = this.props.route.queryParam('rep');
 
         let rep;
 
