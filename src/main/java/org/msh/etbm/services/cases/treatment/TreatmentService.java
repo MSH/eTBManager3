@@ -75,6 +75,7 @@ public class TreatmentService {
         if (tbcase.getRegimen() != null) {
             data.setRegimen(new SynchronizableItem(tbcase.getRegimen().getId(), tbcase.getRegimen().getName()));
         }
+        data.setMovedToIndividualized(tbcase.isMovedToIndividualized());
 
         // mount prescriptions
         List<PrescriptionData> prescs = mountPrescriptions(tbcase.getPrescriptions());
@@ -230,6 +231,7 @@ public class TreatmentService {
         tbcase.setState(CaseState.NOT_ONTREATMENT);
         tbcase.setTreatmentPeriod(null);
         tbcase.setRegimen(null);
+        tbcase.setMovedToIndividualized(false);
 
         entityManager.createQuery("delete from PrescribedMedicine where tbcase.id = :id")
                 .setParameter("id", caseId)

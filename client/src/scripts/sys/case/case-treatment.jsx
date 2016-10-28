@@ -34,7 +34,7 @@ class CaseTreatment extends React.Component {
                     {
                         type: 'string',
                         label: __('Regimen'),
-                        value: doc => doc.regimen ? doc.regimen.name : __('regimens.individualized'),
+                        value: doc => !doc.movedToIndividualized && doc.regimen ? doc.regimen.name : __('regimens.individualized'),
                         size: { md: 12 }
                     },
                     {
@@ -84,6 +84,8 @@ class CaseTreatment extends React.Component {
     }
 
     updateTreatment() {
+        this.setState({ fetching: true });
+
         // remove treatment information
         const tbcase = this.props.tbcase;
         delete tbcase.treatment;
@@ -104,6 +106,7 @@ class CaseTreatment extends React.Component {
                 .then(res => {
                     tbcase.treatment = res;
                     tbcase.treatmentPeriod = res.period;
+                    this.setState({ fetching: false });
                     self.forceUpdate();
                 });
         }
@@ -180,7 +183,10 @@ class CaseTreatment extends React.Component {
                     <Grid fluid>
                         <Row>
                             <Col md={6}>
-                                <Form doc={data} schema={this.state.sc1} readOnly />
+                            {
+                                !this.state.fetching &&
+                                    <Form doc={data} schema={this.state.sc1} readOnly />
+                            }
                             </Col>
                             <Col md={6}>
                                 <TreatProgress value={data.progress} label={__('cases.mantreatment')}/>

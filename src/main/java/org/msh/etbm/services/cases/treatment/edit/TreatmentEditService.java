@@ -141,9 +141,8 @@ public class TreatmentEditService {
         checkPrescriptionsInterceptions(pm, tbcase);
         tbcase.getPrescriptions().add(pm);
 
-        if (regimenMovedToIndivid(tbcase)) {
-            tbcase.setRegimen(null);
-        }
+        // check if regimen is now individualized
+        tbcase.setMovedToIndividualized(regimenMovedToIndivid(tbcase));
 
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
@@ -195,9 +194,8 @@ public class TreatmentEditService {
 
         checkPrescriptionsInterceptions(pm, tbcase);
 
-        if (regimenMovedToIndivid(tbcase)) {
-            tbcase.setRegimen(null);
-        }
+        // check if regimen is now individualized
+        tbcase.setMovedToIndividualized(regimenMovedToIndivid(tbcase));
 
         checkTreatPeriod(tbcase);
         entityManager.persist(tbcase);
@@ -217,9 +215,8 @@ public class TreatmentEditService {
         TbCase tbcase = pm.getTbcase();
         tbcase.getPrescriptions().remove(pm);
 
-        if (regimenMovedToIndivid(tbcase)) {
-            tbcase.setRegimen(null);
-        }
+        // check if regimen is now individualized
+        tbcase.setMovedToIndividualized(regimenMovedToIndivid(tbcase));
 
         checkTreatPeriod(tbcase);
         entityManager.remove(pm);
