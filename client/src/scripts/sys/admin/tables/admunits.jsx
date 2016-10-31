@@ -85,8 +85,8 @@ export default class AdmUnits extends React.Component {
         // has permission to edit
         if (hasPerm(this.props.route.data.perm + '_EDT')) {
             btn = item === this.state.root ?
-                <Button bsSize="small" onClick={this.addRoot}
-                    pullRight><Fa icon="plus"/><span className="hidden-xs">{__('action.add') + ' ' + this.csname(1)}</span>
+                <Button bsSize="small" onClick={this.addRoot}>
+                    <Fa icon="plus"/><span className="hidden-xs">{__('action.add') + ' ' + this.csname(1)}</span>
                 </Button> :
                 <DropdownButton id="optMenu" bsSize="small" pullRight
                     onSelect={this.onMenuSel}

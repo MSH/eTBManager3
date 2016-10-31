@@ -106,8 +106,7 @@ class CaseTreatment extends React.Component {
                 .then(res => {
                     tbcase.treatment = res;
                     tbcase.treatmentPeriod = res.period;
-                    this.setState({ fetching: false });
-                    self.forceUpdate();
+                    self.setState({ fetching: false });
                 });
         }
     }
