@@ -31,6 +31,13 @@ export default class FormDialog extends React.Component {
         this._mounted = true;
     }
 
+    componentWillReceiveProps(nextProps) {
+        // forces this component to update the <Form> doc when displaying in a modal
+        if (!this.props.remotePath) {
+            this.setState({ doc: nextProps.doc });
+        }
+    }
+
     componentWillUnmount() {
         this._mounted = false;
     }

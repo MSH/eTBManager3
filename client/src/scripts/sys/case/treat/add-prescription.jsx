@@ -118,18 +118,14 @@ class AddPrescription extends React.Component {
             return null;
         }
 
-        if (!this.state.show) {
-            return null;
-        }
-
         return (
             <FormDialog
                 schema={schema}
                 doc={this.state.doc}
                 wrapType="modal"
-                modalShow
                 onConfirm={this.confirm}
-                onCancel={this.onClose} />
+                onCancel={this.onClose}
+                modalShow={this.state.show} />
             );
     }
 }

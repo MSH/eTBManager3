@@ -125,7 +125,7 @@ class EdtPrescription extends React.Component {
         const tbcase = this.props.tbcase;
 
         // testing show like this because form-dialog need to mount to get the updated doc.
-        if (!tbcase || !tbcase.id || !tbcase.treatmentPeriod || !this.state.show) {
+        if (!tbcase || !tbcase.id || !tbcase.treatmentPeriod) {
             return null;
         }
 
@@ -133,7 +133,7 @@ class EdtPrescription extends React.Component {
             <FormDialog
                 schema={schema}
                 doc={this.state.doc}
-                wrapType="modal" modalShow
+                wrapType="modal" modalShow={this.state.show}
                 onConfirm={this.confirm}
                 onCancel={this.onClose} />
             );

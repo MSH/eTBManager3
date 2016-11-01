@@ -80,7 +80,7 @@ export default class AddressControl extends React.Component {
                         <ControlLabel>{__('Address.address')}</ControlLabel>
                         <FormControl id="address"
                             type="text"
-                            value={value.address}
+                            value={!value.address ? '' : value.address}
                             onChange={this.onChange}
                             />
                     </FormGroup>
@@ -88,7 +88,7 @@ export default class AddressControl extends React.Component {
                         <ControlLabel>{__('Address.complement')}</ControlLabel>
                         <FormControl id="complement"
                             type="text"
-                            value={value.complement}
+                            value={!value.complement ? '' : value.complement}
                             onChange={this.onChange}
                             />
                     </FormGroup>
@@ -98,7 +98,7 @@ export default class AddressControl extends React.Component {
                                 <ControlLabel>{__('Address.zipCode')}</ControlLabel>
                                 <FormControl id="zipCode"
                                     type="text"
-                                    value={value.zipCode}
+                                    value={!value.zipCode ? '' : value.zipCode}
                                     onChange={this.onChange}
                                     />
                             </FormGroup>
