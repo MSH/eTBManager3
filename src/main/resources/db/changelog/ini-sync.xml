@@ -6,7 +6,7 @@
 
     <changeSet id="sync-1" author="msantos">
         <createTable tableName="synclog">
-            <column name="id" type="int" autoIncrement="true">
+            <column name="id" type="${type.bigint}" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="tableName" type="varchar(100)">
@@ -22,6 +22,324 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <!-- Create insert sync triggers for mysql -->
+    <changeSet id="sync-2" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_insert_batchdispensing AFTER INSERT ON batchdispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_batchmovement AFTER INSERT ON batchmovement FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_casecomorbidities AFTER INSERT ON casecomorbidities FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_issuefollowup AFTER INSERT ON issuefollowup FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_medicinedispensing AFTER INSERT ON medicinedispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_medicinedispensingcase AFTER INSERT ON medicinedispensingcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_medicineregimen AFTER INSERT ON medicineregimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_orderbatch AFTER INSERT ON orderbatch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_ordercase AFTER INSERT ON ordercase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_ordercomment AFTER INSERT ON ordercomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_orderitem AFTER INSERT ON orderitem FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_productreceiving AFTER INSERT ON productreceiving FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_sequenceinfo AFTER INSERT ON sequenceinfo FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_sys_user AFTER INSERT ON sys_user FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_workspace AFTER INSERT ON workspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_administrativeunit AFTER INSERT ON administrativeunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_agerange AFTER INSERT ON agerange FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_batch AFTER INSERT ON batch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_countrystructure AFTER INSERT ON countrystructure FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_productorder AFTER INSERT ON productorder FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_patient AFTER INSERT ON patient FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_product AFTER INSERT ON product FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_regimen AFTER INSERT ON regimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_report AFTER INSERT ON report FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_resistancepattern AFTER INSERT ON resistancepattern FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_source AFTER INSERT ON source FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_substance AFTER INSERT ON substance FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_tag AFTER INSERT ON tag FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_tbcase AFTER INSERT ON tbcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_unit AFTER INSERT ON unit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_userprofile AFTER INSERT ON userprofile FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_userworkspace AFTER INSERT ON userworkspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_casecomment AFTER INSERT ON casecomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_casecontact AFTER INSERT ON casecontact FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_casesideeffect AFTER INSERT ON casesideeffect FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_issue AFTER INSERT ON issue FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_prescribedmedicine AFTER INSERT ON prescribedmedicine FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_prevtbtreatment AFTER INSERT ON prevtbtreatment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_treatmenthealthunit AFTER INSERT ON treatmenthealthunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_treatmentmonitoring AFTER INSERT ON treatmentmonitoring FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_examhiv AFTER INSERT ON examhiv FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_examxray AFTER INSERT ON examxray FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_medicalexamination AFTER INSERT ON medicalexamination FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_examculture AFTER INSERT ON examculture FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_examdst AFTER INSERT ON examdst FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_exammicroscopy AFTER INSERT ON exammicroscopy FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', NEW.id, 0, now());
+            CREATE TRIGGER synclog_insert_examxpert AFTER INSERT ON examxpert FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', NEW.id, 0, now());
+        </sql>
+    </changeSet>
+
+    <!-- Create update sync triggers for mysql -->
+    <changeSet id="sync-3" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_update_batchdispensing AFTER UPDATE ON batchdispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_batchmovement AFTER UPDATE ON batchmovement FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_casecomorbidities AFTER UPDATE ON casecomorbidities FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_issuefollowup AFTER UPDATE ON issuefollowup FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_medicinedispensing AFTER UPDATE ON medicinedispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_medicinedispensingcase AFTER UPDATE ON medicinedispensingcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_medicineregimen AFTER UPDATE ON medicineregimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_orderbatch AFTER UPDATE ON orderbatch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_ordercase AFTER UPDATE ON ordercase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_ordercomment AFTER UPDATE ON ordercomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_orderitem AFTER UPDATE ON orderitem FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_productreceiving AFTER UPDATE ON productreceiving FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_sequenceinfo AFTER UPDATE ON sequenceinfo FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_sys_user AFTER UPDATE ON sys_user FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_workspace AFTER UPDATE ON workspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_administrativeunit AFTER UPDATE ON administrativeunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_agerange AFTER UPDATE ON agerange FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_batch AFTER UPDATE ON batch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_countrystructure AFTER UPDATE ON countrystructure FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_productorder AFTER UPDATE ON productorder FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_patient AFTER UPDATE ON patient FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_product AFTER UPDATE ON product FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_regimen AFTER UPDATE ON regimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_report AFTER UPDATE ON report FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_resistancepattern AFTER UPDATE ON resistancepattern FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_source AFTER UPDATE ON source FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_substance AFTER UPDATE ON substance FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_tag AFTER UPDATE ON tag FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_tbcase AFTER UPDATE ON tbcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_unit AFTER UPDATE ON unit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_userprofile AFTER UPDATE ON userprofile FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_userworkspace AFTER UPDATE ON userworkspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_casecomment AFTER UPDATE ON casecomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_casecontact AFTER UPDATE ON casecontact FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_casesideeffect AFTER UPDATE ON casesideeffect FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_issue AFTER UPDATE ON issue FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_prescribedmedicine AFTER UPDATE ON prescribedmedicine FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_prevtbtreatment AFTER UPDATE ON prevtbtreatment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_treatmenthealthunit AFTER UPDATE ON treatmenthealthunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_treatmentmonitoring AFTER UPDATE ON treatmentmonitoring FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_examhiv AFTER UPDATE ON examhiv FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_examxray AFTER UPDATE ON examxray FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_medicalexamination AFTER UPDATE ON medicalexamination FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_examculture AFTER UPDATE ON examculture FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_examdst AFTER UPDATE ON examdst FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_exammicroscopy AFTER UPDATE ON exammicroscopy FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', NEW.id, 1, now());
+            CREATE TRIGGER synclog_update_examxpert AFTER UPDATE ON examxpert FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', NEW.id, 1, now());
+        </sql>
+    </changeSet>
+
+    <!-- Create delete sync triggers for mysql -->
+    <changeSet id="sync-4" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_delete_batchdispensing AFTER DELETE ON batchdispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_batchmovement AFTER DELETE ON batchmovement FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_casecomorbidities AFTER DELETE ON casecomorbidities FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_issuefollowup AFTER DELETE ON issuefollowup FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_medicinedispensing AFTER DELETE ON medicinedispensing FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_medicinedispensingcase AFTER DELETE ON medicinedispensingcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_medicineregimen AFTER DELETE ON medicineregimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_orderbatch AFTER DELETE ON orderbatch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_ordercase AFTER DELETE ON ordercase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_ordercomment AFTER DELETE ON ordercomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_orderitem AFTER DELETE ON orderitem FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_productreceiving AFTER DELETE ON productreceiving FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_sequenceinfo AFTER DELETE ON sequenceinfo FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_sys_user AFTER DELETE ON sys_user FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_workspace AFTER DELETE ON workspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_administrativeunit AFTER DELETE ON administrativeunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_agerange AFTER DELETE ON agerange FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_batch AFTER DELETE ON batch FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_countrystructure AFTER DELETE ON countrystructure FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_productorder AFTER DELETE ON productorder FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_patient AFTER DELETE ON patient FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_product AFTER DELETE ON product FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_regimen AFTER DELETE ON regimen FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_report AFTER DELETE ON report FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_resistancepattern AFTER DELETE ON resistancepattern FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_source AFTER DELETE ON source FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_substance AFTER DELETE ON substance FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_tag AFTER DELETE ON tag FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_tbcase AFTER DELETE ON tbcase FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_unit AFTER DELETE ON unit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_userprofile AFTER DELETE ON userprofile FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_userworkspace AFTER DELETE ON userworkspace FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_casecomment AFTER DELETE ON casecomment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_casecontact AFTER DELETE ON casecontact FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_casesideeffect AFTER DELETE ON casesideeffect FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_issue AFTER DELETE ON issue FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_prescribedmedicine AFTER DELETE ON prescribedmedicine FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_prevtbtreatment AFTER DELETE ON prevtbtreatment FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_treatmenthealthunit AFTER DELETE ON treatmenthealthunit FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_treatmentmonitoring AFTER DELETE ON treatmentmonitoring FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_examhiv AFTER DELETE ON examhiv FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_examxray AFTER DELETE ON examxray FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_medicalexamination AFTER DELETE ON medicalexamination FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_examculture AFTER DELETE ON examculture FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', OLD.id, 2, now());
+            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', OLD.id, 2, now());
+        </sql>
+    </changeSet>
+
+    <!-- Create insert sync triggers for hsqldb -->
+    <changeSet id="sync-5" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_insert_batchdispensing AFTER INSERT ON batchdispensing REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_batchmovement AFTER INSERT ON batchmovement REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_casecomorbidities AFTER INSERT ON casecomorbidities REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_issuefollowup AFTER INSERT ON issuefollowup REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_medicinedispensing AFTER INSERT ON medicinedispensing REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_medicinedispensingcase AFTER INSERT ON medicinedispensingcase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_medicineregimen AFTER INSERT ON medicineregimen REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_orderbatch AFTER INSERT ON orderbatch REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_ordercase AFTER INSERT ON ordercase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_ordercomment AFTER INSERT ON ordercomment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_orderitem AFTER INSERT ON orderitem REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_productreceiving AFTER INSERT ON productreceiving REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_sequenceinfo AFTER INSERT ON sequenceinfo REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_sys_user AFTER INSERT ON sys_user REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_workspace AFTER INSERT ON workspace REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_administrativeunit AFTER INSERT ON administrativeunit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_agerange AFTER INSERT ON agerange REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_batch AFTER INSERT ON batch REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_countrystructure AFTER INSERT ON countrystructure REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_productorder AFTER INSERT ON productorder REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_patient AFTER INSERT ON patient REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_product AFTER INSERT ON product REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_regimen AFTER INSERT ON regimen REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_report AFTER INSERT ON report REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_resistancepattern AFTER INSERT ON resistancepattern REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_source AFTER INSERT ON source REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_substance AFTER INSERT ON substance REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_tag AFTER INSERT ON tag REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_tbcase AFTER INSERT ON tbcase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_unit AFTER INSERT ON unit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_userprofile AFTER INSERT ON userprofile REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_userworkspace AFTER INSERT ON userworkspace REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_casecomment AFTER INSERT ON casecomment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_casecontact AFTER INSERT ON casecontact REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_casesideeffect AFTER INSERT ON casesideeffect REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_issue AFTER INSERT ON issue REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_prescribedmedicine AFTER INSERT ON prescribedmedicine REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_prevtbtreatment AFTER INSERT ON prevtbtreatment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_treatmenthealthunit AFTER INSERT ON treatmenthealthunit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_treatmentmonitoring AFTER INSERT ON treatmentmonitoring REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_examhiv AFTER INSERT ON examhiv REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_examxray AFTER INSERT ON examxray REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_medicalexamination AFTER INSERT ON medicalexamination REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_examculture AFTER INSERT ON examculture REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_examdst AFTER INSERT ON examdst REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_exammicroscopy AFTER INSERT ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', newrow.id, 0, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_insert_examxpert AFTER INSERT ON examxpert REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', newrow.id, 0, CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Create update sync triggers for hsqldb -->
+    <changeSet id="sync-6" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_update_batchdispensing AFTER UPDATE ON batchdispensing REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_batchmovement AFTER UPDATE ON batchmovement REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_casecomorbidities AFTER UPDATE ON casecomorbidities REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_issuefollowup AFTER UPDATE ON issuefollowup REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_medicinedispensing AFTER UPDATE ON medicinedispensing REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_medicinedispensingcase AFTER UPDATE ON medicinedispensingcase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_medicineregimen AFTER UPDATE ON medicineregimen REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_orderbatch AFTER UPDATE ON orderbatch REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_ordercase AFTER UPDATE ON ordercase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_ordercomment AFTER UPDATE ON ordercomment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_orderitem AFTER UPDATE ON orderitem REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_productreceiving AFTER UPDATE ON productreceiving REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_sequenceinfo AFTER UPDATE ON sequenceinfo REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_sys_user AFTER UPDATE ON sys_user REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_workspace AFTER UPDATE ON workspace REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_administrativeunit AFTER UPDATE ON administrativeunit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_agerange AFTER UPDATE ON agerange REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_batch AFTER UPDATE ON batch REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_countrystructure AFTER UPDATE ON countrystructure REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_productorder AFTER UPDATE ON productorder REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_patient AFTER UPDATE ON patient REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_product AFTER UPDATE ON product REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_regimen AFTER UPDATE ON regimen REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_report AFTER UPDATE ON report REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_resistancepattern AFTER UPDATE ON resistancepattern REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_source AFTER UPDATE ON source REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_substance AFTER UPDATE ON substance REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_tag AFTER UPDATE ON tag REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_tbcase AFTER UPDATE ON tbcase REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_unit AFTER UPDATE ON unit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_userprofile AFTER UPDATE ON userprofile REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_userworkspace AFTER UPDATE ON userworkspace REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_casecomment AFTER UPDATE ON casecomment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_casecontact AFTER UPDATE ON casecontact REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_casesideeffect AFTER UPDATE ON casesideeffect REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_issue AFTER UPDATE ON issue REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_prescribedmedicine AFTER UPDATE ON prescribedmedicine REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_prevtbtreatment AFTER UPDATE ON prevtbtreatment REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_treatmenthealthunit AFTER UPDATE ON treatmenthealthunit REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_treatmentmonitoring AFTER UPDATE ON treatmentmonitoring REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_examhiv AFTER UPDATE ON examhiv REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_examxray AFTER UPDATE ON examxray REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_medicalexamination AFTER UPDATE ON medicalexamination REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_examculture AFTER UPDATE ON examculture REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_examdst AFTER UPDATE ON examdst REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_exammicroscopy AFTER UPDATE ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', newrow.id, 1, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_update_examxpert AFTER UPDATE ON examxpert REFERENCING NEW AS newrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', newrow.id, 1, CURRENT_TIMESTAMP);
+        </sql>
+    </changeSet>
+
+    <!-- Create delete sync triggers for hsqldb -->
+    <changeSet id="sync-7" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_delete_batchdispensing AFTER DELETE ON batchdispensing REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchdispensing', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_batchmovement AFTER DELETE ON batchmovement REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batchmovement', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_casecomorbidities AFTER DELETE ON casecomorbidities REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomorbidities', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_issuefollowup AFTER DELETE ON issuefollowup REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issuefollowup', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_medicinedispensing AFTER DELETE ON medicinedispensing REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensing', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_medicinedispensingcase AFTER DELETE ON medicinedispensingcase REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicinedispensingcase', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_medicineregimen AFTER DELETE ON medicineregimen REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicineregimen', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_orderbatch AFTER DELETE ON orderbatch REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderbatch', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_ordercase AFTER DELETE ON ordercase REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercase', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_ordercomment AFTER DELETE ON ordercomment REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('ordercomment', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_orderitem AFTER DELETE ON orderitem REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('orderitem', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_productreceiving AFTER DELETE ON productreceiving REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productreceiving', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_sequenceinfo AFTER DELETE ON sequenceinfo REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sequenceinfo', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_sys_user AFTER DELETE ON sys_user REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('sys_user', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_workspace AFTER DELETE ON workspace REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('workspace', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_administrativeunit AFTER DELETE ON administrativeunit REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('administrativeunit', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_agerange AFTER DELETE ON agerange REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('agerange', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_batch AFTER DELETE ON batch REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('batch', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_countrystructure AFTER DELETE ON countrystructure REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('countrystructure', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_productorder AFTER DELETE ON productorder REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('productorder', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_patient AFTER DELETE ON patient REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('patient', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_product AFTER DELETE ON product REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('product', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_regimen AFTER DELETE ON regimen REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('regimen', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_report AFTER DELETE ON report REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('report', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_resistancepattern AFTER DELETE ON resistancepattern REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('resistancepattern', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_source AFTER DELETE ON source REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('source', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_substance AFTER DELETE ON substance REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('substance', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_tag AFTER DELETE ON tag REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tag', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_tbcase AFTER DELETE ON tbcase REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('tbcase', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_unit AFTER DELETE ON unit REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('unit', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_userprofile AFTER DELETE ON userprofile REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userprofile', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_userworkspace AFTER DELETE ON userworkspace REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('userworkspace', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_casecomment AFTER DELETE ON casecomment REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecomment', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_casecontact AFTER DELETE ON casecontact REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casecontact', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_casesideeffect AFTER DELETE ON casesideeffect REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('casesideeffect', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_issue AFTER DELETE ON issue REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('issue', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_prescribedmedicine AFTER DELETE ON prescribedmedicine REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prescribedmedicine', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_prevtbtreatment AFTER DELETE ON prevtbtreatment REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('prevtbtreatment', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_treatmenthealthunit AFTER DELETE ON treatmenthealthunit REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmenthealthunit', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_treatmentmonitoring AFTER DELETE ON treatmentmonitoring REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('treatmentmonitoring', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_examhiv AFTER DELETE ON examhiv REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examhiv', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_examxray AFTER DELETE ON examxray REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxray', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_medicalexamination AFTER DELETE ON medicalexamination REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('medicalexamination', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_examculture AFTER DELETE ON examculture REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examculture', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examdst', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('exammicroscopy', oldrow.id, 2, CURRENT_TIMESTAMP);
+            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO synclog(tableName, tableId, operation, execDate) values ('examxpert', oldrow.id, 2, CURRENT_TIMESTAMP);
+        </sql>
     </changeSet>
 
 </databaseChangeLog>

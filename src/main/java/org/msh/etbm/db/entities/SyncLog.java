@@ -18,7 +18,7 @@ public class SyncLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * Indicates the Synchronizable table where a record was created, updated or deleted
@@ -46,11 +46,11 @@ public class SyncLog {
     @NotNull
     private Date execDate;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -29,6 +29,10 @@
     <property name="type.float" value="DOUBLE" dbms="mysql"/>
     <property name="type.float" value="FLOAT" dbms="hsqldb"/>
 
+    <!-- default bigint type -->
+    <property name="type.bigint" value="BIGINT" dbms="mysql"/>
+    <property name="type.bigint" value="BIGINT" dbms="hsqldb"/>
+
     <!-- default columns -->
     <property name="type.name" value="VARCHAR(100)"/>
     <property name="type.shortName" value="VARCHAR(30)"/>
