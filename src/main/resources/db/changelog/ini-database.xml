@@ -38,6 +38,7 @@
     <property name="type.shortName" value="VARCHAR(30)"/>
     <property name="type.customId" value="VARCHAR(50)"/>
     <property name="type.optionId" value="VARCHAR(50)" />
+    <property name="version" value="INT" />
 
 
     <changeSet author="rmemoria" id="1433264274749-1">
@@ -66,6 +67,7 @@
             <column name="pname1" type="${type.name}" />
             <column name="pname2" type="${type.name}" />
             <column name="pname3" type="${type.name}" />
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -82,6 +84,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="endAge" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -170,6 +173,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="comment_group" type="int"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -219,6 +223,7 @@
             <column name="comment" type="${type.text}"/>
             <column name="dateChangeReg" type="date"/>
             <column name="symptomTherapy" type="VARCHAR(255)"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -233,6 +238,7 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -274,6 +280,7 @@
             <column name="EVENT_DATE" type="date"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -307,6 +314,7 @@
             <column name="resultR" type="INT"/>
             <column name="resultS" type="INT"/>
             <column name="resultZ" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -325,6 +333,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="resultDate" type="date"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -350,6 +359,7 @@
             <column name="status" type="INT"/>
             <column name="otherSampleType" type="VARCHAR(100)"/>
             <column name="visualAppearance" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -390,6 +400,7 @@
             <column name="laboratory_ID" type="${type.id}"/>
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -408,6 +419,7 @@
             </column>
             <column name="evolution" type="VARCHAR(50)"/>
             <column name="presentation" type="VARCHAR(50)"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -429,6 +441,7 @@
             <column name="unit_id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -450,6 +463,7 @@
             <column name="unit_id" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -494,6 +508,7 @@
             <column name="CASE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -519,6 +534,7 @@
             <column name="active" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -865,6 +881,7 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -893,6 +910,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="comments" type="${type.text}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -948,6 +966,7 @@
             <column name="z" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -970,6 +989,7 @@
             <column name="active" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -998,6 +1018,7 @@
             <column name="WORKSPACE_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1052,6 +1073,7 @@
             <column name="active" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1071,6 +1093,7 @@
             <column name="active" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1129,6 +1152,7 @@
             <column name="passwordResetToken" type="varchar(100)"/>
             <column name="mobile" type="varchar(100)"/>
             <column name="language" type="varchar(10)"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1175,6 +1199,7 @@
                 <constraints nullable="false"/>
             </column>
             <column defaultValueNumeric="0" name="dailyUpdate" type="${type.boolean}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1261,6 +1286,7 @@
             <column name="lastBmuDateTbRegister" type="date"/>
             <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
             <column name="movedSecondLineTreatment" type="${type.boolean}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1284,6 +1310,7 @@
             </column>
             <column name="comments" type="${type.text}"/>
             <column name="dateOfExamination" type="${type.datetime}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1313,6 +1340,7 @@
             <column name="shipContactPhone" type="VARCHAR(200)"/>
             <column name="shipZipCode" type="VARCHAR(100)"/>
             <column name="ship_adminunit_id" type="${type.id}"/>
+            <column name="version" type="${version}" />
 
             <!-- unit part -->
             <column name="tbFacility" type="${type.boolean}"/>
@@ -1469,6 +1497,7 @@
             <column name="day29" type="INT"/>
             <column name="day30" type="INT"/>
             <column name="day31" type="INT"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1538,6 +1567,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customId" type="${type.customId}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1580,6 +1610,7 @@
             <column name="administrator" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1660,7 +1691,7 @@
     </changeSet>
 
 
-    <changeSet id="rmemoria" author="searchable-1">
+    <changeSet id="searchable-1" author="rmemoria">
         <createTable tableName="searchable">
             <column name="id" type="${type.id}">
                 <constraints nullable="false"/>
@@ -1703,6 +1734,7 @@
             <column name="malnutrition" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
