@@ -16,7 +16,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="unit_id" type="${type.id}"/>
-            <column name="version" type="int"/>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 
