@@ -43,7 +43,7 @@
                 <version>8.6.0</version>
                 <configuration>
                     <mainClass>org.msh.etbm.desktop.Application</mainClass>
-                    <vendor>Management Science for Health</vendor>
+                    <vendor>e-TB Manager</vendor>
 					<appName>etbm-desktop</appName>
 					<additionalAppResources>target/extras</additionalAppResources>
 					<bundleArguments>

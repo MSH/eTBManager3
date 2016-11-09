@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * Store the changes done in the tables that must be synchronized with another e-TB Manager instance
+ *
  * Created by Mauricio on 08/11/2016.
  */
 @Entity
