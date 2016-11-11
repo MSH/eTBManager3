@@ -708,7 +708,6 @@
             <column name="REGIMEN_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1034,7 +1033,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="criteria" type="INT"/>
-            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
@@ -1641,7 +1639,6 @@
             <column name="maxStockOnHand" type="INT"/>
             <column name="suspectCaseNumber" type="INT"/>
             <column name="customId" type="${type.customId}"/>
-            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 
