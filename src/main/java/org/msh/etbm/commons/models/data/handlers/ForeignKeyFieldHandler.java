@@ -52,7 +52,6 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
 
     @Override
     public Map<String, Object> mapFieldsToSave(E field, Object value) {
-        // TODO: [MSANTOS] check this
         if (value == null) {
             return Collections.singletonMap(field.getFieldName(), null);
         }

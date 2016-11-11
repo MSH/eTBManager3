@@ -93,7 +93,6 @@ public class CaseEditService extends CaseValidator {
             throw new EntityValidationException(resTbcase.getErrors());
         }
 
-        //TODO: [MSANTOS] improve this archtecture
         //update tbcase age field
         TbCase tbcase = entityManager.find(TbCase.class, resTbcase.getId());
         int updatedAge = tbcase.getUpdatedAge();
@@ -102,10 +101,8 @@ public class CaseEditService extends CaseValidator {
             entityManager.persist(tbcase);
         }
 
-        //TODO: [MSANTOS] find a better archtecture for this
         validateTbCase(tbcase, data.getDoc());
 
-        //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();
         res.setOperation(Operation.EDIT);
         res.setEntityClass(TbCase.class);

@@ -18,8 +18,6 @@ import java.util.UUID;
 @Service
 public class CaseComorbiditiesService {
 
-    // TODO: [MSANTOS] register commandlog
-
     @PersistenceContext
     EntityManager entityManager;
 

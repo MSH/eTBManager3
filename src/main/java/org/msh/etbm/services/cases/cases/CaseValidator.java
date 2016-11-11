@@ -9,7 +9,6 @@ import java.util.Map;
 
 /**
  * Validates a tbcase
- * TODO: [MSANTOS] improve this archtecture
  * Created by Mauricio on 20/10/2016.
  */
 @Component
@@ -17,7 +16,6 @@ public class CaseValidator {
 
     /**
      * Validates tbcase and interrupts its saving if a validation issue is found
-     * TODO: [MSANTOS] implement other validations
      * @param tbCase
      */
     protected void validateTbCase(TbCase tbCase, Map<String, Object> doc) {

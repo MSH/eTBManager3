@@ -44,8 +44,6 @@ public class NewNotificationService extends CaseValidator {
     @Autowired
     ApplicationContext applicationContext;
 
-    // TODO: [MSANTOS] registrar commandlog
-
     public FormInitResponse initForm(CaseClassification cla, DiagnosisType diag) {
         if (cla == null || diag == null) {
             return null;
@@ -95,7 +93,6 @@ public class NewNotificationService extends CaseValidator {
             throw new EntityValidationException(resTbcase.getErrors());
         }
 
-        //TODO: [MSANTOS] improve this archtecture
         //update tbcase age field
         TbCase tbcase = entityManager.find(TbCase.class, resTbcase.getId());
         int updatedAge = tbcase.getUpdatedAge();
@@ -104,10 +101,8 @@ public class NewNotificationService extends CaseValidator {
             entityManager.persist(tbcase);
         }
 
-        //TODO: [MSANTOS] should validation be here?
         validateTbCase(tbcase, data.getDoc());
 
-        //TODO: [MSANTOS] improve this archtecture
         ServiceResult res = new ServiceResult();
         res.setOperation(Operation.NEW);
         res.setEntityClass(TbCase.class);

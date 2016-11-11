@@ -223,7 +223,7 @@ public class CaseOnTreatMoveService {
         return aux;
     }
 
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+    /**
      * Split the prescribed medicines periods in two based on the date parameters
      * @param dt
      */
@@ -247,7 +247,7 @@ public class CaseOnTreatMoveService {
         }
     }
 
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+    /**
      * Create a clone of the prescribed medicine object
      * @param pm
      * @return
@@ -262,7 +262,7 @@ public class CaseOnTreatMoveService {
         return aux;
     }
 
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+    /**
      * Join two periods that were split in a date dt
      * @param dt date to join two adjacent periods
      */
@@ -292,7 +292,7 @@ public class CaseOnTreatMoveService {
         }
     }
 
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+    /**
      * Find a compatible left adjacent prescribed medicine of the prescribed medicine pm
      * @param pm
      * @return

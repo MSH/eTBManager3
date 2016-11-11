@@ -159,7 +159,6 @@ public class UnitViewService {
     }
 
     /**
-     * TODO: [MSANTOS] CODIGO COPIADO DO TREATMENT SERVICE, encontrar uma arquitetura MELHOR
      * Calculate the treatment progress based on the today's date
      *
      * @param period
