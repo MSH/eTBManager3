@@ -7,7 +7,7 @@ import java.util.Map;
  *
  * Created by rmemoria on 8/11/16.
  */
-public interface RecordTraverse {
+public interface RecordTraverseListener {
 
     /**
      * Called for each record found

@@ -1,12 +1,15 @@
 package org.msh.etbm.commons.sync.server;
 
+import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.commons.sync.SynchronizationException;
 import org.msh.etbm.db.enums.DatabaseOperation;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -19,27 +22,15 @@ public class TableChangesTraverser {
     private static final int PAGE_SIZE = 100;
 
     private DataSource dataSource;
-    private String tableName;
-    private Integer initialVersion;
-    private UUID unitId;
+    private SQLQueryBuilder queryBuilder;
 
     public TableChangesTraverser(DataSource dataSource) {
         super();
         this.dataSource = dataSource;
     }
 
-    public TableChangesTraverser from(String tableName) {
-        this.tableName = tableName;
-        return this;
-    }
-
-    public TableChangesTraverser setUnitId(UUID unitId) {
-        this.unitId = unitId;
-        return this;
-    }
-
-    public TableChangesTraverser setInitialVersion(int iniVersion) {
-        this.initialVersion = iniVersion;
+    public TableChangesTraverser setQuery(SQLQueryBuilder builder) {
+        this.queryBuilder = builder;
         return this;
     }
 
@@ -49,43 +40,15 @@ public class TableChangesTraverser {
      * @param trav
      * @return
      */
-    public TableChangesTraverser eachNew(RecordTraverse trav) {
-        validateFields();
-
-        String sql = initialVersion != null ?
-                "select * from " + tableName + " a" +
-                "\ninner join syncdata b on b.tableId = a.id " +
-                "\nwhere b.operation = " + DatabaseOperation.INSERT.ordinal() +
-                " and b.id > " + initialVersion + " and a.owner_unit_id = ?" :
-                "select * from " + tableName + " a where a.owner_unit_id = ?";
-
-        traverseAll(sql, trav);
+    public TableChangesTraverser eachRecord(RecordTraverseListener trav) {
+        traverseAll(trav);
 
         return this;
     }
 
-    public TableChangesTraverser eachUpdated(RecordTraverse trav) {
-        validateFields();
-
-        // if there is no initial version, send nothing, because it is supposed to send
-        // all records using eachNew method
-        if (initialVersion == null) {
-            return this;
-        }
-
-        String sql = "select * from " + tableName + " a" +
-                        "\ninner join syncdata b on b.tableId = a.id " +
-                        "\nwhere b.operation = " + DatabaseOperation.UPDATE.ordinal() +
-                        " and b.id > " + initialVersion + " and a.owner_unit_id = ?";
-
-        traverseAll(sql, trav);
-
-        return this;
-    }
-
-    public TableChangesTraverser eachDeleted(RecordTraverse trav) {
+    public TableChangesTraverser eachDeleted(Optional<Integer> version, DeletedRecordTraverseListener trav) {
         // if there is no initial version, so all records will be sent using eachNew
-        if (initialVersion == null) {
+        if (!version.isPresent()) {
             return this;
         }
 
@@ -94,22 +57,21 @@ public class TableChangesTraverser {
 
     /**
      * Traverse all records for the given query paginating the result
-     * @param sql The query to run
      * @param trav the traverse function
      */
-    protected void traverseAll(String sql, RecordTraverse trav) {
+    protected void traverseAll(RecordTraverseListener trav) {
         int index = 0;
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
+        queryBuilder.setMaxResult(PAGE_SIZE);
 
         while (true) {
-            String sqlLimit = sql + " limit " + PAGE_SIZE;
+            queryBuilder.setFirstResult(index);
 
-            if (index > 0) {
-                sqlLimit += " offset " + index;
-            }
+            String sql = queryBuilder.generate();
+            Map<String, Object> args = queryBuilder.getParameters();
 
-            Object[] args = { unitId };
             List<Map<String, Object>> lst = jdbcTemplate.queryForList(sql, args);
 
             for (Map<String, Object> rec: lst) {
@@ -120,28 +82,6 @@ public class TableChangesTraverser {
             if (lst.size() < PAGE_SIZE) {
                 return;
             }
-        }
-    }
-
-    public Integer getInitialVersion() {
-        return initialVersion;
-    }
-
-    public String getTableName() {
-        return tableName;
-    }
-
-    public UUID getUnitId() {
-        return unitId;
-    }
-
-    protected void validateFields() {
-        if (tableName == null) {
-            throw new SynchronizationException("Table name must be informed");
-        }
-
-        if (unitId == null) {
-            throw new SynchronizationException("Unit ID must be informed");
         }
     }
 }

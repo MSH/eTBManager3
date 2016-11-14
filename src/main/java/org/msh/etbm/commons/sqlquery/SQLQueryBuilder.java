@@ -78,11 +78,16 @@ public class SQLQueryBuilder implements QueryDefs {
 
     private int aliasCounter;
 
+    /**
+     * If true, fields in the SELECT clause will not be declared with alias
+     */
+    private boolean disableFieldAlias;
+
 
 
     /**
      * The default constructor
-     * @param tableName
+     * @param tableName The name of the main table used in the SQL FROM clause
      */
     public SQLQueryBuilder(String tableName) {
         this.tableName = tableName;
@@ -100,23 +105,17 @@ public class SQLQueryBuilder implements QueryDefs {
      * @return String containing SQL statement
      */
     public String generate() {
-        if (fields.size() == 0) {
-            return null;
-        }
-
         aliasCounter = 0;
 
-        StringBuilder s = new StringBuilder();
+        String s = generateSelect().toString() +
+                generateFrom() +
+                generateJoins() +
+                generateWhere() +
+                generateOrderBy() +
+                generateGroupBy() +
+                limitResultSet();
 
-        s.append(generateSelect())
-                .append(generateFrom())
-                .append(generateJoins())
-                .append(generateWhere())
-                .append(generateOrderBy())
-                .append(generateGroupBy())
-                .append(limitResultSet());
-
-        return s.toString();
+        return s;
     }
 
     /**
@@ -133,19 +132,17 @@ public class SQLQueryBuilder implements QueryDefs {
         restrictions.clear();
     }
 
-    /**
-     * Clear all fields in the select operation
-     */
-    public void clearSelect() {
-        fields.clear();
-    }
 
     /**
      * Generate the SELECT clause of the SQL statement
-     * @return
+     * @return instance of the StringBuilder class containing the select clause
      */
     protected StringBuilder generateSelect() {
         StringBuilder s = new StringBuilder();
+
+        if (fields.isEmpty()) {
+            return s.append("select * ");
+        }
 
         Map<String, SQLField> mapping = new HashMap<>();
 
@@ -161,15 +158,17 @@ public class SQLQueryBuilder implements QueryDefs {
                 s.append(field.getFieldName());
             } else {
                 String fname = field.getFieldName();
+                String falias = disableFieldAlias ? "" : " " + field.getFieldAlias();
+
                 if (fname.indexOf(".") > 0) {
                     fname = parseTableName(fname);
-                    s.append(fname).append(' ').append(field.getFieldAlias());
+                    s.append(fname).append(falias);
                 } else {
                     if (!isFieldExpression(fname)) {
                         s.append(field.getTable().getTableAlias()).append(".");
                     }
 
-                    s.append(fname).append(' ').append(field.getFieldAlias());
+                    s.append(fname).append(falias);
                 }
             }
 
@@ -244,7 +243,7 @@ public class SQLQueryBuilder implements QueryDefs {
 
     /**
      * Generate the WHERE clause of the SQL statement
-     * @return
+     * @return instance of StringBuilder containing the WHERE clause
      */
     protected StringBuilder generateWhere() {
         StringBuilder s = new StringBuilder();
@@ -290,7 +289,8 @@ public class SQLQueryBuilder implements QueryDefs {
         String delim = "\ngroup by ";
         for (SQLField field: fields) {
             if (!field.isAggregation()) {
-                s.append(delim).append(field.getFieldAlias());
+                String fname = disableFieldAlias ? field.getFieldName() : field.getFieldAlias();
+                s.append(delim).append(fname);
             }
 
             delim = ", ";
@@ -366,34 +366,33 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
 
-    @Override
-    public QueryDefs restrict(String sqlexpr) {
-        return queryDefs.restrict(sqlexpr);
+    public SQLQueryBuilder restrict(String sqlexpr) {
+        queryDefs.restrict(sqlexpr);
+        return this;
     }
 
-    @Override
-    public QueryDefs restrict(String sqlexpr, Object... parameters) {
-        return queryDefs.restrict(sqlexpr, parameters);
+    public SQLQueryBuilder restrict(String sqlexpr, Object... parameters) {
+        queryDefs.restrict(sqlexpr, parameters);
+        return this;
     }
 
-    @Override
     public QueryDefs join(String tableName, String on) {
         return queryDefs.join(tableName, on);
     }
 
-    @Override
-    public QueryDefs leftJoin(String tableName, String on) {
-        return queryDefs.leftJoin(tableName, on);
+    public SQLQueryBuilder leftJoin(String tableName, String on) {
+        queryDefs.leftJoin(tableName, on);
+        return this;
     }
 
-    @Override
-    public QueryDefs join(String joinName) {
-        return queryDefs.join(joinName);
+    public SQLQueryBuilder join(String joinName) {
+        queryDefs.join(joinName);
+        return this;
     }
 
-    @Override
-    public QueryDefs select(String fields) {
-        return queryDefs.select(fields);
+    public SQLQueryBuilder select(String fields) {
+        queryDefs.select(fields);
+        return this;
     }
 
     @Override
@@ -437,6 +436,14 @@ public class SQLQueryBuilder implements QueryDefs {
      */
     public void addGroupExpression(String expr) {
         queryDefs.createField(expr, true);
+    }
+
+    /**
+     * Return the instance of the {@link QueryDefs} interface used internally
+     * @return instance of {@link QueryDefs}
+     */
+    public QueryDefs getQueryDefs() {
+        return queryDefs;
     }
 
     /**
@@ -558,4 +565,20 @@ public class SQLQueryBuilder implements QueryDefs {
         return alias;
     }
 
+    /**
+     * Return an instance of the {@link SQLQueryBuilder} using the given table
+     * @param tableName
+     * @return
+     */
+    public static SQLQueryBuilder from(String tableName) {
+        return new SQLQueryBuilder(tableName);
+    }
+
+    public boolean isDisableFieldAlias() {
+        return disableFieldAlias;
+    }
+
+    public void setDisableFieldAlias(boolean disableFieldAlias) {
+        this.disableFieldAlias = disableFieldAlias;
+    }
 }

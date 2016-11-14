@@ -5,6 +5,7 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.commons.sync.server.SyncFileGenerator;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
@@ -16,6 +17,7 @@ import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -56,6 +60,12 @@ public class TestRest {
 
     @Autowired
     CaseIndicatorsService caseIndicatorsService;
+
+    @Autowired
+    SyncFileGenerator syncFileGenerator;
+
+    @Autowired
+    UserRequestService userRequestService;
 
 
     @RequestMapping("/message")
@@ -140,5 +150,17 @@ public class TestRest {
         }
 
         return new StandardResult(ind, null, true);
+    }
+
+
+    @RequestMapping("/syncfile")
+    @Authenticated
+    public StandardResult generateSyncFile() throws IOException {
+        UUID unitId = userRequestService.getUserSession().getUnitId();
+
+        File file = syncFileGenerator.generate(unitId, Optional.empty());
+        System.out.println(file);
+
+        return new StandardResult(file.toString(), null, true);
     }
 }

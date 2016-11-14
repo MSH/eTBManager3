@@ -147,4 +147,20 @@ public class QueryBuilderTest {
         assertEquals(builder.fieldByName("field3").getFieldAlias(), tokens[++index]);
         assertEquals("Must be the end of the tokens in SQL", ++index, tokens.length);
     }
+
+    @Test
+    public void simpleQuery() {
+        SQLQueryBuilder qry = SQLQueryBuilder.from("mytable");
+
+        qry.join("table2", "table2.id = mytable.table2_id")
+                .restrict("table2.name like ?", "%test%");
+
+        String sql = qry.generate();
+        assertNotNull(sql);
+
+        qry.setDisableFieldAlias(true);
+        qry.select("table2.*");
+        sql = qry.generate();
+        assertNotNull(sql);
+    }
 }

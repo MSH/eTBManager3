@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.commands.details;
+package org.msh.etbm.commons.objutils;
 
 import org.msh.etbm.commons.commands.CommandException;
 import org.slf4j.Logger;
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,7 +31,7 @@ public class StringConverter {
         return val == null ? "" : val.toString();
     }
 
-    public static String floatToString(Double val) {
+    public static String doubleToString(Double val) {
         if (val == null) {
             return "";
         }
@@ -211,5 +212,23 @@ public class StringConverter {
             LOGGER.error("stringToDouble convertion error: " + e.getMessage());
             throw new CommandException(e);
         }
+    }
+
+    /**
+     * Convert a sequence of bytes to a string representation in Base 64 format
+     * @param vals an array of bytes
+     * @return string representation of the array
+     */
+    public static String bytesToString(byte[] vals) {
+        return Base64.getEncoder().encodeToString(vals);
+    }
+
+    /**
+     * Convert a sequence of bytes in a string format using base 64 to an array of bytes
+     * @param s String containing the sequence of bytes in Base 64 format
+     * @return array of bytes
+     */
+    public static byte[] stringToBytes(String s) {
+        return Base64.getDecoder().decode(s);
     }
 }

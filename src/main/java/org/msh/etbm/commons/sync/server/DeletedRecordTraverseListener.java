@@ -7,7 +7,7 @@ import java.util.UUID;
  *
  * Created by rmemoria on 8/11/16.
  */
-public interface DeletedRecordTraverse {
+public interface DeletedRecordTraverseListener {
 
     /**
      * Called on each deleted record

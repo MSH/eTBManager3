@@ -41,6 +41,13 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs restrict(String sqlexpr, Object... paramValues) {
+        // check if there is any null parameter. If so, doesn't include the restriction
+        for (Object val: paramValues) {
+            if (val == null) {
+                return this;
+            }
+        }
+
         int pos;
         int index = 0;
 
