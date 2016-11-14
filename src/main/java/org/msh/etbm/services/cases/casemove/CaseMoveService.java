@@ -130,7 +130,7 @@ public class CaseMoveService {
         return res;
     }
 
-    /** TODO: [MSANTOS] This method should not be here. Find a better archtecture.
+    /**
      * Check if user is working on its working unit. It depends on the case state and the user profile.
      * 1) If user can play activities of all other units, so it's the working unit;
      * 2) If case is waiting for treatment, the user unit is compared to the case notification unit;

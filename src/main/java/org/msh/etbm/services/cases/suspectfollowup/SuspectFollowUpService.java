@@ -40,8 +40,6 @@ public class SuspectFollowUpService {
     @Autowired
     protected ApplicationContext applicationContext;
 
-    // TODO: [MSANTOS] registrar commandlog
-
     public FormInitResponse initForm (CaseClassification cla) {
         Map<String, Object> doc = new HashMap<>();
         Map<String, Object> caseData = new HashMap<>();
@@ -81,7 +79,6 @@ public class SuspectFollowUpService {
             throw new EntityValidationException(resTbCase.getErrors());
         }
 
-        //TODO: [MSANTOS] improve this archtecture
         ServiceResult serviceRes = new ServiceResult();
         serviceRes.setOperation(Operation.EDIT);
         serviceRes.setEntityClass(TbCase.class);
