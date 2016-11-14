@@ -117,9 +117,9 @@ public class SyncFileGenerator {
                 .restrict("version > ?", initialVersion)
                 .restrict("workspace_id = ?", wsId);
 
-//        queryFrom("unit")
-//                .restrict("version > ?", initialVersion)
-//                .restrict("workspace_id = ?", wsId);
+        queryFrom("unit")
+                .restrict("version > ?", initialVersion)
+                .restrict("workspace_id = ?", wsId);
 
         queryFrom("substance")
                 .restrict("version > ?", initialVersion)
