@@ -1165,15 +1165,18 @@
             <column name="allowRegPage" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
-            <column name="systemURL" type="VARCHAR(100)">
+            <column name="systemURL" type="VARCHAR(250)">
             </column>
+            <column name="serverURL" type="VARCHAR(250)" />
+            <column name="clientMode" type="${type.boolean}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="updateSite" type="VARCHAR(250)"/>
             <column name="UNIT_ID" type="${type.id}"/>
             <column name="USERPROFILE_ID" type="${type.id}"/>
             <column name="WORKSPACE_ID" type="${type.id}"/>
             <column name="adminMail" type="VARCHAR(100)"/>
-            <column name="pageRootURL" type="VARCHAR(200)"/>
             <column name="otherlinks" type="${type.text}"/>
-            <column name="updateSite" type="VARCHAR(250)"/>
             <column name="pubds_workspace_id" type="${type.id}"/>
             <column name="ulaActive" type="${type.boolean}"/>
         </createTable>

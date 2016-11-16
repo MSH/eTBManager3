@@ -106,7 +106,7 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
         if (tableName.equals(def.getMainTable())) {
             def.select(fieldName);
         } else {
-            def.join(tableName).select(fieldName);
+            def.join(tableName).select(tableName + "." + fieldName);
         }
     }
 

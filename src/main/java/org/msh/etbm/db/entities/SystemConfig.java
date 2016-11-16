@@ -16,11 +16,8 @@ public class SystemConfig {
     @Id
     private Integer id;
 
-    @Column(length = 100)
+    @Column(length = 250)
     private String systemURL;
-
-    @Column(length = 200)
-    private String pageRootURL;
 
     private boolean allowRegPage;
 
@@ -51,6 +48,17 @@ public class SystemConfig {
      * If true, the ULA will be displayed once to the user to be accepted
      */
     private boolean ulaActive;
+
+    /**
+     * If true, this instance is a client instance that synchronizes with a server
+     */
+    private boolean clientMode;
+
+    /**
+     * The URL of the server instance
+     */
+    @Column(length = 250)
+    private String serverURL;
 
     /**
      * @return the id
@@ -145,21 +153,6 @@ public class SystemConfig {
     }
 
 
-    /**
-     * @return the pageRootURL
-     */
-    public String getPageRootURL() {
-        return pageRootURL;
-    }
-
-    /**
-     * @param pageRootURL the pageRootURL to set
-     */
-    public void setPageRootURL(String pageRootURL) {
-        this.pageRootURL = pageRootURL;
-    }
-
-
     public String getUpdateSite() {
         return updateSite;
     }
@@ -182,5 +175,21 @@ public class SystemConfig {
 
     public void setUlaActive(boolean ulaActive) {
         this.ulaActive = ulaActive;
+    }
+
+    public boolean isClientMode() {
+        return clientMode;
+    }
+
+    public void setClientMode(boolean clientMode) {
+        this.clientMode = clientMode;
+    }
+
+    public String getServerURL() {
+        return serverURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
     }
 }

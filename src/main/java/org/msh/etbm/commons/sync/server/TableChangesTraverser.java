@@ -13,7 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Traverse a table using the synchronization log
+ * Traverse a table using the given instance of {@link SQLQueryBuilder}
+ *
  * Created by rmemoria on 8/11/16.
  */
 public class TableChangesTraverser {

@@ -271,6 +271,41 @@ const displaySchemas = {
                 size: { sm: 4 }
             },
             {
+                property: 'resultH',
+                type: 'select',
+                label: __('cases.examdst.resultH'),
+                options: app.getState().app.lists.DstResult,
+                size: { md: 2 }
+            },
+            {
+                property: 'resultR',
+                type: 'select',
+                label: __('cases.examdst.resultR'),
+                options: app.getState().app.lists.DstResult,
+                size: { md: 2 }
+            },
+            {
+                property: 'resultE',
+                type: 'select',
+                label: __('cases.examdst.resultE'),
+                options: app.getState().app.lists.DstResult,
+                size: { md: 2 }
+            },
+            {
+                property: 'resultZ',
+                type: 'select',
+                label: __('cases.examdst.resultZ'),
+                options: app.getState().app.lists.DstResult,
+                size: { md: 2 }
+            },
+            {
+                property: 'resultS',
+                type: 'select',
+                label: __('cases.examdst.resultS'),
+                options: app.getState().app.lists.DstResult,
+                size: { md: 2 }
+            },
+            {
                 property: 'resultAm',
                 type: 'select',
                 label: __('cases.examdst.resultAm'),
@@ -299,23 +334,9 @@ const displaySchemas = {
                 size: { md: 2 }
             },
             {
-                property: 'resultE',
-                type: 'select',
-                label: __('cases.examdst.resultE'),
-                options: app.getState().app.lists.DstResult,
-                size: { md: 2 }
-            },
-            {
                 property: 'resultEto',
                 type: 'select',
                 label: __('cases.examdst.resultEto'),
-                options: app.getState().app.lists.DstResult,
-                size: { md: 2 }
-            },
-            {
-                property: 'resultH',
-                type: 'select',
-                label: __('cases.examdst.resultH'),
                 options: app.getState().app.lists.DstResult,
                 size: { md: 2 }
             },
@@ -330,27 +351,6 @@ const displaySchemas = {
                 property: 'resultOfx',
                 type: 'select',
                 label: __('cases.examdst.resultOfx'),
-                options: app.getState().app.lists.DstResult,
-                size: { md: 2 }
-            },
-            {
-                property: 'resultR',
-                type: 'select',
-                label: __('cases.examdst.resultR'),
-                options: app.getState().app.lists.DstResult,
-                size: { md: 2 }
-            },
-            {
-                property: 'resultS',
-                type: 'select',
-                label: __('cases.examdst.resultS'),
-                options: app.getState().app.lists.DstResult,
-                size: { md: 2 }
-            },
-            {
-                property: 'resultZ',
-                type: 'select',
-                label: __('cases.examdst.resultZ'),
                 options: app.getState().app.lists.DstResult,
                 size: { md: 2 }
             }]
@@ -731,6 +731,51 @@ const editSchemas = {
                 size: { sm: 6 }
             },
             {
+                property: 'resultH',
+                type: 'select',
+                label: __('cases.examdst.resultH'),
+                options: app.getState().app.lists.DstResult,
+                required: true,
+                defaultValue: 'NOTDONE',
+                size: { md: 4 }
+            },
+            {
+                property: 'resultR',
+                type: 'select',
+                label: __('cases.examdst.resultR'),
+                options: app.getState().app.lists.DstResult,
+                required: true,
+                defaultValue: 'NOTDONE',
+                size: { md: 4 }
+            },
+            {
+                property: 'resultE',
+                type: 'select',
+                label: __('cases.examdst.resultE'),
+                options: app.getState().app.lists.DstResult,
+                required: true,
+                defaultValue: 'NOTDONE',
+                size: { md: 4 }
+            },
+            {
+                property: 'resultZ',
+                type: 'select',
+                label: __('cases.examdst.resultZ'),
+                options: app.getState().app.lists.DstResult,
+                required: true,
+                defaultValue: 'NOTDONE',
+                size: { md: 4 }
+            },
+            {
+                property: 'resultS',
+                type: 'select',
+                label: __('cases.examdst.resultS'),
+                options: app.getState().app.lists.DstResult,
+                required: true,
+                defaultValue: 'NOTDONE',
+                size: { md: 4 }
+            },
+            {
                 property: 'resultAm',
                 type: 'select',
                 label: __('cases.examdst.resultAm'),
@@ -767,27 +812,9 @@ const editSchemas = {
                 size: { md: 4 }
             },
             {
-                property: 'resultE',
-                type: 'select',
-                label: __('cases.examdst.resultE'),
-                options: app.getState().app.lists.DstResult,
-                required: true,
-                defaultValue: 'NOTDONE',
-                size: { md: 4 }
-            },
-            {
                 property: 'resultEto',
                 type: 'select',
                 label: __('cases.examdst.resultEto'),
-                options: app.getState().app.lists.DstResult,
-                required: true,
-                defaultValue: 'NOTDONE',
-                size: { md: 4 }
-            },
-            {
-                property: 'resultH',
-                type: 'select',
-                label: __('cases.examdst.resultH'),
                 options: app.getState().app.lists.DstResult,
                 required: true,
                 defaultValue: 'NOTDONE',
@@ -806,33 +833,6 @@ const editSchemas = {
                 property: 'resultOfx',
                 type: 'select',
                 label: __('cases.examdst.resultOfx'),
-                options: app.getState().app.lists.DstResult,
-                required: true,
-                defaultValue: 'NOTDONE',
-                size: { md: 4 }
-            },
-            {
-                property: 'resultR',
-                type: 'select',
-                label: __('cases.examdst.resultR'),
-                options: app.getState().app.lists.DstResult,
-                required: true,
-                defaultValue: 'NOTDONE',
-                size: { md: 4 }
-            },
-            {
-                property: 'resultS',
-                type: 'select',
-                label: __('cases.examdst.resultS'),
-                options: app.getState().app.lists.DstResult,
-                required: true,
-                defaultValue: 'NOTDONE',
-                size: { md: 4 }
-            },
-            {
-                property: 'resultZ',
-                type: 'select',
-                label: __('cases.examdst.resultZ'),
                 options: app.getState().app.lists.DstResult,
                 required: true,
                 defaultValue: 'NOTDONE',

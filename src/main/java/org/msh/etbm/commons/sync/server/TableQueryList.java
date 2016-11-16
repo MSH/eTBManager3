@@ -1,118 +1,50 @@
 package org.msh.etbm.commons.sync.server;
 
-import com.fasterxml.jackson.core.JsonEncoding;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.commons.sync.SynchronizationException;
 import org.msh.etbm.db.entities.Unit;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
- * Generate the initialization file
+ * Keep a list of all queries and the action to be taken when syncing in the client side
  *
- * Created by rmemoria on 8/11/16.
+ * Created by rmemoria on 14/11/16.
  */
-@Service
-public class SyncFileGenerator {
+public class TableQueryList {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    private UUID wsId;
+    private UUID unitId;
+    private Integer initialVersion;
 
-    @Autowired
-    DataSource dataSource;
+    private List<TableQueryItem> queries;
 
-    private List<SQLQueryBuilder> queries;
+    public TableQueryList(UUID wsId, UUID unitId, Optional<Integer> initialVersion) {
+        this.wsId = wsId;
+        this.unitId = unitId;
+        this.initialVersion = initialVersion.orElse(null);
+    }
 
-    private long count;
 
-    public File generate(UUID unitId, Optional<Integer> initialVersion) throws IOException {
+    /**
+     * Return the list of items
+     * @return
+     */
+    public List<TableQueryItem> getList() {
         if (queries == null) {
-            initQueries(unitId, initialVersion.orElse(null));
+            initQueries();
         }
 
-        File file = File.createTempFile("etbm", "inifile");
-
-        JsonFactory jsonFactory = new JsonFactory();
-        JsonGenerator generator = jsonFactory.createGenerator(file, JsonEncoding.UTF8);
-
-        try {
-            generateJsonContent(generator, initialVersion);
-        } finally {
-            generator.close();
-        }
-
-
-        return file;
-    }
-
-
-    /**
-     * Generate the content of the sync file in JSON format
-     * @param generator instance of the JsonGenerator (from the Jackson library)
-     * @throws IOException
-     */
-    protected void generateJsonContent(JsonGenerator generator, Optional<Integer> initialVersion) throws IOException {
-        generator.writeStartArray();
-
-        TableChangesTraverser trav = new TableChangesTraverser(dataSource);
-
-        for (SQLQueryBuilder qry: queries) {
-            trav.setQuery(qry);
-            count = 0;
-            trav.eachRecord((rec, index) -> generateJsonObject(generator, rec));
-
-            System.out.println(qry.getMainTable() + "... Number of records -> " + count);
-
-            trav.eachDeleted(initialVersion, id -> {
-                System.out.println(id);
-            });
-        }
-
-        generator.writeEndArray();
-    }
-
-
-    /**
-     * Generate a Json object of a map
-     * @param record the map containing field names and values
-     */
-    protected void generateJsonObject(JsonGenerator generator, Map<String, Object> record) {
-        try {
-            generator.writeStartObject();
-            for (Map.Entry<String, Object> entry: record.entrySet()) {
-                Object val = CompactibleJsonConverter.convertToJson(entry.getValue());
-                generator.writeObjectField(entry.getKey(), val);
-            }
-            generator.writeEndObject();
-        } catch (IOException e) {
-            throw new SynchronizationException(e);
-        }
-        count++;
+        return queries;
     }
 
 
     /**
      * Prepare the queries to return the records to generate the sync file
-     * @param unitId
-     * @param initialVersion
      */
-    protected  synchronized void initQueries(UUID unitId, Integer initialVersion) {
-        if (queries != null) {
-            return;
-        }
-
-        Unit unit = entityManager.find(Unit.class, unitId);
-        UUID wsId = unit.getWorkspace().getId();
-
+    protected void initQueries() {
         queryFrom("administrativeunit")
                 .restrict("version > ?", initialVersion)
                 .restrict("workspace_id = ?", wsId);
@@ -248,7 +180,28 @@ public class SyncFileGenerator {
                 .restrict("tbcase.owner_unit_id = ?", unitId);
     }
 
+
+    /**
+     * Register a new query to be used in the synchronization file. The data from the query will be used to
+     * update the records in the client side
+     * @param table The name of the table
+     * @return instance of {@link SQLQueryBuilder}
+     */
+    protected SQLQueryBuilder queryForUpdateFrom(String table) {
+        return addTableInfo(table, TableQueryItem.SyncAction.UPDATE).getQuery();
+    }
+
+    /**
+     * Register a new query to be used in the synchronization file. The data from the query will be used to
+     * insert new records in the destination table in the client side
+     * @param table
+     * @return
+     */
     protected SQLQueryBuilder queryFrom(String table) {
+        return addTableInfo(table, TableQueryItem.SyncAction.INSERT).getQuery();
+    }
+
+    private TableQueryItem addTableInfo(String table, TableQueryItem.SyncAction action) {
         if (queries == null) {
             queries = new ArrayList<>();
         }
@@ -256,7 +209,10 @@ public class SyncFileGenerator {
         SQLQueryBuilder qry = SQLQueryBuilder.from(table);
         qry.setDisableFieldAlias(true);
         qry.select(table + ".*");
-        queries.add(qry);
-        return qry;
+
+        TableQueryItem info = new TableQueryItem(qry, TableQueryItem.SyncAction.INSERT);
+        queries.add(info);
+
+        return info;
     }
 }
