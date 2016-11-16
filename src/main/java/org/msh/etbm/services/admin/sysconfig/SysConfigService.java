@@ -47,7 +47,7 @@ public class SysConfigService {
         EntityDAO<SystemConfig> dao = entityDAOFactory.newDAO(SystemConfig.class);
 
         // load config if exists
-        if (!dao.setIdIfExists(1)) {
+        if (!dao.setIdIfExists(SystemConfig.PRIMARY_KEY)) {
             // if config doesn't exist, set the primary key for the new config
             dao.getEntity().setId(SystemConfig.PRIMARY_KEY);
         }
