@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.date;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -263,6 +264,7 @@ public class DateUtils {
         SimpleDateFormat f = new SimpleDateFormat(dateFormat);
         return f.format(dt);
     }
+
 
     /**
      * Return the current date without time information
