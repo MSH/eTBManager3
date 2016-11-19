@@ -33,6 +33,7 @@ import RemoteForm from './remote-form';
 import observer from './observer';
 import Sideview from './sideview';
 import InlineEditor from './inline-editor';
+import BigButton from './big-button';
 
 export { Callout,
     AsyncButton,
@@ -64,5 +65,6 @@ export { Callout,
     RemoteForm,
     observer,
     Sideview,
-    InlineEditor
+    InlineEditor,
+    BigButton
 };
