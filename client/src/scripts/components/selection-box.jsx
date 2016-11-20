@@ -2,7 +2,7 @@
 import React from 'react';
 import { MenuItem } from 'react-bootstrap';
 import Popup from './popup';
-import { objEqual } from '../commons/utils';
+import { objEqual, isEmpty } from '../commons/utils';
 
 /**
  * A component that allows use to select a single or multiple elements from a drop down
@@ -194,6 +194,10 @@ export default class SelectionBox extends React.Component {
     contentRender() {
         const value = this.props.value;
         if (value === null || value === undefined) {
+            const placeHolder = this.props.placeHolder;
+            if (placeHolder) {
+                return <span className="text-muted">{this.props.placeHolder}</span>;
+            }
             return null;
         }
 
@@ -270,7 +274,8 @@ SelectionBox.propTypes = {
     bsStyle: React.PropTypes.oneOf(['success', 'warning', 'error']),
     help: React.PropTypes.string,
     wrapperClassName: React.PropTypes.string,
-    noSelectionLabel: React.PropTypes.string
+    noSelectionLabel: React.PropTypes.string,
+    placeHolder: React.PropTypes.string
 };
 
 SelectionBox.defaultProps = {

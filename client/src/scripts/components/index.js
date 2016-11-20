@@ -33,6 +33,9 @@ import RemoteForm from './remote-form';
 import observer from './observer';
 import Sideview from './sideview';
 import InlineEditor from './inline-editor';
+import YearPicker from './year-picker';
+import MonthYearPicker from './month-year-picker';
+
 
 export { Callout,
     AsyncButton,
@@ -64,5 +67,7 @@ export { Callout,
     RemoteForm,
     observer,
     Sideview,
-    InlineEditor
+    InlineEditor,
+    YearPicker,
+    MonthYearPicker
 };
