@@ -26,12 +26,16 @@ export default class ReacttableExample extends React.Component {
         this.setState({ endYear: val });
     }
 
-    monthYearChange(val) {
-        this.setSate({ monthYear: val });
+    monthYearChange(prop) {
+        return val => {
+            const obj = {};
+            obj[prop] = val;
+            console.log(prop + ' = ', val);
+            this.setState(obj);
+        };
     }
 
     render() {
-
         return (
             <div>
                 <Card title="Year picker">
@@ -62,11 +66,19 @@ export default class ReacttableExample extends React.Component {
                         <Col md={12}>
                             <MonthYearPicker value={this.state.monthYear}
                                 label="Please select the month and year:"
-                                onChange={this.monthYearChange} />
+                                onChange={this.monthYearChange('monthYear')} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <MonthYearPicker value={this.state.period}
+                                label="Select the period:"
+                                period
+                                onChange={this.monthYearChange('period')} />
                         </Col>
                     </Row>
                 </Card>
             </div>
-            );
+        );
     }
 }

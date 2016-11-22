@@ -193,7 +193,7 @@ export default class SelectionBox extends React.Component {
      */
     contentRender() {
         const value = this.props.value;
-        if (value === null || value === undefined) {
+        if (isEmpty(value)) {
             const placeHolder = this.props.placeHolder;
             if (placeHolder) {
                 return <span className="text-muted">{this.props.placeHolder}</span>;

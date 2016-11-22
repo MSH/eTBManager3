@@ -94,7 +94,7 @@ export default class PopupControl extends React.Component {
                 {this.createPopup()}
                 {helpBlock}
             </div>
-            );
+        );
     }
 }
 

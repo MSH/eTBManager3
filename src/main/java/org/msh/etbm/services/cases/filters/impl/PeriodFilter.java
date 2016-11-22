@@ -25,14 +25,25 @@ public class PeriodFilter extends AbstractFilter {
     /**
      * Filter types
      */
-    public enum PeriodType { FIXED, DAILY, MONTHLY, QUARTERLY, YEARLY }
+    public enum PeriodFilterType {
+        CONSTANT,
+        DATE,
+        QUARTER
+    }
+
+    /**
+     * Variables type
+     */
+    public enum PeriodVariableType {
+        MONTHLY, QUARTERLY, YEARLY
+    }
 
     /**
      * Possible values for fixed periods
      * @author Ricardo Memoria
      *
      */
-    private enum FixedPeriod {
+    private enum ConstantPeriod {
         LAST_3MONTHS,
         LAST_6MONTHS,
         LAST_12MONTHS,
@@ -51,7 +62,7 @@ public class PeriodFilter extends AbstractFilter {
     /**
      * The type of the period
      */
-    private PeriodType type;
+    private PeriodVariableType type;
 
 
     /**
@@ -61,12 +72,9 @@ public class PeriodFilter extends AbstractFilter {
      * @param fieldName the field name
      * @param type The type of the period to be analysed
      */
-    public PeriodFilter(String id, String label, String fieldName, PeriodType type) {
+    public PeriodFilter(String id, String label, String fieldName, PeriodVariableType type) {
         super(id, label);
         this.fieldName = fieldName;
-        if (type == PeriodType.FIXED) {
-            throw new UnexpectedFilterException("Period type not supported: " + type);
-        }
         this.type = type;
     }
 
@@ -92,34 +100,131 @@ public class PeriodFilter extends AbstractFilter {
 
         // get the type of period to calculate
         String typeValueName = (String)valueParams.get("type");
-        PeriodType ptype = ObjectUtils.stringToEnum(typeValueName, PeriodType.class);
+        PeriodFilterType ptype = ObjectUtils.stringToEnum(typeValueName, PeriodFilterType.class);
 
         if (ptype == null) {
             throw new FilterException("Invalid filter type: " + typeValueName);
         }
 
-        String ini = (String)valueParams.get("ini");
-        String end = (String)valueParams.get("end");
-        String fixedValue = (String)valueParams.get("value");
-
         switch (ptype) {
-            case FIXED:
+            case CONSTANT:
+                String fixedValue = (String)valueParams.get("value");
                 prepareFixedFilter(def, fixedValue);
                 return;
-            case DAILY:
-                prepareDailyFilter(def, ini, end);
+            case DATE:
+                prepareDateFilter(def, valueParams);
                 return;
-            case MONTHLY:
-                prepareMonthlyFilter(def, ini, end);
-                return;
-            case QUARTERLY:
-                prepareQuarterlyFilter(def, ini, end);
-                return;
-            case YEARLY:
-                prepareYearlyFilter(def, ini, end);
+            case QUARTER:
+                prepareQuarterlyFilter(def, valueParams);
                 return;
             default: throw new FilterException("Filter type not supported: " + ptype);
         }
+    }
+
+    private void prepareDateFilter(QueryDefs def, Map<String, Object> params) {
+        Period p = parseIniEndDates(params);
+
+        if (p == null) {
+            p = parsePeriodDescription(params);
+        }
+
+        if (p == null) {
+            return;
+        }
+
+        if (p.getIniDate() == null) {
+            def.restrict(fieldName + " <= ?", p.getEndDate());
+            return;
+        }
+
+        if (p.getEndDate() == null) {
+            def.restrict(fieldName + " >= ?", p.getIniDate());
+            return;
+        }
+
+        def.restrict(fieldName + " between ? and ?", p.getIniDate(), p.getEndDate());
+    }
+
+    private Date parseDate(String s, boolean initial) {
+        if (s == null) {
+            return null;
+        }
+
+        String[] p = s.split("-");
+
+        try {
+            int year = Integer.parseInt(p[0]);
+            if (year < 1900 || year > 2050) {
+                throwInvalidDate(s);
+            }
+
+            int month = p.length > 1 ? Integer.parseInt(p[1]) : 1;
+            if (month < 1 || month > 12) {
+                throwInvalidDate(s);
+            }
+
+            int daysInAMonth = DateUtils.daysInAMonth(year, month);
+            int defaultDay = initial ? 1 : daysInAMonth;
+
+            int day = p.length > 2 ? Integer.parseInt(p[2]) : defaultDay;
+            if (day < 1 || day > DateUtils.daysInAMonth(year, month)) {
+                throwInvalidDate(s);
+            }
+
+            return DateUtils.newDate(year, month - 1, day);
+        } catch (NumberFormatException e) {
+            throwInvalidDate(s);
+        }
+
+        return null;
+    }
+
+    private Period parsePeriodDescription(Map<String, Object> params) {
+        Integer iniMonth = (Integer)params.get("iniMonth");
+        Integer iniYear = (Integer)params.get("iniYear");
+        Integer endMonth = (Integer)params.get("endMonth");
+        Integer endYear = (Integer)params.get("endYear");
+
+        if (iniMonth == null && iniYear == null && endMonth == null && endYear == null) {
+            return null;
+        }
+
+        Date ini = null;
+        if (iniYear != null) {
+            if (iniMonth == null) {
+                iniMonth = 1;
+            }
+
+            ini = DateUtils.newDate(iniYear, iniMonth, 1);
+        }
+
+        Date end = null;
+        if (endYear != null) {
+            if (endMonth == null) {
+                endMonth = 12;
+            }
+            end = DateUtils.newDate(endYear, endMonth, DateUtils.daysInAMonth(endYear, endMonth));
+        }
+
+        return new Period(ini, end);
+    }
+
+    private Period parseIniEndDates(Map<String, Object> params) {
+        String ini = (String)params.get("ini");
+        String end = (String)params.get("end");
+
+        if (ini == null && end == null) {
+            return null;
+        }
+
+        Date dtini = parseDate(ini, true);
+        Date dtend = parseDate(end, false);
+
+        return new Period(dtini, dtend);
+    }
+
+    private void throwInvalidDate(String date) {
+        throw new FilterException("Invalid date: " + date);
     }
 
     /**
@@ -128,7 +233,7 @@ public class PeriodFilter extends AbstractFilter {
      * @param fval
      */
     private void prepareFixedFilter(QueryDefs def, String fval) {
-        FixedPeriod fperiod = ObjectUtils.stringToEnum(fval, FixedPeriod.class);
+        ConstantPeriod fperiod = ObjectUtils.stringToEnum(fval, ConstantPeriod.class);
         if (fperiod == null) {
             throw new FilterException("Invalid fixed period value: " + fval);
         }
@@ -167,76 +272,58 @@ public class PeriodFilter extends AbstractFilter {
 
 
     /**
-     * Apply filter by a period of dates
+     * Apply a restriction of the date period. If both dates are null, no restriction is
+     * applied. If just one date is null, so just one is used in the restriction
      * @param def the instance of {@link QueryDefs}
-     * @param ini the initial date in the format YYYY-MM-DD
-     * @param end the final date in the format YYYY-MM-DD
+     * @param dtini the initial date
+     * @param dtend the final date
      */
-    private void prepareDailyFilter(QueryDefs def, String ini, String end) {
-        SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd");
-        try {
-            Date dtIni = formatter.parse(ini);
-            Date dtEnd = formatter.parse(end);
-            def.restrict(fieldName + " between ? and ?", dtIni, dtEnd);
-        } catch (ParseException e) {
-            throw new FilterException("Invalid date period: " + ini + ", " + end);
-        }
-    }
-
-    /**
-     * Apply filter by a given initial and final year-month
-     * @param def the instance of {@link QueryDefs}
-     * @param ini the initial date in the format YYYY-MM
-     * @param end the final date in the format YYYY-MM
-     */
-    private void prepareMonthlyFilter(QueryDefs def, String ini, String end) {
-        SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM");
-        Date dtini;
-        try {
-            dtini = formatter.parse(ini);
-        } catch (ParseException e) {
-            throw new FilterException("Invalid initial year-month value: " + ini);
+    private void applyDateRestriction(QueryDefs def, Date dtini, Date dtend) {
+        if (dtini == null && dtend == null) {
+            return;
         }
 
-        Date dtend;
-        try {
-            dtend = formatter.parse(end);
-            dtend = createEndDate(dtend);
-        } catch (ParseException e) {
-            throw new FilterException("Invalid final year-month value: " + end);
+        if (dtini == null) {
+            def.restrict(fieldName + " <= ?", dtend);
+            return;
+        }
+
+        if (dtend == null) {
+            def.restrict(fieldName + " >= ?", dtini);
+            return;
         }
 
         def.restrict(fieldName + " between ? and ?", dtini, dtend);
     }
 
-
     /**
      * Restrict the query by the given quarter
      * @param def instance of {@link QueryDefs}
-     * @param ini the initial quarter in the format YYYY-Q
-     * @param end the final quarter in the format YYYY-Q
+     * @param params the map containing the initial and final quarter in the format YYYY-Q
      */
-    private void prepareQuarterlyFilter(QueryDefs def, String ini, String end) {
-        int[] iniVals = parseQuarter(ini);
-        if (iniVals == null) {
-            throw new RuntimeException("Invalid initial quarter definition (YYYY-Q): " + ini);
-        }
+    private void prepareQuarterlyFilter(QueryDefs def, Map<String, Object> params) {
+        String ini = (String)params.get("ini");
+        String end = (String)params.get("end");
 
+        int[] iniVals = parseQuarter(ini);
         int[] endVals = parseQuarter(end);
-        if (endVals == null) {
-            throw new RuntimeException("Invalid initial quarter definition (YYYY-Q): " + end);
-        }
 
         // calc ini date of the quarter
-        int iniYear = iniVals[0];
-        int iniMonth = (iniVals[1] - 1) * 3;
-        Date iniDate = DateUtils.newDate(iniYear, iniMonth, 1);
+        Date iniDate = null;
+        if (iniVals != null) {
+            int iniYear = iniVals[0];
+            int iniMonth = (iniVals[1] - 1) * 3;
+            iniDate = DateUtils.newDate(iniYear, iniMonth, 1);
+        }
 
-        int endYear = endVals[0];
-        int endMonth = ((endVals[1] - 1) * 3) + 2;
-        Date endDate = DateUtils.newDate(endYear, endMonth, DateUtils.daysInAMonth(endYear, endMonth));
+        Date endDate = null;
+        if (endVals != null) {
+            int endYear = endVals[0];
+            int endMonth = ((endVals[1] - 1) * 3) + 2;
+            endDate = DateUtils.newDate(endYear, endMonth, DateUtils.daysInAMonth(endYear, endMonth));
+        }
 
-        def.restrict(fieldName + " between ? and ?", iniDate, endDate);
+        applyDateRestriction(def, iniDate, endDate);
     }
 
     /**
@@ -251,50 +338,26 @@ public class PeriodFilter extends AbstractFilter {
 
         String[] s = val.split("-");
         if (s.length != 2) {
-            return null;
+            throwInvalidDate(val);
         }
 
         try {
             int year = Integer.parseInt(s[0]);
             if (year < 1900) {
-                return null;
+                throwInvalidDate(val);
             }
 
             int quarter = Integer.parseInt(s[1]);
             if (quarter < 1 || quarter > 4) {
-                return null;
+                throwInvalidDate(val);
             }
 
             int[] res = { year, quarter };
             return res;
         } catch (NumberFormatException e) {
-            return null;
+            throwInvalidDate(val);
         }
-    }
-
-    /**
-     * Prepare filter by year range
-     * @param defs instance of {@link QueryDefs} to receive the query restrictions
-     * @param ini the initial year, in string format
-     * @param end the final year, in string format
-     */
-    private void prepareYearlyFilter(QueryDefs defs, String ini, String end) {
-        Integer iniYear = null;
-        Integer endYear = null;
-
-        try {
-            iniYear = Integer.parseInt(ini);
-        } catch (NumberFormatException e) {
-            throw new FilterException("Invalid initial year: " + ini);
-        }
-
-        try {
-            endYear = Integer.parseInt(end);
-        } catch (NumberFormatException e) {
-            throw new FilterException("Invalid final year: " + end);
-        }
-
-        defs.restrict("year(" + fieldName + ") = ? and year(" + fieldName + ") = ?", iniYear, endYear);
+        return null;
     }
 
     /**
@@ -327,37 +390,13 @@ public class PeriodFilter extends AbstractFilter {
         }
         // calculate the initial and final date of the quarter
         Date ini = DateUtils.newDate(year, quarter * 3, 1);
-        Date end = DateUtils.newDate(year, (quarter * 3) + 2, 1);
 
-        return new Period(ini, createEndDate(end));
+        int lastMonth = (quarter * 3) + 2;
+        int lastDay = DateUtils.daysInAMonth(year, month);
+        Date end = DateUtils.newDate(year, (quarter * 3) + 2, lastDay);
+
+        return new Period(ini, end);
     }
-
-    /**
-     * Return the initial date of a period just setting the day of the month
-     * of the given date to 1
-     * @param date date of the initial date
-     * @return date set its day of month to 1
-     */
-    protected Date createIniDate(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.set(Calendar.DAY_OF_MONTH, 1);
-        return DateUtils.getDatePart(c.getTime());
-    }
-
-    /**
-     * Return the final date of the period. Using the given date, it returns
-     * the date with the last day of the month
-     * @param date
-     * @return
-     */
-    protected Date createEndDate(Date date) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.set(Calendar.DAY_OF_MONTH, DateUtils.daysInAMonth(c.get(Calendar.YEAR), c.get(Calendar.MONTH)));
-        return c.getTime();
-    }
-
 
 
     @Override
@@ -369,7 +408,7 @@ public class PeriodFilter extends AbstractFilter {
 
         def.select("year(" + fieldName + ")");
 
-        if (type == PeriodType.QUARTERLY || type == PeriodType.MONTHLY) {
+        if (type == PeriodVariableType.QUARTERLY || type == PeriodVariableType.MONTHLY) {
             def.select("month(" + fieldName + ")");
         }
     }

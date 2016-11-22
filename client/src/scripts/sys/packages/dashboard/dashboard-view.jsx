@@ -29,7 +29,7 @@ export default class DashboardView extends React.Component {
         })
         .then(res => {
             const data = res.result;
-            const caseIndicators = data.caseIndicators.map(ind => new Indicator(ind.schema, ind.data));
+            const caseIndicators = data.caseIndicators.map(ind => new Indicator(null, ind.schema, ind.data));
             self.setState({ caseIndicators: caseIndicators });
         });
 

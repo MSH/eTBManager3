@@ -46,12 +46,13 @@ export default class Report {
      * Add a new indicator to the report
      */
     addIndicator(schema, data) {
-        const ind = new Indicator(schema ? schema : {
-            title: __('indicators.new.title'),
-            size: 6,
-            chart: 'pie',
-            display: 0
-        }, data, this.scope, this.scopeId);
+        const ind = new Indicator(this,
+            schema ? schema : {
+                title: __('indicators.new.title'),
+                size: 6,
+                chart: 'pie',
+                display: 0
+            }, data, this.scope, this.scopeId);
 
         this.indicators.push(ind);
     }

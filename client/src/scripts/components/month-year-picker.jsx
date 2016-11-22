@@ -11,18 +11,75 @@ export default class MonthYearPicker extends React.Component {
     constructor(props) {
         super(props);
 
-        this.monthChange = this.monthChange.bind(this);
-        this.yearChange = this.yearChange.bind(this);
-
-        this.state = { };
+        this.change = this.change.bind(this);
     }
 
-    monthChange(val) {
-        this.setState({ month: val });
+    change(prop) {
+        return val => {
+            if (this.props.onChange) {
+                const data = Object.assign({}, this.props.value);
+                data[prop] = val;
+                this.props.onChange(data);
+            }
+        };
     }
 
-    yearChange(val) {
-        this.setState({ year: val });
+    /**
+     * Create the month selector with the list of month names
+     */
+    monthSelector(props) {
+        // create the options
+        const options = [];
+        let count = 0;
+        while (count < 12) {
+            options.push({
+                id: count + 1,
+                name: moment().month(count++).format('MMM')
+            });
+        }
+
+        const selval = props.value ?
+            options.find(it => it.id === props.value) :
+            null;
+
+        const monthChange = val => {
+            if (props.onChange) {
+                props.onChange(val !== null ? val.id : null);
+            }
+        };
+
+        const compProps = Object.assign({}, props, { onChange: monthChange, value: selval });
+
+        return (
+            <SelectionBox options={options}
+                optionDisplay="name"
+                noSelectionLabel="-"
+                {...compProps}
+            />
+        );
+    }
+
+    monthYearCtrl(opts) {
+        const val = this.props.value ? this.props.value : {};
+
+        return (
+            <div>
+                {opts.label ? <label className="pull-left label-left-ctrl">{opts.label}</label> : null}
+                <div className="pull-left" style={{ minWidth: '100px' }}>
+                {
+                    this.monthSelector({
+                        placeHolder: __('datetime.month'),
+                        value: val[opts.pmonth],
+                        onChange: this.change(opts.pmonth)
+                    })
+                }
+                </div>
+                <div className="pull-left" style={{ minWidth: '90px' }}>
+                    <YearPicker onChange={this.change(opts.pyear)}
+                        value={val[opts.pyear]} />
+                </div>
+            </div>
+        );
     }
 
     render() {
@@ -30,28 +87,25 @@ export default class MonthYearPicker extends React.Component {
 
         const label = props.label ? <label className="control-label">{props.label}</label> : null;
 
-        const options = [];
-        let count = 0;
-        while (count < 12) {
-            options.push(moment().month(count++).format('MMM'));
-        }
+        const period = props.period;
 
         return (
             <div className="form-group">
                 {label}
-                <div>
-                <div className="pull-left" style={{ minWidth: '100px' }}>
-                    <SelectionBox options={options}
-                        placeHolder={__('datetime.month')}
-                        noSelectionLabel="-"
-                        onChange={this.monthChange}
-                        value={this.state.month} />
-                </div>
-                <div className="pull-left" style={{ minWidth: '90px' }}>
-                    <YearPicker onChange={this.yearChange}
-                        value={this.state.year} />
-                </div>
-                </div>
+                {!period && this.monthYearCtrl({
+                    pmonth: 'month',
+                    pyear: 'year'
+                })}
+                {period && this.monthYearCtrl({
+                    label: __('period.from') + ':',
+                    pmonth: 'iniMonth',
+                    pyear: 'iniYear'
+                })}
+                {period && this.monthYearCtrl({
+                    label: __('period.to') + ':',
+                    pmonth: 'endMonth',
+                    pyear: 'endYear'
+                })}
             </div>
         );
     }
@@ -63,5 +117,7 @@ MonthYearPicker.propTypes = {
     label: React.PropTypes.node,
     bsStyle: React.PropTypes.oneOf(['success', 'warning', 'error']),
     help: React.PropTypes.string,
-    wrapperClassName: React.PropTypes.string
+    wrapperClassName: React.PropTypes.string,
+    // if true, an initial and final month/year controls will be displayed to set a period
+    period: React.PropTypes.bool
 };

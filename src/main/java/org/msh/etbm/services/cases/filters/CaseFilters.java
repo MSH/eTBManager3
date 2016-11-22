@@ -92,7 +92,7 @@ public class CaseFilters {
 
         grp.add(new AgeRangeFilter());
 
-        grp.add(new PeriodFilter(DIAGNOSIS_DATE, "${TbCase.diagnosisDate}", "tbcase.diagnosisDate", PeriodFilter.PeriodType.MONTHLY));
+        grp.add(new PeriodFilter(DIAGNOSIS_DATE, "${TbCase.diagnosisDate}", "tbcase.diagnosisDate", PeriodFilter.PeriodVariableType.MONTHLY));
 
     }
 
@@ -103,11 +103,14 @@ public class CaseFilters {
     private void createTreatmentFilters(FilterGroup grp) {
         grp.add(new ModelFieldOptionsFilter(OUTCOME, "${TbCase.outcome}", "tbcase", "outcome"));
 
-        grp.add(new PeriodFilter(INI_TREATMENT_DATE, "${TbCase.iniTreatmentDate}", "tbcase.iniTreatmentDate", PeriodFilter.PeriodType.MONTHLY));
+        grp.add(new PeriodFilter(INI_TREATMENT_DATE, "${TbCase.iniTreatmentDate}", "tbcase.iniTreatmentDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
 
-        grp.add(new PeriodFilter(END_TREATMENT_DATE, "${TbCase.endTreatmentDate}", "tbcase.endTreatmentDate", PeriodFilter.PeriodType.MONTHLY));
+        grp.add(new PeriodFilter(END_TREATMENT_DATE, "${TbCase.endTreatmentDate}", "tbcase.endTreatmentDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
 
-        grp.add(new PeriodFilter(OUTCOME_DATE, "${TbCase.outcomeDate}", "tbcase.outcomeDate", PeriodFilter.PeriodType.MONTHLY));
+        grp.add(new PeriodFilter(OUTCOME_DATE, "${TbCase.outcomeDate}", "tbcase.outcomeDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
     }
 
     private void createHivGroup(FilterGroup grp) {

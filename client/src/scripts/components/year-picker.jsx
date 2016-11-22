@@ -48,7 +48,7 @@ export default class YearPicker extends React.Component {
         const props = this.props;
         let year = props.value ? props.value : (new Date()).getFullYear();
 
-        year = (Math.floor(year / 20) * 20) + 20;
+        year = (Math.floor(year / 20) * 20);
         year -= this.state.page * 20;
 
         const addRow = y => (
@@ -62,10 +62,10 @@ export default class YearPicker extends React.Component {
         for (var i = 0; i < 5; i++) {
             lst.push(
                 <Row key={i + 1}>
-                    {addRow(year--)}
-                    {addRow(year--)}
-                    {addRow(year--)}
-                    {addRow(year--)}
+                    {addRow(year++)}
+                    {addRow(year++)}
+                    {addRow(year++)}
+                    {addRow(year++)}
                 </Row>
                 );
         }
