@@ -26,11 +26,6 @@ const form = {
     }
 };
 
-const mockWorkspaces = [
-    { id: 1, name: 'Brasil', unitName: 'Hospital Helio Fraga' },
-    { id: 2, name: 'Bangladesh', unitName: 'Kalianjour Upazilla' }
-];
-
 export default class OfflineInit extends React.Component {
     constructor(props) {
         super(props);
@@ -38,7 +33,29 @@ export default class OfflineInit extends React.Component {
         this.workspaceChange = this.workspaceChange.bind(this);
         this.workspaceSelected = this.workspaceSelected.bind(this);
 
-        this.state = { data: {}, globalMsg: 'You don\'t have access to do this' };
+        this.state = {
+            data: {},
+            /*
+                Error message to be displayed of the top of login phase screen
+             */
+            globalMsg: undefined,
+            /*
+                Flag that indicates success or not on init process.
+             */
+            success: undefined,
+            /*
+                Number 0-100.
+                If 0 it is downloading the file.
+                From 1-100 indicates the process percentage of file reading.
+            */
+            importingP: undefined,
+            /*
+                List of workspaces of the user.
+                If it contains only one go straight to importing.
+                If it contains more than one, show a selection box.
+            */
+            workspaces: undefined
+        };
     }
 
     /**
@@ -55,36 +72,38 @@ export default class OfflineInit extends React.Component {
 
         this.setState({ errors: {}, fetching: true });
 
-        if (mockWorkspaces && mockWorkspaces.length === 1) {
-            setTimeout(() => {
-                this.setState({ workspaceId: mockWorkspaces[0].id, fetching: false, globalMsg: null });
-                this.workspaceSelected();
-            }, 500);
-        } else {
-            setTimeout(() => this.setState({ workspaces: mockWorkspaces, fetching: false, globalMsg: null }), 500);
-        }
-
-        /*
         const v = vals.value;
-        const data = {
-            serverURL: v.serverURL,
-            login: v.login,
+        const req = {
+            parentServerUrl: v.serverURL,
+            username: v.login,
             password: v.pwd
         };
 
-        const self = this;
+        server.post('/api/offline/init/workspaces', req)
+        .then(res => {
+            if (!res.success) {
+                return Promise.reject(res.errors);
+            }
 
-        server.post('/api/init/workspace', data)
-            .then(res => {
-                if (res.errors) {
-                    self.setState({ errors: res.errors, fetching: false });
-                }
-                else {
-                    self.setState({ success: true, wsname: v.wsname, fetching: false });
-                }
-            })
-            .catch(() => self.setState({ fetching: false }));
-        */
+            const workspaces = res.result;
+
+            if (workspaces && workspaces.length === 100) { // change this to === 0
+
+                this.setState({ workspaceId: workspaces[0].id, fetching: false, credentials: req });
+                this.workspaceSelected();
+
+            } else if (workspaces && workspaces.length > 0) { // change this to > 1
+
+                this.setState({ workspaces: workspaces, fetching: false, credentials: req });
+
+            } else {
+
+                this.setState({ globalMsg: 'No workspaces found for this user.' });
+
+            }
+
+            return res;
+        });
     }
 
     workspaceSelected() {
@@ -94,6 +113,14 @@ export default class OfflineInit extends React.Component {
         }
 
         this.setState({ errors: {}, fetching: true });
+
+        const req = this.state.credentials;
+        req.workspaceId = this.state.workspaceId;
+
+        server.post('/api/offline/init/initialize', req)
+        .then(res => {
+            // TODO: code the UI while importing
+        });
 
         setTimeout(() => {
             this.setState({ workspaces: null, fetching: false, importingP: 0 });
@@ -138,7 +165,6 @@ export default class OfflineInit extends React.Component {
      * Called when user clicks on the login button
      */
     gotoLogin() {
-        app.setState({ login: 'admin' });
         app.goto('/pub/login');
     }
 
@@ -152,6 +178,7 @@ export default class OfflineInit extends React.Component {
         let content;
 
         if (this.state.success) {
+            // success phase screen
             content = (
                 <div>
                     <div className="text-center">
@@ -171,6 +198,7 @@ export default class OfflineInit extends React.Component {
                 </div>
                 );
         } else if (this.state.importingP > 0) {
+            // reading phase screen
             content = (
                 <div>
                     <Row>
@@ -186,6 +214,7 @@ export default class OfflineInit extends React.Component {
                 </div>
                 );
         } else if (this.state.importingP === 0) {
+            // downloading phase screen
             content = (
                 <div>
                     <Row>
@@ -204,6 +233,7 @@ export default class OfflineInit extends React.Component {
                 </div>
                 );
         } else if (this.state.workspaces) {
+            // workspace selection phase screen
             content = (
                 <div>
                     <Row>
@@ -233,13 +263,14 @@ export default class OfflineInit extends React.Component {
                 </div>
                 );
         } else {
+            // login phase screen
             content = (
                 <div>
                     <Row>
                         <Col sm={12}>
                             <FormGroup validationState={err.serverURL ? 'error' : undefined}>
                                 <ControlLabel>{__('init.offinit.url') + ':'}</ControlLabel>
-                                <FormControl type="text" ref="serverURL" autoFocus />
+                                <FormControl type="text" ref="serverURL" autoFocus value="http://www.etbmanager.org/etbm3" />
                                 <HelpBlock>{err.serverURL}</HelpBlock>
                             </FormGroup>
                         </Col>
