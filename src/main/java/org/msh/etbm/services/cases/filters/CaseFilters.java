@@ -19,6 +19,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * Provide access to all filters and variables of the case module
+ *
  * Created by rmemoria on 17/9/16.
  */
 @Service
@@ -41,7 +43,10 @@ public class CaseFilters {
     public static final String AGE_RANGE = "age-range";
     public static final String HIV_RESULT = "hiv-result";
     public static final String CULTURE_RESULT_GROUP = "culture-res-group";
-
+    public static final String DIAGNOSIS_DATE = "diagnosis-date";
+    public static final String INI_TREATMENT_DATE = "ini-treat-date";
+    public static final String END_TREATMENT_DATE = "end-treat-date";
+    public static final String OUTCOME_DATE = "outcome-date";
 
     @Autowired
     ApplicationContext applicationContext;
@@ -53,6 +58,10 @@ public class CaseFilters {
     public List<FilterGroup> groups;
 
 
+    /**
+     * Declare the filters and variables of the case data group
+     * @param grp
+     */
     private void createCaseDataFilters(FilterGroup grp) {
         grp.add(new EnumFilter(CASE_CLASSIFICATION,
                 CaseClassification.class, "${CaseClassification}", "tbcase.classification"));
@@ -66,8 +75,6 @@ public class CaseFilters {
         grp.add(new EnumFilter(INFECTION_SITE, InfectionSite.class, "${InfectionSite}", "tbcase.infectionSite"));
 
         grp.add(new ModelFieldOptionsFilter(NATIONALITY, "${Nationality}", "tbcase", "nationality"));
-
-        grp.add(new ModelFieldOptionsFilter(OUTCOME, "${TbCase.outcome}", "tbcase", "outcome"));
 
         grp.add(new ModelFieldOptionsFilter(REGISTRATION_GROUP,
                 "${TbCase.registrationGroup}", "tbcase", "registrationGroup"));
@@ -84,6 +91,26 @@ public class CaseFilters {
         grp.add(new EnumFilter(CASE_DEFINITION, CaseDefinition.class, "${CaseDefinition}", "tbcase.caseDefinition"));
 
         grp.add(new AgeRangeFilter());
+
+        grp.add(new PeriodFilter(DIAGNOSIS_DATE, "${TbCase.diagnosisDate}", "tbcase.diagnosisDate", PeriodFilter.PeriodVariableType.MONTHLY));
+
+    }
+
+    /**
+     * Declare the filters and variables of the treatment group
+     * @param grp
+     */
+    private void createTreatmentFilters(FilterGroup grp) {
+        grp.add(new ModelFieldOptionsFilter(OUTCOME, "${TbCase.outcome}", "tbcase", "outcome"));
+
+        grp.add(new PeriodFilter(INI_TREATMENT_DATE, "${TbCase.iniTreatmentDate}", "tbcase.iniTreatmentDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
+
+        grp.add(new PeriodFilter(END_TREATMENT_DATE, "${TbCase.endTreatmentDate}", "tbcase.endTreatmentDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
+
+        grp.add(new PeriodFilter(OUTCOME_DATE, "${TbCase.outcomeDate}", "tbcase.outcomeDate",
+                PeriodFilter.PeriodVariableType.MONTHLY));
     }
 
     private void createHivGroup(FilterGroup grp) {
@@ -236,6 +263,7 @@ public class CaseFilters {
         createCultureFilters(createGroup("${cases.examculture}"));
         createHivGroup(createGroup("${cases.examhiv}"));
         createOtherFilters(createGroup("${cases.filters.others}"));
+        createTreatmentFilters(createGroup("${cases.details.treatment}"));
 
         initFilters();
     }

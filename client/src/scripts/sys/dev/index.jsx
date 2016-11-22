@@ -12,6 +12,7 @@ import CrudExample from './crud-example';
 import TableFormExample from './table-form-example';
 import ShowMessage from './show-message';
 import ServerForms from './server-forms';
+import YearPickerExample from './year-picker-example';
 
 
 const sidebar = [
@@ -62,6 +63,12 @@ const sidebar = [
         view: ServerForms,
         path: '/server-form',
         icon: 'wpforms'
+    },
+    {
+        title: 'Year picker',
+        view: YearPickerExample,
+        path: '/year-picker',
+        icon: 'bath'
     }
 ];
 

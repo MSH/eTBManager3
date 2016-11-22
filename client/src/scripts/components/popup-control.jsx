@@ -94,7 +94,7 @@ export default class PopupControl extends React.Component {
                 {this.createPopup()}
                 {helpBlock}
             </div>
-            );
+        );
     }
 }
 
@@ -104,10 +104,5 @@ PopupControl.propTypes = {
     help: React.PropTypes.string,
     wrapperClassName: React.PropTypes.string,
     content: React.PropTypes.node,
-    popupContent: React.PropTypes.node,
-    autoHide: React.PropTypes.bool
-};
-
-PopupControl.defaultProps = {
-    autoHide: true
+    popupContent: React.PropTypes.node
 };

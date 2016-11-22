@@ -1,0 +1,36 @@
+@import '../../../less/variables.less';
+
+.year-picker {
+    margin: 4px;
+    width: 250px;
+
+    .year {
+        border-radius: 3px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        a {
+            color: @text-muted;
+            padding: 4px 0;
+            display: block;
+        }
+    }
+
+    .btn-naveg {
+        color: @brand-primary;
+        cursor: pointer;
+    }
+
+    .active, .active:hover {
+        background-color: @brand-primary !important;
+        color: white;
+    }
+
+    .year:hover {
+        background-color: #f0f0f0;
+
+        a {
+            text-decoration: none;
+        }
+    }
+}

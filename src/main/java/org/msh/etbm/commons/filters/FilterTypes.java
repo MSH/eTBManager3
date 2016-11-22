@@ -9,4 +9,5 @@ public class FilterTypes {
 
     public static final String SELECT = "select";
     public static final String MULTI_SELECT = "multi-select";
+    public static final String PERIOD = "period";
 }
