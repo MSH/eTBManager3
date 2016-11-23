@@ -3,6 +3,8 @@ package org.msh.etbm.test.commons;
 import org.junit.Test;
 import org.msh.etbm.commons.date.DateUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -14,6 +16,15 @@ import static org.junit.Assert.assertEquals;
  * Created by rmemoria on 10/8/16.
  */
 public class DateUtilsTest {
+
+    @Test
+    public void testFormating() throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
+
+        String s = "2015-01";
+        Date dt = formatter.parse(s);
+        System.out.println(dt);
+    }
 
     @Test
     public void createDate() {

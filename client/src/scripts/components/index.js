@@ -33,6 +33,8 @@ import RemoteForm from './remote-form';
 import observer from './observer';
 import Sideview from './sideview';
 import InlineEditor from './inline-editor';
+import YearPicker from './year-picker';
+import MonthYearPicker from './month-year-picker';
 import BigButton from './big-button';
 
 export { Callout,
@@ -66,5 +68,8 @@ export { Callout,
     observer,
     Sideview,
     InlineEditor,
-    BigButton
+    BigButton,
+    InlineEditor,
+    YearPicker,
+    MonthYearPicker
 };

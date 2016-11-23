@@ -12,13 +12,14 @@ export default class IndicatorView extends React.Component {
         const ind = this.props.indicator;
         const schema = ind.schema;
         const series = ind.selectedSeries();
+        console.log(ind, series);
 
         return (
             <Card title={schema.title}>
                 <Chart series={series} type={schema.chart} />
                 <TableView indicator={ind} />
             </Card>
-        )
+        );
     }
 }
 

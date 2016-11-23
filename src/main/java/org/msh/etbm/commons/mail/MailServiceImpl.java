@@ -105,8 +105,8 @@ public class MailServiceImpl implements MailService {
             Template templ = configuration.getTemplate("mail/lib/template.ftl");
 
             // get system URL
-            SysConfigFormData cfg = sysConfigService.loadConfig();
-            String url = cfg.getPageRootURL().isPresent() ? cfg.getPageRootURL().get() : "";
+            SysConfigFormData cfg = sysConfigService.loadFormConfig();
+            String url = cfg.getSystemURL().isPresent() ? cfg.getSystemURL().get() : "";
             if (url.length() > 0 && !url.endsWith("/")) {
                 url += "/";
             }

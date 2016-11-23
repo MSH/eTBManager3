@@ -7275,6 +7275,10 @@ button.close {
 .lnk-label:hover {
   text-decoration: underline;
 }
+.label-left-ctrl {
+  padding: 8px 6px 0 8px;
+  color: #a0a0a0;
+}
 .input-btn-group {
   position: relative;
 }

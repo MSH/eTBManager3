@@ -1,0 +1,353 @@
+{
+  "version":479902753,
+  "workspace":{
+    "id":"U6zgbwKzAEeaZWh0eZxXp8g==",
+    "name":"Nigeria",
+    "patientNameComposition":"LAST_FIRST_MIDDLENAME",
+    "caseValidationTB":"ENABLED",
+    "caseValidationDRTB":"ENABLED",
+    "caseValidationNTM":"DISABLED",
+    "suspectCaseNumber":"SYSTEM_GENERATED",
+    "confirmedCaseNumber":"SYSTEM_GENERATED",
+    "monthsToAlertExpiredMedicines":6,
+    "minStockOnHand":1,
+    "maxStockOnHand":8
+  },
+  "config":{
+    "serverURL":null,
+    "adminMail":"rmemoria@gmail.com",
+    "updateSite":null,
+    "ulaActive":false
+  },
+  "tables":[
+    {
+      "table":"administrativeunit",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"unit",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"unit",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"substance",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"source",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"product",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"medicine_substances",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"agerange",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"regimen",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"medicineregimen",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"tag",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"sys_user",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"userprofile",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"userpermission",
+      "records":[
+        {
+          "id":"BocFjEKzBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"BoblMwKzBEeaZWh0eZxXp8g==",
+          "permission":"SADMIN"
+        },
+        {
+          "id":"BocFjEazBEeaZWh0eZxXp8g==",
+          "canChange":true,
+          "PROFILE_ID":"BoblMwKzBEeaZWh0eZxXp8g==",
+          "permission":"SUSERS"
+        },
+        {
+          "id":"BocFjEqzBEeaZWh0eZxXp8g==",
+          "canChange":true,
+          "PROFILE_ID":"BoblMwKzBEeaZWh0eZxXp8g==",
+          "permission":"SADMINUNITS"
+        },
+        {
+          "id":"BofDXg6zBEeaZWh0eZxXp8g==",
+          "canChange":true,
+          "PROFILE_ID":"Boblz3azBEeaZWh0eZxXp8g==",
+          "permission":"SDISP_PAC"
+        },
+        {
+          "id":"BofDXhKzBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Boblz3azBEeaZWh0eZxXp8g==",
+          "permission":"STRANSFER"
+        },
+        {
+          "id":"BofD+kKzBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Boblz3azBEeaZWh0eZxXp8g==",
+          "permission":"SNEW_TRANSFER"
+        },
+        {
+          "id":"BofD+kazBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Boblz3azBEeaZWh0eZxXp8g==",
+          "permission":"STRANSF_REC"
+        },
+        {
+          "id":"BofD+kqzBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Boblz3azBEeaZWh0eZxXp8g==",
+          "permission":"SMOVS"
+        },
+        {
+          "id":"BofSBAqzBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Bobr6eqzBEeaZWh0eZxXp8g==",
+          "permission":"SMOVS"
+        },
+        {
+          "id":"BofSBA6zBEeaZWh0eZxXp8g==",
+          "canChange":false,
+          "PROFILE_ID":"Bobr6eqzBEeaZWh0eZxXp8g==",
+          "permission":"SREP_STOCKEVOL"
+        }
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"userworkspace",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"patient",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"tbcase",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"examculture",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"exammicroscopy",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"examhiv",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"examdst",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"examxpert",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"examxray",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"treatmenthealthunit",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"prescribedmedicine",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"prevtbtreatment",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"casecontact",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"casesideeffect",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"medicalexamination",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    },
+    {
+      "table":"casecomorbidities",
+      "records":[
+
+      ],
+      "deleted":[
+
+      ]
+    }
+  ]
+}

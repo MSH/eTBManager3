@@ -13,7 +13,8 @@ export default class Indicator {
      * @param schema The indicator schema, containing variables and filters
      * @param data The indicator data
      */
-    constructor(schema, data, scope, scopeId) {
+    constructor(report, schema, data, scope, scopeId) {
+        this.report = report;
         this.schema = schema;
         this.data = data;
         this.scope = scope;
@@ -34,11 +35,14 @@ export default class Indicator {
 
         const self = this;
 
+        // prepare the filters
+        const filters = Object.assign({}, ind.filters, this.report.schema.filters);
+
         this.refreshing = true;
         this._raiseEvent();
 
         return server.post('/api/cases/report/ind/exec', {
-            filters: ind.filters,
+            filters: filters,
             columnVariables: ind.columnVariables,
             rowVariables: ind.rowVariables,
             scope: this.scope,

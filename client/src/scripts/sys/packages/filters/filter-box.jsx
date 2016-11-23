@@ -1,24 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { LinkTooltip } from '../../../components';
-import SelectFilter from './select-filter';
+import FilterFactory from './filter-factory';
 
 
+/**
+ * Display a box with a single filter to enter its value in there
+ */
 export default class FilterBox extends React.Component {
 
     constructor(props) {
         super(props);
         this._onChange = this._onChange.bind(this);
         this._onRemove = this._onRemove.bind(this);
-    }
-
-
-    filterComponent(type) {
-        switch (type) {
-            case 'select':
-            case 'multi-select': return SelectFilter;
-            default: return null;
-        }
     }
 
     _onChange(val) {
@@ -34,7 +28,7 @@ export default class FilterBox extends React.Component {
     render() {
         const filter = this.props.filter;
 
-        const FilterComponent = this.filterComponent(filter.type);
+        const FilterComponent = FilterFactory.create(filter);
 
         if (__DEV__) {
             if (!FilterComponent) {

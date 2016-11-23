@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,13 +42,13 @@ public class TableChangesTraverser {
      * @param trav
      * @return
      */
-    public TableChangesTraverser eachRecord(RecordTraverseListener trav) {
+    public TableChangesTraverser eachRecord(RecordTraverseListener trav) throws IOException {
         traverseAll(trav);
 
         return this;
     }
 
-    public TableChangesTraverser eachDeleted(Optional<Integer> version, DeletedRecordTraverseListener trav) {
+    public TableChangesTraverser eachDeleted(Optional<Long> version, DeletedRecordTraverseListener trav) {
         // if there is no initial version, so all records will be sent using eachNew
         if (!version.isPresent()) {
             return this;
@@ -60,7 +61,7 @@ public class TableChangesTraverser {
      * Traverse all records for the given query paginating the result
      * @param trav the traverse function
      */
-    protected void traverseAll(RecordTraverseListener trav) {
+    protected void traverseAll(RecordTraverseListener trav) throws IOException {
         int index = 0;
 
         NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -73,6 +74,8 @@ public class TableChangesTraverser {
             String sql = queryBuilder.generate();
             Map<String, Object> args = queryBuilder.getParameters();
 
+            System.out.println(sql);
+            System.out.println("params = " + args.toString());
             List<Map<String, Object>> lst = jdbcTemplate.queryForList(sql, args);
 
             for (Map<String, Object> rec: lst) {
