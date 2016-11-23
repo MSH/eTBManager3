@@ -12,15 +12,15 @@ import { app } from '../core/app';
  * Form validation model
  */
 const form = {
-    serverURL: {
+    parentServerUrl: {
         required: true,
         min: 5
     },
-    login: {
+    username: {
         required: true,
         min: 3
     },
-    pwd: {
+    password: {
         required: true,
         password: true
     }
@@ -36,9 +36,9 @@ export default class OfflineInit extends React.Component {
         this.state = {
             data: {},
             /*
-                Error message to be displayed of the top of login phase screen
+                Error messages to be displayed on the top of login phase screen
              */
-            globalMsg: undefined,
+            globalMsgs: undefined,
             /*
                 Flag that indicates success or not on init process.
              */
@@ -62,6 +62,9 @@ export default class OfflineInit extends React.Component {
      * Called when user clicks on the continue button
      */
     findWorkspaces() {
+        // clear previous global msgs
+        this.setState({ globalMsgs: null });
+
         const vals = validateForm(this, form);
 
         // there is any validation error ?
@@ -72,34 +75,27 @@ export default class OfflineInit extends React.Component {
 
         this.setState({ errors: {}, fetching: true });
 
-        const v = vals.value;
-        const req = {
-            parentServerUrl: v.serverURL,
-            username: v.login,
-            password: v.pwd
-        };
+        const req = vals.value;
 
         server.post('/api/offline/init/workspaces', req)
         .then(res => {
             if (!res.success) {
-                return Promise.reject(res.errors);
+                this.setState({ globalMsgs: res.errors });
+                return null;
             }
 
             const workspaces = res.result;
 
-            if (workspaces && workspaces.length === 100) { // change this to === 0
-
-                this.setState({ workspaceId: workspaces[0].id, fetching: false, credentials: req });
+            if (workspaces && workspaces.length === 1) {
+                this.setState({ workspaceId: workspaces[0].id, fetching: false, credentials: req, globalMsg: null });
                 this.workspaceSelected();
-
-            } else if (workspaces && workspaces.length > 0) { // change this to > 1
-
-                this.setState({ workspaces: workspaces, fetching: false, credentials: req });
-
+            } else if (workspaces && workspaces.length > 1) {
+                this.setState({ workspaces: workspaces, fetching: false, credentials: req, globalMsg: null });
             } else {
-
-                this.setState({ globalMsg: 'No workspaces found for this user.' });
-
+                const globalMsg = {
+                    msg: __('init.offinit.error2')
+                };
+                this.setState({ globalMsgs: [globalMsg] });
             }
 
             return res;
@@ -108,7 +104,7 @@ export default class OfflineInit extends React.Component {
 
     workspaceSelected() {
         if (!this.state.workspaceId) {
-            this.setState({ errors: { ws: 'Value is required' } });
+            this.setState({ errors: { ws: __('NotNull') } });
             return;
         }
 
@@ -119,9 +115,10 @@ export default class OfflineInit extends React.Component {
 
         server.post('/api/offline/init/initialize', req)
         .then(res => {
-            // TODO: code the UI while importing
+            // TODOMS: code the UI behave while importing
         });
 
+        // mock UI behave
         setTimeout(() => {
             this.setState({ workspaces: null, fetching: false, importingP: 0 });
             setTimeout(() => {
@@ -268,28 +265,28 @@ export default class OfflineInit extends React.Component {
                 <div>
                     <Row>
                         <Col sm={12}>
-                            <FormGroup validationState={err.serverURL ? 'error' : undefined}>
+                            <FormGroup validationState={err.parentServerUrl ? 'error' : undefined}>
                                 <ControlLabel>{__('init.offinit.url') + ':'}</ControlLabel>
-                                <FormControl type="text" ref="serverURL" autoFocus value="http://www.etbmanager.org/etbm3" />
-                                <HelpBlock>{err.serverURL}</HelpBlock>
+                                <FormControl type="text" ref="parentServerUrl" autoFocus />
+                                <HelpBlock>{err.parentServerUrl}</HelpBlock>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row>
                         <Col sm={12}>
-                            <FormGroup validationState={err.login ? 'error' : undefined}>
+                            <FormGroup validationState={err.username ? 'error' : undefined}>
                                 <ControlLabel>{__('User.login') + ':'}</ControlLabel>
-                                <FormControl type="text" ref="login" />
-                                <HelpBlock>{err.login}</HelpBlock>
+                                <FormControl type="text" ref="username" />
+                                <HelpBlock>{err.username}</HelpBlock>
                             </FormGroup>
                         </Col>
                     </Row>
                     <Row>
                         <Col sm={12}>
-                            <FormGroup validationState={err.pwd ? 'error' : undefined}>
+                            <FormGroup validationState={err.password ? 'error' : undefined}>
                                 <ControlLabel>{__('User.password') + ':'}</ControlLabel>
-                                <FormControl type="password" ref="pwd" />
-                                <HelpBlock>{err.pwd}</HelpBlock>
+                                <FormControl type="password" ref="password" />
+                                <HelpBlock>{err.password}</HelpBlock>
                             </FormGroup>
                         </Col>
                     </Row>
@@ -312,8 +309,7 @@ export default class OfflineInit extends React.Component {
                     <Col sm={6} smOffset={3}>
                         <Card title={__('init.offinit')} className="mtop-2x">
                             {
-                                this.state.globalMsg &&
-                                <Alert bsStyle="danger">{this.state.globalMsg}</Alert>
+                                this.state.globalMsgs && this.state.globalMsgs.map((it, i) => <Alert key={i} bsStyle="danger">{it.msg}</Alert>)
                             }
                             {content}
                         </Card>

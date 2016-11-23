@@ -1,9 +1,10 @@
-package org.msh.etbm.services.offline.init;
+package org.msh.etbm.services.offline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.services.offline.init.data.OfflineModeInitData;
+import org.msh.etbm.services.offline.ParentServerRequestService;
+import org.msh.etbm.services.offline.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,12 +29,13 @@ public class OfflineModeInitService {
      * @param data
      * @return
      */
-    public List<WorkspaceInfo> findWorkspaces(OfflineModeInitData data) {
+    public List<WorkspaceInfo> findWorkspaces(ServerCredentialsData data) {
         List<WorkspaceInfo> response = request.post(data.getParentServerUrl(),
                 "/api/auth/workspaces",
                 null,
                 data,
-                getTypeFactory().constructCollectionType(List.class, WorkspaceInfo.class));
+                getTypeFactory().constructCollectionType(List.class, WorkspaceInfo.class),
+                null);
 
         return response;
     }
@@ -42,7 +44,7 @@ public class OfflineModeInitService {
      * Download and import init file.
      * @param data
      */
-    public void initialize(OfflineModeInitData data) {
+    public void initialize(ServerCredentialsData data) {
         System.out.println("Downloading");
         System.out.println("Importing....");
     }

@@ -63,9 +63,11 @@ public class UnexpectedExceptionHandlingController {
         error.setErrorDate(new Date());
         error.setExceptionClass(e.getClass().getName());
         error.setUrl(req.getRequestURL().toString());
-        error.setUserName(session.getUserLoginName() + " - " + session.getUserName());
-        error.setUserId(session.getUserId());
-        error.setWorkspace(session.getWorkspaceName());
+        if (session != null) {
+            error.setUserName(session.getUserLoginName() + " - " + session.getUserName());
+            error.setUserId(session.getUserId());
+            error.setWorkspace(session.getWorkspaceName());
+        }
 
         //mount request field
         StringBuilder reqdata = new StringBuilder();

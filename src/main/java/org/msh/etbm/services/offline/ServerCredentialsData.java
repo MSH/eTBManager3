@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.init.data;
+package org.msh.etbm.services.offline;
 
 import java.util.UUID;
 
@@ -6,7 +6,7 @@ import java.util.UUID;
  * Class data to initialize an off-line mode instance
  * Created by Mauricio on 21/11/2016.
  */
-public class OfflineModeInitData {
+public class ServerCredentialsData {
 
     private String parentServerUrl;
     private String username;

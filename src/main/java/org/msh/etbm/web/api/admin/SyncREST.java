@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.services.offline.init.OfflineModeInitService;
-import org.msh.etbm.services.offline.init.data.OfflineModeInitData;
+import org.msh.etbm.services.offline.OfflineModeInitService;
+import org.msh.etbm.services.offline.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class SyncREST {
     OfflineModeInitService service;
 
     @RequestMapping(value = "/init/workspaces", method = RequestMethod.POST)
-    public StandardResult findWorkspaces(@Valid @NotNull @RequestBody OfflineModeInitData req) {
+    public StandardResult findWorkspaces(@Valid @NotNull @RequestBody ServerCredentialsData req) {
 
         List<WorkspaceInfo> res = service.findWorkspaces(req);
 
@@ -31,7 +31,7 @@ public class SyncREST {
     }
 
     @RequestMapping(value = "/init/initialize", method = RequestMethod.POST)
-    public StandardResult initialize(@Valid @NotNull @RequestBody OfflineModeInitData req) {
+    public StandardResult initialize(@Valid @NotNull @RequestBody ServerCredentialsData req) {
 
         service.initialize(req);
 
