@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.sync.server;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -14,5 +15,5 @@ public interface RecordTraverseListener {
      * @param rec the Map containing the fields and values of the record
      * @param index the zero-based index of the record
      */
-    void onRecord(Map<String, Object> rec, int index);
+    void onRecord(Map<String, Object> rec, int index) throws IOException;
 }

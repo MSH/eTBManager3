@@ -100,7 +100,7 @@ public class RegisterWorkspaceImpl implements RegisterWorkspaceService {
 
 
     protected void updateConfiguration(RegisterWorkspaceRequest form) {
-        SysConfigFormData cfg = sysConfigService.loadConfig();
+        SysConfigFormData cfg = sysConfigService.loadFormConfig();
         cfg.setAdminMail(Optional.of(form.getAdminEmail()));
 
         sysConfigService.updateConfig(cfg);

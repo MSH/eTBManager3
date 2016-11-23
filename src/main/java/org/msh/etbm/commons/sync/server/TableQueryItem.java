@@ -2,6 +2,8 @@ package org.msh.etbm.commons.sync.server;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
+import java.util.List;
+
 /**
  * Store temporary information about the table data to be included in the synchronization file
  *
@@ -10,6 +12,11 @@ import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 public class TableQueryItem {
 
     public enum SyncAction { INSERT, UPDATE }
+
+    /**
+     * List of fields that will be ignored
+     */
+    public List<String> ignoreList;
 
     /**
      * The query that will generate the data
@@ -40,5 +47,13 @@ public class TableQueryItem {
 
     public void setAction(SyncAction action) {
         this.action = action;
+    }
+
+    public List<String> getIgnoreList() {
+        return ignoreList;
+    }
+
+    public void setIgnoreList(List<String> ignoreList) {
+        this.ignoreList = ignoreList;
     }
 }

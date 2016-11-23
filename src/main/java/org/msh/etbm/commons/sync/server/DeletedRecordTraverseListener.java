@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.sync.server;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -13,5 +14,5 @@ public interface DeletedRecordTraverseListener {
      * Called on each deleted record
      * @param id the ID of the deleted record
      */
-    void onDeletedRecord(UUID id);
+    void onDeletedRecord(UUID id) throws IOException;
 }

@@ -27,7 +27,7 @@ public class SysConfigREST {
 
     @RequestMapping(method = RequestMethod.GET)
     public SysConfigFormData readConfig() {
-        return sysConfigService.loadConfig();
+        return sysConfigService.loadFormConfig();
     }
 
     @RequestMapping(method = RequestMethod.POST)
