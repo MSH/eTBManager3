@@ -69,7 +69,6 @@ export { Callout,
     Sideview,
     InlineEditor,
     BigButton,
-    InlineEditor,
     YearPicker,
     MonthYearPicker
 };
