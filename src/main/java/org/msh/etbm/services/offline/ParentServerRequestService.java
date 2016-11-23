@@ -69,7 +69,7 @@ public class ParentServerRequestService {
      * @param authToken
      * @return
      */
-    private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken){
+    private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken) {
         HttpURLConnection conn = null;
 
         try {
