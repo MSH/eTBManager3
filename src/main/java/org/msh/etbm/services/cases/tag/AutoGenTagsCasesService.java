@@ -1,13 +1,23 @@
 package org.msh.etbm.services.cases.tag;
 
+import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,11 +28,20 @@ import java.util.UUID;
 @Service
 public class AutoGenTagsCasesService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AutoGenTagsCasesService.class);
+
     @PersistenceContext
     EntityManager entityManager;
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    PlatformTransactionManager platformTransactionManager;
+
+    @Autowired
+    DataSource dataSource;
+
 
     /**
      * Update the cases of an auto generated tag
@@ -66,7 +85,7 @@ public class AutoGenTagsCasesService {
      *
      * @param caseId
      */
-    @Transactional
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void updateTags(UUID caseId) {
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
@@ -80,24 +99,38 @@ public class AutoGenTagsCasesService {
             return;
         }
 
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
         // erase all tags of the current case
-        entityManager.createNativeQuery("delete from tags_case where case_id = :caseId " +
-                "and tag_id in (select id from tag where sqlCondition is not null)")
-                .setParameter("caseId", caseId)
-                .executeUpdate();
+        txManager.execute(status -> {
+            template.update("delete from tags_case where case_id = ? " +
+                    "and tag_id in (select id from tag where sqlCondition is not null)", caseId);
+            return 0;
+        });
 
         // update tags
         for (Tag tag : tags) {
-            entityManager.createNativeQuery("insert into tags_case (case_id, tag_id) " +
-                    "select a.id, :tagId " +
-                    " from tbcase a join patient p on p.id=a.patient_id " +
-                    " and p.workspace_id = :wId" +
-                    " and a.id = :tbcaseId " +
-                    " and " + tag.getSqlCondition())
-                    .setParameter("tagId", tag.getId())
-                    .setParameter("wId", wsid)
-                    .setParameter("tbcaseId", caseId)
-                    .executeUpdate();
+            txManager.execute(status -> {
+                try {
+                    template.update("insert into tags_case (case_id, tag_id) " +
+                                    "select a.id, ? " +
+                                    " from tbcase a join patient p on p.id=a.patient_id " +
+                                    " and p.workspace_id = ?" +
+                                    " and a.id = ? " +
+                                    " and " + tag.getSqlCondition(),
+                            tag.getId(),
+                            wsid,
+                            caseId);
+
+                } catch (Exception e) {
+                    LOGGER.error("Invalid tag condition '" + tag.getName() + "'");
+                    // deactivate tag if there was an error during its execution
+                    template.update("update tag set active = false where id = ?",
+                            ObjectUtils.uuidAsBytes(tag.getId()));
+                }
+                return 0;
+            });
         }
     }
 }

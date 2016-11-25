@@ -198,6 +198,8 @@ public class SyncFileService {
             // write the table name
             generator.writeObjectField("table", qry.getTableName());
 
+            generator.writeObjectField("action", item.getAction().toString());
+
             // write the records to include in the file (records are in an array)
             generator.writeFieldName("records");
             generator.writeStartArray();

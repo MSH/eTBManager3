@@ -68,6 +68,7 @@
             <column name="pname2" type="${type.name}" />
             <column name="pname3" type="${type.name}" />
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -85,6 +86,7 @@
             </column>
             <column name="endAge" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -174,6 +176,7 @@
             </column>
             <column name="comment_group" type="int"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -224,6 +227,7 @@
             <column name="dateChangeReg" type="date"/>
             <column name="symptomTherapy" type="VARCHAR(255)"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -239,6 +243,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -281,6 +286,7 @@
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -315,6 +321,7 @@
             <column name="resultS" type="INT"/>
             <column name="resultZ" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -334,6 +341,7 @@
             </column>
             <column name="resultDate" type="date"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -360,6 +368,7 @@
             <column name="otherSampleType" type="VARCHAR(100)"/>
             <column name="visualAppearance" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -401,6 +410,7 @@
             <column name="request_id" type="${type.id}"/>
             <column name="status" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -420,6 +430,7 @@
             <column name="evolution" type="VARCHAR(50)"/>
             <column name="presentation" type="VARCHAR(50)"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -442,6 +453,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -464,27 +476,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
-        </createTable>
-    </changeSet>
-
-    <changeSet author="rmemoria" id="1433264274749-25">
-        <createTable tableName="journal">
-            <column name="id" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="title" type="VARCHAR(200)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="user_id" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="date" type="${type.datetime}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="WORKSPACE_ID" type="${type.id}">
-                <constraints nullable="false"/>
-            </column>
-            <column name="content" type="${type.text}"/>
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -509,6 +501,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -535,6 +528,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -882,6 +876,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -911,6 +906,7 @@
             </column>
             <column name="comments" type="${type.text}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -967,6 +963,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -990,6 +987,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1019,6 +1017,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1074,6 +1073,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1094,6 +1094,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1153,6 +1154,7 @@
             <column name="mobile" type="varchar(100)"/>
             <column name="language" type="varchar(10)"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1203,6 +1205,7 @@
             </column>
             <column defaultValueNumeric="0" name="dailyUpdate" type="${type.boolean}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1290,6 +1293,7 @@
             <column name="lastBmuTbRegistNumber" type="VARCHAR(50)"/>
             <column name="movedSecondLineTreatment" type="${type.boolean}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1314,6 +1318,7 @@
             <column name="comments" type="${type.text}"/>
             <column name="dateOfExamination" type="${type.datetime}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1344,6 +1349,7 @@
             <column name="shipZipCode" type="VARCHAR(100)"/>
             <column name="ship_adminunit_id" type="${type.id}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
 
             <!-- unit part -->
             <column name="tbFacility" type="${type.boolean}"/>
@@ -1452,6 +1458,7 @@
             </column>
             <column name="transferring" type="${type.boolean}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1502,6 +1509,7 @@
             <column name="day30" type="INT"/>
             <column name="day31" type="INT"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1572,6 +1580,7 @@
             </column>
             <column name="customId" type="${type.customId}"/>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1615,6 +1624,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1739,6 +1749,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
@@ -1811,9 +1822,7 @@
     <changeSet author="rmemoria" id="1433264274749-102">
         <addPrimaryKey columnNames="id" constraintName="PKISSUEFOLLOWUP" tableName="issuefollowup"/>
     </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-103">
-        <addPrimaryKey columnNames="id" constraintName="PKJOURNAL" tableName="journal"/>
-    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-104">
         <addPrimaryKey columnNames="id" constraintName="PKLABORATORY" tableName="unit"/>
     </changeSet>
@@ -2631,16 +2640,6 @@
         <addForeignKeyConstraint baseColumnNames="request_id" baseTableName="examdst" constraintName="FK_dstsample"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
                                  referencedColumnNames="id" referencedTableName="examrequest"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-327">
-        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="journal" constraintName="FK_journal_user"
-                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
-                                 referencedColumnNames="id" referencedTableName="sys_user"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-328">
-        <addForeignKeyConstraint baseColumnNames="workspace_id" baseTableName="journal" constraintName="FK_journal_ws"
-                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
-                                 referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-329">
         <addForeignKeyConstraint baseColumnNames="request_id" baseTableName="exammicroscopy" constraintName="FK_micreq"
