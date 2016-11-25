@@ -3,7 +3,6 @@ import React from 'react';
 import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, Button, ProgressBar, Alert } from 'react-bootstrap';
 import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
-import { format } from '../commons/utils';
 import { server } from '../commons/server';
 import { app } from '../core/app';
 
@@ -32,6 +31,7 @@ export default class OfflineInit extends React.Component {
         this.findWorkspaces = this.findWorkspaces.bind(this);
         this.workspaceChange = this.workspaceChange.bind(this);
         this.workspaceSelected = this.workspaceSelected.bind(this);
+        this.showUrlTextField = this.showUrlTextField.bind(this);
 
         this.state = {
             data: {},
@@ -54,7 +54,12 @@ export default class OfflineInit extends React.Component {
                 If it contains only one go straight to importing.
                 If it contains more than one, show a selection box.
             */
-            workspaces: undefined
+            workspaces: undefined,
+            /*
+                Flag that, when true, change the URL select field to a text field.
+                It is used on form phase
+            */
+            urlText: undefined
         };
     }
 
@@ -159,6 +164,13 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
+     * Called when user clicks on 'show text field' link
+     */
+    showUrlTextField() {
+        this.setState({ urlText: true });
+    }
+
+    /**
      * Called when user clicks on the login button
      */
     gotoLogin() {
@@ -166,112 +178,41 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
-     * Render the component
+     * Render the login form phase
      */
-    render() {
+    renderLoginForm() {
         const err = this.state.errors || {};
         const fetching = this.state.fetching;
 
-        let content;
-
-        if (this.state.success) {
-            // success phase screen
-            content = (
+        return (
                 <div>
-                    <div className="text-center">
-                        <h3>
-                            {__('init.offinit.success1')}
-                        </h3>
-                        <br/>
-                        <i className="fa fa-check-circle fa-4x text-success"/>
-                        <br/>
-                        <p className="mtop-2x">
-                            {__('init.offinit.success2')}
-                        </p>
-                    </div>
-                    <div>
-                        <Button bsStyle="default" block onClick={this.gotoLogin}>{__('init.ws.gotologin')}</Button>
-                    </div>
-                </div>
-                );
-        } else if (this.state.importingP > 0) {
-            // reading phase screen
-            content = (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <h4 className="text-center">{__('init.offinit.reading')}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <ProgressBar now={this.state.importingP} label={`${this.state.importingP}%`} />
-                        </Col>
-                    </Row>
-                </div>
-                );
-        } else if (this.state.importingP === 0) {
-            // downloading phase screen
-            content = (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <h4 className="text-center">{__('init.offinit.downloading')}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <WaitIcon type="card" />
-                        </Col>
-                        <Col sm={12}>
-                            <span className="text-muted">{__('global.pleasewait')}</span>
-                        </Col>
-                    </Row>
-                </div>
-                );
-        } else if (this.state.workspaces) {
-            // workspace selection phase screen
-            content = (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <FormGroup validationState={err.ws ? 'error' : undefined}>
-                                <ControlLabel>{__('init.offinit.selworkspace') + ':'}</ControlLabel>
-                                <FormControl componentClass="select" size={8} autoFocus onChange={this.workspaceChange}>
-                                    {
-                                        this.state.workspaces.map(item =>
-                                            <option key={item.id} value={item.id}>{item.name + ' - ' + item.unitName}</option>
-                                        )
-                                    }
-                                </FormControl>
-                                <HelpBlock>{err.ws}</HelpBlock>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <div className="pull-right">
-                                <AsyncButton fetching={fetching} bsSize="large" onClick={this.workspaceSelected}>
-                                    {__('action.continue')}
-                                </AsyncButton>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-                );
-        } else {
-            // login phase screen
-            content = (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <FormGroup validationState={err.parentServerUrl ? 'error' : undefined}>
-                                <ControlLabel>{__('init.offinit.url') + ':'}</ControlLabel>
-                                <FormControl type="text" ref="parentServerUrl" autoFocus />
-                                <HelpBlock>{err.parentServerUrl}</HelpBlock>
-                            </FormGroup>
-                        </Col>
-                    </Row>
+                    {
+                        this.state.urlText ?
+                        <Row>
+                            <Col sm={12}>
+                                <FormGroup validationState={err.parentServerUrl ? 'error' : undefined}>
+                                    <ControlLabel>{__('init.offinit.url') + ':'}</ControlLabel>
+                                    <FormControl type="text" ref="parentServerUrl" autoFocus />
+                                    <HelpBlock>{err.parentServerUrl}</HelpBlock>
+                                </FormGroup>
+                            </Col>
+                        </Row> :
+                        <Row>
+                            <Col sm={12}>
+                                <FormGroup validationState={err.parentServerUrl ? 'error' : undefined}>
+                                    <ControlLabel>{__('init.offinit.url') + ':'}</ControlLabel>
+                                    <FormControl componentClass="select" ref="parentServerUrl" size={1} autoFocus>
+                                        <option value={'www.etbmanager.org'}>{'www.etbmanager.org'}</option>
+                                        <option value={'www.etbmanagerbd.org'}>{'www.etbmanagerbd.org'}</option>
+                                    </FormControl>
+                                    <a className="lnk-muted" style={{ padding: '0px', fontSize: '0.9em' }} onClick={this.showUrlTextField}>
+                                        {__('init.initoptions.urltxt')}
+                                    </a>
+                                    <HelpBlock>{err.parentServerUrl}</HelpBlock>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                    }
                     <Row>
                         <Col sm={12}>
                             <FormGroup validationState={err.username ? 'error' : undefined}>
@@ -301,6 +242,134 @@ export default class OfflineInit extends React.Component {
                     </Row>
                 </div>
             );
+    }
+
+    /**
+     * Render the workspace selecion phase
+     */
+    renderWorkspaceSelection() {
+        const err = this.state.errors || {};
+        const fetching = this.state.fetching;
+
+        return (
+                <div>
+                    <Row>
+                        <Col sm={12}>
+                            <FormGroup validationState={err.ws ? 'error' : undefined}>
+                                <ControlLabel>{__('init.offinit.selworkspace') + ':'}</ControlLabel>
+                                <FormControl componentClass="select" size={8} autoFocus onChange={this.workspaceChange}>
+                                    {
+                                        this.state.workspaces.map(item =>
+                                            <option key={item.id} value={item.id}>{item.name + ' - ' + item.unitName}</option>
+                                        )
+                                    }
+                                </FormControl>
+                                <HelpBlock>{err.ws}</HelpBlock>
+                            </FormGroup>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <div className="pull-right">
+                                <AsyncButton fetching={fetching} bsSize="large" onClick={this.workspaceSelected}>
+                                    {__('action.continue')}
+                                </AsyncButton>
+                            </div>
+                        </Col>
+                    </Row>
+                </div>
+                );
+    }
+
+    /**
+     * Render the downloading file phase
+     */
+    renderDownloading() {
+        return (
+                <div>
+                    <Row>
+                        <Col sm={12}>
+                            <h4 className="text-center">{__('init.offinit.downloading')}</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <WaitIcon type="card" />
+                        </Col>
+                        <Col sm={12}>
+                            <span className="text-muted">{__('global.pleasewait')}</span>
+                        </Col>
+                    </Row>
+                </div>
+                );
+    }
+
+    /**
+     * Render the reading/importing phase
+     */
+    renderReading() {
+        return (
+                <div>
+                    <Row>
+                        <Col sm={12}>
+                            <h4 className="text-center">{__('init.offinit.reading')}</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <ProgressBar now={this.state.importingP} label={`${this.state.importingP}%`} />
+                        </Col>
+                    </Row>
+                </div>
+                );
+    }
+
+    renderSuccess() {
+        return (
+                <div>
+                    <div className="text-center">
+                        <h3>
+                            {__('init.offinit.success1')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-check-circle fa-4x text-success"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.offinit.success2')}
+                        </p>
+                    </div>
+                    <div>
+                        <Button bsStyle="default" block onClick={this.gotoLogin}>{__('init.ws.gotologin')}</Button>
+                    </div>
+                </div>
+                );
+    }
+
+    /**
+     * Render the component
+     */
+    render() {
+        let content;
+
+        if (this.state.success) {
+            // success mesage
+            content = this.renderSuccess();
+        } else if (this.state.importingP > 0) {
+            // reading phase screen
+            content = this.renderReading();
+
+        } else if (this.state.importingP === 0) {
+            // downloading phase screen
+            content = this.renderDownloading();
+
+        } else if (this.state.workspaces) {
+            // workspace selection phase screen
+            content = this.renderWorkspaceSelection();
+
+        } else {
+            // login phase screen
+            content = this.renderLoginForm();
+
         }
 
         return (

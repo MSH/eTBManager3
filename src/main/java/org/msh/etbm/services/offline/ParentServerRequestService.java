@@ -35,11 +35,13 @@ public class ParentServerRequestService {
 
         try {
             // Parse payLoad
-            String input = JsonParser.objectToJSONString(payLoad, false);
+            if (payLoad != null) {
+                String input = JsonParser.objectToJSONString(payLoad, false);
 
-            OutputStream os = conn.getOutputStream();
-            os.write(input.getBytes());
-            os.flush();
+                OutputStream os = conn.getOutputStream();
+                os.write(input.getBytes());
+                os.flush();
+            }
 
             checkHttpCode(conn.getResponseCode());
 

@@ -6,6 +6,7 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.services.offline.ParentServerRequestService;
 import org.msh.etbm.services.offline.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,8 +46,27 @@ public class OfflineModeInitService {
      * @param data
      */
     public void initialize(ServerCredentialsData data) {
-        System.out.println("Downloading");
-        System.out.println("Importing....");
+        // Login into remote server
+        LoginResponse loginRes = request.post(data.getParentServerUrl(),
+                "/api/auth/login",
+                null,
+                data,
+                null,
+                LoginResponse.class);
+        /*
+        File file = request.post(data.getParentServerUrl(),
+                "/api/sync/inifile/" + loginRes.getAuthToken(),
+                null,
+                null,
+                null,
+                File.class);
+        */
+
+        // TODOMS: do download
+        // TODOMS: do importing
+        // TODOMS: update systemconfig setting version, serverURL, and client flag
+
+        System.out.println("hey");
     }
 
     private TypeFactory getTypeFactory() {
