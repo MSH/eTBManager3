@@ -35,7 +35,7 @@ import Sideview from './sideview';
 import InlineEditor from './inline-editor';
 import YearPicker from './year-picker';
 import MonthYearPicker from './month-year-picker';
-
+import BigButton from './big-button';
 
 export { Callout,
     AsyncButton,
@@ -68,6 +68,7 @@ export { Callout,
     observer,
     Sideview,
     InlineEditor,
+    BigButton,
     YearPicker,
     MonthYearPicker
 };

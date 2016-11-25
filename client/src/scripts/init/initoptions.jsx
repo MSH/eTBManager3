@@ -1,60 +1,42 @@
 
 import React from 'react';
-import { Grid, Row, Col, Button, Fade, OverlayTrigger, Popover, Radio } from 'react-bootstrap';
-import Card from '../components/card';
+import { Grid, Col, Fade } from 'react-bootstrap';
+import { Card, BigButton } from '../components';
 import { app } from '../core/app';
 
 
 export default class InitOptions extends React.Component {
     constructor(props) {
         super(props);
-        this.contClick = this.contClick.bind(this);
     }
-
-    /**
-     * Called when user clicks on the continue button
-     */
-    contClick() {
-        app.goto('/init/newworkspace');
-    }
-
 
     /**
      * Render the component
      */
     render() {
+        const newWorkspaceFunc = () => app.goto('/init/newworkspace');
+        const offlineInitFunc = () => app.goto('/init/offlineinit');
+
         return (
-            <Fade in transitionAppear>
-                <Grid>
-                    <Col sm={6} smOffset={3}>
-                    <Card title={__('init.initoptions')}>
-                        <div>
-                            <Row>
-                                <OverlayTrigger trigger="focus" placement="bottom"
-                                    overlay={<Popover id="id1">It will start a fresh new instance of e-TB Manager from scratch</Popover>}>
-                                    <Radio>
-                                        {__('init.newworkspace')}
-                                    </Radio>
-                                </OverlayTrigger>
-                                <OverlayTrigger trigger="focus" placement="bottom"
-                                    overlay={<Popover id="id2">This instance will be in sync with another e-TB Manager</Popover>}>
-                                    <Radio>
-                                    {__('init.initoptions.sync')}
-                                    </Radio>
-                                </OverlayTrigger>
-                                <Col sm={12}>
-                                    <div className="pull-right">
-                                        <Button bsStyle="primary" bsSize="large" onClick={this.contClick}>
-                                            {__('action.continue')}
-                                        </Button>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
-                    </Card>
+                <Fade in transitionAppear>
+                    <Grid>
+                        <Col sm={6} smOffset={3}>
+                            <Card title={__('init.initoptions')} className="mtop-2x">
+                                <div>
+                                    <BigButton icon="globe"
+                                        onClick={newWorkspaceFunc}
+                                        title={__('init.initoptions.new')}
+                                        description={__('init.initoptions.new.desc')} />
+
+                                    <BigButton icon="cloud-upload"
+                                        onClick={offlineInitFunc}
+                                        title={__('init.initoptions.offinit')}
+                                        description={__('init.initoptions.offinit.desc')} />
+                                </div>
+                            </Card>
                         </Col>
-                </Grid>
-            </Fade>
+                    </Grid>
+                </Fade>
         );
     }
 }

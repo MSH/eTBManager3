@@ -1,6 +1,7 @@
 package org.msh.etbm.commons;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -68,6 +69,16 @@ public class JsonParser {
     }
 
     public static <T> T parse(InputStream in, Class<T> type) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(in, type);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new JsonParserException(e);
+        }
+    }
+
+    public static <T> T parse(InputStream in, JavaType type) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(in, type);
