@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_CULTURE})
+@Authenticated(permissions = {Permissions.CASES_EXAM_DST})
 public class ExamDSTREST {
 
     @Autowired

@@ -21,14 +21,14 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_CULTURE})
+@Authenticated(permissions = {Permissions.CASES_EXAM_HIV + "_EDT"})
 public class ExamHIVREST {
 
     @Autowired
     ExamHIVService service;
 
     @RequestMapping(value = "/examhiv/{id}", method = RequestMethod.GET)
-    @Authenticated()
+    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public ExamHIVData get(@PathVariable UUID id) {
         return service.findOne(id, ExamHIVData.class);
     }
@@ -52,12 +52,13 @@ public class ExamHIVREST {
     }
 
     @RequestMapping(value = "/examhiv/query", method = RequestMethod.POST)
-    @Authenticated()
+    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }
 
     @RequestMapping(value = "/examhiv/form/{id}", method = RequestMethod.GET)
+    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public ExamHIVFormData getForm(@PathVariable UUID id) {
         return service.findOne(id, ExamHIVFormData.class);
     }
