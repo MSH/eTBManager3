@@ -106,7 +106,7 @@ public class MailServiceImpl implements MailService {
 
             // get system URL
             SysConfigFormData cfg = sysConfigService.loadConfig();
-            String url = cfg.getPageRootURL().isPresent() ? cfg.getPageRootURL().get() : "";
+            String url = cfg.getSystemURL().isPresent() ? cfg.getSystemURL().get() : "";
             if (url.length() > 0 && !url.endsWith("/")) {
                 url += "/";
             }

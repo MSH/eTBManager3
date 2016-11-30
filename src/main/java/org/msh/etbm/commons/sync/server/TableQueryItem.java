@@ -9,7 +9,7 @@ import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
  */
 public class TableQueryItem {
 
-    public enum SyncAction { INSERT, UPDATE };
+    public enum SyncAction { INSERT, UPDATE }
 
     /**
      * The query that will generate the data

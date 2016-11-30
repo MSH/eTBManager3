@@ -10,8 +10,6 @@ public class SysConfigFormData {
 
     private Optional<String> systemURL;
 
-    private Optional<String> pageRootURL;
-
     private Optional<String> adminMail;
 
     private Optional<Boolean> allowRegPage;
@@ -33,13 +31,6 @@ public class SysConfigFormData {
         this.systemURL = systemURL;
     }
 
-    public Optional<String> getPageRootURL() {
-        return pageRootURL;
-    }
-
-    public void setPageRootURL(Optional<String> pageRootURL) {
-        this.pageRootURL = pageRootURL;
-    }
 
     public Optional<String> getAdminMail() {
         return adminMail;

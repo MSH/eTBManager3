@@ -596,7 +596,6 @@ const editSchemas = {
                 label: __('Laboratory'),
                 property: 'laboratoryId',
                 unitType: 'LAB',
-                required: true,
                 size: { sm: 6 }
             },
             {

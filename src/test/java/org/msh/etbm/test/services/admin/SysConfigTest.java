@@ -37,7 +37,7 @@ public class SysConfigTest extends AuthenticatedTest {
 
         cfg.setAdminMail(Optional.of(ADMIN_MAIL));
         cfg.setAllowRegPage(Optional.of(ALLOW_REG_PAGE));
-        cfg.setPageRootURL(Optional.of(PAGE_ROOT));
+        cfg.setSystemURL(Optional.of(PAGE_ROOT));
         cfg.setUlaActive(Optional.of(ULA_ACTIVE));
 
         // update the new configuration
@@ -49,7 +49,7 @@ public class SysConfigTest extends AuthenticatedTest {
         // check if configuration is equals the one saved
         assertEquals(cfg.getAdminMail(), cfg2.getAdminMail());
         assertEquals(cfg.getAllowRegPage(), cfg2.getAllowRegPage());
-        assertEquals(cfg.getPageRootURL(), cfg2.getPageRootURL());
+        assertEquals(cfg.getSystemURL(), cfg2.getSystemURL());
         assertEquals(cfg.getUlaActive(), cfg2.getUlaActive());
     }
 }

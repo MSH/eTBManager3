@@ -107,7 +107,7 @@ public class CasesViewService {
                     .append("join tbcase d on d.owner_unit_id = c.id\n")
                     .append("where a.").append(fname).append(" is null and a.").append(fparent).append(" = :id\n");
         } else {
-            s.append("join administrativeunit b on b.pid0 = a.id\n")
+            s.append("join administrativeunit b on b.id = a.id or b.pid0 = a.id\n")
                    .append("join unit c on c.adminunit_id = b.id\n")
                     .append("join tbcase d on d.owner_unit_id = c.id\n")
                     .append("where a.pid0 is null\n");
