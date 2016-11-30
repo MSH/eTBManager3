@@ -2,12 +2,12 @@ package org.msh.etbm.services.offline;
 
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.sync.SynchronizationException;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.*;
 
 /**
@@ -16,6 +16,8 @@ import java.net.*;
  */
 @Component
 public class ParentServerRequestService {
+
+    private static final int BUFFER_SIZE = 65535; //4096
 
     /**
      * Returns the response of the parent server service converted to the type on type param.
@@ -29,8 +31,7 @@ public class ParentServerRequestService {
      * @return
      */
     public <T> T post(String serverUrl, String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
-        String a = checkServerAddress(serverUrl);
-        HttpURLConnection conn = getPostConnection(a, serviceUrl, authToken);
+        HttpURLConnection conn = getPostConnection(serverUrl, serviceUrl, authToken);
         Object ret = null;
 
         try {
@@ -64,6 +65,66 @@ public class ParentServerRequestService {
         return (T) ret;
     }
 
+    public File downloadFile(String serverUrl, String serviceUrl, String authToken, String saveDir) {
+        String saveFilePath = null;
+        URL url = getURL(serverUrl, serviceUrl);
+        HttpURLConnection httpConn = null;
+
+        File file = null;
+
+        try {
+            httpConn = (HttpURLConnection) url.openConnection();
+            if (authToken != null && !authToken.isEmpty()) {
+                httpConn.setRequestProperty("X-Auth-Token", authToken);
+            }
+            checkHttpCode(httpConn.getResponseCode());
+
+            // get file name if exists, or create a file name
+            String fileName = "";
+            String disposition = httpConn.getHeaderField("Content-Disposition");
+
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 10,
+                            disposition.length() - 1);
+                }
+            } else {
+                fileName = DateUtils.getDate().toString();
+            }
+
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
+
+            // create file path
+            saveFilePath = saveDir + File.separator + fileName;
+
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+
+            // read downloaded file
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+            // create return file
+            file = new File(saveDir, fileName);
+
+        } catch (Exception e) {
+            throw new SynchronizationException("Error while creating download file from parent server.");
+        } finally {
+            httpConn.disconnect();
+        }
+
+        return file;
+    }
+
     /**
      * Creates a POST connection
      * @param serverUrl
@@ -76,7 +137,7 @@ public class ParentServerRequestService {
 
         try {
             // Instantiate URL
-            URL url = new URL(serverUrl + serviceUrl);
+            URL url = getURL(serverUrl, serviceUrl);
 
             // Configure Request
             conn = (HttpURLConnection) url.openConnection();
@@ -95,12 +156,25 @@ public class ParentServerRequestService {
         return conn;
     }
 
+    private URL getURL(String serverUrl, String serviceUrl) {
+        String serverUrlChecked = checkServerAddress(serverUrl);
+        URL url = null;
+
+        try {
+            // Instantiate URL
+            url = new URL(serverUrlChecked + serviceUrl);
+        } catch (MalformedURLException e) {
+            throw new SynchronizationException("Error while creating post request to parent server.");
+        }
+
+        return url;
+    }
+
     /**
      * Handle HTTP error when HTTP code is different than 200
      * @param responseCode
      */
     private void checkHttpCode(int responseCode) {
-        // TODOMS: handle http errors
         if (responseCode != 200) {
             switch (responseCode) {
                 case 404:
