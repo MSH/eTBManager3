@@ -1750,6 +1750,9 @@
             <column name="workspace_id" type="${type.id}">
                 <constraints nullable="false" />
             </column>
+            <column name="modelId" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
             <column name="jsondata" type="${type.text}">
                 <constraints nullable="false"/>
             </column>

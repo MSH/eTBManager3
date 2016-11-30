@@ -5,6 +5,7 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.variables.VariableOptions;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.enums.HIVResult;
 import org.msh.etbm.services.cases.filters.CaseFilters;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Standard filter for HIV results
+ *
  * Created by rmemoria on 23/10/16.
  */
 public class HIVResultFilter extends AbstractFilter {
@@ -96,14 +99,12 @@ public class HIVResultFilter extends AbstractFilter {
     }
 
     private HIVResult keyToHivResult(Object key) {
-        int index = Integer.parseInt(key.toString());
-        HIVResult res = HIVResult.values()[index];
-        return res;
+        return ObjectUtils.stringToEnum((String)key, HIVResult.class);
     }
 
     @Override
     public String getFilterType() {
-        return FilterTypes.MULTI_SELECT;
+        return FilterTypes.SELECT;
     }
 
     @Override
