@@ -31,13 +31,34 @@ public class StandardJSONParser<E> {
     /**
      * Parse a JSON data from an input stream
      * @param in the instance of InputStream that will fetch the JSON data
-     * @return instance of the object serialized from JSON
+     * @return instance of the generic class converted from JSON
      */
     protected E parseInputStream(InputStream in) {
         Map<String, Object> props = parseJsonStream(in);
 
         Class beanClass = ObjectUtils.getGenericType(getClass(), 0);
         return (E)convertObject(props, beanClass);
+    }
+
+    /**
+     * Parse a JSON data from a string
+     * @param s the string containing the JSON data
+     * @return instance of the generic class converted from JSON
+     */
+    protected E parseString(String s) {
+        Map<String, Object> props = parseJsonString(s);
+
+        Class beanClass = ObjectUtils.getGenericType(getClass(), 0);
+        return (E)convertObject(props, beanClass);
+    }
+
+    protected Map<String, Object> parseJsonString(String s) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(s, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            throw new ModelException(e);
+        }
     }
 
     protected Map<String, Object> parseJsonStream(InputStream in) {

@@ -46,11 +46,11 @@ public class ModelValidator {
 
     /**
      * Check non declared fields that are required
-     * @param model
-     * @param doc
-     * @param context
+     * @param model The model related to the operation
+     * @param doc the document model, with properties and values
+     * @param context the validation context
      */
-    protected void checkRequiredFields(Model model, Map<String, Object> doc, ValidationContext context) {
+    private void checkRequiredFields(Model model, Map<String, Object> doc, ValidationContext context) {
         for (Field field: model.getFields()) {
             if (doc.containsKey(field.getName())) {
                 continue;

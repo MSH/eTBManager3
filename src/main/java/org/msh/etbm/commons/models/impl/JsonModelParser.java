@@ -18,12 +18,22 @@ import java.util.Map;
 public class JsonModelParser extends StandardJSONParser<Model> {
 
     /**
-     * Parse a JSON representation of a {@link Model} from an input stream
+     * Parse a JSON data from an input stream to an instance of {@link Model}
      * @param in input stream delivering the JSON data
      * @return instance of {@link Model}
      */
     public Model parse(InputStream in) {
         Model model = parseInputStream(in);
+        return model;
+    }
+
+    /**
+     * Parse a JSON data from a string to an instance of {@link Model}
+     * @param s string containing JSON data
+     * @return instance of {@link Model}
+     */
+    public Model parse(String s) {
+        Model model = parseString(s);
         return model;
     }
 

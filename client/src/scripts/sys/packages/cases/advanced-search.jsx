@@ -32,20 +32,12 @@ export default class AdvancedSearch extends React.Component {
     searchCases(filters) {
         const req = {
             pageSize: 50,
-            filters: {},
+            filters: filters,
             scope: this.props.scope,
             scopeId: this.props.scopeId
         };
 
-        // check if filters were declared
-        if (filters) {
-            Object.keys(filters).forEach(id => {
-                const filter = filters[id];
-                if (filter.value) {
-                    req.filters[id] = filter.value;
-                }
-            });
-        }
+        console.log('filters = ', filters);
 
         const crud = new FakeCRUD('/api/cases/search');
         const controller = new CrudController(crud, {

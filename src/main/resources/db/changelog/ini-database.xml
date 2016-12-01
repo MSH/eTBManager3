@@ -1753,6 +1753,23 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="modeldata-1" author="rmemoria">
+        <createTable tableName="modeldata">
+            <column name="id" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="workspace_id" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
+            <column name="modelId" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="jsondata" type="${type.text}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>
     </changeSet>
@@ -1961,6 +1978,12 @@
     <changeSet author="rmemoria" id="1433264274749-152">
         <addPrimaryKey columnNames="id" constraintName="PKWSVIEW" tableName="workspaceview"/>
     </changeSet>
+    <changeSet author="rmemoria" id="modeldata-2">
+        <addPrimaryKey columnNames="id" constraintName="PKMODELDATA" tableName="modeldata"/>
+    </changeSet>
+
+
+
     <changeSet author="rmemoria" id="1433264274749-154">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="resistancepattern"
                                  constraintName="FK12719137B3B1717" deferrable="false" initiallyDeferred="false"
@@ -2774,6 +2797,12 @@
             <column name="type"/>
             <column name="title"/>
         </createIndex>
+    </changeSet>
+
+    <changeSet author="rmemoria" id="modeldata-3">
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="modeldata" constraintName="FKMODEL_WS"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -1,0 +1,78 @@
+{
+  "name": "culture",
+  "table": "culture",
+  "fields": [
+    {
+      "name": "date",
+      "label": "${cases.exams.date}",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "sampleNumber",
+      "type": "string",
+      "max": 30,
+      "label": "${PatientSample.sampleNumber}"
+    },
+    {
+      "name": "laboratory",
+      "type": "unit",
+      "unitType": "LAB"
+    },
+    {
+      "name": "dateRelease",
+      "type": "date",
+      "label": "${cases.exams.dateRelease}"
+    },
+    {
+      "type": "select",
+      "label": "{cases.exams.media}",
+      "property": "method",
+      "options": [
+        {
+          "id": "LJ",
+          "name": "Lowenstein-Jensen"
+        },
+        {
+          "id": "MGIT960",
+          "name": "MGIT 960"
+        },
+        {
+          "id": "MGIT320",
+          "name": "MGIT 320"
+        },
+        {
+          "id": "LPA",
+          "name": "Line Probe Assay"
+        },
+        {
+          "id": "OK",
+          "name": "Ogawa-Kudoh"
+        },
+        {
+          "id": "OTHER",
+          "name": "Other"
+        }
+      ],
+    }
+    {
+      "name": "result",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.CultureResult",
+      "label": "${cases.details.result}",
+      "required": true
+    },
+    {
+      "name": "numberOfColonies",
+      "type": "int",
+      "label": "${ExamCulture.numberOfColonies}",
+      "options": { "from": 1, "to": 9 },
+      "visible": { "function": "this.result === 'POSITIVE'" }
+    },
+    {
+      "name": "comments",
+      "type": "text",
+      "label": "${global.comments}"
+    }
+  ]
+}

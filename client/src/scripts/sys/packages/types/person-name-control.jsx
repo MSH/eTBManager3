@@ -56,7 +56,7 @@ export default class PersonNameControl extends React.Component {
             case 'FIRST_MIDDLE_LASTNAME': return ['name', 'middleName', 'lastName'];
             case 'LAST_FIRST_MIDDLENAME': return ['lastName', 'name', 'middleName'];
             case 'LAST_FIRST_MIDDLENAME_WITHOUT_COMMAS': return ['lastName', 'name'];
-            default: return ['fullName'];
+            default: return ['name'];
         }
     }
 
