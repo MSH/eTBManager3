@@ -4,13 +4,11 @@ import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
-import org.msh.etbm.commons.filters.UnexpectedFilterException;
+import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.text.DateFormatSymbols;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -398,6 +396,63 @@ public class PeriodFilter extends AbstractFilter {
         return new Period(ini, end);
     }
 
+    @Override
+    public String createKey(Object values) {
+        if (values == null) {
+            return AbstractFilter.KEY_NULL;
+        }
+
+        Object[] vals = (Object[])values;
+        Integer year = (Integer)vals[0];
+        Integer month = (Integer)vals[1];
+
+        if (year == null || month == null) {
+            return AbstractFilter.KEY_NULL;
+        }
+
+        return Integer.toString(month);
+    }
+
+    @Override
+    public String getKeyDisplay(String key) {
+        if (AbstractFilter.KEY_NULL.equals(key)) {
+            return super.getKeyDisplay(key);
+        }
+
+        Integer month = Integer.parseInt(key) - 1;
+
+        DateFormatSymbols sym = new DateFormatSymbols();
+        return sym.getMonths()[month];
+    }
+
+    @Override
+    public String getGroupKeyDisplay(String key) {
+        return super.getGroupKeyDisplay(key);
+    }
+
+    @Override
+    public String createGroupKey(Object values) {
+        if (values == null) {
+            return AbstractFilter.KEY_NULL;
+        }
+
+        Object[] vals = (Object[])values;
+        Integer year = (Integer)vals[0];
+        if (year == null) {
+            return AbstractFilter.KEY_NULL;
+        }
+
+        return year.toString();
+    }
+
+    @Override
+    public VariableOptions getVariableOptions() {
+        VariableOptions opts = super.getVariableOptions();
+        return new VariableOptions(true,
+                opts.isTotalEnabled(),
+                opts.getIterationCount(),
+                opts.getCountingUnit());
+    }
 
     @Override
     public void prepareVariableQuery(QueryDefs def, int iteration) {

@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/cases/case")
-@Authenticated(permissions = {Permissions.CASES})
+@Authenticated(permissions = { Permissions.CASES_COMORBIDITIES_EDT })
 public class CaseComorbiditiesREST {
 
     @Autowired

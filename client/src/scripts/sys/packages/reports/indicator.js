@@ -131,12 +131,14 @@ export default class Indicator {
         const cols = this.data.columns;
         const levels = cols.descriptors.length;
         const res = [];
+        // create the groups for each level (each variable or var group)
         for (var i = 0; i < levels; i++) {
             const lst = [];
             res.push(lst);
 
             let k1 = null;
             let span = 0;
+            // col.keys is an array of keys used in the column (no grouping)
             for (var c = 0; c < cols.keys.length; c++) {
                 const k2 = cols.keys[c][i];
                 if (k2 === k1) {
@@ -144,14 +146,20 @@ export default class Indicator {
                 } else {
                     if (k1) {
                         const title = cols.descriptors[i][k1];
-                        lst.push({ id: k1, title: title, span: span });
+                        const id = cols.keys[c - 1].slice(0, i + 1).join(';');
+                        lst.push({ id: id, title: title, span: span });
                     }
                     k1 = k2;
                     span = 1;
                 }
             }
         }
-        return res;
+
+        // calc number of columns
+        console.log(res);
+        const size = res[levels - 1].length;
+
+        return { result: res, size: size };
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.sync.server;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.db.entities.Unit;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -21,38 +21,39 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_MICROSCOPY})
+@Authenticated(permissions = { Permissions.CASES_EXAM_MICROSCOPY })
 public class ExamMicroscopyREST {
 
     @Autowired
     ExamMicService service;
 
     @RequestMapping(value = "/exammic/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public ExamMicData get(@PathVariable UUID id) {
         return service.findOne(id, ExamMicData.class);
     }
 
     @RequestMapping(value = "/exammic", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_MICROSCOPY_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody ExamMicFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/exammic/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_MICROSCOPY_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ExamMicFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/exammic/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_MICROSCOPY_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/exammic/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }

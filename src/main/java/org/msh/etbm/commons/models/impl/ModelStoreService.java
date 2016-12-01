@@ -6,13 +6,11 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.db.entities.ModelData;
 import org.msh.etbm.db.entities.Workspace;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import javax.activation.DataSource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;

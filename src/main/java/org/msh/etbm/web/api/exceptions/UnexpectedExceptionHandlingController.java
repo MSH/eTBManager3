@@ -79,8 +79,8 @@ public class UnexpectedExceptionHandlingController {
         String s = e.getMessage();
         if (s == null) {
             s = "No message in exception";
-        } else if (s.length() > 500) {
-            s = s.substring(0, 499);
+        } else if (s.length() > 200) {
+            s = s.substring(0, 199);
         }
         error.setExceptionMessage(s);
 

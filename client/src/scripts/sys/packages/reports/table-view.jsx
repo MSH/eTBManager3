@@ -26,26 +26,26 @@ export default class TableView extends React.Component {
                 <table className="table-indicator">
                 <tbody>
                     <tr>
-                        <th rowSpan={colTitles.length + 1}>
+                        <th rowSpan={colTitles.result.length + 1}>
                         {
                             data.rows.variables.map(v => <div key={v.id}>{v.name}</div>)
                         }
                         </th>
-                        <th colSpan={colTitles[0].length}>
+                        <th colSpan={colTitles.size}>
                         {
                             data.columns.variables.map(v => v.name).join(', ')
                         }
                         </th>
-                        <th rowSpan={colTitles.length + 1}>
+                        <th rowSpan={colTitles.result.length + 1}>
                         {__('global.total')}
                         </th>
                     </tr>
                     {
-                        colTitles.map((colrow, index) => (
+                        colTitles.result.map((colrow, index) => (
                         <tr key={index}>
                         {
                             colrow.map(c => (
-                                <th key={c.id}>
+                                <th key={c.id} colSpan={c.span}>
                                 {
                                     c.title
                                 }

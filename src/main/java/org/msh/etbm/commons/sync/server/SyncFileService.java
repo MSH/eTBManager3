@@ -14,7 +14,9 @@ import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Generate the synchronization file from the server side
