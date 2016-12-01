@@ -28,10 +28,7 @@ import java.util.zip.GZIPInputStream;
 @Service
 public class SyncFileImporter {
 
-    //@PersistenceContext
-   // EntityManager entityManager;
-
-    public void importFile(File file, boolean compressed) {
+   public void importFile(File file, boolean compressed) {
         try {
             InputStream fileStream = new FileInputStream(file);
             // create a copy of downloaded file uncompressed
