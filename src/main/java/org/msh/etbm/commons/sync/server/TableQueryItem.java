@@ -11,6 +11,9 @@ import java.util.List;
  */
 public class TableQueryItem {
 
+    /**
+     * The possible actions when restoring the file
+     */
     public enum SyncAction { INSERT, UPDATE }
 
     /**
