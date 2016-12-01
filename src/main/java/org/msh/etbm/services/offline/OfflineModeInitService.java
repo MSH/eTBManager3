@@ -2,22 +2,13 @@ package org.msh.etbm.services.offline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.sync.SynchronizationException;
-import org.msh.etbm.services.offline.ParentServerRequestService;
-import org.msh.etbm.services.offline.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.zip.GZIPInputStream;
 
 /**
  * Service to initialize an off-line mode instance.

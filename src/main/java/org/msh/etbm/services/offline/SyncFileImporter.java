@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sync.SynchronizationException;
 import org.msh.etbm.commons.sync.server.CompactibleJsonConverter;
 import org.msh.etbm.db.entities.SystemConfig;
@@ -16,9 +17,10 @@ import org.msh.etbm.db.enums.NameComposition;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.*;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
@@ -28,7 +30,11 @@ import java.util.zip.GZIPInputStream;
 @Service
 public class SyncFileImporter {
 
-   public void importFile(File file, boolean compressed) {
+    @PersistenceContext
+    EntityManager entityManager;
+
+    @Transactional
+    public void importFile(File file, boolean compressed) {
         try {
             InputStream fileStream = new FileInputStream(file);
             // create a copy of downloaded file uncompressed
@@ -53,7 +59,6 @@ public class SyncFileImporter {
         }
     }
 
-    @Transactional
     private void importData(JsonParser parser) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
@@ -93,8 +98,8 @@ public class SyncFileImporter {
         // TODO: fazer algo com essa info
     }
 
-    @Transactional
     private void importWorkspace(JsonParser parser) throws IOException {
+        // TODO: salvar como sql nativo, se usar hibernate dá erro
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -114,10 +119,11 @@ public class SyncFileImporter {
         w.setMinStockOnHand((Integer) wmap.get("minStockOnHand"));
         w.setMaxStockOnHand((Integer) wmap.get("maxStockOnHand"));
 
-        //entityManager.persist(w);
+        entityManager.persist(w);
     }
 
     private void importConfig(JsonParser parser) throws IOException {
+        // TODO: salvar como sql nativo, se usar hibernate dá erro
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -130,7 +136,7 @@ public class SyncFileImporter {
         config.setUpdateSite((String) cmap.get("updateSite"));
         config.setUlaActive((boolean) cmap.get("ulaActive"));
 
-        //entityManager.persist(config);
+        entityManager.persist(config);
     }
 
     private void importTables(JsonParser parser) throws IOException {
@@ -168,24 +174,15 @@ public class SyncFileImporter {
             parser.nextToken();
 
             // read records
-            SQLCommandBuilder sqlBuilder = null;
-
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                if (sqlBuilder == null) {
-                    sqlBuilder = createSQLCommandBuilder(action, tableName, record.keySet());
-                }
-                /*
-                Query query = entityManager.createNativeQuery(sqlBuilder.getQuery());
-
-                for (Map.Entry<String, Object> entry: record.entrySet()) {
-                    query.setParameter(":" + entry.getKey(), CompactibleJsonConverter.convertFromJson(entry.getValue()));
-                }
-
-                query.executeUpdate();
-                */
+                // TODO: Usar JDBCTemplate
+                // TODO: cada insert = 1 commit
+                // TODO: se action é update, update direto, se for insert, select pra verificar se existe e então decide por insert ou update.
+                // TODO: tomar como exemplo AutoGenTagsCasesService
+                // TODO: criar uma classe para tratar insert/update/delete
             }
 
             // enter into the table object fourth parameter name (deleted)
@@ -198,44 +195,18 @@ public class SyncFileImporter {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                // TODO: Salvar no banco de dados
+                // TODO: executar no banco de dados
             }
 
             parser.nextToken();
         }
     }
 
-    private <T> T stringToEnum(Class enumType, Object val) {
+    public static <E extends Enum> E stringToEnum(Class<E> enumClass, Object val) {
         if (!(val instanceof String)) {
             throw new RuntimeException("Value must be a String");
         }
 
-        String s = (String) val;
-
-        if (s == null || s.isEmpty()) {
-            return null;
-        }
-
-        return (T) Enum.valueOf(enumType, s);
-    }
-
-    private SQLCommandBuilder createSQLCommandBuilder(String action, String tableName, Set<String> fields) {
-        SQLCommandBuilder sqlBuilder = null;
-
-        switch (action) {
-            case "INSERT":
-                sqlBuilder = new SQLInsertBuilder(tableName, fields);
-                break;
-            case "UPDATE":
-                // TODO: prever quando action for Update
-                break;
-            case "DELETE":
-                // TODO: prever quando action for Update
-                break;
-            default:
-                throw new RuntimeException("Unsupported action: " + action);
-        }
-
-        return sqlBuilder;
+        return ObjectUtils.stringToEnum((String)val, enumClass);
     }
 }
