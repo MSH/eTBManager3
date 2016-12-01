@@ -21,44 +21,44 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_HIV + "_EDT"})
+@Authenticated(permissions = { Permissions.CASES_EXAM_HIV })
 public class ExamHIVREST {
 
     @Autowired
     ExamHIVService service;
 
     @RequestMapping(value = "/examhiv/{id}", method = RequestMethod.GET)
-    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public ExamHIVData get(@PathVariable UUID id) {
         return service.findOne(id, ExamHIVData.class);
     }
 
     @RequestMapping(value = "/examhiv", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_HIV_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody ExamHIVFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examhiv/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_HIV_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ExamHIVFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examhiv/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_HIV_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/examhiv/query", method = RequestMethod.POST)
-    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }
 
     @RequestMapping(value = "/examhiv/form/{id}", method = RequestMethod.GET)
-    @Authenticated(permissions = {Permissions.CASES_EXAM_HIV})
     public ExamHIVFormData getForm(@PathVariable UUID id) {
         return service.findOne(id, ExamHIVFormData.class);
     }

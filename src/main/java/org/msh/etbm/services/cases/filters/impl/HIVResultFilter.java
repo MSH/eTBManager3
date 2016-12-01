@@ -49,7 +49,7 @@ public class HIVResultFilter extends AbstractFilter {
 
         def.select("'" + Integer.toString(res.ordinal() + 1) + "'");
 
-        String restriction = hivRestriction(res.ordinal());
+        String restriction = hivRestriction(res.toString());
         def.restrict(restriction);
     }
 

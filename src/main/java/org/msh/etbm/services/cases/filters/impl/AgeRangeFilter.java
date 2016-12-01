@@ -95,7 +95,7 @@ public class AgeRangeFilter extends AbstractFilter {
     @Override
     public String createKey(Object values) {
         if (values == null) {
-            return null;
+            return AbstractFilter.KEY_NULL;
         }
 
         // get the age
@@ -104,21 +104,18 @@ public class AgeRangeFilter extends AbstractFilter {
         // find the range
         AgeRangeData ageRange = ageRangeByAge(age);
 
-        if (ageRange == null) {
-            return null;
-        }
-
-        return ageRange.getId().toString();
+        return ageRange != null ? ageRange.getId().toString() : AbstractFilter.KEY_NULL;
     }
 
     @Override
     public String getKeyDisplay(String key) {
-        if (key == null) {
-            return super.getKeyDisplay(key);
+        String s = super.getKeyDisplay(key);
+        if (s != null) {
+            return s;
         }
 
         AgeRangeData ageRange = ageRangeById(key.toString());
-        return ageRange.getName();
+        return ageRange != null ? ageRange.getName() : super.getKeyDisplay(null);
     }
 
     @Override

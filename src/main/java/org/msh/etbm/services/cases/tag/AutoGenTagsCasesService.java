@@ -1,6 +1,5 @@
 package org.msh.etbm.services.cases.tag;
 
-import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -17,7 +16,6 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 

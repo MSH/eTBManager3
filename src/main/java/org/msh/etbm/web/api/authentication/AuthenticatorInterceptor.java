@@ -1,6 +1,5 @@
 package org.msh.etbm.web.api.authentication;
 
-import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.msh.etbm.services.session.usersession.UserSessionService;

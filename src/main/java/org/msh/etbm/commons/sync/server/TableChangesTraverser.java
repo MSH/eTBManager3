@@ -1,9 +1,6 @@
 package org.msh.etbm.commons.sync.server;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.commons.sync.SynchronizationException;
-import org.msh.etbm.db.enums.DatabaseOperation;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
@@ -11,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Traverse a table using the given instance of {@link SQLQueryBuilder}

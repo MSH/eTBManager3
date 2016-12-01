@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
+ * REST API for culture exams
+ *
  * Created by msantos on 13/7/16.
  */
 @RestController
@@ -28,31 +30,32 @@ public class ExamCultureREST {
     ExamCulService service;
 
     @RequestMapping(value = "/examcul/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public ExamCulData get(@PathVariable UUID id) {
         return service.findOne(id, ExamCulData.class);
     }
 
     @RequestMapping(value = "/examcul", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_CULTURE_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody ExamCulFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examcul/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_CULTURE_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ExamCulFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examcul/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_CULTURE_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/examcul/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }

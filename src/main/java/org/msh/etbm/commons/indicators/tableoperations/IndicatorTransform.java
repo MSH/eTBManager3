@@ -91,20 +91,18 @@ public class IndicatorTransform {
 
             for (Variable var: variables) {
                 String key = vals[index] != null ? vals[index].toString() : null;
-                String s = var.getKeyDisplay(key);
+                String s = var.getVariableOptions().isGrouped() ? var.getGroupKeyDisplay(key) : var.getKeyDisplay(key);
                 if (s == null) {
                     throw new IndicatorException("Invalid key display for value " + vals[index]);
                 }
 
-                String id = vals[index].toString();
-
-                addDescriptor(descriptors, index, id, s);
+                addDescriptor(descriptors, index, key, s);
 
                 index++;
 
                 if (var.getVariableOptions().isGrouped()) {
-                    String id2 = vals[index + 1].toString();
-                    String s2 = var.getGroupKeyDisplay(id2);
+                    String id2 = vals[index] != null ? vals[index].toString() : "null";
+                    String s2 = var.getKeyDisplay(id2);
                     addDescriptor(descriptors, index, id2, s2);
                     index++;
                 }

@@ -17,9 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -144,9 +142,15 @@ public class CaseReportService {
         List<CaseReportIndicatorData> lst = rep.getIndicators()
                 .stream()
                 .map(ind -> {
+                    // mix filters from report with indicator
+                    Map<String, Object> filters = new HashMap<>(rep.getFilters());
+                    if (ind.getFilters() != null) {
+                        filters.putAll(ind.getFilters());
+                    }
+
                     // generate indicator
                     CaseIndicatorRequest indreq = new CaseIndicatorRequest();
-                    indreq.setFilters(ind.getFilters());
+                    indreq.setFilters(filters);
                     indreq.setColumnVariables(ind.getColumnVariables());
                     indreq.setRowVariables(ind.getRowVariables());
                     indreq.setScope(scope);
