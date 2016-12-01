@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.cmdhisotryrep;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
@@ -99,7 +99,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
             return null;
         }
 
-        CommandLogDetail c = JsonParser.parseString(data, CommandLogDetail.class);
+        CommandLogDetail c = JsonUtils.parseString(data, CommandLogDetail.class);
         if (c == null) {
             return null;
         }

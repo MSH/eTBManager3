@@ -1,7 +1,7 @@
 package org.msh.etbm.services.admin.workspaces;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.workspaces.impl.AdminUnitTemplate;
@@ -50,7 +50,7 @@ public class WorkspaceCreator {
     @Transactional
     public WorkspaceData create(String name, UUID userId) {
         // read the template data
-        NewWorkspaceTemplate template = JsonParser.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
+        NewWorkspaceTemplate template = JsonUtils.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
 
         Workspace ws = insertWorkspace(name, template);
 
@@ -294,12 +294,12 @@ public class WorkspaceCreator {
      * Create the standard reports
      */
     protected void createReports(Workspace ws, User user) {
-        CaseReportFormData[] lst = JsonParser.parseArrayResource("/templates/json/reports.json", CaseReportFormData.class);
+        CaseReportFormData[] lst = JsonUtils.parseArrayResource("/templates/json/reports.json", CaseReportFormData.class);
         for (CaseReportFormData data: lst) {
             Report rep = new Report();
             rep.setDashboard(data.isDashboard());
             rep.setPublished(data.isPublished());
-            rep.setData(JsonParser.objectToJSONString(data, false));
+            rep.setData(JsonUtils.objectToJSONString(data, false));
             rep.setOwner(user);
             rep.setWorkspace(ws);
             rep.setRegistrationDate(new Date());

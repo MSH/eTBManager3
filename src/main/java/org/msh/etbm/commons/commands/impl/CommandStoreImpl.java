@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.commands.impl;
 
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.commands.details.CommandLogDetail;
 import org.msh.etbm.db.entities.*;
@@ -49,7 +49,7 @@ public class CommandStoreImpl implements CommandStoreService {
         // parse the data to json format
         CommandLogDetail data = in.getDetailData();
         if (data != null) {
-            String json = JsonParser.objectToJSONString(data, false);
+            String json = JsonUtils.objectToJSONString(data, false);
             cmd.setData(json);
         }
 

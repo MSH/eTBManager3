@@ -118,29 +118,25 @@ export default class OfflineInit extends React.Component {
         const req = this.state.credentials;
         req.workspaceId = this.state.workspaceId;
 
+        // shows wait icon
+        this.setState({ workspaces: null, fetching: false, importingP: 0 });
+
         server.post('/api/offline/init/initialize', req)
         .then(res => {
-            // TODOMS: code the UI behave while importing
+            // TODO: mock progress bar, sync it with server
+            // here the importing has finished
+            setInterval(() => {
+                const p = this.state.importingP;
+                if (p < 100) {
+                    this.setState({ importingP: (p + 1) });
+                } else {
+                    this.clearAllIntervals();
+                    this.setState({ success: true });
+                }
+            }, 100);
+
+            return res;
         });
-
-        // mock UI behave
-        setTimeout(() => {
-            this.setState({ workspaces: null, fetching: false, importingP: 0 });
-            setTimeout(() => {
-
-                this.setState({ importingP: 1 });
-                setInterval(() => {
-                    const p = this.state.importingP;
-                    if (p < 100) {
-                        this.setState({ importingP: (p + 1) });
-                    } else {
-                        this.clearAllIntervals();
-                        this.setState({ success: true });
-                    }
-                }, 100);
-            }, 12000);
-
-        }, 800);
     }
 
     /**
@@ -149,7 +145,7 @@ export default class OfflineInit extends React.Component {
      */
     clearAllIntervals() {
         // clear all intervals
-        const id = setInterval(() => console.log('fakeinterval'), 9999);
+        const id = setInterval(() => {}, 9999);
         for (var i = 0; i <= id; i++) {
             clearInterval(i);
         }

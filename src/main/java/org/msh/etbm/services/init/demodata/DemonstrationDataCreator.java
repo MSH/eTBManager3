@@ -1,7 +1,7 @@
 package org.msh.etbm.services.init.demodata;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.admin.substances.SubstanceData;
 import org.msh.etbm.services.admin.tags.TagData;
@@ -47,7 +47,7 @@ public class DemonstrationDataCreator {
         Workspace workspace = entityManager.find(Workspace.class, workspaceId);
 
         // read the template data
-        DemonstrationDataTemplate template = JsonParser.parseResource("/templates/json/demonstration-data-template.json", DemonstrationDataTemplate.class);
+        DemonstrationDataTemplate template = JsonUtils.parseResource("/templates/json/demonstration-data-template.json", DemonstrationDataTemplate.class);
 
         insertSubstances(template, workspace);
 

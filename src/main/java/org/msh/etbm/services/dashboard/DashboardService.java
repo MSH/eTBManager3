@@ -1,6 +1,6 @@
 package org.msh.etbm.services.dashboard;
 
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.cases.reports.CaseReportIndicatorData;
@@ -48,7 +48,7 @@ public class DashboardService {
         List<CaseReportIndicatorData> indicators = new ArrayList<>();
 
         for (Report rep: lst) {
-            CaseReportFormData schema = JsonParser.parseString(rep.getData(), CaseReportFormData.class);
+            CaseReportFormData schema = JsonUtils.parseString(rep.getData(), CaseReportFormData.class);
             List<CaseReportIndicatorData> inds = caseReportService.generateIndicators(schema, req.getScope(), req.getScopeId());
             indicators.addAll(inds);
         }

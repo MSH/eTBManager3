@@ -1,7 +1,7 @@
 package org.msh.etbm.services.offline;
 
 import com.fasterxml.jackson.databind.JavaType;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.sync.SynchronizationException;
@@ -37,7 +37,7 @@ public class ParentServerRequestService {
         try {
             // Parse payLoad
             if (payLoad != null) {
-                String input = JsonParser.objectToJSONString(payLoad, false);
+                String input = JsonUtils.objectToJSONString(payLoad, false);
 
                 OutputStream os = conn.getOutputStream();
                 os.write(input.getBytes());
@@ -47,9 +47,9 @@ public class ParentServerRequestService {
             checkHttpCode(conn.getResponseCode());
 
             if (javaType != null) {
-                ret = JsonParser.parse(conn.getInputStream(), javaType);
+                ret = JsonUtils.parse(conn.getInputStream(), javaType);
             } else if (classType != null) {
-                ret = JsonParser.parse(conn.getInputStream(), classType);
+                ret = JsonUtils.parse(conn.getInputStream(), classType);
             } else {
                 throw new SynchronizationException("Must inform javaType or classType param");
             }

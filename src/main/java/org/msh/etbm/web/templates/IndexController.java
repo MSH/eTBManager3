@@ -1,6 +1,6 @@
 package org.msh.etbm.web.templates;
 
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -147,6 +147,6 @@ public class IndexController {
         }
         br.close();
 
-        return JsonParser.parseString(stringBuilder.toString(), HashMap.class);
+        return JsonUtils.parseString(stringBuilder.toString(), HashMap.class);
     }
 }

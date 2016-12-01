@@ -17,14 +17,14 @@ import java.io.InputStream;
  * <p>
  * Created by rmemoria on 2/9/15.
  */
-public class JsonParser {
+public class JsonUtils {
 
-    private final static Logger log = LoggerFactory.getLogger(JsonParser.class);
+    private final static Logger log = LoggerFactory.getLogger(JsonUtils.class);
 
     /**
      * Avoid instantiation of this class
      */
-    private JsonParser() {
+    private JsonUtils() {
         super();
     }
 

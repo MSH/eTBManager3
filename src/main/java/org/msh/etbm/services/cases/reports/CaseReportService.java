@@ -1,7 +1,7 @@
 package org.msh.etbm.services.cases.reports;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
@@ -42,7 +42,7 @@ public class CaseReportService {
 
     @Transactional
     public UUID save(CaseReportFormData repdata) {
-        String data = JsonParser.objectToJSONString(repdata, false);
+        String data = JsonUtils.objectToJSONString(repdata, false);
 
         Report rep = new Report();
         updateData(rep, repdata);
@@ -69,7 +69,7 @@ public class CaseReportService {
     public CaseReportFormData load(UUID id) {
         Report rep = entityManager.find(Report.class, id);
 
-        CaseReportFormData data = JsonParser.parseString(rep.getData(), CaseReportFormData.class);
+        CaseReportFormData data = JsonUtils.parseString(rep.getData(), CaseReportFormData.class);
 
         return data;
     }
@@ -84,7 +84,7 @@ public class CaseReportService {
     }
 
     protected void updateData(Report rep, CaseReportFormData repdata) {
-        String data = JsonParser.objectToJSONString(repdata, false);
+        String data = JsonUtils.objectToJSONString(repdata, false);
 
         rep.setDashboard(repdata.isDashboard());
         rep.setPublished(repdata.isPublished());
@@ -119,7 +119,7 @@ public class CaseReportService {
             throw new EntityNotFoundException("Report not found");
         }
 
-        CaseReportFormData schema = JsonParser.parseString(rep.getData(), CaseReportFormData.class);
+        CaseReportFormData schema = JsonUtils.parseString(rep.getData(), CaseReportFormData.class);
 
         // generate the indicators
         List<CaseReportIndicatorData> lst = generateIndicators(schema, req.getScope(), req.getScopeId());

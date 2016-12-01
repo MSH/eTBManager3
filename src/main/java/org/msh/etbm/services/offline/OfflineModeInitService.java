@@ -10,6 +10,7 @@ import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,9 +28,6 @@ public class OfflineModeInitService {
 
     @Autowired
     ParentServerRequestService request;
-
-    @Autowired
-    DozerBeanMapper mapper;
 
     @Autowired
     SyncFileImporter importer;
@@ -70,15 +68,9 @@ public class OfflineModeInitService {
                 "C:\\Users\\Mauricio\\Desktop"); //TODO: verificar o caminho correto
 
         // import file
-        try {
-            importer.importFile(file, true);
-        } catch (IOException e) {
-            throw new SynchronizationException("Importing process failed.");
-        }
+        importer.importFile(file, true);
 
         // TODO: update systemconfig setting version, serverURL, and client flag
-
-        System.out.println("hey");
     }
 
     private TypeFactory getTypeFactory() {

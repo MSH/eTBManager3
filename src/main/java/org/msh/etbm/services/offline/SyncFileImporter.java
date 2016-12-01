@@ -13,53 +13,42 @@ import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 /**
  * Created by Mauricio on 28/11/2016.
  */
-@Component
+@Service
 public class SyncFileImporter {
 
-    private static final int BUFFER_SIZE = 65535;
+    //@PersistenceContext
+   // EntityManager entityManager;
 
-    public void importFile(File file, boolean compressed) throws IOException {
+    public void importFile(File file, boolean compressed) {
         try {
-            File destFile;
-
+            InputStream fileStream = new FileInputStream(file);
             // create a copy of downloaded file uncompressed
             if (compressed) {
-                destFile = File.createTempFile("temp", "etbm");
-                uncompressFile(file, destFile);
-            } else {
-                destFile = file;
+                fileStream = new GZIPInputStream(fileStream);
             }
 
             // create streaming parser
             JsonFactory factory = new MappingJsonFactory();
-            JsonParser parser = factory.createParser(destFile);
+            JsonParser parser = factory.createParser(fileStream);
 
             // start importing
             try {
                 importData(parser);
             } finally {
-                // delete temp file
-                if (compressed && destFile != null) {
-                    destFile.delete();
-                }
-
                 // close parser
-                if (parser != null) {
-                    parser.close();
-                }
+                parser.close();
             }
 
         } catch (Throwable e) {
@@ -67,6 +56,7 @@ public class SyncFileImporter {
         }
     }
 
+    @Transactional
     private void importData(JsonParser parser) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
@@ -94,21 +84,19 @@ public class SyncFileImporter {
                     importTables(parser);
                     break;
                 default:
-                    System.out.println("Unprocessed property: " + fieldName);
-                    parser.skipChildren();
+                    throw new SynchronizationException("Unprocessed field: " + fieldName);
             }
         }
-        
-        System.out.println("Caboou");
     }
 
     private void importVersion(JsonParser parser) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         Integer version = node.asInt();
-        System.out.println(version);
+        // TODO: fazer algo com essa info
     }
 
+    @Transactional
     private void importWorkspace(JsonParser parser) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
@@ -129,7 +117,7 @@ public class SyncFileImporter {
         w.setMinStockOnHand((Integer) wmap.get("minStockOnHand"));
         w.setMaxStockOnHand((Integer) wmap.get("maxStockOnHand"));
 
-        System.out.println(w);
+        //entityManager.persist(w);
     }
 
     private void importConfig(JsonParser parser) throws IOException {
@@ -145,7 +133,7 @@ public class SyncFileImporter {
         config.setUpdateSite((String) cmap.get("updateSite"));
         config.setUlaActive((boolean) cmap.get("ulaActive"));
 
-        System.out.println(config);
+        //entityManager.persist(config);
     }
 
     private void importTables(JsonParser parser) throws IOException {
@@ -153,7 +141,6 @@ public class SyncFileImporter {
             throw new SynchronizationException("Expecting START_ARRAY. Check File layout.");
         }
 
-        // TODO: tem outro jeito de pegar esse Mapper?
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node;
         String tableName;
@@ -184,12 +171,24 @@ public class SyncFileImporter {
             parser.nextToken();
 
             // read records
-            int i = 0;
+            SQLCommandBuilder sqlBuilder = null;
+
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                i++;
+                if (sqlBuilder == null) {
+                    sqlBuilder = createSQLCommandBuilder(action, tableName, record.keySet());
+                }
+                /*
+                Query query = entityManager.createNativeQuery(sqlBuilder.getQuery());
+
+                for (Map.Entry<String, Object> entry: record.entrySet()) {
+                    query.setParameter(":" + entry.getKey(), CompactibleJsonConverter.convertFromJson(entry.getValue()));
+                }
+
+                query.executeUpdate();
+                */
             }
 
             // enter into the table object fourth parameter name (deleted)
@@ -198,49 +197,15 @@ public class SyncFileImporter {
             parser.nextToken();
 
             // read deleted
-            int j = 0;
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                j++;
+                // TODO: Salvar no banco de dados
             }
-
-            System.out.println(tableName + " " + action + " " + i + " records.");
-            System.out.println(tableName + " " + action + " " + j + " deleted.");
 
             parser.nextToken();
         }
-    }
-
-
-    /**
-     * Uncompress a file compressed with {@link GZIPInputStream}
-     * @param gzipfile instance of {@link File} containing the compressed file
-     * @param destfile instance of {@link File} where uncompressed file will be written to
-     */
-    private void uncompressFile(File gzipfile, File destfile) {
-        try {
-            if (destfile.exists()) {
-                destfile.delete();
-            }
-
-            byte[] buffer = new byte[BUFFER_SIZE];
-
-            GZIPInputStream gzin = new GZIPInputStream(new FileInputStream(gzipfile));
-            FileOutputStream out = new FileOutputStream(destfile);
-
-            int noRead;
-            while ((noRead = gzin.read(buffer)) != -1) {
-                out.write(buffer, 0, noRead);
-            }
-            gzin.close();
-            out.close();
-
-        } catch (Exception e) {
-            throw new SynchronizationException("Error uncompressing the file");
-        }
-
     }
 
     private <T> T stringToEnum(Class enumType, Object val) {
@@ -255,5 +220,25 @@ public class SyncFileImporter {
         }
 
         return (T) Enum.valueOf(enumType, s);
+    }
+
+    private SQLCommandBuilder createSQLCommandBuilder(String action, String tableName, Set<String> fields) {
+        SQLCommandBuilder sqlBuilder = null;
+
+        switch (action) {
+            case "INSERT":
+                sqlBuilder = new SQLInsertBuilder(tableName, fields);
+                break;
+            case "UPDATE":
+                // TODO: prever quando action for Update
+                break;
+            case "DELETE":
+                // TODO: prever quando action for Update
+                break;
+            default:
+                throw new RuntimeException("Unsupported action: " + action);
+        }
+
+        return sqlBuilder;
     }
 }
