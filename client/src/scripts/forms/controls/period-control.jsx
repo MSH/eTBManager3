@@ -2,11 +2,12 @@
 import React from 'react';
 import FormUtils from '../form-utils';
 import { format } from '../../commons/utils';
+import MonthYearPicker from '../../components/month-year-picker';
 import moment from 'moment';
 
 
 /**
- * Control to support date types
+ * Form control to support the selection of a period of initial and final month/year
  */
 export default class PeriodControl extends React.Component {
 
@@ -14,10 +15,19 @@ export default class PeriodControl extends React.Component {
         return 'period';
     }
 
+    constructor(props) {
+        super(props);
+        this._change = this._change.bind(this);
+    }
+
     displayText(period) {
         const ini = moment(period.ini).format('L');
         const end = moment(period.end).format('L');
         return format(__('period.display'), ini, end);
+    }
+
+    _change(value) {
+        this.props.onChange({ schema: this.props.schema, value: value });
     }
 
     render() {
@@ -27,11 +37,16 @@ export default class PeriodControl extends React.Component {
             return FormUtils.readOnlyRender(this.displayText(this.props.value), sc.label);
         }
 
-        if (__DEV__) {
-            throw new Error('PeriodControl: Not implemented for editing');
-        }
+        const label = FormUtils.labelRender(sc.label, sc.required);
 
-        return null;
+        return (
+            <MonthYearPicker
+                label={label}
+                value={this.props.value}
+                onChange={this._change}
+                errors={this.props.errors}
+                period />
+            );
     }
 }
 

@@ -105,55 +105,17 @@ export default class CasePrevTbTreats extends React.Component {
         super(props);
         this.cellRender = this.cellRender.bind(this);
 
-        const monthOptions = [
-            { id: 1, name: __('January') },
-            { id: 2, name: __('February') },
-            { id: 3, name: __('March') },
-            { id: 4, name: __('April') },
-            { id: 5, name: __('May') },
-            { id: 6, name: __('June') },
-            { id: 7, name: __('July') },
-            { id: 8, name: __('August') },
-            { id: 9, name: __('September') },
-            { id: 10, name: __('October') },
-            { id: 11, name: __('November') },
-            { id: 12, name: __('December') }
-        ];
-
         this._editorSchema = {
             defaultProperties: {
                 tbcaseId: props.tbcase.id
             },
             controls: [
                 {
-                    type: 'select',
-                    property: 'month',
-                    label: __('cases.prevtreat.inimonth'),
-                    options: monthOptions,
-                    size: { sm: 6 },
+                    type: 'period',
+                    property: 'period',
+                    label: __('cases.treat'),
+                    size: { sm: 12 },
                     required: true
-                },
-                {
-                    type: 'select',
-                    label: __('cases.prevtreat.iniyear'),
-                    property: 'year',
-                    options: { from: 1990, to: 2016 },
-                    size: { sm: 6 },
-                    required: true
-                },
-                {
-                    type: 'select',
-                    property: 'outcomeMonth',
-                    label: __('cases.prevtreat.endmonth'),
-                    options: monthOptions,
-                    size: { sm: 6 }
-                },
-                {
-                    type: 'select',
-                    label: __('cases.prevtreat.endyear'),
-                    property: 'outcomeYear',
-                    options: { from: 1990, to: 2016 },
-                    size: { sm: 6 }
                 },
                 {
                     type: 'select',
@@ -169,87 +131,87 @@ export default class CasePrevTbTreats extends React.Component {
                     size: { sm: 12 }
                 },
                 {
-                    property: 'am',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.am'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cfz',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.cfz'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cm',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.cm'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cs',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.cs'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'e',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.e'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'eto',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.eto'),
-                    size: { sm: 3 },
+                    property: 'r',
+                    type: 'bool',
+                    label: __('cases.prevtreat.r'),
+                    size: { sm: 2 },
                     defaultValue: false
                 },
                 {
                     property: 'h',
-                    type: 'yesNo',
+                    type: 'bool',
                     label: __('cases.prevtreat.h'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'lfx',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.lfx'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'ofx',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.ofx'),
-                    size: { sm: 3 },
-                    defaultValue: false
-                },
-                {
-                    property: 'r',
-                    type: 'yesNo',
-                    label: __('cases.prevtreat.r'),
-                    size: { sm: 3 },
+                    size: { sm: 2 },
                     defaultValue: false
                 },
                 {
                     property: 's',
-                    type: 'yesNo',
+                    type: 'bool',
                     label: __('cases.prevtreat.s'),
-                    size: { sm: 3 },
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'e',
+                    type: 'bool',
+                    label: __('cases.prevtreat.e'),
+                    size: { sm: 2 },
                     defaultValue: false
                 },
                 {
                     property: 'z',
-                    type: 'yesNo',
+                    type: 'bool',
                     label: __('cases.prevtreat.z'),
-                    size: { sm: 3 },
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'am',
+                    type: 'bool',
+                    label: __('cases.prevtreat.am'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'cfz',
+                    type: 'bool',
+                    label: __('cases.prevtreat.cfz'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'cm',
+                    type: 'bool',
+                    label: __('cases.prevtreat.cm'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'cs',
+                    type: 'bool',
+                    label: __('cases.prevtreat.cs'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'eto',
+                    type: 'bool',
+                    label: __('cases.prevtreat.eto'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'lfx',
+                    type: 'bool',
+                    label: __('cases.prevtreat.lfx'),
+                    size: { sm: 2 },
+                    defaultValue: false
+                },
+                {
+                    property: 'ofx',
+                    type: 'bool',
+                    label: __('cases.prevtreat.ofx'),
+                    size: { sm: 2 },
                     defaultValue: false
                 }
             ],

@@ -155,11 +155,7 @@ export default class Indicator {
             }
         }
 
-        // calc number of columns
-        console.log(res);
-        const size = res[levels - 1].length;
-
-        return { result: res, size: size };
+        return res;
     }
 
     /**

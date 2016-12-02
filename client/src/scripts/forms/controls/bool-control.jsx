@@ -36,7 +36,7 @@ export default class BoolControl extends React.Component {
         return (
             <FormGroup validationState={errors ? 'error' : null}>
                 <Checkbox ref="chk"
-                    value={value}
+                    checked={value}
                     onChange={this.onChange}>
                     {
                         sc.label

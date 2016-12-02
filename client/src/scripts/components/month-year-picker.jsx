@@ -97,7 +97,6 @@ export default class MonthYearPicker extends React.Component {
                     pyear: 'year'
                 })}
                 {period && this.monthYearCtrl({
-                    label: __('period.from') + ':',
                     pmonth: 'iniMonth',
                     pyear: 'iniYear'
                 })}

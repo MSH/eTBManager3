@@ -21,27 +21,30 @@ export default class TableView extends React.Component {
         const colTitles = ind.tableColumns();
         const rowTitles = ind.tableRows();
 
+        // calc the number of columns
+        const colsCount = colTitles[colTitles.length - 1].length;
+
         return (
             <div className="table-responsive">
                 <table className="table-indicator">
                 <tbody>
                     <tr>
-                        <th rowSpan={colTitles.result.length + 1}>
+                        <th rowSpan={colTitles.length + 1}>
                         {
                             data.rows.variables.map(v => <div key={v.id}>{v.name}</div>)
                         }
                         </th>
-                        <th colSpan={colTitles.size}>
+                        <th colSpan={colsCount}>
                         {
                             data.columns.variables.map(v => v.name).join(', ')
                         }
                         </th>
-                        <th rowSpan={colTitles.result.length + 1}>
+                        <th rowSpan={colTitles.length + 1}>
                         {__('global.total')}
                         </th>
                     </tr>
                     {
-                        colTitles.result.map((colrow, index) => (
+                        colTitles.map((colrow, index) => (
                         <tr key={index}>
                         {
                             colrow.map(c => (
