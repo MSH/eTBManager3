@@ -227,7 +227,10 @@ export default class CasePrevTbTreats extends React.Component {
         return (
             <span>
                 <div>
-                    <b>{title + ' - ' + getOptionName('prevTbTreatOutcome', item.outcome)}</b>
+                    <div className="label label-default">
+                    {getOptionName('prevTbTreatOutcome', item.outcome)}
+                    </div>
+                    <div className="text-muted">{title}</div>
                 </div>
                 <hr/>
                 <Form readOnly schema={readOnlySchema} doc={item} />

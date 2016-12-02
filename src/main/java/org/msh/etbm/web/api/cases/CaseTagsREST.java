@@ -38,6 +38,7 @@ public class CaseTagsREST {
     }
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES })
     public QueryResult getTagCases(@Valid @RequestBody TagCasesQueryParams query) {
         return tagCasesQueryService.getTagCases(query);
     }
