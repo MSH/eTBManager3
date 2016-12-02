@@ -52,6 +52,8 @@ export default class SelectControl extends React.Component {
         if (comp) {
             comp.getDOMNode().focus();
         }
+
+        return !!comp;
     }
 
     /**

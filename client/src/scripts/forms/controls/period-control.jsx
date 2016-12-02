@@ -30,6 +30,11 @@ export default class PeriodControl extends React.Component {
         this.props.onChange({ schema: this.props.schema, value: value });
     }
 
+    focus() {
+        this.refs.picker.focus();
+        return true;
+    }
+
     render() {
         const sc = this.props.schema;
 
@@ -41,6 +46,7 @@ export default class PeriodControl extends React.Component {
 
         return (
             <MonthYearPicker
+                ref="picker"
                 label={label}
                 value={this.props.value}
                 onChange={this._change}
