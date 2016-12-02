@@ -9,16 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sync.SynchronizationException;
 import org.msh.etbm.commons.sync.server.CompactibleJsonConverter;
-import org.msh.etbm.db.entities.SystemConfig;
-import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.db.enums.CaseValidationOption;
 import org.msh.etbm.db.enums.DisplayCaseNumber;
 import org.msh.etbm.db.enums.NameComposition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.*;
 import java.util.Map;
 import java.util.UUID;
@@ -30,10 +26,9 @@ import java.util.zip.GZIPInputStream;
 @Service
 public class SyncFileImporter {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    @Autowired
+    ImporterDBService db;
 
-    @Transactional
     public void importFile(File file, boolean compressed) {
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -99,44 +94,51 @@ public class SyncFileImporter {
     }
 
     private void importWorkspace(JsonParser parser) throws IOException {
-        // TODO: salvar como sql nativo, se usar hibernate dá erro
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> wmap = mapper.treeToValue(node, Map.class);
 
-        Workspace w = new Workspace();
+        // convert id
+        wmap.put("id", CompactibleJsonConverter.convertFromJson(wmap.get("id")));
 
-        w.setId((UUID) CompactibleJsonConverter.convertFromJson(wmap.get("id")));
-        w.setName((String) wmap.get("name"));
-        w.setPatientNameComposition(stringToEnum(NameComposition.class, wmap.get("patientNameComposition")));
-        w.setCaseValidationTB(stringToEnum(CaseValidationOption.class, wmap.get("caseValidationTB")));
-        w.setCaseValidationDRTB(stringToEnum(CaseValidationOption.class, wmap.get("caseValidationDRTB")));
-        w.setCaseValidationNTM(stringToEnum(CaseValidationOption.class, wmap.get("caseValidationNTM")));
-        w.setSuspectCaseNumber(stringToEnum(DisplayCaseNumber.class, wmap.get("suspectCaseNumber")));
-        w.setConfirmedCaseNumber(stringToEnum(DisplayCaseNumber.class, wmap.get("confirmedCaseNumber")));
-        w.setMonthsToAlertExpiredMedicines((Integer) wmap.get("monthsToAlertExpiredMedicines"));
-        w.setMinStockOnHand((Integer) wmap.get("minStockOnHand"));
-        w.setMaxStockOnHand((Integer) wmap.get("maxStockOnHand"));
+        // convert enums
+        wmap.put("patientNameComposition", stringToEnumOrdinal(NameComposition.class, wmap.get("patientNameComposition")));
+        wmap.put("caseValidationTB", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationTB")));
+        wmap.put("caseValidationDRTB", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationDRTB")));
+        wmap.put("caseValidationNTM", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationNTM")));
+        wmap.put("suspectCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("suspectCaseNumber")));
+        wmap.put("confirmedCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("confirmedCaseNumber")));
 
-        entityManager.persist(w);
+        // set client mode config
+        // TODO: o file generator nao inclui esse campo e este é um campo not null
+        wmap.put("sendSystemMessages", false);
+
+        // convert UUID to byte
+        // TODO: a workspace poderia vir convertida assim como vem os outros registros, evitaria de ter que fazer essa conversão e as acima.
+        wmap.put("id", ObjectUtils.uuidAsBytes((UUID) wmap.get("id")));
+
+        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("workspace", wmap);
+
+        db.persist("INSERT", cmdBuilder, wmap, false);
     }
 
     private void importConfig(JsonParser parser) throws IOException {
-        // TODO: salvar como sql nativo, se usar hibernate dá erro
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> cmap = mapper.treeToValue(node, Map.class);
 
-        SystemConfig config = new SystemConfig();
+        // set client mode config
+        cmap.put("id", 1);
+        cmap.put("allowRegPage", false);
+        cmap.put("clientMode", true);
+        // TODO: set version
+        // TODO: alguns parametros nao estao sendo enviados, como id da workspace, verificar
 
-        config.setServerURL((String) cmap.get("serverURL"));
-        config.setAdminMail((String) cmap.get("adminMail"));
-        config.setUpdateSite((String) cmap.get("updateSite"));
-        config.setUlaActive((boolean) cmap.get("ulaActive"));
+        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap);
 
-        entityManager.persist(config);
+        db.persist("INSERT", cmdBuilder, cmap, false);
     }
 
     private void importTables(JsonParser parser) throws IOException {
@@ -173,16 +175,18 @@ public class SyncFileImporter {
             // enter into the table object third parameter value (records)
             parser.nextToken();
 
+            SQLCommandBuilder cmdBuilder = null;
             // read records
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                // TODO: Usar JDBCTemplate
-                // TODO: cada insert = 1 commit
-                // TODO: se action é update, update direto, se for insert, select pra verificar se existe e então decide por insert ou update.
-                // TODO: tomar como exemplo AutoGenTagsCasesService
-                // TODO: criar uma classe para tratar insert/update/delete
+                if (cmdBuilder == null) {
+                    cmdBuilder = new SQLCommandBuilder(tableName, record);
+                }
+
+                // TODO: esta dando erro de foreign key para countrystructure, quando inserindo adminunit verificar ordem de inserção no arquivo
+                db.persist(action, cmdBuilder, record, true);
             }
 
             // enter into the table object fourth parameter name (deleted)
@@ -202,11 +206,11 @@ public class SyncFileImporter {
         }
     }
 
-    public static <E extends Enum> E stringToEnum(Class<E> enumClass, Object val) {
+    public static int stringToEnumOrdinal(Class enumClass, Object val) {
         if (!(val instanceof String)) {
             throw new RuntimeException("Value must be a String");
         }
 
-        return ObjectUtils.stringToEnum((String)val, enumClass);
+        return ObjectUtils.stringToEnum((String)val, enumClass).ordinal();
     }
 }
