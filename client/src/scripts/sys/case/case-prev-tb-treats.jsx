@@ -4,9 +4,9 @@ import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import Form from '../../forms/form';
 import moment from 'moment';
-import { app } from '../../core/app';
 import { isEmpty } from '../../commons/utils';
 import { getOptionName, getOptionList } from '../mock-option-lists';
+
 
 const crud = new CRUD('prevtreat');
 
@@ -120,7 +120,7 @@ export default class CasePrevTbTreats extends React.Component {
             { id: 12, name: __('December') }
         ];
 
-        const editorSchema = {
+        this._editorSchema = {
             defaultProperties: {
                 tbcaseId: props.tbcase.id
             },
@@ -255,8 +255,6 @@ export default class CasePrevTbTreats extends React.Component {
             ],
             title: doc => doc && doc.id ? __('cases.prevtreat.edt') : __('cases.prevtreat.new')
         };
-
-        this.state = { editorSchema: editorSchema };
     }
 
     cellRender(item) {
@@ -284,7 +282,7 @@ export default class CasePrevTbTreats extends React.Component {
                 <CrudView combine modal
                     cellSize={{ md: 12 }}
                     title={__('cases.prevtreat')}
-                    editorSchema={this.state.editorSchema}
+                    editorSchema={this._editorSchema}
                     crud={crud}
                     onCellRender={this.cellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}

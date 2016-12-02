@@ -107,15 +107,13 @@ public class SQLQueryBuilder implements QueryDefs {
     public String generate() {
         aliasCounter = 0;
 
-        String s = generateSelect().toString() +
+        return generateSelect().toString() +
                 generateFrom() +
                 generateJoins() +
                 generateWhere() +
                 generateOrderBy() +
                 generateGroupBy() +
                 limitResultSet();
-
-        return s;
     }
 
     /**
@@ -137,7 +135,7 @@ public class SQLQueryBuilder implements QueryDefs {
      * Generate the SELECT clause of the SQL statement
      * @return instance of the StringBuilder class containing the select clause
      */
-    protected StringBuilder generateSelect() {
+    private StringBuilder generateSelect() {
         StringBuilder s = new StringBuilder();
 
         if (fields.isEmpty()) {
@@ -186,10 +184,10 @@ public class SQLQueryBuilder implements QueryDefs {
 
     /**
      * Check if field is an expression (constant, subquery, etc) or is a literal
-     * @param fname
-     * @return
+     * @param fname The field name
+     * @return true if field is an expression
      */
-    protected boolean isFieldExpression(String fname) {
+    private boolean isFieldExpression(String fname) {
         char[] vals = {'"', '\'', ' ', '(' };
 
         for (char c: vals) {
@@ -376,18 +374,20 @@ public class SQLQueryBuilder implements QueryDefs {
         return this;
     }
 
+    @Override
     public QueryDefs join(String tableName, String on) {
         return queryDefs.join(tableName, on);
     }
 
-    public SQLQueryBuilder leftJoin(String tableName, String on) {
+    @Override
+    public QueryDefs leftJoin(String tableName, String on) {
         queryDefs.leftJoin(tableName, on);
         return this;
     }
 
-    public SQLQueryBuilder join(String joinName) {
-        queryDefs.join(joinName);
-        return this;
+    @Override
+    public QueryDefs join(String joinName) {
+        return queryDefs.join(joinName);
     }
 
     public SQLQueryBuilder select(String fields) {

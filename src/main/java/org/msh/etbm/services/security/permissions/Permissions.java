@@ -14,6 +14,9 @@ import java.util.List;
 @Service
 public class Permissions {
 
+    /**
+     * Standard suffix for permissions that are changeable
+     */
     private static final String EDIT = "_EDT";
 
     /**
