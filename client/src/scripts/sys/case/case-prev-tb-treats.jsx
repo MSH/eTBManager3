@@ -220,9 +220,9 @@ export default class CasePrevTbTreats extends React.Component {
     }
 
     cellRender(item) {
-        let title = moment([2000, item.month - 1, 1]).format('MMMM') + '/' + item.year;
-        const outcomeMonth = !isEmpty(item.outcomeMonth) ? moment([2000, item.outcomeMonth - 1, 1]).format('MMMM') + '/' : '';
-        title = title + (item.outcomeYear ? ' ' + __('global.until') + ' ' + outcomeMonth + item.outcomeYear : '');
+        const title = moment().month(item.month - 1).format('MMM') + '-' + item.year +
+            (item.month ? ' ' + __('global.until') + ' ' +
+                moment().month(item.outcomeMonth).format('MMM') + '-' + item.outcomeYear : '');
 
         return (
             <span>
