@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.prevtreats;
 
+import org.msh.etbm.commons.date.PeriodData;
 import org.msh.etbm.services.cases.CaseEntityFormData;
 
 import java.util.Optional;
@@ -8,10 +9,7 @@ import java.util.Optional;
  * Created by Mauricio on 18/08/2016.
  */
 public class CasePrevTreatFormData extends CaseEntityFormData {
-    private Optional<Integer> month;
-    private Optional<Integer> year;
-    private Optional<Integer> outcomeMonth;
-    private Optional<Integer> outcomeYear;
+    private PeriodData period = new PeriodData();
     private Optional<String> outcome;
 
     private Optional<Boolean> am;
@@ -27,36 +25,12 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
     private Optional<Boolean> s;
     private Optional<Boolean> z;
 
-    public Optional<Integer> getMonth() {
-        return month;
+    public PeriodData getPeriod() {
+        return period;
     }
 
-    public void setMonth(Optional<Integer> month) {
-        this.month = month;
-    }
-
-    public Optional<Integer> getYear() {
-        return year;
-    }
-
-    public void setYear(Optional<Integer> year) {
-        this.year = year;
-    }
-
-    public Optional<Integer> getOutcomeMonth() {
-        return outcomeMonth;
-    }
-
-    public void setOutcomeMonth(Optional<Integer> outcomeMonth) {
-        this.outcomeMonth = outcomeMonth;
-    }
-
-    public Optional<Integer> getOutcomeYear() {
-        return outcomeYear;
-    }
-
-    public void setOutcomeYear(Optional<Integer> outcomeYear) {
-        this.outcomeYear = outcomeYear;
+    public void setPeriod(PeriodData period) {
+        this.period = period;
     }
 
     public Optional<String> getOutcome() {

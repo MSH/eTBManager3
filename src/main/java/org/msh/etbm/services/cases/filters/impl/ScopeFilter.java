@@ -51,9 +51,9 @@ public class ScopeFilter extends AbstractFilter {
         AdminUnitData admunit = srv.findOne(value.getValue(), AdminUnitData.class);
         int level = admunit.getLevel();
 
-        def.join(value.getAdminUnitTable()).restrict("($this.id = ? or " +
-                "$this.pid" + level + " = ?)",
-                value.getValue(), value.getValue());
+        def.join(value.getAdminUnitTable())
+                .restrict("($this.id = ? or $this.pid" + level + " = ?)",
+                    value.getValue(), value.getValue());
     }
 
     @Override

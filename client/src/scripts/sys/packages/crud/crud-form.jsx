@@ -35,7 +35,7 @@ class CrudForm extends React.Component {
             const controller = this.props.controller;
             delete doc.id;
             controller.frm.doc = doc;
-            this.props.controller.saveAndClose();
+            return this.props.controller.saveAndClose();
         };
     }
 
