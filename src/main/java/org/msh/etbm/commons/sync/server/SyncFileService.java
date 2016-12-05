@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
@@ -199,7 +200,7 @@ public class SyncFileService {
             // write the records to include in the file (records are in an array)
             generator.writeFieldName("records");
             generator.writeStartArray();
-            trav.eachRecord((rec, index) -> generateJsonObject(generator, rec));
+            trav.eachRecord((rec, index) -> generateJsonObject(generator, rec, item.getIgnoreList()));
             generator.writeEndArray();
 
             // write the deleted records (in an array of IDs)
@@ -223,8 +224,15 @@ public class SyncFileService {
      * Generate a Json object of a map
      * @param record the map containing field names and values
      */
-    protected void generateJsonObject(JsonGenerator generator, Map<String, Object> record) throws IOException {
+    protected void generateJsonObject(JsonGenerator generator, Map<String, Object> record, List<String> ignoreList) throws IOException {
         generator.writeStartObject();
+
+        // TODO: [MSANTOS] se desse pra remover os campos da query, ficaria melhor pois nao precisaria passar por esse for pra cada registro
+        if (ignoreList != null) {
+            for (String ignoreItem : ignoreList) {
+                record.remove(ignoreItem);
+            }
+        }
 
         for (Map.Entry<String, Object> entry: record.entrySet()) {
             Object val = CompactibleJsonConverter.convertToJson(entry.getValue());

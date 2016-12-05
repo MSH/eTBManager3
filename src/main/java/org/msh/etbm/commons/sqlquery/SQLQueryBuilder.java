@@ -391,6 +391,10 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
     public SQLQueryBuilder select(String fields) {
+        // TODO: [MSANTOS] Essa linha foi necessária para a segunda query de units. O metodo from acrescentava unit.* no
+        // inicio do select, fazendo com que a query retornasse todos os campos de units desnecessariamente.
+        this.fields.clear();
+
         queryDefs.select(fields);
         return this;
     }
