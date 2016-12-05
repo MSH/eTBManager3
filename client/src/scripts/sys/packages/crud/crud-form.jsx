@@ -6,6 +6,11 @@ import controlWrapper from './crud-control-wrapper';
 
 class CrudForm extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.save = this.save.bind(this);
+    }
+
     componentWillMount() {
         this.setState({ visible: this.props.controller.isFormOpen() });
     }
@@ -25,6 +30,14 @@ class CrudForm extends React.Component {
         this.setState({ visible: evt === 'open-form' });
     }
 
+    save(doc) {
+        return () => {
+            const controller = this.props.controller;
+            delete doc.id;
+            controller.frm.doc = doc;
+            return this.props.controller.saveAndClose();
+        };
+    }
 
     render() {
         if (!this.state.visible) {
@@ -34,11 +47,14 @@ class CrudForm extends React.Component {
         const controller = this.props.controller;
         const schema = controller.getFormSchema();
 
+        // include the ID in the form
+        const doc = Object.assign({}, controller.frm.doc, { id: controller.frm.id });
+
         const frm = (
             <FormDialog schema={schema}
                 modalShow
-                doc={controller.frm.doc}
-                onConfirm={controller.saveAndClose}
+                doc={doc}
+                onConfirm={this.save(doc)}
                 wrapType={this.props.wrapType}
                 onCancel={controller.closeForm}
                 className={this.props.className}

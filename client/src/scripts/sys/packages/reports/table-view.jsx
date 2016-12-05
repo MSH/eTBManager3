@@ -21,6 +21,9 @@ export default class TableView extends React.Component {
         const colTitles = ind.tableColumns();
         const rowTitles = ind.tableRows();
 
+        // calc the number of columns
+        const colsCount = colTitles[colTitles.length - 1].length;
+
         return (
             <div className="table-responsive">
                 <table className="table-indicator">
@@ -31,7 +34,7 @@ export default class TableView extends React.Component {
                             data.rows.variables.map(v => <div key={v.id}>{v.name}</div>)
                         }
                         </th>
-                        <th colSpan={colTitles[0].length}>
+                        <th colSpan={colsCount}>
                         {
                             data.columns.variables.map(v => v.name).join(', ')
                         }
@@ -45,7 +48,7 @@ export default class TableView extends React.Component {
                         <tr key={index}>
                         {
                             colrow.map(c => (
-                                <th key={c.id}>
+                                <th key={c.id} colSpan={c.span}>
                                 {
                                     c.title
                                 }

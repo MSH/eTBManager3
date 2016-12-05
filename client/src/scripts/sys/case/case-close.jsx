@@ -12,7 +12,8 @@ const fschema = {
             property: 'outcomeDate',
             required: true,
             type: 'date',
-            label: __('cases.details.date')
+            label: __('cases.details.date'),
+            size: { sm: 6 }
         },
         {
             property: 'outcome',
@@ -26,7 +27,9 @@ const fschema = {
                 { id: 'LOST_FOLLOWUP', name: 'Lost follow-up' },
                 { id: 'TREAT_INTERRUPTED', name: 'Treatment interrupted' },
                 { id: 'OTHER', name: 'Other' }
-            ]
+            ],
+            newLine: true,
+            size: { sm: 12 }
         },
         {
             type: 'group',

@@ -21,13 +21,10 @@ public class ModelManager {
     @Autowired
     ModelStoreService modelStoreService;
 
-    @Autowired
-    UserRequestService userRequestService;
-
     private Map<UUID, Map<String, CompiledModel>> models = new HashMap<>();
 
     public CompiledModel get(String modelId) {
-        return modelStoreService.get(modelId, userRequestService.getUserSession().getWorkspaceId());
+        return modelStoreService.get(modelId);
     }
 
 }

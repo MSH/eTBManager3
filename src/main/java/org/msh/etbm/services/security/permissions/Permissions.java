@@ -13,6 +13,12 @@ import java.util.List;
  */
 @Service
 public class Permissions {
+
+    /**
+     * Standard suffix for permissions that are changeable
+     */
+    private static final String EDIT = "_EDT";
+
     /**
      * Administration module permissions
      */
@@ -21,37 +27,37 @@ public class Permissions {
     public static final String ADMIN_TABLES = "TABLES";
 
     public static final String TABLE_USERS = "USERS";
-    public static final String TABLE_USERS_EDT = "USERS_EDT";
+    public static final String TABLE_USERS_EDT = TABLE_USERS + EDIT;
 
     public static final String TABLE_AGERANGES = "AGERANGES";
-    public static final String TABLE_AGERANGES_EDT = "AGERANGES_EDT";
+    public static final String TABLE_AGERANGES_EDT = TABLE_AGERANGES + EDIT;
 
     public static final String TABLE_ADMUNITS = "ADMINUNITS";
-    public static final String TABLE_ADMUNITS_EDT = "ADMINUNITS_EDT";
+    public static final String TABLE_ADMUNITS_EDT = TABLE_ADMUNITS + EDIT;
 
     public static final String TABLE_SOURCES = "SOURCES";
-    public static final String TABLE_SOURCES_EDT = "SOURCES_EDT";
+    public static final String TABLE_SOURCES_EDT = TABLE_SOURCES + EDIT;
 
     public static final String TABLE_UNITS = "UNITS";
-    public static final String TABLE_UNITS_EDT = "UNITS_EDT";
+    public static final String TABLE_UNITS_EDT = TABLE_UNITS + EDIT;
 
     public static final String TABLE_PRODUCTS = "PRODUCTS";
-    public static final String TABLE_PRODUCTS_EDT = "PRODUCTS_EDT";
+    public static final String TABLE_PRODUCTS_EDT = TABLE_PRODUCTS + EDIT;
 
     public static final String TABLE_REGIMENS = "REGIMENS";
-    public static final String TABLE_REGIMENS_EDT = "REGIMENS_EDT";
+    public static final String TABLE_REGIMENS_EDT = TABLE_REGIMENS + EDIT;
 
     public static final String TABLE_SUBSTANCES = "SUBSTANCES";
-    public static final String TABLE_SUBSTANCES_EDT = "SUBSTANCES_EDT";
+    public static final String TABLE_SUBSTANCES_EDT = TABLE_SUBSTANCES + EDIT;
 
     public static final String TABLE_TAGS = "TAGS";
-    public static final String TABLE_TAGS_EDT = "TAGS_EDT";
+    public static final String TABLE_TAGS_EDT = TABLE_TAGS + EDIT;
 
     public static final String TABLE_USERPROFILES = "PROFILES";
-    public static final String TABLE_USERPROFILES_EDT = "PROFILES_EDT";
+    public static final String TABLE_USERPROFILES_EDT = TABLE_USERPROFILES + EDIT;
 
     public static final String TABLE_WORKSPACES = "WORKSPACES";
-    public static final String TABLE_WORKSPACES_EDT = "WORKSPACES_EDT";
+    public static final String TABLE_WORKSPACES_EDT = TABLE_WORKSPACES + EDIT;
 
     public static final String ADMIN_REPORTS = "ADMREP";
     public static final String ADMIN_REP_USERSONLINE = "ONLINE";
@@ -103,6 +109,7 @@ public class Permissions {
     public static final String CASES_TREAT = "CASE_TREAT";
     public static final String CASES_INTAKEMED = "CASE_INTAKEMED";
     public static final String CASES_EXAM_XPERT = "EXAM_XPERT";
+    public static final String CASES_EXAM_XPERT_EDT = CASES_EXAM_XPERT + EDIT;
     public static final String CASES_ADDINFO = "CASE_ADDINFO";
     public static final String CASES_VALIDATE = "CASE_VALIDATE";
     public static final String CASES_DEL_VAL = "CASE_DEL_VAL";
@@ -113,14 +120,23 @@ public class Permissions {
     public static final String CASES_REM_COMMENTS = "REM_COMMENTS";
     public static final String CASES_TAG = "CASE_TAG";
     public static final String CASES_EXAM_CULTURE = "EXAM_CULTURE";
+    public static final String CASES_EXAM_CULTURE_EDT = CASES_EXAM_CULTURE + EDIT;
     public static final String CASES_EXAM_MICROSCOPY = "EXAM_MICROSCOPY";
+    public static final String CASES_EXAM_MICROSCOPY_EDT = CASES_EXAM_MICROSCOPY + EDIT;
     public static final String CASES_EXAM_DST = "EXAM_DST";
+    public static final String CASES_EXAM_DST_EDT = CASES_EXAM_DST + EDIT;
     public static final String CASES_EXAM_XRAY = "EXAM_XRAY";
+    public static final String CASES_EXAM_XRAY_EDT = CASES_EXAM_XRAY + EDIT;
     public static final String CASES_EXAM_HIV = "EXAM_HIV";
+    public static final String CASES_EXAM_HIV_EDT = CASES_EXAM_HIV + EDIT;
     public static final String CASES_COMORBIDITIES = "COMIRBIDITIES";
+    public static final String CASES_COMORBIDITIES_EDT = CASES_COMORBIDITIES + EDIT;
     public static final String CASES_CASE_CONTACT = "CASECONTACT";
+    public static final String CASES_CASE_CONTACT_EDT = CASES_CASE_CONTACT + EDIT;
     public static final String CASES_ADV_EFFECTS = "ADV_EFFECTS";
+    public static final String CASES_ADV_EFFECTS_EDT = CASES_ADV_EFFECTS + EDIT;
     public static final String CASES_MED_EXAM = "CASE_MED_EXAM";
+    public static final String CASES_MED_EXAM_EDT = CASES_MED_EXAM + EDIT;
     public static final String CASES_ISSUES = "ISSUES";
     public static final String CASES_NEW_ISSUE = "NEW_ISSUE";
     public static final String CASES_ANSWER_ISSUE = "ANSWER_ISSUE";

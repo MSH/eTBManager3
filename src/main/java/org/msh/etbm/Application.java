@@ -66,6 +66,7 @@ public class Application {
         lst.add("dozer/sysconfig.mapper.xml");
         lst.add("dozer/followup.mapper.xml");
         lst.add("dozer/case.mapper.xml");
+        lst.add("dozer/prevtbtreatment.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();

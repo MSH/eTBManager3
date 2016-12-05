@@ -6785,7 +6785,8 @@ button.close {
 .card .card-header h5 {
   margin-top: 4px;
 }
-.card .card-header h4 {
+.card .card-header h4,
+.card .card-header h5 {
   color: #808080;
 }
 .card .card-btn-close {

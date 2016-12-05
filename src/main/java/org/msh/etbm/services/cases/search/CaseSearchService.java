@@ -67,8 +67,8 @@ public class CaseSearchService {
 
     /**
      * Execute the case search
-     * @param req
-     * @return
+     * @param req the request containing search parameters
+     * @return the list of cases found
      */
     public CaseSearchResponse execute(CaseSearchRequest req) {
         CaseSearchResponse res = new CaseSearchResponse();

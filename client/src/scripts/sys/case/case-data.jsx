@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { Card, RemoteForm, Fa } from '../../components';
 import { app } from '../../core/app';
+import { hasPerm } from '../session';
 import Events from './events';
 
 import CasePrevTbTreats from './case-prev-tb-treats';
@@ -45,21 +46,32 @@ export default class CaseData extends React.Component {
                 </Row>
 
                 <Row>
+                {
+                    hasPerm('ADV_EFFECTS') &&
                     <Col sm={6}>
                         <CaseAdvReacts tbcase={this.props.tbcase} />
                     </Col>
+                }
+                {
+                    hasPerm('COMIRBIDITIES') &&
                     <Col sm={6}>
                         <CaseComorbidities tbcase={this.props.tbcase} />
                     </Col>
+                }
                 </Row>
 
                 <Row>
+                {
                     <Col sm={6}>
                         <CasePrevTbTreats tbcase={this.props.tbcase} />
                     </Col>
+                }
+                {
+                    hasPerm('CASECONTACT') &&
                     <Col sm={6}>
                         <CaseContacts tbcase={this.props.tbcase} />
                     </Col>
+                }
                 </Row>
             </div>
             );

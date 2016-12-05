@@ -55,7 +55,13 @@ export default class CrudView extends React.Component {
         return (
             <Row>
                 <Col sm={size}>
-                    {this.props.title} <CrudCounter controller={controller} counterOnly />
+                    <h5 className="pull-left">{this.props.title}</h5>
+                    {
+                        controller.getCount() > 0 &&
+                        <div className="pull-left">
+                            <CrudCounter controller={controller} counterOnly />
+                        </div>
+                    }
                 </Col>
                 {
                     btn && <Col sm={2}><div className="pull-right">{btn}</div></Col>

@@ -32,7 +32,7 @@ public class Regimen extends WorkspaceEntity {
 
     /**
      * Return number of days of treatment
-     * @return
+     * @return number of days
      */
     public int getDaysTreatment() {
         int res = 0;

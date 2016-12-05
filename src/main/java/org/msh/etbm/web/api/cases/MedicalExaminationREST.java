@@ -21,38 +21,39 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_MED_EXAM})
+@Authenticated(permissions = { Permissions.CASES_MED_EXAM })
 public class MedicalExaminationREST {
 
     @Autowired
     MedExamService service;
 
     @RequestMapping(value = "/medexam/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public MedExamData get(@PathVariable UUID id) {
         return service.findOne(id, MedExamData.class);
     }
 
     @RequestMapping(value = "/medexam", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_MED_EXAM_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody MedExamFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/medexam/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_MED_EXAM_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody MedExamFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/medexam/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_MED_EXAM_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/medexam/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }

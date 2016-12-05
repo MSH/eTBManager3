@@ -140,7 +140,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         Diffs diffs = createDiffs(prevVals, newVals);
 
         // is there anything to save?
-        if (diffs.getValues().size() == 0) {
+        if (diffs.getValues().isEmpty()) {
             return createResult(dao.getEntity());
         }
 

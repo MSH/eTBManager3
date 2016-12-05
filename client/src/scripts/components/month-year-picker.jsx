@@ -24,6 +24,12 @@ export default class MonthYearPicker extends React.Component {
         };
     }
 
+    focus() {
+        const refs = this.refs;
+        const ctrl = this.props.period ? refs.iniMonth : refs.month;
+        ctrl.getDOMNode().focus();
+    }
+
     /**
      * Create the month selector with the list of month names
      */
@@ -51,7 +57,7 @@ export default class MonthYearPicker extends React.Component {
         const compProps = Object.assign({}, props, { onChange: monthChange, value: selval });
 
         return (
-            <SelectionBox options={options}
+            <SelectionBox ref={props.ref} options={options}
                 optionDisplay="name"
                 noSelectionLabel="-"
                 {...compProps}
@@ -68,6 +74,7 @@ export default class MonthYearPicker extends React.Component {
                 <div className="pull-left" style={{ minWidth: '100px' }}>
                 {
                     this.monthSelector({
+                        ref: opts.pmonth,
                         placeHolder: __('datetime.month'),
                         value: val[opts.pmonth],
                         onChange: this.change(opts.pmonth)
@@ -97,7 +104,6 @@ export default class MonthYearPicker extends React.Component {
                     pyear: 'year'
                 })}
                 {period && this.monthYearCtrl({
-                    label: __('period.from') + ':',
                     pmonth: 'iniMonth',
                     pyear: 'iniYear'
                 })}

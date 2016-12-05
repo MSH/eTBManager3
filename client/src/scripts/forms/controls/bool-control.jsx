@@ -18,10 +18,10 @@ export default class BoolControl extends React.Component {
         this.onChange = this.onChange.bind(this);
     }
 
-    focus() {
-        this.refs.input.focus();
-        return true;
-    }
+    // focus() {
+    //     this.refs.chk.focus();
+    //     return true;
+    // }
 
     onChange(evt) {
         const value = evt.target.checked;
@@ -36,7 +36,7 @@ export default class BoolControl extends React.Component {
         return (
             <FormGroup validationState={errors ? 'error' : null}>
                 <Checkbox ref="chk"
-                    value={value}
+                    checked={value}
                     onChange={this.onChange}>
                     {
                         sc.label

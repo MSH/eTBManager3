@@ -47,6 +47,11 @@ public class FollowUpService {
         result.setCount(0L);
 
         for (FollowUpType type: FollowUpType.values()) {
+            // check if user has permission to read information
+            if (!userRequestService.isPermissionGranted(type.getPermission())) {
+                continue;
+            }
+
             List<Object> followups = entityManager.createQuery("from " + type.getEntityClassName() + " e where e.tbcase.id = :caseId")
                                         .setParameter("caseId", caseId)
                                         .getResultList();

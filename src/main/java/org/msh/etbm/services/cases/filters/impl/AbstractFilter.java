@@ -290,14 +290,14 @@ public abstract class AbstractFilter implements Filter, Variable {
     @Override
     public String createKey(Object values) {
         if (values == null) {
-            return getMessages().get(Messages.UNDEFINED);
+            return AbstractFilter.KEY_NULL;
         }
         return values.toString();
     }
 
     @Override
     public String getKeyDisplay(String key) {
-        return key;
+        return AbstractFilter.KEY_NULL.equals(key) ? getMessages().get(Messages.UNDEFINED) : null;
     }
 
 }

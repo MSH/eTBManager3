@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_CASE_CONTACT})
+@Authenticated(permissions = { Permissions.CASES_CASE_CONTACT })
 public class CaseContactsREST {
 
     @Autowired
@@ -38,18 +38,20 @@ public class CaseContactsREST {
     }
 
     @RequestMapping(value = "/contact/{id}", method = RequestMethod.GET)
-    @Authenticated()
+    @Authenticated(permissions = { Permissions.CASES_CASE_CONTACT_EDT })
     public CaseContactData get(@PathVariable UUID id) {
         return service.findOne(id, CaseContactData.class);
     }
 
     @RequestMapping(value = "/contact", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_CASE_CONTACT_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody CaseContactFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/contact/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_CASE_CONTACT_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody CaseContactFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
@@ -62,7 +64,6 @@ public class CaseContactsREST {
     }
 
     @RequestMapping(value = "/contact/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody CaseContactQueryParams query) {
         return service.findMany(query);
     }

@@ -21,38 +21,39 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_CULTURE})
+@Authenticated(permissions = { Permissions.CASES_EXAM_XRAY })
 public class ExamXRayREST {
 
     @Autowired
     ExamXRayService service;
 
     @RequestMapping(value = "/examxray/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public ExamXRayData get(@PathVariable UUID id) {
         return service.findOne(id, ExamXRayData.class);
     }
 
     @RequestMapping(value = "/examxray", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XRAY_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody ExamXRayFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examxray/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XRAY_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ExamXRayFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examxray/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XRAY_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/examxray/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }

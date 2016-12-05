@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
+
+        <field>
+            <a>period.iniMonth</a>
+            <b>month</b>
+        </field>
+
+        <field>
+            <a>period.iniYear</a>
+            <b>year</b>
+        </field>
+
+        <field>
+            <a>period.endMonth</a>
+            <b>outcomeMonth</b>
+        </field>
+
+        <field>
+            <a>period.endYear</a>
+            <b>outcomeYear</b>
+        </field>
+    </mapping>
+
+
+</mappings>
