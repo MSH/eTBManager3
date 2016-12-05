@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -16,7 +16,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * THis is a simple implementation of a component responsible for storing and restoring a model,
@@ -60,7 +59,7 @@ public class ModelStoreService {
 
         if (data == null) {
             Workspace ws = entityManager.find(Workspace.class, modelId);
-            String jsonData = JsonParser.objectToJSONString(model, false);
+            String jsonData = JsonUtils.objectToJSONString(model, false);
 
             data = new ModelData();
             data.setId(modelId);
