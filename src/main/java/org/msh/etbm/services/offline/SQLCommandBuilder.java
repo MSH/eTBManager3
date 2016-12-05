@@ -1,6 +1,7 @@
 package org.msh.etbm.services.offline;
 
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Mauricio on 02/12/2016.
@@ -11,18 +12,18 @@ public class SQLCommandBuilder {
     private String updateCmd;
     private String deleteCmd;
 
-    public SQLCommandBuilder(String tableName, Map<String, Object> record) {
-        createInsertCommand(tableName, record);
-        createUpdateCommand(tableName, record);
+    public SQLCommandBuilder(String tableName, Set<String> fields) {
+        createInsertCommand(tableName, fields);
+        createUpdateCommand(tableName, fields);
         createDeleteCommand(tableName);
     }
 
-    private void createInsertCommand(String tableName, Map<String, Object> record) {
+    private void createInsertCommand(String tableName, Set<String> fields) {
         String insert = "INSERT INTO $TABLENAME($FIELD) VALUES($VALUE)";
         insert = insert.replace("$TABLENAME", tableName);
 
-        for (Map.Entry<String, Object> entry : record.entrySet()) {
-            insert = insert.replace("$FIELD", entry.getKey() + ", $FIELD");
+        for (String field : fields) {
+            insert = insert.replace("$FIELD", field + ", $FIELD");
             insert = insert.replace("$VALUE", "?, $VALUE");
         }
 
@@ -32,12 +33,25 @@ public class SQLCommandBuilder {
         insertCmd = insert;
     }
 
-    private void createUpdateCommand(String tableName, Map<String, Object> record) {
-        // TODO: [MSANTOS] implement this
+    private void createUpdateCommand(String tableName, Set<String> fields) {
+        String update = "UPDATE $TABLENAME SET $FIELD = ? WHERE id = ?";
+        update = update.replace("$TABLENAME", tableName);
+
+        for (String field : fields) {
+            update = update.replace("$FIELD", field);
+            update = update.concat(", $FIELD = ?");
+        }
+
+        update = update.replace(", $FIELD = ?", "");
+
+        updateCmd = update;
     }
 
     private void createDeleteCommand(String tableName) {
-        // TODO: [MSANTOS] implement this
+        String delete = "DELETE FROM $TABLENAME WHERE id = ?";
+        delete = delete.replace("$TABLENAME", tableName);
+
+        deleteCmd = delete;
     }
 
     public String getInsertCmd() {

@@ -8,16 +8,11 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sync.SynchronizationException;
-import org.msh.etbm.commons.sync.server.CompactibleJsonConverter;
-import org.msh.etbm.db.enums.CaseValidationOption;
-import org.msh.etbm.db.enums.DisplayCaseNumber;
-import org.msh.etbm.db.enums.NameComposition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Map;
-import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -27,7 +22,7 @@ import java.util.zip.GZIPInputStream;
 public class SyncFileImporter {
 
     @Autowired
-    ImporterDBService db;
+    ImportRecordService db;
 
     public void importFile(File file, boolean compressed) {
         try {
@@ -67,15 +62,17 @@ public class SyncFileImporter {
             // move from field name to field value
             parser.nextToken();
 
+            Integer version = null;
+
             switch (fieldName) {
                 case "version":
-                    importVersion(parser);
+                    version = getVersion(parser);
                     break;
                 case "workspace":
                     importWorkspace(parser);
                     break;
                 case "config":
-                    importConfig(parser);
+                    importConfig(parser, version);
                     break;
                 case "tables":
                     importTables(parser);
@@ -86,11 +83,10 @@ public class SyncFileImporter {
         }
     }
 
-    private void importVersion(JsonParser parser) throws IOException {
+    private Integer getVersion(JsonParser parser) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
-        Integer version = node.asInt();
-        // TODO: [MSANTOS] fazer algo com essa info
+        return node.asInt();
     }
 
     private void importWorkspace(JsonParser parser) throws IOException {
@@ -99,46 +95,29 @@ public class SyncFileImporter {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> wmap = mapper.treeToValue(node, Map.class);
 
-        // convert id
-        wmap.put("id", CompactibleJsonConverter.convertFromJson(wmap.get("id")));
-
-        // convert enums
-        wmap.put("patientNameComposition", stringToEnumOrdinal(NameComposition.class, wmap.get("patientNameComposition")));
-        wmap.put("caseValidationTB", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationTB")));
-        wmap.put("caseValidationDRTB", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationDRTB")));
-        wmap.put("caseValidationNTM", stringToEnumOrdinal(CaseValidationOption.class, wmap.get("caseValidationNTM")));
-        wmap.put("suspectCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("suspectCaseNumber")));
-        wmap.put("confirmedCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("confirmedCaseNumber")));
-
         // By default this field is false on offline instance
         wmap.put("sendSystemMessages", false);
 
-        // convert UUID to byte
-        // TODO: [MSANTOS] a workspace poderia vir convertida assim como vem os outros registros, evitaria de ter que fazer essa conversão e as acima.
-        // Pode padronizar
-        wmap.put("id", ObjectUtils.uuidAsBytes((UUID) wmap.get("id")));
+        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("workspace", wmap.keySet());
 
-        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("workspace", wmap);
-
-        db.persist("INSERT", cmdBuilder, wmap, false);
+        db.persist(cmdBuilder, wmap);
     }
 
-    private void importConfig(JsonParser parser) throws IOException {
+    private void importConfig(JsonParser parser, Integer version) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> cmap = mapper.treeToValue(node, Map.class);
 
-        // set client mode config
+        // set fields for offline version
         cmap.put("id", 1);
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         // TODO: [MSANTOS] set version
-        // TODO: [MSANTOS] alguns parametros nao estao sendo enviados, como id da workspace, verificar
 
-        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap);
+        SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap.keySet());
 
-        db.persist("INSERT", cmdBuilder, cmap, false);
+        db.persist(cmdBuilder, cmap);
     }
 
     private void importTables(JsonParser parser) throws IOException {
@@ -182,11 +161,11 @@ public class SyncFileImporter {
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
                 if (cmdBuilder == null) {
-                    cmdBuilder = new SQLCommandBuilder(tableName, record);
+                    cmdBuilder = new SQLCommandBuilder(tableName, record.keySet());
                 }
 
                 // TODO: [MSANTOS] faltando country structure. Coloquei, verificar com ricardo.
-                db.persist(action, cmdBuilder, record, true);
+                db.persist(action, cmdBuilder, record);
             }
 
             // enter into the table object fourth parameter name (deleted)

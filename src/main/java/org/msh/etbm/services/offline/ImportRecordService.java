@@ -14,16 +14,15 @@ import java.util.Map;
  * Created by Mauricio on 02/12/2016.
  */
 @Component
-public class ImporterDBService {
-    // TODO: trocar para ImportRecordService
+public class ImportRecordService {
+
     @Autowired
     DataSource dataSource;
 
     @Autowired
     PlatformTransactionManager platformTransactionManager;
 
-    public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record, boolean convertParams) {
-        // TODO: [MSANTOS] se config e workspace forem convertidos como as tabelas, o atributo converParams não é mais necessário
+    public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
         String sql;
 
         TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
@@ -40,18 +39,17 @@ public class ImporterDBService {
                 throw new RuntimeException("Unsupported action: " + action);
         }
 
-        Object[] params;
-        if (convertParams) {
-            params = convertParams(record);
-        } else {
-            params = record.values().toArray();
-        }
+        Object[] params = convertParams(record);
 
         txManager.execute(status -> {
             template.update(sql, params);
             return 0;
         });
 
+    }
+
+    public void persist(SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
+        this.persist("INSERT", cmdBuilder, record);
     }
 
     public void delete(SQLCommandBuilder cmdBuilder, Object id) {
