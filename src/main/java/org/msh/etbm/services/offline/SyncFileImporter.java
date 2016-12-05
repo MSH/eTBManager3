@@ -62,17 +62,17 @@ public class SyncFileImporter {
             // move from field name to field value
             parser.nextToken();
 
-            Integer version = null;
+            Integer fileVersion = null;
 
             switch (fieldName) {
                 case "version":
-                    version = getVersion(parser);
+                    fileVersion = getVersion(parser);
                     break;
                 case "workspace":
                     importWorkspace(parser);
                     break;
                 case "config":
-                    importConfig(parser, version);
+                    importConfig(parser, fileVersion);
                     break;
                 case "tables":
                     importTables(parser);
@@ -103,7 +103,7 @@ public class SyncFileImporter {
         db.persist(cmdBuilder, wmap);
     }
 
-    private void importConfig(JsonParser parser, Integer version) throws IOException {
+    private void importConfig(JsonParser parser, Integer fileVersion) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
