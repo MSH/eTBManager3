@@ -3,6 +3,7 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.db.WorkspaceEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -13,20 +14,20 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "modeldata")
-public class ModelData extends WorkspaceEntity {
+public class ModelData {
 
-    @NotNull
-    private String modelId;
+    @Id
+    private String id;
 
     @Lob
     private String jsonData;
 
-    public String getModelId() {
-        return modelId;
+    public String getId() {
+        return id;
     }
 
-    public void setModelId(String modelId) {
-        this.modelId = modelId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getJsonData() {
@@ -35,11 +36,5 @@ public class ModelData extends WorkspaceEntity {
 
     public void setJsonData(String jsonData) {
         this.jsonData = jsonData;
-    }
-
-
-    @Override
-    public String getDisplayString() {
-        return modelId;
     }
 }

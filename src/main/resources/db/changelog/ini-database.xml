@@ -1755,14 +1755,8 @@
 
     <changeSet id="modeldata-1" author="rmemoria">
         <createTable tableName="modeldata">
-            <column name="id" type="${type.id}">
+            <column name="id" type="varchar(100)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="workspace_id" type="${type.id}">
-                <constraints nullable="false" />
-            </column>
-            <column name="modelId" type="varchar(100)">
-                <constraints nullable="false" />
             </column>
             <column name="jsondata" type="${type.text}">
                 <constraints nullable="false"/>
@@ -2797,12 +2791,6 @@
             <column name="type"/>
             <column name="title"/>
         </createIndex>
-    </changeSet>
-
-    <changeSet author="rmemoria" id="modeldata-3">
-        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="modeldata" constraintName="FKMODEL_WS"
-                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="CASCADE"
-                                 referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
 
 </databaseChangeLog>
