@@ -90,7 +90,7 @@ public class SyncFileImporter {
         JsonNode node = parser.readValueAsTree();
 
         Integer version = node.asInt();
-        // TODO: fazer algo com essa info
+        // TODO: [MSANTOS] fazer algo com essa info
     }
 
     private void importWorkspace(JsonParser parser) throws IOException {
@@ -110,12 +110,12 @@ public class SyncFileImporter {
         wmap.put("suspectCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("suspectCaseNumber")));
         wmap.put("confirmedCaseNumber", stringToEnumOrdinal(DisplayCaseNumber.class, wmap.get("confirmedCaseNumber")));
 
-        // set client mode config
-        // TODO: o file generator nao inclui esse campo e este é um campo not null
+        // By default this field is false on offline instance
         wmap.put("sendSystemMessages", false);
 
         // convert UUID to byte
-        // TODO: a workspace poderia vir convertida assim como vem os outros registros, evitaria de ter que fazer essa conversão e as acima.
+        // TODO: [MSANTOS] a workspace poderia vir convertida assim como vem os outros registros, evitaria de ter que fazer essa conversão e as acima.
+        // Pode padronizar
         wmap.put("id", ObjectUtils.uuidAsBytes((UUID) wmap.get("id")));
 
         SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("workspace", wmap);
@@ -133,8 +133,8 @@ public class SyncFileImporter {
         cmap.put("id", 1);
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
-        // TODO: set version
-        // TODO: alguns parametros nao estao sendo enviados, como id da workspace, verificar
+        // TODO: [MSANTOS] set version
+        // TODO: [MSANTOS] alguns parametros nao estao sendo enviados, como id da workspace, verificar
 
         SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap);
 
@@ -185,7 +185,7 @@ public class SyncFileImporter {
                     cmdBuilder = new SQLCommandBuilder(tableName, record);
                 }
 
-                // TODO: esta dando erro de foreign key para countrystructure, quando inserindo adminunit verificar ordem de inserção no arquivo
+                // TODO: [MSANTOS] faltando country structure. Coloquei, verificar com ricardo.
                 db.persist(action, cmdBuilder, record, true);
             }
 
@@ -199,7 +199,7 @@ public class SyncFileImporter {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                // TODO: executar no banco de dados
+                // TODO: [MSANTOS] executar no banco de dados
             }
 
             parser.nextToken();

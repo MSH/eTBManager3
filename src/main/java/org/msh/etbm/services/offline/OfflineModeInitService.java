@@ -55,13 +55,12 @@ public class OfflineModeInitService {
         // Download file
         File file = request.downloadFile(data.getParentServerUrl(),
                 "/api/sync/inifile/",
-                loginRes.getAuthToken().toString(),
-                "C:\\Users\\Mauricio\\Desktop"); //TODO: verificar o caminho correto
+                loginRes.getAuthToken().toString());
 
         // import file
         importer.importFile(file, true);
 
-        // TODO: update systemconfig setting version, serverURL, and client flag
+        // TODO: [MSANTOS] update systemconfig setting version, serverURL, and client flag
     }
 
     private TypeFactory getTypeFactory() {

@@ -33,11 +33,11 @@ public class SQLCommandBuilder {
     }
 
     private void createUpdateCommand(String tableName, Map<String, Object> record) {
-        // TODO: implement this
+        // TODO: [MSANTOS] implement this
     }
 
     private void createDeleteCommand(String tableName) {
-        // TODO: implement this
+        // TODO: [MSANTOS] implement this
     }
 
     public String getInsertCmd() {

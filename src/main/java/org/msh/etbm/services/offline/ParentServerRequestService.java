@@ -65,8 +65,7 @@ public class ParentServerRequestService {
         return (T) ret;
     }
 
-    public File downloadFile(String serverUrl, String serviceUrl, String authToken, String saveDir) {
-        String saveFilePath = null;
+    public File downloadFile(String serverUrl, String serviceUrl, String authToken) {
         URL url = getURL(serverUrl, serviceUrl);
         HttpURLConnection httpConn = null;
 
@@ -79,29 +78,13 @@ public class ParentServerRequestService {
             }
             checkHttpCode(httpConn.getResponseCode());
 
-            // get file name if exists, or create a file name
-            String fileName = "";
-            String disposition = httpConn.getHeaderField("Content-Disposition");
-
-            if (disposition != null) {
-                // extracts file name from header field
-                int index = disposition.indexOf("filename=");
-                if (index > 0) {
-                    fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
-                }
-            } else {
-                fileName = DateUtils.getDate().toString();
-            }
-
             // opens input stream from the HTTP connection
             InputStream inputStream = httpConn.getInputStream();
 
-            // create file path
-            saveFilePath = saveDir + File.separator + fileName;
+            file = File.createTempFile("file", ".etbm");
 
             // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+            FileOutputStream outputStream = new FileOutputStream(file);
 
             // read downloaded file
             int bytesRead = -1;
@@ -112,9 +95,6 @@ public class ParentServerRequestService {
 
             outputStream.close();
             inputStream.close();
-
-            // create return file
-            file = new File(saveDir, fileName);
 
         } catch (Exception e) {
             throw new SynchronizationException("Error while creating download file from parent server.");

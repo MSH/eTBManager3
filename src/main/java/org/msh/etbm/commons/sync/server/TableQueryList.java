@@ -44,6 +44,12 @@ public class TableQueryList {
      * Prepare the queries to return the records to generate the sync file
      */
     protected void initQueries() {
+
+        queryFrom("countrystructure")
+                .restrict("version > ?", initialVersion)
+                .restrict("version < ?", finalVersion)
+                .restrict("workspace_id = ?", wsId);
+
         queryFrom("administrativeunit")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
@@ -122,6 +128,16 @@ public class TableQueryList {
                 .restrict("userprofile.version > ?", initialVersion);
 
         queryFrom("userworkspace")
+                .restrict("version > ?", initialVersion)
+                .restrict("version < ?", finalVersion)
+                .restrict("unit_id = ?", unitId);
+
+        queryFrom("report")
+                .restrict("version > ?", initialVersion)
+                .restrict("version < ?", finalVersion)
+                .restrict("unit_id = ?", unitId);
+
+        queryFrom("resistancepattern")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
                 .restrict("unit_id = ?", unitId);
@@ -211,6 +227,31 @@ public class TableQueryList {
                 .restrict("tbcase.owner_unit_id = ?", unitId);
 
         queryFrom("casecomorbidities")
+                .join("tbcase", "tbcase.id = $root.case_id")
+                .restrict("$root.version > ?", initialVersion)
+                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.owner_unit_id = ?", unitId);
+
+        queryFrom("casecomment")
+                .join("tbcase", "tbcase.id = $root.case_id")
+                .restrict("$root.version > ?", initialVersion)
+                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.owner_unit_id = ?", unitId);
+
+        queryFrom("issue")
+                .join("tbcase", "tbcase.id = $root.case_id")
+                .restrict("$root.version > ?", initialVersion)
+                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.owner_unit_id = ?", unitId);
+
+        queryFrom("issuefollowup")
+                .join("issue", "issue.id = $root.issue_id")
+                .join("tbcase", "tbcase.id = issue.case_id")
+                .restrict("$root.version > ?", initialVersion)
+                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.owner_unit_id = ?", unitId);
+
+        queryFrom("treatmentmonitoring")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)

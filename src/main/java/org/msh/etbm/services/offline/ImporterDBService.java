@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Component
 public class ImporterDBService {
-
+    // TODO: trocar para ImportRecordService
     @Autowired
     DataSource dataSource;
 
@@ -23,7 +23,7 @@ public class ImporterDBService {
     PlatformTransactionManager platformTransactionManager;
 
     public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record, boolean convertParams) {
-        // TODO: se config e workspace forem convertidos como as tabelas, o atributo converParams não é mais necessário
+        // TODO: [MSANTOS] se config e workspace forem convertidos como as tabelas, o atributo converParams não é mais necessário
         String sql;
 
         TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
@@ -55,11 +55,11 @@ public class ImporterDBService {
     }
 
     public void delete(SQLCommandBuilder cmdBuilder, Object id) {
-        // TODO: implement this
+        // TODO: [MSANTOS] implement this
     }
 
     private boolean recordExists() {
-        // TODO: implement this
+        // TODO: [MSANTOS] implement this
         return false;
     }
 
