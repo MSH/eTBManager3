@@ -295,7 +295,10 @@ public class TableQueryList {
         qry.setDisableFieldAlias(true);
         qry.select(table + ".*");
 
-        TableQueryItem info = new TableQueryItem(qry, TableQueryItem.SyncAction.INSERT);
+        // TODO: [MSANTOS] verificar com ricardo se essa mudança está ok
+        //TableQueryItem info = new TableQueryItem(qry, TableQueryItem.SyncAction.UPDATE);
+        TableQueryItem info = new TableQueryItem(qry, action);
+
         queries.add(info);
 
         return info;
