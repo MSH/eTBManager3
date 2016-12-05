@@ -135,12 +135,7 @@ public class TableQueryList {
         queryFrom("report")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
-                .restrict("unit_id = ?", unitId);
-
-        queryFrom("resistancepattern")
-                .restrict("version > ?", initialVersion)
-                .restrict("version < ?", finalVersion)
-                .restrict("unit_id = ?", unitId);
+                .restrict("workspace_id = ?", wsId);
 
         // case module
         queryFrom("patient")

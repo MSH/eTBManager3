@@ -127,22 +127,18 @@ public class SyncFileService {
         generator.writeStartObject();
 
         generator.writeObjectField("id", jsonValue(ws.getId()));
-        generator.writeObjectField("name", ws.getName());
-        generator.writeObjectField("patientNameComposition", enumToString(ws.getPatientNameComposition()));
-        generator.writeObjectField("caseValidationTB", enumToString(ws.getCaseValidationTB()));
-        generator.writeObjectField("caseValidationDRTB", enumToString(ws.getCaseValidationDRTB()));
-        generator.writeObjectField("caseValidationNTM", enumToString(ws.getCaseValidationNTM()));
-        generator.writeObjectField("suspectCaseNumber", enumToString(ws.getSuspectCaseNumber()));
-        generator.writeObjectField("confirmedCaseNumber", enumToString(ws.getConfirmedCaseNumber()));
-        generator.writeObjectField("monthsToAlertExpiredMedicines", ws.getMonthsToAlertExpiredMedicines());
-        generator.writeObjectField("minStockOnHand", ws.getMinStockOnHand());
-        generator.writeObjectField("maxStockOnHand", ws.getMaxStockOnHand());
+        generator.writeObjectField("name", jsonValue(ws.getName()));
+        generator.writeObjectField("patientNameComposition", jsonValue(ws.getPatientNameComposition()));
+        generator.writeObjectField("caseValidationTB", jsonValue(ws.getCaseValidationTB()));
+        generator.writeObjectField("caseValidationDRTB", jsonValue(ws.getCaseValidationDRTB()));
+        generator.writeObjectField("caseValidationNTM", jsonValue(ws.getCaseValidationNTM()));
+        generator.writeObjectField("suspectCaseNumber", jsonValue(ws.getSuspectCaseNumber()));
+        generator.writeObjectField("confirmedCaseNumber", jsonValue(ws.getConfirmedCaseNumber()));
+        generator.writeObjectField("monthsToAlertExpiredMedicines", jsonValue(ws.getMonthsToAlertExpiredMedicines()));
+        generator.writeObjectField("minStockOnHand", jsonValue(ws.getMinStockOnHand()));
+        generator.writeObjectField("maxStockOnHand", jsonValue(ws.getMaxStockOnHand()));
 
         generator.writeEndObject();
-    }
-
-    protected String enumToString(Enum val) {
-        return val != null ? val.toString() : null;
     }
 
     /**
@@ -155,10 +151,10 @@ public class SyncFileService {
 
         generator.writeStartObject();
 
-        generator.writeObjectField("serverURL", cfg.getServerURL());
-        generator.writeObjectField("adminMail", cfg.getAdminMail());
-        generator.writeObjectField("updateSite", cfg.getUpdateSite());
-        generator.writeObjectField("ulaActive", cfg.isUlaActive());
+        generator.writeObjectField("serverURL", jsonValue(cfg.getServerURL()));
+        generator.writeObjectField("adminMail", jsonValue(cfg.getAdminMail()));
+        generator.writeObjectField("updateSite", jsonValue(cfg.getUpdateSite()));
+        generator.writeObjectField("ulaActive", jsonValue(cfg.isUlaActive()));
 
         generator.writeEndObject();
     }
