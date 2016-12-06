@@ -11,11 +11,13 @@ public class SQLCommandBuilder {
     private String insertCmd;
     private String updateCmd;
     private String deleteCmd;
+    private String selectCmd;
 
     public SQLCommandBuilder(String tableName, Set<String> fields) {
         createInsertCommand(tableName, fields);
         createUpdateCommand(tableName, fields);
         createDeleteCommand(tableName);
+        createSelectCommand(tableName);
     }
 
     private void createInsertCommand(String tableName, Set<String> fields) {
@@ -58,6 +60,13 @@ public class SQLCommandBuilder {
         deleteCmd = delete;
     }
 
+    private void createSelectCommand(String tableName) {
+        String select = "SELECT id FROM $TABLENAME WHERE id = ?";
+        select = select.replace("$TABLENAME", tableName);
+
+        selectCmd = select;
+    }
+
     public String getInsertCmd() {
         return insertCmd;
     }
@@ -69,4 +78,6 @@ public class SQLCommandBuilder {
     public String getDeleteCmd() {
         return deleteCmd;
     }
+
+    public String getSelectCmd() { return selectCmd; }
 }

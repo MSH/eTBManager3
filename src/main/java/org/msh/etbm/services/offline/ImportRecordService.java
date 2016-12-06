@@ -9,6 +9,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,37 +25,51 @@ public class ImportRecordService {
     PlatformTransactionManager platformTransactionManager;
 
     public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
-        String sql;
+
+        String sql = "";
+        Object[] params = null;
         boolean isUpdate = false;
 
-        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
-        JdbcTemplate template = new JdbcTemplate(dataSource);
-
-        switch (action) {
-            case "INSERT":
-                sql = recordExists() ? cmdBuilder.getUpdateCmd() : cmdBuilder.getInsertCmd();
-                break;
-            case "UPDATE":
-                sql = cmdBuilder.getUpdateCmd();
-                isUpdate = true;
-                break;
-            default:
-                throw new RuntimeException("Unsupported action: " + action);
-        }
-
-        Object[] params = getParams(record, isUpdate);
-
-        // TODO: [MSANTOS] remove this try catch after finishing developing this
+        // TODO: [MSANTOS] remove this try catch after finishing testing this
         try {
+
+            TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+            JdbcTemplate template = new JdbcTemplate(dataSource);
+
+            switch (action) {
+                case "INSERT":
+                    if (recordExists(cmdBuilder, getIdParam(record))) {
+                        sql = cmdBuilder.getUpdateCmd();
+                        isUpdate = true;
+                    } else {
+                        sql = cmdBuilder.getInsertCmd();
+                    }
+                    break;
+                case "UPDATE":
+                    sql = cmdBuilder.getUpdateCmd();
+                    isUpdate = true;
+                    break;
+                default:
+                    throw new RuntimeException("Unsupported action: " + action);
+            }
+
+            params = getParams(record, isUpdate);
+
+            final String finalSql = sql;
+            final Object[] finalParams = params;
+
             txManager.execute(status -> {
-                template.update(sql, params);
+                template.update(finalSql, finalParams);
                 return 0;
             });
+
         } catch (Exception e) {
             System.out.println("Error executing sql");
             System.out.println(sql);
-            for (Object o : params) {
-                System.out.println(CompactibleJsonConverter.convertToJson(o));
+            if (params != null) {
+                for (Object o : params) {
+                    System.out.println(CompactibleJsonConverter.convertToJson(o));
+                }
             }
             throw e;
         }
@@ -69,8 +84,20 @@ public class ImportRecordService {
         // TODO: [MSANTOS] implement this
     }
 
-    private boolean recordExists() {
-        // TODO: [MSANTOS] implement this
+    private boolean recordExists(SQLCommandBuilder cmdBuilder, Object id) {
+        if (id == null) {
+            return false;
+        }
+
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+        List result = txManager.execute(status -> template.queryForList(cmdBuilder.getSelectCmd(), id));
+
+        if (result != null && result.size() > 0) {
+            return true;
+        }
+
         return false;
     }
 
@@ -93,5 +120,14 @@ public class ImportRecordService {
         }
 
         return ret;
+    }
+
+    private Object getIdParam(Map<String, Object> record) {
+        Object id = record.get("id");
+        if (id == null) {
+            return null;
+        }
+
+        return CompactibleJsonConverter.convertFromJson(id);
     }
 }

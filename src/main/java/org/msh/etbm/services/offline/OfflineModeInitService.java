@@ -53,13 +53,16 @@ public class OfflineModeInitService {
                 LoginResponse.class);
 
         // Download file
-        File file = request.downloadFile(data.getParentServerUrl(),
+        /*File file = request.downloadFile(data.getParentServerUrl(),
                 "/api/sync/inifile/",
-                loginRes.getAuthToken().toString());
+                loginRes.getAuthToken().toString());*/
+
+        File file = new File("C:\\Users\\Mauricio\\Desktop\\MSH_Demo.etbm");
 
         // import file
         importer.importFile(file, true);
 
+        // TODO: [MSANTOS] DELETE THE FILE HERE
         // TODO: [MSANTOS] update systemconfig setting version, serverURL, and client flag
     }
 
