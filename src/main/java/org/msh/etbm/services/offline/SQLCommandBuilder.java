@@ -34,15 +34,19 @@ public class SQLCommandBuilder {
     }
 
     private void createUpdateCommand(String tableName, Set<String> fields) {
-        String update = "UPDATE $TABLENAME SET $FIELD = ? WHERE id = ?";
+        String update = "UPDATE $TABLENAME SET $FIELD = ?";
         update = update.replace("$TABLENAME", tableName);
 
         for (String field : fields) {
-            update = update.replace("$FIELD", field);
-            update = update.concat(", $FIELD = ?");
+            if (!"id".equals(field)) {
+                update = update.replace("$FIELD", field);
+                update = update.concat(", $FIELD = ?");
+            }
         }
 
         update = update.replace(", $FIELD = ?", "");
+
+        update = update.concat(" WHERE id = ?");
 
         updateCmd = update;
     }

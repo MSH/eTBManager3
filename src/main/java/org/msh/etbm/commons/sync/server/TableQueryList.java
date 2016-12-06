@@ -124,7 +124,8 @@ public class TableQueryList {
         queryFrom("userpermission")
                 .join("userprofile", "userprofile.id = userpermission.profile_id")
                 .restrict("userprofile.version < ?", finalVersion)
-                .restrict("userprofile.version > ?", initialVersion);
+                .restrict("userprofile.version > ?", initialVersion)
+                .restrict("userprofile.workspace_id = ?", wsId);
 
         queryFrom("userworkspace")
                 .restrict("version > ?", initialVersion)
