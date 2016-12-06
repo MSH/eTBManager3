@@ -132,6 +132,13 @@ public class TableQueryList {
                 .restrict("version < ?", finalVersion)
                 .restrict("unit_id = ?", unitId);
 
+        // TODO: [MSANTOS]: NAO EXISTIA, EU INCLUI, VERIFICAR COM RICARDO SE ESTA OK
+        queryFrom("userworkspace_profiles")
+                .join("userworkspace", "userworkspace.id = userworkspace_profiles.userworkspace_id")
+                .restrict("userworkspace.version > ?", initialVersion)
+                .restrict("userworkspace.version < ?", finalVersion)
+                .restrict("userworkspace.unit_id = ?", unitId);
+
         queryFrom("report")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
