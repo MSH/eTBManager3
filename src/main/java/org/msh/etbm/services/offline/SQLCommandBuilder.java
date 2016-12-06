@@ -79,5 +79,7 @@ public class SQLCommandBuilder {
         return deleteCmd;
     }
 
-    public String getSelectCmd() { return selectCmd; }
+    public String getSelectCmd() {
+        return selectCmd;
+    }
 }
