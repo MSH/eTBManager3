@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sync.SynchronizationException;
+import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class SyncFileImporter {
 
     @Autowired
     ImportRecordService db;
+
+    @Autowired
+    AutoGenTagsCasesService autoGenTagsCasesService;
 
     public void importFile(File file, boolean compressed) {
         try {
@@ -43,6 +47,9 @@ public class SyncFileImporter {
                 // close parser
                 parser.close();
             }
+
+            // update the relation of all auto generated tags
+            autoGenTagsCasesService.updateAllCaseTags();
 
         } catch (Throwable e) {
             throw new RuntimeException(e);

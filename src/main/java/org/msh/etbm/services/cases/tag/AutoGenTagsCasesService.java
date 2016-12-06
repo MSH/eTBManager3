@@ -131,4 +131,15 @@ public class AutoGenTagsCasesService {
             });
         }
     }
+
+    @Transactional
+    public boolean updateAllCaseTags() {
+        List<Tag> tags = entityManager.createQuery("from Tag where sqlCondition != null").getResultList();
+
+        for (Tag tag : tags) {
+            this.updateCases(tag.getId(), tag.getWorkspace().getId());
+        }
+
+        return true;
+    }
 }
