@@ -44,10 +44,20 @@ public class ImportRecordService {
 
         Object[] params = getParams(record, isUpdate);
 
-        txManager.execute(status -> {
-            template.update(sql, params);
-            return 0;
-        });
+        // TODO: [MSANTOS] remove this try catch after finishing developing this
+        try {
+            txManager.execute(status -> {
+                template.update(sql, params);
+                return 0;
+            });
+        } catch (Exception e) {
+            System.out.println("Error executing sql");
+            System.out.println(sql);
+            for (Object o : params) {
+                System.out.println(CompactibleJsonConverter.convertToJson(o));
+            }
+            throw e;
+        }
 
     }
 
