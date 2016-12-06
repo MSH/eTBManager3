@@ -164,7 +164,6 @@ public class SyncFileImporter {
                     cmdBuilder = new SQLCommandBuilder(tableName, record.keySet());
                 }
 
-                // TODO: [MSANTOS] faltando country structure. Coloquei, verificar com ricardo.
                 db.persist(action, cmdBuilder, record);
             }
 

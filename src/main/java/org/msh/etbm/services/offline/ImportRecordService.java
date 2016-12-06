@@ -1,5 +1,6 @@
 package org.msh.etbm.services.offline;
 
+import org.msh.etbm.commons.sync.SynchronizationException;
 import org.msh.etbm.commons.sync.server.CompactibleJsonConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +25,7 @@ public class ImportRecordService {
 
     public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
         String sql;
+        boolean isUpdate = false;
 
         TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
         JdbcTemplate template = new JdbcTemplate(dataSource);
@@ -34,12 +36,13 @@ public class ImportRecordService {
                 break;
             case "UPDATE":
                 sql = cmdBuilder.getUpdateCmd();
+                isUpdate = true;
                 break;
             default:
                 throw new RuntimeException("Unsupported action: " + action);
         }
 
-        Object[] params = convertParams(record);
+        Object[] params = getParams(record, isUpdate);
 
         txManager.execute(status -> {
             template.update(sql, params);
@@ -61,7 +64,16 @@ public class ImportRecordService {
         return false;
     }
 
-    private Object[] convertParams(Map<String, Object> record) {
+    private Object[] getParams(Map<String, Object> record, boolean isUpdate) {
+        // When it is an update command, id must be the last param
+        if (isUpdate) {
+            Object id = record.remove("id");
+            if (id == null) {
+                throw new SynchronizationException("Param id must not be null");
+            }
+            record.put("id", id);
+        }
+
         Object[] ret = new Object[record.size()];
 
         int i = 0;
