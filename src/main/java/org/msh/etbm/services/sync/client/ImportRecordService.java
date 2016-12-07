@@ -1,7 +1,7 @@
 package org.msh.etbm.services.sync.client;
 
 import org.msh.etbm.services.sync.SynchronizationException;
-import org.msh.etbm.services.sync.server.CompactibleJsonConverter;
+import org.msh.etbm.services.sync.CompactibleJsonConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
