@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline;
+package org.msh.etbm.services.sync.offline;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;

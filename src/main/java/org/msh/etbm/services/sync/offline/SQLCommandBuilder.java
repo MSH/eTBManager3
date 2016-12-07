@@ -1,6 +1,5 @@
-package org.msh.etbm.services.offline;
+package org.msh.etbm.services.sync.offline;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
