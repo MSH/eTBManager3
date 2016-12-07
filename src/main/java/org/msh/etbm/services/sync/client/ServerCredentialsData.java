@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.offline;
+package org.msh.etbm.services.sync.client;
 
 import java.util.UUID;
 

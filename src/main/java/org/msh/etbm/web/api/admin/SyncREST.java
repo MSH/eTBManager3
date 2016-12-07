@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.services.sync.offline.ClientModeInitService;
-import org.msh.etbm.services.sync.offline.ServerCredentialsData;
+import org.msh.etbm.services.sync.client.ClientModeInitService;
+import org.msh.etbm.services.sync.client.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.offline;
+package org.msh.etbm.services.sync.client;
 
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.sync.server.CompactibleJsonConverter;

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.offline;
+package org.msh.etbm.services.sync.client;
 
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
