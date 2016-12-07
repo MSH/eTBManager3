@@ -1181,6 +1181,7 @@
             <column name="otherlinks" type="${type.text}"/>
             <column name="pubds_workspace_id" type="${type.id}"/>
             <column name="ulaActive" type="${type.boolean}"/>
+            <column name="version" type="${version}" />
         </createTable>
     </changeSet>
 

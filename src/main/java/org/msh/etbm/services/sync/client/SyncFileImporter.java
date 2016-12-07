@@ -22,7 +22,7 @@ import java.util.zip.GZIPInputStream;
 public class SyncFileImporter {
 
     @Autowired
-    ImportRecordService db;
+    RecordImporter db;
 
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
@@ -146,7 +146,7 @@ public class SyncFileImporter {
         cmap.put("id", 1);
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
-        // TODO: [MSANTOS] set version
+        cmap.put("version", fileVersion);
 
         SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap.keySet());
 

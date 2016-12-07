@@ -17,7 +17,7 @@ import java.util.Map;
  * Created by Mauricio on 02/12/2016.
  */
 @Component
-public class ImportRecordService {
+public class RecordImporter {
 
     @Autowired
     DataSource dataSource;
