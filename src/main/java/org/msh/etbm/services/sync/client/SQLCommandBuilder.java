@@ -1,5 +1,6 @@
 package org.msh.etbm.services.sync.client;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -12,6 +13,7 @@ public class SQLCommandBuilder {
     private String updateCmd;
     private String deleteCmd;
     private String selectCmd;
+    private List<String> dependentCommands;
 
     /**
      * When instantiated will create the insert, update, delete and select command used during the importing process.
@@ -23,6 +25,20 @@ public class SQLCommandBuilder {
         createUpdateCommand(tableName, fields);
         createDeleteCommand(tableName);
         createSelectCommand(tableName);
+    }
+
+    /**
+     * When instantiated will create the insert, update, delete and select command used during the importing process.
+     * It will also get (if exists) the dependent commands for the table passed as parameter
+     * @param tableName
+     * @param fields
+     */
+    public SQLCommandBuilder(String tableName, Set<String> fields, TablesDependence dependences) {
+        createInsertCommand(tableName, fields);
+        createUpdateCommand(tableName, fields);
+        createDeleteCommand(tableName);
+        createSelectCommand(tableName);
+        dependentCommands = dependences.getDependentCommands(tableName);
     }
 
     /**
@@ -120,5 +136,13 @@ public class SQLCommandBuilder {
      */
     public String getSelectCmd() {
         return selectCmd;
+    }
+
+    /**
+     *
+     * @return the list of SQL dependent commands when updating this table
+     */
+    public List<String> getDependentCommands() {
+        return dependentCommands;
     }
 }

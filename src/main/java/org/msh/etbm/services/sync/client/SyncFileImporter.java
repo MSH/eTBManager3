@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.services.session.search.SearchableCreator;
+import org.msh.etbm.services.sync.CompactibleJsonConverter;
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class SyncFileImporter {
      * @param file
      * @param compressed
      */
-    public void importFile(File file, boolean compressed) {
+    public void importFile(File file, boolean compressed, String parentServerUrl) {
         try {
             InputStream fileStream = new FileInputStream(file);
             // create a copy of downloaded file uncompressed
@@ -50,7 +51,7 @@ public class SyncFileImporter {
 
             // start importing
             try {
-                importData(parser);
+                importData(parser, parentServerUrl);
             } finally {
                 // close parser
                 parser.close();
@@ -72,7 +73,7 @@ public class SyncFileImporter {
      * @param parser
      * @throws IOException
      */
-    private void importData(JsonParser parser) throws IOException {
+    private void importData(JsonParser parser, String parentServerUrl) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
             throw new SynchronizationException("Root should be object");
@@ -95,7 +96,7 @@ public class SyncFileImporter {
                     importWorkspace(parser);
                     break;
                 case "config":
-                    importConfig(parser, fileVersion);
+                    importConfig(parser, fileVersion, parentServerUrl);
                     break;
                 case "tables":
                     importTables(parser);
@@ -143,7 +144,7 @@ public class SyncFileImporter {
      * @param fileVersion
      * @throws IOException
      */
-    private void importConfig(JsonParser parser, Integer fileVersion) throws IOException {
+    private void importConfig(JsonParser parser, Integer fileVersion, String parentServerUrl) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -154,6 +155,10 @@ public class SyncFileImporter {
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         cmap.put("version", fileVersion);
+        // avoid setting it to null when synchronizing
+        if (parentServerUrl != null) {
+            cmap.put("serverURL", CompactibleJsonConverter.convertToJson(parentServerUrl));
+        }
 
         SQLCommandBuilder cmdBuilder = new SQLCommandBuilder("systemconfig", cmap.keySet());
 
@@ -171,6 +176,7 @@ public class SyncFileImporter {
             throw new SynchronizationException("Expecting START_ARRAY. Check File layout.");
         }
 
+        TablesDependence dependences = new TablesDependence();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node;
         String tableName;
@@ -207,7 +213,7 @@ public class SyncFileImporter {
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
                 if (cmdBuilder == null) {
-                    cmdBuilder = new SQLCommandBuilder(tableName, record.keySet());
+                    cmdBuilder = new SQLCommandBuilder(tableName, record.keySet(), dependences);
                 }
 
                 db.persist(action, cmdBuilder, record);

@@ -111,10 +111,9 @@ public class TableQueryList {
                 .restrict("workspace_id = ?", wsId);
 
         queryFrom("sys_user")
-                .join("userworkspace", "userworkspace.user_id = sys_user.id")
-                .restrict("userworkspace.unit_id = ?", unitId)
                 .restrict("sys_user.version < ?", finalVersion)
-                .restrict("sys_user.version > ?", initialVersion);
+                .restrict("sys_user.version > ?", initialVersion)
+                .restrict("exists(select * from userworkspace where userworkspace.user_id = sys_user.id and userworkspace.unit_id = ?)", unitId);
 
         queryFrom("userprofile")
                 .restrict("version > ?", initialVersion)

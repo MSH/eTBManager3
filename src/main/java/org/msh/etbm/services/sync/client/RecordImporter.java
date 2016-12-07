@@ -35,54 +35,46 @@ public class RecordImporter {
      */
     public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
 
-        String sql = "";
-        Object[] params = null;
+        // check if should update or insert the register
+        String sql;
+        List<String> dependentCommands;
         boolean isUpdate = false;
 
-        // TODO: [MSANTOS] remove this try catch after finishing testing this
-        try {
+        if ("UPDATE".equals(action) || recordExists(cmdBuilder, getIdParam(record))) {
 
-            TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
-            JdbcTemplate template = new JdbcTemplate(dataSource);
+            isUpdate = true;
+            sql = cmdBuilder.getUpdateCmd();
+            dependentCommands = cmdBuilder.getDependentCommands();
 
-            switch (action) {
-                case "INSERT":
-                    if (recordExists(cmdBuilder, getIdParam(record))) {
-                        sql = cmdBuilder.getUpdateCmd();
-                        isUpdate = true;
-                    } else {
-                        sql = cmdBuilder.getInsertCmd();
-                    }
-                    break;
-                case "UPDATE":
-                    sql = cmdBuilder.getUpdateCmd();
-                    isUpdate = true;
-                    break;
-                default:
-                    throw new RuntimeException("Unsupported action: " + action);
-            }
+        } else if ("INSERT".equals(action)) {
 
-            params = getParams(record, isUpdate);
+            sql = cmdBuilder.getInsertCmd();
+            dependentCommands = null;
 
-            final String finalSql = sql;
-            final Object[] finalParams = params;
-
-            txManager.execute(status -> {
-                template.update(finalSql, finalParams);
-                return 0;
-            });
-
-        } catch (Exception e) {
-            System.out.println("Error executing sql");
-            System.out.println(sql);
-            if (params != null) {
-                for (Object o : params) {
-                    System.out.println(CompactibleJsonConverter.convertToJson(o));
-                }
-            }
-            throw e;
+        } else {
+            throw new SynchronizationException("Unsupported action during record importer persist: " + action);
         }
 
+        // execute commands
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+        Object[] params = getParams(record, isUpdate);
+        Object idParam = getIdParam(record);
+
+        txManager.execute(status -> {
+            // Update/insert the current record
+            template.update(sql, params);
+
+            // Check if the table has any child and execute the dependent commands
+            if (dependentCommands != null && idParam != null) {
+                for (String sqlCommand : dependentCommands) {
+                    template.update(sqlCommand, idParam);
+                }
+            }
+
+            return 0;
+        });
     }
 
     /**
@@ -160,6 +152,7 @@ public class RecordImporter {
      */
     private Object getIdParam(Map<String, Object> record) {
         Object id = record.get("id");
+
         if (id == null) {
             return null;
         }

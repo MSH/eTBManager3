@@ -149,12 +149,11 @@ public class ParentServerRequestService {
      * @return the URL object based on the params
      */
     private URL getURL(String serverUrl, String serviceUrl) {
-        String serverUrlChecked = checkServerAddress(serverUrl);
         URL url = null;
 
         try {
             // Instantiate URL
-            url = new URL(serverUrlChecked + serviceUrl);
+            url = new URL(serverUrl + serviceUrl);
         } catch (MalformedURLException e) {
             throw new SynchronizationException("Error while creating post request to parent server.");
         }
@@ -178,28 +177,5 @@ public class ParentServerRequestService {
                     throw new SynchronizationException("Failed to request parent server: HTTP error code " + responseCode);
             }
         }
-    }
-
-    /**
-     * Check if the server address is incomplete. Append the name 'etbm3'
-     * at the end of address and the protocol 'http://', if missing
-     *
-     * @param url is the address of eTB Manager web version
-     * @return the address with complements
-     */
-    private String checkServerAddress(String url) {
-        String server = url;
-        // try to fill gaps in the composition of the server address
-        if (!server.startsWith("http")) {
-            server = "http://" + server;
-        }
-
-        if (!server.endsWith("etbm3") && !server.endsWith("etbm3/")) {
-            if ((!server.endsWith("/")) || (!server.endsWith("\\"))) {
-                server += "/";
-            }
-            server += "etbm3";
-        }
-        return server;
     }
 }
