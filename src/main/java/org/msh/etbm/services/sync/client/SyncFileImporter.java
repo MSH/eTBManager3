@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.services.session.search.SearchableCreator;
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class SyncFileImporter {
 
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
+
+    @Autowired
+    SearchableCreator searchableCreator;
 
     /**
      * Imports sync file reading it as a stream.
@@ -54,6 +58,9 @@ public class SyncFileImporter {
 
             // update the relation of all auto generated tags
             autoGenTagsCasesService.updateAllCaseTags();
+
+            // update searchables
+            searchableCreator.updateAllSearchables();
 
         } catch (Throwable e) {
             throw new RuntimeException(e);

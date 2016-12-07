@@ -68,9 +68,9 @@ public class WorkspaceCreator {
 
         createReports(ws, user);
 
-        searchableCreator.create(Workspace.class);
-        searchableCreator.create(AdministrativeUnit.class);
-        searchableCreator.create(Unit.class);
+        searchableCreator.createNewSearchables(Workspace.class);
+        searchableCreator.createNewSearchables(AdministrativeUnit.class);
+        searchableCreator.createNewSearchables(Unit.class);
 
         return mapper.map(ws, WorkspaceData.class);
     }

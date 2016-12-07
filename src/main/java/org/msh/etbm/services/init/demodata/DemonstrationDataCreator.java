@@ -62,7 +62,7 @@ public class DemonstrationDataCreator {
 
         insertTags(template, workspace);
 
-        searchableCreator.create(TbCase.class);
+        searchableCreator.createNewSearchables(TbCase.class);
 
         runAutoGenTags(workspace);
     }

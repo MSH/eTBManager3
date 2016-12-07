@@ -1,7 +1,7 @@
 package org.msh.etbm.services.session.search;
 
 import org.msh.etbm.db.WorkspaceEntity;
-import org.msh.etbm.db.entities.Searchable;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.session.search.SearchableBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +17,12 @@ import java.util.UUID;
 @Component
 public class SearchableCreator extends SearchableBuilder {
 
+    /**
+     * Creates NEW searchable registers for the class passed as parameters
+     * @param entityClass
+     */
     @Transactional
-    public void create(Class entityClass) {
+    public void createNewSearchables(Class entityClass) {
         List<Object> lst = entityManager.createQuery(" from " + entityClass.getSimpleName())
                 .getResultList();
 
@@ -35,8 +39,16 @@ public class SearchableCreator extends SearchableBuilder {
         entityManager.flush();
     }
 
+    /**
+     * Deletes all existing searchables and then, creates NEW searchable registers for all searchable entities
+     */
     @Transactional
-    public void createAll() {
+    public void updateAllSearchables() {
+        entityManager.createQuery("delete from Searchable").executeUpdate();
 
+        this.createNewSearchables(Workspace.class);
+        this.createNewSearchables(AdministrativeUnit.class);
+        this.createNewSearchables(Unit.class);
+        this.createNewSearchables(TbCase.class);
     }
 }
