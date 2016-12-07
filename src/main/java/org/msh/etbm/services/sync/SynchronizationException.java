@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.sync;
+package org.msh.etbm.services.sync;
 
 /**
  * Default exception thrown by synchronization operations

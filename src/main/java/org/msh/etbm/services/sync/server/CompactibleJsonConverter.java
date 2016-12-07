@@ -1,8 +1,8 @@
-package org.msh.etbm.commons.sync.server;
+package org.msh.etbm.services.sync.server;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.StringConverter;
-import org.msh.etbm.commons.sync.SynchronizationException;
+import org.msh.etbm.services.sync.SynchronizationException;
 
 import java.util.Date;
 import java.util.UUID;

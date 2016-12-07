@@ -2,9 +2,8 @@ package org.msh.etbm.services.offline;
 
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
-import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.sync.SynchronizationException;
+import org.msh.etbm.services.sync.SynchronizationException;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

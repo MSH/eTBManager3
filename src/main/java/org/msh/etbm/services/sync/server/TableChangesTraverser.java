@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.sync.server;
+package org.msh.etbm.services.sync.server;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

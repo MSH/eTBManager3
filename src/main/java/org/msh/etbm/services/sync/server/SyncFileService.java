@@ -1,14 +1,13 @@
-package org.msh.etbm.commons.sync.server;
+package org.msh.etbm.services.sync.server;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.commons.sync.SynchronizationException;
+import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +19,6 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.zip.GZIPOutputStream;
 

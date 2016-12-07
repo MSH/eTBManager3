@@ -1,4 +1,4 @@
-package org.msh.etbm.commons.sync.server;
+package org.msh.etbm.services.sync.server;
 
 import java.io.IOException;
 import java.util.UUID;
