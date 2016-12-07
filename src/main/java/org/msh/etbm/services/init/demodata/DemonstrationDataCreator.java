@@ -7,6 +7,7 @@ import org.msh.etbm.services.admin.substances.SubstanceData;
 import org.msh.etbm.services.admin.tags.TagData;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.init.demodata.data.*;
+import org.msh.etbm.services.session.search.SearchableCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,7 @@ public class DemonstrationDataCreator {
     AutoGenTagsCasesService autoGenTagsCasesService;
 
     @Autowired
-    DemoDataSearchableCreator searchableCreator;
+    SearchableCreator searchableCreator;
 
     // Medicines with custom id
     List<Medicine> relevantMedicines;
@@ -61,7 +62,7 @@ public class DemonstrationDataCreator {
 
         insertTags(template, workspace);
 
-        searchableCreator.create(TbCase.class, workspaceId);
+        searchableCreator.create(TbCase.class);
 
         runAutoGenTags(workspace);
     }

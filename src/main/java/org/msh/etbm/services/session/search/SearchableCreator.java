@@ -1,5 +1,6 @@
-package org.msh.etbm.services.init.demodata;
+package org.msh.etbm.services.session.search;
 
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.services.session.search.SearchableBuilder;
 import org.springframework.stereotype.Component;
@@ -14,13 +15,10 @@ import java.util.UUID;
  * Created by Mauricio on 21/10/2016.
  */
 @Component
-public class DemoDataSearchableCreator extends SearchableBuilder {
-
-    @PersistenceContext
-    EntityManager entityManager;
+public class SearchableCreator extends SearchableBuilder {
 
     @Transactional
-    public void create(Class entityClass, UUID workspaceId) {
+    public void create(Class entityClass) {
         List<Object> lst = entityManager.createQuery(" from " + entityClass.getSimpleName())
                 .getResultList();
 
@@ -29,11 +27,16 @@ public class DemoDataSearchableCreator extends SearchableBuilder {
         }
 
         for (Object o : lst) {
-            Searchable s = super.buildSearchable(o, workspaceId);
+            Searchable s = super.buildSearchable(o);
 
             entityManager.persist(s);
         }
 
         entityManager.flush();
+    }
+
+    @Transactional
+    public void createAll() {
+
     }
 }

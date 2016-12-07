@@ -2,6 +2,7 @@ package org.msh.etbm.services.session.search;
 
 import org.msh.etbm.commons.PersonNameUtils;
 import org.msh.etbm.db.Synchronizable;
+import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.SearchableType;
@@ -15,49 +16,33 @@ import java.util.UUID;
 /**
  * Created by Mauricio on 21/10/2016.
  */
-public class SearchableBuilder {
+public abstract class SearchableBuilder {
 
     @PersistenceContext
     protected EntityManager entityManager;
 
     @Autowired
-    protected UserRequestService userRequestService;
-
-    @Autowired
     protected PersonNameUtils personNameUtils;
 
     /**
-     * Builds a NEW searchable instance and returns it, based on the session workspace
+     * Builds a NEW searchable instance and returns it, based on the entity workspace
      * @param entity
      * @return
      */
     protected Searchable buildSearchable(Object entity) {
-        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
-
-        return this.buildSearchable(entity, workspaceId);
-    }
-
-    /**
-     * Builds a NEW searchable instance and returns it, based on the workspace id passed as parameter
-     * @param entity
-     * @return
-     */
-    protected Searchable buildSearchable(Object entity, UUID workspaceId) {
-        return this.buildSearchable(entity, null, workspaceId);
+        return this.buildSearchable(entity, null, getWorkspaceId(entity));
     }
 
     /**
      * Builds a searchable checking the type of the entity
      * If param searchable is null a new searchable will be instantiated
-     * This method will run based on the session workspace
+     * This method will run based on the entity workspace
      * @param entity
      * @param searchable
      * @return
      */
     protected Searchable buildSearchable(Object entity, Searchable searchable) {
-        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
-
-        return buildSearchable(entity, searchable, workspaceId);
+        return buildSearchable(entity, searchable, getWorkspaceId(entity));
     }
 
     /**
@@ -174,6 +159,16 @@ public class SearchableBuilder {
         searchable.setTitle(entity.getName());
 
         return searchable;
+    }
+
+    private UUID getWorkspaceId (Object entity) {
+        if (entity instanceof Workspace) {
+            return ((Workspace)entity).getId();
+        } else if (entity instanceof WorkspaceEntity) {
+            return ((WorkspaceEntity)entity).getWorkspace().getId();
+        }
+
+        throw new RuntimeException("Error creating searchable. Unsupported entity. " + entity.getClass());
     }
 
 }
