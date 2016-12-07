@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Stores the SQL commands to be used on import service
  * Created by Mauricio on 02/12/2016.
  */
 public class SQLCommandBuilder {
@@ -13,6 +14,11 @@ public class SQLCommandBuilder {
     private String deleteCmd;
     private String selectCmd;
 
+    /**
+     * When instantiated will create the insert, update, delete and select command used during the importing process.
+     * @param tableName
+     * @param fields
+     */
     public SQLCommandBuilder(String tableName, Set<String> fields) {
         createInsertCommand(tableName, fields);
         createUpdateCommand(tableName, fields);
@@ -20,6 +26,11 @@ public class SQLCommandBuilder {
         createSelectCommand(tableName);
     }
 
+    /**
+     * Creates and stores in local variable the insert command used during the importing process.
+     * @param tableName
+     * @param fields
+     */
     private void createInsertCommand(String tableName, Set<String> fields) {
         String insert = "INSERT INTO $TABLENAME($FIELD) VALUES($VALUE)";
         insert = insert.replace("$TABLENAME", tableName);
@@ -35,6 +46,11 @@ public class SQLCommandBuilder {
         insertCmd = insert;
     }
 
+    /**
+     * Creates and stores in local variable the update command used during the importing process.
+     * @param tableName
+     * @param fields
+     */
     private void createUpdateCommand(String tableName, Set<String> fields) {
         String update = "UPDATE $TABLENAME SET $FIELD = ?";
         update = update.replace("$TABLENAME", tableName);
@@ -53,6 +69,10 @@ public class SQLCommandBuilder {
         updateCmd = update;
     }
 
+    /**
+     * Creates and stores in local variable the delete command used during the importing process.
+     * @param tableName
+     */
     private void createDeleteCommand(String tableName) {
         String delete = "DELETE FROM $TABLENAME WHERE id = ?";
         delete = delete.replace("$TABLENAME", tableName);
@@ -60,6 +80,10 @@ public class SQLCommandBuilder {
         deleteCmd = delete;
     }
 
+    /**
+     * Creates and stores in local variable the select command used during the importing process.
+     * @param tableName
+     */
     private void createSelectCommand(String tableName) {
         String select = "SELECT id FROM $TABLENAME WHERE id = ?";
         select = select.replace("$TABLENAME", tableName);
@@ -67,18 +91,34 @@ public class SQLCommandBuilder {
         selectCmd = select;
     }
 
+    /**
+     *
+     * @return the insert sql command that inserts a record from sync file
+     */
     public String getInsertCmd() {
         return insertCmd;
     }
 
+    /**
+     *
+     * @return the update sql command that updates a record from sync file
+     */
     public String getUpdateCmd() {
         return updateCmd;
     }
 
+    /**
+     *
+     * @return the update sql command that deletes a record from sync file
+     */
     public String getDeleteCmd() {
         return deleteCmd;
     }
 
+    /**
+     *
+     * @return the select command that checks if a record exists
+     */
     public String getSelectCmd() {
         return selectCmd;
     }

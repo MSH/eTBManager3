@@ -65,6 +65,13 @@ public class ParentServerRequestService {
         return (T) ret;
     }
 
+    /**
+     * Sends a request to download a file. This file will be stored as temp.
+     * @param serverUrl
+     * @param serviceUrl
+     * @param authToken
+     * @return the file downloaded
+     */
     public File downloadFile(String serverUrl, String serviceUrl, String authToken) {
         URL url = getURL(serverUrl, serviceUrl);
         HttpURLConnection httpConn = null;
@@ -136,6 +143,12 @@ public class ParentServerRequestService {
         return conn;
     }
 
+    /**
+     * Instantiate and returns the URL object based on the params
+     * @param serverUrl
+     * @param serviceUrl
+     * @return the URL object based on the params
+     */
     private URL getURL(String serverUrl, String serviceUrl) {
         String serverUrlChecked = checkServerAddress(serverUrl);
         URL url = null;

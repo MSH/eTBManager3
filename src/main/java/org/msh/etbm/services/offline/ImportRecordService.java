@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Service class that insert, update and deletes the workspace, system config and table records from the sync file
  * Created by Mauricio on 02/12/2016.
  */
 @Component
@@ -24,6 +25,14 @@ public class ImportRecordService {
     @Autowired
     PlatformTransactionManager platformTransactionManager;
 
+    /**
+     * Persist workspace, systemconfig oor table records that comes inside the sync file.
+     * If the action is INSERT the system will check if the record exists before executing an insert sql statement.
+     * if exists, an update statement will be executed.
+     * @param action
+     * @param cmdBuilder
+     * @param record
+     */
     public void persist(String action, SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
 
         String sql = "";
@@ -76,14 +85,30 @@ public class ImportRecordService {
 
     }
 
+    /**
+     * Persist workspace, systemconfig or table records that comes inside the sync file, setting 'INSERT' as action.
+     * @param cmdBuilder
+     * @param record
+     */
     public void persist(SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
         this.persist("INSERT", cmdBuilder, record);
     }
 
+    /**
+     * Detele an entity that comes inside deleted entity sections of sync file.
+     * @param cmdBuilder
+     * @param id
+     */
     public void delete(SQLCommandBuilder cmdBuilder, Object id) {
         // TODO: [MSANTOS] implement this
     }
 
+    /**
+     * Checks if a already record exists on database.
+     * @param cmdBuilder
+     * @param id
+     * @return true if exists and false if don't exists
+     */
     private boolean recordExists(SQLCommandBuilder cmdBuilder, Object id) {
         if (id == null) {
             return false;
@@ -101,6 +126,12 @@ public class ImportRecordService {
         return false;
     }
 
+    /**
+     * Copy the record values to a array of objects converting them from JSON to database format.
+     * @param record
+     * @param isUpdate
+     * @return array of objects converted from JSON to database format
+     */
     private Object[] getParams(Map<String, Object> record, boolean isUpdate) {
         // When it is an update command, id must be the last param
         if (isUpdate) {
@@ -122,6 +153,11 @@ public class ImportRecordService {
         return ret;
     }
 
+    /**
+     * Returns the id of the record converted to database format.
+     * @param record
+     * @return id of the record converted to database format
+     */
     private Object getIdParam(Map<String, Object> record) {
         Object id = record.get("id");
         if (id == null) {

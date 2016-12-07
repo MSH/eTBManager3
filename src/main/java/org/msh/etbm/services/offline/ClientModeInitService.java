@@ -11,11 +11,11 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Service to initialize an off-line mode instance.
+ * Service to initialize a client mode instance.
  * Created by Mauricio on 21/11/2016.
  */
 @Service
-public class OfflineModeInitService {
+public class ClientModeInitService {
 
     @Autowired
     ParentServerRequestService request;

@@ -28,6 +28,11 @@ public class SyncFileImporter {
     @Autowired
     AutoGenTagsCasesService autoGenTagsCasesService;
 
+    /**
+     * Imports sync file reading it as a stream.
+     * @param file
+     * @param compressed
+     */
     public void importFile(File file, boolean compressed) {
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -56,6 +61,11 @@ public class SyncFileImporter {
         }
     }
 
+    /**
+     * Runs the sync file calling the correct method that will persist the database changes.
+     * @param parser
+     * @throws IOException
+     */
     private void importData(JsonParser parser) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
@@ -90,12 +100,23 @@ public class SyncFileImporter {
         }
     }
 
+    /**
+     * Returns the version from sync file.
+     * @param parser
+     * @return the version from sync file
+     * @throws IOException
+     */
     private Integer getVersion(JsonParser parser) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         return node.asInt();
     }
 
+    /**
+     * Convert and insert or update the workspace on database.
+     * @param parser
+     * @throws IOException
+     */
     private void importWorkspace(JsonParser parser) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
@@ -110,6 +131,12 @@ public class SyncFileImporter {
         db.persist(cmdBuilder, wmap);
     }
 
+    /**
+     * Convert and insert or update the system config on database.
+     * @param parser
+     * @param fileVersion
+     * @throws IOException
+     */
     private void importConfig(JsonParser parser, Integer fileVersion) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
@@ -127,6 +154,12 @@ public class SyncFileImporter {
         db.persist(cmdBuilder, cmap);
     }
 
+    /**
+     * Runs the tables array from JSON sync file and insert or update each record.
+     * Also deletes the deleted entities from this table JSON object.
+     * @param parser
+     * @throws IOException
+     */
     private void importTables(JsonParser parser) throws IOException {
         if (parser.getCurrentToken() != JsonToken.START_ARRAY) {
             throw new SynchronizationException("Expecting START_ARRAY. Check File layout.");
@@ -189,13 +222,5 @@ public class SyncFileImporter {
 
             parser.nextToken();
         }
-    }
-
-    public static int stringToEnumOrdinal(Class enumClass, Object val) {
-        if (!(val instanceof String)) {
-            throw new RuntimeException("Value must be a String");
-        }
-
-        return ObjectUtils.stringToEnum((String)val, enumClass).ordinal();
     }
 }

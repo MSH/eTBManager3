@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.admin;
 
-import org.msh.etbm.services.offline.OfflineModeInitService;
+import org.msh.etbm.services.offline.ClientModeInitService;
 import org.msh.etbm.services.offline.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.web.api.StandardResult;
@@ -20,7 +20,7 @@ import java.util.List;
 public class SyncREST {
 
     @Autowired
-    OfflineModeInitService service;
+    ClientModeInitService service;
 
     @RequestMapping(value = "/init/workspaces", method = RequestMethod.POST)
     public StandardResult findWorkspaces(@Valid @NotNull @RequestBody ServerCredentialsData req) {
