@@ -132,7 +132,6 @@ public class TableQueryList {
                 .restrict("version < ?", finalVersion)
                 .restrict("unit_id = ?", unitId);
 
-        // TODO: [MSANTOS]: NAO EXISTIA, EU INCLUI, VERIFICAR COM RICARDO SE ESTA OK
         queryFrom("userworkspace_profiles")
                 .join("userworkspace", "userworkspace.id = userworkspace_profiles.userworkspace_id")
                 .restrict("userworkspace.version > ?", initialVersion)
@@ -146,10 +145,9 @@ public class TableQueryList {
 
         // case module
         queryFrom("patient")
-                .join("tbcase", "tbcase.patient_id = patient.id")
                 .restrict("patient.version > ?", initialVersion)
                 .restrict("patient.version < ?", finalVersion)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("exists(select * from tbcase where tbcase.patient_id = patient.id and tbcase.owner_unit_id = ?)", unitId);
 
         queryFrom("tbcase")
                 .restrict("version > ?", initialVersion)
@@ -303,8 +301,6 @@ public class TableQueryList {
         qry.setDisableFieldAlias(true);
         qry.select(table + ".*");
 
-        // TODO: [MSANTOS] verificar com ricardo se essa mudança está ok
-        //TableQueryItem info = new TableQueryItem(qry, TableQueryItem.SyncAction.UPDATE);
         TableQueryItem info = new TableQueryItem(qry, action);
 
         queries.add(info);

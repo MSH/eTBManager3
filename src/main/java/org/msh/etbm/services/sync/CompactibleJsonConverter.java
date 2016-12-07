@@ -47,9 +47,7 @@ public class CompactibleJsonConverter {
 
         if (val instanceof UUID) {
             byte[] data = ObjectUtils.uuidAsBytes((UUID)val);
-            // TODO: [MSANTOS] verificar com o ricardo
-            //return UUID_PREFIX + StringConverter.bytesToString((byte[])data);
-            return BINARY_PREFIX + StringConverter.bytesToString((byte[])data);
+            return UUID_PREFIX + StringConverter.bytesToString((byte[])data);
         }
 
         if (val instanceof Enum) {

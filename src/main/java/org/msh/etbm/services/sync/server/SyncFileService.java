@@ -3,6 +3,7 @@ package org.msh.etbm.services.sync.server;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.services.sync.CompactibleJsonConverter;
 import org.msh.etbm.services.sync.SynchronizationException;
@@ -126,7 +127,7 @@ public class SyncFileService {
     protected void writeWorkspace(Workspace ws, JsonGenerator generator) throws IOException {
         generator.writeStartObject();
 
-        generator.writeObjectField("id", jsonValue(ws.getId()));
+        generator.writeObjectField("id", jsonValue(ObjectUtils.uuidAsBytes(ws.getId())));
         generator.writeObjectField("name", jsonValue(ws.getName()));
         generator.writeObjectField("patientNameComposition", jsonValue(ws.getPatientNameComposition()));
         generator.writeObjectField("caseValidationTB", jsonValue(ws.getCaseValidationTB()));
@@ -226,7 +227,6 @@ public class SyncFileService {
     protected void generateJsonObject(JsonGenerator generator, Map<String, Object> record, List<String> ignoreList) throws IOException {
         generator.writeStartObject();
 
-        // TODO: [MSANTOS] se desse pra remover os campos da query, ficaria melhor pois nao precisaria passar por esse for pra cada registro
         if (ignoreList != null) {
             for (String ignoreItem : ignoreList) {
                 record.remove(ignoreItem);
