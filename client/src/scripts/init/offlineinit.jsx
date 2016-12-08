@@ -32,6 +32,7 @@ export default class OfflineInit extends React.Component {
         this.workspaceChange = this.workspaceChange.bind(this);
         this.workspaceSelected = this.workspaceSelected.bind(this);
         this.showUrlTextField = this.showUrlTextField.bind(this);
+        this.gotoLogin = this.gotoLogin.bind(this);
 
         this.state = {
             data: {},
@@ -171,6 +172,7 @@ export default class OfflineInit extends React.Component {
      */
     gotoLogin() {
         app.goto('/pub/login');
+        window.location.reload(true);
     }
 
     /**
