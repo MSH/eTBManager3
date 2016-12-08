@@ -21,7 +21,7 @@ public class TablesDependence {
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         tablesDependence = new HashMap<>();
 
         addDependence("product", MEDICINE_SUBSTANCES);
