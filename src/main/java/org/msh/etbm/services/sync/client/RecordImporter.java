@@ -44,7 +44,7 @@ public class RecordImporter {
 
             isUpdate = true;
             sql = cmdBuilder.getUpdateCmd();
-            dependentCommands = cmdBuilder.getDependentCommands();
+            dependentCommands = cmdBuilder.getDeleteChildCommands();
 
         } else if ("INSERT".equals(action)) {
 
@@ -66,7 +66,8 @@ public class RecordImporter {
             // Update/insert the current record
             template.update(sql, params);
 
-            // Check if the table has any child and execute the dependent commands
+            // Check if the table has any child and execute its dependent commands to delete all dependent registers, as
+            // those dependent registerd will be inserted forward on this importing.
             if (dependentCommands != null && idParam != null) {
                 for (String sqlCommand : dependentCommands) {
                     template.update(sqlCommand, idParam);

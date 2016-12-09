@@ -2,7 +2,10 @@ package org.msh.etbm.services.sync.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +28,19 @@ public class ClientModeInitService {
     @Autowired
     SyncFileImporter importer;
 
+    @Autowired
+    EntityManager entityManager;
+
     /**
      * Returns all workspaces attached to the user that matches with credentials on param.
      * @param data
      * @return
      */
     public List<WorkspaceInfo> findWorkspaces(ServerCredentialsData data) {
+        if (isInitialized()) {
+            throw new EntityValidationException(data, null, null, "init.offinit.error3");
+        }
+
         String serverAddress = checkServerAddress(data.getParentServerUrl());
 
         List<WorkspaceInfo> response = request.post(serverAddress,
@@ -48,6 +58,10 @@ public class ClientModeInitService {
      * @param data
      */
     public void initialize(ServerCredentialsData data) {
+        if (isInitialized()) {
+            throw new EntityValidationException(data, null, null, "init.offinit.error3");
+        }
+
         String serverAddress = checkServerAddress(data.getParentServerUrl());
 
         // Login into remote server
@@ -59,11 +73,9 @@ public class ClientModeInitService {
                 LoginResponse.class);
 
         // Download file
-        /*File file = request.downloadFile(data.getParentServerUrl(),
+        File file = request.downloadFile(data.getParentServerUrl(),
                 "/api/sync/inifile/",
-                loginRes.getAuthToken().toString());*/
-
-        File file = new File("C:\\Users\\Mauricio\\Desktop\\MSH_Demo.etbm");
+                loginRes.getAuthToken().toString());
 
         // import file
         importer.importFile(file, true, serverAddress);
@@ -75,6 +87,19 @@ public class ClientModeInitService {
         return new ObjectMapper().getTypeFactory();
     }
 
+    /**
+     * Checks if database is already initialized
+     * @return
+     */
+    private boolean isInitialized() {
+        List<Workspace> ws = entityManager.createQuery("from Workspace").getResultList();
+
+        if (ws == null || ws.size() < 1) {
+            return false;
+        }
+
+        return true;
+    }
 
     /**
      * Check if the server address is incomplete. Append the name 'etbm3'

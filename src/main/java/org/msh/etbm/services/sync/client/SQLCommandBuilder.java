@@ -13,7 +13,7 @@ public class SQLCommandBuilder {
     private String updateCmd;
     private String deleteCmd;
     private String selectCmd;
-    private List<String> dependentCommands;
+    private List<String> deleteChildCommands;
 
     /**
      * When instantiated will create the insert, update, delete and select command used during the importing process.
@@ -33,12 +33,12 @@ public class SQLCommandBuilder {
      * @param tableName
      * @param fields
      */
-    public SQLCommandBuilder(String tableName, Set<String> fields, TablesDependence dependences) {
+    public SQLCommandBuilder(String tableName, Set<String> fields, SQLUpdateChildTables dependences) {
         createInsertCommand(tableName, fields);
         createUpdateCommand(tableName, fields);
         createDeleteCommand(tableName);
         createSelectCommand(tableName);
-        dependentCommands = dependences.getDependentCommands(tableName);
+        deleteChildCommands = dependences.getParentCommands(tableName);
     }
 
     /**
@@ -140,9 +140,9 @@ public class SQLCommandBuilder {
 
     /**
      *
-     * @return the list of SQL dependent commands when updating this table
+     * @return the list of SQL DELETE commands that delete dependent registers of this table.
      */
-    public List<String> getDependentCommands() {
-        return dependentCommands;
+    public List<String> getDeleteChildCommands() {
+        return deleteChildCommands;
     }
 }

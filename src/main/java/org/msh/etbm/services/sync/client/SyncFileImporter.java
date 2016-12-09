@@ -176,7 +176,7 @@ public class SyncFileImporter {
             throw new SynchronizationException("Expecting START_ARRAY. Check File layout.");
         }
 
-        TablesDependence dependences = new TablesDependence();
+        SQLUpdateChildTables dependences = new SQLUpdateChildTables();
         ObjectMapper mapper = new ObjectMapper();
         JsonNode node;
         String tableName;
