@@ -86,7 +86,7 @@ export default class OfflineInit extends React.Component {
         server.post('/api/offline/init/workspaces', req)
         .then(res => {
             if (!res.success) {
-                this.setState({ globalMsgs: res.errors });
+                this.setState({ globalMsgs: res.errors, fetching: false });
                 return null;
             }
 
@@ -105,6 +105,10 @@ export default class OfflineInit extends React.Component {
             }
 
             return res;
+        })
+        .catch(err => {
+            this.setState({ fetching: false });
+            return Promise.reject(err);
         });
     }
 
