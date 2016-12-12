@@ -73,7 +73,7 @@ public class ClientModeInitService {
                 LoginResponse.class);
 
         // Download file
-        File file = request.downloadFile(data.getParentServerUrl(),
+        File file = request.downloadFile(serverAddress,
                 "/api/sync/inifile/",
                 loginRes.getAuthToken().toString());
 
