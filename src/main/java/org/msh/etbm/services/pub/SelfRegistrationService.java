@@ -51,10 +51,10 @@ public class SelfRegistrationService {
         // check if registration is allowed (configuration is ok for that)
         SysConfigData cfg = sysConfigService.loadConfig();
 
-        if (cfg.isAllowRegPage() ||
-                cfg.getWorkspace() != null ||
-                cfg.getUnit() != null ||
-                cfg.getUserProfile() != null) {
+        if (!cfg.isAllowRegPage() ||
+                cfg.getWorkspace() == null ||
+                cfg.getUnit() == null ||
+                cfg.getUserProfile() == null) {
             raiseForbiddenException();
         }
 
