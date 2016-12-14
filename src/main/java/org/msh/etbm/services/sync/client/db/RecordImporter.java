@@ -93,7 +93,7 @@ public class RecordImporter {
      * @param id
      */
     public void delete(SQLCommandBuilder cmdBuilder, Object id) {
-        // TODO: [MSANTOS] implement this
+        // TODO: [MSANTOS] implement when developing sync
     }
 
     /**
