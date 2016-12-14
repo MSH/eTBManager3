@@ -20,7 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping(path = "/api/sync")
 @Authenticated
-public class SyncFileREST {
+public class ServerSyncREST {
 
     @Autowired
     SyncFileService syncFileService;

@@ -2,16 +2,18 @@ package org.msh.etbm.services.sync.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.services.sync.SynchronizationException;
+import org.msh.etbm.services.sync.client.data.ServerCredentialsData;
+import org.msh.etbm.services.sync.client.data.ServerStatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.List;
 
@@ -31,6 +33,14 @@ public class ClientModeInitService {
     @Autowired
     EntityManager entityManager;
 
+    @Autowired
+    Messages messages;
+
+    /**
+     * If null initializing is not running
+     */
+    private ClientModeInitPhase phase;
+
     /**
      * Returns all workspaces attached to the user that matches with credentials on param.
      * @param data
@@ -43,11 +53,13 @@ public class ClientModeInitService {
 
         String serverAddress = checkServerAddress(data.getParentServerUrl());
 
+        TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
+
         List<WorkspaceInfo> response = request.post(serverAddress,
                 "/api/auth/workspaces",
                 null,
                 data,
-                getTypeFactory().constructCollectionType(List.class, WorkspaceInfo.class),
+                typeFactory.constructCollectionType(List.class, WorkspaceInfo.class),
                 null);
 
         return response;
@@ -57,10 +69,16 @@ public class ClientModeInitService {
      * Download and import init file.
      * @param data
      */
-    public void initialize(ServerCredentialsData data) {
+    public ServerStatusResponse initialize(ServerCredentialsData data) {
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
+
+        if (phase != null) {
+            throw new SynchronizationException("Initialization progress is already running");
+        }
+
+        phase = ClientModeInitPhase.STARTING;
 
         String serverAddress = checkServerAddress(data.getParentServerUrl());
 
@@ -72,19 +90,34 @@ public class ClientModeInitService {
                 null,
                 LoginResponse.class);
 
-        // Download file
-        File file = request.downloadFile(serverAddress,
+        // Asynchronously download and import file
+        phase = ClientModeInitPhase.DOWNLOADING_FILE;
+        request.downloadFile(serverAddress,
                 "/api/sync/inifile/",
-                loginRes.getAuthToken().toString());
+                loginRes.getAuthToken().toString(),
+                downloadedFile -> {
+                    importFile(downloadedFile, serverAddress);
+                });
 
-        // import file
-        importer.importFile(file, true, serverAddress);
-
-        file.delete();
+        return getStatus();
     }
 
-    private TypeFactory getTypeFactory() {
-        return new ObjectMapper().getTypeFactory();
+
+    /**
+     * Asynchronously imports the initialization file
+     * @param file
+     * @param serverAddress
+     */
+    private void importFile(File file, String serverAddress) {
+        phase = ClientModeInitPhase.IMPORTING_FILE;
+
+        importer.importFile(file, true, serverAddress, true, importedFile -> {
+            if (importedFile != null) {
+                importedFile.delete();
+            }
+
+            this.phase = null;
+        });
     }
 
     /**
@@ -122,5 +155,41 @@ public class ClientModeInitService {
             server += "etbm3";
         }
         return server;
+    }
+
+    /**
+     * Return the initialization status now
+     * @return
+     */
+    public ServerStatusResponse getStatus() {
+        if (phase == null) {
+            return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
+        }
+
+        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
+            String msg = messages.get("init.offinit.phase." + importer.getPhase().name());
+            return new ServerStatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
+        }
+
+        return getStatusResponse(phase);
+    }
+
+    /**
+     * Builds ServerStatusResponse to response status service.
+     * @param phase
+     * @return
+     */
+    private ServerStatusResponse getStatusResponse(Enum phase) {
+        return new ServerStatusResponse(phase.name(), messages.get("init.offinit.phase." + phase.name()));
+    }
+
+    /**
+     * Enum used to track the initialization progress
+     */
+    public enum ClientModeInitPhase {
+        STARTING,
+        DOWNLOADING_FILE,
+        IMPORTING_FILE,
+        NOT_RUNNING
     }
 }

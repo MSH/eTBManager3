@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.sync.client.db;
 
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.sync.CompactibleJsonConverter;
@@ -67,7 +67,7 @@ public class RecordImporter {
             template.update(sql, params);
 
             // Check if the table has any child and execute its dependent commands to delete all dependent registers, as
-            // those dependent registerd will be inserted forward on this importing.
+            // those dependent registered will be inserted forward on this importing.
             if (dependentCommands != null && idParam != null) {
                 for (String sqlCommand : dependentCommands) {
                     template.update(sqlCommand, idParam);

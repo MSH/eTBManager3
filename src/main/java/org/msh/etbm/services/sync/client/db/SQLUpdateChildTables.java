@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.sync.client.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;

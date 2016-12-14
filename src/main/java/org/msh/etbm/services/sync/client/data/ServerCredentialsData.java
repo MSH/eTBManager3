@@ -1,9 +1,9 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.sync.client.data;
 
 import java.util.UUID;
 
 /**
- * Class data to initialize an off-line mode instance
+ * Data class to initialize an off-line mode instance
  * Created by Mauricio on 21/11/2016.
  */
 public class ServerCredentialsData {

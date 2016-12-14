@@ -10,7 +10,11 @@ import org.msh.etbm.services.session.search.SearchableCreator;
 import org.msh.etbm.services.sync.CompactibleJsonConverter;
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
+import org.msh.etbm.services.sync.client.db.RecordImporter;
+import org.msh.etbm.services.sync.client.db.SQLCommandBuilder;
+import org.msh.etbm.services.sync.client.db.SQLUpdateChildTables;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -33,11 +37,30 @@ public class SyncFileImporter {
     SearchableCreator searchableCreator;
 
     /**
+     * If null importer is not running
+     */
+    private FileImportingPhase phase;
+
+    /**
+     * indicates which table is being imported
+     */
+    private String importingTable;
+
+    /**
      * Imports sync file reading it as a stream.
      * @param file
      * @param compressed
+     * @param parentServerUrl
+     * @param initializing if true indicates that is importing an initialization file, if not, it is a synchronization file.
      */
-    public void importFile(File file, boolean compressed, String parentServerUrl) {
+    @Async
+    public void importFile(File file, boolean compressed, String parentServerUrl, boolean initializing, FileImportListener listener) {
+        if (phase != null) {
+            throw new SynchronizationException("Importer is already running");
+        }
+
+        phase = FileImportingPhase.STARTING_IMPORTING;
+
         try {
             InputStream fileStream = new FileInputStream(file);
             // create a copy of downloaded file uncompressed
@@ -57,15 +80,23 @@ public class SyncFileImporter {
                 parser.close();
             }
 
-            // update the relation of all auto generated tags
-            autoGenTagsCasesService.updateAllCaseTags();
-
-            // update searchables
-            searchableCreator.updateAllSearchables();
-
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
+
+        // update the relation of all auto generated tags
+        phase = FileImportingPhase.UPDATING_TAGS;
+        autoGenTagsCasesService.updateAllCaseTags();
+
+        // update searchables
+        phase = FileImportingPhase.UPDATING_SEARCHABLES;
+        searchableCreator.updateAllSearchables();
+
+        // notify service that importing has end
+        listener.afterImport(file);
+
+        // indicates that importer is not running anymore
+        phase = null;
     }
 
     /**
@@ -79,6 +110,8 @@ public class SyncFileImporter {
             throw new SynchronizationException("Root should be object");
         }
 
+        phase =  FileImportingPhase.IMPORTING_TABLES;
+
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             // get field name that is being read
             String fieldName = parser.getCurrentName();
@@ -90,12 +123,15 @@ public class SyncFileImporter {
 
             switch (fieldName) {
                 case "version":
+                    importingTable = "version";
                     fileVersion = getVersion(parser);
                     break;
                 case "workspace":
+                    importingTable = "workspace";
                     importWorkspace(parser);
                     break;
                 case "config":
+                    importingTable = "systemconfig";
                     importConfig(parser, fileVersion, parentServerUrl);
                     break;
                 case "tables":
@@ -191,6 +227,7 @@ public class SyncFileImporter {
             // read tableName
             node = parser.readValueAsTree();
             tableName = node.asText();
+            this.importingTable = tableName;
 
             // enter into the table object second parameter name (action)
             parser.nextToken();
@@ -229,10 +266,33 @@ public class SyncFileImporter {
                 node = parser.readValueAsTree();
                 Map<String, Object> record = mapper.treeToValue(node, Map.class);
 
-                // TODO: [MSANTOS] executar no banco de dados
+                // TODO: [MSANTOS] implement when developing sync
             }
 
             parser.nextToken();
         }
+
+        this.importingTable = null;
+    }
+
+    /**
+     * @return the phase of importing process, if null, importing is not running.
+     */
+    public FileImportingPhase getPhase() {
+        return phase;
+    }
+
+    /**
+     * @return the table that importing is importing.
+     */
+    public String getImportingTable() {
+        return importingTable;
+    }
+
+    public enum FileImportingPhase {
+        STARTING_IMPORTING,
+        IMPORTING_TABLES,
+        UPDATING_TAGS,
+        UPDATING_SEARCHABLES;
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.services.sync.SynchronizationException;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -65,13 +66,14 @@ public class ParentServerRequestService {
     }
 
     /**
-     * Sends a request to download a file. This file will be stored as temp.
+     * Asynchronously sends a request to download a file. This file will be stored as a temp.
      * @param serverUrl
      * @param serviceUrl
      * @param authToken
      * @return the file downloaded
      */
-    public File downloadFile(String serverUrl, String serviceUrl, String authToken) {
+    @Async
+    public void downloadFile(String serverUrl, String serviceUrl, String authToken, FileDownloadListener listener) {
         URL url = getURL(serverUrl, serviceUrl);
         HttpURLConnection httpConn = null;
 
@@ -108,7 +110,7 @@ public class ParentServerRequestService {
             httpConn.disconnect();
         }
 
-        return file;
+        listener.afterDownload(file);
     }
 
     /**

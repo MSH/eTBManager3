@@ -1,8 +1,9 @@
-package org.msh.etbm.web.api.admin;
+package org.msh.etbm.web.api.sync;
 
 import org.msh.etbm.services.sync.client.ClientModeInitService;
-import org.msh.etbm.services.sync.client.ServerCredentialsData;
+import org.msh.etbm.services.sync.client.data.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.services.sync.client.data.ServerStatusResponse;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,16 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/offline")
-public class SyncREST {
+public class ClientSyncREST {
 
     @Autowired
     ClientModeInitService service;
 
+    /**
+     * Returns the workspaces available for the user/password sent on request
+     * @param req
+     * @return
+     */
     @RequestMapping(value = "/init/workspaces", method = RequestMethod.POST)
     public StandardResult findWorkspaces(@Valid @NotNull @RequestBody ServerCredentialsData req) {
 
@@ -30,11 +36,22 @@ public class SyncREST {
         return new StandardResult(res, null, true);
     }
 
+    /**
+     * Starts the initialization progress and returns the current status of it
+     * @param req
+     * @return
+     */
     @RequestMapping(value = "/init/initialize", method = RequestMethod.POST)
-    public StandardResult initialize(@Valid @NotNull @RequestBody ServerCredentialsData req) {
+    public ServerStatusResponse initialize(@Valid @NotNull @RequestBody ServerCredentialsData req) {
+        return service.initialize(req);
+    }
 
-        service.initialize(req);
-
-        return StandardResult.createSuccessResult();
+    /**
+     * Returns the status of the initialization progress
+     * @return
+     */
+    @RequestMapping(value = "/init/status", method = RequestMethod.GET)
+    public ServerStatusResponse status() {
+        return service.getStatus();
     }
 }
