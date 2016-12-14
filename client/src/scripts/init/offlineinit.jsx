@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, Button, ProgressBar, Alert } from 'react-bootstrap';
+import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, Button, Alert } from 'react-bootstrap';
 import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
@@ -33,6 +33,7 @@ export default class OfflineInit extends React.Component {
         this.workspaceSelected = this.workspaceSelected.bind(this);
         this.showUrlTextField = this.showUrlTextField.bind(this);
         this.gotoLogin = this.gotoLogin.bind(this);
+        this.checkStatusUntilFinish = this.checkStatusUntilFinish.bind(this);
 
         this.state = {
             data: {},
@@ -41,15 +42,9 @@ export default class OfflineInit extends React.Component {
              */
             globalMsgs: undefined,
             /*
-                Flag that indicates success or not on init process.
+                Indicate whitch phase is running on initialize process
              */
-            success: undefined,
-            /*
-                Number 0-100.
-                If 0 it is downloading the file.
-                From 1-100 indicates the process percentage of file reading.
-            */
-            importingP: undefined,
+            phase: undefined,
             /*
                 List of workspaces of the user.
                 If it contains only one go straight to importing.
@@ -60,8 +55,29 @@ export default class OfflineInit extends React.Component {
                 Flag that, when true, change the URL select field to a text field.
                 It is used on form phase
             */
-            urlText: undefined
+            urlText: undefined,
+            /*
+                Flag that indicates that component is checking if system is already initializing
+             */
+            checking: false
         };
+    }
+
+    componentWillMount() {
+        this.setState({ checking: true });
+
+        server.get('/api/offline/init/status')
+        .then(res => {
+            if (res.id !== 'NOT_RUNNING') {
+                // update phase
+                this.setState({ phase: res });
+                // schedule next status checking
+                setTimeout(this.checkStatusUntilFinish, 800);
+            }
+
+            this.setState({ checking: false });
+            return res;
+        });
     }
 
     /**
@@ -123,29 +139,17 @@ export default class OfflineInit extends React.Component {
         const req = this.state.credentials;
         req.workspaceId = this.state.workspaceId;
 
-        // shows wait icon
-        this.setState({ workspaces: null, fetching: false, importingP: 0 });
-
         server.post('/api/offline/init/initialize', req)
         .then(res => {
-            // TODO: mock progress bar, sync it with server
-            // here the importing has finished
-            setInterval(() => {
-                const p = this.state.importingP;
-                if (p < 100) {
-                    this.setState({ importingP: (p + 1) });
-                } else {
-                    this.clearAllIntervals();
-                    this.setState({ success: true });
-                }
-            }, 100);
-
+            this.setState({ phase: res, fetching: false, workspaces: null });
+            // schedule status checking
+            setTimeout(this.checkStatusUntilFinish, 800);
             return res;
         });
     }
 
     /**
-     * Mock progress
+     * Clear all timeouts
      * @return {[type]} [description]
      */
     clearAllIntervals() {
@@ -154,6 +158,27 @@ export default class OfflineInit extends React.Component {
         for (var i = 0; i <= id; i++) {
             clearInterval(i);
         }
+    }
+
+    /**
+     * Check initialization status until it finishes
+     * @return {[type]} [description]
+     */
+    checkStatusUntilFinish() {
+        this.clearAllIntervals();
+
+        server.get('/api/offline/init/status')
+        .then(res => {
+            if (res.id !== 'NOT_RUNNING') {
+                // update phase
+                this.setState({ phase: res });
+                // schedule next status checking
+                setTimeout(this.checkStatusUntilFinish, 800);
+            } else {
+                // initialization has finished
+                this.setState({ phase: undefined, success: true  });
+            }
+        });
     }
 
     /**
@@ -286,12 +311,12 @@ export default class OfflineInit extends React.Component {
     /**
      * Render the downloading file phase
      */
-    renderDownloading() {
+    renderWait() {
         return (
                 <div>
                     <Row>
                         <Col sm={12}>
-                            <h4 className="text-center">{__('init.offinit.downloading')}</h4>
+                            <h4 className="text-center">{this.state.phase.title}</h4>
                         </Col>
                     </Row>
                     <Row>
@@ -300,26 +325,6 @@ export default class OfflineInit extends React.Component {
                         </Col>
                         <Col sm={12}>
                             <span className="text-muted">{__('global.pleasewait')}</span>
-                        </Col>
-                    </Row>
-                </div>
-                );
-    }
-
-    /**
-     * Render the reading/importing phase
-     */
-    renderReading() {
-        return (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <h4 className="text-center">{__('init.offinit.reading')}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <ProgressBar now={this.state.importingP} label={`${this.state.importingP}%`} />
                         </Col>
                     </Row>
                 </div>
@@ -348,21 +353,42 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
+     * Render the checking server phase
+     */
+    renderChecking() {
+        return (
+                <div>
+                    <Row>
+                        <Col sm={12}>
+                            <h4 className="text-center">{__('global.pleasewait')}</h4>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={12}>
+                            <WaitIcon type="card" />
+                        </Col>
+                        <Col sm={12}>
+                            <span className="text-muted">{__('global.pleasewait')}</span>
+                        </Col>
+                    </Row>
+                </div>
+                );
+    }
+
+    /**
      * Render the component
      */
     render() {
         let content;
 
-        if (this.state.success) {
+        if (this.state.checking) {
+            content = this.renderChecking();
+        } else if (this.state.success) {
             // success mesage
             content = this.renderSuccess();
-        } else if (this.state.importingP > 0) {
-            // reading phase screen
-            content = this.renderReading();
-
-        } else if (this.state.importingP === 0) {
+        } else if (this.state.phase) {
             // downloading phase screen
-            content = this.renderDownloading();
+            content = this.renderWait();
 
         } else if (this.state.workspaces) {
             // workspace selection phase screen
