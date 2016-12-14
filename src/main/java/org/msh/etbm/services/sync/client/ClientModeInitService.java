@@ -95,9 +95,7 @@ public class ClientModeInitService {
         request.downloadFile(serverAddress,
                 "/api/sync/inifile/",
                 loginRes.getAuthToken().toString(),
-                downloadedFile -> {
-                    importFile(downloadedFile, serverAddress);
-                });
+            downloadedFile -> importFile(downloadedFile, serverAddress));
 
         return getStatus();
     }
