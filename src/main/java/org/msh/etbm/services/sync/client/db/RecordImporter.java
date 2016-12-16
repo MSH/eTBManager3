@@ -82,10 +82,6 @@ public class RecordImporter {
             return 0;
         });
 
-        if (cmdBuilder.getTableName().equals("unit") && action.equals("UPDATE")) {
-            System.out.println("aqui");
-        }
-
         // publish event about record inserting/updating
         RecordChangeEvent event = new RecordChangeEvent(cmdBuilder.getTableName(), idParam, isUpdate ? "UPDATE" : "INSERT");
         applicationContext.publishEvent(event);
