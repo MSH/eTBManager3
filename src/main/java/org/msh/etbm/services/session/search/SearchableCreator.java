@@ -39,16 +39,4 @@ public class SearchableCreator extends SearchableBuilder {
         entityManager.flush();
     }
 
-    /**
-     * Deletes all existing searchables and then, creates NEW searchable registers for all searchable entities
-     */
-    @Transactional
-    public void updateAllSearchables() {
-        entityManager.createQuery("delete from Searchable").executeUpdate();
-
-        this.createNewSearchables(Workspace.class);
-        this.createNewSearchables(AdministrativeUnit.class);
-        this.createNewSearchables(Unit.class);
-        this.createNewSearchables(TbCase.class);
-    }
 }

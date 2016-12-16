@@ -1,29 +1,47 @@
 package org.msh.etbm.db.enums;
 
+import org.msh.etbm.db.entities.*;
+
 /**
  * Type of information stored as a searchable item
  */
 public enum SearchableType {
-    WORKSPACE("Workspace", null),
-    ADMINUNIT("AdministrativeUnit", null),
-    TBUNIT("Tbunit", "Unit"),
-    LAB("Laboratory", "Unit"),
-    CASE_MAN("TbCase", null),
-    CASE_WOMAN("TbCase", null);
+    WORKSPACE(Workspace.class, null, "workspace"),
+    ADMINUNIT(AdministrativeUnit.class, null, "administrativeunit"),
+    TBUNIT(Tbunit.class, Unit.class, "unit"),
+    LAB(Laboratory.class, Unit.class, "unit"),
+    CASE_MAN(TbCase.class, null, "tbcase"),
+    CASE_WOMAN(TbCase.class, null, "tbcase");
 
-    SearchableType(String entityClassName, String parentClassName) {
-        this.entityClassName = entityClassName;
-        this.parentClassName = parentClassName;
+    SearchableType(Class entityClass, Class parentClass, String tableName) {
+        this.entityClass = entityClass;
+        this.parentClass = parentClass;
+        this.tableName = tableName;
     }
 
-    private String entityClassName;
-    private String parentClassName;
+    private Class entityClass;
+    private Class parentClass;
+    private String tableName;
 
-    public String getEntityClassName() {
-        return entityClassName;
+    public Class getEntityClass() {
+        return entityClass;
     }
 
-    public String getParentClassName() {
-        return parentClassName;
+    public Class getParentClass() {
+        return parentClass;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public static final SearchableType findByTable(String tableName) {
+        for (SearchableType s : SearchableType.values()) {
+            if (s.getTableName().equals(tableName)) {
+                return s;
+            }
+        }
+
+        return null;
     }
 }

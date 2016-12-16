@@ -70,6 +70,7 @@ public class PersonNameUtils {
 
     private String mountName(ArrayList<String> names, boolean putCommas) {
         String spacer = putCommas ? ", " : " ";
+        int i = putCommas ? 2 : 1;
         String ret = "";
 
         for (String name : names) {
@@ -78,6 +79,6 @@ public class PersonNameUtils {
             }
         }
 
-        return ret.substring(0, ret.length() - 2);
+        return ret.substring(0, ret.length() - i);
     }
 }

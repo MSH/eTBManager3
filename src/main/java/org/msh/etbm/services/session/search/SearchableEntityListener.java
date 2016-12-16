@@ -10,17 +10,18 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * Listener that creates, updates or remove a searchable based on an entity
+ * This listener listen to EntityService implementations
  * Created by Mauricio on 05/10/2016.
  */
 @Component
-public class SearchableListener extends SearchableBuilder {
+public class SearchableEntityListener extends SearchableBuilder {
 
     /**
      * Called when a Searchable entity was created
      * @param event
      */
     @Transactional
-    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isCreatingSearchable(#event)")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableEntityListener).isCreatingSearchable(#event)")
     public void copyToSearchable(EntityServiceEvent event) {
         Object entity = entityManager.find(event.getResult().getEntityClass(), event.getResult().getId());
 
@@ -38,7 +39,7 @@ public class SearchableListener extends SearchableBuilder {
      * @param event
      */
     @Transactional
-    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isUpdatingSearchable(#event)")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableEntityListener).isUpdatingSearchable(#event)")
     public void updateSearchable(EntityServiceEvent event) {
         Searchable searchable = entityManager.find(Searchable.class, event.getResult().getId());
         Object entity = entityManager.find(event.getResult().getEntityClass(), event.getResult().getId());
@@ -57,7 +58,7 @@ public class SearchableListener extends SearchableBuilder {
      * @param event
      */
     @Transactional
-    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableListener).isRemovingSearchable(#event)")
+    @TransactionalEventListener(condition = "T(org.msh.etbm.services.session.search.SearchableEntityListener).isRemovingSearchable(#event)")
     public void removeSearchable(EntityServiceEvent event) {
         Searchable searchable = entityManager.find(Searchable.class, event.getResult().getId());
         if (searchable != null) {
@@ -114,11 +115,9 @@ public class SearchableListener extends SearchableBuilder {
             return false;
         }
 
-        String entityClassName = event.getResult().getEntityClass().getSimpleName();
-
         // check if is a searchable entity
         for (SearchableType s : SearchableType.values()) {
-            if (entityClassName.equals(s.getEntityClassName()) || entityClassName.equals(s.getParentClassName())) {
+            if (event.getResult().getEntityClass().equals(s.getEntityClass()) || event.getResult().getEntityClass().equals(s.getParentClass())) {
                 return true;
             }
         }

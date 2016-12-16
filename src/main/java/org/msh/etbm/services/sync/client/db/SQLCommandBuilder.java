@@ -14,6 +14,7 @@ public class SQLCommandBuilder {
     private String deleteCmd;
     private String selectCmd;
     private List<String> deleteChildCommands;
+    private String tableName;
 
     /**
      * When instantiated will create the insert, update, delete and select command used during the importing process.
@@ -21,10 +22,11 @@ public class SQLCommandBuilder {
      * @param fields
      */
     public SQLCommandBuilder(String tableName, Set<String> fields) {
-        createInsertCommand(tableName, fields);
-        createUpdateCommand(tableName, fields);
-        createDeleteCommand(tableName);
-        createSelectCommand(tableName);
+        this.tableName = tableName;
+        createInsertCommand(fields);
+        createUpdateCommand(fields);
+        createDeleteCommand();
+        createSelectCommand();
     }
 
     /**
@@ -34,19 +36,19 @@ public class SQLCommandBuilder {
      * @param fields
      */
     public SQLCommandBuilder(String tableName, Set<String> fields, SQLUpdateChildTables dependences) {
-        createInsertCommand(tableName, fields);
-        createUpdateCommand(tableName, fields);
-        createDeleteCommand(tableName);
-        createSelectCommand(tableName);
+        this.tableName = tableName;
+        createInsertCommand(fields);
+        createUpdateCommand(fields);
+        createDeleteCommand();
+        createSelectCommand();
         deleteChildCommands = dependences.getParentCommands(tableName);
     }
 
     /**
      * Creates and stores in local variable the insert command used during the importing process.
-     * @param tableName
      * @param fields
      */
-    private void createInsertCommand(String tableName, Set<String> fields) {
+    private void createInsertCommand(Set<String> fields) {
         String insert = "INSERT INTO $TABLENAME($FIELD) VALUES($VALUE)";
         insert = insert.replace("$TABLENAME", tableName);
 
@@ -63,10 +65,9 @@ public class SQLCommandBuilder {
 
     /**
      * Creates and stores in local variable the update command used during the importing process.
-     * @param tableName
      * @param fields
      */
-    private void createUpdateCommand(String tableName, Set<String> fields) {
+    private void createUpdateCommand(Set<String> fields) {
         String update = "UPDATE $TABLENAME SET $FIELD = ?";
         update = update.replace("$TABLENAME", tableName);
 
@@ -86,9 +87,8 @@ public class SQLCommandBuilder {
 
     /**
      * Creates and stores in local variable the delete command used during the importing process.
-     * @param tableName
      */
-    private void createDeleteCommand(String tableName) {
+    private void createDeleteCommand() {
         String delete = "DELETE FROM $TABLENAME WHERE id = ?";
         delete = delete.replace("$TABLENAME", tableName);
 
@@ -97,9 +97,8 @@ public class SQLCommandBuilder {
 
     /**
      * Creates and stores in local variable the select command used during the importing process.
-     * @param tableName
      */
-    private void createSelectCommand(String tableName) {
+    private void createSelectCommand() {
         String select = "SELECT id FROM $TABLENAME WHERE id = ?";
         select = select.replace("$TABLENAME", tableName);
 
@@ -144,5 +143,13 @@ public class SQLCommandBuilder {
      */
     public List<String> getDeleteChildCommands() {
         return deleteChildCommands;
+    }
+
+    /**
+     *
+     * @return table name
+     */
+    public String getTableName() {
+        return tableName;
     }
 }

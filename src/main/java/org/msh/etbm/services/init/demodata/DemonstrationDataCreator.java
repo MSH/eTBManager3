@@ -64,7 +64,7 @@ public class DemonstrationDataCreator {
 
         searchableCreator.createNewSearchables(TbCase.class);
 
-        runAutoGenTags(workspace);
+        autoGenTagsCasesService.updateAllCaseTags();
     }
 
     /**
@@ -283,23 +283,5 @@ public class DemonstrationDataCreator {
         }
 
         entityManager.flush();
-    }
-
-    /**
-     * Runs sql of auto generated tags, so they will be automatically related to the cases that fits on this condition
-     * @param workspace
-     */
-    private void runAutoGenTags(Workspace workspace) {
-        List<Tag> tags = entityManager.createQuery("from Tag where sqlCondition is not null").getResultList();
-
-        if (tags == null || tags.size() <= 0) {
-            return;
-        }
-
-        for (Tag t : tags) {
-            if (t.getSqlCondition() != null || !t.getSqlCondition().isEmpty()) {
-                autoGenTagsCasesService.updateCases(t.getId(), workspace.getId());
-            }
-        }
     }
 }

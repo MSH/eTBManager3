@@ -2,7 +2,9 @@ package org.msh.etbm.services.sync.client.db;
 
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.sync.CompactibleJsonConverter;
+import org.msh.etbm.services.sync.client.data.RecordChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -24,6 +26,9 @@ public class RecordImporter {
 
     @Autowired
     PlatformTransactionManager platformTransactionManager;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.
@@ -76,6 +81,14 @@ public class RecordImporter {
 
             return 0;
         });
+
+        if (cmdBuilder.getTableName().equals("unit") && action.equals("UPDATE")) {
+            System.out.println("aqui");
+        }
+
+        // publish event about record inserting/updating
+        RecordChangeEvent event = new RecordChangeEvent(cmdBuilder.getTableName(), idParam, isUpdate ? "UPDATE" : "INSERT");
+        applicationContext.publishEvent(event);
     }
 
     /**
@@ -90,10 +103,14 @@ public class RecordImporter {
     /**
      * Detele an entity that comes inside deleted entity sections of sync file.
      * @param cmdBuilder
-     * @param id
+     * @param record
      */
-    public void delete(SQLCommandBuilder cmdBuilder, Object id) {
+    public void delete(SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
         // TODO: [MSANTOS] implement when developing sync
+
+        // publish event about record deleting
+        RecordChangeEvent event = new RecordChangeEvent(cmdBuilder.getTableName(), getIdParam(record), "DELETE");
+        applicationContext.publishEvent(event);
     }
 
     /**

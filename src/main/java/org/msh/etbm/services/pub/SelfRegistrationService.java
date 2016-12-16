@@ -6,7 +6,6 @@ import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.security.UserUtils;

@@ -75,6 +75,20 @@ public abstract class SearchableBuilder {
             return buildSearchable((Laboratory)entity, searchable);
         }
 
+        if (entity instanceof Unit) {
+            Unit e = (Unit) entity;
+
+            Tbunit tbunit = entityManager.find(Tbunit.class, e.getId());
+            if (tbunit != null) {
+                return buildSearchable(tbunit, searchable);
+            }
+
+            Laboratory lab = entityManager.find(Laboratory.class, e.getId());
+            if (lab != null) {
+                return buildSearchable(lab, searchable);
+            }
+        }
+
         if (entity instanceof AdministrativeUnit) {
             return buildSearchable((AdministrativeUnit)entity, searchable);
         }

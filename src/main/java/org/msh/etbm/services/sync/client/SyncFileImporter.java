@@ -80,23 +80,19 @@ public class SyncFileImporter {
                 parser.close();
             }
 
+            // update the relation of all auto generated tags
+            phase = FileImportingPhase.UPDATING_TAGS;
+            autoGenTagsCasesService.updateAllCaseTags();
+
         } catch (Throwable e) {
             throw new RuntimeException(e);
+        } finally {
+            // notify service that importing has end
+            listener.afterImport(file);
+
+            // indicates that importer is not running anymore
+            phase = null;
         }
-
-        // update the relation of all auto generated tags
-        phase = FileImportingPhase.UPDATING_TAGS;
-        autoGenTagsCasesService.updateAllCaseTags();
-
-        // update searchables
-        phase = FileImportingPhase.UPDATING_SEARCHABLES;
-        searchableCreator.updateAllSearchables();
-
-        // notify service that importing has end
-        listener.afterImport(file);
-
-        // indicates that importer is not running anymore
-        phase = null;
     }
 
     /**
@@ -292,7 +288,6 @@ public class SyncFileImporter {
     public enum FileImportingPhase {
         STARTING_IMPORTING,
         IMPORTING_TABLES,
-        UPDATING_TAGS,
-        UPDATING_SEARCHABLES;
+        UPDATING_TAGS;
     }
 }
