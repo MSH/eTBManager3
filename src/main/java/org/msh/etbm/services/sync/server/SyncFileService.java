@@ -3,14 +3,19 @@ package org.msh.etbm.services.sync.server;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.sync.CompactibleJsonConverter;
+import org.msh.etbm.services.sync.SyncCmdLogHandler;
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
+import org.msh.etbm.services.sync.SynchronizationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -41,6 +46,8 @@ public class SyncFileService {
     @Autowired
     SysConfigService sysConfigService;
 
+    @Autowired
+    UserRequestService userRequestService;
 
     /**
      * Generate a synchronization file from the server side
@@ -49,7 +56,8 @@ public class SyncFileService {
      * @return the generated file
      * @throws SynchronizationException
      */
-    public File generate(UUID unitId, Optional<Long> initialVersion) throws SynchronizationException {
+    @CommandLog(type = CommandTypes.OFFLINE_SERVERINIT, handler = SyncCmdLogHandler.class)
+    public SynchronizationResponse generate(UUID unitId, Optional<Long> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -67,12 +75,26 @@ public class SyncFileService {
                 fout.close();
             }
 
-            return file;
+            return createResponse(file);
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
 
+    }
+
+    /**
+     * Creates response for file generation, used by SyncCmdLogHandler to register the log for this service
+     * @param file
+     * @return
+     */
+    private SynchronizationResponse createResponse(File file) {
+        SynchronizationResponse resp = new SynchronizationResponse();
+        resp.setFile(file);
+        resp.setUnitId(userRequestService.getUserSession().getUnitId());
+        resp.setUserId(userRequestService.getUserSession().getUserId());
+        resp.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
+        return resp;
     }
 
     /**

@@ -3,9 +3,11 @@ package org.msh.etbm.services.sync.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.services.sync.SyncCmdLogHandler;
 import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.sync.client.data.ServerCredentialsData;
 import org.msh.etbm.services.sync.client.data.ServerStatusResponse;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.util.List;
 
@@ -30,8 +33,11 @@ public class ClientModeInitService {
     @Autowired
     SyncFileImporter importer;
 
-    @Autowired
+    @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    CommandStoreService commandStoreService;
 
     @Autowired
     Messages messages;
@@ -95,7 +101,7 @@ public class ClientModeInitService {
         request.downloadFile(serverAddress,
                 "/api/sync/inifile/",
                 loginRes.getAuthToken().toString(),
-            downloadedFile -> importFile(downloadedFile, serverAddress));
+            downloadedFile -> importFile(data, downloadedFile, serverAddress));
 
         return getStatus();
     }
@@ -106,16 +112,38 @@ public class ClientModeInitService {
      * @param file
      * @param serverAddress
      */
-    private void importFile(File file, String serverAddress) {
+    private void importFile(ServerCredentialsData data, File file, String serverAddress) {
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
-        importer.importFile(file, true, serverAddress, true, importedFile -> {
-            if (importedFile != null) {
-                importedFile.delete();
-            }
+        importer.importFile(file, true, serverAddress, true, importedFile -> afterImporting(data, importedFile));
+    }
 
-            this.phase = null;
-        });
+    /**
+     * Called after importing file
+     * @param importedFile
+     */
+    private void afterImporting(ServerCredentialsData data, File importedFile) {
+        // delete the file
+        if (importedFile != null) {
+            importedFile.delete();
+        }
+
+        // clear phase
+        this.phase = null;
+
+        // register commandlog
+        Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
+                .setParameter("login", data.getUsername())
+                .getSingleResult();
+
+        CommandHistoryInput in = new CommandHistoryInput();
+        in.setWorkspaceId(((Workspace)o[0]).getId());
+        in.setUnitId(((Unit)o[1]).getId());
+        in.setUserId(((User)o[2]).getId());
+        in.setAction(CommandAction.EXEC);
+        in.setType(CommandTypes.OFFLINE_CLIENTINIT);
+
+        commandStoreService.store(in);
     }
 
     /**

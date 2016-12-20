@@ -20,6 +20,7 @@ public class CommandTypes {
     public static final String INVENTORY = "inventory";
     public static final String ADMIN = "admin";
     public static final String SESSION = "session";
+    public static final String OFFLINE = "offline";
 
     // initialization command types
     public static final String INIT_REGWORKSPACE = "init.regworkspace";
@@ -82,6 +83,12 @@ public class CommandTypes {
     public static final String CMD_UPDATE = "update";
     public static final String CMD_DELETE = "delete";
 
+    // commands used in file synchronization
+    public static final String OFFLINE_SERVERINIT = "offline.serverinit";
+    public static final String OFFLINE_SERVERSYNC = "offline.serversync";
+    public static final String OFFLINE_CLIENTINIT = "offline.clientinit";
+    public static final String OFFLINE_CLIENTSYNC = "offline.clientsync";
+
     // the root of all command types (commands are organized in a tree way)
     public static final RootCommandType ROOT = new RootCommandType();
 
@@ -96,6 +103,7 @@ public class CommandTypes {
         ROOT.add(INVENTORY);
         ROOT.add(ADMIN);
         ROOT.add(SESSION);
+        ROOT.add(OFFLINE);
 
         // initialization
         ROOT.add(INIT_REGWORKSPACE);
@@ -149,6 +157,12 @@ public class CommandTypes {
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);
         ROOT.add(SESSION_CHANGE_PWD, "changepwd");
+
+        // offline mode
+        ROOT.add(OFFLINE_SERVERINIT);
+        ROOT.add(OFFLINE_SERVERSYNC);
+        ROOT.add(OFFLINE_CLIENTINIT);
+        ROOT.add(OFFLINE_CLIENTSYNC);
     }
 
 

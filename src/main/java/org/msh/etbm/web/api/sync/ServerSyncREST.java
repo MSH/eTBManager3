@@ -33,7 +33,7 @@ public class ServerSyncREST {
         UUID unitId = userRequestService.getUserSession().getUnitId();
 
         // generate the file content
-        File file = syncFileService.generate(unitId, Optional.empty());
+        File file = syncFileService.generate(unitId, Optional.empty()).getFile();
 
         // generate the file name
         String filename = userRequestService.getUserSession().getWorkspaceName() + ".etbm";
