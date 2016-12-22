@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.followup.examcul;
+package org.msh.etbm.services.cases.followup.examculture;
 
 import org.msh.etbm.db.enums.CultureResult;
 import org.msh.etbm.db.enums.SampleType;

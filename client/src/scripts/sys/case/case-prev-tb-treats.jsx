@@ -4,7 +4,6 @@ import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import Form from '../../forms/form';
 import moment from 'moment';
-import { isEmpty } from '../../commons/utils';
 import { getOptionName, getOptionList } from '../mock-option-lists';
 
 
@@ -252,6 +251,7 @@ export default class CasePrevTbTreats extends React.Component {
                     onCellRender={this.cellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}
                     refreshAll
+                    remotePath="/api/tbl/prevtreat/init"
                     perm={'CASEMAN'}
                     />
             </CaseComments>

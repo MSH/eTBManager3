@@ -5,6 +5,7 @@ import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.HashMap;
@@ -57,13 +58,7 @@ public class IndicatorTransform {
     }
 
     private int[] calcVariablePositions(List<Variable> vars, int iniPos) {
-        int size = 0;
-        for (Variable var: vars) {
-            size++;
-            if (var.getVariableOptions().isGrouped()) {
-                size++;
-            }
-        }
+        int size = vars.size();
 
         int[] pos = new int[size];
         for (int i = 0; i < size; i++) {
@@ -90,22 +85,21 @@ public class IndicatorTransform {
             int index = 0;
 
             for (Variable var: variables) {
-                String key = vals[index] != null ? vals[index].toString() : null;
-                String s = var.getVariableOptions().isGrouped() ? var.getGroupKeyDisplay(key) : var.getKeyDisplay(key);
+                Key key = (Key)vals[index];
+                String s = var.isGrouped() ? var.getGroupKeyDisplay(key) : var.getKeyDisplay(key);
                 if (s == null) {
                     throw new IndicatorException("Invalid key display for value " + vals[index]);
                 }
 
-                addDescriptor(descriptors, index, key, s);
+                if (var.isGrouped()) {
+                    String s2 = var.getKeyDisplay(key);
+                    String id2 = key.getGroup() != null ? key.getGroup().toString() : "null";
+                    addDescriptor(descriptors, index, id2, s2);
+                }
+
+                addDescriptor(descriptors, index, key.getValue().toString(), s);
 
                 index++;
-
-                if (var.getVariableOptions().isGrouped()) {
-                    String id2 = vals[index] != null ? vals[index].toString() : "null";
-                    String s2 = var.getKeyDisplay(id2);
-                    addDescriptor(descriptors, index, id2, s2);
-                    index++;
-                }
             }
         }
     }

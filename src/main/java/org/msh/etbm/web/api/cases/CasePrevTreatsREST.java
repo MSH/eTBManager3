@@ -4,10 +4,7 @@ import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatData;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatQueryParams;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatService;
+import org.msh.etbm.services.cases.prevtreats.*;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -31,6 +28,16 @@ public class CasePrevTreatsREST {
 
     @Autowired
     FormService formService;
+
+    @Autowired
+    PrevTBTreatmentService prevTBTreatmentService;
+
+    @RequestMapping(value = "/prevtreat/init", method = RequestMethod.POST)
+    public FormInitResponse init(@RequestParam(name = "id", required = false) UUID id,
+                                 @RequestParam(name = "edit", required = false) String edit,
+                                 @RequestParam(name = "form", required = false) String form) {
+        return prevTBTreatmentService.init(id, edit != null, form != null);
+    }
 
     @RequestMapping(value = "/prevtreat", method = RequestMethod.GET)
     public FormInitResponse init() {

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.followup.examcul;
+package org.msh.etbm.services.cases.followup.examculture;
 
 import org.msh.etbm.commons.entities.EntityService;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
@@ -6,5 +6,5 @@ import org.msh.etbm.commons.entities.query.EntityQueryParams;
 /**
  * Created by msantos on 14/7/16.
  */
-public interface ExamCulService extends EntityService<EntityQueryParams> {
+public interface ExamCultureService extends EntityService<EntityQueryParams> {
 }

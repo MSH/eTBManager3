@@ -3,9 +3,11 @@ package org.msh.etbm.web.api.cases;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.EntityQueryParams;
 import org.msh.etbm.commons.entities.query.QueryResult;
-import org.msh.etbm.services.cases.followup.examcul.ExamCulData;
-import org.msh.etbm.services.cases.followup.examcul.ExamCulFormData;
-import org.msh.etbm.services.cases.followup.examcul.ExamCulService;
+import org.msh.etbm.commons.forms.FormInitResponse;
+import org.msh.etbm.services.cases.followup.examculture.ExamCulData;
+import org.msh.etbm.services.cases.followup.examculture.ExamCulFormData;
+import org.msh.etbm.services.cases.followup.examculture.ExamCulture2Service;
+import org.msh.etbm.services.cases.followup.examculture.ExamCultureService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -27,7 +29,17 @@ import java.util.UUID;
 public class ExamCultureREST {
 
     @Autowired
-    ExamCulService service;
+    ExamCultureService service;
+
+    @Autowired
+    ExamCulture2Service examCulture2Service;
+
+    @RequestMapping(value = "/examculture/init", method = RequestMethod.POST)
+    public FormInitResponse init(@RequestParam(name = "id", required = false) UUID id,
+                                 @RequestParam(name = "edit", required = false) String edit,
+                                 @RequestParam(name = "form", required = false) String form) {
+        return examCulture2Service.init(id, edit != null, form != null);
+    }
 
     @RequestMapping(value = "/examcul/{id}", method = RequestMethod.GET)
     public ExamCulData get(@PathVariable UUID id) {

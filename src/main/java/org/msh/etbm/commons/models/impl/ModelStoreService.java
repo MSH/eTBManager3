@@ -37,12 +37,11 @@ public class ModelStoreService {
      * Retrieve a model by its ID and workspace ID. If model doesn' exist (invalid model)
      * system throws a {@link ModelException}
      * @param modelId the model ID
-     * @param workspaceId the workspace ID to get the model from
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
-    public CompiledModel get(String modelId, UUID workspaceId) {
-        Model model = loadFromDB(modelId, workspaceId);
+    @Cacheable(cacheNames = CACHE_ID, key = "#modelId")
+    public CompiledModel get(String modelId) {
+        Model model = loadFromDB(modelId);
 
         if (model == null) {
             model = loadFromResources(modelId);
@@ -55,17 +54,15 @@ public class ModelStoreService {
 
 
     @Transactional
-    @CachePut(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
-    public void update(String modelId, UUID workspaceId, Model model) {
-        ModelData data = loadModelData(modelId, workspaceId);
+    @CachePut(cacheNames = CACHE_ID, key = "#modelId")
+    public void update(String modelId, Model model) {
+        ModelData data = loadModelData(modelId);
 
         if (data == null) {
-            Workspace ws = entityManager.find(Workspace.class, modelId);
             String jsonData = JsonParser.objectToJSONString(model, false);
 
             data = new ModelData();
-            data.setModelId(modelId);
-            data.setWorkspace(ws);
+            data.setId(modelId);
             data.setJsonData(jsonData);
         }
 
@@ -93,11 +90,10 @@ public class ModelStoreService {
     /**
      * Load a customized model from the database
      * @param modelId the model ID
-     * @param workspaceId the workspace ID
      * @return instance of {@link Model}
      */
-    private Model loadFromDB(String modelId, UUID workspaceId) {
-        ModelData data = loadModelData(modelId, workspaceId);
+    private Model loadFromDB(String modelId) {
+        ModelData data = loadModelData(modelId);
 
         if (data == null) {
             return null;
@@ -108,10 +104,8 @@ public class ModelStoreService {
     }
 
 
-    private ModelData loadModelData(String modelId, UUID workspaceId) {
-        List<ModelData> lst = entityManager.createQuery("from ModelData where workspace.id = :wsid " +
-                "and modelId = :modelId")
-                .setParameter("wsid", workspaceId)
+    private ModelData loadModelData(String modelId) {
+        List<ModelData> lst = entityManager.createQuery("from ModelData where id = :modelId")
                 .setParameter("modelId", modelId)
                 .setMaxResults(1)
                 .getResultList();

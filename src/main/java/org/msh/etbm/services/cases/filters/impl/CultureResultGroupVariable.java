@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.filters.impl;
 
 
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.db.enums.CultureResult;
 import org.msh.etbm.services.cases.filters.CaseFilters;
 
@@ -26,29 +27,27 @@ public class CultureResultGroupVariable extends EnumFilter {
      * @see org.msh.tb.reports2.VariableImpl#createKey(java.lang.Object)
      */
     @Override
-    public String createKey(Object value) {
-        if (value == null) {
-            return ResultGroup.PENDING.toString();
+    public Key createKey(Object[] values, int iteration) {
+        if (values[0] == null) {
+            return Key.of(ResultGroup.PENDING);
         }
 
-        if (!(value instanceof Number)) {
-            return super.createKey(value);
-        }
+        int index = (Integer)values[0];
 
-        CultureResult res = CultureResult.values()[((Number)value).intValue()];
+        CultureResult res = CultureResult.values()[index];
 
         if (res.isPositive()) {
-            return CultureResult.POSITIVE.toString();
+            return Key.of(CultureResult.POSITIVE);
         }
 
         if (res.isNegative()) {
-            return CultureResult.NEGATIVE.toString();
+            return Key.of(CultureResult.NEGATIVE);
         }
 
         if (res == CultureResult.CONTAMINATED) {
-            return res.toString();
+            return Key.of(res);
         }
 
-        return CultureResult.OTHER.toString();
+        return Key.of(CultureResult.OTHER);
     }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "culture",
-  "table": "culture",
+  "name": "examculture",
+  "table": "examculture",
   "fields": [
     {
       "name": "date",
@@ -67,7 +67,6 @@
       "type": "int",
       "label": "${ExamCulture.numberOfColonies}",
       "options": { "from": 1, "to": 9 },
-      "visible": { "function": "this.result === 'POSITIVE'" }
     },
     {
       "name": "comments",

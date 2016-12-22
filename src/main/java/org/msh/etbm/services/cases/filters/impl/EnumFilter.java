@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.filters.impl;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterTypes;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
@@ -95,22 +96,22 @@ public class EnumFilter extends AbstractFilter {
     }
 
     @Override
-    public String createKey(Object values) {
-        if (values == null) {
-            return KEY_NULL;
+    public Key createKey(Object[] values, int iteration) {
+        if (values[0] == null) {
+            return Key.asNull();
         }
 
         // the object that returns from the table is always an integer
         Enum[] vals = getEnumClass().getEnumConstants();
-        int index = (Integer)values;
+        int index = (Integer)values[0];
 
-        return vals[index].toString();
+        return Key.of(vals[index]);
     }
 
 
     @Override
-    public String getKeyDisplay(String key) {
-        if ((key == null) || (KEY_NULL.equals(key))) {
+    public String getKeyDisplay(Key key) {
+        if (key.isNull()) {
             return getMessages().get("global.notdef");
         }
 
