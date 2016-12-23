@@ -117,17 +117,15 @@ public class EnumFilter extends AbstractFilter {
 
         // the object that returns from the table is always an integer
         Enum[] vals = getEnumClass().getEnumConstants();
-        for (Enum e: vals) {
-            if (e.toString().equals(key)) {
-                String msgKey = e instanceof MessageKey ? ((MessageKey) e).getMessageKey() :
-                        enumClass.getSimpleName() + "." + key.toString();
+        Object val = key.getValue();
 
-                String txt = getMessages().get(msgKey);
-                return txt;
-            }
-        }
+        Enum e = val instanceof String ? ObjectUtils.stringToEnum((String)val, getEnumClass()) :
+                (Enum)val;
 
-        return key.toString();
+        String msgKey = e instanceof MessageKey ? ((MessageKey) e).getMessageKey() :
+                enumClass.getSimpleName() + "." + key.toString();
+        String txt = getMessages().get(msgKey);
+        return txt;
     }
 
     @Override

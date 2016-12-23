@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class IndicatorTransform {
 
+    private static final String KEY_NULL = "null";
+
     /**
      * Generate a new {@link IndicatorDataTable} from the data
      * @param tbl
@@ -43,8 +45,8 @@ public class IndicatorTransform {
         for (Row row: tbl.getRows()) {
             Long val = (Long)row.getValue(valueindex);
             if (val != null) {
-                Object[] colkeys = row.getValues(colsindex);
-                Object[] rowkeys = row.getValues(rowsindex);
+                Object[] colkeys = convertKeys(row.getValues(colsindex));
+                Object[] rowkeys = convertKeys(row.getValues(rowsindex));
 
                 ind.incValue(colkeys, rowkeys, val.doubleValue());
             }
@@ -55,6 +57,18 @@ public class IndicatorTransform {
         ind.setRowVariables(rows);
 
         return ind;
+    }
+
+    private Object[] convertKeys(Object[] keys) {
+        Object[] vals = new Object[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            vals[i] = ((Key)keys[i]).getValue();
+            if (vals[i] == null) {
+                vals[i] = KEY_NULL;
+            }
+        }
+
+        return vals;
     }
 
     private int[] calcVariablePositions(List<Variable> vars, int iniPos) {
@@ -86,18 +100,18 @@ public class IndicatorTransform {
 
             for (Variable var: variables) {
                 Key key = (Key)vals[index];
-                String s = var.isGrouped() ? var.getGroupKeyDisplay(key) : var.getKeyDisplay(key);
-                if (s == null) {
-                    throw new IndicatorException("Invalid key display for value " + vals[index]);
+                if (var.isGrouped() && key.getGroup() != null) {
+                    String s = var.getGroupKeyDisplay(key);
+                    if (s == null) {
+                        throw new IndicatorException("Invalid key display for value " + vals[index]);
+                    }
+                    addDescriptor(descriptors, index, key.getGroup().toString(), s);
+                    index++;
                 }
 
-                if (var.isGrouped()) {
-                    String s2 = var.getKeyDisplay(key);
-                    String id2 = key.getGroup() != null ? key.getGroup().toString() : "null";
-                    addDescriptor(descriptors, index, id2, s2);
-                }
-
-                addDescriptor(descriptors, index, key.getValue().toString(), s);
+                String s = var.getKeyDisplay(key);
+                String k = key.isNull() ? KEY_NULL : key.getValue().toString();
+                addDescriptor(descriptors, index, k, s);
 
                 index++;
             }

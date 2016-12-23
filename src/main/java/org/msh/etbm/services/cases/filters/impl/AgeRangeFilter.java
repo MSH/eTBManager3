@@ -5,6 +5,7 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.msh.etbm.db.entities.AgeRange;
 import org.msh.etbm.services.admin.ageranges.AgeRangeData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
 import org.msh.etbm.services.admin.ageranges.AgeRangesQueryParams;
@@ -114,7 +115,8 @@ public class AgeRangeFilter extends AbstractFilter {
             return super.getKeyDisplay(key);
         }
 
-        AgeRangeData ageRange = ageRangeById(key.toString());
+        String id = key.getValue().toString();
+        AgeRangeData ageRange = ageRangeById(id);
         return ageRange != null ? ageRange.getName() : super.getKeyDisplay(Key.asNull());
     }
 
@@ -127,5 +129,29 @@ public class AgeRangeFilter extends AbstractFilter {
         }
 
         return options;
+    }
+
+    @Override
+    public int compareValues(Key key1, Key key2) {
+        if (key1.getValue() == key2.getValue()) {
+            return 0;
+        }
+
+        if (key1.isNull()) {
+            return -1;
+        }
+
+        if (key2.isNull()) {
+            return 1;
+        }
+
+        AgeRangeData ar1 = ageRangeById((String)key1.getValue());
+        AgeRangeData ar2 = ageRangeById((String)key2.getValue());
+
+        if ((ar1 != null) && (ar2 != null)) {
+            return ((Integer) ar1.getIniAge()).compareTo(ar2.getIniAge());
+        }
+
+        return super.compareValues(key1, key2);
     }
 }

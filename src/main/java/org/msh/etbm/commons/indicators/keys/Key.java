@@ -182,4 +182,12 @@ public class Key implements Comparable<Key> {
     public void setIteration(int iteration) {
         this.iteration = iteration;
     }
+
+    @Override
+    public String toString() {
+        return "Key{" +
+                (group != null ? "group=" + group + ", ": "") +
+                "value=" + value +
+                '}';
+    }
 }

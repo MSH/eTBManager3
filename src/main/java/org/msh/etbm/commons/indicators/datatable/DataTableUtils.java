@@ -64,11 +64,11 @@ public class DataTableUtils {
 
         // exclusive for table comparision
         if (TOTAL.equals(obj1) || RG_TOTAL.equals(obj1) || LG_TOTAL.equals(obj2)) {
-            return 1;
+            return -1;
         }
 
         if (TOTAL.equals(obj2) || RG_TOTAL.equals(obj2) || LG_TOTAL.equals(obj1)) {
-            return -1;
+            return 1;
         }
 
         int res = (obj1 instanceof Comparable) && (obj1.getClass() == obj2.getClass()) ?

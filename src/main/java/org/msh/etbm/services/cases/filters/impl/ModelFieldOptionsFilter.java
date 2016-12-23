@@ -120,11 +120,12 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
 
         List<Item> options = getOptions();
 
+        Object val = key.getValue();
         Optional<Item> item = options.stream()
-                .filter(it -> it.getId().equals(key))
+                .filter(it -> it.getId().equals(val))
                 .findFirst();
 
-        return item.isPresent() ? item.get().getDisplayString() : key.toString();
+        return item.isPresent() ? item.get().getDisplayString() : val.toString();
     }
 
     /**

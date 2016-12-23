@@ -13,6 +13,7 @@ import org.msh.etbm.commons.indicators.query.SQLQuery;
 import org.msh.etbm.commons.indicators.tableoperations.ConcatTables;
 import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
+import org.msh.etbm.commons.indicators.tableoperations.KeySorter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,8 @@ public class IndicatorGenerator {
             // return an empty data table
             return new IndicatorDataTableImpl();
         }
+
+        KeySorter.sortByKey(data);
 
         IndicatorDataTable result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
 
