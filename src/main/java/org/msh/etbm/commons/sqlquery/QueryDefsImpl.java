@@ -2,6 +2,7 @@ package org.msh.etbm.commons.sqlquery;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,9 +110,9 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs select(String fields) {
-        String[] lst = fields.split(",");
+        List<String> lst = SQLParseUtils.parseFields(fields);
         for (String f: lst) {
-            createField(f.trim(), false);
+            createField(f, false);
         }
         return this;
     }
@@ -120,6 +121,9 @@ public class QueryDefsImpl implements QueryDefs {
     public String getMainTable() {
         return builder.getMainTable();
     }
+
+
+
 
     /**
      * Check if value is compatible as a parameter value

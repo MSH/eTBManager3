@@ -238,7 +238,7 @@ public class IndicatorGenerator {
 
     protected void calcTotals(IndicatorRequest req, IndicatorDataTable tbl, Messages messages) {
         // check if columns can be totalized
-        boolean totalEnabled = req.isColumnTotal() && !req.getColumnVariables()
+        boolean colTotalEnabled = req.isColumnTotal() && !req.getColumnVariables()
                 .stream().anyMatch(v -> !v.isTotalEnabled());
 
         // the key to store the information
@@ -247,7 +247,7 @@ public class IndicatorGenerator {
         int columnCount = tbl.getColumnCount();
 
         // calculate the total for each row
-        if (totalEnabled) {
+        if (colTotalEnabled) {
             // add the key descriptor
             tbl.getColumnKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
 
@@ -260,13 +260,13 @@ public class IndicatorGenerator {
         }
 
         // check if rows can be totalized
-        totalEnabled = req.isRowTotal() && !req.getRowVariables()
+        boolean rowTotalEnabled = req.isRowTotal() && !req.getRowVariables()
                 .stream().anyMatch(v -> !v.isTotalEnabled());
 
         double total = 0;
 
         // calculate the total for each column
-        if (totalEnabled) {
+        if (rowTotalEnabled) {
             // add the key descriptor
             tbl.getRowKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
 
@@ -285,7 +285,9 @@ public class IndicatorGenerator {
             }
         }
 
-        tbl.setValue(totalKey, totalKey, total);
+        if (colTotalEnabled && rowTotalEnabled) {
+            tbl.setValue(totalKey, totalKey, total);
+        }
     }
 
     /**

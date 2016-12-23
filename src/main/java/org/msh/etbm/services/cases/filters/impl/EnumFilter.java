@@ -4,7 +4,6 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.keys.Key;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.MessageKey;
@@ -23,14 +22,11 @@ public class EnumFilter extends AbstractFilter {
     private Class enumClass;
     private String fieldName;
 
-    private static final VariableOptions variableOptions = new VariableOptions(false, true, 0,
-            new Item<>("cases", "Cases"));
 
     public EnumFilter(String id, Class enumClass, String label, String fieldName) {
         super(id, label);
         this.fieldName = fieldName;
         this.enumClass = enumClass;
-        setVariableOptions(variableOptions);
     }
 
     @Override

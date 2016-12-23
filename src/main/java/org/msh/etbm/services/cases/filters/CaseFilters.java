@@ -52,6 +52,8 @@ public class CaseFilters {
     public static final String INI_TREATMENT_DATE = "ini-treat-date";
     public static final String END_TREATMENT_DATE = "end-treat-date";
     public static final String OUTCOME_DATE = "outcome-date";
+    public static final String MONTH_OF_TREAT = "month-of-treat";
+    public static final String PRESC_MEDICINE = "presc-medicine";
 
     @Autowired
     ApplicationContext applicationContext;
@@ -116,6 +118,10 @@ public class CaseFilters {
 
         grp.add(new PeriodFilter(OUTCOME_DATE, "${TbCase.outcomeDate}", "tbcase.outcomeDate",
                 PeriodFilter.PeriodVariableType.MONTHLY));
+
+        grp.add(new MonthOfTreatFilter());
+
+        grp.add(new PrescribedMedicineFilter());
     }
 
     private void createHivGroup(FilterGroup grp) {

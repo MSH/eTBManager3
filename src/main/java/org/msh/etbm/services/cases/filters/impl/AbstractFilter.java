@@ -1,13 +1,11 @@
 package org.msh.etbm.services.cases.filters.impl;
 
-import org.msh.etbm.commons.IsItem;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterItem;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.Variable;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.indicators.variables.VariableOutput;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.services.cases.filters.CaseFilters;
@@ -20,22 +18,17 @@ import java.util.*;
  *
  * Created by rmemoria on 17/8/16.
  */
-public abstract class AbstractFilter implements FilterItem, Variable, IsItem<String> {
-
-    private static final VariableOptions DEFAULT_VAR_OPTIONS =
-            new VariableOptions(false, true, 0, new Item<>("cases", "Cases"));
+public abstract class AbstractFilter implements FilterItem, Variable {
 
     private String id;
     private String label;
     private ApplicationContext applicationContext;
     private Messages messages;
-    private VariableOptions variableOptions;
 
     public AbstractFilter(String id, String label) {
         super();
         this.id = id;
         this.label = label;
-        setVariableOptions(DEFAULT_VAR_OPTIONS);
     }
 
     @Override
@@ -84,8 +77,6 @@ public abstract class AbstractFilter implements FilterItem, Variable, IsItem<Str
      * @param converter called for each value to convert to an appropriated value parameter
      */
     protected void addValuesRestriction(QueryDefs defs, String field, Object value, ValueConverter converter) {
-        StringBuilder s = new StringBuilder();
-
         Collection lst = value instanceof Collection ? (Collection)value : null;
 
         // check if there is one single value
@@ -93,7 +84,7 @@ public abstract class AbstractFilter implements FilterItem, Variable, IsItem<Str
         if (lst == null) {
             singleValue = value;
         } else {
-            if (lst.size() == 0) {
+            if (lst.isEmpty()) {
                 return;
             }
             singleValue = lst.size() == 1 ? lst.toArray()[0] : null;
@@ -150,7 +141,7 @@ public abstract class AbstractFilter implements FilterItem, Variable, IsItem<Str
         }
         s.append(")");
 
-        if (params.size() > 0) {
+        if (params.isEmpty()) {
             def.restrict(s.toString(), params.toArray());
         }
     }
@@ -238,10 +229,6 @@ public abstract class AbstractFilter implements FilterItem, Variable, IsItem<Str
     @Override
     public int compareValues(Key key1, Key key2) {
         return key1.compareTo(key2);
-    }
-
-    protected void setVariableOptions(VariableOptions variableOptions) {
-        this.variableOptions = variableOptions;
     }
 
     @Override

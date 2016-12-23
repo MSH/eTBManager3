@@ -87,7 +87,7 @@ public class SyncFileImporter {
             phase = FileImportingPhase.UPDATING_TAGS;
             autoGenTagsCasesService.updateAllCaseTags();
 
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             // notify service that importing has end

@@ -82,6 +82,7 @@ public class CaseIndicatorsService {
         builder.addNamedJoin("ownerAdminUnit", "administrativeunit", "$this.id = ownerUnit.adminunit_id");
         builder.addNamedJoin("notifUnit", "unit", "$this.id = tbcase.notification_unit_id");
         builder.addNamedJoin("regimen", "regimen", "$this.id = tbcase.regimen_id");
+        builder.addNamedJoin("prescribedmedicine", "prescribedmedicine", "$this.case_id = tbcase.id");
         indReq.setQueryBuilder(builder);
 
         // get list of column variables
