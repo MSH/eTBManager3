@@ -117,12 +117,13 @@ public class IndicatorTransform {
 
             for (Variable var: variables) {
                 Key key = (Key)vals[index];
-                if (var.isGrouped() && key.getGroup() != null) {
+                if (var.isGrouped()) {
                     String s = var.getGroupKeyDisplay(key);
                     if (s == null) {
                         throw new IndicatorException("Invalid key display for value " + vals[index]);
                     }
-                    addDescriptor(descriptors, index, key.getGroup().toString(), s);
+                    String id = key.getGroup() != null ? key.getGroup().toString() : KEY_NULL;
+                    addDescriptor(descriptors, index, id, s);
                     index++;
                 }
 

@@ -391,8 +391,6 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
     public SQLQueryBuilder select(String fields) {
-        this.fields.clear();
-
         queryDefs.select(fields);
         return this;
     }

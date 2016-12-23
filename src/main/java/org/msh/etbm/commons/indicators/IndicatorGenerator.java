@@ -190,11 +190,12 @@ public class IndicatorGenerator {
         // load data
         SQLQuery qry = new SQLQuery();
 
+        String sql = builder.createSql();
         if (development) {
-            System.out.println(builder.createSql());
+            System.out.println(sql);
         }
 
-        return qry.execute(dataSource, builder.createSql(), builder.getParameters());
+        return qry.execute(dataSource, sql, builder.getParameters());
     }
 
 

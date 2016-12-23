@@ -1,5 +1,5 @@
 /**
- * SQL script to copy one e-TBM database to another. Usefull when there is change in the model
+ * SQL script to copy one e-TBM database to another. Useful when there is change in the model
  * and you want to preserve the data
  */
 use etbm3_2;
