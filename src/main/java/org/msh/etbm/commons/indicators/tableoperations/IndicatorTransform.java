@@ -60,12 +60,29 @@ public class IndicatorTransform {
     }
 
     private Object[] convertKeys(Object[] keys) {
-        Object[] vals = new Object[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            vals[i] = ((Key)keys[i]).getValue();
-            if (vals[i] == null) {
-                vals[i] = KEY_NULL;
+        // calc length of keys in array
+        int size = 0;
+        for (Object obj: keys) {
+            Key key = (Key)obj;
+            if (key.getVariable().isGrouped()) {
+                size++;
             }
+            size++;
+        }
+
+        Object[] vals = new Object[size];
+
+        int index = 0;
+        for (int i = 0; i < keys.length; i++) {
+            Key key = (Key)keys[i];
+            if (key.getVariable().isGrouped()) {
+                vals[index] = key.getGroup();
+                index++;
+            }
+
+            Object val = key.getValue();
+            vals[index] = val == null ? KEY_NULL : val;
+            index++;
         }
 
         return vals;
