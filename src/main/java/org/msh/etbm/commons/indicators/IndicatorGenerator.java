@@ -10,7 +10,6 @@ import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
 import org.msh.etbm.commons.indicators.query.DataTableQuery;
 import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.query.SQLQuery;
-import org.msh.etbm.commons.indicators.tableoperations.ConcatTables;
 import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.tableoperations.KeySorter;
@@ -22,7 +21,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

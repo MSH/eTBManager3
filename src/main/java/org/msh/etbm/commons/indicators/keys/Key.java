@@ -186,7 +186,7 @@ public class Key implements Comparable<Key> {
     @Override
     public String toString() {
         return "Key{" +
-                (group != null ? "group=" + group + ", ": "") +
+                (group != null ? "group=" + group + ", " : "") +
                 "value=" + value +
                 '}';
     }

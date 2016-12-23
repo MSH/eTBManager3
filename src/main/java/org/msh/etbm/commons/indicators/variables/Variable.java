@@ -1,7 +1,6 @@
 package org.msh.etbm.commons.indicators.variables;
 
 import org.msh.etbm.commons.IsItem;
-import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.springframework.context.ApplicationContext;

@@ -1,12 +1,9 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.db.WorkspaceEntity;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
  * Store information about a model in the database table

@@ -6,7 +6,6 @@ import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.DiagnosisType;
 import org.msh.etbm.db.enums.SearchableType;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;

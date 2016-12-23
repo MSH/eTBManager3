@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -40,9 +40,9 @@ public class ModelStoreService {
      * @param workspaceId the workspace ID to get the model from
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
-    public CompiledModel get(String modelId, UUID workspaceId) {
-        Model model = loadFromDB(modelId, workspaceId);
+    @Cacheable(cacheNames = CACHE_ID)
+    public CompiledModel get(String modelId) {
+        Model model = loadFromDB(modelId);
 
         if (model == null) {
             model = loadFromResources(modelId);
@@ -55,9 +55,9 @@ public class ModelStoreService {
 
 
     @Transactional
-    @CachePut(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
+    @CachePut(cacheNames = CACHE_ID)
     public void update(String modelId, UUID workspaceId, Model model) {
-        ModelData data = loadModelData(modelId, workspaceId);
+        ModelData data = loadModelData(modelId);
 
         if (data == null) {
             Workspace ws = entityManager.find(Workspace.class, modelId);
@@ -92,7 +92,6 @@ public class ModelStoreService {
     /**
      * Load a customized model from the database
      * @param modelId the model ID
-     * @param workspaceId the workspace ID
      * @return instance of {@link Model}
      */
     private Model loadFromDB(String modelId) {

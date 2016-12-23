@@ -2,11 +2,8 @@ package org.msh.etbm.commons.indicators.datatable.impl;
 
 import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 import org.msh.etbm.commons.indicators.datatable.GroupedDataTable;
-import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**

@@ -5,7 +5,6 @@ import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
-import org.msh.etbm.db.entities.AgeRange;
 import org.msh.etbm.services.admin.ageranges.AgeRangeData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
 import org.msh.etbm.services.admin.ageranges.AgeRangesQueryParams;

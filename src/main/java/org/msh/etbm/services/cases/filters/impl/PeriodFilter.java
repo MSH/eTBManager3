@@ -5,7 +5,6 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
 import org.msh.etbm.commons.indicators.keys.Key;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 

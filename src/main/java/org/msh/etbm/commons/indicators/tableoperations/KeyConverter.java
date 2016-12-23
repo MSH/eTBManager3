@@ -2,13 +2,14 @@ package org.msh.etbm.commons.indicators.tableoperations;
 
 import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.Row;
-import org.msh.etbm.commons.indicators.datatable.impl.DataTableImpl;
 import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.keys.MultipleKeys;
 import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Converts a data table loaded from a query to another data table with its

@@ -1,9 +1,6 @@
 package org.msh.etbm.services.admin.sysconfig;
 
 import org.msh.etbm.commons.SynchronizableItem;
-import org.msh.etbm.db.Synchronizable;
-
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 23/11/16.
