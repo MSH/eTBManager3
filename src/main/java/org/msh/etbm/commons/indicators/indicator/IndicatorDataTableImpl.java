@@ -55,8 +55,10 @@ public class IndicatorDataTableImpl extends GroupedDataTableImpl implements Indi
     protected int addColumn(int index, Object[] key) {
         int i = key.length - 1;
         // the column descriptor must be included before adding values
+        String k = key[i].toString();
+
         String title = key.length <= columnKeyDescriptors.size() ?
-                columnKeyDescriptors.get(i).get(key[i]) :
+                columnKeyDescriptors.get(i).get(k) :
                 null;
 
         if (title == null) {
@@ -69,12 +71,15 @@ public class IndicatorDataTableImpl extends GroupedDataTableImpl implements Indi
     protected int addRow(int index, Object[] key) {
         int i = key.length - 1;
         // the row descriptor must be included before adding values
-        String title = key.length <= rowKeyDescriptors.size() ?
-                rowKeyDescriptors.get(i).get(key[i]) :
-                null;
+        if (key[i] != null) {
+            String k = key[i] != null ? key[i].toString() : "null";
+            String title = key.length <= rowKeyDescriptors.size() ?
+                    rowKeyDescriptors.get(i).get(k) :
+                    null;
 
-        if (title == null) {
-            throw new IndicatorException("Row descriptor not found");
+            if (title == null) {
+                throw new IndicatorException("Row descriptor not found: " + key[i]);
+            }
         }
         return super.addRow(index, key);
     }

@@ -40,6 +40,8 @@ public class Messages {
 
     public static final String PERIOD_INIDATE_BEFORE = "period.msgdt1";
 
+    public static final String UNDEFINED = "global.notdef";
+
     /**
      * keys in the message bundle to get information about date format in the selected locale
      */
@@ -51,8 +53,6 @@ public class Messages {
     public static final String LOCALE_DATE_HINT = "locale.dateHint";
     // convert a date to a displayable string
     public static final String LOCALE_DISPLAY_DATE_FORMAT = "locale.displayDateFormat";
-
-    public static final String UNDEFINED = "global.notdef";
 
 
     /**

@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.commons.date.PeriodData;
+import org.msh.etbm.commons.date.YearMonthPeriod;
 import org.msh.etbm.services.cases.CaseEntityFormData;
 
 import java.util.Optional;
@@ -9,7 +9,7 @@ import java.util.Optional;
  * Created by Mauricio on 18/08/2016.
  */
 public class CasePrevTreatFormData extends CaseEntityFormData {
-    private PeriodData period = new PeriodData();
+    private YearMonthPeriod period = new YearMonthPeriod();
     private Optional<String> outcome;
 
     private Optional<Boolean> am;
@@ -25,11 +25,11 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
     private Optional<Boolean> s;
     private Optional<Boolean> z;
 
-    public PeriodData getPeriod() {
+    public YearMonthPeriod getPeriod() {
         return period;
     }
 
-    public void setPeriod(PeriodData period) {
+    public void setPeriod(YearMonthPeriod period) {
         this.period = period;
     }
 

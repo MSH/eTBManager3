@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * <p>
  * Created by rmemoria on 30/8/15.
  */
-public class Item<E> implements Displayable {
+public class Item<E> implements IsItem<E>, Displayable {
+
     private E id;
     private String name;
 

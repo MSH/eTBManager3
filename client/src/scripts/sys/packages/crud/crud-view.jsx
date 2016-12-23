@@ -77,6 +77,7 @@ export default class CrudView extends React.Component {
             <div>
                 <CrudForm controller={controller}
                     openOnNew
+                    remotePath={this.props.remoteFormPath}
                     wrapType={this.props.modal ? 'modal' : 'card'} />
                 <Card header={this.headerRender()} padding={this.props.combine ? 'combine' : 'default'}>
                     <Row>
@@ -127,7 +128,10 @@ CrudView.propTypes = {
     combine: React.PropTypes.bool,
     children: React.PropTypes.node,
     // refresh all list on a CUD operation
-    refreshAll: React.PropTypes.bool
+    refreshAll: React.PropTypes.bool,
+    // if remote form is supported, this is the URL of the form initialization
+    // accepts a string or a promise
+    remoteFormPath: React.PropTypes.any
 };
 
 CrudView.defaultProps = {

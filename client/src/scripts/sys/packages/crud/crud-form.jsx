@@ -58,6 +58,7 @@ class CrudForm extends React.Component {
                 wrapType={this.props.wrapType}
                 onCancel={controller.closeForm}
                 className={this.props.className}
+                remotePath={this.props.remotePath}
                 />
             );
 
@@ -78,7 +79,8 @@ CrudForm.propTypes = {
     openOnEdit: React.PropTypes.bool,
     wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
     className: React.PropTypes.string,
-    animate: React.PropTypes.bool
+    animate: React.PropTypes.bool,
+    remotePath: React.PropTypes.any
 };
 
 CrudForm.defaultProps = {

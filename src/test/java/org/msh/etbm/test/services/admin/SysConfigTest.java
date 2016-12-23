@@ -2,16 +2,9 @@ package org.msh.etbm.test.services.admin;
 
 import org.junit.Test;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.commons.entities.ServiceResult;
-import org.msh.etbm.db.entities.UserProfile;
-import org.msh.etbm.db.enums.CaseValidationOption;
-import org.msh.etbm.db.enums.DisplayCaseNumber;
-import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
-import org.msh.etbm.services.admin.workspaces.WorkspaceFormData;
-import org.msh.etbm.services.admin.workspaces.WorkspaceService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.msh.etbm.test.AuthenticatedTest;

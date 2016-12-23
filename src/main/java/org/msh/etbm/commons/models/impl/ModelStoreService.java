@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.JsonUtils;
+import org.msh.etbm.commons.JsonParser;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * THis is a simple implementation of a component responsible for storing and restoring a model,
@@ -36,11 +37,12 @@ public class ModelStoreService {
      * Retrieve a model by its ID and workspace ID. If model doesn' exist (invalid model)
      * system throws a {@link ModelException}
      * @param modelId the model ID
+     * @param workspaceId the workspace ID to get the model from
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID, key = "#modelId")
-    public CompiledModel get(String modelId) {
-        Model model = loadFromDB(modelId);
+    @Cacheable(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
+    public CompiledModel get(String modelId, UUID workspaceId) {
+        Model model = loadFromDB(modelId, workspaceId);
 
         if (model == null) {
             model = loadFromResources(modelId);
@@ -53,9 +55,9 @@ public class ModelStoreService {
 
 
     @Transactional
-    @CachePut(cacheNames = CACHE_ID, key = "#modelId")
-    public void update(String modelId, Model model) {
-        ModelData data = loadModelData(modelId);
+    @CachePut(cacheNames = CACHE_ID, key = "#modelId + #workspaceId.toString()")
+    public void update(String modelId, UUID workspaceId, Model model) {
+        ModelData data = loadModelData(modelId, workspaceId);
 
         if (data == null) {
             Workspace ws = entityManager.find(Workspace.class, modelId);

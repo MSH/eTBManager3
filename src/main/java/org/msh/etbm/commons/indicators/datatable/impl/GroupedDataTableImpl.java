@@ -2,9 +2,11 @@ package org.msh.etbm.commons.indicators.datatable.impl;
 
 import org.msh.etbm.commons.indicators.datatable.DataTableUtils;
 import org.msh.etbm.commons.indicators.datatable.GroupedDataTable;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -52,13 +54,13 @@ public class GroupedDataTableImpl implements GroupedDataTable {
     public void setValue(Object[] colKeys, Object[] rowKeys, Object value) {
         int colindex = findColumn(colKeys);
         if (colindex < 0) {
-            colindex = -(colindex + 1);
+            colindex = table.getColumnCount();
             colindex = addColumn(colindex, colKeys);
         }
 
         int rowindex = findRow(rowKeys);
         if (rowindex < 0) {
-            rowindex = -(rowindex + 1);
+            rowindex = table.getRowCount();
             rowindex = addRow(rowindex, rowKeys);
         }
 
@@ -69,13 +71,13 @@ public class GroupedDataTableImpl implements GroupedDataTable {
     public void incValue(Object[] colKey, Object[] rowKey, double value) {
         int colindex = findColumn(colKey);
         if (colindex < 0) {
-            colindex = -(colindex + 1);
+            colindex = table.getColumnCount();
             colindex = addColumn(colindex, colKey);
         }
 
         int rowindex = findRow(rowKey);
         if (rowindex < 0) {
-            rowindex = -(rowindex + 1);
+            rowindex = table.getRowCount();
             rowindex = addRow(rowindex, rowKey);
         }
 
@@ -150,11 +152,16 @@ public class GroupedDataTableImpl implements GroupedDataTable {
      * @return
      */
     private int findKey(List<Object[]> keyList, Object[] keys) {
-        Object[] values = keyList.toArray();
-
-        return Arrays.binarySearch(values, keys, (k1, k2) ->
-            DataTableUtils.compareArray((Object[])k1, (Object[])k2));
+        int i = 0;
+        for (Object[] k: keyList) {
+            if (DataTableUtils.compareArray(k, keys) == 0) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
+
 
     /**
      * Add a new column respecting the order of the key among the other keys

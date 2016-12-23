@@ -66,6 +66,11 @@ public class IndicatorSqlBuilder {
     }
 
 
+    public int getVariableIteration(Variable var) {
+        Integer val = varIteration.get(var);
+        return val != null ? val : 1;
+    }
+
     /**
      * Return the main table name used in this query
      * @return String value

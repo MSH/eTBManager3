@@ -1,0 +1,51 @@
+{
+  "model": "examculture",
+  "defaultProperties": {
+  },
+  "controls": [
+    {
+      "type": "date",
+      "property": "date",
+      "required": true,
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "string",
+      "property": "sampleNumber",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "unit",
+      "property": "laboratoryId",
+      "unitType": "LAB",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "date",
+      "property": "dateRelease",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "select",
+      "property": "method",
+      "newLine": true,
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "select",
+      "property": "result",
+      "size": { "sm": 6 }
+    },
+    {
+      "property": "numberOfColonies",
+      "type": "select",
+      "size": { "sm": 6 },
+      "visible": { "function": "this.result === 'POSITIVE'" }
+    },
+    {
+      "type": "text",
+      "property": "comments",
+      "size": { "sm": 12 }
+    }
+  ]
+}

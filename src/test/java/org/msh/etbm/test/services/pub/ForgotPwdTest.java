@@ -6,7 +6,6 @@ import com.icegreen.greenmail.util.ServerSetupTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.msh.etbm.Application;
 import org.msh.etbm.services.init.RegisterWorkspaceImpl;
 import org.msh.etbm.services.pub.ForgotPwdService;
 import org.msh.etbm.services.pub.PwdResetTokenResponse;
@@ -14,10 +13,9 @@ import org.msh.etbm.services.security.password.PasswordUpdateService;
 import org.msh.etbm.test.TestSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.BeforeTransaction;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.mail.Address;
 import javax.mail.MessagingException;
@@ -32,9 +30,8 @@ import static org.junit.Assert.*;
 /**
  * Created by rmemoria on 14/6/16.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(Application.class)
-@WebAppConfiguration
+@RunWith(SpringRunner.class)
+@SpringBootTest()
 public class ForgotPwdTest {
 
     private GreenMail mailServer;

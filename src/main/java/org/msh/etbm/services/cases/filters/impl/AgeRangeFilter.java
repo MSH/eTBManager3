@@ -3,7 +3,9 @@ package org.msh.etbm.services.cases.filters.impl;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.filters.FilterTypes;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.msh.etbm.db.entities.AgeRange;
 import org.msh.etbm.services.admin.ageranges.AgeRangeData;
 import org.msh.etbm.services.admin.ageranges.AgeRangeService;
 import org.msh.etbm.services.admin.ageranges.AgeRangesQueryParams;
@@ -93,29 +95,29 @@ public class AgeRangeFilter extends AbstractFilter {
     }
 
     @Override
-    public String createKey(Object values) {
-        if (values == null) {
-            return AbstractFilter.KEY_NULL;
+    public Key createKey(Object[] values, int iteration) {
+        if (values[0] == null) {
+            return Key.asNull();
         }
 
         // get the age
-        int age = (Integer)values;
+        int age = (Integer)values[0];
 
         // find the range
         AgeRangeData ageRange = ageRangeByAge(age);
 
-        return ageRange != null ? ageRange.getId().toString() : AbstractFilter.KEY_NULL;
+        return ageRange != null ? Key.of(ageRange.getId().toString()) : Key.asNull();
     }
 
     @Override
-    public String getKeyDisplay(String key) {
-        String s = super.getKeyDisplay(key);
-        if (s != null) {
-            return s;
+    public String getKeyDisplay(Key key) {
+        if (key.isNull()) {
+            return super.getKeyDisplay(key);
         }
 
-        AgeRangeData ageRange = ageRangeById(key.toString());
-        return ageRange != null ? ageRange.getName() : super.getKeyDisplay(null);
+        String id = key.getValue().toString();
+        AgeRangeData ageRange = ageRangeById(id);
+        return ageRange != null ? ageRange.getName() : super.getKeyDisplay(Key.asNull());
     }
 
     @Override
@@ -127,5 +129,29 @@ public class AgeRangeFilter extends AbstractFilter {
         }
 
         return options;
+    }
+
+    @Override
+    public int compareValues(Key key1, Key key2) {
+        if (key1.getValue() == key2.getValue()) {
+            return 0;
+        }
+
+        if (key1.isNull()) {
+            return -1;
+        }
+
+        if (key2.isNull()) {
+            return 1;
+        }
+
+        AgeRangeData ar1 = ageRangeById((String)key1.getValue());
+        AgeRangeData ar2 = ageRangeById((String)key2.getValue());
+
+        if ((ar1 != null) && (ar2 != null)) {
+            return ((Integer) ar1.getIniAge()).compareTo(ar2.getIniAge());
+        }
+
+        return super.compareValues(key1, key2);
     }
 }

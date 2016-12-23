@@ -1,6 +1,5 @@
 package org.msh.etbm.test.commons.objutils;
 
-import org.apache.commons.beanutils.converters.DateConverter;
 import org.junit.Test;
 import org.msh.etbm.commons.objutils.StringConverter;
 
