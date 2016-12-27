@@ -93,8 +93,9 @@ public class PrescribedMedicineFilter extends AbstractFilter {
         }
 
         for (Item med: getMedicines()) {
-            if (med.getId().equals(key.getValue()))
+            if (med.getId().equals(key.getValue())) {
                 return med.getName();
+            }
         }
 
         return super.getKeyDisplay(key);
