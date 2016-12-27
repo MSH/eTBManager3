@@ -37,7 +37,6 @@ public class ModelStoreService {
      * Retrieve a model by its ID and workspace ID. If model doesn' exist (invalid model)
      * system throws a {@link ModelException}
      * @param modelId the model ID
-     * @param workspaceId the workspace ID to get the model from
      * @return instance of {@link CompiledModel}
      */
     @Cacheable(cacheNames = CACHE_ID)

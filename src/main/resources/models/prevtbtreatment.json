@@ -3,15 +3,25 @@
   "table": "prevtbtreatment",
   "fields": [
     {
-      "type": "period",
-      "property": "period",
-      "label": "${cases.treat}",
+      "type": "month-year",
+      "name": "iniTreatment",
+      "label": "${TbCase.iniTreatmentDate}",
+      "fieldMonth": "iniMonth",
+      "fieldYear": "iniYear",
       "required": true
+    },
+    {
+      "type": "month-year",
+      "name": "endTreatment",
+      "fieldMonth": "endMonth",
+      "fieldYear": "endYear",
+      "label": "${TbCase.endTreatmentDate}",
+      "required": false
     },
     {
       "type": "string",
       "label": "${cases.prevtreat.outcome}",
-      "property": "outcome",
+      "name": "outcome",
       "options": [
         { "id": "COMPLETED", "name": "${PrevTBTreatmentOutcome.COMPLETED}" },
         { "id": "CURED", "name": "${PrevTBTreatmentOutcome.CURED}" },
@@ -28,73 +38,73 @@
       "required": true
     },
     {
-      "property": "r",
+      "name": "r",
       "type": "bool",
       "label": "${cases.prevtreat.r}",
       "defaultValue": false
     },
     {
-      "property": "h",
+      "name": "h",
       "type": "bool",
       "label": "${cases.prevtreat.h}",
       "defaultValue": false
     },
     {
-      "property": "s",
+      "name": "s",
       "type": "bool",
       "label": "${cases.prevtreat.s}",
       "defaultValue": false
     },
     {
-      "property": "e",
+      "name": "e",
       "type": "bool",
       "label": "${cases.prevtreat.e}",
       "defaultValue": false
     },
     {
-      "property": "z",
+      "name": "z",
       "type": "bool",
       "label": "${cases.prevtreat.z}",
       "defaultValue": false
     },
     {
-      "property": "am",
+      "name": "am",
       "type": "bool",
       "label": "${cases.prevtreat.am}",
       "defaultValue": false
     },
     {
-      "property": "cfz",
+      "name": "cfz",
       "type": "bool",
       "label": "${cases.prevtreat.cfz}",
       "defaultValue": false
     },
     {
-      "property": "cm",
+      "name": "cm",
       "type": "bool",
       "label": "${cases.prevtreat.cm}",
       "defaultValue": false
     },
     {
-      "property": "cs",
+      "name": "cs",
       "type": "bool",
       "label": "${cases.prevtreat.cs}",
       "defaultValue": false
     },
     {
-      "property": "eto",
+      "name": "eto",
       "type": "bool",
       "label": "${cases.prevtreat.eto}",
       "defaultValue": false
     },
     {
-      "property": "lfx",
+      "name": "lfx",
       "type": "bool",
       "label": "${cases.prevtreat.lfx}",
       "defaultValue": false
     },
     {
-      "property": "ofx",
+      "name": "ofx",
       "type": "bool",
       "label": "${cases.prevtreat.ofx}",
       "defaultValue": false

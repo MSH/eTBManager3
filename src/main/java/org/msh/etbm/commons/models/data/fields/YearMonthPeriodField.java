@@ -5,7 +5,7 @@ import org.msh.etbm.commons.date.YearMonthPeriod;
 /**
  * Created by rmemoria on 6/12/16.
  */
-public class PeriodField extends Field {
+public class YearMonthPeriodField extends Field {
 
     /**
      * The period

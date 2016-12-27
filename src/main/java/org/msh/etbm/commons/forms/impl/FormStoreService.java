@@ -25,20 +25,22 @@ public class FormStoreService {
     ModelManager modelManager;
 
     @Cacheable(cacheNames = CACHE_ID)
-    public Form get(String formid, UUID workspaceId) {
+    public Form get(String formid) {
         String resourcePath = "/forms/" + formid + ".json";
-        Form frm = null;
 
         try {
             ClassPathResource res = new ClassPathResource(resourcePath);
 
+            if (!res.exists()) {
+                throw new FormException("Resource not found: " + resourcePath);
+            }
+
             JsonFormParser p = new JsonFormParser();
-            frm = p.parse(res.getInputStream());
+            Form frm = p.parse(res.getInputStream());
+            return frm;
         } catch (IOException e) {
             throw new FormException(e);
         }
-
-        return frm;
     }
 
     /**

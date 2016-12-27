@@ -35,6 +35,29 @@ export default class CRUD {
     }
 
     /**
+     * Call the server for the entity data, its form and if the data is for editing
+     * or displaying
+     */
+    init(opt) {
+        const args = [];
+        if (opt.id) {
+            args.push('id=' + opt.id);
+        }
+
+        if (opt.includeForm) {
+            args.push('form');
+        }
+
+        if (opt.edit) {
+            args.push('edit');
+        }
+
+        const s = args.join('&');
+
+        return server.post(API_PREFIX + this.table + '/init?' + s);
+    }
+
+    /**
      * Find a single entity by the given id
      * @param  {string} id The ID of the entity
      * @return {Promise}   Promise that will be resolved when server posts answer

@@ -58,7 +58,6 @@ class CrudForm extends React.Component {
                 wrapType={this.props.wrapType}
                 onCancel={controller.closeForm}
                 className={this.props.className}
-                remotePath={this.props.remotePath}
                 />
             );
 

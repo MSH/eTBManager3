@@ -4,6 +4,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.forms.impl.FormManager;
+import org.msh.etbm.commons.forms.impl.FormStoreService;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
@@ -28,10 +29,7 @@ import java.util.UUID;
 public class FormService {
 
     @Autowired
-    FormManager formManager;
-
-    @Autowired
-    UserRequestService userRequestService;
+    FormStoreService formStoreService;
 
     @Autowired
     JavaScriptFormGenerator javaScriptFormGenerator;
@@ -50,12 +48,12 @@ public class FormService {
      * @param doc the document
      * @return
      */
-    public FormInitResponse init(String formId, Object doc, boolean readOnly) {
+    public FormInitResponse init(String formId, Object doc, boolean edit) {
         Map<String, Object> propValues = doc instanceof Map ? (Map<String, Object>)doc : ObjectUtils.describeProperties(doc);
 
-        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+        String formName = formId + (edit ? ".edit" : ".ro");
 
-        Form form = formManager.get(formId);
+        Form form = formStoreService.get(formName);
 
         FormInitResponse resp = new FormInitResponse();
 
@@ -64,7 +62,7 @@ public class FormService {
         resp.setSchema(code);
         resp.setDoc(propValues);
 
-        if (!readOnly) {
+        if (edit) {
             Map<String, Object> resources = generateResources(form, propValues);
             resp.setResources(resources);
         }
@@ -76,7 +74,7 @@ public class FormService {
     public FormInitResponse init(@NotNull  String modelId, @NotNull String formId, UUID id, boolean readOnly) {
         // initialize the data to be sent to the client
         Map<String, Object> doc;
-        if (id == null) {
+        if (id != null) {
             ModelDAO dao = modelDAOFactory.create(modelId);
             RecordData data = dao.findOne(id, readOnly);
             doc = data.getValues();

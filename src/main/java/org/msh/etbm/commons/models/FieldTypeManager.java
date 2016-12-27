@@ -42,6 +42,8 @@ public class FieldTypeManager {
 
         register(new AddressFieldHandler());
         register(new PersonNameFieldHandler());
+
+        register(new MonthYearFieldHandler());
     }
 
     /**

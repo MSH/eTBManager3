@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, RemoteForm, FormDialog } from '../../components/index';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { server } from '../../commons/server';
+import Crud from '../../commons/crud';
+
 
 export default class ShowMessage extends React.Component {
 
@@ -10,6 +12,7 @@ export default class ShowMessage extends React.Component {
         this.click = this.click.bind(this);
         this.click2 = this.click2.bind(this);
         this.click3 = this.click3.bind(this);
+        this.click4 = this.click4.bind(this);
         this.state = {};
     }
 
@@ -32,6 +35,12 @@ export default class ShowMessage extends React.Component {
         });
     }
 
+    click4() {
+        console.log('hi');
+        const crud = new Crud('prevtreat');
+        this.setState({ remotePath1: () => crud.init({ includeForm: true, edit: true }) });
+    }
+
     render() {
         const remotePath1 = this.state.remotePath1;
         const remotePath2 = this.state.remotePath2;
@@ -43,6 +52,7 @@ export default class ShowMessage extends React.Component {
                         <Button bsStyle="primary" onClick={this.click} >{'Get it'}</Button>
                         <Button bsStyle="primary" onClick={this.click2}>{'Get it 2'}</Button>
                         <Button bsStyle="primary" onClick={this.click3}>{'Get it readonly'}</Button>
+                        <Button bsStyle="default" onClick={this.click4}>{'Prev TB treatment'}</Button>
                     </ButtonToolbar>
                     {
                         remotePath1 &&

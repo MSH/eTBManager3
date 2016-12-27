@@ -20,6 +20,7 @@ public class ControlFactory {
     protected ControlFactory() {
         register("string", StringControl.class);
         register("int", IntegerControl.class);
+        register("bool", BoolControl.class);
         register("yesNo", YesNoControl.class);
         register("checkbox", CheckboxControl.class);
         register("date", DateControl.class);
@@ -30,6 +31,7 @@ public class ControlFactory {
         register("personName", PersonNameControl.class);
         register("address", AddressControl.class);
         register("unit", UnitControl.class);
+        register("month-year", MonthYearControl.class);
     }
 
     /**
