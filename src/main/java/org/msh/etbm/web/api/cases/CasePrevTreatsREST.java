@@ -42,7 +42,7 @@ public class CasePrevTreatsREST {
     public CasePrevTreatData get(@PathVariable UUID id,
                                  @RequestParam(name = "ro") String readOnly,
                                  @RequestParam(name = "form") String form) {
-//        formService.initFromModel("prevtbtreatment", id, readOnly != null);
+        //        formService.initFromModel("prevtbtreatment", id, readOnly != null);
         return service.findOne(id, CasePrevTreatData.class);
     }
 
