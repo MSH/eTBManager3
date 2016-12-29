@@ -119,7 +119,10 @@ public class HIVResultFilter extends AbstractFilter {
             return getMessages().get(Messages.UNDEFINED);
         }
 
-        int index = (Integer)key.getValue();
+        int index = key.getValue() instanceof String ?
+                Integer.parseInt((String)key.getValue()) :
+                (Integer)key.getValue();
+
         HIVResult res = HIVResult.values()[index - 1];
 
         return getMessages().get(res.getMessageKey());
