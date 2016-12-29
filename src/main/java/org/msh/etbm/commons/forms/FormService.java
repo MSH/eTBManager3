@@ -46,14 +46,13 @@ public class FormService {
      * the document to be applied to the form and the resources for the form controls
      * @param formId the unique form ID
      * @param doc the document
+     * @param displaying if true, form will be prepared for displaying, otherwise, for editing
      * @return
      */
-    public FormInitResponse init(String formId, Object doc, boolean edit) {
+    public FormInitResponse init(String formId, Object doc, boolean displaying) {
         Map<String, Object> propValues = doc instanceof Map ? (Map<String, Object>)doc : ObjectUtils.describeProperties(doc);
 
-        String formName = formId + (edit ? ".edit" : ".ro");
-
-        Form form = formStoreService.get(formName);
+        Form form = formStoreService.get(formId);
 
         FormInitResponse resp = new FormInitResponse();
 
@@ -62,7 +61,7 @@ public class FormService {
         resp.setSchema(code);
         resp.setDoc(propValues);
 
-        if (edit) {
+        if (!displaying) {
             Map<String, Object> resources = generateResources(form, propValues);
             resp.setResources(resources);
         }
@@ -71,18 +70,20 @@ public class FormService {
     }
 
 
-    public FormInitResponse init(@NotNull  String modelId, @NotNull String formId, UUID id, boolean readOnly) {
+    public FormInitResponse initFromModel(@NotNull String modelId, UUID id, boolean displaying) {
         // initialize the data to be sent to the client
         Map<String, Object> doc;
         if (id != null) {
             ModelDAO dao = modelDAOFactory.create(modelId);
-            RecordData data = dao.findOne(id, readOnly);
+            RecordData data = dao.findOne(id, displaying);
             doc = data.getValues();
         } else {
             doc = new HashedMap();
         }
 
-        return init(formId, doc, readOnly);
+        String formId = modelId + (displaying ? ".ro" : ".edit");
+
+        return init(formId, doc, displaying);
     }
 
     /**

@@ -48,8 +48,8 @@ export default class CRUD {
             args.push('form');
         }
 
-        if (opt.edit) {
-            args.push('edit');
+        if (opt.readOnly) {
+            args.push('ro');
         }
 
         const s = args.join('&');

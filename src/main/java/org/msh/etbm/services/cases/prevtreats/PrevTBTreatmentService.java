@@ -24,17 +24,12 @@ public class PrevTBTreatmentService {
     FormService formService;
 
     @Transactional
-    public FormInitResponse init(@NotNull UUID id, boolean edit, boolean includeFormLayout) {
-        try {
-            FormInitResponse res = formService.init("prevtbtreatment", "prevtbtreatment", id, edit);
-            if (!includeFormLayout) {
-                res.setSchema(null);
-            }
-            return res;
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+    public FormInitResponse init(@NotNull UUID id, boolean displaying, boolean includeFormLayout) {
+        FormInitResponse res = formService.init("prevtbtreatment", id, displaying);
+        if (!includeFormLayout) {
+            res.setSchema(null);
         }
+        return res;
     }
 
 }

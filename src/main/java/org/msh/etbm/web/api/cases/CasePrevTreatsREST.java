@@ -32,21 +32,17 @@ public class CasePrevTreatsREST {
     @Autowired
     PrevTBTreatmentService prevTBTreatmentService;
 
-    @RequestMapping(value = "/prevtreat/init", method = RequestMethod.POST)
-    public FormInitResponse init(@RequestParam(name = "id", required = false) UUID id,
-                                 @RequestParam(name = "edit", required = false) String edit,
-                                 @RequestParam(name = "form", required = false) String form) {
-        return prevTBTreatmentService.init(id, edit != null, form != null);
-    }
-
     @RequestMapping(value = "/prevtreat", method = RequestMethod.GET)
-    public FormInitResponse init() {
-        return formService.init("contact.default", new CasePrevTreatData(), false);
+    public FormInitResponse init(@RequestParam(name = "ro", required = false) String displaying) {
+        return formService.initFromModel("prevtbtreatment", null, false);
     }
 
     @RequestMapping(value = "/prevtreat/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public CasePrevTreatData get(@PathVariable UUID id) {
+    public CasePrevTreatData get(@PathVariable UUID id,
+                                 @RequestParam(name = "ro") String readOnly,
+                                 @RequestParam(name = "form") String form) {
+//        formService.initFromModel("prevtbtreatment", id, readOnly != null);
         return service.findOne(id, CasePrevTreatData.class);
     }
 

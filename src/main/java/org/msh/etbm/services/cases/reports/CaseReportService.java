@@ -143,7 +143,9 @@ public class CaseReportService {
                 .stream()
                 .map(ind -> {
                     // mix filters from report with indicator
-                    Map<String, Object> filters = new HashMap<>(rep.getFilters());
+                    Map<String, Object> filters = rep.getFilters() != null ?
+                            new HashMap<>(rep.getFilters()) :
+                            new HashMap<>();
                     if (ind.getFilters() != null) {
                         filters.putAll(ind.getFilters());
                     }
