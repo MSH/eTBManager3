@@ -10,6 +10,7 @@ import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.services.offline.*;
 import org.msh.etbm.services.offline.query.TableChangesTraverser;
 import org.msh.etbm.services.offline.query.TableQueryItem;
+import org.msh.etbm.services.offline.query.TableQueryList;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
@@ -198,7 +199,7 @@ public class SyncFileService {
      * @param initialVersion The initial version to generate content from
      * @throws IOException
      */
-    protected void writeTables(ServerTableQueryList queries, JsonGenerator generator,
+    protected void writeTables(TableQueryList queries, JsonGenerator generator,
                                Optional<Long> initialVersion) throws IOException {
         // start the array (main)
         generator.writeStartArray();

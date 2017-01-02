@@ -63,7 +63,7 @@ public class SystemConfig {
     /**
      * The last sync file version imported by a client mode instance
      */
-    private Long version;
+    private Integer version;
 
     /**
      * @return the id
@@ -198,11 +198,11 @@ public class SystemConfig {
         this.serverURL = serverURL;
     }
 
-    public Long getVersion() {
+    public Integer getVersion() {
         return version;
     }
 
-    public void setVersion(Long version) {
+    public void setVersion(Integer version) {
         this.version = version;
     }
 }
