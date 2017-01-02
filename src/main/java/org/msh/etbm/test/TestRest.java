@@ -5,7 +5,7 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.models.ModelDAOFactory;
-import org.msh.etbm.services.sync.server.SyncFileService;
+import org.msh.etbm.services.offline.server.SyncFileService;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;

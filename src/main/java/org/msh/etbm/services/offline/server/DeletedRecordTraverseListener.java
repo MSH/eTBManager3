@@ -1,4 +1,6 @@
-package org.msh.etbm.services.sync.server;
+package org.msh.etbm.services.offline.server;
+
+import org.msh.etbm.services.offline.query.TableChangesTraverser;
 
 import java.io.IOException;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.offline.importer;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -6,13 +6,11 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.services.offline.CompactibleJsonConverter;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.init.FileImportListener;
 import org.msh.etbm.services.session.search.SearchableCreator;
-import org.msh.etbm.services.sync.CompactibleJsonConverter;
-import org.msh.etbm.services.sync.SynchronizationException;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
-import org.msh.etbm.services.sync.client.db.RecordImporter;
-import org.msh.etbm.services.sync.client.db.SQLCommandBuilder;
-import org.msh.etbm.services.sync.client.db.SQLUpdateChildTables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,7 @@ import java.util.zip.GZIPInputStream;
  * Created by Mauricio on 28/11/2016.
  */
 @Service
-public class SyncFileImporter {
+public class FileImporter {
 
     @Autowired
     RecordImporter db;

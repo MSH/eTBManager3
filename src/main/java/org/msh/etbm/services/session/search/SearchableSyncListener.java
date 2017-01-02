@@ -3,7 +3,7 @@ package org.msh.etbm.services.session.search;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
-import org.msh.etbm.services.sync.client.data.RecordChangeEvent;
+import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

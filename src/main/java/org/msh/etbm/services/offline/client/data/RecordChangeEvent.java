@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client.data;
+package org.msh.etbm.services.offline.client.data;
 
 /**
  * Created by Mauricio on 15/12/2016.

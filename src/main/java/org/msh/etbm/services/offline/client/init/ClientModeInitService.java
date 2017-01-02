@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.offline.client.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -6,11 +6,12 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.*;
+import org.msh.etbm.services.offline.client.ParentServerRequestService;
+import org.msh.etbm.services.offline.importer.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
-import org.msh.etbm.services.sync.SyncCmdLogHandler;
-import org.msh.etbm.services.sync.SynchronizationException;
-import org.msh.etbm.services.sync.client.data.ServerCredentialsData;
-import org.msh.etbm.services.sync.client.data.ServerStatusResponse;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.client.data.ServerStatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ClientModeInitService {
     ParentServerRequestService request;
 
     @Autowired
-    SyncFileImporter importer;
+    FileImporter importer;
 
     @PersistenceContext
     EntityManager entityManager;

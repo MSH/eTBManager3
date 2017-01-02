@@ -1,10 +1,11 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.offline.client;
 
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
-import org.msh.etbm.services.sync.SynchronizationException;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.init.FileDownloadListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

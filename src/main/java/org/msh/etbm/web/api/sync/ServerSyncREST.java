@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.sync;
 
 import org.apache.commons.compress.utils.IOUtils;
-import org.msh.etbm.services.sync.server.SyncFileService;
+import org.msh.etbm.services.offline.server.SyncFileService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client.db;
+package org.msh.etbm.services.offline.importer;
 
 import java.util.List;
 import java.util.Set;

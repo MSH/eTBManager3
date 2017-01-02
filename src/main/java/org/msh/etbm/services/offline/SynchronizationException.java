@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync;
+package org.msh.etbm.services.offline;
 
 /**
  * Default exception thrown by synchronization operations
