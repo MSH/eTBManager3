@@ -106,14 +106,14 @@ public class FileImporter {
 
         phase =  FileImportingPhase.IMPORTING_TABLES;
 
+        Integer fileVersion = null;
+
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             // get field name that is being read
             String fieldName = parser.getCurrentName();
 
             // move from field name to field value
             parser.nextToken();
-
-            Integer fileVersion = null;
 
             switch (fieldName) {
                 case "version":

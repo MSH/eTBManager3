@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
@@ -86,7 +87,8 @@ public class ClientSyncFileGenerator {
      */
     protected void generateJsonContent(UUID unitId, JsonGenerator generator) throws IOException {
 
-        long version = sysConfigService.loadConfig().getVersion();
+        SysConfigData data = sysConfigService.loadConfig();
+        long version = data.getVersion();
 
         Unit unit = entityManager.find(Unit.class, unitId);
 
