@@ -16,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * THis is a simple implementation of a component responsible for storing and restoring a model,
@@ -38,7 +39,7 @@ public class ModelStoreService {
      * @param modelId the model ID
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID, key = "#modelId")
+    @Cacheable(cacheNames = CACHE_ID)
     public CompiledModel get(String modelId) {
         Model model = loadFromDB(modelId);
 
@@ -53,8 +54,8 @@ public class ModelStoreService {
 
 
     @Transactional
-    @CachePut(cacheNames = CACHE_ID, key = "#modelId")
-    public void update(String modelId, Model model) {
+    @CachePut(cacheNames = CACHE_ID)
+    public void update(String modelId, UUID workspaceId, Model model) {
         ModelData data = loadModelData(modelId);
 
         if (data == null) {
@@ -90,7 +91,6 @@ public class ModelStoreService {
     /**
      * Load a customized model from the database
      * @param modelId the model ID
-     * @param workspaceId the workspace ID
      * @return instance of {@link Model}
      */
     private Model loadFromDB(String modelId) {

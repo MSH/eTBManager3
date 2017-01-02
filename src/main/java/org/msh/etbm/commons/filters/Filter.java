@@ -6,21 +6,12 @@ import org.springframework.context.ApplicationContext;
 import java.util.Map;
 
 /**
+ * Implementation of a filter to be used in {@link org.msh.etbm.commons.sqlquery.SQLQueryBuilder}
+ * objects.
+ *
  * Created by rmemoria on 15/8/16.
  */
 public interface Filter {
-
-    /**
-     * Return the filter ID
-     * @return
-     */
-    String getId();
-
-    /**
-     * Return the filter's label to be displayed to the user
-     * @return
-     */
-    String getLabel();
 
     /**
      * Initialize the filter passing the instance of the ApplicationContext.

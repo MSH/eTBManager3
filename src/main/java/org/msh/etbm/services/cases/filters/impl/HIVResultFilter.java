@@ -4,7 +4,7 @@ import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 import org.msh.etbm.db.enums.HIVResult;
@@ -73,11 +73,12 @@ public class HIVResultFilter extends AbstractFilter {
     }
 
     @Override
-    public String createKey(Object value) {
-        if (value == null) {
-            return super.createKey(value);
+    public Key createKey(Object[] values, int iteration) {
+        if (values[0] == null) {
+            return Key.asNull();
         }
-        return value.toString();
+
+        return Key.of(values[0]);
     }
 
     @Override
@@ -108,18 +109,20 @@ public class HIVResultFilter extends AbstractFilter {
     }
 
     @Override
-    public VariableOptions getVariableOptions() {
-        VariableOptions opt = super.getVariableOptions();
-        return new VariableOptions(opt.isGrouped(), opt.isTotalEnabled(), 3, opt.getCountingUnit());
+    public int getIterationCount() {
+        return 3;
     }
 
     @Override
-    public String getKeyDisplay(String key) {
-        if (key == null) {
+    public String getKeyDisplay(Key key) {
+        if (key.isNull()) {
             return getMessages().get(Messages.UNDEFINED);
         }
 
-        int index = Integer.parseInt(key.toString());
+        int index = key.getValue() instanceof String ?
+                Integer.parseInt((String)key.getValue()) :
+                (Integer)key.getValue();
+
         HIVResult res = HIVResult.values()[index - 1];
 
         return getMessages().get(res.getMessageKey());

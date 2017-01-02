@@ -46,6 +46,7 @@ class CrudForm extends React.Component {
 
         const controller = this.props.controller;
         const schema = controller.getFormSchema();
+        const resources = controller.frm.resources;
 
         // include the ID in the form
         const doc = Object.assign({}, controller.frm.doc, { id: controller.frm.id });
@@ -58,6 +59,7 @@ class CrudForm extends React.Component {
                 wrapType={this.props.wrapType}
                 onCancel={controller.closeForm}
                 className={this.props.className}
+                resources={resources}
                 />
             );
 
@@ -78,7 +80,8 @@ CrudForm.propTypes = {
     openOnEdit: React.PropTypes.bool,
     wrapType: React.PropTypes.oneOf(['modal', 'card', 'none']),
     className: React.PropTypes.string,
-    animate: React.PropTypes.bool
+    animate: React.PropTypes.bool,
+    remotePath: React.PropTypes.any
 };
 
 CrudForm.defaultProps = {

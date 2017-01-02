@@ -26,7 +26,8 @@ export default class CrudView extends React.Component {
             pageSize: this.props.pageSize,
             readOnly: !hasPerm(this.props.perm),
             editorSchema: this.props.editorSchema,
-            refreshAll: !!this.props.refreshAll
+            refreshAll: !!this.props.refreshAll,
+            remoteForm: this.props.remoteForm
         };
 
         const controller = new CrudController(this.props.crud, opts);
@@ -127,7 +128,9 @@ CrudView.propTypes = {
     combine: React.PropTypes.bool,
     children: React.PropTypes.node,
     // refresh all list on a CUD operation
-    refreshAll: React.PropTypes.bool
+    refreshAll: React.PropTypes.bool,
+    // if true, the forms will be fetched from the server
+    remoteForm: React.PropTypes.bool
 };
 
 CrudView.defaultProps = {

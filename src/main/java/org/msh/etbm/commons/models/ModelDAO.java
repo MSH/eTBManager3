@@ -87,6 +87,7 @@ public class ModelDAO {
     /**
      * Search for one single record by its ID
      * @param id the record ID
+     * @param displaying if true indicates that data will be used for display or editing
      * @return instance of {@link RecordData} containing record information, or null if record not found
      */
     public RecordData findOne(UUID id, boolean displaying) {

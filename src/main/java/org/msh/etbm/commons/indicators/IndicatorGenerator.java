@@ -10,9 +10,9 @@ import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
 import org.msh.etbm.commons.indicators.query.DataTableQuery;
 import org.msh.etbm.commons.indicators.query.IndicatorSqlBuilder;
 import org.msh.etbm.commons.indicators.query.SQLQuery;
-import org.msh.etbm.commons.indicators.tableoperations.ConcatTables;
 import org.msh.etbm.commons.indicators.tableoperations.IndicatorTransform;
 import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
+import org.msh.etbm.commons.indicators.tableoperations.KeySorter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,7 +63,7 @@ public class IndicatorGenerator {
             return new IndicatorDataTableImpl();
         }
 
-        data = convertDataToVariableKeys(data, builder);
+        KeySorter.sortByKey(data);
 
         IndicatorDataTable result = indicatorTransform(data, req.getColumnVariables(), req.getRowVariables());
 
@@ -157,7 +156,7 @@ public class IndicatorGenerator {
      */
     protected void runVariableIteration(DataSource dataSource, DataTable target, IndicatorSqlBuilder sqlBuilder, int varindex) {
         Variable var = sqlBuilder.getVariables().get(varindex);
-        int num = var.getVariableOptions().getIterationCount();
+        int num = var.getIterationCount();
 
         // consider at least 1 iteration for each variable
         if (num == 0) {
@@ -170,7 +169,7 @@ public class IndicatorGenerator {
             // is the last item?
             if (varindex == sqlBuilder.getVariables().size() - 1) {
                 DataTable tbl = createDataTableFromQuery(dataSource, sqlBuilder);
-                ConcatTables.insertRows(target, tbl);
+                convertDataToVariableKeys(tbl, target, sqlBuilder);
             } else {
                 runVariableIteration(dataSource, target, sqlBuilder, varindex + 1);
             }
@@ -191,11 +190,12 @@ public class IndicatorGenerator {
         // load data
         SQLQuery qry = new SQLQuery();
 
+        String sql = builder.createSql();
         if (development) {
-            System.out.println(builder.createSql());
+            System.out.println(sql);
         }
 
-        return qry.execute(dataSource, builder.createSql(), builder.getParameters());
+        return qry.execute(dataSource, sql, builder.getParameters());
     }
 
 
@@ -212,26 +212,15 @@ public class IndicatorGenerator {
     /**
      * Create a new data table already converted to the variable key
      *
-     * @param sourcedt
+     * @param source
+     * @param dest
+     * @param sqlBuilder
      * @return
      */
-    protected DataTable convertDataToVariableKeys(DataTable sourcedt, IndicatorSqlBuilder builder) {
+    protected void convertDataToVariableKeys(DataTable source, DataTable dest, IndicatorSqlBuilder sqlBuilder) {
         KeyConverter conv = new KeyConverter();
-
-        // mount list of variables and columns
-        List<Variable> vars = new ArrayList<Variable>();
-        List<int[]> varcols = new ArrayList<int[]>();
-
-        for (Variable var : builder.getVariables()) {
-            vars.add(var);
-            varcols.add(builder.getColumnsVariable(var));
-        }
-
-        DataTable dt = conv.execute(sourcedt, vars, varcols);
-
-        return dt;
+        conv.convertKeys(source, dest, sqlBuilder);
     }
-
 
     /**
      * Transform a data table into a cube using specific columns
@@ -249,8 +238,8 @@ public class IndicatorGenerator {
 
     protected void calcTotals(IndicatorRequest req, IndicatorDataTable tbl, Messages messages) {
         // check if columns can be totalized
-        boolean totalEnabled = req.isColumnTotal() && !req.getColumnVariables()
-                .stream().anyMatch(v -> !v.getVariableOptions().isTotalEnabled());
+        boolean colTotalEnabled = req.isColumnTotal() && !req.getColumnVariables()
+                .stream().anyMatch(v -> !v.isTotalEnabled());
 
         // the key to store the information
         Object[] totalKey = { DataTableUtils.TOTAL };
@@ -258,7 +247,7 @@ public class IndicatorGenerator {
         int columnCount = tbl.getColumnCount();
 
         // calculate the total for each row
-        if (totalEnabled) {
+        if (colTotalEnabled) {
             // add the key descriptor
             tbl.getColumnKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
 
@@ -271,13 +260,13 @@ public class IndicatorGenerator {
         }
 
         // check if rows can be totalized
-        totalEnabled = req.isRowTotal() && !req.getRowVariables()
-                .stream().anyMatch(v -> !v.getVariableOptions().isTotalEnabled());
+        boolean rowTotalEnabled = req.isRowTotal() && !req.getRowVariables()
+                .stream().anyMatch(v -> !v.isTotalEnabled());
 
         double total = 0;
 
         // calculate the total for each column
-        if (totalEnabled) {
+        if (rowTotalEnabled) {
             // add the key descriptor
             tbl.getRowKeyDescriptors().get(0).put(DataTableUtils.TOTAL, messages.get("global.total"));
 
@@ -296,7 +285,9 @@ public class IndicatorGenerator {
             }
         }
 
-        tbl.setValue(totalKey, totalKey, total);
+        if (colTotalEnabled && rowTotalEnabled) {
+            tbl.setValue(totalKey, totalKey, total);
+        }
     }
 
     /**

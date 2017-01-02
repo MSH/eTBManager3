@@ -5,7 +5,7 @@ package org.msh.etbm.commons.date;
  *
  * Created by rmemoria on 2/12/16.
  */
-public class PeriodData {
+public class YearMonthPeriod {
 
     private Integer iniYear;
     private Integer iniMonth;

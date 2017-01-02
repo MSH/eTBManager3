@@ -1,0 +1,113 @@
+{
+  "name": "prevtbtreatment",
+  "table": "prevtbtreatment",
+  "fields": [
+    {
+      "type": "month-year",
+      "name": "iniTreatment",
+      "label": "${TbCase.iniTreatmentDate}",
+      "fieldMonth": "iniMonth",
+      "fieldYear": "iniYear",
+      "required": true
+    },
+    {
+      "type": "month-year",
+      "name": "endTreatment",
+      "fieldMonth": "endMonth",
+      "fieldYear": "endYear",
+      "label": "${TbCase.endTreatmentDate}",
+      "required": false
+    },
+    {
+      "type": "string",
+      "label": "${cases.prevtreat.outcome}",
+      "name": "outcome",
+      "options": [
+        { "id": "COMPLETED", "name": "${PrevTBTreatmentOutcome.COMPLETED}" },
+        { "id": "CURED", "name": "${PrevTBTreatmentOutcome.CURED}" },
+        { "id": "DEFAULTED", "name": "${PrevTBTreatmentOutcome.DEFAULTED}" },
+        { "id": "DIAGNOSTIC_CHANGED", "name": "${PrevTBTreatmentOutcome.DIAGNOSTIC_CHANGED}" },
+        { "id": "FAILURE", "name": "${PrevTBTreatmentOutcome.FAILURE}" },
+        { "id": "ONGOING", "name": "${PrevTBTreatmentOutcome.ONGOING}" },
+        { "id": "OTHER", "name": "${PrevTBTreatmentOutcome.OTHER}" },
+        { "id": "SCHEME_CHANGED", "name": "${PrevTBTreatmentOutcome.SCHEME_CHANGED}" },
+        { "id": "SHIFT_CATIV", "name": "${PrevTBTreatmentOutcome.SHIFT_CATIV}" },
+        { "id": "TRANSFERRED_OUT", "name": "${PrevTBTreatmentOutcome.TRANSFERRED_OUT}" },
+        { "id": "UNKNOWN", "name": "${PrevTBTreatmentOutcome.UNKNOWN}" }
+      ],
+      "required": true
+    },
+    {
+      "name": "r",
+      "type": "bool",
+      "label": "${cases.prevtreat.r}",
+      "defaultValue": false
+    },
+    {
+      "name": "h",
+      "type": "bool",
+      "label": "${cases.prevtreat.h}",
+      "defaultValue": false
+    },
+    {
+      "name": "s",
+      "type": "bool",
+      "label": "${cases.prevtreat.s}",
+      "defaultValue": false
+    },
+    {
+      "name": "e",
+      "type": "bool",
+      "label": "${cases.prevtreat.e}",
+      "defaultValue": false
+    },
+    {
+      "name": "z",
+      "type": "bool",
+      "label": "${cases.prevtreat.z}",
+      "defaultValue": false
+    },
+    {
+      "name": "am",
+      "type": "bool",
+      "label": "${cases.prevtreat.am}",
+      "defaultValue": false
+    },
+    {
+      "name": "cfz",
+      "type": "bool",
+      "label": "${cases.prevtreat.cfz}",
+      "defaultValue": false
+    },
+    {
+      "name": "cm",
+      "type": "bool",
+      "label": "${cases.prevtreat.cm}",
+      "defaultValue": false
+    },
+    {
+      "name": "cs",
+      "type": "bool",
+      "label": "${cases.prevtreat.cs}",
+      "defaultValue": false
+    },
+    {
+      "name": "eto",
+      "type": "bool",
+      "label": "${cases.prevtreat.eto}",
+      "defaultValue": false
+    },
+    {
+      "name": "lfx",
+      "type": "bool",
+      "label": "${cases.prevtreat.lfx}",
+      "defaultValue": false
+    },
+    {
+      "name": "ofx",
+      "type": "bool",
+      "label": "${cases.prevtreat.ofx}",
+      "defaultValue": false
+    }
+  ]
+}

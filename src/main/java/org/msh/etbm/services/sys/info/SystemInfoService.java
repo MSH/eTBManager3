@@ -2,7 +2,6 @@ package org.msh.etbm.services.sys.info;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.web.api.sys.GlobalListsService;
 import org.springframework.beans.factory.annotation.Autowired;

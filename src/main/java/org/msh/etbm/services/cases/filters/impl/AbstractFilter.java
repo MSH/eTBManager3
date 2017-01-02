@@ -2,11 +2,13 @@ package org.msh.etbm.services.cases.filters.impl;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.filters.Filter;
+import org.msh.etbm.commons.filters.FilterItem;
 import org.msh.etbm.commons.filters.FilterTypes;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.Variable;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
+import org.msh.etbm.commons.indicators.variables.VariableOutput;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.springframework.context.ApplicationContext;
 
 import java.util.*;
@@ -16,24 +18,17 @@ import java.util.*;
  *
  * Created by rmemoria on 17/8/16.
  */
-public abstract class AbstractFilter implements Filter, Variable {
-
-    public static final String KEY_NULL = "null";
-
-    private static final VariableOptions DEFAULT_VAR_OPTIONS =
-            new VariableOptions(false, true, 0, new Item<>("cases", "Cases"));
+public abstract class AbstractFilter implements FilterItem, Variable {
 
     private String id;
     private String label;
     private ApplicationContext applicationContext;
     private Messages messages;
-    private VariableOptions variableOptions;
 
     public AbstractFilter(String id, String label) {
         super();
         this.id = id;
         this.label = label;
-        setVariableOptions(DEFAULT_VAR_OPTIONS);
     }
 
     @Override
@@ -42,7 +37,7 @@ public abstract class AbstractFilter implements Filter, Variable {
     }
 
     @Override
-    public String getLabel() {
+    public String getName() {
         return getMessages().eval(label);
     }
 
@@ -82,8 +77,6 @@ public abstract class AbstractFilter implements Filter, Variable {
      * @param converter called for each value to convert to an appropriated value parameter
      */
     protected void addValuesRestriction(QueryDefs defs, String field, Object value, ValueConverter converter) {
-        StringBuilder s = new StringBuilder();
-
         Collection lst = value instanceof Collection ? (Collection)value : null;
 
         // check if there is one single value
@@ -91,7 +84,7 @@ public abstract class AbstractFilter implements Filter, Variable {
         if (lst == null) {
             singleValue = value;
         } else {
-            if (lst.size() == 0) {
+            if (lst.isEmpty()) {
                 return;
             }
             singleValue = lst.size() == 1 ? lst.toArray()[0] : null;
@@ -148,7 +141,7 @@ public abstract class AbstractFilter implements Filter, Variable {
         }
         s.append(")");
 
-        if (params.size() > 0) {
+        if (params.isEmpty()) {
             def.restrict(s.toString(), params.toArray());
         }
     }
@@ -234,53 +227,40 @@ public abstract class AbstractFilter implements Filter, Variable {
 
 
     @Override
-    public int compareValues(Object val1, Object val2) {
-        if (val1 == val2) {
-            return 0;
-        }
-
-        if ((val1 == null) || (KEY_NULL.equals(val1))) {
-            return 1;
-        }
-
-        if ((val2 == null) || (KEY_NULL.equals(val2))) {
-            return -1;
-        }
-
-        if (val1 instanceof Comparable) {
-            return ((Comparable)val1).compareTo(val2);
-        }
-
-        return 0;
-    }
-
-    protected void setVariableOptions(VariableOptions variableOptions) {
-        this.variableOptions = variableOptions;
+    public int compareValues(Key key1, Key key2) {
+        return key1.compareTo(key2);
     }
 
     @Override
-    public VariableOptions getVariableOptions() {
-        return variableOptions;
+    public boolean isGrouped() {
+        return false;
     }
 
     @Override
-    public int compareGroupValues(Object val1, Object val2) {
-        return 0;
+    public int getIterationCount() {
+        return 1;
     }
+
+    @Override
+    public boolean isTotalEnabled() {
+        return true;
+    }
+
+    @Override
+    public VariableOutput getVariableOutput() {
+        return CaseFilters.VAROUT_CASES;
+    }
+
 
     @Override
     public Object[] getDomain() {
         return new Object[0];
     }
 
-    @Override
-    public String createGroupKey(Object values) {
-        return values != null ? values.toString() : null;
-    }
 
     @Override
-    public String getGroupKeyDisplay(String key) {
-        return key;
+    public String getGroupKeyDisplay(Key key) {
+        return key.getGroup() != null ? key.getGroup().toString() : "Undefined";
     }
 
     @Override
@@ -288,16 +268,17 @@ public abstract class AbstractFilter implements Filter, Variable {
     }
 
     @Override
-    public String createKey(Object values) {
-        if (values == null) {
-            return AbstractFilter.KEY_NULL;
+    public Key createKey(Object[] values, int iteration) {
+        if (values.length == 1 && values[0] == null) {
+            return Key.asNull();
         }
-        return values.toString();
+
+        return Key.asMultipleArray(values);
     }
 
     @Override
-    public String getKeyDisplay(String key) {
-        return AbstractFilter.KEY_NULL.equals(key) ? getMessages().get(Messages.UNDEFINED) : null;
+    public String getKeyDisplay(Key key) {
+        return key.isNull() ? getMessages().get(Messages.UNDEFINED) : key.getValue().toString();
     }
 
 }

@@ -1,4 +1,6 @@
 
+import { RemoteForm } from '../../../components';
+
 const Events = {
     // List is changed
     list: 'list',
@@ -108,7 +110,7 @@ export default class CrudController {
      */
     getEditors() {
         const schema = this.options.editorSchema;
-        if (!schema.editors) {
+        if (!schema || !schema.editors) {
             return null;
         }
 
@@ -136,6 +138,8 @@ export default class CrudController {
 
     /**
      * Generate events to open a new form
+     * @param item object with information about the record to be edited
+     * @param key an optional key if using multi schema editor
      * @return {[type]} [description]
      */
     _openForm(item, key) {
@@ -143,9 +147,14 @@ export default class CrudController {
             return null;
         }
 
+        // check if is using remote forms
+        if (this.options.remoteForm) {
+            return this._openRemoteForm(item, key);
+        }
+
         // select the schema to be used in the form
-        const se = this.options.editorSchema;
         var schema;
+        const se = this.options.editorSchema;
         // is mulit schema ?
         if (se.editors) {
             if (__DEV__) {
@@ -201,6 +210,38 @@ export default class CrudController {
 
             self.hideMessage();
             // return the doc and id in the a promise
+            return formInfo;
+        });
+    }
+
+    /**
+     * Open a form where schema comes from the server
+     */
+    _openRemoteForm(item) {
+        const formInfo = {
+            doc: null,
+            id: item ? this.resolveId(item) : null,
+            fetching: true,
+            item: item,
+            schema: null
+        };
+
+        this.frm = formInfo;
+        const self = this;
+
+        // get the form and the document form the server
+        return this.crud.fetchForm({ id: formInfo.id })
+        .then(res => {
+            formInfo.doc = res.doc;
+            formInfo.schema = RemoteForm.resolveSchema(res.schema);
+            formInfo.resources = res.resources;
+            formInfo.fetching = false;
+
+            // raise the event to notify the form to open
+            self._raise(Events.openForm, formInfo);
+
+            self.hideMessage();
+
             return formInfo;
         });
     }

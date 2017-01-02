@@ -1,0 +1,83 @@
+{
+  "dataModel": "prevtbtreatment",
+  "defaultProperties": {
+  },
+  "title": { "function": "doc.id ? '${cases.prevtreat.edt}' : '${cases.prevtreat.new}'" },
+  "controls": [
+    {
+      "type": "month-year",
+      "property": "iniTreatment",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "month-year",
+      "property": "endTreatment",
+      "size": { "sm": 6 }
+    },
+    {
+      "type": "select",
+      "property": "outcome",
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "bool",
+      "property": "r",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "h",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "s",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "e",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "z",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "am",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "cfz",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "cm",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "cs",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "eto",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "lfx",
+      "size": { "sm": 2 }
+    },
+    {
+      "type": "bool",
+      "property": "ofx",
+      "size": { "sm": 2 }
+    }
+  ]
+}

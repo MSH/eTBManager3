@@ -5,6 +5,7 @@ import org.msh.etbm.commons.indicators.datatable.DataTable;
 import org.msh.etbm.commons.indicators.datatable.Row;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTable;
 import org.msh.etbm.commons.indicators.indicator.IndicatorDataTableImpl;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.HashMap;
@@ -18,6 +19,8 @@ import java.util.Map;
  *
  */
 public class IndicatorTransform {
+
+    private static final String KEY_NULL = "null";
 
     /**
      * Generate a new {@link IndicatorDataTable} from the data
@@ -42,8 +45,8 @@ public class IndicatorTransform {
         for (Row row: tbl.getRows()) {
             Long val = (Long)row.getValue(valueindex);
             if (val != null) {
-                Object[] colkeys = row.getValues(colsindex);
-                Object[] rowkeys = row.getValues(rowsindex);
+                Object[] colkeys = convertKeys(row.getValues(colsindex));
+                Object[] rowkeys = convertKeys(row.getValues(rowsindex));
 
                 ind.incValue(colkeys, rowkeys, val.doubleValue());
             }
@@ -56,14 +59,37 @@ public class IndicatorTransform {
         return ind;
     }
 
-    private int[] calcVariablePositions(List<Variable> vars, int iniPos) {
+    private Object[] convertKeys(Object[] keys) {
+        // calc length of keys in array
         int size = 0;
-        for (Variable var: vars) {
-            size++;
-            if (var.getVariableOptions().isGrouped()) {
+        for (Object obj: keys) {
+            Key key = (Key)obj;
+            if (key.getVariable().isGrouped()) {
                 size++;
             }
+            size++;
         }
+
+        Object[] vals = new Object[size];
+
+        int index = 0;
+        for (int i = 0; i < keys.length; i++) {
+            Key key = (Key)keys[i];
+            if (key.getVariable().isGrouped()) {
+                vals[index] = key.getGroup();
+                index++;
+            }
+
+            Object val = key.getValue();
+            vals[index] = val == null ? KEY_NULL : val;
+            index++;
+        }
+
+        return vals;
+    }
+
+    private int[] calcVariablePositions(List<Variable> vars, int iniPos) {
+        int size = vars.size();
 
         int[] pos = new int[size];
         for (int i = 0; i < size; i++) {
@@ -90,22 +116,22 @@ public class IndicatorTransform {
             int index = 0;
 
             for (Variable var: variables) {
-                String key = vals[index] != null ? vals[index].toString() : null;
-                String s = var.getVariableOptions().isGrouped() ? var.getGroupKeyDisplay(key) : var.getKeyDisplay(key);
-                if (s == null) {
-                    throw new IndicatorException("Invalid key display for value " + vals[index]);
-                }
-
-                addDescriptor(descriptors, index, key, s);
-
-                index++;
-
-                if (var.getVariableOptions().isGrouped()) {
-                    String id2 = vals[index] != null ? vals[index].toString() : "null";
-                    String s2 = var.getKeyDisplay(id2);
-                    addDescriptor(descriptors, index, id2, s2);
+                Key key = (Key)vals[index];
+                if (var.isGrouped()) {
+                    String s = var.getGroupKeyDisplay(key);
+                    if (s == null) {
+                        throw new IndicatorException("Invalid key display for value " + vals[index]);
+                    }
+                    String id = key.getGroup() != null ? key.getGroup().toString() : KEY_NULL;
+                    addDescriptor(descriptors, index, id, s);
                     index++;
                 }
+
+                String s = var.getKeyDisplay(key);
+                String k = key.isNull() ? KEY_NULL : key.getValue().toString();
+                addDescriptor(descriptors, index, k, s);
+
+                index++;
             }
         }
     }

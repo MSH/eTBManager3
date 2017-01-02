@@ -4,7 +4,7 @@ import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.filters.FilterException;
 import org.msh.etbm.commons.filters.FilterTypes;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
@@ -397,62 +397,47 @@ public class PeriodFilter extends AbstractFilter {
     }
 
     @Override
-    public String createKey(Object values) {
-        if (values == null) {
-            return AbstractFilter.KEY_NULL;
+    public Key createKey(Object[] values, int iteration) {
+        if (values[0] == null) {
+            return Key.asNull();
         }
 
-        Object[] vals = (Object[])values;
-        Integer year = (Integer)vals[0];
-        Integer month = (Integer)vals[1];
+        Integer year = (Integer)values[0];
+        Integer month = hasMonth() ? (Integer)values[1] : null;
 
-        if (year == null || month == null) {
-            return AbstractFilter.KEY_NULL;
-        }
-
-        return Integer.toString(month);
+        return hasMonth() ? Key.of(year, month) : Key.of(year);
     }
 
     @Override
-    public String getKeyDisplay(String key) {
-        if (AbstractFilter.KEY_NULL.equals(key)) {
+    public String getKeyDisplay(Key key) {
+        if (key.isNull()) {
             return super.getKeyDisplay(key);
         }
 
-        Integer month = Integer.parseInt(key) - 1;
+        if (hasMonth()) {
+            int month = (Integer)key.getValue();
 
-        DateFormatSymbols sym = new DateFormatSymbols();
-        return sym.getMonths()[month];
-    }
-
-    @Override
-    public String getGroupKeyDisplay(String key) {
-        return super.getGroupKeyDisplay(key);
-    }
-
-    @Override
-    public String createGroupKey(Object values) {
-        if (values == null) {
-            return AbstractFilter.KEY_NULL;
+            DateFormatSymbols sym = new DateFormatSymbols();
+            return sym.getMonths()[month - 1];
+        } else {
+            // year only
+            int year = (Integer)key.getValue();
+            return Integer.toString(year);
         }
-
-        Object[] vals = (Object[])values;
-        Integer year = (Integer)vals[0];
-        if (year == null) {
-            return AbstractFilter.KEY_NULL;
-        }
-
-        return year.toString();
     }
 
     @Override
-    public VariableOptions getVariableOptions() {
-        VariableOptions opts = super.getVariableOptions();
-        return new VariableOptions(true,
-                opts.isTotalEnabled(),
-                opts.getIterationCount(),
-                opts.getCountingUnit());
+    public String getGroupKeyDisplay(Key key) {
+        Integer year = (Integer)key.getGroup();
+
+        return year != null ? Integer.toString(year) : super.getGroupKeyDisplay(key);
     }
+
+    @Override
+    public boolean isGrouped() {
+        return true;
+    }
+
 
     @Override
     public void prepareVariableQuery(QueryDefs def, int iteration) {
@@ -466,6 +451,14 @@ public class PeriodFilter extends AbstractFilter {
         if (type == PeriodVariableType.QUARTERLY || type == PeriodVariableType.MONTHLY) {
             def.select("month(" + fieldName + ")");
         }
+    }
+
+    /**
+     * Return true if variable data contains month information
+     * @return boolean value
+     */
+    private boolean hasMonth() {
+        return type == PeriodVariableType.QUARTERLY || type == PeriodVariableType.MONTHLY;
     }
 
     @Override

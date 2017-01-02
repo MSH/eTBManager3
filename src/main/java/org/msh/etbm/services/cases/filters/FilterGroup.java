@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.filters;
 
-import org.msh.etbm.commons.filters.Filter;
+import org.msh.etbm.commons.filters.FilterItem;
 import org.msh.etbm.commons.indicators.variables.Variable;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class FilterGroup {
 
     private String label;
-    private List<Filter> filters = new ArrayList<>();
+    private List<FilterItem> filters = new ArrayList<>();
     private List<Variable> variables = new ArrayList<>();
 
     public FilterGroup(String label) {
@@ -20,8 +20,8 @@ public class FilterGroup {
     }
 
     public void add(Object item) {
-        if (item instanceof Filter) {
-            addFilter((Filter)item);
+        if (item instanceof FilterItem) {
+            addFilter((FilterItem)item);
         }
 
         if (item instanceof Variable) {
@@ -33,11 +33,11 @@ public class FilterGroup {
         variables.add(var);
     }
 
-    public void addFilter(Filter filter) {
+    public void addFilter(FilterItem filter) {
         filters.add(filter);
     }
 
-    public List<Filter> getFilters() {
+    public List<FilterItem> getFilters() {
         return filters;
     }
 

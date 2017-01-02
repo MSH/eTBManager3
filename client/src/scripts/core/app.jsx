@@ -84,6 +84,7 @@ export class App {
         // call server to get system status
         server.post('/api/sys/info?list=1', {})
         .then(res => {
+
             // create storage that will keep application state
             self.storage = new Storage({ app: res });
 
@@ -92,16 +93,13 @@ export class App {
                 gotoModule('/init', '/welcome');
             }
 
-            // there is no page pointed in the url ?
-            if (!window.location.hash) {
-                // if ready, go to the main page
-                if (res.state === 'READY') {
-                    gotoModule('/sys', '/workspace/cases');
-                }
-                else {
-                    // if not, go to the login page
-                    gotoModule('/pub', '/login');
-                }
+            // if ready, go to the main page
+            if (res.state === 'READY') {
+                gotoModule('/sys', '/workspace/cases');
+            }
+            else {
+                // if not, go to the login page
+                gotoModule('/pub', '/login');
             }
 
             // render the main page

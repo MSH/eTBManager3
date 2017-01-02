@@ -11,7 +11,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 /**
  * Component to request the Parent Server of an off-line mode instance.
@@ -102,33 +105,36 @@ public class ParentServerRequestService {
 
         try {
             httpConn = (HttpURLConnection) url.openConnection();
-            if (authToken != null && !authToken.isEmpty()) {
-                httpConn.setRequestProperty("X-Auth-Token", authToken);
+
+            try {
+                if (authToken != null && !authToken.isEmpty()) {
+                    httpConn.setRequestProperty("X-Auth-Token", authToken);
+                }
+                checkHttpCode(httpConn.getResponseCode());
+
+                // opens input stream from the HTTP connection
+                InputStream inputStream = httpConn.getInputStream();
+
+                file = File.createTempFile("file", ".etbm");
+
+                // opens an output stream to save into file
+                FileOutputStream outputStream = new FileOutputStream(file);
+
+                // read downloaded file
+                int bytesRead = -1;
+                byte[] buffer = new byte[BUFFER_SIZE];
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                outputStream.close();
+                inputStream.close();
+
+            } finally {
+                httpConn.disconnect();
             }
-            checkHttpCode(httpConn.getResponseCode());
-
-            // opens input stream from the HTTP connection
-            InputStream inputStream = httpConn.getInputStream();
-
-            file = File.createTempFile("file", ".etbm");
-
-            // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(file);
-
-            // read downloaded file
-            int bytesRead = -1;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            outputStream.close();
-            inputStream.close();
-
         } catch (Exception e) {
             throw new SynchronizationException("Error while creating download file from parent server.");
-        } finally {
-            httpConn.disconnect();
         }
 
         listener.afterDownload(file);
@@ -147,19 +153,21 @@ public class ParentServerRequestService {
         try {
             // Instantiate URL
             URL url = getURL(serverUrl, serviceUrl);
-
-            // Configure Request
             conn = (HttpURLConnection) url.openConnection();
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            if (authToken != null && !authToken.isEmpty()) {
-                conn.setRequestProperty("X-Auth-Token", authToken);
+            try {
+
+                // Configure Request
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/json");
+                if (authToken != null && !authToken.isEmpty()) {
+                    conn.setRequestProperty("X-Auth-Token", authToken);
+                }
+            } finally {
+                conn.disconnect();
             }
         } catch (Exception e) {
             throw new SynchronizationException("Error while creating post request to parent server.");
-        } finally {
-            conn.disconnect();
         }
 
         return conn;

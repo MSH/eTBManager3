@@ -1,4 +1,4 @@
-package org.msh.etbm.services.cases.followup.examcul;
+package org.msh.etbm.services.cases.followup.examculture;
 
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.CaseEntityServiceImpl;
@@ -13,7 +13,7 @@ import org.springframework.validation.Errors;
  * Created by msantos on 11/7/16.
  */
 @Service
-public class ExamCulServiceImpl extends CaseEntityServiceImpl<ExamCulture, EntityQueryParams> implements ExamCulService {
+public class ExamCulServiceImpl extends CaseEntityServiceImpl<ExamCulture, EntityQueryParams> implements ExamCultureService {
 
     @Override
     public String getCommandType() {

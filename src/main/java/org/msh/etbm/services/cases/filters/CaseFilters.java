@@ -4,9 +4,11 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.filters.Filter;
 import org.msh.etbm.commons.filters.FilterData;
 import org.msh.etbm.commons.filters.FilterGroupData;
+import org.msh.etbm.commons.filters.FilterItem;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.indicators.variables.VariableData;
 import org.msh.etbm.commons.indicators.variables.VariableGroupData;
+import org.msh.etbm.commons.indicators.variables.VariableOutput;
 import org.msh.etbm.db.enums.*;
 import org.msh.etbm.services.cases.filters.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CaseFilters {
+
+    public static final VariableOutput VAROUT_CASES = new VariableOutput("cases", "${cases}");
+    public static final VariableOutput VAROUT_EXAMS = new VariableOutput("exams", "${exams}");
 
     public static final String CASE_STATE = "case-state";
     public static final String CASE_CLASSIFICATION = "classification";
@@ -47,6 +52,8 @@ public class CaseFilters {
     public static final String INI_TREATMENT_DATE = "ini-treat-date";
     public static final String END_TREATMENT_DATE = "end-treat-date";
     public static final String OUTCOME_DATE = "outcome-date";
+    public static final String MONTH_OF_TREAT = "month-of-treat";
+    public static final String PRESC_MEDICINE = "presc-medicine";
 
     @Autowired
     ApplicationContext applicationContext;
@@ -98,7 +105,7 @@ public class CaseFilters {
 
     /**
      * Declare the filters and variables of the treatment group
-     * @param grp
+     * @param grp the group to include the filters
      */
     private void createTreatmentFilters(FilterGroup grp) {
         grp.add(new ModelFieldOptionsFilter(OUTCOME, "${TbCase.outcome}", "tbcase", "outcome"));
@@ -111,6 +118,10 @@ public class CaseFilters {
 
         grp.add(new PeriodFilter(OUTCOME_DATE, "${TbCase.outcomeDate}", "tbcase.outcomeDate",
                 PeriodFilter.PeriodVariableType.MONTHLY));
+
+        grp.add(new MonthOfTreatFilter());
+
+        grp.add(new PrescribedMedicineFilter());
     }
 
     private void createHivGroup(FilterGroup grp) {
@@ -146,7 +157,7 @@ public class CaseFilters {
         });
     }
 
-    protected void add(Map<String, Filter> filters, Filter filter) {
+    protected void add(Map<String, Filter> filters, FilterItem filter) {
         filters.put(filter.getId(), filter);
     }
 
@@ -155,11 +166,11 @@ public class CaseFilters {
      * @param id the filter ID
      * @return the filter that matches the ID
      */
-    public Filter filterById(String id) {
+    public FilterItem filterById(String id) {
         createFiltersVariables();
 
         for (FilterGroup grp: groups) {
-            for (Filter filter: grp.getFilters()) {
+            for (FilterItem filter: grp.getFilters()) {
                 if (filter.getId().equals(id)) {
                     return filter;
                 }
@@ -206,8 +217,8 @@ public class CaseFilters {
                 grpdata.setLabel(grpLabel);
 
                 List<FilterData> lst = new ArrayList<>();
-                for (Filter filter: grp.getFilters()) {
-                    String label = messages.eval(filter.getLabel());
+                for (FilterItem filter: grp.getFilters()) {
+                    String label = messages.eval(filter.getName());
                     Map<String, Object> resources = filter.getResources(null);
                     FilterData fdata = new FilterData(filter.getId(), label, resources);
                     fdata.setType(filter.getFilterType());
@@ -239,9 +250,9 @@ public class CaseFilters {
                     vgd.setLabel(messages.eval(grp.getLabel()));
 
                     vgd.setVariables(grp.getVariables().stream()
-                        .map(v -> new VariableData(v.getId(), v.getLabel(),
-                                v.getVariableOptions().isGrouped(),
-                                v.getVariableOptions().isTotalEnabled()))
+                        .map(v -> new VariableData(v.getId(), v.getName(),
+                                v.isGrouped(),
+                                v.isTotalEnabled()))
                         .collect(Collectors.toList()));
 
                     return vgd;
@@ -276,12 +287,12 @@ public class CaseFilters {
      * @return
      */
     public FilterDisplay filterToDisplay(String filterId, Object value) {
-        Filter filter = filterById(filterId);
+        FilterItem filter = filterById(filterId);
         if (filter == null) {
             return null;
         }
 
-        String name = messages.eval(filter.getLabel());
+        String name = messages.eval(filter.getName());
         String valueDisplay = filter.valueToDisplay(value);
 
         FilterDisplay f = new FilterDisplay(name, valueDisplay);

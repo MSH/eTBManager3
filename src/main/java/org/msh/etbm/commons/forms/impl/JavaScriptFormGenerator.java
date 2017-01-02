@@ -310,7 +310,8 @@ public class JavaScriptFormGenerator {
         if (value instanceof JSFuncValue) {
             JSFuncValue f = (JSFuncValue)value;
             if (f.isExpressionPresent()) {
-                return "function() { return " + f.getFunction() + "; }";
+                String func = messages.eval(f.getFunction());
+                return "function(doc) { return " + func + "; }";
             }
             return convertValue(f.getValue());
         }

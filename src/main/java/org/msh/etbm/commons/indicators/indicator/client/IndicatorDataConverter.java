@@ -61,9 +61,9 @@ public class IndicatorDataConverter {
 
         List<VariableData> res = lst.stream()
                 .map(v -> new VariableData(v.getId(),
-                        v.getLabel(),
-                        v.getVariableOptions().isGrouped(),
-                        v.getVariableOptions().isTotalEnabled()))
+                        v.getName(),
+                        v.isGrouped(),
+                        v.isTotalEnabled()))
                 .collect(Collectors.toList());
 
         return res;

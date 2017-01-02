@@ -2,7 +2,6 @@ package org.msh.etbm.commons.models;
 
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.impl.ModelStoreService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

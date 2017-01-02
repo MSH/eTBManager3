@@ -1,9 +1,11 @@
 package org.msh.etbm.test.commons.indicators.fixtures;
 
-import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.indicators.keys.Key;
 import org.msh.etbm.commons.indicators.variables.Variable;
-import org.msh.etbm.commons.indicators.variables.VariableOptions;
+import org.msh.etbm.commons.indicators.variables.VariableOutput;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
+import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -13,10 +15,12 @@ import org.springframework.context.ApplicationContext;
  */
 public class SimpleFieldVariable implements Variable {
 
-    private static final VariableOptions OPTIONS = new VariableOptions(false, false, 0, new Item<>("cases", "Cases"));
     private String id;
     private String label;
     private String fieldName;
+
+    private ApplicationContext context;
+
 
     public SimpleFieldVariable(String id, String label, String fieldName) {
         this.id = id;
@@ -30,24 +34,20 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public String createKey(Object values) {
-        return values != null ? values.toString() : null;
+    public Key createKey(Object[] values, int iteration) {
+        return values[0] != null ? Key.of(values[0]) : Key.asNull();
     }
 
     @Override
-    public String getKeyDisplay(String key) {
-        return key != null ? key.toString() : "-";
+    public String getKeyDisplay(Key key) {
+        return key.isNull() ? getMessages().get(Messages.UNDEFINED) : key.getValue().toString();
     }
 
     @Override
-    public int compareValues(Object val1, Object val2) {
-        return 0;
+    public int compareValues(Key val1, Key val2) {
+        return val1.compareTo(val2);
     }
 
-    @Override
-    public int compareGroupValues(Object val1, Object val2) {
-        return 0;
-    }
 
     @Override
     public Object[] getDomain() {
@@ -55,23 +55,34 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public VariableOptions getVariableOptions() {
-        return OPTIONS;
+    public boolean isGrouped() {
+        return false;
     }
 
     @Override
-    public String createGroupKey(Object values) {
-        return values != null ? values.toString() : null;
+    public int getIterationCount() {
+        return 1;
     }
 
     @Override
-    public String getGroupKeyDisplay(String key) {
+    public boolean isTotalEnabled() {
+        return true;
+    }
+
+    @Override
+    public VariableOutput getVariableOutput() {
+        return CaseFilters.VAROUT_CASES;
+    }
+
+
+    @Override
+    public String getGroupKeyDisplay(Key key) {
         return key != null ? key.toString() : "-";
     }
 
     @Override
     public void initialize(ApplicationContext context) {
-
+        this.context = context;
     }
 
     @Override
@@ -80,7 +91,11 @@ public class SimpleFieldVariable implements Variable {
     }
 
     @Override
-    public String getLabel() {
+    public String getName() {
         return label;
+    }
+
+    private Messages getMessages() {
+        return context != null ? context.getBean(Messages.class) : null;
     }
 }

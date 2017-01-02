@@ -9,23 +9,28 @@
         <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData</class-a>
         <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
 
+        <field custom-converter-id="entity-id">
+            <a>caseId</a>
+            <b>tbcase</b>
+        </field>
+
         <field>
-            <a>period.iniMonth</a>
+            <a>iniTreatment.month</a>
             <b>month</b>
         </field>
 
         <field>
-            <a>period.iniYear</a>
+            <a>iniTreatment.year</a>
             <b>year</b>
         </field>
 
         <field>
-            <a>period.endMonth</a>
+            <a>endTreatment.month</a>
             <b>outcomeMonth</b>
         </field>
 
         <field>
-            <a>period.endYear</a>
+            <a>endTreatment.year</a>
             <b>outcomeYear</b>
         </field>
     </mapping>
