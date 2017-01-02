@@ -36,17 +36,13 @@ public class FieldTypeResolver implements TypeIdResolver {
     }
 
     @Override
-    public JavaType typeFromId(String s) {
-        return null;
-    }
-
-    @Override
     public JavaType typeFromId(DatabindContext context, String s) {
         FieldHandler handler = FieldTypeManager.instance().getHandler(s);
         Class<? extends Field> fieldClass = handler.getFieldClass();
         return TypeFactory.defaultInstance().constructSpecializedType(initType, fieldClass);
     }
 
+    @Override
     public String getDescForKnownTypeIds() {
         return null;
     }
