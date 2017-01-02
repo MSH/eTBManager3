@@ -205,8 +205,8 @@ public class ClientModeInitService {
      * @param phase
      * @return
      */
-    private ServerStatusResponse getStatusResponse(Enum phase) {
-        return new ServerStatusResponse(phase.name(), messages.get("init.offinit.phase." + phase.name()));
+    private ServerStatusResponse getStatusResponse(ClientModeInitPhase phase) {
+        return new ServerStatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
     /**
@@ -216,6 +216,10 @@ public class ClientModeInitService {
         STARTING,
         DOWNLOADING_FILE,
         IMPORTING_FILE,
-        NOT_RUNNING
+        NOT_RUNNING;
+
+        String getMessageKey() {
+            return "init.offinit.phase." + this.name();
+        }
     }
 }

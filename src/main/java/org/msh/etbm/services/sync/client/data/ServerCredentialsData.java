@@ -13,6 +13,16 @@ public class ServerCredentialsData {
     private String password;
     private UUID workspaceId;
 
+    public ServerCredentialsData() {
+        super();
+    }
+
+    public ServerCredentialsData(String username, String password, UUID workspaceId) {
+        this.username = username;
+        this.password = password;
+        this.workspaceId = workspaceId;
+    }
+
     public String getParentServerUrl() {
         return parentServerUrl;
     }

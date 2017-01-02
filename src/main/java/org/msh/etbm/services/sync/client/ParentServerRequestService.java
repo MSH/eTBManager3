@@ -3,7 +3,9 @@ package org.msh.etbm.services.sync.client;
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.sync.SynchronizationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +21,11 @@ public class ParentServerRequestService {
 
     private static final int BUFFER_SIZE = 65535; //4096
 
+    @Autowired
+    SysConfigService configService;
+
     /**
-     * Returns the response of the parent server service converted to the type on type param.
+     * Returns the response of the server service passed on params, converted to the type on type param.
      * @param serverUrl etbm3 URL.
      * @param serviceUrl API service URL stating with /.
      * @param authToken authToken if it is needed to be logged in to have access to API service.
@@ -63,6 +68,21 @@ public class ParentServerRequestService {
         }
 
         return (T) ret;
+    }
+
+    /**
+     * Returns the response of the parent server service converted to the type on type param.
+     * @param serviceUrl API service URL stating with /.
+     * @param authToken authToken if it is needed to be logged in to have access to API service.
+     * @param payLoad object to send inside request as parameter to the service.
+     * @param javaType defines the type to be returned in JavaType type. If also inform classType param, javaType will overwrite it.
+     * @param classType defines the type to be returned in Class type.  If also inform javaType param, javaType will overwrite it.
+     * @param <T>
+     * @return
+     */
+    public <T> T post(String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
+        String serverUrl = configService.loadConfig().getServerURL();
+        return this.post(serverUrl, serviceUrl, authToken, payLoad, javaType, classType);
     }
 
     /**
