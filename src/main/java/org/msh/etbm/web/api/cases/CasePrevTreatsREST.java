@@ -1,5 +1,7 @@
 package org.msh.etbm.web.api.cases;
 
+import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
@@ -32,9 +34,25 @@ public class CasePrevTreatsREST {
     @Autowired
     PrevTBTreatmentService prevTBTreatmentService;
 
+    @RequestMapping(value = "/prevtreat/form", method = RequestMethod.POST)
+    public FormInitResponse initForm(@RequestBody @NotNull CaseFormRequest req) {
+        // is editing an existing record?
+        if (req.getId() != null) {
+            return prevTBTreatmentService.initEdit(req.getId(), req.isReadOnly());
+        }
+
+        if (req.getCaseId() == null) {
+            throw new EntityValidationException(req, "caseId", null, Messages.NOT_NULL);
+        }
+
+        return prevTBTreatmentService.initNew(req.getCaseId());
+    }
+
     @RequestMapping(value = "/prevtreat", method = RequestMethod.GET)
-    public FormInitResponse init(@RequestParam(name = "ro", required = false) String displaying) {
-        return formService.initFromModel("prevtbtreatment", null, false);
+    public FormInitResponse init(@RequestParam(name = "ro", required = false) String displaying,
+                                 @RequestParam(name = "id", required = false) UUID id,
+                                 @RequestParam(name = "caseid", required = false) UUID caseId) {
+        return formService.initFromModel("prevtbtreatment", id, displaying != null);
     }
 
     @RequestMapping(value = "/prevtreat/{id}", method = RequestMethod.GET)

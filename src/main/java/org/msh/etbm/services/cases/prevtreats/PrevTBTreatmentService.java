@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -24,11 +26,15 @@ public class PrevTBTreatmentService {
     FormService formService;
 
     @Transactional
-    public FormInitResponse init(@NotNull UUID id, boolean displaying, boolean includeFormLayout) {
+    public FormInitResponse initNew(@NotNull UUID caseId) {
+        Map<String, Object> doc = new HashMap<>();
+        doc.put("caseId", caseId);
+        return formService.init("prevtbtreatment.edit", doc, false);
+    }
+
+    @Transactional
+    public FormInitResponse initEdit(@NotNull UUID id, boolean displaying) {
         FormInitResponse res = formService.init("prevtbtreatment", id, displaying);
-        if (!includeFormLayout) {
-            res.setSchema(null);
-        }
         return res;
     }
 

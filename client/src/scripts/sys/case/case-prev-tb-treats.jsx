@@ -7,7 +7,7 @@ import moment from 'moment';
 import { getOptionName, getOptionList } from '../mock-option-lists';
 
 
-const crud = new CRUD('prevtreat');
+var crud;
 
 const readOnlySchema = {
     controls: [
@@ -103,119 +103,8 @@ export default class CasePrevTbTreats extends React.Component {
     constructor(props) {
         super(props);
         this.cellRender = this.cellRender.bind(this);
-
-        this._editorSchema = {
-            defaultProperties: {
-                tbcaseId: props.tbcase.id
-            },
-            controls: [
-                {
-                    type: 'period',
-                    property: 'period',
-                    label: __('cases.treat'),
-                    size: { sm: 12 },
-                    required: true
-                },
-                {
-                    type: 'select',
-                    label: __('cases.prevtreat.outcome'),
-                    property: 'outcome',
-                    options: getOptionList('prevTbTreatOutcome'),
-                    size: { sm: 12 },
-                    required: true
-                },
-                {
-                    type: 'subtitle',
-                    label: __('cases.prevtreat.substances'),
-                    size: { sm: 12 }
-                },
-                {
-                    property: 'r',
-                    type: 'bool',
-                    label: __('cases.prevtreat.r'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'h',
-                    type: 'bool',
-                    label: __('cases.prevtreat.h'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 's',
-                    type: 'bool',
-                    label: __('cases.prevtreat.s'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'e',
-                    type: 'bool',
-                    label: __('cases.prevtreat.e'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'z',
-                    type: 'bool',
-                    label: __('cases.prevtreat.z'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'am',
-                    type: 'bool',
-                    label: __('cases.prevtreat.am'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cfz',
-                    type: 'bool',
-                    label: __('cases.prevtreat.cfz'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cm',
-                    type: 'bool',
-                    label: __('cases.prevtreat.cm'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'cs',
-                    type: 'bool',
-                    label: __('cases.prevtreat.cs'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'eto',
-                    type: 'bool',
-                    label: __('cases.prevtreat.eto'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'lfx',
-                    type: 'bool',
-                    label: __('cases.prevtreat.lfx'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                },
-                {
-                    property: 'ofx',
-                    type: 'bool',
-                    label: __('cases.prevtreat.ofx'),
-                    size: { sm: 2 },
-                    defaultValue: false
-                }
-            ],
-            title: doc => doc && doc.id ? __('cases.prevtreat.edt') : __('cases.prevtreat.new')
-        };
+        crud = new CRUD('prevtreat');
+        crud.fetchFormRequest = data => data.id ? data : Object.assign({}, data, { caseId: this.props.tbcase.id });
     }
 
     cellRender(item) {
@@ -251,7 +140,7 @@ export default class CasePrevTbTreats extends React.Component {
                     onCellRender={this.cellRender}
                     queryFilters={{ tbcaseId: tbcase.id }}
                     refreshAll
-                    remotePath="/api/tbl/prevtreat/init"
+                    remoteForm
                     perm={'CASEMAN'}
                     />
             </CaseComments>

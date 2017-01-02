@@ -2,6 +2,7 @@
   "dataModel": "prevtbtreatment",
   "defaultProperties": {
   },
+  "title": { "function": "doc.id ? '${cases.prevtreat.edt}' : '${cases.prevtreat.new}'" },
   "controls": [
     {
       "type": "month-year",

@@ -14,6 +14,16 @@ import { isFunction } from '../commons/utils';
  */
 export default class RemoteForm extends React.Component {
 
+    /**
+     * Parse a js code represented as a string to java-script. It is used to parse the
+     * schema that comes from the server to the client
+     */
+    static resolveSchema(data) {
+        /* eslint no-new-func: "off" */
+        const func = new Function('', 'return ' + data + ';');
+        return func();
+    }
+
     constructor(props) {
         super(props);
         this.resolveForm = this.resolveForm.bind(this);
@@ -44,9 +54,7 @@ export default class RemoteForm extends React.Component {
      */
     resolveForm(data) {
         /* eslint no-new-func: "off" */
-        const func = new Function('', 'return ' + data.schema + ';');
-
-        const res = func();
+        const res = RemoteForm.resolveSchema(data.schema);
 
         if (this.props.onLoadForm) {
             this.props.onLoadForm(res, data.doc);

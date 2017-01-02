@@ -9,10 +9,14 @@ import { DOC_CREATE, DOC_UPDATE, DOC_DELETE } from '../core/actions';
 const API_PREFIX = '/api/tbl/';
 
 
+/**
+ * Standard library for CRUD (create-read-update-delete) + query commands
+ */
 export default class CRUD {
 
     constructor(tbl) {
         this.table = tbl;
+        this.fetchFormRequest = null;
     }
 
     /**
@@ -35,35 +39,25 @@ export default class CRUD {
     }
 
     /**
-     * Call the server for the entity data, its form and if the data is for editing
-     * or displaying
+     * Fetch the default form to be used for the entity
+     * @param {Object} data the list of arguments to be sent in the post
+     * @param {boolean} readOnly if true, it will return the read-only form
+     * @return {Promise} a promise object that will be resolved when data is fetched
      */
-    init(opt) {
-        const args = [];
-        if (opt.id) {
-            args.push('id=' + opt.id);
-        }
-
-        if (opt.includeForm) {
-            args.push('form');
-        }
-
-        if (opt.readOnly) {
-            args.push('ro');
-        }
-
-        const s = args.join('&');
-
-        return server.post(API_PREFIX + this.table + '/init?' + s);
+    fetchForm(args, readOnly) {
+        const data = this.fetchFormRequest ? this.fetchFormRequest(args) : args;
+        return server.post(API_PREFIX + this.table + '/form' +
+            (readOnly ? '?ro' : ''), data);
     }
 
     /**
      * Find a single entity by the given id
      * @param  {string} id The ID of the entity
+     * @param  {bool} form if true, will fetch form information
      * @return {Promise}   Promise that will be resolved when server posts answer
      */
-    get(id) {
-        return server.get(API_PREFIX + this.table + '/' + id);
+    get(id, form) {
+        return server.get(API_PREFIX + this.table + '/' + id + (form ? '&form' : ''));
     }
 
     /**

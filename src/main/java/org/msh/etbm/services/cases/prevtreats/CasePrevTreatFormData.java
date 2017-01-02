@@ -1,15 +1,22 @@
 package org.msh.etbm.services.cases.prevtreats;
 
+import org.msh.etbm.commons.date.YearMonthData;
 import org.msh.etbm.commons.date.YearMonthPeriod;
 import org.msh.etbm.services.cases.CaseEntityFormData;
 
+import java.time.YearMonth;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Created by Mauricio on 18/08/2016.
  */
-public class CasePrevTreatFormData extends CaseEntityFormData {
-    private YearMonthPeriod period = new YearMonthPeriod();
+public class CasePrevTreatFormData {
+    private Optional<UUID> caseId;
+
+    private YearMonthData iniTreatment = new YearMonthData();
+    private YearMonthData endTreatment = new YearMonthData();
+
     private Optional<String> outcome;
 
     private Optional<Boolean> am;
@@ -25,12 +32,28 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
     private Optional<Boolean> s;
     private Optional<Boolean> z;
 
-    public YearMonthPeriod getPeriod() {
-        return period;
+    public Optional<UUID> getCaseId() {
+        return caseId;
     }
 
-    public void setPeriod(YearMonthPeriod period) {
-        this.period = period;
+    public void setCaseId(Optional<UUID> caseId) {
+        this.caseId = caseId;
+    }
+
+    public YearMonthData getIniTreatment() {
+        return iniTreatment;
+    }
+
+    public void setIniTreatment(YearMonthData iniTreatment) {
+        this.iniTreatment = iniTreatment;
+    }
+
+    public YearMonthData getEndTreatment() {
+        return endTreatment;
+    }
+
+    public void setEndTreatment(YearMonthData endTreatment) {
+        this.endTreatment = endTreatment;
     }
 
     public Optional<String> getOutcome() {
