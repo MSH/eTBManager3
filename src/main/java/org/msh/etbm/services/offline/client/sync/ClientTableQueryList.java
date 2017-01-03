@@ -100,7 +100,7 @@ public class ClientTableQueryList extends TableQueryList {
 
         queryFrom("userworkspace_profiles")
                 .join("userworkspace", "userworkspace.id = userworkspace_profiles.userworkspace_id")
-                .restrict("synched = ?", notSynched)
+                .restrict("userworkspace.synched = ?", notSynched)
                 .restrict("userworkspace.unit_id = ?", unitId);
 
         queryFrom("report")

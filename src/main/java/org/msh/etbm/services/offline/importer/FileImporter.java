@@ -135,6 +135,9 @@ public class FileImporter {
                     throw new SynchronizationException("Unprocessed field: " + fieldName);
             }
         }
+
+        // update databse setting all records as synched
+        db.setAllAsSynched();
     }
 
     /**

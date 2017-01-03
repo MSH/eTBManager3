@@ -30,6 +30,12 @@ public class RecordImporter {
     @Autowired
     ApplicationContext applicationContext;
 
+    private String[] SYNC_TABLES = {"countrystructure", "administrativeunit", "unit", "substance", "source", "product",
+            "agerange", "regimen", "tag", "sys_user", "userprofile", "userworkspace", "report", "patient", "tbcase",
+            "examculture", "exammicroscopy", "examhiv", "examdst", "examxpert", "examxray", "treatmenthealthunit",
+            "prescribedmedicine", "prevtbtreatment", "casecontact", "casesideeffect", "medicalexamination", "casecomorbidities",
+            "casecomment", "issue", "issuefollowup", "treatmentmonitoring"};
+
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.
      * If the action is INSERT the system will check if the record exists before executing an insert sql statement.
@@ -172,5 +178,26 @@ public class RecordImporter {
         }
 
         return CompactibleJsonConverter.convertFromJson(id);
+    }
+
+    /**
+     * Sets all synchronizable records as synched
+     */
+    public void setAllAsSynched() {
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+        // Because of the triggers logic, to set as synched has to set as null, the trigger then will set as true
+        String defaultQuery = "update $tableName set synched = null";
+
+        //set all as synched
+        for (String tableName : SYNC_TABLES) {
+            String query = defaultQuery.replace("$tableName", tableName);
+
+            txManager.execute(status -> {
+                template.update(query);
+                return 0;
+            });
+        }
     }
 }
