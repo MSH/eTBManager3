@@ -68,6 +68,19 @@ public class ClientSyncService {
 
     private void sendFileToServer(File generatedFile) {
         phase = ClientModeSyncPhase.SENDING_FILE;
+
+        try {
+            Thread.sleep(2000);
+            phase = ClientModeSyncPhase.RECEIVING_FILE;
+            Thread.sleep(2000);
+            phase = ClientModeSyncPhase.IMPORTING_FILE;
+            Thread.sleep(2000);
+            phase = ClientModeSyncPhase.FINISHING;
+            Thread.sleep(1000);
+            phase = null;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -75,6 +88,10 @@ public class ClientSyncService {
      * @return
      */
     public ServerStatusResponse getStatus() {
+        if (phase == null) {
+            ClientModeSyncPhase notRunning = ClientModeSyncPhase.NOT_RUNNING;
+            return new ServerStatusResponse(notRunning.name(), messages.get(notRunning.getMessageKey()));
+        }
         // TODO: improve this
         return new ServerStatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }

@@ -57,7 +57,8 @@ public class ClientSyncFileGenerator {
      */
     @Async
     public void generate(UUID unitId, SyncFileGeneratorListener listener) throws SynchronizationException {
-        try {
+        listener.afterGenerate(null);
+        /*try {
             File file = File.createTempFile("etbm", ".zip");
 
             FileOutputStream fout = new FileOutputStream(file);
@@ -78,8 +79,7 @@ public class ClientSyncFileGenerator {
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
-        }
-
+        }*/
     }
 
     /**

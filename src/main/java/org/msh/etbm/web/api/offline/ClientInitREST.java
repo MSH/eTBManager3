@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * REST API to handle Off-line mode initialization and synchronization operations
+ * REST API to handle Off-line mode initialization operations
  * Created by Mauricio on 21/11/16.
  */
 @RestController
@@ -27,9 +27,6 @@ public class ClientInitREST {
 
     @Autowired
     UserRequestService userRequestService;
-
-    @Autowired
-    ClientSyncFileGenerator generator;
 
     /**
      * Returns the workspaces available for the user/password sent on request
