@@ -1,4 +1,4 @@
-package org.msh.etbm.web.api.sync;
+package org.msh.etbm.web.api.offline;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.msh.etbm.services.offline.server.SyncFileService;
@@ -18,9 +18,9 @@ import java.util.UUID;
  * Created by rmemoria on 23/11/16.
  */
 @RestController
-@RequestMapping(path = "/api/sync")
+@RequestMapping(path = "/api/offline/server")
 @Authenticated
-public class ServerSyncREST {
+public class ServerInitREST {
 
     @Autowired
     SyncFileService syncFileService;

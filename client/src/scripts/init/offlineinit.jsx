@@ -66,7 +66,7 @@ export default class OfflineInit extends React.Component {
     componentWillMount() {
         this.setState({ checking: true });
 
-        server.get('/api/offline/init/status')
+        server.get('/api/offline/client/init/status')
         .then(res => {
             if (res.id !== 'NOT_RUNNING') {
                 // update phase
@@ -99,7 +99,7 @@ export default class OfflineInit extends React.Component {
 
         const req = vals.value;
 
-        server.post('/api/offline/init/workspaces', req)
+        server.post('/api/offline/client/init/workspaces', req)
         .then(res => {
             if (!res.success) {
                 this.setState({ globalMsgs: res.errors, fetching: false });
@@ -139,7 +139,7 @@ export default class OfflineInit extends React.Component {
         const req = this.state.credentials;
         req.workspaceId = this.state.workspaceId;
 
-        server.post('/api/offline/init/initialize', req)
+        server.post('/api/offline/client/init/initialize', req)
         .then(res => {
             this.setState({ phase: res, fetching: false, workspaces: null });
             // schedule status checking
@@ -167,7 +167,7 @@ export default class OfflineInit extends React.Component {
     checkStatusUntilFinish() {
         this.clearAllIntervals();
 
-        server.get('/api/offline/init/status')
+        server.get('/api/offline/client/init/status')
         .then(res => {
             if (res.id !== 'NOT_RUNNING') {
                 // update phase

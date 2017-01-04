@@ -9,11 +9,13 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.sync.listeners.SyncFileGeneratorListener;
 import org.msh.etbm.services.offline.query.TableChangesTraverser;
 import org.msh.etbm.services.offline.query.TableQueryItem;
 import org.msh.etbm.services.offline.query.TableQueryList;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -53,7 +55,8 @@ public class ClientSyncFileGenerator {
      * @return the generated file
      * @throws SynchronizationException
      */
-    public File generate(UUID unitId) throws SynchronizationException {
+    @Async
+    public void generate(UUID unitId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -71,7 +74,7 @@ public class ClientSyncFileGenerator {
                 fout.close();
             }
 
-            return file;
+            listener.afterGenerate(file);
 
         } catch (IOException e) {
             throw new SynchronizationException(e);

@@ -58,7 +58,9 @@ public class ClientModeInitService {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
-        String serverAddress = checkServerAddress(data.getParentServerUrl());
+        // todo: COMENTADO TEMPORARIAMENTE
+        //String serverAddress = checkServerAddress(data.getParentServerUrl());
+        String serverAddress = "http://localhost:8081";
 
         TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
@@ -87,7 +89,9 @@ public class ClientModeInitService {
 
         phase = ClientModeInitPhase.STARTING;
 
-        String serverAddress = checkServerAddress(data.getParentServerUrl());
+        // todo: COMENTADO TEMPORARIAMENTE
+        //String serverAddress = checkServerAddress(data.getParentServerUrl());
+        String serverAddress = "http://localhost:8081";
 
         // Login into remote server
         LoginResponse loginRes = request.post(serverAddress,
@@ -100,7 +104,7 @@ public class ClientModeInitService {
         // Asynchronously download and import file
         phase = ClientModeInitPhase.DOWNLOADING_FILE;
         request.downloadFile(serverAddress,
-                "/api/sync/inifile/",
+                "/api/offline/server/inifile",
                 loginRes.getAuthToken().toString(),
             downloadedFile -> importFile(data, downloadedFile, serverAddress));
 

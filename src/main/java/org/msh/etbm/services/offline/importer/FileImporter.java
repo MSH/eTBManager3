@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.init.FileImportListener;
@@ -33,6 +34,9 @@ public class FileImporter {
 
     @Autowired
     SearchableCreator searchableCreator;
+
+    @Autowired
+    SysConfigService sysConfigService;
 
     /**
      * If null importer is not running
@@ -136,8 +140,11 @@ public class FileImporter {
             }
         }
 
-        // update databse setting all records as synched
-        db.setAllAsSynched();
+        // update database setting all records as synched when importer is working on a client mode instance
+        // if it is a server intance, synched parameter doesn't matter
+        if (sysConfigService.loadConfig().isClientMode()) {
+            db.setAllAsSynched();
+        }
     }
 
     /**
