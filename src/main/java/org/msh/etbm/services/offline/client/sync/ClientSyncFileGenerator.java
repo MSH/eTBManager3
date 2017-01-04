@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -56,9 +57,10 @@ public class ClientSyncFileGenerator {
      * @throws SynchronizationException
      */
     @Async
+    @Transactional
     public void generate(UUID unitId, SyncFileGeneratorListener listener) throws SynchronizationException {
-        listener.afterGenerate(null);
-        /*try {
+        // TODO: se nao for precisar da unidade neste ponto, remover a anotaç~çao de transactional
+        try {
             File file = File.createTempFile("etbm", ".zip");
 
             FileOutputStream fout = new FileOutputStream(file);
@@ -79,7 +81,7 @@ public class ClientSyncFileGenerator {
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
-        }*/
+        }
     }
 
     /**
