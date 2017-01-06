@@ -12,7 +12,7 @@ import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.models.ModelManager;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Validator;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

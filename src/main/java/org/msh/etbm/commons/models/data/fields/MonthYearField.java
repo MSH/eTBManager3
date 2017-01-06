@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models.data.fields;
 
+import org.msh.etbm.commons.models.data.Field;
+
 /**
  * Created by rmemoria on 26/12/16.
  */

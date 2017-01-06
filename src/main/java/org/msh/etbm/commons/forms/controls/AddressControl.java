@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.forms.controls;
 
 import org.msh.etbm.commons.models.data.fields.AddressField;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 /**
  * Control to handle an address (person or unit) in the form

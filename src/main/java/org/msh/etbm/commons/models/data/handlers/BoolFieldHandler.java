@@ -1,7 +1,12 @@
 package org.msh.etbm.commons.models.data.handlers;
 
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.BoolField;
 import org.msh.etbm.commons.models.impl.FieldContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rmemoria on 2/7/16.
@@ -29,6 +34,14 @@ public class BoolFieldHandler extends SingleFieldHandler<BoolField> {
     @Override
     protected void validateValue(BoolField field, FieldContext context, Object value) {
 
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(BoolField field) {
+        List<TableColumn> lst = new ArrayList<>();
+
+        lst.add(new TableColumn(getFieldName(field), TableColumnType.BOOL));
+        return lst;
     }
 
 }

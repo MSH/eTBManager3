@@ -2,7 +2,7 @@ package org.msh.etbm.commons.models;
 
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.db.*;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;

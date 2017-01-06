@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.springframework.validation.FieldError;
 

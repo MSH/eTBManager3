@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models.data.handlers;
 
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.FKUnitField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
@@ -7,9 +9,7 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.admin.units.UnitType;
 import org.msh.etbm.services.admin.units.data.UnitItemData;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 12/7/16.
@@ -95,5 +95,12 @@ public class FKUnitFieldHandler extends SingleFieldHandler<FKUnitField> {
         return unit;
     }
 
-    
+    @Override
+    public List<TableColumn> getTableFields(FKUnitField field) {
+        List<TableColumn> lst = new ArrayList<>();
+        lst.add(new TableColumn(getFieldName(field), TableColumnType.BINARY, 16));
+        return lst;
+    }
+
+
 }

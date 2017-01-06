@@ -4,10 +4,8 @@ import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.db.entities.ModelData;
-import org.msh.etbm.db.entities.Workspace;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * THis is a simple implementation of a component responsible for storing and restoring a model,
@@ -26,8 +23,6 @@ import java.util.UUID;
  */
 @Component
 public class ModelStoreService {
-
-    public static final String CACHE_ID = "models";
 
     @PersistenceContext
     EntityManager entityManager;
@@ -39,27 +34,33 @@ public class ModelStoreService {
      * @param modelId the model ID
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID)
-    public CompiledModel get(String modelId) {
+    public Model get(String modelId) {
         Model model = loadFromDB(modelId);
 
         if (model == null) {
             model = loadFromResources(modelId);
         }
 
-        CompiledModel compiledModel = new CompiledModel(model);
+        if (model == null) {
+            throw new IllegalArgumentException("Invalid model ID: " + modelId);
+        }
 
-        return compiledModel;
+        setIDs(model);
+
+        return model;
     }
 
 
+    /**
+     * Update a model in its storage
+     * @param model the model to be updated
+     */
     @Transactional
-    @CachePut(cacheNames = CACHE_ID)
-    public void update(String modelId, UUID workspaceId, Model model) {
+    public void update(Model model) {
+        String modelId = model.getName();
         ModelData data = loadModelData(modelId);
 
         if (data == null) {
-            Workspace ws = entityManager.find(Workspace.class, modelId);
             String jsonData = JsonUtils.objectToJSONString(model, false);
 
             data = new ModelData();
@@ -82,9 +83,21 @@ public class ModelStoreService {
         ClassPathResource res = new ClassPathResource(resName);
 
         try {
-            return parser.parse(res.getInputStream());
+            Model model = parser.parse(res.getInputStream());
+            return model;
         } catch (IOException e) {
             throw new ModelException(e);
+        }
+    }
+
+    /**
+     * Set the version and the field IDs used for model update operations
+     * @param model
+     */
+    private void setIDs(Model model) {
+        int index = 0;
+        for (Field field: model.getFields()) {
+            field.setId(index++);
         }
     }
 

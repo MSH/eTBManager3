@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models;
 
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.data.handlers.*;
 

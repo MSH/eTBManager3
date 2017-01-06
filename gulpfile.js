@@ -219,6 +219,6 @@ gulp.task('msgs', function(cb) {
 gulp.task('watches', function() {
     gulp.watch( path.join(clientPath, 'less/**/*') , ['less']);
     gulp.watch( path.join(clientPath, 'proxy/webpack-dev.config.js') , ['run']);
-    gulp.watch( 'src/main/resources/messages*.properties', ['msgs', 'proxy-server']);
+//    gulp.watch( 'src/main/resources/messages*.properties', ['msgs', 'proxy-server']);
     gulp.watch( 'gulpfile.js', ['run']);
 });

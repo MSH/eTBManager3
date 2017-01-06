@@ -3,25 +3,25 @@
   "table": "prevtbtreatment",
   "fields": [
     {
-      "type": "month-year",
       "name": "iniTreatment",
+      "type": "month-year",
       "label": "${TbCase.iniTreatmentDate}",
       "fieldMonth": "iniMonth",
       "fieldYear": "iniYear",
       "required": true
     },
     {
-      "type": "month-year",
       "name": "endTreatment",
+      "type": "month-year",
       "fieldMonth": "endMonth",
       "fieldYear": "endYear",
       "label": "${TbCase.endTreatmentDate}",
       "required": false
     },
     {
+      "name": "outcome",
       "type": "string",
       "label": "${cases.prevtreat.outcome}",
-      "name": "outcome",
       "options": [
         { "id": "COMPLETED", "name": "${PrevTBTreatmentOutcome.COMPLETED}" },
         { "id": "CURED", "name": "${PrevTBTreatmentOutcome.CURED}" },

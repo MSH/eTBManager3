@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.models.db;
 
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 import java.util.List;
 import java.util.Map;

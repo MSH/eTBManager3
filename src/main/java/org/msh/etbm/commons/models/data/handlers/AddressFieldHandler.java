@@ -2,6 +2,9 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.AddressField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
@@ -10,9 +13,7 @@ import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.AddressEditData;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 26/8/16.
@@ -139,22 +140,33 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
     }
 
     @Override
+    public List<TableColumn> getTableFields(AddressField field) {
+        List<TableColumn> fields = new ArrayList<>();
+
+        fields.add(new TableColumn(field.getFieldAddress(), TableColumnType.VARCHAR, 200));
+        fields.add(new TableColumn(field.getFieldComplement(), TableColumnType.VARCHAR, 200));
+        fields.add(new TableColumn(field.getFieldZipCode(), TableColumnType.VARCHAR, 50));
+        fields.add(new TableColumn(field.getFieldAdminUnit(), TableColumnType.BINARY, 16));
+        return fields;
+    }
+
+    @Override
     public void dbFieldsToSelect(AddressField field, DBFieldsDef defs, boolean displaying) {
         if (displaying) {
             defs.add(field.getFieldAddress())
                 .add(field.getFieldComplement())
                 .add(field.getFieldZipCode())
                     .leftJoin("administrativeunit", "$this.id = $parent." + field.getFieldAdminUnit())
-                    .add("id")
-                .add("pid0")
-                .add("pid1")
-                .add("pid2")
-                .add("pid3")
-                .add("name")
-                .add("pname0")
-                .add("pname1")
-                .add("pname2")
-                .add("pname3");
+                    .add("$this.id")
+                .add("$this.pid0")
+                .add("$this.pid1")
+                .add("$this.pid2")
+                .add("$this.pid3")
+                .add("$this.name")
+                .add("$this.pname0")
+                .add("$this.pname1")
+                .add("$this.pname2")
+                .add("$this.pname3");
         } else {
             defs.add(field.getFieldAddress())
                 .add(field.getFieldAdminUnit())

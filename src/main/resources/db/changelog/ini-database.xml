@@ -1762,6 +1762,9 @@
             <column name="jsondata" type="${type.text}">
                 <constraints nullable="false"/>
             </column>
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 

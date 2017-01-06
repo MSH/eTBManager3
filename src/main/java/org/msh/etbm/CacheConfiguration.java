@@ -54,10 +54,7 @@ public class CacheConfiguration {
         GuavaCache formsCache = new GuavaCache(FormStoreService.CACHE_ID, CacheBuilder.newBuilder()
                 .build());
 
-        GuavaCache modelsCache = new GuavaCache(ModelStoreService.CACHE_ID, CacheBuilder.newBuilder()
-                .build());
-
-        cacheManager.setCaches(Arrays.asList(sessionCache, formsCache, modelsCache));
+        cacheManager.setCaches(Arrays.asList(sessionCache, formsCache));
         return cacheManager;
     }
 

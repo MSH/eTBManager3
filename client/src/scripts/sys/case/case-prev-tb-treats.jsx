@@ -4,7 +4,7 @@ import CaseComments from './case-comments';
 import CRUD from '../../commons/crud';
 import Form from '../../forms/form';
 import moment from 'moment';
-import { getOptionName, getOptionList } from '../mock-option-lists';
+import { getOptionName } from '../mock-option-lists';
 
 
 var crud;
