@@ -1,8 +1,8 @@
-package org.msh.etbm.services.sync.client.db;
+package org.msh.etbm.services.offline.importer;
 
-import org.msh.etbm.services.sync.CompactibleJsonConverter;
-import org.msh.etbm.services.sync.SynchronizationException;
-import org.msh.etbm.services.sync.client.data.RecordChangeEvent;
+import org.msh.etbm.services.offline.CompactibleJsonConverter;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;

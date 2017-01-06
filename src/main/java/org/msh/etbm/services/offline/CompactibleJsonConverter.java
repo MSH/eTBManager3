@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync;
+package org.msh.etbm.services.offline;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.objutils.StringConverter;

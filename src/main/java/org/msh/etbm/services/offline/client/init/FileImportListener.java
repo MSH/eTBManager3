@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.offline.client.init;
 
 import java.io.File;
 

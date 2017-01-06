@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.server;
+package org.msh.etbm.services.offline.query;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 

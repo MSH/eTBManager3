@@ -3,6 +3,7 @@ import FrontPage from '../front-page';
 import { app } from '../../core/app';
 
 import General from './general';
+import Sync from './sync';
 import Cases from '../packages/cases/cases';
 // import Inventory from '../packages/inventory/inventory';
 
@@ -18,6 +19,11 @@ const views = [
         title: __('cases'),
         path: '/cases',
         view: Cases
+    },
+    {
+        title: 'Synchronize',
+        path: '/sync',
+        view: Sync
     }
     /*
     {

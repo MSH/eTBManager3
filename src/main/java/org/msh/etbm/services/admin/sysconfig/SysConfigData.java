@@ -17,6 +17,7 @@ public class SysConfigData {
     private boolean ulaActive;
     private boolean clientMode;
     private String serverURL;
+    private Integer version;
 
     public String getSystemURL() {
         return systemURL;
@@ -96,5 +97,13 @@ public class SysConfigData {
 
     public void setServerURL(String serverURL) {
         this.serverURL = serverURL;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

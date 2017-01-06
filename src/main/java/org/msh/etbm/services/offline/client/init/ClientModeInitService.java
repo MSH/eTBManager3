@@ -1,20 +1,17 @@
-package org.msh.etbm.services.sync.client;
+package org.msh.etbm.services.offline.client.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.db.entities.*;
+import org.msh.etbm.services.offline.client.ParentServerRequestService;
+import org.msh.etbm.services.offline.importer.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
-import org.msh.etbm.services.sync.SynchronizationException;
-import org.msh.etbm.services.sync.client.data.ServerCredentialsData;
-import org.msh.etbm.services.sync.client.data.ServerStatusResponse;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.client.data.ServerStatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +32,7 @@ public class ClientModeInitService {
     ParentServerRequestService request;
 
     @Autowired
-    SyncFileImporter importer;
+    FileImporter importer;
 
     @PersistenceContext
     EntityManager entityManager;
@@ -209,8 +206,8 @@ public class ClientModeInitService {
      * @param phase
      * @return
      */
-    private ServerStatusResponse getStatusResponse(Enum phase) {
-        return new ServerStatusResponse(phase.name(), messages.get("init.offinit.phase." + phase.name()));
+    private ServerStatusResponse getStatusResponse(ClientModeInitPhase phase) {
+        return new ServerStatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
     /**
@@ -220,6 +217,10 @@ public class ClientModeInitService {
         STARTING,
         DOWNLOADING_FILE,
         IMPORTING_FILE,
-        NOT_RUNNING
+        NOT_RUNNING;
+
+        String getMessageKey() {
+            return "init.offinit.phase." + this.name();
+        }
     }
 }

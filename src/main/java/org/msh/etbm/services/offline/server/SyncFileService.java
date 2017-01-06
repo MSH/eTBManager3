@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync.server;
+package org.msh.etbm.services.offline.server;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -7,15 +7,15 @@ import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.msh.etbm.services.offline.*;
+import org.msh.etbm.services.offline.query.TableChangesTraverser;
+import org.msh.etbm.services.offline.query.TableQueryItem;
+import org.msh.etbm.services.offline.query.TableQueryList;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.services.sync.CompactibleJsonConverter;
-import org.msh.etbm.services.sync.SyncCmdLogHandler;
-import org.msh.etbm.services.sync.SynchronizationException;
-import org.msh.etbm.services.sync.SynchronizationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -26,10 +26,7 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -115,7 +112,7 @@ public class SyncFileService {
         Unit unit = entityManager.find(Unit.class, unitId);
 
         // get the list of tables to query
-        TableQueryList queries = new TableQueryList(unit.getWorkspace().getId(),
+        ServerTableQueryList queries = new ServerTableQueryList(unit.getWorkspace().getId(),
                 unit.getId(),
                 initialVersion,
                 finalVersion);

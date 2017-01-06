@@ -1,4 +1,4 @@
-package org.msh.etbm.services.sync;
+package org.msh.etbm.services.offline;
 
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
