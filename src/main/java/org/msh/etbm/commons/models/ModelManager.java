@@ -69,6 +69,6 @@ public class ModelManager {
         Model currentModel = modelStoreService.get(model.getName());
         schemaUpdateService.update(currentModel, model);
 
-//        modelStoreService.update(model);
+        modelStoreService.update(model);
     }
 }
