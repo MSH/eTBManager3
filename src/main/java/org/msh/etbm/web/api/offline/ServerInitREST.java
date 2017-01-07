@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.offline;
 
 import org.apache.commons.compress.utils.IOUtils;
-import org.msh.etbm.services.offline.server.SyncFileService;
+import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class ServerInitREST {
 
     @Autowired
-    SyncFileService syncFileService;
+    ServerFileGenerator syncFileService;
 
     @Autowired
     UserRequestService userRequestService;

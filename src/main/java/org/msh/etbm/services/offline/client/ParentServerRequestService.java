@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * Component to request the Parent Server of an off-line mode instance.
@@ -85,8 +86,7 @@ public class ParentServerRequestService {
      * @return
      */
     public <T> T post(String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
-        String serverUrl = configService.loadConfig().getServerURL();
-        return this.post(serverUrl, serviceUrl, authToken, payLoad, javaType, classType);
+        return this.post(getServerURL(), serviceUrl, authToken, payLoad, javaType, classType);
     }
 
     /**
@@ -208,5 +208,9 @@ public class ParentServerRequestService {
                     throw new SynchronizationException("Failed to request parent server: HTTP error code " + responseCode);
             }
         }
+    }
+
+    private String getServerURL() {
+        return configService.loadConfig().getServerURL();
     }
 }

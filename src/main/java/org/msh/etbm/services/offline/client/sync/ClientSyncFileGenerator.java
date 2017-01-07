@@ -38,28 +38,19 @@ import java.util.zip.GZIPOutputStream;
 @Service
 public class ClientSyncFileGenerator {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Autowired
     DataSource dataSource;
 
     @Autowired
     SysConfigService sysConfigService;
 
-    @Autowired
-    UserRequestService userRequestService;
-
     /**
      * Generate a synchronization file from the client side
-     * @param unitId the ID of the unit to generate the file to
      * @return the generated file
      * @throws SynchronizationException
      */
     @Async
-    @Transactional
-    public void generate(UUID unitId, SyncFileGeneratorListener listener) throws SynchronizationException {
-        // TODO: se nao for precisar da unidade neste ponto, remover a anotaç~çao de transactional
+    public void generate(UUID unitId, UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -70,7 +61,7 @@ public class ClientSyncFileGenerator {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(unitId, generator);
+                generateJsonContent(generator, unitId, workspaceId);
             } finally {
                 generator.close();
                 zipOut.close();
@@ -86,20 +77,16 @@ public class ClientSyncFileGenerator {
 
     /**
      * Generate the content of the sync file in JSON format
-     * @param unitId the ID of the unit
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void generateJsonContent(UUID unitId, JsonGenerator generator) throws IOException {
+    protected void generateJsonContent(JsonGenerator generator, UUID unitId, UUID workspaceId) throws IOException {
 
         SysConfigData data = sysConfigService.loadConfig();
         long version = data.getVersion();
 
-        Unit unit = entityManager.find(Unit.class, unitId);
-
         // get the list of tables to query
-        ClientTableQueryList queries = new ClientTableQueryList(unit.getWorkspace().getId(),
-                unit.getId());
+        ClientTableQueryList queries = new ClientTableQueryList(workspaceId, unitId);
 
         // start the file with an object
         generator.writeStartObject();

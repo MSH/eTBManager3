@@ -35,7 +35,7 @@ import java.util.zip.GZIPOutputStream;
  * Created by rmemoria on 8/11/16.
  */
 @Service
-public class SyncFileService {
+public class ServerFileGenerator {
 
     @PersistenceContext
     EntityManager entityManager;

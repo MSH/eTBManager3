@@ -5,7 +5,7 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.models.ModelDAOFactory;
-import org.msh.etbm.services.offline.server.SyncFileService;
+import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
@@ -62,7 +62,7 @@ public class TestRest {
     CaseIndicatorsService caseIndicatorsService;
 
     @Autowired
-    SyncFileService syncFileGenerator;
+    ServerFileGenerator syncFileGenerator;
 
     @Autowired
     UserRequestService userRequestService;
