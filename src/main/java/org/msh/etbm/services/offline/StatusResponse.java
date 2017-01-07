@@ -7,10 +7,17 @@ package org.msh.etbm.services.offline;
 public class StatusResponse {
     private String id;
     private String title;
+    private String token;
 
     public StatusResponse(String id, String title) {
         this.id = id;
         this.title = title;
+    }
+
+    public StatusResponse(String id, String title, String token) {
+        this.id = id;
+        this.title = title;
+        this.token = token;
     }
 
     public String getId() {
@@ -27,5 +34,13 @@ public class StatusResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

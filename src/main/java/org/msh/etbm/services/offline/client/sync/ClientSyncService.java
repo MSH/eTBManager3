@@ -1,11 +1,18 @@
 package org.msh.etbm.services.offline.client.sync;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.commands.CommandAction;
+import org.msh.etbm.commons.commands.CommandHistoryInput;
+import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.ParentServerFileSender;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
 import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
+import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
@@ -37,7 +44,12 @@ public class ClientSyncService {
     @Autowired
     Messages messages;
 
+    @Autowired
+    FileImporter importer;
+
     UUID authToken;
+
+    String syncToken;
 
     /**
      * If null initializing is not running
@@ -81,50 +93,61 @@ public class ClientSyncService {
     private void sendFileToServer(File clientSyncFile) {
         phase = ClientSyncPhase.SENDING_FILE;
 
-        StandardResult response = fileSender.sendFile("/api/offline/server/sync/startsync",
+        StatusResponse response = fileSender.sendFile("/api/offline/server/sync/start",
             authToken.toString(),
             clientSyncFile,
-            StandardResult.class);
+            StatusResponse.class);
 
-        waitServerFinishImporting("syncToken");
+        syncToken = response.getToken();
 
-        // todo: remove this mock process
-        try {
-            Thread.sleep(2000);
-            phase = ClientSyncPhase.RECEIVING_FILE;
-            Thread.sleep(2000);
-            phase = ClientSyncPhase.IMPORTING_FILE;
-            Thread.sleep(2000);
-            phase = ClientSyncPhase.FINISHING;
-            Thread.sleep(1000);
-            phase = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        checkServerSyncStatus();
     }
 
-    private void waitServerFinishImporting(String syncToken) {
+    private void checkServerSyncStatus() {
         try {
-            // get server sync status for this client
+            StatusResponse response = request.get("/api/offline/server/sync/status/" + syncToken,
+                    authToken.toString(),
+                    null,
+                    StatusResponse.class);
 
-            if (true) { // server is DOWNLOADING, IMPORTING OR GENERATING FILE
-                // update this.phase (?)
-
-                // wait 700 ms
-                Thread.sleep(700);
-                // check again
-                waitServerFinishImporting(syncToken);
-            } else if (false) { // server finished generating response file (is waiting file download)
-                // download file
-                // import file
-                // end sync
-            } else {
-                throw new SynchronizationException("Not expected status returned from server.");
+            switch (response.getId()) {
+                case "WAITING_SERVER_FILE_IMPORTING":
+                    // next step - download response file
+                    request.downloadFile("/api/offline/server/sync/response/" + syncToken,
+                            authToken.toString(),
+                            downloadedFile -> importFile(downloadedFile));
+                    break;
+                case "IMPORTING_CLIENT_FILE":
+                case "GENERATING_SERVER_FILE":
+                case "WAITING_SERVER_FILE_DOWNLOAD":
+                    // wait 700 ms
+                    Thread.sleep(700);
+                    // check again
+                    checkServerSyncStatus();
+                    break;
+                default:
+                    throw new SynchronizationException("Not expected status returned from server.");
             }
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void importFile(File responseFile) {
+        importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
+    }
+
+    private void afterImporting(File importedFile) {
+        // delete the file
+        if (importedFile != null) {
+            importedFile.delete();
+        }
+
+        // clear phase
+        this.phase = null;
+
+        // TODO: register commandlog
     }
 
     /**

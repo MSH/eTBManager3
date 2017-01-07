@@ -85,7 +85,7 @@ public class ServerSyncService {
             return null;
         }
 
-        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()), track.getSyncToken());
     }
 
     private SyncTrack getTrack(String syncToken) {
