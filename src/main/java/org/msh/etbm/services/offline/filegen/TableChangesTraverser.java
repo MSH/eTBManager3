@@ -1,8 +1,6 @@
-package org.msh.etbm.services.offline.query;
+package org.msh.etbm.services.offline.filegen;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.services.offline.server.DeletedRecordTraverseListener;
-import org.msh.etbm.services.offline.server.RecordTraverseListener;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;

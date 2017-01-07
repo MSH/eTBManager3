@@ -1,7 +1,7 @@
 package org.msh.etbm.services.offline.server;
 
-import org.msh.etbm.services.offline.query.TableQueryItem;
-import org.msh.etbm.services.offline.query.TableQueryList;
+import org.msh.etbm.services.offline.filegen.TableQueryItem;
+import org.msh.etbm.services.offline.filegen.TableQueryList;
 
 import java.util.*;
 

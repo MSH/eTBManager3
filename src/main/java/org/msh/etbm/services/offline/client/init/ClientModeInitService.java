@@ -7,7 +7,7 @@ import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
-import org.msh.etbm.services.offline.importer.FileImporter;
+import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.data.ServerCredentialsData;

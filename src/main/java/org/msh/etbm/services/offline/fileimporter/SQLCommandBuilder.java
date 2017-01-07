@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.importer;
+package org.msh.etbm.services.offline.fileimporter;
 
 import java.util.List;
 import java.util.Set;

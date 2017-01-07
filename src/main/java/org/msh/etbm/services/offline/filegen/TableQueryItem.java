@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.query;
+package org.msh.etbm.services.offline.filegen;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
