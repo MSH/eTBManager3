@@ -1,83 +1,70 @@
 package org.msh.etbm.web.api.offline;
 
+import org.apache.commons.compress.utils.IOUtils;
+import org.msh.etbm.services.offline.StatusResponse;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.server.ServerSyncService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.zip.GZIPInputStream;
 
 /**
- * Created by rmemoria on 23/11/16.
+ * Created by msantos on 2/01/17.
  */
 @RestController
 @RequestMapping(path = "/api/offline/server")
 @Authenticated
 public class ServerSyncREST {
 
-    @RequestMapping(path = "/sync/startsync", method = RequestMethod.POST)
-    public StandardResult handleFileUpload(@RequestParam("file") MultipartFile multiFile) {
+    @Autowired
+    ServerSyncService serverSyncService;
 
+    @RequestMapping(path = "/sync/start", method = RequestMethod.POST)
+    public StatusResponse startSync(@RequestParam("file") MultipartFile multiFile) {
         try {
-            File file = new File("C:\\Users\\Mauricio\\Documents\\MSH\\AQUI1s23.TXT");
+            File file = File.createTempFile("clientsyncfile", "etbm");
             multiFile.transferTo(file);
 
-            InputStream fileStream = new FileInputStream(file);
-            InputStream gfileStream = new GZIPInputStream(fileStream);
-
-            String result = getStringFromInputStream(gfileStream);
-
-            System.out.println(result);
-
-            System.out.println("File saved");
-
-            fileStream.close();
-            gfileStream.close();
-
-            file.delete();
-
-            System.out.println("File deleted");
-
+            return serverSyncService.startSync(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw  new SynchronizationException("Error while downloading file.");
         }
+    }
+
+    @RequestMapping(value = "/sync/status/{token}", method = RequestMethod.GET)
+    public StatusResponse getStatus(@PathVariable String token) {
+        return serverSyncService.getStatus(token);
+    }
+
+    @RequestMapping(path = "/sync/response/{token}", method = RequestMethod.GET)
+    public void downloadIniFile(HttpServletResponse resp, String token) throws FileNotFoundException, IOException {
+        // generate the file content
+        File file = serverSyncService.getResponseFile(token);
+
+        // generate the file name
+        String filename = token + ".etbm";
+        filename = filename.replaceAll("[^a-zA-Z0-9.]", "_");
+
+        resp.setContentType("application/octet-stream");
+        resp.setHeader("Content-Length", String.valueOf(file.length()));
+        resp.setHeader("Content-Disposition", "attachment;filename=\"" + filename + "\"");
+
+        // send data to the client
+        InputStream in = new FileInputStream(file);
+
+        IOUtils.copy(in, resp.getOutputStream());
+        resp.flushBuffer();
+    }
+
+    @RequestMapping(value = "/sync/end/{token}", method = RequestMethod.GET)
+    public StandardResult endSync(@PathVariable String token) {
+        serverSyncService.endSync(token);
 
         return StandardResult.createSuccessResult();
     }
-
-    // convert InputStream to String
-    private static String getStringFromInputStream(InputStream is) {
-
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return sb.toString();
-
-    }
-
-
 }

@@ -44,7 +44,7 @@ public class TableChangesTraverser {
         return this;
     }
 
-    public TableChangesTraverser eachDeleted(Optional<Long> version, DeletedRecordTraverseListener trav) {
+    public TableChangesTraverser eachDeleted(Optional<Integer> version, DeletedRecordTraverseListener trav) {
         // if there is no initial version, so all records will be sent using eachNew
         if (!version.isPresent()) {
             return this;

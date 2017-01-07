@@ -1,14 +1,14 @@
-package org.msh.etbm.services.offline.client.data;
+package org.msh.etbm.services.offline;
 
 /**
  * Data class to response initialization progress
  * Created by Mauricio on 13/12/2016.
  */
-public class ServerStatusResponse {
+public class StatusResponse {
     private String id;
     private String title;
 
-    public ServerStatusResponse(String id, String title) {
+    public StatusResponse(String id, String title) {
         this.id = id;
         this.title = title;
     }

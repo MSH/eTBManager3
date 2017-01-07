@@ -14,10 +14,10 @@ public class ServerTableQueryList extends TableQueryList {
 
     private UUID wsId;
     private UUID unitId;
-    private Long initialVersion;
+    private Integer initialVersion;
     private long finalVersion;
 
-    public ServerTableQueryList(UUID wsId, UUID unitId, Optional<Long> initialVersion, long finalVersion) {
+    public ServerTableQueryList(UUID wsId, UUID unitId, Optional<Integer> initialVersion, long finalVersion) {
         this.wsId = wsId;
         this.unitId = unitId;
         this.initialVersion = initialVersion.orElse(null);

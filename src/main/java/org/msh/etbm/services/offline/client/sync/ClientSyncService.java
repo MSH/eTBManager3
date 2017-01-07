@@ -5,7 +5,7 @@ import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.ParentServerFileSender;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
 import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
-import org.msh.etbm.services.offline.client.data.ServerStatusResponse;
+import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
@@ -42,14 +42,14 @@ public class ClientSyncService {
     /**
      * If null initializing is not running
      */
-    ClientModeSyncPhase phase = null;
+    ClientSyncPhase phase = null;
 
-    public ServerStatusResponse synchronize(ServerCredentialsData data) {
+    public StatusResponse synchronize(ServerCredentialsData data) {
         if (phase != null) {
             throw new SynchronizationException("Synchronization progress is already running");
         }
 
-        phase = ClientModeSyncPhase.STARTING;
+        phase = ClientSyncPhase.STARTING;
 
         // set login on credentials. Password was inputted on the request
         data.setUsername(userRequestService.getUserSession().getUserLoginName());
@@ -72,14 +72,14 @@ public class ClientSyncService {
         UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
 
         // starts file generating asynchronously and then calls sendFileToServer method
-        phase = ClientModeSyncPhase.GENERATING_FILE;
+        phase = ClientSyncPhase.GENERATING_FILE;
         fileGenerator.generate(unitId, workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
         return getStatus();
     }
 
     private void sendFileToServer(File clientSyncFile) {
-        phase = ClientModeSyncPhase.SENDING_FILE;
+        phase = ClientSyncPhase.SENDING_FILE;
 
         StandardResult response = fileSender.sendFile("/api/offline/server/sync/startsync",
             authToken.toString(),
@@ -91,11 +91,11 @@ public class ClientSyncService {
         // todo: remove this mock process
         try {
             Thread.sleep(2000);
-            phase = ClientModeSyncPhase.RECEIVING_FILE;
+            phase = ClientSyncPhase.RECEIVING_FILE;
             Thread.sleep(2000);
-            phase = ClientModeSyncPhase.IMPORTING_FILE;
+            phase = ClientSyncPhase.IMPORTING_FILE;
             Thread.sleep(2000);
-            phase = ClientModeSyncPhase.FINISHING;
+            phase = ClientSyncPhase.FINISHING;
             Thread.sleep(1000);
             phase = null;
         } catch (InterruptedException e) {
@@ -131,19 +131,19 @@ public class ClientSyncService {
      * Return the initialization status now
      * @return
      */
-    public ServerStatusResponse getStatus() {
+    public StatusResponse getStatus() {
         if (phase == null) {
-            ClientModeSyncPhase notRunning = ClientModeSyncPhase.NOT_RUNNING;
-            return new ServerStatusResponse(notRunning.name(), messages.get(notRunning.getMessageKey()));
+            ClientSyncPhase notRunning = ClientSyncPhase.NOT_RUNNING;
+            return new StatusResponse(notRunning.name(), messages.get(notRunning.getMessageKey()));
         }
         // TODO: improve this
-        return new ServerStatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
     /**
      * Enum used to track the initialization progress
      */
-    public enum ClientModeSyncPhase {
+    public enum ClientSyncPhase {
         NOT_RUNNING,
         STARTING,
         GENERATING_FILE,

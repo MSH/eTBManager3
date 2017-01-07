@@ -53,15 +53,15 @@ public class FileImporter {
      * @param file
      * @param compressed
      * @param parentServerUrl
-     * @param initializing if true indicates that is importing an initialization file, if not, it is a synchronization file.
      */
     @Async
-    public void importFile(File file, boolean compressed, String parentServerUrl, boolean initializing, FileImportListener listener) {
+    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) {
         if (phase != null) {
             throw new SynchronizationException("Importer is already running");
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
+        Integer fileVersion = null;
 
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -76,7 +76,7 @@ public class FileImporter {
 
             // start importing
             try {
-                importData(parser, parentServerUrl);
+                fileVersion = importData(parser, parentServerUrl);
             } finally {
                 // close parser
                 parser.close();
@@ -90,7 +90,7 @@ public class FileImporter {
             throw new RuntimeException(e);
         } finally {
             // notify service that importing has end
-            listener.afterImport(file);
+            listener.afterImport(file, fileVersion);
 
             // indicates that importer is not running anymore
             phase = null;
@@ -102,7 +102,7 @@ public class FileImporter {
      * @param parser
      * @throws IOException
      */
-    private void importData(JsonParser parser, String parentServerUrl) throws IOException {
+    private Integer importData(JsonParser parser, String parentServerUrl) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
             throw new SynchronizationException("Root should be object");
@@ -145,6 +145,8 @@ public class FileImporter {
         if (sysConfigService.loadConfig().isClientMode()) {
             db.setAllAsSynched();
         }
+
+        return fileVersion;
     }
 
     /**

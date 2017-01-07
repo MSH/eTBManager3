@@ -56,8 +56,7 @@ public class ServerFileGenerator {
      * @return the generated file
      * @throws SynchronizationException
      */
-    @CommandLog(type = CommandTypes.OFFLINE_SERVERINIT, handler = SyncCmdLogHandler.class)
-    public SynchronizationResponse generate(UUID unitId, Optional<Long> initialVersion) throws SynchronizationException {
+    public SynchronizationResponse generate(UUID unitId, Optional<Integer> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -105,7 +104,7 @@ public class ServerFileGenerator {
      * @throws IOException
      */
     protected void generateJsonContent(UUID unitId, JsonGenerator generator,
-                                       Optional<Long> initialVersion) throws IOException {
+                                       Optional<Integer> initialVersion) throws IOException {
 
         long finalVersion = getCurrentVersion();
 
@@ -200,7 +199,7 @@ public class ServerFileGenerator {
      * @throws IOException
      */
     protected void writeTables(TableQueryList queries, JsonGenerator generator,
-                               Optional<Long> initialVersion) throws IOException {
+                               Optional<Integer> initialVersion) throws IOException {
         // start the array (main)
         generator.writeStartArray();
 

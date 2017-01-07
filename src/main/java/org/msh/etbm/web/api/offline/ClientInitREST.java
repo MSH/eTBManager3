@@ -2,9 +2,8 @@ package org.msh.etbm.web.api.offline;
 
 import org.msh.etbm.services.offline.client.init.ClientModeInitService;
 import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
-import org.msh.etbm.services.offline.client.sync.ClientSyncFileGenerator;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
-import org.msh.etbm.services.offline.client.data.ServerStatusResponse;
+import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,7 @@ public class ClientInitREST {
      * @return
      */
     @RequestMapping(value = "/init/initialize", method = RequestMethod.POST)
-    public ServerStatusResponse initialize(@Valid @NotNull @RequestBody ServerCredentialsData req) {
+    public StatusResponse initialize(@Valid @NotNull @RequestBody ServerCredentialsData req) {
         return service.initialize(req);
     }
 
@@ -56,7 +55,7 @@ public class ClientInitREST {
      * @return
      */
     @RequestMapping(value = "/init/status", method = RequestMethod.GET)
-    public ServerStatusResponse initStatus() {
+    public StatusResponse initStatus() {
         return service.getStatus();
     }
 

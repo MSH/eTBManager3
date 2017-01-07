@@ -8,6 +8,6 @@ import java.io.File;
  */
 public interface FileImportListener {
 
-    void afterImport(File importedFile);
+    void afterImport(File importedFile, Integer fileVersion);
 
 }
