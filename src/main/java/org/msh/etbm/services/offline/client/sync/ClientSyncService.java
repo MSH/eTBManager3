@@ -144,8 +144,10 @@ public class ClientSyncService {
             importedFile.delete();
         }
 
-        // clear phase
+        // clear phase and aux info
         this.phase = null;
+        this.authToken = null;
+        this.syncToken = null;
 
         // TODO: register commandlog
     }
