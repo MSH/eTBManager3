@@ -144,7 +144,7 @@ export default class CasePrevTbTreats extends React.Component {
                     perm={'CASEMAN'}
                     />
             </CaseComments>
-            );
+        );
     }
 }
 

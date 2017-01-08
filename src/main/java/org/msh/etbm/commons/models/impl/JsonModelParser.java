@@ -5,6 +5,7 @@ import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.impl.StandardJSONParser;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.io.InputStream;

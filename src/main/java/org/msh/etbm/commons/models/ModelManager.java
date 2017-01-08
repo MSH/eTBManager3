@@ -1,15 +1,15 @@
 package org.msh.etbm.commons.models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.impl.ModelStoreService;
+import org.msh.etbm.commons.models.json.ModelJacksonModule;
 import org.msh.etbm.commons.models.tableupdate.SchemaUpdateService;
-import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Manage the instance of {@link Model} available in the current workspace
@@ -29,6 +29,10 @@ public class ModelManager {
     // A simple local cache of compiled models
     // this local cache will avoid compilation of the model to JS on any call
     private Map<String, CompiledModel> models = new HashMap<>();
+
+    public ModelManager(ObjectMapper objectMapper) {
+        objectMapper.registerModule(new ModelJacksonModule());
+    }
 
     /**
      * Get an instance of the {@link CompiledModel} from the given model ID. The {@link CompiledModel}

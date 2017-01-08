@@ -9,5 +9,8 @@ public enum CaseDataGroup {
     CONTACTS,
     ADV_REACTS,
     COMORBIDITIES,
-    PREV_TREATS
+    PREV_TREATS,
+    TREATMENT,
+    MEDICINE_INTAKE,
+    FOLLOW_UP
 }

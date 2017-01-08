@@ -12,11 +12,11 @@ import java.util.List;
  * Base class for representation and generation of options of a field
  * Created by rmemoria on 7/7/16.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = FieldRangeOptions.class, name = "range"),
-        @JsonSubTypes.Type(value = FieldListOptions.class, name = "list")
-    })
+//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+//@JsonSubTypes({
+//        @JsonSubTypes.Type(value = FieldRangeOptions.class, name = "range"),
+//        @JsonSubTypes.Type(value = FieldListOptions.class, name = "list")
+//    })
 public abstract class FieldOptions implements JSGeneratorValueWrapper {
 
     @JsonIgnore

@@ -107,8 +107,8 @@ public class FieldOptionsTest {
         IntegerField fldAFB = new IntegerField();
         fldAFB.setName("afb");
         FieldRangeOptions rangeOpts = new FieldRangeOptions();
-        rangeOpts.setIni(2);
-        rangeOpts.setEnd(10);
+        rangeOpts.setFrom(2);
+        rangeOpts.setTo(10);
         fldAFB.setOptions(rangeOpts);
         fields.add(fldAFB);
 

@@ -44,6 +44,7 @@ public class ModelDAO {
     public List<RecordData> findMany(boolean displaying, String restriction, Map<String, Object> params) {
         SQLQuerySelectionBuilder builder = new SQLQuerySelectionBuilder();
         builder.setDisplaying(displaying);
+        // collect the fields to select
         SQLQueryInfo res = builder.generate(compiledModel.getModel(), restriction, resources.getWorkspaceId());
 
         if (params != null) {

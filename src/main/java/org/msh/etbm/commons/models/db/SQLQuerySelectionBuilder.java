@@ -101,6 +101,10 @@ public class SQLQuerySelectionBuilder {
         String delim = "";
         for (Map.Entry<Field, List<SQLQueryField>> entry: res.getFields().entrySet()) {
             for (SQLQueryField f: entry.getValue()) {
+                System.out.println(f.getFieldName());
+                if (f.getFieldName().contains("$id")) {
+                    System.out.println("oi");
+                }
                 String alias = f.getTable() != null ? f.getTable().getTableAlias() : ROOT_TABLE_ALIAS;
                 s.append(delim)
                         .append(alias)

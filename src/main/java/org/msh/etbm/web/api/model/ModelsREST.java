@@ -3,12 +3,12 @@ package org.msh.etbm.web.api.model;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelManager;
 import org.msh.etbm.commons.models.data.Model;
+import org.msh.etbm.commons.models.impl.JsonModelParser;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -32,7 +32,7 @@ public class ModelsREST {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public StandardResult updateModel(@RequestBody @NotNull @Valid Model model) {
+    public StandardResult updateModel(@RequestBody @NotNull Model model) {
         modelManager.update(model);
         return StandardResult.createSuccessResult();
     }

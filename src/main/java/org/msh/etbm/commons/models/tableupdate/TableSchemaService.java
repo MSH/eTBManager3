@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Service to update the table schema based on changes in the model
+ *
  * Created by rmemoria on 4/1/17.
  */
 @Service
@@ -71,8 +73,13 @@ public class TableSchemaService {
 
         s.append("ALTER TABLE ").append(tableName);
 
+        boolean first = true;
         for (String sql: lst) {
+            if (!first) {
+                s.append(",");
+            }
             s.append('\n').append(sql);
+            first = false;
         }
 
         execAlterTable(s.toString());
@@ -96,9 +103,12 @@ public class TableSchemaService {
         TableColumn colold = findColumn(columns, oldName);
         TableColumn colnew = newName != null ? findColumn(columns, newName) : null;
 
+        // the column name
+        String colName = newName != null ? newName : oldName;
+
         // destination column doesn't exist ?
         if (colnew == null && colold == null) {
-            return "ADD COLUMN " + newName + " " + sqlTypeName(fs.getSchema());
+            return "ADD COLUMN " + colName + " " + sqlTypeName(fs.getSchema());
         }
 
         // the target column doesn't exist ?

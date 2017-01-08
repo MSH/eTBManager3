@@ -1,11 +1,14 @@
 package org.msh.etbm.commons.models.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.db.entities.ModelData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +29,9 @@ public class ModelStoreService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
 
     /**
@@ -61,12 +67,17 @@ public class ModelStoreService {
         ModelData data = loadModelData(modelId);
 
         if (data == null) {
-            String jsonData = JsonUtils.objectToJSONString(model, false);
-
             data = new ModelData();
             data.setId(modelId);
-            data.setJsonData(jsonData);
         }
+
+        String jsonData;
+        try {
+            jsonData = objectMapper.writeValueAsString(model);
+        } catch (JsonProcessingException e) {
+            throw new ModelException(e);
+        }
+        data.setJsonData(jsonData);
 
         entityManager.persist(data);
     }
@@ -79,11 +90,10 @@ public class ModelStoreService {
      */
     private Model loadFromResources(String modelId) {
         String resName = "/models/" + modelId + ".json";
-        JsonModelParser parser = new JsonModelParser();
         ClassPathResource res = new ClassPathResource(resName);
 
         try {
-            Model model = parser.parse(res.getInputStream());
+            Model model = objectMapper.readValue(res.getInputStream(), Model.class);
             return model;
         } catch (IOException e) {
             throw new ModelException(e);
@@ -113,8 +123,12 @@ public class ModelStoreService {
             return null;
         }
 
-        JsonModelParser parser = new JsonModelParser();
-        return parser.parse(data.getJsonData());
+        try {
+            Model model = objectMapper.readValue(data.getJsonData(), Model.class);
+            return model;
+        } catch (IOException e) {
+            throw new ModelException(e);
+        }
     }
 
 

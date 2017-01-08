@@ -1682,7 +1682,7 @@
     </changeSet>
 
 
-    <changeSet id="rmemoria" author="300-1">
+    <changeSet id="300-1" author="rmemoria">
         <createTable tableName="commandhistory">
             <column name="id" type="int" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2424,7 +2424,7 @@
                                  constraintName="FKUWP_USERPROFILE" deferrable="false" initiallyDeferred="false"
                                  onDelete="CASCADE" referencedColumnNames="id" referencedTableName="userprofile"/>
     </changeSet>
-    <changeSet id="rmemoria" author="1433264274749-264.4">
+    <changeSet id="1433264274749-264.4" author="rmemoria">
         <addPrimaryKey tableName="userworkspace_profiles" columnNames="userworkspace_id,userprofile_id"/>
     </changeSet>
 
