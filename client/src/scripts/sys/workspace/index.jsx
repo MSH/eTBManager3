@@ -19,7 +19,7 @@ const views = [
         title: __('cases'),
         path: '/cases',
         view: Cases
-    },
+    }
     /*
     {
         title: 'Synchronize',
