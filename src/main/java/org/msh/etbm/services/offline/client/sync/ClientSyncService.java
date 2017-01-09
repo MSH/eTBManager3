@@ -116,8 +116,7 @@ public class ClientSyncService {
                     phase = ClientSyncPhase.RECEIVING_RESPONSE_FILE;
                     // next step - download response file
                     request.downloadFile("/api/offline/server/sync/response/" + syncToken,
-                            authToken.toString(),
-                            downloadedFile -> importFile(downloadedFile));
+                            authToken.toString(), downloadedFile -> importFile(downloadedFile));
                     break;
                 case "IMPORTING_CLIENT_FILE":
                 case "GENERATING_SERVER_FILE":
