@@ -20,11 +20,13 @@ const views = [
         path: '/cases',
         view: Cases
     },
+    /*
     {
         title: 'Synchronize',
         path: '/sync',
         view: Sync
     }
+    */
     /*
     {
         title: __('meds.inventory'),
