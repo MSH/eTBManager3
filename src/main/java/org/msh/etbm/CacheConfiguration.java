@@ -2,7 +2,6 @@ package org.msh.etbm;
 
 import com.google.common.cache.CacheBuilder;
 import org.msh.etbm.commons.forms.impl.FormStoreService;
-import org.msh.etbm.commons.models.impl.ModelStoreService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCache;

@@ -2,7 +2,8 @@ package org.msh.etbm.services.offline.query;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Mauricio on 02/01/2017.

@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.impl.ModelStoreService;
 import org.msh.etbm.commons.models.json.ModelJacksonModule;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,6 +56,15 @@ public class ModelManager {
         }
 
         return compModel;
+    }
+
+
+    /**
+     * Return the list of available models. The list contains the model ID and its name
+     * @return List of {@link Item}
+     */
+    public List<Item<String>> getModels() {
+        return modelStoreService.getModels();
     }
 
     /**

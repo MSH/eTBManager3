@@ -2,9 +2,9 @@ package org.msh.etbm.commons.models.impl;
 
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.data.Model;
 
 import java.util.HashMap;
 import java.util.Map;

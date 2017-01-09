@@ -3,14 +3,12 @@ package org.msh.etbm.commons.forms;
 import org.apache.commons.collections.map.HashedMap;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.Form;
-import org.msh.etbm.commons.forms.impl.FormManager;
 import org.msh.etbm.commons.forms.impl.FormStoreService;
 import org.msh.etbm.commons.forms.impl.JavaScriptFormGenerator;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.db.RecordData;
 import org.msh.etbm.commons.objutils.ObjectUtils;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

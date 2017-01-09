@@ -2,20 +2,24 @@ package org.msh.etbm.commons.models.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msh.etbm.commons.JsonUtils;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.db.entities.ModelData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +36,9 @@ public class ModelStoreService {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
 
     /**
@@ -56,6 +63,28 @@ public class ModelStoreService {
         return model;
     }
 
+
+    /**
+     * Return the list of available models in the system
+     * @return list of {@link Item} objects containing model ID and its name
+     */
+    public List<Item<String>> getModels() {
+        try {
+            Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources("classpath*:/models/*.json");
+
+            List<Item<String>> lst = new ArrayList<>();
+
+            for (Resource res: resources) {
+                String s = res.getFilename();
+                s = s.substring(0, s.lastIndexOf('.'));
+                lst.add(new Item<>(s, s));
+            }
+
+            return lst;
+        } catch (IOException e) {
+            throw new ModelException(e);
+        }
+    }
 
     /**
      * Update a model in its storage

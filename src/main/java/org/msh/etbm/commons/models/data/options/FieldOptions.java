@@ -1,8 +1,6 @@
 package org.msh.etbm.commons.models.data.options;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.forms.impl.JSGeneratorValueWrapper;
 
