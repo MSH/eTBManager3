@@ -1,9 +1,6 @@
 package org.msh.etbm.db.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Store information about a model in the database table
@@ -19,6 +16,9 @@ public class ModelData {
     @Lob
     private String jsonData;
 
+    @Version
+    private int version;
+
     public String getId() {
         return id;
     }
@@ -33,5 +33,13 @@ public class ModelData {
 
     public void setJsonData(String jsonData) {
         this.jsonData = jsonData;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 }

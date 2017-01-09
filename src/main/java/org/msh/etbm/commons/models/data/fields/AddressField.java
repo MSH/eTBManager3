@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models.data.fields;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.msh.etbm.commons.models.data.Field;
 
 /**
  * Created by rmemoria on 26/8/16.

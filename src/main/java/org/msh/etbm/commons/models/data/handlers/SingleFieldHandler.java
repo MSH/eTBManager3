@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.models.data.handlers;
 
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.fields.SingleField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 
@@ -27,8 +28,17 @@ public abstract class SingleFieldHandler<E extends SingleField> extends FieldHan
     }
 
     @Override
-    public void dbFieldsToSelect(SingleField field, DBFieldsDef defs, boolean displaying) {
-        String s = field.getFieldName() != null ? field.getFieldName() : field.getName();
+    public void dbFieldsToSelect(E field, DBFieldsDef defs, boolean displaying) {
+        String s = getFieldName(field);
         defs.add(s);
+    }
+
+    /**
+     * Return the table field name in use by the model field
+     * @param field
+     * @return
+     */
+    protected String getFieldName(E field) {
+        return field.getFieldName() != null ? field.getFieldName() : field.getName();
     }
 }

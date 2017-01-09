@@ -1,15 +1,16 @@
-package org.msh.etbm.commons.models.data.fields;
+package org.msh.etbm.commons.models.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.JSFuncValue;
-import org.msh.etbm.commons.models.data.JSFunction;
-import org.msh.etbm.commons.models.data.Validator;
+import org.msh.etbm.commons.models.data.fields.FieldType;
+import org.msh.etbm.commons.models.data.fields.FieldTypeResolver;
 import org.msh.etbm.commons.models.data.options.FieldOptions;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -22,12 +23,21 @@ public abstract class Field {
     /**
      * Field name
      */
+    @NotNull
     private String name;
+
+    /**
+     * The field ID. All fields must have an ID. Is by the ID that the Model engine
+     * checks if the field name has changed, on a model update
+     */
+    @NotNull
+    private int id;
 
     /**
      * List of validators of the field
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Valid
     private List<Validator> validators;
 
     /**
@@ -38,6 +48,7 @@ public abstract class Field {
     /**
      * The description label of the field
      */
+    @NotNull
     private String label;
 
     /**
@@ -67,6 +78,7 @@ public abstract class Field {
      * A simple java script expression to validate the field. The return of the expression is the
      * message to be displayed, or return null or unassigned to indicate it was validated
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private JSFunction validate;
 
 
@@ -163,5 +175,13 @@ public abstract class Field {
 
     public void setValidate(JSFunction validate) {
         this.validate = validate;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

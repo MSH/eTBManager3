@@ -1,22 +1,26 @@
 package org.msh.etbm.commons.models.impl;
 
-import org.msh.etbm.commons.JsonUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.db.entities.ModelData;
-import org.msh.etbm.db.entities.Workspace;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * THis is a simple implementation of a component responsible for storing and restoring a model,
@@ -27,10 +31,14 @@ import java.util.UUID;
 @Component
 public class ModelStoreService {
 
-    public static final String CACHE_ID = "models";
-
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
 
     /**
@@ -39,33 +47,66 @@ public class ModelStoreService {
      * @param modelId the model ID
      * @return instance of {@link CompiledModel}
      */
-    @Cacheable(cacheNames = CACHE_ID)
-    public CompiledModel get(String modelId) {
+    public Model get(String modelId) {
         Model model = loadFromDB(modelId);
 
         if (model == null) {
             model = loadFromResources(modelId);
         }
 
-        CompiledModel compiledModel = new CompiledModel(model);
+        if (model == null) {
+            throw new IllegalArgumentException("Invalid model ID: " + modelId);
+        }
 
-        return compiledModel;
+        setIDs(model);
+
+        return model;
     }
 
 
+    /**
+     * Return the list of available models in the system
+     * @return list of {@link Item} objects containing model ID and its name
+     */
+    public List<Item<String>> getModels() {
+        try {
+            Resource[] resources = ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources("classpath*:/models/*.json");
+
+            List<Item<String>> lst = new ArrayList<>();
+
+            for (Resource res: resources) {
+                String s = res.getFilename();
+                s = s.substring(0, s.lastIndexOf('.'));
+                lst.add(new Item<>(s, s));
+            }
+
+            return lst;
+        } catch (IOException e) {
+            throw new ModelException(e);
+        }
+    }
+
+    /**
+     * Update a model in its storage
+     * @param model the model to be updated
+     */
     @Transactional
-    @CachePut(cacheNames = CACHE_ID)
-    public void update(String modelId, UUID workspaceId, Model model) {
+    public void update(Model model) {
+        String modelId = model.getName();
         ModelData data = loadModelData(modelId);
 
         if (data == null) {
-            Workspace ws = entityManager.find(Workspace.class, modelId);
-            String jsonData = JsonUtils.objectToJSONString(model, false);
-
             data = new ModelData();
             data.setId(modelId);
-            data.setJsonData(jsonData);
         }
+
+        String jsonData;
+        try {
+            jsonData = objectMapper.writeValueAsString(model);
+        } catch (JsonProcessingException e) {
+            throw new ModelException(e);
+        }
+        data.setJsonData(jsonData);
 
         entityManager.persist(data);
     }
@@ -78,13 +119,24 @@ public class ModelStoreService {
      */
     private Model loadFromResources(String modelId) {
         String resName = "/models/" + modelId + ".json";
-        JsonModelParser parser = new JsonModelParser();
         ClassPathResource res = new ClassPathResource(resName);
 
         try {
-            return parser.parse(res.getInputStream());
+            Model model = objectMapper.readValue(res.getInputStream(), Model.class);
+            return model;
         } catch (IOException e) {
             throw new ModelException(e);
+        }
+    }
+
+    /**
+     * Set the version and the field IDs used for model update operations
+     * @param model
+     */
+    private void setIDs(Model model) {
+        int index = 0;
+        for (Field field: model.getFields()) {
+            field.setId(index++);
         }
     }
 
@@ -100,8 +152,12 @@ public class ModelStoreService {
             return null;
         }
 
-        JsonModelParser parser = new JsonModelParser();
-        return parser.parse(data.getJsonData());
+        try {
+            Model model = objectMapper.readValue(data.getJsonData(), Model.class);
+            return model;
+        } catch (IOException e) {
+            throw new ModelException(e);
+        }
     }
 
 

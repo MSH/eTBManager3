@@ -302,7 +302,7 @@ public class ObjectUtils {
 
 
     /**
-     * Copy the properties of the source object to the target object.
+     * Make a shallow copy of the properties of one object to another
      * Source and target objects doesn't have to be of same type, and just shared
      * properties available in target are copied. Properties with the same name must
      * have the same type, otherwise an exception will be thrown

@@ -3,7 +3,9 @@ package org.msh.etbm.services.offline.server;
 import org.msh.etbm.services.offline.filegen.TableQueryItem;
 import org.msh.etbm.services.offline.filegen.TableQueryList;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Keep a list of all queries and the action to be taken when syncing in the client side

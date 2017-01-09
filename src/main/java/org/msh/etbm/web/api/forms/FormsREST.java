@@ -1,35 +1,30 @@
 package org.msh.etbm.web.api.forms;
 
-import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.forms.FormRequestService;
+import org.msh.etbm.commons.forms.data.Form;
+import org.msh.etbm.commons.forms.impl.FormManager;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Map;
-
 /**
- * API to handle general form initialization, avoid several requests to initialize fields
- * individually
- * <p>
- * Created by rmemoria on 18/1/16.
+ * REST controller exposing APIs for form handling
+ *
+ * Created by rmemoria on 8/1/17.
  */
 @RestController
-@RequestMapping("/api/form")
+@RequestMapping("/api/forms")
 @Authenticated
 public class FormsREST {
 
     @Autowired
-    FormRequestService formRequestService;
+    FormManager formManager;
 
-    @RequestMapping(value = "/request", method = RequestMethod.POST)
-    public Map<String, Object> initFields(@Valid @NotNull @RequestBody List<FormRequest> req) {
-        return formRequestService.processFormRequests(req);
+    @RequestMapping(value = "/{formId}", method = RequestMethod.GET)
+    public Form getForm(@PathVariable String formId) {
+        Form form = formManager.get(formId);
+        return form;
     }
 }

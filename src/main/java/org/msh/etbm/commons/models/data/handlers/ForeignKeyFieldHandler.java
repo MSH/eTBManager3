@@ -1,14 +1,14 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.AbstractForeignKeyField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 11/7/16.
@@ -87,5 +87,13 @@ public class ForeignKeyFieldHandler<E extends AbstractForeignKeyField> extends S
         UUID id = ObjectUtils.bytesToUUID(data);
         Object label = values.get(field.getForeignDisplayingFieldName());
         return new Item<>(id, label.toString());
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(E field) {
+        List<TableColumn> lst = new ArrayList<>();
+
+        lst.add(new TableColumn(getFieldName(field), TableColumnType.BINARY, 16));
+        return lst;
     }
 }

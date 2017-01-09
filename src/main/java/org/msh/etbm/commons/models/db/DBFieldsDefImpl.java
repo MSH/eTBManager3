@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.db;
 
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 import java.util.ArrayList;
 import java.util.HashMap;

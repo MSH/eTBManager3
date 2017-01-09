@@ -6,7 +6,7 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.fields.IntegerField;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.data.options.FieldListOptions;
@@ -107,8 +107,8 @@ public class FieldOptionsTest {
         IntegerField fldAFB = new IntegerField();
         fldAFB.setName("afb");
         FieldRangeOptions rangeOpts = new FieldRangeOptions();
-        rangeOpts.setIni(2);
-        rangeOpts.setEnd(10);
+        rangeOpts.setFrom(2);
+        rangeOpts.setTo(10);
         fldAFB.setOptions(rangeOpts);
         fields.add(fldAFB);
 

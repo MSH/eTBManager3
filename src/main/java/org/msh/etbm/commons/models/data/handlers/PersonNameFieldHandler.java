@@ -1,12 +1,17 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.PersonNameField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 import org.msh.etbm.db.PersonName;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,5 +79,14 @@ public class PersonNameFieldHandler extends FieldHandler<PersonNameField> {
         p.setLastName( (String) values.get(field.getFieldLastName()) );
 
         return p;
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(PersonNameField field) {
+        List<TableColumn> lst = new ArrayList<>();
+        lst.add(new TableColumn(field.getFieldName(), TableColumnType.VARCHAR, 100));
+        lst.add(new TableColumn(field.getFieldLastName(), TableColumnType.VARCHAR, 100));
+        lst.add(new TableColumn(field.getFieldMiddleName(), TableColumnType.VARCHAR, 100));
+        return lst;
     }
 }

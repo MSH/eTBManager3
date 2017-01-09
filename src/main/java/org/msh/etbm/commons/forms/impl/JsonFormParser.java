@@ -105,7 +105,7 @@ public class JsonFormParser extends StandardJSONParser<Form> {
         }
 
         if (control instanceof ValuedControl) {
-            org.msh.etbm.commons.models.data.fields.Field cf = ((ValuedControl) control).getField();
+            org.msh.etbm.commons.models.data.Field cf = ((ValuedControl) control).getField();
             if (cf != null && ObjectUtils.findField(cf.getClass(), propName) != null) {
                 return cf;
             }

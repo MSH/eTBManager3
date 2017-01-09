@@ -2,7 +2,7 @@ package org.msh.etbm.commons.forms.data;
 
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelManager;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 /**
  * Represent a data model used in a form with reference to a single variable, i.e, the own variable
@@ -20,7 +20,7 @@ public class SingleDataModel implements DataModel {
 
     @Override
     public Field getFieldModel(ModelManager modelManager, String fieldRef) {
-        CompiledModel compModel = modelManager.get(modelId);
+        CompiledModel compModel = modelManager.getCompiled(modelId);
 
         return compModel.getModel().findFieldByName(fieldRef);
     }

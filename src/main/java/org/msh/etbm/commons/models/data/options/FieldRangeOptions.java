@@ -10,29 +10,29 @@ import java.util.List;
  */
 public class FieldRangeOptions extends FieldOptions {
 
-    private int ini;
-    private int end;
+    private int from;
+    private int to;
 
-    public int getIni() {
-        return ini;
+    public int getFrom() {
+        return from;
     }
 
-    public void setIni(int ini) {
-        this.ini = ini;
+    public void setFrom(int from) {
+        this.from = from;
     }
 
-    public int getEnd() {
-        return end;
+    public int getTo() {
+        return to;
     }
 
-    public void setEnd(int end) {
-        this.end = end;
+    public void setTo(int to) {
+        this.to = to;
     }
 
     @Override
     public List<Item> getOptionsValues() {
         List<Item> lst = new ArrayList<>();
-        for (int i = ini; i <= end; i++) {
+        for (int i = from; i <= to; i++) {
             lst.add(new Item(i, Integer.toString(i)));
         }
         return lst;
@@ -45,7 +45,7 @@ public class FieldRangeOptions extends FieldOptions {
         }
 
         int number = ((Number)value).intValue();
-        if (number >= ini && number <= end) {
+        if (number >= from && number <= to) {
             return true;
         }
 

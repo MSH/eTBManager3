@@ -1,8 +1,8 @@
 package org.msh.etbm.commons.models;
 
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.db.*;
 import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
@@ -44,6 +44,7 @@ public class ModelDAO {
     public List<RecordData> findMany(boolean displaying, String restriction, Map<String, Object> params) {
         SQLQuerySelectionBuilder builder = new SQLQuerySelectionBuilder();
         builder.setDisplaying(displaying);
+        // collect the fields to select
         SQLQueryInfo res = builder.generate(compiledModel.getModel(), restriction, resources.getWorkspaceId());
 
         if (params != null) {

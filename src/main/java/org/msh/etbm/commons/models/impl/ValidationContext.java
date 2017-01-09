@@ -1,8 +1,8 @@
 package org.msh.etbm.commons.models.impl;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MapBindingResult;
 

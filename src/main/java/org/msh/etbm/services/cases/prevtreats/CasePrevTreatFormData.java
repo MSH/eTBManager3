@@ -1,10 +1,7 @@
 package org.msh.etbm.services.cases.prevtreats;
 
 import org.msh.etbm.commons.date.YearMonthData;
-import org.msh.etbm.commons.date.YearMonthPeriod;
-import org.msh.etbm.services.cases.CaseEntityFormData;
 
-import java.time.YearMonth;
 import java.util.Optional;
 import java.util.UUID;
 

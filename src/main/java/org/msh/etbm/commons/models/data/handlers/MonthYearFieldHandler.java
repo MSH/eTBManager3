@@ -2,10 +2,15 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Tuple;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.MonthYearField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,5 +78,14 @@ public class MonthYearFieldHandler extends FieldHandler<MonthYearField> {
     @Override
     public void dbFieldsToSelect(MonthYearField field, DBFieldsDef defs, boolean displaying) {
 
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(MonthYearField field) {
+        List<TableColumn> lst = new ArrayList<>();
+
+        lst.add(new TableColumn(field.getFieldMonth(), TableColumnType.INT));
+        lst.add(new TableColumn(field.getFieldYear(), TableColumnType.INT));
+        return lst;
     }
 }

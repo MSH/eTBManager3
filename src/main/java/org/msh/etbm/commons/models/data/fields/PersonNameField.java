@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models.data.fields;
 
+import org.msh.etbm.commons.models.data.Field;
+
 /**
  * Field structure to handle person's name
  *

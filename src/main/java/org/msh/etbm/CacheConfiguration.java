@@ -2,7 +2,6 @@ package org.msh.etbm;
 
 import com.google.common.cache.CacheBuilder;
 import org.msh.etbm.commons.forms.impl.FormStoreService;
-import org.msh.etbm.commons.models.impl.ModelStoreService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCache;
@@ -54,10 +53,7 @@ public class CacheConfiguration {
         GuavaCache formsCache = new GuavaCache(FormStoreService.CACHE_ID, CacheBuilder.newBuilder()
                 .build());
 
-        GuavaCache modelsCache = new GuavaCache(ModelStoreService.CACHE_ID, CacheBuilder.newBuilder()
-                .build());
-
-        cacheManager.setCaches(Arrays.asList(sessionCache, formsCache, modelsCache));
+        cacheManager.setCaches(Arrays.asList(sessionCache, formsCache));
         return cacheManager;
     }
 

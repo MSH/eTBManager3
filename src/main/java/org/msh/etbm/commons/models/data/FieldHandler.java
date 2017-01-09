@@ -1,10 +1,10 @@
-package org.msh.etbm.commons.models.data.handlers;
+package org.msh.etbm.commons.models.data;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.ModelException;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.models.data.fields.FieldType;
+import org.msh.etbm.commons.models.data.handlers.UniqueChecker;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.CustomValidatorsExecutor;
 import org.msh.etbm.commons.models.impl.FieldContext;
@@ -12,6 +12,7 @@ import org.msh.etbm.commons.models.impl.ModelResources;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.validation.Errors;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -200,4 +201,12 @@ public abstract class FieldHandler<E extends Field> {
     public Object readMultipleValuesFromDb(E field, Map<String, Object> values, boolean displaying) {
         throw new ModelException("this method must be implemented");
     }
+
+    /**
+     * Return the list of fields and its meta data (type and size) used in the physical table.
+     * Used when updating the table structure based on model changes
+     * @param field the model field to get the table fields from
+     * @return list of {@link TableColumn} instances
+     */
+    public abstract List<TableColumn> getTableFields(E field);
 }

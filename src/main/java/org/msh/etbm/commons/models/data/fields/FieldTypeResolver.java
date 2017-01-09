@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.models.FieldTypeManager;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 
 /**
  * Created by rmemoria on 1/7/16.

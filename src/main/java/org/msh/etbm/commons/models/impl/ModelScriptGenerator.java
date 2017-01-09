@@ -1,9 +1,9 @@
 package org.msh.etbm.commons.models.impl;
 
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.data.Validator;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.List;

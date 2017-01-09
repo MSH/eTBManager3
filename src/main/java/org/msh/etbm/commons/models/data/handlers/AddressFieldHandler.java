@@ -2,6 +2,9 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.FieldHandler;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.AddressField;
 import org.msh.etbm.commons.models.db.DBFieldsDef;
 import org.msh.etbm.commons.models.impl.FieldContext;
@@ -10,9 +13,7 @@ import org.msh.etbm.services.admin.AddressData;
 import org.msh.etbm.services.admin.AddressEditData;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by rmemoria on 26/8/16.
@@ -136,6 +137,17 @@ public class AddressFieldHandler extends FieldHandler<AddressField> {
         addr.setAdminUnit( asUUID(values.get(field.getFieldAdminUnit())));
 
         return addr;
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(AddressField field) {
+        List<TableColumn> fields = new ArrayList<>();
+
+        fields.add(new TableColumn(field.getFieldAddress(), TableColumnType.VARCHAR, 200));
+        fields.add(new TableColumn(field.getFieldComplement(), TableColumnType.VARCHAR, 200));
+        fields.add(new TableColumn(field.getFieldZipCode(), TableColumnType.VARCHAR, 50));
+        fields.add(new TableColumn(field.getFieldAdminUnit(), TableColumnType.BINARY, 16));
+        return fields;
     }
 
     @Override

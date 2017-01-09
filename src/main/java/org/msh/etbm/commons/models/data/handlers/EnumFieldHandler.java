@@ -2,9 +2,13 @@ package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.EnumField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -102,5 +106,12 @@ public class EnumFieldHandler extends SingleFieldHandler<EnumField> {
         }
 
         throw new RuntimeException("Check enum field handler");
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(EnumField field) {
+        List<TableColumn> lst = new ArrayList<>();
+        lst.add(new TableColumn(getFieldName(field), TableColumnType.INT));
+        return lst;
     }
 }

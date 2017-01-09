@@ -1,6 +1,6 @@
 package org.msh.etbm.commons.models.db;
 
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 /**
  * Created by rmemoria on 9/7/16.

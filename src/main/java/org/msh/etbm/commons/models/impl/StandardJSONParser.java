@@ -247,8 +247,11 @@ public class StandardJSONParser<E> {
     private FieldOptions mapToFieldOptions(Map<String, Object> props) {
         if (props.size() == 2 && props.containsKey("from") && props.containsKey("to")) {
             FieldRangeOptions range = new FieldRangeOptions();
-            range.setIni((Integer)props.get("from"));
-            range.setEnd((Integer)props.get("to"));
+            Integer from = (Integer)props.get("from");
+            Integer to = (Integer)props.get("to");
+
+            range.setFrom(from);
+            range.setTo(to);
             return range;
         }
 

@@ -7,7 +7,7 @@ import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelDAO;
 import org.msh.etbm.commons.models.ModelDAOFactory;
 import org.msh.etbm.commons.models.ModelManager;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.sqlquery.QueryDefs;
 
 import java.util.Collections;
@@ -36,7 +36,7 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
     @Override
     public void prepareFilterQuery(QueryDefs def, Object value, Map<String, Object> params) {
         final List<Item> options = getOptions();
-        CompiledModel model = getModelManager().get(modelName);
+        CompiledModel model = getModelManager().getCompiled(modelName);
         Field field = model.getModel().findFieldByName(fieldName);
 
         String tableName = model.getModel().getTable();
@@ -98,7 +98,7 @@ public class ModelFieldOptionsFilter extends AbstractFilter {
 
     @Override
     public void prepareVariableQuery(QueryDefs def, int iteration) {
-        CompiledModel model = getModelManager().get(modelName);
+        CompiledModel model = getModelManager().getCompiled(modelName);
         Field field = model.getModel().findFieldByName(fieldName);
 
         String tableName = model.getModel().getTable();
