@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
@@ -128,15 +129,15 @@ public class ClientSyncFileGenerator {
             trav.eachRecord((rec, index) -> generateJsonObject(generator, rec, item.getIgnoreList()));
             generator.writeEndArray();
 
-            /* TODO
+            //TODO: block bellow is not implemented
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(initialVersion, id -> {
+            trav.eachDeleted(Optional.empty(), id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });
-            generator.writeEndArray();*/
+            generator.writeEndArray();
 
             generator.writeEndObject();
         }

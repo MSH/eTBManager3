@@ -100,6 +100,7 @@ public class ClientSyncService {
 
         syncToken = response.getToken();
 
+        phase = ClientSyncPhase.WAITING_SERVER;
         checkServerSyncStatus();
     }
 
@@ -111,7 +112,8 @@ public class ClientSyncService {
                     StatusResponse.class);
 
             switch (response.getId()) {
-                case "WAITING_SERVER_FILE_IMPORTING":
+                case "WAITING_SERVER_FILE_DOWNLOAD":
+                    phase = ClientSyncPhase.RECEIVING_RESPONSE_FILE;
                     // next step - download response file
                     request.downloadFile("/api/offline/server/sync/response/" + syncToken,
                             authToken.toString(),
@@ -119,7 +121,6 @@ public class ClientSyncService {
                     break;
                 case "IMPORTING_CLIENT_FILE":
                 case "GENERATING_SERVER_FILE":
-                case "WAITING_SERVER_FILE_DOWNLOAD":
                     // wait 700 ms
                     Thread.sleep(700);
                     // check again
@@ -135,6 +136,7 @@ public class ClientSyncService {
     }
 
     private void importFile(File responseFile) {
+        phase = ClientSyncPhase.IMPORTING_RESPONSE_FILE;
         importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
     }
 
@@ -173,9 +175,9 @@ public class ClientSyncService {
         STARTING,
         GENERATING_FILE,
         SENDING_FILE,
-        RECEIVING_FILE,
-        IMPORTING_FILE,
-        FINISHING;
+        WAITING_SERVER,
+        RECEIVING_RESPONSE_FILE,
+        IMPORTING_RESPONSE_FILE;
 
         String getMessageKey() {
             return "init.offinit.phase." + this.name();

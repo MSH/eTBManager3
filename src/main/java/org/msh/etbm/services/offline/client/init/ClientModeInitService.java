@@ -200,7 +200,7 @@ public class ClientModeInitService {
             return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
         }
 
-        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
+        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE) && importer.getPhase() != null) {
             String msg = messages.get("init.offinit.phase." + importer.getPhase().name());
             return new StatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
         }

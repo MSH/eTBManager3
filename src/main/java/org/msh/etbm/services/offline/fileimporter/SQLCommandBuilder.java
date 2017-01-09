@@ -72,10 +72,8 @@ public class SQLCommandBuilder {
         update = update.replace("$TABLENAME", tableName);
 
         for (String field : fields) {
-            if (!"id".equals(field)) {
-                update = update.replace("$FIELD", field);
-                update = update.concat(", $FIELD = ?");
-            }
+            update = update.replace("$FIELD", field);
+            update = update.concat(", $FIELD = ?");
         }
 
         update = update.replace(", $FIELD = ?", "");

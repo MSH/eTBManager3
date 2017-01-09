@@ -42,7 +42,7 @@ public class ServerSyncREST {
     }
 
     @RequestMapping(path = "/sync/response/{token}", method = RequestMethod.GET)
-    public void downloadIniFile(HttpServletResponse resp, String token) throws FileNotFoundException, IOException {
+    public void downloadResponseFile(@PathVariable String token, HttpServletResponse resp) throws FileNotFoundException, IOException {
         // get the file
         File file = serverSyncService.getResponseFile(token);
 

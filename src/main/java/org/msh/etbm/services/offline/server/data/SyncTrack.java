@@ -17,12 +17,16 @@ public class SyncTrack {
     File clientSyncFile;
     File serverSyncFile;
     UUID unitId;
+    UUID workspaceId;
+    UUID userId;
     ServerSyncPhase phase;
 
-    public SyncTrack(String syncToken, File clientSyncFile) {
-        iniDateTime = DateUtils.getDate();
+    public SyncTrack(String syncToken, File clientSyncFile, UUID unitId, UUID workspaceId) {
+        this.iniDateTime = DateUtils.getDate();
         this.syncToken = syncToken;
         this.clientSyncFile = clientSyncFile;
+        this.unitId = unitId;
+        this.workspaceId = workspaceId;
     }
 
     public Date getIniDateTime() {
@@ -67,5 +71,21 @@ public class SyncTrack {
 
     public void setPhase(ServerSyncPhase phase) {
         this.phase = phase;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 }

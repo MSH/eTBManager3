@@ -3,7 +3,6 @@ package org.msh.etbm.services.offline.server;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.offline.server.data.SyncTrack;
 import org.msh.etbm.services.offline.server.sync.ServerSyncPhase;
@@ -38,7 +37,9 @@ public class ServerSyncService {
 
     public StatusResponse startSync(File clientSyncFile) {
         UUID unitId = userRequestService.getUserSession().getUnitId();
-        SyncTrack track = tracker.startTracking(clientSyncFile, unitId);
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+
+        SyncTrack track = tracker.startTracking(clientSyncFile, unitId, workspaceId);
 
         track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
         importer.importFile(clientSyncFile, true, null,
@@ -49,7 +50,7 @@ public class ServerSyncService {
 
     private void afterImporting(SyncTrack track, Integer fileVersion) {
         track.setPhase(ServerSyncPhase.GENERATING_SERVER_FILE);
-        File serverSyncFile = generator.generate(track.getUnitId(), Optional.of(fileVersion)).getFile();
+        File serverSyncFile = generator.generate(track.getUnitId(), track.getWorkspaceId(), track.getUserId(), Optional.of(fileVersion)).getFile();
 
         track.setServerSyncFile(serverSyncFile);
         track.setPhase(ServerSyncPhase.WAITING_SERVER_FILE_DOWNLOAD);
@@ -58,7 +59,7 @@ public class ServerSyncService {
     public File getResponseFile(String syncToken) {
         SyncTrack track = getTrack(syncToken);
 
-        if (ServerSyncPhase.WAITING_SERVER_FILE_IMPORTING.equals(track.getPhase())) {
+        if (ServerSyncPhase.WAITING_SERVER_FILE_DOWNLOAD.equals(track.getPhase())) {
             track.setPhase(ServerSyncPhase.WAITING_SERVER_FILE_IMPORTING);
             return track.getServerSyncFile();
         }

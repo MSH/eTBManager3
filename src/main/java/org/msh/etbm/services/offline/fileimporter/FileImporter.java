@@ -74,24 +74,25 @@ public class FileImporter {
             JsonFactory factory = new MappingJsonFactory();
             JsonParser parser = factory.createParser(fileStream);
 
-            // start importing
+            // do importing
             try {
                 fileVersion = importData(parser, parentServerUrl);
+
+                // update the relation of all auto generated tags
+                phase = FileImportingPhase.UPDATING_TAGS;
+                autoGenTagsCasesService.updateAllCaseTags();
+
+                // notify service that importing has end
+                listener.afterImport(file, fileVersion);
             } finally {
                 // close parser
                 parser.close();
             }
 
-            // update the relation of all auto generated tags
-            phase = FileImportingPhase.UPDATING_TAGS;
-            autoGenTagsCasesService.updateAllCaseTags();
-
         } catch (Throwable e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
-            // notify service that importing has end
-            listener.afterImport(file, fileVersion);
-
             // indicates that importer is not running anymore
             phase = null;
         }

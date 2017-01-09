@@ -145,13 +145,19 @@ public class RecordImporter {
      * @return array of objects converted from JSON to database format
      */
     private Object[] getParams(Map<String, Object> record, boolean isUpdate) {
-        // When it is an update command, id must be the last param
+        // When it is an update command, id must be the first and last param
         if (isUpdate) {
-            Object id = record.remove("id");
+            Object id = record.get("id");
+
+            if (id == null) {
+                id = record.get("ID");
+            }
+
             if (id == null) {
                 throw new SynchronizationException("Param id must not be null");
             }
-            record.put("id", id);
+
+            record.put("whereId", id);
         }
 
         Object[] ret = new Object[record.size()];
@@ -172,6 +178,10 @@ public class RecordImporter {
      */
     private Object getIdParam(Map<String, Object> record) {
         Object id = record.get("id");
+
+        if (id == null) {
+            id = record.get("ID");
+        }
 
         if (id == null) {
             return null;

@@ -9,6 +9,10 @@ public class StatusResponse {
     private String title;
     private String token;
 
+    public StatusResponse() {
+        super();
+    }
+
     public StatusResponse(String id, String title) {
         this.id = id;
         this.title = title;

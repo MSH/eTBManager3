@@ -56,7 +56,7 @@ public class ServerFileGenerator {
      * @return the generated file
      * @throws SynchronizationException
      */
-    public SynchronizationResponse generate(UUID unitId, Optional<Integer> initialVersion) throws SynchronizationException {
+    public SynchronizationResponse generate(UUID unitId, UUID workspaceId, UUID userId, Optional<Integer> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -67,14 +67,14 @@ public class ServerFileGenerator {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(unitId, generator, initialVersion);
+                generateJsonContent(unitId, workspaceId, generator, initialVersion);
             } finally {
                 generator.close();
                 zipOut.close();
                 fout.close();
             }
 
-            return createResponse(file);
+            return createResponse(file, unitId, workspaceId, userId);
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
@@ -87,12 +87,12 @@ public class ServerFileGenerator {
      * @param file
      * @return
      */
-    private SynchronizationResponse createResponse(File file) {
+    private SynchronizationResponse createResponse(File file, UUID unitId, UUID workspaceId, UUID userId) {
         SynchronizationResponse resp = new SynchronizationResponse();
         resp.setFile(file);
-        resp.setUnitId(userRequestService.getUserSession().getUnitId());
-        resp.setUserId(userRequestService.getUserSession().getUserId());
-        resp.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
+        resp.setUnitId(unitId);
+        resp.setUserId(userId);
+        resp.setWorkspaceId(workspaceId);
         return resp;
     }
 
@@ -103,16 +103,16 @@ public class ServerFileGenerator {
      * @param initialVersion The initial version to generate content from
      * @throws IOException
      */
-    protected void generateJsonContent(UUID unitId, JsonGenerator generator,
+    protected void generateJsonContent(UUID unitId, UUID workspaceId, JsonGenerator generator,
                                        Optional<Integer> initialVersion) throws IOException {
 
         long finalVersion = getCurrentVersion();
 
-        Unit unit = entityManager.find(Unit.class, unitId);
+        Workspace workspace = entityManager.find(Workspace.class, workspaceId);
 
         // get the list of tables to query
-        ServerTableQueryList queries = new ServerTableQueryList(unit.getWorkspace().getId(),
-                unit.getId(),
+        ServerTableQueryList queries = new ServerTableQueryList(workspaceId,
+                unitId,
                 initialVersion,
                 finalVersion);
 
@@ -124,7 +124,7 @@ public class ServerFileGenerator {
 
         // write information about the workspace
         generator.writeFieldName("workspace");
-        writeWorkspace(unit.getWorkspace(), generator);
+        writeWorkspace(workspace, generator);
 
         // write the configuration
         generator.writeFieldName("config");

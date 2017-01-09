@@ -31,9 +31,11 @@ public class ServerInitREST {
     @RequestMapping(path = "/inifile", method = RequestMethod.GET)
     public void downloadIniFile(HttpServletResponse resp) throws FileNotFoundException, IOException {
         UUID unitId = userRequestService.getUserSession().getUnitId();
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+        UUID userId = userRequestService.getUserSession().getUserId();
 
         // generate the file content
-        File file = syncFileService.generate(unitId, Optional.empty()).getFile();
+        File file = syncFileService.generate(unitId, workspaceId, userId, Optional.empty()).getFile();
 
         // generate the file name
         String filename = userRequestService.getUserSession().getWorkspaceName() + ".etbm";
