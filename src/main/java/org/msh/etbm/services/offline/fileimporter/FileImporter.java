@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -101,6 +102,8 @@ public class FileImporter {
     /**
      * Runs the sync file calling the correct method that will persist the database changes.
      * @param parser
+     * @param parentServerUrl the server url to set on config, if null will be ignored
+     * @return the file version
      * @throws IOException
      */
     private Integer importData(JsonParser parser, String parentServerUrl) throws IOException {
@@ -112,6 +115,7 @@ public class FileImporter {
         phase =  FileImportingPhase.IMPORTING_TABLES;
 
         Integer fileVersion = null;
+        UUID syncUnitId = null;
 
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             // get field name that is being read
@@ -123,7 +127,13 @@ public class FileImporter {
             switch (fieldName) {
                 case "version":
                     importingTable = "version";
-                    fileVersion = getVersion(parser);
+                    JsonNode versionNode = parser.readValueAsTree();
+                    fileVersion = versionNode.asInt();
+                    break;
+                case "sync-unit-id":
+                    importingTable = "sync-unit-id";
+                    JsonNode unitIdNode = parser.readValueAsTree();
+                    syncUnitId = (UUID) CompactibleJsonConverter.convertFromJson(unitIdNode.asText());
                     break;
                 case "workspace":
                     importingTable = "workspace";
@@ -131,7 +141,7 @@ public class FileImporter {
                     break;
                 case "config":
                     importingTable = "systemconfig";
-                    importConfig(parser, fileVersion, parentServerUrl);
+                    importConfig(parser, fileVersion, parentServerUrl, syncUnitId);
                     break;
                 case "tables":
                     importTables(parser);
@@ -142,7 +152,7 @@ public class FileImporter {
         }
 
         // update database setting all records as synched when importer is working on a client mode instance
-        // if it is a server intance, synched parameter doesn't matter
+        // if it is a server instance, synched parameter doesn't matter
         if (sysConfigService.loadConfig().isClientMode()) {
             db.setAllAsSynched();
         }
@@ -151,19 +161,8 @@ public class FileImporter {
     }
 
     /**
-     * Returns the version from sync file.
-     * @param parser
-     * @return the version from sync file
-     * @throws IOException
-     */
-    private Integer getVersion(JsonParser parser) throws IOException {
-        JsonNode node = parser.readValueAsTree();
-
-        return node.asInt();
-    }
-
-    /**
-     * Convert and insert or update the workspace on database.
+     * Convert and insert or update the workspace on client instance database.
+     * Must not run on server instance database as the file sent by client instance doesn't have workspace field.
      * @param parser
      * @throws IOException
      */
@@ -182,12 +181,13 @@ public class FileImporter {
     }
 
     /**
-     * Convert and insert or update the system config on database.
+     * Convert and insert or update the system config only client instance database.
+     * Must not run on server instance database as the file sent by client instance doesn't have config field.
      * @param parser
      * @param fileVersion
      * @throws IOException
      */
-    private void importConfig(JsonParser parser, Integer fileVersion, String parentServerUrl) throws IOException {
+    private void importConfig(JsonParser parser, Integer fileVersion, String parentServerUrl, UUID syncUnitId) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -198,6 +198,8 @@ public class FileImporter {
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         cmap.put("version", fileVersion);
+        cmap.put("SYNC_UNIT_ID", syncUnitId);
+
         // avoid setting serverURL to null when synchronizing
         if (parentServerUrl == null) {
             cmap.remove("serverURL");

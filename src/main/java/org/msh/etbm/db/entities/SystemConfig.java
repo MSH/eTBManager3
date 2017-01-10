@@ -1,6 +1,7 @@
 package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Store e-TB Manager configuration information. Id is always = 1
@@ -55,15 +56,25 @@ public class SystemConfig {
     private boolean clientMode;
 
     /**
+     * ONLY FOR CLIENT INSTANCE OF ETB-MANAGER
      * The URL of the server instance
      */
     @Column(length = 250)
     private String serverURL;
 
     /**
+     * ONLY FOR CLIENT INSTANCE OF ETB-MANAGER
      * The last sync file version imported by a client mode instance
      */
     private Integer version;
+
+    /**
+     * ONLY FOR CLIENT INSTANCE OF ETB-MANAGER
+     * The unit id of synchronized unit
+     */
+    @ManyToOne
+    @JoinColumn(name = "SYNC_UNIT_ID")
+    private Unit syncUnit;
 
     /**
      * @return the id
@@ -204,5 +215,13 @@ public class SystemConfig {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public Unit getSyncUnit() {
+        return syncUnit;
+    }
+
+    public void setSyncUnit(Unit syncUnit) {
+        this.syncUnit = syncUnit;
     }
 }

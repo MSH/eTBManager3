@@ -122,6 +122,9 @@ public class ServerFileGenerator {
         // write reference version
         generator.writeObjectField("version", finalVersion);
 
+        // write reference unit id
+        generator.writeObjectField("sync-unit-id", CompactibleJsonConverter.convertToJson(unitId));
+
         // write information about the workspace
         generator.writeFieldName("workspace");
         writeWorkspace(workspace, generator);
