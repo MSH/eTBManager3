@@ -92,7 +92,7 @@ public class LoginService {
         // no workspace was defined ?
         if (workspaceId == null) {
             // authenticate user and password
-            List<User> lst = entityManager.createQuery("from User u where u.login = :login " +
+            List<User> lst = entityManager.createQuery("from User u where upper(u.login) = :login " +
                     "and upper(u.password) = :pwd and u.active = true")
                     .setParameter("login", username.toUpperCase())
                     .setParameter("pwd", pwdhash.toUpperCase())

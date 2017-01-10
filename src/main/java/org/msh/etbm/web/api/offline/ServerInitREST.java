@@ -1,7 +1,7 @@
-package org.msh.etbm.web.api.sync;
+package org.msh.etbm.web.api.offline;
 
 import org.apache.commons.compress.utils.IOUtils;
-import org.msh.etbm.services.offline.server.SyncFileService;
+import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +18,12 @@ import java.util.UUID;
  * Created by rmemoria on 23/11/16.
  */
 @RestController
-@RequestMapping(path = "/api/sync")
+@RequestMapping(path = "/api/offline/server")
 @Authenticated
-public class ServerSyncREST {
+public class ServerInitREST {
 
     @Autowired
-    SyncFileService syncFileService;
+    ServerFileGenerator syncFileService;
 
     @Autowired
     UserRequestService userRequestService;
@@ -31,9 +31,11 @@ public class ServerSyncREST {
     @RequestMapping(path = "/inifile", method = RequestMethod.GET)
     public void downloadIniFile(HttpServletResponse resp) throws FileNotFoundException, IOException {
         UUID unitId = userRequestService.getUserSession().getUnitId();
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+        UUID userId = userRequestService.getUserSession().getUserId();
 
         // generate the file content
-        File file = syncFileService.generate(unitId, Optional.empty()).getFile();
+        File file = syncFileService.generate(unitId, workspaceId, userId, Optional.empty()).getFile();
 
         // generate the file name
         String filename = userRequestService.getUserSession().getWorkspaceName() + ".etbm";

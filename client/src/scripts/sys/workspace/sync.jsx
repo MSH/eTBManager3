@@ -27,31 +27,47 @@ export default class Sync extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { phase: this.checkInitialPhase() };
         this.renderContent = this.renderContent.bind(this);
         this.startSync = this.startSync.bind(this);
-        this.mockSuccess = this.mockSuccess.bind(this);
+        this.checkStatusUntilFinish = this.checkStatusUntilFinish.bind(this);
     }
 
-    checkInitialPhase() {
-        // TODO: check the phase as the component loads
-        return NOTRUNNING;
+    componentWillMount() {
+        this.setState({ checking: true });
+
+        server.get('/api/offline/client/sync/status')
+        .then(res => {
+            if (res.id !== 'NOT_RUNNING') {
+                // update phase
+                this.setState({ phase: res });
+                // schedule next status checking
+                setTimeout(this.checkStatusUntilFinish, 800);
+            }
+
+            this.setState({ checking: false });
+            return res;
+        });
     }
 
-    renderContent() {
-        switch (this.state.phase) {
-            case NOTRUNNING:
-                return this.renderNotRunning();
-            case GENERATINGFILE:
-            case SENDINGFILE:
-            case RECEIVINGFILE:
-            case IMPORTINGFILE:
-                return this.renderInProgress();
-            case SUCCESS:
-                return this.renderSuccess();
-            default:
-                return null;
-        }
+    /**
+     * Check initialization status until it finishes
+     * @return {[type]} [description]
+     */
+    checkStatusUntilFinish() {
+        this.clearAllIntervals();
+
+        server.get('/api/offline/client/sync/status')
+        .then(res => {
+            if (res.id !== 'NOT_RUNNING') {
+                // update phase
+                this.setState({ phase: res });
+                // schedule next status checking
+                setTimeout(this.checkStatusUntilFinish, 800);
+            } else {
+                // initialization has finished
+                this.setState({ phase: undefined, success: true  });
+            }
+        });
     }
 
     startSync() {
@@ -70,15 +86,9 @@ export default class Sync extends React.Component {
 
         const req = vals.value;
 
-        server.post('/api/offline/sync/synchronize', req)
+        server.post('/api/offline/client/sync/synchronize', req)
         .then(res => {
-            if (!res.success) {
-                this.setState({ globalMsgs: res.errors, fetching: false });
-                return null;
-            }
-
-            this.setState({ phase: GENERATINGFILE });
-            setTimeout(this.mockSuccess, 1000);
+            setTimeout(this.checkStatusUntilFinish, 800);
 
             return res;
         })
@@ -86,11 +96,6 @@ export default class Sync extends React.Component {
             this.setState({ fetching: false });
             return Promise.reject(err);
         });
-    }
-
-    mockSuccess() {
-        this.setState({ phase: SUCCESS });
-        this.clearAllIntervals();
     }
 
     /**
@@ -103,6 +108,46 @@ export default class Sync extends React.Component {
         for (var i = 0; i <= id; i++) {
             clearInterval(i);
         }
+    }
+
+    renderContent() {
+        if (this.state.checking) {
+            return this.renderChecking();
+        }
+
+        if (this.state.success) {
+            return this.renderSuccess();
+        }
+
+        if (!this.state.phase) {
+            return this.renderNotRunning();
+        }
+
+        if (this.state.phase) {
+            return this.renderInProgress();
+        }
+
+        return null;
+    }
+
+    renderChecking() {
+        return (
+            <div>
+                <Row>
+                    <Col sm={12}>
+                        <h4 className="text-center">{__('global.pleasewait')}</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <WaitIcon type="card" />
+                    </Col>
+                    <Col sm={12}>
+                        <span className="text-muted">{__('global.pleasewait')}</span>
+                    </Col>
+                </Row>
+            </div>
+            );
     }
 
     renderNotRunning() {
@@ -137,7 +182,7 @@ export default class Sync extends React.Component {
         return (<div>
                     <Row>
                         <Col sm={12}>
-                            <h4 className="text-center">{this.state.phase}</h4>
+                            <h4 className="text-center">{this.state.phase.id}</h4>
                         </Col>
                     </Row>
                     <Row>

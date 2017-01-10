@@ -17,7 +17,7 @@ public enum FollowUpType implements MessageKey {
             Permissions.CASES_EXAM_MICROSCOPY),
 
     EXAM_CULTURE("ExamCulture",
-            "org.msh.etbm.services.cases.followup.examcul.ExamCulData",
+            "org.msh.etbm.services.cases.followup.examculture.ExamCulData",
             Permissions.CASES_EXAM_CULTURE),
 
     EXAM_XPERT("ExamXpert",

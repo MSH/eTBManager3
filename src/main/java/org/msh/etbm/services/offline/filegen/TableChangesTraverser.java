@@ -1,8 +1,6 @@
-package org.msh.etbm.services.offline.query;
+package org.msh.etbm.services.offline.filegen;
 
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.services.offline.server.DeletedRecordTraverseListener;
-import org.msh.etbm.services.offline.server.RecordTraverseListener;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
@@ -46,7 +44,7 @@ public class TableChangesTraverser {
         return this;
     }
 
-    public TableChangesTraverser eachDeleted(Optional<Long> version, DeletedRecordTraverseListener trav) {
+    public TableChangesTraverser eachDeleted(Optional<Integer> version, DeletedRecordTraverseListener trav) {
         // if there is no initial version, so all records will be sent using eachNew
         if (!version.isPresent()) {
             return this;

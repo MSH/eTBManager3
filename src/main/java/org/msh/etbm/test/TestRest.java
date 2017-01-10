@@ -5,6 +5,7 @@ import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.models.ModelDAOFactory;
+import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.db.entities.Laboratory;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Unit;
@@ -16,7 +17,6 @@ import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
-import org.msh.etbm.services.offline.server.SyncFileService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -62,7 +62,7 @@ public class TestRest {
     CaseIndicatorsService caseIndicatorsService;
 
     @Autowired
-    SyncFileService syncFileGenerator;
+    ServerFileGenerator syncFileGenerator;
 
     @Autowired
     UserRequestService userRequestService;
@@ -157,9 +157,10 @@ public class TestRest {
     @Authenticated
     public StandardResult generateSyncFile() throws IOException {
         UUID unitId = userRequestService.getUserSession().getUnitId();
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+        UUID userId = userRequestService.getUserSession().getUserId();
 
-        File file = syncFileGenerator.generate(unitId, Optional.empty()).getFile();
-        System.out.println(file);
+        File file = syncFileGenerator.generate(unitId, workspaceId, userId, Optional.empty()).getFile();
 
         return new StandardResult(file.toString(), null, true);
     }

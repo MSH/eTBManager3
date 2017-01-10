@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.List;
 
 /**
  * Component to request the Parent Server of an off-line mode instance.
@@ -40,7 +41,7 @@ public class ParentServerRequestService {
      * @return
      */
     public <T> T post(String serverUrl, String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
-        HttpURLConnection conn = getPostConnection(serverUrl, serviceUrl, authToken);
+        HttpURLConnection conn = getConnection("POST", serverUrl, serviceUrl, authToken);
         Object ret = null;
 
         try {
@@ -85,8 +86,35 @@ public class ParentServerRequestService {
      * @return
      */
     public <T> T post(String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
-        String serverUrl = configService.loadConfig().getServerURL();
-        return this.post(serverUrl, serviceUrl, authToken, payLoad, javaType, classType);
+        return this.post(getServerURL(), serviceUrl, authToken, payLoad, javaType, classType);
+    }
+
+    public <T> T get(String serviceUrl, String authToken, JavaType javaType, Class<T> classType) {
+        String serverUrl = getServerURL();
+
+        HttpURLConnection conn = getConnection("GET", serverUrl, serviceUrl, authToken);
+        Object ret = null;
+
+        try {
+            checkHttpCode(conn.getResponseCode());
+
+            if (javaType != null) {
+                ret = JsonUtils.parse(conn.getInputStream(), javaType);
+            } else if (classType != null) {
+                ret = JsonUtils.parse(conn.getInputStream(), classType);
+            } else {
+                throw new SynchronizationException("Must inform javaType or classType param");
+            }
+
+        } catch (UnknownHostException e) {
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.error1");
+        } catch (IOException e) {
+            throw new SynchronizationException("Error while requesting parent server");
+        } finally {
+            conn.disconnect();
+        }
+
+        return (T) ret;
     }
 
     /**
@@ -140,14 +168,20 @@ public class ParentServerRequestService {
         listener.afterDownload(file);
     }
 
+    @Async
+    public void downloadFile(String serviceUrl, String authToken, FileDownloadListener listener) {
+        this.downloadFile(getServerURL(), serviceUrl, authToken, listener);
+    }
+
     /**
-     * Creates a POST connection
+     * Creates a HttpURLConnection connection
+     * @param requestMethod
      * @param serverUrl
      * @param serviceUrl
      * @param authToken
      * @return
      */
-    private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken) {
+    private HttpURLConnection getConnection(String requestMethod, String serverUrl, String serviceUrl, String authToken) {
         HttpURLConnection conn = null;
 
         try {
@@ -158,7 +192,7 @@ public class ParentServerRequestService {
 
                 // Configure Request
                 conn.setDoOutput(true);
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod(requestMethod);
                 conn.setRequestProperty("Content-Type", "application/json");
                 if (authToken != null && !authToken.isEmpty()) {
                     conn.setRequestProperty("X-Auth-Token", authToken);
@@ -208,5 +242,9 @@ public class ParentServerRequestService {
                     throw new SynchronizationException("Failed to request parent server: HTTP error code " + responseCode);
             }
         }
+    }
+
+    private String getServerURL() {
+        return configService.loadConfig().getServerURL();
     }
 }

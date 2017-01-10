@@ -7,18 +7,15 @@ import org.msh.etbm.commons.commands.CommandLog;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.msh.etbm.services.offline.*;
+import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
+import org.msh.etbm.services.offline.filegen.TableQueryItem;
+import org.msh.etbm.services.offline.filegen.TableQueryList;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
-import org.msh.etbm.services.offline.CompactibleJsonConverter;
-import org.msh.etbm.services.offline.SyncCmdLogHandler;
-import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.SynchronizationResponse;
-import org.msh.etbm.services.offline.query.TableChangesTraverser;
-import org.msh.etbm.services.offline.query.TableQueryItem;
-import org.msh.etbm.services.offline.query.TableQueryList;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -29,10 +26,7 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -41,7 +35,7 @@ import java.util.zip.GZIPOutputStream;
  * Created by rmemoria on 8/11/16.
  */
 @Service
-public class SyncFileService {
+public class ServerFileGenerator {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -62,8 +56,7 @@ public class SyncFileService {
      * @return the generated file
      * @throws SynchronizationException
      */
-    @CommandLog(type = CommandTypes.OFFLINE_SERVERINIT, handler = SyncCmdLogHandler.class)
-    public SynchronizationResponse generate(UUID unitId, Optional<Long> initialVersion) throws SynchronizationException {
+    public SynchronizationResponse generate(UUID unitId, UUID workspaceId, UUID userId, Optional<Integer> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -74,14 +67,14 @@ public class SyncFileService {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(unitId, generator, initialVersion);
+                generateJsonContent(unitId, workspaceId, generator, initialVersion);
             } finally {
                 generator.close();
                 zipOut.close();
                 fout.close();
             }
 
-            return createResponse(file);
+            return createResponse(file, unitId, workspaceId, userId);
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
@@ -94,12 +87,12 @@ public class SyncFileService {
      * @param file
      * @return
      */
-    private SynchronizationResponse createResponse(File file) {
+    private SynchronizationResponse createResponse(File file, UUID unitId, UUID workspaceId, UUID userId) {
         SynchronizationResponse resp = new SynchronizationResponse();
         resp.setFile(file);
-        resp.setUnitId(userRequestService.getUserSession().getUnitId());
-        resp.setUserId(userRequestService.getUserSession().getUserId());
-        resp.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
+        resp.setUnitId(unitId);
+        resp.setUserId(userId);
+        resp.setWorkspaceId(workspaceId);
         return resp;
     }
 
@@ -110,16 +103,16 @@ public class SyncFileService {
      * @param initialVersion The initial version to generate content from
      * @throws IOException
      */
-    protected void generateJsonContent(UUID unitId, JsonGenerator generator,
-                                       Optional<Long> initialVersion) throws IOException {
+    protected void generateJsonContent(UUID unitId, UUID workspaceId, JsonGenerator generator,
+                                       Optional<Integer> initialVersion) throws IOException {
 
         long finalVersion = getCurrentVersion();
 
-        Unit unit = entityManager.find(Unit.class, unitId);
+        Workspace workspace = entityManager.find(Workspace.class, workspaceId);
 
         // get the list of tables to query
-        ServerTableQueryList queries = new ServerTableQueryList(unit.getWorkspace().getId(),
-                unit.getId(),
+        ServerTableQueryList queries = new ServerTableQueryList(workspaceId,
+                unitId,
                 initialVersion,
                 finalVersion);
 
@@ -131,7 +124,7 @@ public class SyncFileService {
 
         // write information about the workspace
         generator.writeFieldName("workspace");
-        writeWorkspace(unit.getWorkspace(), generator);
+        writeWorkspace(workspace, generator);
 
         // write the configuration
         generator.writeFieldName("config");
@@ -206,7 +199,7 @@ public class SyncFileService {
      * @throws IOException
      */
     protected void writeTables(TableQueryList queries, JsonGenerator generator,
-                               Optional<Long> initialVersion) throws IOException {
+                               Optional<Integer> initialVersion) throws IOException {
         // start the array (main)
         generator.writeStartArray();
 

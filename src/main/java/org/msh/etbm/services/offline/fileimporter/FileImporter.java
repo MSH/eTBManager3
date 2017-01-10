@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.importer;
+package org.msh.etbm.services.offline.fileimporter;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -6,19 +6,17 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.init.FileImportListener;
 import org.msh.etbm.services.session.search.SearchableCreator;
+import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -37,6 +35,9 @@ public class FileImporter {
     @Autowired
     SearchableCreator searchableCreator;
 
+    @Autowired
+    SysConfigService sysConfigService;
+
     /**
      * If null importer is not running
      */
@@ -52,15 +53,15 @@ public class FileImporter {
      * @param file
      * @param compressed
      * @param parentServerUrl
-     * @param initializing if true indicates that is importing an initialization file, if not, it is a synchronization file.
      */
     @Async
-    public void importFile(File file, boolean compressed, String parentServerUrl, boolean initializing, FileImportListener listener) {
+    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) {
         if (phase != null) {
             throw new SynchronizationException("Importer is already running");
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
+        Integer fileVersion = null;
 
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -73,24 +74,25 @@ public class FileImporter {
             JsonFactory factory = new MappingJsonFactory();
             JsonParser parser = factory.createParser(fileStream);
 
-            // start importing
+            // do importing
             try {
-                importData(parser, parentServerUrl);
+                fileVersion = importData(parser, parentServerUrl);
+
+                // update the relation of all auto generated tags
+                phase = FileImportingPhase.UPDATING_TAGS;
+                autoGenTagsCasesService.updateAllCaseTags();
+
+                // notify service that importing has end
+                listener.afterImport(file, fileVersion);
             } finally {
                 // close parser
                 parser.close();
             }
 
-            // update the relation of all auto generated tags
-            phase = FileImportingPhase.UPDATING_TAGS;
-            autoGenTagsCasesService.updateAllCaseTags();
-
         } catch (Throwable e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
-            // notify service that importing has end
-            listener.afterImport(file);
-
             // indicates that importer is not running anymore
             phase = null;
         }
@@ -101,7 +103,7 @@ public class FileImporter {
      * @param parser
      * @throws IOException
      */
-    private void importData(JsonParser parser, String parentServerUrl) throws IOException {
+    private Integer importData(JsonParser parser, String parentServerUrl) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
             throw new SynchronizationException("Root should be object");
@@ -109,14 +111,14 @@ public class FileImporter {
 
         phase =  FileImportingPhase.IMPORTING_TABLES;
 
+        Integer fileVersion = null;
+
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             // get field name that is being read
             String fieldName = parser.getCurrentName();
 
             // move from field name to field value
             parser.nextToken();
-
-            Integer fileVersion = null;
 
             switch (fieldName) {
                 case "version":
@@ -138,6 +140,14 @@ public class FileImporter {
                     throw new SynchronizationException("Unprocessed field: " + fieldName);
             }
         }
+
+        // update database setting all records as synched when importer is working on a client mode instance
+        // if it is a server intance, synched parameter doesn't matter
+        if (sysConfigService.loadConfig().isClientMode()) {
+            db.setAllAsSynched();
+        }
+
+        return fileVersion;
     }
 
     /**

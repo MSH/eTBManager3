@@ -4,25 +4,25 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.query.TableChangesTraverser;
-import org.msh.etbm.services.offline.query.TableQueryItem;
-import org.msh.etbm.services.offline.query.TableQueryList;
-import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.services.offline.client.sync.listeners.SyncFileGeneratorListener;
+import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
+import org.msh.etbm.services.offline.filegen.TableQueryItem;
+import org.msh.etbm.services.offline.filegen.TableQueryList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
@@ -34,25 +34,19 @@ import java.util.zip.GZIPOutputStream;
 @Service
 public class ClientSyncFileGenerator {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
     @Autowired
     DataSource dataSource;
 
     @Autowired
     SysConfigService sysConfigService;
 
-    @Autowired
-    UserRequestService userRequestService;
-
     /**
      * Generate a synchronization file from the client side
-     * @param unitId the ID of the unit to generate the file to
      * @return the generated file
      * @throws SynchronizationException
      */
-    public File generate(UUID unitId) throws SynchronizationException {
+    @Async
+    public void generate(UUID unitId, UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -63,36 +57,32 @@ public class ClientSyncFileGenerator {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(unitId, generator);
+                generateJsonContent(generator, unitId, workspaceId);
             } finally {
                 generator.close();
                 zipOut.close();
                 fout.close();
             }
 
-            return file;
+            listener.afterGenerate(file);
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
-
     }
 
     /**
      * Generate the content of the sync file in JSON format
-     * @param unitId the ID of the unit
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void generateJsonContent(UUID unitId, JsonGenerator generator) throws IOException {
+    protected void generateJsonContent(JsonGenerator generator, UUID unitId, UUID workspaceId) throws IOException {
 
-        long version = sysConfigService.loadConfig().getVersion();
-
-        Unit unit = entityManager.find(Unit.class, unitId);
+        SysConfigData data = sysConfigService.loadConfig();
+        long version = data.getVersion();
 
         // get the list of tables to query
-        ClientTableQueryList queries = new ClientTableQueryList(unit.getWorkspace().getId(),
-                unit.getId());
+        ClientTableQueryList queries = new ClientTableQueryList(workspaceId, unitId);
 
         // start the file with an object
         generator.writeStartObject();
@@ -139,15 +129,15 @@ public class ClientSyncFileGenerator {
             trav.eachRecord((rec, index) -> generateJsonObject(generator, rec, item.getIgnoreList()));
             generator.writeEndArray();
 
-            /* TODO
+            //TODO: block bellow is not implemented
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(initialVersion, id -> {
+            trav.eachDeleted(Optional.empty(), id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });
-            generator.writeEndArray();*/
+            generator.writeEndArray();
 
             generator.writeEndObject();
         }

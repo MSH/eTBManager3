@@ -3,20 +3,15 @@ package org.msh.etbm.services.offline.client.init;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.Workspace;
-import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
-import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
-import org.msh.etbm.services.offline.client.data.ServerStatusResponse;
-import org.msh.etbm.services.offline.importer.FileImporter;
+import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +48,8 @@ public class ClientModeInitService {
      */
     private ClientModeInitPhase phase;
 
+    private ServerCredentialsData credentials;
+
     /**
      * Returns all workspaces attached to the user that matches with credentials on param.
      * @param data
@@ -63,7 +60,9 @@ public class ClientModeInitService {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
-        String serverAddress = checkServerAddress(data.getParentServerUrl());
+        // todo: COMENTADO TEMPORARIAMENTE
+        //String serverAddress = checkServerAddress(data.getParentServerUrl());
+        String serverAddress = "http://localhost:8081";
 
         TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
@@ -81,7 +80,7 @@ public class ClientModeInitService {
      * Download and import init file.
      * @param data
      */
-    public ServerStatusResponse initialize(ServerCredentialsData data) {
+    public StatusResponse initialize(ServerCredentialsData data) {
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
@@ -92,7 +91,9 @@ public class ClientModeInitService {
 
         phase = ClientModeInitPhase.STARTING;
 
-        String serverAddress = checkServerAddress(data.getParentServerUrl());
+        // todo: COMENTADO TEMPORARIAMENTE
+        //String serverAddress = checkServerAddress(data.getParentServerUrl());
+        String serverAddress = "http://localhost:8081";
 
         // Login into remote server
         LoginResponse loginRes = request.post(serverAddress,
@@ -104,10 +105,11 @@ public class ClientModeInitService {
 
         // Asynchronously download and import file
         phase = ClientModeInitPhase.DOWNLOADING_FILE;
+        credentials = data;
         request.downloadFile(serverAddress,
-                "/api/sync/inifile/",
+                "/api/offline/server/inifile",
                 loginRes.getAuthToken().toString(),
-            downloadedFile -> importFile(data, downloadedFile, serverAddress));
+            downloadedFile -> importFile(downloadedFile, serverAddress));
 
         return getStatus();
     }
@@ -118,17 +120,17 @@ public class ClientModeInitService {
      * @param file
      * @param serverAddress
      */
-    private void importFile(ServerCredentialsData data, File file, String serverAddress) {
+    private void importFile(File file, String serverAddress) {
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
-        importer.importFile(file, true, serverAddress, true, importedFile -> afterImporting(data, importedFile));
+        importer.importFile(file, true, serverAddress, (importedFile, fileVersion) -> afterImporting(importedFile));
     }
 
     /**
      * Called after importing file
      * @param importedFile
      */
-    private void afterImporting(ServerCredentialsData data, File importedFile) {
+    private void afterImporting(File importedFile) {
         // delete the file
         if (importedFile != null) {
             importedFile.delete();
@@ -139,7 +141,7 @@ public class ClientModeInitService {
 
         // register commandlog
         Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
-                .setParameter("login", data.getUsername())
+                .setParameter("login", credentials.getUsername())
                 .getSingleResult();
 
         CommandHistoryInput in = new CommandHistoryInput();
@@ -193,14 +195,14 @@ public class ClientModeInitService {
      * Return the initialization status now
      * @return
      */
-    public ServerStatusResponse getStatus() {
+    public StatusResponse getStatus() {
         if (phase == null) {
             return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
         }
 
-        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
+        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE) && importer.getPhase() != null) {
             String msg = messages.get("init.offinit.phase." + importer.getPhase().name());
-            return new ServerStatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
+            return new StatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
         }
 
         return getStatusResponse(phase);
@@ -211,8 +213,8 @@ public class ClientModeInitService {
      * @param phase
      * @return
      */
-    private ServerStatusResponse getStatusResponse(ClientModeInitPhase phase) {
-        return new ServerStatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+    private StatusResponse getStatusResponse(ClientModeInitPhase phase) {
+        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
     /**

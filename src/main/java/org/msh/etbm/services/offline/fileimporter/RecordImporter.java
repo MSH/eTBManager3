@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.importer;
+package org.msh.etbm.services.offline.fileimporter;
 
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
@@ -29,6 +29,12 @@ public class RecordImporter {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    private String[] SYNC_TABLES = {"countrystructure", "administrativeunit", "unit", "substance", "source", "product",
+            "agerange", "regimen", "tag", "sys_user", "userprofile", "userworkspace", "report", "patient", "tbcase",
+            "examculture", "exammicroscopy", "examhiv", "examdst", "examxpert", "examxray", "treatmenthealthunit",
+            "prescribedmedicine", "prevtbtreatment", "casecontact", "casesideeffect", "medicalexamination", "casecomorbidities",
+            "casecomment", "issue", "issuefollowup", "treatmentmonitoring"};
 
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.
@@ -139,13 +145,19 @@ public class RecordImporter {
      * @return array of objects converted from JSON to database format
      */
     private Object[] getParams(Map<String, Object> record, boolean isUpdate) {
-        // When it is an update command, id must be the last param
+        // When it is an update command, id must be the first and last param
         if (isUpdate) {
-            Object id = record.remove("id");
+            Object id = record.get("id");
+
+            if (id == null) {
+                id = record.get("ID");
+            }
+
             if (id == null) {
                 throw new SynchronizationException("Param id must not be null");
             }
-            record.put("id", id);
+
+            record.put("whereId", id);
         }
 
         Object[] ret = new Object[record.size()];
@@ -168,9 +180,34 @@ public class RecordImporter {
         Object id = record.get("id");
 
         if (id == null) {
+            id = record.get("ID");
+        }
+
+        if (id == null) {
             return null;
         }
 
         return CompactibleJsonConverter.convertFromJson(id);
+    }
+
+    /**
+     * Sets all synchronizable records as synched
+     */
+    public void setAllAsSynched() {
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+        // Because of the triggers logic, to set as synched has to set as null, the trigger then will set as true
+        String defaultQuery = "update $tableName set synched = null";
+
+        //set all as synched
+        for (String tableName : SYNC_TABLES) {
+            String query = defaultQuery.replace("$tableName", tableName);
+
+            txManager.execute(status -> {
+                template.update(query);
+                return 0;
+            });
+        }
     }
 }
