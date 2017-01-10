@@ -198,8 +198,10 @@ public class FileImporter {
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         cmap.put("version", fileVersion);
-        // avoid setting it to null when synchronizing
-        if (parentServerUrl != null) {
+        // avoid setting serverURL to null when synchronizing
+        if (parentServerUrl == null) {
+            cmap.remove("serverURL");
+        } else {
             cmap.put("serverURL", CompactibleJsonConverter.convertToJson(parentServerUrl));
         }
 

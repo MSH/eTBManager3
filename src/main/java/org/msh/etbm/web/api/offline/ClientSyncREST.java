@@ -4,6 +4,7 @@ import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.client.sync.ClientSyncService;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @RestController
 @RequestMapping("/api/offline/client")
-@Authenticated
+@Authenticated(instanceType = InstanceType.CLIENT_MODE)
 public class ClientSyncREST {
 
     @Autowired

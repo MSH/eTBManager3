@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.authentication;
 
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.msh.etbm.services.session.usersession.UserSessionService;
@@ -35,6 +36,9 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     UserRequestService userRequestService;
 
+    @Autowired
+    SysConfigService sysConfigService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // check if route requires authentication
@@ -67,6 +71,13 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
+            response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
+            return false;
+        }
+
+        // check eTB-Manager instance type restriction
+        if ((InstanceType.CLIENT_MODE.equals(auth.instanceType()) && !sysConfigService.loadConfig().isClientMode())
+                || (InstanceType.SERVER_MODE.equals(auth.instanceType()) && sysConfigService.loadConfig().isClientMode())) {
             response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
             return false;
         }

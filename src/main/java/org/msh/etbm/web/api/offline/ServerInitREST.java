@@ -4,6 +4,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(path = "/api/offline/server")
-@Authenticated
+@Authenticated(instanceType = InstanceType.SERVER_MODE)
 public class ServerInitREST {
 
     @Autowired

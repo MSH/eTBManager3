@@ -17,4 +17,9 @@ public @interface Authenticated {
      * Optionally a list of permissions may be informed to restrict user access
      */
     String[] permissions() default {};
+
+    /**
+     * Optionally a etb-manager instance type may be informed to restrict user access
+     */
+    InstanceType instanceType() default InstanceType.BOTH;
 }
