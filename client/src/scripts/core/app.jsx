@@ -88,17 +88,15 @@ export class App {
             // create storage that will keep application state
             self.storage = new Storage({ app: res });
 
-            // if system is not initialized yet, so there is no other way to go
             if (res.state === 'NEW') {
+                // if system is not initialized yet, so there is no other way to go
                 gotoModule('/init', '/welcome');
-            }
-
-            // if ready, go to the main page
-            if (res.state === 'READY') {
+            } else if (res.state === 'READY') {
+                // if ready, go to the main page
                 gotoModule('/sys', '/workspace/cases');
             }
             else {
-                // if not, go to the login page
+                // else, go to the login page
                 gotoModule('/pub', '/login');
             }
 
@@ -203,6 +201,7 @@ function gotoModule(modpath, pagepath) {
     var hash = router.hash();
 
     if (hash.indexOf(modpath) !== 0) {
+        console.log(modpath + pagepath);
         router.goto(modpath + pagepath);
     }
 }
