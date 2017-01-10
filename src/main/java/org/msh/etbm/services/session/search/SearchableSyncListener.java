@@ -1,6 +1,7 @@
 package org.msh.etbm.services.session.search;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
 import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
@@ -64,6 +65,10 @@ public class SearchableSyncListener extends SearchableBuilder {
         searchable = buildSearchable(entity, searchable);
 
         entityManager.persist(searchable);
+
+        if (entity instanceof AdministrativeUnit) {
+            super.updateAdminUnitChilds((AdministrativeUnit) entity);
+        }
     }
 
     /**

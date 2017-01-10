@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -157,6 +158,39 @@ public abstract class SearchableBuilder {
         searchable.setTitle(entity.getFullDisplayName());
 
         return searchable;
+    }
+
+    protected void updateAdminUnitChilds(AdministrativeUnit adminUnit) {
+        // updates admin units child of the updated one
+        List<AdministrativeUnit> adminUnits = entityManager.createQuery("from AdministrativeUnit " +
+                "where pid0 = :uId or pid1 = :uId or pid2 = :uId or pid3 = :uId")
+                .setParameter("uId", adminUnit.getId())
+                .getResultList();
+
+        for (AdministrativeUnit au : adminUnits) {
+            Searchable s = entityManager.find(Searchable.class, au.getId());
+            if (s != null) {
+                s = buildSearchable(au, s);
+                entityManager.persist(s);
+            }
+        }
+
+        // update units inside updated administrative unit
+        List<Unit> units = entityManager.createQuery("from Unit u " +
+                "where u.address.adminUnit.pid0 = :uId " +
+                "or u.address.adminUnit.pid1 = :uId " +
+                "or u.address.adminUnit.pid2 = :uId " +
+                "or u.address.adminUnit.pid3 = :uId")
+                .setParameter("uId", adminUnit.getId())
+                .getResultList();
+
+        for (Unit unit : units) {
+            Searchable s = entityManager.find(Searchable.class, unit.getId());
+            if (s != null) {
+                s = buildSearchable(unit, s);
+                entityManager.persist(s);
+            }
+        }
     }
 
     /**
