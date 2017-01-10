@@ -1,7 +1,6 @@
 package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
