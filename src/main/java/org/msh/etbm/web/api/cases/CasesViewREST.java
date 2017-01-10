@@ -4,6 +4,7 @@ import org.msh.etbm.services.cases.view.CasesViewResponse;
 import org.msh.etbm.services.cases.view.CasesViewService;
 import org.msh.etbm.services.cases.view.PlaceData;
 import org.msh.etbm.services.security.permissions.Permissions;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +26,19 @@ public class CasesViewREST {
     @Autowired
     CasesViewService service;
 
+    @Autowired
+    UserRequestService userRequestService;
+
     @RequestMapping(value = "/view", method = RequestMethod.POST)
-    public CasesViewResponse generateReport() {
-        return service.generateView(null);
+    public List<PlaceData> generateReport() {
+        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+
+        return service.generateWorkspaceView(workspaceId);
     }
 
     @RequestMapping(value = "/view/adminunit", method = RequestMethod.POST)
-    public CasesViewResponse generateReport(@RequestParam UUID adminUnitId) {
-        return service.generateView(adminUnitId);
+    public List<PlaceData> generateReport(@RequestParam UUID adminUnitId) {
+        return service.generateAdminUnitView(adminUnitId);
     }
 
     @RequestMapping(value = "/view/places", method = RequestMethod.POST)

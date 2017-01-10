@@ -14,8 +14,6 @@ public class SummaryReportData extends Item<String> {
      */
     private long count;
 
-    public SummaryReportData() {
-    }
 
     public SummaryReportData(String id, String name, long count) {
         super(id, name);

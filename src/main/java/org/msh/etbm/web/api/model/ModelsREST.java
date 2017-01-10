@@ -30,7 +30,7 @@ public class ModelsREST {
      * Return the list of available models
      * @return
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Item<String>> getAllModels() {
         return modelManager.getModels();
     }

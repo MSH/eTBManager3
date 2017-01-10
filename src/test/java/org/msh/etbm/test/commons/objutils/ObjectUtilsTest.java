@@ -5,6 +5,7 @@ import org.msh.etbm.commons.objutils.*;
 import org.msh.etbm.test.commons.objutils.fixtures.ClassB;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -165,5 +166,48 @@ public class ObjectUtilsTest {
         Class nameType = ObjectUtils.getPropertyGenericType(ClassB.class, "name", 0);
         assertNotNull(nameType);
         assertEquals(String.class, nameType);
+    }
+
+
+    @Test
+    public void testHashSHA1() {
+        // hash a string
+        String res = ObjectUtils.hashSHA1("Test");
+        assertNotNull(res);
+        assertEquals(40, res.length());
+//        System.out.println("SHA1 = " + res + " len = " + res.length());
+
+        // hash a complex object
+        Model m = new Model("Test",
+                1000L,
+                10,
+                true,
+                new Date(),
+                Arrays.asList("Banana", "Apple"));
+        res = ObjectUtils.hashSHA1(m);
+        assertNotNull(res);
+        assertEquals(40, res.length());
+
+        // create a second object as the same
+        Model m2 = new Model(m.getName(),
+                m.getId(),
+                m.getAge(),
+                m.isMarried(),
+                m.getLastUpdate(),
+                Arrays.asList("Banana", "Apple"));
+        String res2 = ObjectUtils.hashSHA1(m2);
+        assertNotNull(res2);
+        assertEquals(res, res2);
+
+        // change the second object to check if hash will be different
+        m2.setAge(11);
+        res2 = ObjectUtils.hashSHA1(m2);
+        assertNotNull(res2);
+        assertNotEquals(res, res2);
+
+        // hash an array of objects
+        Object[] args = { m, m2 };
+        res2 = ObjectUtils.hashSHA1(args);
+        assertNotNull(res2);
     }
 }

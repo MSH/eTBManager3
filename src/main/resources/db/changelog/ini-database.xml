@@ -1768,6 +1768,30 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="cacheddata-1" author="rmemoria">
+        <createTable tableName="cacheddata">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="entryId" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="hash" type="varchar(40)">
+                <constraints nullable="false" />
+            </column>
+            <column name="entryDate" type="${type.datetime}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="expiryDate" type="${type.datetime}" />
+            <column name="data" type="${type.text}" >
+                <constraints nullable="false" />
+            </column>
+            <column name="dataClass" type="varchar(250)" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>
     </changeSet>
@@ -1979,7 +2003,6 @@
     <changeSet author="rmemoria" id="modeldata-2">
         <addPrimaryKey columnNames="id" constraintName="PKMODELDATA" tableName="modeldata"/>
     </changeSet>
-
 
 
     <changeSet author="rmemoria" id="1433264274749-154">
@@ -2794,6 +2817,13 @@
             <column name="workspace_id"/>
             <column name="type"/>
             <column name="title"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="cacheddata-3" author="rmemoria">
+        <createIndex tableName="cacheddata" indexName="idx_cacheddata" unique="true">
+            <column name="entryId" />
+            <column name="hash" />
         </createIndex>
     </changeSet>
 
