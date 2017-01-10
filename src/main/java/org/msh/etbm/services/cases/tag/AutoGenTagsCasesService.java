@@ -64,7 +64,8 @@ public class AutoGenTagsCasesService {
 
         // erase all tag_case of the current tag
         txManager.execute(status -> {
-            template.update("delete from tags_case where tag_id = ?", tag.getId());
+            template.update("delete from tags_case where tag_id = ?",
+                    ObjectUtils.uuidAsBytes(tag.getId()));
             return 0;
         });
 
@@ -73,13 +74,15 @@ public class AutoGenTagsCasesService {
             // update tags
             txManager.execute(status -> {
                 try {
-                    template.update("insert into tags_case (case_id, tag_id) " +
-                                    "select a.id, ? " +
-                                    " from tbcase a join patient p on p.id=a.patient_id " +
-                                    " and p.workspace_id = ?" +
-                                    " and " + tag.getSqlCondition(),
-                            tag.getId(),
-                            workspaceId);
+                    String query = "insert into tags_case (case_id, tag_id) " +
+                            "select a.id, ? " +
+                            " from tbcase a join patient p on p.id=a.patient_id " +
+                            " and p.workspace_id = ?" +
+                            " and " + tag.getSqlCondition();
+
+                    template.update(query,
+                            ObjectUtils.uuidAsBytes(tag.getId()),
+                            ObjectUtils.uuidAsBytes(workspaceId));
 
                 } catch (Exception e) {
                     LOGGER.error("Invalid tag condition '" + tag.getName() + "'");
@@ -119,7 +122,7 @@ public class AutoGenTagsCasesService {
         // erase all tags of the current case
         txManager.execute(status -> {
             template.update("delete from tags_case where case_id = ? " +
-                    "and tag_id in (select id from tag where sqlCondition is not null)", caseId);
+                    "and tag_id in (select id from tag where sqlCondition is not null)", ObjectUtils.uuidAsBytes(caseId));
             return 0;
         });
 
@@ -133,9 +136,9 @@ public class AutoGenTagsCasesService {
                                     " and p.workspace_id = ?" +
                                     " and a.id = ? " +
                                     " and " + tag.getSqlCondition(),
-                            tag.getId(),
-                            wsid,
-                            caseId);
+                            ObjectUtils.uuidAsBytes(tag.getId()),
+                            ObjectUtils.uuidAsBytes(wsid),
+                            ObjectUtils.uuidAsBytes(caseId));
 
                 } catch (Exception e) {
                     LOGGER.error("Invalid tag condition '" + tag.getName() + "'");
