@@ -71,6 +71,7 @@ public class ClientSyncService {
 
         // set login on credentials. Password was inputted on the request
         data.setUsername(userRequestService.getUserSession().getUserLoginName());
+        data.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
 
         // Login into remote server
         LoginResponse loginRes = request.post("/api/auth/login",
