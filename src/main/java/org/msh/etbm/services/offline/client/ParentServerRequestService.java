@@ -40,7 +40,9 @@ public class ParentServerRequestService {
      * @param <T>
      * @return
      */
-    public <T> T post(String serverUrl, String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
+    public <T> T post(String serverUrl, String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType)
+        throws IOException {
+
         HttpURLConnection conn = getConnection("POST", serverUrl, serviceUrl, authToken);
         Object ret = null;
 
@@ -64,10 +66,6 @@ public class ParentServerRequestService {
                 throw new SynchronizationException("Must inform javaType or classType param");
             }
 
-        } catch (UnknownHostException e) {
-            throw new EntityValidationException(new Object(), null, null, "init.offinit.error1");
-        } catch (IOException e) {
-            throw new SynchronizationException("Error while requesting parent server");
         } finally {
             conn.disconnect();
         }
@@ -85,11 +83,11 @@ public class ParentServerRequestService {
      * @param <T>
      * @return
      */
-    public <T> T post(String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) {
+    public <T> T post(String serviceUrl, String authToken, Object payLoad, JavaType javaType, Class<T> classType) throws IOException {
         return this.post(getServerURL(), serviceUrl, authToken, payLoad, javaType, classType);
     }
 
-    public <T> T get(String serviceUrl, String authToken, JavaType javaType, Class<T> classType) {
+    public <T> T get(String serviceUrl, String authToken, JavaType javaType, Class<T> classType) throws IOException {
         String serverUrl = getServerURL();
 
         HttpURLConnection conn = getConnection("GET", serverUrl, serviceUrl, authToken);
@@ -106,10 +104,6 @@ public class ParentServerRequestService {
                 throw new SynchronizationException("Must inform javaType or classType param");
             }
 
-        } catch (UnknownHostException e) {
-            throw new EntityValidationException(new Object(), null, null, "init.offinit.error1");
-        } catch (IOException e) {
-            throw new SynchronizationException("Error while requesting parent server");
         } finally {
             conn.disconnect();
         }
@@ -125,8 +119,8 @@ public class ParentServerRequestService {
      * @return the file downloaded
      */
     @Async
-    public void downloadFile(String serverUrl, String serviceUrl, String authToken, FileDownloadListener listener) {
-        URL url = getURL(serverUrl, serviceUrl);
+    public void downloadFile(String serverUrl, String serviceUrl, String authToken, FileDownloadListener listener) throws IOException {
+        URL url = new URL(serverUrl + serviceUrl);
         HttpURLConnection httpConn = null;
 
         File file = null;
@@ -134,42 +128,38 @@ public class ParentServerRequestService {
         try {
             httpConn = (HttpURLConnection) url.openConnection();
 
-            try {
-                if (authToken != null && !authToken.isEmpty()) {
-                    httpConn.setRequestProperty("X-Auth-Token", authToken);
-                }
-                checkHttpCode(httpConn.getResponseCode());
-
-                // opens input stream from the HTTP connection
-                InputStream inputStream = httpConn.getInputStream();
-
-                file = File.createTempFile("file", ".etbm");
-
-                // opens an output stream to save into file
-                FileOutputStream outputStream = new FileOutputStream(file);
-
-                // read downloaded file
-                int bytesRead = -1;
-                byte[] buffer = new byte[BUFFER_SIZE];
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                outputStream.close();
-                inputStream.close();
-
-            } finally {
-                httpConn.disconnect();
+            if (authToken != null && !authToken.isEmpty()) {
+                httpConn.setRequestProperty("X-Auth-Token", authToken);
             }
-        } catch (Exception e) {
-            throw new SynchronizationException("Error while creating download file from parent server.");
+            checkHttpCode(httpConn.getResponseCode());
+
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
+
+            file = File.createTempFile("file", ".etbm");
+
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            // read downloaded file
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+
+        } finally {
+            httpConn.disconnect();
         }
 
         listener.afterDownload(file);
     }
 
     @Async
-    public void downloadFile(String serviceUrl, String authToken, FileDownloadListener listener) {
+    public void downloadFile(String serviceUrl, String authToken, FileDownloadListener listener) throws IOException {
         this.downloadFile(getServerURL(), serviceUrl, authToken, listener);
     }
 
@@ -181,49 +171,26 @@ public class ParentServerRequestService {
      * @param authToken
      * @return
      */
-    private HttpURLConnection getConnection(String requestMethod, String serverUrl, String serviceUrl, String authToken) {
-        HttpURLConnection conn = null;
+    private HttpURLConnection getConnection(String requestMethod, String serverUrl, String serviceUrl, String authToken) throws IOException {
+        // Instantiate URL
+        URL url = new URL(serverUrl + serviceUrl);
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         try {
-            // Instantiate URL
-            URL url = getURL(serverUrl, serviceUrl);
-            conn = (HttpURLConnection) url.openConnection();
-            try {
 
-                // Configure Request
-                conn.setDoOutput(true);
-                conn.setRequestMethod(requestMethod);
-                conn.setRequestProperty("Content-Type", "application/json");
-                if (authToken != null && !authToken.isEmpty()) {
-                    conn.setRequestProperty("X-Auth-Token", authToken);
-                }
-            } finally {
-                conn.disconnect();
+            // Configure Request
+            conn.setDoOutput(true);
+            conn.setRequestMethod(requestMethod);
+            conn.setRequestProperty("Content-Type", "application/json");
+            if (authToken != null && !authToken.isEmpty()) {
+                conn.setRequestProperty("X-Auth-Token", authToken);
             }
-        } catch (Exception e) {
-            throw new SynchronizationException("Error while creating post request to parent server.");
+        } finally {
+            conn.disconnect();
         }
 
         return conn;
-    }
-
-    /**
-     * Instantiate and returns the URL object based on the params
-     * @param serverUrl
-     * @param serviceUrl
-     * @return the URL object based on the params
-     */
-    private URL getURL(String serverUrl, String serviceUrl) {
-        URL url = null;
-
-        try {
-            // Instantiate URL
-            url = new URL(serverUrl + serviceUrl);
-        } catch (MalformedURLException e) {
-            throw new SynchronizationException("Error while creating post request to parent server.");
-        }
-
-        return url;
     }
 
     /**

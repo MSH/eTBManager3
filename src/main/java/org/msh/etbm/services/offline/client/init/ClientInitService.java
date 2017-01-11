@@ -2,6 +2,7 @@ package org.msh.etbm.services.offline.client.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 /**
@@ -66,12 +70,26 @@ public class ClientInitService {
 
         TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
-        List<WorkspaceInfo> response = request.post(serverAddress,
-                "/api/auth/workspaces",
-                null,
-                data,
-                typeFactory.constructCollectionType(List.class, WorkspaceInfo.class),
-                null);
+        List<WorkspaceInfo> response = null;
+
+        try {
+
+            response = request.post(serverAddress,
+                    "/api/auth/workspaces",
+                    null,
+                    data,
+                    typeFactory.constructCollectionType(List.class, WorkspaceInfo.class),
+                    null);
+
+            return response;
+
+        } catch (MalformedURLException e) {
+            // todo
+        } catch (UnknownHostException e) {
+            // todo
+        } catch (IOException e) {
+            throw new SynchronizationException(e);
+        }
 
         return response;
     }
@@ -95,21 +113,29 @@ public class ClientInitService {
         //String serverAddress = checkServerAddress(data.getParentServerUrl());
         String serverAddress = "http://localhost:8081";
 
-        // Login into remote server
-        LoginResponse loginRes = request.post(serverAddress,
-                "/api/auth/login",
-                null,
-                data,
-                null,
-                LoginResponse.class);
+        try {
+            // Login into remote server
+            LoginResponse loginRes = request.post(serverAddress,
+                    "/api/auth/login",
+                    null,
+                    data,
+                    null,
+                    LoginResponse.class);
 
-        // Asynchronously download and import file
-        phase = ClientModeInitPhase.DOWNLOADING_FILE;
-        credentials = data;
-        request.downloadFile(serverAddress,
-                "/api/offline/server/inifile",
-                loginRes.getAuthToken().toString(),
-            downloadedFile -> importFile(downloadedFile, serverAddress));
+            // Asynchronously download and import file
+            phase = ClientModeInitPhase.DOWNLOADING_FILE;
+            credentials = data;
+            request.downloadFile(serverAddress,
+                    "/api/offline/server/inifile",
+                    loginRes.getAuthToken().toString(),
+                    downloadedFile -> importFile(downloadedFile, serverAddress));
+        } catch (UnknownHostException e) {
+            phase = null;
+            // todo
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
 
         return getStatus();
     }
@@ -123,7 +149,12 @@ public class ClientInitService {
     private void importFile(File file, String serverAddress) {
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
-        importer.importFile(file, true, serverAddress, (importedFile, fileVersion) -> afterImporting(importedFile));
+        try {
+            importer.importFile(file, true, serverAddress, (importedFile, fileVersion) -> afterImporting(importedFile));
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
     }
 
     /**

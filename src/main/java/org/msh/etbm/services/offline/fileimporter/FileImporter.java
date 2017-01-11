@@ -55,13 +55,14 @@ public class FileImporter {
      * @param parentServerUrl
      */
     @Async
-    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) {
+    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) throws IOException{
         if (phase != null) {
             throw new SynchronizationException("Importer is already running");
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
         ImportResponse response = null;
+        JsonParser parser = null;
 
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -72,29 +73,21 @@ public class FileImporter {
 
             // create streaming parser
             JsonFactory factory = new MappingJsonFactory();
-            JsonParser parser = factory.createParser(fileStream);
+            parser = factory.createParser(fileStream);
 
-            // do importing
-            try {
-                response = importData(parser, parentServerUrl);
 
-                // update the relation of all auto generated tags
-                phase = FileImportingPhase.UPDATING_TAGS;
-                autoGenTagsCasesService.updateAllCaseTags();
+            response = importData(parser, parentServerUrl);
 
-                // notify service that importing has end
-                listener.afterImport(file, response);
-            } finally {
-                // close parser
-                parser.close();
-            }
+            // update the relation of all auto generated tags
+            phase = FileImportingPhase.UPDATING_TAGS;
+            autoGenTagsCasesService.updateAllCaseTags();
 
-        } catch (Throwable e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // notify service that importing has end
+            listener.afterImport(file, response);
         } finally {
             // indicates that importer is not running anymore
             phase = null;
+            parser.close();
         }
     }
 

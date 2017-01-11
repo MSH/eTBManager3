@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 /**
@@ -66,41 +68,52 @@ public class ClientSyncService {
         data.setUsername(userRequestService.getUserSession().getUserLoginName());
         data.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
 
-        // Login into remote server
-        LoginResponse loginRes = request.post("/api/auth/login",
-                null,
-                data,
-                null,
-                LoginResponse.class);
+        try {
+            // Login into remote server
+            LoginResponse loginRes = request.post("/api/auth/login",
+                    null,
+                    data,
+                    null,
+                    LoginResponse.class);
 
-        if (!loginRes.isSuccess()) {
-            // throw a user friendly password
-            throw new ForbiddenException();
+            if (!loginRes.isSuccess()) {
+                // throw a user friendly password
+                throw new ForbiddenException();
+            }
+
+            authToken = loginRes.getAuthToken();
+
+            UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+
+            // starts file generating asynchronously and then calls sendFileToServer method
+            phase = ClientSyncPhase.GENERATING_FILE;
+            fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
+
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
         }
-
-        authToken = loginRes.getAuthToken();
-
-        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
-
-        // starts file generating asynchronously and then calls sendFileToServer method
-        phase = ClientSyncPhase.GENERATING_FILE;
-        fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
         return getStatus();
     }
 
     private void sendFileToServer(File clientSyncFile) {
-        phase = ClientSyncPhase.SENDING_FILE;
+        try {
+            phase = ClientSyncPhase.SENDING_FILE;
 
-        StatusResponse response = fileSender.sendFile("/api/offline/server/sync/start",
-            authToken.toString(),
-            clientSyncFile,
-            StatusResponse.class);
+            StatusResponse response = fileSender.sendFile("/api/offline/server/sync/start",
+                    authToken.toString(),
+                    clientSyncFile,
+                    StatusResponse.class);
 
-        syncToken = response.getToken();
+            syncToken = response.getToken();
 
-        phase = ClientSyncPhase.WAITING_SERVER;
-        checkServerSyncStatus();
+            phase = ClientSyncPhase.WAITING_SERVER;
+            checkServerSyncStatus();
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
     }
 
     private void checkServerSyncStatus() {
@@ -112,10 +125,7 @@ public class ClientSyncService {
 
             switch (response.getId()) {
                 case "WAITING_SERVER_FILE_DOWNLOAD":
-                    phase = ClientSyncPhase.RECEIVING_RESPONSE_FILE;
-                    // next step - download response file
-                    request.downloadFile("/api/offline/server/sync/response/" + syncToken,
-                            authToken.toString(), downloadedFile -> importFile(downloadedFile));
+                    downloadServerResponseFile();
                     break;
                 case "IMPORTING_CLIENT_FILE":
                 case "GENERATING_SERVER_FILE":
@@ -127,15 +137,35 @@ public class ClientSyncService {
                 default:
                     throw new SynchronizationException("Not expected status returned from server.");
             }
-
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            phase = null;
+            throw new SynchronizationException(e);
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
+    }
+
+    private void downloadServerResponseFile() {
+        try {
+            phase = ClientSyncPhase.RECEIVING_RESPONSE_FILE;
+
+            request.downloadFile("/api/offline/server/sync/response/" + syncToken,
+                    authToken.toString(), downloadedFile -> importFile(downloadedFile));
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
         }
     }
 
     private void importFile(File responseFile) {
-        phase = ClientSyncPhase.IMPORTING_RESPONSE_FILE;
-        importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
+        try {
+            phase = ClientSyncPhase.IMPORTING_RESPONSE_FILE;
+            importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
     }
 
     private void afterImporting(File importedFile) {

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,15 +38,21 @@ public class ServerSyncService {
     Messages messages;
 
     public StatusResponse startSync(File clientSyncFile) {
-        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+        try {
 
-        SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId);
+            UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
 
-        track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
-        importer.importFile(clientSyncFile, true, null,
-            (importedFile, response) -> afterImporting(track, response));
+            SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId);
 
-        return getStatus(track.getSyncToken());
+            track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
+            importer.importFile(clientSyncFile, true, null,
+                    (importedFile, response) -> afterImporting(track, response));
+
+            return getStatus(track.getSyncToken());
+
+        } catch (IOException e) {
+            throw new SynchronizationException(e);
+        }
     }
 
     private void afterImporting(SyncTrack track, ImportResponse response) {
