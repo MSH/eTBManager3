@@ -56,6 +56,10 @@ export default class Toolbar extends React.Component {
         logout().then(() => app.goto('/pub/login'));
     }
 
+    showAdmin() {
+        return hasPerm('ADMIN') && !app.storage.state.app.clientMode;
+    }
+
     render() {
         var Logo = (
             <a>
@@ -83,9 +87,9 @@ export default class Toolbar extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem href={SessionUtils.homeHash()}>{__('home')}</NavItem>
+                        <NavItem href={SessionUtils.homeHash()} className={this.showAdmin() ? '' : 'mright-2x'}>{__('home')}</NavItem>
                         {
-                            hasPerm('ADMIN') &&
+                                this.showAdmin() &&
                                 <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
                                     <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
                                     <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>

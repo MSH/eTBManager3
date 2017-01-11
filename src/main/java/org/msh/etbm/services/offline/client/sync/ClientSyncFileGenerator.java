@@ -46,7 +46,7 @@ public class ClientSyncFileGenerator {
      * @throws SynchronizationException
      */
     @Async
-    public void generate(UUID unitId, UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
+    public void generate(UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -57,7 +57,7 @@ public class ClientSyncFileGenerator {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(generator, unitId, workspaceId);
+                generateJsonContent(generator, workspaceId);
             } finally {
                 generator.close();
                 zipOut.close();
@@ -76,10 +76,11 @@ public class ClientSyncFileGenerator {
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void generateJsonContent(JsonGenerator generator, UUID unitId, UUID workspaceId) throws IOException {
-
+    protected void generateJsonContent(JsonGenerator generator, UUID workspaceId) throws IOException {
         SysConfigData data = sysConfigService.loadConfig();
+
         long version = data.getVersion();
+        UUID unitId = data.getSyncUnit().getId();
 
         // get the list of tables to query
         ClientTableQueryList queries = new ClientTableQueryList(workspaceId, unitId);
@@ -89,6 +90,9 @@ public class ClientSyncFileGenerator {
 
         // write reference version
         generator.writeObjectField("version", version);
+
+        // write reference unit id
+        generator.writeObjectField("sync-unit-id", CompactibleJsonConverter.convertToJson(unitId));
 
         // write the content of the table
         generator.writeFieldName("tables");

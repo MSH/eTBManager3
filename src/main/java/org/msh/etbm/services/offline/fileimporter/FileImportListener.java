@@ -1,4 +1,6 @@
-package org.msh.etbm.services.offline.client.init;
+package org.msh.etbm.services.offline.fileimporter;
+
+import org.msh.etbm.services.offline.client.init.ClientModeInitService;
 
 import java.io.File;
 
@@ -8,6 +10,6 @@ import java.io.File;
  */
 public interface FileImportListener {
 
-    void afterImport(File importedFile, Integer fileVersion);
+    void afterImport(File importedFile, ImportResponse response);
 
 }

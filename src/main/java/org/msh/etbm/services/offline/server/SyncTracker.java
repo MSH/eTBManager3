@@ -18,13 +18,13 @@ public class SyncTracker {
 
     private Map<String, SyncTrack> syncTrackers;
 
-    public SyncTrack startTracking(File clientSyncFile, UUID unitId, UUID workspaceId) {
+    public SyncTrack startTracking(File clientSyncFile, UUID workspaceId) {
         if (syncTrackers == null) {
             syncTrackers = new HashMap<>();
         }
 
         String syncToken = UUID.randomUUID().toString();
-        SyncTrack track = new SyncTrack(syncToken, clientSyncFile, unitId, workspaceId);
+        SyncTrack track = new SyncTrack(syncToken, clientSyncFile, workspaceId);
 
         syncTrackers.put(syncToken, track);
 

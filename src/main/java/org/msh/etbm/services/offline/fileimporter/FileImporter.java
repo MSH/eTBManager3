@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.init.FileImportListener;
 import org.msh.etbm.services.session.search.SearchableCreator;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,7 @@ public class FileImporter {
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
-        Integer fileVersion = null;
+        ImportResponse response = null;
 
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -77,14 +76,14 @@ public class FileImporter {
 
             // do importing
             try {
-                fileVersion = importData(parser, parentServerUrl);
+                response = importData(parser, parentServerUrl);
 
                 // update the relation of all auto generated tags
                 phase = FileImportingPhase.UPDATING_TAGS;
                 autoGenTagsCasesService.updateAllCaseTags();
 
                 // notify service that importing has end
-                listener.afterImport(file, fileVersion);
+                listener.afterImport(file, response);
             } finally {
                 // close parser
                 parser.close();
@@ -106,7 +105,7 @@ public class FileImporter {
      * @return the file version
      * @throws IOException
      */
-    private Integer importData(JsonParser parser, String parentServerUrl) throws IOException {
+    private ImportResponse importData(JsonParser parser, String parentServerUrl) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
             throw new SynchronizationException("Root should be object");
@@ -157,7 +156,7 @@ public class FileImporter {
             db.setAllAsSynched();
         }
 
-        return fileVersion;
+        return new ImportResponse(fileVersion, syncUnitId);
     }
 
     /**

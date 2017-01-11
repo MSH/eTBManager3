@@ -4,6 +4,7 @@ import org.msh.etbm.commons.Messages;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
+import org.msh.etbm.services.offline.fileimporter.ImportResponse;
 import org.msh.etbm.services.offline.server.data.SyncTrack;
 import org.msh.etbm.services.offline.server.sync.ServerSyncPhase;
 import org.msh.etbm.services.session.usersession.UserRequestService;
@@ -36,21 +37,27 @@ public class ServerSyncService {
     Messages messages;
 
     public StatusResponse startSync(File clientSyncFile) {
-        UUID unitId = userRequestService.getUserSession().getUnitId();
         UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
 
-        SyncTrack track = tracker.startTracking(clientSyncFile, unitId, workspaceId);
+        SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId);
 
         track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
         importer.importFile(clientSyncFile, true, null,
-            (importedFile, fileVersion) -> afterImporting(track, fileVersion));
+            (importedFile, response) -> afterImporting(track, response));
 
         return getStatus(track.getSyncToken());
     }
 
-    private void afterImporting(SyncTrack track, Integer fileVersion) {
+    private void afterImporting(SyncTrack track, ImportResponse response) {
         track.setPhase(ServerSyncPhase.GENERATING_SERVER_FILE);
-        File serverSyncFile = generator.generate(track.getUnitId(), track.getWorkspaceId(), track.getUserId(), Optional.of(fileVersion)).getFile();
+
+        // The id of the unit that is synchronizing comes inside the file, so it can only be set after the importing.
+        track.setUnitId(response.getSyncUnitId());
+
+        File serverSyncFile = generator.generate(track.getUnitId(),
+                track.getWorkspaceId(),
+                track.getUserId(),
+                Optional.of(response.getVersion())).getFile();
 
         track.setServerSyncFile(serverSyncFile);
         track.setPhase(ServerSyncPhase.WAITING_SERVER_FILE_DOWNLOAD);

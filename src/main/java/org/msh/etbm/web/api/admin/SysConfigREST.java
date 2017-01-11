@@ -5,6 +5,7 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.validation.constraints.NotNull;
  */
 @RestController
 @RequestMapping("/api/admin/sysconfig")
-@Authenticated(permissions = {Permissions.ADMIN_SETUP_SYSTEM})
+@Authenticated(permissions = {Permissions.ADMIN_SETUP_SYSTEM}, instanceType = InstanceType.SERVER_MODE)
 public class SysConfigREST {
 
     @Autowired

@@ -47,8 +47,14 @@ public class ClientSyncService {
     @Autowired
     FileImporter importer;
 
+    /**
+     * Auth token returned from server instance after logging in
+     */
     UUID authToken;
 
+    /**
+     * Sync token returned from server instance after starting sync
+     */
     String syncToken;
 
     /**
@@ -80,12 +86,11 @@ public class ClientSyncService {
 
         authToken = loginRes.getAuthToken();
 
-        UUID unitId = userRequestService.getUserSession().getUnitId();
         UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
 
         // starts file generating asynchronously and then calls sendFileToServer method
         phase = ClientSyncPhase.GENERATING_FILE;
-        fileGenerator.generate(unitId, workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
+        fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
         return getStatus();
     }

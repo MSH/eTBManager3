@@ -201,7 +201,6 @@ function gotoModule(modpath, pagepath) {
     var hash = router.hash();
 
     if (hash.indexOf(modpath) !== 0) {
-        console.log(modpath + pagepath);
         router.goto(modpath + pagepath);
     }
 }

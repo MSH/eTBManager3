@@ -10,6 +10,7 @@ import org.msh.etbm.services.admin.sources.SourceService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ import java.util.UUID;
  */
 @RequestMapping("/api/tbl")
 @RestController
-@Authenticated(permissions = {Permissions.TABLE_SOURCES_EDT})
+@Authenticated(permissions = {Permissions.TABLE_SOURCES_EDT}, instanceType = InstanceType.SERVER_MODE)
 public class SourcesREST {
 
     private static final String API_PREFIX = "/source";

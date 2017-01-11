@@ -6,6 +6,7 @@ import org.msh.etbm.services.admin.errorlogrep.ErrorLogRepQueryParams;
 import org.msh.etbm.services.admin.errorlogrep.ErrorLogRepServiceImpl;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/admin/rep")
-@Authenticated(permissions = {Permissions.ADMIN_REP_ERRORLOG})
+@Authenticated(permissions = {Permissions.ADMIN_REP_ERRORLOG}, instanceType = InstanceType.SERVER_MODE)
 public class ErrorLogRepREST {
 
     @Autowired

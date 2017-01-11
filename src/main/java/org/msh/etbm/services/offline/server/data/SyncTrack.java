@@ -21,11 +21,10 @@ public class SyncTrack {
     UUID userId;
     ServerSyncPhase phase;
 
-    public SyncTrack(String syncToken, File clientSyncFile, UUID unitId, UUID workspaceId) {
+    public SyncTrack(String syncToken, File clientSyncFile, UUID workspaceId) {
         this.iniDateTime = DateUtils.getDate();
         this.syncToken = syncToken;
         this.clientSyncFile = clientSyncFile;
-        this.unitId = unitId;
         this.workspaceId = workspaceId;
     }
 

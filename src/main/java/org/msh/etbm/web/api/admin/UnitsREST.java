@@ -10,6 +10,7 @@ import org.msh.etbm.services.admin.units.data.UnitFormData;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.TABLE_UNITS_EDT})
+@Authenticated(permissions = {Permissions.TABLE_UNITS_EDT}, instanceType = InstanceType.SERVER_MODE)
 public class UnitsREST {
 
     @Autowired
