@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Mauricio on 21/11/2016.
  */
 @Service
-public class ClientModeInitService {
+public class ClientInitService {
 
     @Autowired
     ParentServerRequestService request;

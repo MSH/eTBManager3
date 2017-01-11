@@ -1,13 +1,13 @@
 package org.msh.etbm.services.offline.filegen;
 
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.lang.Object;
+import java.util.*;
 
 /**
  * Traverse a table using the given instance of {@link SQLQueryBuilder}
@@ -44,13 +44,61 @@ public class TableChangesTraverser {
         return this;
     }
 
-    public TableChangesTraverser eachDeleted(Optional<Integer> version, DeletedRecordTraverseListener trav) {
-        // if there is no initial version, so all records will be sent using eachNew
-        if (!version.isPresent()) {
-            return this;
+    public TableChangesTraverser eachDeleted(Optional<Integer> version, UUID unitId, boolean isClient, DeletedRecordTraverseListener trav) throws IOException {
+
+        if (!isClient) {
+            // if there is no initial version(initialization), so all records will be sent using eachNew
+            if (!version.isPresent()) {
+                return this;
+            }
+
+            traverseServerDeleted(version, unitId, trav);
+        }
+
+        if (isClient) {
+            traverseClientDeleted(unitId, trav);
         }
 
         return this;
+    }
+
+    protected void traverseServerDeleted(Optional<Integer> version, UUID unitId, DeletedRecordTraverseListener trav) throws IOException {
+        String sql = "select tableId from deletedentity " +
+                "where tableName like :tableName " +
+                "and (unit_id is null or unit_id = :unitId) " +
+                "and version > :version";
+
+        Map<String, Object> args = new HashMap<>();
+        args.put("tableName", queryBuilder.getTableName());
+        args.put("unitId", ObjectUtils.uuidAsBytes(unitId));
+        args.put("version", version.get());
+
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
+        List<Map<String, Object>> qryResults = jdbcTemplate.queryForList(sql, args);
+
+        for (Map<String, Object> qryResult : qryResults) {
+            trav.onDeletedRecord(ObjectUtils.bytesToUUID((byte[])qryResult.get("tableId")));
+        }
+    }
+
+    protected void traverseClientDeleted(UUID unitId, DeletedRecordTraverseListener trav) throws IOException {
+        String sql = "select tableId from deletedentity " +
+                "where tableName like :tableName " +
+                "and (unit_id is null or unit_id = :unitId) " +
+                "and synched = false";
+
+        Map<String, Object> args = new HashMap<>();
+        args.put("tableName", queryBuilder.getTableName());
+        args.put("unitId", ObjectUtils.uuidAsBytes(unitId));
+
+        NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
+        List<Map<String, Object>> qryResults = jdbcTemplate.queryForList(sql, args);
+
+        for (Map<String, Object> qryResult : qryResults) {
+            trav.onDeletedRecord(ObjectUtils.bytesToUUID((byte[])qryResult.get("tableId")));
+        }
     }
 
     /**

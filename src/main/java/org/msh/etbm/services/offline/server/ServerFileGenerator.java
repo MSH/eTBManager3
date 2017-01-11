@@ -201,7 +201,7 @@ public class ServerFileGenerator {
      * @param initialVersion The initial version to generate content from
      * @throws IOException
      */
-    protected void writeTables(TableQueryList queries, JsonGenerator generator,
+    protected void writeTables(ServerTableQueryList queries, JsonGenerator generator,
                                Optional<Integer> initialVersion) throws IOException {
         // start the array (main)
         generator.writeStartArray();
@@ -230,7 +230,7 @@ public class ServerFileGenerator {
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(initialVersion, id -> {
+            trav.eachDeleted(initialVersion, queries.getUnitId(), false, id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });

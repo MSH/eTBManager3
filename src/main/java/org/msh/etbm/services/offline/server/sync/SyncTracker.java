@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.server;
+package org.msh.etbm.services.offline.server.sync;
 
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.server.data.SyncTrack;

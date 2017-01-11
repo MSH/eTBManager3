@@ -1,11 +1,11 @@
 package org.msh.etbm.services.offline.fileimporter;
 
-import org.msh.etbm.services.offline.client.init.ClientModeInitService;
+import org.msh.etbm.services.offline.client.init.ClientInitService;
 
 import java.io.File;
 
 /**
- * Used by {@link ClientModeInitService} to call initialization process finishing after asynchronously importing the file
+ * Used by {@link ClientInitService} to call initialization process finishing after asynchronously importing the file
  * Created by Mauricio on 13/12/2016.
  */
 public interface FileImportListener {

@@ -1,6 +1,6 @@
 package org.msh.etbm.web.api.offline;
 
-import org.msh.etbm.services.offline.client.init.ClientModeInitService;
+import org.msh.etbm.services.offline.client.init.ClientInitService;
 import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.services.offline.StatusResponse;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ClientInitREST {
 
     @Autowired
-    ClientModeInitService service;
+    ClientInitService service;
 
     @Autowired
     UserRequestService userRequestService;

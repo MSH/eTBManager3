@@ -79,7 +79,7 @@ public class ClientSyncFileGenerator {
     protected void generateJsonContent(JsonGenerator generator, UUID workspaceId) throws IOException {
         SysConfigData data = sysConfigService.loadConfig();
 
-        long version = data.getVersion();
+        Integer version = data.getVersion();
         UUID unitId = data.getSyncUnit().getId();
 
         // get the list of tables to query
@@ -96,7 +96,7 @@ public class ClientSyncFileGenerator {
 
         // write the content of the table
         generator.writeFieldName("tables");
-        writeTables(queries, generator);
+        writeTables(queries, unitId, generator);
 
         // end the file with an object
         generator.writeEndObject();
@@ -108,7 +108,7 @@ public class ClientSyncFileGenerator {
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void writeTables(TableQueryList queries, JsonGenerator generator) throws IOException {
+    protected void writeTables(TableQueryList queries, UUID unitId, JsonGenerator generator) throws IOException {
         // start the array (main)
         generator.writeStartArray();
 
@@ -133,11 +133,10 @@ public class ClientSyncFileGenerator {
             trav.eachRecord((rec, index) -> generateJsonObject(generator, rec, item.getIgnoreList()));
             generator.writeEndArray();
 
-            //TODO: block bellow is not implemented
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(Optional.empty(), id -> {
+            trav.eachDeleted(Optional.empty(), unitId, true, id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });

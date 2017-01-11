@@ -244,4 +244,8 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("tbcase.owner_unit_id = ?", unitId);
     }
 
+    public UUID getUnitId() {
+        return unitId;
+    }
+
 }

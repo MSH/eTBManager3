@@ -1,12 +1,6 @@
 package org.msh.etbm.services.offline.client.sync;
 
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.ParentServerFileSender;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
@@ -15,7 +9,6 @@ import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -155,8 +148,6 @@ public class ClientSyncService {
         this.phase = null;
         this.authToken = null;
         this.syncToken = null;
-
-        // TODO: register commandlog
     }
 
     /**
@@ -168,7 +159,7 @@ public class ClientSyncService {
             ClientSyncPhase notRunning = ClientSyncPhase.NOT_RUNNING;
             return new StatusResponse(notRunning.name(), messages.get(notRunning.getMessageKey()));
         }
-        // TODO: improve this
+
         return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 

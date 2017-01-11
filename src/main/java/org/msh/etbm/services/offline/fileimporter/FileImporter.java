@@ -274,9 +274,11 @@ public class FileImporter {
             // read deleted
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
-                Map<String, Object> record = mapper.treeToValue(node, Map.class);
+                String jsonDeletedId = node.asText();
+                // Must be an UUID as traverser is writing it as an UUID
+                UUID deletedId = (UUID) CompactibleJsonConverter.convertFromJson(jsonDeletedId);
 
-                // TODO: [MSANTOS] implement when developing sync
+                db.delete(cmdBuilder, deletedId);
             }
 
             parser.nextToken();

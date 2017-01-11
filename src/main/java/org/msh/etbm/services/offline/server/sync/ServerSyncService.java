@@ -1,12 +1,12 @@
-package org.msh.etbm.services.offline.server;
+package org.msh.etbm.services.offline.server.sync;
 
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.offline.fileimporter.ImportResponse;
+import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.offline.server.data.SyncTrack;
-import org.msh.etbm.services.offline.server.sync.ServerSyncPhase;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
