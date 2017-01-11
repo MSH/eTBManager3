@@ -45,6 +45,7 @@ public class ServerSyncService {
             SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId);
 
             track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
+            // Async starts here
             importer.importFile(clientSyncFile, true, null,
                     (importedFile, response) -> afterImporting(track, response));
 

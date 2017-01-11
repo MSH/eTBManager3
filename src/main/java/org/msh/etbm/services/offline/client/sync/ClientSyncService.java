@@ -87,6 +87,7 @@ public class ClientSyncService {
 
             // starts file generating asynchronously and then calls sendFileToServer method
             phase = ClientSyncPhase.GENERATING_FILE;
+            // Async starts here
             fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
         } catch (IOException e) {

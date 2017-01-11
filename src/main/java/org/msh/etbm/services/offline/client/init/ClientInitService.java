@@ -64,17 +64,14 @@ public class ClientInitService {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
-        // todo: COMENTADO TEMPORARIAMENTE
-        //String serverAddress = checkServerAddress(data.getParentServerUrl());
-        String serverAddress = "http://localhost:8081";
-
-        TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
-
-        List<WorkspaceInfo> response = null;
-
         try {
+            // todo: COMENTADO TEMPORARIAMENTE
+            //String serverAddress = checkServerAddress(data.getParentServerUrl());
+            String serverAddress = "http://localhost:8081";
 
-            response = request.post(serverAddress,
+            TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
+
+            List<WorkspaceInfo> response = request.post(serverAddress,
                     "/api/auth/workspaces",
                     null,
                     data,
@@ -91,7 +88,7 @@ public class ClientInitService {
             throw new SynchronizationException(e);
         }
 
-        return response;
+        return null;
     }
 
     /**
@@ -107,13 +104,11 @@ public class ClientInitService {
             throw new SynchronizationException("Initialization progress is already running");
         }
 
-        phase = ClientModeInitPhase.STARTING;
-
-        // todo: COMENTADO TEMPORARIAMENTE
-        //String serverAddress = checkServerAddress(data.getParentServerUrl());
-        String serverAddress = "http://localhost:8081";
-
         try {
+            // todo: COMENTADO TEMPORARIAMENTE
+            //String serverAddress = checkServerAddress(data.getParentServerUrl());
+            String serverAddress = "http://localhost:8081";
+
             // Login into remote server
             LoginResponse loginRes = request.post(serverAddress,
                     "/api/auth/login",
@@ -125,10 +120,13 @@ public class ClientInitService {
             // Asynchronously download and import file
             phase = ClientModeInitPhase.DOWNLOADING_FILE;
             credentials = data;
+
+            // Async starts here
             request.downloadFile(serverAddress,
                     "/api/offline/server/inifile",
                     loginRes.getAuthToken().toString(),
                     downloadedFile -> importFile(downloadedFile, serverAddress));
+
         } catch (UnknownHostException e) {
             phase = null;
             // todo
