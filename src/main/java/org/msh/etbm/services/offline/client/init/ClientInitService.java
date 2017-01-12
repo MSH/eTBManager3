@@ -229,9 +229,15 @@ public class ClientInitService {
             return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
         }
 
-        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE) && importer.getPhase() != null) {
+        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
+            if (importer.getPhase() == null) {
+                return new StatusResponse(ClientModeInitPhase.IMPORTING_FILE.name(), messages.get("init.offinit.phase.IMPORTING_TABLES"));
+            }
+
             String msg = messages.get("init.offinit.phase." + importer.getPhase().name());
-            return new StatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
+            String complement = importer.getImportingTable() != null ? ": " + importer.getImportingTable() : "";
+
+            return new StatusResponse(importer.getPhase().name(), msg + complement);
         }
 
         return getStatusResponse(phase);
@@ -250,7 +256,6 @@ public class ClientInitService {
      * Enum used to track the initialization progress
      */
     public enum ClientModeInitPhase {
-        STARTING,
         DOWNLOADING_FILE,
         IMPORTING_FILE,
         NOT_RUNNING;

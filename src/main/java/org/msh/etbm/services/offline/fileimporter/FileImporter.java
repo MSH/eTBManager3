@@ -61,7 +61,6 @@ public class FileImporter {
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
-        ImportResponse response = null;
         JsonParser parser = null;
 
         try {
@@ -75,8 +74,7 @@ public class FileImporter {
             JsonFactory factory = new MappingJsonFactory();
             parser = factory.createParser(fileStream);
 
-
-            response = importData(parser, parentServerUrl);
+            ImportResponse response = importData(parser, parentServerUrl);
 
             // update the relation of all auto generated tags
             phase = FileImportingPhase.UPDATING_TAGS;
@@ -297,6 +295,6 @@ public class FileImporter {
     public enum FileImportingPhase {
         STARTING_IMPORTING,
         IMPORTING_TABLES,
-        UPDATING_TAGS;
+        UPDATING_TAGS
     }
 }
