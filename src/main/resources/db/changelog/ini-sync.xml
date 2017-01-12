@@ -56,6 +56,7 @@
             CREATE TRIGGER synclog_insert_examdst BEFORE INSERT ON examdst FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
             CREATE TRIGGER synclog_insert_exammicroscopy BEFORE INSERT ON exammicroscopy FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
             CREATE TRIGGER synclog_insert_examxpert BEFORE INSERT ON examxpert FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_tags_case BEFORE INSERT ON tags_case FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
         </sql>
     </changeSet>
 
@@ -94,6 +95,7 @@
             CREATE TRIGGER synclog_update_examdst BEFORE UPDATE ON examdst FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
             CREATE TRIGGER synclog_update_exammicroscopy BEFORE UPDATE ON exammicroscopy FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
             CREATE TRIGGER synclog_update_examxpert BEFORE UPDATE ON examxpert FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tags_case BEFORE UPDATE ON tags_case FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
         </sql>
     </changeSet>
 
@@ -132,6 +134,7 @@
             CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_tags_case AFTER DELETE ON tags_case FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
         </sql>
     </changeSet>
 
@@ -170,6 +173,7 @@
             CREATE TRIGGER synclog_insert_examdst BEFORE INSERT ON examdst REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
             CREATE TRIGGER synclog_insert_exammicroscopy BEFORE INSERT ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
             CREATE TRIGGER synclog_insert_examxpert BEFORE INSERT ON examxpert REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_tags_case BEFORE INSERT ON tags_case REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
         </sql>
     </changeSet>
 
@@ -208,6 +212,7 @@
             CREATE TRIGGER synclog_update_examdst BEFORE UPDATE ON examdst REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
             CREATE TRIGGER synclog_update_exammicroscopy BEFORE UPDATE ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
             CREATE TRIGGER synclog_update_examxpert BEFORE UPDATE ON examxpert REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tags_case BEFORE UPDATE ON tags_case REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
         </sql>
     </changeSet>
 
@@ -246,6 +251,7 @@
             CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON tags_case  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
         </sql>
     </changeSet>
 

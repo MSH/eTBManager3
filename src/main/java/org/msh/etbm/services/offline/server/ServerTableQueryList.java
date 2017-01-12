@@ -242,6 +242,14 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("tbcase.owner_unit_id = ?", unitId);
+
+        queryFrom("tags_case")
+                .join("tbcase", "tbcase.id = $root.case_id")
+                .join("tag", "tag.id = $root.tag_id")
+                .restrict("tag.sqlCondition is null")
+                .restrict("$root.version > ?", initialVersion)
+                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.owner_unit_id = ?", unitId);
     }
 
     public UUID getUnitId() {
