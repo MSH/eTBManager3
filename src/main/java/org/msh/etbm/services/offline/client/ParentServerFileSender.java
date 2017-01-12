@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Sends a file a server instance of etb manager
+ *
  * Created by Mauricio on 05/01/2017.
  */
 @Service
@@ -26,10 +28,21 @@ public class ParentServerFileSender {
     @Autowired
     SysConfigService configService;
 
+    /**
+     * Sends the file to a etb manager server instance
+     * @param serviceUrl service to be called on server instance
+     * @param authToken the authentication token on server instance
+     * @param file the file to be sent
+     * @param classType the expected return classType
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
     public <T> T sendFile(String serviceUrl, String authToken, File file, Class<T> classType) throws IOException {
         // define unique boundary to be used on the whole process
         String boundary = "===" + System.currentTimeMillis() + "===";
 
+        // get server url from system config
         String serverUrl = getServerURL();
         HttpURLConnection httpConn = null;
         OutputStream outputStream = null;
@@ -67,11 +80,13 @@ public class ParentServerFileSender {
     }
 
     /**
-     * Creates a POST connection
-     * @param serverUrl
-     * @param serviceUrl
-     * @param authToken
+     * Creates a POST connection.
+     * @param serverUrl the server url
+     * @param serviceUrl the api to be called on server
+     * @param authToken the authentication token on server
+     * @param boundary the boundary to be used on request
      * @return
+     * @throws IOException
      */
     private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken, String boundary) throws IOException {
         URL url = new URL(serverUrl + serviceUrl);
@@ -147,6 +162,10 @@ public class ParentServerFileSender {
         }
     }
 
+    /**
+     * Get the server URL on system configuration
+     * @return the server url
+     */
     private String getServerURL() {
         return configService.loadConfig().getServerURL();
     }

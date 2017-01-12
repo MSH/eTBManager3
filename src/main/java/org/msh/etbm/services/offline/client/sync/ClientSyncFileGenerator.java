@@ -8,7 +8,7 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.sync.listeners.SyncFileGeneratorListener;
+import org.msh.etbm.services.offline.client.listeners.SyncFileGeneratorListener;
 import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
 import org.msh.etbm.services.offline.filegen.TableQueryItem;
 import org.msh.etbm.services.offline.filegen.TableQueryList;
@@ -29,7 +29,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Generate the synchronization file from the client side
  *
- * Created by rmemoria on 8/11/16.
+ * Created by mauricio on 8/11/16.
  */
 @Service
 public class ClientSyncFileGenerator {
@@ -42,7 +42,8 @@ public class ClientSyncFileGenerator {
 
     /**
      * Generate a synchronization file from the client side
-     * @return the generated file
+     * @param workspaceId
+     * @param listener called after file is generated
      * @throws SynchronizationException
      */
     @Async

@@ -292,6 +292,9 @@ public class FileImporter {
         return importingTable;
     }
 
+    /**
+     * Tracks the phases of importing process
+     */
     public enum FileImportingPhase {
         STARTING_IMPORTING,
         IMPORTING_TABLES,

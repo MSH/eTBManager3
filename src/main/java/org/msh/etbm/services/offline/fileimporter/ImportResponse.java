@@ -7,7 +7,13 @@ import java.util.UUID;
  */
 public class ImportResponse {
 
+    /**
+     * The file version imported
+     */
     private Integer version;
+    /**
+     * The sync-unid-id from file
+     */
     private UUID syncUnitId;
 
     public ImportResponse(Integer version, UUID syncUnitId) {

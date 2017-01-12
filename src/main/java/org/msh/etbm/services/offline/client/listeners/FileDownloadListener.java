@@ -1,4 +1,6 @@
-package org.msh.etbm.services.offline.client.init;
+package org.msh.etbm.services.offline.client.listeners;
+
+import org.msh.etbm.services.offline.client.ClientInitService;
 
 import java.io.File;
 

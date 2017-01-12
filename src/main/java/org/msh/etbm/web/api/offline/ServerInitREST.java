@@ -33,7 +33,7 @@ public class ServerInitREST {
     @RequestMapping(path = "/inifile", method = RequestMethod.GET)
     public void downloadIniFile(HttpServletResponse resp) throws FileNotFoundException, IOException {
         // generate the file content
-        File file = serverInitService.generateInitFile().getFile();
+        File file = serverInitService.generateInitFile();
 
         // generate the file name
         String filename = userRequestService.getUserSession().getWorkspaceName() + ".etbm";

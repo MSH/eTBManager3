@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.client.sync.listeners;
+package org.msh.etbm.services.offline.client.listeners;
 
 import org.msh.etbm.services.offline.client.sync.ClientSyncService;
 

@@ -11,7 +11,7 @@ import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.ParentServerFileSender;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
-import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.ForbiddenException;
@@ -24,7 +24,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.UUID;
 
 /**
@@ -60,7 +59,7 @@ public class ClientSyncService {
     /**
      * Credentials used to login on server
      */
-    private ServerCredentialsData credentials;
+    ServerCredentialsData credentials;
 
     /**
      * Auth token returned from server instance after logging in
@@ -77,7 +76,16 @@ public class ClientSyncService {
      */
     ClientSyncPhase phase = null;
 
+    /**
+     * STEP 1
+     * Starts synchronization with parent server
+     * Checks the credentials
+     * Starts client sync file generation
+     * @param data the credentials (password) to login on parent server
+     * @return the status of the sync process
+     */
     public StatusResponse synchronize(ServerCredentialsData data) {
+        // checks if sync is not running
         if (phase != null) {
             throw new SynchronizationException("Synchronization progress is already running");
         }
@@ -94,11 +102,13 @@ public class ClientSyncService {
                     null,
                     LoginResponse.class);
 
+            // checks if login was ok
             if (!loginRes.isSuccess()) {
-                // throw a user friendly password
+                // todo throw a user friendly password
                 throw new ForbiddenException();
             }
 
+            // stores the credentials and auth token to be used in other points
             authToken = loginRes.getAuthToken();
             credentials = data;
 
@@ -117,6 +127,11 @@ public class ClientSyncService {
         }
     }
 
+    /**
+     * STEP 2
+     * After generating the sync file this method is called to send the generated file to server.
+     * @param clientSyncFile the sync file generated
+     */
     private void sendFileToServer(File clientSyncFile) {
         try {
             phase = ClientSyncPhase.SENDING_FILE;
@@ -136,8 +151,14 @@ public class ClientSyncService {
         }
     }
 
+    /**
+     * STEP 3
+     * Keeps checking the server status while server is downloading and importing the client sync file.
+     * After importing, server will wait this client instance to download the response file.
+     */
     private void checkServerSyncStatus() {
         try {
+            // checks server status
             StatusResponse response = request.get("/api/offline/server/sync/status/" + syncToken,
                     authToken.toString(),
                     null,
@@ -146,12 +167,15 @@ public class ClientSyncService {
             switch (response.getId()) {
                 case "IMPORTING_CLIENT_FILE":
                 case "GENERATING_SERVER_FILE":
+                    // server is still downloading or importing the client sync file or generating the response file
                     // wait 700 ms
                     Thread.sleep(700);
                     // check again
                     checkServerSyncStatus();
                     break;
                 case "WAITING_SERVER_FILE_DOWNLOAD":
+                    // server finished downloading and importing the client sync file, and had already generated the response file
+                    // now client will download the response file
                     downloadServerResponseFile();
                     break;
                 default:
@@ -166,10 +190,15 @@ public class ClientSyncService {
         }
     }
 
+    /**
+     * STEP 4
+     * DownloadS server sync file after server had already imported the client sync file.
+     */
     private void downloadServerResponseFile() {
         try {
             phase = ClientSyncPhase.RECEIVING_RESPONSE_FILE;
 
+            // download file
             request.downloadFile("/api/offline/server/sync/response/" + syncToken,
                     authToken.toString(), downloadedFile -> importFile(downloadedFile));
         } catch (IOException e) {
@@ -178,9 +207,15 @@ public class ClientSyncService {
         }
     }
 
+    /**
+     * STEP 5
+     * Imports the server sync file.
+     * @param responseFile downloaded server sync file
+     */
     private void importFile(File responseFile) {
         try {
             phase = ClientSyncPhase.IMPORTING_RESPONSE_FILE;
+            // import file
             importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
         } catch (IOException e) {
             phase = null;
@@ -188,6 +223,12 @@ public class ClientSyncService {
         }
     }
 
+    /**
+     * STEP 6 (the last step)
+     * Called after importing server sync file.
+     * Deletes the file clears the state of this component and register command log
+     * @param importedFile the file that was imported
+     */
     private void afterImporting(File importedFile) {
         // delete the file
         if (importedFile != null) {
@@ -215,8 +256,8 @@ public class ClientSyncService {
     }
 
     /**
-     * Return the initialization status now
-     * @return
+     * Return the synchronization status
+     * @return the status id and title
      */
     public StatusResponse getStatus() {
         if (phase == null) {
@@ -228,7 +269,7 @@ public class ClientSyncService {
     }
 
     /**
-     * Enum used to track the initialization progress
+     * Enum used to track the synchronization process
      */
     public enum ClientSyncPhase {
         NOT_RUNNING,

@@ -3,7 +3,6 @@ package org.msh.etbm.services.offline.fileimporter;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,7 +35,7 @@ public class RecordImporter {
             "agerange", "regimen", "tag", "sys_user", "userprofile", "userworkspace", "report", "patient", "tbcase",
             "examculture", "exammicroscopy", "examhiv", "examdst", "examxpert", "examxray", "treatmenthealthunit",
             "prescribedmedicine", "prevtbtreatment", "casecontact", "casesideeffect", "medicalexamination", "casecomorbidities",
-            "casecomment", "issue", "issuefollowup", "treatmentmonitoring", "deletedentity"};
+            "casecomment", "issue", "issuefollowup", "treatmentmonitoring", "tags_case", "deletedentity"};
 
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.

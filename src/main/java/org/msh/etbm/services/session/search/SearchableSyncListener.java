@@ -4,7 +4,7 @@ import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
-import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
+import org.msh.etbm.services.offline.fileimporter.RecordChangeEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

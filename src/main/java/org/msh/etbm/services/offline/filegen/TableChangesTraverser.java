@@ -44,8 +44,18 @@ public class TableChangesTraverser {
         return this;
     }
 
+    /**
+     * Traverse each deleted entity created in the table since the initial version (or not synched), or all records
+     * @param version
+     * @param unitId
+     * @param isClient indicates if a client instance is using this component
+     * @param trav
+     * @return
+     * @throws IOException
+     */
     public TableChangesTraverser eachDeleted(Optional<Integer> version, UUID unitId, boolean isClient, DeletedRecordTraverseListener trav) throws IOException {
 
+        // it is being used by a server instance to generate init file
         if (!isClient) {
             // if there is no initial version(initialization), so all records will be sent using eachNew
             if (!version.isPresent()) {
@@ -55,6 +65,7 @@ public class TableChangesTraverser {
             traverseServerDeleted(version, unitId, trav);
         }
 
+        // it is being used by a client instance to generate sync file
         if (isClient) {
             traverseClientDeleted(unitId, trav);
         }
@@ -62,6 +73,13 @@ public class TableChangesTraverser {
         return this;
     }
 
+    /**
+     * Selects all relevant deleted entity, based on params, for a server instance during init or sync
+     * @param version
+     * @param unitId
+     * @param trav
+     * @throws IOException
+     */
     protected void traverseServerDeleted(Optional<Integer> version, UUID unitId, DeletedRecordTraverseListener trav) throws IOException {
         String sql = "select tableId from deletedentity " +
                 "where tableName like :tableName " +
@@ -82,6 +100,12 @@ public class TableChangesTraverser {
         }
     }
 
+    /**
+     * Selects all relevant deleted entity, based on params, for a client instance during sync
+     * @param unitId
+     * @param trav
+     * @throws IOException
+     */
     protected void traverseClientDeleted(UUID unitId, DeletedRecordTraverseListener trav) throws IOException {
         String sql = "select tableId from deletedentity " +
                 "where tableName like :tableName " +

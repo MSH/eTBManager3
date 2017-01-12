@@ -1,6 +1,6 @@
 package org.msh.etbm.services.offline.fileimporter;
 
-import org.msh.etbm.services.offline.client.init.ClientInitService;
+import org.msh.etbm.services.offline.client.ClientInitService;
 
 import java.io.File;
 

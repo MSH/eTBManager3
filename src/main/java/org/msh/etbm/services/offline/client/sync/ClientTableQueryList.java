@@ -6,9 +6,9 @@ import org.msh.etbm.services.offline.filegen.TableQueryItem;
 import java.util.*;
 
 /**
- * Keep a list of all queries and the action to be taken when syncing in the client side
+ * Keep a list of all queries and the action to be taken when syncing in the server side
  *
- * Created by rmemoria on 14/11/16.
+ * Created by mauricio on 14/11/16.
  */
 public class ClientTableQueryList extends TableQueryList {
 

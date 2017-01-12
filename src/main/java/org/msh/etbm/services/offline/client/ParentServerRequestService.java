@@ -5,17 +5,14 @@ import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.init.FileDownloadListener;
+import org.msh.etbm.services.offline.client.listeners.FileDownloadListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.List;
 
 /**
  * Component to request the Parent Server of an off-line mode instance.

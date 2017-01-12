@@ -1,8 +1,7 @@
-package org.msh.etbm.services.offline.client.init;
+package org.msh.etbm.services.offline.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import com.sun.corba.se.impl.orbutil.concurrent.Sync;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
@@ -11,7 +10,7 @@ import org.msh.etbm.services.offline.client.ParentServerRequestService;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 /**
- * Service to initialize a client mode instance.
+ * Service that initializes a client mode instance.
  * Created by Mauricio on 21/11/2016.
  */
 @Service
@@ -52,14 +51,17 @@ public class ClientInitService {
      */
     private ClientModeInitPhase phase;
 
+    /**
+     * Stores the credentials used to login on server until the end of initialization
+     */
     private ServerCredentialsData credentials;
 
     /**
-     * Returns all workspaces attached to the user that matches with credentials on param.
      * @param data
-     * @return
+     * @return Returns all workspaces attached to the user that matches with credentials on param.
      */
     public List<WorkspaceInfo> findWorkspaces(ServerCredentialsData data) {
+        // checks if client database is already initialized
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
@@ -71,6 +73,7 @@ public class ClientInitService {
 
             TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
+            // request server expecting the list of workspaces
             List<WorkspaceInfo> response = request.post(serverAddress,
                     "/api/auth/workspaces",
                     null,
@@ -94,22 +97,27 @@ public class ClientInitService {
     /**
      * Download and import init file.
      * @param data
+     * @return the status of initialize process
      */
     public StatusResponse initialize(ServerCredentialsData data) {
+        // checks if client database is already initialized
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
+        // checks if initialization is already running
         if (phase != null) {
             throw new SynchronizationException("Initialization progress is already running");
         }
 
+        // start initialization
         try {
             // todo: COMENTADO TEMPORARIAMENTE
             //String serverAddress = checkServerAddress(data.getParentServerUrl());
             String serverAddress = "http://localhost:8081";
 
             // Login into remote server
+            // As the workspace list was requested before, it is not expected any connection error here
             LoginResponse loginRes = request.post(serverAddress,
                     "/api/auth/login",
                     null,
@@ -117,7 +125,7 @@ public class ClientInitService {
                     null,
                     LoginResponse.class);
 
-            // Asynchronously download and import file
+            // Download and import file
             phase = ClientModeInitPhase.DOWNLOADING_FILE;
             credentials = data;
 
@@ -125,7 +133,7 @@ public class ClientInitService {
             request.downloadFile(serverAddress,
                     "/api/offline/server/inifile",
                     loginRes.getAuthToken().toString(),
-                    downloadedFile -> importFile(downloadedFile, serverAddress));
+                    downloadedFile -> importFile(downloadedFile));
 
         } catch (UnknownHostException e) {
             phase = null;
@@ -141,14 +149,14 @@ public class ClientInitService {
 
     /**
      * Asynchronously imports the initialization file
-     * @param file
-     * @param serverAddress
+     * @param file the downloaded file
      */
-    private void importFile(File file, String serverAddress) {
+    private void importFile(File file) {
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
         try {
-            importer.importFile(file, true, serverAddress, (importedFile, fileVersion) -> afterImporting(importedFile));
+            // start importing
+            importer.importFile(file, true, credentials.getParentServerUrl(), (importedFile, fileVersion) -> afterImporting(importedFile));
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);
@@ -156,7 +164,7 @@ public class ClientInitService {
     }
 
     /**
-     * Called after importing file
+     * Called after importing file to end the initialization process, registering command log.
      * @param importedFile
      */
     private void afterImporting(File importedFile) {
@@ -167,6 +175,7 @@ public class ClientInitService {
 
         // clear phase
         this.phase = null;
+        this.credentials = null;
 
         // register commandlog
         Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
@@ -185,7 +194,7 @@ public class ClientInitService {
 
     /**
      * Checks if database is already initialized
-     * @return
+     * @return true if database is already initialized
      */
     private boolean isInitialized() {
         List<Workspace> ws = entityManager.createQuery("from Workspace").getResultList();
@@ -221,12 +230,12 @@ public class ClientInitService {
     }
 
     /**
-     * Return the initialization status now
-     * @return
+     * Return the initialization status
+     * @return Data object containing the phase ID and phase Title
      */
     public StatusResponse getStatus() {
         if (phase == null) {
-            return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
+            return new StatusResponse(ClientModeInitPhase.NOT_RUNNING.name(), messages.get(ClientModeInitPhase.NOT_RUNNING.getMessageKey()));
         }
 
         if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
@@ -240,15 +249,6 @@ public class ClientInitService {
             return new StatusResponse(importer.getPhase().name(), msg + complement);
         }
 
-        return getStatusResponse(phase);
-    }
-
-    /**
-     * Builds ServerStatusResponse to response status service.
-     * @param phase
-     * @return
-     */
-    private StatusResponse getStatusResponse(ClientModeInitPhase phase) {
         return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
