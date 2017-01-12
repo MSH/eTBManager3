@@ -269,6 +269,10 @@ public class FileImporter {
                 // Must be an UUID as traverser is writing it as an UUID
                 UUID deletedId = (UUID) CompactibleJsonConverter.convertFromJson(jsonDeletedId);
 
+                if (cmdBuilder == null) {
+                    cmdBuilder = new SQLCommandBuilder(tableName);
+                }
+
                 db.delete(cmdBuilder, deletedId);
             }
 

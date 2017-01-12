@@ -114,8 +114,12 @@ public class RecordImporter {
         JdbcTemplate template = new JdbcTemplate(dataSource);
 
         txManager.execute(status -> {
-            // Delete the record
-            template.update(cmdBuilder.getDeleteCmd(), ObjectUtils.uuidAsBytes(id));
+            try {
+                // Delete the record
+                template.update(cmdBuilder.getDeleteCmd(), ObjectUtils.uuidAsBytes(id));
+            } catch (Exception e) {
+                System.out.println("ERROR EXECUTING");
+            }
             return 0;
         });
 
