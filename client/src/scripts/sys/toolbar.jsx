@@ -87,9 +87,12 @@ export default class Toolbar extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem href={SessionUtils.homeHash()} className={this.showAdmin() ? '' : 'mright-2x'}>{__('home')}</NavItem>
                         {
-                                this.showAdmin() &&
+                            !app.storage.state.app.clientMode &&
+                            <NavItem href={SessionUtils.homeHash()} className={this.showAdmin() ? '' : 'mright-2x'}>{__('home')}</NavItem>
+                        }
+                        {
+                                hasPerm('ADMIN') && !app.storage.state.app.clientMode &&
                                 <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
                                     <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
                                     <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>
@@ -98,6 +101,10 @@ export default class Toolbar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight >
+                        {
+                            app.storage.state.app.clientMode &&
+                            <NavItem href={SessionUtils.homeHash()} className={this.showAdmin() ? '' : 'mright-2x'}>{__('home')}</NavItem>
+                        }
                         <NavItem className="tb-user" href="#/sys/home/index" disabled>
                             <div className="tb-icon">
                                 <i className="fa fa-user fa-inverse" />
