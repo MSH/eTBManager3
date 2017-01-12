@@ -96,11 +96,11 @@ public class AutoGenTagsCasesService {
      *
      * @param caseId
      */
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    //@Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void updateTags(UUID caseId) {
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
-        // get tags
+        // get auto gen tags
         List<Tag> tags = entityManager.createQuery("from Tag t where t.active = true " +
                 "and t.sqlCondition is not null and t.workspace.id = :wsid")
                 .setParameter("wsid", wsid)
@@ -115,8 +115,8 @@ public class AutoGenTagsCasesService {
 
         // erase all tags of the current case
         txManager.execute(status -> {
-            template.update("delete from tags_case where case_id = ? " +
-                    "and tag_id in (select id from tag where sqlCondition is not null)", ObjectUtils.uuidAsBytes(caseId));
+            template.update("delete from tags_case where case_id = ? and tag_id in (select id from tag where sqlCondition is not null)",
+                    ObjectUtils.uuidAsBytes(caseId));
             return 0;
         });
 

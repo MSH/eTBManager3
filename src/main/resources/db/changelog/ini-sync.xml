@@ -134,7 +134,7 @@
             CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
-            CREATE TRIGGER synclog_delete_tags_case AFTER DELETE ON tags_case FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            <!--CREATE TRIGGER synclog_delete_tags_case AFTER DELETE ON tags_case FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);-->
         </sql>
     </changeSet>
 
@@ -251,7 +251,7 @@
             CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
             CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
-            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON tags_case  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            <!--CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON tags_case  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tags_case', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);-->
         </sql>
     </changeSet>
 

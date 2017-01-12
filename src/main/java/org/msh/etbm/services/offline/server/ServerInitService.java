@@ -7,6 +7,7 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.UUID;
  * Service layer component to be called to generates the init file
  * Created by Mauricio on 12/01/2017.
  */
+@Service
 public class ServerInitService {
 
     @Autowired
