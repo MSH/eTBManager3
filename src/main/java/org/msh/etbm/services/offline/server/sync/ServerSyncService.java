@@ -1,6 +1,13 @@
 package org.msh.etbm.services.offline.server.sync;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.commands.CommandAction;
+import org.msh.etbm.commons.commands.CommandHistoryInput;
+import org.msh.etbm.commons.commands.CommandStoreService;
+import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
@@ -35,7 +42,7 @@ public class ServerSyncService {
     UserRequestService userRequestService;
 
     @Autowired
-    Messages messages;
+    CommandStoreService commandStoreService;
 
     public StatusResponse startSync(File clientSyncFile) {
         try {
@@ -85,11 +92,21 @@ public class ServerSyncService {
     public void endSync(String syncToken) {
         SyncTrack track = getTrack(syncToken);
 
-        if (ServerSyncPhase.WAITING_SERVER_FILE_IMPORTING.equals(track.getPhase())) {
-            tracker.endTracking(track.getSyncToken());
+        if (!ServerSyncPhase.WAITING_SERVER_FILE_IMPORTING.equals(track.getPhase())) {
+            throw new SynchronizationException("Track is not ready to end. Phase: " + track.getPhase().name());
         }
 
-        throw new SynchronizationException("Track is not ready to end. Phase: " + messages.get(track.getPhase().getMessageKey()));
+        tracker.endTracking(track.getSyncToken());
+
+        // register commandlog
+        CommandHistoryInput in = new CommandHistoryInput();
+        in.setWorkspaceId(track.getWorkspaceId());
+        in.setUnitId(track.getUnitId());
+        in.setUserId(track.getUserId());
+        in.setAction(CommandAction.EXEC);
+        in.setType(CommandTypes.OFFLINE_SERVERSYNC);
+
+        commandStoreService.store(in);
     }
 
     public StatusResponse getStatus(String syncToken) {
@@ -101,7 +118,7 @@ public class ServerSyncService {
             return null;
         }
 
-        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()), track.getSyncToken());
+        return new StatusResponse(phase.name(), null, track.getSyncToken());
     }
 
     private SyncTrack getTrack(String syncToken) {

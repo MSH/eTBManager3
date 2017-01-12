@@ -10,9 +10,7 @@ import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.services.offline.*;
 import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
 import org.msh.etbm.services.offline.filegen.TableQueryItem;
-import org.msh.etbm.services.offline.filegen.TableQueryList;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
@@ -56,6 +54,7 @@ public class ServerFileGenerator {
      * @return the generated file
      * @throws SynchronizationException
      */
+    @CommandLog(type = CommandTypes.OFFLINE_SERVERINIT, handler = OfflineCmdLogHandler.class)
     public SynchronizationResponse generate(UUID unitId, UUID workspaceId, UUID userId, Optional<Integer> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
@@ -79,7 +78,6 @@ public class ServerFileGenerator {
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
-
     }
 
     /**

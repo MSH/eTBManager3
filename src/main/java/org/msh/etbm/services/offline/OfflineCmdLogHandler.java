@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by msantos on 19/12/16.
  */
 @Service
-public class SyncCmdLogHandler implements CommandLogHandler<Object, SynchronizationResponse> {
+public class OfflineCmdLogHandler implements CommandLogHandler<Object, SynchronizationResponse> {
 
     @Override
     public void prepareLog(CommandHistoryInput in, Object request, SynchronizationResponse response) {

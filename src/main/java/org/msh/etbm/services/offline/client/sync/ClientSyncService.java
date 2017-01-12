@@ -1,6 +1,13 @@
 package org.msh.etbm.services.offline.client.sync;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.commands.CommandAction;
+import org.msh.etbm.commons.commands.CommandHistoryInput;
+import org.msh.etbm.commons.commands.CommandStoreService;
+import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.db.entities.Unit;
+import org.msh.etbm.db.entities.User;
+import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.ParentServerFileSender;
 import org.msh.etbm.services.offline.client.ParentServerRequestService;
@@ -13,6 +20,8 @@ import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -41,6 +50,17 @@ public class ClientSyncService {
 
     @Autowired
     FileImporter importer;
+
+    @PersistenceContext
+    EntityManager entityManager;
+
+    @Autowired
+    CommandStoreService commandStoreService;
+
+    /**
+     * Credentials used to login on server
+     */
+    private ServerCredentialsData credentials;
 
     /**
      * Auth token returned from server instance after logging in
@@ -80,6 +100,7 @@ public class ClientSyncService {
             }
 
             authToken = loginRes.getAuthToken();
+            credentials = data;
 
             UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
 
@@ -177,6 +198,20 @@ public class ClientSyncService {
         this.phase = null;
         this.authToken = null;
         this.syncToken = null;
+
+        // register commandlog
+        Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
+                .setParameter("login", credentials.getUsername())
+                .getSingleResult();
+
+        CommandHistoryInput in = new CommandHistoryInput();
+        in.setWorkspaceId(((Workspace)o[0]).getId());
+        in.setUnitId(((Unit)o[1]).getId());
+        in.setUserId(((User)o[2]).getId());
+        in.setAction(CommandAction.EXEC);
+        in.setType(CommandTypes.OFFLINE_CLIENTSYNC);
+
+        commandStoreService.store(in);
     }
 
     /**
