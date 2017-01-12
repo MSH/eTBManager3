@@ -182,7 +182,7 @@ export default class Sync extends React.Component {
         return (<div>
                     <Row>
                         <Col sm={12}>
-                            <h4 className="text-center">{this.state.phase.id}</h4>
+                            <h4 className="text-center">{this.state.phase.title}</h4>
                         </Col>
                     </Row>
                     <Row>

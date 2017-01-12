@@ -62,8 +62,6 @@ public class ClientSyncService {
             throw new SynchronizationException("Synchronization progress is already running");
         }
 
-        phase = ClientSyncPhase.STARTING;
-
         // set login on credentials. Password was inputted on the request
         data.setUsername(userRequestService.getUserSession().getUserLoginName());
         data.setWorkspaceId(userRequestService.getUserSession().getWorkspaceId());
@@ -90,12 +88,12 @@ public class ClientSyncService {
             // Async starts here
             fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
+            return getStatus();
+
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);
         }
-
-        return getStatus();
     }
 
     private void sendFileToServer(File clientSyncFile) {
@@ -125,15 +123,15 @@ public class ClientSyncService {
                     StatusResponse.class);
 
             switch (response.getId()) {
-                case "WAITING_SERVER_FILE_DOWNLOAD":
-                    downloadServerResponseFile();
-                    break;
                 case "IMPORTING_CLIENT_FILE":
                 case "GENERATING_SERVER_FILE":
                     // wait 700 ms
                     Thread.sleep(700);
                     // check again
                     checkServerSyncStatus();
+                    break;
+                case "WAITING_SERVER_FILE_DOWNLOAD":
+                    downloadServerResponseFile();
                     break;
                 default:
                     throw new SynchronizationException("Not expected status returned from server.");
@@ -199,7 +197,6 @@ public class ClientSyncService {
      */
     public enum ClientSyncPhase {
         NOT_RUNNING,
-        STARTING,
         GENERATING_FILE,
         SENDING_FILE,
         WAITING_SERVER,
@@ -207,7 +204,7 @@ public class ClientSyncService {
         IMPORTING_RESPONSE_FILE;
 
         String getMessageKey() {
-            return "init.offinit.phase." + this.name();
+            return "sync.client.phase." + this.name();
         }
     }
 
