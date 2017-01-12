@@ -67,9 +67,7 @@ public class ClientInitService {
         }
 
         try {
-            // todo: COMENTADO TEMPORARIAMENTE
-            //String serverAddress = checkServerAddress(data.getParentServerUrl());
-            String serverAddress = "http://localhost:8081";
+            String serverAddress = checkServerAddress(data.getParentServerUrl());
 
             TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
@@ -112,9 +110,7 @@ public class ClientInitService {
 
         // start initialization
         try {
-            // todo: COMENTADO TEMPORARIAMENTE
-            //String serverAddress = checkServerAddress(data.getParentServerUrl());
-            String serverAddress = "http://localhost:8081";
+            String serverAddress = checkServerAddress(data.getParentServerUrl());
 
             // Login into remote server
             // As the workspace list was requested before, it is not expected any connection error here
@@ -133,8 +129,7 @@ public class ClientInitService {
             // Async starts here
             request.downloadFile(serverAddress,
                     "/api/offline/server/inifile",
-                    loginRes.getAuthToken().toString(),
-                    downloadedFile -> importFile(downloadedFile));
+                    loginRes.getAuthToken().toString(), downloadedFile -> importFile(downloadedFile));
 
         } catch (UnknownHostException e) {
             phase = null;

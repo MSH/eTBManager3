@@ -55,8 +55,7 @@ public class ServerSyncService {
             track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
 
             // Async starts here
-            importer.importFile(clientSyncFile, true, null,
-                    (importedFile, response) -> afterImporting(track, response));
+            importer.importFile(clientSyncFile, true, null, (importedFile, response) -> afterImporting(track, response));
 
             return getStatus(track.getSyncToken());
         } catch (IOException e) {

@@ -55,7 +55,7 @@ public class FileImporter {
      * @param parentServerUrl
      */
     @Async
-    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) throws IOException{
+    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) throws IOException {
         if (phase != null) {
             throw new SynchronizationException("Importer is already running");
         }
