@@ -10,3 +10,4 @@ Session.setHost(HOST);
 
 require('./commons/init');
 require('./admin/adminunit-test');
+require('./commons/models');

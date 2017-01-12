@@ -1,10 +1,10 @@
 package org.msh.etbm.services.cases.view;
 
+import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,6 @@ import java.util.*;
 @Service
 public class CasesViewService {
 
-    @Autowired
-    UserRequestService userRequestService;
-
     @PersistenceContext
     EntityManager entityManager;
 
@@ -34,21 +31,14 @@ public class CasesViewService {
 
 
     /**
-     * Generate a report of the workspace about the consolidated cases by administrative units
-     * and the quantity of tags by case
-     *
-     * @return instance of {@link CasesViewResponse} containing the report view
+     * Generate a report of the quantity of cases by workspace
+     * @param workspaceId the ID of the workspace
+     * @return the report of the workspace
      */
     @Transactional
-    public CasesViewResponse generateView(UUID adminUnitId) {
-        CasesViewResponse resp = new CasesViewResponse();
-
+    public List<PlaceData> generateWorkspaceView(UUID workspaceId) {
         // load information about the places
-        List<PlaceData> places = loadPlaces(adminUnitId);
-
-        resp.setPlaces(places);
-
-        return resp;
+        return loadPlaces(workspaceId, null);
     }
 
     /**
@@ -60,13 +50,15 @@ public class CasesViewService {
      */
     @Transactional
     public List<PlaceData> generateAdminUnitView(UUID adminUnitId) {
-        List<PlaceData> places = loadPlaces(adminUnitId);
-
-        return places;
+        return loadPlaces(null, adminUnitId);
     }
 
 
-    private List<PlaceData> loadPlaces(UUID adminUnitId) {
+    private List<PlaceData> loadPlaces(UUID workspaceId, UUID adminUnitId) {
+        if (workspaceId == null && adminUnitId == null) {
+            throw new InvalidArgumentException("workspace and adminunit cannot be both null");
+        }
+
         List<PlaceData> places = new ArrayList<>();
 
         AdministrativeUnit adminUnit =
@@ -74,8 +66,11 @@ public class CasesViewService {
                 entityManager.find(AdministrativeUnit.class, adminUnitId) :
                 null;
 
+        // get the workspace in use
+        UUID wsId = adminUnit != null ? adminUnit.getWorkspace().getId() : workspaceId;
+
         // just load the units because it is level 0
-        loadAdminUnits(places, adminUnit);
+        loadAdminUnits(places, wsId, adminUnit);
 
         if (adminUnitId != null) {
             loadUnits(places, adminUnit);
@@ -88,7 +83,7 @@ public class CasesViewService {
     }
 
 
-    private void loadAdminUnits(List<PlaceData> data, AdministrativeUnit adminUnit) {
+    private void loadAdminUnits(List<PlaceData> data, UUID workspaceId, AdministrativeUnit adminUnit) {
         Map<String, Object> params = new HashMap<>();
 
         StringBuilder s = new StringBuilder();
@@ -117,7 +112,7 @@ public class CasesViewService {
                 .append("group by a.id, a.name, d.diagnosisType, d.classification\n")
                 .append("order by a.name");
 
-        params.put("wsid", ObjectUtils.uuidAsBytes(userRequestService.getUserSession().getWorkspaceId()));
+        params.put("wsid", ObjectUtils.uuidAsBytes(workspaceId));
 
         NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(dataSource);
         List<Map<String, Object>> lst = templ.queryForList(s.toString(), params);

@@ -2,12 +2,16 @@ package org.msh.etbm.commons.objutils;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import javax.xml.bind.DatatypeConverter;
 import java.beans.PropertyDescriptor;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -142,6 +146,31 @@ public class ObjectUtils {
             index++;
         }
         return Objects.hash(vals);
+    }
+
+    /**
+     * Hash an object using the SHA1 hash algorithm
+     * @param obj the object to hash
+     * @return A string representation of the object hash
+     */
+    public static String hashSHA1(Object obj) {
+        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos = null;
+        try {
+            try {
+                baos = new ByteArrayOutputStream();
+                oos = new ObjectOutputStream(baos);
+                oos.writeObject(obj);
+                MessageDigest md = MessageDigest.getInstance("SHA1");
+                byte[] thedigest = md.digest(baos.toByteArray());
+                return DatatypeConverter.printHexBinary(thedigest);
+            } finally {
+                oos.close();
+                baos.close();
+            }
+        } catch (Exception e) {
+            throw new ObjectHashException(e);
+        }
     }
 
     /**

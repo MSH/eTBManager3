@@ -23,7 +23,7 @@ export default class CasesDistribution extends React.Component {
         const self = this;
 
         this.fetchView(auId)
-        .then(res => self.setState({ root: res.places }));
+        .then(res => self.setState({ root: res }));
 
         this.setState({ root: null });
     }
@@ -45,7 +45,7 @@ export default class CasesDistribution extends React.Component {
 
         return (
             <a href={hash} className="lnk-label">{node.name}</a>
-            );
+        );
     }
 
     outerRender(content, node) {
@@ -61,7 +61,7 @@ export default class CasesDistribution extends React.Component {
                 {addRow(node.drtbCount)}
                 {addRow(node.ntmCount)}
             </Row>
-            );
+        );
     }
 
     nodeInfo(node) {
@@ -82,7 +82,7 @@ export default class CasesDistribution extends React.Component {
                 <Col xs={2} className="text-right">{__('cases.title.drtbcases')}</Col>
                 <Col xs={2} className="text-right">{__('cases.title.ntmcases')}</Col>
             </Row>
-            );
+        );
     }
 
     render() {
@@ -105,7 +105,7 @@ export default class CasesDistribution extends React.Component {
                         nodeInfo={this.nodeInfo} />
                 </Grid>
             </Card>
-            );
+        );
     }
 }
 
