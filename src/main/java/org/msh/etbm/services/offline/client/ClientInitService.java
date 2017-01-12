@@ -128,6 +128,7 @@ public class ClientInitService {
             // Download and import file
             phase = ClientModeInitPhase.DOWNLOADING_FILE;
             credentials = data;
+            data.setParentServerUrl(serverAddress);
 
             // Async starts here
             request.downloadFile(serverAddress,
