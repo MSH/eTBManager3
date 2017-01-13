@@ -45,7 +45,6 @@ public class AutoGenTagsCasesService {
      *
      * @param tagId
      */
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public boolean updateCases(UUID tagId) {
         Tag tag = entityManager.find(Tag.class, tagId);
 
