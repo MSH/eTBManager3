@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
@@ -188,7 +189,7 @@ public class FileImporter {
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         cmap.put("version", fileVersion);
-        cmap.put("SYNC_UNIT_ID", syncUnitId);
+        cmap.put("SYNC_UNIT_ID", ObjectUtils.uuidAsBytes(syncUnitId));
 
         // avoid setting serverURL to null when synchronizing
         if (parentServerUrl == null) {

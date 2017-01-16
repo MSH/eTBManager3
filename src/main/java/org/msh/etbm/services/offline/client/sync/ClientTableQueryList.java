@@ -27,81 +27,10 @@ public class ClientTableQueryList extends TableQueryList {
 
         boolean notSynched = false;
 
-        queryFrom("countrystructure")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("administrativeunit")
-                .restrict("synched = ?", false)
-                .restrict("workspace_id = ?", wsId);
-
-        // ignore the fields that are self-reference
-        queryFrom("unit",
-                TableQueryItem.SyncAction.INSERT, Arrays.asList("supplier_id", "AUTHORIZERUNIT_ID"))
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        // include the self-reference fields to be updated
-        queryFrom("unit", TableQueryItem.SyncAction.UPDATE, null)
-                .select("id, supplier_id, authorizerunit_id")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("substance")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("source")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("product")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("medicine_substances")
-                .join("product", "product.id = medicine_substances.medicine_id")
-                .restrict("product.synched = ?", notSynched)
-                .restrict("product.workspace_id = ?", wsId);
-
-        queryFrom("agerange")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("regimen")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("medicineregimen")
-                .join("regimen", "medicineregimen.regimen_id = regimen.id")
-                .restrict("regimen.synched = ?", notSynched)
-                .restrict("regimen.workspace_id = ?", wsId);
-
+        // admin module
         queryFrom("tag")
                 .restrict("synched = ?", notSynched)
                 .restrict("workspace_id = ?", wsId);
-
-        queryFrom("sys_user")
-                .restrict("sys_user.synched = ?", notSynched)
-                .restrict("exists(select * from userworkspace where userworkspace.user_id = sys_user.id and userworkspace.unit_id = ?)", unitId);
-
-        queryFrom("userprofile")
-                .restrict("synched = ?", notSynched)
-                .restrict("workspace_id = ?", wsId);
-
-        queryFrom("userpermission")
-                .join("userprofile", "userprofile.id = userpermission.profile_id")
-                .restrict("userprofile.synched = ?", notSynched)
-                .restrict("userprofile.workspace_id = ?", wsId);
-
-        queryFrom("userworkspace")
-                .restrict("synched = ?", notSynched)
-                .restrict("unit_id = ?", unitId);
-
-        queryFrom("userworkspace_profiles")
-                .join("userworkspace", "userworkspace.id = userworkspace_profiles.userworkspace_id")
-                .restrict("userworkspace.synched = ?", notSynched)
-                .restrict("userworkspace.unit_id = ?", unitId);
 
         queryFrom("report")
                 .restrict("synched = ?", notSynched)
