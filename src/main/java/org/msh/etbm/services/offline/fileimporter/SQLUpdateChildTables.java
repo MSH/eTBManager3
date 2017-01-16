@@ -52,6 +52,7 @@ public class SQLUpdateChildTables {
         }
 
         list.add(childQuery);
+        parentTablesCommands.put(parentTableName, list);
     }
 
     /**
