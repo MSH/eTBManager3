@@ -143,7 +143,7 @@ public class CmdHistoryRepServiceImpl implements CmdHistoryRepService {
     }
 
     private String processValueToDisplay(String s) {
-        if (s == null) {
+        if (s == null || s.isEmpty()) {
             return null;
         }
 

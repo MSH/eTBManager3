@@ -17,6 +17,7 @@ import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.session.usersession.UserRequestService;
+import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -247,11 +248,6 @@ public class ClientSyncService {
             importedFile.delete();
         }
 
-        // clear phase and aux info
-        this.phase = null;
-        this.authToken = null;
-        this.syncToken = null;
-
         // register commandlog
         Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
                 .setParameter("login", credentials.getUsername())
@@ -265,6 +261,21 @@ public class ClientSyncService {
         in.setType(CommandTypes.OFFLINE_CLIENTSYNC);
 
         commandStoreService.store(in);
+
+        // notify server that sync finished
+        try {
+            request.get("/api/offline/server/sync/end/" + syncToken,
+                    authToken.toString(),
+                    null,
+                    StandardResult.class);
+        } catch (IOException e) {
+            throw new SynchronizationException(e);
+        } finally {
+            // clear phase and aux info
+            this.phase = null;
+            this.authToken = null;
+            this.syncToken = null;
+        }
     }
 
     /**

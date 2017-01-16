@@ -166,10 +166,6 @@ public class ClientInitService {
             importedFile.delete();
         }
 
-        // clear phase
-        this.phase = null;
-        this.credentials = null;
-
         // register commandlog
         Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
                 .setParameter("login", credentials.getUsername())
@@ -183,6 +179,10 @@ public class ClientInitService {
         in.setType(CommandTypes.OFFLINE_CLIENTINIT);
 
         commandStoreService.store(in);
+
+        // clear phase
+        this.phase = null;
+        this.credentials = null;
     }
 
     /**

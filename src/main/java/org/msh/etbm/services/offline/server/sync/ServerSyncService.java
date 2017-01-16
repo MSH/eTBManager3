@@ -11,6 +11,7 @@ import org.msh.etbm.services.offline.fileimporter.ImportResponse;
 import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -50,8 +51,10 @@ public class ServerSyncService {
         try {
             // get workspace id
             UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
+            // get user id
+            UUID userId = userRequestService.getUserSession().getUserId();
             // creates and prepares data object that will store the state of this client sync
-            SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId);
+            SyncTrack track = tracker.startTracking(clientSyncFile, workspaceId, userId);
             track.setPhase(ServerSyncPhase.IMPORTING_CLIENT_FILE);
 
             // Async starts here
@@ -118,9 +121,6 @@ public class ServerSyncService {
         track.getClientSyncFile().delete();
         track.getServerSyncFile().delete();
 
-        // removes the track from tracker
-        tracker.endTracking(track.getSyncToken());
-
         // register commandlog
         CommandHistoryInput in = new CommandHistoryInput();
         in.setWorkspaceId(track.getWorkspaceId());
@@ -130,6 +130,9 @@ public class ServerSyncService {
         in.setType(CommandTypes.OFFLINE_SERVERSYNC);
 
         commandStoreService.store(in);
+
+        // removes the track from tracker
+        tracker.endTracking(track.getSyncToken());
     }
 
     /**

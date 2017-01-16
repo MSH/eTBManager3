@@ -52,11 +52,12 @@ public class SyncTrack {
      */
     ServerSyncPhase phase;
 
-    public SyncTrack(String syncToken, File clientSyncFile, UUID workspaceId) {
+    public SyncTrack(String syncToken, File clientSyncFile, UUID workspaceId, UUID userId) {
         this.iniDateTime = DateUtils.getDate();
         this.syncToken = syncToken;
         this.clientSyncFile = clientSyncFile;
         this.workspaceId = workspaceId;
+        this.userId = userId;
     }
 
     public Date getIniDateTime() {
