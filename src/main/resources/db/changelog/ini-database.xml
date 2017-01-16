@@ -1220,8 +1220,6 @@
             <column name="TAG_ID" type="${type.id}">
                 <constraints nullable="false"/>
             </column>
-            <column name="version" type="${version}" />
-            <column name="synched" type="${type.boolean}" />
         </createTable>
     </changeSet>
 
