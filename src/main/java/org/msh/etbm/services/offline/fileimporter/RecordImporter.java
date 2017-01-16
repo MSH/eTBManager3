@@ -35,7 +35,7 @@ public class RecordImporter {
             "agerange", "regimen", "tag", "sys_user", "userprofile", "userworkspace", "report", "patient", "tbcase",
             "examculture", "exammicroscopy", "examhiv", "examdst", "examxpert", "examxray", "treatmenthealthunit",
             "prescribedmedicine", "prevtbtreatment", "casecontact", "casesideeffect", "medicalexamination", "casecomorbidities",
-            "casecomment", "issue", "issuefollowup", "treatmentmonitoring", "tags_case", "deletedentity"};
+            "casecomment", "issue", "issuefollowup", "treatmentmonitoring", "deletedentity"};
 
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.

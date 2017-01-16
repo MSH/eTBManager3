@@ -247,8 +247,8 @@ public class ServerTableQueryList extends TableQueryList {
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .join("tag", "tag.id = $root.tag_id")
                 .restrict("tag.sqlCondition is null")
-                .restrict("$root.version > ?", initialVersion)
-                .restrict("$root.version < ?", finalVersion)
+                .restrict("tbcase.version > ?", initialVersion)
+                .restrict("tbcase.version < ?", finalVersion)
                 .restrict("tbcase.owner_unit_id = ?", unitId);
     }
 

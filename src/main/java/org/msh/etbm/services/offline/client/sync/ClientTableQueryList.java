@@ -206,7 +206,7 @@ public class ClientTableQueryList extends TableQueryList {
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .join("tag", "tag.id = $root.tag_id")
                 .restrict("tag.sqlCondition is null")
-                .restrict("$root.synched = ?", notSynched)
+                .restrict("tbcase.synched = ?", notSynched)
                 .restrict("tbcase.owner_unit_id = ?", unitId);
     }
 
