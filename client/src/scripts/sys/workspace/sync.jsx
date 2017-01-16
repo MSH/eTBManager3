@@ -79,6 +79,11 @@ export default class Sync extends React.Component {
 
         server.post('/api/offline/client/sync/synchronize', req)
         .then(res => {
+            if (res.errors) {
+                this.setState({ globalMsgs: res.errors, fetching: false });
+                return null;
+            }
+
             setTimeout(this.checkStatusUntilFinish, 800);
 
             return res;

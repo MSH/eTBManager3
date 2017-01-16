@@ -5,6 +5,7 @@ import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandStoreService;
 import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
@@ -24,6 +25,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 /**
@@ -121,6 +124,15 @@ public class ClientSyncService {
 
             return getStatus();
 
+        } catch (ForbiddenException e) {
+            phase = null;
+            throw new EntityValidationException(new Object(), null, null, "sync.invalidpassword");
+        } catch (ConnectException e) {
+            phase = null;
+            throw new EntityValidationException(new Object(), null, null, "sync.connectionproblem");
+        } catch (UnknownHostException e) {
+            phase = null;
+            throw new EntityValidationException(new Object(), null, null, "sync.connectionproblem");
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);

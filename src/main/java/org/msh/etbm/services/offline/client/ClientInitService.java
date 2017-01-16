@@ -82,18 +82,16 @@ public class ClientInitService {
             return response;
 
         } catch (MalformedURLException e) {
-            // todo
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
         } catch (UnknownHostException e) {
-            // todo
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
-
-        return null;
     }
 
     /**
-     * Download and import init file.
+     * Download and import init file.t
      * @param data
      * @return the status of initialize process
      */
@@ -131,15 +129,14 @@ public class ClientInitService {
                     "/api/offline/server/inifile",
                     loginRes.getAuthToken().toString(), downloadedFile -> importFile(downloadedFile));
 
+            return getStatus();
         } catch (UnknownHostException e) {
             phase = null;
-            // todo
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);
         }
-
-        return getStatus();
     }
 
 
@@ -210,7 +207,9 @@ public class ClientInitService {
      * @return the address with complements
      */
     private String checkServerAddress(String url) {
-        String server = url;
+        // TODO: temp comment
+        return url;
+        /*String server = url;
         // try to fill gaps in the composition of the server address
         if (!server.startsWith("http")) {
             server = "http://" + server;
@@ -222,7 +221,7 @@ public class ClientInitService {
             }
             server += "etbm3";
         }
-        return server;
+        return server;*/
     }
 
     /**

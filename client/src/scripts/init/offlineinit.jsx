@@ -121,10 +121,6 @@ export default class OfflineInit extends React.Component {
             }
 
             return res;
-        })
-        .catch(err => {
-            this.setState({ fetching: false });
-            return Promise.reject(err);
         });
     }
 
