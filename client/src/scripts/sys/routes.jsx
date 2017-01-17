@@ -19,6 +19,7 @@ import CaseNewView from './case/new';
 import Settings from './user/settings';
 import ChangePassword from './user/change-password.jsx';
 
+import Sync from './sync';
 
 /**
  * Initial page that declare all routes of the module
@@ -51,7 +52,8 @@ class Routes extends React.Component {
             { path: '/case/new', view: CaseNewView },
             { path: '/case', view: CaseView },
             { path: '/user/settings', view: Settings },
-            { path: '/user/changepassword', view: ChangePassword }
+            { path: '/user/changepassword', view: ChangePassword },
+            { path: '/sync', view: Sync }
         ];
 
         // playground for dev is available just in dev module

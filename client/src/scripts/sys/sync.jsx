@@ -1,8 +1,9 @@
 import React from 'react';
 import { Grid, Row, Col, FormControl, FormGroup, ControlLabel, HelpBlock, Button, Alert } from 'react-bootstrap';
-import { AsyncButton, Card, WaitIcon } from '../../components/index';
-import { validateForm } from '../../commons/validator';
-import { server } from '../../commons/server';
+import { AsyncButton, Card, WaitIcon } from '../components/index';
+import { validateForm } from '../commons/validator';
+import { server } from '../commons/server';
+import { SessionUtils } from './session-utils';
 
 /**
  * Form validation model
@@ -207,7 +208,7 @@ export default class Sync extends React.Component {
                         </p>
                     </div>
                     <div>
-                        <Button bsStyle="default" block>{__('sync.success.btn')}</Button>
+                        <Button bsStyle="default" block onClick={SessionUtils.goToHome}>{__('sync.success.btn')}</Button>
                     </div>
                 </div>
                 );

@@ -95,7 +95,6 @@ public class AutoGenTagsCasesService {
      *
      * @param caseId
      */
-    //@Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void updateTags(UUID caseId) {
         UUID wsid = userRequestService.getUserSession().getWorkspaceId();
 
