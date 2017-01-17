@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.JsonParserException;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.dbcache.DbCache;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.services.cases.search.CaseData;
 import org.msh.etbm.services.cases.search.CaseSearchRequest;
@@ -44,6 +45,7 @@ public class SummaryService {
      * @param req
      * @return list of {@link SummaryReportData} with the summary report
      */
+    @DbCache(updateAt = "2:30:00")
     public List<SummaryReportData> generateSummary(SummaryRequest req) {
         if (development) {
             // force reloading the summary.json on every report generation

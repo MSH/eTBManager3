@@ -55,7 +55,6 @@ public class CachedData {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WORKSPACE_ID")
-    @NotNull
     private Workspace workspace;
 
 

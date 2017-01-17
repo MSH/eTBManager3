@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.CachedData;
+import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class DbCacheStore {
 
     @Autowired
     DbCacheUtils dbCacheUtils;
+
+    @Autowired
+    UserRequestService userRequestService;
 
 
     /**
@@ -100,6 +105,11 @@ public class DbCacheStore {
         cd.setArgs(cacheId.getArgsJson());
         cd.setArgsClass(cacheId.getArgs().getClass().getCanonicalName());
         cd.setMethod(dbCacheUtils.methodToString(cacheId.getMethod()));
+
+        if (userRequestService.isAuthenticated()) {
+            Workspace ws = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
+            cd.setWorkspace(ws);
+        }
 
         Date expiryDate = dbCacheUtils.calcExpiryDate(cacheId.getMethod());
         cd.setExpiryDate(expiryDate);
