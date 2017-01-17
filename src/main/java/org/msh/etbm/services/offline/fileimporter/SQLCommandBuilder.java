@@ -17,6 +17,16 @@ public class SQLCommandBuilder {
     private String tableName;
 
     /**
+     * When instantiated will create the delete and select command used during the importing process.
+     * @param tableName
+     */
+    public SQLCommandBuilder(String tableName) {
+        this.tableName = tableName;
+        createDeleteCommand();
+        createSelectCommand();
+    }
+
+    /**
      * When instantiated will create the insert, update, delete and select command used during the importing process.
      * @param tableName
      * @param fields

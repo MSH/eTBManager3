@@ -18,6 +18,7 @@ public class SysConfigData {
     private boolean clientMode;
     private String serverURL;
     private Integer version;
+    private SynchronizableItem syncUnit;
 
     public String getSystemURL() {
         return systemURL;
@@ -105,5 +106,13 @@ public class SysConfigData {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public SynchronizableItem getSyncUnit() {
+        return syncUnit;
+    }
+
+    public void setSyncUnit(SynchronizableItem syncUnit) {
+        this.syncUnit = syncUnit;
     }
 }

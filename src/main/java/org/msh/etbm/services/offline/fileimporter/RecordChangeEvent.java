@@ -1,12 +1,22 @@
-package org.msh.etbm.services.offline.client.data;
+package org.msh.etbm.services.offline.fileimporter;
 
 /**
+ * Event type that is triggered when a record is created, updated or deleted.
  * Created by Mauricio on 15/12/2016.
  */
 public class RecordChangeEvent {
 
+    /**
+     * The table name
+     */
     private String table;
+    /**
+     * The record id
+     */
     private Object id;
+    /**
+     * The action: CREATE, UPDATE or DELETE
+     */
     private String action;
 
     public RecordChangeEvent(String table, Object id, String action) {

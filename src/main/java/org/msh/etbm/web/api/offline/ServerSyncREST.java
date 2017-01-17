@@ -3,9 +3,10 @@ package org.msh.etbm.web.api.offline;
 import org.apache.commons.compress.utils.IOUtils;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.server.ServerSyncService;
+import org.msh.etbm.services.offline.server.sync.ServerSyncService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,7 @@ import java.io.*;
  */
 @RestController
 @RequestMapping(path = "/api/offline/server")
-@Authenticated
+@Authenticated(instanceType = InstanceType.SERVER_MODE)
 public class ServerSyncREST {
 
     @Autowired

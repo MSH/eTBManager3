@@ -32,6 +32,11 @@ public class SystemInformation {
      */
     private boolean allowRegPage;
 
+    /**
+     * If true system is a client mode instance
+     */
+    private boolean clientMode;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, Map<String, String>> lists;
 
@@ -82,5 +87,13 @@ public class SystemInformation {
 
     public void setLists(Map<String, Map<String, String>> lists) {
         this.lists = lists;
+    }
+
+    public boolean isClientMode() {
+        return clientMode;
+    }
+
+    public void setClientMode(boolean clientMode) {
+        this.clientMode = clientMode;
     }
 }

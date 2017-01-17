@@ -8,7 +8,7 @@ import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.sync.listeners.SyncFileGeneratorListener;
+import org.msh.etbm.services.offline.client.listeners.SyncFileGeneratorListener;
 import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
 import org.msh.etbm.services.offline.filegen.TableQueryItem;
 import org.msh.etbm.services.offline.filegen.TableQueryList;
@@ -29,7 +29,7 @@ import java.util.zip.GZIPOutputStream;
 /**
  * Generate the synchronization file from the client side
  *
- * Created by rmemoria on 8/11/16.
+ * Created by mauricio on 8/11/16.
  */
 @Service
 public class ClientSyncFileGenerator {
@@ -42,11 +42,12 @@ public class ClientSyncFileGenerator {
 
     /**
      * Generate a synchronization file from the client side
-     * @return the generated file
+     * @param workspaceId
+     * @param listener called after file is generated
      * @throws SynchronizationException
      */
     @Async
-    public void generate(UUID unitId, UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
+    public void generate(UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -57,7 +58,7 @@ public class ClientSyncFileGenerator {
             JsonGenerator generator = jsonFactory.createGenerator(zipOut, JsonEncoding.UTF8);
 
             try {
-                generateJsonContent(generator, unitId, workspaceId);
+                generateJsonContent(generator, workspaceId);
             } finally {
                 generator.close();
                 zipOut.close();
@@ -76,10 +77,11 @@ public class ClientSyncFileGenerator {
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void generateJsonContent(JsonGenerator generator, UUID unitId, UUID workspaceId) throws IOException {
-
+    protected void generateJsonContent(JsonGenerator generator, UUID workspaceId) throws IOException {
         SysConfigData data = sysConfigService.loadConfig();
-        long version = data.getVersion();
+
+        Integer version = data.getVersion();
+        UUID unitId = data.getSyncUnit().getId();
 
         // get the list of tables to query
         ClientTableQueryList queries = new ClientTableQueryList(workspaceId, unitId);
@@ -90,9 +92,12 @@ public class ClientSyncFileGenerator {
         // write reference version
         generator.writeObjectField("version", version);
 
+        // write reference unit id
+        generator.writeObjectField("sync-unit-id", CompactibleJsonConverter.convertToJson(unitId));
+
         // write the content of the table
         generator.writeFieldName("tables");
-        writeTables(queries, generator);
+        writeTables(queries, unitId, generator);
 
         // end the file with an object
         generator.writeEndObject();
@@ -104,7 +109,7 @@ public class ClientSyncFileGenerator {
      * @param generator instance of the JsonGenerator (from the Jackson library)
      * @throws IOException
      */
-    protected void writeTables(TableQueryList queries, JsonGenerator generator) throws IOException {
+    protected void writeTables(TableQueryList queries, UUID unitId, JsonGenerator generator) throws IOException {
         // start the array (main)
         generator.writeStartArray();
 
@@ -129,11 +134,10 @@ public class ClientSyncFileGenerator {
             trav.eachRecord((rec, index) -> generateJsonObject(generator, rec, item.getIgnoreList()));
             generator.writeEndArray();
 
-            //TODO: block bellow is not implemented
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(Optional.empty(), id -> {
+            trav.eachDeleted(Optional.empty(), unitId, true, id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });

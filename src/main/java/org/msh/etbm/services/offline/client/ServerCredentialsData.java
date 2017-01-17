@@ -1,16 +1,31 @@
-package org.msh.etbm.services.offline.client.data;
+package org.msh.etbm.services.offline.client;
 
 import java.util.UUID;
 
 /**
- * Data class to initialize an off-line mode instance
+ * Data class to store credentials of parent server
  * Created by Mauricio on 21/11/2016.
  */
 public class ServerCredentialsData {
 
+    /**
+     * The URL od parent server
+     */
     private String parentServerUrl;
+
+    /**
+     * The user name on parent server
+     */
     private String username;
+
+    /**
+     * The user password on parent server
+     */
     private String password;
+
+    /**
+     * The workspace id that the user is logging in
+     */
     private UUID workspaceId;
 
     public ServerCredentialsData() {

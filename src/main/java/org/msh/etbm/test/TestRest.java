@@ -158,9 +158,8 @@ public class TestRest {
     public StandardResult generateSyncFile() throws IOException {
         UUID unitId = userRequestService.getUserSession().getUnitId();
         UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
-        UUID userId = userRequestService.getUserSession().getUserId();
 
-        File file = syncFileGenerator.generate(unitId, workspaceId, userId, Optional.empty()).getFile();
+        File file = syncFileGenerator.generate(unitId, workspaceId, Optional.empty());
 
         return new StandardResult(file.toString(), null, true);
     }

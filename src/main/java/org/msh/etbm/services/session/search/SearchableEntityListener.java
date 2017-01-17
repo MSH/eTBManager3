@@ -2,6 +2,7 @@ package org.msh.etbm.services.session.search;
 
 import org.msh.etbm.commons.entities.EntityServiceEvent;
 import org.msh.etbm.commons.entities.cmdlog.Operation;
+import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
 import org.springframework.stereotype.Component;
@@ -51,6 +52,10 @@ public class SearchableEntityListener extends SearchableBuilder {
         searchable = buildSearchable(entity, searchable);
 
         entityManager.persist(searchable);
+
+        if (entity instanceof AdministrativeUnit) {
+            super.updateAdminUnitChilds((AdministrativeUnit) entity);
+        }
     }
 
     /**

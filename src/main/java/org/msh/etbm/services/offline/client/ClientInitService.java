@@ -1,4 +1,4 @@
-package org.msh.etbm.services.offline.client.init;
+package org.msh.etbm.services.offline.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -10,7 +10,7 @@ import org.msh.etbm.services.offline.client.ParentServerRequestService;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.data.ServerCredentialsData;
+import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,17 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 /**
- * Service to initialize a client mode instance.
+ * Service that initializes a client mode instance.
  * Created by Mauricio on 21/11/2016.
  */
 @Service
-public class ClientModeInitService {
+public class ClientInitService {
 
     @Autowired
     ParentServerRequestService request;
@@ -48,86 +51,113 @@ public class ClientModeInitService {
      */
     private ClientModeInitPhase phase;
 
+    /**
+     * Stores the credentials used to login on server until the end of initialization
+     */
     private ServerCredentialsData credentials;
 
     /**
-     * Returns all workspaces attached to the user that matches with credentials on param.
      * @param data
-     * @return
+     * @return Returns all workspaces attached to the user that matches with credentials on param.
      */
     public List<WorkspaceInfo> findWorkspaces(ServerCredentialsData data) {
+        // checks if client database is already initialized
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
-        // todo: COMENTADO TEMPORARIAMENTE
-        //String serverAddress = checkServerAddress(data.getParentServerUrl());
-        String serverAddress = "http://localhost:8081";
+        try {
+            String serverAddress = checkServerAddress(data.getParentServerUrl());
 
-        TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
+            TypeFactory typeFactory = new ObjectMapper().getTypeFactory();
 
-        List<WorkspaceInfo> response = request.post(serverAddress,
-                "/api/auth/workspaces",
-                null,
-                data,
-                typeFactory.constructCollectionType(List.class, WorkspaceInfo.class),
-                null);
+            // request server expecting the list of workspaces
+            List<WorkspaceInfo> response = request.post(serverAddress,
+                    "/api/auth/workspaces",
+                    null,
+                    data,
+                    typeFactory.constructCollectionType(List.class, WorkspaceInfo.class),
+                    null);
 
-        return response;
+            return response;
+
+        } catch (MalformedURLException e) {
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+        } catch (UnknownHostException e) {
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+        } catch (IOException e) {
+            throw new SynchronizationException(e);
+        }
     }
 
     /**
-     * Download and import init file.
+     * Download and import init file.t
      * @param data
+     * @return the status of initialize process
      */
     public StatusResponse initialize(ServerCredentialsData data) {
+        // checks if client database is already initialized
         if (isInitialized()) {
             throw new EntityValidationException(data, null, null, "init.offinit.error3");
         }
 
+        // checks if initialization is already running
         if (phase != null) {
             throw new SynchronizationException("Initialization progress is already running");
         }
 
-        phase = ClientModeInitPhase.STARTING;
+        // start initialization
+        try {
+            String serverAddress = checkServerAddress(data.getParentServerUrl());
 
-        // todo: COMENTADO TEMPORARIAMENTE
-        //String serverAddress = checkServerAddress(data.getParentServerUrl());
-        String serverAddress = "http://localhost:8081";
+            // Login into remote server
+            // As the workspace list was requested before, it is not expected any connection error here
+            LoginResponse loginRes = request.post(serverAddress,
+                    "/api/auth/login",
+                    null,
+                    data,
+                    null,
+                    LoginResponse.class);
 
-        // Login into remote server
-        LoginResponse loginRes = request.post(serverAddress,
-                "/api/auth/login",
-                null,
-                data,
-                null,
-                LoginResponse.class);
+            // Download and import file
+            phase = ClientModeInitPhase.DOWNLOADING_FILE;
+            credentials = data;
+            data.setParentServerUrl(serverAddress);
 
-        // Asynchronously download and import file
-        phase = ClientModeInitPhase.DOWNLOADING_FILE;
-        credentials = data;
-        request.downloadFile(serverAddress,
-                "/api/offline/server/inifile",
-                loginRes.getAuthToken().toString(),
-            downloadedFile -> importFile(downloadedFile, serverAddress));
+            // Async starts here
+            request.downloadFile(serverAddress,
+                    "/api/offline/server/inifile",
+                    loginRes.getAuthToken().toString(), downloadedFile -> importFile(downloadedFile));
 
-        return getStatus();
+            return getStatus();
+        } catch (UnknownHostException e) {
+            phase = null;
+            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
     }
 
 
     /**
      * Asynchronously imports the initialization file
-     * @param file
-     * @param serverAddress
+     * @param file the downloaded file
      */
-    private void importFile(File file, String serverAddress) {
+    private void importFile(File file) {
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
-        importer.importFile(file, true, serverAddress, (importedFile, fileVersion) -> afterImporting(importedFile));
+        try {
+            // start importing
+            importer.importFile(file, true, credentials.getParentServerUrl(), (importedFile, fileVersion) -> afterImporting(importedFile));
+        } catch (IOException e) {
+            phase = null;
+            throw new SynchronizationException(e);
+        }
     }
 
     /**
-     * Called after importing file
+     * Called after importing file to end the initialization process, registering command log.
      * @param importedFile
      */
     private void afterImporting(File importedFile) {
@@ -135,9 +165,6 @@ public class ClientModeInitService {
         if (importedFile != null) {
             importedFile.delete();
         }
-
-        // clear phase
-        this.phase = null;
 
         // register commandlog
         Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
@@ -152,11 +179,15 @@ public class ClientModeInitService {
         in.setType(CommandTypes.OFFLINE_CLIENTINIT);
 
         commandStoreService.store(in);
+
+        // clear phase
+        this.phase = null;
+        this.credentials = null;
     }
 
     /**
      * Checks if database is already initialized
-     * @return
+     * @return true if database is already initialized
      */
     private boolean isInitialized() {
         List<Workspace> ws = entityManager.createQuery("from Workspace").getResultList();
@@ -176,7 +207,9 @@ public class ClientModeInitService {
      * @return the address with complements
      */
     private String checkServerAddress(String url) {
-        String server = url;
+        // TODO: temp comment
+        return url;
+        /*String server = url;
         // try to fill gaps in the composition of the server address
         if (!server.startsWith("http")) {
             server = "http://" + server;
@@ -188,32 +221,29 @@ public class ClientModeInitService {
             }
             server += "etbm3";
         }
-        return server;
+        return server;*/
     }
 
     /**
-     * Return the initialization status now
-     * @return
+     * Return the initialization status
+     * @return Data object containing the phase ID and phase Title
      */
     public StatusResponse getStatus() {
         if (phase == null) {
-            return getStatusResponse(ClientModeInitPhase.NOT_RUNNING);
+            return new StatusResponse(ClientModeInitPhase.NOT_RUNNING.name(), messages.get(ClientModeInitPhase.NOT_RUNNING.getMessageKey()));
         }
 
-        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE) && importer.getPhase() != null) {
+        if (phase.equals(ClientModeInitPhase.IMPORTING_FILE)) {
+            if (importer.getPhase() == null) {
+                return new StatusResponse(ClientModeInitPhase.IMPORTING_FILE.name(), messages.get("init.offinit.phase.IMPORTING_TABLES"));
+            }
+
             String msg = messages.get("init.offinit.phase." + importer.getPhase().name());
-            return new StatusResponse(importer.getPhase().name(), messages.format(msg, importer.getImportingTable()));
+            String complement = importer.getImportingTable() != null ? ": " + importer.getImportingTable() : "";
+
+            return new StatusResponse(importer.getPhase().name(), msg + complement);
         }
 
-        return getStatusResponse(phase);
-    }
-
-    /**
-     * Builds ServerStatusResponse to response status service.
-     * @param phase
-     * @return
-     */
-    private StatusResponse getStatusResponse(ClientModeInitPhase phase) {
         return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
     }
 
@@ -221,7 +251,6 @@ public class ClientModeInitService {
      * Enum used to track the initialization progress
      */
     public enum ClientModeInitPhase {
-        STARTING,
         DOWNLOADING_FILE,
         IMPORTING_FILE,
         NOT_RUNNING;

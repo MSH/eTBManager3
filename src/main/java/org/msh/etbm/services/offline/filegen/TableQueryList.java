@@ -26,6 +26,7 @@ public abstract class TableQueryList {
 
     /**
      * Prepare the queries to return the records to generate the sync file
+     * This method must be specialized by a specific component to be used by a server instance and a client instance.
      */
     protected abstract void initQueries();
 

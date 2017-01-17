@@ -3,16 +3,12 @@ package org.msh.etbm.services.offline.server;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import org.msh.etbm.commons.commands.CommandLog;
-import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 import org.msh.etbm.services.offline.*;
 import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
 import org.msh.etbm.services.offline.filegen.TableQueryItem;
-import org.msh.etbm.services.offline.filegen.TableQueryList;
 import org.msh.etbm.services.session.usersession.UserRequestService;
-import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.Workspace;
 import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
@@ -52,11 +48,12 @@ public class ServerFileGenerator {
     /**
      * Generate a synchronization file from the server side
      * @param unitId the ID of the unit to generate the file to
+     * @param workspaceId the ID of the workspace to generate the file to
      * @param initialVersion the initial version to generate just the differences
      * @return the generated file
      * @throws SynchronizationException
      */
-    public SynchronizationResponse generate(UUID unitId, UUID workspaceId, UUID userId, Optional<Integer> initialVersion) throws SynchronizationException {
+    public File generate(UUID unitId, UUID workspaceId, Optional<Integer> initialVersion) throws SynchronizationException {
         try {
             File file = File.createTempFile("etbm", ".zip");
 
@@ -74,26 +71,11 @@ public class ServerFileGenerator {
                 fout.close();
             }
 
-            return createResponse(file, unitId, workspaceId, userId);
+            return file;
 
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
-
-    }
-
-    /**
-     * Creates response for file generation, used by SyncCmdLogHandler to register the log for this service
-     * @param file
-     * @return
-     */
-    private SynchronizationResponse createResponse(File file, UUID unitId, UUID workspaceId, UUID userId) {
-        SynchronizationResponse resp = new SynchronizationResponse();
-        resp.setFile(file);
-        resp.setUnitId(unitId);
-        resp.setUserId(userId);
-        resp.setWorkspaceId(workspaceId);
-        return resp;
     }
 
     /**
@@ -121,6 +103,9 @@ public class ServerFileGenerator {
 
         // write reference version
         generator.writeObjectField("version", finalVersion);
+
+        // write reference unit id
+        generator.writeObjectField("sync-unit-id", CompactibleJsonConverter.convertToJson(unitId));
 
         // write information about the workspace
         generator.writeFieldName("workspace");
@@ -198,7 +183,7 @@ public class ServerFileGenerator {
      * @param initialVersion The initial version to generate content from
      * @throws IOException
      */
-    protected void writeTables(TableQueryList queries, JsonGenerator generator,
+    protected void writeTables(ServerTableQueryList queries, JsonGenerator generator,
                                Optional<Integer> initialVersion) throws IOException {
         // start the array (main)
         generator.writeStartArray();
@@ -227,7 +212,7 @@ public class ServerFileGenerator {
             // write the deleted records (in an array of IDs)
             generator.writeFieldName("deleted");
             generator.writeStartArray();
-            trav.eachDeleted(initialVersion, id -> {
+            trav.eachDeleted(initialVersion, queries.getUnitId(), false, id -> {
                 Object val = CompactibleJsonConverter.convertToJson(id);
                 generator.writeObject(val);
             });

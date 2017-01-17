@@ -73,7 +73,14 @@ public class ManualCaseTagsService {
         // set new tag list
         tbcase.setTags(newTagList);
         entityManager.persist(tbcase);
-        entityManager.flush();
+
+        // update version and synched field of tbcase, so on the next sync this tbcase
+        // and its manual tags_case will be shared on file.
+        entityManager.createNativeQuery("update tbcase " +
+                "set synched = false, version=unix_timestamp()-1000000000 " +
+                "where id = :caseId")
+                .setParameter("caseId", tbcase.getId())
+                .executeUpdate();
 
         // finish preparing response
         assignManualTags(tbcase.getTags(), res.getNewManualTags());

@@ -1,8 +1,6 @@
-package org.msh.etbm.services.offline.server;
+package org.msh.etbm.services.offline.server.sync;
 
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.server.data.SyncTrack;
-import org.msh.etbm.services.offline.server.sync.ServerSyncPhase;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -18,13 +16,13 @@ public class SyncTracker {
 
     private Map<String, SyncTrack> syncTrackers;
 
-    public SyncTrack startTracking(File clientSyncFile, UUID unitId, UUID workspaceId) {
+    public SyncTrack startTracking(File clientSyncFile, UUID workspaceId, UUID userId) {
         if (syncTrackers == null) {
             syncTrackers = new HashMap<>();
         }
 
         String syncToken = UUID.randomUUID().toString();
-        SyncTrack track = new SyncTrack(syncToken, clientSyncFile, unitId, workspaceId);
+        SyncTrack track = new SyncTrack(syncToken, clientSyncFile, workspaceId, userId);
 
         syncTrackers.put(syncToken, track);
 

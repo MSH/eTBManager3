@@ -56,6 +56,10 @@ export default class Toolbar extends React.Component {
         logout().then(() => app.goto('/pub/login'));
     }
 
+    showAdmin() {
+        return hasPerm('ADMIN') && !app.storage.state.app.clientMode;
+    }
+
     render() {
         var Logo = (
             <a>
@@ -85,7 +89,11 @@ export default class Toolbar extends React.Component {
                     <Nav>
                         <NavItem href={SessionUtils.homeHash()}>{__('home')}</NavItem>
                         {
-                            hasPerm('ADMIN') &&
+                            app.storage.state.app.clientMode &&
+                                <NavItem href={'#/sys/sync'} className={'mright-2x'}>{'Synchronize'}</NavItem>
+                        }
+                        {
+                            hasPerm('ADMIN') && !app.storage.state.app.clientMode &&
                                 <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
                                     <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
                                     <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>

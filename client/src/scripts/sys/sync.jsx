@@ -1,17 +1,9 @@
 import React from 'react';
-import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, Button, Alert } from 'react-bootstrap';
-import { AsyncButton, Card, WaitIcon } from '../../components/index';
-import { validateForm } from '../../commons/validator';
-import { server } from '../../commons/server';
-
-const NOTRUNNING = 'NOTRUNNING';
-const GENERATINGFILE = 'GENERATINGFILE';
-const SENDINGFILE = 'SENDINGFILE';
-const RECEIVINGFILE = 'RECEIVINGFILE';
-const IMPORTINGFILE = 'IMPORTINGFILE';
-const SUCCESS = 'SUCCESS';
-
-// TODO: check and create messages
+import { Grid, Row, Col, FormControl, FormGroup, ControlLabel, HelpBlock, Button, Alert } from 'react-bootstrap';
+import { AsyncButton, Card, WaitIcon } from '../components/index';
+import { validateForm } from '../commons/validator';
+import { server } from '../commons/server';
+import { SessionUtils } from './session-utils';
 
 /**
  * Form validation model
@@ -88,6 +80,11 @@ export default class Sync extends React.Component {
 
         server.post('/api/offline/client/sync/synchronize', req)
         .then(res => {
+            if (res.errors) {
+                this.setState({ globalMsgs: res.errors, fetching: false });
+                return null;
+            }
+
             setTimeout(this.checkStatusUntilFinish, 800);
 
             return res;
@@ -159,7 +156,7 @@ export default class Sync extends React.Component {
                 <Row>
                     <Col sm={12}>
                         <FormGroup validationState={err.password ? 'error' : undefined}>
-                            <ControlLabel>{'Type your password:'}</ControlLabel>
+                            <ControlLabel>{__('sync.password')}</ControlLabel>
                             <FormControl type="password" ref="password" />
                             <HelpBlock>{err.password}</HelpBlock>
                         </FormGroup>
@@ -182,7 +179,7 @@ export default class Sync extends React.Component {
         return (<div>
                     <Row>
                         <Col sm={12}>
-                            <h4 className="text-center">{this.state.phase.id}</h4>
+                            <h4 className="text-center">{this.state.phase.title}</h4>
                         </Col>
                     </Row>
                     <Row>
@@ -201,7 +198,7 @@ export default class Sync extends React.Component {
                 <div>
                     <div className="text-center">
                         <h3>
-                            {'Synchronization Completed'}
+                            {__('sync.success')}
                         </h3>
                         <br/>
                         <i className="fa fa-check-circle fa-4x text-success"/>
@@ -211,7 +208,7 @@ export default class Sync extends React.Component {
                         </p>
                     </div>
                     <div>
-                        <Button bsStyle="default" block>{'Go back to System'}</Button>
+                        <Button bsStyle="default" block onClick={SessionUtils.goToHome}>{__('sync.success.btn')}</Button>
                     </div>
                 </div>
                 );
@@ -222,7 +219,7 @@ export default class Sync extends React.Component {
         return (
             <Grid>
                 <Col sm={6} smOffset={3}>
-                    <Card title={'Synchronize with server'} className="mtop-2x">
+                    <Card title={__('sync.title')} className="mtop-2x">
                         {
                             this.state.globalMsgs && this.state.globalMsgs.map((it, i) => <Alert key={i} bsStyle="danger">{it.msg}</Alert>)
                         }

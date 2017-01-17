@@ -5,8 +5,19 @@ package org.msh.etbm.services.offline;
  * Created by Mauricio on 13/12/2016.
  */
 public class StatusResponse {
+    /**
+     * The status id
+     */
     private String id;
+
+    /**
+     * The tatus message
+     */
     private String title;
+
+    /**
+     * The sync token
+     */
     private String token;
 
     public StatusResponse() {

@@ -19,6 +19,8 @@ public class SQLUpdateChildTables {
     private final String MEDICINE_REGIMEN = "DELETE FROM medicineregimen WHERE regimen_id = ?";
     private final String USERPERMISSION = "DELETE FROM userpermission WHERE profile_id = ?";
     private final String USERWORKSPACE_PROFILES = "DELETE FROM userworkspace_profiles WHERE userworkspace_id = ?";
+    private final String MANUAL_TAGS_CASE = "DELETE FROM tags_case WHERE case_id = ? AND " +
+            "EXISTS(SELECT * FROM tag t WHERE t.sqlCondition is null and t.id = tag_id)";
 
     public SQLUpdateChildTables() {
         initialize();
@@ -34,6 +36,7 @@ public class SQLUpdateChildTables {
         addChild("regimen", MEDICINE_REGIMEN);
         addChild("userprofile", USERPERMISSION);
         addChild("userworkspace", USERWORKSPACE_PROFILES);
+        addChild("tbcase", MANUAL_TAGS_CASE);
     }
 
     /**
@@ -49,6 +52,7 @@ public class SQLUpdateChildTables {
         }
 
         list.add(childQuery);
+        parentTablesCommands.put(parentTableName, list);
     }
 
     /**

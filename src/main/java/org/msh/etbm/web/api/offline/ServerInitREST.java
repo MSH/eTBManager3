@@ -2,8 +2,10 @@ package org.msh.etbm.web.api.offline;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.msh.etbm.services.offline.server.ServerFileGenerator;
+import org.msh.etbm.services.offline.server.ServerInitService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,23 +21,19 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping(path = "/api/offline/server")
-@Authenticated
+@Authenticated(instanceType = InstanceType.SERVER_MODE)
 public class ServerInitREST {
 
     @Autowired
-    ServerFileGenerator syncFileService;
+    ServerInitService serverInitService;
 
     @Autowired
     UserRequestService userRequestService;
 
     @RequestMapping(path = "/inifile", method = RequestMethod.GET)
     public void downloadIniFile(HttpServletResponse resp) throws FileNotFoundException, IOException {
-        UUID unitId = userRequestService.getUserSession().getUnitId();
-        UUID workspaceId = userRequestService.getUserSession().getWorkspaceId();
-        UUID userId = userRequestService.getUserSession().getUserId();
-
         // generate the file content
-        File file = syncFileService.generate(unitId, workspaceId, userId, Optional.empty()).getFile();
+        File file = serverInitService.generateInitFile();
 
         // generate the file name
         String filename = userRequestService.getUserSession().getWorkspaceName() + ".etbm";

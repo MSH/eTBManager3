@@ -65,6 +65,7 @@ public class SystemInfoService {
         SysConfigData cfg = sysConfigService.loadConfig();
         inf.setUlaActive(cfg.isUlaActive());
         inf.setAllowRegPage(cfg.isAllowRegPage());
+        inf.setClientMode(cfg.isClientMode());
 
         if (includeLists) {
             inf.setLists(globalListsService.getLists());

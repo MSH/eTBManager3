@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Sends a file a server instance of etb manager
+ *
  * Created by Mauricio on 05/01/2017.
  */
 @Service
@@ -26,90 +28,82 @@ public class ParentServerFileSender {
     @Autowired
     SysConfigService configService;
 
-    public <T> T sendFile(String serviceUrl, String authToken, File file, Class<T> classType) {
+    /**
+     * Sends the file to a etb manager server instance
+     * @param serviceUrl service to be called on server instance
+     * @param authToken the authentication token on server instance
+     * @param file the file to be sent
+     * @param classType the expected return classType
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
+    public <T> T sendFile(String serviceUrl, String authToken, File file, Class<T> classType) throws IOException {
         // define unique boundary to be used on the whole process
         String boundary = "===" + System.currentTimeMillis() + "===";
 
+        // get server url from system config
         String serverUrl = getServerURL();
-        // create post connection
-        HttpURLConnection httpConn = getPostConnection(serverUrl, serviceUrl, authToken, boundary);
-
+        HttpURLConnection httpConn = null;
+        OutputStream outputStream = null;
         Object ret = null;
 
         try {
-            OutputStream outputStream = null;
+            // create post connection
+            httpConn = getPostConnection(serverUrl, serviceUrl, authToken, boundary);
 
-            try {
-                outputStream = httpConn.getOutputStream();
-                PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream), true);
+            outputStream = httpConn.getOutputStream();
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream), true);
 
-                addFileOnRequest(file, boundary, writer, outputStream);
+            addFileOnRequest(file, boundary, writer, outputStream);
 
-                writer.append(LINE_FEED).flush();
-                writer.append("--" + boundary + "--").append(LINE_FEED);
-                writer.close();
+            writer.append(LINE_FEED).flush();
+            writer.append("--" + boundary + "--").append(LINE_FEED);
+            writer.close();
 
-                // checks server's status code first
-                checkHttpCode(httpConn.getResponseCode());
+            // checks server's status code first
+            checkHttpCode(httpConn.getResponseCode());
 
-                ret = JsonUtils.parse(httpConn.getInputStream(), classType);
-            } finally {
+            ret = JsonUtils.parse(httpConn.getInputStream(), classType);
+
+        } finally {
+            if (outputStream != null) {
                 outputStream.close();
             }
 
-        } catch (IOException e) {
-
-        } finally {
-            httpConn.disconnect();
+            if (httpConn != null) {
+                httpConn.disconnect();
+            }
         }
 
         return (T) ret;
     }
 
     /**
-     * Creates a POST connection
-     * @param serverUrl
-     * @param serviceUrl
-     * @param authToken
+     * Creates a POST connection.
+     * @param serverUrl the server url
+     * @param serviceUrl the api to be called on server
+     * @param authToken the authentication token on server
+     * @param boundary the boundary to be used on request
      * @return
+     * @throws IOException
      */
-    private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken, String boundary) {
-        try {
-            URL url = getURL(serverUrl, serviceUrl);
-            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+    private HttpURLConnection getPostConnection(String serverUrl, String serviceUrl, String authToken, String boundary) throws IOException {
+        URL url = new URL(serverUrl + serviceUrl);
 
-            if (authToken != null || !authToken.isEmpty()) {
-                httpConn.setRequestProperty("X-Auth-Token", authToken);
-            }
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 
-            httpConn.setUseCaches(false);
-            httpConn.setDoOutput(true); // indicates POST method
-            httpConn.setDoInput(true);
-            httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-
-            return httpConn;
-        } catch (Exception e) {
-            throw new SynchronizationException("Error while creating post request to parent server.");
-        }
-    }
-
-    /**
-     * Instantiate and returns the URL object based on the params
-     * @param serverUrl
-     * @param serviceUrl
-     * @return the URL object based on the params
-     */
-    private URL getURL(String serverUrl, String serviceUrl) {
-        URL url;
-
-        try {
-            // Instantiate URL
-            url = new URL(serverUrl + serviceUrl);
-        } catch (MalformedURLException e) {
-            throw new SynchronizationException("Error while creating post request to parent server.");
+        if (authToken != null || !authToken.isEmpty()) {
+            httpConn.setRequestProperty("X-Auth-Token", authToken);
         }
 
-        return url;
+        httpConn.setUseCaches(false);
+        httpConn.setDoOutput(true); // indicates POST method
+        httpConn.setDoInput(true);
+        httpConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+        return httpConn;
+
     }
 
     /**
@@ -119,9 +113,11 @@ public class ParentServerFileSender {
      */
     public void addFileOnRequest(File file, String boundary, PrintWriter writer, OutputStream outputStream) throws IOException {
         String fieldName = "file";
-        FileInputStream inputStream = new FileInputStream(file);
+        FileInputStream inputStream = null;
 
         try {
+            inputStream = new FileInputStream(file);
+
             String fileName = file.getName();
             writer.append("--" + boundary).append(LINE_FEED);
             writer.append(
@@ -141,10 +137,10 @@ public class ParentServerFileSender {
             while ((bytesRead = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, bytesRead);
             }
-        } catch (IOException e) {
-
         } finally {
-            inputStream.close();
+            if (inputStream != null) {
+                inputStream.close();
+            }
         }
     }
 
@@ -166,6 +162,10 @@ public class ParentServerFileSender {
         }
     }
 
+    /**
+     * Get the server URL on system configuration
+     * @return the server url
+     */
     private String getServerURL() {
         return configService.loadConfig().getServerURL();
     }

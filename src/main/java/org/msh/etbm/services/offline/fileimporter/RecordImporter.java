@@ -1,8 +1,8 @@
 package org.msh.etbm.services.offline.fileimporter;
 
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.data.RecordChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +13,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Service class that insert, update and deletes the workspace, system config and table records from the sync file
@@ -34,7 +35,7 @@ public class RecordImporter {
             "agerange", "regimen", "tag", "sys_user", "userprofile", "userworkspace", "report", "patient", "tbcase",
             "examculture", "exammicroscopy", "examhiv", "examdst", "examxpert", "examxray", "treatmenthealthunit",
             "prescribedmedicine", "prevtbtreatment", "casecontact", "casesideeffect", "medicalexamination", "casecomorbidities",
-            "casecomment", "issue", "issuefollowup", "treatmentmonitoring"};
+            "casecomment", "issue", "issuefollowup", "treatmentmonitoring", "deletedentity"};
 
     /**
      * Persist workspace, systemconfig oor table records that comes inside the sync file.
@@ -105,13 +106,25 @@ public class RecordImporter {
     /**
      * Detele an entity that comes inside deleted entity sections of sync file.
      * @param cmdBuilder
-     * @param record
+     * @param id
      */
-    public void delete(SQLCommandBuilder cmdBuilder, Map<String, Object> record) {
-        // TODO: [MSANTOS] implement when developing sync
+    public void delete(SQLCommandBuilder cmdBuilder, UUID id) {
+        // execute commands
+        TransactionTemplate txManager = new TransactionTemplate(platformTransactionManager);
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+
+        txManager.execute(status -> {
+            try {
+                // Delete the record
+                template.update(cmdBuilder.getDeleteCmd(), ObjectUtils.uuidAsBytes(id));
+            } catch (Exception e) {
+                System.out.println("ERROR EXECUTING");
+            }
+            return 0;
+        });
 
         // publish event about record deleting
-        RecordChangeEvent event = new RecordChangeEvent(cmdBuilder.getTableName(), getIdParam(record), "DELETE");
+        RecordChangeEvent event = new RecordChangeEvent(cmdBuilder.getTableName(), id, "DELETE");
         applicationContext.publishEvent(event);
     }
 

@@ -1182,6 +1182,7 @@
             <column name="pubds_workspace_id" type="${type.id}"/>
             <column name="ulaActive" type="${type.boolean}"/>
             <column name="version" type="${version}" />
+            <column name="SYNC_UNIT_ID" type="${type.id}"/>
         </createTable>
     </changeSet>
 

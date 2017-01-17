@@ -6,10 +6,10 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.CompactibleJsonConverter;
 import org.msh.etbm.services.offline.SynchronizationException;
-import org.msh.etbm.services.offline.client.init.FileImportListener;
 import org.msh.etbm.services.session.search.SearchableCreator;
 import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.Map;
+import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -55,13 +56,13 @@ public class FileImporter {
      * @param parentServerUrl
      */
     @Async
-    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) {
+    public void importFile(File file, boolean compressed, String parentServerUrl, FileImportListener listener) throws IOException {
         if (phase != null) {
             throw new SynchronizationException("Importer is already running");
         }
 
         phase = FileImportingPhase.STARTING_IMPORTING;
-        Integer fileVersion = null;
+        JsonParser parser = null;
 
         try {
             InputStream fileStream = new FileInputStream(file);
@@ -72,38 +73,31 @@ public class FileImporter {
 
             // create streaming parser
             JsonFactory factory = new MappingJsonFactory();
-            JsonParser parser = factory.createParser(fileStream);
+            parser = factory.createParser(fileStream);
 
-            // do importing
-            try {
-                fileVersion = importData(parser, parentServerUrl);
+            ImportResponse response = importData(parser, parentServerUrl);
 
-                // update the relation of all auto generated tags
-                phase = FileImportingPhase.UPDATING_TAGS;
-                autoGenTagsCasesService.updateAllCaseTags();
+            // update the relation of all auto generated tags
+            phase = FileImportingPhase.UPDATING_TAGS;
+            autoGenTagsCasesService.updateAllCaseTags();
 
-                // notify service that importing has end
-                listener.afterImport(file, fileVersion);
-            } finally {
-                // close parser
-                parser.close();
-            }
-
-        } catch (Throwable e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            // notify service that importing has end
+            listener.afterImport(file, response);
         } finally {
             // indicates that importer is not running anymore
             phase = null;
+            parser.close();
         }
     }
 
     /**
      * Runs the sync file calling the correct method that will persist the database changes.
      * @param parser
+     * @param parentServerUrl the server url to set on config, if null will be ignored
+     * @return the file version
      * @throws IOException
      */
-    private Integer importData(JsonParser parser, String parentServerUrl) throws IOException {
+    private ImportResponse importData(JsonParser parser, String parentServerUrl) throws IOException {
 
         if (parser.nextToken() != JsonToken.START_OBJECT) {
             throw new SynchronizationException("Root should be object");
@@ -112,6 +106,7 @@ public class FileImporter {
         phase =  FileImportingPhase.IMPORTING_TABLES;
 
         Integer fileVersion = null;
+        UUID syncUnitId = null;
 
         while (parser.nextToken() != JsonToken.END_OBJECT) {
             // get field name that is being read
@@ -123,7 +118,13 @@ public class FileImporter {
             switch (fieldName) {
                 case "version":
                     importingTable = "version";
-                    fileVersion = getVersion(parser);
+                    JsonNode versionNode = parser.readValueAsTree();
+                    fileVersion = versionNode.asInt();
+                    break;
+                case "sync-unit-id":
+                    importingTable = "sync-unit-id";
+                    JsonNode unitIdNode = parser.readValueAsTree();
+                    syncUnitId = (UUID) CompactibleJsonConverter.convertFromJson(unitIdNode.asText());
                     break;
                 case "workspace":
                     importingTable = "workspace";
@@ -131,7 +132,7 @@ public class FileImporter {
                     break;
                 case "config":
                     importingTable = "systemconfig";
-                    importConfig(parser, fileVersion, parentServerUrl);
+                    importConfig(parser, fileVersion, parentServerUrl, syncUnitId);
                     break;
                 case "tables":
                     importTables(parser);
@@ -142,28 +143,17 @@ public class FileImporter {
         }
 
         // update database setting all records as synched when importer is working on a client mode instance
-        // if it is a server intance, synched parameter doesn't matter
+        // if it is a server instance, synched parameter doesn't matter
         if (sysConfigService.loadConfig().isClientMode()) {
             db.setAllAsSynched();
         }
 
-        return fileVersion;
+        return new ImportResponse(fileVersion, syncUnitId);
     }
 
     /**
-     * Returns the version from sync file.
-     * @param parser
-     * @return the version from sync file
-     * @throws IOException
-     */
-    private Integer getVersion(JsonParser parser) throws IOException {
-        JsonNode node = parser.readValueAsTree();
-
-        return node.asInt();
-    }
-
-    /**
-     * Convert and insert or update the workspace on database.
+     * Convert and insert or update the workspace on client instance database.
+     * Must not run on server instance database as the file sent by client instance doesn't have workspace field.
      * @param parser
      * @throws IOException
      */
@@ -182,12 +172,13 @@ public class FileImporter {
     }
 
     /**
-     * Convert and insert or update the system config on database.
+     * Convert and insert or update the system config only client instance database.
+     * Must not run on server instance database as the file sent by client instance doesn't have config field.
      * @param parser
      * @param fileVersion
      * @throws IOException
      */
-    private void importConfig(JsonParser parser, Integer fileVersion, String parentServerUrl) throws IOException {
+    private void importConfig(JsonParser parser, Integer fileVersion, String parentServerUrl, UUID syncUnitId) throws IOException {
         JsonNode node = parser.readValueAsTree();
 
         ObjectMapper mapper = new ObjectMapper();
@@ -198,8 +189,12 @@ public class FileImporter {
         cmap.put("allowRegPage", false);
         cmap.put("clientMode", true);
         cmap.put("version", fileVersion);
-        // avoid setting it to null when synchronizing
-        if (parentServerUrl != null) {
+        cmap.put("SYNC_UNIT_ID", ObjectUtils.uuidAsBytes(syncUnitId));
+
+        // avoid setting serverURL to null when synchronizing
+        if (parentServerUrl == null) {
+            cmap.remove("serverURL");
+        } else {
             cmap.put("serverURL", CompactibleJsonConverter.convertToJson(parentServerUrl));
         }
 
@@ -271,9 +266,15 @@ public class FileImporter {
             // read deleted
             while (parser.nextToken() != JsonToken.END_ARRAY) {
                 node = parser.readValueAsTree();
-                Map<String, Object> record = mapper.treeToValue(node, Map.class);
+                String jsonDeletedId = node.asText();
+                // Must be an UUID as traverser is writing it as an UUID
+                UUID deletedId = (UUID) CompactibleJsonConverter.convertFromJson(jsonDeletedId);
 
-                // TODO: [MSANTOS] implement when developing sync
+                if (cmdBuilder == null) {
+                    cmdBuilder = new SQLCommandBuilder(tableName);
+                }
+
+                db.delete(cmdBuilder, deletedId);
             }
 
             parser.nextToken();
@@ -296,9 +297,12 @@ public class FileImporter {
         return importingTable;
     }
 
+    /**
+     * Tracks the phases of importing process
+     */
     public enum FileImportingPhase {
         STARTING_IMPORTING,
         IMPORTING_TABLES,
-        UPDATING_TAGS;
+        UPDATING_TAGS
     }
 }
