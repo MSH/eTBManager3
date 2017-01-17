@@ -68,7 +68,6 @@ public class DbCacheUtils {
      */
     protected Tuple<String, String> calcHash(Object[] args) {
         String s = JsonArgumentsHandler.generateJson(objectMapper, args);
-//            String s = objectMapper.writeValueAsString(args);
         return Tuple.of(ObjectUtils.hashSHA1(s), s);
     }
 
