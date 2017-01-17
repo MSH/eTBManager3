@@ -11,6 +11,9 @@ public class VariableData extends Item<String> {
     private boolean grouped;
     private boolean total;
 
+    public VariableData() {
+    }
+
     public VariableData(String id, String name, boolean grouped, boolean total) {
         super(id, name);
         this.grouped = grouped;

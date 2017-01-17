@@ -1,6 +1,7 @@
 package org.msh.etbm.services.dashboard;
 
 import org.msh.etbm.commons.JsonUtils;
+import org.msh.etbm.commons.dbcache.DbCache;
 import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.cases.reports.CaseReportIndicatorData;
@@ -27,22 +28,19 @@ public class DashboardService {
     @Autowired
     CaseReportService caseReportService;
 
-    @Autowired
-    UserRequestService userRequestService;
-
     @PersistenceContext
     EntityManager entityManager;
 
     /**
      * Generate the dashboard data by the given scope
-     * @param req
-     * @return
+     * @param workspaceId the ID of the workspace involved in the operation
+     * @param req the request containing information about the dashboard
+     * @return instance of {@link DashboardResponse} containing the dashboard
      */
-    public DashboardResponse generate(DashboardRequest req) {
-        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
-
+    @DbCache(updateAt = "3:00:00")
+    public DashboardResponse generate(UUID workspaceId, DashboardRequest req) {
         List<Report> lst = entityManager.createQuery("from Report where workspace.id = :id and dashboard = true")
-                .setParameter("id", wsId)
+                .setParameter("id", workspaceId)
                 .getResultList();
 
         List<CaseReportIndicatorData> indicators = new ArrayList<>();

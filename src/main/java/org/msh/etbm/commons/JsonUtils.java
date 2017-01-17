@@ -1,16 +1,23 @@
 package org.msh.etbm.commons;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.util.Iterator;
+import java.util.UUID;
 
 /**
  * Class with utilities to help working with JSON files, data and serialization
@@ -126,5 +133,123 @@ public class JsonUtils {
             log.error(e.getMessage(), e);
             throw new JsonParserException(e);
         }
+    }
+
+
+    /**
+     * Write in a generator a json value of any type. It tests if is a supported primitive and
+     * use the proper serialization. If not a primitive, then serialize to an object value
+     * @param generator the instance of {@link JsonGenerator} from the Jackson library
+     * @param val the value to be serialized
+     * @throws IOException
+     */
+    public static void writeAny(JsonGenerator generator, Object val) throws IOException {
+        if (val == null) {
+            generator.writeNull();
+            return;
+        }
+
+        if (val instanceof String) {
+            generator.writeString((String)val);
+            return;
+        }
+
+        if (val instanceof Integer) {
+            generator.writeNumber((Integer)val);
+            return;
+        }
+
+        if (val instanceof Double) {
+            generator.writeNumber((Double)val);
+            return;
+        }
+
+        if (val instanceof Float) {
+            generator.writeNumber((Float)val);
+            return;
+        }
+
+        if (val instanceof BigInteger) {
+            generator.writeNumber((BigInteger)val);
+            return;
+        }
+
+        if (val instanceof Long) {
+            generator.writeNumber((Long)val);
+            return;
+        }
+
+        if (val instanceof Short) {
+            generator.writeNumber((Short)val);
+            return;
+        }
+
+        if (val instanceof Boolean) {
+            generator.writeBoolean((Boolean)val);
+            return;
+        }
+
+        if (val instanceof UUID) {
+            byte[] data = ObjectUtils.uuidAsBytes((UUID)val);
+            generator.writeBinary(data);
+            return;
+        }
+
+        if (val instanceof byte[]) {
+            generator.writeBinary((byte[])val);
+            return;
+        }
+
+        generator.writeObject(val);
+    }
+
+
+    public static <E> E readValue(JsonParser parser, Class<E> clazz) throws IOException {
+        if (String.class.isAssignableFrom(clazz)) {
+            return (E)parser.nextValue().asString();
+        }
+
+        if (Boolean.class.isAssignableFrom(clazz)) {
+            return (E)parser.nextBooleanValue();
+        }
+
+
+        if (Integer.class.isAssignableFrom(clazz)) {
+            return (E)(Integer)parser.nextIntValue(0);
+        }
+
+        if (Long.class.isAssignableFrom(clazz)) {
+            return (E)(Long)parser.nextLongValue(0L);
+        }
+
+        if (Float.class.isAssignableFrom(clazz)) {
+            return (E)(Float)parser.getFloatValue();
+        }
+
+        if (Double.class.isAssignableFrom(clazz)) {
+            return (E)(Double)parser.getDoubleValue();
+        }
+
+        if (UUID.class.isAssignableFrom(clazz)) {
+            byte[] data = parser.getBinaryValue();
+            return (E)ObjectUtils.bytesToUUID(data);
+        }
+
+        if (byte[].class.isAssignableFrom(clazz)) {
+            return (E)parser.getBinaryValue();
+        }
+
+        if (BigInteger.class.isAssignableFrom(clazz)) {
+            return (E)parser.getBigIntegerValue();
+        }
+
+        if (Short.class.isAssignableFrom(clazz)) {
+            return (E)(Short)parser.getShortValue();
+        }
+
+        Iterator<E> it = parser.readValuesAs(clazz);
+
+        E res = it.next();
+        return res;
     }
 }

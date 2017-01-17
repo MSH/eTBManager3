@@ -32,30 +32,25 @@ public class CaseReportService {
     EntityManager entityManager;
 
     @Autowired
-    UserRequestService userRequestService;
-
-    @Autowired
     CaseIndicatorsService caseIndicatorsService;
 
 
     @Transactional
-    public UUID save(CaseReportFormData repdata) {
+    public UUID save(CaseReportFormData repdata, UUID userId, UUID workspaceId) {
         String data = JsonUtils.objectToJSONString(repdata, false);
 
         Report rep = new Report();
         updateData(rep, repdata);
 
-        UUID userid = userRequestService.getUserSession().getUserId();
-        if (userid != null) {
-            User user = entityManager.find(User.class, userid);
+        if (userId != null) {
+            User user = entityManager.find(User.class, userId);
 
             rep.setOwner(user);
         }
 
         rep.setRegistrationDate(new Date());
 
-        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
-        Workspace ws = entityManager.find(Workspace.class, wsId);
+        Workspace ws = entityManager.find(Workspace.class, workspaceId);
         rep.setWorkspace(ws);
 
         entityManager.persist(rep);
@@ -92,11 +87,10 @@ public class CaseReportService {
     }
 
     @Transactional
-    public List<Item<String>> getReportList() {
-        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+    public List<Item<String>> getReportList(UUID wsId) {
 
         List<Object[]> lst = entityManager.createQuery("select id, title " +
-                "from Report where workspace.id = :id " +
+                  "from Report where workspace.id = :id " +
                 "order by title")
                 .setParameter("id", wsId)
                 .getResultList();
@@ -111,6 +105,10 @@ public class CaseReportService {
 
 
     public ReportExecResult execute(ReportExecRequest req) {
+        if (req.getScopeId() == null) {
+            throw new IllegalArgumentException("Scope ID must be specified");
+        }
+
         Report rep = entityManager.find(Report.class, req.getReportId());
 
         if (rep == null) {

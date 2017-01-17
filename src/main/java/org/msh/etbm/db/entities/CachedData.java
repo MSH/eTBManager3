@@ -1,8 +1,11 @@
 package org.msh.etbm.db.entities;
 
+import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by rmemoria on 9/1/17.
@@ -19,9 +22,20 @@ public class CachedData {
     @NotNull
     private String entryId;
 
+    @Column(length = 250)
+    @NotNull
+    private String method;
+
     @Column(length = 40)
     @NotNull
     private String hash;
+
+    @Lob
+    @NotNull
+    private String args;
+
+    @NotNull
+    private String argsClass;
 
     @NotNull
     private Date entryDate;
@@ -35,6 +49,23 @@ public class CachedData {
     @NotNull
     @Column(length = 250)
     private String dataClass;
+
+    /**
+     * The workspace of this entity
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "WORKSPACE_ID")
+    @NotNull
+    private Workspace workspace;
+
+
+    public String getArgs() {
+        return args;
+    }
+
+    public void setArgs(String args) {
+        this.args = args;
+    }
 
     public Long getId() {
         return id;
@@ -90,5 +121,29 @@ public class CachedData {
 
     public void setDataClass(String dataClass) {
         this.dataClass = dataClass;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getArgsClass() {
+        return argsClass;
+    }
+
+    public void setArgsClass(String argsClass) {
+        this.argsClass = argsClass;
+    }
+
+    public Workspace getWorkspace() {
+        return workspace;
+    }
+
+    public void setWorkspace(Workspace workspace) {
+        this.workspace = workspace;
     }
 }

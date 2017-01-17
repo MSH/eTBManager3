@@ -1776,6 +1776,9 @@
             <column name="entryId" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
+            <column name="method" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
             <column name="hash" type="varchar(40)">
                 <constraints nullable="false" />
             </column>
@@ -1788,6 +1791,11 @@
             </column>
             <column name="dataClass" type="varchar(250)" >
                 <constraints nullable="false" />
+            </column>
+            <column name="args" type="${type.text}" />
+            <column name="argsClass" type="varchar(250)" />
+            <column name="WORKSPACE_ID" type="${type.id}">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -2826,5 +2834,17 @@
             <column name="hash" />
         </createIndex>
     </changeSet>
+
+    <changeSet id="cacheddata-4" author="rmemoria">
+        <createIndex tableName="cacheddata" indexName="idx_cache_expiry">
+            <column name="expiryDate" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="cacheddata-5" author="rmemoria">
+        <addForeignKeyConstraint baseColumnNames="workspace_id" baseTableName="cacheddata" constraintName="FK_cacheddata_ws"
+                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
+                                 referencedColumnNames="id" referencedTableName="workspace"/>
+    </changeSet>
+
 
 </databaseChangeLog>

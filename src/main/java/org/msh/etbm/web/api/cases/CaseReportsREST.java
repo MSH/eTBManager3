@@ -10,6 +10,7 @@ import org.msh.etbm.services.cases.reports.CaseReportService;
 import org.msh.etbm.services.cases.reports.ReportExecRequest;
 import org.msh.etbm.services.cases.reports.ReportExecResult;
 import org.msh.etbm.services.security.permissions.Permissions;
+import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class CaseReportsREST {
     @Autowired
     CaseReportService caseReportService;
 
+    @Autowired
+    UserRequestService userRequestService;
+
+
     @RequestMapping(value = "/ind/exec", method = RequestMethod.POST)
     public CaseIndicatorResponse generateIndicator(@RequestBody @Valid @NotNull CaseIndicatorRequest req) {
         return caseIndicatorsService.execute(req);
@@ -48,7 +53,9 @@ public class CaseReportsREST {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public StandardResult saveReport(@Valid @RequestBody @NotNull CaseReportFormData data) {
-        UUID id = caseReportService.save(data);
+        UUID userId = userRequestService.getUserSession().getUserId();
+        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+        UUID id = caseReportService.save(data, userId, wsId);
         return new StandardResult(id, null, true);
     }
 
@@ -60,12 +67,14 @@ public class CaseReportsREST {
 
     @RequestMapping(value = "/query", method = RequestMethod.POST)
     public StandardResult queryReports() {
-        List<Item<String>> lst = caseReportService.getReportList();
+        UUID wsId = userRequestService.getUserSession().getWorkspaceId();
+        List<Item<String>> lst = caseReportService.getReportList(wsId);
         return new StandardResult(lst, null, true);
     }
 
     @RequestMapping(value = "/exec", method = RequestMethod.POST)
     public StandardResult get(@RequestBody @Valid @NotNull ReportExecRequest req) {
+        req.setScopeId(userRequestService.getUserSession().getWorkspaceId());
         ReportExecResult res = caseReportService.execute(req);
         return new StandardResult(res, null, true);
     }

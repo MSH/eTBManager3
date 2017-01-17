@@ -39,9 +39,6 @@ public class CaseIndicatorsService {
     CaseFilters caseFilters;
 
     @Autowired
-    UserRequestService userRequestService;
-
-    @Autowired
     DataSource dataSource;
 
     @Autowired
@@ -137,11 +134,7 @@ public class CaseIndicatorsService {
      * @param req
      */
     private void addScopeRestriction(Map<Filter, Object> filterValues, CaseIndicatorRequest req) {
-        UUID id = req.getScope() == RequestScope.WORKSPACE ?
-                userRequestService.getUserSession().getWorkspaceId() :
-                req.getScopeId();
-
-        ScopeFilterValue val = new ScopeFilterValue(req.getScope(), id,
+        ScopeFilterValue val = new ScopeFilterValue(req.getScope(), req.getScopeId(),
                 "$root", "$root.owner_unit_id", "ownerAdminUnit");
 
         // fixed filter to restrict view by workspace
