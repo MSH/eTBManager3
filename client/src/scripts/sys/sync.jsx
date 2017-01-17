@@ -3,7 +3,8 @@ import { Grid, Row, Col, FormControl, FormGroup, ControlLabel, HelpBlock, Button
 import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
-import { SessionUtils } from './session-utils';
+import SessionUtils from './session-utils';
+import { app } from '../core/app';
 
 /**
  * Form validation model
@@ -39,6 +40,14 @@ export default class Sync extends React.Component {
             this.setState({ checking: false });
             return res;
         });
+    }
+
+    /**
+     * Called when user clicks on the login button
+     */
+    gotoHome() {
+        app.goto(SessionUtils.homeHash());
+        window.location.reload(true);
     }
 
     /**
@@ -208,7 +217,7 @@ export default class Sync extends React.Component {
                         </p>
                     </div>
                     <div>
-                        <Button bsStyle="default" block onClick={SessionUtils.goToHome}>{__('sync.success.btn')}</Button>
+                        <Button bsStyle="default" block onClick={this.goToHome}>{__('sync.success.btn')}</Button>
                     </div>
                 </div>
                 );
