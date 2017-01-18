@@ -2,7 +2,7 @@ package org.msh.etbm.services.offline.client;
 
 import com.fasterxml.jackson.databind.JavaType;
 import org.msh.etbm.commons.JsonUtils;
-import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.ValidationException;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.msh.etbm.services.offline.client.listeners.FileDownloadListener;
@@ -198,10 +198,10 @@ public class ParentServerRequestService {
         if (responseCode != 200) {
             switch (responseCode) {
                 case 404:
-                    throw new EntityValidationException(new Object(), null, null, "init.offinit.error1");
+                    throw new ValidationException(null, "init.offinit.error1");
                 case 403:
                 case 401:
-                    throw new EntityValidationException(new Object(), null, null, "login.invaliduserpwd");
+                    throw new ValidationException(null, "login.invaliduserpwd");
                 default:
                     throw new SynchronizationException("Failed to request parent server: HTTP error code " + responseCode);
             }

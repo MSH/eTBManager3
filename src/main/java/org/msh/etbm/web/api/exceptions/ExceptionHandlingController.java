@@ -2,6 +2,7 @@ package org.msh.etbm.web.api.exceptions;
 
 import org.msh.etbm.commons.InvalidArgumentException;
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.ValidationException;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.services.security.ForbiddenException;
@@ -69,6 +70,26 @@ public class ExceptionHandlingController {
     @ResponseBody
     public Object handleEntityValidationError(EntityValidationException e) {
         return convertErrorsToStandardResult(e.getBindingResult());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Object handleValidationError(ValidationException e) {
+        // convert exception into standard result
+        List<Message> msgs = new ArrayList<>();
+        String message;
+
+        if (e.getCode() != null && !e.getCode().isEmpty()) {
+            message = messages.get(e.getCode());
+        } else if (e.getMessage() != null && !e.getMessage().isEmpty()) {
+            message = e.getMessage();
+        } else {
+            return null;
+        }
+
+        msgs.add(new Message(message, e.getCode()));
+        return new StandardResult(null, msgs, false);
     }
 
     @ExceptionHandler(InvalidArgumentException.class)

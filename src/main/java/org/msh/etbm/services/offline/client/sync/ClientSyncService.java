@@ -1,11 +1,11 @@
 package org.msh.etbm.services.offline.client.sync;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.ValidationException;
 import org.msh.etbm.commons.commands.CommandAction;
 import org.msh.etbm.commons.commands.CommandHistoryInput;
 import org.msh.etbm.commons.commands.CommandStoreService;
 import org.msh.etbm.commons.commands.CommandTypes;
-import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.Unit;
 import org.msh.etbm.db.entities.User;
 import org.msh.etbm.db.entities.Workspace;
@@ -127,13 +127,13 @@ public class ClientSyncService {
 
         } catch (ForbiddenException e) {
             phase = null;
-            throw new EntityValidationException(new Object(), null, null, "sync.invalidpassword");
+            throw new ValidationException(null, "sync.invalidpassword");
         } catch (ConnectException e) {
             phase = null;
-            throw new EntityValidationException(new Object(), null, null, "sync.connectionproblem");
+            throw new ValidationException(null, "sync.connectionproblem");
         } catch (UnknownHostException e) {
             phase = null;
-            throw new EntityValidationException(new Object(), null, null, "sync.connectionproblem");
+            throw new ValidationException(null, "sync.connectionproblem");
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);

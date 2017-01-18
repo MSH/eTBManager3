@@ -3,18 +3,14 @@ package org.msh.etbm.services.offline.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.commands.CommandAction;
-import org.msh.etbm.commons.commands.CommandHistoryInput;
-import org.msh.etbm.commons.commands.CommandStoreService;
-import org.msh.etbm.commons.commands.CommandTypes;
+import org.msh.etbm.commons.ValidationException;
+import org.msh.etbm.commons.commands.*;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.Unit;
-import org.msh.etbm.db.entities.User;
-import org.msh.etbm.db.entities.Workspace;
-import org.msh.etbm.services.offline.StatusResponse;
-import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.db.entities.*;
 import org.msh.etbm.services.offline.fileimporter.FileImporter;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
+import org.msh.etbm.services.offline.SynchronizationException;
+import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.web.api.authentication.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -85,9 +81,9 @@ public class ClientInitService {
             return response;
 
         } catch (MalformedURLException e) {
-            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+            throw new ValidationException(null, "init.offinit.urlnotfound");
         } catch (UnknownHostException e) {
-            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+            throw new ValidationException(null, "init.offinit.urlnotfound");
         } catch (IOException e) {
             throw new SynchronizationException(e);
         }
@@ -135,7 +131,7 @@ public class ClientInitService {
             return getStatus();
         } catch (UnknownHostException e) {
             phase = null;
-            throw new EntityValidationException(new Object(), null, null, "init.offinit.urlnotfound");
+            throw new ValidationException(null, "init.offinit.urlnotfound");
         } catch (IOException e) {
             phase = null;
             throw new SynchronizationException(e);
