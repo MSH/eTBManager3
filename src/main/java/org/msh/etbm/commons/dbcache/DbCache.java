@@ -14,4 +14,34 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface DbCache {
+    /**
+     * How long the data in cache will last, in the format HH:MM:SS (hour, minute, second)
+     * @return
+     */
+    String expireIn() default "";
+
+    /**
+     * The exactly time the data will be expired
+     * @return
+     */
+    String expireAt() default "";
+
+    /**
+     * Indicate the time it will take for the data to be updated again, in the format HH:MM:SS,
+     * counting from the time it was generated
+     * @return
+     */
+    String updateIn() default "";
+
+    /**
+     * The exactly time of the day that the data will be updated
+     * @return
+     */
+    String updateAt() default "";
+
+    /**
+     * Optionally define an entry name used to identify the cached data
+     * @return
+     */
+    String entry() default "";
 }

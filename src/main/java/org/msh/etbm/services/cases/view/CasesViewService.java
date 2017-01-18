@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.view;
 
 import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.dbcache.DbCache;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
@@ -36,6 +37,7 @@ public class CasesViewService {
      * @return the report of the workspace
      */
     @Transactional
+    @DbCache(updateAt = "2:00:00")
     public List<PlaceData> generateWorkspaceView(UUID workspaceId) {
         // load information about the places
         return loadPlaces(workspaceId, null);

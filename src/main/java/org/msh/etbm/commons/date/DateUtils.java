@@ -117,6 +117,33 @@ public class DateUtils {
         return c.getTime();
     }
 
+
+    /**
+     * Increment a date by a number of minutes
+     * @param dt the date to include
+     * @param numMinutes the minutes to increment
+     * @return
+     */
+    public static Date incMinutes(Date dt, int numMinutes) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.MINUTE, numMinutes);
+        return c.getTime();
+    }
+
+    /**
+     * Increment a date by a number of seconds
+     * @param dt
+     * @param numSeconds
+     * @return
+     */
+    public static Date incSeconds(Date dt, int numSeconds) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        c.add(Calendar.SECOND, numSeconds);
+        return c.getTime();
+    }
+
     /**
      * Returns the year part of the date
      *

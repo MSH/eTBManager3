@@ -3,12 +3,13 @@ package org.msh.etbm.services.dashboard;
 import org.msh.etbm.services.RequestScope;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by rmemoria on 22/10/16.
  */
-public class DashboardRequest {
+public class DashboardRequest implements Serializable {
 
     /**
      * The scope of the dashboard request (by workspace, admin unit or unit)
