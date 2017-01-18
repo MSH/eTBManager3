@@ -4,6 +4,7 @@ import org.dozer.DozerBeanMapper;
 import org.msh.etbm.db.entities.Searchable;
 import org.msh.etbm.db.enums.SearchableType;
 import org.msh.etbm.db.enums.UserView;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class SearchService {
 
     @Autowired
     DozerBeanMapper mapper;
+
+    @Autowired
+    SysConfigService sysConfigService;
 
     /**
      * Search for data using a key
@@ -91,6 +95,11 @@ public class SearchService {
         UserSession session = userRequestService.getUserSession();
 
         String hql = "from Searchable where workspace.id = :wsid ";
+
+        // include client instance query restriction
+        if (sysConfigService.loadConfig().isClientMode()) {
+            casesOnly = true;
+        }
 
         // include query restriction
         switch (session.getView()) {

@@ -56,6 +56,10 @@ export default class SessionUtils {
      * @return {[type]}              [description]
      */
     static adminUnitLink(adminUnit, addWorkspace, addMain, defaultView) {
+        if (app.storage.state.app.clientMode) {
+            return this.adminUnitDisplay(adminUnit, addWorkspace, addMain);
+        }
+
         const lst = [];
 
         // admin unit was informed ?
