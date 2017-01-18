@@ -1,7 +1,6 @@
 package org.msh.etbm.db.entities;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 /**
  * Store e-TB Manager configuration information. Id is always = 1
@@ -17,30 +16,54 @@ public class SystemConfig {
     @Id
     private Integer id;
 
+    /**
+     * The system URL, used mostly in e-mail messages to point to the e-TB Manager address
+     */
     @Column(length = 250)
     private String systemURL;
 
+    /**
+     * If true, a link to user self registration will be displayed in the login page
+     */
     private boolean allowRegPage;
 
+    /**
+     * The user workspace, if allowRegPage is true
+     */
     @ManyToOne
     @JoinColumn(name = "WORKSPACE_ID")
     private Workspace workspace;
 
+    /**
+     * The user user profile, if allowRegPage is true
+     */
     @ManyToOne
     @JoinColumn(name = "USERPROFILE_ID")
     private UserProfile userProfile;
 
+    /**
+     * The user unit, if allowRegPage is true
+     */
     @ManyToOne
     @JoinColumn(name = "UNIT_ID")
     private Unit unit;
 
+    /**
+     * The administrator e-mail address, used by the system to send e-mail messages in case of errors
+     */
     @Column(length = 100)
     private String adminMail;
 
-
+    /**
+     * The URL of the update site, if available
+     */
     @Column(length = 250)
     private String updateSite;
 
+    /**
+     * The workspace of the public dashboard, mostly used when embedding the dashboard in a web page
+     * for public access
+     */
     @ManyToOne
     @JoinColumn(name = "PUBDS_WORKSPACE_ID")
     private Workspace pubDashboardWorkspace;

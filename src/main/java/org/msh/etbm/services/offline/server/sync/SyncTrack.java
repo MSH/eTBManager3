@@ -1,7 +1,6 @@
 package org.msh.etbm.services.offline.server.sync;
 
 import org.msh.etbm.commons.date.DateUtils;
-import org.msh.etbm.services.offline.server.sync.ServerSyncPhase;
 
 import java.io.File;
 import java.util.Date;

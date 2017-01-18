@@ -10,11 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Aspect component that intercepts all execution calls of methods with the {@link DbCache} annotation,
@@ -65,7 +63,7 @@ public class DbCacheInterceptor {
         cacheId = retrieveCacheId(cacheId);
 
         synchronized (cacheId) {
-            // call it again inside synchronization to check if it was already implemented
+            // call it again inside synchronized to check if it was already saved
             // by another thread while blocked
             res = dbCacheStore.loadFromCache(cacheId);
             if (res != null) {

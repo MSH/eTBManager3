@@ -1,13 +1,16 @@
 package org.msh.etbm.web.api.offline;
 
+import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.offline.client.ClientInitService;
 import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.security.authentication.WorkspaceInfo;
-import org.msh.etbm.services.offline.StatusResponse;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.StandardResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

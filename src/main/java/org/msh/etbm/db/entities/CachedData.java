@@ -1,11 +1,8 @@
 package org.msh.etbm.db.entities;
 
-import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 9/1/17.
@@ -35,9 +32,6 @@ public class CachedData {
     private String args;
 
     @NotNull
-    private String argsClass;
-
-    @NotNull
     private Date entryDate;
 
     private Date expiryDate;
@@ -57,6 +51,14 @@ public class CachedData {
     @JoinColumn(name = "WORKSPACE_ID")
     private Workspace workspace;
 
+
+    /**
+     * Check if cached data is already expired
+     * @return true if data is expired
+     */
+    public boolean isExpired() {
+        return expiryDate != null && expiryDate.before(new Date());
+    }
 
     public String getArgs() {
         return args;
@@ -128,14 +130,6 @@ public class CachedData {
 
     public void setMethod(String method) {
         this.method = method;
-    }
-
-    public String getArgsClass() {
-        return argsClass;
-    }
-
-    public void setArgsClass(String argsClass) {
-        this.argsClass = argsClass;
     }
 
     public Workspace getWorkspace() {

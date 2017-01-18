@@ -9,7 +9,6 @@ import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorRequest;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorResponse;
 import org.msh.etbm.services.cases.indicators.CaseIndicatorsService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

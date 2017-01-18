@@ -1794,7 +1794,6 @@
                 <constraints nullable="false" />
             </column>
             <column name="args" type="${type.text}" />
-            <column name="argsClass" type="varchar(250)" />
             <column name="WORKSPACE_ID" type="${type.id}" />
         </createTable>
     </changeSet>
