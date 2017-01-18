@@ -108,7 +108,6 @@ public class ClientSyncService {
 
             // checks if login was ok
             if (!loginRes.isSuccess()) {
-                // todo throw a user friendly password
                 throw new ForbiddenException();
             }
 
@@ -124,7 +123,6 @@ public class ClientSyncService {
             fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
 
             return getStatus();
-
         } catch (ForbiddenException e) {
             phase = null;
             throw new ValidationException(null, "sync.invalidpassword");
