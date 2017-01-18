@@ -1,7 +1,7 @@
 package org.msh.etbm.services.offline.client;
 
 import org.msh.etbm.commons.JsonUtils;
-import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.commons.ValidationException;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.offline.SynchronizationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Sends a file a server instance of etb manager
@@ -152,10 +149,10 @@ public class ParentServerFileSender {
         if (responseCode != 200) {
             switch (responseCode) {
                 case 404:
-                    throw new EntityValidationException(new Object(), null, null, "init.offinit.error1");
+                    throw new ValidationException(null, "init.offinit.error1");
                 case 403:
                 case 401:
-                    throw new EntityValidationException(new Object(), null, null, "login.invaliduserpwd");
+                    throw new ValidationException(null, "login.invaliduserpwd");
                 default:
                     throw new SynchronizationException("Failed to request parent server: HTTP error code " + responseCode);
             }
