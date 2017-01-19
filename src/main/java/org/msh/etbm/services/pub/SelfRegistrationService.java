@@ -24,7 +24,7 @@ import java.util.*;
  * Created by rmemoria on 13/6/16.
  */
 @Service
-public class SelfRegistrationService {
+public class    SelfRegistrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SelfRegistrationService.class);
 
