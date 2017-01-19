@@ -55,6 +55,6 @@ public class JSFuncValueDeserializer extends JsonDeserializer<JSFuncValue> {
     private JSFuncValue deserializeObject(JsonNode node) {
         String func = node.get("function").asText();
 
-        return func != null ? JSFuncValue.of(func) : JSFuncValue.of(getValue(node));
+        return func != null ? JSFuncValue.function(func) : JSFuncValue.of(getValue(node));
     }
 }
