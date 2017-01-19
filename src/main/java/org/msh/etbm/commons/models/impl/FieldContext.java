@@ -65,6 +65,7 @@ public class FieldContext {
      * @return
      */
     public boolean evalBoolProperty(String property) {
+        System.out.println("Property = " + property);
         return (boolean)evalProperty(property);
     }
 

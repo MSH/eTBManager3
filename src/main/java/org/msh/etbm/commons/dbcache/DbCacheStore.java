@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
 
@@ -47,24 +46,10 @@ public class DbCacheStore {
      */
     @Transactional
     public Object loadFromCache(CacheId cacheId) {
+        CachedData cd = loadCachedData(cacheId);
 
-        List<CachedData> lst = entityManager.createQuery("from CachedData " +
-                "where hash = :hash and entryId = :entry")
-                .setParameter("hash", cacheId.getHash())
-                .setParameter("entry", cacheId.getEntry())
-                .getResultList();
-
-        if (lst.isEmpty()) {
-            return null;
-        }
-
-        CachedData cd = lst.get(0);
-
-        // cache is invalid
-        if (cd.getExpiryDate() != null && cd.getExpiryDate().before(new Date())) {
-            // delete the cache data
-            entityManager.remove(cd);
-            entityManager.flush();
+        // no cache data or cache has expired ?
+        if (cd == null || cd.isExpired()) {
             return null;
         }
 
@@ -82,13 +67,42 @@ public class DbCacheStore {
     }
 
     /**
+     * Load the instance of {@link CachedData} from the database
+     * @param cacheId
+     * @return
+     */
+    private CachedData loadCachedData(CacheId cacheId) {
+        List<CachedData> lst = entityManager.createQuery("from CachedData " +
+                "where hash = :hash and entryId = :entry")
+                .setParameter("hash", cacheId.getHash())
+                .setParameter("entry", cacheId.getEntry())
+                .getResultList();
+
+        return lst.isEmpty() ? null : lst.get(0);
+    }
+
+    /**
      * Save data to cache
      * @param cacheId object containing information about the cache method and arguments
      * @param res the data to be cached
      */
     @Transactional
     public void saveToCache(CacheId cacheId, Object res) {
-        CachedData cd = new CachedData();
+        CachedData cd = loadCachedData(cacheId);
+
+        if (cd == null) {
+            cd = new CachedData();
+            cd.setEntryId(cacheId.getEntry());
+            cd.setHash(cacheId.getHash());
+            cd.setDataClass(res.getClass().getCanonicalName());
+            cd.setArgs(cacheId.getArgsJson());
+            cd.setMethod(dbCacheUtils.methodToString(cacheId.getMethod()));
+
+            if (userRequestService.isAuthenticated()) {
+                Workspace ws = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
+                cd.setWorkspace(ws);
+            }
+        }
 
         String data;
         try {
@@ -97,19 +111,8 @@ public class DbCacheStore {
             throw new DbCacheException(e);
         }
 
-        cd.setEntryId(cacheId.getEntry());
-        cd.setHash(cacheId.getHash());
-        cd.setDataClass(res.getClass().getCanonicalName());
         cd.setEntryDate(new Date());
         cd.setData(data);
-        cd.setArgs(cacheId.getArgsJson());
-        cd.setArgsClass(cacheId.getArgs().getClass().getCanonicalName());
-        cd.setMethod(dbCacheUtils.methodToString(cacheId.getMethod()));
-
-        if (userRequestService.isAuthenticated()) {
-            Workspace ws = entityManager.find(Workspace.class, userRequestService.getUserSession().getWorkspaceId());
-            cd.setWorkspace(ws);
-        }
 
         Date expiryDate = dbCacheUtils.calcExpiryDate(cacheId.getMethod());
         cd.setExpiryDate(expiryDate);

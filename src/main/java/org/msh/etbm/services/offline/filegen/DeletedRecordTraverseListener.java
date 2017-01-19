@@ -1,7 +1,5 @@
 package org.msh.etbm.services.offline.filegen;
 
-import org.msh.etbm.services.offline.filegen.TableChangesTraverser;
-
 import java.io.IOException;
 import java.util.UUID;
 

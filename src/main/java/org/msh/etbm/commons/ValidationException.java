@@ -1,7 +1,5 @@
 package org.msh.etbm.commons;
 
-import org.springframework.validation.BeanPropertyBindingResult;
-
 /**
  * Exception generated during service execution to indicate that an error occured and operation
  * cannot continue

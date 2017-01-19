@@ -6,7 +6,6 @@ import org.msh.etbm.db.entities.Report;
 import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.cases.reports.CaseReportIndicatorData;
 import org.msh.etbm.services.cases.reports.CaseReportService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +36,7 @@ public class DashboardService {
      * @param req the request containing information about the dashboard
      * @return instance of {@link DashboardResponse} containing the dashboard
      */
-    @DbCache(updateAt = "3:00:00")
+    @DbCache(updateAt = "3:00:00", entry = "dashboard")
     public DashboardResponse generate(UUID workspaceId, DashboardRequest req) {
         List<Report> lst = entityManager.createQuery("from Report where workspace.id = :id and dashboard = true")
                 .setParameter("id", workspaceId)

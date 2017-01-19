@@ -12,11 +12,9 @@ import org.msh.etbm.commons.indicators.indicator.client.IndicatorData;
 import org.msh.etbm.commons.indicators.indicator.client.IndicatorDataConverter;
 import org.msh.etbm.commons.indicators.variables.VariableGroupData;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
-import org.msh.etbm.services.RequestScope;
 import org.msh.etbm.services.cases.filters.CaseFilters;
 import org.msh.etbm.services.cases.filters.impl.ScopeFilter;
 import org.msh.etbm.services.cases.filters.impl.ScopeFilterValue;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,6 @@ import javax.sql.DataSource;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

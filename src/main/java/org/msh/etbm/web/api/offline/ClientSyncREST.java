@@ -1,7 +1,7 @@
 package org.msh.etbm.web.api.offline;
 
-import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.offline.StatusResponse;
+import org.msh.etbm.services.offline.client.ServerCredentialsData;
 import org.msh.etbm.services.offline.client.sync.ClientSyncService;
 import org.msh.etbm.web.api.authentication.Authenticated;
 import org.msh.etbm.web.api.authentication.InstanceType;

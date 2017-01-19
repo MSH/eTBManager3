@@ -1,7 +1,6 @@
 package org.msh.etbm.web.api.offline;
 
 import org.apache.commons.compress.utils.IOUtils;
-import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.offline.server.ServerInitService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Created by rmemoria on 23/11/16.

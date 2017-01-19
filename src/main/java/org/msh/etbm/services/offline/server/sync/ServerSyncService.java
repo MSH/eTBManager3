@@ -11,7 +11,6 @@ import org.msh.etbm.services.offline.fileimporter.ImportResponse;
 import org.msh.etbm.services.offline.server.ServerFileGenerator;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;

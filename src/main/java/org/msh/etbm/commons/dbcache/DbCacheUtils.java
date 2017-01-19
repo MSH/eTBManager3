@@ -1,6 +1,5 @@
 package org.msh.etbm.commons.dbcache;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.msh.etbm.commons.Tuple;
 import org.msh.etbm.commons.date.DateUtils;
@@ -24,7 +23,15 @@ public class DbCacheUtils {
     ObjectMapper objectMapper;
 
 
-    public CacheId createCacheId(Method method, Object[] args) {
+    /**
+     * Create an object representing the ID of the cache. This object will share the method and
+     * args (and consequently its hash and json serialization) among objects, avoiding duplicated
+     * serialization
+     * @param method the method with the {@link DbCache} annotation
+     * @param args the arguments to be passed to the method
+     * @return instance of {@link CacheId}
+     */
+    protected CacheId createCacheId(Method method, Object[] args) {
         CacheId cacheId = new CacheId();
         cacheId.setMethod(method);
         cacheId.setArgs(args);
@@ -47,7 +54,12 @@ public class DbCacheUtils {
      * @return the entry ID of the cache
      */
     protected String getEntryId(Method method) {
-        return methodToString(method);
+        DbCache dbcache = method.getAnnotation(DbCache.class);
+        if (dbcache.entry().isEmpty()) {
+            return methodToString(method);
+        }
+
+        return dbcache.entry();
     }
 
     /**
@@ -57,8 +69,7 @@ public class DbCacheUtils {
      */
     public String methodToString(Method method) {
         // get the method signature
-        String metName = method.getDeclaringClass().getCanonicalName() + "#" + method.getName();
-        return metName;
+        return method.getDeclaringClass().getCanonicalName() + "#" + method.getName();
     }
 
     /**

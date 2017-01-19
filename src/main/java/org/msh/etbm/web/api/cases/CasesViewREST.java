@@ -1,6 +1,5 @@
 package org.msh.etbm.web.api.cases;
 
-import org.msh.etbm.services.cases.view.CasesViewResponse;
 import org.msh.etbm.services.cases.view.CasesViewService;
 import org.msh.etbm.services.cases.view.PlaceData;
 import org.msh.etbm.services.security.permissions.Permissions;
