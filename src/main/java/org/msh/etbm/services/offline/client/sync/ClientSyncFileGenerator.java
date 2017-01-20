@@ -84,7 +84,7 @@ public class ClientSyncFileGenerator {
         UUID unitId = data.getSyncUnit().getId();
 
         // get the list of tables to query
-        ClientTableQueryList queries = new ClientTableQueryList(workspaceId, unitId);
+        ClientTableQueryList queries = new ClientTableQueryList(workspaceId);
 
         // start the file with an object
         generator.writeStartObject();

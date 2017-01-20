@@ -12,11 +12,9 @@ import java.util.UUID;
 public class ClientTableQueryList extends TableQueryList {
 
     private UUID wsId;
-    private UUID unitId;
 
-    public ClientTableQueryList(UUID wsId, UUID unitId) {
+    public ClientTableQueryList(UUID wsId) {
         this.wsId = wsId;
-        this.unitId = unitId;
     }
 
     /**
@@ -37,105 +35,85 @@ public class ClientTableQueryList extends TableQueryList {
 
         // case module
         queryFrom("patient")
-                .restrict("synched = ?", notSynched)
-                .restrict("exists(select * from tbcase where tbcase.patient_id = patient.id and tbcase.owner_unit_id = ?)", unitId);
+                .restrict("synched = ?", notSynched);
 
         queryFrom("tbcase")
-                .restrict("synched = ?", notSynched)
-                .restrict("owner_unit_id = ?", unitId);
+                .restrict("synched = ?", notSynched);
 
         queryFrom("examculture")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("exammicroscopy")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("examhiv")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("examdst")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("examxpert")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("examxray")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("treatmenthealthunit")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("prescribedmedicine")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("prevtbtreatment")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("casecontact")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("casesideeffect")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("medicalexamination")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("casecomorbidities")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("casecomment")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("issue")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("issuefollowup")
                 .join("issue", "issue.id = $root.issue_id")
                 .join("tbcase", "tbcase.id = issue.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("treatmentmonitoring")
                 .join("tbcase", "tbcase.id = $root.case_id")
-                .restrict("$root.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("$root.synched = ?", notSynched);
 
         queryFrom("tags_case")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .join("tag", "tag.id = $root.tag_id")
                 .restrict("tag.sqlCondition is null")
-                .restrict("tbcase.synched = ?", notSynched)
-                .restrict("tbcase.owner_unit_id = ?", unitId);
+                .restrict("tbcase.synched = ?", notSynched);
     }
 
 }
