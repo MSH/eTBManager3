@@ -148,7 +148,7 @@ export default class SearchBox extends React.Component {
                 <MenuItem header>
                     <div className="text-warning">{__('form.norecordfound')}</div>
                 </MenuItem>
-                );
+            );
         }
 
         const lst = [];
@@ -204,6 +204,6 @@ export default class SearchBox extends React.Component {
                 </Popup>
             </FormGroup>
             </div>
-            );
+        );
     }
 }

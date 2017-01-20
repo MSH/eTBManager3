@@ -209,7 +209,7 @@ class PermissionTree extends React.Component {
                     }
                 </Col>
             </Row>
-            );
+        );
     }
 
     render() {
@@ -236,7 +236,7 @@ class PermissionTree extends React.Component {
                     title={title}
                     />
             </div>
-            );
+        );
     }
 }
 

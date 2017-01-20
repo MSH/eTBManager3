@@ -20,7 +20,7 @@ export default class FollowupDisplay extends React.Component {
                     <a className="lnk-muted" onClick={this.props.onDelete}><Fa icon="trash-o"/></a>
                 </OverlayTrigger>
             </div>
-            );
+        );
     }
 
     renderHeader() {
@@ -69,8 +69,6 @@ export default class FollowupDisplay extends React.Component {
 
     render() {
         const followup = this.props.followup;
-
-        console.log(followup);
 
         const schema = getDisplaySchema(followup.type);
         const doc = followup.data;

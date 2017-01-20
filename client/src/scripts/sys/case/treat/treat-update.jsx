@@ -88,7 +88,7 @@ class TreatmentUpdate extends React.Component {
                 wrapType="modal" modalShow
                 onConfirm={this.confirm}
                 onCancel={this.onClose} />
-            );
+        );
     }
 }
 

@@ -47,7 +47,7 @@ export default class OnlineUsers extends React.Component {
                     <h4>{__('admin.websessions')} {countHTML}</h4>
                 </Col>
             </Row>
-            );
+        );
     }
 
     collapseRender(item) {
@@ -95,18 +95,18 @@ export default class OnlineUsers extends React.Component {
         ];
 
         return (
-                <div>
-                    <Card header={this.headerRender(this.state.values.count)}>
-                        <Row>
-                            <Col md={12}>
-                                <ReactTable columns={colschema}
-                                    values={this.state.values.list}
-                                    onExpandRender={this.collapseRender} />
-                            </Col>
-                        </Row>
-                    </Card>
-                </div>
-            );
+            <div>
+                <Card header={this.headerRender(this.state.values.count)}>
+                    <Row>
+                        <Col md={12}>
+                            <ReactTable columns={colschema}
+                                values={this.state.values.list}
+                                onExpandRender={this.collapseRender} />
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+        );
     }
 }
 

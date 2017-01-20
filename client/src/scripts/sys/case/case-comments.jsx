@@ -90,7 +90,7 @@ export default class CaseComments extends React.Component {
                 }
                 <CommentsBox values={comments} onEvent={this.onCommentEvent}/>
             </div>
-            );
+        );
     }
 
 }

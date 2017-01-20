@@ -112,7 +112,7 @@ export default class CasesUnit extends React.Component {
                         content: i => i.treatmentProgress ? <TreatProgress value={i.treatmentProgress} width={45} height={45}/> : '-'
                     }
                 ]} values={lst} onClick={this.caseClick}/>
-            );
+        );
     }
 
     /**
@@ -128,8 +128,8 @@ export default class CasesUnit extends React.Component {
         }
 
         return (
-            <ReactTable columns={
-                [{
+            <ReactTable columns={[
+                {
                     title: __('Patient'),
                     size: { sm: 4 },
                     content: item =>
@@ -156,7 +156,7 @@ export default class CasesUnit extends React.Component {
                     size: { sm: 2 },
                     content: item => item.microscopyResult ? item.microscopyResult.name : '-'
                 }
-                ]} values={lst} className="mtop-2x" onClick={this.caseClick} />
+            ]} values={lst} className="mtop-2x" onClick={this.caseClick} />
         );
     }
 
@@ -171,7 +171,7 @@ export default class CasesUnit extends React.Component {
                     <Alert bsStyle="warning">{__('form.norecordfound')}</Alert>
                 </div>
             </div>
-            );
+        );
     }
 
     /**
@@ -229,7 +229,7 @@ export default class CasesUnit extends React.Component {
                     this.state.sel === 2 ? this.drtbCasesRender() : null
                 }
             </Card>
-            );
+        );
     }
 }
 

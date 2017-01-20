@@ -76,7 +76,7 @@ export default class MaskedInput extends React.Component {
                 <input type="text" className="form-control"/>
                 {helpBlock}
             </div>
-            );
+        );
     }
 }
 

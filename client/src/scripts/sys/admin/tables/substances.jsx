@@ -83,7 +83,7 @@ export default class Substances extends React.Component {
                 <b>{item.shortName}</b>
                 <div className="text-muted">{item.name}</div>
             </div>
-            );
+        );
     }
 
     collapseCellRender(item) {
@@ -105,7 +105,7 @@ export default class Substances extends React.Component {
                 </dl>
                 <hr/>
             </div>
-            );
+        );
     }
 
     render() {
@@ -119,7 +119,7 @@ export default class Substances extends React.Component {
                 onDetailRender={this.collapseCellRender}
                 editorSchema={editorDef}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

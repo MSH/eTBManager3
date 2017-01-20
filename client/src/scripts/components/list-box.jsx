@@ -228,7 +228,7 @@ export default class ListBox extends React.Component {
                 {this.createItemList()}
                 {helpBlock}
             </div>
-            );
+        );
     }
 }
 

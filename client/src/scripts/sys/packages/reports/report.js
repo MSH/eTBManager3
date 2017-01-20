@@ -30,11 +30,11 @@ export default class Report {
      */
     constructor(schema, scope, scopeId) {
         this.schema = schema ? schema :
-            // report template
-            {
-                title: __('reports.new.title'),
-                dashboard: false
-            };
+        // report template
+        {
+            title: __('reports.new.title'),
+            dashboard: false
+        };
 
         this.scope = scope ? scope : 'WORKSPACE';
         this.scopeId = scopeId ? scopeId : null;

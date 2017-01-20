@@ -61,14 +61,14 @@ class CaseEditForm extends React.Component {
         const path = '/api/cases/case/edit/form/' + this.props.tbcase.id;
 
         return (
-                <FormDialog
-                    modalShow
-                    wrapType="modal"
-                    remotePath={path}
-                    onCancel={this.onClose}
-                    onConfirm={this.confirm}
-                    modalBsSize="large" />
-            );
+            <FormDialog
+                modalShow
+                wrapType="modal"
+                remotePath={path}
+                onCancel={this.onClose}
+                onConfirm={this.confirm}
+                modalBsSize="large" />
+        );
     }
 }
 

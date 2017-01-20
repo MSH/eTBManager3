@@ -34,7 +34,7 @@ export default function Logo(props) {
             </Fade>
             </div>
         </div>
-        );
+    );
 }
 
 Logo.propTypes = {

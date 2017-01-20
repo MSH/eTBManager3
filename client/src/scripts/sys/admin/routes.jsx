@@ -32,8 +32,6 @@ export default class AdminRoutes extends React.Component {
             }
         ]);
 
-        return (
-            <RouteView routes={routes} />
-            );
+        return <RouteView routes={routes} />;
     }
 }

@@ -116,7 +116,7 @@ export default class CasesList extends React.Component {
                     </span> : null
                 }
             </div>
-            );
+        );
     }
 }
 

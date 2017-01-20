@@ -166,7 +166,7 @@ export default class TableFormControl extends React.Component {
                     </Button>
                 </ButtonToolbar>
             </div>
-            );
+        );
     }
 
 }

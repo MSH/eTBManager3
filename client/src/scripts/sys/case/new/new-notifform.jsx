@@ -57,7 +57,7 @@ export default class NotifForm extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-            );
+        );
     }
 }
 

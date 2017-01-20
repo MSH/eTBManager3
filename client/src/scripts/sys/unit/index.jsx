@@ -78,7 +78,7 @@ export default class Unit extends React.Component {
                 route={this.props.route}
                 viewProps={{ scope: 'UNIT', scopeId: unit.id }}
                 />
-            );
+        );
     }
 }
 

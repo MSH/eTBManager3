@@ -125,18 +125,20 @@ export default class CommandHistory extends React.Component {
                     <h4>{'Command History'} {count === 0 ? '' : countHTML}</h4>
                 </Col>
             </Row>
-            );
+        );
     }
 
     collapseRender(item) {
 
         const text = item.detail.text ?
-                            <Col sm={12}>
-                                <dl className="dl-horizontal text-muted">
-                                <dt>{__('global.comments')}<Fa icon="comment-o"/>{':'}</dt>
-                                <dd>{item.detail.text}</dd>
-                                </dl>
-                            </Col> : null;
+            (
+                <Col sm={12}>
+                    <dl className="dl-horizontal text-muted">
+                    <dt>{__('global.comments')}<Fa icon="comment-o"/>{':'}</dt>
+                    <dd>{item.detail.text}</dd>
+                    </dl>
+                </Col>
+             ) : null;
 
         var vals = null;
         if (item.detail.items || item.detail.diffs) {

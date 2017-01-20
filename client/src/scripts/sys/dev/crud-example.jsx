@@ -112,9 +112,7 @@ export default class CrudExample extends React.Component {
     }
 
     gridCellRender(item) {
-        return (
-            <Profile size="small" title={item.name} type="user" />
-            );
+        return <Profile size="small" title={item.name} type="user" />;
     }
 
     render() {
@@ -168,6 +166,6 @@ export default class CrudExample extends React.Component {
                     <CrudPagination controller={ctrl2} />
                 </Card>
             </div>
-            );
+        );
     }
 }

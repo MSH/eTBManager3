@@ -79,7 +79,7 @@ export default class FrontPage extends React.Component {
                 <RouteView routes={routes} viewProps={this.props.viewProps}/>
             }
             </div>
-            );
+        );
     }
 }
 

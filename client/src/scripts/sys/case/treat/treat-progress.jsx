@@ -37,7 +37,7 @@ export default class TreatProgress extends React.Component {
                 <div>{this.props.label}</div>
             }
             </div>
-            );
+        );
     }
 }
 

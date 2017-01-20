@@ -260,7 +260,7 @@ export default class SelectionBox extends React.Component {
                 {this.createPopup()}
                 {helpBlock}
             </div>
-            );
+        );
     }
 }
 

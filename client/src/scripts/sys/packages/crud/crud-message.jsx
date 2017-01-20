@@ -43,29 +43,31 @@ class CrudMessage extends React.Component {
     render() {
         const msg = this.state.msg;
         const msgpanel = msg ?
+            (
             <Alert bsStyle={this.state.type === 'error' ? 'danger' : 'warning'}
                 onDismiss={this.hideMessage}
                 style={{ marginTop: '10px', marginBottom: '10px' }}>
                 <Errors messages={msg} />
-            </Alert> :
-            null;
+            </Alert>
+            ) : null;
 
         const confirm = this.state.confirm;
 
         const confirmDlg = confirm ?
+            (
             <MessageDlg show
                 title={confirm.title}
                 message={confirm.msg}
                 type="YesNo"
-                onClose={this.confirmDlgClose} /> :
-            null;
+                onClose={this.confirmDlgClose} />
+             ) : null;
 
         return (
             <div>
                 {msgpanel}
                 {confirmDlg}
             </div>
-            );
+        );
     }
 }
 

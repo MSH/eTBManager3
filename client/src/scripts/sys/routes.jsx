@@ -73,7 +73,7 @@ class Routes extends React.Component {
                 <LanguageSel />
                 <WorkspaceSel />
             </div>
-            );
+        );
     }
 }
 

@@ -182,7 +182,7 @@ export default class CaseIssues extends React.Component {
                     modalShow={this.state.showModal} />
 
             </div>
-            );
+        );
     }
 }
 

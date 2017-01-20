@@ -37,7 +37,7 @@ export default class UserProfiles extends React.Component {
             <div>
                 {item.name}
             </div>
-            );
+        );
     }
 
     render() {
@@ -50,7 +50,7 @@ export default class UserProfiles extends React.Component {
                 editorSchema={editorDef}
                 onCellRender={this.cellRender}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

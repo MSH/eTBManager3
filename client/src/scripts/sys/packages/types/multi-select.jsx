@@ -67,7 +67,7 @@ export default class MultiSelect extends React.Component {
                 mode="multiple"
                 options={this.props.resources}
                 onChange={this.onChange} />
-            );
+        );
     }
 }
 

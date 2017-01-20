@@ -34,7 +34,7 @@ export default class Workspaces extends React.Component {
                 crud={this.state.crud}
                 editorSchema={this.state.editor}
                 perm="WORKSPACES" />
-            );
+        );
     }
 }
 

@@ -40,7 +40,7 @@ export default class YesNoControl extends React.Component {
                     {valueDisplay}
                 </div>
             </div>
-            );
+        );
     }
 
     onChange() {
@@ -70,7 +70,7 @@ export default class YesNoControl extends React.Component {
                 optionDisplay={this.optionRender}
                 wrapperClassName="size-2"
                 bsStyle={err ? 'error' : null} value={this.props.value} />
-            );
+        );
     }
 
     render() {

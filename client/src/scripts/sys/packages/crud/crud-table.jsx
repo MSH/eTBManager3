@@ -90,7 +90,7 @@ export default class CrudTable extends React.Component {
                     </Button>
                 </ButtonToolbar>
             </div>
-            );
+        );
     }
 
     rowRender(item) {
@@ -110,7 +110,7 @@ export default class CrudTable extends React.Component {
                     controller={controller} openOnEdit wrapType={'none'} />
                 </div>
             </Collapse>
-            );
+        );
     }
 
     render() {

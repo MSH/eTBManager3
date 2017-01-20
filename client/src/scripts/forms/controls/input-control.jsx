@@ -95,7 +95,7 @@ export default class InputControl extends React.Component {
                     errors && <HelpBlock>{errors}</HelpBlock>
                 }
             </FormGroup>
-            );
+        );
     }
 
 }

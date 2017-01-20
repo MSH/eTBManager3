@@ -66,6 +66,6 @@ export default class ShowMessage extends React.Component {
                     {'When dialog closes, a message is displayed in the console'}
                 </p>
             </Card>
-            );
+        );
     }
 }

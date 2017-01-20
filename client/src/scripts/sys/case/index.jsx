@@ -73,11 +73,11 @@ class Details extends React.Component {
 
         if (!lst || lst.length < 1) {
             return (
-                    <div className="message-muted">
-                        <Fa icon="tags" />
-                        <div>{__('cases.details.tags.noresult')}</div>
-                    </div>
-                );
+                <div className="message-muted">
+                    <Fa icon="tags" />
+                    <div>{__('cases.details.tags.noresult')}</div>
+                </div>
+            );
         }
 
         return (
@@ -90,7 +90,7 @@ class Details extends React.Component {
                     ))
                 }
             </div>
-            );
+        );
     }
 
     selectTab(key) {
@@ -345,9 +345,8 @@ class Details extends React.Component {
                     onClose={this.closeSuspectFU}
                     tbcase={tbcase}
                     classification={this.state.suspectFUCla}/>
-
             </div>
-            );
+        );
     }
 }
 

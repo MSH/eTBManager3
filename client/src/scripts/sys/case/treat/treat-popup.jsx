@@ -44,7 +44,7 @@ export default class TreatPopup extends React.Component {
                     this.renderPeriod(data)
                 }
             </div>
-            );
+        );
     }
 
     renderPresc(data) {
@@ -88,7 +88,7 @@ export default class TreatPopup extends React.Component {
                 </ButtonToolbar>
                 </div>
             </div>
-            );
+        );
     }
 
     render() {
@@ -114,13 +114,12 @@ export default class TreatPopup extends React.Component {
                 onHide={this.props.onHide}
                 show={this.props.show}
                 target={this._getTarget}
-                placement="bottom"
-            >
+                placement="bottom">
                 <Popover title={<b>{res.title}</b>} id="ppbar">
                     {res.content}
                 </Popover>
             </Overlay>
-            );
+        );
 
     }
 }

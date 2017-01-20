@@ -140,7 +140,7 @@ export default class FormDialog extends React.Component {
                     <Card title={title} className={this.props.className}>
                         {form} {buttons}
                     </Card>
-                );
+            );
             case 'modal': return (
                     <Modal show={this.props.modalShow} bsSize={this.props.modalBsSize}>
                         <Modal.Header>
@@ -155,7 +155,7 @@ export default class FormDialog extends React.Component {
                             {buttons}
                         </Modal.Footer>
                     </Modal>
-                );
+            );
             default: return (
                     <div className={this.props.className}>
                         {
@@ -163,7 +163,7 @@ export default class FormDialog extends React.Component {
                         }
                         {form} {buttons}
                     </div>
-                );
+            );
         }
     }
 }

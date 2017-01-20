@@ -63,7 +63,7 @@ export default class CommandBar extends React.Component {
                 </Collapse>
             }
             </li>
-            );
+        );
     }
 
     render() {
@@ -78,7 +78,7 @@ export default class CommandBar extends React.Component {
                 cmds.map((item, index) => this.renderItem(item, index))
             }
             </ul>
-            );
+        );
     }
 }
 

@@ -138,7 +138,7 @@ export default class Tags extends React.Component {
                 editorSchema={editorDef}
                 perm={data.perm}
                 queryFilters={queryFilters} />
-            );
+        );
     }
 }
 

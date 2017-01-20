@@ -19,7 +19,7 @@ export default class Fluidbar extends React.Component {
             <div className={className}>
                 {this.props.children}
             </div>
-            );
+        );
     }
 }
 

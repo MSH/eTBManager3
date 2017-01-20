@@ -21,7 +21,7 @@ export default class MessageDlg extends React.Component {
                     <Button bsSize="large" bsStyle="default"
                         onClick={this.noClick} >{__('global.no')}</Button>
                 </p>
-                );
+            );
             default: return (
                     <p className="text-center">
                     <Button bsSize="large"
@@ -29,7 +29,7 @@ export default class MessageDlg extends React.Component {
                         onClick={this.okClick}>{__('form.ok')}
                     </Button>
                     </p>
-                    );
+            );
         }
     }
 
@@ -95,7 +95,7 @@ export default class MessageDlg extends React.Component {
                     {buttons}
                 </Modal.Footer>
             </Modal>
-            );
+        );
     }
 }
 

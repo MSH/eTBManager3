@@ -126,7 +126,7 @@ export default class Products extends React.Component {
         return (
             <Profile title={item.shortName} subtitle={item.name}
                 size="small" type={item.type.toLowerCase()} />
-            );
+        );
     }
 
     render() {
@@ -139,7 +139,7 @@ export default class Products extends React.Component {
                 editorSchema={editorDef}
                 onCellRender={this.cellRender}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

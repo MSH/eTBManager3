@@ -13,7 +13,7 @@ export default function BorderlessForm(props) {
                     )
             }
         </ul>
-        );
+    );
 }
 
 BorderlessForm.propTypes = {

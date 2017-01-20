@@ -29,7 +29,7 @@ export default class Home extends React.Component {
             <div>
                 <RouteView routes={routes} viewProps={viewProps} />
             </div>
-            );
+        );
     }
 }
 

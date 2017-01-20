@@ -18,7 +18,7 @@ export default class CasesTags extends React.Component {
                     }
                 </div>
             </Card>
-            );
+        );
     }
 }
 

@@ -55,14 +55,12 @@ export default class Sources extends React.Component {
                 <b>{item.shortName}</b>
                 <div className="text-muted">{item.name}</div>
             </div>
-            );
+        );
     }
 
     render() {
         // get information about the route of this page
         const data = this.props.route.data;
-
-//        tableDef.title = data.title;
 
         return (
             <CrudView crud={crud}
@@ -70,7 +68,7 @@ export default class Sources extends React.Component {
                 editorSchema={editorDef}
                 onCellRender={this.cellRender}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

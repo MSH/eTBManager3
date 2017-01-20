@@ -6,7 +6,7 @@ export default class MyActivities extends React.Component {
     render() {
         return (
             <UnderConstruction />
-            );
+        );
     }
 }
 

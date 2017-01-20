@@ -30,7 +30,7 @@ class CrudGrid extends React.Component {
                 onRender={this.props.onRender}
                 onExpandRender={this.props.onExpandRender}
                 editorSchema={this.props.editorSchema} />
-            );
+        );
     }
 
     render() {
@@ -49,7 +49,7 @@ class CrudGrid extends React.Component {
                 values={controller.getList()}
                 onCellRender={this.cellRender}
                 cellSize={this.props.cellSize} />
-            );
+        );
     }
 }
 

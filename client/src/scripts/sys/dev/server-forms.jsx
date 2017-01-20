@@ -36,7 +36,6 @@ export default class ShowMessage extends React.Component {
     }
 
     click4() {
-        console.log('hi');
         const crud = new Crud('prevtreat');
         this.setState({ remotePath1: () => crud.init({ includeForm: true, edit: true }) });
     }
@@ -69,7 +68,7 @@ export default class ShowMessage extends React.Component {
                     </Card>
                 }
             </div>
-            );
+        );
     }
 }
 

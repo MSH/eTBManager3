@@ -19,9 +19,7 @@ export default function controlWrapper(Component) {
         }
 
         render() {
-            return (
-                <Component ref="ctrl" {...this.props} />
-                );
+            return <Component ref="ctrl" {...this.props} />;
         }
 
     }

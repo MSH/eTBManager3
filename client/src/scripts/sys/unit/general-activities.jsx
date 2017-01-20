@@ -7,6 +7,6 @@ export default class UnitGeneral extends React.Component {
     render() {
         return (
             <UnderConstruction />
-            );
+        );
     }
 }

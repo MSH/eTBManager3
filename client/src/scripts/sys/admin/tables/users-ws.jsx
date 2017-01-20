@@ -192,7 +192,7 @@ export default class UsersWs extends React.Component {
                 </div>
                 <Profile type="user" title={item.name} subtitle={sub} size="small"/>
             </div>
-            );
+        );
     }
 
     render() {
@@ -219,7 +219,7 @@ export default class UsersWs extends React.Component {
                     show={!!this.state.userChangePwd}
                     onClose={this.closeChangePassword} />
             </div>
-            );
+        );
     }
 }
 

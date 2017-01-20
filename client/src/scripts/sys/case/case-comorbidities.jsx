@@ -98,7 +98,7 @@ export default class CaseComorbidities extends React.Component {
                     btn && <Col sm={2}><div className="pull-right">{btn}</div></Col>
                 }
             </Row>
-            );
+        );
     }
 
     showForm(state) {
@@ -159,25 +159,25 @@ export default class CaseComorbidities extends React.Component {
         });
 
         return (
-                <span>
-                    <FormDialog
-                        schema={fschema}
-                        doc={this.state.doc}
-                        onConfirm={this.save}
-                        onCancel={this.showForm(false)}
-                        wrapType={'modal'}
-                        modalShow={this.state.showForm}/>
+            <span>
+                <FormDialog
+                    schema={fschema}
+                    doc={this.state.doc}
+                    onConfirm={this.save}
+                    onCancel={this.showForm(false)}
+                    wrapType={'modal'}
+                    modalShow={this.state.showForm}/>
 
-                    <CaseComments
-                        tbcase={tbcase} group="COMORBIDITIES">
-                        <Card header={this.headerRender()} padding="combine">
-                            {
-                                rows
-                            }
-                        </Card>
-                    </CaseComments>
-                </span>
-            );
+                <CaseComments
+                    tbcase={tbcase} group="COMORBIDITIES">
+                    <Card header={this.headerRender()} padding="combine">
+                        {
+                            rows
+                        }
+                    </Card>
+                </CaseComments>
+            </span>
+        );
     }
 }
 

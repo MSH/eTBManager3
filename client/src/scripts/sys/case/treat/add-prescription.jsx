@@ -126,7 +126,7 @@ class AddPrescription extends React.Component {
                 onConfirm={this.confirm}
                 onCancel={this.onClose}
                 modalShow={this.state.show} />
-            );
+        );
     }
 }
 

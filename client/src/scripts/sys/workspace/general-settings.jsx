@@ -193,6 +193,6 @@ export default class WorkspaceSettings extends React.Component {
                         />
                 }
             </div>
-            );
+        );
     }
 }

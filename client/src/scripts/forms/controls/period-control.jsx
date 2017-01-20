@@ -52,7 +52,7 @@ export default class PeriodControl extends React.Component {
                 onChange={this._change}
                 errors={this.props.errors}
                 period />
-            );
+        );
     }
 }
 

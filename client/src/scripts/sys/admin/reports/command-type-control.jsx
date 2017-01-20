@@ -75,7 +75,7 @@ class CommandTypeControl extends React.Component {
                     style={{ minWidth: '280px' }}
                     />
             </div>
-            );
+        );
     }
 
     render() {
@@ -95,7 +95,7 @@ class CommandTypeControl extends React.Component {
                 label={label}
                 content={content ? content.name : ''}
                 popupContent={this.popupRender()} />
-            );
+        );
     }
 }
 

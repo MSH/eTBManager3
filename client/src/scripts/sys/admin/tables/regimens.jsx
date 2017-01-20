@@ -131,7 +131,7 @@ export default class Regimens extends React.Component {
                 onCellRender={this.cellRender}
                 editorSchema={editorDef}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

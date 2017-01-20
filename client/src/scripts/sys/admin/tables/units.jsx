@@ -257,7 +257,7 @@ export default class Units extends React.Component {
                 title={item.name}
                 subtitle={auname}
                 size="small" />
-            );
+        );
     }
 
     render() {
@@ -271,7 +271,7 @@ export default class Units extends React.Component {
                 onCellRender={this.cellRender}
                 editorSchema={editorDef}
                 perm={data.perm} />
-            );
+        );
     }
 }
 

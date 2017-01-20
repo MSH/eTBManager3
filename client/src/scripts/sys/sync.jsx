@@ -153,7 +153,7 @@ export default class Sync extends React.Component {
                     </Col>
                 </Row>
             </div>
-            );
+        );
     }
 
     renderNotRunning() {
@@ -181,7 +181,7 @@ export default class Sync extends React.Component {
                     </Col>
                 </Row>
             </div>
-            );
+        );
     }
 
     renderInProgress() {
@@ -204,23 +204,23 @@ export default class Sync extends React.Component {
 
     renderSuccess() {
         return (
-                <div>
-                    <div className="text-center">
-                        <h3>
-                            {__('sync.success')}
-                        </h3>
-                        <br/>
-                        <i className="fa fa-check-circle fa-4x text-success"/>
-                        <br/>
-                        <p className="mtop-2x">
-                            {__('init.offinit.success2')}
-                        </p>
-                    </div>
-                    <div>
-                        <Button bsStyle="default" block onClick={this.goToHome}>{__('sync.success.btn')}</Button>
-                    </div>
+            <div>
+                <div className="text-center">
+                    <h3>
+                        {__('sync.success')}
+                    </h3>
+                    <br/>
+                    <i className="fa fa-check-circle fa-4x text-success"/>
+                    <br/>
+                    <p className="mtop-2x">
+                        {__('init.offinit.success2')}
+                    </p>
                 </div>
-                );
+                <div>
+                    <Button bsStyle="default" block onClick={this.goToHome}>{__('sync.success.btn')}</Button>
+                </div>
+            </div>
+        );
     }
 
     render() {

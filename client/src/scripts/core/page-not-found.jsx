@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import Callout from '../components/callout';
-import { app } from './app';
 
 
 export default class PageNotFound extends React.Component {

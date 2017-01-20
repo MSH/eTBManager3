@@ -136,7 +136,7 @@ export default class SysConfig extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-            );
+        );
     }
 }
 

@@ -58,7 +58,7 @@ export default class DashboardView extends React.Component {
                     inds
                 }
             </div>
-            );
+        );
     }
 }
 

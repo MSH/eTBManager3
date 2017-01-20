@@ -54,8 +54,7 @@ export default class UnitControl extends React.Component {
         }
 
         return nextSchema.readOnly ?
-            null :
-            {
+            null : {
                 cmd: 'unit',
                 params: {
                     value: nextValue,
@@ -140,16 +139,16 @@ export default class UnitControl extends React.Component {
         const value = id ? res.adminUnits.find(item => item.id === id) : null;
 
         return (
-                <SelectionBox ref="admunit" value={value}
-                    type="select"
-                    label={label}
-                    onChange={this.onAuChange}
-                    noSelectionLabel="-"
-                    optionDisplay="name"
-                    options={res.adminUnits}
-                    help={!unitlist ? this.props.errors : null}
-                    bsStyle={(!unitlist) && this.props.errors ? 'error' : null} />
-                );
+            <SelectionBox ref="admunit" value={value}
+                type="select"
+                label={label}
+                onChange={this.onAuChange}
+                noSelectionLabel="-"
+                optionDisplay="name"
+                options={res.adminUnits}
+                help={!unitlist ? this.props.errors : null}
+                bsStyle={(!unitlist) && this.props.errors ? 'error' : null} />
+        );
     }
 
     createUnitList() {
@@ -167,16 +166,16 @@ export default class UnitControl extends React.Component {
         const value = id ? resources.units.find(item => item.id === id) : null;
 
         return (
-                <SelectionBox ref="unit"
-                    value={value}
-                    type="select"
-                    onChange={this.onUnitChange}
-                    noSelectionLabel="-"
-                    optionDisplay="name"
-                    options={resources.units}
-                    help={this.props.errors}
-                    bsStyle={this.props.errors ? 'error' : null} />
-                );
+            <SelectionBox ref="unit"
+                value={value}
+                type="select"
+                onChange={this.onUnitChange}
+                noSelectionLabel="-"
+                optionDisplay="name"
+                options={resources.units}
+                help={this.props.errors}
+                bsStyle={this.props.errors ? 'error' : null} />
+        );
     }
 
     /**
@@ -193,7 +192,7 @@ export default class UnitControl extends React.Component {
                 {aulist}
                 {unitlist}
             </div>
-            );
+        );
     }
 
     readOnlyRender(schema) {

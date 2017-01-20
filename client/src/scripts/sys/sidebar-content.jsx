@@ -71,8 +71,7 @@ export default class SidebarContent extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-
-            );
+        );
     }
 }
 

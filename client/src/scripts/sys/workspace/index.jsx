@@ -4,7 +4,6 @@ import { app } from '../../core/app';
 
 import General from './general';
 import Cases from '../packages/cases/cases';
-// import Inventory from '../packages/inventory/inventory';
 
 
 const views = [
@@ -41,7 +40,7 @@ export default class Workspace extends React.Component {
                 viewProps={{ scope: 'WORKSPACE' }}
                 route={this.props.route}
             />
-            );
+        );
     }
 }
 

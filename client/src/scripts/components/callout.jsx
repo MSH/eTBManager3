@@ -13,7 +13,7 @@ export default class Callout extends React.Component {
             <div className={className}>
                 {this.props.children}
             </div>
-            );
+        );
     }
 }
 

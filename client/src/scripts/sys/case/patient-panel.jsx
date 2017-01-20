@@ -83,7 +83,7 @@ export default class PatientPanel extends React.Component {
                     </Row>
                 </Grid>
             </Fluidbar>
-            );
+        );
     }
 }
 

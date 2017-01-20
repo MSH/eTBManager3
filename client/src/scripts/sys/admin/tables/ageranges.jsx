@@ -48,7 +48,7 @@ export default class AgeRanges extends React.Component {
                 cellSize={{ md: 12 }}
                 perm={data.perm}
                 refreshAll />
-            );
+        );
     }
 }
 

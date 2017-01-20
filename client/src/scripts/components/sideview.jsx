@@ -65,7 +65,7 @@ export default class Sideview extends React.Component {
                                     <div>{item.noResultMsg}</div>
                                 </div>
                             </span>
-                            );
+                        );
                     }
 
                     if (!item.path) {
@@ -85,7 +85,7 @@ export default class Sideview extends React.Component {
                             {item.title}
                             </a>
                         </li>
-                        );
+                    );
                 })}
             </ul>
         );

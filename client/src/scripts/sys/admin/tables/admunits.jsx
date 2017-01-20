@@ -85,9 +85,10 @@ export default class AdmUnits extends React.Component {
         // has permission to edit
         if (hasPerm(this.props.route.data.perm + '_EDT')) {
             btn = item === this.state.root ?
+                (
                 <Button bsSize="small" onClick={this.addRoot}>
                     <Fa icon="plus"/><span className="hidden-xs">{__('action.add') + ' ' + this.csname(1)}</span>
-                </Button> :
+                </Button>) : (
                 <DropdownButton id="optMenu" bsSize="small" pullRight
                     onSelect={this.onMenuSel}
                     title={<span className="hidden-xs" >{__('form.options')}</span>}>
@@ -103,7 +104,7 @@ export default class AdmUnits extends React.Component {
                                 {__('action.add') + ' ' + this.csname(item.level + 1)}
                             </MenuItem>
                         }
-                </DropdownButton>;
+                </DropdownButton>);
         }
         else {
             btn = null;
@@ -117,7 +118,7 @@ export default class AdmUnits extends React.Component {
                     {btn}
                 </Col>
             </Row>
-            );
+        );
     }
 
     getCsOptions(level) {
@@ -420,7 +421,7 @@ export default class AdmUnits extends React.Component {
                     </Grid>
                 </Card>
             </div>
-            );
+        );
     }
 }
 
