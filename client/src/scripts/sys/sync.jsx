@@ -4,7 +4,6 @@ import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import SessionUtils from './session-utils';
-import { app } from '../core/app';
 
 /**
  * Form validation model
@@ -25,6 +24,10 @@ export default class Sync extends React.Component {
         this.checkStatusUntilFinish = this.checkStatusUntilFinish.bind(this);
     }
 
+    /**
+     * Checks if sync is already running
+     * @return {[type]} [description]
+     */
     componentWillMount() {
         this.setState({ checking: true });
 
@@ -46,17 +49,14 @@ export default class Sync extends React.Component {
      * Called when user clicks on the login button
      */
     gotoHome() {
-        app.goto(SessionUtils.homeHash());
-        window.location.reload(true);
+        SessionUtils.gotoHome();
     }
 
     /**
-     * Check initialization status until it finishes
+     * Check sync status until it finishes
      * @return {[type]} [description]
      */
     checkStatusUntilFinish() {
-        this.clearAllIntervals();
-
         server.get('/api/offline/client/sync/status')
         .then(res => {
             if (res.id !== 'NOT_RUNNING') {
@@ -71,6 +71,10 @@ export default class Sync extends React.Component {
         });
     }
 
+    /**
+     * Starts sync process
+     * @return {[type]} [description]
+     */
     startSync() {
         // clear previous global msgs
         this.setState({ globalMsgs: null });
@@ -105,17 +109,9 @@ export default class Sync extends React.Component {
     }
 
     /**
-     * Clear all timeouts
+     * Checks in whitch phase sync is and returns the render content
      * @return {[type]} [description]
      */
-    clearAllIntervals() {
-        // clear all intervals
-        const id = setInterval(() => {}, 9999);
-        for (var i = 0; i <= id; i++) {
-            clearInterval(i);
-        }
-    }
-
     renderContent() {
         if (this.state.checking) {
             return this.renderChecking();
@@ -136,6 +132,10 @@ export default class Sync extends React.Component {
         return null;
     }
 
+    /**
+     * Render content when system is checking is sync is already running
+     * @return {[type]} [description]
+     */
     renderChecking() {
         return (
             <div>
@@ -156,6 +156,10 @@ export default class Sync extends React.Component {
             );
     }
 
+    /**
+     * Render password field and dtart sync button
+     * @return {[type]} [description]
+     */
     renderNotRunning() {
         const err = this.state.errors || {};
         const fetching = this.state.fetching;
@@ -184,6 +188,10 @@ export default class Sync extends React.Component {
             );
     }
 
+    /**
+     * Render 'sync on progress' content and sync status
+     * @return {[type]} [description]
+     */
     renderInProgress() {
         return (<div>
                     <Row>
@@ -202,6 +210,10 @@ export default class Sync extends React.Component {
                 </div>);
     }
 
+    /**
+     * Render success content
+     * @return {[type]} [description]
+     */
     renderSuccess() {
         return (
                 <div>
@@ -217,7 +229,7 @@ export default class Sync extends React.Component {
                         </p>
                     </div>
                     <div>
-                        <Button bsStyle="default" block onClick={this.goToHome}>{__('sync.success.btn')}</Button>
+                        <Button bsStyle="default" block onClick={this.gotoHome}>{__('sync.success.btn')}</Button>
                     </div>
                 </div>
                 );
