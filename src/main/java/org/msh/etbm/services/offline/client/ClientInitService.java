@@ -171,8 +171,8 @@ public class ClientInitService {
         }
 
         // register commandlog
-        Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where uw.user.login like :login")
-                .setParameter("login", credentials.getUsername())
+        Object[] o = (Object[]) entityManager.createQuery("select uw.workspace, uw.unit, uw.user from UserWorkspace uw where upper(uw.user.login) like :login")
+                .setParameter("login", credentials.getUsername().toUpperCase())
                 .getSingleResult();
 
         CommandHistoryInput in = new CommandHistoryInput();

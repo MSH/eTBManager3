@@ -18,6 +18,10 @@ export default class SessionUtils {
      * @return {[type]} [description]
      */
     static homeHash() {
+        if (app.storage.state.app.clientMode) {
+            return SessionUtils.unitHash();
+        }
+
         const session = app.getState().session;
         if (session.unitsCount === 1) {
             return SessionUtils.unitHash();
