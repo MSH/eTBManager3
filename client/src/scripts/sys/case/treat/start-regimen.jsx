@@ -31,7 +31,8 @@ class StartRegimen extends React.Component {
                     type: 'unit',
                     label: __('Tbunit.treatmentHealthUnit'),
                     unitType: 'TBUNIT',
-                    required: true
+                    required: true,
+                    visible: !app.getState().app.clientMode
                 },
                 {
                     property: 'iniDate',
@@ -102,7 +103,8 @@ class StartRegimen extends React.Component {
                     type: 'unit',
                     label: __('Tbunit.treatmentHealthUnit'),
                     unitType: 'TBUNIT',
-                    required: true
+                    required: true,
+                    visible: !app.getState().app.clientMode
                 },
                 {
                     property: 'iniDate',

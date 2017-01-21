@@ -8,6 +8,8 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.admin.sysconfig.SysConfigData;
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.treatment.TreatmentCmdLogHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class StartTreatmentService {
     @Autowired
     ApplicationContext applicationContext;
 
+    @Autowired
+    SysConfigService sysConfigService;
+
     /**
      * Start a treatment based on the
      * @param req
@@ -44,6 +49,13 @@ public class StartTreatmentService {
     @Transactional
     @CommandLog(type = CommandTypes.CASES_TREAT_INI, handler = TreatmentCmdLogHandler.class)
     public void startTreatment(@NotNull @Valid StartTreatmentRequest req) {
+        // if it is a client instance, set the syncUnit as the start treatment unit
+        // the user in client instance can't start treatment to another unit
+        SysConfigData config = sysConfigService.loadConfig();
+        if (config.isClientMode()) {
+            req.setUnitId(config.getSyncUnit().getId());
+        }
+
         // check if values were right informed to know if it is a standardized or individualized regimen
         if (req.getRegimenId() != null && req.getPrescriptions() != null && req.getPrescriptions().size() > 0) {
             throw new EntityValidationException(req, "regimenId", "Cannot provide both regimen and prescriptions to start a treatment", null);
