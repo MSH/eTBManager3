@@ -29,9 +29,6 @@ public class CacheConfiguration {
     public static final String CACHE_SESSION_ID = "session";
     public static final Integer CACHE_SESSION_TIMEOUT_MIN = 5;
 
-    @Value("${development:false}")
-    boolean development;
-
 
     /**
      * Configure the cache manager
@@ -40,10 +37,6 @@ public class CacheConfiguration {
      */
     @Bean
     public CacheManager cacheManager() {
-        if (development) {
-            return new NoOpCacheManager();
-        }
-
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         // configuration of the session ID
         GuavaCache sessionCache = new GuavaCache(CACHE_SESSION_ID, CacheBuilder.newBuilder()

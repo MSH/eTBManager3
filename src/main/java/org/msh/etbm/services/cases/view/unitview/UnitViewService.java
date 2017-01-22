@@ -59,6 +59,7 @@ public class UnitViewService {
      */
     private void loadCases(UUID unitId, UnitViewData data) {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
+                "left join fetch c.comorbidities " +
                 "join fetch c.patient where (c.ownerUnit.id = :unitId or c.transferOutUnit = :unitId) " +
                 "and c.state in (:st1, :st2) " +
                 "order by c.patient.name.name")

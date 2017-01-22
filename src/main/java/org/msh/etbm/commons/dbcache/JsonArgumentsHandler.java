@@ -61,7 +61,6 @@ public class JsonArgumentsHandler {
      * @return the list of arguments in an object array
      */
     public static Object[] parseJson(ObjectMapper mapper, String json) {
-        System.out.println("JSON = " + json);
         try {
             JsonParser parser = mapper.getFactory().createParser(json);
             if (parser.nextToken() != JsonToken.START_ARRAY) {
