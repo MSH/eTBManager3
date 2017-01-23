@@ -104,7 +104,7 @@ public class SearchService {
         // include query restriction
         switch (session.getView()) {
             case UNIT:
-                hql += "and unit.id = " + session.getUnitId();
+                hql += "and unit.id = :unitId";
                 break;
             case ADMINUNIT:
                 hql += "and unit.adminUnit.code like (select concat(code, '%') from AdministrativeUnit where a.id=:auid) ";
@@ -128,6 +128,10 @@ public class SearchService {
             qry.setParameter("c2", SearchableType.CASE_WOMAN);
         } else {
             qry.setParameter("c3", SearchableType.CASE_MAN);
+        }
+
+        if (UserView.UNIT.equals(session.getView())) {
+            qry.setParameter("unitId",  session.getUnitId());
         }
 
         qry.setMaxResults(req.getMaxResults() != null ? req.getMaxResults() : DEFAULT_MAX_RESULTS);
