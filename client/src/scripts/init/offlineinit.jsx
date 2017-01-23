@@ -368,7 +368,7 @@ export default class OfflineInit extends React.Component {
                         </p>
                     </div>
                 </div>
-                );
+        );
     }
 
     /**

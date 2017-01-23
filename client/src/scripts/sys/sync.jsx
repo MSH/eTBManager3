@@ -161,7 +161,7 @@ export default class Sync extends React.Component {
                     </Col>
                 </Row>
             </div>
-            );
+        );
     }
 
     /**
@@ -193,7 +193,7 @@ export default class Sync extends React.Component {
                     </Col>
                 </Row>
             </div>
-            );
+        );
     }
 
     /**
@@ -240,7 +240,7 @@ export default class Sync extends React.Component {
                         <Button bsStyle="default" block onClick={this.gotoHome}>{__('sync.success.btn')}</Button>
                     </div>
                 </div>
-                );
+        );
     }
 
     /**
@@ -262,7 +262,7 @@ export default class Sync extends React.Component {
                         </p>
                     </div>
                 </div>
-                );
+        );
     }
 
     render() {
