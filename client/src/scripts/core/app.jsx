@@ -93,7 +93,7 @@ export class App {
                 gotoModule('/init', '/welcome');
             } else if (res.state === 'READY') {
                 // if ready, go to the main page
-                gotoModule('/sys', '/workspace/cases');
+                gotoModule('/sys', '/start');
             }
             else {
                 // else, go to the login page
