@@ -419,7 +419,11 @@ export default class TreeView extends React.Component {
                     node.children = res;
                     // force tree to show the new expanded node
                     self.refreshTree();
-                });
+                })
+                .catch(() => {
+                    node.state = 'collapsed';
+                    self.refreshTree();
+                })
         }
         else {
             node.state = 'expanded';
