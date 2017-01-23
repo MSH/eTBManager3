@@ -99,7 +99,7 @@ export default class GridTable extends React.Component {
             <div className="grid-table">
                 {this.props.singleColumn ? this.singleColRender() : this.gridRender()}
             </div>
-            );
+        );
     }
 }
 

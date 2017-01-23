@@ -91,7 +91,7 @@ export default class WorkspaceSel extends React.Component {
                     <Button bsStyle="primary" onClick={this.close}>{__('action.cancel')}</Button>
                 </Modal.Footer>
                 </Modal>
-            );
+        );
     }
 }
 

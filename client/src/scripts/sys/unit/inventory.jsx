@@ -6,6 +6,6 @@ export default class Inventory extends React.Component {
     render() {
         return (
             <UnderConstruction />
-            );
+        );
     }
 }

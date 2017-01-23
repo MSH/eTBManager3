@@ -120,60 +120,61 @@ export default class IssueCard extends React.Component {
     render() {
         const issue = this.props.issue;
 
-        return (<Card>
-                    <div className="media">
-                        <div className="media-left">
-                            <Profile type="user" size="small"/>
-                        </div>
-                        <div className="media-body">
-                            <div className="pull-right">
-                                {issue.id.indexOf('fakeid') < 0 && issue.id.indexOf('error') < 0 &&
-                                        <span>
-                                            {
-                                                issue.closed ?
-                                                    <a className="lnk-muted" onClick={this.reopenIssueClick}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
-                                                    <a className="lnk-muted" onClick={this.closeIssueClick}><Fa icon="power-off"/>{__('action.close')}</a>
-                                            }
-
-                                            <a className="lnk-muted" onClick={this.editIssueClick}><Fa icon="pencil"/>{__('action.edit')}</a>
-                                            <OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
-                                                <a className="lnk-muted" onClick={this.confirmRemove}><Fa icon="trash-o"/></a>
-                                            </OverlayTrigger>
-                                        </span>
-                                }
-                                {issue.id.indexOf('fakeid') >= 0 &&
-                                    <span className="lnk-muted">
-                                        <Fa icon="circle-o-notch" spin/>
-                                        {__('global.saving')}
-                                    </span>
-                                }
-                                {issue.id.indexOf('error') >= 0 &&
-                                    <span className="bs-error">
-                                        {__('global.errorsaving')}
-                                    </span>
-                                }
-                            </div>
-
-                            {issue.closed ? <span className="status-box bg-default2 mright">{__('Issue.closed')}</span> : <span className="status-box bg-danger2 mright">{__('Issue.open')}</span>}
-
-                            <div className="inlineb"><b>{issue.title}</b></div>
-                            <div className="text-muted"><b>{issue.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(issue.creationDate).format('lll')}</b></div>
-                            <div className="sub-text mbottom">{issue.unit.name}</div>
-
-                            {issue.description.split('\n').map((item, i) =>
-                                <span key={i}>
-                                    {item}
-                                    <br/>
-                                </span>
-                                )
-                            }
-
-                            <IssueFollowUpsBox issue={issue} onEvent={this.onFollowupEvent} />
-
-                        </div>
+        return (
+            <Card>
+                <div className="media">
+                    <div className="media-left">
+                        <Profile type="user" size="small"/>
                     </div>
-                </Card>
-                );
+                    <div className="media-body">
+                        <div className="pull-right">
+                            {issue.id.indexOf('fakeid') < 0 && issue.id.indexOf('error') < 0 &&
+                                    <span>
+                                        {
+                                            issue.closed ?
+                                                <a className="lnk-muted" onClick={this.reopenIssueClick}><Fa icon="folder-open-o"/>{__('action.reopen')}</a> :
+                                                <a className="lnk-muted" onClick={this.closeIssueClick}><Fa icon="power-off"/>{__('action.close')}</a>
+                                        }
+
+                                        <a className="lnk-muted" onClick={this.editIssueClick}><Fa icon="pencil"/>{__('action.edit')}</a>
+                                        <OverlayTrigger placement="top" overlay={<Tooltip id="actdel">{__('action.delete')}</Tooltip>}>
+                                            <a className="lnk-muted" onClick={this.confirmRemove}><Fa icon="trash-o"/></a>
+                                        </OverlayTrigger>
+                                    </span>
+                            }
+                            {issue.id.indexOf('fakeid') >= 0 &&
+                                <span className="lnk-muted">
+                                    <Fa icon="circle-o-notch" spin/>
+                                    {__('global.saving')}
+                                </span>
+                            }
+                            {issue.id.indexOf('error') >= 0 &&
+                                <span className="bs-error">
+                                    {__('global.errorsaving')}
+                                </span>
+                            }
+                        </div>
+
+                        {issue.closed ? <span className="status-box bg-default2 mright">{__('Issue.closed')}</span> : <span className="status-box bg-danger2 mright">{__('Issue.open')}</span>}
+
+                        <div className="inlineb"><b>{issue.title}</b></div>
+                        <div className="text-muted"><b>{issue.user.name}</b>{' ' + __('global.wrotein') + ' '}<b>{moment(issue.creationDate).format('lll')}</b></div>
+                        <div className="sub-text mbottom">{issue.unit.name}</div>
+
+                        {issue.description.split('\n').map((item, i) =>
+                            <span key={i}>
+                                {item}
+                                <br/>
+                            </span>
+                            )
+                        }
+
+                        <IssueFollowUpsBox issue={issue} onEvent={this.onFollowupEvent} />
+
+                    </div>
+                </div>
+            </Card>
+        );
     }
 }
 

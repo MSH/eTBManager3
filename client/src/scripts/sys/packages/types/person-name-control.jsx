@@ -3,7 +3,6 @@ import { Row, Col, FormControl, ControlLabel, FormGroup, HelpBlock } from 'react
 import { app } from '../../../core/app';
 import su from '../../session-utils';
 import FormUtils from '../../../forms/form-utils';
-import ReactDOM from 'react-dom';
 import { isEmpty } from '../../../commons/utils';
 import msgs from '../../../commons/messages';
 

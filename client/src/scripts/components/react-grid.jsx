@@ -85,7 +85,7 @@ export default class ReactGrid extends React.Component {
                 collapsed
             }
             </div>
-            );
+        );
     }
 
     render() {
@@ -95,7 +95,7 @@ export default class ReactGrid extends React.Component {
             <div className={className} style={{ clear: 'both' }}>
                 {this.gridRender()}
             </div>
-            );
+        );
     }
 }
 

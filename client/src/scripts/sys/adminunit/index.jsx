@@ -4,8 +4,6 @@ import { server } from '../../commons/server';
 import { WaitIcon } from '../../components';
 import SessionUtils from '../session-utils';
 
-import UnderConstruction from '../under-construction';
-
 import General from './general';
 import Cases from '../packages/cases/cases';
 
@@ -78,7 +76,7 @@ export default class AdminUnit extends React.Component {
                 viewProps={{ scope: 'ADMINUNIT', scopeId: au.id }}
                 route={this.props.route}
             />
-            );
+        );
     }
 }
 

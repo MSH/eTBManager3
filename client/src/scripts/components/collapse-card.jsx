@@ -39,7 +39,7 @@ export default class CollapseCard extends React.Component {
                     </Collapse>
                 </div>
             </Card>
-            );
+        );
     }
 }
 

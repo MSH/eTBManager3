@@ -64,7 +64,7 @@ export default class DateControl extends React.Component {
                 help={this.props.errors}
                 value={value}
                 bsStyle={this.props.errors ? 'error' : null} />
-            );
+        );
     }
 }
 

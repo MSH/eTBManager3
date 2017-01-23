@@ -129,7 +129,7 @@ export default class CalendEditor extends React.Component {
                     {__('action.selectall')}
                 </a>
             </div>
-            );
+        );
     }
 
 
@@ -161,7 +161,7 @@ export default class CalendEditor extends React.Component {
                     </div>
                 </Popup>
             </div>
-            );
+        );
     }
 }
 

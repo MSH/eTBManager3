@@ -103,7 +103,7 @@ export default class Tables extends React.Component {
                 menu={menu}
                 title={__('admin') + ' - ' + __('admin.tables')}
                 path="/sys/admin/tables" />
-            );
+        );
     }
 }
 

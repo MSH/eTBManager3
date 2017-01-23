@@ -39,7 +39,7 @@ export default class FormUtils {
                     {content ? content : '-'}
                 </div>
             </div>
-            );
+        );
     }
 
 
@@ -117,8 +117,7 @@ export default class FormUtils {
         const mult = Array.isArray(req);
         // create the data request to be posted
         const data = mult ?
-            req :
-            [{
+            req : [{
                 cmd: req.cmd,
                 id: 'v',
                 params: req.params

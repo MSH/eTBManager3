@@ -47,7 +47,7 @@ export default class ReactTable extends React.Component {
                                     <Col key={index} {...colProps} className={this.alignClass(col)}>
                                         {col.title}
                                     </Col>
-                                    );
+                                );
                             })
                         }
                         </Row>
@@ -91,7 +91,7 @@ export default class ReactTable extends React.Component {
                     value={item}
                     onRender={this.rowRender}
                     onClick={clickable ? this.props.onClick : null} />
-                );
+            );
         }, this);
     }
 
@@ -164,7 +164,7 @@ export default class ReactTable extends React.Component {
                     this.contentRender()
                 }
             </Grid>
-            );
+        );
     }
 }
 

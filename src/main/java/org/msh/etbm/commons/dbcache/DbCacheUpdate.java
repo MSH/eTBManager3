@@ -119,6 +119,7 @@ public class DbCacheUpdate {
         }
 
         for (CachedData cd: lst) {
+            log.info("Updating cache of method " + cd.getMethod());
             prepareRequestContext(cd);
             updateCache(cd);
         }
@@ -131,7 +132,6 @@ public class DbCacheUpdate {
     private List<CachedData> collectCachedData() {
         List<Method> methods = getMethodsWithAutomaticUpdate();
         if (methods.isEmpty()) {
-            log.info("No cached data to update");
             return Collections.emptyList();
         }
 

@@ -38,7 +38,7 @@ export default class Expandable extends React.Component {
                     </div>
                 </Collapse>
             </div>
-            );
+        );
     }
 }
 

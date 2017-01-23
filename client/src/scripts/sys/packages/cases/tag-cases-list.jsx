@@ -160,7 +160,7 @@ export default class TagCasesList extends React.Component {
                     </span> : null
                 }
             </Card>
-            );
+        );
     }
 }
 

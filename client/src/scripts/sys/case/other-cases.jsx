@@ -33,13 +33,13 @@ export default class OtherCases extends React.Component {
         // don't have other cases
         if (tbcase.allCases.length <= 1) {
             return (
-                    <Card title={__('cases.details.others')}>
-                        <div className="message-muted">
-                            <Fa icon="book" />
-                            <div>{__('cases.details.othercases.noresult')}</div>
-                        </div>
-                    </Card>
-                );
+                <Card title={__('cases.details.others')}>
+                    <div className="message-muted">
+                        <Fa icon="book" />
+                        <div>{__('cases.details.othercases.noresult')}</div>
+                    </div>
+                </Card>
+            );
         }
 
         return (<Card title={__('cases.details.others')}>

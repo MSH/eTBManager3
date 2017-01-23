@@ -1,6 +1,5 @@
 import React from 'react';
 import FormUtils from '../form-utils';
-import { format } from '../../commons/utils';
 import MonthYearPicker from '../../components/month-year-picker';
 import moment from 'moment';
 
@@ -54,7 +53,7 @@ export default class PeriodControl extends React.Component {
                 onChange={this._change}
                 errors={this.props.errors}
                 />
-            );
+        );
     }
 }
 

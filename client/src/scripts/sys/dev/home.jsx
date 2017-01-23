@@ -223,6 +223,6 @@ export default class StuffExamples extends React.Component {
                     </Row>
                 </Card>
             </div>
-            );
+        );
     }
 }

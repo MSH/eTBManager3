@@ -63,7 +63,7 @@ export default class ReacttableExample extends React.Component {
                 <Profile size="small" title={item.name} type="user" />
                 <a onClick={this.toggleSize(cell)}>{'Click me'}</a>
             </div>
-            );
+        );
     }
 
     render() {
@@ -107,6 +107,6 @@ export default class ReacttableExample extends React.Component {
                         onExpandRender={this.expandRender} />
                 </Card>
             </div>
-            );
+        );
     }
 }

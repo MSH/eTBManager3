@@ -264,7 +264,7 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<Tag> tags = new ArrayList<>();
 
-    @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "tbCase")
+    @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER, mappedBy = "tbCase")
     @PropertyLog(ignore = true)
     private CaseComorbidities comorbidities;
 

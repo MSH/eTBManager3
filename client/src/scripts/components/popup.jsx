@@ -80,7 +80,7 @@ export default class Popup extends React.Component {
                     </div>
             </Collapse>
             </div>
-            );
+        );
     }
 }
 

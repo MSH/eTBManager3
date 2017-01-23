@@ -206,7 +206,7 @@ class CaseTreatment extends React.Component {
 
                 <EdtPrescription tbcase={tbcase} />
             </div>
-            );
+        );
     }
 }
 

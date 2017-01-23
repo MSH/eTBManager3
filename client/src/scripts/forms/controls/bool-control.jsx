@@ -46,7 +46,7 @@ export default class BoolControl extends React.Component {
                     errors && <HelpBlock>{errors}</HelpBlock>
                 }
             </FormGroup>
-            );
+        );
     }
 }
 

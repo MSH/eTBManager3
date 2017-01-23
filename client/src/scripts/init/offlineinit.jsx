@@ -261,7 +261,7 @@ export default class OfflineInit extends React.Component {
                         </Col>
                     </Row>
                 </div>
-            );
+        );
     }
 
     /**
@@ -272,33 +272,33 @@ export default class OfflineInit extends React.Component {
         const fetching = this.state.fetching;
 
         return (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <FormGroup validationState={err.ws ? 'error' : undefined}>
-                                <ControlLabel>{__('init.offinit.selworkspace') + ':'}</ControlLabel>
-                                <FormControl componentClass="select" size={8} autoFocus onChange={this.workspaceChange}>
-                                    {
-                                        this.state.workspaces.map(item =>
-                                            <option key={item.id} value={item.id}>{item.name + ' - ' + item.unitName}</option>
-                                        )
-                                    }
-                                </FormControl>
-                                <HelpBlock>{err.ws}</HelpBlock>
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <div className="pull-right">
-                                <AsyncButton fetching={fetching} bsSize="large" onClick={this.workspaceSelected}>
-                                    {__('action.continue')}
-                                </AsyncButton>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
-                );
+            <div>
+                <Row>
+                    <Col sm={12}>
+                        <FormGroup validationState={err.ws ? 'error' : undefined}>
+                            <ControlLabel>{__('init.offinit.selworkspace') + ':'}</ControlLabel>
+                            <FormControl componentClass="select" size={8} autoFocus onChange={this.workspaceChange}>
+                                {
+                                    this.state.workspaces.map(item =>
+                                        <option key={item.id} value={item.id}>{item.name + ' - ' + item.unitName}</option>
+                                    )
+                                }
+                            </FormControl>
+                            <HelpBlock>{err.ws}</HelpBlock>
+                        </FormGroup>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <div className="pull-right">
+                            <AsyncButton fetching={fetching} bsSize="large" onClick={this.workspaceSelected}>
+                                {__('action.continue')}
+                            </AsyncButton>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     /**
@@ -306,22 +306,22 @@ export default class OfflineInit extends React.Component {
      */
     renderWait() {
         return (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <h4 className="text-center">{this.state.phase.title}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <WaitIcon type="card" />
-                        </Col>
-                        <Col sm={12}>
-                            <span className="text-muted">{__('global.pleasewait')}</span>
-                        </Col>
-                    </Row>
-                </div>
-                );
+            <div>
+                <Row>
+                    <Col sm={12}>
+                        <h4 className="text-center">{this.state.phase.title}</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <WaitIcon type="card" />
+                    </Col>
+                    <Col sm={12}>
+                        <span className="text-muted">{__('global.pleasewait')}</span>
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     /**
@@ -330,23 +330,23 @@ export default class OfflineInit extends React.Component {
      */
     renderSuccess() {
         return (
-                <div>
-                    <div className="text-center">
-                        <h3>
-                            {__('init.offinit.success1')}
-                        </h3>
-                        <br/>
-                        <i className="fa fa-check-circle fa-4x text-success"/>
-                        <br/>
-                        <p className="mtop-2x">
-                            {__('init.offinit.success2')}
-                        </p>
-                    </div>
-                    <div>
-                        <Button bsStyle="default" block onClick={this.gotoLogin}>{__('init.ws.gotologin')}</Button>
-                    </div>
+            <div>
+                <div className="text-center">
+                    <h3>
+                        {__('init.offinit.success1')}
+                    </h3>
+                    <br/>
+                    <i className="fa fa-check-circle fa-4x text-success"/>
+                    <br/>
+                    <p className="mtop-2x">
+                        {__('init.offinit.success2')}
+                    </p>
                 </div>
-                );
+                <div>
+                    <Button bsStyle="default" block onClick={this.gotoLogin}>{__('init.ws.gotologin')}</Button>
+                </div>
+            </div>
+        );
     }
 
     /**
@@ -376,22 +376,22 @@ export default class OfflineInit extends React.Component {
      */
     renderChecking() {
         return (
-                <div>
-                    <Row>
-                        <Col sm={12}>
-                            <h4 className="text-center">{__('global.pleasewait')}</h4>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col sm={12}>
-                            <WaitIcon type="card" />
-                        </Col>
-                        <Col sm={12}>
-                            <span className="text-muted">{__('global.pleasewait')}</span>
-                        </Col>
-                    </Row>
-                </div>
-                );
+            <div>
+                <Row>
+                    <Col sm={12}>
+                        <h4 className="text-center">{__('global.pleasewait')}</h4>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={12}>
+                        <WaitIcon type="card" />
+                    </Col>
+                    <Col sm={12}>
+                        <span className="text-muted">{__('global.pleasewait')}</span>
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     /**

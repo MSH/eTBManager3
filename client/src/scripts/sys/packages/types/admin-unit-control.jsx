@@ -156,7 +156,7 @@ export default class AdminUnitControl extends React.Component {
                     options={item.list} />
                 {item.fetching && <WaitIcon type="field" />}
             </div>
-            );
+        );
     }
 
 
@@ -187,7 +187,7 @@ export default class AdminUnitControl extends React.Component {
             <div>
                 {comps}
             </div>
-            );
+        );
     }
 }
 

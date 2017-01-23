@@ -170,7 +170,7 @@ export default class CaseExams extends React.Component {
                 ))
             }
             </div>
-            );
+        );
     }
 
     render() {

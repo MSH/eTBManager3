@@ -81,7 +81,7 @@ export default class ChangePassword extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-            );
+        );
     }
 }
 

@@ -62,8 +62,6 @@ export default class UnitsCard extends React.Component {
             adminUnitId: this.props.scope === 'ADMINUNIT' ? this.props.scopeId : null
         };
 
-        console.log(this.props);
-
         this.state.controller
             .initList(params)
             .then(() => self.forceUpdate());
@@ -78,7 +76,7 @@ export default class UnitsCard extends React.Component {
                 subtitle={auname}
                 size="small"
                 style={{ margin: '5px', padding: '5px' }} />
-            );
+        );
     }
 
     onCellClick(item) {
@@ -127,7 +125,7 @@ export default class UnitsCard extends React.Component {
                     </span> : null
                 }
             </Card>
-            );
+        );
     }
 }
 

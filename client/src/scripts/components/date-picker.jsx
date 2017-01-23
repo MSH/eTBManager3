@@ -158,7 +158,7 @@ export default class DatePicker extends React.Component {
                     help ? <div className="help-block">{help}</div> : null
                 }
             </div>
-            );
+        );
     }
 }
 

@@ -59,7 +59,7 @@ export default class Reports extends React.Component {
                 menu={menu}
                 title={__('admin') + ' - ' + __('admin.reports')}
                 path="/sys/admin/reports" />
-            );
+        );
     }
 }
 

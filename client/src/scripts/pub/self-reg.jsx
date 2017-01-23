@@ -82,7 +82,7 @@ export default class UserReg extends React.Component {
                     </p>
                 </div>
             </Card>
-            );
+        );
     }
 
 

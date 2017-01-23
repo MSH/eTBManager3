@@ -96,14 +96,25 @@ public class CasesViewService {
         if (adminUnit != null) {
             int level = adminUnit.getLevel();
             params.put("id", ObjectUtils.uuidAsBytes(adminUnit.getId()));
-            String fname = "pid" + (level + 1);
             String fparent = "pid" + level;
+            String fname = "pid" + (level + 1);
 
-            s.append("join administrativeunit b on b.id = a.id or b.").append(fname).append(" = a.id\n")
-                    .append("join unit c on c.adminunit_id = b.id\n")
+            s.append("join administrativeunit b on b.id = a.id\n");
+
+            if (level < 3) {
+                s.append(" or b.").append(fname).append(" = a.id\n");
+            }
+
+            s.append("join unit c on c.adminunit_id = b.id\n")
                     .append("join tbcase d on d.owner_unit_id = c.id\n")
-                    .append("where a.").append(fname).append(" is null and a.").append(fparent).append(" = :id\n");
+                    .append("where a.").append(fparent).append(" = :id\n");
+
+            // check if it is in the last level
+            if (level < 3) {
+                s.append("and a.").append(fname).append(" is null\n");
+            }
         } else {
+            // no administrative unit, so return the roots
             s.append("join administrativeunit b on b.id = a.id or b.pid0 = a.id\n")
                    .append("join unit c on c.adminunit_id = b.id\n")
                     .append("join tbcase d on d.owner_unit_id = c.id\n")

@@ -160,8 +160,6 @@ public class UserWsServiceImpl extends EntityServiceImpl<UserWorkspace, UserWsQu
 
         // validate before save the entity
         dao.save();
-
-        System.out.println(dao.getEntity().getId());
     }
 
     @Transactional

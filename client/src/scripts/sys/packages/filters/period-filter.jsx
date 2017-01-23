@@ -1,6 +1,5 @@
 import React from 'react';
 import { MonthYearPicker } from '../../../components';
-import { objEqual, isEmpty } from '../../../commons/utils';
 
 
 /**

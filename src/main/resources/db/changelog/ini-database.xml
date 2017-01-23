@@ -1795,6 +1795,29 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="formdata-1" author="rmemoria">
+        <createTable tableName="formdata">
+            <column name="id" type="${type.id}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="formid" type="varchar(50)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="version" type="int">
+                <constraints nullable="false" />
+            </column>
+            <column name="data" type="${type.text}">
+                <constraints nullable="false" />
+            </column>
+            <column name="workspace_id" type="${type.id}">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet author="rmemoria" id="1433264274749-79">
         <addPrimaryKey columnNames="id" constraintName="PKadminunit" tableName="administrativeunit"/>
     </changeSet>
@@ -2048,17 +2071,7 @@
                                  deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
-    <!--
-        <changeSet author="rmemoria" id="1433264274749-163">
-            <addForeignKeyConstraint baseColumnNames="SOURCE_ID" baseTableName="batchquantity" constraintName="FK17B561C51CBB077D" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="source"/>
-        </changeSet>
-        <changeSet author="rmemoria" id="1433264274749-164">
-            <addForeignKeyConstraint baseColumnNames="BATCH_ID" baseTableName="batchquantity" constraintName="FK17B561C53B281F77" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="batch"/>
-        </changeSet>
-        <changeSet author="rmemoria" id="1433264274749-165">
-            <addForeignKeyConstraint baseColumnNames="UNIT_ID" baseTableName="batchquantity" constraintName="FK17B561C571E04A4B" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" referencedColumnNames="id" referencedTableName="tbunit"/>
-        </changeSet>
-        -->
+
     <changeSet author="rmemoria" id="1433264274749-166">
         <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="substance"
                                  constraintName="FK1F97C570B3B1717" deferrable="false" initiallyDeferred="false"
@@ -2830,11 +2843,24 @@
             <column name="expiryDate" />
         </createIndex>
     </changeSet>
+
     <changeSet id="cacheddata-5" author="rmemoria">
         <addForeignKeyConstraint baseColumnNames="workspace_id" baseTableName="cacheddata" constraintName="FK_cacheddata_ws"
                                  deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
                                  referencedColumnNames="id" referencedTableName="workspace"/>
     </changeSet>
 
+    <changeSet author="rmemoria" id="formdata-2">
+        <addForeignKeyConstraint baseColumnNames="WORKSPACE_ID" baseTableName="formdata"
+                                 constraintName="FKFORMDATA_WS" deferrable="false" initiallyDeferred="false"
+                                 onDelete="CASCADE" referencedColumnNames="id" referencedTableName="workspace"/>
+    </changeSet>
+
+    <changeSet id="formdata-3" author="rmemoria">
+        <createIndex tableName="formdata" indexName="idx_formdata_idname">
+            <column name="workspace_id" />
+            <column name="formid" />
+        </createIndex>
+    </changeSet>
 
 </databaseChangeLog>

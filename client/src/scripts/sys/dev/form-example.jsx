@@ -124,6 +124,6 @@ export default class ReacttableExample extends React.Component {
                     </Card> : null
                 }
             </div>
-            );
+        );
     }
 }

@@ -116,7 +116,7 @@ export default class UserSessions extends React.Component {
                     <h4>{__('admin.reports.usersession')} {count === 0 ? '' : countHTML}</h4>
                 </Col>
             </Row>
-            );
+        );
     }
 
     tableRender() {
@@ -143,16 +143,16 @@ export default class UserSessions extends React.Component {
         ];
 
         return (
-                <div>
-                    <Row>
-                        <Col md={12}>
-                            <ReactTable columns={colschema}
-                                values={this.state.values.list}
-                                onExpandRender={this.collapseRender} />
-                        </Col>
-                    </Row>
-                </div>
-            );
+            <div>
+                <Row>
+                    <Col md={12}>
+                        <ReactTable columns={colschema}
+                            values={this.state.values.list}
+                            onExpandRender={this.collapseRender} />
+                    </Col>
+                </Row>
+            </div>
+        );
     }
 
     collapseRender(item) {

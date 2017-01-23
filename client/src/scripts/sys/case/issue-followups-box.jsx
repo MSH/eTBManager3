@@ -145,36 +145,36 @@ export default class IssueFollowUpsBox extends React.Component {
         const followups = this.props.issue.followups;
 
         return (
-                <div>
+            <div>
 
-                    {
-                        this.followUpsRender(followups)
-                    }
+                {
+                    this.followUpsRender(followups)
+                }
 
-                    {
-                        this.props.issue.closed === false &&
-                        <div className="mtop">
-                            <AutoheightInput ref="input" onChange={this.textChange} />
-                            <Button bsStyle="primary"
-                                disabled={this.state.disabled}
-                                onClick={this.addAnswer}
-                                bsSize="small"
-                                style={{ marginTop: '6px' }}>
-                                    {__('Issue.answer')}
-                            </Button>
-                        </div>
-                    }
+                {
+                    this.props.issue.closed === false &&
+                    <div className="mtop">
+                        <AutoheightInput ref="input" onChange={this.textChange} />
+                        <Button bsStyle="primary"
+                            disabled={this.state.disabled}
+                            onClick={this.addAnswer}
+                            bsSize="small"
+                            style={{ marginTop: '6px' }}>
+                                {__('Issue.answer')}
+                        </Button>
+                    </div>
+                }
 
-                    <FormDialog
-                        schema={issueEditorDef}
-                        doc={this.state.doc}
-                        onCancel={this.modalClose}
-                        onConfirm={this.editConfirm}
-                        wrapType={'modal'}
-                        modalShow={!!this.state.edtitem} />
+                <FormDialog
+                    schema={issueEditorDef}
+                    doc={this.state.doc}
+                    onCancel={this.modalClose}
+                    onConfirm={this.editConfirm}
+                    wrapType={'modal'}
+                    modalShow={!!this.state.edtitem} />
 
-                </div>
-                );
+            </div>
+        );
     }
 }
 

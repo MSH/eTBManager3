@@ -24,8 +24,7 @@ export default class PageContent extends React.Component {
                     viewProps={this.props.viewProps}
                     queryParams={this.props.queryParams} />
             </div>
-
-            );
+        );
     }
 }
 

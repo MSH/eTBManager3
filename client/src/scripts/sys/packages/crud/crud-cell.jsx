@@ -188,7 +188,7 @@ class CrudCell extends React.Component {
                     {btn}
                 </ButtonToolbar>
             </div>
-            );
+        );
     }
 
 
@@ -214,7 +214,7 @@ class CrudCell extends React.Component {
                     modalShow
                     wrapType={this.props.modal ? 'modal' : 'card'}
                     controller={controller} openOnEdit />
-                );
+            );
         }
 
         // return the content to be displayed
@@ -226,7 +226,7 @@ class CrudCell extends React.Component {
                 }
                 </Expandable>
             </Card>
-            );
+        );
     }
 }
 

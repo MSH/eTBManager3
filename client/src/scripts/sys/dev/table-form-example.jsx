@@ -147,6 +147,6 @@ export default class TableFormExample extends React.Component {
                     </Card> : null
                 }
             </div>
-            );
+        );
     }
 }

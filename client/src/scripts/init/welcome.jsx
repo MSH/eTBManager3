@@ -68,6 +68,6 @@ export default class Welcome extends React.Component {
                     </Row>
                 </Grid>
             </Fade>
-            );
+        );
     }
 }

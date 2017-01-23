@@ -15,6 +15,8 @@ import org.msh.etbm.commons.indicators.tableoperations.KeyConverter;
 import org.msh.etbm.commons.indicators.tableoperations.KeySorter;
 import org.msh.etbm.commons.indicators.variables.Variable;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +33,8 @@ import java.util.Map;
  */
 @Service
 public class IndicatorGenerator {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(IndicatorGenerator.class);
 
     /**
      * Number of records contained in the detailed report
@@ -192,7 +196,7 @@ public class IndicatorGenerator {
 
         String sql = builder.createSql();
         if (development) {
-            System.out.println(sql);
+            LOGGER.debug(sql);
         }
 
         return qry.execute(dataSource, sql, builder.getParameters());

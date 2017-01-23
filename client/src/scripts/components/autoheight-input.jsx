@@ -60,7 +60,7 @@ export default class AutoheightInput extends React.Component {
                 className={this.props.className}
                 style={{ height: 'auto', overflowY: 'hidden', resize: 'none' }}
                 onInput={this.inputChange}/>
-            );
+        );
     }
 }
 

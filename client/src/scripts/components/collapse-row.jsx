@@ -36,7 +36,7 @@ export default class CollapseRow extends React.Component {
                         {this.props.collapsable}
                     </Collapse>
             </Row>
-            );
+        );
     }
 }
 

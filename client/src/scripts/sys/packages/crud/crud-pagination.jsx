@@ -40,7 +40,7 @@ class CrudPagination extends React.Component {
                 maxButtons={5}
                 boundaryLinks
                 onSelect={this.changePage} className={this.props.className}/>
-            );
+        );
     }
 }
 

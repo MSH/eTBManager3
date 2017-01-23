@@ -29,7 +29,7 @@ export default class LinkTooltip extends React.Component {
                     <Fa icon={this.props.icon}/>
                 </a>
             </OverlayTrigger>
-            );
+        );
     }
 }
 

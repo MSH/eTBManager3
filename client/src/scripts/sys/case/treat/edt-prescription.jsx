@@ -136,7 +136,7 @@ class EdtPrescription extends React.Component {
                 wrapType="modal" modalShow={this.state.show}
                 onConfirm={this.confirm}
                 onCancel={this.onClose} />
-            );
+        );
     }
 }
 

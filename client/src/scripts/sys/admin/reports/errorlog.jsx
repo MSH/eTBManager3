@@ -131,7 +131,7 @@ export default class ErrorLog extends React.Component {
                     <h4>{__('Permission.ERRORLOGREP')} {count === 0 ? '' : countHTML}</h4>
                 </Col>
             </Row>
-            );
+        );
     }
 
     collapseRender(item) {

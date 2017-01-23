@@ -51,7 +51,7 @@ export default class NoTreatPanel extends React.Component {
                 </div>
                 <StartRegimen />
             </Card>
-            );
+        );
     }
 }
 

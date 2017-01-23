@@ -41,7 +41,7 @@ export default class CommentsBox extends React.Component {
             <Card padding="small" className="def-margin-bottom">
                 <a className="comments-link" onClick={this.showCommentsBox}><Fa icon="comment"/>{'Add comment'}</a>
             </Card>
-            );
+        );
     }
 
     /**
@@ -225,7 +225,7 @@ export default class CommentsBox extends React.Component {
                         onClose={this.closeRemoveConfDlg} />
                 </div>
             </Card>
-            );
+        );
     }
 }
 

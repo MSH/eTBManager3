@@ -45,7 +45,7 @@ export default class TreatTimeline extends React.Component {
                 <line x1="0" y1="2" x2="0" y2="4" stroke="#a0a0a0" strokeWidth="0.1" />
                 <line x1="100" y1="2" x2="100" y2="4" stroke="#a0a0a0" strokeWidth="0.1" />
             </SVG>
-            );
+        );
     }
 
 
@@ -94,7 +94,7 @@ export default class TreatTimeline extends React.Component {
                     fill={color}
                     {...props}
                     rx="1" ry="1"/>
-            );
+        );
     }
 
 
@@ -130,7 +130,7 @@ export default class TreatTimeline extends React.Component {
                 <rect x="0" y="0" width="100" height="4" fill="#e8e8e8" rx="1" ry="1"/>
                 {comps}
             </SVG>
-            );
+        );
     }
 
     renderPrescColumn(treat, periods, presc) {
@@ -219,7 +219,7 @@ export default class TreatTimeline extends React.Component {
                     onHide={this._popupHide}
                     target={this.state.pptarget} />
             </Grid>
-            );
+        );
     }
 }
 

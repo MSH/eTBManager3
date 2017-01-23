@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * REST API to return the case tree view by workspace and administrative unit
  * Created by rmemoria on 17/6/16.
  */
 @RestController

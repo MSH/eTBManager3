@@ -78,7 +78,7 @@ export default class Issues extends React.Component {
                             modalShow />
                 }
             </div>
-            );
+        );
     }
 }
 

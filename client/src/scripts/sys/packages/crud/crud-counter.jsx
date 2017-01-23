@@ -40,15 +40,15 @@ class CrudCounter extends React.Component {
                     <b>{controller.getPageIni() + 1}</b>{' - '}<b>{controller.getPageEnd() + 1}</b>{' of '}
                     <b>{controller.getCount()}</b>{msg}
                 </div>
-                );
+            );
         }
 
         // render simple counter
         return (
-                <span className={className}>
-                    <b>{controller.getCount()}</b>{msg}
-                </span>
-            );
+            <span className={className}>
+                <b>{controller.getCount()}</b>{msg}
+            </span>
+        );
     }
 }
 

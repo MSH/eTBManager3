@@ -74,7 +74,7 @@ export default class LanguageSel extends React.Component {
                     <Button bsStyle="primary" onClick={this.close}>{__('action.cancel')}</Button>
                 </Modal.Footer>
                 </Modal>
-            );
+        );
     }
 }
 

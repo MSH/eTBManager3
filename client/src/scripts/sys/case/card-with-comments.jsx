@@ -61,7 +61,7 @@ export default class CardWithComments extends React.Component {
                 </Card>
                 <CommentsBox values={comments} onEvent={this.onCommentEvent}/>
             </div>
-            );
+        );
     }
 }
 

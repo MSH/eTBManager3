@@ -63,6 +63,6 @@ export default class ErrorView extends React.Component {
                     <Button bsStyle="danger" onClick={this.close}>{__('action.close')}</Button>
                 </Modal.Footer>
             </Modal>
-            );
+        );
     }
 }

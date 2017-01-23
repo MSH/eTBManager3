@@ -63,7 +63,7 @@ export default class TextControl extends React.Component {
                     errors && <HelpBlock>{errors}</HelpBlock>
                 }
             </FormGroup>
-            );
+        );
     }
 }
 

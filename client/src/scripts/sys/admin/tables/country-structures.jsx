@@ -40,7 +40,7 @@ export default class CountryStructures extends React.Component {
                 <div className="pull-right">{__('form.level') + ' ' + item.level}</div>
                 {item.name}
             </div>
-            );
+        );
     }
 
     render() {
@@ -51,7 +51,7 @@ export default class CountryStructures extends React.Component {
                 editorSchema={editorDef}
                 cellSize={{ md: 12 }}
                 perm="ADMINUNIT_ED" />
-            );
+        );
     }
 }
 

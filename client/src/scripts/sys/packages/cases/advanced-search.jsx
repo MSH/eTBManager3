@@ -37,8 +37,6 @@ export default class AdvancedSearch extends React.Component {
             scopeId: this.props.scopeId
         };
 
-        console.log('filters = ', filters);
-
         const crud = new FakeCRUD('/api/cases/search');
         const controller = new CrudController(crud, {
             pageSize: 50
@@ -83,7 +81,7 @@ export default class AdvancedSearch extends React.Component {
                     </Card>
                 }
             </div>
-            );
+        );
     }
 }
 

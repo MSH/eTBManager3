@@ -36,7 +36,7 @@ export default class Settings extends React.Component {
                 menu={this.menu}
                 title={__('admin') + ' - ' + __('admin.config')}
                 path="/sys/admin/settings" />
-            );
+        );
     }
 }
 

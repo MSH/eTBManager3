@@ -84,7 +84,7 @@ export default class NewNotif extends React.Component {
                         <SearchPatient onSelect={this.onSelectPatient} onCancel={this.onCancel} />
                 }
             </div>
-            );
+        );
     }
 }
 

@@ -68,7 +68,7 @@ export default class CrudView extends React.Component {
                     btn && <Col sm={2}><div className="pull-right">{btn}</div></Col>
                 }
             </Row>
-            );
+        );
     }
 
     render() {
@@ -106,7 +106,7 @@ export default class CrudView extends React.Component {
                     </Row>
                 </Card>
             </div>
-            );
+        );
     }
 }
 

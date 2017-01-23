@@ -210,7 +210,7 @@ export default class SearchPatient extends React.Component {
                     <Button bsStyle="success" onClick={this.selectPatient}>{__('cases.newpatient')}</Button>
                 </Card>
             </div>
-            );
+        );
     }
 
     render() {
@@ -243,7 +243,7 @@ export default class SearchPatient extends React.Component {
                     </Col>
                 </Row>
             </Grid>
-            );
+        );
     }
 }
 

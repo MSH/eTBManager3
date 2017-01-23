@@ -64,7 +64,7 @@ export default class Sidebar extends React.Component {
                             }
                             {item.title}
                             </NavItem>
-                            );
+                        );
                     })}
                 </Nav>
             </div>

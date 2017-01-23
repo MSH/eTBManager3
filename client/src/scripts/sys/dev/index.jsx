@@ -91,7 +91,7 @@ export default class Index extends React.Component {
                 </Fluidbar>
                 <SidebarContent menu={sidebar} path="/sys/dev" route={this.props.route} />
             </div>
-            );
+        );
     }
 }
 

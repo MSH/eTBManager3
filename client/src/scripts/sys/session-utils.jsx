@@ -95,7 +95,7 @@ export default class SessionUtils {
                     </div>
                 }
             </span>
-            );
+        );
     }
 
     /**
@@ -135,7 +135,7 @@ export default class SessionUtils {
                     </div>
                 }
             </div>
-            );
+        );
     }
 
     /**
@@ -187,7 +187,7 @@ export default class SessionUtils {
             addr.complement,
             zipCode,
             SessionUtils.adminUnitLink(addr.adminUnit, false, true)
-            ].filter(it => !!it);
+        ].filter(it => !!it);
 
         let index = 0;
 

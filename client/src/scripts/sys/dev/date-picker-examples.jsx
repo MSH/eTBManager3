@@ -58,6 +58,6 @@ export default class DatePickerExamples extends React.Component {
                     </Row>
                 </Card>
             </div>
-            );
+        );
     }
 }

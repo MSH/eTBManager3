@@ -52,7 +52,7 @@ export default class Cases extends React.Component {
                 </Row>
             </Grid>
             </div>
-            );
+        );
     }
 }
 

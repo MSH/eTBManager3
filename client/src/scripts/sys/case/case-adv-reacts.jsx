@@ -103,7 +103,7 @@ export default class CaseAdvReact extends React.Component {
                     perm={'ADV_EFFECTS'}
                     />
             </CaseComments>
-            );
+        );
     }
 }
 

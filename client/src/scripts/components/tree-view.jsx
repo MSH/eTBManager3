@@ -289,7 +289,7 @@ export default class TreeView extends React.Component {
                     transitionLeaveTimeout={250} transitionEnterTimeout={250} >
                     {lst}
                 </ReactCSSTransitionGroup>
-                );
+            );
         };
 
         return mountList(this.getRoots(), 0, false);
@@ -372,7 +372,7 @@ export default class TreeView extends React.Component {
             {nodeIcon}
             {content}
             </div>
-            );
+        );
     }
 
     /**
@@ -419,7 +419,11 @@ export default class TreeView extends React.Component {
                     node.children = res;
                     // force tree to show the new expanded node
                     self.refreshTree();
-                });
+                })
+                .catch(() => {
+                    node.state = 'collapsed';
+                    self.refreshTree();
+                })
         }
         else {
             node.state = 'expanded';
@@ -471,7 +475,7 @@ export default class TreeView extends React.Component {
             <div className="tree-view" style={this.props.style}>
                 {this.createNodesView()}
             </div>
-            );
+        );
     }
 }
 

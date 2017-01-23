@@ -1,5 +1,6 @@
 package org.msh.etbm.services.cases.view.unitview;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.date.DateUtils;
@@ -11,16 +12,21 @@ import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.enums.MicroscopyResult;
+import org.msh.etbm.db.enums.XpertResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service that returns the data to create the unit view of the case management module
@@ -29,11 +35,24 @@ import java.util.UUID;
 @Service
 public class UnitViewService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
-    @Autowired
-    Messages messages;
+    private Messages messages;
+
+    private DataSource dataSource;
+
+
+    /**
+     * Default constructor
+     * @param entityManager injected by the container manager
+     * @param messages  injected by the container manager
+     * @param dataSource  injected by the container manager
+     */
+    public UnitViewService(EntityManager entityManager, Messages messages, DataSource dataSource) {
+        this.entityManager = entityManager;
+        this.messages = messages;
+        this.dataSource = dataSource;
+    }
 
 
     /**
@@ -59,6 +78,7 @@ public class UnitViewService {
      */
     private void loadCases(UUID unitId, UnitViewData data) {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
+                "left join fetch c.comorbidities " +
                 "join fetch c.patient where (c.ownerUnit.id = :unitId or c.transferOutUnit = :unitId) " +
                 "and c.state in (:st1, :st2) " +
                 "order by c.patient.name.name")
@@ -73,7 +93,6 @@ public class UnitViewService {
         data.setNtmCases(new ArrayList<>());
 
         for (TbCase tbcase : lst) {
-
             // is a case a presumptive one?
             if (tbcase.getDiagnosisType() == DiagnosisType.SUSPECT) {
                 data.getPresumptives().add(createPresumptiveData(tbcase));
@@ -90,32 +109,110 @@ public class UnitViewService {
                 }
             }
         }
+
+        loadPresumptiveExamResults(data.getPresumptives());
     }
 
+    /**
+     * Create a presumptive case record based on the data loaded from the query
+     * @param tbcase the instance of the TbCase loaded from the query
+     * @return instance of {@link PresumptiveCaseData}
+     */
     private PresumptiveCaseData createPresumptiveData(TbCase tbcase) {
         PresumptiveCaseData data = createCaseData(tbcase, PresumptiveCaseData.class);
 
         data.setCaseNumber(tbcase.getRegistrationNumber());
 
-        List<ExamMicroscopy> micList = tbcase.getExamsMicroscopy();
-        if (micList != null && micList.size() > 0) {
-            // get the last exam microscopy
-            ExamMicroscopy examMic = micList.get(micList.size() - 1);
-            if (examMic.getResult() != null) {
-                data.setMicroscopyResult(new Item<>(examMic.getResult(), messages.get(examMic.getResult().getMessageKey())));
-            }
-        }
-
-        List<ExamXpert> xpertList = tbcase.getExamsXpert();
-        if (xpertList != null && xpertList.size() > 0) {
-            // get the last exam microscopy
-            ExamXpert examXpert = xpertList.get(xpertList.size() - 1);
-            if (examXpert.getResult() != null) {
-                data.setXpertResult(new Item<>(examXpert.getResult(), messages.get(examXpert.getResult().getMessageKey())));
-            }
-        }
-
         return data;
+    }
+
+    /**
+     * Load at once the data from the presumptive cases, if any available
+     * @param lst
+     */
+    private void loadPresumptiveExamResults(List<PresumptiveCaseData> lst) {
+        if (lst == null || lst.isEmpty()) {
+            return;
+        }
+
+        // load microscopy results
+        loadMicroscopyResults(lst);
+        loadXpertResults(lst);
+    }
+
+    /**
+     * Load the microscopy results of the list of presumptives
+     * @param lst
+     */
+    private void loadMicroscopyResults(List<PresumptiveCaseData> lst) {
+        StringBuilder sql = new StringBuilder("select a.case_id, a.result from exammicroscopy a\n" +
+                "where a.event_date = (select min(b.event_date) from exammicroscopy b where b.case_id = a.case_id)\n" +
+                "and a.case_id in (");
+
+        String join = "";
+        List params = new ArrayList();
+        for (PresumptiveCaseData it: lst) {
+            sql.append(join).append("?");
+            params.add(ObjectUtils.uuidAsBytes(it.getId()));
+            join = ",";
+        }
+
+        sql.append(")");
+
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        template.query(sql.toString(), params.toArray(), resultSet -> {
+            PresumptiveCaseData caseData = findPresumptive(lst, resultSet.getBytes(1));
+            MicroscopyResult res = MicroscopyResult.values()[resultSet.getInt(2)];
+            caseData.setMicroscopyResult(new Item<>(res, messages.get(res.getMessageKey())));
+        });
+    }
+
+    /**
+     * Search for a presumptive in the list of presumptives by its id in byte representation
+     * @param lst
+     * @param id
+     * @return
+     */
+    private PresumptiveCaseData findPresumptive(List<PresumptiveCaseData> lst, byte[] id) {
+        UUID uuid = ObjectUtils.bytesToUUID(id);
+
+        Optional<PresumptiveCaseData> res = lst.stream()
+                .filter(it ->  it.getId().equals(uuid))
+                .findFirst();
+
+        if (!res.isPresent()) {
+            throw new IllegalArgumentException("Case not found");
+        }
+
+        return res.get();
+    }
+
+    /**
+     * Load the Xpert results, if available, of all presumptives in the given list
+     * @param lst
+     */
+    private void loadXpertResults(List<PresumptiveCaseData> lst) {
+        StringBuilder sql = new StringBuilder("select a.case_id, a.result from examxpert a\n" +
+                "where a.event_date = (select min(b.event_date) from examxpert b where b.case_id = a.case_id)\n" +
+                "and a.case_id in (");
+
+        String join = "";
+        List params = new ArrayList();
+        for (PresumptiveCaseData it: lst) {
+            sql.append(join).append("?");
+            params.add(ObjectUtils.uuidAsBytes(it.getId()));
+            join = ",";
+        }
+
+        sql.append(")");
+
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        template.query(sql.toString(), params.toArray(), resultSet -> {
+            PresumptiveCaseData caseData = findPresumptive(lst, resultSet.getBytes(1));
+            XpertResult res = XpertResult.values()[resultSet.getInt(2)];
+            caseData.setXpertResult(new Item<>(res, messages.get(res.getMessageKey())));
+        });
+
     }
 
     private ConfirmedCaseData createConfirmedData(TbCase tbcase) {

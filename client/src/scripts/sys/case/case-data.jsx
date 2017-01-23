@@ -76,7 +76,7 @@ export default class CaseData extends React.Component {
                 }
                 </Row>
             </div>
-            );
+        );
     }
 }
 

@@ -91,7 +91,6 @@ public class TableSchemaService {
      * @param sql
      */
     private void execAlterTable(String sql) {
-        System.out.println("SQL = " + sql);
         JdbcTemplate templ = new JdbcTemplate(dataSource);
         templ.execute(sql);
     }

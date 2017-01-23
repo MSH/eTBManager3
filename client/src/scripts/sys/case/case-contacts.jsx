@@ -132,7 +132,7 @@ export default class CaseContacts extends React.Component {
                     perm={'CASECONTACT'}
                     />
             </CaseComments>
-            );
+        );
     }
 }
 

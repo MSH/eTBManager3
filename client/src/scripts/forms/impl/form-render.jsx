@@ -71,7 +71,7 @@ export default function formRender(form) {
                 <Alert bsStyle="danger">{globalMsg}</Alert>
                 {lst}
             </div>
-            );
+        );
     }
 
     return lst;
@@ -115,7 +115,7 @@ function createElement(form, item, value, errors, resources) {
             onChange={form._onChange}
             errors={err}
             onRequest={form._onRequest} />
-        );
+    );
 }
 
 /**

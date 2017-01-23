@@ -86,7 +86,7 @@ export default class ReportView extends React.Component {
                     inds
                 }
             </div>
-            );
+        );
     }
 }
 

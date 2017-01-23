@@ -79,12 +79,12 @@ export default class TreatFollowup extends React.Component {
 
     renderLegend() {
         return (
-                <div className="treat-legend">
-                    <Fa icon="circle" className="treat-DOTS"/>{__('TreatmentDayOption.DOTS')}
-                    <Fa icon="circle" className="treat-SELF_ADMIN"/>{__('TreatmentDayOption.SELF_ADMIN')}
-                    <Fa icon="circle" className="treat-NOT_TAKEN"/>{__('TreatmentDayOption.NOT_TAKEN')}
-                </div>
-            );
+            <div className="treat-legend">
+                <Fa icon="circle" className="treat-DOTS"/>{__('TreatmentDayOption.DOTS')}
+                <Fa icon="circle" className="treat-SELF_ADMIN"/>{__('TreatmentDayOption.SELF_ADMIN')}
+                <Fa icon="circle" className="treat-NOT_TAKEN"/>{__('TreatmentDayOption.NOT_TAKEN')}
+            </div>
+        );
     }
 
 
@@ -137,16 +137,16 @@ export default class TreatFollowup extends React.Component {
     render() {
         return (
             <Card title={__('cases.details.treatment.medintake')} >
-            <div className="treat-followup">
-            {
-                this.renderLegend()
-            }
-            {
-                this.renderCalendars()
-            }
-            </div>
+                <div className="treat-followup">
+                {
+                    this.renderLegend()
+                }
+                {
+                    this.renderCalendars()
+                }
+                </div>
             </Card>
-            );
+        );
     }
 }
 

@@ -107,7 +107,7 @@ export default class SetPassword extends React.Component {
                 </h3>
             </Alert>
             </Logo>
-            );
+        );
     }
 
     renderSuccess() {
@@ -125,7 +125,7 @@ export default class SetPassword extends React.Component {
                 </div>
             </Card>
             </Logo>
-            );
+        );
     }
 
     render() {
@@ -201,7 +201,7 @@ export default class SetPassword extends React.Component {
                     </AsyncButton>
                 </div>
             </Logo>
-            );
+        );
     }
 }
 

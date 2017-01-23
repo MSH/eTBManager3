@@ -62,7 +62,7 @@ export default class TableView extends React.Component {
                     <Button bsStyle="default" bsSize="small" onClick={this.newClick}><Fa icon="plus"/>{'New'}</Button>
                 </div>
             </Col>
-            );
+        );
     }
 
     /**
@@ -83,7 +83,7 @@ export default class TableView extends React.Component {
                         </span>
                     </div>
                 </Col>
-                );
+        );
     }
 
     /**
@@ -126,7 +126,7 @@ export default class TableView extends React.Component {
                     {rows}
                 </tbody>
             </Table>
-            );
+        );
     }
 
     createRow(item) {
@@ -226,7 +226,7 @@ export default class TableView extends React.Component {
             <Card header={header}>
                 {content}
             </Card>
-            );
+        );
     }
 }
 
