@@ -29,7 +29,7 @@ export default class SessionUtils {
 
         switch (session.view) {
             case 'COUNTRY': return SessionUtils.workspaceHash();
-            case 'ADMINUNIT': return '#/sys/adminunit';
+            case 'ADMINUNIT': return '#/sys/adminunit?id=' + session.adminUnit.id;
             // default is the unit page
             default: return SessionUtils.unitHash();
         }

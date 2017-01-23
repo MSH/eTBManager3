@@ -97,7 +97,8 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("version < ?", finalVersion)
                 .restrict("workspace_id = ?", wsId);
 
-        queryFrom("sys_user")
+        queryFrom("sys_user",
+                TableQueryItem.SyncAction.INSERT, Arrays.asList("PARENTUSER_ID"))
                 .restrict("sys_user.version < ?", finalVersion)
                 .restrict("sys_user.version > ?", initialVersion)
                 .restrict("exists(select * from userworkspace where userworkspace.user_id = sys_user.id and userworkspace.unit_id = ?)", unitId);
