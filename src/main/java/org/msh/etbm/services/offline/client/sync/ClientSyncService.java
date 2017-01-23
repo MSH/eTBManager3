@@ -81,6 +81,11 @@ public class ClientSyncService {
     ClientSyncPhase phase = null;
 
     /**
+     * Stores client sync file to be deleted at the end of sync process
+     */
+    File clientSyncFile;
+
+    /**
      * STEP 1
      * Starts synchronization with parent server
      * Checks the credentials
@@ -120,7 +125,7 @@ public class ClientSyncService {
             // starts file generating asynchronously and then calls sendFileToServer method
             phase = ClientSyncPhase.GENERATING_FILE;
             // Async starts here
-            fileGenerator.generate(workspaceId, clientSyncFile -> sendFileToServer(clientSyncFile));
+            fileGenerator.generate(workspaceId, generatedFile -> sendFileToServer(generatedFile));
 
             return getStatus();
         } catch (ForbiddenException e) {
@@ -141,10 +146,13 @@ public class ClientSyncService {
     /**
      * STEP 2
      * After generating the sync file this method is called to send the generated file to server.
-     * @param clientSyncFile the sync file generated
+     * @param generatedFile the sync file generated
      */
-    private void sendFileToServer(File clientSyncFile) {
+    private void sendFileToServer(File generatedFile) {
         try {
+            // stores client sync file pointer
+            clientSyncFile = generatedFile;
+
             phase = ClientSyncPhase.SENDING_FILE;
 
             StatusResponse response = fileSender.sendFile("/api/offline/server/sync/start",
@@ -250,9 +258,14 @@ public class ClientSyncService {
      * @param importedFile the file that was imported
      */
     private void afterImporting(File importedFile) {
-        // delete the file
+        // delete the server file file
         if (importedFile != null) {
             importedFile.delete();
+        }
+
+        // delete the client file
+        if (clientSyncFile != null) {
+            clientSyncFile.delete();
         }
 
         // register commandlog

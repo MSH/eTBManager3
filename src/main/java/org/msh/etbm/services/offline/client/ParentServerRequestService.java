@@ -138,9 +138,7 @@ public class ParentServerRequestService {
             // opens input stream from the HTTP connection
             inputStream = httpConn.getInputStream();
 
-            //todo
-            file = new File("C:\\Users\\Mauricio\\Desktop\\sync test\\serverFile.zip");
-            //file = File.createTempFile("file", ".etbm");
+            file = File.createTempFile("file", ".etbm");
 
             // opens an output stream to save into file
             outputStream = new FileOutputStream(file);

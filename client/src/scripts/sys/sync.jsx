@@ -62,8 +62,7 @@ export default class Sync extends React.Component {
             if (res.id === 'NOT_RUNNING') {
                 // initialization has succesfully finished
                 this.setState({ phase: undefined, success: true  });
-            }
-            if (res.id === 'ERROR') {
+            } else if (res.id === 'ERROR') {
                 // initialization has an error
                 this.setState({ phase: undefined, error: true  });
             } else {

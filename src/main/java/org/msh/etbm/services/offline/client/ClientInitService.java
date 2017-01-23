@@ -220,9 +220,7 @@ public class ClientInitService {
      * @return the address with complements
      */
     private String checkServerAddress(String url) {
-        // TODO: temp comment
-        return url;
-        /*String server = url;
+        String server = url;
         // try to fill gaps in the composition of the server address
         if (!server.startsWith("http")) {
             server = "http://" + server;
@@ -234,7 +232,7 @@ public class ClientInitService {
             }
             server += "etbm3";
         }
-        return server;*/
+        return server;
     }
 
     /**

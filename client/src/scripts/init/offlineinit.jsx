@@ -4,7 +4,6 @@ import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, 
 import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
-import { app } from '../core/app';
 
 
 /**
@@ -163,8 +162,7 @@ export default class OfflineInit extends React.Component {
             if (res.id === 'NOT_RUNNING') {
                 // initialization has succesfully finished
                 this.setState({ phase: undefined, success: true  });
-            }
-            if (res.id === 'ERROR') {
+            } else if (res.id === 'ERROR') {
                 // initialization has an error
                 this.setState({ phase: undefined, error: true  });
             } else {
