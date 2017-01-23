@@ -114,6 +114,10 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("userprofile.version > ?", initialVersion)
                 .restrict("userprofile.workspace_id = ?", wsId);
 
+        /** TODO:
+         * If you change the userworkspace unit of a already synced unit,
+         * this modification will not go to the client instance database.
+         */
         queryFrom("userworkspace")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
@@ -130,6 +134,10 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("version < ?", finalVersion)
                 .restrict("workspace_id = ?", wsId);
 
+        /** TODO:
+         * If a case is transferred on server side to a client instance unit, it will cause an unexpected exception on the
+         * next synchronization. That is because the case registry will be sent on the file, but not the patient registry.
+         */
         // case module
         queryFrom("patient")
                 .restrict("patient.version > ?", initialVersion)
