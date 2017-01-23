@@ -160,14 +160,19 @@ export default class OfflineInit extends React.Component {
     checkStatusUntilFinish() {
         server.get('/api/offline/client/init/status')
         .then(res => {
-            if (res.id !== 'NOT_RUNNING') {
+            if (res.id === 'NOT_RUNNING') {
+                // initialization has succesfully finished
+                this.setState({ phase: undefined, success: true  });
+            }
+            if (res.id === 'ERROR') {
+                // initialization has an error
+                this.setState({ phase: undefined, error: true  });
+            } else {
+                // initialization is running
                 // update phase
                 this.setState({ phase: res });
                 // schedule next status checking
                 setTimeout(this.checkStatusUntilFinish, 800);
-            } else {
-                // initialization has finished
-                this.setState({ phase: undefined, success: true  });
             }
         });
     }
@@ -347,6 +352,28 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
+     * Render error content
+     * @return {[type]} [description]
+     */
+    renderError() {
+        return (
+                <div>
+                    <div className="text-center">
+                        <h3>
+                            {__('error.title')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-exclamation-triangle fa-4x text-danger"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.error.msg2')}
+                        </p>
+                    </div>
+                </div>
+                );
+    }
+
+    /**
      * Render the content while checking if init is already running
      */
     renderChecking() {
@@ -380,6 +407,9 @@ export default class OfflineInit extends React.Component {
         } else if (this.state.success) {
             // success mesage
             content = this.renderSuccess();
+        } else if (this.state.error) {
+            // success mesage
+            content = this.renderError();
         } else if (this.state.phase) {
             // downloading phase screen
             content = this.renderWait();
@@ -387,11 +417,9 @@ export default class OfflineInit extends React.Component {
         } else if (this.state.workspaces) {
             // workspace selection phase screen
             content = this.renderWorkspaceSelection();
-
         } else {
             // login phase screen
             content = this.renderLoginForm();
-
         }
 
         return (

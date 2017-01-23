@@ -49,7 +49,9 @@ public class ClientSyncFileGenerator {
     @Async
     public void generate(UUID workspaceId, SyncFileGeneratorListener listener) throws SynchronizationException {
         try {
-            File file = File.createTempFile("etbm", ".zip");
+            //todo
+            File file = new File("C:\\Users\\Mauricio\\Desktop\\sync test\\clientFile.zip");
+            //File file = File.createTempFile("etbm", ".zip");
 
             FileOutputStream fout = new FileOutputStream(file);
             GZIPOutputStream zipOut = new GZIPOutputStream(fout);

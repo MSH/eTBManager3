@@ -157,7 +157,7 @@ public class ClientSyncService {
             phase = ClientSyncPhase.WAITING_SERVER;
             checkServerSyncStatus();
         } catch (IOException e) {
-            phase = null;
+            phase = ClientSyncPhase.ERROR;
             throw new SynchronizationException(e);
         }
     }
@@ -193,10 +193,10 @@ public class ClientSyncService {
                     throw new SynchronizationException("Not expected status returned from server.");
             }
         } catch (InterruptedException e) {
-            phase = null;
+            phase = ClientSyncPhase.ERROR;
             throw new SynchronizationException(e);
         } catch (IOException e) {
-            phase = null;
+            phase = ClientSyncPhase.ERROR;
             throw new SynchronizationException(e);
         }
     }
@@ -211,9 +211,9 @@ public class ClientSyncService {
 
             // download file
             request.downloadFile("/api/offline/server/sync/response/" + syncToken,
-                    authToken.toString(), downloadedFile -> importFile(downloadedFile));
+                    authToken.toString(), (downloadedFile, success) -> importFile(downloadedFile, success));
         } catch (IOException e) {
-            phase = null;
+            phase = ClientSyncPhase.ERROR;
             throw new SynchronizationException(e);
         }
     }
@@ -223,13 +223,22 @@ public class ClientSyncService {
      * Imports the server sync file.
      * @param responseFile downloaded server sync file
      */
-    private void importFile(File responseFile) {
+    private void importFile(File responseFile, boolean success) {
+        // check if downloading was ok
+        if (!success) {
+            phase = ClientSyncPhase.ERROR;
+            if (responseFile != null) {
+                responseFile.delete();
+            }
+            return;
+        }
+
         try {
             phase = ClientSyncPhase.IMPORTING_RESPONSE_FILE;
             // import file
             importer.importFile(responseFile, true, null, (importedFile, fileVersion) -> afterImporting(importedFile));
         } catch (IOException e) {
-            phase = null;
+            phase = ClientSyncPhase.ERROR;
             throw new SynchronizationException(e);
         }
     }
@@ -267,7 +276,7 @@ public class ClientSyncService {
                     null,
                     StandardResult.class);
         } catch (IOException e) {
-            throw new SynchronizationException(e);
+            // do nothing
         } finally {
             // clear phase and aux info
             this.phase = null;
@@ -286,7 +295,13 @@ public class ClientSyncService {
             return new StatusResponse(notRunning.name(), messages.get(notRunning.getMessageKey()));
         }
 
-        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+        StatusResponse response = new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+
+        if (ClientSyncPhase.ERROR.equals(phase)) {
+            phase = null;
+        }
+
+        return response;
     }
 
     /**
@@ -298,7 +313,8 @@ public class ClientSyncService {
         SENDING_FILE,
         WAITING_SERVER,
         RECEIVING_RESPONSE_FILE,
-        IMPORTING_RESPONSE_FILE;
+        IMPORTING_RESPONSE_FILE,
+        ERROR;
 
         String getMessageKey() {
             return "sync.client.phase." + this.name();

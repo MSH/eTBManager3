@@ -59,14 +59,19 @@ export default class Sync extends React.Component {
     checkStatusUntilFinish() {
         server.get('/api/offline/client/sync/status')
         .then(res => {
-            if (res.id !== 'NOT_RUNNING') {
+            if (res.id === 'NOT_RUNNING') {
+                // initialization has succesfully finished
+                this.setState({ phase: undefined, success: true  });
+            }
+            if (res.id === 'ERROR') {
+                // initialization has an error
+                this.setState({ phase: undefined, error: true  });
+            } else {
+                // initialization is running
                 // update phase
                 this.setState({ phase: res });
                 // schedule next status checking
                 setTimeout(this.checkStatusUntilFinish, 800);
-            } else {
-                // initialization has finished
-                this.setState({ phase: undefined, success: true  });
             }
         });
     }
@@ -119,6 +124,10 @@ export default class Sync extends React.Component {
 
         if (this.state.success) {
             return this.renderSuccess();
+        }
+
+        if (this.state.error) {
+            return this.renderError();
         }
 
         if (!this.state.phase) {
@@ -230,6 +239,28 @@ export default class Sync extends React.Component {
                     </div>
                     <div>
                         <Button bsStyle="default" block onClick={this.gotoHome}>{__('sync.success.btn')}</Button>
+                    </div>
+                </div>
+                );
+    }
+
+    /**
+     * Render error content
+     * @return {[type]} [description]
+     */
+    renderError() {
+        return (
+                <div>
+                    <div className="text-center">
+                        <h3>
+                            {__('error.title')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-exclamation-triangle fa-4x text-danger"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.error.msg2')}
+                        </p>
                     </div>
                 </div>
                 );
