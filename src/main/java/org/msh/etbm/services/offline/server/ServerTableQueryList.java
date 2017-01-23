@@ -134,169 +134,135 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("patient.version > ?", initialVersion)
                 .restrict("patient.version < ?", finalVersion)
                 .restrict("exists(select * from tbcase where tbcase.patient_id = patient.id and (tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit where unit_id = ? and case_id = tbcase.id)))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("tbcase")
                 .restrict("version > ?", initialVersion)
                 .restrict("version < ?", finalVersion)
                 .restrict("(owner_unit_id = ? " +
-                        "or TRANSFER_OUT_UNIT_ID = ? " +
-                        "or NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit where unit_id = ? and case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("examculture")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("exammicroscopy")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("examhiv")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("examdst")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("examxpert")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("examxray")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("treatmenthealthunit")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("prescribedmedicine")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("prevtbtreatment")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("casecontact")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("casesideeffect")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("medicalexamination")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("casecomorbidities")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("casecomment")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("issue")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("issuefollowup")
                 .join("issue", "issue.id = $root.issue_id")
@@ -304,20 +270,16 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("treatmentmonitoring")
                 .join("tbcase", "tbcase.id = $root.case_id")
                 .restrict("$root.version > ?", initialVersion)
                 .restrict("$root.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
 
         queryFrom("tags_case")
                 .join("tbcase", "tbcase.id = $root.case_id")
@@ -326,10 +288,8 @@ public class ServerTableQueryList extends TableQueryList {
                 .restrict("tbcase.version > ?", initialVersion)
                 .restrict("tbcase.version < ?", finalVersion)
                 .restrict("(tbcase.owner_unit_id = ? " +
-                        "or tbcase.TRANSFER_OUT_UNIT_ID = ? " +
-                        "or tbcase.NOTIFICATION_UNIT_ID = ? " +
                         "or exists(select * from treatmenthealthunit thu where thu.unit_id = ? and thu.case_id = tbcase.id))",
-                        unitId, unitId, unitId, unitId);
+                        unitId, unitId);
     }
 
     public UUID getUnitId() {
