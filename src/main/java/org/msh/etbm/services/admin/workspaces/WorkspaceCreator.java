@@ -66,7 +66,7 @@ public class WorkspaceCreator {
 
         User user = entityManager.find(User.class, userId);
 
-        createReports(ws, user);
+        createReports(ws);
 
         searchableCreator.createNewSearchables(Workspace.class);
         searchableCreator.createNewSearchables(AdministrativeUnit.class);
@@ -293,14 +293,13 @@ public class WorkspaceCreator {
     /**
      * Create the standard reports
      */
-    protected void createReports(Workspace ws, User user) {
+    protected void createReports(Workspace ws) {
         CaseReportFormData[] lst = JsonUtils.parseArrayResource("/templates/json/reports.json", CaseReportFormData.class);
         for (CaseReportFormData data: lst) {
             Report rep = new Report();
             rep.setDashboard(data.isDashboard());
             rep.setPublished(data.isPublished());
             rep.setData(JsonUtils.objectToJSONString(data, false));
-            rep.setOwner(user);
             rep.setWorkspace(ws);
             rep.setRegistrationDate(new Date());
             rep.setTitle(data.getTitle());

@@ -34,13 +34,6 @@ public class Report extends WorkspaceEntity {
     private Date registrationDate;
 
     /**
-     * The user that is the owner of the report, i.e, just the user can change or delete the report
-     */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OWNER_ID")
-    private User owner;
-
-    /**
      * If true, the report will be displayed in the dashboard
      */
     private boolean dashboard;
@@ -91,20 +84,6 @@ public class Report extends WorkspaceEntity {
      */
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
-    }
-
-    /**
-     * @return the owner
-     */
-    public User getOwner() {
-        return owner;
-    }
-
-    /**
-     * @param owner the owner to set
-     */
-    public void setOwner(User owner) {
-        this.owner = owner;
     }
 
     /**

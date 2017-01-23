@@ -35,17 +35,11 @@ public class CaseReportService {
 
 
     @Transactional
-    public UUID save(CaseReportFormData repdata, UUID userId, UUID workspaceId) {
+    public UUID save(CaseReportFormData repdata, UUID workspaceId) {
         String data = JsonUtils.objectToJSONString(repdata, false);
 
         Report rep = new Report();
         updateData(rep, repdata);
-
-        if (userId != null) {
-            User user = entityManager.find(User.class, userId);
-
-            rep.setOwner(user);
-        }
 
         rep.setRegistrationDate(new Date());
 

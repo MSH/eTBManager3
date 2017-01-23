@@ -1006,9 +1006,6 @@
             <column name="registrationDate" type="${type.datetime}">
                 <constraints nullable="false"/>
             </column>
-            <column name="owner_id" type="${type.id}" >
-                <constraints nullable="false"/>
-            </column>
             <column name="dashboard" type="${type.boolean}">
                 <constraints nullable="false"/>
             </column>
@@ -2695,11 +2692,6 @@
         <addForeignKeyConstraint baseColumnNames="request_id" baseTableName="exammicroscopy" constraintName="FK_micreq"
                                  deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
                                  referencedColumnNames="id" referencedTableName="examrequest"/>
-    </changeSet>
-    <changeSet author="rmemoria" id="1433264274749-331">
-        <addForeignKeyConstraint baseColumnNames="owner_id" baseTableName="report" constraintName="FK_report_user"
-                                 deferrable="false" initiallyDeferred="false" onDelete="CASCADE"
-                                 referencedColumnNames="id" referencedTableName="sys_user"/>
     </changeSet>
     <changeSet author="rmemoria" id="1433264274749-332">
         <addForeignKeyConstraint baseColumnNames="workspace_id" baseTableName="report" constraintName="FK_report_ws"
