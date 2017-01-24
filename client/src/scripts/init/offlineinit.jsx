@@ -4,7 +4,6 @@ import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, 
 import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
-import { app } from '../core/app';
 
 
 /**
@@ -63,6 +62,10 @@ export default class OfflineInit extends React.Component {
         };
     }
 
+    /**
+     * Checks if system is init is already running
+     * @return {[type]} [description]
+     */
     componentWillMount() {
         this.setState({ checking: true });
 
@@ -81,7 +84,8 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
-     * Called when user clicks on the continue button
+     * Requests server to get workspaces availables for the creadentials provided
+     * @return {[type]} [description]
      */
     findWorkspaces() {
         // clear previous global msgs
@@ -124,6 +128,10 @@ export default class OfflineInit extends React.Component {
         });
     }
 
+    /**
+     * Starts init process, giving the workspace selected
+     * @return {[type]} [description]
+     */
     workspaceSelected() {
         if (!this.state.workspaceId) {
             this.setState({ errors: { ws: __('NotNull') } });
@@ -145,34 +153,24 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
-     * Clear all timeouts
-     * @return {[type]} [description]
-     */
-    clearAllIntervals() {
-        // clear all intervals
-        const id = setInterval(() => {}, 9999);
-        for (var i = 0; i <= id; i++) {
-            clearInterval(i);
-        }
-    }
-
-    /**
      * Check initialization status until it finishes
      * @return {[type]} [description]
      */
     checkStatusUntilFinish() {
-        this.clearAllIntervals();
-
         server.get('/api/offline/client/init/status')
         .then(res => {
-            if (res.id !== 'NOT_RUNNING') {
+            if (res.id === 'NOT_RUNNING') {
+                // initialization has succesfully finished
+                this.setState({ phase: undefined, success: true  });
+            } else if (res.id === 'ERROR') {
+                // initialization has an error
+                this.setState({ phase: undefined, error: true  });
+            } else {
+                // initialization is running
                 // update phase
                 this.setState({ phase: res });
                 // schedule next status checking
                 setTimeout(this.checkStatusUntilFinish, 800);
-            } else {
-                // initialization has finished
-                this.setState({ phase: undefined, success: true  });
             }
         });
     }
@@ -196,7 +194,6 @@ export default class OfflineInit extends React.Component {
      * Called when user clicks on the login button
      */
     gotoLogin() {
-        app.goto('/pub/login');
         window.location.reload(true);
     }
 
@@ -327,6 +324,10 @@ export default class OfflineInit extends React.Component {
         );
     }
 
+    /**
+     * Render success content
+     * @return {[type]} [description]
+     */
     renderSuccess() {
         return (
             <div>
@@ -349,7 +350,29 @@ export default class OfflineInit extends React.Component {
     }
 
     /**
-     * Render the checking server phase
+     * Render error content
+     * @return {[type]} [description]
+     */
+    renderError() {
+        return (
+                <div>
+                    <div className="text-center">
+                        <h3>
+                            {__('error.title')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-exclamation-triangle fa-4x text-danger"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.error.msg2')}
+                        </p>
+                    </div>
+                </div>
+        );
+    }
+
+    /**
+     * Render the content while checking if init is already running
      */
     renderChecking() {
         return (
@@ -382,6 +405,9 @@ export default class OfflineInit extends React.Component {
         } else if (this.state.success) {
             // success mesage
             content = this.renderSuccess();
+        } else if (this.state.error) {
+            // success mesage
+            content = this.renderError();
         } else if (this.state.phase) {
             // downloading phase screen
             content = this.renderWait();
@@ -389,11 +415,9 @@ export default class OfflineInit extends React.Component {
         } else if (this.state.workspaces) {
             // workspace selection phase screen
             content = this.renderWorkspaceSelection();
-
         } else {
             // login phase screen
             content = this.renderLoginForm();
-
         }
 
         return (

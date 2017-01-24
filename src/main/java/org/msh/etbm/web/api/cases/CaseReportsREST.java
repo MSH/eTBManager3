@@ -55,7 +55,7 @@ public class CaseReportsREST {
     public StandardResult saveReport(@Valid @RequestBody @NotNull CaseReportFormData data) {
         UUID userId = userRequestService.getUserSession().getUserId();
         UUID wsId = userRequestService.getUserSession().getWorkspaceId();
-        UUID id = caseReportService.save(data, userId, wsId);
+        UUID id = caseReportService.save(data, wsId);
         return new StandardResult(id, null, true);
     }
 

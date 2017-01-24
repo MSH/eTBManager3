@@ -117,10 +117,15 @@ public class ParentServerRequestService {
      */
     @Async
     public void downloadFile(String serverUrl, String serviceUrl, String authToken, FileDownloadListener listener) throws IOException {
+        boolean success = true;
+
         URL url = new URL(serverUrl + serviceUrl);
         HttpURLConnection httpConn = null;
 
         File file = null;
+
+        InputStream inputStream = null;
+        FileOutputStream outputStream = null;
 
         try {
             httpConn = (HttpURLConnection) url.openConnection();
@@ -131,12 +136,12 @@ public class ParentServerRequestService {
             checkHttpCode(httpConn.getResponseCode());
 
             // opens input stream from the HTTP connection
-            InputStream inputStream = httpConn.getInputStream();
+            inputStream = httpConn.getInputStream();
 
             file = File.createTempFile("file", ".etbm");
 
             // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream = new FileOutputStream(file);
 
             // read downloaded file
             int bytesRead = -1;
@@ -145,14 +150,22 @@ public class ParentServerRequestService {
                 outputStream.write(buffer, 0, bytesRead);
             }
 
-            outputStream.close();
-            inputStream.close();
-
+        } catch (Exception e) {
+            success = false;
+            throw new SynchronizationException(e);
         } finally {
+            if (outputStream != null) {
+                outputStream.close();
+            }
+
+            if (inputStream != null) {
+                inputStream.close();
+            }
+
             httpConn.disconnect();
         }
 
-        listener.afterDownload(file);
+        listener.afterDownload(file, success);
     }
 
     @Async

@@ -10,6 +10,6 @@ import java.io.File;
  */
 public interface FileDownloadListener {
 
-    void afterDownload(File downloadedFile);
+    void afterDownload(File downloadedFile, boolean success);
 
 }

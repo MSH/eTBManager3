@@ -58,7 +58,7 @@ export default class Login extends React.Component {
                 authenticate()
                 .then(session => {
                     // check which page to go based on session data
-                    if (session.unitsCount === 1) {
+                    if (session.unitsCount === 1 || app.getState().app.clientMode) {
                         app.goto('/sys/unit/cases?id=' + session.unitId);
                     } else {
                         app.goto('/sys/workspace/cases');

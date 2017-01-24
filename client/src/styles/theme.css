@@ -7566,6 +7566,9 @@ button.close {
 .ctrl-space {
   margin-right: 16px;
 }
+.text-danger {
+  color: #d9534f;
+}
 @font-face {
   font-family: 'OpenSans';
   font-style: normal;

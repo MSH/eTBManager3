@@ -4,7 +4,6 @@ import { AsyncButton, Card, WaitIcon } from '../components/index';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import SessionUtils from './session-utils';
-import { app } from '../core/app';
 
 /**
  * Form validation model
@@ -25,6 +24,10 @@ export default class Sync extends React.Component {
         this.checkStatusUntilFinish = this.checkStatusUntilFinish.bind(this);
     }
 
+    /**
+     * Checks if sync is already running
+     * @return {[type]} [description]
+     */
     componentWillMount() {
         this.setState({ checking: true });
 
@@ -46,31 +49,36 @@ export default class Sync extends React.Component {
      * Called when user clicks on the login button
      */
     gotoHome() {
-        app.goto(SessionUtils.homeHash());
-        window.location.reload(true);
+        SessionUtils.gotoHome();
     }
 
     /**
-     * Check initialization status until it finishes
+     * Check sync status until it finishes
      * @return {[type]} [description]
      */
     checkStatusUntilFinish() {
-        this.clearAllIntervals();
-
         server.get('/api/offline/client/sync/status')
         .then(res => {
-            if (res.id !== 'NOT_RUNNING') {
+            if (res.id === 'NOT_RUNNING') {
+                // initialization has succesfully finished
+                this.setState({ phase: undefined, success: true  });
+            } else if (res.id === 'ERROR') {
+                // initialization has an error
+                this.setState({ phase: undefined, error: true  });
+            } else {
+                // initialization is running
                 // update phase
                 this.setState({ phase: res });
                 // schedule next status checking
                 setTimeout(this.checkStatusUntilFinish, 800);
-            } else {
-                // initialization has finished
-                this.setState({ phase: undefined, success: true  });
             }
         });
     }
 
+    /**
+     * Starts sync process
+     * @return {[type]} [description]
+     */
     startSync() {
         // clear previous global msgs
         this.setState({ globalMsgs: null });
@@ -105,17 +113,9 @@ export default class Sync extends React.Component {
     }
 
     /**
-     * Clear all timeouts
+     * Checks in whitch phase sync is and returns the render content
      * @return {[type]} [description]
      */
-    clearAllIntervals() {
-        // clear all intervals
-        const id = setInterval(() => {}, 9999);
-        for (var i = 0; i <= id; i++) {
-            clearInterval(i);
-        }
-    }
-
     renderContent() {
         if (this.state.checking) {
             return this.renderChecking();
@@ -123,6 +123,10 @@ export default class Sync extends React.Component {
 
         if (this.state.success) {
             return this.renderSuccess();
+        }
+
+        if (this.state.error) {
+            return this.renderError();
         }
 
         if (!this.state.phase) {
@@ -136,6 +140,10 @@ export default class Sync extends React.Component {
         return null;
     }
 
+    /**
+     * Render content when system is checking is sync is already running
+     * @return {[type]} [description]
+     */
     renderChecking() {
         return (
             <div>
@@ -156,6 +164,10 @@ export default class Sync extends React.Component {
         );
     }
 
+    /**
+     * Render password field and dtart sync button
+     * @return {[type]} [description]
+     */
     renderNotRunning() {
         const err = this.state.errors || {};
         const fetching = this.state.fetching;
@@ -184,6 +196,10 @@ export default class Sync extends React.Component {
         );
     }
 
+    /**
+     * Render 'sync on progress' content and sync status
+     * @return {[type]} [description]
+     */
     renderInProgress() {
         return (<div>
                     <Row>
@@ -202,24 +218,50 @@ export default class Sync extends React.Component {
                 </div>);
     }
 
+    /**
+     * Render success content
+     * @return {[type]} [description]
+     */
     renderSuccess() {
         return (
-            <div>
-                <div className="text-center">
-                    <h3>
-                        {__('sync.success')}
-                    </h3>
-                    <br/>
-                    <i className="fa fa-check-circle fa-4x text-success"/>
-                    <br/>
-                    <p className="mtop-2x">
-                        {__('init.offinit.success2')}
-                    </p>
-                </div>
                 <div>
-                    <Button bsStyle="default" block onClick={this.goToHome}>{__('sync.success.btn')}</Button>
+                    <div className="text-center">
+                        <h3>
+                            {__('sync.success')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-check-circle fa-4x text-success"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.offinit.success2')}
+                        </p>
+                    </div>
+                    <div>
+                        <Button bsStyle="default" block onClick={this.gotoHome}>{__('sync.success.btn')}</Button>
+                    </div>
                 </div>
-            </div>
+        );
+    }
+
+    /**
+     * Render error content
+     * @return {[type]} [description]
+     */
+    renderError() {
+        return (
+                <div>
+                    <div className="text-center">
+                        <h3>
+                            {__('error.title')}
+                        </h3>
+                        <br/>
+                        <i className="fa fa-exclamation-triangle fa-4x text-danger"/>
+                        <br/>
+                        <p className="mtop-2x">
+                            {__('init.error.msg2')}
+                        </p>
+                    </div>
+                </div>
         );
     }
 

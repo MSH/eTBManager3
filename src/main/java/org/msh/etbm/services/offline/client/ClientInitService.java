@@ -131,7 +131,7 @@ public class ClientInitService {
             // Async starts here
             request.downloadFile(serverAddress,
                     "/api/offline/server/inifile",
-                    loginRes.getAuthToken().toString(), downloadedFile -> importFile(downloadedFile));
+                    loginRes.getAuthToken().toString(), (downloadedFile, success) -> importFile(downloadedFile, success));
 
             return getStatus();
         } catch (UnknownHostException e) {
@@ -148,7 +148,16 @@ public class ClientInitService {
      * Asynchronously imports the initialization file
      * @param file the downloaded file
      */
-    private void importFile(File file) {
+    private void importFile(File file, boolean success) {
+        // check if downloading was ok
+        if (!success) {
+            phase = ClientModeInitPhase.ERROR;
+            if (file != null) {
+                file.delete();
+            }
+            return;
+        }
+
         phase = ClientModeInitPhase.IMPORTING_FILE;
 
         try {
@@ -211,9 +220,7 @@ public class ClientInitService {
      * @return the address with complements
      */
     private String checkServerAddress(String url) {
-        // TODO: temp comment
-        return url;
-        /*String server = url;
+        String server = url;
         // try to fill gaps in the composition of the server address
         if (!server.startsWith("http")) {
             server = "http://" + server;
@@ -225,7 +232,7 @@ public class ClientInitService {
             }
             server += "etbm3";
         }
-        return server;*/
+        return server;
     }
 
     /**
@@ -248,7 +255,13 @@ public class ClientInitService {
             return new StatusResponse(importer.getPhase().name(), msg + complement);
         }
 
-        return new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+        StatusResponse response = new StatusResponse(phase.name(), messages.get(phase.getMessageKey()));
+
+        if (ClientModeInitPhase.ERROR.equals(phase)) {
+            phase = null;
+        }
+
+        return response;
     }
 
     /**
@@ -257,7 +270,8 @@ public class ClientInitService {
     public enum ClientModeInitPhase {
         DOWNLOADING_FILE,
         IMPORTING_FILE,
-        NOT_RUNNING;
+        NOT_RUNNING,
+        ERROR;
 
         String getMessageKey() {
             return "init.offinit.phase." + this.name();
