@@ -60,6 +60,10 @@ export default class Toolbar extends React.Component {
         return hasPerm('ADMIN') && !app.storage.state.app.clientMode;
     }
 
+    goHome() {
+        location.hash = SessionUtils.homeHash();
+    }
+
     render() {
         var Logo = (
             <a>
@@ -78,7 +82,7 @@ export default class Toolbar extends React.Component {
         const langName = app.getState().app.languages.find(item => item.id === app.getLang()).name;
 
         return (
-            <Navbar className="toolbar" fixedTop inverse>
+            <Navbar className="toolbar" fixedTop inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                         {Logo}
@@ -87,7 +91,7 @@ export default class Toolbar extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem href={SessionUtils.homeHash()}>{__('home')}</NavItem>
+                        <NavItem href={SessionUtils.homeHash()} onClick={this.goHome}>{__('home')}</NavItem>
                         {
                             app.storage.state.app.clientMode &&
                                 <NavItem href={'#/sys/sync'} className={'mright-2x'}>{'Synchronize'}</NavItem>
