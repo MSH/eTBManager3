@@ -1,31 +1,51 @@
 package org.msh.etbm.services.cases.filters;
 
-import org.msh.etbm.db.MessageKey;
+import org.msh.etbm.commons.filters.FilterItem;
+import org.msh.etbm.commons.indicators.variables.Variable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by rmemoria on 17/8/16.
+ * Created by rmemoria on 4/10/16.
  */
-public enum FilterGroup implements MessageKey {
+public class FilterGroup {
 
-    DATA("cases.details.case"),
-    EXAM_MICROSCOPY("cases.exammicroscopy"),
-    EXAM_CULTURE("cases.examculture"),
-    EXAM_DST("cases.examdst"),
-    EXAM_XPERT("cases.examxpert"),
-    EXAM_HIV("cases.examhiv"),
-    TREATMENT("cases.details.treatment"),
-    PREVIOUS_TREATMENT("cases.prevtreat"),
-    OTHERS("form.otherfilters");
+    private String label;
+    private List<FilterItem> filters = new ArrayList<>();
+    private List<Variable> variables = new ArrayList<>();
 
-    private String messageKey;
-
-    FilterGroup(String messageKey) {
-        this.messageKey = messageKey;
+    public FilterGroup(String label) {
+        this.label = label;
     }
 
-    @Override
-    public String getMessageKey() {
-        return messageKey;
+    public void add(Object item) {
+        if (item instanceof FilterItem) {
+            addFilter((FilterItem)item);
+        }
+
+        if (item instanceof Variable) {
+            addVariable((Variable)item);
+        }
     }
 
+    public void addVariable(Variable var) {
+        variables.add(var);
+    }
+
+    public void addFilter(FilterItem filter) {
+        filters.add(filter);
+    }
+
+    public List<FilterItem> getFilters() {
+        return filters;
+    }
+
+    public List<Variable> getVariables() {
+        return variables;
+    }
+
+    public String getLabel() {
+        return label;
+    }
 }

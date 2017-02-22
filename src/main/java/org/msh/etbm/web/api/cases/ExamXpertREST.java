@@ -21,38 +21,39 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.CASES_EXAM_XPERT})
+@Authenticated(permissions = { Permissions.CASES_EXAM_XPERT })
 public class ExamXpertREST {
 
     @Autowired
     ExamXpertService service;
 
     @RequestMapping(value = "/examxpert/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public ExamXpertData get(@PathVariable UUID id) {
         return service.findOne(id, ExamXpertData.class);
     }
 
     @RequestMapping(value = "/examxpert", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XPERT_EDT })
     public StandardResult create(@Valid @NotNull @RequestBody ExamXpertFormData req) {
         ServiceResult res = service.create(req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examxpert/{id}", method = RequestMethod.POST)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XPERT_EDT })
     public StandardResult update(@PathVariable UUID id, @Valid @NotNull @RequestBody ExamXpertFormData req) {
         ServiceResult res = service.update(id, req);
         return new StandardResult(res);
     }
 
     @RequestMapping(value = "/examxpert/{id}", method = RequestMethod.DELETE)
+    @Authenticated(permissions = { Permissions.CASES_EXAM_XPERT_EDT })
     public StandardResult delete(@PathVariable @NotNull UUID id) {
         service.delete(id).getId();
         return new StandardResult(id, null, true);
     }
 
     @RequestMapping(value = "/examxpert/query", method = RequestMethod.POST)
-    @Authenticated()
     public QueryResult query(@Valid @RequestBody EntityQueryParams query) {
         return service.findMany(query);
     }

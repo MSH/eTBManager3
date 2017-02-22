@@ -1,0 +1,51 @@
+
+.sideview {
+    margin-top: 6px;
+    margin-left: -5px;
+    font-size: 1.1em;
+
+    li {
+        margin-left: 4px;
+    }
+    li.active {
+        border-left: 4px solid #d9534f;
+        margin-left: 0;
+    	a {
+    		color: #000;
+            font-weight: bold;
+    	}
+    }
+
+    li.disabled {
+        border-left: none !important;
+        margin-left:0;
+        color: #b0b0b0;
+        font-weight: bold;
+        font-size: 0.8em;
+        margin-top:8px;
+    }
+
+    a {
+    	color: darken(#8D9895, 15%);
+        font-size:0.90em;
+        padding: 8px 15px !important;
+
+        i {
+            color: #007b00;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+	}
+
+    li:hover {
+        border-left: 4px solid #46a960;
+        margin-left: 0;
+    }
+
+	hr {
+	    margin-top: 5px;
+	    margin-bottom: 5px;
+	    background-color: #d8d8d8;
+	    height: 1px;
+	}
+}

@@ -22,46 +22,46 @@ import { init as initSys } from '../sys/index';
  **/
 export default class MainPage extends React.Component {
 
-	/**
-	 * Open the public module
-	 */
-	openPublic(path) {
-		return initPub(path);
-	}
+    /**
+     * Open the public module
+     */
+    openPublic(path) {
+        return initPub(path);
+    }
 
-	/**
-	 * Open the initialization module
-	 */
-	openInit(path) {
-		return initInit(path);
-	}
+    /**
+     * Open the initialization module
+     */
+    openInit(path) {
+        return initInit(path);
+    }
 
-	/**
-	 * Open the application home page
-	 */
-	openApp(path) {
-		return initSys(path);
-	}
+    /**
+     * Open the application home page
+     */
+    openApp(path) {
+        return initSys(path);
+    }
 
-	render() {
-		var routers = RouteView.createRoutes([
-			{ path: '/pub', viewResolver: this.openPublic },
-			{ path: '/init', viewResolver: this.openInit },
-			{ path: '/sys', viewResolver: this.openApp }
-		]);
+    render() {
+        var routers = RouteView.createRoutes([
+            { path: '/pub', viewResolver: this.openPublic },
+            { path: '/init', viewResolver: this.openInit },
+            { path: '/sys', viewResolver: this.openApp }
+        ]);
 
-		return (
-			<div>
-				<div className="app-content">
-					<RouteView key={1}
-						routes={routers}
-						loadingView={<WaitIcon/>}
-						pageNotFoundView={PageNotFound} />
+        return (
+            <div>
+                <div className="app-content">
+                    <RouteView key={1}
+                        routes={routers}
+                        loadingView={<WaitIcon/>}
+                        pageNotFoundView={PageNotFound} />
 
-				</div>
-				<Footer />
-				<ErrorView />
-				<AppMessageDlg />
-			</div>);
-	}
+                </div>
+                <Footer />
+                <ErrorView />
+                <AppMessageDlg />
+            </div>);
+    }
 }

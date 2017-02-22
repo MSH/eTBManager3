@@ -11,7 +11,7 @@ import javax.script.ScriptEngineManager;
 import java.util.Map;
 
 /**
- * {@link CompiledModel} is a class that contains both a {@link Model} and its compiled
+ * {@link CompiledModel} is a class that contains a {@link Model} instance and its compiled
  * JavaScript code. The JavaScript code is compiled and used during validation of a document
  * (conversion and validation phases).
  * <p/>
@@ -50,11 +50,12 @@ public class CompiledModel {
 
         // call validation
         ModelValidator validator = new ModelValidator();
-        context = createContext(doc);
+        context = createContext(newdoc);
         Errors errors = validator.validate(context, newdoc, modelResources);
 
         return new ValidationResult(errors, newdoc);
     }
+
 
     public ScriptObjectMirror getJsModel() {
         if (jsModel == null) {
@@ -72,6 +73,11 @@ public class CompiledModel {
         jsModel = res;
     }
 
+    /**
+     * Compile the JS script and return an object to interact with it. The script must be a function
+     * @param script the script in string format
+     * @return the object to interact with the script
+     */
     private ScriptObjectMirror compileScript(String script) {
         try {
             ScriptEngine engine = new ScriptEngineManager().getEngineByExtension("js");

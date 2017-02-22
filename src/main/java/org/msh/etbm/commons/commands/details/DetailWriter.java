@@ -2,6 +2,7 @@ package org.msh.etbm.commons.commands.details;
 
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.commands.CommandException;
+import org.msh.etbm.commons.objutils.StringConverter;
 import org.msh.etbm.db.Address;
 
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class DetailWriter {
 
         if (value instanceof Number) {
             Number num = (Number) value;
-            return CommandLogDetail.TYPE_NUMBER + StringConverter.floatToString(num.doubleValue());
+            return CommandLogDetail.TYPE_NUMBER + StringConverter.doubleToString(num.doubleValue());
         }
 
         if (value instanceof Boolean) {

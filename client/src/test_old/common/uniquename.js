@@ -8,5 +8,5 @@ var shortid = require('shortid');
  * @return {[type]}      [description]
  */
 module.exports = function(name) {
-	return name + ' ' + shortid.generate();
+    return name + ' ' + shortid.generate();
 };

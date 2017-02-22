@@ -6,10 +6,10 @@ import React from 'react';
 import moment from 'moment';
 
 export function format(fmtstr) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  return fmtstr.replace(/\{(\d+)\}/g, function(match, index) {
-    return args[index];
-  });
+    var args = Array.prototype.slice.call(arguments, 1);
+    return fmtstr.replace(/\{(\d+)\}/g, function(match, index) {
+        return args[index];
+    });
 }
 
 
@@ -34,7 +34,7 @@ export function getValue(obj, prop) {
         }
     }
 
-	let value = obj;
+    let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
     var a = s.split('.');
@@ -70,7 +70,7 @@ export function setValue(obj, prop, val, autoCreate) {
         }
     }
 
-	let value = obj;
+    let value = obj;
     let s = prop.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
     var props = s.split('.');

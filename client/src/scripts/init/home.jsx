@@ -5,6 +5,7 @@ import { RouteView } from '../components/router.jsx';
 import Welcome from './welcome.jsx';
 import InitOptions from './initoptions.jsx';
 import NewWorkspace from './newworkspace.jsx';
+import OfflineInit from './offlineinit.jsx';
 
 
 /**
@@ -12,23 +13,24 @@ import NewWorkspace from './newworkspace.jsx';
  */
 export default class Home extends React.Component {
 
-	render() {
-		const routes = RouteView.createRoutes([
-			{ path: '/welcome', view: Welcome },
+    render() {
+        const routes = RouteView.createRoutes([
+            { path: '/welcome', view: Welcome },
             { path: '/initoptions', view: InitOptions },
-            { path: '/newworkspace', view: NewWorkspace }
-		]);
+            { path: '/newworkspace', view: NewWorkspace },
+            { path: '/offlineinit', view: OfflineInit }
+        ]);
 
-		const viewProps = {
-			app: this.props.app
-		};
+        const viewProps = {
+            app: this.props.app
+        };
 
-		return (
-			<div>
-				<RouteView routes={routes} viewProps={viewProps} />
-			</div>
-			);
-	}
+        return (
+            <div>
+                <RouteView routes={routes} viewProps={viewProps} />
+            </div>
+        );
+    }
 }
 
 Home.propTypes = {

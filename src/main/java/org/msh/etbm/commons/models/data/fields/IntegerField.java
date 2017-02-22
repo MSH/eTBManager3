@@ -3,6 +3,8 @@ package org.msh.etbm.commons.models.data.fields;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
+ * Support for integer fields in the model
+ *
  * Created by rmemoria on 1/7/16.
  */
 @FieldType("int")

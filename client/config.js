@@ -30,7 +30,7 @@ module.exports = {
         // just two languages in dev, to speed-up refreshes
         dev:  ['en', 'pt_BR'],
         // all languages available in production mode
-        prod: ['en', 'pt_BR', 'uk', 'ru']
+        prod: ['en', 'pt_BR', 'ru']
     },
 
     defaultLanguage: 'en',
@@ -44,7 +44,7 @@ module.exports = {
         /**
          * This is the port used in the proxy server
          */
-        port: 3000,
+        port: 3001,
 
         /**
          * static content
@@ -55,7 +55,7 @@ module.exports = {
          * This is the development server, that will provide dynamic content
          */
         dev: {
-            url: 'http://localhost:8080',
+            url: 'http://localhost:8081',
             path: [
                 '/',
                 '/api/*'
@@ -72,8 +72,8 @@ module.exports = {
          */
         webpack: {
             // must be informed twice because it is used in 2 different parts of the configuration
-            port: 8090,
-            url: 'http://localhost:8090',
+            port: 8091,
+            url: 'http://localhost:8091',
             path: '/scripts/*'
         }
     }

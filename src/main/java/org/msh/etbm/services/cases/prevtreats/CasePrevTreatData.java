@@ -1,8 +1,5 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.commons.Item;
-import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
-
 import java.util.UUID;
 
 /**
@@ -14,7 +11,7 @@ public class CasePrevTreatData {
     private Integer year;
     private Integer outcomeMonth;
     private Integer outcomeYear;
-    private Item<PrevTBTreatmentOutcome> outcome;
+    private String outcome;
 
     private boolean am;
     private boolean cfz;
@@ -69,11 +66,11 @@ public class CasePrevTreatData {
         this.outcomeYear = outcomeYear;
     }
 
-    public Item<PrevTBTreatmentOutcome> getOutcome() {
+    public String getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(Item<PrevTBTreatmentOutcome> outcome) {
+    public void setOutcome(String outcome) {
         this.outcome = outcome;
     }
 

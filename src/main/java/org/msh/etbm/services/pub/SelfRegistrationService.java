@@ -5,7 +5,7 @@ import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.mail.MailService;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserView;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
+import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.security.ForbiddenException;
 import org.msh.etbm.services.security.UserUtils;
@@ -24,7 +24,7 @@ import java.util.*;
  * Created by rmemoria on 13/6/16.
  */
 @Service
-public class SelfRegistrationService {
+public class    SelfRegistrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SelfRegistrationService.class);
 
@@ -48,13 +48,12 @@ public class SelfRegistrationService {
     @Transactional
     public void register(SelfRegistrationRequest req) {
         // check if registration is allowed (configuration is ok for that)
-        SysConfigFormData cfg = sysConfigService.loadConfig();
+        SysConfigData cfg = sysConfigService.loadConfig();
 
-        if (!cfg.getAllowRegPage().get() ||
-                !cfg.getAllowRegPage().isPresent() ||
-                !cfg.getWorkspace().isPresent() ||
-                !cfg.getUnit().isPresent() ||
-                !cfg.getUserProfile().isPresent()) {
+        if (!cfg.isAllowRegPage() ||
+                cfg.getWorkspace() == null ||
+                cfg.getUnit() == null ||
+                cfg.getUserProfile() == null) {
             raiseForbiddenException();
         }
 
@@ -74,7 +73,7 @@ public class SelfRegistrationService {
      * @param cfg system configuration
      * @return object with information about the new user registered
      */
-    protected UserWorkspace registerUser(SelfRegistrationRequest req, SysConfigFormData cfg) {
+    protected UserWorkspace registerUser(SelfRegistrationRequest req, SysConfigData cfg) {
         // register a new user
         User user = new User();
         user.setName(req.getName());
@@ -91,15 +90,15 @@ public class SelfRegistrationService {
         entityManager.flush();
 
         // recover workspace
-        UUID wsid = cfg.getWorkspace().get();
+        UUID wsid = cfg.getWorkspace().getId();
         Workspace workspace = entityManager.find(Workspace.class, wsid);
 
         // recover unit
-        UUID unitId = cfg.getUnit().get();
+        UUID unitId = cfg.getUnit().getId();
         Unit unit = entityManager.find(Unit.class, unitId);
 
         // recover user profile
-        UUID profId = cfg.getUserProfile().get();
+        UUID profId = cfg.getUserProfile().getId();
         UserProfile profile = entityManager.find(UserProfile.class, profId);
 
         // check if entities exist (cannot register if any of them is null)

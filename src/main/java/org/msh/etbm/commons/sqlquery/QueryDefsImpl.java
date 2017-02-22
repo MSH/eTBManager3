@@ -2,6 +2,7 @@ package org.msh.etbm.commons.sqlquery;
 
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,9 +17,14 @@ public class QueryDefsImpl implements QueryDefs {
 
     public static final Pattern TABLEALIAS_PATTERN = Pattern.compile("(\\$?\\w*\\.)");
 
+    public static final String TABLE_THIS = "$this";
+    public static final String TABLE_ROOT = "$root";
+    public static final String TABLE_PARENT = "$parent";
+
     private SQLQueryBuilder builder;
     private SQLTable tableJoin;
     private SQLTable parent;
+
 
     public QueryDefsImpl(SQLQueryBuilder builder, SQLTable tableJoin, SQLTable parent) {
         this.builder = builder;
@@ -36,6 +42,13 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs restrict(String sqlexpr, Object... paramValues) {
+        // check if there is any null parameter. If so, doesn't include the restriction
+        for (Object val: paramValues) {
+            if (val == null) {
+                return this;
+            }
+        }
+
         int pos;
         int index = 0;
 
@@ -89,7 +102,7 @@ public class QueryDefsImpl implements QueryDefs {
 
         joinTable = builder.findNamedJoin(joinName);
         if (joinTable == null) {
-            throw new SQLExecException("Invalid join name: " + joinTable);
+            throw new SQLExecException("Invalid join name: " + joinName);
         }
 
         return addJoin(joinName, joinTable.getTableName(), joinTable.getOn());
@@ -97,12 +110,20 @@ public class QueryDefsImpl implements QueryDefs {
 
     @Override
     public QueryDefs select(String fields) {
-        String[] lst = fields.split(",");
+        List<String> lst = SQLParseUtils.parseFields(fields);
         for (String f: lst) {
-            createField(f.trim(), false);
+            createField(f, false);
         }
         return this;
     }
+
+    @Override
+    public String getMainTable() {
+        return builder.getMainTable();
+    }
+
+
+
 
     /**
      * Check if value is compatible as a parameter value
@@ -119,9 +140,9 @@ public class QueryDefsImpl implements QueryDefs {
 
     public SQLField createField(String fieldName, boolean aggregation) {
         String alias = createFieldAlias();
-        SQLField field = new SQLField(fieldName, alias, false, tableJoin);
-        field.setAggregation(aggregation);
+        SQLField field = new SQLField(fieldName, alias, aggregation, tableJoin);
         builder.addField(field);
+
         return field;
     }
 
@@ -129,15 +150,15 @@ public class QueryDefsImpl implements QueryDefs {
     protected QueryDefsImpl addJoin(String joinName, String tableName, String on) {
         SQLTable tblJoin = new SQLTable();
         tblJoin.setTableName(tableName);
-        String alias = createTableAlias();
+        String alias = builder.createTableAlias();
         tblJoin.setTableAlias(alias);
-
-        builder.addJoin(tblJoin);
 
         QueryDefsImpl qd = new QueryDefsImpl(builder, tblJoin, tableJoin);
         String newOn = qd.parseTableName(on);
         tblJoin.setOn(newOn);
         tblJoin.setJoinName(joinName);
+
+        builder.addJoin(tblJoin);
 
         return qd;
     }
@@ -167,22 +188,21 @@ public class QueryDefsImpl implements QueryDefs {
         return sqlexpr;
     }
 
-
     /**
      * Return the table alias by the table name
      * @param tableName
      * @return
      */
     protected String getTableAlias(String tableName) {
-        if ("$this".equals(tableName) || tableJoin.getTableName().equals(tableName)) {
+        if (TABLE_THIS.equals(tableName) || tableJoin.getTableName().equals(tableName)) {
             return tableJoin.getTableAlias();
         }
 
-        if ("$root".equals(tableName)) {
+        if (TABLE_ROOT.equals(tableName)) {
             return builder.ROOT_TABLE_ALIAS;
         }
 
-        if ("$parent".equals(tableName)) {
+        if (TABLE_PARENT.equals(tableName)) {
             return parent != null ? parent.getTableAlias() : builder.ROOT_TABLE_ALIAS;
         }
 
@@ -191,22 +211,14 @@ public class QueryDefsImpl implements QueryDefs {
             return tbl.getTableAlias();
         }
 
+        if (builder.findNamedJoin(tableName) != null) {
+            join(tableName);
+            return getTableAlias(tableName);
+        }
+
         return tableName;
     }
 
-    /**
-     * Create a new alias for a table join
-     * @return
-     */
-    protected String createTableAlias() {
-        int count = builder.getJoins().size() + 1;
-
-        int index = count / 27;
-        int letter = count % 27;
-
-        String alias = (char)(97 + letter) + Integer.toString(index);
-        return alias;
-    }
 
     /**
      * Create a new alias to be used in field declaration

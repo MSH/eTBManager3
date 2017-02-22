@@ -1,5 +1,7 @@
 package org.msh.etbm.services.cases.view.unitview;
 
+import org.msh.etbm.db.PersonName;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,7 +11,7 @@ import java.util.UUID;
 public class CommonCaseData {
 
     private UUID id;
-    private String name;
+    private PersonName name;
     private String gender;
     private Date registrationDate;
 
@@ -21,11 +23,11 @@ public class CommonCaseData {
         this.id = id;
     }
 
-    public String getName() {
+    public PersonName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(PersonName name) {
         this.name = name;
     }
 

@@ -55,7 +55,7 @@ public class CmdTypesFormRequestTest  extends AuthenticatedTest {
             assertEquals(cmd.getId(), item.getId());
 
             int count = item.getChildren() != null ? item.getChildren().size() : 0;
-            assertEquals(cmd.getChildCount(), count);
+            assertEquals("Failed for item " + cmd.getPath(), cmd.getChildCount(), count);
         }
     }
 }

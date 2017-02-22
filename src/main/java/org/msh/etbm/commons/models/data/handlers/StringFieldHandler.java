@@ -1,8 +1,13 @@
 package org.msh.etbm.commons.models.data.handlers;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.StringField;
 import org.msh.etbm.commons.models.impl.FieldContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rmemoria on 1/7/16.
@@ -51,6 +56,16 @@ public class StringFieldHandler extends SingleFieldHandler<StringField> {
             Object[] params = {field.getMin()};
             context.getErrors().rejectValue(field.getName(), Messages.MIN_SIZE, params, null);
         }
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(StringField field) {
+        List<TableColumn> fields = new ArrayList<>();
+
+        int size = field.getMax() != null ? field.getMax() : 200;
+
+        fields.add(new TableColumn(getFieldName(field), TableColumnType.VARCHAR, size));
+        return fields;
     }
 
 }

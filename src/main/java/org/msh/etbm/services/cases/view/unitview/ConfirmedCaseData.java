@@ -12,8 +12,8 @@ import java.util.Date;
 public class ConfirmedCaseData extends CommonCaseData {
 
     private String caseNumber;
-    private Item<String> registrationGroup;
-    private InfectionSite infectionSite;
+    private String registrationGroup;
+    private Item<InfectionSite> infectionSite;
     private Date iniTreatmentDate;
     private Integer treatmentProgress;
 
@@ -25,19 +25,19 @@ public class ConfirmedCaseData extends CommonCaseData {
         this.caseNumber = caseNumber;
     }
 
-    public Item<String> getRegistrationGroup() {
+    public String getRegistrationGroup() {
         return registrationGroup;
     }
 
-    public void setRegistrationGroup(Item<String> registrationGroup) {
+    public void setRegistrationGroup(String registrationGroup) {
         this.registrationGroup = registrationGroup;
     }
 
-    public InfectionSite getInfectionSite() {
+    public Item<InfectionSite> getInfectionSite() {
         return infectionSite;
     }
 
-    public void setInfectionSite(InfectionSite infectionSite) {
+    public void setInfectionSite(Item<InfectionSite> infectionSite) {
         this.infectionSite = infectionSite;
     }
 

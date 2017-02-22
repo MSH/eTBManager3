@@ -1,12 +1,11 @@
 package org.msh.etbm.services.cases.view;
 
+import org.msh.etbm.commons.InvalidArgumentException;
+import org.msh.etbm.commons.dbcache.DbCache;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.AdministrativeUnit;
 import org.msh.etbm.db.enums.CaseClassification;
 import org.msh.etbm.db.enums.DiagnosisType;
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
-import org.msh.etbm.services.cases.tag.CasesTagsReportService;
-import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -25,12 +24,6 @@ import java.util.*;
 @Service
 public class CasesViewService {
 
-    @Autowired
-    CasesTagsReportService casesTagsReportService;
-
-    @Autowired
-    UserRequestService userRequestService;
-
     @PersistenceContext
     EntityManager entityManager;
 
@@ -39,30 +32,15 @@ public class CasesViewService {
 
 
     /**
-     * Generate a report of the workspace about the consolidated cases by administrative units
-     * and the quantity of tags by case
-     *
-     * @return instance of {@link CasesViewResponse} containing the report view
+     * Generate a report of the quantity of cases by workspace
+     * @param workspaceId the ID of the workspace
+     * @return the report of the workspace
      */
     @Transactional
-    public CasesViewResponse generateView(UUID adminUnitId) {
-        CasesViewResponse resp = new CasesViewResponse();
-
-        // load information about the tags
-        List<CasesTagsReportItem> tags;
-        if (adminUnitId == null) {
-            tags = casesTagsReportService.generate();
-        } else {
-            tags = casesTagsReportService.generateByAdminUnit(adminUnitId);
-        }
-        resp.setTags(tags);
-
+    @DbCache(updateAt = "2:00:00")
+    public List<PlaceData> generateWorkspaceView(UUID workspaceId) {
         // load information about the places
-        List<PlaceData> places = loadPlaces(adminUnitId);
-
-        resp.setPlaces(places);
-
-        return resp;
+        return loadPlaces(workspaceId, null);
     }
 
     /**
@@ -74,13 +52,15 @@ public class CasesViewService {
      */
     @Transactional
     public List<PlaceData> generateAdminUnitView(UUID adminUnitId) {
-        List<PlaceData> places = loadPlaces(adminUnitId);
-
-        return places;
+        return loadPlaces(null, adminUnitId);
     }
 
 
-    private List<PlaceData> loadPlaces(UUID adminUnitId) {
+    private List<PlaceData> loadPlaces(UUID workspaceId, UUID adminUnitId) {
+        if (workspaceId == null && adminUnitId == null) {
+            throw new InvalidArgumentException("workspace and adminunit cannot be both null");
+        }
+
         List<PlaceData> places = new ArrayList<>();
 
         AdministrativeUnit adminUnit =
@@ -88,8 +68,11 @@ public class CasesViewService {
                 entityManager.find(AdministrativeUnit.class, adminUnitId) :
                 null;
 
+        // get the workspace in use
+        UUID wsId = adminUnit != null ? adminUnit.getWorkspace().getId() : workspaceId;
+
         // just load the units because it is level 0
-        loadAdminUnits(places, adminUnit);
+        loadAdminUnits(places, wsId, adminUnit);
 
         if (adminUnitId != null) {
             loadUnits(places, adminUnit);
@@ -102,7 +85,7 @@ public class CasesViewService {
     }
 
 
-    private void loadAdminUnits(List<PlaceData> data, AdministrativeUnit adminUnit) {
+    private void loadAdminUnits(List<PlaceData> data, UUID workspaceId, AdministrativeUnit adminUnit) {
         Map<String, Object> params = new HashMap<>();
 
         StringBuilder s = new StringBuilder();
@@ -113,25 +96,36 @@ public class CasesViewService {
         if (adminUnit != null) {
             int level = adminUnit.getLevel();
             params.put("id", ObjectUtils.uuidAsBytes(adminUnit.getId()));
-            String fname = "pid" + (level + 1);
             String fparent = "pid" + level;
+            String fname = "pid" + (level + 1);
 
-            s.append("join administrativeunit b on b.id = a.id or b.").append(fname).append(" = a.id\n")
-                    .append("join unit c on c.adminunit_id = b.id\n")
+            s.append("join administrativeunit b on b.id = a.id\n");
+
+            if (level < 3) {
+                s.append(" or b.").append(fname).append(" = a.id\n");
+            }
+
+            s.append("join unit c on c.adminunit_id = b.id\n")
                     .append("join tbcase d on d.owner_unit_id = c.id\n")
-                    .append("where a.").append(fname).append(" is null and a.").append(fparent).append(" = :id\n");
+                    .append("where a.").append(fparent).append(" = :id\n");
+
+            // check if it is in the last level
+            if (level < 3) {
+                s.append("and a.").append(fname).append(" is null\n");
+            }
         } else {
-            s.append("join administrativeunit b on b.pid0 = a.id\n")
+            // no administrative unit, so return the roots
+            s.append("join administrativeunit b on b.id = a.id or b.pid0 = a.id\n")
                    .append("join unit c on c.adminunit_id = b.id\n")
                     .append("join tbcase d on d.owner_unit_id = c.id\n")
                     .append("where a.pid0 is null\n");
         }
 
-        s.append("and a.workspace_id = :wsid and d.state < 3 and d.diagnosisType is not null\n")
+        s.append("and a.workspace_id = :wsid and d.state < 2 and d.diagnosisType is not null\n")
                 .append("group by a.id, a.name, d.diagnosisType, d.classification\n")
                 .append("order by a.name");
 
-        params.put("wsid", ObjectUtils.uuidAsBytes(userRequestService.getUserSession().getWorkspaceId()));
+        params.put("wsid", ObjectUtils.uuidAsBytes(workspaceId));
 
         NamedParameterJdbcTemplate templ = new NamedParameterJdbcTemplate(dataSource);
         List<Map<String, Object>> lst = templ.queryForList(s.toString(), params);
@@ -150,7 +144,7 @@ public class CasesViewService {
         String sql = "select a.id, a.name, 0 as unitsCount, b.diagnosisType, b.classification, count(*) as total " +
                 "from unit a\n" +
                 "inner join tbcase b on b.owner_unit_id = a.id\n" +
-                "where b.state < 3 and b.diagnosisType is not null\n" +
+                "where b.state < 2 and b.diagnosisType is not null\n" +
                 "and a.adminunit_id = :auId\n" +
                 "group by a.id, a.name, b.diagnosisType, b.classification\n" +
                 "order by a.name";

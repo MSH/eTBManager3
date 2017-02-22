@@ -1,7 +1,6 @@
 package org.msh.etbm.services.cases.view.unitview;
 
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ public class UnitViewData {
     private List<ConfirmedCaseData> tbCases;
     private List<ConfirmedCaseData> drtbCases;
     private List<ConfirmedCaseData> ntmCases;
-    private List<CasesTagsReportItem> tags;
 
     public UnitData getUnit() {
         return unit;
@@ -47,14 +45,6 @@ public class UnitViewData {
 
     public void setDrtbCases(List<ConfirmedCaseData> drtbCases) {
         this.drtbCases = drtbCases;
-    }
-
-    public List<CasesTagsReportItem> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<CasesTagsReportItem> tags) {
-        this.tags = tags;
     }
 
     public List<ConfirmedCaseData> getNtmCases() {

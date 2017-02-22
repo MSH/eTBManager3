@@ -20,7 +20,7 @@ export default class Welcome extends React.Component {
      */
     contClick() {
         // temporarily goes right to the workspace registration
-        app.goto('/init/newworkspace');
+        app.goto('/init/initoptions');
     }
 
     /**
@@ -36,11 +36,11 @@ export default class Welcome extends React.Component {
     /**
      * Render the component
      */
-	render() {
-		const langs = app.getState().app.languages;
-		const lg = this.state.lang;
+    render() {
+        const langs = app.getState().app.languages;
+        const lg = this.state.lang;
 
-		return (
+        return (
             <Fade in transitionAppear>
                 <Grid>
                     <Row>
@@ -60,13 +60,14 @@ export default class Welcome extends React.Component {
                         </Col>
                         <Col md={6} mdOffset={3}>
                             <div className="pull-right">
-                                <Button bsStyle="primary" pullRight bsSize="large" onClick={this.contClick}>{__('action.continue')}
+                                <Button bsStyle="success" bsSize="large" onClick={this.contClick}>
+                                    {__('action.continue')}
                                 </Button>
                             </div>
                         </Col>
                     </Row>
                 </Grid>
             </Fade>
-			);
-	}
+        );
+    }
 }

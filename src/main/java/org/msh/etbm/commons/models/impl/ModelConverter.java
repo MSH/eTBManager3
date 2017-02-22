@@ -2,9 +2,9 @@ package org.msh.etbm.commons.models.impl;
 
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,12 +35,19 @@ public class ModelConverter {
 
                 FieldContext fieldContext = context.createFieldContext(field);
 
+                // check default values
+                if (val == null && field.getDefaultValue() != null) {
+                    val = fieldContext.evalProperty("defaultValue");
+                }
+
+                // convert to the proper value
                 Object newval = convertValue(field, fieldContext, val);
+
                 newvals.put(fname, newval);
             }
         }
 
-        checkDefaultValues(model, newvals);
+        checkDefaultValues(context, newvals);
 
         return newvals;
     }
@@ -48,13 +55,16 @@ public class ModelConverter {
 
     /**
      * Check if there are not declared fields that contains default values
-     * @param model
+     * @param validationContext
      * @param vals
      */
-    protected void checkDefaultValues(Model model, Map<String, Object> vals) {
+    protected void checkDefaultValues(ValidationContext validationContext, Map<String, Object> vals) {
+        Model model = validationContext.getModel();
+
         for (Field field: model.getFields()) {
             if (field.getDefaultValue() != null && !vals.containsKey(field.getName())) {
-                vals.put(field.getName(), field.getDefaultValue());
+                FieldContext fieldContext = validationContext.createFieldContext(field);
+                vals.put(field.getName(), fieldContext.evalProperty("defaultValue"));
             }
         }
     }

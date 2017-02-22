@@ -3,7 +3,10 @@ package org.msh.etbm.db.entities;
 import org.msh.etbm.commons.Displayable;
 import org.msh.etbm.commons.entities.cmdlog.PropertyLog;
 import org.msh.etbm.db.Synchronizable;
-import org.msh.etbm.db.enums.*;
+import org.msh.etbm.db.enums.CaseClassification;
+import org.msh.etbm.db.enums.CaseValidationOption;
+import org.msh.etbm.db.enums.DisplayCaseNumber;
+import org.msh.etbm.db.enums.NameComposition;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,39 +23,9 @@ public class Workspace extends Synchronizable implements Displayable {
     @Size(min = 2, max = 50)
     private String name;
 
-    /**
-     * Extension is used as a suffix when creating custom tables. Once set, this value cannot be changed
-     */
-    @Column(length = 20)
-    private String extension;
-
     @OneToMany(mappedBy = "workspace", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @PropertyLog(ignore = true)
     private List<UserWorkspace> users = new ArrayList<>();
-
-    /**
-     * frequency of doses in a weekly basis
-     */
-    @PropertyLog(ignore = true)
-    private Integer weekFreq1;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq2;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq3;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq4;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq5;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq6;
-
-    @PropertyLog(ignore = true)
-    private Integer weekFreq7;
 
     @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
@@ -90,11 +63,6 @@ public class Workspace extends Synchronizable implements Displayable {
     private DisplayCaseNumber confirmedCaseNumber;
 
     /**
-     * Required levels of administrative unit for patient address
-     */
-    private Integer patientAddrRequiredLevels;
-
-    /**
      * Indicate if system will send e-mail messages to the users in certain system events (like new orders, orders authorized, etc)
      */
     private boolean sendSystemMessages;
@@ -115,13 +83,6 @@ public class Workspace extends Synchronizable implements Displayable {
      * the system will alert about that
      */
     private Integer maxStockOnHand;
-
-    /**
-     * If true, in the medicine in-take monitoring of the case, user will specify if administered the treatment
-     * in DOTS or if it was self-administered by the patient. If false, the user will just select the day patient
-     * received medicine
-     */
-    private TreatMonitoringInput treatMonitoringInput;
 
     @PropertyLog(messageKey = "form.customId")
     private String customId;
@@ -187,20 +148,6 @@ public class Workspace extends Synchronizable implements Displayable {
      */
     public void setPatientNameComposition(NameComposition patientNameComposition) {
         this.patientNameComposition = patientNameComposition;
-    }
-
-    /**
-     * @return the patientAddrRequiredLevels
-     */
-    public Integer getPatientAddrRequiredLevels() {
-        return patientAddrRequiredLevels;
-    }
-
-    /**
-     * @param patientAddrRequiredLevels the patientAddrRequiredLevels to set
-     */
-    public void setPatientAddrRequiredLevels(Integer patientAddrRequiredLevels) {
-        this.patientAddrRequiredLevels = patientAddrRequiredLevels;
     }
 
     /**
@@ -345,76 +292,6 @@ public class Workspace extends Synchronizable implements Displayable {
         this.confirmedCaseNumber = confirmedCaseNumber;
     }
 
-    /**
-     * @return the treatMonitoringInput
-     */
-    public TreatMonitoringInput getTreatMonitoringInput() {
-        return treatMonitoringInput;
-    }
-
-    /**
-     * @param treatMonitoringInput the treatMonitoringInput to set
-     */
-    public void setTreatMonitoringInput(TreatMonitoringInput treatMonitoringInput) {
-        this.treatMonitoringInput = treatMonitoringInput;
-    }
-
-    public Integer getWeekFreq1() {
-        return weekFreq1;
-    }
-
-    public void setWeekFreq1(Integer weekFreq1) {
-        this.weekFreq1 = weekFreq1;
-    }
-
-    public Integer getWeekFreq2() {
-        return weekFreq2;
-    }
-
-    public void setWeekFreq2(Integer weekFreq2) {
-        this.weekFreq2 = weekFreq2;
-    }
-
-    public Integer getWeekFreq3() {
-        return weekFreq3;
-    }
-
-    public void setWeekFreq3(Integer weekFreq3) {
-        this.weekFreq3 = weekFreq3;
-    }
-
-    public Integer getWeekFreq4() {
-        return weekFreq4;
-    }
-
-    public void setWeekFreq4(Integer weekFreq4) {
-        this.weekFreq4 = weekFreq4;
-    }
-
-    public Integer getWeekFreq5() {
-        return weekFreq5;
-    }
-
-    public void setWeekFreq5(Integer weekFreq5) {
-        this.weekFreq5 = weekFreq5;
-    }
-
-    public Integer getWeekFreq6() {
-        return weekFreq6;
-    }
-
-    public void setWeekFreq6(Integer weekFreq6) {
-        this.weekFreq6 = weekFreq6;
-    }
-
-    public Integer getWeekFreq7() {
-        return weekFreq7;
-    }
-
-    public void setWeekFreq7(Integer weekFreq7) {
-        this.weekFreq7 = weekFreq7;
-    }
-
     @Override
     public String getDisplayString() {
         return name;
@@ -426,13 +303,5 @@ public class Workspace extends Synchronizable implements Displayable {
 
     public void setCustomId(String customId) {
         this.customId = customId;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
     }
 }

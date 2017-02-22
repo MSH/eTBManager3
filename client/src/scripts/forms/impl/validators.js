@@ -12,23 +12,23 @@ const passwordPattern = /((?=.*\d)(?=.*[a-zA-Z]).{6,20})/;
  * @return {[type]}        [description]
  */
 export function stringValidator(schema, value) {
-	if (schema.min && value.length < schema.min) {
-		return msgs.minValue(schema.min);
-	}
+    if (schema.min && value.length < schema.min) {
+        return msgs.minValue(schema.min);
+    }
 
-	if (schema.max && value.length > schema.max) {
-		return msgs.maxValue(schema.max);
-	}
+    if (schema.max && value.length > schema.max) {
+        return msgs.maxValue(schema.max);
+    }
 
-	if (schema.email && !emailPattern.test(value)) {
-		return msgs.NotValidEmail;
-	}
+    if (schema.email && !emailPattern.test(value)) {
+        return msgs.NotValidEmail;
+    }
 
-	if (schema.password && !passwordPattern.test(value)) {
-		return msgs.NotValidPassword;
-	}
+    if (schema.password && !passwordPattern.test(value)) {
+        return msgs.NotValidPassword;
+    }
 
-	return null;
+    return null;
 }
 
 /**
@@ -38,16 +38,16 @@ export function stringValidator(schema, value) {
  * @return {[type]}        [description]
  */
 export function numberValidator(schema, value) {
-	if (isNaN(value)) {
-		return msgs.NotValid;
-	}
+    if (isNaN(value)) {
+        return msgs.NotValid;
+    }
 
-	if (schema.min && value.length < schema.min) {
-		return msgs.minValue(schema.min);
-	}
+    if (schema.min && value.length < schema.min) {
+        return msgs.minValue(schema.min);
+    }
 
-	if (schema.max && value > schema.max) {
-		return msgs.maxValue(schema.max);
-	}
-	return null;
+    if (schema.max && value > schema.max) {
+        return msgs.maxValue(schema.max);
+    }
+    return null;
 }

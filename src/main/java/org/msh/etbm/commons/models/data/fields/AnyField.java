@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models.data.fields;
 
+import org.msh.etbm.commons.models.data.Field;
+
 /**
  * This is a generic field for supporting of controls that may accept any field type,
  * like the {@link org.msh.etbm.commons.forms.controls.SelectControl}

@@ -1,0 +1,125 @@
+{
+  "dataModel": {
+    "patient": "patient",
+    "tbcase": "tbcase"
+  },
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.registrationDate}",
+      "property": "tbcase.registrationDate",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.caseNumber",
+      "label": "${TbCase.caseNumber}",
+      "type": "string",
+      "size": { "md": 6 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.patientdata}",
+      "newRow": true,
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "patient.motherName",
+      "type": "string",
+      "size": { "md": 12 }
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 4 },
+      "label": "${TbCase.age}"
+    },
+    {
+      "property": "patient.birthDate",
+      "type": "date",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "visible": { "function": "this.tbcase.currentAddress" },
+      "size": { "md": 6 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.details.case}",
+      "newRow": true,
+      "size": { "sm": 12 }
+    },
+    {
+      "type": "unit",
+      "label": "${TbCase.notificationUnit}",
+      "property": "tbcase.notificationUnit",
+      "size": { "md": 12 }
+    },
+    {
+      "type": "date",
+      "label": "${TbCase.diagnosisDate}",
+      "property": "tbcase.diagnosisDate",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.registrationGroup",
+      "label": "${TbCase.registrationGroup}",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.infectionSite",
+      "label": "${InfectionSite}",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.pulmonaryType",
+      "label": "${TbCase.pulmonaryType}",
+      "size": { "md": 4 },
+      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType",
+      "label": "${TbCase.extrapulmonaryType}",
+      "size": { "md": 4 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType2",
+      "label": "${TbCase.extrapulmonaryType2}",
+      "size": { "md": 4 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" }
+    }
+  ]
+}

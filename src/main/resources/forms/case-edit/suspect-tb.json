@@ -1,0 +1,91 @@
+{
+  "dataModel": {
+    "patient": "patient",
+    "tbcase": "tbcase"
+  },
+
+  "title": "${action.edit} ${CaseClassification.TB.suspect}",
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.registrationDate}",
+      "property": "tbcase.registrationDate",
+      "required": true,
+      "size": { "md": 6 }
+    },
+    {
+      "property": "tbcase.registrationNumber",
+      "label": "${TbCase.registrationNumber}",
+      "type": "string",
+      "required": true,
+      "size": { "md": 6 }
+    },
+    {
+      "type": "subtitle",
+      "label": "${cases.patientdata}",
+      "size": { "sm": 12 }
+    },
+    {
+      "property": "patient.name",
+      "type": "personName",
+      "label": "${Patient.name}",
+      "required": true,
+      "size": { "md": 10 }
+    },
+    {
+      "property": "patient.motherName",
+      "type": "string",
+      "size": { "md": 10 }
+    },
+    {
+      "property": "patient.gender",
+      "type": "select",
+      "newRow": true,
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.age",
+      "type": "int",
+      "size": { "md": 4 },
+      "label": "${TbCase.age}"
+    },
+    {
+      "property": "patient.birthDate",
+      "type": "date",
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.nationality",
+      "label": "${Nationality}",
+      "defaultValue": "NATIVE",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.phoneNumber",
+      "type": "string",
+      "label": "${TbCase.phoneNumber}",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.mobileNumber",
+      "type": "string",
+      "label": "${global.mobile}",
+      "size": { "md": 4 }
+    },
+    {
+      "property": "tbcase.notifAddress",
+      "label": "${cases.details.addressnotif}",
+      "type": "address",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "tbcase.currentAddress",
+      "label": "${cases.details.addresscurr}",
+      "type": "address",
+      "size": { "md": 6 }
+    }
+  ]
+}

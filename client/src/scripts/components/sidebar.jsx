@@ -7,54 +7,77 @@
 
 import React from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
+import { isFunction } from '../commons/utils';
+
 
 // load style
 import './sidebar.less';
 
 export default class Sidebar extends React.Component {
 
-    itemClick(param) {
-		if (this.props.onSelect) {
-			this.props.onSelect(param);
-		}
+    itemClick(item) {
+        if (this.props.onSelect) {
+            this.props.onSelect(item);
+        }
+
+        if (!item.path) {
+            return;
+        }
+
+        window.location.hash = this.props.path + item.path;
+    }
+
+    hash(item) {
+        const hash = this.props.route.path + item.path;
+
+        // check if there is any query params
+        let qry = this.props.queryParams;
+        if (isFunction(qry)) {
+            qry = qry(item);
+        }
+
+        qry = qry ?
+            '?' + Object.keys(qry).map(p => p + '=' + encodeURIComponent(qry[p])).join('&') :
+            '';
+
+        return '#' + hash + qry;
     }
 
     render() {
-		// get the items to fill in the sidebar
-		const items = this.props.items || [];
+        // get the items to fill in the sidebar
+        const items = this.props.items || [];
 
-        let count = 0;
+        console.log('sidebar = ', this.props.queryParams);
 
         return (
-			<div className="sidebar">
-				<Nav onSelect={this.props.onSelect} activeKey={this.props.selected}>
-					{items.map(item => {
-                        count++;
+            <div className="sidebar">
+                <Nav activeKey={this.props.selected}>
+                    {items.map((item, index) => {
+                        if (item.separator) {
+                            return <NavItem disabled key={index}><hr/></NavItem>;
+                        }
 
-						if (item.separator) {
-							return <NavItem disabled key={count}><hr/></NavItem>;
-						}
-
-						if (item.icon) {
-							return (
-                                <NavItem eventKey={item} key={count}>
-                                    <i className={'fa fa-fw fa-' + item.icon}/>{item.title}
-                                </NavItem>
-                                );
-						}
-
-						return <NavItem eventKey={item} key={count}>{item.title}</NavItem>;
-					})}
-				</Nav>
-			</div>
+                        return (
+                            <NavItem eventKey={item} key={index} href={this.hash(item)}>
+                            {
+                                item.icon && <i className={'fa fa-fw fa-' + item.icon} />
+                            }
+                            {item.title}
+                            </NavItem>
+                        );
+                    })}
+                </Nav>
+            </div>
         );
     }
 }
 
 
 Sidebar.propTypes = {
-	items: React.PropTypes.array,
+    items: React.PropTypes.array,
     onSelect: React.PropTypes.func,
-    children: React.PropTypes.any,
-    selected: React.PropTypes.object
+    selected: React.PropTypes.object,
+    path: React.PropTypes.string,
+    route: React.PropTypes.object,
+    queryParams: React.PropTypes.any
 };

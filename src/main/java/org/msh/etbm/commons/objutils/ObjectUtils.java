@@ -2,12 +2,16 @@ package org.msh.etbm.commons.objutils;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
+import javax.xml.bind.DatatypeConverter;
 import java.beans.PropertyDescriptor;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -142,6 +146,31 @@ public class ObjectUtils {
             index++;
         }
         return Objects.hash(vals);
+    }
+
+    /**
+     * Hash an object using the SHA1 hash algorithm
+     * @param obj the object to hash
+     * @return A string representation of the object hash
+     */
+    public static String hashSHA1(Object obj) {
+        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos = null;
+        try {
+            try {
+                baos = new ByteArrayOutputStream();
+                oos = new ObjectOutputStream(baos);
+                oos.writeObject(obj);
+                MessageDigest md = MessageDigest.getInstance("SHA1");
+                byte[] thedigest = md.digest(baos.toByteArray());
+                return DatatypeConverter.printHexBinary(thedigest);
+            } finally {
+                oos.close();
+                baos.close();
+            }
+        } catch (Exception e) {
+            throw new ObjectHashException(e);
+        }
     }
 
     /**
@@ -280,5 +309,45 @@ public class ObjectUtils {
         }
 
         return null;
+    }
+
+    /**
+     * Convert a string to an enum value of the given enum class
+     * @param value the string representation of the enum value
+     * @param enumClass the enum class
+     * @param <E>
+     * @return the enum value
+     */
+    public static <E extends Enum> E stringToEnum(String value, Class<E> enumClass) {
+        Object[] vals = enumClass.getEnumConstants();
+
+        for (Object val: vals) {
+            if (val.toString().equals(value)) {
+                return (E)val;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Make a shallow copy of the properties of one object to another
+     * Source and target objects doesn't have to be of same type, and just shared
+     * properties available in target are copied. Properties with the same name must
+     * have the same type, otherwise an exception will be thrown
+     *
+     * @param source the source object
+     * @param target the target object that will receive the property values from source
+     */
+    public static void copyObject(Object source, Object target) {
+        Map<String, Object> props = describeProperties(source);
+        Map<String, Object> targProps = describeProperties(target);
+
+        for (Map.Entry<String, Object> entry: props.entrySet()) {
+            String prop = entry.getKey();
+            if (targProps.containsKey(prop)) {
+                setProperty(target, prop, entry.getValue());
+            }
+        }
     }
 }

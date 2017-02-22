@@ -74,10 +74,20 @@ public class SQLQueryBuilder implements QueryDefs {
     private Map<String, SQLTable> namedJoins = new HashMap<>();
 
 
+    private List<QueryDefsListener> listeners;
+
+    private int aliasCounter;
+
+    /**
+     * If true, fields in the SELECT clause will not be declared with alias
+     */
+    private boolean disableFieldAlias;
+
+
 
     /**
      * The default constructor
-     * @param tableName
+     * @param tableName The name of the main table used in the SQL FROM clause
      */
     public SQLQueryBuilder(String tableName) {
         this.tableName = tableName;
@@ -95,36 +105,42 @@ public class SQLQueryBuilder implements QueryDefs {
      * @return String containing SQL statement
      */
     public String generate() {
-        if (fields.size() == 0) {
-            return null;
-        }
+        aliasCounter = 0;
 
-        StringBuilder s = new StringBuilder();
-
-        s.append(generateSelect())
-                .append(generateFrom())
-                .append(generateJoins())
-                .append(generateWhere())
-                .append(generateOrderBy())
-                .append(generateGroupBy())
-                .append(limitResultSet());
-
-        return s.toString();
+        return generateSelect().toString() +
+                generateFrom() +
+                generateJoins() +
+                generateWhere() +
+                generateOrderBy() +
+                generateGroupBy() +
+                limitResultSet();
     }
 
     /**
-     * Clear all fields in the select operation
+     * Initialize the SQL generator for a new query, cleaning all restrictions, fields, joins
      */
-    public void clearSelect() {
+    public void initialize() {
+        parameters.clear();
         fields.clear();
+
+        SQLTable tbl = joins.get(0);
+        joins.clear();
+        joins.add(tbl);
+
+        restrictions.clear();
     }
+
 
     /**
      * Generate the SELECT clause of the SQL statement
-     * @return
+     * @return instance of the StringBuilder class containing the select clause
      */
-    protected StringBuilder generateSelect() {
+    private StringBuilder generateSelect() {
         StringBuilder s = new StringBuilder();
+
+        if (fields.isEmpty()) {
+            return s.append("select * ");
+        }
 
         Map<String, SQLField> mapping = new HashMap<>();
 
@@ -139,9 +155,19 @@ public class SQLQueryBuilder implements QueryDefs {
             if (field.isAggregation()) {
                 s.append(field.getFieldName());
             } else {
-                s.append(field.getTable().getTableAlias())
-                        .append(".")
-                        .append(field.getFieldName()).append(' ').append(field.getFieldAlias());
+                String fname = field.getFieldName();
+                String falias = disableFieldAlias ? "" : " " + field.getFieldAlias();
+
+                if (fname.indexOf(".") > 0) {
+                    fname = parseTableName(fname);
+                    s.append(fname).append(falias);
+                } else {
+                    if (!isFieldExpression(fname)) {
+                        s.append(field.getTable().getTableAlias()).append(".");
+                    }
+
+                    s.append(fname).append(falias);
+                }
             }
 
             delim = ", ";
@@ -154,6 +180,23 @@ public class SQLQueryBuilder implements QueryDefs {
         fieldMapping = mapping;
 
         return s;
+    }
+
+    /**
+     * Check if field is an expression (constant, subquery, etc) or is a literal
+     * @param fname The field name
+     * @return true if field is an expression
+     */
+    private boolean isFieldExpression(String fname) {
+        char[] vals = {'"', '\'', ' ', '(' };
+
+        for (char c: vals) {
+            if (fname.indexOf(c) >= 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
@@ -198,7 +241,7 @@ public class SQLQueryBuilder implements QueryDefs {
 
     /**
      * Generate the WHERE clause of the SQL statement
-     * @return
+     * @return instance of StringBuilder containing the WHERE clause
      */
     protected StringBuilder generateWhere() {
         StringBuilder s = new StringBuilder();
@@ -242,11 +285,10 @@ public class SQLQueryBuilder implements QueryDefs {
 
         StringBuilder s = new StringBuilder();
         String delim = "\ngroup by ";
-        for (SQLField field: lst) {
+        for (SQLField field: fields) {
             if (!field.isAggregation()) {
-                s.append(field.getTable().getTableAlias())
-                        .append('.')
-                        .append(field.getFieldName());
+                String fname = disableFieldAlias ? field.getFieldName() : field.getFieldAlias();
+                s.append(delim).append(fname);
             }
 
             delim = ", ";
@@ -322,14 +364,14 @@ public class SQLQueryBuilder implements QueryDefs {
     }
 
 
-    @Override
-    public QueryDefs restrict(String sqlexpr) {
-        return queryDefs.restrict(sqlexpr);
+    public SQLQueryBuilder restrict(String sqlexpr) {
+        queryDefs.restrict(sqlexpr);
+        return this;
     }
 
-    @Override
-    public QueryDefs restrict(String sqlexpr, Object... parameters) {
-        return queryDefs.restrict(sqlexpr, parameters);
+    public SQLQueryBuilder restrict(String sqlexpr, Object... parameters) {
+        queryDefs.restrict(sqlexpr, parameters);
+        return this;
     }
 
     @Override
@@ -339,7 +381,8 @@ public class SQLQueryBuilder implements QueryDefs {
 
     @Override
     public QueryDefs leftJoin(String tableName, String on) {
-        return queryDefs.leftJoin(tableName, on);
+        queryDefs.leftJoin(tableName, on);
+        return this;
     }
 
     @Override
@@ -347,9 +390,14 @@ public class SQLQueryBuilder implements QueryDefs {
         return queryDefs.join(joinName);
     }
 
+    public SQLQueryBuilder select(String fields) {
+        queryDefs.select(fields);
+        return this;
+    }
+
     @Override
-    public QueryDefs select(String fields) {
-        return queryDefs.select(fields);
+    public String getMainTable() {
+        return tableName;
     }
 
     /**
@@ -382,8 +430,49 @@ public class SQLQueryBuilder implements QueryDefs {
         return namedJoins.get(joinName);
     }
 
+    /**
+     * Add an expression to the SQL SELECT clause that will be considered an expression, like a COUNT or SUM
+     * @param expr
+     */
     public void addGroupExpression(String expr) {
         queryDefs.createField(expr, true);
+    }
+
+    /**
+     * Return the instance of the {@link QueryDefs} interface used internally
+     * @return instance of {@link QueryDefs}
+     */
+    public QueryDefs getQueryDefs() {
+        return queryDefs;
+    }
+
+    /**
+     * Add a new listener to receive information about certain injections done by {@link QueryDefs} interface
+     * @param listener the instance of {@link QueryDefsListener}
+     */
+    public void addListener(QueryDefsListener listener) {
+        if (listeners == null) {
+            listeners = new ArrayList<>();
+        }
+        listeners.add(listener);
+    }
+
+    /**
+     * Remove a listener previously included with the {@link SQLQueryBuilder#addListener(QueryDefsListener)} method
+     * @param listener
+     */
+    public void remListener(QueryDefsListener listener) {
+        if (listeners == null) {
+            return;
+        }
+        listeners.remove(listener);
+    }
+
+    /**
+     * Remove all listeners previously included
+     */
+    public void clearListeners() {
+        listeners = null;
     }
 
     /**
@@ -418,8 +507,19 @@ public class SQLQueryBuilder implements QueryDefs {
         return Collections.unmodifiableList(joins);
     }
 
+    /**
+     * Add a field to the list of fields to select
+     * @param field
+     */
     protected void addField(SQLField field) {
         fields.add(field);
+
+        // check if there are listeners to that event
+        if (listeners != null) {
+            for (QueryDefsListener listener: listeners) {
+                listener.onInjectedField(field);
+            }
+        }
     }
 
     protected void addJoin(SQLTable join) {
@@ -448,5 +548,37 @@ public class SQLQueryBuilder implements QueryDefs {
 
     public void setMaxResult(Integer maxResult) {
         this.maxResult = maxResult;
+    }
+
+
+    /**
+     * Create a new alias for a table join
+     * @return
+     */
+    protected String createTableAlias() {
+        int index = aliasCounter / 27;
+        int letter = aliasCounter % 27;
+
+        aliasCounter++;
+
+        String alias = (char)(97 + letter) + Integer.toString(index);
+        return alias;
+    }
+
+    /**
+     * Return an instance of the {@link SQLQueryBuilder} using the given table
+     * @param tableName
+     * @return
+     */
+    public static SQLQueryBuilder from(String tableName) {
+        return new SQLQueryBuilder(tableName);
+    }
+
+    public boolean isDisableFieldAlias() {
+        return disableFieldAlias;
+    }
+
+    public void setDisableFieldAlias(boolean disableFieldAlias) {
+        this.disableFieldAlias = disableFieldAlias;
     }
 }

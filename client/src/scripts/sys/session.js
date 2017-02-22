@@ -9,33 +9,33 @@ import SessionUtils from './session-utils';
  * @return {[type]} [description]
  */
 export function initSession() {
-	app.add(actionHandler);
+    app.add(actionHandler);
 }
 
 function actionHandler(act, data) {
-	if (act === AUTHENTICATED) {
-		return data;
-	}
+    if (act === AUTHENTICATED) {
+        return data;
+    }
 
-	if (act === LOGOUT) {
-		return { session: null };
-	}
+    if (act === LOGOUT) {
+        return { session: null };
+    }
 
-	if (act === WORKSPACE_CHANGE) {
-		SessionUtils.gotoHome();
-		return data;
-	}
+    if (act === WORKSPACE_CHANGE) {
+        SessionUtils.gotoHome();
+        return data;
+    }
 
-	return null;
+    return null;
 }
 
 /**
  * Check if user was already authenticated
  * @return {Boolean} True if user is already authenticated
  */
-export function	isAuthenticated() {
-	const data = getSessionData();
-	return data !== undefined && data !== null;
+export function isAuthenticated() {
+    const data = getSessionData();
+    return data !== undefined && data !== null;
 }
 
 /**
@@ -44,8 +44,8 @@ export function	isAuthenticated() {
  * @return {Boolean}      Return true if permission is granted
  */
 export function hasPerm(perm) {
-	const session = getSessionData();
-	return session !== null && (session.administrator || session.permissions.indexOf(perm) >= 0);
+    const session = getSessionData();
+    return session !== null && (session.administrator || session.permissions.indexOf(perm) >= 0);
 }
 
 
@@ -54,23 +54,23 @@ export function hasPerm(perm) {
  * @return {Promise} Promise that will be resolved when logout is finished
  */
 export function logout() {
-	const autk = app.getCookie('autk');
+    const autk = app.getCookie('autk');
 
-	// inform server to register logout of the authentication token
-	if (autk) {
-		// call server to register logout
-		return server.get('/api/auth/logout?tk=' + autk)
-		.then(() => {
-			// clear authentication token in the cookies
-			app.setCookie('autk', null);
+    // inform server to register logout of the authentication token
+    if (autk) {
+        // call server to register logout
+        return server.get('/api/auth/logout?tk=' + autk)
+        .then(() => {
+            // clear authentication token in the cookies
+            app.setCookie('autk', null);
 
-			// inform the system about the logout
-			app.dispatch(LOGOUT);
-		});
-	}
+            // inform the system about the logout
+            app.dispatch(LOGOUT);
+        });
+    }
 
-	// return an empty promise if there is no logout information
-	return new Promise(resolve => resolve(null));
+    // return an empty promise if there is no logout information
+    return new Promise(resolve => resolve(null));
 }
 
 /**
@@ -81,25 +81,25 @@ export function logout() {
  * @return {Promise} A promise containing the session data
  */
 export function authenticate() {
-	return server.post('/api/sys/session')
-	.then(res => {
-		app.dispatch(AUTHENTICATED, { session: res });
-		return res;
-	});
+    return server.post('/api/sys/session')
+    .then(res => {
+        app.dispatch(AUTHENTICATED, { session: res });
+        return res;
+    });
 }
 
 
 export function changeWorkspace(wsid) {
-	app.dispatch(WORKSPACE_CHANGING);
+    app.dispatch(WORKSPACE_CHANGING);
 
-	return server.post('/api/sys/changews/' + wsid)
-	.then(res => {
-		const authToken = res.authToken;
-		app.setCookie('autk', authToken);
-		const state = { session: res.session };
-		app.setState(state);
-		app.dispatch(WORKSPACE_CHANGE, state);
-	});
+    return server.post('/api/sys/changews/' + wsid)
+    .then(res => {
+        const authToken = res.authToken;
+        app.setCookie('autk', authToken);
+        const state = { session: res.session };
+        app.setState(state);
+        app.dispatch(WORKSPACE_CHANGE, state);
+    });
 }
 
 
@@ -108,6 +108,6 @@ export function changeWorkspace(wsid) {
  * @return {[type]} [description]
  */
 function getSessionData() {
-	return app.getState().session;
+    return app.getState().session;
 }
 

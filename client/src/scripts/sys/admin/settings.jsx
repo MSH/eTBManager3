@@ -10,37 +10,37 @@ import Workspaces from './settings/workspaces';
  */
 export default class Settings extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.menu = [
-			{
-				title: __('admin.workspaces'),
-				perm: 'WORKSPACES',
-				icon: 'globe',
-				path: '/workspaces',
-				view: Workspaces
-			},
-			{
-				title: __('admin.syssetup'),
-				perm: 'SYSSETUP',
-				icon: 'wrench',
-				path: '/sysconfig',
-				view: SysConfig
-			}
-		];
-	}
+    constructor(props) {
+        super(props);
+        this.menu = [
+            {
+                title: __('admin.workspaces'),
+                perm: 'WORKSPACES',
+                icon: 'globe',
+                path: '/workspaces',
+                view: Workspaces
+            },
+            {
+                title: __('admin.syssetup'),
+                perm: 'SYSSETUP',
+                icon: 'wrench',
+                path: '/sysconfig',
+                view: SysConfig
+            }
+        ];
+    }
 
-	render() {
-		return (
-			<PageContent route={this.props.route}
-				menu={this.menu}
-				title={__('admin') + ' - ' + __('admin.config')}
-				path="/sys/admin/settings" />
-			);
-	}
+    render() {
+        return (
+            <PageContent route={this.props.route}
+                menu={this.menu}
+                title={__('admin') + ' - ' + __('admin.config')}
+                path="/sys/admin/settings" />
+        );
+    }
 }
 
 Settings.propTypes = {
-	route: React.PropTypes.object
+    route: React.PropTypes.object
 };
 

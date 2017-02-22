@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,8 @@ import java.util.Map;
 @PropertySource("file:${app-property-file:./etbmanager.properties}")
 @EnableJpaRepositories(value = "org.msh.etbm.db.repositories")
 @EnableCaching
+@EnableAsync
+@EnableScheduling
 public class Application {
 
     /**
@@ -35,7 +39,6 @@ public class Application {
      * @param args
      */
     public static void main(String[] args) {
-        // run app
         SpringApplication.run(Application.class, args);
     }
 
@@ -67,6 +70,7 @@ public class Application {
         lst.add("dozer/sysconfig.mapper.xml");
         lst.add("dozer/followup.mapper.xml");
         lst.add("dozer/case.mapper.xml");
+        lst.add("dozer/prevtbtreatment.mapper.xml");
         m.setMappingFiles(lst);
 
         Map<String, CustomConverter> convs = new HashMap<>();

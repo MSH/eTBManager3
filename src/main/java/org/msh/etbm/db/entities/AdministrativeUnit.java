@@ -62,7 +62,7 @@ public class AdministrativeUnit extends WorkspaceEntity {
     public String getFullDisplayName() {
         String s = getName();
 
-        String delim = "";
+        String delim = ", ";
         if (pname3 != null) {
             s += delim + pname3;
             delim = ", ";
@@ -119,19 +119,19 @@ public class AdministrativeUnit extends WorkspaceEntity {
         switch (parent.getLevel()) {
             case 0:
                 pid0 = parent.getId();
-                pname0 = parent.getPname0();
+                pname0 = parent.getName();
                 break;
             case 1:
-                pid1 = parent.getPid1();
-                pname1 = parent.getPname1();
+                pid1 = parent.getId();
+                pname1 = parent.getName();
                 break;
             case 2:
-                pid2 = parent.getPid2();
-                pname2 = parent.getPname2();
+                pid2 = parent.getId();
+                pname2 = parent.getName();
                 break;
             case 3:
-                pid3 = parent.getPid3();
-                pname3 = parent.getPname3();
+                pid3 = parent.getId();
+                pname3 = parent.getName();
                 break;
         }
     }

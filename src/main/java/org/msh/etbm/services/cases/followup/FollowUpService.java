@@ -3,6 +3,7 @@ package org.msh.etbm.services.cases.followup;
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.CaseEvent;
 import org.msh.etbm.services.cases.CaseEventData;
 import org.msh.etbm.services.cases.followup.data.FollowUpData;
@@ -43,7 +44,14 @@ public class FollowUpService {
         QueryResult<FollowUpData> result = new QueryResult();
         result.setList(new ArrayList<>());
 
+        result.setCount(0L);
+
         for (FollowUpType type: FollowUpType.values()) {
+            // check if user has permission to read information
+            if (!userRequestService.isPermissionGranted(type.getPermission())) {
+                continue;
+            }
+
             List<Object> followups = entityManager.createQuery("from " + type.getEntityClassName() + " e where e.tbcase.id = :caseId")
                                         .setParameter("caseId", caseId)
                                         .getResultList();
@@ -84,19 +92,8 @@ public class FollowUpService {
     }
 
     private CaseEventData getDataInstance(FollowUpType type) {
-        CaseEventData ret;
-
-        try {
-            ret = (CaseEventData) Class.forName(type.getDataClassCanonicalName()).newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException("ERROR getting data class - " + type.name());
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("ERROR getting data class - " + type.name());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("ERROR getting data class - " + type.getDataClassCanonicalName() + " - not found");
-        }
-
-        return ret;
+        Class clazz = ObjectUtils.forClass(type.getDataClassCanonicalName());
+        return (CaseEventData)ObjectUtils.newInstance(clazz);
     }
 
     private Comparator<FollowUpData> getComparator() {

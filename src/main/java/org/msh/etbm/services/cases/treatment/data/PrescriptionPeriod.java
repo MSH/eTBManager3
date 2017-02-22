@@ -1,6 +1,7 @@
 package org.msh.etbm.services.cases.treatment.data;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Period of prescription of a product (medicine) with information about
@@ -9,19 +10,29 @@ import java.util.Date;
  * Created by rmemoria on 29/5/16.
  */
 public class PrescriptionPeriod {
+    private UUID prescriptionId;
     private Date ini;
     private Date end;
     private int doseUnit;
     private int frequency;
     private String comments;
 
-    public PrescriptionPeriod(Date ini, Date end, int doseUnit, int frequency, String comments) {
+    public PrescriptionPeriod(UUID prescriptionId, Date ini, Date end, int doseUnit, int frequency, String comments) {
         super();
+        this.prescriptionId = prescriptionId;
         this.ini = ini;
         this.end = end;
         this.doseUnit = doseUnit;
         this.frequency = frequency;
         this.comments = comments;
+    }
+
+    public UUID getPrescriptionId() {
+        return prescriptionId;
+    }
+
+    public void setPrescriptionId(UUID prescriptionId) {
+        this.prescriptionId = prescriptionId;
     }
 
     public PrescriptionPeriod() {

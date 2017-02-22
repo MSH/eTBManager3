@@ -2,7 +2,7 @@ package org.msh.etbm.commons.forms.data;
 
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ModelManager;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 import java.util.Map;
 
@@ -39,11 +39,11 @@ public class MultipleDataModel implements DataModel {
             return null;
         }
 
-        CompiledModel compModel = modelManager.get(modelId);
+        CompiledModel compModel = modelManager.getCompiled(modelId);
         if (compModel == null) {
             return null;
         }
 
-        return compModel.getModel().findFieldByName(fieldRef);
+        return compModel.getModel().findFieldByName(value);
     }
 }

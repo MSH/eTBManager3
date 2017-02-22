@@ -1,0 +1,25 @@
+{
+  "dataModel": {
+    "tbcase": "tbcase"
+  },
+
+  "title": "${cases.suspect.followup} - ${TbCase.outcome}",
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.outcomeDate}",
+      "property": "tbcase.outcomeDate",
+      "required": true,
+      "size": { "md": 4 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.outcome",
+      "label": "${TbCase.outcome}",
+      "size": { "md": 8 },
+      "required": true,
+      "newRow": true
+    }
+  ]
+}

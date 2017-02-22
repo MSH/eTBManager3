@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models;
 
+import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.Model;
 import org.msh.etbm.commons.models.db.*;
 import org.msh.etbm.commons.models.impl.ModelResources;
@@ -11,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Expose CRUD operations to a model defined in the {@link org.msh.etbm.commons.models.data.Model} class.
@@ -41,6 +44,7 @@ public class ModelDAO {
     public List<RecordData> findMany(boolean displaying, String restriction, Map<String, Object> params) {
         SQLQuerySelectionBuilder builder = new SQLQuerySelectionBuilder();
         builder.setDisplaying(displaying);
+        // collect the fields to select
         SQLQueryInfo res = builder.generate(compiledModel.getModel(), restriction, resources.getWorkspaceId());
 
         if (params != null) {
@@ -52,7 +56,7 @@ public class ModelDAO {
         }
 
         SQLQueryLoader loader = new SQLQueryLoader();
-        return loader.loadData(resources.getDataSource(), res);
+        return loader.loadData(resources.getDataSource(), res, displaying);
     }
 
     /**
@@ -84,13 +88,14 @@ public class ModelDAO {
     /**
      * Search for one single record by its ID
      * @param id the record ID
+     * @param displaying if true indicates that data will be used for display or editing
      * @return instance of {@link RecordData} containing record information, or null if record not found
      */
-    public RecordData findOne(UUID id) {
+    public RecordData findOne(UUID id, boolean displaying) {
         String tblName = compiledModel.getModel().resolveTableName();
         Map<String, Object> params = Collections.singletonMap("id", ObjectUtils.uuidAsBytes(id));
 
-        List<RecordData> lst = findMany(false, tblName + ".id = :id", params);
+        List<RecordData> lst = findMany(displaying, tblName + ".id = :id", params);
 
         return lst.size() == 1 ? lst.get(0) : null;
     }
@@ -101,7 +106,7 @@ public class ModelDAO {
      * @param values
      */
     public ModelDAOResult update(UUID id, Map<String, Object> values) {
-        RecordData rec = findOne(id);
+        RecordData rec = findOne(id, false);
 
         if (rec == null) {
             throw new ModelException("Record not found");
@@ -113,7 +118,7 @@ public class ModelDAO {
         }
 
         // validate new record data
-        ValidationResult validationRes = compiledModel.validate(values, resources);
+        ValidationResult validationRes = compiledModel.validate(rec.getValues(), resources);
 
         // there are errors from validation ?
         if (validationRes.getErrors().hasErrors()) {
@@ -133,10 +138,41 @@ public class ModelDAO {
     }
 
 
+    /**
+     * Remove a record from the model by its ID
+     * @param id the ID of the record to be deleted
+     */
     public void delete(UUID id) {
         Model model = compiledModel.getModel();
         JdbcTemplate template = new JdbcTemplate(resources.getDataSource());
         template.update("delete from " + model.getTable() + " where id = ?", ObjectUtils.uuidAsBytes(id));
     }
 
+
+    /**
+     * Return the options of a given field
+     * @param fieldName the name of the field to get the options from
+     * @return List of {@link Item} objects, or null if the list is not found
+     */
+    public List<Item> getFieldOptions(String fieldName) {
+        Model model = compiledModel.getModel();
+        Field field = model.findFieldByName(fieldName);
+
+        if (field == null) {
+            throw new ModelException("Field not found: " + fieldName);
+        }
+
+        if (field.getOptions() == null) {
+            return null;
+        }
+
+        List<Item> options = field.getOptions().getOptionsValues();
+        if (options == null) {
+            return null;
+        }
+
+        return options.stream()
+                .map(item -> new Item(item.getId(), resources.getMessages().eval(item.getName())))
+                .collect(Collectors.toList());
+    }
 }

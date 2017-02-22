@@ -20,137 +20,133 @@ export { app };
 
 
 export function init(customApp) {
-	app = customApp;
+    app = customApp;
 }
 
 export class App {
 
-	constructor() {
-		this.listeners = [];
-		// attach API to handle user session tasks
-		onRequestError(this._serverErrorHandler.bind(this));
-	}
+    constructor() {
+        this.listeners = [];
+        // attach API to handle user session tasks
+        onRequestError(this._serverErrorHandler.bind(this));
+    }
 
-	/**
-	 * Return the application state. The state shall not be changed here
-	 * @return {object} Object containing the application state
-	 */
-	getState() {
-		return this.storage.getState();
-	}
+    /**
+     * Return the application state. The state shall not be changed here
+     * @return {object} Object containing the application state
+     */
+    getState() {
+        return this.storage.getState();
+    }
 
-	setState(state) {
-		this.storage.setState(state);
-	}
+    setState(state) {
+        this.storage.setState(state);
+    }
 
-	/**
-	 * Dispatch an action, changing the state of the application
-	 * @param {[type]} action The action that generated the state change
-	 * @param {[type]} state  The new state to be merged with the current one
-	 */
-	dispatch(action, state) {
-		if (__DEV__) {
-			console.log(action, state);
-		}
-		this.storage.dispatch(action, state);
-	}
+    /**
+     * Dispatch an action, changing the state of the application
+     * @param {[type]} action The action that generated the state change
+     * @param {[type]} state  The new state to be merged with the current one
+     */
+    dispatch(action, state) {
+        if (__DEV__) {
+            console.log(action, state);
+        }
+        this.storage.dispatch(action, state);
+    }
 
-	/**
-	 * Add a listener that will be notified when application state changes
-	 * @param {function} listener A function that will receive app state change notification
-	 */
-	add(listener) {
-		this.storage.addListener(listener);
-		return listener;
-	}
+    /**
+     * Add a listener that will be notified when application state changes
+     * @param {function} listener A function that will receive app state change notification
+     */
+    add(listener) {
+        this.storage.addListener(listener);
+        return listener;
+    }
 
-	/**
-	 * Remove a listener previously added with the add method
-	 * @param  {function} listener The listener function previously added
-	 */
-	remove(listener) {
-		this.storage.removeListener(listener);
-	}
+    /**
+     * Remove a listener previously added with the add method
+     * @param  {function} listener The listener function previously added
+     */
+    remove(listener) {
+        this.storage.removeListener(listener);
+    }
 
-	/**
-	 * Run the application
-	 */
-	run() {
-		const self = this;
+    /**
+     * Run the application
+     */
+    run() {
+        const self = this;
 
-		// set right locale in moment lib
-		moment.locale(this.getLang());
+        // set right locale in moment lib
+        moment.locale(this.getLang());
 
-		// call server to get system status
-		server.post('/api/sys/info?list=1', {})
-		.then(res => {
-			// create storage that will keep application state
-			self.storage = new Storage({ app: res });
+        // call server to get system status
+        server.post('/api/sys/info?list=1', {})
+        .then(res => {
 
-			// if system is not initialized yet, so there is no other way to go
-			if (res.state === 'NEW') {
-				gotoModule('/init', '/welcome');
-			}
+            // create storage that will keep application state
+            self.storage = new Storage({ app: res });
 
-			// there is no page pointed in the url ?
-			if (!window.location.hash) {
-				// if ready, go to the main page
-				if (res.state === 'READY') {
-					gotoModule('/sys', '/home/index');
-				}
-				else {
-					// if not, go to the login page
-					gotoModule('/pub', '/login');
-				}
-			}
+            if (res.state === 'NEW') {
+                // if system is not initialized yet, so there is no other way to go
+                gotoModule('/init', '/welcome');
+            } else if (res.state === 'READY') {
+                // if ready, go to the main page
+                gotoModule('/sys', '/start');
+            }
+            else {
+                // else, go to the login page
+                gotoModule('/pub', '/login');
+            }
 
-			// render the main page
-			ReactDOM.render(
-				<MainPage />,
-				document.getElementById('content'));
-		});
-	}
+            // render the main page
+            ReactDOM.render(
+                <MainPage />,
+                document.getElementById('content'));
+        });
+    }
 
-	/**
-	 * Show standard dialog message, in order to display information to the user
-	 * @param  {[type]} props [description]
-	 * @return {[type]}       [description]
-	 */
-	messageDlg(props) {
-		return new Promise(resolve => {
-			// close function called when the dialog is closing
-			const closeFunc = evt => {
-				resolve(evt);
-			};
+    /**
+     * Show standard dialog message, in order to display information to the user
+     * @param  {[type]} props [description]
+     * @return {[type]}       [description]
+     */
+    messageDlg(props) {
+        return new Promise(resolve => {
+            // close function called when the dialog is closing
+            const closeFunc = evt => {
+                resolve(evt);
+            };
 
-			const dlgProps = Object.assign({}, props, { onClose: closeFunc });
+            const dlgProps = Object.assign({}, props, { onClose: closeFunc });
 
-			this.dispatch(SHOW_MESSAGE, dlgProps);
-		});
-	}
+            this.dispatch(SHOW_MESSAGE, dlgProps);
+        });
+    }
 
-	/**
-	 * Go to another page
-	 * @param  {string} path The new page URL to go to
-	 */
-	goto(path) {
-		router.goto(path);
-	}
+    /**
+     * Go to another page
+     * @param  {string} path The new page URL to go to
+     */
+    goto(path) {
+        router.goto(path);
+    }
 
-	/**
-	 * Standard handler for server error requests
-	 * @param  {object} err object containing information about the error, like status and message
-	 */
-	_serverErrorHandler(err) {
-		if (err.status === 401) {
-			this.goto('/pub/login');
-		}
-		else {
-			this.dispatch(ERROR, { error: err.message });
-		}
-	}
+    /**
+     * Standard handler for server error requests
+     * @param  {object} err object containing information about the error, like status and message
+     */
+    _serverErrorHandler(err) {
+        if (err.status === 401) {
+            this.goto('/pub/login');
+        }
+        else {
+            this.dispatch(ERROR, { error: err.message });
+        }
+    }
 
-	getCookie(cname) {
+    getCookie(cname) {
         var name = cname + '=';
         var s = '; ' + document.cookie;
         var vals = s.split('; ' + name);

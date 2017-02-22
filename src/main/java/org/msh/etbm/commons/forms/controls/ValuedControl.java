@@ -3,7 +3,7 @@ package org.msh.etbm.commons.forms.controls;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.FormRequest;
-import org.msh.etbm.commons.models.data.fields.Field;
+import org.msh.etbm.commons.models.data.Field;
 
 import java.util.Map;
 

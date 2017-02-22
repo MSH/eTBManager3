@@ -1,57 +1,75 @@
 import React from 'react';
-import { Card, AsyncButton, FormDialog } from '../../components/index';
-import { ButtonToolbar } from 'react-bootstrap';
+import { Card, RemoteForm, FormDialog } from '../../components/index';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { server } from '../../commons/server';
+import Crud from '../../commons/crud';
+
 
 export default class ShowMessage extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.click = this.click.bind(this);
-		this.state = {};
-	}
+    constructor(props) {
+        super(props);
+        this.click = this.click.bind(this);
+        this.click2 = this.click2.bind(this);
+        this.click3 = this.click3.bind(this);
+        this.click4 = this.click4.bind(this);
+        this.state = {};
+    }
 
-	click() {
-		this.setState({ fetching: true, code: null, schema: null });
+    click() {
+        // using a path
+        this.setState({ remotePath1: '/api/test/form' });
+    }
 
-		const self = this;
+    click2() {
+        // using a function that will return a prosise with form data
+        this.setState({
+            remotePath1: () => server.get('/api/test/form')
+        });
+    }
 
-		server.get('/api/test/form')
-		.then(res => {
-			console.log(res);
-			self.setState({ fetching: false, data: res });
-			self.testServerCode(res.schema);
-		});
-	}
+    click3() {
+        // using a function that will return a prosise with form data
+        this.setState({
+            remotePath2: () => server.get('/api/test/form/readonly/9f74407c-4c66-11e6-89fa-594b936a82f9')
+        });
+    }
 
-	testServerCode(code) {
-		/* eslint no-new-func: "off" */
-		const func = new Function('', 'return ' + code + ';');
+    click4() {
+        const crud = new Crud('prevtreat');
+        this.setState({ remotePath1: () => crud.init({ includeForm: true, edit: true }) });
+    }
 
-		const res = func();
-		/* eslint no-console: "off" */
-		console.log(res);
-		this.setState({ schema: res });
-	}
+    render() {
+        const remotePath1 = this.state.remotePath1;
+        const remotePath2 = this.state.remotePath2;
 
-	render() {
-
-		const fetching = this.state.fetching;
-		const schema = this.state.schema;
-		const doc = {};
-
-		return (
-			<Card title="Server forms example">
-				<ButtonToolbar>
-					<AsyncButton bsStyle="primary" onClick={this.click} fetching={fetching}>{'Get it'}</AsyncButton>
-				</ButtonToolbar>
-				{
-					schema &&
-					<FormDialog schema={schema} doc={doc} resources={this.state.data.resources} />
-				}
-			</Card>
-			);
-	}
+        return (
+            <div>
+                <Card title="Server forms example">
+                    <ButtonToolbar>
+                        <Button bsStyle="primary" onClick={this.click} >{'Get it'}</Button>
+                        <Button bsStyle="primary" onClick={this.click2}>{'Get it 2'}</Button>
+                        <Button bsStyle="primary" onClick={this.click3}>{'Get it readonly'}</Button>
+                        <Button bsStyle="default" onClick={this.click4}>{'Prev TB treatment'}</Button>
+                    </ButtonToolbar>
+                    {
+                        remotePath1 &&
+                        <FormDialog
+                            remotePath={remotePath1} />
+                    }
+                </Card>
+                {
+                    remotePath2 &&
+                    <Card title="ReadOnly">
+                        <RemoteForm
+                            remotePath={remotePath2}
+                            readOnly />
+                    </Card>
+                }
+            </div>
+        );
+    }
 }
 
 ShowMessage.propTypes = {

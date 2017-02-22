@@ -1,14 +1,22 @@
 package org.msh.etbm.services.admin.regimens;
 
 
+import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.entities.EntityServiceContext;
 import org.msh.etbm.commons.entities.EntityServiceImpl;
 import org.msh.etbm.commons.entities.query.QueryBuilder;
+import org.msh.etbm.commons.entities.query.QueryResult;
+import org.msh.etbm.commons.forms.FormRequest;
+import org.msh.etbm.commons.forms.FormRequestHandler;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.entities.MedicineRegimen;
 import org.msh.etbm.db.entities.Regimen;
+import org.msh.etbm.db.enums.CaseClassification;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * CRUD services for medicine regimens
@@ -16,7 +24,8 @@ import org.springframework.stereotype.Service;
  * Created by rmemoria on 6/1/16.
  */
 @Service
-public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryParams> implements RegimenService {
+public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryParams>
+        implements RegimenService, FormRequestHandler<List<Item>> {
 
     @Override
     protected void buildQuery(QueryBuilder<Regimen> builder, RegimenQueryParams queryParams) {
@@ -33,6 +42,8 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
         if (!queryParams.isIncludeDisabled()) {
             builder.addRestriction("active = true");
         }
+
+        builder.addRestriction("classification = :cla", queryParams.getCaseClassification());
     }
 
     @Override
@@ -54,5 +65,25 @@ public class RegimenServiceImpl extends EntityServiceImpl<Regimen, RegimenQueryP
         for (MedicineRegimen mr : regimen.getMedicines()) {
             mr.setRegimen(regimen);
         }
+    }
+
+    @Override
+    public String getFormCommandName() {
+        return "regimens";
+    }
+
+    @Override
+    public List<Item> execFormRequest(FormRequest req) {
+        RegimenQueryParams params = new RegimenQueryParams();
+        params.setProfile(RegimenQueryParams.PROFILE_ITEM);
+
+        String cla = (String)req.getParams().get("classification");
+        if (cla != null) {
+            params.setCaseClassification(ObjectUtils.stringToEnum(cla, CaseClassification.class));
+        }
+
+        QueryResult<Item> res = findMany(params);
+
+        return res.getList();
     }
 }

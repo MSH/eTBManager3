@@ -1,6 +1,6 @@
 package org.msh.etbm.services.cases.search;
 
-import org.msh.etbm.services.cases.filters.FilterGroupData;
+import org.msh.etbm.commons.filters.FilterGroupData;
 
 import java.util.List;
 

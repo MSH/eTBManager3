@@ -9,9 +9,7 @@ public enum DstResult implements MessageKey {
     CONTAMINATED,
     BASELINE,
     INTERMEDIATE,
-    ERROR,
-    NOTRESISTANT,
-    ONGOING;
+    ERROR;
 
     @Override
     public String getMessageKey() {

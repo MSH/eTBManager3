@@ -1,6 +1,5 @@
 package org.msh.etbm.services.session.usersession;
 
-import org.msh.etbm.commons.SynchronizableItem;
 import org.msh.etbm.db.enums.NameComposition;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.admunits.data.AdminUnitData;
@@ -19,6 +18,7 @@ public class UserSessionResponse {
 
     // information about the workspace
     private UUID userWorkspaceId;
+    private UUID workspaceId;
     private String workspaceName;
 
     // information about the user unit
@@ -39,6 +39,11 @@ public class UserSessionResponse {
     private List<String> permissions;
 
     private NameComposition patientNameComposition;
+
+    /**
+     * Number of units registered in the system
+     */
+    private long unitsCount;
 
 
     public String getUserName() {
@@ -135,5 +140,21 @@ public class UserSessionResponse {
 
     public void setPatientNameComposition(NameComposition patientNameComposition) {
         this.patientNameComposition = patientNameComposition;
+    }
+
+    public UUID getWorkspaceId() {
+        return workspaceId;
+    }
+
+    public void setWorkspaceId(UUID workspaceId) {
+        this.workspaceId = workspaceId;
+    }
+
+    public long getUnitsCount() {
+        return unitsCount;
+    }
+
+    public void setUnitsCount(long unitsCount) {
+        this.unitsCount = unitsCount;
     }
 }

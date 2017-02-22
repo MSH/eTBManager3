@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.msh.etbm.commons.models.FieldTypeManager;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 
 /**
  * Created by rmemoria on 1/7/16.
@@ -36,15 +37,15 @@ public class FieldTypeResolver implements TypeIdResolver {
     }
 
     @Override
-    public JavaType typeFromId(String s) {
+    public JavaType typeFromId(DatabindContext context, String s) {
         FieldHandler handler = FieldTypeManager.instance().getHandler(s);
         Class<? extends Field> fieldClass = handler.getFieldClass();
         return TypeFactory.defaultInstance().constructSpecializedType(initType, fieldClass);
     }
 
     @Override
-    public JavaType typeFromId(DatabindContext databindContext, String s) {
-        return typeFromId(s);
+    public String getDescForKnownTypeIds() {
+        return null;
     }
 
     @Override

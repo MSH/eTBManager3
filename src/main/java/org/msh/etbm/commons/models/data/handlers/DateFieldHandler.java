@@ -1,11 +1,15 @@
 package org.msh.etbm.commons.models.data.handlers;
 
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import org.msh.etbm.commons.models.data.TableColumn;
+import org.msh.etbm.commons.models.data.TableColumnType;
 import org.msh.etbm.commons.models.data.fields.DateField;
 import org.msh.etbm.commons.models.impl.FieldContext;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by rmemoria on 2/7/16.
@@ -24,9 +28,20 @@ public class DateFieldHandler extends SingleFieldHandler<DateField> {
 
         if (value instanceof String) {
             try {
-                return ISO8601DateFormat.getInstance().parse((String)value);
+                String dateStr = (String) value;
+                SimpleDateFormat sdf;
+
+                if (dateStr.length() == 10) {
+                    sdf = new SimpleDateFormat("yyyy-MM-dd");
+                } else {
+                    sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+                }
+
+                Date date = sdf.parse(dateStr);
+                return date;
             } catch (ParseException e) {
                 registerConversionError(context);
+                return null;
             }
         }
 
@@ -37,6 +52,14 @@ public class DateFieldHandler extends SingleFieldHandler<DateField> {
     @Override
     protected void validateValue(DateField field, FieldContext context, Object value) {
 
+    }
+
+    @Override
+    public List<TableColumn> getTableFields(DateField field) {
+        List<TableColumn> lst = new ArrayList<>();
+
+        lst.add(new TableColumn(getFieldName(field), TableColumnType.DATE));
+        return lst;
     }
 
 }

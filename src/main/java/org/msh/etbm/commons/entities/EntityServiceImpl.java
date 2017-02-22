@@ -24,6 +24,7 @@ import org.msh.etbm.db.Synchronizable;
 import org.msh.etbm.db.WorkspaceEntity;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
@@ -57,6 +58,9 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
     @Autowired
     EntityDAOFactory entityDAOFactory;
+
+    @Autowired
+    protected ApplicationContext applicationContext;
 
     /**
      * The entity class
@@ -96,12 +100,13 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
 
         // create the result of the service
         ServiceResult res = createResult(entity);
-        res.setId(entity.getId());
 
         res.setLogValues(createValuesToLog(entity, Operation.NEW));
         res.setOperation(Operation.NEW);
 
         afterSave(context, res);
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
 
         return res;
     }
@@ -135,7 +140,7 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         Diffs diffs = createDiffs(prevVals, newVals);
 
         // is there anything to save?
-        if (diffs.getValues().size() == 0) {
+        if (diffs.getValues().isEmpty()) {
             return createResult(dao.getEntity());
         }
 
@@ -148,6 +153,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setOperation(Operation.EDIT);
 
         afterSave(context, res);
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
 
         return res;
     }
@@ -183,6 +190,8 @@ public abstract class EntityServiceImpl<E extends Synchronizable, Q extends Enti
         res.setOperation(Operation.DELETE);
 
         afterDelete(context, res);
+
+        applicationContext.publishEvent(new EntityServiceEvent(this, res));
 
         return res;
     }

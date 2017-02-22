@@ -30,6 +30,22 @@ public class Regimen extends WorkspaceEntity {
     private boolean active;
 
 
+    /**
+     * Return number of days of treatment
+     * @return number of days
+     */
+    public int getDaysTreatment() {
+        int res = 0;
+        for (MedicineRegimen mr: medicines) {
+            int days = mr.getDays() + mr.getIniDay();
+            if (days > res) {
+                res = days;
+            }
+        }
+
+        return res;
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */

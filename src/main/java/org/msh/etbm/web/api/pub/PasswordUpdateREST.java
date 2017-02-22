@@ -32,6 +32,6 @@ public class PasswordUpdateREST {
     public StandardResult updatePassword(@RequestBody @Valid @NotNull PasswordUpdateRequest req) {
         service.updatePassword(req);
 
-        return new StandardResult(null, null, true);
+        return StandardResult.createSuccessResult();
     }
 }

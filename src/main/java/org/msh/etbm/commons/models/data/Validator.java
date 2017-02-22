@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models.data;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * A validator is responsible for including custom validation in fields or models.
  * It is composed of a Java-Script expression that evaluates the model being validated
@@ -9,6 +11,7 @@ public class Validator {
     /**
      * The java script function expression used in validation process
      */
+    @NotNull
     private JSFunction rule;
 
     /**

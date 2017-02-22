@@ -1,18 +1,24 @@
 package org.msh.etbm.services.cases.treatment.followup;
 
 import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.TreatmentMonitoring;
 import org.msh.etbm.db.enums.TreatmentDayStatus;
+import org.msh.etbm.services.cases.CaseActionEvent;
+import org.msh.etbm.services.cases.treatment.TreatmentCmdLogHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +32,9 @@ public class TreatmentFollowupService {
 
     @PersistenceContext
     EntityManager entityManager;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Create the list of treatment followup data per month of the treatment
@@ -95,6 +104,7 @@ public class TreatmentFollowupService {
      * @param req instance of {@link TreatFollowupUpdateRequest} containing the data to be updated
      */
     @Transactional
+    @CommandLog(type = CommandTypes.CASES_TREAT_FOLLOWUP, handler = TreatmentCmdLogHandler.class)
     public void updateTreatmentFollowup(TreatFollowupUpdateRequest req) {
         TbCase tbcase = entityManager.find(TbCase.class, req.getCaseId());
         if (tbcase == null) {
@@ -146,6 +156,8 @@ public class TreatmentFollowupService {
         // save the new treatment monitoring
         entityManager.persist(tm);
         entityManager.flush();
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
     }
 
 

@@ -10,10 +10,7 @@ import org.msh.etbm.db.enums.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -26,10 +23,6 @@ import java.util.List;
 @Table(name = "tbcase")
 public class TbCase extends WorkspaceEntity {
 
-    @Version
-    @PropertyLog(ignore = true)
-    private Integer version;
-
     @PropertyLog(messageKey = "CaseClassification")
     private CaseClassification suspectClassification;
 
@@ -41,8 +34,6 @@ public class TbCase extends WorkspaceEntity {
     private String registrationNumber;
 
     private String caseNumber;
-
-    private Integer daysTreatPlanned;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PATIENT_ID")
@@ -77,21 +68,20 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.ALL}, addProperties = true)
     private Period treatmentPeriod = new Period();
 
-    @Temporal(TemporalType.DATE)
-    private Date endIntensivePhase;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "REGIMEN_ID")
     private Regimen regimen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "REGIMEN_INI_ID")
-    private Regimen regimenIni;
+    private boolean movedToIndividualized;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OWNER_UNIT_ID")
     @NotNull
     private Tbunit ownerUnit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TRANSFER_OUT_UNIT_ID")
+    private Tbunit transferOutUnit;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase")
     @PropertyLog(ignore = true)
@@ -105,13 +95,10 @@ public class TbCase extends WorkspaceEntity {
     private CaseState state;
 
     @NotNull
-    private ValidationState validationState;
+    private boolean validated;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private String registrationGroup;
-
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE}, messageKey = "TbCase.previouslyTreatedType")
-    private PatientType previouslyTreatedType;
 
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private CaseDefinition caseDefinition;
@@ -119,8 +106,8 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private DiagnosisType diagnosisType;
 
-    @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
-    private DrugResistanceType drugResistanceType;
+    @PropertyLog(operations = {Operation.NEW, Operation.DELETE}, messageKey = "DrugResistanceType")
+    private String drugResistanceType;
 
     @NotNull
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
@@ -141,10 +128,17 @@ public class TbCase extends WorkspaceEntity {
     @Column(length = 100)
     private String registrationGroupOther;
 
-    private Nationality nationality;
+    @Column(length = 50)
+    @PropertyLog(messageKey = "Nationality")
+    private String nationality;
 
     @Column(length = 50)
     private String outcome;
+
+    /**
+     * If true, case is being transferred to another unit
+     */
+    private boolean transferring;
 
     @Column(length = 100)
     private String otherOutcome;
@@ -157,10 +151,6 @@ public class TbCase extends WorkspaceEntity {
     @JoinColumn(name = "NOTIFICATION_UNIT_ID")
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
     private Tbunit notificationUnit;
-
-    private boolean notifAddressChanged;
-
-    private boolean tbContact;
 
     private boolean movedSecondLineTreatment;
 
@@ -198,9 +188,6 @@ public class TbCase extends WorkspaceEntity {
     @Column(name = "NOTIF_LOCALITYTYPE")
     private LocalityType localityType;
 
-    @Column(name = "CURR_LOCALITYTYPE")
-    private LocalityType currLocalityType;
-
     @Column(length = 50)
     private String phoneNumber;
 
@@ -229,14 +216,6 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<TreatmentMonitoring> treatmentMonitoring = new ArrayList<>();
 
-    // Risk Factors and Concomitant Diagnoses
-    private boolean alcoholExcessiveUse;
-    private boolean tobaccoUseWithin;
-    private boolean aids;
-    private boolean diabetes;
-    private boolean anaemia;
-    private boolean malnutrition;
-
     /* EXAMS */
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
@@ -248,6 +227,7 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
+    @OrderBy(value = "date")
     private List<ExamMicroscopy> examsMicroscopy = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
@@ -256,13 +236,11 @@ public class TbCase extends WorkspaceEntity {
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tbcase", fetch = FetchType.LAZY)
     @PropertyLog(ignore = true)
+    @OrderBy(value = "date")
     private List<ExamXpert> examsXpert = new ArrayList<>();
 
     @PropertyLog(ignore = true)
     private SecDrugsReceived secDrugsReceived;
-
-    @PropertyLog(ignore = true)
-    private int issueCounter;
 
     @Temporal(TemporalType.DATE)
     @PropertyLog(operations = {Operation.NEW, Operation.DELETE})
@@ -286,24 +264,9 @@ public class TbCase extends WorkspaceEntity {
     @PropertyLog(ignore = true)
     private List<Tag> tags = new ArrayList<>();
 
-
-    /**
-     * Check if the regimen has changed compared to the initial regimen
-     *
-     * @return
-     */
-    public boolean isInitialRegimenChanged() {
-        if (regimen == regimenIni) {
-            return false;
-        }
-
-        if ((regimen == null) || (regimenIni == null)) {
-            return true;
-        }
-
-        return regimen.getId().equals(regimenIni.getId());
-    }
-
+    @OneToOne(cascade = {CascadeType.REMOVE}, fetch = FetchType.EAGER, mappedBy = "tbCase")
+    @PropertyLog(ignore = true)
+    private CaseComorbidities comorbidities;
 
     /**
      * Return number of month of treatment based on the date
@@ -331,7 +294,7 @@ public class TbCase extends WorkspaceEntity {
      * @return true - if the case is validated, false - otherwise
      */
     public boolean isValidated() {
-        return getValidationState() == ValidationState.VALIDATED;
+        return this.validated;
     }
 
     /**
@@ -370,26 +333,6 @@ public class TbCase extends WorkspaceEntity {
 
 
     /**
-     * Return the unit that transferred the case in
-     *
-     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer out
-     */
-    public TreatmentHealthUnit getTransferInUnit() {
-        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 1) : null;
-    }
-
-
-    /**
-     * Return the unit that transferred the case out
-     *
-     * @return instance of {@link TreatmentHealthUnit} containing information about the transfer in
-     */
-    public TreatmentHealthUnit getTransferOutUnit() {
-        return (state == CaseState.TRANSFERRING) && (treatmentUnits.size() > 1) ? treatmentUnits.get(treatmentUnits.size() - 2) : null;
-    }
-
-
-    /**
      * @return the sideEffects
      */
     public List<CaseSideEffect> getSideEffects() {
@@ -406,27 +349,12 @@ public class TbCase extends WorkspaceEntity {
 
 
     /**
-     * Formats the case number to be displayed to the user
-     *
-     * @param patientNumber - patient record number
-     * @param caseNumber    - case number associated to the patient
-     * @return - formated case number
-     */
-    static public String formatCaseNumber(int patientNumber, int caseNumber) {
-        DecimalFormat df = new DecimalFormat("000");
-        String s = df.format(patientNumber);
-
-        return caseNumber > 1 ? s + "-" + Integer.toString(caseNumber) : s;
-    }
-
-
-    /**
      * Check if the case is open
      *
      * @return
      */
     public boolean isOpen() {
-        return state != null ? state.ordinal() <= CaseState.TRANSFERRING.ordinal() : false;
+        return state != CaseState.CLOSED;
     }
 
 
@@ -436,41 +364,21 @@ public class TbCase extends WorkspaceEntity {
      * @return
      */
     public boolean isOnTreatment() {
-        return (state == CaseState.ONTREATMENT) || (state == CaseState.TRANSFERRING);
+        return state == CaseState.ONTREATMENT;
     }
 
     /**
-     * Return the treatment period of the intensive phase
-     *
+     * Calculates the age based on birthDate and registrationDate
      * @return
      */
-    public Period getIntensivePhasePeriod() {
-        if ((treatmentPeriod == null) || (treatmentPeriod.isEmpty())) {
-            return null;
-        }
-
-        return endIntensivePhase != null ?
-                new Period(treatmentPeriod.getIniDate(), endIntensivePhase) :
-                new Period(treatmentPeriod);
-    }
-
-    /**
-     * Returns patient age at the date of the notification
-     *
-     * @return
-     */
-    public int getPatientAge() {
-        if (age != null) {
-            return age;
-        }
-
+    public int getUpdatedAge() {
         Patient p = getPatient();
         if (p == null) {
             return 0;
         }
 
         Date dt = p.getBirthDate();
-        Date dt2 = diagnosisDate;
+        Date dt2 = registrationDate;
 
         if (dt == null) {
             return 0;
@@ -482,7 +390,6 @@ public class TbCase extends WorkspaceEntity {
 
         return DateUtils.yearsBetween(dt, dt2);
     }
-
 
     public Patient getPatient() {
         return patient;
@@ -577,19 +484,8 @@ public class TbCase extends WorkspaceEntity {
         return currentAddress;
     }
 
-
     public void setCurrentAddress(Address currentAddress) {
         this.currentAddress = currentAddress;
-    }
-
-
-    public boolean isNotifAddressChanged() {
-        return notifAddressChanged;
-    }
-
-
-    public void setNotifAddressChanged(boolean notifAddressChanged) {
-        this.notifAddressChanged = notifAddressChanged;
     }
 
     public String getOutcome() {
@@ -616,12 +512,12 @@ public class TbCase extends WorkspaceEntity {
         this.registrationGroup = registrationGroup;
     }
 
-    public Nationality getNationality() {
+    public String getNationality() {
         return nationality;
     }
 
 
-    public void setNationality(Nationality nationality) {
+    public void setNationality(String nationality) {
         this.nationality = nationality;
     }
 
@@ -745,7 +641,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @return the drugResistanceType
      */
-    public DrugResistanceType getDrugResistanceType() {
+    public String getDrugResistanceType() {
         return drugResistanceType;
     }
 
@@ -753,7 +649,7 @@ public class TbCase extends WorkspaceEntity {
     /**
      * @param drugResistanceType the drugResistanceType to set
      */
-    public void setDrugResistanceType(DrugResistanceType drugResistanceType) {
+    public void setDrugResistanceType(String drugResistanceType) {
         this.drugResistanceType = drugResistanceType;
     }
 
@@ -770,22 +666,6 @@ public class TbCase extends WorkspaceEntity {
      */
     public void setPatientContactName(String patientContactName) {
         this.patientContactName = patientContactName;
-    }
-
-
-    /**
-     * @param tbContact the tbContact to set
-     */
-    public void setTbContact(boolean tbContact) {
-        this.tbContact = tbContact;
-    }
-
-
-    /**
-     * @return the tbContact
-     */
-    public boolean isTbContact() {
-        return tbContact;
     }
 
 
@@ -853,21 +733,6 @@ public class TbCase extends WorkspaceEntity {
     }
 
 
-    /**
-     * @return the daysTreatPlanned
-     */
-    public Integer getDaysTreatPlanned() {
-        return daysTreatPlanned;
-    }
-
-
-    /**
-     * @param daysTreatPlanned the daysTreatPlanned to set
-     */
-    public void setDaysTreatPlanned(Integer daysTreatPlanned) {
-        this.daysTreatPlanned = daysTreatPlanned;
-    }
-
 
     /**
      * @return the phoneNumber
@@ -900,40 +765,8 @@ public class TbCase extends WorkspaceEntity {
         this.mobileNumber = mobileNumber;
     }
 
-
-    /**
-     * @return the validationState
-     */
-    public ValidationState getValidationState() {
-        return validationState;
-    }
-
-
-    /**
-     * @param validationState the validationState to set
-     */
-    public void setValidationState(ValidationState validationState) {
-        this.validationState = validationState;
-    }
-
-
-    /**
-     * @return the issueCounter
-     */
-    public int getIssueCounter() {
-        return issueCounter;
-    }
-
-
-    /**
-     * @param issueCount the issueCounter to set
-     */
-    public void setIssueCounter(int issueCount) {
-        this.issueCounter = issueCount;
-    }
-
-    public void incIssueCounter() {
-        issueCounter++;
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 
     public List<PrescribedMedicine> getPrescriptions() {
@@ -953,15 +786,6 @@ public class TbCase extends WorkspaceEntity {
         this.treatmentPeriod = treatmentPeriod;
     }
 
-
-    public Integer getVersion() {
-        return version;
-    }
-
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 
 
     public List<ExamCulture> getExamsCulture() {
@@ -991,22 +815,6 @@ public class TbCase extends WorkspaceEntity {
 
     public void setExamsDST(List<ExamDST> examsDST) {
         this.examsDST = examsDST;
-    }
-
-
-    /**
-     * @return the endIntensivePhase
-     */
-    public Date getEndIntensivePhase() {
-        return endIntensivePhase;
-    }
-
-
-    /**
-     * @param endIntensivePhase the endIntensivePhase to set
-     */
-    public void setEndIntensivePhase(Date endIntensivePhase) {
-        this.endIntensivePhase = endIntensivePhase;
     }
 
 
@@ -1041,6 +849,13 @@ public class TbCase extends WorkspaceEntity {
         this.ownerUnit = ownerUnit;
     }
 
+    public Tbunit getTransferOutUnit() {
+        return transferOutUnit;
+    }
+
+    public void setTransferOutUnit(Tbunit transferOutUnit) {
+        this.transferOutUnit = transferOutUnit;
+    }
 
     /**
      * @return the tags
@@ -1065,28 +880,13 @@ public class TbCase extends WorkspaceEntity {
         this.issues = issues;
     }
 
-    /**
-     * @return the regimenIni
-     */
-    public Regimen getRegimenIni() {
-        return regimenIni;
-    }
-
-
-    /**
-     * @param regimenIni the regimenIni to set
-     */
-    public void setRegimenIni(Regimen regimenIni) {
-        this.regimenIni = regimenIni;
-    }
-
 
     public String getCaseNumber() {
         return caseNumber;
     }
 
-    public void setCaseNumber(String caseCode) {
-        this.caseNumber = caseCode;
+    public void setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
     }
 
     /**
@@ -1134,20 +934,20 @@ public class TbCase extends WorkspaceEntity {
         return this.secDrugsReceived;
     }
 
-    public PatientType getPreviouslyTreatedType() {
-        return previouslyTreatedType;
-    }
-
-    public void setPreviouslyTreatedType(PatientType previouslyTreatedType) {
-        this.previouslyTreatedType = previouslyTreatedType;
-    }
-
     public CaseDefinition getCaseDefinition() {
         return caseDefinition;
     }
 
     public void setCaseDefinition(CaseDefinition caseDefinition) {
         this.caseDefinition = caseDefinition;
+    }
+
+    public CaseComorbidities getComorbidities() {
+        return comorbidities;
+    }
+
+    public void setComorbidities(CaseComorbidities comorbidities) {
+        this.comorbidities = comorbidities;
     }
 
     public Date getLastBmuDateTbRegister() {
@@ -1190,64 +990,53 @@ public class TbCase extends WorkspaceEntity {
         this.localityType = localityType;
     }
 
-    public LocalityType getCurrLocalityType() {
-        return currLocalityType;
-    }
-
-    public void setCurrLocalityType(LocalityType currLocalityType) {
-        this.currLocalityType = currLocalityType;
-    }
-
-    public boolean isAlcoholExcessiveUse() {
-        return alcoholExcessiveUse;
-    }
-
-    public void setAlcoholExcessiveUse(boolean alcoholExcessiveUse) {
-        this.alcoholExcessiveUse = alcoholExcessiveUse;
-    }
-
-    public boolean isTobaccoUseWithin() {
-        return tobaccoUseWithin;
-    }
-
-    public void setTobaccoUseWithin(boolean tobaccoUseWithin) {
-        this.tobaccoUseWithin = tobaccoUseWithin;
-    }
-
-    public boolean isAids() {
-        return aids;
-    }
-
-    public void setAids(boolean aids) {
-        this.aids = aids;
-    }
-
-    public boolean isDiabetes() {
-        return diabetes;
-    }
-
-    public void setDiabetes(boolean diabetes) {
-        this.diabetes = diabetes;
-    }
-
-    public boolean isAnaemia() {
-        return anaemia;
-    }
-
-    public void setAnaemia(boolean anaemia) {
-        this.anaemia = anaemia;
-    }
-
-    public boolean isMalnutrition() {
-        return malnutrition;
-    }
-
-    public void setMalnutrition(boolean malnutrition) {
-        this.malnutrition = malnutrition;
-    }
-
     @Override
     public String getDisplayString() {
         return "(" + classification + ") " + patient.getDisplayString();
+    }
+
+    public boolean isMovedToIndividualized() {
+        return movedToIndividualized;
+    }
+
+    public void setMovedToIndividualized(boolean movedToIndividualized) {
+        this.movedToIndividualized = movedToIndividualized;
+    }
+
+    public boolean isTransferring() {
+        return transferring;
+    }
+
+    public void setTransferring(boolean transferring) {
+        this.transferring = transferring;
+    }
+
+    /**
+     * Return list of treatment health units sorted by period
+     * @return
+     */
+    public List<TreatmentHealthUnit> getSortedTreatmentHealthUnits() {
+        // sort the periods
+        Collections.sort(treatmentUnits, new Comparator<TreatmentHealthUnit>() {
+            public int compare(TreatmentHealthUnit o1, TreatmentHealthUnit o2) {
+                return o1.getPeriod().getIniDate().compareTo(o2.getPeriod().getIniDate());
+            }
+        });
+
+        return treatmentUnits;
+    }
+
+    /**
+     * Return move date during the transference
+     * @return
+     */
+    public Date getMoveDate() {
+        List<TreatmentHealthUnit> sortedHU = getSortedTreatmentHealthUnits();
+
+        if (!isTransferring() || sortedHU == null || sortedHU.size() < 1) {
+            return null;
+        }
+
+        return sortedHU.get(sortedHU.size() - 1 ).getPeriod().getIniDate();
     }
 }

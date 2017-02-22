@@ -4,25 +4,11 @@
   "fields": [
     {
       "name": "name",
-      "type": "string",
-      "required": true,
-      "label": "${Patient.firstName}",
-      "max": 100,
-      "unique": true
-    },
-    {
-      "name": "middleName",
-      "type": "string",
-      "required": true,
-      "label": "${Patient.middleName}",
-      "max": 100
-    },
-    {
-      "name": "lastName",
-      "type": "string",
-      "required": true,
-      "label": "${Patient.lastName}",
-      "max": 100
+      "label": "${Patient.name}",
+      "type": "personName",
+      "fieldName": "name",
+      "fieldMiddleName": "middleName",
+      "fieldLastName": "lastName"
     },
     {
       "name": "birthDate",
@@ -44,6 +30,12 @@
           "name": "${Gender.FEMALE}"
         }
       ]
+    },
+    {
+      "name": "motherName",
+      "type": "string",
+      "max": 100,
+      "label": "${Patient.motherName}"
     },
     {
       "name": "customId",

@@ -2,10 +2,7 @@ package org.msh.etbm.test.commons.model;
 
 import org.junit.Test;
 import org.msh.etbm.commons.Messages;
-import org.msh.etbm.commons.models.data.JSFuncValue;
-import org.msh.etbm.commons.models.data.JSFunction;
-import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.Validator;
+import org.msh.etbm.commons.models.data.*;
 import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.db.SQLQueryInfo;
 import org.msh.etbm.commons.models.db.SQLQuerySelectionBuilder;
@@ -71,7 +68,7 @@ public class SQLSelectGenTest {
 
         FKRegimenField fldRegimen = new FKRegimenField();
         fldRegimen.setName("regimen");
-        fldRegimen.setDbFieldName("regimen_id");
+        fldRegimen.setFieldName("regimen_id");
         fldRegimen.setCustom(true);
         fields.add(fldRegimen);
 

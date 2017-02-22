@@ -6,6 +6,7 @@ import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepQueryParams;
 import org.msh.etbm.services.admin.cmdhisotryrep.CmdHistoryRepService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/api/admin/rep")
-@Authenticated(permissions = {Permissions.ADMIN_REP_CMDHISTORY})
+@Authenticated(permissions = {Permissions.ADMIN_REP_CMDHISTORY}, instanceType = InstanceType.SERVER_MODE)
 public class CmdHistoryRepREST {
 
     @Autowired

@@ -6,10 +6,11 @@ import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
-import org.msh.etbm.services.cases.tag.AutoGenTagsCasesService;
 import org.msh.etbm.services.cases.treatment.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BeanPropertyBindingResult;
@@ -33,7 +34,7 @@ public class CaseCloseService {
     TreatmentService treatmentService;
 
     @Autowired
-    AutoGenTagsCasesService autoGenTagsCasesService;
+    ApplicationContext applicationContext;
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_CLOSE)
@@ -42,7 +43,7 @@ public class CaseCloseService {
 
         validateClose(tbcase, data);
 
-        if ((tbcase.getTreatmentPeriod() != null) && (!tbcase.getTreatmentPeriod().isEmpty())) {
+        if ((tbcase.getTreatmentPeriod() != null) && (!tbcase.getTreatmentPeriod().isBroken())) {
             treatmentService.cropTreatmentPeriod(tbcase.getId(), new Period(tbcase.getTreatmentPeriod().getIniDate(), data.getOutcomeDate()));
         }
 
@@ -57,10 +58,11 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update case tags
-        autoGenTagsCasesService.updateTags(tbcase.getId());
+        CaseCloseResponse res = new CaseCloseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getOutcomeDate(), tbcase.getOutcome(), tbcase.getOtherOutcome());
 
-        return new CaseCloseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getOutcomeDate(), tbcase.getOutcome(), tbcase.getOtherOutcome());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     @Transactional
@@ -68,8 +70,8 @@ public class CaseCloseService {
     public ReopenCaseResponse reopenCase(UUID tbcaseId) {
         TbCase tbcase = entityManager.find(TbCase.class, tbcaseId);
 
-        if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isEmpty())) {
-            tbcase.setState(CaseState.WAITING_TREATMENT);
+        if ((tbcase.getTreatmentPeriod() == null) || (tbcase.getTreatmentPeriod().isBroken())) {
+            tbcase.setState(CaseState.NOT_ONTREATMENT);
         } else {
             tbcase.setState(CaseState.ONTREATMENT);
         }
@@ -83,10 +85,11 @@ public class CaseCloseService {
         entityManager.persist(tbcase);
         entityManager.flush();
 
-        //update case tags
-        autoGenTagsCasesService.updateTags(tbcase.getId());
+        ReopenCaseResponse res = new ReopenCaseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getState());
 
-        return new ReopenCaseResponse(tbcase.getId(), tbcase.getDisplayString(), tbcase.getState());
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
+
+        return res;
     }
 
     private void validateClose(TbCase tbcase, CaseCloseData data) {
@@ -99,6 +102,10 @@ public class CaseCloseService {
 
         if (tbcase.getTreatmentPeriod() != null && data.getOutcomeDate().after(tbcase.getTreatmentPeriod().getEndDate())) {
             errors.rejectValue("outcomeDate", "cases.close.msg2");
+        }
+
+        if (tbcase.isTransferring()) {
+            errors.rejectValue("transferring", "cases.close.msg3");
         }
 
         if (errors.hasErrors()) {

@@ -1,8 +1,8 @@
 package org.msh.etbm.commons.models.db;
 
 import org.msh.etbm.commons.models.FieldTypeManager;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -22,9 +22,10 @@ public class SQLQueryLoader {
      * instances of {@link RecordData} classes
      * @param dataSource
      * @param sel
+     * @param displaying if true, indicate data is being read for displaying the information to the user
      * @return
      */
-    public List<RecordData> loadData(DataSource dataSource, SQLQueryInfo sel) {
+    public List<RecordData> loadData(DataSource dataSource, SQLQueryInfo sel, boolean displaying) {
         NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(dataSource);
 
         SqlParameterSource params = sel.getParameters() != null ?
@@ -32,21 +33,21 @@ public class SQLQueryLoader {
                 null;
 
         List<Map<String, Object>> lst = template.queryForList(sel.getSql(), params);
-        return convertValues(lst, sel);
+        return convertValues(lst, sel, displaying);
     }
 
 
-    private List<RecordData> convertValues(List<Map<String, Object>> lst, SQLQueryInfo sel) {
+    private List<RecordData> convertValues(List<Map<String, Object>> lst, SQLQueryInfo sel, boolean displaying) {
         List<RecordData> res = new ArrayList<>();
 
         for (Map<String, Object> map: lst) {
-            res.add(convertRecord(map, sel));
+            res.add(convertRecord(map, sel, displaying));
         }
         return res;
     }
 
 
-    private RecordData convertRecord(Map<String, Object> map, SQLQueryInfo qry) {
+    private RecordData convertRecord(Map<String, Object> map, SQLQueryInfo qry, boolean displaying) {
         RecordData res = new RecordData();
 
         // load the ID
@@ -71,7 +72,7 @@ public class SQLQueryLoader {
                 for (SQLQueryField qryField: lst) {
                     vals.put(qryField.getFieldName(), map.get(qryField.getFieldNameAlias()));
                 }
-                newValue = handler.readMultipleValuesFromDb(field, vals);
+                newValue = handler.readMultipleValuesFromDb(field, vals, displaying);
             }
             res.getValues().put(field.getName(), newValue);
         }

@@ -1,7 +1,7 @@
 package org.msh.etbm.commons.forms.controls;
 
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.fields.BoolField;
-import org.msh.etbm.commons.models.data.fields.Field;
 
 /**
  * Created by rmemoria on 25/7/16.

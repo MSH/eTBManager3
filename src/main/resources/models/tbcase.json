@@ -5,7 +5,303 @@
     {
       "name": "age",
       "type": "int",
-      "required": { "value": true }
+      "required": true
+    },
+    {
+      "name": "classification",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.CaseClassification",
+      "required": true
+    },
+    {
+      "name": "state",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.CaseState",
+      "required": true
+    },
+    {
+      "name": "outcome",
+      "type": "string",
+      "max": 50,
+      "required": { "function": "!!this.outcomeDate" },
+      "options": [
+        { "id": "CURED" ,"name": "${CaseState.CURED}" },
+        { "id": "TREATMENT_COMPLETED" ,"name": "${CaseState.TREATMENT_COMPLETED}" },
+        { "id": "FAILED" ,"name": "${CaseState.FAILED}" },
+        { "id": "DEFAULTED" ,"name": "${CaseState.DEFAULTED}" },
+        { "id": "DIED" ,"name": "${CaseState.DIED}" },
+        { "id": "TRANSFERRED_OUT" ,"name": "${CaseState.TRANSFERRED_OUT}" },
+        { "id": "DIAGNOSTIC_CHANGED" ,"name": "${CaseState.DIAGNOSTIC_CHANGED}" },
+        { "id": "TREATMENT_INTERRUPTION" ,"name": "${CaseState.TREATMENT_INTERRUPTION}" },
+        { "id": "NOT_EVALUATED" ,"name": "${CaseState.NOT_EVALUATED}" },
+        { "id": "MOVED_SECONDLINE" ,"name": "${CaseState.MOVED_SECONDLINE}" },
+        { "id": "MDR_CASE" ,"name": "${CaseState.MDR_CASE}" },
+        { "id": "NOT_CONFIRMED" ,"name": "${CaseState.NOT_CONFIRMED}" },
+        { "id": "OTHER" ,"name": "${CaseState.OTHER}" }
+      ]
+    },
+    {
+      "name": "otherOutcome",
+      "type": "string",
+      "max": 100,
+      "required": { "function": "this.outcome === 'OTHER'" }
+    },
+    {
+      "name": "outcomeDate",
+      "type": "date",
+      "required": { "function": "!!this.outcome" }
+    },
+    {
+      "name": "registrationNumber",
+      "type": "string",
+      "max": 50
+    },
+    {
+      "name": "registrationDate",
+      "type": "date",
+      "required": true
+    },
+    {
+      "name": "caseNumber",
+      "type": "string",
+      "max": 50
+    },
+    {
+      "name": "registrationNumber",
+      "type": "string",
+      "max": 50
+    },
+    {
+      "name": "diagnosisDate",
+      "type": "date",
+      "required": { "function": "this.diagnosisType == 'CONFIRMED'" }
+    },
+    {
+      "name": "notifAddress",
+      "type": "address",
+      "required": true,
+      "fieldAddress": "notif_address",
+      "fieldComplement": "notif_complement",
+      "fieldZipCode": "notif_zipcode",
+      "fieldAdminUnit": "notif_adminunit_id"
+    },
+    {
+      "name": "currentAddress",
+      "type": "address",
+      "fieldAddress": "curr_address",
+      "fieldComplement": "curr_complement",
+      "fieldZipCode": "curr_zipcode",
+      "fieldAdminUnit": "curr_adminunit_id"
+    },
+    {
+      "name": "mobileNumber",
+      "type": "string",
+      "max": 100
+    },
+    {
+      "name": "phoneNumber",
+      "type": "string",
+      "max": 100
+    },
+    {
+      "name": "iniTreatmentDate",
+      "type": "date",
+      "required": { "function": "this.state === 'ONTREATMENT'" }
+    },
+    {
+      "name": "endTreatmentDate",
+      "type": "date",
+      "required": { "function": "!!this.iniTreatmentDate" }
+    },
+    {
+      "name": "caseDefinition",
+      "enumClass": "org.msh.etbm.db.enums.CaseDefinition",
+      "type": "enum"
+    },
+    {
+      "name": "customId",
+      "type": "string",
+      "max": 50
+    },
+    {
+      "name": "nationality",
+      "type": "string",
+      "max": 50,
+      "options": [
+        { "id": "NATIVE", "name": "${Nationality.NATIVE}" },
+        { "id": "FOREIGN", "name": "${Nationality.FOREIGN}" }
+      ]
+    },
+    {
+      "name": "registrationGroup",
+      "type": "string",
+      "max": 50,
+      "options": [
+        { "id": "NEW", "name": "${PatientType.NEW}" },
+        { "id": "RELAPSE", "name": "${PatientType.RELAPSE}" },
+        { "id": "AFTER_DEFAULT", "name": "${PatientType.AFTER_DEFAULT}" },
+        { "id": "FAILURE_FT", "name": "${PatientType.FAILURE_FT}" },
+        { "id": "FAILURE_RT", "name": "${PatientType.FAILURE_RT}" },
+        { "id": "PREVIOUSLY_TREATED", "name": "${PatientType.PREVIOUSLY_TREATED}" },
+        { "id": "TREATMENT_AFTER_FAILURE", "name": "${PatientType.TREATMENT_AFTER_FAILURE}" },
+        { "id": "TREATMENT_AFTER_LOSS_FOLLOW_UP", "name": "${PatientType.TREATMENT_AFTER_LOSS_FOLLOW_UP}" },
+        { "id": "OTHER_PREVIOUSLY_TREATED", "name": "${PatientType.OTHER_PREVIOUSLY_TREATED}" },
+        { "id": "UNKNOWN_PREVIOUS_TB_TREAT", "name": "${PatientType.UNKNOWN_PREVIOUS_TB_TREAT}" },
+        { "id": "OTHER", "name": "${PatientType.OTHER}" }
+      ],
+      "required": { "function": "this.diagnosisType === 'CONFIRMED'" }
+    },
+    {
+      "name": "infectionSite",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.InfectionSite",
+      "options": [
+        { "id": "PULMONARY", "name": "${InfectionSite.PULMONARY}" },
+        { "id": "EXTRAPULMONARY", "name": "${InfectionSite.EXTRAPULMONARY}" },
+        { "id": "BOTH", "name": "${InfectionSite.BOTH}" }
+      ]
+    },
+    {
+      "name": "registrationGroupOther",
+      "type": "string",
+      "max": 100,
+      "required": { "function": "this.registrationGroup === 'OTHER'" }
+    },
+    {
+      "name": "diagnosisType",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.DiagnosisType",
+      "required": true
+    },
+    {
+      "name": "patient",
+      "fieldName": "patient_id",
+      "type": "foreignKey",
+      "fkTable": "patient",
+      "required": true
+    },
+    {
+      "name": "notificationUnit",
+      "fieldName": "NOTIFICATION_UNIT_ID",
+      "type": "unit",
+      "required": true
+    },
+    {
+      "name": "ownerUnit",
+      "fieldName": "OWNER_UNIT_ID",
+      "type": "unit",
+      "required": true
+    },
+    {
+      "name": "drugResistanceType",
+      "type": "string",
+      "options": [
+        { "id": "MONO_RESISTANCE", "name": "${DrugResistanceType.MONO_RESISTANCE}" },
+        { "id": "POLY_RESISTANCE", "name": "${DrugResistanceType.POLY_RESISTANCE}" },
+        { "id": "MULTIDRUG_RESISTANCE", "name": "${DrugResistanceType.MULTIDRUG_RESISTANCE}" },
+        { "id": "EXTENSIVEDRUG_RESISTANCE", "name": "${DrugResistanceType.EXTENSIVEDRUG_RESISTANCE}" },
+        { "id": "RIFAMPICIN_MONO_RESISTANCE", "name": "${DrugResistanceType.RIFAMPICIN_MONO_RESISTANCE}" },
+        { "id": "ISONIAZID_MONO_RESISTANCE", "name": "${DrugResistanceType.ISONIAZID_MONO_RESISTANCE}" }
+      ]
+    },
+    {
+      "name": "patientContactName",
+      "type": "string",
+      "max": 100
+    },
+    {
+      "name": "regimen",
+      "fieldName": "regimen_id",
+      "type": "foreignKey",
+      "fkTable": "regimen"
+    },
+    {
+      "name": "movedToIndividualized",
+      "type": "bool",
+      "required": true
+    },
+    {
+      "name": "pulmonaryType",
+      "type": "string",
+      "max": 50,
+      "options": [
+        { "id": "UI", "name": "Unilateral Infiltrate" },
+        { "id": "UC", "name": "Unilateral Cavitary" },
+        { "id": "BI", "name": "Bilateral Infiltrate" },
+        { "id": "BC", "name": "Bilateral Cavitary" },
+        { "id": "D", "name": "Destruction" },
+        { "id": "N", "name": "Normal" },
+        { "id": "OTHER", "name": "Other" }
+      ]
+    },
+    {
+      "name": "extrapulmonaryType",
+      "type": "string",
+      "max": 50,
+      "options": [
+        { "id": "TPE", "name": "Tuberculous Pleural Effusion" },
+        { "id": "P", "name": "Pleura" },
+        { "id": "TITL", "name": "Tuberculous Intra-thoracic Lymphadenopathy" },
+        { "id": "LN", "name": "Lymph Nodes" },
+        { "id": "M", "name": "Meninges" },
+        { "id": "A", "name": "Abdomen" },
+        { "id": "JB", "name": "Joints and Bones" },
+        { "id": "GT", "name": "Genitourinary Tract" },
+        { "id": "S", "name": "Skin" },
+        { "id": "OTHER", "name": "Other" }
+      ]
+    },
+    {
+      "name": "extrapulmonaryType2",
+      "type": "string",
+      "max": 50,
+      "options": [
+        { "id": "TPE", "name": "Tuberculous Pleural Effusion" },
+        { "id": "P", "name": "Pleura" },
+        { "id": "TITL", "name": "Tuberculous Intra-thoracic Lymphadenopathy" },
+        { "id": "LN", "name": "Lymph Nodes" },
+        { "id": "M", "name": "Meninges" },
+        { "id": "A", "name": "Abdomen" },
+        { "id": "JB", "name": "Joints and Bones" },
+        { "id": "GT", "name": "Genitourinary Tract" },
+        { "id": "S", "name": "Skin" },
+        { "id": "OTHER", "name": "Other" }
+      ]
+    },
+    {
+      "name": "validated",
+      "type": "bool",
+      "required": true
+    },
+    {
+      "name": "suspectClassification",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.CaseClassification"
+    },
+    {
+      "name": "secDrugsReceived",
+      "type": "enum",
+      "enumClass": "org.msh.etbm.db.enums.SecDrugsReceived"
+    },
+    {
+      "name": "lastBmuDateTbRegister",
+      "type": "date"
+    },
+    {
+      "name": "lastBmuTbRegistNumber",
+      "type": "string",
+      "max": 50
+    },
+    {
+      "name": "movedSecondLineTreatment",
+      "type": "bool",
+      "required": true
+    },
+    {
+      "name": "transferring",
+      "type": "bool",
+      "required": true,
+      "defaultValue": false
     }
   ]
 }

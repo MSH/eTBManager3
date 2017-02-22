@@ -13,27 +13,25 @@ import Settings from './settings';
  */
 export default class AdminRoutes extends React.Component {
 
-	render() {
-		const routes = RouteView.createRoutes([
+    render() {
+        const routes = RouteView.createRoutes([
             {
-				path: '/tables',
-				title: __('admin.tables'),
-				view: Tables
+                path: '/tables',
+                title: __('admin.tables'),
+                view: Tables
             },
-			{
-				path: '/settings',
-				title: __('admin.config'),
-				view: Settings
-			},
-			{
-				path: '/reports',
-				title: __('admin') + ' - ' + __('admin.reports'),
-				view: Reports
-			}
-		]);
+            {
+                path: '/settings',
+                title: __('admin.config'),
+                view: Settings
+            },
+            {
+                path: '/reports',
+                title: __('admin') + ' - ' + __('admin.reports'),
+                view: Reports
+            }
+        ]);
 
-		return (
-			<RouteView routes={routes} />
-			);
-	}
+        return <RouteView routes={routes} />;
+    }
 }

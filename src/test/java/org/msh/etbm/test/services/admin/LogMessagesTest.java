@@ -39,12 +39,17 @@ public class LogMessagesTest {
 
     private boolean result;
 
+    private String delim;
+    private String messages;
+
     /**
      * Test the messages
      */
     @Test
     public void testMessages() {
         result = true;
+        delim = "";
+        messages = "";
         testObjectClas(Source.class);
         testObjectClas(Medicine.class);
         testObjectClas(CountryStructure.class);
@@ -58,7 +63,7 @@ public class LogMessagesTest {
         testObjectClas(TbCase.class);
         testObjectClas(Patient.class);
 
-        assertTrue("There are messages with no key", result);
+        assertTrue("Keys not found => " + messages, result);
     }
 
     /**
@@ -98,7 +103,8 @@ public class LogMessagesTest {
             messageSource.getMessage(key, null, Locale.ENGLISH);
             return true;
         } catch (NoSuchMessageException e) {
-            System.out.println("NO MSG FOUND : " + clazz.getSimpleName() + " => " + key);
+            messages += delim + clazz.getSimpleName() + ": " + key;
+            delim = ", ";
         }
         return false;
     }

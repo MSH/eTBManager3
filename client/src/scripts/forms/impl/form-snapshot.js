@@ -14,8 +14,8 @@ import FormUtils from '../form-utils';
  */
 
 export default function createSnaphost(form) {
-	const creator = new SnapshotCreator(form);
-	return creator.create(form);
+    const creator = new SnapshotCreator(form);
+    return creator.create(form);
 }
 
 /**
@@ -23,64 +23,64 @@ export default function createSnaphost(form) {
  */
 class SnapshotCreator {
 
-	/**
-	 * Create the snapshot of a given for
-	 * @param  {[type]} form [description]
-	 * @return {[type]}      [description]
-	 */
-	create(form) {
-		this.form = form;
-		const schema = form.props.schema;
-		const formSnapshot = form.props.readOnly ?
-			{ readOnly: form.props.readOnly } : { };
+    /**
+     * Create the snapshot of a given for
+     * @param  {[type]} form [description]
+     * @return {[type]}      [description]
+     */
+    create(form) {
+        this.form = form;
+        const schema = form.props.schema;
+        const formSnapshot = form.props.readOnly ?
+            { readOnly: form.props.readOnly } : { };
 
-		this.form = form;
-		this.list = [];
+        this.form = form;
+        this.list = [];
 
-		this._traverse(schema.controls, formSnapshot);
+        this._traverse(schema.controls, formSnapshot);
 
-		return this.list;
-	}
+        return this.list;
+    }
 
-	_traverse(schemas, parent, pref) {
-		const doc = this.form.props.doc;
-		const self = this;
+    _traverse(schemas, parent, pref) {
+        const doc = this.form.props.doc;
+        const self = this;
 
-		schemas.forEach((schema, index) => {
-			const comp = FormUtils.getControl(schema);
-			// create new snapshot, using the parent to overwrite common properties
-			const snapshot = Object.assign({}, comp.snapshot(schema, doc), parent);
+        schemas.forEach((schema, index) => {
+            const comp = FormUtils.getControl(schema);
+            // create new snapshot, using the parent to overwrite common properties
+            const snapshot = Object.assign({}, comp.snapshot(schema, doc), parent);
 
-			// if not visible, don't include in the list
-			if (!snapshot.visible) {
-				return;
-			}
+            // if not visible, don't include in the list
+            if (!snapshot.visible) {
+                return;
+            }
 
-			// the id of the element, composed with the parent name
-			if (!snapshot.id) {
-				snapshot.id = (pref ? pref + ':' : '') +
-					(schema.property ? schema.property + index : 'ctrl' + index);
-			}
+            // the id of the element, composed with the parent name
+            if (!snapshot.id) {
+                snapshot.id = (pref ? pref + ':' : '') +
+                    (schema.property ? schema.property + index : 'ctrl' + index);
+            }
 
-			// list of children elements
-			const children = comp.children(schema);
+            // list of children elements
+            const children = comp.children(schema);
 
-			// there is any children ?
-			if (children) {
-				self._traverse(children, snapshot, snapshot.id);
-			}
-			else {
-				const data = {
-					// pointer to the original schema
-					schema: schema,
-					comp: comp,
-					snapshot: Object.assign({}, snapshot, parent)
-				};
-				self.list.push(data);
-			}
+            // there is any children ?
+            if (children) {
+                self._traverse(children, snapshot, snapshot.id);
+            }
+            else {
+                const data = {
+                    // pointer to the original schema
+                    schema: schema,
+                    comp: comp,
+                    snapshot: Object.assign({}, snapshot, parent)
+                };
+                self.list.push(data);
+            }
 
-		});
-	}
+        });
+    }
 
 
 }

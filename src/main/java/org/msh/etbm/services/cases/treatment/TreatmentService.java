@@ -2,14 +2,26 @@ package org.msh.etbm.services.cases.treatment;
 
 import org.dozer.DozerBeanMapper;
 import org.msh.etbm.commons.SynchronizableItem;
+import org.msh.etbm.commons.commands.CommandLog;
+import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
-import org.msh.etbm.db.entities.*;
+import org.msh.etbm.commons.entities.EntityValidationException;
+import org.msh.etbm.db.entities.PrescribedMedicine;
+import org.msh.etbm.db.entities.Product;
+import org.msh.etbm.db.entities.TbCase;
+import org.msh.etbm.db.entities.TreatmentHealthUnit;
+import org.msh.etbm.db.enums.CaseState;
 import org.msh.etbm.services.admin.units.data.UnitData;
-import org.msh.etbm.services.cases.treatment.data.*;
+import org.msh.etbm.services.cases.CaseActionEvent;
+import org.msh.etbm.services.cases.treatment.data.PrescriptionData;
+import org.msh.etbm.services.cases.treatment.data.PrescriptionPeriod;
+import org.msh.etbm.services.cases.treatment.data.TreatmentData;
+import org.msh.etbm.services.cases.treatment.data.TreatmentUnitData;
 import org.msh.etbm.services.cases.treatment.followup.MonthlyFollowup;
 import org.msh.etbm.services.cases.treatment.followup.TreatmentFollowupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +43,9 @@ public class TreatmentService {
 
     @Autowired
     TreatmentFollowupService treatmentFollowupService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     /**
      * Return information about a treatment of a given case
@@ -60,10 +75,7 @@ public class TreatmentService {
         if (tbcase.getRegimen() != null) {
             data.setRegimen(new SynchronizableItem(tbcase.getRegimen().getId(), tbcase.getRegimen().getName()));
         }
-
-        if (tbcase.getRegimenIni() != null) {
-            data.setRegimenIni(new SynchronizableItem(tbcase.getRegimenIni().getId(), tbcase.getRegimenIni().getName()));
-        }
+        data.setMovedToIndividualized(tbcase.isMovedToIndividualized());
 
         // mount prescriptions
         List<PrescriptionData> prescs = mountPrescriptions(tbcase.getPrescriptions());
@@ -127,6 +139,7 @@ public class TreatmentService {
             }
 
             PrescriptionPeriod p = new PrescriptionPeriod();
+            p.setPrescriptionId(pm.getId());
             p.setIni(pm.getPeriod().getIniDate());
             p.setEnd(pm.getPeriod().getEndDate());
             p.setComments(pm.getComments());
@@ -200,4 +213,39 @@ public class TreatmentService {
             tbcase.setTreatmentPeriod(p);
         }
     }
+
+
+    /**
+     * Undo the treatment of a case. The case must be open and on treatment in order to have
+     * its treatment undone
+     * @param caseId the ID of the case
+     */
+    @Transactional
+    @CommandLog(type = CommandTypes.CASES_TREAT_UNDO, handler = TreatmentCmdLogHandler.class)
+    public void undoTreatment(UUID caseId) {
+        TbCase tbcase = entityManager.find(TbCase.class, caseId);
+        if (tbcase.getState() != CaseState.ONTREATMENT) {
+            throw new EntityValidationException(tbcase, "state", "Case is not on treatment", null);
+        }
+
+        tbcase.setState(CaseState.NOT_ONTREATMENT);
+        tbcase.setTreatmentPeriod(null);
+        tbcase.setRegimen(null);
+        tbcase.setMovedToIndividualized(false);
+
+        entityManager.createQuery("delete from PrescribedMedicine where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+
+        entityManager.createQuery("delete from TreatmentHealthUnit where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+
+        entityManager.createQuery("delete from TreatmentMonitoring where tbcase.id = :id")
+                .setParameter("id", caseId)
+                .executeUpdate();
+
+        applicationContext.publishEvent(new CaseActionEvent(this, tbcase.getId(), tbcase.getDisplayString()));
+    }
+
 }

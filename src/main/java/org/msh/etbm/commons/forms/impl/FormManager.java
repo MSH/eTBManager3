@@ -18,7 +18,7 @@ public class FormManager {
     UserRequestService userRequestService;
 
     public Form get(String formid) {
-        Form form = formStoreService.get(formid, userRequestService.getUserSession().getWorkspaceId());
+        Form form = formStoreService.get(formid);
         return form;
     }
 }

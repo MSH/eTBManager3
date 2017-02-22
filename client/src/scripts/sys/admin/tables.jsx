@@ -17,79 +17,79 @@ import AgeRanges from './tables/ageranges';
  * List of all items displayed in the left side box
  */
 const menu = [
-	{
-		title: __('admin.adminunits'),
-		perm: 'ADMINUNITS',
-		icon: 'sitemap',
+    {
+        title: __('admin.adminunits'),
+        perm: 'ADMINUNITS',
+        icon: 'sitemap',
         path: '/admunits',
         view: AdmUnits
-	},
-	{
-		title: __('admin.units'),
-		perm: 'UNITS',
-		icon: 'hospital-o',
+    },
+    {
+        title: __('admin.units'),
+        perm: 'UNITS',
+        icon: 'hospital-o',
         path: '/units',
         view: Units
-	},
-	{
-		title: __('admin.sources'),
-		perm: 'SOURCES',
-		icon: 'dropbox',
+    },
+    {
+        title: __('admin.sources'),
+        perm: 'SOURCES',
+        icon: 'dropbox',
         path: '/sources',
         view: Sources
-	},
-	{
-		title: __('admin.substances'),
-		perm: 'SUBSTANCES',
-		icon: 'h-square',
+    },
+    {
+        title: __('admin.substances'),
+        perm: 'SUBSTANCES',
+        icon: 'h-square',
         path: '/substances',
         view: Substances
-	},
-	{
-		title: __('admin.products'),
-		perm: 'PRODUCTS',
-		icon: 'cube',
+    },
+    {
+        title: __('admin.products'),
+        perm: 'PRODUCTS',
+        icon: 'cube',
         path: '/products',
         view: Products
-	},
-	{
-		title: __('admin.regimens'),
-		perm: 'REGIMENS',
-		icon: 'medkit',
+    },
+    {
+        title: __('admin.regimens'),
+        perm: 'REGIMENS',
+        icon: 'medkit',
         path: '/regimens',
         view: Regimens
-	},
-	{
-		title: __('admin.tags'),
-		perm: 'TAGS',
-		icon: 'tags',
-		path: '/tags',
-		view: Tags
-	},
-	{
-		title: __('admin.ageranges'),
-		perm: 'AGERANGES',
-		icon: 'signal',
-		path: '/ageranges',
-		view: AgeRanges
-	},
-	{
-		separator: true
-	},
-	{
-		title: __('admin.users'),
-		perm: 'USERS',
-		icon: 'user',
+    },
+    {
+        title: __('admin.tags'),
+        perm: 'TAGS',
+        icon: 'tags',
+        path: '/tags',
+        view: Tags
+    },
+    {
+        title: __('admin.ageranges'),
+        perm: 'AGERANGES',
+        icon: 'signal',
+        path: '/ageranges',
+        view: AgeRanges
+    },
+    {
+        separator: true
+    },
+    {
+        title: __('admin.users'),
+        perm: 'USERS',
+        icon: 'user',
         path: '/users',
         view: UsersWs
-	},
-	{
-		title: __('admin.profiles'),
-		perm: 'PROFILES',
-		icon: 'group',
+    },
+    {
+        title: __('admin.profiles'),
+        perm: 'PROFILES',
+        icon: 'group',
         path: '/groups',
         view: UserProfiles
-	}
+    }
 ];
 
 /**
@@ -97,17 +97,17 @@ const menu = [
  */
 export default class Tables extends React.Component {
 
-	render() {
-		return (
-			<PageContent route={this.props.route}
-				menu={menu}
-				title={__('admin') + ' - ' + __('admin.tables')}
-				path="/sys/admin/tables" />
-			);
-	}
+    render() {
+        return (
+            <PageContent route={this.props.route}
+                menu={menu}
+                title={__('admin') + ' - ' + __('admin.tables')}
+                path="/sys/admin/tables" />
+        );
+    }
 }
 
 Tables.propTypes = {
-	app: React.PropTypes.object,
-	route: React.PropTypes.object
+    app: React.PropTypes.object,
+    route: React.PropTypes.object
 };

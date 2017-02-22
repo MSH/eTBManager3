@@ -4,9 +4,9 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
 import org.springframework.validation.Errors;
 
 import java.util.Map;
@@ -46,11 +46,11 @@ public class ModelValidator {
 
     /**
      * Check non declared fields that are required
-     * @param model
-     * @param doc
-     * @param context
+     * @param model The model related to the operation
+     * @param doc the document model, with properties and values
+     * @param context the validation context
      */
-    protected void checkRequiredFields(Model model, Map<String, Object> doc, ValidationContext context) {
+    private void checkRequiredFields(Model model, Map<String, Object> doc, ValidationContext context) {
         for (Field field: model.getFields()) {
             if (doc.containsKey(field.getName())) {
                 continue;

@@ -10,103 +10,103 @@ import { generateName } from '../mock-data';
  */
 export default class ReacttableExample extends React.Component {
 
-	constructor(props) {
-		super(props);
+    constructor(props) {
+        super(props);
 
-		this.gridCellRender = this.gridCellRender.bind(this);
+        this.gridCellRender = this.gridCellRender.bind(this);
 
-		this.state = { };
-	}
+        this.state = { };
+    }
 
-	componentWillMount() {
-		const lst = [];
-		for (var i = 0; i < 15; i++) {
-			const res = generateName();
-			lst.push({
-				name: res.name,
-				gender: res.gender,
-				status: 'Status of ' + res.name,
-				quantity: Math.random() * 1000 + 1000
-			});
-		}
-		this.setState({ values: lst });
-	}
+    componentWillMount() {
+        const lst = [];
+        for (var i = 0; i < 15; i++) {
+            const res = generateName();
+            lst.push({
+                name: res.name,
+                gender: res.gender,
+                status: 'Status of ' + res.name,
+                quantity: Math.random() * 1000 + 1000
+            });
+        }
+        this.setState({ values: lst });
+    }
 
-	expandRender(item) {
-		return (
-			<div>
-				<dl className="dl-horizontal">
-					<dt>{'Patient: '}</dt>
-					<dd>{item.name}</dd>
-					<dt>{'Status: '}</dt>
-					<dd>{item.status}</dd>
-					<dt>{'Quantity: '}</dt>
-					<dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
-				</dl>
-			</div>);
-	}
+    expandRender(item) {
+        return (
+            <div>
+                <dl className="dl-horizontal">
+                    <dt>{'Patient: '}</dt>
+                    <dd>{item.name}</dd>
+                    <dt>{'Status: '}</dt>
+                    <dd>{item.status}</dd>
+                    <dt>{'Quantity: '}</dt>
+                    <dd>{item.quantity.toLocaleString('en', { maximumFractionDigits: 2 })}</dd>
+                </dl>
+            </div>);
+    }
 
-	toggleSize(cell) {
-		return () => {
-			if (cell.getSize()) {
-				cell.setSize(null);
-			}
-			else {
-				cell.setSize({ sm: 12 });
-			}
-		};
-	}
+    toggleSize(cell) {
+        return () => {
+            if (cell.getSize()) {
+                cell.setSize(null);
+            }
+            else {
+                cell.setSize({ sm: 12 });
+            }
+        };
+    }
 
-	gridCellRender(item, cell) {
-		return (
-			<div>
-				<Profile size="small" title={item.name} type="user" />
-				<a onClick={this.toggleSize(cell)}>{'Click me'}</a>
-			</div>
-			);
-	}
+    gridCellRender(item, cell) {
+        return (
+            <div>
+                <Profile size="small" title={item.name} type="user" />
+                <a onClick={this.toggleSize(cell)}>{'Click me'}</a>
+            </div>
+        );
+    }
 
-	render() {
+    render() {
 
-		// the columns of the table
-		const columns = [
-			{
-				title: 'Patient',
-				content: item => <Profile size="small" title={item.name} type="user" />,
-				size: { sm: 6 }
-			},
-			{
-				title: 'Status (center alignment)',
-				content: 'status',
-				size: { sm: 3 },
-				align: 'center'
-			},
-			{
-				title: 'Quantity',
-				content: item => item.quantity.toLocaleString('en', { maximumFractionDigits: 2 }),
-				size: { sm: 3 },
-				align: 'right'
-			}
-		];
+        // the columns of the table
+        const columns = [
+            {
+                title: 'Patient',
+                content: item => <Profile size="small" title={item.name} type="user" />,
+                size: { sm: 6 }
+            },
+            {
+                title: 'Status (center alignment)',
+                content: 'status',
+                size: { sm: 3 },
+                align: 'center'
+            },
+            {
+                title: 'Quantity',
+                content: item => item.quantity.toLocaleString('en', { maximumFractionDigits: 2 }),
+                size: { sm: 3 },
+                align: 'right'
+            }
+        ];
 
-		return (
-			<div>
-				<Card title="Reactive table">
-					<Row>
-						<Col md={12}>
-							<ReactTable columns={columns}
-								values={this.state.values}
-								onExpandRender={this.expandRender} />
-						</Col>
-					</Row>
-				</Card>
+        return (
+            <div>
+                <Card title="Reactive table">
+                    <Row>
+                        <Col md={12}>
+                            <ReactTable columns={columns}
+                                values={this.state.values}
+                                onExpandRender={this.expandRender} />
+                        </Col>
+                    </Row>
+                </Card>
 
-				<Card title="Reactive grid">
-					<ReactGrid values={this.state.values}
-						onCollapseRender={this.gridCellRender}
-						onExpandRender={this.expandRender} />
-				</Card>
-			</div>
-			);
-	}
+                <Card title="Reactive grid">
+                    <ReactGrid values={this.state.values}
+                        onCollapseRender={this.gridCellRender}
+                        onExpandRender={this.expandRender} />
+                </Card>
+            </div>
+        );
+    }
 }

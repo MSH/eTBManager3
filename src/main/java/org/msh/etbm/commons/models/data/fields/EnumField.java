@@ -3,6 +3,7 @@ package org.msh.etbm.commons.models.data.fields;
 import org.msh.etbm.commons.Item;
 import org.msh.etbm.commons.models.data.options.FieldListOptions;
 import org.msh.etbm.commons.models.data.options.FieldOptions;
+import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.msh.etbm.db.MessageKey;
 
 import java.util.ArrayList;
@@ -16,16 +17,20 @@ import java.util.List;
 @FieldType("enum")
 public class EnumField extends SingleField {
 
-    private Class<? extends Enum> enumClass;
+    private String enumClass;
 
     private FieldListOptions options;
 
-    public Class<? extends Enum> getEnumClass() {
+    public String getEnumClass() {
         return enumClass;
     }
 
-    public void setEnumClass(Class<? extends Enum> enumClass) {
+    public void setEnumClass(String enumClass) {
         this.enumClass = enumClass;
+    }
+
+    public Class<? extends Enum> resolveEnumClass() {
+        return ObjectUtils.forClass(getEnumClass());
     }
 
     @Override
@@ -39,13 +44,14 @@ public class EnumField extends SingleField {
 
     protected FieldListOptions createOptions() {
         List<Item> lst = new ArrayList<>();
+        Class<? extends Enum> enumType = ObjectUtils.forClass(getEnumClass());
 
-        if (enumClass != null) {
-            Enum[] enums = enumClass.getEnumConstants();
+        if (enumType != null) {
+            Enum[] enums = enumType.getEnumConstants();
             for (Enum val: enums) {
                 String key = val instanceof MessageKey ?
                         ((MessageKey)val).getMessageKey() :
-                        enumClass.getSimpleName() + "." + val.toString();
+                        enumType.getSimpleName() + "." + val.toString();
 
                 String txt = "${" + key + "}";
                 lst.add(new Item(val, txt));
@@ -57,4 +63,6 @@ public class EnumField extends SingleField {
 
         return options;
     }
+
+
 }

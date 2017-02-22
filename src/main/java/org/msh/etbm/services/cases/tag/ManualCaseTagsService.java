@@ -6,9 +6,11 @@ import org.msh.etbm.commons.commands.CommandTypes;
 import org.msh.etbm.db.entities.Tag;
 import org.msh.etbm.db.entities.TbCase;
 import org.msh.etbm.db.entities.Workspace;
+import org.msh.etbm.services.cases.CaseActionEvent;
 import org.msh.etbm.services.cases.CaseLogHandler;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,9 @@ public class ManualCaseTagsService {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    ApplicationContext applicationContext;
 
     @Transactional
     @CommandLog(handler = CaseLogHandler.class, type = CommandTypes.CASES_CASE_TAG)
@@ -68,12 +73,21 @@ public class ManualCaseTagsService {
         // set new tag list
         tbcase.setTags(newTagList);
         entityManager.persist(tbcase);
-        entityManager.flush();
+
+        // update version and synched field of tbcase, so on the next sync this tbcase
+        // and its manual tags_case will be shared on file.
+        entityManager.createNativeQuery("update tbcase " +
+                "set synched = false, version=unix_timestamp()-1000000000 " +
+                "where id = :caseId")
+                .setParameter("caseId", tbcase.getId())
+                .executeUpdate();
 
         // finish preparing response
         assignManualTags(tbcase.getTags(), res.getNewManualTags());
-        res.setTbcaseId(tbcase.getId());
-        res.setTbcaseDisplayString(tbcase.getDisplayString());
+        res.setCaseId(tbcase.getId());
+        res.setCaseDisplayString(tbcase.getDisplayString());
+
+        applicationContext.publishEvent(new CaseActionEvent(this, res));
 
         return res;
     }

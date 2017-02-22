@@ -4,10 +4,7 @@ import org.junit.Test;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.models.CompiledModel;
 import org.msh.etbm.commons.models.ValidationResult;
-import org.msh.etbm.commons.models.data.JSFuncValue;
-import org.msh.etbm.commons.models.data.JSFunction;
-import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.Validator;
+import org.msh.etbm.commons.models.data.*;
 import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.db.SQLGenerator;
 import org.msh.etbm.commons.models.db.SQLGeneratorData;
@@ -72,8 +69,7 @@ public class ModelTest {
         assertNotEquals(data.get("name"), data2.get("name"));
         assertEquals(data.get("name").toString().toUpperCase(), data2.get("name"));
         assertEquals(data.get("level"), data2.get("level"));
-        JSFuncValue<Boolean> active = (JSFuncValue<Boolean>)data2.get("active");
-        assertEquals(true, active.getValue());
+        assertEquals(true, data2.get("active"));
 
         // level now will receive a string
         data.put("level", "5");
@@ -199,67 +195,6 @@ public class ModelTest {
     }
 
 
-//    @Test
-//    public void testScript() throws Exception {
-//        // generate the script
-//        Model model = createModel();
-//
-//        ModelScriptGenerator gen = new ModelScriptGenerator();
-//        String script = gen.generate(model);
-//        System.out.println(script);
-//
-//        ScriptEngine engine = new ScriptEngineManager().getEngineByExtension("js");
-//
-//        // compile the script
-//        engine.eval(script);
-//
-//        Invocable invokable = (Invocable)engine;
-//        String funcName = ModelScriptGenerator.modelFunctionName(model);
-//        JSObject obj = (JSObject)invokable.invokeFunction(funcName);
-//        obj = (JSObject)obj.getMember("fields");
-//        obj = (JSObject)obj.getMember("active");
-//        obj = (JSObject)obj.getMember("required");
-//        assertTrue(obj.isFunction());
-//
-//        final JSObject func = obj;
-//
-//        SimpleBindings doc = new SimpleBindings();
-//        doc.put("level", 0);
-//        Object res = func.call(doc);
-//        assertEquals(false, res);
-//
-//        Callable<Boolean> scriptCall = new Callable<Boolean>() {
-//            @Override
-//            public Boolean call() throws Exception {
-//
-//                SimpleBindings doc = new SimpleBindings();
-//                doc.put("level", 10);
-//
-//                return (Boolean)func.call(doc);
-//            }
-//        };
-//
-//        ExecutorService executor = Executors.newCachedThreadPool();
-//        ArrayList<Future<Boolean>> results = new ArrayList<>();
-//
-//        for (int i = 0; i < 50; i++) {
-//            results.add(executor.submit(scriptCall));
-//        }
-//
-//        int count = 0;
-//        for (Future<Boolean> result: results) {
-//            Boolean val = result.get().booleanValue();
-//            if (val) {
-//                count++;
-//            }
-//        }
-//
-//        executor.awaitTermination(1, TimeUnit.SECONDS);
-//        executor.shutdown();
-//
-//        System.out.println("Errors = " + count);
-//    }
-
 
     protected Model createModel() {
         Model model = new Model();
@@ -301,7 +236,7 @@ public class ModelTest {
 
         List<Validator> validators = new ArrayList<>();
         Validator v = new Validator();
-        v.setRule(new JSFunction("this.name == 'Ricardo' ? this.city == 'Rio de Janeiro' : true"));
+        v.setRule(new JSFunction("this.name == 'RICARDO' ? this.city == 'Rio de Janeiro' : true"));
         v.setMessage("${" + Messages.NOT_VALID_EMAIL + "}");
         validators.add(v);
 

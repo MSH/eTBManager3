@@ -2,9 +2,9 @@ package org.msh.etbm.commons.models.db;
 
 import org.msh.etbm.commons.models.FieldTypeManager;
 import org.msh.etbm.commons.models.ModelException;
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.Model;
-import org.msh.etbm.commons.models.data.fields.Field;
-import org.msh.etbm.commons.models.data.handlers.FieldHandler;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 
 import java.util.*;
@@ -101,6 +101,7 @@ public class SQLQuerySelectionBuilder {
         String delim = "";
         for (Map.Entry<Field, List<SQLQueryField>> entry: res.getFields().entrySet()) {
             for (SQLQueryField f: entry.getValue()) {
+
                 String alias = f.getTable() != null ? f.getTable().getTableAlias() : ROOT_TABLE_ALIAS;
                 s.append(delim)
                         .append(alias)

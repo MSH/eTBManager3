@@ -1,7 +1,10 @@
 package org.msh.etbm.commons.entities;
 
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
+
+import java.util.Map;
 
 /**
  * Exception generated inside an entity to indicate that an error occured and operation
@@ -11,7 +14,7 @@ import org.springframework.validation.BindingResult;
  */
 public class EntityValidationException extends RuntimeException {
 
-    private transient final BindingResult bindingResult;
+    private transient final Errors bindingResult;
 
     /**
      * Constructor when there is just one single validation error message
@@ -32,16 +35,34 @@ public class EntityValidationException extends RuntimeException {
     }
 
     /**
+     * Constructor when there is just one single validation error message
+     *
+     * @param field
+     * @param message
+     * @param code
+     */
+    public EntityValidationException(Map entity, String field, String message, String code) {
+        super(message);
+
+        this.bindingResult = new MapBindingResult(entity, "target");
+        if (message != null) {
+            this.bindingResult.reject(field, message);
+        } else {
+            this.bindingResult.rejectValue(field, code);
+        }
+    }
+
+    /**
      * Constructor when validation messages are already in the binding result object
      *
      * @param bindingResult instance of BindingResult object containing validation messages
      */
-    public EntityValidationException(BindingResult bindingResult) {
+    public EntityValidationException(Errors bindingResult) {
         super();
         this.bindingResult = bindingResult;
     }
 
-    public BindingResult getBindingResult() {
+    public Errors getBindingResult() {
         return bindingResult;
     }
 

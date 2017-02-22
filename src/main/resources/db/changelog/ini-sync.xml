@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="sync-1" author="msantos">
+        <createTable tableName="deletedentity">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="tableName" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tableId" type="${type.id}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="unit_id" type="${type.id}"/>
+            <column name="version" type="${version}" />
+            <column name="synched" type="${type.boolean}" />
+        </createTable>
+    </changeSet>
+
+    <!-- create INSERT sync triggers for mysql -->
+    <changeSet id="sync-2" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_insert_casecomorbidities BEFORE INSERT ON casecomorbidities FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_issuefollowup BEFORE INSERT ON issuefollowup FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_sys_user BEFORE INSERT ON sys_user FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_administrativeunit BEFORE INSERT ON administrativeunit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_agerange BEFORE INSERT ON agerange FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_countrystructure BEFORE INSERT ON countrystructure FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_patient BEFORE INSERT ON patient FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_product BEFORE INSERT ON product FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_medicine_substances BEFORE INSERT ON medicine_substances FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=false WHERE id = NEW.medicine_id;
+            CREATE TRIGGER synclog_insert_regimen BEFORE INSERT ON regimen FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_medicineregimen BEFORE INSERT ON medicineregimen FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=false WHERE id = NEW.regimen_id;
+            CREATE TRIGGER synclog_insert_report BEFORE INSERT ON report FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_source BEFORE INSERT ON source FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_substance BEFORE INSERT ON substance FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_tag BEFORE INSERT ON tag FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_tbcase BEFORE INSERT ON tbcase FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_unit BEFORE INSERT ON unit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_userprofile BEFORE INSERT ON userprofile FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_userpermission BEFORE INSERT ON userpermission FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=false WHERE id = NEW.profile_id;
+            CREATE TRIGGER synclog_insert_userworkspace BEFORE INSERT ON userworkspace FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_userworkspace_profiles BEFORE INSERT ON userworkspace_profiles FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=false WHERE id = NEW.userworkspace_id;
+            CREATE TRIGGER synclog_insert_casecomment BEFORE INSERT ON casecomment FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_casecontact BEFORE INSERT ON casecontact FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_casesideeffect BEFORE INSERT ON casesideeffect FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_issue BEFORE INSERT ON issue FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_prescribedmedicine BEFORE INSERT ON prescribedmedicine FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_prevtbtreatment BEFORE INSERT ON prevtbtreatment FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_treatmenthealthunit BEFORE INSERT ON treatmenthealthunit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_treatmentmonitoring BEFORE INSERT ON treatmentmonitoring FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_examhiv BEFORE INSERT ON examhiv FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_examxray BEFORE INSERT ON examxray FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_medicalexamination BEFORE INSERT ON medicalexamination FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_examculture BEFORE INSERT ON examculture FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_examdst BEFORE INSERT ON examdst FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_exammicroscopy BEFORE INSERT ON exammicroscopy FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+            CREATE TRIGGER synclog_insert_examxpert BEFORE INSERT ON examxpert FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=false;
+        </sql>
+    </changeSet>
+
+    <!-- create UPDATE sync triggers for mysql -->
+    <changeSet id="sync-3" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_update_casecomorbidities BEFORE UPDATE ON casecomorbidities FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_issuefollowup BEFORE UPDATE ON issuefollowup FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_sys_user BEFORE UPDATE ON sys_user FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_administrativeunit BEFORE UPDATE ON administrativeunit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_agerange BEFORE UPDATE ON agerange FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_countrystructure BEFORE UPDATE ON countrystructure FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_patient BEFORE UPDATE ON patient FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_product BEFORE UPDATE ON product FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicine_substances BEFORE UPDATE ON medicine_substances FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=null WHERE id = NEW.medicine_id;
+            CREATE TRIGGER synclog_update_regimen BEFORE UPDATE ON regimen FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicineregimen BEFORE UPDATE ON medicineregimen FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=null WHERE id = NEW.regimen_id;
+            CREATE TRIGGER synclog_update_report BEFORE UPDATE ON report FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_source BEFORE UPDATE ON source FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_substance BEFORE UPDATE ON substance FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tag BEFORE UPDATE ON tag FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tbcase BEFORE UPDATE ON tbcase FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_unit BEFORE UPDATE ON unit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userprofile BEFORE UPDATE ON userprofile FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userpermission BEFORE UPDATE ON userpermission FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=null WHERE id = NEW.profile_id;
+            CREATE TRIGGER synclog_update_userworkspace BEFORE UPDATE ON userworkspace FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userworkspace_profiles BEFORE UPDATE ON userworkspace_profiles FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=false WHERE id = NEW.userworkspace_id;
+            CREATE TRIGGER synclog_update_casecomment BEFORE UPDATE ON casecomment FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_casecontact BEFORE UPDATE ON casecontact FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_casesideeffect BEFORE UPDATE ON casesideeffect FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_issue BEFORE UPDATE ON issue FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_prescribedmedicine BEFORE UPDATE ON prescribedmedicine FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_prevtbtreatment BEFORE UPDATE ON prevtbtreatment FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_treatmenthealthunit BEFORE UPDATE ON treatmenthealthunit FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_treatmentmonitoring BEFORE UPDATE ON treatmentmonitoring FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examhiv BEFORE UPDATE ON examhiv FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examxray BEFORE UPDATE ON examxray FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicalexamination BEFORE UPDATE ON medicalexamination FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examculture BEFORE UPDATE ON examculture FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examdst BEFORE UPDATE ON examdst FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_exammicroscopy BEFORE UPDATE ON exammicroscopy FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examxpert BEFORE UPDATE ON examxpert FOR EACH ROW SET NEW.version=unix_timestamp()-1000000000,NEW.synched=IF(NEW.synched is null, true, false);
+        </sql>
+    </changeSet>
+
+    <!-- create DELETE sync triggers for mysql -->
+    <changeSet id="sync-4" author="msantos" dbms="mysql">
+        <sql>
+            CREATE TRIGGER synclog_delete_issuefollowup AFTER DELETE ON issuefollowup FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('issuefollowup', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_sys_user AFTER DELETE ON sys_user FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('sys_user', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_administrativeunit AFTER DELETE ON administrativeunit FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('administrativeunit', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_agerange AFTER DELETE ON agerange FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('agerange', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_countrystructure AFTER DELETE ON countrystructure FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('countrystructure', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_patient AFTER DELETE ON patient FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('patient', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_product AFTER DELETE ON product FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('product', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicine_substances AFTER DELETE ON medicine_substances FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=false WHERE id = OLD.medicine_id;
+            CREATE TRIGGER synclog_delete_regimen AFTER DELETE ON regimen FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('regimen', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicineregimen AFTER DELETE ON medicineregimen FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=false WHERE id = OLD.regimen_id;
+            CREATE TRIGGER synclog_delete_report AFTER DELETE ON report FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('report', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_source AFTER DELETE ON source FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('source', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_substance AFTER DELETE ON substance FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('substance', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_tag AFTER DELETE ON tag FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tag', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_unit AFTER DELETE ON unit FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('unit', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userprofile AFTER DELETE ON userprofile FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('userprofile', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userpermission AFTER DELETE ON userpermission FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=false WHERE id = OLD.profile_id;
+            CREATE TRIGGER synclog_delete_userworkspace AFTER DELETE ON userworkspace FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('userworkspace', OLD.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userworkspace_profiles AFTER DELETE ON userworkspace_profiles FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=false WHERE id = OLD.userworkspace_id;
+            CREATE TRIGGER synclog_delete_tbcase AFTER DELETE ON tbcase FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tbcase', OLD.id, OLD.OWNER_UNIT_ID, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecomorbidities AFTER DELETE ON casecomorbidities FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecomorbidities', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecomment AFTER DELETE ON casecomment FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecomment', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecontact AFTER DELETE ON casecontact FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecontact', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casesideeffect AFTER DELETE ON casesideeffect FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casesideeffect', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_issue AFTER DELETE ON issue FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('issue', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_prescribedmedicine AFTER DELETE ON prescribedmedicine FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('prescribedmedicine', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_prevtbtreatment AFTER DELETE ON prevtbtreatment FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('prevtbtreatment', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_treatmenthealthunit AFTER DELETE ON treatmenthealthunit FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('treatmenthealthunit', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_treatmentmonitoring AFTER DELETE ON treatmentmonitoring FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('treatmentmonitoring', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examhiv AFTER DELETE ON examhiv FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examhiv', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examxray AFTER DELETE ON examxray FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxray', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicalexamination AFTER DELETE ON medicalexamination FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('medicalexamination', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examculture AFTER DELETE ON examculture FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examculture', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', OLD.id, (select OWNER_UNIT_ID from tbcase c where c.id = OLD.case_id), unix_timestamp()-1000000000, false);
+        </sql>
+    </changeSet>
+
+    <!-- create INSERT sync triggers for hsqldb -->
+    <changeSet id="sync-5" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_insert_casecomorbidities BEFORE INSERT ON casecomorbidities REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_issuefollowup BEFORE INSERT ON issuefollowup REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_sys_user BEFORE INSERT ON sys_user REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_administrativeunit BEFORE INSERT ON administrativeunit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_agerange BEFORE INSERT ON agerange REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_countrystructure BEFORE INSERT ON countrystructure REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_patient BEFORE INSERT ON patient REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_product BEFORE INSERT ON product REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_medicine_substances AFTER INSERT ON medicine_substances REFERENCING NEW AS newrow FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=false WHERE id = newrow.medicine_id;
+            CREATE TRIGGER synclog_insert_regimen BEFORE INSERT ON regimen REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_medicineregimen AFTER INSERT ON medicineregimen REFERENCING NEW AS newrow FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=false WHERE id = newrow.regimen_id;
+            CREATE TRIGGER synclog_insert_report BEFORE INSERT ON report REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_source BEFORE INSERT ON source REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_substance BEFORE INSERT ON substance REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_tag BEFORE INSERT ON tag REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_tbcase BEFORE INSERT ON tbcase REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_unit BEFORE INSERT ON unit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_userprofile BEFORE INSERT ON userprofile REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_userpermission AFTER INSERT ON userpermission REFERENCING NEW AS newrow FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=false WHERE id = newrow.profile_id;
+            CREATE TRIGGER synclog_insert_userworkspace BEFORE INSERT ON userworkspace REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_userworkspace_profiles AFTER INSERT ON userworkspace_profiles REFERENCING NEW AS newrow FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=false WHERE id = newrow.userworkspace_id;
+            CREATE TRIGGER synclog_insert_casecomment BEFORE INSERT ON casecomment REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_casecontact BEFORE INSERT ON casecontact REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_casesideeffect BEFORE INSERT ON casesideeffect REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_issue BEFORE INSERT ON issue REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_prescribedmedicine BEFORE INSERT ON prescribedmedicine REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_prevtbtreatment BEFORE INSERT ON prevtbtreatment REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_treatmenthealthunit BEFORE INSERT ON treatmenthealthunit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_treatmentmonitoring BEFORE INSERT ON treatmentmonitoring REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_examhiv BEFORE INSERT ON examhiv REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_examxray BEFORE INSERT ON examxray REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_medicalexamination BEFORE INSERT ON medicalexamination REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_examculture BEFORE INSERT ON examculture REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_examdst BEFORE INSERT ON examdst REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_exammicroscopy BEFORE INSERT ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+            CREATE TRIGGER synclog_insert_examxpert BEFORE INSERT ON examxpert REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=false;
+        </sql>
+    </changeSet>
+
+    <!-- create UPDATE sync triggers for hsqldb -->
+    <changeSet id="sync-6" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_update_casecomorbidities BEFORE UPDATE ON casecomorbidities REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_issuefollowup BEFORE UPDATE ON issuefollowup REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_sys_user BEFORE UPDATE ON sys_user REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_administrativeunit BEFORE UPDATE ON administrativeunit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_agerange BEFORE UPDATE ON agerange REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_countrystructure BEFORE UPDATE ON countrystructure REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_patient BEFORE UPDATE ON patient REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_product BEFORE UPDATE ON product REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicine_substances AFTER UPDATE ON medicine_substances REFERENCING NEW AS newrow FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=null WHERE id = newrow.medicine_id;
+            CREATE TRIGGER synclog_update_regimen BEFORE UPDATE ON regimen REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicineregimen AFTER UPDATE ON medicineregimen REFERENCING NEW AS newrow FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=null WHERE id = newrow.regimen_id;
+            CREATE TRIGGER synclog_update_report BEFORE UPDATE ON report REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_source BEFORE UPDATE ON source REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_substance BEFORE UPDATE ON substance REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tag BEFORE UPDATE ON tag REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_tbcase BEFORE UPDATE ON tbcase REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_unit BEFORE UPDATE ON unit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userprofile BEFORE UPDATE ON userprofile REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userpermission AFTER UPDATE ON userpermission REFERENCING NEW AS newrow FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=null WHERE id = newrow.profile_id;
+            CREATE TRIGGER synclog_update_userworkspace BEFORE UPDATE ON userworkspace REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_userworkspace_profiles AFTER UPDATE ON userworkspace_profiles REFERENCING NEW AS newrow FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=null WHERE id = newrow.userworkspace_id;
+            CREATE TRIGGER synclog_update_casecomment BEFORE UPDATE ON casecomment REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_casecontact BEFORE UPDATE ON casecontact REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_casesideeffect BEFORE UPDATE ON casesideeffect REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_issue BEFORE UPDATE ON issue REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_prescribedmedicine BEFORE UPDATE ON prescribedmedicine REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_prevtbtreatment BEFORE UPDATE ON prevtbtreatment REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_treatmenthealthunit BEFORE UPDATE ON treatmenthealthunit REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_treatmentmonitoring BEFORE UPDATE ON treatmentmonitoring REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examhiv BEFORE UPDATE ON examhiv REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examxray BEFORE UPDATE ON examxray REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_medicalexamination BEFORE UPDATE ON medicalexamination REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examculture BEFORE UPDATE ON examculture REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examdst BEFORE UPDATE ON examdst REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_exammicroscopy BEFORE UPDATE ON exammicroscopy REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+            CREATE TRIGGER synclog_update_examxpert BEFORE UPDATE ON examxpert REFERENCING NEW AS newrow FOR EACH ROW SET newrow.version=unix_timestamp()-1000000000,newrow.synched=CASEWHEN(newrow.synched is null, true, false);
+        </sql>
+    </changeSet>
+
+    <!-- create DELETE sync triggers for hsqldb -->
+    <changeSet id="sync-7" author="msantos" dbms="hsqldb">
+        <sql>
+            CREATE TRIGGER synclog_delete_issuefollowup AFTER DELETE ON issuefollowup REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('issuefollowup', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_sys_user AFTER DELETE ON sys_user REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('sys_user', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_administrativeunit AFTER DELETE ON administrativeunit REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('administrativeunit', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_agerange AFTER DELETE ON agerange REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('agerange', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_countrystructure AFTER DELETE ON countrystructure REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('countrystructure', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_patient AFTER DELETE ON patient REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('patient', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_product AFTER DELETE ON product REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('product', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicine_substances AFTER DELETE ON medicine_substances REFERENCING OLD AS oldrow FOR EACH ROW UPDATE product SET version=unix_timestamp()-1000000000, synched=false WHERE id = oldrow.medicine_id;
+            CREATE TRIGGER synclog_delete_regimen AFTER DELETE ON regimen REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('regimen', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicineregimen AFTER DELETE ON medicineregimen REFERENCING OLD AS oldrow FOR EACH ROW UPDATE regimen SET version=unix_timestamp()-1000000000, synched=false WHERE id = oldrow.regimen_id;
+            CREATE TRIGGER synclog_delete_report AFTER DELETE ON report REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('report', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_source AFTER DELETE ON source REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('source', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_substance AFTER DELETE ON substance REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('substance', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_tag AFTER DELETE ON tag REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tag', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_unit AFTER DELETE ON unit REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('unit', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userprofile AFTER DELETE ON userprofile REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('userprofile', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userpermission AFTER DELETE ON userpermission REFERENCING OLD AS oldrow FOR EACH ROW UPDATE userprofile SET version=unix_timestamp()-1000000000, synched=false WHERE id = oldrow.profile_id;
+            CREATE TRIGGER synclog_delete_userworkspace AFTER DELETE ON userworkspace REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('userworkspace', oldrow.id, NULL, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_userworkspace_profiles AFTER DELETE ON userworkspace_profiles REFERENCING OLD AS oldrow FOR EACH ROW UPDATE userworkspace SET version=unix_timestamp()-1000000000, synched=false WHERE id = oldrow.userworkspace_id;
+            CREATE TRIGGER synclog_delete_tbcase AFTER DELETE ON tbcase REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('tbcase', oldrow.id, oldrow.OWNER_UNIT_ID, unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecomorbidities AFTER DELETE ON casecomorbidities  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecomorbidities', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecomment AFTER DELETE ON casecomment  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecomment', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casecontact AFTER DELETE ON casecontact  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casecontact', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_casesideeffect AFTER DELETE ON casesideeffect  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('casesideeffect', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_issue AFTER DELETE ON issue  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('issue', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_prescribedmedicine AFTER DELETE ON prescribedmedicine  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('prescribedmedicine', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_prevtbtreatment AFTER DELETE ON prevtbtreatment  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('prevtbtreatment', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_treatmenthealthunit AFTER DELETE ON treatmenthealthunit  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('treatmenthealthunit', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_treatmentmonitoring AFTER DELETE ON treatmentmonitoring  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('treatmentmonitoring', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examhiv AFTER DELETE ON examhiv  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examhiv', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examxray AFTER DELETE ON examxray  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxray', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_medicalexamination AFTER DELETE ON medicalexamination  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('medicalexamination', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examculture AFTER DELETE ON examculture  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examculture', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examdst AFTER DELETE ON examdst  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examdst', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_exammicroscopy AFTER DELETE ON exammicroscopy  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('exammicroscopy', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+            CREATE TRIGGER synclog_delete_examxpert AFTER DELETE ON examxpert  REFERENCING OLD AS oldrow FOR EACH ROW INSERT INTO deletedentity(tableName, tableId, unit_id, version, synched) values ('examxpert', oldrow.id, (select OWNER_UNIT_ID from tbcase c where c.id = oldrow.case_id), unix_timestamp()-1000000000, false);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

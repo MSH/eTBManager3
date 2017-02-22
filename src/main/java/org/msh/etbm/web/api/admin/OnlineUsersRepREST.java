@@ -4,6 +4,7 @@ import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepData;
 import org.msh.etbm.services.admin.onlinereport.OnlineUsersRepService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/admin/rep")
-@Authenticated(permissions = {Permissions.ADMIN_REP_USERSONLINE})
+@Authenticated(permissions = {Permissions.ADMIN_REP_USERSONLINE}, instanceType = InstanceType.SERVER_MODE)
 public class OnlineUsersRepREST {
 
     @Autowired

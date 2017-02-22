@@ -1,5 +1,6 @@
 package org.msh.etbm.commons.forms.impl;
 
+import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.controls.Control;
 import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.DataModel;
@@ -80,6 +81,9 @@ public class JsonFormParser extends StandardJSONParser<Form> {
             Map<String, Object> props = (Map<String, Object>)value;
             String typename = (String)props.get("type");
             Class<? extends Control> ctrlClass = ControlFactory.instance().controlClassByTypename(typename);
+            if (ctrlClass == null) {
+                throw new FormException("Control not found: " + typename);
+            }
             return super.convertValue(value, (Class<E>)ctrlClass, field);
         }
 
@@ -101,7 +105,7 @@ public class JsonFormParser extends StandardJSONParser<Form> {
         }
 
         if (control instanceof ValuedControl) {
-            org.msh.etbm.commons.models.data.fields.Field cf = ((ValuedControl) control).getField();
+            org.msh.etbm.commons.models.data.Field cf = ((ValuedControl) control).getField();
             if (cf != null && ObjectUtils.findField(cf.getClass(), propName) != null) {
                 return cf;
             }

@@ -1,6 +1,7 @@
 package org.msh.etbm.commons.models.data.fields;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.msh.etbm.commons.models.data.Field;
 
 /**
  * Created by rmemoria on 7/7/16.
@@ -11,7 +12,7 @@ public abstract class SingleField extends Field {
      * Name of the field in the database table
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String dbFieldName;
+    private String fieldName;
 
 
     public SingleField() {
@@ -22,16 +23,16 @@ public abstract class SingleField extends Field {
         super(name);
     }
 
-    public SingleField(String name, String dbFieldName) {
+    public SingleField(String name, String fieldName) {
         super(name);
-        this.dbFieldName = dbFieldName;
+        this.fieldName = fieldName;
     }
 
-    public String getDbFieldName() {
-        return dbFieldName;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public void setDbFieldName(String dbFieldName) {
-        this.dbFieldName = dbFieldName;
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
     }
 }

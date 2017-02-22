@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.msh</groupId>
+    <artifactId>desktop</artifactId>
+    <version>1.0</version>
+
+    <build>
+		<finalName>etbm-desktop</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.fxml</include>
+                </includes>
+            </resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+        </resources>
+
+        <plugins>
+            <!-- Inform the compiler version to use -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.6.0</version>
+                <configuration>
+                    <mainClass>org.msh.etbm.desktop.Application</mainClass>
+                    <vendor>e-TB Manager</vendor>
+					<appName>etbm-desktop</appName>
+					<additionalAppResources>target/extras</additionalAppResources>
+					<bundleArguments>
+						<jnlp.outfile>etbm-desktop</jnlp.outfile>
+					</bundleArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-jfxjar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-jar</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>create-native</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build-native</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Copy the files from etbm3 project to be included in the package -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>Using env.test.properties</echo>
+                                <copy file="../target/etbmanager-2.9.2.jar" tofile="${basedir}/target/extras/etbmanager-2.9.2.jar"/>
+                                <copy file="../resources/production/local/etbmanager.properties" tofile="${basedir}/target/extras/etbmanager.properties"/>
+								<copy file="C:\Desenv\Java\jdk1.8.0_91\bin\java.exe" tofile="${basedir}/target/extras/java.exe" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,12 +1,13 @@
 package org.msh.etbm.test.commons.objutils;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by rmemoria on 28/1/16.
  */
-public class Model {
+public class Model implements Serializable {
 
     public static final String PROP1 = "static property 1";
     protected static final String PROP2 = "static property 2";

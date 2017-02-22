@@ -1,0 +1,64 @@
+{
+  "dataModel": {
+    "tbcase": "tbcase"
+  },
+
+  "title": "${cases.suspect.followup} - ${CaseClassification.DRTB.confirmed}",
+
+  "controls": [
+    {
+      "type": "date",
+      "label": "${TbCase.diagnosisDate}",
+      "property": "tbcase.diagnosisDate",
+      "required": true,
+      "size": { "md": 8 }
+    },
+    {
+      "type": "select",
+      "property": "tbcase.drugResistanceType",
+      "label": "${DrugResistanceType}",
+      "size": { "md": 8 },
+      "required": true,
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.registrationGroup",
+      "label": "${TbCase.registrationGroup}",
+      "size": { "md": 8 },
+      "required": true,
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.infectionSite",
+      "label": "${InfectionSite}",
+      "size": { "md": 8 },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.pulmonaryType",
+      "label": "${TbCase.pulmonaryType}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'PULMONARY' || this.tbcase.infectionSite === 'BOTH'" },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType",
+      "label": "${TbCase.extrapulmonaryType}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" },
+      "newRow": true
+    },
+    {
+      "type": "select",
+      "property": "tbcase.extrapulmonaryType2",
+      "label": "${TbCase.extrapulmonaryType2}",
+      "size": { "md": 8 },
+      "visible": { "function": "this.tbcase.infectionSite === 'EXTRAPULMONARY' || this.tbcase.infectionSite === 'BOTH'" },
+      "newRow": true
+    }
+  ]
+}

@@ -16,7 +16,7 @@
     </mapping>
 
     <mapping>
-        <class-a>org.msh.etbm.services.cases.cases.CaseItem</class-a>
+        <class-a>org.msh.etbm.services.cases.cases.data.CaseItem</class-a>
         <class-b>org.msh.etbm.db.entities.TbCase</class-b>
 
         <field>
@@ -62,14 +62,38 @@
     </mapping>
 
     <mapping>
-        <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatData</class-a>
-        <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
+        <class-a>org.msh.etbm.services.cases.patient.PatientSearchItem</class-a>
+        <class-b>org.msh.etbm.db.entities.TbCase</class-b>
 
         <field custom-converter-id="enum-item">
-            <a>outcome</a>
-            <b>outcome</b>
+            <a>classification</a>
+            <b>classification</b>
         </field>
 
+        <field custom-converter-id="enum-item">
+            <a>diagnosisType</a>
+            <b>diagnosisType</b>
+        </field>
+
+        <field custom-converter-id="enum-item">
+            <a>state</a>
+            <b>state</b>
+        </field>
+
+        <field>
+            <a>iniTreatmentDate</a>
+            <b>treatmentPeriod.iniDate</b>
+        </field>
+    </mapping>
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.cases.data.CaseDetailedData</class-a>
+        <class-b>org.msh.etbm.db.entities.TbCase</class-b>
+
+        <field>
+            <a>allCases</a>
+            <b>patient.cases</b>
+        </field>
     </mapping>
 
 </mappings>

@@ -91,9 +91,6 @@ public abstract class CommonEntityServiceTests extends AuthenticatedTest {
         // search for item
         Object data = service.findOne(res.getId(), formDataClass);
 
-
-        String[] propsToIgnore = ignorePropsOnCheck != null ? ignorePropsOnCheck.split(",") : new String[0];
-
         assertObjectProperties(data, props, ignorePropsOnCheck);
 
         if (uniqueProps != null) {

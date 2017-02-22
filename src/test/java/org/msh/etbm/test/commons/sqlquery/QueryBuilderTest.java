@@ -1,9 +1,11 @@
 package org.msh.etbm.test.commons.sqlquery;
 
 import org.junit.Test;
+import org.msh.etbm.commons.sqlquery.SQLField;
 import org.msh.etbm.commons.sqlquery.SQLQueryBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -80,6 +82,85 @@ public class QueryBuilderTest {
 
         String sql = builder.generate();
 
-        System.out.println(sql);
+//        System.out.println(sql);
+    }
+
+
+    /**
+     * Search for field reference in the SQL query
+     */
+    @Test
+    public void searchField() {
+        SQLQueryBuilder builder = new SQLQueryBuilder("mytable");
+        builder.select("field1, field2, field3")
+                .join("tbl2", "$this.id = $root.tbl2_id").select("field4, field5");
+
+        String sql = builder.generate();
+
+        assertNotNull(sql);
+
+        sql = sql.toLowerCase();
+
+        SQLField f1 = builder.fieldByName("field1");
+        assertNotNull(f1);
+
+        SQLField f2 = builder.fieldByName("mytable.field1");
+        assertNotNull(f2);
+
+        assertEquals(f1, f2);
+
+        SQLField f3 = builder.fieldByName("field4");
+        assertNull(f3);
+
+        f3 = builder.fieldByName("tbl2.field4");
+        assertNotNull(f3);
+    }
+
+    @Test
+    public void aggregationTest() {
+        SQLQueryBuilder builder = new SQLQueryBuilder("mytable");
+
+        builder.select("field1, field2, field3");
+        builder.addGroupExpression("count(*)");
+
+        String sql = builder.generate();
+
+        assertNotNull(sql);
+
+        sql = sql.toLowerCase();
+
+        assertTrue("Must contain count(*) clause", sql.contains("count(*)"));
+        assertTrue("Must contain group by clause", sql.contains("group by"));
+
+        assertTrue("Group by declaration is wrong", sql.contains("group by"));
+
+        String[] tokens = sql.split("[\\n ]");
+        int index = Arrays.binarySearch(tokens, "group");
+        assertTrue(index > 0);
+
+        assertEquals("by", tokens[++index]);
+
+        SQLField f1 = builder.fieldByName("field1");
+        assertNotNull(f1);
+        assertEquals(f1.getFieldAlias() + ",", tokens[++index]);
+        assertEquals(builder.fieldByName("field2").getFieldAlias() + ",", tokens[++index]);
+        assertEquals(builder.fieldByName("field3").getFieldAlias(), tokens[++index]);
+        assertEquals("Must be the end of the tokens in SQL", ++index, tokens.length);
+    }
+
+    @Test
+    public void simpleQuery() {
+        SQLQueryBuilder qry = SQLQueryBuilder.from("mytable");
+
+        qry.join("table2", "table2.id = mytable.table2_id")
+                .restrict("table2.name like ?", "%test%");
+
+        String sql = qry.generate();
+        assertNotNull(sql);
+
+        qry.setDisableFieldAlias(true);
+        qry.select("table2.*");
+        sql = qry.generate();
+        assertNotNull(sql);
     }
 }

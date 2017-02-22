@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * <p>
  * Created by rmemoria on 30/8/15.
  */
-public class Item<E> implements Displayable {
+public class Item<E> implements IsItem<E>, Displayable {
+
     private E id;
     private String name;
 
@@ -57,5 +58,25 @@ public class Item<E> implements Displayable {
     @JsonIgnore
     public String getDisplayString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Item<?> item = (Item<?>) o;
+
+        return id.equals(item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

@@ -1,0 +1,52 @@
+@import '../../../less/variables.less';
+
+@cmd-background: #95ada9;
+
+.cmd-bar {
+	margin-bottom: 20px !important;
+
+	a {
+	    color: #888;
+	    text-transform: none !important;
+	    padding: 6px 6px !important;
+		transition: background-color 0.3s ease;
+	}
+
+	a:hover {
+        cursor: pointer;
+        color: #444;
+
+    	.fa {
+    		background-color: darken(@cmd-background, 20%);
+            color: #fff;
+    	}
+	}
+
+	.cmd-bar-sub {
+		padding-left: 40px;
+
+		.fa {
+			background-color: transparent;
+			color: @cmd-background;
+			font-size: 1.2em;
+			width: 18px;
+		}
+
+		a:hover {
+			.fa {
+				background-color: transparent;
+				color: @cmd-background;				
+			}
+		}
+	}
+}
+
+.cmd-bar .fa, .cmd-icon {
+	width: 32px !important;
+	padding: 6px 2px;
+	background-color: @cmd-background;
+	margin-right: 8px;
+	color: #fff;
+	border-radius: 4px;
+}
+

@@ -7,6 +7,7 @@ import { format } from '../commons/utils';
 
 
 export default class Success extends React.Component {
+
     constructor(props) {
         super(props);
         this.contClick = this.contClick.bind(this);
@@ -35,7 +36,7 @@ export default class Success extends React.Component {
                             {__('init.ws.name')}
                         </h3>
                         <br/>
-                        <i className="fa fa-check-circle fa-4x text-success"></i>
+                        <i className="fa fa-check-circle fa-4x text-success"/>
                         <br/>
                         <p className="mtop-2x">
                             {format(__('init.ws.success'), msg)}

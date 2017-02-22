@@ -1,7 +1,7 @@
 package org.msh.etbm.services.sys.info;
 
 import org.msh.etbm.commons.Item;
-import org.msh.etbm.services.admin.sysconfig.SysConfigFormData;
+import org.msh.etbm.services.admin.sysconfig.SysConfigData;
 import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.web.api.sys.GlobalListsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +62,10 @@ public class SystemInfoService {
 
         inf.setSystem(getJarManifest());
 
-        SysConfigFormData cfg = sysConfigService.loadConfig();
-        inf.setUlaActive(cfg.getUlaActive().get());
-        inf.setAllowRegPage(cfg.getAllowRegPage().get());
+        SysConfigData cfg = sysConfigService.loadConfig();
+        inf.setUlaActive(cfg.isUlaActive());
+        inf.setAllowRegPage(cfg.isAllowRegPage());
+        inf.setClientMode(cfg.isClientMode());
 
         if (includeLists) {
             inf.setLists(globalListsService.getLists());

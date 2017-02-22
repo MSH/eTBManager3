@@ -6,7 +6,7 @@ import java.util.UUID;
 
 /**
  * Store temporary information about information of a tag and its quantity of cases.
- * Used by {@link CasesTagsReportService} to generate a report about the quantity of cases per tag
+ * Used by {@link TagsReportService} to generate a report about the quantity of cases per tag
  * <p>
  * Created by rmemoria on 17/6/16.
  */

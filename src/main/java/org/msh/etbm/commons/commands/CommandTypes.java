@@ -20,6 +20,7 @@ public class CommandTypes {
     public static final String INVENTORY = "inventory";
     public static final String ADMIN = "admin";
     public static final String SESSION = "session";
+    public static final String OFFLINE = "offline";
 
     // initialization command types
     public static final String INIT_REGWORKSPACE = "init.regworkspace";
@@ -47,6 +48,10 @@ public class CommandTypes {
     public static final String CASES_CASE_CLOSE = "cases.case.close";
     public static final String CASES_CASE_REOPEN = "cases.case.reopen";
     public static final String CASES_CASE_TAG = "cases.case.manualtags";
+    public static final String CASES_CASE_VALIDATE = "cases.case.validate";
+    public static final String CASES_CASE_TRANSFER_OUT = "cases.case.transferout";
+    public static final String CASES_CASE_TRANSFER_IN = "cases.case.transferin";
+    public static final String CASES_CASE_TRANSFER_ROLLBACK = "cases.case.transferrollback";
     public static final String CASES_CASE_COMMENT = "cases.case.comment";
     public static final String CASES_CASE_ISSUE = "cases.case.issues";
     public static final String CASES_CASE_ISSUEFOLLOWUP = "cases.case.issuefollowups";
@@ -61,6 +66,14 @@ public class CommandTypes {
     public static final String CASES_CASE_EXAM_HIV = "cases.case.examhiv";
     public static final String CASES_CASE_EXAM_XRAY = "cases.case.examxray";
 
+    public static final String CASES_TREAT_FOLLOWUP = "cases.case.treatfollowup";
+    public static final String CASES_TREAT_INI = "cases.case.treatini";
+    public static final String CASES_TREAT_UNDO = "cases.case.treatundo";
+    public static final String CASES_TREAT_EDIT = "cases.case.treatedit";
+    public static final String CASES_TREAT_ADDMED = "cases.case.treat-addmed";
+    public static final String CASES_TREAT_PRESCEDT = "cases.case.treat-prescedt";
+    public static final String CASES_TREAT_PRESCDEL = "cases.case.treat-prescdel";
+
     // user session commands
     public static final String SESSION_USER_SETTINGS = "session.usersettings";
     public static final String SESSION_CHANGE_PWD = "session.changepwd";
@@ -69,6 +82,12 @@ public class CommandTypes {
     public static final String CMD_CREATE = "create";
     public static final String CMD_UPDATE = "update";
     public static final String CMD_DELETE = "delete";
+
+    // commands used in file synchronization
+    public static final String OFFLINE_SERVERINIT = "offline.serverinit";
+    public static final String OFFLINE_SERVERSYNC = "offline.serversync";
+    public static final String OFFLINE_CLIENTINIT = "offline.clientinit";
+    public static final String OFFLINE_CLIENTSYNC = "offline.clientsync";
 
     // the root of all command types (commands are organized in a tree way)
     public static final RootCommandType ROOT = new RootCommandType();
@@ -84,6 +103,7 @@ public class CommandTypes {
         ROOT.add(INVENTORY);
         ROOT.add(ADMIN);
         ROOT.add(SESSION);
+        ROOT.add(OFFLINE);
 
         // initialization
         ROOT.add(INIT_REGWORKSPACE);
@@ -101,6 +121,7 @@ public class CommandTypes {
         ROOT.add(ADMIN_USERS_CHANGE_PWD);
         ROOT.addCRUD(ADMIN_USERPROFILES);
         ROOT.addCRUD(ADMIN_WORKSPACES);
+        ROOT.addCRUD(ADMIN_AGERANGES);
         ROOT.add(SYSTEM_SETUP);
 
         // cases module
@@ -108,6 +129,10 @@ public class CommandTypes {
         ROOT.add(CASES_CASE_CLOSE);
         ROOT.add(CASES_CASE_REOPEN);
         ROOT.add(CASES_CASE_TAG);
+        ROOT.add(CASES_CASE_VALIDATE);
+        ROOT.add(CASES_CASE_TRANSFER_OUT);
+        ROOT.add(CASES_CASE_TRANSFER_IN);
+        ROOT.add(CASES_CASE_TRANSFER_ROLLBACK);
         ROOT.addCRUD(CASES_CASE_PREVTREAT);
         ROOT.addCRUD(CASES_CASE_CONTACT);
         ROOT.addCRUD(CASES_CASE_SIDEEFFECT);
@@ -121,10 +146,23 @@ public class CommandTypes {
         ROOT.addCRUD(CASES_CASE_EXAM_DST);
         ROOT.addCRUD(CASES_CASE_EXAM_HIV);
         ROOT.addCRUD(CASES_CASE_EXAM_XRAY);
+        ROOT.add(CASES_TREAT_FOLLOWUP);
+        ROOT.add(CASES_TREAT_UNDO);
+        ROOT.add(CASES_TREAT_INI);
+        ROOT.add(CASES_TREAT_EDIT);
+        ROOT.add(CASES_TREAT_ADDMED);
+        ROOT.add(CASES_TREAT_PRESCEDT);
+        ROOT.add(CASES_TREAT_PRESCDEL);
 
         // user sessions
         ROOT.add(SESSION_USER_SETTINGS);
         ROOT.add(SESSION_CHANGE_PWD, "changepwd");
+
+        // offline mode
+        ROOT.add(OFFLINE_SERVERINIT);
+        ROOT.add(OFFLINE_SERVERSYNC);
+        ROOT.add(OFFLINE_CLIENTINIT);
+        ROOT.add(OFFLINE_CLIENTSYNC);
     }
 
 

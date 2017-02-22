@@ -1,15 +1,17 @@
 package org.msh.etbm.services.admin.workspaces;
 
 import org.dozer.DozerBeanMapper;
-import org.msh.etbm.commons.JsonParser;
+import org.msh.etbm.commons.JsonUtils;
 import org.msh.etbm.db.entities.*;
 import org.msh.etbm.db.enums.UserView;
 import org.msh.etbm.services.admin.workspaces.impl.AdminUnitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.NewWorkspaceTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.TbunitTemplate;
 import org.msh.etbm.services.admin.workspaces.impl.UserProfileTemplate;
+import org.msh.etbm.services.cases.reports.CaseReportFormData;
 import org.msh.etbm.services.security.permissions.Permission;
 import org.msh.etbm.services.security.permissions.Permissions;
+import org.msh.etbm.services.session.search.SearchableCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -19,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,11 +43,14 @@ public class WorkspaceCreator {
     @Autowired
     Permissions permissions;
 
-    @Transactional
-    public WorkspaceData create(String name) {
+    @Autowired
+    SearchableCreator searchableCreator;
 
+
+    @Transactional
+    public WorkspaceData create(String name, UUID userId) {
         // read the template data
-        NewWorkspaceTemplate template = JsonParser.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
+        NewWorkspaceTemplate template = JsonUtils.parseResource("/templates/json/new-workspace-template.json", NewWorkspaceTemplate.class);
 
         Workspace ws = insertWorkspace(name, template);
 
@@ -53,6 +59,18 @@ public class WorkspaceCreator {
         createUnits(template, lst);
 
         createProfiles(template);
+
+        addUserToWorkspace(userId, ws.getId());
+
+        entityManager.flush();
+
+        User user = entityManager.find(User.class, userId);
+
+        createReports(ws);
+
+        searchableCreator.createNewSearchables(Workspace.class);
+        searchableCreator.createNewSearchables(AdministrativeUnit.class);
+        searchableCreator.createNewSearchables(Unit.class);
 
         return mapper.map(ws, WorkspaceData.class);
     }
@@ -271,4 +289,22 @@ public class WorkspaceCreator {
         profile.getPermissions().add(perm);
     }
 
+
+    /**
+     * Create the standard reports
+     */
+    protected void createReports(Workspace ws) {
+        CaseReportFormData[] lst = JsonUtils.parseArrayResource("/templates/json/reports.json", CaseReportFormData.class);
+        for (CaseReportFormData data: lst) {
+            Report rep = new Report();
+            rep.setDashboard(data.isDashboard());
+            rep.setPublished(data.isPublished());
+            rep.setData(JsonUtils.objectToJSONString(data, false));
+            rep.setWorkspace(ws);
+            rep.setRegistrationDate(new Date());
+            rep.setTitle(data.getTitle());
+            entityManager.persist(rep);
+            entityManager.flush();
+        }
+    }
 }

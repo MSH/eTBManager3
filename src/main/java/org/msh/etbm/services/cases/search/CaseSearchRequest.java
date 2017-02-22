@@ -1,5 +1,7 @@
 package org.msh.etbm.services.cases.search;
 
+import org.msh.etbm.services.RequestScope;
+
 import java.util.Map;
 import java.util.UUID;
 
@@ -21,35 +23,45 @@ public class CaseSearchRequest {
     private Integer pageSize;
 
     /**
-     * Optional scope of an administrative unit
+     * The scope of the search, that may be by workspace, admin unit or unit
      */
-    private UUID adminUnitId;
+    private RequestScope scope;
 
     /**
-     * Optional scope of a TB unit
+     * In case the scope is by admin unit or unit, its ID must be specified
      */
-    private UUID unitId;
+    private UUID scopeId;
 
     /**
      * List of filter IDs and its values
      */
     private Map<String, Object> filters;
 
+    /**
+     * Specify what to return in the query, if null it will return both cases and counting
+     */
+    private ResultType resultType;
 
-    public UUID getAdminUnitId() {
-        return adminUnitId;
+    /**
+     * If true, it will also include filter description in the result of the query
+     * to make it easier to display its result
+     */
+    private boolean addFilterDisplay;
+
+    public RequestScope getScope() {
+        return scope;
     }
 
-    public void setAdminUnitId(UUID adminUnitId) {
-        this.adminUnitId = adminUnitId;
+    public void setScope(RequestScope scope) {
+        this.scope = scope;
     }
 
-    public UUID getUnitId() {
-        return unitId;
+    public UUID getScopeId() {
+        return scopeId;
     }
 
-    public void setUnitId(UUID unitId) {
-        this.unitId = unitId;
+    public void setScopeId(UUID scopeId) {
+        this.scopeId = scopeId;
     }
 
     public Map<String, Object> getFilters() {
@@ -74,5 +86,21 @@ public class CaseSearchRequest {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public ResultType getResultType() {
+        return resultType;
+    }
+
+    public void setResultType(ResultType resultType) {
+        this.resultType = resultType;
+    }
+
+    public boolean isAddFilterDisplay() {
+        return addFilterDisplay;
+    }
+
+    public void setAddFilterDisplay(boolean addFilterDisplay) {
+        this.addFilterDisplay = addFilterDisplay;
     }
 }

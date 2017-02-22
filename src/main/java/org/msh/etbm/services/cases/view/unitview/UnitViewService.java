@@ -1,23 +1,32 @@
 package org.msh.etbm.services.cases.view.unitview;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.msh.etbm.commons.Item;
+import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.date.DateUtils;
 import org.msh.etbm.commons.date.Period;
 import org.msh.etbm.commons.objutils.ObjectUtils;
+import org.msh.etbm.db.entities.ExamMicroscopy;
+import org.msh.etbm.db.entities.ExamXpert;
 import org.msh.etbm.db.entities.Patient;
 import org.msh.etbm.db.entities.TbCase;
-import org.msh.etbm.db.enums.*;
-import org.msh.etbm.services.cases.tag.CasesTagsReportItem;
-import org.msh.etbm.services.cases.tag.CasesTagsReportService;
+import org.msh.etbm.db.enums.CaseState;
+import org.msh.etbm.db.enums.DiagnosisType;
+import org.msh.etbm.db.enums.MicroscopyResult;
+import org.msh.etbm.db.enums.XpertResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service that returns the data to create the unit view of the case management module
@@ -26,11 +35,25 @@ import java.util.UUID;
 @Service
 public class UnitViewService {
 
-    @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
-    @Autowired
-    CasesTagsReportService casesTagsReportService;
+    private Messages messages;
+
+    private DataSource dataSource;
+
+
+    /**
+     * Default constructor
+     * @param entityManager injected by the container manager
+     * @param messages  injected by the container manager
+     * @param dataSource  injected by the container manager
+     */
+    public UnitViewService(EntityManager entityManager, Messages messages, DataSource dataSource) {
+        this.entityManager = entityManager;
+        this.messages = messages;
+        this.dataSource = dataSource;
+    }
+
 
     /**
      * Get data related to the unit view of the cases module
@@ -44,8 +67,6 @@ public class UnitViewService {
 
         loadCases(unitId, data);
 
-        loadTags(unitId, data);
-
         return data;
     }
 
@@ -57,21 +78,21 @@ public class UnitViewService {
      */
     private void loadCases(UUID unitId, UnitViewData data) {
         List<TbCase> lst = entityManager.createQuery("from TbCase c " +
-                "join fetch c.patient where c.ownerUnit.id = :unitId " +
-                "and c.state in (:st1, :st2, :st3) " +
-                "order by c.patient.name")
+                "left join fetch c.comorbidities " +
+                "join fetch c.patient where (c.ownerUnit.id = :unitId or c.transferOutUnit = :unitId) " +
+                "and c.state in (:st1, :st2) " +
+                "order by c.patient.name.name")
                 .setParameter("unitId", unitId)
                 .setParameter("st1", CaseState.ONTREATMENT)
-                .setParameter("st2", CaseState.WAITING_TREATMENT)
-                .setParameter("st3", CaseState.TRANSFERRING)
+                .setParameter("st2", CaseState.NOT_ONTREATMENT)
                 .getResultList();
 
         data.setPresumptives(new ArrayList<>());
         data.setDrtbCases(new ArrayList<>());
         data.setTbCases(new ArrayList<>());
+        data.setNtmCases(new ArrayList<>());
 
         for (TbCase tbcase : lst) {
-
             // is a case a presumptive one?
             if (tbcase.getDiagnosisType() == DiagnosisType.SUSPECT) {
                 data.getPresumptives().add(createPresumptiveData(tbcase));
@@ -79,50 +100,134 @@ public class UnitViewService {
                 // get confirmed case data
                 ConfirmedCaseData caseData = createConfirmedData(tbcase);
 
-                // put case in the right list
-                if (tbcase.getClassification() == CaseClassification.TB) {
-                    data.getTbCases().add(caseData);
-                } else {
-                    data.getDrtbCases().add(caseData);
+                switch (tbcase.getClassification()) {
+                    case DRTB: data.getDrtbCases().add(caseData);
+                        break;
+                    case NTM: data.getNtmCases().add(caseData);
+                        break;
+                    default: data.getTbCases().add(caseData);
                 }
             }
         }
+
+        loadPresumptiveExamResults(data.getPresumptives());
     }
 
+    /**
+     * Create a presumptive case record based on the data loaded from the query
+     * @param tbcase the instance of the TbCase loaded from the query
+     * @return instance of {@link PresumptiveCaseData}
+     */
     private PresumptiveCaseData createPresumptiveData(TbCase tbcase) {
         PresumptiveCaseData data = createCaseData(tbcase, PresumptiveCaseData.class);
 
-        data.setCaseNumber("TO BE DONE");
-        data.setMicroscopyResult(MicroscopyResult.NEGATIVE);
-        data.setXpertResult(XpertResult.NO_RESULT);
+        data.setCaseNumber(tbcase.getRegistrationNumber());
 
         return data;
+    }
+
+    /**
+     * Load at once the data from the presumptive cases, if any available
+     * @param lst
+     */
+    private void loadPresumptiveExamResults(List<PresumptiveCaseData> lst) {
+        if (lst == null || lst.isEmpty()) {
+            return;
+        }
+
+        // load microscopy results
+        loadMicroscopyResults(lst);
+        loadXpertResults(lst);
+    }
+
+    /**
+     * Load the microscopy results of the list of presumptives
+     * @param lst
+     */
+    private void loadMicroscopyResults(List<PresumptiveCaseData> lst) {
+        StringBuilder sql = new StringBuilder("select a.case_id, a.result from exammicroscopy a\n" +
+                "where a.event_date = (select min(b.event_date) from exammicroscopy b where b.case_id = a.case_id)\n" +
+                "and a.case_id in (");
+
+        String join = "";
+        List params = new ArrayList();
+        for (PresumptiveCaseData it: lst) {
+            sql.append(join).append("?");
+            params.add(ObjectUtils.uuidAsBytes(it.getId()));
+            join = ",";
+        }
+
+        sql.append(")");
+
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        template.query(sql.toString(), params.toArray(), resultSet -> {
+            PresumptiveCaseData caseData = findPresumptive(lst, resultSet.getBytes(1));
+            MicroscopyResult res = MicroscopyResult.values()[resultSet.getInt(2)];
+            caseData.setMicroscopyResult(new Item<>(res, messages.get(res.getMessageKey())));
+        });
+    }
+
+    /**
+     * Search for a presumptive in the list of presumptives by its id in byte representation
+     * @param lst
+     * @param id
+     * @return
+     */
+    private PresumptiveCaseData findPresumptive(List<PresumptiveCaseData> lst, byte[] id) {
+        UUID uuid = ObjectUtils.bytesToUUID(id);
+
+        Optional<PresumptiveCaseData> res = lst.stream()
+                .filter(it ->  it.getId().equals(uuid))
+                .findFirst();
+
+        if (!res.isPresent()) {
+            throw new IllegalArgumentException("Case not found");
+        }
+
+        return res.get();
+    }
+
+    /**
+     * Load the Xpert results, if available, of all presumptives in the given list
+     * @param lst
+     */
+    private void loadXpertResults(List<PresumptiveCaseData> lst) {
+        StringBuilder sql = new StringBuilder("select a.case_id, a.result from examxpert a\n" +
+                "where a.event_date = (select min(b.event_date) from examxpert b where b.case_id = a.case_id)\n" +
+                "and a.case_id in (");
+
+        String join = "";
+        List params = new ArrayList();
+        for (PresumptiveCaseData it: lst) {
+            sql.append(join).append("?");
+            params.add(ObjectUtils.uuidAsBytes(it.getId()));
+            join = ",";
+        }
+
+        sql.append(")");
+
+        JdbcTemplate template = new JdbcTemplate(dataSource);
+        template.query(sql.toString(), params.toArray(), resultSet -> {
+            PresumptiveCaseData caseData = findPresumptive(lst, resultSet.getBytes(1));
+            XpertResult res = XpertResult.values()[resultSet.getInt(2)];
+            caseData.setXpertResult(new Item<>(res, messages.get(res.getMessageKey())));
+        });
+
     }
 
     private ConfirmedCaseData createConfirmedData(TbCase tbcase) {
         ConfirmedCaseData data = createCaseData(tbcase, ConfirmedCaseData.class);
 
-        data.setCaseNumber("TO BE DONE");
-        data.setInfectionSite(tbcase.getInfectionSite());
-        data.setRegistrationGroup(new Item<String>(tbcase.getRegistrationGroup(), tbcase.getRegistrationGroup()));
+        data.setCaseNumber(tbcase.getCaseNumber());
+        if (tbcase.getInfectionSite() != null) {
+            data.setInfectionSite(new Item(tbcase.getInfectionSite(), messages.get(tbcase.getInfectionSite().getMessageKey())));
+        }
+        data.setRegistrationGroup(tbcase.getRegistrationGroup());
 
         // is case on treatment ?
         if (tbcase.isOnTreatment()) {
             data.setIniTreatmentDate(tbcase.getTreatmentPeriod().getIniDate());
-
-            // calculate the treatment progress based on the current date
-            Period p = new Period(tbcase.getTreatmentPeriod().getIniDate(), new Date());
-
-            int daysTreatment = tbcase.getTreatmentPeriod().getDays();
-
-            int prog = daysTreatment > 0 ? (p.getDays() * 100) / daysTreatment * 100 : 0;
-
-            // limit in case the treatment should have finished
-            if (prog > 100) {
-                prog = 100;
-            }
-
-            data.setTreatmentProgress(prog);
+            data.setTreatmentProgress(calcTreatmentProgress(tbcase.getTreatmentPeriod()));
         }
 
         return data;
@@ -143,23 +248,32 @@ public class UnitViewService {
         Patient p = tbcase.getPatient();
 
         data.setId(tbcase.getId());
-        data.setName(p.getDisplayString());
+        data.setName(p.getName());
         data.setGender(p.getGender());
         data.setRegistrationDate(tbcase.getRegistrationDate());
 
         return data;
     }
 
-
     /**
-     * Load the tags and its total of cases for the given unit
+     * Calculate the treatment progress based on the today's date
      *
-     * @param unitId the unit ID to load tags from
-     * @param data   the view to include the results
+     * @param period
+     * @return
      */
-    private void loadTags(UUID unitId, UnitViewData data) {
-        List<CasesTagsReportItem> tags = casesTagsReportService.generateByUnit(unitId);
+    private int calcTreatmentProgress(Period period) {
+        Date today = DateUtils.getDate();
 
-        data.setTags(tags);
+        // the date today is not inside the treatment period ?
+        if (!period.isDateInside(today)) {
+            return today.before(period.getIniDate()) ? 0 : 100;
+        }
+
+        int days = period.getDays();
+
+        Period p = new Period(period.getIniDate(), today);
+        int prog = (p.getDays() * 100) / days;
+
+        return prog;
     }
 }

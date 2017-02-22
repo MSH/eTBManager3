@@ -9,6 +9,7 @@ import org.msh.etbm.services.admin.tags.TagService;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
+import org.msh.etbm.web.api.authentication.InstanceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,14 +22,13 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/tbl")
-@Authenticated(permissions = {Permissions.TABLE_TAGS_EDT})
+@Authenticated(permissions = {Permissions.TABLE_TAGS_EDT}, instanceType = InstanceType.SERVER_MODE)
 public class TagsREST {
 
     @Autowired
     TagService service;
 
     @RequestMapping(value = "/tag/{id}", method = RequestMethod.GET)
-    @Authenticated()
     public TagData get(@PathVariable UUID id) {
         return service.findOne(id, TagData.class);
     }

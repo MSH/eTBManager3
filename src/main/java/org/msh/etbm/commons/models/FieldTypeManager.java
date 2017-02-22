@@ -1,5 +1,7 @@
 package org.msh.etbm.commons.models;
 
+import org.msh.etbm.commons.models.data.Field;
+import org.msh.etbm.commons.models.data.FieldHandler;
 import org.msh.etbm.commons.models.data.fields.*;
 import org.msh.etbm.commons.models.data.handlers.*;
 
@@ -38,7 +40,12 @@ public class FieldTypeManager {
         register(new ForeignKeyFieldHandler<FKSubstanceField>(FKSubstanceField.class));
         register(new ForeignKeyFieldHandler<FKRegimenField>(FKRegimenField.class));
         register(new ForeignKeyFieldHandler<FKAdminUnitField>(FKAdminUnitField.class));
-        register(new KFUnitFieldHandler());
+        register(new FKUnitFieldHandler());
+
+        register(new AddressFieldHandler());
+        register(new PersonNameFieldHandler());
+
+        register(new MonthYearFieldHandler());
     }
 
     /**

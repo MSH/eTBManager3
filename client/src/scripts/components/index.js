@@ -29,32 +29,46 @@ import MaskedInput from './masked-input';
 import CommandBar from './command-bar';
 import Errors from './errors';
 import PopupControl from './popup-control';
+import RemoteForm from './remote-form';
+import observer from './observer';
+import Sideview from './sideview';
+import InlineEditor from './inline-editor';
+import YearPicker from './year-picker';
+import MonthYearPicker from './month-year-picker';
+import BigButton from './big-button';
 
 export { Callout,
-	AsyncButton,
-	Card,
-	Fluidbar,
-	Profile,
-	WaitIcon,
-	Sidebar,
-	CollapseCard,
-	GridTable,
-	TreeView,
-	Fa,
-	MessageDlg,
-	Popup,
-	FormDialog,
-	SelectionBox,
-	DatePicker,
-	CollapseRow,
-	ReactTable,
-	AutoheightInput,
-	LinkTooltip,
-	ReactGrid,
-	ListBox,
-	Expandable,
-	MaskedInput,
-	CommandBar,
-	Errors,
-	PopupControl
+    AsyncButton,
+    Card,
+    Fluidbar,
+    Profile,
+    WaitIcon,
+    Sidebar,
+    CollapseCard,
+    GridTable,
+    TreeView,
+    Fa,
+    MessageDlg,
+    Popup,
+    FormDialog,
+    SelectionBox,
+    DatePicker,
+    CollapseRow,
+    ReactTable,
+    AutoheightInput,
+    LinkTooltip,
+    ReactGrid,
+    ListBox,
+    Expandable,
+    MaskedInput,
+    CommandBar,
+    Errors,
+    PopupControl,
+    RemoteForm,
+    observer,
+    Sideview,
+    InlineEditor,
+    BigButton,
+    YearPicker,
+    MonthYearPicker
 };

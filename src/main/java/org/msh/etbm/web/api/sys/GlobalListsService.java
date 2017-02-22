@@ -35,7 +35,6 @@ public class GlobalListsService {
             CaseClassification.class,
             CaseState.class,
             DiagnosisType.class,
-            ValidationState.class,
             CommandAction.class,
             FollowUpType.class,
             MedAppointmentType.class,
@@ -43,17 +42,14 @@ public class GlobalListsService {
             SampleType.class,
             MicroscopyResult.class,
             CultureResult.class,
-            XpertRifResult.class,
             XpertResult.class,
             XRayEvolution.class,
             HIVResult.class,
             ExamStatus.class,
             DstResult.class,
-            PrevTBTreatmentOutcome.class,
             NameComposition.class,
             CaseValidationOption.class,
-            DisplayCaseNumber.class,
-            TreatMonitoringInput.class
+            DisplayCaseNumber.class
     };
 
     /**
@@ -109,7 +105,7 @@ public class GlobalListsService {
     }
 
     /**
-     * Puts the different messages combination of case classification and diagnosis types on the param
+     * Put the different messages combination of case classification and diagnosis types on the param
      * @param res object that will have the values put
      */
     private void putClassificationDiagnosisOptions(Map<String, Map<String, String>> res) {

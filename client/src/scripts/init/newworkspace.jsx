@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Grid, Row, Col, Input, Fade, FormControl, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Grid, Row, Col, Fade, FormControl, FormGroup, ControlLabel, HelpBlock, Checkbox } from 'react-bootstrap';
 import { validateForm } from '../commons/validator';
 import { server } from '../commons/server';
 import Success from './success';
@@ -42,7 +42,8 @@ export default class NewWorkspace extends React.Component {
     constructor(props) {
         super(props);
         this.contClick = this.contClick.bind(this);
-        this.state = { data: {} };
+        this.onDemoChange = this.onDemoChange.bind(this);
+        this.state = { data: { demoData: true } };
     }
 
     /**
@@ -63,7 +64,8 @@ export default class NewWorkspace extends React.Component {
         const data = {
             workspaceName: v.wsname,
             adminPassword: v.pwd,
-            adminEmail: v.email
+            adminEmail: v.email,
+            demoData: this.state.data.demoData
         };
 
         const self = this;
@@ -81,6 +83,12 @@ export default class NewWorkspace extends React.Component {
             .catch(() => self.setState({ fetching: false }));
     }
 
+    onDemoChange(evt) {
+        const checked = evt.target.checked;
+        const data = this.state.data;
+        data.demoData = checked;
+        this.setState({ data: data });
+    }
 
     /**
      * Render the component
@@ -151,9 +159,16 @@ export default class NewWorkspace extends React.Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col sm={12}>
+                                    <Col sm={6}>
+                                        <Checkbox checked={this.state.data.demoData}
+                                            ref="chkAdd"
+                                            onChange={this.onDemoChange}>
+                                            {__('init.adddemodata')}
+                                        </Checkbox>
+                                    </Col>
+                                    <Col sm={6}>
                                         <div className="pull-right">
-                                            <AsyncButton fetching={fetching} pullRight bsSize="large" onClick={this.contClick}>
+                                            <AsyncButton fetching={fetching} bsSize="large" onClick={this.contClick}>
                                                 {__('action.create')}
                                             </AsyncButton>
                                         </div>

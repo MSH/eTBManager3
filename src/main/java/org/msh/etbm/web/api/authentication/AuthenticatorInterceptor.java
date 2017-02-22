@@ -1,5 +1,6 @@
 package org.msh.etbm.web.api.authentication;
 
+import org.msh.etbm.services.admin.sysconfig.SysConfigService;
 import org.msh.etbm.services.session.usersession.UserRequestService;
 import org.msh.etbm.services.session.usersession.UserSession;
 import org.msh.etbm.services.session.usersession.UserSessionService;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -33,6 +35,9 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     UserRequestService userRequestService;
+
+    @Autowired
+    SysConfigService sysConfigService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -67,11 +72,22 @@ public class AuthenticatorInterceptor extends HandlerInterceptorAdapter {
         // check if user has permissions
         if (!checkAuthorized(auth.permissions(), session)) {
             response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
-            return true;
+            return false;
+        }
+
+        // check eTB-Manager instance type restriction
+        if ((InstanceType.CLIENT_MODE.equals(auth.instanceType()) && !sysConfigService.loadConfig().isClientMode())
+                || (InstanceType.SERVER_MODE.equals(auth.instanceType()) && sysConfigService.loadConfig().isClientMode())) {
+            response.sendError(HttpStatus.FORBIDDEN.value(), "Operation forbidden");
+            return false;
         }
 
         userRequestService.setUserSession(session);
         userRequestService.setAuthToken(authToken);
+
+        // Force Spring to convert dates to UTC Timezone
+        // Fixing problem when converting from JSON to Date Object
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
         return true;
     }

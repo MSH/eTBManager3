@@ -6,12 +6,12 @@ import MessageDlg from '../components/message-dlg';
 
 export default class AppMessageDlg extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.close = this.close.bind(this);
-		this._onAppChange = this._onAppChange.bind(this);
+    constructor(props) {
+        super(props);
+        this.close = this.close.bind(this);
+        this._onAppChange = this._onAppChange.bind(this);
         this.state = {};
-	}
+    }
 
     componentDidMount() {
         app.add(this._onAppChange);
@@ -33,19 +33,19 @@ export default class AppMessageDlg extends React.Component {
     }
 
     close(evt) {
-		this.state.data.onClose(evt);
-		this.setState({ show: false, data: null });
+        this.state.data.onClose(evt);
+        this.setState({ show: false, data: null });
     }
 
 
-	render() {
-		if (!this.state.show) {
-			return null;
-		}
+    render() {
+        if (!this.state.show) {
+            return null;
+        }
 
-		const props = Object.assign({}, this.state.data);
-		delete props.onClose;
+        const props = Object.assign({}, this.state.data);
+        delete props.onClose;
 
-		return <MessageDlg show onClose={this.close} {...props} />;
-	}
+        return <MessageDlg show onClose={this.close} {...props} />;
+    }
 }

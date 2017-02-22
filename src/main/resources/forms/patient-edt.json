@@ -11,22 +11,10 @@
   "controls": [
     {
       "property": "name",
-      "type": "string",
-      "label": "Name of the patient",
-      "max": 30,
-      "size": { "md": 3 }
-    },
-    {
-      "property": "middleName",
-      "type": "string",
-      "max": 30,
-      "size": { "md": 3 }
-    },
-    {
-      "property": "lastName",
-      "type": "string",
-      "max": 30,
-      "size": { "md": 3 }
+      "type": "personName",
+      "label": "${Patient.name}",
+      "required": true,
+      "size": { "md": 6 }
     },
     {
       "property": "birthDate",
@@ -37,8 +25,7 @@
     {
       "property": "gender",
       "type": "select",
-      "size": { "md": 6 },
-      "newRow": true
+      "size": { "md": 6 }
     },
     {
       "property": "customId",
@@ -51,6 +38,13 @@
       "label": "${Medicine}",
       "type": "select",
       "options": "medicines",
+      "size": { "md": 6 },
+      "newRow": true
+    },
+    {
+      "property": "address",
+      "label": "${Patient.address}",
+      "type": "address",
       "size": { "md": 6 },
       "newRow": true
     }

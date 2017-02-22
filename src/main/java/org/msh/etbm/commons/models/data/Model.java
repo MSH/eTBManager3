@@ -1,8 +1,9 @@
 package org.msh.etbm.commons.models.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.msh.etbm.commons.models.data.fields.Field;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -13,25 +14,56 @@ public class Model {
     /**
      * The model unique identifier ID
      */
+    @NotNull
     private String name;
 
     /**
      * The table to store the model record
      */
+    @NotNull
     private String table;
+
+    /**
+     * The version of this model. It is used for optimistic locking and
+     * for changing detection
+     */
+    @NotNull
+    private long version;
 
     /**
      * The list of fields of a model
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Valid
+    @NotNull
     private List<Field> fields;
 
     /**
      * The list of validators of the model
      */
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Valid
     private List<Validator> validators;
 
+
+    /**
+     * Search for the field by its ID
+     * @param id the field ID
+     * @return the field with the same given ID, or null if not found
+     */
+    public Field findFieldById(int id) {
+        if (fields == null) {
+            return null;
+        }
+
+        for (Field field: fields) {
+            if (field.getId() == id) {
+                return field;
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Search for a field by its name
@@ -88,5 +120,13 @@ public class Model {
 
     public void setTable(String table) {
         this.table = table;
+    }
+
+    public long getVersion() {
+        return version;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
     }
 }

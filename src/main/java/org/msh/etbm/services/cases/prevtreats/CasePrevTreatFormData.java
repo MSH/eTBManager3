@@ -1,19 +1,20 @@
 package org.msh.etbm.services.cases.prevtreats;
 
-import org.msh.etbm.db.enums.PrevTBTreatmentOutcome;
-import org.msh.etbm.services.cases.CaseEntityFormData;
+import org.msh.etbm.commons.date.YearMonthData;
 
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Created by Mauricio on 18/08/2016.
  */
-public class CasePrevTreatFormData extends CaseEntityFormData {
-    private Optional<Integer> month;
-    private Optional<Integer> year;
-    private Optional<Integer> outcomeMonth;
-    private Optional<Integer> outcomeYear;
-    private Optional<PrevTBTreatmentOutcome> outcome;
+public class CasePrevTreatFormData {
+    private Optional<UUID> caseId;
+
+    private YearMonthData iniTreatment = new YearMonthData();
+    private YearMonthData endTreatment = new YearMonthData();
+
+    private Optional<String> outcome;
 
     private Optional<Boolean> am;
     private Optional<Boolean> cfz;
@@ -28,43 +29,35 @@ public class CasePrevTreatFormData extends CaseEntityFormData {
     private Optional<Boolean> s;
     private Optional<Boolean> z;
 
-    public Optional<Integer> getMonth() {
-        return month;
+    public Optional<UUID> getCaseId() {
+        return caseId;
     }
 
-    public void setMonth(Optional<Integer> month) {
-        this.month = month;
+    public void setCaseId(Optional<UUID> caseId) {
+        this.caseId = caseId;
     }
 
-    public Optional<Integer> getYear() {
-        return year;
+    public YearMonthData getIniTreatment() {
+        return iniTreatment;
     }
 
-    public void setYear(Optional<Integer> year) {
-        this.year = year;
+    public void setIniTreatment(YearMonthData iniTreatment) {
+        this.iniTreatment = iniTreatment;
     }
 
-    public Optional<Integer> getOutcomeMonth() {
-        return outcomeMonth;
+    public YearMonthData getEndTreatment() {
+        return endTreatment;
     }
 
-    public void setOutcomeMonth(Optional<Integer> outcomeMonth) {
-        this.outcomeMonth = outcomeMonth;
+    public void setEndTreatment(YearMonthData endTreatment) {
+        this.endTreatment = endTreatment;
     }
 
-    public Optional<Integer> getOutcomeYear() {
-        return outcomeYear;
-    }
-
-    public void setOutcomeYear(Optional<Integer> outcomeYear) {
-        this.outcomeYear = outcomeYear;
-    }
-
-    public Optional<PrevTBTreatmentOutcome> getOutcome() {
+    public Optional<String> getOutcome() {
         return outcome;
     }
 
-    public void setOutcome(Optional<PrevTBTreatmentOutcome> outcome) {
+    public void setOutcome(Optional<String> outcome) {
         this.outcome = outcome;
     }
 

@@ -1,13 +1,12 @@
 package org.msh.etbm.web.api.cases;
 
+import org.msh.etbm.commons.Messages;
+import org.msh.etbm.commons.entities.EntityValidationException;
 import org.msh.etbm.commons.entities.ServiceResult;
 import org.msh.etbm.commons.entities.query.QueryResult;
 import org.msh.etbm.commons.forms.FormInitResponse;
 import org.msh.etbm.commons.forms.FormService;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatData;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatQueryParams;
-import org.msh.etbm.services.cases.prevtreats.CasePrevTreatService;
+import org.msh.etbm.services.cases.prevtreats.*;
 import org.msh.etbm.services.security.permissions.Permissions;
 import org.msh.etbm.web.api.StandardResult;
 import org.msh.etbm.web.api.authentication.Authenticated;
@@ -32,14 +31,36 @@ public class CasePrevTreatsREST {
     @Autowired
     FormService formService;
 
+    @Autowired
+    PrevTBTreatmentService prevTBTreatmentService;
+
+    @RequestMapping(value = "/prevtreat/form", method = RequestMethod.POST)
+    public FormInitResponse initForm(@RequestBody @NotNull CaseFormRequest req) {
+        // is editing an existing record?
+        if (req.getId() != null) {
+            return prevTBTreatmentService.initEdit(req.getId(), req.isReadOnly());
+        }
+
+        if (req.getCaseId() == null) {
+            throw new EntityValidationException(req, "caseId", null, Messages.NOT_NULL);
+        }
+
+        return prevTBTreatmentService.initNew(req.getCaseId());
+    }
+
     @RequestMapping(value = "/prevtreat", method = RequestMethod.GET)
-    public FormInitResponse init() {
-        return formService.init("contact.default", new CasePrevTreatData(), false);
+    public FormInitResponse init(@RequestParam(name = "ro", required = false) String displaying,
+                                 @RequestParam(name = "id", required = false) UUID id,
+                                 @RequestParam(name = "caseid", required = false) UUID caseId) {
+        return formService.initFromModel("prevtbtreatment", id, displaying != null);
     }
 
     @RequestMapping(value = "/prevtreat/{id}", method = RequestMethod.GET)
     @Authenticated()
-    public CasePrevTreatData get(@PathVariable UUID id) {
+    public CasePrevTreatData get(@PathVariable UUID id,
+                                 @RequestParam(name = "ro") String readOnly,
+                                 @RequestParam(name = "form") String form) {
+        //        formService.initFromModel("prevtbtreatment", id, readOnly != null);
         return service.findOne(id, CasePrevTreatData.class);
     }
 

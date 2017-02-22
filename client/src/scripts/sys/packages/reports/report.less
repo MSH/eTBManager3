@@ -1,0 +1,46 @@
+@import '../../../../../less/variables.less';
+
+.report {
+
+    .title {
+        font-size: 1.5em;
+        color: #606060;   
+        font-weight: normal;
+        width: 100%;
+
+    }
+
+    .title.display {
+        cursor: pointer;
+    }
+
+    .title.edit {
+        border: 1px solid @input-border;
+        border-radius: @border-radius-large;
+    }
+
+    .title.edit:focus {
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    }
+
+    .var-selector {
+        background-color: #f8f8f8;
+        padding: 8px;
+        margin: 8px -8px;
+
+        .vars-box {
+            display: table;
+
+            .var-del {
+                display: table-cell;
+                padding-right: 12px;
+            }
+
+            .var-control {
+                display: table-cell;
+                width: 100%;
+            }
+        }
+    }
+
+}

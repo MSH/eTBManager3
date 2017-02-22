@@ -31,13 +31,34 @@ public class StandardJSONParser<E> {
     /**
      * Parse a JSON data from an input stream
      * @param in the instance of InputStream that will fetch the JSON data
-     * @return instance of the object serialized from JSON
+     * @return instance of the generic class converted from JSON
      */
     protected E parseInputStream(InputStream in) {
         Map<String, Object> props = parseJsonStream(in);
 
         Class beanClass = ObjectUtils.getGenericType(getClass(), 0);
         return (E)convertObject(props, beanClass);
+    }
+
+    /**
+     * Parse a JSON data from a string
+     * @param s the string containing the JSON data
+     * @return instance of the generic class converted from JSON
+     */
+    protected E parseString(String s) {
+        Map<String, Object> props = parseJsonString(s);
+
+        Class beanClass = ObjectUtils.getGenericType(getClass(), 0);
+        return (E)convertObject(props, beanClass);
+    }
+
+    protected Map<String, Object> parseJsonString(String s) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(s, new TypeReference<Map<String, Object>>() {});
+        } catch (Exception e) {
+            throw new ModelException(e);
+        }
     }
 
     protected Map<String, Object> parseJsonStream(InputStream in) {
@@ -73,7 +94,7 @@ public class StandardJSONParser<E> {
 
             Class propClass = ObjectUtils.getPropertyType(bean2, propName);
             if (propClass == null) {
-                throw new ModelException("Invalid property: " + propName);
+                throw new ModelException("Invalid property: " + propName + " in class " + bean2.getClass());
             }
 
             Field field = ObjectUtils.findField(bean2.getClass(), propName);
@@ -226,8 +247,11 @@ public class StandardJSONParser<E> {
     private FieldOptions mapToFieldOptions(Map<String, Object> props) {
         if (props.size() == 2 && props.containsKey("from") && props.containsKey("to")) {
             FieldRangeOptions range = new FieldRangeOptions();
-            range.setIni((Integer)props.get("from"));
-            range.setEnd((Integer)props.get("to"));
+            Integer from = (Integer)props.get("from");
+            Integer to = (Integer)props.get("to");
+
+            range.setFrom(from);
+            range.setTo(to);
             return range;
         }
 

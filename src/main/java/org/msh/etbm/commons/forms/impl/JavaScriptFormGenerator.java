@@ -2,6 +2,7 @@ package org.msh.etbm.commons.forms.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.msh.etbm.commons.Messages;
 import org.msh.etbm.commons.forms.FormException;
 import org.msh.etbm.commons.forms.controls.Control;
@@ -9,9 +10,9 @@ import org.msh.etbm.commons.forms.controls.ValuedControl;
 import org.msh.etbm.commons.forms.data.DataModel;
 import org.msh.etbm.commons.forms.data.Form;
 import org.msh.etbm.commons.models.ModelManager;
+import org.msh.etbm.commons.models.data.Field;
 import org.msh.etbm.commons.models.data.JSFuncValue;
 import org.msh.etbm.commons.models.data.Validator;
-import org.msh.etbm.commons.models.data.fields.Field;
 import org.msh.etbm.commons.objutils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -289,6 +290,7 @@ public class JavaScriptFormGenerator {
 
         if (value instanceof String) {
             String txt = messages.eval((String)value);
+            txt = StringEscapeUtils.escapeEcmaScript(txt);
             return "'" + txt + "'";
         }
 
@@ -308,7 +310,8 @@ public class JavaScriptFormGenerator {
         if (value instanceof JSFuncValue) {
             JSFuncValue f = (JSFuncValue)value;
             if (f.isExpressionPresent()) {
-                return "function() { return " + f.getFunction() + "; }";
+                String func = messages.eval(f.getFunction());
+                return "function(doc) { return " + func + "; }";
             }
             return convertValue(f.getValue());
         }

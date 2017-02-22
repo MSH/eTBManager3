@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+
+    <mapping>
+        <class-a>org.msh.etbm.services.cases.prevtreats.CasePrevTreatFormData</class-a>
+        <class-b>org.msh.etbm.db.entities.PrevTBTreatment</class-b>
+
+        <field custom-converter-id="entity-id">
+            <a>caseId</a>
+            <b>tbcase</b>
+        </field>
+
+        <field>
+            <a>iniTreatment.month</a>
+            <b>month</b>
+        </field>
+
+        <field>
+            <a>iniTreatment.year</a>
+            <b>year</b>
+        </field>
+
+        <field>
+            <a>endTreatment.month</a>
+            <b>outcomeMonth</b>
+        </field>
+
+        <field>
+            <a>endTreatment.year</a>
+            <b>outcomeYear</b>
+        </field>
+    </mapping>
+
+
+</mappings>

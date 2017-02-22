@@ -24,11 +24,21 @@ public class FieldListOptions extends FieldOptions {
             return false;
         }
 
-        for (Item item: list) {
-            if (item.getId().equals(value)) {
-                return true;
+        // TODO: Remove this if and executes on the code in else when enum list is working
+        if (value instanceof Enum) {
+            for (Item item: list) {
+                if (item.getId().equals(((Enum)value).name())) {
+                    return true;
+                }
+            }
+        } else {
+            for (Item item: list) {
+                if (item.getId().equals(value)) {
+                    return true;
+                }
             }
         }
+
         return false;
     }
 

@@ -56,10 +56,18 @@ export default class Toolbar extends React.Component {
         logout().then(() => app.goto('/pub/login'));
     }
 
+    showAdmin() {
+        return hasPerm('ADMIN') && !app.storage.state.app.clientMode;
+    }
+
+    goHome() {
+        location.hash = SessionUtils.homeHash();
+    }
+
     render() {
         var Logo = (
             <a>
-                <img src="images/logo2.png"></img>
+                <img src="images/logo2.png" />
             </a>
         );
 
@@ -67,14 +75,14 @@ export default class Toolbar extends React.Component {
 
         const settings = (
             <span className="tb-icon">
-                <i className="fa fa-cogs"></i>
+                <i className="fa fa-cogs" />
             </span>
         );
 
         const langName = app.getState().app.languages.find(item => item.id === app.getLang()).name;
 
         return (
-            <Navbar className="toolbar" fixedTop inverse>
+            <Navbar className="toolbar" fixedTop inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                         {Logo}
@@ -83,9 +91,13 @@ export default class Toolbar extends React.Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem href={SessionUtils.homeHash()}>{__('home')}</NavItem>
+                        <NavItem href={SessionUtils.homeHash()} onClick={this.goHome}>{__('home')}</NavItem>
                         {
-                            hasPerm('ADMIN') &&
+                            app.storage.state.app.clientMode &&
+                                <NavItem href={'#/sys/sync'} className={'mright-2x'}>{'Synchronize'}</NavItem>
+                        }
+                        {
+                            hasPerm('ADMIN') && !app.storage.state.app.clientMode &&
                                 <NavDropdown id="dd-admin" eventKey={3} title={__('admin')}>
                                     <MenuItem href="#/sys/admin/tables">{__('admin.tables')}</MenuItem>
                                     <MenuItem href="#/sys/admin/reports">{__('admin.reports')}</MenuItem>
@@ -94,20 +106,22 @@ export default class Toolbar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight >
-                        <NavItem className="tb-user" href="#/sys/home/index">
+                        <NavItem className="tb-user" href="#/sys/home/index" disabled>
                             <div className="tb-icon">
                                 <i className="fa fa-user fa-inverse" />
                             </div>
-                            {session.userName}
+                            <span style={{ color: '#889987' }}>
+                                {session.userName}
+                            </span>
                         </NavItem>
                         <NavDropdown id="ddUser" eventKey={3} title={settings} onSelect={userMenuSel} >
-                            <MenuItem href="#/sys/usersettings">
+                            <MenuItem href="#/sys/user/settings">
                                 <div>
                                     <Fa icon="cog" />
                                     {__('session.usersettings')}
                                 </div>
                             </MenuItem>
-                            <MenuItem href="#/sys/changepassword">
+                            <MenuItem href="#/sys/user/changepassword">
                                 <div>
                                     <Fa icon="key" />
                                     {__('changepwd')}

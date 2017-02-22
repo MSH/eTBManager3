@@ -35,6 +35,6 @@ public class CaseSearchREST {
 
     @RequestMapping(method = RequestMethod.POST)
     public QueryResult<CaseData> search(@RequestBody @Valid CaseSearchRequest req) {
-        return service.searchCases(req);
+        return service.execute(req);
     }
 }
