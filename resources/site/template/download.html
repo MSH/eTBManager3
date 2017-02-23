@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="e-TB Manager, Tuberculosis, DR-TB, TB">
+        <meta name="author" content="Ricardo Memoria">
+        <title>e-TB Manager Download page</title>
+        <style>
+body {
+    background-color: #f8f8f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #404040;
+    font-size: 16px;
+}
+.file-list {
+    padding: 20px;
+}
+
+.file-list li {
+    display: block;
+    margin-bottom: 10px;
+}
+        </style>
+    </head>
+    <body>
+        <h1>e-TB Manager Download Page</h1>
+        <p>
+            Welcome to the download page of e-TB Manager binary files. These files are intended to be used in a server side installation.
+        </p>
+        <p>
+            Please select the file related to the target operating system (Available for Windows and Unix based systems).
+        </p>
+        <ul class="file-list">
+            {{#each files}}
+                <li>
+                    <a href="{{../config.urlPath}}{{this}}">{{this}}</a>
+                </li>
+            {{/each}}
+        </ul>
+    </body>
+</html>
