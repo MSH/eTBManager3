@@ -10,7 +10,7 @@ Copyright Management Sciences for Health.
 
 ## Goal
 
-This repository contains the source code of e-TB Manager 3.
+This repository contains the source code of e-TB Manager 3. Please note that this version has not been thoroughly tested yet.
 
 e-TB Manager is a web-based tool for managing all the information needed by national TB control programs. It integrates data across all aspects of TB control, including information on suspects, patients, medicines, laboratory testing, diagnosis, treatment, and outcome.
 
@@ -95,17 +95,17 @@ You need the following tools in order to start development:
 
 The source code is stored in a Git repository, and the current Git URL is:
 
-https://rmemoria@bitbucket.org/etbmanager/etbm3.git
+https://github.com/MSH/eTBmanager-3
 
 To download the code, issue the git command
 
-    git clone https://rmemoria@bitbucket.org/etbmanager/etbm3.git
+    git clone https://github.com/MSH/eTBmanager-3
 
 You will need a user name and password for that.
 
-Inside the repository, there are two main branches: `master` and `development`. The master contains the stable version, and should be merged with stable versions achieved in the development branch. So, if you want to change the code, move to the development branch:
+Inside the repository, there are two main branches: `master` and `devel`. The master contains the stable version, and should be merged with stable versions achieved in the development branch. So, if you want to change the code, move to the devel branch:
 
-    git checkout development
+    git checkout devel
 
 When you finish your changes, perform the following git sequence (as described in the git documentation):
 
@@ -146,7 +146,7 @@ An example of this file can be found in the `resources` folder. These are the ma
 
 ### Supported databases
 
-By now, only two databases are supported:
+For now, only two databases are supported:
 
 * MySQL 5.5+ - Recommended when installing in a server computer;
 * HSQLDB - Recommended when installing in a desktop computer for off-line and local usage;
