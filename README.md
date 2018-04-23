@@ -1,4 +1,5 @@
-![USAID logo](https://www.usaid.gov/sites/all/themes/usaid/logo.png)
+<img src="Logos/SIAPS_Name%2BUSAID.Horz.png" width="150">
+<img src="Logos/MSH_4c.png" width="100">
 
 # e-TB Manager 3
 
