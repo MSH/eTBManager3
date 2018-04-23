@@ -1,5 +1,4 @@
-<img src="Logos/SIAPS_Name%2BUSAID.Horz.png" width="150">
-<img src="Logos/MSH_4c.png" width="100">
+<img src="Logos/SIAPS_Name%2BUSAID.Horz.png" width="150"> &nbsp;&nbsp; <img src="Logos/MSH_4c.png" width="75">
 
 # e-TB Manager 3
 
